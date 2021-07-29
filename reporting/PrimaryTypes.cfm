@@ -161,6 +161,7 @@ Report on primary types, by department.
 							{ name: 'typesubspecies', type: 'string' },
 							{ name: 'typeepithet', type: 'string' },
 							{ name: 'typestatusplain', type: 'string' },
+							{ name: 'typestatus', type: 'string' },
 							{ name: 'typename', type: 'string' },
 							{ name: 'typeauthorship', type: 'string' },
 							{ name: 'currentname', type: 'string' },
@@ -235,7 +236,8 @@ Report on primary types, by department.
 							{text: 'Country', datafield: 'country', width: 100, hidable: true, hidden: getColHidProp('country', true) },
 							{text: 'Specific Locality', datafield: 'spec_locality', width: 130, hidable: true, hidden: getColHidProp('spec_locality', true) },
 							{text: 'Associated Grant', datafield: 'associatedgrant', width: 130, hidable: true, hidden: getColHidProp('associatedgrant', true) },
-							{text: 'Named Groups', datafield: 'named_groups', hideable: true, hidden: getColHidProp('namedgroups', false) }
+							{text: 'Named Groups', datafield: 'named_groups', width: 130, hideable: true, hidden: getColHidProp('namedgroups', false) },
+							{text: 'Types Of With Pubs', datafield: 'typestatus', hidable: true, hidden: getColHidProp('typestatus', false) }
 						],
 						rowdetails: true,
 						rowdetailstemplate: {

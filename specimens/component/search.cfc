@@ -294,6 +294,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 				taxonomy.species as typespecies, 
 				taxonomy.subspecies as typesubspecies, 
 				decode(taxonomy.subspecies, null, taxonomy.species, taxonomy.subspecies) as typeepithet,
+				flat.typestatus,
 				typestatusplain, 
 				mczbase.get_typestatusname(flat.collection_object_id, mczbase.get_top_typestatus(flat.collection_object_id),0) as typename,  
 				mczbase.get_typestatusauthor(flat.collection_object_id, mczbase.get_top_typestatus(flat.collection_object_id)) as typeauthorship,  
@@ -302,7 +303,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 				CONCATATTRIBUTEVALUE(flat.collection_object_id,'associated grant') as associatedgrant, 
 				CONCATUNDERSCORECOLS(flat.collection_object_id) as namedgroups,
 				flat.country,
-				flat.spec_locality 
+				flat.spec_locality
 			FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 				, taxonomy 
 			WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection#"> 
