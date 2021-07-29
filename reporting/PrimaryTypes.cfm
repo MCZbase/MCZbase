@@ -156,15 +156,9 @@ Report on primary types, by department.
 						id: 'collection_object_id',
 						url: '/specimens/component/search.cfc?' + $('##searchForm').serialize(),
 						timeout: 60000,  // units not specified, miliseconds? 
-						loadError: function(jqXHR, status, error) { 
+						loadError: function(jqXHR, textStatus, error) { 
 							$("##overlay").hide();
-							var message = "";
-							if (error == 'timeout') { 
-								message = ' Server took too long to respond.';
-							} else { 
-								message = jqXHR.responseText;
-							}
-							messageDialog('Error:' + message,'Error: ' + error.substring(0,50));
+							handleFail(jqXHR,textStatus,error, "Error searching for types: "); 
 						},
 						async: true
 					};
