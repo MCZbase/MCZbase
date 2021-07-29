@@ -82,7 +82,7 @@ Report on primary types, by department.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12">
-								<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for named groups of cataloged items">Search<span class="fa fa-search pl-1"></span></button>
+								<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for type specimens by collection">Search<span class="fa fa-search pl-1"></span></button>
 							</div>
 						</div>
 						<script>
@@ -95,7 +95,7 @@ Report on primary types, by department.
 				</div>
 			</section>
 			<!--- Results table as a jqxGrid. --->
-			<section class="container-fluid">
+			<section class="container-fluid px-0">
 				<div class="row mx-0">
 					<div class="col-12">
 						<div class="mb-5">
