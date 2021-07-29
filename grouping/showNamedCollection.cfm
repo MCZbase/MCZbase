@@ -165,7 +165,7 @@ limitations under the License.
 
 								
 								
-					<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">>
+					<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 					SELECT * FROM (
 						SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 							MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -186,7 +186,7 @@ limitations under the License.
 								AND media.media_type = 'image'
 								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 								AND MCZBASE.is_media_encumbered(media.media_id) < 1
-							   AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+								AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 							ORDER BY media.media_id
 							) 
 							WHERE rownum < 16
