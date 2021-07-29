@@ -246,7 +246,7 @@ Report on primary types, by department.
 					});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/reporting/PrimaryTypes.cfm?action=search&execute=true&' + $('##searchForm').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+						$('##resultLink').html('<a href="/reporting/PrimaryTypes.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 						gridLoaded('searchResultsGrid','cataloged item');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
