@@ -35,7 +35,7 @@ Report on primary types, by department.
 						<h1 class="h2">Primary Types By Department</h1>
 						<cfquery name="getcounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getcounts_result">
 							select count(collection_object_id) ct, collection_cde, collection
-							from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> 
+							from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 							where flat.toptypestatuskind = 'Primary'
 							group by collection_cde, collection
 						</cfquery>
