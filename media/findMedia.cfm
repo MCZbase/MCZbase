@@ -835,8 +835,8 @@ limitations under the License.
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
 				if (currentState)  {
 					// state cardview switching to row view
-					$("##searchResultsGrid").jqxGrid('rowsheight',36);
-					$("##searchResultsGrid").jqxGrid('height',32);
+					$("##searchResultsGrid").jqxGrid('autorowheight',true);
+					//$("##searchResultsGrid").jqxGrid('height',32);
 					//cardsize: 5,
 				} else {
 					// state is row view switching to cardview
