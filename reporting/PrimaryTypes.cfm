@@ -40,11 +40,11 @@ Report on primary types, by department.
 							group by collection_cde, collection
 						</cfquery>
 						<div class="form-row mb-2">
-							<div class="col-md-12">
+							<div class="col-12">
 								<ul class="list-inline">
 									<cfset accumulate_shared = 0>
 									<cfif getcounts.recordcount EQ 0>
-										<li class="py-1">None.  No Types</li>
+										<li class="py-1 list-inline-item">None.  No Types</li>
 									<cfelse>
 										<cfloop query="getcounts">
 											<li class="px-1">#getcounts.collection#:#getcounts.ct# </li>
@@ -54,7 +54,7 @@ Report on primary types, by department.
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-md-12">
+							<div class="col-12 col-md-4">
 								<label for="collection" id="collection_label" class="data-entry-label">Collection</label>
 								<select name="collection" id="collection" class="data-entry-select" size="1">
 									<cfloop query="getcounts">
@@ -65,12 +65,32 @@ Report on primary types, by department.
 									</cfloop>
 								</select>
 							</div>
+							<div class="col-12 col-md-4">
+								<cfif not isDefined("family")><cfset family=""></cfif>
+								<label for="family" class="data-entry-label align-left-center">Family 
+									<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">(=)</button>
+								</label>
+								<input type="text" class="data-entry-input" id="family" name="family" value="#family#" placeholder="family">
+							</div>
+							<div class="col-12 col-md-4">
+								<cfif not isDefined("phylorder")><cfset phylorder=""></cfif>
+								<label for="phylorder" class="data-entry-label align-left-center">Order 
+									<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">(=)</button>
+								</label>
+								<input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#phylorder#" placeholder="order">
+							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-md-12">
+							<div class="col-12">
 								<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for named groups of cataloged items">Search<span class="fa fa-search pl-1"></span></button>
 							</div>
 						</div>
+						<script>
+							jQuery(document).ready(function() {
+								makeTaxonSearchAutocomplete('phylorder','order');
+								makeTaxonSearchAutocomplete('family','family');
+							});
+						</script>
 					</form>
 				</div>
 			</section>
@@ -134,6 +154,7 @@ Report on primary types, by department.
 							{ name: 'cat_num', type: 'string' },
 							{ name: 'toptypestatuskind', type: 'string' },
 							{ name: 'toptypestatus', type: 'string' },
+							{ name: 'phylorder', type: 'string' },
 							{ name: 'family', type: 'string' },
 							{ name: 'typegenus', type: 'string' },
 							{ name: 'typespecies', type: 'string' },
@@ -200,7 +221,8 @@ Report on primary types, by department.
 							{text: 'Catalog Number', datafield: 'cat_num', width: 100, hidable: true, hidden: getColHidProp('cat_num', true) },
 							{text: 'Category', datafield: 'toptypestatuskind', width: 130, hidable: true, hidden: getColHidProp('toptypestatuskind', true) },
 							{text: 'Type Status', datafield: 'toptypestatus', width: 130, hidable: true, hidden: getColHidProp('toptypestatus', false) },
-							{text: 'Family', datafield: 'family', width: 130, hidable: true, hidden: getColHidProp('family', true) },
+							{text: 'Order', datafield: 'phylorder', width: 120, hidable: true, hidden: getColHidProp('family', true) },
+							{text: 'Family', datafield: 'family', width: 100, hidable: true, hidden: getColHidProp('family', true) },
 							{text: 'Type Name Genus', datafield: 'typegenus', width: 130, hidable: true, hidden: getColHidProp('typegenus', false) },
 							{text: 'Type Name Species', datafield: 'typespecies', width: 130, hidable: true, hidden: getColHidProp('typespecies', false) },
 							{text: 'Type Name Subspecies', datafield: 'typesubspecies', width: 130, hidable: true, hidden: getColHidProp('typesubspecies', false) },
@@ -224,8 +246,8 @@ Report on primary types, by department.
 					});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/grouping/NamedCollection.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-						gridLoaded('searchResultsGrid','collection');
+						$('##resultLink').html('<a href="/reporting/PrimaryTypes.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+						gridLoaded('searchResultsGrid','cataloged item');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
 						//  Create a content div, add it to the detail row, and make it into a dialog.
