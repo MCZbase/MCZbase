@@ -792,6 +792,7 @@ limitations under the License.
 							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
 								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+								<div id="log"></div>
 								<div id="enableselection"></div>
 							</div>
 						</div>
@@ -846,9 +847,7 @@ limitations under the License.
 					//$("##searchResultsGrid").jqxGrid('cardsize',5);
 					//this should be ('cardsize',5); however, it multiplies the cardheight times the number of rows (which have become cards-so 5 cards per row is //really 5 rows per row of cards in cardview or "5/No. of records in results")
 					$("##searchResultsGrid").jqxGrid('cardsize',5);
-					$("##searchResultsGrid").jqxGrid('pageable','false');
-//					$("##searchResultsGrid").jqxGrid('rowsheight',36);
-//					$("##searchResultsGrid").jqxGrid('height',32);
+					$("##searchResultsGrid").jqxGrid('pageable','true');
 					$("##searchResultsGrid").jqxGrid({
 						cardviewcolumns: [
 							{ width: 'auto', datafield: 'media_id',hidable: true},
@@ -882,6 +881,9 @@ limitations under the License.
 							{ width: 'auto', datafield: 'ac_description',hidable: true,hidden: getColHidProp('ac_description', true)},
 							{ width: 'auto', datafield: 'media_uri',hidable: true,hidden: getColHidProp('media_uri', false)},
 						]});
+					$('#jqxgrid').on('pagesizechanged', function (event) {
+						 $("#log").html("The pagesize has been changed" );
+					});
 				}
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState
