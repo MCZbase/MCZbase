@@ -175,7 +175,7 @@ limitations under the License.
 							FROM
 								underscore_collection
 								left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+								left join flat 
 									on underscore_relation.collection_object_id = flat.collection_object_id
 								left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
 								left join media on media_relations.media_id = media.media_id
