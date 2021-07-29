@@ -261,7 +261,19 @@ limitations under the License.
 						transform: translate(-50%, -50%) rotate(-45deg);
 					}
 				</style>
-				<script>
+			
+					<div class="specimen_carouselX">
+							<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
+						<div class="carouselX">
+							<cfset src="#specimenImagesforCarousel.media_uri#">
+							<cfloop query="specimenImagesForCarousel">
+								<img class="d-block w-100 carousel__imageX" src="#src#" />
+							</cfloop>
+						</div>
+						<div class="carousel__buttonX--next"></div>
+						<div class="carousel__buttonX--prev"></div>
+					</div>
+					<script>
 						!(function(d){
 						// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
 						var itemClassName = "carousel__imageX";
@@ -397,19 +409,7 @@ limitations under the License.
 							initCarousel();
 
 						}(document));
-						</script>
-					<div class="specimen_carouselX">
-							<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
-						<div class="carouselX">
-							<cfset src="#specimenImagesforCarousel.media_uri#">
-							<cfloop query="specimenImagesForCarousel">
-								<img class="d-block w-100 carousel__imageX" src="#src#" />
-							</cfloop>
-						</div>
-						<div class="carousel__buttonX--next"></div>
-						<div class="carousel__buttonX--prev"></div>
-					</div>
-
+					</script>
 
 
 
