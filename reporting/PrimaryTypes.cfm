@@ -47,7 +47,7 @@ Report on primary types, by department.
 										<li class="py-1 list-inline-item">None.  No Types</li>
 									<cfelse>
 										<cfloop query="getcounts">
-											<li class="px-1">#getcounts.collection#:#getcounts.ct# </li>
+											<li class="px-1 list-inline-item">#getcounts.collection#:#getcounts.ct# </li>
 										</cfloop>
 									</cfif>
 								</ul>
