@@ -1089,6 +1089,7 @@ limitations under the License.
 				// display the number of rows found
 				var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
+				var newHeight = rowcount * .20;
 				if (rowcount == 1) {
 					$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
 				} else { 
@@ -1098,7 +1099,7 @@ limitations under the License.
 				if (rowcount > 100) { 
 					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
 				} else if (rowcount > 50) { 
-					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:10});
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50,height: newHeight});
 				} else { 
 					$('##' + gridId).jqxGrid({ pageable: false });
 				}
