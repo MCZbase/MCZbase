@@ -17,6 +17,9 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+
 <!---   Function getDataTable  --->
 <cffunction name="getDataTable" access="remote" returntype="any" returnformat="json">
 	<cfargument name="searchText" type="string" required="no">
