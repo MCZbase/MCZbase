@@ -162,14 +162,11 @@ limitations under the License.
 								<div id="jqxgrid"></div>
 							</div>
 						</div>
-
 						<div class="row mx-0 clearfix" id="everythingElseRow">
 							<!--- This row holds everything else --->
-
 							<cfset leftHandColumnOn = false>
 							<cfset hasSpecImages = false>
 							<cfset otherImageTypes = 0>
-			
 							<!--- count images of different types to decide if there will be a left hand image column or not --->
 							<!--- obtain a random set of images, limited to a small number, use only displayable images (jpegs and pngs) --->
 							<cfquery name="specimenImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
@@ -291,7 +288,6 @@ limitations under the License.
 								<div class="col-12 col-md-6 mb-4 float-left mt-0">
 									<cfset leftHandColumnOn = true>
 									<div class="row">
-
 										<cfif specimenImageQuery.recordcount gt 0>
 											<div class="col-12">
 												<!--- find out how many specimen images there are in total --->
@@ -509,24 +505,26 @@ limitations under the License.
 													}(document));
 												</script>
 														
-												<div class="specimen_carousel">
-													<div class="carousel">
-														<img class="carousel__image initial" src="http://placekitten.com/1600/900">
-															<cfloop query="specimenImageQuery">
-																	<div class="view">
-																		<cfif len(specimenImageQuery.width) GT 0 AND specimenImageQuery.width GT 0 AND specimenImageQuery.width GT 1000 >
-																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#">
-																		<cfelse>
-																			<cfset src="#specimenImageQuery.media_uri#">
-																		</cfif>
-																		<img class="d-block w-100" src="#src#" alt="#specimenImageQuery.alt#"/>
-																	</div>
-<!---																	<div class="carousel-caption">
-																		<h3 class="h3-responsive">#specimenImageQuery.alt#</h3>
-																		<p>#specimenImageQuery.credit#</p>
-																	</div>--->
+													<div class="specimen_carousel">
+												
+														<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
+														<cfloop query="specimenImageQuery">
+															<div class="carousel">
+																<div class="view">
+																	<cfif len(specimenImageQuery.width) GT 0 AND specimenImageQuery.width GT 0 AND specimenImageQuery.width GT 1000 >
+																		<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#">
+																	<cfelse>
+																		<cfset src="#specimenImageQuery.media_uri#">
+																	</cfif>
+																	<img class="d-block w-100" src="#src#" />
 																</div>
-															</cfloop>
+																		<!---	alt="#specimenImageQuery.alt#"--->
+<!---																	<div class="carousel-caption">
+																	<h3 class="h3-responsive">#specimenImageQuery.alt#</h3>
+																	<p>#specimenImageQuery.credit#</p>
+																</div>--->
+															</div>
+														</cfloop>
 														<div class="carousel__button--next"></div>
 														<div class="carousel__button--prev"></div>
 													</div>
