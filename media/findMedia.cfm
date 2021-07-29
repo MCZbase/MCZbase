@@ -843,6 +843,13 @@ limitations under the License.
 					$("##searchResultsGrid").jqxGrid('cardheight',620);
 					//$("##searchResultsGrid").jqxGrid('cardsize',5);
 					//this should be ('cardsize',5); however, it multiplies the cardheight times the number of rows (which have become cards-so 5 cards per row is //really 5 rows per row of cards in cardview or "5/No. of records in results")
+					function gridLoaded(gridId, searchType) { 
+						if (Object.keys(window.columnHiddenSettings).length == 0) { 
+							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+							</cfif>
+						}
 					var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 					var rowcount = datainformation.rowscount;
 					$("##searchResultsGrid").jqxGrid('rowsheight',rowcount/5);
