@@ -843,7 +843,7 @@ limitations under the License.
 
 					$("##searchResultsGrid").jqxGrid('rowsheight','auto');
 					$("##searchResultsGrid").jqxGrid('cardheight',620);
-					$("##searchResultsGrid").jqxGrid('height',650);
+				//	$("##searchResultsGrid").jqxGrid('height',650);
 					$("##searchResultsGrid").jqxGrid('cardsize',5);
 					$("##searchResultsGrid").jqxGrid({
 						cardviewcolumns: [
