@@ -843,6 +843,8 @@ limitations under the License.
 					$("##searchResultsGrid").jqxGrid('cardheight',620);
 					//$("##searchResultsGrid").jqxGrid('cardsize',5);
 					//this should be ('cardsize',5); however, it multiplies the cardheight times the number of rows (which have become cards-so 5 cards per row is //really 5 rows per row of cards in cardview or "5/No. of records in results")
+					var fifthrows = Math.round(rows.length/5);
+					$("##searchResultsGrid").jqxGrid('rowsheight',fifthrows);
 					$("##searchResultsGrid").jqxGrid('cardsize',5);
 					$("##searchResultsGrid").jqxGrid({
 						cardviewcolumns: [
@@ -1094,7 +1096,6 @@ limitations under the License.
 				} else { 
 					$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
 				}
-				if (currentState)  {
 				// set maximum page size
 				if (rowcount > 100) { 
 					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
@@ -1102,15 +1103,6 @@ limitations under the License.
 					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
 				} else { 
 					$('##' + gridId).jqxGrid({ pageable: false });
-				}
-				else {
-				if (rowcount > 100) { 
-					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
-				} else if (rowcount > 50) { 
-					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
-				} else { 
-					$('##' + gridId).jqxGrid({ pageable: false });
-				}	
 				}
 				// add a control to show/hide columns
 				var columns = $('##' + gridId).jqxGrid('columns').records;
