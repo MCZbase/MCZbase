@@ -792,7 +792,6 @@ limitations under the License.
 							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
 								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-								<div id="log"></div>
 								<div id="enableselection"></div>
 							</div>
 						</div>
@@ -844,10 +843,8 @@ limitations under the License.
 				} else {
 					// state is row view switching to cardview
 					$("##searchResultsGrid").jqxGrid('cardheight',620);
-					//$("##searchResultsGrid").jqxGrid('cardsize',5);
 					//this should be ('cardsize',5); however, it multiplies the cardheight times the number of rows (which have become cards-so 5 cards per row is //really 5 rows per row of cards in cardview or "5/No. of records in results")
 					$("##searchResultsGrid").jqxGrid('cardsize',5);
-					$("##searchResultsGrid").jqxGrid('pageable','true');
 					$("##searchResultsGrid").jqxGrid({
 						cardviewcolumns: [
 							{ width: 'auto', datafield: 'media_id',hidable: true},
@@ -881,9 +878,7 @@ limitations under the License.
 							{ width: 'auto', datafield: 'ac_description',hidable: true,hidden: getColHidProp('ac_description', true)},
 							{ width: 'auto', datafield: 'media_uri',hidable: true,hidden: getColHidProp('media_uri', false)},
 						]});
-					$("##searchResultsGrid").on('pagesizechanged', function (event) {
-						 $("##log").html("The pagesize has been changed" );
-					});
+
 				}
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState
@@ -992,7 +987,7 @@ limitations under the License.
 						sortable: true,
 						pageable: true,
 						editable: false,
-//						pagesize: 50,
+						pagesize: 50,
 						pagesizeoptions: ['5','50','100'],
 						showaggregates: true,
 						columnsresize: true,
@@ -1096,7 +1091,6 @@ limitations under the License.
 				// display the number of rows found
 				var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
-				var newHeight = rowcount * .20;
 				if (rowcount == 1) {
 					$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
 				} else { 
@@ -1106,7 +1100,7 @@ limitations under the License.
 				if (rowcount > 100) { 
 					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
 				} else if (rowcount > 50) { 
-					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50,height: newHeight});
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
 				} else { 
 					$('##' + gridId).jqxGrid({ pageable: false });
 				}
