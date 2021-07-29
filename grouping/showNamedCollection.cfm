@@ -162,10 +162,10 @@ limitations under the License.
 								<div id="jqxgrid"></div>
 							</div>
 						</div>
-
+<!---end specimen grid--->
 								
 								
-					<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
+				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 					SELECT * FROM (
 						SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 							MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -190,19 +190,20 @@ limitations under the License.
 							ORDER BY media.media_id
 							) 
 							WHERE rownum < 16
-					</cfquery>
-					<style>
-					.specimen_carousel {
+				</cfquery>
+				<style>
+					.specimen_carouselX {
 						overflow: hidden;
 						width: 90%;
+						margin: auto;
 					}
-					.specimen_carousel * {
+					.specimen_carouselX * {
 						box-sizing: border-box;
 					}
-					.carousel {
+					.carouselX {
 						transform-style: preserve-3d;
 					}
-					.carousel__image {
+					.carousel__imageX {
 						opacity: 0;
 						position: absolute;
 						top: 0;
@@ -212,21 +213,21 @@ limitations under the License.
 						z-index: 100;
 						transition: transform .5s, opacity .5s, z-index .5s;
 					}
-					.carousel__image, .carousel__image.active {
+					.carousel__imageX, .carousel__imageX.active {
 						opacity: 1;
 						position: relative;
 						z-index: 900;
 					}
-					.carousel__image.prev, .carousel__image.next {
+					.carousel__imageX.prev, .carousel__imageX.next {
 						z-index: 800;
 					}
-					.carousel__image.prev {
+					.carousel__imageX.prev {
 						transform: translateX(-100%); /* go to previous item */
 					}
-					.carousel__image.next {
+					.carousel__imageX.next {
 						transform: translateX(100%); /* go to next item */
 					}
-					.carousel__button--prev, .carousel__button--next {
+					.carousel__buttonX--prev, .carousel__buttonX--next {
 						position: absolute;
 						top: 50%;
 						width: 3rem;
@@ -238,13 +239,13 @@ limitations under the License.
 						z-index: 1001; /* sit on top of everything */
 						border: 1px solid black;
 					}
-					.carousel__button--prev {
+					.carousel__buttonX--prev {
 						left: 0;
 					}
-					.carousel__button--next {
+					.carousel__buttonX--next {
 						right: 0;
 					}
-					.carousel__button--prev::after, .carousel__button--next::after {
+					.carousel__buttonX--prev::after, .carousel__buttonX--next::after {
 						content: " ";
 						position: absolute;
 						width: 10px;
@@ -255,15 +256,15 @@ limitations under the License.
 						border-bottom: 2px solid black;
 						transform: translate(-50%, -50%) rotate(135deg);
 					}
-					.carousel__button--next::after {
+					.carousel__buttonX--next::after {
 						left: 47%;
 						transform: translate(-50%, -50%) rotate(-45deg);
 					}
-					</style>
-					<script>
+				</style>
+				<script>
 						!(function(d){
 						// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
-						var itemClassName = "carousel__image";
+						var itemClassName = "carousel__imageX";
 							items = d.getElementsByClassName(itemClassName),
 							totalItems = items.length,
 							slide = 0,
@@ -282,8 +283,8 @@ limitations under the License.
 						// Set click events to navigation buttons
 
 						function setEventListeners() {
-							var next = d.getElementsByClassName('carousel__button--next')[0],
-								prev = d.getElementsByClassName('carousel__button--prev')[0];
+							var next = d.getElementsByClassName('carousel__buttonX--next')[0],
+								prev = d.getElementsByClassName('carousel__buttonX--prev')[0];
 
 							next.addEventListener('click', moveNext);
 							prev.addEventListener('click', movePrev);
@@ -397,19 +398,17 @@ limitations under the License.
 
 						}(document));
 						</script>
-						<div class="specimen_carousel">
+					<div class="specimen_carouselX">
 							<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
-							<div class="carousel">
+						<div class="carouselX">
 							<cfset src="#specimenImagesforCarousel.media_uri#">
-							<cfset i=1>
 							<cfloop query="specimenImagesForCarousel">
-								<img class="d-block w-100 carousel__image" src="#src#" />
-	
+								<img class="d-block w-100 carousel__imageX" src="#src#" />
 							</cfloop>
-							</div>
-							<div class="carousel__button--next"></div>
-							<div class="carousel__button--prev"></div>
 						</div>
+						<div class="carousel__buttonX--next"></div>
+						<div class="carousel__buttonX--prev"></div>
+					</div>
 
 
 
