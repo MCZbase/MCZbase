@@ -288,7 +288,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 				flat.cat_num,
 				toptypestatuskind, 
 				mczbase.get_top_typestatus(flat.collection_object_id) as toptypestatus, 
-				taxonomy.order,
+				taxonomy.phylorder,
 				taxonomy.family,
 				taxonomy.genus as typegenus, 
 				taxonomy.species as typespecies, 
