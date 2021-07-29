@@ -254,7 +254,7 @@ limitations under the License.
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
 							<!--- obtain a random set of collector images, limited to a small number --->
-							<cfquery name="collectorImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectorImageQuery_result">
+							<cfquery name="collectorImageQuery" maxrows="10" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectorImageQuery_result">
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -276,9 +276,9 @@ limitations under the License.
 										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 										AND MCZBASE.is_media_encumbered(media.media_id) < 1
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-									ORDER BY DBMS_RANDOM.RANDOM
+									ORDER BY media.media_id
 								) 
-								WHERE rownum < 16
+								WHERE rownum < 10
 							</cfquery>
 							<cfif collectorImageQuery.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
@@ -532,19 +532,26 @@ limitations under the License.
 												<div class="specimen_carousel">
 													<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 													<div class="carousel">
-													<cfloop query="specimenImageQuery">
-														<cfif len(specimenImageQuery.width) GT 0 AND specimenImageQuery.width GT 0 AND specimenImageQuery.width GT 1000 >
+													<cfoutput query="specimenImageQuery">
+<!---														<cfif len(specimenImageQuery.width) GT 0 AND specimenImageQuery.width GT 0 AND specimenImageQuery.width GT 1000 >
 															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#">
 														<cfelse>
 															<cfset src="#specimenImageQuery.media_uri#">
-														</cfif>
-														<img class="d-block w-100 carousel__image" src="#src#" />
+														</cfif>--->
+														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][5]#" />
+														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][4]#" />
+														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][1]#" />
+														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][9]#" />
+														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][2]#" />
+														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][3]#" />
+														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][7]#" />
+														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][8]#" />
 															<!---	alt="#specimenImageQuery.alt#"--->
 <!---																	<div class="carousel-caption">
 																<h3 class="h3-responsive">#specimenImageQuery.alt#</h3>
 																<p>#specimenImageQuery.credit#</p>
 															</div>--->
-													</cfloop>
+													</cfoutput>
 													</div>
 													<div class="carousel__button--next"></div>
 													<div class="carousel__button--prev"></div>
