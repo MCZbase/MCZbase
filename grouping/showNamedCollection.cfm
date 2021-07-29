@@ -265,7 +265,7 @@ limitations under the License.
 					}
 				</style>
 			
-					<div class="specimen_carouselX">
+					<div class="carousel-wrapperX">
 							<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 						<div class="carouselX">
 							<cfset src="#specimenImagesforCarousel.media_uri#">
