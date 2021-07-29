@@ -881,8 +881,8 @@ limitations under the License.
 							{ width: 'auto', datafield: 'ac_description',hidable: true,hidden: getColHidProp('ac_description', true)},
 							{ width: 'auto', datafield: 'media_uri',hidable: true,hidden: getColHidProp('media_uri', false)},
 						]});
-					$('#jqxgrid').on('pagesizechanged', function (event) {
-						 $("#log").html("The pagesize has been changed" );
+					$("##searchResultsGrid").on('pagesizechanged', function (event) {
+						 $("##log").html("The pagesize has been changed" );
 					});
 				}
 				$("##searchResultsGrid").jqxGrid({
