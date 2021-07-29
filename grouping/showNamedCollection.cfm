@@ -270,8 +270,12 @@ limitations under the License.
 						<div class="carouselX">
 							<cfset src="#specimenImagesforCarousel.media_uri#">
 							<cfset active = 'class="active"' >
-							<cfloop index="i" from="0" to="15" query="specimenImagesForCarousel">
-								<img class="d-block w-100 carousel__imageX" src="#src#" data-slide-to="#i#" />
+							<cfloop index="i" from="0" to="14">
+								<li data-target="carouselX" data-slide-to="#i#" #active#></li>
+								<cfset active = '' >
+							</cfloop>
+							<cfloop query="specimenImagesForCarousel">
+								<img class="d-block w-100 carousel__imageX" src="#src#" #active# />
 							</cfloop>
 						</div>
 						<div class="carousel__buttonX--next"></div>
