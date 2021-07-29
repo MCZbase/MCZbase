@@ -325,7 +325,213 @@ limitations under the License.
 													</cfif>
 													<h2 class="mt-2 pt-3">Specimen Images</h2>
 													<p>#specImageCt.ct# Specimen Images#shown#</p>
-													<div id="specimen_image-carousel" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
+												<style>
+													.specimen_carousel {
+														overflow: hidden;
+														width: 90%;
+													}
+													.specimen_carousel * {
+														box-sizing: border-box;	
+													}
+													.carousel {
+														transform-style: preserve-3d;
+													}
+													.carousel__image {
+														opacity: 0;
+														position: absolute;
+														top: 0;
+														width: 100%;
+														margin: auto;
+														padding: 1rem 4rem;
+														z-index: 100;
+														transition: transform .5s, opacity .5s, z-index .5s;
+													}
+													.carousel__image, .carousel__image.active {
+														opacity: 1;
+														position: relative;
+														z-index: 900;
+													}
+													.carousel__image.prev, .carousel__image.next {
+														z-index: 800;
+													}
+													.carousel__image.prev {
+														transform: translateX(-100%); /* go to previous item */
+													}
+													.carousel__image.next {
+														transform: translateX(100%); /* go to next item */
+													}
+													.carousel__button--prev, .carousel__button--next {
+														position: absolute;
+														top: 50%;
+														width: 3rem;
+														height: 3rem;
+														background-color: #fff;
+														transform: translateY(-50%);
+														border-radius: 50%;
+														cursor: pointer;
+														z-index: 1001; /* sit on top of everything */
+														border: 1px solid black;
+													}
+													.carousel__button--prev {
+														left: 0;
+													}
+													.carousel__button--next {
+														right: 0;
+													}
+													.carousel__button--prev::after,
+													.carousel__button--next::after {
+														content: " ";
+														position: absolute;
+														width: 10px;
+														height: 10px;
+														top: 50%;
+														left: 54%;
+														border-right: 2px solid black;
+														border-bottom: 2px solid black;
+														transform: translate(-50%, -50%) rotate(135deg);
+													}
+													.carousel__button--next::after {
+														left: 47%;
+														transform: translate(-50%, -50%) rotate(-45deg);
+													}
+													
+												</style>
+												<script>
+													!(function(d){
+													// Renamed 'document' to 'd'.
+														var itemClassName = "carousel__image";
+														items = d.getElementsByClassName(itemClassName),
+														totalItems = items.length,
+														slide = 0,
+														moving = true;
+														
+														// Set classes
+														function setInitialClasses() {
+														// Targets the previous, current, and next items
+														// This assumes there are at least three items.
+															items[totalItems - 1].classList.add("prev");
+															items[0].classList.add("active");
+															items[1].classList.add("next");
+														}
+														// Set event listeners
+														function setEventListeners() {
+															var next = d.getElementsByClassName('carousel__button--next')[0],
+																prev = d.getElementsByClassName('carousel__button--prev')[0];
+															next.addEventListener('click', moveNext);
+															prev.addEventListener('click', movePrev);
+														}
+														// Next navigation handler
+														function moveNext() {
+														// Check if moving
+														if (!moving) {
+															// If it's the last slide, reset to 0, else +1
+															if (slide === (totalItems - 1)) {
+																slide = 0;
+															} else {
+																slide++;
+															}
+															// Move carousel to updated slide
+															moveCarouselTo(slide);
+															}
+														}
+														// Previous navigation handler
+														function movePrev() {
+														// Check if moving
+															if (!moving) {
+															// If it's the first slide, set as the last slide, else -1
+															if (slide === 0) {
+																slide = (totalItems - 1);
+															} else {
+																slide--;
+															}
+
+															// Move carousel to updated slide
+															moveCarouselTo(slide);
+															}
+														}
+														function disableInteraction() {
+														// Set 'moving' to true for the same duration as our transition.
+														// (0.5s = 500ms)
+															moving = true;
+														// setTimeout runs its function once after the given time
+														setTimeout(function(){
+																moving = false
+															}, 500);
+														}
+														function moveCarouselTo(slide) {
+														// Check if carousel is moving, if not, allow interaction
+														if(!moving) {
+															// temporarily disable interactivity
+															disableInteraction();
+															// Update the "old" adjacent slides with "new" ones
+															var newPrevious = slide - 1,
+																newNext = slide + 1,
+																oldPrevious = slide - 2,
+																oldNext = slide + 2;
+															// Test if carousel has more than three items
+															if ((totalItems - 1) > 3) {
+															// Checks and updates if the new slides are out of bounds
+																if (newPrevious <= 0) {
+																	oldPrevious = (totalItems - 1);
+																} else if (newNext >= (totalItems - 1)){
+																	oldNext = 0;
+																}
+															// Checks and updates if slide is at the beginning/end
+															if (slide === 0) {
+																newPrevious = (totalItems - 1);
+																oldPrevious = (totalItems - 2);
+																oldNext = (slide + 1);
+															} else if (slide === (totalItems -1)) {
+																newPrevious = (slide - 1);
+																newNext = 0;
+																oldNext = 1;
+															}
+															// Now we've worked out where we are and where we're going, 
+															// by adding/removing classes we'll trigger the transitions.
+															// Reset old next/prev elements to default classes
+																items[oldPrevious].className = itemClassName;
+																items[oldNext].className = itemClassName;
+																// Add new classes
+																items[newPrevious].className = itemClassName + " prev";
+																items[slide].className = itemClassName + " active";
+																items[newNext].className = itemClassName + " next";
+															}
+														  }
+														}
+														function initCarousel() {
+															setInitialClasses();
+															setEventListeners();
+															// Set moving to false so that the carousel becomes interactive
+															moving = false;
+														}
+														// make it rain
+														initCarousel();
+													}(document));
+												</script>
+														
+												<div class="specimen_carousel">
+													<div class="carousel">
+														<img class="carousel__image initial" src="http://placekitten.com/1600/900">
+															<cfloop query="specimenImageQuery">
+																	<div class="view">
+																		<cfif len(specimenImageQuery.width) GT 0 AND specimenImageQuery.width GT 0 AND specimenImageQuery.width GT 1000 >
+																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#">
+																		<cfelse>
+																			<cfset src="#specimenImageQuery.media_uri#">
+																		</cfif>
+																		<img class="d-block w-100" src="#src#" alt="#specimenImageQuery.alt#"/>
+																	</div>
+<!---																	<div class="carousel-caption">
+																		<h3 class="h3-responsive">#specimenImageQuery.alt#</h3>
+																		<p>#specimenImageQuery.credit#</p>
+																	</div>--->
+																</div>
+															</cfloop>
+														<div class="carousel__button--next"></div>
+														<div class="carousel__button--prev"></div>
+													</div>
+												</div>
+													<!---<div id="specimen_image-carousel" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 														<ol class="carousel-indicators">
 															<cfset active = 'class="active"' >
 															<cfloop index="i" from="0" to="#specimenImagesShown#">
@@ -355,7 +561,7 @@ limitations under the License.
 															</cfloop>
 														</div>
 														<a class="carousel-control-prev" href="##specimen_image-carousel" role="button" data-slide="prev" style="top:-5%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##specimen_image-carousel" role="button" data-slide="next" style="top:-5%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
-													</div>
+													</div>--->
 												</cfif>
 											</div>
 										</cfif><!--- end specimen images block --->
