@@ -841,7 +841,9 @@ limitations under the License.
 				} else {
 					// state is row view switching to cardview
 					$("##searchResultsGrid").jqxGrid('cardheight',620);
-					$("##searchResultsGrid").jqxGrid('cardsize',5);
+					//$("##searchResultsGrid").jqxGrid('cardsize',5);
+					//this should be ('cardsize',5); however, it multiplies the cardheight times the number of rows (which have become cards-so 5 cards per row is //really 5 rows per row of cards in cardview or "5/# of records in results")
+					$("##searchResultsGrid").jqxGrid('cardsize',1);
 					$("##searchResultsGrid").jqxGrid({
 						cardviewcolumns: [
 							{ width: 'auto', datafield: 'media_id',hidable: true},
