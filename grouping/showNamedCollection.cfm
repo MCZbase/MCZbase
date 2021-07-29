@@ -165,7 +165,7 @@ limitations under the License.
 
 								
 								
-					<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageForCarousel_result">>
+					<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">>
 						SELECT * FROM (
 							SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 								MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -398,11 +398,11 @@ limitations under the License.
 						<div class="specimen_carousel">
 							<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 							<div class="carousel">
-							<cfset src="#specimenImageforCarousel.media_uri#">
+							<cfset src="#specimenImagesforCarousel.media_uri#">
 							<cfset i=1>
 							<cfloop query="specimenImagesForCarousel">
 								<img class="d-block w-100 carousel__image" src="#src#" />
-								<cfset i=i+1>
+	
 							</cfloop>
 							</div>
 							<div class="carousel__button--next"></div>
