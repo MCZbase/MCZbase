@@ -532,26 +532,22 @@ limitations under the License.
 												<div class="specimen_carousel">
 													<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 													<div class="carousel">
-													<cfoutput query="specimenImageQuery">
+													<cfset i=1>
+													<cfloop query="specimenImageQuery">
 <!---														<cfif len(specimenImageQuery.width) GT 0 AND specimenImageQuery.width GT 0 AND specimenImageQuery.width GT 1000 >
 															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#">
 														<cfelse>
 															<cfset src="#specimenImageQuery.media_uri#">
 														</cfif>--->
-														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][5]#" />
-														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][4]#" />
-														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][1]#" />
-														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][9]#" />
-														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][2]#" />
-														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][3]#" />
-														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][7]#" />
-														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][8]#" />
+														<img class="d-block w-100 carousel__image" src="#specimenImageQuery[media_id][i]#" />
+													
 															<!---	alt="#specimenImageQuery.alt#"--->
 <!---																	<div class="carousel-caption">
 																<h3 class="h3-responsive">#specimenImageQuery.alt#</h3>
 																<p>#specimenImageQuery.credit#</p>
 															</div>--->
-													</cfoutput>
+														<cfset i=i+1>
+													</cfloop>
 													</div>
 													<div class="carousel__button--next"></div>
 													<div class="carousel__button--prev"></div>
