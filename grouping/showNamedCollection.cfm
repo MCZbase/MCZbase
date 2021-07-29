@@ -186,7 +186,6 @@ limitations under the License.
 								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 								AND MCZBASE.is_media_encumbered(media.media_id) < 1
 								AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-							ORDER BY media.media_id
 						) 
 						WHERE rownum < 16
 					</cfquery>
