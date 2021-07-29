@@ -268,19 +268,14 @@ limitations under the License.
 					<div class="carousel-wrapperX">
 							<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 						<div class="carouselX">
-							<cfset src="#specimenImagesforCarousel.media_uri#">
 							<cfset active = 'class="active"' >
 							<cfset i = 1 >
-							<ul>
+							<cfset src="#specimenImagesforCarousel.media_uri#">
 							<cfloop query="specimenImagesForCarousel">
-								<li data-target="carouselX" data-slide-to="#i#" #active#><img class="d-block w-100 carousel__imageX" src="#src#" #active# /></li>
+								<div data-target="carouselX" data-slide-to="#i#" #active#><img class="carousel__imageX" src="#src#" #active# /></div>
 								<cfset active = '' >
 								<cfset i = i + 1 >
 							</cfloop>
-<!---							<cfloop >
-								<img class="d-block w-100 carousel__imageX" src="#src#" #active# />
-							</cfloop>--->
-								</ul>
 						</div>
 						<div class="carousel__buttonX--next"></div>
 						<div class="carousel__buttonX--prev"></div>
