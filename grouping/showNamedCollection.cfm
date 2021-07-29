@@ -166,28 +166,30 @@ limitations under the License.
 								
 								
 					<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">>
-						SELECT * FROM (
-							SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-								MCZBASE.get_media_descriptor(media.media_id) as alt,
-								MCZBASE.get_medialabel(media.media_id,'width') as width,
-								MCZBASE.get_media_credit(media.media_id) as credit,
-								flat.guid
-							FROM
-								underscore_collection
-								left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-								left join flat 
+					SELECT * FROM (
+						SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+							MCZBASE.get_media_descriptor(media.media_id) as alt,
+							MCZBASE.get_medialabel(media.media_id,'width') as width,
+							MCZBASE.get_media_credit(media.media_id) as credit,
+							flat.guid
+						FROM
+							underscore_collection
+							left join underscore_relation on 
+							underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+							left join  flat 
 									on underscore_relation.collection_object_id = flat.collection_object_id
 								left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
 								left join media on media_relations.media_id = media.media_id
-							WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+							WHERE underscore_collection.underscore_collection_id = 22
 								AND flat.guid IS NOT NULL
 								AND media_relations.media_relationship = 'shows cataloged_item'
 								AND media.media_type = 'image'
 								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 								AND MCZBASE.is_media_encumbered(media.media_id) < 1
-								AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-						) 
-						WHERE rownum < 16
+							   AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+							ORDER BY media.media_id
+							) 
+							WHERE rownum < 16
 					</cfquery>
 					<style>
 					.specimen_carousel {
