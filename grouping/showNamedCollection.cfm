@@ -271,9 +271,9 @@ limitations under the License.
 							<cfset i = 1 >
 							<cfset src="#specimenImagesforCarousel.media_uri#">
 							<cfoutput>
-								<img class="carousel__imageX" src="#specimenImagesforCarousel["media_uri"][5]#"/>
-								<img class="carousel__imageX" src="#specimenImagesforCarousel["media_uri"][3]#"/>
-								<img class="carousel__imageX" src="#specimenImagesforCarousel["media_uri"][1]#"/>
+								<img class="carousel__imageX" src="#specimenImagesforCarousel['media_uri'][5]#"/>
+								<img class="carousel__imageX" src="#specimenImagesforCarousel['media_uri'][3]#"/>
+								<img class="carousel__imageX" src="#specimenImagesforCarousel['media_uri'][1]#"/>
 							</cfoutput>
 						</div>
 						<div class="carousel__buttonX--next"></div>
