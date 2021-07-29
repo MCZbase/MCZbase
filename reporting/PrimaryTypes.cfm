@@ -30,8 +30,8 @@ Report on primary types, by department.
 			<section class="row">
 				<div class="col-12">
 					<form name="searchForm" id="searchForm">
-						<input type="hidden" name="method" value="getTypes" class="keeponclear">
-						<input type="hidden" name="kind" value="Primary" class="keeponclear">
+						<input type="hidden" name="method" value="getTypes" class="keeponclear excludefromlink">
+						<input type="hidden" name="kind" value="Primary" class="keeponclear excludefromlink">
 						<h1 class="h2">Primary Types By Department</h1>
 						<cfquery name="getcounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getcounts_result">
 							select count(collection_object_id) ct, collection_cde, collection
@@ -66,18 +66,18 @@ Report on primary types, by department.
 								</select>
 							</div>
 							<div class="col-12 col-md-4">
-								<cfif not isDefined("family")><cfset family=""></cfif>
-								<label for="family" class="data-entry-label align-left-center">Family 
-									<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">(=)</button>
-								</label>
-								<input type="text" class="data-entry-input" id="family" name="family" value="#family#" placeholder="family">
-							</div>
-							<div class="col-12 col-md-4">
 								<cfif not isDefined("phylorder")><cfset phylorder=""></cfif>
 								<label for="phylorder" class="data-entry-label align-left-center">Order 
 									<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">(=)</button>
 								</label>
 								<input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#phylorder#" placeholder="order">
+							</div>
+							<div class="col-12 col-md-4">
+								<cfif not isDefined("family")><cfset family=""></cfif>
+								<label for="family" class="data-entry-label align-left-center">Family 
+									<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">(=)</button>
+								</label>
+								<input type="text" class="data-entry-input" id="family" name="family" value="#family#" placeholder="family">
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -246,7 +246,7 @@ Report on primary types, by department.
 					});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/reporting/PrimaryTypes.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+						$('##resultLink').html('<a href="/reporting/PrimaryTypes.cfm?action=search&execute=true&' + $('##searchForm').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 						gridLoaded('searchResultsGrid','cataloged item');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {

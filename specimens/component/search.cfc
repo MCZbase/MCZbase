@@ -308,7 +308,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 			WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection#"> 
 				and toptypestatuskind = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#kind#"> 
 				and taxonomy.taxon_name_id = mczbase.GET_TYPESTATUSTAXON(flat.collection_object_id,mczbase.get_top_typestatus(flat.collection_object_id))
-				<cfif isDefined("phylorder") AND len(phylorder GT 0>
+				<cfif isDefined("phylorder") AND len(phylorder) GT 0>
 					<cfif left(phylorder,1) is "=">
 						AND upper(flat.phylorder) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">
 					<cfelseif left(phylorder,1) is "!">
@@ -325,7 +325,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 						</cfif>
 					</cfif>
 				</cfif>
-				<cfif isDefined("family") AND len(family GT 0>
+				<cfif isDefined("family") AND len(family) GT 0>
 					<cfif left(family,1) is "=">
 						AND upper(flat.family) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">
 					<cfelseif left(family,1) is "!">
