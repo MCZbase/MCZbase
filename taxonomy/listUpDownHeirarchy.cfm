@@ -84,11 +84,11 @@
 					<cfset collapsed = "collapsed">
 					<cfset collapseshow = "collapse">
 				</cfif>
-				<div class="card mb-2 bg-light">
+				<div class="card mb-2 bg-light ml-3">
 					<div class="card-header py-0" id="headingPart">
 						<h3 class="h4 my-0">
 							<button type="button" class="headerLnk w-100 text-left #collapsed#" data-toggle="collapse" aria-expanded="false" data-target="##collapseRelatedTaxa">
-								Related Taxon Records (#qsubspecies.recordcount# subspecies, #qspecies.recordcount# species) 
+								Related: #qspecies.recordcount# species, #qsubspecies.recordcount# subspecies 
 							</button>
 						</h3>
 					</div>
@@ -104,7 +104,12 @@
 									</ul>
 								</div>
 								<div class="col-12 col-md-6">
-									<h4 class="mt-2"><cfif qsubspecies.recordcount EQ 0>No</cfif> <cfif len(t.subspecies) gt 0>Included </cfif>Subspecies<cfif qsubspecies.recordcount gt 0>:</cfif></h4>
+									<cfif len(t.subspecies) GT 0>
+										<cfset inclusionWord = "Related">
+									<cfelse>
+										<cfset inclusionWord = "Included">
+									</cfif>
+									<h4 class="mt-2"><cfif qsubspecies.recordcount EQ 0>No</cfif> <cfif len(t.subspecies) gt 0>#inclusionWord# </cfif>Subspecies<cfif qsubspecies.recordcount gt 0>:</cfif></h4>
 									<ul class="px-0">
 										<cfloop query="qsubspecies">
 											<li><a href="/name/#scientific_name#">#display_name# <span class="sm-caps">#qsubspecies.author_text#</span></a></li>
@@ -137,7 +142,7 @@
 					<cfset collapsed = "collapsed">
 					<cfset collapseshow = "collapse">
 				</cfif>
-				<div class="card mb-2">
+				<div class="card mb-2 bg-light ml-3">
 					<div class="card-header" id="speciesHeadingPart">
 						<h3 class="h4 my-0">  
 							<button type="button" class="headerLnk w-100 text-left #collapsed#" data-toggle="collapse" aria-expanded="false" data-target="##collapseSpecies">
