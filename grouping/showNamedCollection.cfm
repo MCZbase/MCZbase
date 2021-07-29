@@ -269,21 +269,21 @@ limitations under the License.
 						<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 						<div class="carouselX">
 							<cfoutput>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][5]#"/><br>Caption for image 5</div>
-								<div class="carousel__imageX"><img  src="#specimenImagesforCarousel['media_uri'][3]#"/><br>Caption for image 3</div>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][1]#"/><br>Caption for image 1</div>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][6]#"/><br>Caption for image 6</div>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][8]#"/><br>Caption for image 8</div>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][12]#"/><br>Caption for image 12</div>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][6]#"/><br>Caption for image 6</div>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][7]#"/><br>Caption for image 7</div>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][4]#"/><br>Caption for image 4</div>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][13]#"/><br>Caption for image 13</div>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][9]#"/><br>Caption for image 9</div>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][14]#"/><br>Caption for image 14</div>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][11]#"/><br>Caption for image 11</div>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][2]#"/><br>Caption for image 2</div>
-								<div class="carousel__imageX"><img src="#specimenImagesforCarousel['media_uri'][10]#"/><br>Caption for image 10</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><br>#specimenImagesforCarousel['alt'][5]#</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><br>Caption for image 3</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><br>Caption for image 1</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><br>Caption for image 6</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><br>Caption for image 8</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><br>Caption for image 12</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><br>Caption for image 6</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><br>Caption for image 7</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><br>Caption for image 4</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><br>Caption for image 13</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><br>Caption for image 9</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><br>Caption for image 14</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><br>Caption for image 11</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><br>Caption for image 2</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><br>Caption for image 10</div>
 							</cfoutput>
 						</div>
 						<div class="carousel__buttonX--next"></div>
