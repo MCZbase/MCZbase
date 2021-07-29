@@ -264,13 +264,14 @@ limitations under the License.
 						transform: translate(-50%, -50%) rotate(-45deg);
 					}
 				</style>
-			
+
 					<div class="carousel-wrapperX">
 							<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 						<div class="carouselX">
 							<cfset src="#specimenImagesforCarousel.media_uri#">
-							<cfloop query="specimenImagesForCarousel">
-								<img class="d-block w-100 carousel__imageX" src="#src#" />
+							<cfset active = 'class="active"' >
+							<cfloop index="i" from="0" to="15" query="specimenImagesForCarousel">
+								<img class="d-block w-100 carousel__imageX" src="#src#" data-slide-to="#i#" />
 							</cfloop>
 						</div>
 						<div class="carousel__buttonX--next"></div>
