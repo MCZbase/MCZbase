@@ -529,31 +529,27 @@ limitations under the License.
 
 													}(document));
 												</script>
-														
-													<div class="specimen_carousel">
-												
-														<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
-														<cfloop query="specimenImageQuery">
-															<div class="carousel">
-																<div class="view">
-																	<cfif len(specimenImageQuery.width) GT 0 AND specimenImageQuery.width GT 0 AND specimenImageQuery.width GT 1000 >
-																		<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#">
-																	<cfelse>
-																		<cfset src="#specimenImageQuery.media_uri#">
-																	</cfif>
-																	<img class="d-block w-100 carousel__image" src="#src#" />
-																</div>
-																		<!---	alt="#specimenImageQuery.alt#"--->
+												<div class="specimen_carousel">
+													<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
+													<div class="carousel">
+													<cfloop query="specimenImageQuery">
+														<cfif len(specimenImageQuery.width) GT 0 AND specimenImageQuery.width GT 0 AND specimenImageQuery.width GT 1000 >
+															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#">
+														<cfelse>
+															<cfset src="#specimenImageQuery.media_uri#">
+														</cfif>
+														<img class="d-block w-100 carousel__image" src="#src#" />
+															<!---	alt="#specimenImageQuery.alt#"--->
 <!---																	<div class="carousel-caption">
-																	<h3 class="h3-responsive">#specimenImageQuery.alt#</h3>
-																	<p>#specimenImageQuery.credit#</p>
-																</div>--->
-															</div>
-														</cfloop>
-														<div class="carousel__button--next"></div>
-														<div class="carousel__button--prev"></div>
+																<h3 class="h3-responsive">#specimenImageQuery.alt#</h3>
+																<p>#specimenImageQuery.credit#</p>
+															</div>--->
+													</cfloop>
 													</div>
+													<div class="carousel__button--next"></div>
+													<div class="carousel__button--prev"></div>
 												</div>
+											</div>
 													<!---<div id="specimen_image-carousel" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 														<ol class="carousel-indicators">
 															<cfset active = 'class="active"' >
