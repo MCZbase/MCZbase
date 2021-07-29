@@ -108,7 +108,7 @@
 										<cfset inclusionWord = "Related">
 									<cfelse>
 										<cfset inclusionWord = "Included">
-									<cfif>
+									</cfif>
 									<h4 class="mt-2"><cfif qsubspecies.recordcount EQ 0>No</cfif> <cfif len(t.subspecies) gt 0>#inclusionWord# </cfif>Subspecies<cfif qsubspecies.recordcount gt 0>:</cfif></h4>
 									<ul class="px-0">
 										<cfloop query="qsubspecies">
