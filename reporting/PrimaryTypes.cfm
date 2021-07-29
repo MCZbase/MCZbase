@@ -60,7 +60,7 @@ Report on primary types, by department.
 									<cfloop query="getcounts">
 										<cfif getcounts.ct GT 0>
 											<cfif selectedCollection EQ getCounts.collection_cde><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-											<option value="#getcounts.collection_cde#" #selected#>#getcounts.collection# (getcounts.ct)</option>
+											<option value="#getcounts.collection_cde#" #selected#>#getcounts.collection# (#getcounts.ct#)</option>
 										</cfif>
 									</cfloop>
 								</select>
@@ -110,6 +110,10 @@ Report on primary types, by department.
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a></span>';
 			};
 
+			window.columnHiddenSettings = new Object();
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				lookupColumnVisibilities ('#cgi.script_name#','Default');
+			</cfif>
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
 				$('##searchForm').bind('submit', function(evt){
@@ -151,7 +155,7 @@ Report on primary types, by department.
 						root: 'specimenRecord',
 						id: 'collection_object_id',
 						url: '/specimens/component/search.cfc?' + $('##searchForm').serialize(),
-						timeout: 30000,  // units not specified, miliseconds? 
+						timeout: 60000,  // units not specified, miliseconds? 
 						loadError: function(jqXHR, status, error) { 
 							$("##overlay").hide();
 							var message = "";
@@ -198,7 +202,7 @@ Report on primary types, by department.
 						altrows: true,
 						showtoolbar: false,
 						columns: [
-							{text: 'GUID', datafield: 'guid', width: 150, hidable: true, hidden: getColHidProp('GUID', false), cellsrenderer: linkGuidCellRenderer },
+							{text: 'GUID', datafield: 'guid', width: 150, hidable: true, hidden: getColHidProp('guid', false), cellsrenderer: linkGuidCellRenderer },
 							{text: 'Catalog Number', datafield: 'cat_num', width: 100, hidable: true, hidden: getColHidProp('cat_num', true) },
 							{text: 'Category', datafield: 'toptypestatuskind', width: 130, hidable: true, hidden: getColHidProp('toptypestatuskind', true) },
 							{text: 'Type Status', datafield: 'toptypestatus', width: 130, hidable: true, hidden: getColHidProp('toptypestatus', false) },
