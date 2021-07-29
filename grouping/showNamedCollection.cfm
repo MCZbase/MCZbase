@@ -541,7 +541,7 @@ limitations under the License.
 																	<cfelse>
 																		<cfset src="#specimenImageQuery.media_uri#">
 																	</cfif>
-																	<img class="d-block w-100" src="#src#" />
+																	<img class="d-block w-100 carousel__image" src="#src#" />
 																</div>
 																		<!---	alt="#specimenImageQuery.alt#"--->
 <!---																	<div class="carousel-caption">
