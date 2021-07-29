@@ -402,7 +402,7 @@ limitations under the License.
 							<cfset src="#specimenImageforCarousel.media_uri#">
 							<cfset i=1>
 							<cfloop query="specimenImagesForCarousel">
-								<img class="d-block w-100 carousel__image" src="#specimenImagesForCarousel[media.media_uri][i]#" />
+								<img class="d-block w-100 carousel__image" src="#src#" />
 								<cfset i=i+1>
 							</cfloop>
 							</div>
