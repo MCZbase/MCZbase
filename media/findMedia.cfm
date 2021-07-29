@@ -1094,13 +1094,12 @@ limitations under the License.
 				} else { 
 					$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
 				}
-				var cards = new toggleCardView();
+				var cards = new toggleCardView(currentState);
 				// set maximum page size
 				if (rowcount > 100) { 
 					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
 				} else if (rowcount > 50 && cards) { 
 					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:10});
-				}
 				} else if (rowcount > 50) { 
 					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
 				} else { 
