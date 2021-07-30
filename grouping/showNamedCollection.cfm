@@ -165,7 +165,7 @@ limitations under the License.
 							</div>
 						</div>
 						<!---end specimen grid--->
-	
+	<cfif specimen.imageurl gt 0>
 				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 					SELECT * FROM (
 						SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
@@ -428,7 +428,7 @@ limitations under the License.
 							}(document));
 						</script>
 	
-
+	</cfif>
 
 
 						<div class="row mx-0 clearfix" id="everythingElseRow">
