@@ -165,7 +165,8 @@ limitations under the License.
 							</div>
 						</div>
 						<!---end specimen grid--->
-						<div class="row mx-0">													
+						<div class="row mx-0">		
+							<div class="col-12">
 						<cfif specimens.imageurl gt 0>
 							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 								SELECT * FROM (
@@ -1024,7 +1025,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div><!--- end rowEverythihngElse--->
-
+						</div>
 					</div><!--- end col-12 --->
 				</article>
 			</div>
