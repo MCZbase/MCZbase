@@ -426,7 +426,7 @@ limitations under the License.
 						</cfif>
 						
 
-<!---						<div class="row mx-0 clearfix" id="everythingElseRow">
+<!---						<div class="row mx-0 clearfix" id="everythingElseRow">--->
 							<!--- This row holds everything else --->
 <!---
 							<cfset leftHandColumnOn = false>
