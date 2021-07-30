@@ -171,7 +171,7 @@ limitations under the License.
 							
 			<cfif specimens.imageurl gt 0>
 				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
-					SELECT DISTINCT media_uri
+					SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
 					FROM
 						underscore_collection
 						left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
