@@ -85,17 +85,7 @@ limitations under the License.
 						</div>	
 						<div class="row mx-0">
 							<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT DISTINCT flat.guid, flat.scientific_name
-								FROM
-									underscore_relation 
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-										on underscore_relation.collection_object_id = flat.collection_object_id
-								WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									and flat.guid is not null
-								ORDER BY flat.guid asc
-							</cfquery>
-							<cfquery name="specimensImgCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT count(distinct flat.imageurl) as imgCt, flat.imageurl
+								SELECT DISTINCT flat.guid, flat.scientific_name, flat.imageurl
 								FROM
 									underscore_relation 
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
