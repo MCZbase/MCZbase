@@ -163,6 +163,21 @@ limitations under the License.
 									and flat.guid is not null
 								ORDER BY flat.guid asc
 							</cfquery>
+							<cfquery name="specimenImgs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT DISTINCT media.media_uri
+								FROM
+									underscore_collection
+									left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+									left join cataloged_item
+										on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+									left join media_relations
+										on media_relations.related_primary_key = underscore_relation.collection_object_id
+									left join media on media_relations.media_id = media.media_id
+								WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									AND media_relations.media_relationship = 'shows cataloged_item'
+									AND media.media_type = 'image'
+									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+							</cfquery>
 							<script type="text/javascript">
 								var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 									if (value > 1) {
@@ -227,13 +242,13 @@ limitations under the License.
 								});
 							</script>
 							<div class="col-12 mt-2">
-								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
+								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimenImgs.recordcount#)</a></h2>
 								<div id="jqxgrid"></div>
 							</div>
 						</div>
 						<!---end specimen grid--->
 						<div class="row mx-0 col-12 mb-4">													
-						<cfif specimens.imageurl gt 0>
+						<cfif specimenImgs.media_uri gt 0>
 							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">                                    		
 								SELECT * FROM (
 								SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
