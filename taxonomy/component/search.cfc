@@ -199,9 +199,9 @@ limitations under the License.
 					<cfif left(phylum,1) is "=">
 						AND upper(taxonomy.phylum) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylum,len(phylum)-1))#">
 					<cfelseif left(phylum,1) is "$">
-						AND soundex(phylum) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylum,len(phylum)-1))#">)
+						AND soundex(taxonomy.phylum) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylum,len(phylum)-1))#">)
 					<cfelseif left(phylum,2) is "!$">
-						AND soundex(phylum) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylum,len(phylum)-2))#">)
+						AND soundex(taxonomy.phylum) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylum,len(phylum)-2))#">)
 					<cfelseif left(phylum,1) is "!">
 						AND upper(taxonomy.phylum) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylum,len(phylum)-1))#">
 					<cfelseif phylum is "NULL">
@@ -220,9 +220,9 @@ limitations under the License.
 					<cfif left(subphylum,1) is "=">
 						AND upper(taxonomy.subphylum) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subphylum,len(subphylum)-1))#">
 					<cfelseif left(subphylum,1) is "$">
-						AND soundex(subphylum) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subphylum,len(subphylum)-1))#">)
+						AND soundex(taxonomy.subphylum) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subphylum,len(subphylum)-1))#">)
 					<cfelseif left(subphylum,2) is "!$">
-						AND soundex(subphylum) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subphylum,len(subphylum)-2))#">)
+						AND soundex(taxonomy.subphylum) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subphylum,len(subphylum)-2))#">)
 					<cfelseif left(subphylum,1) is "!">
 						AND upper(taxonomy.subphylum) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subphylum,len(subphylum)-1))#">
 					<cfelseif subphylum is "NULL">
@@ -241,9 +241,9 @@ limitations under the License.
 					<cfif left(superclass,1) is "=">
 						AND upper(taxonomy.superclass) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superclass,len(superclass)-1))#">
 					<cfelseif left(superclass,1) is "$">
-						AND soundex(superclass) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superclass,len(superclass)-1))#">)
+						AND soundex(taxonomy.superclass) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superclass,len(superclass)-1))#">)
 					<cfelseif left(superclass,2) is "!$">
-						AND soundex(superclass) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superclass,len(superclass)-2))#">)
+						AND soundex(taxonomy.superclass) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superclass,len(superclass)-2))#">)
 					<cfelseif left(superclass,1) is "!">
 						AND upper(taxonomy.superclass) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superclass,len(superclass)-1))#">
 					<cfelseif superclass is "NULL">
@@ -262,9 +262,9 @@ limitations under the License.
 					<cfif left(phylclass,1) is "=">
 						AND taxonomy.phylclass = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(phylclass,len(phylclass)-1)#">
 					<cfelseif left(phylclass,1) is "$">
-						AND soundex(phylclass) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylclass,len(phylclass)-1))#">)
+						AND soundex(taxonomy.phylclass) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylclass,len(phylclass)-1))#">)
 					<cfelseif left(phylclass,2) is "!$">
-						AND soundex(phylclass) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylclass,len(phylclass)-2))#">)
+						AND soundex(taxonomy.phylclass) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylclass,len(phylclass)-2))#">)
 					<cfelseif left(phylclass,1) is "!">
 						AND upper(taxonomy.phylclass) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylclass,len(phylclass)-1))#">
 					<cfelseif phylclass is "NULL">
@@ -283,9 +283,9 @@ limitations under the License.
 					<cfif left(subclass,1) is "=">
 						AND upper(taxonomy.subclass) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subclass,len(subclass)-1))#">
 					<cfelseif left(subclass,1) is "$">
-						AND soundex(subclass) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subclass,len(subclass)-1))#">)
+						AND soundex(taxonomy.subclass) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subclass,len(subclass)-1))#">)
 					<cfelseif left(subclass,2) is "!$">
-						AND soundex(subclass) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subclass,len(subclass)-2))#">)
+						AND soundex(taxonomy.subclass) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subclass,len(subclass)-2))#">)
 					<cfelseif left(subclass,1) is "!">
 						AND upper(taxonomy.subclass) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subclass,len(subclass)-1))#">
 					<cfelseif subclass is "NULL">
@@ -304,9 +304,9 @@ limitations under the License.
 					<cfif left(infraclass,1) is "=">
 						AND upper(taxonomy.infraclass) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraclass,len(infraclass)-1))#">
 					<cfelseif left(infraclass,1) is "$">
-						AND soundex(infraclass) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraclass,len(infraclass)-1))#">)
+						AND soundex(taxonomy.infraclass) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraclass,len(infraclass)-1))#">)
 					<cfelseif left(infraclass,2) is "!$">
-						AND soundex(infraclass) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraclass,len(infraclass)-2))#">)
+						AND soundex(taxonomy.infraclass) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraclass,len(infraclass)-2))#">)
 					<cfelseif left(infraclass,1) is "!">
 						AND upper(taxonomy.infraclass) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraclass,len(infraclass)-1))#">
 					<cfelseif infraclass is "NULL">
@@ -325,9 +325,9 @@ limitations under the License.
 					<cfif left(superorder,1) is "=">
 						AND upper(taxonomy.superorder) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superorder,len(superorder)-1))#">
 					<cfelseif left(superorder,1) is "$">
-						AND soundex(superorder) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superorder,len(superorder)-1))#">)
+						AND soundex(taxonomy.superorder) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superorder,len(superorder)-1))#">)
 					<cfelseif left(superorder,2) is "!$">
-						AND soundex(superorder) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superorder,len(superorder)-2))#">)
+						AND soundex(taxonomy.superorder) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superorder,len(superorder)-2))#">)
 					<cfelseif left(superorder,1) is "!">
 						AND upper(taxonomy.superorder) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superorder,len(superorder)-1))#">
 					<cfelseif superorder is "NULL">
@@ -346,9 +346,9 @@ limitations under the License.
 					<cfif left(phylorder,1) is "=">
 						AND upper(taxonomy.phylorder) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">
 					<cfelseif left(phylorder,1) is "$">
-						AND soundex(phylorder) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">)
+						AND soundex(taxonomy.phylorder) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">)
 					<cfelseif left(phylorder,2) is "!$">
-						AND soundex(phylorder) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-2))#">)
+						AND soundex(taxonomy.phylorder) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-2))#">)
 					<cfelseif left(phylorder,1) is "!">
 						AND upper(taxonomy.phylorder) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">
 					<cfelseif phylorder is "NULL">
@@ -367,9 +367,9 @@ limitations under the License.
 					<cfif left(suborder,1) is "=">
 						AND upper(taxonomy.suborder) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(suborder,len(suborder)-1))#">
 					<cfelseif left(suborder,1) is "$">
-						AND soundex(suborder) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(suborder,len(suborder)-1))#">)
+						AND soundex(taxonomy.suborder) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(suborder,len(suborder)-1))#">)
 					<cfelseif left(suborder,2) is "!$">
-						AND soundex(suborder) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(suborder,len(suborder)-2))#">)
+						AND soundex(taxonomy.suborder) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(suborder,len(suborder)-2))#">)
 					<cfelseif left(suborder,1) is "!">
 						AND upper(taxonomy.suborder) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(suborder,len(suborder)-1))#">
 					<cfelseif suborder is "NULL">
@@ -388,9 +388,9 @@ limitations under the License.
 					<cfif left(infraorder,1) is "=">
 						AND upper(taxonomy.infraorder) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraorder,len(infraorder)-1))#">
 					<cfelseif left(infraorder,1) is "$">
-						AND soundex(infraorder) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraorder,len(infraorder)-1))#">)
+						AND soundex(taxonomy.infraorder) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraorder,len(infraorder)-1))#">)
 					<cfelseif left(infraorder,2) is "!$">
-						AND soundex(infraorder) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraorder,len(infraorder)-2))#">)
+						AND soundex(taxonomy.infraorder) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraorder,len(infraorder)-2))#">)
 					<cfelseif left(infraorder,1) is "!">
 						AND upper(taxonomy.infraorder) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraorder,len(infraorder)-1))#">
 					<cfelseif infraorder is "NULL">
@@ -409,9 +409,9 @@ limitations under the License.
 					<cfif left(superfamily,1) is "=">
 						AND upper(taxonomy.superfamily) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superfamily,len(superfamily)-1))#">
 					<cfelseif left(superfamily,1) is "$">
-						AND soundex(superfamily) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superfamily,len(superfamily)-1))#">)
+						AND soundex(taxonomy.superfamily) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superfamily,len(superfamily)-1))#">)
 					<cfelseif left(superfamily,2) is "!$">
-						AND soundex(superfamily) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superfamily,len(superfamily)-2))#">)
+						AND soundex(taxonomy.superfamily) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superfamily,len(superfamily)-2))#">)
 					<cfelseif left(superfamily,1) is "!">
 						AND upper(taxonomy.superfamily) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superfamily,len(superfamily)-1))#">
 					<cfelseif superfamily is "NULL">
@@ -430,9 +430,9 @@ limitations under the License.
 					<cfif left(family,1) is "=">
 						AND upper(taxonomy.family) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">
 					<cfelseif left(family,1) is "$">
-						AND soundex(family) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">)
+						AND soundex(taxonomy.family) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">)
 					<cfelseif left(family,2) is "!$">
-						AND soundex(family) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-2))#">)
+						AND soundex(taxonomy.family) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-2))#">)
 					<cfelseif left(family,1) is "!">
 						AND upper(taxonomy.family) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">
 					<cfelseif family is "NULL">
@@ -451,9 +451,9 @@ limitations under the License.
 					<cfif left(subfamily,1) is "=">
 						AND upper(taxonomy.subfamily) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subfamily,len(subfamily)-1))#">
 					<cfelseif left(subfamily,1) is "$">
-						AND soundex(subfamily) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subfamily,len(subfamily)-1))#">)
+						AND soundex(taxonomy.subfamily) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subfamily,len(subfamily)-1))#">)
 					<cfelseif left(subfamily,2) is "!$">
-						AND soundex(subfamily) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subfamily,len(subfamily)-2))#">)
+						AND soundex(taxonomy.subfamily) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subfamily,len(subfamily)-2))#">)
 					<cfelseif left(subfamily,1) is "!">
 						AND upper(taxonomy.subfamily) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subfamily,len(subfamily)-1))#">
 					<cfelseif subfamily is "NULL">
@@ -472,9 +472,9 @@ limitations under the License.
 					<cfif left(tribe,1) is "=">
 						AND upper(taxonomy.tribe) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(tribe,len(tribe)-1))#">
 					<cfelseif left(tribe,1) is "$">
-						AND soundex(tribe) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(tribe,len(tribe)-1))#">)
+						AND soundex(taxonomy.tribe) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(tribe,len(tribe)-1))#">)
 					<cfelseif left(tribe,2) is "!$">
-						AND soundex(tribe) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(tribe,len(tribe)-2))#">)
+						AND soundex(taxonomy.tribe) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(tribe,len(tribe)-2))#">)
 					<cfelseif left(tribe,1) is "!">
 						AND upper(taxonomy.tribe) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(tribe,len(tribe)-1))#">
 					<cfelseif tribe is "NULL">
