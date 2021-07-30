@@ -272,7 +272,7 @@ limitations under the License.
 							
 							<div class="col-12 col-md-6">
 								<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
-								<p class="small">Refresh page to show another 15 images.</p>
+								<p class="small">Refresh page to show a different 15 images.</p>
 								<div class="carousel-wrapperX">
 									<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 									<div class="carouselX">
