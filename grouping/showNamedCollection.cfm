@@ -95,7 +95,7 @@ limitations under the License.
 								ORDER BY flat.guid asc
 							</cfquery>
 							<cfquery name="specimensImgCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT DISTINCT flat.imageurl as imgCt
+								SELECT count(distinct flat.imageurl) as imgCt
 								FROM
 									underscore_relation 
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
