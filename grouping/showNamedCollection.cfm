@@ -208,7 +208,7 @@ limitations under the License.
 									top: 0;
 									width: 100%;
 									margin: auto;
-									padding: 1rem 4rem;
+									padding: 1rem 2rem;
 									z-index: 100;
 									transition: transform .5s, opacity .5s, z-index .5s;
 								}
@@ -229,11 +229,11 @@ limitations under the License.
 								.carousel__buttonX--prev, .carousel__buttonX--next {
 									position: absolute;
 									top: 50%;
-									width: 3rem;
-									height: 3rem;
+									width: 2rem;
+									height: 75%;
 									background-color: white;
 									transform: translateY(-50%);
-									border-radius: 50%;
+									border-radius: 8%;
 									cursor: pointer;
 									z-index: 1001; /* sit on top of everything */
 									border: 1px solid black;
