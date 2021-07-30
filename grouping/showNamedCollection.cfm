@@ -228,7 +228,7 @@ limitations under the License.
 								.carousel__buttonX--prev, .carousel__buttonX--next {
 									position: absolute;
 									top: 50%;
-									width: 3rem;
+									width: 3.5rem;
 									height: 100%;
 									background-color: transparent;
 									transform: translateY(-50%);
@@ -256,7 +256,7 @@ limitations under the License.
 									transform: translate(-50%, -50%) rotate(135deg);
 								}
 								.carousel__buttonX--next::after {
-									left: -20%;
+									left: 20%;
 									transform: translate(-50%, -50%) rotate(-45deg);
 								}
 							</style>
