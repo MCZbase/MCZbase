@@ -262,7 +262,7 @@ limitations under the License.
 							</style>
 							
 							<div class="col-12 col-md-6">
-								<p>Shows #specimens.recordcount# Images of Cataloged Items</p>
+								<h2 class="mt-3">Shows #specimens.recordcount# Images of Cataloged Items</h2>
 								<div class="carousel-wrapperX">
 									<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 									<div class="carouselX">
