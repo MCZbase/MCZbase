@@ -301,7 +301,8 @@ limitations under the License.
 								</div>
 							</div>
 						</cfif>
-						
+						<div class="row mx-0">
+						<div class="col-6">
 						<!--- obtain a random set of agent images, limited to a small number --->
 						<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
 								SELECT * FROM (
@@ -329,7 +330,7 @@ limitations under the License.
 								WHERE rownum < 16
 							</cfquery>
 							<div class="col-12 col-md-6 float-left">
-								<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
+								<h2 class="mt-3">#specimenImgs.recordcount# Images of Agents (shows 15)</h2>
 								<p class="small">Refresh page to show a different 15 images.</p>
 								<div class="carousel-wrapperX">
 									<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
@@ -356,6 +357,8 @@ limitations under the License.
 									<div class="carousel__buttonX--prev"></div>
 								</div>
 							</div>
+							</div>
+						</div>
 <!---						<div class="row mx-0 clearfix" id="everythingElseRow">--->
 							<!--- This row holds everything else --->
 <!---
