@@ -242,7 +242,7 @@ Report on primary types, by department.
 							{text: 'Specific Locality', datafield: 'spec_locality', width: 130, hidable: true, hidden: getColHidProp('spec_locality', true) },
 							{text: 'Associated Grant', datafield: 'associatedgrant', width: 130, hidable: true, hidden: getColHidProp('associatedgrant', true) },
 							{text: 'Named Groups', datafield: 'named_groups', width: 130, hideable: true, hidden: getColHidProp('namedgroups', false) },
-							{text: 'Page Number', datafield: 'page_number', width: 40, hidable: true, hidden: getColHidProp('page_number', true) },
+							{text: 'Page Number', datafield: 'page_number', width: 50, hidable: true, hidden: getColHidProp('page_number', false) },
 							{text: 'Citation Page URI', datafield: 'citation_page_uri', width: 80, hidable: true, hidden: getColHidProp('citation_page_uri', true) },
 							{text: 'PublicationID', datafield: 'publication_id', width: 40, hidable: true, hidden: getColHidProp('publication_id', true) },
 							{text: 'Citation', datafield: 'citation', hidable: true, hidden: getColHidProp('citation', false) }
