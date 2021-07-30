@@ -20,8 +20,8 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
-<!---   Function getDataTable  --->
-<cffunction name="getDataTable" access="remote" returntype="any" returnformat="json">
+<!---   Function getSpecimens backing method for specimen search --->
+<cffunction name="getSpecimens" access="remote" returntype="any" returnformat="json">
 	<cfargument name="searchText" type="string" required="no">
 	<cfif isDefined("searchText") and len(searchText) gt 0>
 		<!---<cfquery name="qryLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">--->
