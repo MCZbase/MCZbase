@@ -75,7 +75,7 @@ limitations under the License.
 }
 .carousel__buttonX--prev, .carousel__buttonX--next {
 	position: absolute;
-	top: 53%;
+	top: 20rem;
 	width: 3.5rem;
 	height: 100%;
 	background-color: transparent;
@@ -97,7 +97,7 @@ limitations under the License.
 	position: absolute;
 	width: 15px;
 	height: 15px;
-	top: 50%;
+	top: 0;
 	left: 80%;
 	border-right: 3px solid white;
 	border-bottom: 3px solid white;
@@ -247,7 +247,7 @@ limitations under the License.
 							</div>
 						</div>
 						<!---end specimen grid--->
-						<div class="row mx-0 col-12 mb-4">													
+						<div class="row mx-0 mb-4">													
 						<cfif specimenImgs.media_uri gt 0>
 							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">                                    		
 								SELECT * FROM (
@@ -270,7 +270,7 @@ limitations under the License.
 							</cfquery>
 							<!---The encumbrance line was slowing it down too much--->
 							
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-6 float-left">
 								<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
 								<p class="small">Refresh page to show a different 15 images.</p>
 								<div class="carousel-wrapperX">
