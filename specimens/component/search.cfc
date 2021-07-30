@@ -573,4 +573,124 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- getTypes get type names and other information about type specimens by collection
+ @param collection collection code for the collection for which to look up types
+ @param kind jind of type status, Primary, Secondary, Voucher, Voucher Not of types to return
+ @return json suitable for a jqx grid
+--->
+<cffunction name="getTypes" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection" type="string" required="yes">
+	<cfargument name="kind" type="string" required="yes">
+	<cfargument name="phylorder" type="string" required="no">
+	<cfargument name="family" type="string" required="no">
+	<cfargument name="showplaceholders" type="string" required="no">
+	
+	<cfif not isdefined("showplaceholders")><cfset showplaceholders=""></cfif>
+
+	<cftry>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT DISTINCT
+				flat.guid, 
+				flat.cat_num,
+				toptypestatuskind, 
+				mczbase.get_top_typestatus(flat.collection_object_id) as toptypestatus, 
+				taxonomy.phylorder,
+				taxonomy.family,
+				taxonomy.genus as typegenus, 
+				taxonomy.species as typespecies, 
+				taxonomy.subspecies as typesubspecies, 
+				decode(taxonomy.subspecies, null, taxonomy.species, taxonomy.subspecies) as typeepithet,
+				typestatusplain, 
+				flat.scientific_name as currentname, 
+				flat.author_text as currentauthorship, 
+				CONCATATTRIBUTEVALUE(flat.collection_object_id,'associated grant') as associatedgrant, 
+				CONCATUNDERSCORECOLS(flat.collection_object_id) as namedgroups,
+				flat.country,
+				flat.spec_locality,
+				mczbase.get_typestatusbits(flat.collection_object_id, mczbase.get_top_typestatus(flat.collection_object_id)) as bits
+			FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+				, taxonomy 
+			WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection#"> 
+				and toptypestatuskind = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#kind#"> 
+				and taxonomy.taxon_name_id = mczbase.GET_TYPESTATUSTAXON(flat.collection_object_id,mczbase.get_top_typestatus(flat.collection_object_id))
+				<cfif isDefined("phylorder") AND len(phylorder) GT 0>
+					<cfif left(phylorder,1) is "=">
+						AND upper(flat.phylorder) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">
+					<cfelseif left(phylorder,1) is "!">
+						AND upper(flat.phylorder) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">
+					<cfelseif phylorder is "NULL">
+						AND upper(flat.phylorder) is null
+					<cfelseif phylorder is "NOT NULL">
+						AND upper(flat.phylorder) is not null
+					<cfelse>
+						<cfif find(',',phylorder) GT 0>
+							AND upper(flat.phylorder) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(phylorder)#" list="yes"> )
+						<cfelse>
+							AND upper(flat.phylorder) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(phylorder)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isDefined("family") AND len(family) GT 0>
+					<cfif left(family,1) is "=">
+						AND upper(flat.family) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">
+					<cfelseif left(family,1) is "!">
+						AND upper(flat.family) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">
+					<cfelseif family is "NULL">
+						AND upper(flat.family) is null
+					<cfelseif family is "NOT NULL">
+						AND upper(flat.family) is not null
+					<cfelse>
+						<cfif find(',',family) GT 0>
+							AND upper(flat.family) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(family)#" list="yes"> )
+						<cfelse>
+							AND upper(flat.family) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(family)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+			ORDER BY
+				taxonomy.family, taxonomy.genus, decode(taxonomy.subspecies, null, taxonomy.species, taxonomy.subspecies)
+		</cfquery>
+
+		<cfset rows = 0>
+		<cfset data = ArrayNew(1)>
+
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfif lcase(col) EQ 'bits'>
+					<cfset bitsarr = ListToArray(search[col][currentRow],"|",true)>
+					<cfset row["typename"] = "#bitsarr[1]#">
+					<cfset row["typeauthorship"] = "#bitsarr[2]#">
+					<cfif len(showplaceholders) EQ 0 AND trim(bitsarr[3]) EQ 'Author not listed'>
+						<cfset row["pubauthorship"] = "">
+					<cfelse>
+						<cfset row["pubauthorship"] = "#bitsarr[3]#">
+					</cfif>
+					<cfif len(showplaceholders) EQ 0 AND find('Citations Placeholder',bitsarr[4]) GT 0> 
+						<cfset row["citation"] = "">
+					<cfelse>
+						<cfset row["citation"] = "#canonicalize(bitsarr[4],false,false)#">
+					</cfif>
+					<cfset row["page_number"] = "#bitsarr[5]#">
+					<cfset row["citation_page_uri"] = "#bitsarr[6]#">
+					<cfset row["publication_id"] = "#bitsarr[7]#">
+				<cfelse>
+					<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+				</cfif>
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>

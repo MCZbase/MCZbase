@@ -34,6 +34,7 @@ Landing pad page with lists of various self service reports.
 					<li class="py-1"><a href="/reporting/PartUsageReport.cfm">Part Usage</a> &ndash; Distribution of Part name usage by collection. &ndash; Part names (e.g., partial animal, cast, whole animal); <em>is Tissue</em> codings of that part name; with sums of parts by name and; count of part name by collection with links to specimens.</li>
 				 	<li class="py-1"><a href="/Taxa.cfm?execute=true&method=getTaxa&action=search&kingdom=NULL&phylum=NULL&phylclass=NULL&phylorder=NULL&family=NULL">Missing Higher Taxonomy</a> &ndash; No kingdom, phylumn, class, order, or family (using "Null" in a query on Taxa.cfm)</li>
 				 	<li class="py-1"><a href="/tools/findGap.cfm">Catalog Number Gaps</a> &ndash; Show gaps in Catalog Number series</li>
+					<li class="py-1"><a href="/reporting/PrimaryTypes.cfm">Primary Types</a> &ndash; Obtain reports by collection.</li>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 				 		<li class="py-1"><a href="/reporting/UnknownSovereignNation.cfm">Unknown Sovereign Nation</a> &ndash; Find localities with [unknown] Sovereign Nation for cleanup.</li>
 					</cfif>
