@@ -163,8 +163,8 @@ limitations under the License.
 							</div>
 						</div>
 						<!---end specimen grid--->
-								
-			<cfif specimenImageQuery.recordcount GT 0>			
+			
+			<cfif specimenImagesForCarousel.recordcount GT 0>			
 				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 					SELECT * FROM (
 						SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
