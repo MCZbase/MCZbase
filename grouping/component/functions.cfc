@@ -17,6 +17,8 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!--- function saveUndColl 
 Update an existing arbitrary collection record (underscore_collection).
@@ -64,21 +66,9 @@ Update an existing arbitrary collection record (underscore_collection).
 		<cfset row["id"] = "#underscore_collection_id#">
 		<cfset data[1] = row>
 	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing saveUndColl: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfheader statusCode="500" statusText="#message#">
-		<cfoutput>
-			<div class="container">
-				<div class="row">
-					<div class="alert alert-danger" role="alert">
-						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2>Internal Server Error.</h2>
-						<p>#message#</p>
-						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-					</div>
-				</div>
-			</div>
-		</cfoutput>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
 	</cftry>
@@ -132,21 +122,9 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing getUndCollList: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-			</cfoutput>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
 	</cftry>
@@ -181,21 +159,9 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			<cfset data[1] = row>
 		</cftransaction>
 	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-			</cfoutput>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
 	</cftry>
@@ -277,21 +243,9 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 		<cfset data[i] = row>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-			</cfoutput>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
 	</cftry>
