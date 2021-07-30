@@ -839,7 +839,8 @@ limitations under the License.
 							<cfelse>
 								<cfset hasleftcolumnclass = "" >
 							</cfif>--->
-							<div class="col mt-0 #hasleftcolumnclass# float-left">
+							<!---<div class="col mt-0 #hasleftcolumnclass# float-left">--->
+							<div class="col mt-0 float-left">
 								<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 								<div class="my-2 py-3 border-bottom-black">
 									<cfif len(getNamedGroup.description) GT 0 >
