@@ -77,7 +77,7 @@ limitations under the License.
 }
 .carousel__buttonX--prev, .carousel__buttonX--next {
 	position: absolute;
-	top: 50%;
+	top: 48%;
 	width: 3.5rem;
 	height: 100%;
 	background-color: transparent;
@@ -101,8 +101,8 @@ limitations under the License.
 	height: 15px;
 	top: 50%;
 	left: 80%;
-	border-right: 3px solid ##3AF45B;
-	border-bottom: 3px solid ##3AF45B;
+	border-right: 3px solid ##007bff;
+	border-bottom: 3px solid ##007bff;
 	transform: translate(-50%, -50%) rotate(135deg);
 }
 .carousel__buttonX--next::after {
