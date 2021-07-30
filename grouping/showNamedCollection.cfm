@@ -162,9 +162,9 @@ limitations under the License.
 								<div id="jqxgrid"></div>
 							</div>
 						</div>
-<!---end specimen grid--->
+						<!---end specimen grid--->
 								
-								
+			<cfif specimenImageQuery.recordcount GT 0>			
 				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 					SELECT * FROM (
 						SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
@@ -270,27 +270,26 @@ limitations under the License.
 						<div class="carouselX">
 							<cfoutput>
 								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><br>#specimenImagesforCarousel['alt'][5]#</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><br>Caption for image 3</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><br>Caption for image 1</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><br>Caption for image 6</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><br>Caption for image 8</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><br>Caption for image 12</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><br>Caption for image 6</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><br>Caption for image 7</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><br>Caption for image 4</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><br>Caption for image 13</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><br>Caption for image 9</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><br>Caption for image 14</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><br>Caption for image 11</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><br>Caption for image 2</div>
-								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><br>Caption for image 10</div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><br>#specimenImagesforCarousel['alt'][3]#</div></div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><br>#specimenImagesforCarousel['alt'][1]#</div></div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><br>#specimenImagesforCarousel['alt'][6]#</div></div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><br>#specimenImagesforCarousel['alt'][8]#</div></div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><br>#specimenImagesforCarousel['alt'][12]#</div></div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><br>#specimenImagesforCarousel['alt'][7]#</div></div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><br>#specimenImagesforCarousel['alt'][4]#</div></div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><br>#specimenImagesforCarousel['alt'][13]#</div></div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><br>#specimenImagesforCarousel['alt'][9]#</div></div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><br>#specimenImagesforCarousel['alt'][14]#</div></div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><br>#specimenImagesforCarousel['alt'][11]#</div></div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><br>#specimenImagesforCarousel['alt'][2]#</div></div>
+								<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><br>#specimenImagesforCarousel['alt'][10]#</div></div>
 							</cfoutput>
 						</div>
 						<div class="carousel__buttonX--next"></div>
 						<div class="carousel__buttonX--prev"></div>
 					</div>
 				</div>
-					<script>
+				<script>
 							!(function(d){
 							// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
 							var itemClassName = "carousel__imageX";
@@ -427,7 +426,7 @@ limitations under the License.
 
 							}(document));
 						</script>
-
+			</cfif>
 
 
 
