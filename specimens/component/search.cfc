@@ -280,6 +280,9 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 	<cfargument name="kind" type="string" required="yes">
 	<cfargument name="phylorder" type="string" required="no">
 	<cfargument name="family" type="string" required="no">
+	<cfargument name="showplaceholders" type="string" required="no">
+	
+	<cfif not isdefined("showplaceholders")><cfset showplaceholders=""></cfif>
 
 	<cftry>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
@@ -294,16 +297,14 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 				taxonomy.species as typespecies, 
 				taxonomy.subspecies as typesubspecies, 
 				decode(taxonomy.subspecies, null, taxonomy.species, taxonomy.subspecies) as typeepithet,
-				flat.typestatus,
 				typestatusplain, 
-				mczbase.get_typestatusname(flat.collection_object_id, mczbase.get_top_typestatus(flat.collection_object_id),0) as typename,  
-				mczbase.get_typestatusauthor(flat.collection_object_id, mczbase.get_top_typestatus(flat.collection_object_id)) as typeauthorship,  
 				flat.scientific_name as currentname, 
 				flat.author_text as currentauthorship, 
 				CONCATATTRIBUTEVALUE(flat.collection_object_id,'associated grant') as associatedgrant, 
 				CONCATUNDERSCORECOLS(flat.collection_object_id) as namedgroups,
 				flat.country,
-				flat.spec_locality
+				flat.spec_locality,
+				mczbase.get_typestatusbits(flat.collection_object_id, mczbase.get_top_typestatus(flat.collection_object_id)) as bits
 			FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 				, taxonomy 
 			WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection#"> 
@@ -354,6 +355,24 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfif lcase(col) EQ 'bits'>
+					<cfset bits = ListToArray(search[col][currentRow],"|">
+					<cfset row["typename"] = "#bits[1]#">
+					<cfset row["typeauthorship"] = "#bits[2]#">
+					<cfif len(showplaceholders) EQ 0 AND trim(bits[3]) EQ 'Author not listed'>
+						<cfset row["pubauthorship"] = "">
+					<cfelse>
+						<cfset row["pubauthorship"] = "#bits[3]#">
+					</cfif>
+					<cfif len(showplaceholders) EQ 0 AND find('Citations Placehoder',bits[4]) GT 0> 
+						<cfset row["citation"] = "">
+					<cfelse>
+						<cfset row["citation"] = "#canonicalize(bits[4],false,false)#">
+					</cfif>
+					<cfset row["page_number"] = "#bits[5]#">
+					<cfset row["citation_page_uri"] = "#bits[6]#">
+					<cfset row["publication_id"] = "#bits[7]#">
+				</cfif>
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
 			<cfset data[i]  = row>

@@ -161,7 +161,11 @@ Report on primary types, by department.
 							{ name: 'typesubspecies', type: 'string' },
 							{ name: 'typeepithet', type: 'string' },
 							{ name: 'typestatusplain', type: 'string' },
-							{ name: 'typestatus', type: 'string' },
+							{ name: 'pubauthorship', type: 'string' },
+							{ name: 'citation', type: 'string' },
+							{ name: 'page_number', type: 'string' },
+							{ name: 'citation_page_uri', type: 'string' },
+							{ name: 'publication_id', type: 'string' },
 							{ name: 'typename', type: 'string' },
 							{ name: 'typeauthorship', type: 'string' },
 							{ name: 'currentname', type: 'string' },
@@ -229,6 +233,7 @@ Report on primary types, by department.
 							{text: 'Type Name Subspecies', datafield: 'typesubspecies', width: 130, hidable: true, hidden: getColHidProp('typesubspecies', false) },
 							{text: 'Type Name', datafield: 'typename', width: 130, hidable: true, hidden: getColHidProp('typename', true) },
 							{text: 'Type Authorship', datafield: 'typeauthorship', width: 130, hidable: true, hidden: getColHidProp('typeauthorship', false) },
+							{text: 'Type Publication Authorship', datafield: 'pubauthorship', width: 130, hidable: true, hidden: getColHidProp('pubauthorship', true) },
 							{text: 'Type Epithet', datafield: 'typeepithet', width: 130, hidable: true, hidden: getColHidProp('typeepithet', true) },
 							{text: 'Types Of', datafield: 'typestatusplain', width: 130, hidable: true, hidden: getColHidProp('typestatusplain', true) },
 							{text: 'Current Name', datafield: 'currentname', width: 130, hidable: true, hidden: getColHidProp('currentname', false) },
@@ -237,7 +242,10 @@ Report on primary types, by department.
 							{text: 'Specific Locality', datafield: 'spec_locality', width: 130, hidable: true, hidden: getColHidProp('spec_locality', true) },
 							{text: 'Associated Grant', datafield: 'associatedgrant', width: 130, hidable: true, hidden: getColHidProp('associatedgrant', true) },
 							{text: 'Named Groups', datafield: 'named_groups', width: 130, hideable: true, hidden: getColHidProp('namedgroups', false) },
-							{text: 'Types Of With Pubs', datafield: 'typestatus', hidable: true, hidden: getColHidProp('typestatus', false) }
+							{text: 'Page Number', datafield: 'page_number', width: 40, hidable: true, hidden: getColHidProp('page_number', true) },
+							{text: 'Citation Page URI', datafield: 'citation_page_uri', width: 80, hidable: true, hidden: getColHidProp('citation_page_uri', true) },
+							{text: 'PublicationID', datafield: 'publication_id', width: 40, hidable: true, hidden: getColHidProp('publication_id', true) },
+							{text: 'Citation', datafield: 'citation', hidable: true, hidden: getColHidProp('citation', false) }
 						],
 						rowdetails: true,
 						rowdetailstemplate: {
