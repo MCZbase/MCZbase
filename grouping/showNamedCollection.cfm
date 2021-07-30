@@ -99,8 +99,8 @@ limitations under the License.
 	height: 15px;
 	top: 50%;
 	left: 80%;
-	border-right: 3px solid #3AF45B;
-	border-bottom: 3px solid #3AF45B;
+	border-right: 3px solid ##3AF45B;
+	border-bottom: 3px solid ##3AF45B;
 	transform: translate(-50%, -50%) rotate(135deg);
 }
 .carousel__buttonX--next::after {
