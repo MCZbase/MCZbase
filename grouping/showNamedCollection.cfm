@@ -94,6 +94,15 @@ limitations under the License.
 									and flat.guid is not null
 								ORDER BY flat.guid asc
 							</cfquery>
+							<cfquery name="specimensCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT count(*) as ct
+								FROM
+									underscore_relation 
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+										on underscore_relation.collection_object_id = flat.collection_object_id
+								WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									and flat.imageurl is not null
+							</cfquery>
 							<script type="text/javascript">
 								var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 									if (value > 1) {
@@ -140,8 +149,8 @@ limitations under the License.
 										pagesize: '5',
 										pagesizeoptions: ['5','50','100'],
 										columnsresize: false,
-										autoshowfiltericon: true,
-										//autoshowcolumnsmenubutton: false,
+										autoshowfiltericon: false,
+										autoshowcolumnsmenubutton: false,
 										altrows: true,
 										showtoolbar: false,
 										enabletooltips: true,
@@ -157,7 +166,7 @@ limitations under the License.
 											{ text: 'Locality', datafield: 'spec_locality',width:'350' },
 											{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'350' },
 											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'},
-											{ text: 'Image', datafield: 'imageurl', width:'450'}
+											{ text: 'Image URL(s)', datafield: 'imageurl', width:'450'}
 										]
 									});
 								});
@@ -169,32 +178,29 @@ limitations under the License.
 						</div>
 						<!---end specimen grid--->
 								<br clear="all">
-	<cfif specimens.imageurl gt 0>
+								
+							
+			<cfif specimens.imageurl gt 0>
 				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 					SELECT * FROM (
-						SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-							MCZBASE.get_media_descriptor(media.media_id) as alt,
-							MCZBASE.get_medialabel(media.media_id,'width') as width,
-							MCZBASE.get_media_credit(media.media_id) as credit,
-							flat.guid
+						SELECT DISTINCT media_uri
 						FROM
 							underscore_collection
-							left join underscore_relation on 
-							underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-							left join  flat 
-									on underscore_relation.collection_object_id = flat.collection_object_id
-								left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
-								left join media on media_relations.media_id = media.media_id
-							WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								AND flat.guid IS NOT NULL
-								AND media_relations.media_relationship = 'shows cataloged_item'
-								AND media.media_type = 'image'
-								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-								AND MCZBASE.is_media_encumbered(media.media_id) < 1
-								AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-							ORDER BY media.media_id
-							) 
-							WHERE rownum < 16
+							left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+							left join cataloged_item
+								on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+							left join media_relations
+								on media_relations.related_primary_key = underscore_relation.collection_object_id
+							left join media on media_relations.media_id = media.media_id
+						WHERE underscore_collection.underscore_collection_id = 22
+							AND media_relations.media_relationship = 'shows cataloged_item'
+							AND media.media_type = 'image'
+							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+							AND MCZBASE.is_media_encumbered(media.media_id) < 1
+							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+						ORDER BY DBMS_RANDOM.RANDOM
+					)
+					WHERE rownum < 16
 				</cfquery>
 				<style>
 					.carousel-wrapperX {
