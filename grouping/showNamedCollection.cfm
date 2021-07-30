@@ -167,27 +167,26 @@ limitations under the License.
 						<!---end specimen grid--->
 						<div class="row mx-0 col-12">													
 						<cfif specimens.imageurl gt 0>
-							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
+							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">                                    		
 								SELECT * FROM (
-									SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
-									FROM
-										underscore_collection
-										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join cataloged_item
-											on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-										left join media_relations
-											on media_relations.related_primary_key = underscore_relation.collection_object_id
-										left join media on media_relations.media_id = media.media_id
-									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										AND media_relations.media_relationship = 'shows cataloged_item'
-										AND media.media_type = 'image'
-										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-										AND MCZBASE.is_media_encumbered(media.media_id) < 1
-										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-										ORDER BY DBMS_RANDOM.RANDOM
+								SELECT DISTINCT media.media_uri
+								FROM
+									underscore_collection
+									left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+									left join cataloged_item
+										on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+									left join media_relations
+										on media_relations.related_primary_key = underscore_relation.collection_object_id
+									left join media on media_relations.media_id = media.media_id
+								WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									AND media_relations.media_relationship = 'shows cataloged_item'
+									AND media.media_type = 'image'
+									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+									ORDER BY DBMS_RANDOM.RANDOM
 								) 
 								WHERE rownum < 16
 							</cfquery>
+									<!---The encumbrance line was slowing it down too much--->
 							<style>
 								.carousel-wrapperX {
 									overflow: hidden;
