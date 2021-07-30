@@ -249,7 +249,11 @@ limitations under the License.
 							</div>
 						</div>
 						<!---end specimen grid--->
-						<div class="row mx-0 mb-4">		
+								
+								
+								
+								
+						
 							<cfif specimenImgs.media_uri gt 0>
 								<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">                                    		
 									SELECT * FROM (
@@ -328,14 +332,14 @@ limitations under the License.
 											) 
 											WHERE rownum < 16
 										</cfquery>
-										<cfoutput>
+										
 											<div class="col-12 col-md-6 px-0 float-left">
 												<h2 class="mt-3">#specimenImgs.recordcount# Images of Agents (shows 15)</h2>
 												<p class="small">Refresh page to show a different 15 images.</p>
 												<div class="carousel-wrapperX">
 													<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 													<div class="carouselX">
-
+														<cfoutput>
 															<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
 															<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][2]#"/><p>#agentImagesforCarousel['alt'][2]#</p></div>
 															<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][3]#"/><p>#agentImagesforCarousel['alt'][3]#</p></div>
@@ -351,14 +355,13 @@ limitations under the License.
 															<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][13]#"/><p>#agentImagesforCarousel['alt'][13]#</p></div>
 															<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][14]#"/><p>#agentImagesforCarousel['alt'][14]#</p></div>
 															<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][15]#"/><p>#agentImagesforCarousel['alt'][15]#</p></div>
-
+														</cfoutput>
 													</div>
 													<div class="carousel__buttonX--next"></div>
 													<div class="carousel__buttonX--prev"></div>
 												</div>
 											</div>
-										</cfoutput>
-									</div>
+					
 			
 						
 										
