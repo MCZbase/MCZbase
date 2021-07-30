@@ -141,10 +141,13 @@ limitations under the License.
 										pagesizeoptions: ['5','50','100'],
 										columnsresize: false,
 										autoshowfiltericon: true,
-										autoshowcolumnsmenubutton: true,
+										//autoshowcolumnsmenubutton: false,
 										altrows: true,
 										showtoolbar: false,
 										enabletooltips: true,
+										ready: function () {
+											  addfilter();
+										},
 										pageable: true,
 										columns: [
 											{ text: 'GUID', datafield: 'guid', width:'180',cellsalign: 'left',cellsrenderer: cellsrenderer },
