@@ -249,530 +249,116 @@ limitations under the License.
 							</div>
 						</div>
 						<!---end specimen grid--->
-						<div class="row mx-0 mb-4">													
-						<cfif specimenImgs.media_uri gt 0>
-							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">                                    		
-								SELECT * FROM (
-								SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
-								FROM
-									underscore_collection
-									left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-									left join cataloged_item
-										on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-									left join media_relations
-										on media_relations.related_primary_key = underscore_relation.collection_object_id
-									left join media on media_relations.media_id = media.media_id
-								WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									AND media_relations.media_relationship = 'shows cataloged_item'
-									AND media.media_type = 'image'
-									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-									ORDER BY DBMS_RANDOM.RANDOM
-								) 
-								WHERE rownum < 16
-							</cfquery>
-							<!---The encumbrance line was slowing it down too much--->
-							
-							<div class="col-12 col-md-6 float-left">
-								<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
-								<p class="small">Refresh page to show a different 15 images.</p>
-								<div class="carousel-wrapperX">
-									<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
-									<div class="carouselX">
-										<cfoutput>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><p>#specimenImagesforCarousel['alt'][4]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><p>#specimenImagesforCarousel['alt'][5]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><p>#specimenImagesforCarousel['alt'][6]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><p>#specimenImagesforCarousel['alt'][7]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><p>#specimenImagesforCarousel['alt'][8]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><p>#specimenImagesforCarousel['alt'][9]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><p>#specimenImagesforCarousel['alt'][10]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><p>#specimenImagesforCarousel['alt'][11]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><p>#specimenImagesforCarousel['alt'][12]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><p>#specimenImagesforCarousel['alt'][13]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><p>#specimenImagesforCarousel['alt'][14]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][15]#"/><p>#specimenImagesforCarousel['alt'][15]#</p></div>
-										</cfoutput>
-									</div>
-									<div class="carousel__buttonX--next"></div>
-									<div class="carousel__buttonX--prev"></div>
-								</div>
-							</div>
-						</cfif>
-						<div class="row mx-0">
-						<div class="col-6">
-						<!--- obtain a random set of agent images, limited to a small number --->
-						<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
-								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_medialabel(media.media_id,'width') as width,
-										MCZBASE.get_media_credit(media.media_id) as credit
+						<div class="row mx-0 mb-4">		
+							<cfif specimenImgs.media_uri gt 0>
+								<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">                                    		
+									SELECT * FROM (
+									SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
 									FROM
 										underscore_collection
 										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-										left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-										left join media_relations on collector.agent_id = media_relations.related_primary_key
+										left join cataloged_item
+											on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+										left join media_relations
+											on media_relations.related_primary_key = underscore_relation.collection_object_id
 										left join media on media_relations.media_id = media.media_id
-									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										AND flat.guid IS NOT NULL
-										AND collector.collector_role = 'c'
-										AND media_relations.media_relationship = 'shows agent'
-										AND media.media_type = 'image'
-										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-									ORDER BY DBMS_RANDOM.RANDOM
-								) 
-								WHERE rownum < 16
-							</cfquery>
-							<div class="col-12 col-md-6 float-left">
-								<h2 class="mt-3">#specimenImgs.recordcount# Images of Agents (shows 15)</h2>
-								<p class="small">Refresh page to show a different 15 images.</p>
-								<div class="carousel-wrapperX">
-									<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
-									<div class="carouselX">
-										<cfoutput>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][2]#"/><p>#agentImagesforCarousel['alt'][2]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][3]#"/><p>#agentImagesforCarousel['alt'][3]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][4]#"/><p>#agentImagesforCarousel['alt'][4]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][5]#"/><p>#agentImagesforCarousel['alt'][5]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][6]#"/><p>#agentImagesforCarousel['alt'][6]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][7]#"/><p>#agentImagesforCarousel['alt'][7]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][8]#"/><p>#agentImagesforCarousel['alt'][8]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][9]#"/><p>#agentImagesforCarousel['alt'][9]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][10]#"/><p>#agentImagesforCarousel['alt'][10]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][11]#"/><p>#agentImagesforCarousel['alt'][11]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][12]#"/><p>#agentImagesforCarousel['alt'][12]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][13]#"/><p>#agentImagesforCarousel['alt'][13]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][14]#"/><p>#agentImagesforCarousel['alt'][14]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][15]#"/><p>#agentImagesforCarousel['alt'][15]#</p></div>
-										</cfoutput>
-									</div>
-									<div class="carousel__buttonX--next"></div>
-									<div class="carousel__buttonX--prev"></div>
-								</div>
-							</div>
-							</div>
-						</div>
-<!---						<div class="row mx-0 clearfix" id="everythingElseRow">--->
-							<!--- This row holds everything else --->
-<!---
-							<cfset leftHandColumnOn = false>
-							<cfset hasSpecImages = false>
-							<cfset otherImageTypes = 0>--->
-
-							<!--- count images of different types to decide if there will be a left hand image column or not --->
-							<!--- obtain a random set of images, limited to a small number, use only displayable images (jpegs and pngs) --->
-		<!---					<cfquery name="specimenImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
-								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_medialabel(media.media_id,'width') as width,
-										MCZBASE.get_media_credit(media.media_id) as credit,
-										flat.guid
-									FROM
-										underscore_collection
-										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-										left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
-										left join media on media_relations.media_id = media.media_id
-									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										AND flat.guid IS NOT NULL
+									WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 										AND media_relations.media_relationship = 'shows cataloged_item'
 										AND media.media_type = 'image'
 										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-										AND MCZBASE.is_media_encumbered(media.media_id) < 1
-										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-									ORDER BY DBMS_RANDOM.RANDOM
-								) 
-								WHERE rownum < 16
-							</cfquery>--->
-					<!---		<cfif specimenImageQuery.recordcount GT 0>
-								<cfset hasSpecImages = true>
-							</cfif>--->
-							<!--- obtain a random set of locality images, limited to a small number --->
-						<!---	<cfquery name="locImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="locImageQuery_result">
-								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_medialabel(media.media_id,'width') as width,
-										MCZBASE.get_media_credit(media.media_id) as credit
-									FROM
-										underscore_collection
-										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-										left join media_relations on flat.locality_id = media_relations.related_primary_key
-										left join media on media_relations.media_id = media.media_id
-									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										AND flat.guid IS NOT NULL
-										AND media_relations.media_relationship = 'shows locality'
-										AND media.media_type = 'image'
-										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-										AND MCZBASE.is_media_encumbered(media.media_id) < 1
-										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-									ORDER BY DBMS_RANDOM.RANDOM
-								) 
-								WHERE rownum < 16
-							</cfquery>--->
-						<!---	<cfif locImageQuery.recordcount GT 0>
-								<cfset otherImageTypes = otherImageTypes + 1>
-							</cfif>--->
-							<!--- obtain a random set of collecting event images, limited to a small number --->
-						<!---	<cfquery name="collEventImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="locImageQuery_result">
-								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_medialabel(media.media_id,'width') as width,
-										MCZBASE.get_media_credit(media.media_id) as credit
-									FROM
-										underscore_collection
-										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-										left join media_relations on flat.collecting_event_id = media_relations.related_primary_key
-										left join media on media_relations.media_id = media.media_id
-									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										AND flat.guid IS NOT NULL
-										AND media_relations.media_relationship = 'shows collecting_event'
-										AND media.media_type = 'image'
-										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-										AND MCZBASE.is_media_encumbered(media.media_id) < 1
-										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-									ORDER BY DBMS_RANDOM.RANDOM
-								) 
-								WHERE rownum < 16
-							</cfquery>
-							<cfif collEventImageQuery.recordcount GT 0>
-								<cfset otherImageTypes = otherImageTypes + 1>
-							</cfif>--->
-							<!--- obtain a random set of collector images, limited to a small number --->
-						<!---	<cfquery name="collectorImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectorImageQuery_result">
-								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_medialabel(media.media_id,'width') as width,
-										MCZBASE.get_media_credit(media.media_id) as credit
-									FROM
-										underscore_collection
-										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-										left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-										left join media_relations on collector.agent_id = media_relations.related_primary_key
-										left join media on media_relations.media_id = media.media_id
-									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										AND flat.guid IS NOT NULL
-										AND collector.collector_role = 'c'
-										AND media_relations.media_relationship = 'shows agent'
-										AND media.media_type = 'image'
-										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-										AND MCZBASE.is_media_encumbered(media.media_id) < 1
-										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-									ORDER BY DBMS_RANDOM.RANDOM
-								) 
-								WHERE rownum < 16
-							</cfquery>
-							<cfif collectorImageQuery.recordcount GT 0>
-								<cfset otherImageTypes = otherImageTypes + 1>
+										ORDER BY DBMS_RANDOM.RANDOM
+									) 
+									WHERE rownum < 16
+								</cfquery>
+								<!---The encumbrance line was slowing it down too much--->
+
+								<div class="col-12 col-md-6 float-left">
+									<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
+									<p class="small">Refresh page to show a different 15 images.</p>
+									<div class="carousel-wrapperX">
+										<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
+										<div class="carouselX">
+											<cfoutput>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><p>#specimenImagesforCarousel['alt'][4]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><p>#specimenImagesforCarousel['alt'][5]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><p>#specimenImagesforCarousel['alt'][6]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><p>#specimenImagesforCarousel['alt'][7]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><p>#specimenImagesforCarousel['alt'][8]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><p>#specimenImagesforCarousel['alt'][9]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><p>#specimenImagesforCarousel['alt'][10]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><p>#specimenImagesforCarousel['alt'][11]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><p>#specimenImagesforCarousel['alt'][12]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><p>#specimenImagesforCarousel['alt'][13]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><p>#specimenImagesforCarousel['alt'][14]#</p></div>
+												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][15]#"/><p>#specimenImagesforCarousel['alt'][15]#</p></div>
+											</cfoutput>
+										</div>
+										<div class="carousel__buttonX--next"></div>
+										<div class="carousel__buttonX--prev"></div>
+									</div>
+									
+									<!--- obtain a random set of agent images, limited to a small number --->
+									<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
+											SELECT * FROM (
+												SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+													MCZBASE.get_media_descriptor(media.media_id) as alt,
+													MCZBASE.get_medialabel(media.media_id,'width') as width,
+													MCZBASE.get_media_credit(media.media_id) as credit
+												FROM
+													underscore_collection
+													left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+													left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+														on underscore_relation.collection_object_id = flat.collection_object_id
+													left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+													left join media_relations on collector.agent_id = media_relations.related_primary_key
+													left join media on media_relations.media_id = media.media_id
+												WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+													AND flat.guid IS NOT NULL
+													AND collector.collector_role = 'c'
+													AND media_relations.media_relationship = 'shows agent'
+													AND media.media_type = 'image'
+													AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+													AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+												ORDER BY DBMS_RANDOM.RANDOM
+											) 
+											WHERE rownum < 16
+										</cfquery>
+									<div class="col-12 col-md-6 float-left">
+											<h2 class="mt-3">#specimenImgs.recordcount# Images of Agents (shows 15)</h2>
+											<p class="small">Refresh page to show a different 15 images.</p>
+											<div class="carousel-wrapperX">
+												<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
+												<div class="carouselX">
+													<cfoutput>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][2]#"/><p>#agentImagesforCarousel['alt'][2]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][3]#"/><p>#agentImagesforCarousel['alt'][3]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][4]#"/><p>#agentImagesforCarousel['alt'][4]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][5]#"/><p>#agentImagesforCarousel['alt'][5]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][6]#"/><p>#agentImagesforCarousel['alt'][6]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][7]#"/><p>#agentImagesforCarousel['alt'][7]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][8]#"/><p>#agentImagesforCarousel['alt'][8]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][9]#"/><p>#agentImagesforCarousel['alt'][9]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][10]#"/><p>#agentImagesforCarousel['alt'][10]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][11]#"/><p>#agentImagesforCarousel['alt'][11]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][12]#"/><p>#agentImagesforCarousel['alt'][12]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][13]#"/><p>#agentImagesforCarousel['alt'][13]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][14]#"/><p>#agentImagesforCarousel['alt'][14]#</p></div>
+														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][15]#"/><p>#agentImagesforCarousel['alt'][15]#</p></div>
+													</cfoutput>
+												</div>
+												<div class="carousel__buttonX--next"></div>
+												<div class="carousel__buttonX--prev"></div>
+											</div>
+										</div>
+								</div>
 							</cfif>
-							<cfif specimenImageQuery.recordcount GT 0 OR locImageQuery.recordcount GT 0 OR collectorImageQuery.recordcount GT 0 OR collEventImageQuery.recordcount GT 0>--->
-								<!--- display images in left hand column --->
-<!---								<div class="col-12 col-md-6 mb-4 float-left mt-0">
-									<cfset leftHandColumnOn = true>
-									<div class="row">
+			
+								
 
-										<cfif specimenImageQuery.recordcount gt 0>
-											<div class="col-12">--->
-												<!--- find out how many specimen images there are in total --->
-											<!---	<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT count(distinct media.media_id) as ct
-													FROM
-														underscore_relation
-														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-															on underscore_relation.collection_object_id = flat.collection_object_id
-														left join media_relations on flat.collection_object_id = media_relations.related_primary_key
-														left join media on media_relations.media_id = media.media_id
-													WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-														AND flat.guid IS NOT NULL
-														AND media_relations.media_relationship = 'shows cataloged_item'
-														AND media.media_type = 'image'
-														AND MCZBASE.is_media_encumbered(media.media_id) < 1
-												</cfquery>
-												<cfset specimenImagesShown = specimenImageQuery.recordcount>
-												<cfif specimenImagesShown EQ 0>
-													<cfif specimenImageQuery.recordcount GT 0>--->
-														<!--- TODO: Add a list or link to other media records. This is a placeholder, unreachable code --->
-													<!---	<h2 class="mt-2 pt-3">Specimen Images</h2>
-														<p>#specImageCt.ct# Specimen Images (#specimenImageQuery.recordcount#)</p>
-														<div>None are directly visible as images</div>
-													</cfif>
-												<cfelse>
-													<cfif specimenImageQuery.recordcount LT specImageCt.ct>
-														<cfset shown = " (#specimenImagesShown# shown)">
-													<cfelse>
-														<cfset shown = "">
-													</cfif>
-													<h2 class="mt-2 pt-3">Specimen Images</h2>
-													<p>#specImageCt.ct# Specimen Images#shown#</p>
-													<div id="specimen_image-carousel" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
-														<ol class="carousel-indicators">
-															<cfset active = 'class="active"' >
-															<cfloop index="i" from="0" to="#specimenImagesShown#">
-																<li data-target="##specimen_image-carousel" data-slide-to="#i#" #active#></li>
-																<cfset active = '' >
-															</cfloop>
-														</ol>
-														<div class="carousel-inner" role="listbox">
-															<cfset active = "active" >
-															<cfloop query="specimenImageQuery">
-																<div class="carousel-item #active#">
-																	<div class="view">
-																		<cfif len(specimenImageQuery.width) GT 0 AND specimenImageQuery.width GT 0 AND specimenImageQuery.width GT 1000 >
-																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#">
-																		<cfelse>
-																			<cfset src="#specimenImageQuery.media_uri#">
-																		</cfif>
-																		<img class="d-block w-100" src="#src#" alt="#specimenImageQuery.alt#"/>
-																		<div class="mask rgba-black-strong"></div>
-																	</div>
-																	<div class="carousel-caption">
-																		<h3 class="h3-responsive">#specimenImageQuery.alt#</h3>
-																		<p>#specimenImageQuery.credit#</p>
-																	</div>
-																</div>
-																<cfset active = "" >
-															</cfloop>
-														</div>
-														<a class="carousel-control-prev" href="##specimen_image-carousel" role="button" data-slide="prev" style="top:-5%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##specimen_image-carousel" role="button" data-slide="next" style="top:-5%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
-													</div>
-												</cfif>
-											</div>
-										</cfif>---><!--- end specimen images block --->
-
-										<!--- figure out widths of sub blocks, adapt to number of blocks --->
-		<!---								<cfswitch expression="#otherImageTypes#">
-											<cfcase value="1">
-												<cfset colClass = "col-12">
-												<cfset imgWidth = 600>
-											</cfcase>
-											<cfcase value="2">
-												<cfset colClass = "col-6">
-												<cfset imgWidth = 400>
-											</cfcase>
-											<cfcase value="3">
-												<cfset colClass = "col-4">
-												<cfset imgWidth = 300>
-											</cfcase>
-											<cfdefaultcase>
-												<cfset colClass = "col-3">
-											</cfdefaultcase>
-										</cfswitch>
-
-										<cfif locImageQuery.recordcount GT 0>
-											<div class="#colClass#">--->
-												<!--- find out how many locality images there are in total --->
-<!---												<cfquery name="locImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT count(distinct media.media_id) as ct
-													FROM
-														underscore_relation 
-														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-															on underscore_relation.collection_object_id = flat.collection_object_id
-														left join media_relations on flat.locality_id = media_relations.related_primary_key
-														left join media on media_relations.media_id = media.media_id
-													WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-														AND flat.guid IS NOT NULL
-														AND media_relations.media_relationship = 'shows locality' 
-														AND media.media_type = 'image'
-														AND MCZBASE.is_media_encumbered(media.media_id) < 1
-												</cfquery>
-												<cfset locImagesShown = locImageQuery.recordcount>
-												<cfif locImagesShown GT 0>
-													<cfif locImageQuery.recordcount LT locImageCt.ct>
-														<cfset shown = " (#locImagesShown# shown)">
-													<cfelse>
-														<cfset shown = "">
-													</cfif>
-													<cfif locImageCt.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-													<h2 class="mt-2 pt-3">Locality Image#plural#</h2>
-													<p>#locImageCt.ct# Locality Image#plural##shown#</p>
-													<div id="carousel-example-3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
-														<ol class="carousel-indicators">
-															<cfset active = 'class="active"' >
-															<cfloop index="i" from="0" to="#locImagesShown#">
-																<li data-target="##carousel-example-3" data-slide-to="#i#" #active#></li>
-																<cfset active = '' >
-															</cfloop>
-														</ol>
-														<div class="carousel-inner" role="listbox">
-															<cfset active = "active" >
-															<cfloop query="locImageQuery">
-																<div class="carousel-item #active#">
-																	<div class="view">
-																		<cfif len(locImageQuery.width) GT 0 AND locImageQuery.width GT 0 AND locImageQuery.width GT 1000 >
-																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#locImageQuery.media_id#">
-																		<cfelse>
-																			<cfset src="#locImageQuery.media_uri#">
-																		</cfif>
-																		<img class="d-block w-100" src="#src#" alt="#locImageQuery.alt#"/>
-																		<div class="mask rgba-black-strong"></div>
-																	</div>
-																	<div class="carousel-caption">
-																		<h3 class="h3-responsive">#locImageQuery.alt#</h3>
-																		<p>#locImageQuery.credit#</p>
-																	</div>
-																</div>
-																<cfset active = "" >
-															</cfloop>
-														</div>
-														<a class="carousel-control-prev" href="##carousel-example-3" role="button" data-slide="prev" style="top:-5%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-3" role="button" data-slide="next" style="top:-5%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
-													</div>
-												</cfif>
-											</div>
-										</cfif>---><!--- end locality images block --->
-<!---
-										<cfif collEventImageQuery.recordcount GT 0>
-											<div class="#colClass#">--->
-												<!--- find out how many collecting event images there are in total --->
-											<!---	<cfquery name="collEventImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT count(distinct media.media_id) as ct
-													FROM
-														underscore_relation 
-														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-															on underscore_relation.collection_object_id = flat.collection_object_id
-														left join media_relations on flat.collecting_event_id = media_relations.related_primary_key
-														left join media on media_relations.media_id = media.media_id
-													WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-														AND flat.guid IS NOT NULL
-														AND media_relations.media_relationship = 'shows collecting_event' 
-														AND media.media_type = 'image'
-														AND MCZBASE.is_media_encumbered(media.media_id) < 1
-												</cfquery>
-												<cfset collEventImagesShown = collEventImageQuery.recordcount>
-												<cfif collEventImagesShown GT 0>
-													<cfif collEventImageQuery.recordcount LT collEventImageCt.ct>
-														<cfset shown = " (#collEventImagesShown# shown)">
-													<cfelse>
-														<cfset shown = "">
-													</cfif>
-													<cfif collEventImageCt.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-													<h2 class="mt-2 pt-3">Locality Image#plural#</h2>
-													<p>#collEventImageCt.ct# Collecting Event Image#plural##shown#</p>
-													<div id="carousel-example-3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
-														<ol class="carousel-indicators">
-															<cfset active = 'class="active"' >
-															<cfloop index="i" from="0" to="#collEventImagesShown#">
-																<li data-target="##carousel-example-3" data-slide-to="#i#" #active#></li>
-																<cfset active = '' >
-															</cfloop>
-														</ol>
-														<div class="carousel-inner" role="listbox">
-															<cfset active = "active" >
-															<cfloop query="collEventImageQuery">
-																<div class="carousel-item #active#">
-																	<div class="view">
-																		<cfif len(collEventImageQuery.width) GT 0 AND collEventImageQuery.width GT 0 AND collEventImageQuery.width GT 1000 >
-																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#collEventImageQuery.media_id#">
-																		<cfelse>
-																			<cfset src="#collEventImageQuery.media_uri#">
-																		</cfif>
-																		<img class="d-block w-100" src="#src#" alt="#collEventImageQuery.alt#"/>
-																		<div class="mask rgba-black-strong"></div>
-																	</div>
-																	<div class="carousel-caption">
-																		<h3 class="h3-responsive">#collEventImageQuery.alt#</h3>
-																		<p>#collEventImageQuery.credit#</p>
-																	</div>
-																</div>
-																<cfset active = "" >
-															</cfloop>
-														</div>
-														<a class="carousel-control-prev" href="##carousel-example-3" role="button" data-slide="prev" style="top:-5%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-3" role="button" data-slide="next" style="top:-5%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
-													</div>
-												</cfif>
-											</div>
-										</cfif>---><!--- end collecting event images block --->
-<!---
-										<cfif collectorImageQuery.recordcount GT 0>
-											<div class="#colClass#">--->
-												<!--- find out how many collector images there are in total --->
-											<!---	<cfquery name="collectorImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT count(distinct media.media_id) as ct
-													FROM
-														underscore_relation
-														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-															on underscore_relation.collection_object_id = flat.collection_object_id
-														left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-														left join media_relations on collector.agent_id = media_relations.related_primary_key
-														left join media on media_relations.media_id = media.media_id
-													WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-														AND flat.guid IS NOT NULL
-														AND collector.collector_role = 'c'
-														AND media_relations.media_relationship = 'shows agent' 
-														AND media.media_type = 'image'
-														AND MCZBASE.is_media_encumbered(media.media_id) < 1 
-												</cfquery>
-												<cfset collectorImagesShown = collectorImageQuery.recordcount >
-												<cfif collectorImagesShown GT 0>
-													<cfif collectorImageQuery.recordcount LT collectorImageCt.ct >
-														<cfset shown = " (#collectorImagesShown# shown)" >
-													<cfelse>
-														<cfset shown = "">
-													</cfif>
-													<cfif collectorImageCt.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-													<h2 class="mt-2 pt-3">Image#plural# of Collectors</h2>
-													<p>#collectorImageCt.ct# Collector Image#plural##shown#</p>
-													<div id="carousel-example-4" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
-														<ol class="carousel-indicators">
-															<cfset active = 'class="active"' >
-															<cfloop index="i" from="0" to="#collectorImagesShown#">
-																<li data-target="##carousel-example-4" data-slide-to="#i#" #active#></li>
-																<cfset active = "">
-															</cfloop>
-														</ol>
-														<div class="carousel-inner" role="listbox">
-															<cfset active = "active" >
-															<cfloop query="collectorImageQuery">
-																<div class="carousel-item #active#">
-																	<div class="view">
-																		<cfif len(collectorImageQuery.width) GT 0 AND collectorImageQuery.width GT 0 AND collectorImageQuery.width GT 1000 >
-																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#collectorImageQuery.media_id#">
-																		<cfelse>
-																			<cfset src="#collectorImageQuery.media_uri#">
-																		</cfif>
-																		<img class="d-block w-100" src="#src#" alt="#collectorImageQuery.alt#"/>
-																		<div class="mask rgba-black-strong"></div>
-																	</div>
-																	<div class="carousel-caption">
-																		<h3 class="h3-responsive">#collectorImageQuery.alt#</h3>
-																		<p>#collectorImageQuery.credit#</p>
-																	</div>
-																</div>
-																<cfset active = "" >
-															</cfloop>
-														</div>
-														<a class="carousel-control-prev" href="##carousel-example-4" role="button" data-slide="prev" style="top:-5%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-4" role="button" data-slide="next" style="top:-5%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
-													</div>
-												</cfif>
-											</div>
-										</cfif>---><!--- end has collector images --->
-
-								<!---	</div>---><!--- end row for image blocks --->
-							<!---	</div>---><!--- end col-md-6 for images --->
-						<!---	</cfif>---><!--- end has any kind of images --->
-
-<!---							<cfif leftHandColumnOn >
-								<cfset hasleftcolumnclass = "mt-md-5">
-							<cfelse>
-								<cfset hasleftcolumnclass = "" >
-							</cfif>--->
-							<!---<div class="col mt-0 #hasleftcolumnclass# float-left">--->
 							<div class="col mt-0 float-left">
 								<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 								<div class="my-2 py-3 border-bottom-black">
