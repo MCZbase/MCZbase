@@ -356,7 +356,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfif lcase(col) EQ 'bits'>
-					<cfset bits = ListToArray(search[col][currentRow],"|">
+					<cfset bits = ListToArray(search[col][currentRow],"|")>
 					<cfset row["typename"] = "#bits[1]#">
 					<cfset row["typeauthorship"] = "#bits[2]#">
 					<cfif len(showplaceholders) EQ 0 AND trim(bits[3]) EQ 'Author not listed'>
