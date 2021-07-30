@@ -165,7 +165,7 @@ limitations under the License.
 							</div>
 						</div>
 						<!---end specimen grid--->
-						<div class="row mx-0">													
+						<div class="row mx-0 col-12">													
 						<cfif specimens.imageurl gt 0>
 							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 								SELECT * FROM (
@@ -261,7 +261,7 @@ limitations under the License.
 									transform: translate(-50%, -50%) rotate(-45deg);
 								}
 							</style>
-							<div class="col-12">
+							
 							<div class="col-12 col-md-6">
 								<div class="carousel-wrapperX">
 									<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
@@ -286,7 +286,6 @@ limitations under the License.
 									<div class="carousel__buttonX--next"></div>
 									<div class="carousel__buttonX--prev"></div>
 								</div>
-							</div>
 							</div>
 							<script>
 										!(function(d){
