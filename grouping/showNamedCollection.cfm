@@ -303,7 +303,7 @@ limitations under the License.
 										<div class="carousel__buttonX--next"></div>
 										<div class="carousel__buttonX--prev"></div>
 									</div>
-									<div class="row">
+									<div class="row mx-0">
 										<!--- obtain a random set of agent images, limited to a small number --->
 										<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
 											SELECT * FROM (
