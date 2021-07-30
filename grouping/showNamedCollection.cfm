@@ -40,6 +40,8 @@ limitations under the License.
 	overflow: hidden;
 	width: 100%;
 	margin: 0;
+	position: relative;
+	height: auto;
 }
 .carousel-wrapperX * {
 	box-sizing: border-box;
@@ -49,7 +51,7 @@ limitations under the License.
 	-moz-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 }
-.carousel__imageX {
+.carouselImageX {
 	opacity: 0;
 	position: absolute;
 	top: 0;
@@ -59,18 +61,18 @@ limitations under the License.
 	z-index: 100;
 	transition: transform .5s, opacity .5s, z-index .5s;
 }
-.carousel__imageX.initial, .carousel__imageX.active {
+.carouselImageX.initial, .carouselImageX.active {
 	opacity: 1;
 	position: relative;
 	z-index: 900;
 }
-.carousel__imageX.prev, .carousel__imageX.next {
+.carouselImageX.prev, .carouselImageX.next {
 	z-index: 800;
 }
-.carousel__imageX.prev {
+.carouselImageX.prev {
 	transform: translateX(-100%); /* go to previous item */
 }
-.carousel__imageX.next {
+.carouselImageX.next {
 	transform: translateX(100%); /* go to next item */
 }
 .carousel__buttonX--prev, .carousel__buttonX--next {
@@ -277,20 +279,20 @@ limitations under the License.
 									<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 									<div class="carouselX">
 										<cfoutput>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><br><p>#specimenImagesforCarousel['alt'][5]#</p></div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><br><p>#specimenImagesforCarousel['alt'][3]#</p></div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><br><p>#specimenImagesforCarousel['alt'][1]#</p></div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><br><p>#specimenImagesforCarousel['alt'][6]#</p></div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><br><p>#specimenImagesforCarousel['alt'][8]#</p></div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><br><p>#specimenImagesforCarousel['alt'][12]#</p></div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><br><p>#specimenImagesforCarousel['alt'][7]#</p></div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><br><p>#specimenImagesforCarousel['alt'][4]#</p></div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><br><p>#specimenImagesforCarousel['alt'][13]#</p></div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><br><p>#specimenImagesforCarousel['alt'][9]#</p></div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><br><p>#specimenImagesforCarousel['alt'][14]#</p></div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><br><p>#specimenImagesforCarousel['alt'][11]#</p></div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><br><p>#specimenImagesforCarousel['alt'][2]#</p></div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><br><p>#specimenImagesforCarousel['alt'][10]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><p>#specimenImagesforCarousel['alt'][5]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><p>#specimenImagesforCarousel['alt'][6]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><p>#specimenImagesforCarousel['alt'][8]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><p>#specimenImagesforCarousel['alt'][12]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><p>#specimenImagesforCarousel['alt'][7]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><p>#specimenImagesforCarousel['alt'][4]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><p>#specimenImagesforCarousel['alt'][13]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><p>#specimenImagesforCarousel['alt'][9]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><p>#specimenImagesforCarousel['alt'][14]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><p>#specimenImagesforCarousel['alt'][11]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><p>#specimenImagesforCarousel['alt'][10]#</p></div>
 										</cfoutput>
 									</div>
 									<div class="carousel__buttonX--next"></div>
