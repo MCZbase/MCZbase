@@ -438,7 +438,7 @@ limitations under the License.
 
 							<!--- count images of different types to decide if there will be a left hand image column or not --->
 							<!--- obtain a random set of images, limited to a small number, use only displayable images (jpegs and pngs) --->
-							<cfquery name="specimenImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
+		<!---					<cfquery name="specimenImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -462,12 +462,12 @@ limitations under the License.
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
 								WHERE rownum < 16
-							</cfquery>
-							<cfif specimenImageQuery.recordcount GT 0>
+							</cfquery>--->
+					<!---		<cfif specimenImageQuery.recordcount GT 0>
 								<cfset hasSpecImages = true>
-							</cfif>
+							</cfif>--->
 							<!--- obtain a random set of locality images, limited to a small number --->
-							<cfquery name="locImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="locImageQuery_result">
+						<!---	<cfquery name="locImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="locImageQuery_result">
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -490,12 +490,12 @@ limitations under the License.
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
 								WHERE rownum < 16
-							</cfquery>
-							<cfif locImageQuery.recordcount GT 0>
+							</cfquery>--->
+						<!---	<cfif locImageQuery.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
-							</cfif>
+							</cfif>--->
 							<!--- obtain a random set of collecting event images, limited to a small number --->
-							<cfquery name="collEventImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="locImageQuery_result">
+						<!---	<cfquery name="collEventImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="locImageQuery_result">
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -521,9 +521,9 @@ limitations under the License.
 							</cfquery>
 							<cfif collEventImageQuery.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
-							</cfif>
+							</cfif>--->
 							<!--- obtain a random set of collector images, limited to a small number --->
-							<cfquery name="collectorImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectorImageQuery_result">
+						<!---	<cfquery name="collectorImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectorImageQuery_result">
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -552,16 +552,16 @@ limitations under the License.
 							<cfif collectorImageQuery.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
-							<cfif specimenImageQuery.recordcount GT 0 OR locImageQuery.recordcount GT 0 OR collectorImageQuery.recordcount GT 0 OR collEventImageQuery.recordcount GT 0>
+							<cfif specimenImageQuery.recordcount GT 0 OR locImageQuery.recordcount GT 0 OR collectorImageQuery.recordcount GT 0 OR collEventImageQuery.recordcount GT 0>--->
 								<!--- display images in left hand column --->
-								<div class="col-12 col-md-6 mb-4 float-left mt-0">
+<!---								<div class="col-12 col-md-6 mb-4 float-left mt-0">
 									<cfset leftHandColumnOn = true>
 									<div class="row">
 
 										<cfif specimenImageQuery.recordcount gt 0>
-											<div class="col-12">
+											<div class="col-12">--->
 												<!--- find out how many specimen images there are in total --->
-												<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<!---	<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT count(distinct media.media_id) as ct
 													FROM
 														underscore_relation
@@ -577,9 +577,9 @@ limitations under the License.
 												</cfquery>
 												<cfset specimenImagesShown = specimenImageQuery.recordcount>
 												<cfif specimenImagesShown EQ 0>
-													<cfif specimenImageQuery.recordcount GT 0>
+													<cfif specimenImageQuery.recordcount GT 0>--->
 														<!--- TODO: Add a list or link to other media records. This is a placeholder, unreachable code --->
-														<h2 class="mt-2 pt-3">Specimen Images</h2>
+													<!---	<h2 class="mt-2 pt-3">Specimen Images</h2>
 														<p>#specImageCt.ct# Specimen Images (#specimenImageQuery.recordcount#)</p>
 														<div>None are directly visible as images</div>
 													</cfif>
@@ -624,10 +624,10 @@ limitations under the License.
 													</div>
 												</cfif>
 											</div>
-										</cfif><!--- end specimen images block --->
+										</cfif>---><!--- end specimen images block --->
 
 										<!--- figure out widths of sub blocks, adapt to number of blocks --->
-										<cfswitch expression="#otherImageTypes#">
+		<!---								<cfswitch expression="#otherImageTypes#">
 											<cfcase value="1">
 												<cfset colClass = "col-12">
 												<cfset imgWidth = 600>
@@ -646,9 +646,9 @@ limitations under the License.
 										</cfswitch>
 
 										<cfif locImageQuery.recordcount GT 0>
-											<div class="#colClass#">
+											<div class="#colClass#">--->
 												<!--- find out how many locality images there are in total --->
-												<cfquery name="locImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---												<cfquery name="locImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT count(distinct media.media_id) as ct
 													FROM
 														underscore_relation 
@@ -705,12 +705,12 @@ limitations under the License.
 													</div>
 												</cfif>
 											</div>
-										</cfif><!--- end locality images block --->
-
+										</cfif>---><!--- end locality images block --->
+<!---
 										<cfif collEventImageQuery.recordcount GT 0>
-											<div class="#colClass#">
+											<div class="#colClass#">--->
 												<!--- find out how many collecting event images there are in total --->
-												<cfquery name="collEventImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<!---	<cfquery name="collEventImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT count(distinct media.media_id) as ct
 													FROM
 														underscore_relation 
@@ -767,12 +767,12 @@ limitations under the License.
 													</div>
 												</cfif>
 											</div>
-										</cfif><!--- end collecting event images block --->
-
+										</cfif>---><!--- end collecting event images block --->
+<!---
 										<cfif collectorImageQuery.recordcount GT 0>
-											<div class="#colClass#">
+											<div class="#colClass#">--->
 												<!--- find out how many collector images there are in total --->
-												<cfquery name="collectorImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<!---	<cfquery name="collectorImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT count(distinct media.media_id) as ct
 													FROM
 														underscore_relation
@@ -831,11 +831,11 @@ limitations under the License.
 													</div>
 												</cfif>
 											</div>
-										</cfif><!--- end has collector images --->
+										</cfif>---><!--- end has collector images --->
 
-									</div><!--- end row for image blocks --->
-								</div><!--- end col-md-6 for images --->
-							</cfif><!--- end has any kind of images --->
+								<!---	</div>---><!--- end row for image blocks --->
+							<!---	</div>---><!--- end col-md-6 for images --->
+						<!---	</cfif>---><!--- end has any kind of images --->
 
 							<cfif leftHandColumnOn >
 								<cfset hasleftcolumnclass = "mt-md-5">
