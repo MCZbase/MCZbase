@@ -356,24 +356,25 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfif lcase(col) EQ 'bits'>
-					<cfset bits = ListToArray(search[col][currentRow],"|")>
-					<cfset row["typename"] = "#bits[1]#">
-					<cfset row["typeauthorship"] = "#bits[2]#">
-					<cfif len(showplaceholders) EQ 0 AND trim(bits[3]) EQ 'Author not listed'>
+					<cfset bitsarr = ListToArray(search[col][currentRow],"|")>
+					<cfset row["typename"] = "#bitsarr[1]#">
+					<cfset row["typeauthorship"] = "#bitsarr[2]#">
+					<cfif len(showplaceholders) EQ 0 AND trim(bitsarr[3]) EQ 'Author not listed'>
 						<cfset row["pubauthorship"] = "">
 					<cfelse>
-						<cfset row["pubauthorship"] = "#bits[3]#">
+						<cfset row["pubauthorship"] = "#bitsarr[3]#">
 					</cfif>
-					<cfif len(showplaceholders) EQ 0 AND find('Citations Placehoder',bits[4]) GT 0> 
+					<cfif len(showplaceholders) EQ 0 AND find('Citations Placehoder',bitsarr[4]) GT 0> 
 						<cfset row["citation"] = "">
 					<cfelse>
-						<cfset row["citation"] = "#canonicalize(bits[4],false,false)#">
+						<cfset row["citation"] = "#canonicalize(bitsarr[4],false,false)#">
 					</cfif>
-					<cfset row["page_number"] = "#bits[5]#">
-					<cfset row["citation_page_uri"] = "#bits[6]#">
-					<cfset row["publication_id"] = "#bits[7]#">
+					<cfset row["page_number"] = "#bitsarr[5]#">
+					<cfset row["citation_page_uri"] = "#bitsarr[6]#">
+					<cfset row["publication_id"] = "#bitsarr[7]#">
+				<cfelse>
+					<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 				</cfif>
-				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
