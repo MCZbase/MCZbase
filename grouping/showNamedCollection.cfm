@@ -330,7 +330,7 @@ limitations under the License.
 											) 
 											WHERE rownum < 16
 										</cfquery>
-										<div class="col-12 col-md-6 px-0 float-left">
+										<div class="col-12 col-md-6 float-left">
 											<h2 class="mt-3">#specimenImgs.recordcount# Images of Agents (shows 15)</h2>
 											<p class="small">Refresh page to show a different 15 images.</p>
 											<div class="carousel-wrapperX">
@@ -385,7 +385,7 @@ limitations under the License.
 											) 
 											WHERE rownum < 16
 										</cfquery>
-										<div class="col-12 col-md-6 px-0 float-left">
+										<div class="col-12 col-md-6 float-left">
 											<h2 class="mt-3">#specimenImgs.recordcount# Images of Collecting Event (shows 15)</h2>
 											<p class="small">Refresh page to show a different 15 images.</p>
 											<div class="carousel-wrapperX">
