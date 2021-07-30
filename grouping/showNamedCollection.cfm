@@ -242,7 +242,7 @@ limitations under the License.
 								});
 							</script>
 							<div class="col-12 mt-2">
-								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimenImgs.recordcount#)</a></h2>
+								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
 								<div id="jqxgrid"></div>
 							</div>
 						</div>
@@ -271,7 +271,8 @@ limitations under the License.
 							<!---The encumbrance line was slowing it down too much--->
 							
 							<div class="col-12 col-md-6">
-								<h2 class="mt-3">Shows #specimens.recordcount# Images of Cataloged Items</h2>
+								<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
+								<p class="small">Refresh page to show another 15 images.</p>
 								<div class="carousel-wrapperX">
 									<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 									<div class="carouselX">
