@@ -153,7 +153,8 @@ limitations under the License.
 											{ text: 'Higher Geography', datafield: 'higher_geog', width:'350'},
 											{ text: 'Locality', datafield: 'spec_locality',width:'350' },
 											{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'350' },
-											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
+											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'},
+											{ text: 'Image', datafield: 'imageurl', width:'450'}
 										]
 									});
 								});
