@@ -364,7 +364,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 					<cfelse>
 						<cfset row["pubauthorship"] = "#bitsarr[3]#">
 					</cfif>
-					<cfif len(showplaceholders) EQ 0 AND find('Citations Placehoder',bitsarr[4]) GT 0> 
+					<cfif len(showplaceholders) EQ 0 AND find('Citations Placeholder',bitsarr[4]) GT 0> 
 						<cfset row["citation"] = "">
 					<cfelse>
 						<cfset row["citation"] = "#canonicalize(bitsarr[4],false,false)#">
