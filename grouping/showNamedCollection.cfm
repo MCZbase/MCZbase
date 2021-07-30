@@ -167,266 +167,266 @@ limitations under the License.
 						<!---end specimen grid--->
 						<div class="row mx-0">		
 							<div class="col-12">
-						<cfif specimens.imageurl gt 0>
-							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
-								SELECT * FROM (
-									SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
-									FROM
-										underscore_collection
-										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join cataloged_item
-											on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-										left join media_relations
-											on media_relations.related_primary_key = underscore_relation.collection_object_id
-										left join media on media_relations.media_id = media.media_id
-									WHERE underscore_collection.underscore_collection_id = 22
-										AND media_relations.media_relationship = 'shows cataloged_item'
-										AND media.media_type = 'image'
-										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-										AND MCZBASE.is_media_encumbered(media.media_id) < 1
-										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-										ORDER BY DBMS_RANDOM.RANDOM
-								) 
-								WHERE rownum < 16
-							</cfquery>
-							<style>
-								.carousel-wrapperX {
-									overflow: hidden;
-									width: 90%;
-									margin: auto;
-								}
-								.carousel-wrapperX * {
-									box-sizing: border-box;
-								}
-								.carouselX {
-									-webkit-transform-style: preserve-3d;
-									-moz-transform-style: preserve-3d;
-									transform-style: preserve-3d;
-								}
-								.carousel__imageX {
-									opacity: 0;
-									position: absolute;
-									top: 0;
-									width: 100%;
-									margin: auto;
-									padding: 1rem 2rem;
-									z-index: 100;
-									transition: transform .5s, opacity .5s, z-index .5s;
-								}
-								.carousel__imageX.initial, .carousel__imageX.active {
-									opacity: 1;
-									position: relative;
-									z-index: 900;
-								}
-								.carousel__imageX.prev, .carousel__imageX.next {
-									z-index: 800;
-								}
-								.carousel__imageX.prev {
-									transform: translateX(-100%); /* go to previous item */
-								}
-								.carousel__imageX.next {
-									transform: translateX(100%); /* go to next item */
-								}
-								.carousel__buttonX--prev, .carousel__buttonX--next {
-									position: absolute;
-									top: 50%;
-									width: 2rem;
-									height: 75%;
-									background-color: white;
-									transform: translateY(-50%);
-									border-radius: 8%;
-									cursor: pointer;
-									z-index: 1001; /* sit on top of everything */
-									border: 1px solid black;
-								}
-								.carousel__buttonX--prev {
-									left: 0;
-								}
-								.carousel__buttonX--next {
-									right: 0;
-								}
-								.carousel__buttonX--prev::after, 
-								.carousel__buttonX--next::after {
-									content: " ";
-									position: absolute;
-									width: 10px;
-									height: 10px;
-									top: 50%;
-									left: 54%;
-									border-right: 2px solid black;
-									border-bottom: 2px solid black;
-									transform: translate(-50%, -50%) rotate(135deg);
-								}
-								.carousel__buttonX--next::after {
-									left: 47%;
-									transform: translate(-50%, -50%) rotate(-45deg);
-								}
-							</style>
-							<div class="col-12 col-md-6">
-								<div class="carousel-wrapperX">
-									<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
-									<div class="carouselX">
-										<cfoutput>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><br>#specimenImagesforCarousel['alt'][5]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><br>#specimenImagesforCarousel['alt'][3]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><br>#specimenImagesforCarousel['alt'][1]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><br>#specimenImagesforCarousel['alt'][6]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><br>#specimenImagesforCarousel['alt'][8]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><br>#specimenImagesforCarousel['alt'][12]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><br>#specimenImagesforCarousel['alt'][7]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><br>#specimenImagesforCarousel['alt'][4]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><br>#specimenImagesforCarousel['alt'][13]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><br>#specimenImagesforCarousel['alt'][9]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><br>#specimenImagesforCarousel['alt'][14]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><br>#specimenImagesforCarousel['alt'][11]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><br>#specimenImagesforCarousel['alt'][2]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><br>#specimenImagesforCarousel['alt'][10]#</div>
-										</cfoutput>
+								<cfif specimens.imageurl gt 0>
+									<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
+										SELECT * FROM (
+											SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
+											FROM
+												underscore_collection
+												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+												left join cataloged_item
+													on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+												left join media_relations
+													on media_relations.related_primary_key = underscore_relation.collection_object_id
+												left join media on media_relations.media_id = media.media_id
+											WHERE underscore_collection.underscore_collection_id = 22
+												AND media_relations.media_relationship = 'shows cataloged_item'
+												AND media.media_type = 'image'
+												AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+												AND MCZBASE.is_media_encumbered(media.media_id) < 1
+												AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+												ORDER BY DBMS_RANDOM.RANDOM
+										) 
+										WHERE rownum < 16
+									</cfquery>
+									<style>
+										.carousel-wrapperX {
+											overflow: hidden;
+											width: 90%;
+											margin: auto;
+										}
+										.carousel-wrapperX * {
+											box-sizing: border-box;
+										}
+										.carouselX {
+											-webkit-transform-style: preserve-3d;
+											-moz-transform-style: preserve-3d;
+											transform-style: preserve-3d;
+										}
+										.carousel__imageX {
+											opacity: 0;
+											position: absolute;
+											top: 0;
+											width: 100%;
+											margin: auto;
+											padding: 1rem 2rem;
+											z-index: 100;
+											transition: transform .5s, opacity .5s, z-index .5s;
+										}
+										.carousel__imageX.initial, .carousel__imageX.active {
+											opacity: 1;
+											position: relative;
+											z-index: 900;
+										}
+										.carousel__imageX.prev, .carousel__imageX.next {
+											z-index: 800;
+										}
+										.carousel__imageX.prev {
+											transform: translateX(-100%); /* go to previous item */
+										}
+										.carousel__imageX.next {
+											transform: translateX(100%); /* go to next item */
+										}
+										.carousel__buttonX--prev, .carousel__buttonX--next {
+											position: absolute;
+											top: 50%;
+											width: 2rem;
+											height: 75%;
+											background-color: white;
+											transform: translateY(-50%);
+											border-radius: 8%;
+											cursor: pointer;
+											z-index: 1001; /* sit on top of everything */
+											border: 1px solid black;
+										}
+										.carousel__buttonX--prev {
+											left: 0;
+										}
+										.carousel__buttonX--next {
+											right: 0;
+										}
+										.carousel__buttonX--prev::after, 
+										.carousel__buttonX--next::after {
+											content: " ";
+											position: absolute;
+											width: 10px;
+											height: 10px;
+											top: 50%;
+											left: 54%;
+											border-right: 2px solid black;
+											border-bottom: 2px solid black;
+											transform: translate(-50%, -50%) rotate(135deg);
+										}
+										.carousel__buttonX--next::after {
+											left: 47%;
+											transform: translate(-50%, -50%) rotate(-45deg);
+										}
+									</style>
+									<div class="col-12 col-md-6">
+										<div class="carousel-wrapperX">
+											<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
+											<div class="carouselX">
+												<cfoutput>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><br>#specimenImagesforCarousel['alt'][5]#</div>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><br>#specimenImagesforCarousel['alt'][3]#</div>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><br>#specimenImagesforCarousel['alt'][1]#</div>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><br>#specimenImagesforCarousel['alt'][6]#</div>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><br>#specimenImagesforCarousel['alt'][8]#</div>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><br>#specimenImagesforCarousel['alt'][12]#</div>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><br>#specimenImagesforCarousel['alt'][7]#</div>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><br>#specimenImagesforCarousel['alt'][4]#</div>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><br>#specimenImagesforCarousel['alt'][13]#</div>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><br>#specimenImagesforCarousel['alt'][9]#</div>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><br>#specimenImagesforCarousel['alt'][14]#</div>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><br>#specimenImagesforCarousel['alt'][11]#</div>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><br>#specimenImagesforCarousel['alt'][2]#</div>
+													<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><br>#specimenImagesforCarousel['alt'][10]#</div>
+												</cfoutput>
+											</div>
+											<div class="carousel__buttonX--next"></div>
+											<div class="carousel__buttonX--prev"></div>
+										</div>
 									</div>
-									<div class="carousel__buttonX--next"></div>
-									<div class="carousel__buttonX--prev"></div>
-								</div>
+									<script>
+												!(function(d){
+												// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+												var itemClassName = "carousel__imageX";
+													items = d.getElementsByClassName(itemClassName),
+													totalItems = items.length,
+													slide = 0,
+													moving = true; 
+
+												// To initialise the carousel we'll want to update the DOM with our own classes
+												function setInitialClasses() {
+
+													// Target the last, initial, and next items and give them the relevant class.
+													// This assumes there are three or more items.
+													items[totalItems - 1].classList.add("prev");
+													items[0].classList.add("active");
+													items[1].classList.add("next");
+												}
+
+												// Set click events to navigation buttons
+
+												function setEventListeners() {
+													var next = d.getElementsByClassName('carousel__buttonX--next')[0],
+														prev = d.getElementsByClassName('carousel__buttonX--prev')[0];
+
+													next.addEventListener('click', moveNext);
+													prev.addEventListener('click', movePrev);
+												}
+
+												// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+												function disableInteraction() {
+													moving = true;
+
+													setTimeout(function(){
+														moving = false
+													}, 500);
+												}
+
+												function moveCarouselTo(slide) {
+
+													// Check if carousel is moving, if not, allow interaction
+													if(!moving) {
+
+													// temporarily disable interactivity
+													disableInteraction();
+
+													// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+													var newPrevious = slide - 1,
+														newNext = slide + 1,
+														oldPrevious = slide - 2,
+														oldNext = slide + 2;
+
+													// Test if carousel has more than three items
+													if ((totalItems - 1) > 3) {
+
+														// Checks if the new potential slide is out of bounds and sets slide numbers
+														if (newPrevious <= 0) {
+															oldPrevious = (totalItems - 1);
+														} else if (newNext >= (totalItems - 1)){
+															oldNext = 0;
+														}
+
+														// Check if current slide is at the beginning or end and sets slide numbers
+														if (slide === 0) {
+															newPrevious = (totalItems - 1);
+															oldPrevious = (totalItems - 2);
+															oldNext = (slide + 1);
+														} else if (slide === (totalItems -1)) {
+															newPrevious = (slide - 1);
+															newNext = 0;
+															oldNext = 1;
+														}
+
+														// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+
+														// Based on the current slide, reset to default classes.
+														items[oldPrevious].className = itemClassName;
+														items[oldNext].className = itemClassName;
+
+														// Add the new classes
+														items[newPrevious].className = itemClassName + " prev";
+														items[slide].className = itemClassName + " active";
+														items[newNext].className = itemClassName + " next";
+														}
+													}
+												}
+
+												// Next navigation handler
+												function moveNext() {
+
+													// Check if moving
+													if (!moving) {
+
+													// If it's the last slide, reset to 0, else +1
+													if (slide === (totalItems - 1)) {
+														slide = 0;
+													} else {
+														slide++;
+													}
+
+													// Move carousel to updated slide
+														moveCarouselTo(slide);
+													}
+												}
+
+												// Previous navigation handler
+												function movePrev() {
+
+													// Check if moving
+													if (!moving) {
+
+													// If it's the first slide, set as the last slide, else -1
+													if (slide === 0) {
+														slide = (totalItems - 1);
+													} else {
+														slide--;
+													}
+
+													// Move carousel to updated slide
+														moveCarouselTo(slide);
+													}
+												}
+
+												// Initialise carousel
+												function initCarousel() {
+													setInitialClasses();
+													setEventListeners();
+
+													// Set moving to false now that the carousel is ready
+													moving = false;
+												}
+
+												// make it rain
+													initCarousel();
+
+												}(document));
+											</script>
+								</cfif>
 							</div>
-							<script>
-										!(function(d){
-										// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
-										var itemClassName = "carousel__imageX";
-											items = d.getElementsByClassName(itemClassName),
-											totalItems = items.length,
-											slide = 0,
-											moving = true; 
-
-										// To initialise the carousel we'll want to update the DOM with our own classes
-										function setInitialClasses() {
-
-											// Target the last, initial, and next items and give them the relevant class.
-											// This assumes there are three or more items.
-											items[totalItems - 1].classList.add("prev");
-											items[0].classList.add("active");
-											items[1].classList.add("next");
-										}
-
-										// Set click events to navigation buttons
-
-										function setEventListeners() {
-											var next = d.getElementsByClassName('carousel__buttonX--next')[0],
-												prev = d.getElementsByClassName('carousel__buttonX--prev')[0];
-
-											next.addEventListener('click', moveNext);
-											prev.addEventListener('click', movePrev);
-										}
-
-										// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
-										function disableInteraction() {
-											moving = true;
-
-											setTimeout(function(){
-												moving = false
-											}, 500);
-										}
-
-										function moveCarouselTo(slide) {
-
-											// Check if carousel is moving, if not, allow interaction
-											if(!moving) {
-
-											// temporarily disable interactivity
-											disableInteraction();
-
-											// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
-											var newPrevious = slide - 1,
-												newNext = slide + 1,
-												oldPrevious = slide - 2,
-												oldNext = slide + 2;
-
-											// Test if carousel has more than three items
-											if ((totalItems - 1) > 3) {
-
-												// Checks if the new potential slide is out of bounds and sets slide numbers
-												if (newPrevious <= 0) {
-													oldPrevious = (totalItems - 1);
-												} else if (newNext >= (totalItems - 1)){
-													oldNext = 0;
-												}
-
-												// Check if current slide is at the beginning or end and sets slide numbers
-												if (slide === 0) {
-													newPrevious = (totalItems - 1);
-													oldPrevious = (totalItems - 2);
-													oldNext = (slide + 1);
-												} else if (slide === (totalItems -1)) {
-													newPrevious = (slide - 1);
-													newNext = 0;
-													oldNext = 1;
-												}
-
-												// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
-
-												// Based on the current slide, reset to default classes.
-												items[oldPrevious].className = itemClassName;
-												items[oldNext].className = itemClassName;
-
-												// Add the new classes
-												items[newPrevious].className = itemClassName + " prev";
-												items[slide].className = itemClassName + " active";
-												items[newNext].className = itemClassName + " next";
-												}
-											}
-										}
-
-										// Next navigation handler
-										function moveNext() {
-
-											// Check if moving
-											if (!moving) {
-
-											// If it's the last slide, reset to 0, else +1
-											if (slide === (totalItems - 1)) {
-												slide = 0;
-											} else {
-												slide++;
-											}
-
-											// Move carousel to updated slide
-												moveCarouselTo(slide);
-											}
-										}
-
-										// Previous navigation handler
-										function movePrev() {
-
-											// Check if moving
-											if (!moving) {
-
-											// If it's the first slide, set as the last slide, else -1
-											if (slide === 0) {
-												slide = (totalItems - 1);
-											} else {
-												slide--;
-											}
-
-											// Move carousel to updated slide
-												moveCarouselTo(slide);
-											}
-										}
-
-										// Initialise carousel
-										function initCarousel() {
-											setInitialClasses();
-											setEventListeners();
-
-											// Set moving to false now that the carousel is ready
-											moving = false;
-										}
-
-										// make it rain
-											initCarousel();
-
-										}(document));
-									</script>
-						</cfif>
-						
-
+						</div>
 <!---						<div class="row mx-0 clearfix" id="everythingElseRow">--->
 							<!--- This row holds everything else --->
 <!---
@@ -1024,9 +1024,9 @@ limitations under the License.
 
 								</div>
 							</div>
-						</div><!--- end rowEverythihngElse--->
-						</div>
-					</div><!--- end col-12 --->
+						<!---</div>---><!--- end rowEverythihngElse--->
+						
+						</div><!--- end col-12 --->
 				</article>
 			</div>
 		</main>
