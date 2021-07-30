@@ -267,7 +267,6 @@ limitations under the License.
 					}
 				</style>
 				<div class="col-12">
-					<cfoutput>
 						<div class="carousel-wrapperX col-6 px-0">
 						<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 						<div class="carouselX">
