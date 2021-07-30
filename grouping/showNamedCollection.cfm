@@ -252,7 +252,7 @@ limitations under the License.
 								
 						</div>		
 								
-						<div class="row">	
+						<div class="row mx-0">	
 							<!--- obtain a random set of specimen images, limited to a small number --->
 							<cfif specimenImgs.media_uri gt 0>
 								<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">                                    		
