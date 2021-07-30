@@ -192,7 +192,7 @@ limitations under the License.
 								.carousel-wrapperX {
 									overflow: hidden;
 									width: 90%;
-									margin: auto;
+									margin: auto 5%;
 								}
 								.carousel-wrapperX * {
 									box-sizing: border-box;
@@ -208,7 +208,7 @@ limitations under the License.
 									top: 0;
 									width: 100%;
 									margin: auto;
-									padding: 1rem 2rem;
+									padding: 1rem;
 									z-index: 100;
 									transition: transform .5s, opacity .5s, z-index .5s;
 								}
