@@ -75,7 +75,7 @@ limitations under the License.
 }
 .carousel__buttonX--prev, .carousel__buttonX--next {
 	position: absolute;
-	top: 50%;
+	top: 53%;
 	width: 3.5rem;
 	height: 100%;
 	background-color: transparent;
@@ -277,8 +277,8 @@ limitations under the License.
 									<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
 									<div class="carouselX">
 										<cfoutput>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><br>#specimenImagesforCarousel['alt'][5]#</div>
-											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><br>#specimenImagesforCarousel['alt'][3]#</div>
+											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><br><p>#specimenImagesforCarousel['alt'][5]#</p></div>
+											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><br><p>#specimenImagesforCarousel['alt'][3]#</p></div>
 											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><br>#specimenImagesforCarousel['alt'][1]#</div>
 											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><br>#specimenImagesforCarousel['alt'][6]#</div>
 											<div class="carousel__imageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><br>#specimenImagesforCarousel['alt'][8]#</div>
