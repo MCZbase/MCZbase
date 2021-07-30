@@ -250,9 +250,9 @@ limitations under the License.
 						</div>
 						<!---end specimen grid--->
 								
+						</div>		
 								
-								
-								
+						<div class="row">	
 							<!--- obtain a random set of specimen images, limited to a small number --->
 							<cfif specimenImgs.media_uri gt 0>
 								<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">                                    		
@@ -417,13 +417,6 @@ limitations under the License.
 								</div>	
 							</cfif>
 
-
-					
-			
-						
-										
-										
-										
 
 							<div class="col mt-0 float-left">
 								<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
