@@ -299,7 +299,7 @@ limitations under the License.
 										<div class="carousel__buttonX--next"></div>
 										<div class="carousel__buttonX--prev"></div>
 									</div>
-								<cflayout>
+								<cflayout type="vbox">
 								<script> 
 									init = function() { 
 										ColdFusion.Window.show('agentImages'); 
