@@ -235,7 +235,7 @@ limitations under the License.
 									border-radius: 8%;
 									cursor: pointer;
 									z-index: 1001; /* sit on top of everything */
-									border: 3px solid white;
+									border: none;
 								}
 								.carousel__buttonX--prev {
 									left: 0;
@@ -247,12 +247,12 @@ limitations under the License.
 								.carousel__buttonX--next::after {
 									content: " ";
 									position: absolute;
-									width: 10px;
-									height: 10px;
+									width: 15px;
+									height: 15px;
 									top: 50%;
 									left: 54%;
-									border-right: 2px solid black;
-									border-bottom: 2px solid black;
+									border-right: 3px solid white;
+									border-bottom: 3px solid white;
 									transform: translate(-50%, -50%) rotate(135deg);
 								}
 								.carousel__buttonX--next::after {
