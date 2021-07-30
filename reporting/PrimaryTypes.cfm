@@ -26,7 +26,7 @@ Report on primary types, by department.
 
 <cfoutput>
 	<div id="overlaycontainer" style="position: relative;"> 
-		<main class="container py-3">
+		<main id="content" class="container py-3">
 			<section class="row">
 				<div class="col-12">
 					<form name="searchForm" id="searchForm">
@@ -47,7 +47,7 @@ Report on primary types, by department.
 										<li class="py-1 list-inline-item">None.  No Types</li>
 									<cfelse>
 										<cfloop query="getcounts">
-											<li class="px-1 list-inline-item">#getcounts.collection#:#getcounts.ct# </li>
+											<li class="px-1 list-inline-item">#getcounts.collection#:&nbsp;#getcounts.ct# </li>
 										</cfloop>
 									</cfif>
 								</ul>
