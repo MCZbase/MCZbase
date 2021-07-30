@@ -115,7 +115,8 @@ limitations under the License.
 											{ name: 'higher_geog', type: 'string' },
 											{ name: 'spec_locality', type: 'string' },
 											{ name: 'othercatalognumbers', type: 'string' },
-											{ name: 'full_taxon_name', type: 'string' }
+											{ name: 'full_taxon_name', type: 'string' },
+											{ name: 'imageurl', type: 'string' },
 										],
 										url: '/grouping/component/search.cfc?method=getSpecimensInGroup&smallerfieldlist=true&underscore_collection_id=#underscore_collection_id#',
 										timeout: 30000,  // units not specified, miliseconds? 
