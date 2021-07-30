@@ -768,6 +768,8 @@ Function getPhylumAutocomplete.  Search for phyla by name with a substring match
 				upper(phylum) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			GROUP BY
 				phylum
+			ORDER BY 
+				phylum
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -824,6 +826,8 @@ Function getClassAutocomplete.  Search for taxonomic classes by name with a subs
 			WHERE
 				upper(phylclass) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			GROUP BY 
+				phylclass
+			ORDER BY 
 				phylclass
 		</cfquery>
 	<cfset rows = search_result.recordcount>
@@ -930,6 +934,30 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 				</cfswitch>
 				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			GROUP BY 
+				<cfswitch expression="#rank#">
+					<cfcase value="kingdom">kingdom</cfcase>
+					<cfcase value="phylum">phylum</cfcase>
+					<cfcase value="subphylum">subphylum</cfcase>
+					<cfcase value="superclass">superclass</cfcase>
+					<cfcase value="class">phylclass</cfcase>
+					<cfcase value="subclass">subclass</cfcase>
+					<cfcase value="infraclass">infraclass</cfcase>
+					<cfcase value="superorder">superorder</cfcase>
+					<cfcase value="order">phylorder</cfcase>
+					<cfcase value="suborder">suborder</cfcase>
+					<cfcase value="infraorder">infraorder</cfcase>
+					<cfcase value="superfamily">superfamily</cfcase>
+					<cfcase value="family">family</cfcase>
+					<cfcase value="subfamily">subfamily</cfcase>
+					<cfcase value="tribe">tribe</cfcase>
+					<cfcase value="genus">genus</cfcase>
+					<cfcase value="subgenus">subgenus</cfcase>
+					<cfcase value="species">species</cfcase>
+					<cfcase value="subspecies">subspecies</cfcase>
+					<cfcase value="author_text">author_text</cfcase>
+					<cfcase value="infraspecific_author">infraspecific_author</cfcase>
+				</cfswitch>
+			ORDER BY 
 				<cfswitch expression="#rank#">
 					<cfcase value="kingdom">kingdom</cfcase>
 					<cfcase value="phylum">phylum</cfcase>
