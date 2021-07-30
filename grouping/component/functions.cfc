@@ -243,17 +243,27 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			</cfquery>
 			<cfif find_result.recordcount GT 0>
 				<cfloop query=find>
-					<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
-						insert into underscore_relation
-						( 
-							underscore_collection_id, 
-							collection_object_id
-						) values ( 
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#find.collection_object_id#">
-						)
+					<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="check_result">
+						SELECT count(*) ct
+						FROM underscore_relation
+						WHERE
+							underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+							and
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#find.collection_object_id#">
 					</cfquery>
-					<cfset rows = rows + add_result.recordcount>
+					<cfif check.ct EQ 0>
+						<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+							insert into underscore_relation
+							( 
+								underscore_collection_id, 
+								collection_object_id
+							) values ( 
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#find.collection_object_id#">
+							)
+						</cfquery>
+						<cfset rows = rows + add_result.recordcount>
+					</cfif>
 				</cfloop>
 			</cfif>
 		</cftransaction>
