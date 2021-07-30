@@ -299,41 +299,37 @@ limitations under the License.
 										<div class="carousel__buttonX--next"></div>
 										<div class="carousel__buttonX--prev"></div>
 									</div>
-								<cflayout type="vbox">
-								<script> 
-									init = function() { 
-										ColdFusion.Window.show('agentImages'); 
-									} 
-								</script> 
-									<cflayoutarea name="agentImages" title="agent carousel of images" >
+								</div>	
+							</cfif>
+
 										<!--- obtain a random set of agent images, limited to a small number --->
 										<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
-												SELECT * FROM (
-													SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-														MCZBASE.get_media_descriptor(media.media_id) as alt,
-														MCZBASE.get_medialabel(media.media_id,'width') as width,
-														MCZBASE.get_media_credit(media.media_id) as credit
-													FROM
-														underscore_collection
-														left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-															on underscore_relation.collection_object_id = flat.collection_object_id
-														left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-														left join media_relations on collector.agent_id = media_relations.related_primary_key
-														left join media on media_relations.media_id = media.media_id
-													WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-														AND flat.guid IS NOT NULL
-														AND collector.collector_role = 'c'
-														AND media_relations.media_relationship = 'shows agent'
-														AND media.media_type = 'image'
-														AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-														AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-													ORDER BY DBMS_RANDOM.RANDOM
-												) 
-												WHERE rownum < 16
-											</cfquery>
+											SELECT * FROM (
+												SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+													MCZBASE.get_media_descriptor(media.media_id) as alt,
+													MCZBASE.get_medialabel(media.media_id,'width') as width,
+													MCZBASE.get_media_credit(media.media_id) as credit
+												FROM
+													underscore_collection
+													left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+													left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+														on underscore_relation.collection_object_id = flat.collection_object_id
+													left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+													left join media_relations on collector.agent_id = media_relations.related_primary_key
+													left join media on media_relations.media_id = media.media_id
+												WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+													AND flat.guid IS NOT NULL
+													AND collector.collector_role = 'c'
+													AND media_relations.media_relationship = 'shows agent'
+													AND media.media_type = 'image'
+													AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+													AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+												ORDER BY DBMS_RANDOM.RANDOM
+											) 
+											WHERE rownum < 16
+										</cfquery>
 										<cfoutput>
-										<div class="col-12 col-md-6 px-0 float-left">
+											<div class="col-12 col-md-6 px-0 float-left">
 												<h2 class="mt-3">#specimenImgs.recordcount# Images of Agents (shows 15)</h2>
 												<p class="small">Refresh page to show a different 15 images.</p>
 												<div class="carousel-wrapperX">
@@ -357,19 +353,17 @@ limitations under the License.
 															<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][15]#"/><p>#agentImagesforCarousel['alt'][15]#</p></div>
 
 													</div>
-
 													<div class="carousel__buttonX--next"></div>
 													<div class="carousel__buttonX--prev"></div>
 												</div>
 											</div>
 										</cfoutput>
-									</cflayoutarea>
-									<cfset AjaxOnLoad("init")>
-								</cflayout>
-								</div>
-							</cfif>
+									</div>
 			
-								
+						
+										
+										
+										
 
 							<div class="col mt-0 float-left">
 								<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
