@@ -190,8 +190,8 @@ limitations under the License.
 							<style>
 								.carousel-wrapperX {
 									overflow: hidden;
-									width: 90%;
-									margin: auto 5%;
+									width: 100%;
+									margin: 0;
 								}
 								.carousel-wrapperX * {
 									box-sizing: border-box;
@@ -207,7 +207,7 @@ limitations under the License.
 									top: 0;
 									width: 100%;
 									margin: auto;
-									padding: 1rem;
+									padding: 0rem;
 									z-index: 100;
 									transition: transform .5s, opacity .5s, z-index .5s;
 								}
@@ -229,13 +229,13 @@ limitations under the License.
 									position: absolute;
 									top: 50%;
 									width: 2rem;
-									height: 75%;
-									background-color: white;
+									height: 100%;
+									background-color: transparent;
 									transform: translateY(-50%);
 									border-radius: 8%;
 									cursor: pointer;
 									z-index: 1001; /* sit on top of everything */
-									border: 1px solid black;
+									border: 3px solid white;
 								}
 								.carousel__buttonX--prev {
 									left: 0;
