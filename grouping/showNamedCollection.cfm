@@ -888,7 +888,7 @@ function initCarousel() {
 // make it rain
 	initCarousel();
 
-}(document));
+}(document.onload));
 </script>
 </cfoutput> 
 
