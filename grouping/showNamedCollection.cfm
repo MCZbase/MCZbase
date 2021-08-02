@@ -141,16 +141,16 @@ limitations under the License.
 	position: relative;
 	z-index: 900;
 }
-.carouselImageZ.prev, .carouselImageZ.next {
+.carouselImageZ.prev1, .carouselImageZ.next1 {
 	z-index: 800;
 }
-.carouselImageZ.prev {
+.carouselImageZ.prev1 {
 	transform: translateX(-100%); /* go to previous item */
 }
-.carouselImageZ.next {
+.carouselImageZ.next1 {
 	transform: translateX(100%); /* go to next item */
 }
-.carousel__buttonZ--prev, .carousel__buttonZ--next {
+.carousel__buttonZ--prev1, .carousel__buttonZ--next1 {
 	position: absolute;
 	top: 48%;
 	width: 3.5rem;
@@ -162,14 +162,14 @@ limitations under the License.
 	z-index: 1001; /* sit on top of everything */
 	border: none;
 }
-.carousel__buttonZ--prev {
+.carousel__buttonZ--prev1 {
 	left: 0;
 }
-.carousel__buttonZ--next {
+.carousel__buttonZ--next1 {
 	right: 0;
 }
-.carousel__buttonZ--prev::after, 
-.carousel__buttonZ--next::after {
+.carousel__buttonZ--prev1::after, 
+.carousel__buttonZ--next1::after {
 	content: " ";
 	position: absolute;
 	width: 15px;
@@ -180,7 +180,7 @@ limitations under the License.
 	border-bottom: 3px solid ##007bff;
 	transform: translate(-50%, -50%) rotate(135deg);
 }
-.carousel__buttonZ--next::after {
+.carousel__buttonZ--next1::after {
 	left: 20%;
 	transform: translate(-50%, -50%) rotate(-45deg);
 }
