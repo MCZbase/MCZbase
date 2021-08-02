@@ -35,7 +35,82 @@ limitations under the License.
 </cfif>
 <cfinclude template="/shared/_header.cfm">
 <cfoutput>
-
+<style>
+	/*carousel styles*/
+.carousel-wrapperX {
+	overflow: hidden;
+	width: 100%;
+	margin: 0;
+	position: relative;
+	height: auto;
+}
+.carousel-wrapperX * {
+	box-sizing: border-box;
+}
+.carouselX {
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+.carouselImageX {
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	margin: auto;
+	padding: 0rem;
+	z-index: 100;
+	transition: transform .5s, opacity .5s, z-index .5s;
+}
+.carouselImageX.initial, .carouselImageX.active {
+	opacity: 1;
+	position: relative;
+	z-index: 900;
+}
+.carouselImageX.prev, .carouselImageX.next {
+	z-index: 800;
+}
+.carouselImageX.prev {
+	transform: translateX(-100%); /* go to previous item */
+}
+.carouselImageX.next {
+	transform: translateX(100%); /* go to next item */
+}
+.carousel__buttonX--prev, .carousel__buttonX--next {
+	position: absolute;
+	top: 48%;
+	width: 3.5rem;
+	height: 100%;
+	background-color: transparent;
+	transform: translateY(-50%);
+	border-radius: 8%;
+	cursor: pointer;
+	z-index: 1001; /* sit on top of everything */
+	border: none;
+}
+.carousel__buttonX--prev {
+	left: 0;
+}
+.carousel__buttonX--next {
+	right: 0;
+}
+.carousel__buttonX--prev::after, 
+.carousel__buttonX--next::after {
+	content: " ";
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	top: 50%;
+	left: 80%;
+	border-right: 3px solid ##007bff;
+	border-bottom: 3px solid ##007bff;
+	transform: translate(-50%, -50%) rotate(135deg);
+}
+.carousel__buttonX--next::after {
+	left: 20%;
+	transform: translate(-50%, -50%) rotate(-45deg);
+}	
+</style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
 	</cfif>
