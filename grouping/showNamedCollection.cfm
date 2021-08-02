@@ -328,27 +328,27 @@ limitations under the License.
 							</cfquery>
 							<h2 class="mt-3"> Images from Agents (shows 15)</h2>
 							<p class="small">Refresh page to show a different 15 images.</p>
-							<div class="carousel-wrapper">
+							<div class="carousel-wrapperX">
 								<cfoutput>
-									<div class="carousel">
-										<div class="carouselImage initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][2]#"/><p>#agentImagesforCarousel['alt'][2]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][3]#"/><p>#agentImagesforCarousel['alt'][3]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][4]#"/><p>#agentImagesforCarousel['alt'][4]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][5]#"/><p>#agentImagesforCarousel['alt'][5]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][6]#"/><p>#agentImagesforCarousel['alt'][6]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][7]#"/><p>#agentImagesforCarousel['alt'][7]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][8]#"/><p>#agentImagesforCarousel['alt'][8]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][9]#"/><p>#agentImagesforCarousel['alt'][9]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][10]#"/><p>#agentImagesforCarousel['alt'][10]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][11]#"/><p>#agentImagesforCarousel['alt'][11]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][12]#"/><p>#agentImagesforCarousel['alt'][12]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][13]#"/><p>#agentImagesforCarousel['alt'][13]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][14]#"/><p>#agentImagesforCarousel['alt'][14]#</p></div>
-										<div class="carouselImage"><img class="w-100" src="#agentImagesforCarousel['media_uri'][15]#"/><p>#agentImagesforCarousel['alt'][15]#</p></div>
+									<div class="carouselX">
+										<div class="carouselImageX initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][2]#"/><p>#agentImagesforCarousel['alt'][2]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][3]#"/><p>#agentImagesforCarousel['alt'][3]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][4]#"/><p>#agentImagesforCarousel['alt'][4]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][5]#"/><p>#agentImagesforCarousel['alt'][5]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][6]#"/><p>#agentImagesforCarousel['alt'][6]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][7]#"/><p>#agentImagesforCarousel['alt'][7]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][8]#"/><p>#agentImagesforCarousel['alt'][8]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][9]#"/><p>#agentImagesforCarousel['alt'][9]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][10]#"/><p>#agentImagesforCarousel['alt'][10]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][11]#"/><p>#agentImagesforCarousel['alt'][11]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][12]#"/><p>#agentImagesforCarousel['alt'][12]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][13]#"/><p>#agentImagesforCarousel['alt'][13]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][14]#"/><p>#agentImagesforCarousel['alt'][14]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][15]#"/><p>#agentImagesforCarousel['alt'][15]#</p></div>
 									</div>
-									<div class="carousel__buttonZ--next"></div>
-									<div class="carousel__buttonZ--prev"></div>
+									<div class="carousel__buttonX--next"></div>
+									<div class="carousel__buttonX--prev"></div>
 								</cfoutput>
 							</div>
 						</cfif>
