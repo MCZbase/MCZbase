@@ -302,7 +302,7 @@ limitations under the License.
 							</div>
 							<!--- obtain a random set of agent images, limited to a small number --->
 							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
-								SELECT ROW_NUMBER() OVER (ORDER BY media_uri ASC) AS sno FROM (
+								SELECT ROW_NUMBER() OVER (ORDER BY media_uri ASC) AS sno,* FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_medialabel(media.media_id,'width') as width,
