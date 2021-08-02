@@ -338,8 +338,10 @@ limitations under the License.
 							</div>
 							</cfif>
 							<div id="mapper" class="col-12 px-0">
- 							// This Google Map example requires the Visualization library. Include the libraries=visualization
+ 							<script>// This Google Map example requires the Visualization library. Include the libraries=visualization
 							// parameter when you first load the API. For example:
+								
+								</script>
 								<style>
 								/* Always set the map height explicitly to define the size of the div
 									   * element that contains the map. */
