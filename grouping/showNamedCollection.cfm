@@ -297,7 +297,7 @@ limitations under the License.
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
-								WHERE rownum between 15 and 31
+								WHERE rownum < 31
 							</cfquery>
 							<!---The encumbrance line was slowing it down too much--->
 							<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
