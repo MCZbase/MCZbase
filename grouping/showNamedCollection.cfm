@@ -302,7 +302,7 @@ limitations under the License.
 							</div>
 							<!--- obtain a random set of agent images, limited to a small number --->
 							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
-								SELECT * FROM (
+								SELECT ROW_NUMBER() OVER (ORDER BY media_uri ASC) AS sno FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_medialabel(media.media_id,'width') as width,
@@ -324,7 +324,7 @@ limitations under the License.
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
-								WHERE rownum between 16 and 30
+								WHERE sno between 16 and 30
 							</cfquery>
 							<h2 class="mt-3"> Images from Agents (shows 15)</h2>
 							<p class="small">Refresh page to show a different 15 images.</p>
