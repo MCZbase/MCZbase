@@ -373,7 +373,7 @@ limitations under the License.
 								  z-index: 5;
 								}
 								</style>
-									<div id="floating-panel">
+									<div id="floating-panel" class="mt-4">
 									  <button id="toggle-heatmap">Toggle Heatmap</button>
 									  <button id="change-gradient">Change gradient</button>
 									  <button id="change-radius">Change radius</button>
