@@ -253,6 +253,7 @@ limitations under the License.
 						</div>		
 								
 						<div class="row mx-0">	
+							<div class="col-12 col-md-6 float-left">
 							<!--- obtain a random set of specimen images, limited to a small number --->
 							<cfif specimenImgs.media_uri gt 0>
 								<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">                                    		
@@ -275,92 +276,86 @@ limitations under the License.
 									WHERE rownum < 16
 								</cfquery>
 								<!---The encumbrance line was slowing it down too much--->
-
-								<div class="col-12 col-md-6 float-left">
-									<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
-									<p class="small">Refresh page to show a different 15 images.</p>
-									<div class="carousel-wrapperX">
-										<cfoutput>
-										<div class="carouselImageX initial"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>
-											<div class="carouselX">											
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><p>#specimenImagesforCarousel['alt'][4]#</p></div>
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><p>#specimenImagesforCarousel['alt'][5]#</p></div>
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><p>#specimenImagesforCarousel['alt'][6]#</p></div>
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><p>#specimenImagesforCarousel['alt'][7]#</p></div>
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><p>#specimenImagesforCarousel['alt'][8]#</p></div>
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><p>#specimenImagesforCarousel['alt'][9]#</p></div>
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><p>#specimenImagesforCarousel['alt'][10]#</p></div>
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><p>#specimenImagesforCarousel['alt'][11]#</p></div>
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><p>#specimenImagesforCarousel['alt'][12]#</p></div>
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><p>#specimenImagesforCarousel['alt'][13]#</p></div>
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><p>#specimenImagesforCarousel['alt'][14]#</p></div>
-												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][15]#"/><p>#specimenImagesforCarousel['alt'][15]#</p></div>
-											</div>
+								<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
+								<p class="small">Refresh page to show a different 15 images.</p>
+								<div class="carousel-wrapperX">
+									<cfoutput>
+										<div class="carouselX">
+											<div class="carouselImageX initial"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>									
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><p>#specimenImagesforCarousel['alt'][4]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><p>#specimenImagesforCarousel['alt'][5]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><p>#specimenImagesforCarousel['alt'][6]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><p>#specimenImagesforCarousel['alt'][7]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><p>#specimenImagesforCarousel['alt'][8]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><p>#specimenImagesforCarousel['alt'][9]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><p>#specimenImagesforCarousel['alt'][10]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><p>#specimenImagesforCarousel['alt'][11]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><p>#specimenImagesforCarousel['alt'][12]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><p>#specimenImagesforCarousel['alt'][13]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><p>#specimenImagesforCarousel['alt'][14]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][15]#"/><p>#specimenImagesforCarousel['alt'][15]#</p></div>
+										</div>
 										<div class="carousel__buttonX--next"></div>
 										<div class="carousel__buttonX--prev"></div>
-										</cfoutput>
+									</cfoutput>
+								</div>
+								<!--- obtain a random set of agent images, limited to a small number --->
+								<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
+									SELECT * FROM (
+										SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+											MCZBASE.get_media_descriptor(media.media_id) as alt,
+											MCZBASE.get_medialabel(media.media_id,'width') as width,
+											MCZBASE.get_media_credit(media.media_id) as credit
+										FROM
+											underscore_collection
+											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+											left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+											left join media_relations on collector.agent_id = media_relations.related_primary_key
+											left join media on media_relations.media_id = media.media_id
+										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											AND flat.guid IS NOT NULL
+											AND collector.collector_role = 'c'
+											AND media_relations.media_relationship = 'shows agent'
+											AND media.media_type = 'image'
+											AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+											AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+										ORDER BY DBMS_RANDOM.RANDOM
+									) 
+									WHERE rownum < 16
+								</cfquery>
+								<h2 class="mt-3"> Images from Agents (shows 15)</h2>
+								<p class="small">Refresh page to show a different 15 images.</p>
+								<div class="carousel-wrapperX">
+								<cfoutput>
+									<div class="carouselImageX initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
+										<div class="carouselX">
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][2]#"/><p>#agentImagesforCarousel['alt'][2]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][3]#"/><p>#agentImagesforCarousel['alt'][3]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][4]#"/><p>#agentImagesforCarousel['alt'][4]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][5]#"/><p>#agentImagesforCarousel['alt'][5]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][6]#"/><p>#agentImagesforCarousel['alt'][6]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][7]#"/><p>#agentImagesforCarousel['alt'][7]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][8]#"/><p>#agentImagesforCarousel['alt'][8]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][9]#"/><p>#agentImagesforCarousel['alt'][9]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][10]#"/><p>#agentImagesforCarousel['alt'][10]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][11]#"/><p>#agentImagesforCarousel['alt'][11]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][12]#"/><p>#agentImagesforCarousel['alt'][12]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][13]#"/><p>#agentImagesforCarousel['alt'][13]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][14]#"/><p>#agentImagesforCarousel['alt'][14]#</p></div>
+											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][15]#"/><p>#agentImagesforCarousel['alt'][15]#</p></div>
 									</div>
-									<div class="row mx-0">
-										<!--- obtain a random set of agent images, limited to a small number --->
-										<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
-											SELECT * FROM (
-												SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-													MCZBASE.get_media_descriptor(media.media_id) as alt,
-													MCZBASE.get_medialabel(media.media_id,'width') as width,
-													MCZBASE.get_media_credit(media.media_id) as credit
-												FROM
-													underscore_collection
-													left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-													left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-														on underscore_relation.collection_object_id = flat.collection_object_id
-													left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-													left join media_relations on collector.agent_id = media_relations.related_primary_key
-													left join media on media_relations.media_id = media.media_id
-												WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-													AND flat.guid IS NOT NULL
-													AND collector.collector_role = 'c'
-													AND media_relations.media_relationship = 'shows agent'
-													AND media.media_type = 'image'
-													AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-													AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-												ORDER BY DBMS_RANDOM.RANDOM
-											) 
-											WHERE rownum < 16
-										</cfquery>
-										<div class="col-12 float-left">
-											<h2 class="mt-3"> Images from Agents (shows 15)</h2>
-											<p class="small">Refresh page to show a different 15 images.</p>
-											<div class="carousel-wrapperX">
-											<cfoutput>
-												<div class="carouselImageX initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
-													<div class="carouselX">
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][2]#"/><p>#agentImagesforCarousel['alt'][2]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][3]#"/><p>#agentImagesforCarousel['alt'][3]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][4]#"/><p>#agentImagesforCarousel['alt'][4]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][5]#"/><p>#agentImagesforCarousel['alt'][5]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][6]#"/><p>#agentImagesforCarousel['alt'][6]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][7]#"/><p>#agentImagesforCarousel['alt'][7]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][8]#"/><p>#agentImagesforCarousel['alt'][8]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][9]#"/><p>#agentImagesforCarousel['alt'][9]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][10]#"/><p>#agentImagesforCarousel['alt'][10]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][11]#"/><p>#agentImagesforCarousel['alt'][11]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][12]#"/><p>#agentImagesforCarousel['alt'][12]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][13]#"/><p>#agentImagesforCarousel['alt'][13]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][14]#"/><p>#agentImagesforCarousel['alt'][14]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][15]#"/><p>#agentImagesforCarousel['alt'][15]#</p></div>
-												</div>
-												<div class="carousel__buttonX--next"></div>
-												<div class="carousel__buttonX--prev"></div>
-											</cfoutput>
-											</div>
-										</div>
-			
-									</div>
-								</div>	
+									<div class="carousel__buttonX--next"></div>
+									<div class="carousel__buttonX--prev"></div>
+								</cfoutput>
+								</div>
 							</cfif>
-
+							</div>
+						</div>
+							
 
 							<div class="col mt-0 float-left">
 								<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
