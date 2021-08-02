@@ -36,6 +36,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfoutput>
 <style>
+	/*carousel styles*/
 .carousel-wrapperX {
 	overflow: hidden;
 	width: 100%;
@@ -108,7 +109,7 @@ limitations under the License.
 .carousel__buttonX--next::after {
 	left: 20%;
 	transform: translate(-50%, -50%) rotate(-45deg);
-}
+}	
 </style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -301,8 +302,8 @@ limitations under the License.
 							</cfquery>
 						
 							<!---The encumbrance line was slowing it down too much--->
-							<h2 class="mt-3">Images (shows 15)</h2>
-							<p class="small">Specimen Images (#specimenImgs.recordcount#), Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 15 images.</p>
+							<h2 class="mt-3">Images (shows 25)</h2>
+							<p class="small">Specimen Images (#specimenImgs.recordcount#), Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 25 images.</p>
 							<div class="carousel-wrapperX">
 								<cfoutput>
 									<div class="carouselX">
@@ -338,9 +339,11 @@ limitations under the License.
 							</div>
 							</cfif>
 							<div id="mapper" class="col-12 px-0">
+								<h2 class="mt-4">Heat Map Example</h2>
  							<script>// This Google Map example requires the Visualization library. Include the libraries=visualization
 							// parameter when you first load the API. For example:
-								
+								//https://developers.google.com/maps/documentation/javascript/examples/layer-heatmap#try-sample
+								// the API key is needed to make this work.
 								</script>
 								<style>
 								/* Always set the map height explicitly to define the size of the div
@@ -383,7 +386,34 @@ limitations under the License.
 									</div>
 									<div id="map" class="mt-4"><img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/thumbnails/google_map_Example.png" class="w-100"></div>
 							</div><!---end map--->
-								
+							<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+								<h2 class="mt-4">Region Map Example</h2>
+						<div id="regions_div" class="w-100" style="height: 550px;"></div>	
+							<script>
+								//https://jsfiddle.net/api/post/library/pure/
+								google.charts.load('current', {
+								'packages':['geochart'],
+								  });
+								  google.charts.setOnLoadCallback(drawRegionsMap);
+
+								  function drawRegionsMap() {
+									var data = google.visualization.arrayToDataTable([
+									  ['Country', 'Collected'],
+									  ['Germany', 254],
+									  ['United States', 320],
+									  ['Brazil', 410],
+									  ['Canada', 506],
+									  ['France', 670],
+									  ['RU', 700]
+									]);
+
+									var options = {};
+
+									var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+									chart.draw(data, options);
+								  }
+							</script>
 						</div>
 
 						<div class="col mt-4 float-left">
