@@ -297,7 +297,7 @@ limitations under the License.
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
-								WHERE rownum < 30
+								WHERE rownum between 15 and 31
 							</cfquery>
 							<!---The encumbrance line was slowing it down too much--->
 							<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
@@ -320,6 +320,7 @@ limitations under the License.
 										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><p>#specimenImagesforCarousel['alt'][13]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><p>#specimenImagesforCarousel['alt'][14]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][15]#"/><p>#specimenImagesforCarousel['alt'][15]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][16]#"/><p>#agentImagesforCarousel['alt'][16]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][17]#"/><p>#agentImagesforCarousel['alt'][17]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][18]#"/><p>#agentImagesforCarousel['alt'][18]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][19]#"/><p>#agentImagesforCarousel['alt'][19]#</p></div>
@@ -334,7 +335,7 @@ limitations under the License.
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][28]#"/><p>#agentImagesforCarousel['alt'][28]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][29]#"/><p>#agentImagesforCarousel['alt'][29]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][30]#"/><p>#agentImagesforCarousel['alt'][30]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][16]#"/><p>#agentImagesforCarousel['alt'][16]#</p></div>
+									
 									</div>
 									<div class="carousel__buttonX--next"></div>
 									<div class="carousel__buttonX--prev"></div>
