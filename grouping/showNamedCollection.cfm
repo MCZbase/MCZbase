@@ -330,7 +330,7 @@ limitations under the License.
 											) 
 											WHERE rownum < 16
 										</cfquery>
-										<div class="col-12 col-md-6 float-left">
+										<div class="col-12 float-left">
 											<h2 class="mt-3"> Images from Agents (shows 15)</h2>
 											<p class="small">Refresh page to show a different 15 images.</p>
 											<div class="carousel-wrapperX">
@@ -358,56 +358,7 @@ limitations under the License.
 												<div class="carousel__buttonX--prev"></div>
 											</div>
 										</div>
-											
-										<!--- obtain a random set of collecting event images, limited to a small number --->
-										<cfquery name="collEventImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collEventImagesForCarousel_result">  
-										SELECT * FROM (
-											SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-												MCZBASE.get_media_descriptor(media.media_id) as alt,
-												MCZBASE.get_medialabel(media.media_id,'width') as width,
-												MCZBASE.get_media_credit(media.media_id) as credit
-											FROM
-												underscore_collection
-												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-													on underscore_relation.collection_object_id = flat.collection_object_id
-												left join media_relations on flat.collecting_event_id = media_relations.related_primary_key
-												left join media on media_relations.media_id = media.media_id
-											WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-												AND flat.guid IS NOT NULL
-												AND media_relations.media_relationship = 'ledger entry for cataloged_item'
-											ORDER BY DBMS_RANDOM.RANDOM
-										) 
-										WHERE rownum < 16
-										</cfquery>
-										<div class="col-12 col-md-6 float-left">
-											<h2 class="mt-3">Images of Collecting Event (shows 15)</h2>
-											<p class="small">Refresh page to show a different 15 images.</p>
-											<div class="carousel-wrapperX">
-												<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
-												<div class="carouselX">
-													<cfoutput>
-														<div class="carouselImageX initial"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][1]#"/><p>#collEventImagesforCarousel['alt'][1]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][2]#"/><p>#collEventImagesforCarousel['alt'][2]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][3]#"/><p>#collEventImagesforCarousel['alt'][3]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][4]#"/><p>#collEventImagesforCarousel['alt'][4]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][5]#"/><p>#collEventImagesforCarousel['alt'][5]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][6]#"/><p>#collEventImagesforCarousel['alt'][6]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][7]#"/><p>#collEventImagesforCarousel['alt'][7]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][8]#"/><p>#collEventImagesforCarousel['alt'][8]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][9]#"/><p>#collEventImagesforCarousel['alt'][9]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][10]#"/><p>#collEventImagesforCarousel['alt'][10]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][11]#"/><p>#collEventImagesforCarousel['alt'][11]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][12]#"/><p>#collEventImagesforCarousel['alt'][12]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][13]#"/><p>#collEventImagesforCarousel['alt'][13]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][14]#"/><p>#collEventImagesforCarousel['alt'][14]#</p></div>
-														<div class="carouselImageX"><img class="w-100" src="#collEventImagesforCarousel['media_uri'][15]#"/><p>#collEventImagesforCarousel['alt'][15]#</p></div>
-													</cfoutput>
-												</div>
-												<div class="carousel__buttonX--next"></div>
-												<div class="carousel__buttonX--prev"></div>
-											</div>
-										</div>
+			
 									</div>
 								</div>	
 							</cfif>
