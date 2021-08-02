@@ -343,7 +343,7 @@ limitations under the License.
 
 // This example requires the Visualization library. Include the libraries=visualization
 // parameter when you first load the API. For example:
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=visualization"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=#needthekey#&libraries=visualization"></script>
 	<script>
 let map, heatmap;
 
