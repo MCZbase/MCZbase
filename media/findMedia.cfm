@@ -884,7 +884,6 @@ limitations under the License.
 					cardview: !currentState
 				});
 				$("##searchResultsGrid").jqxGrid("endUpdate");
-					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;width:100%;height:auto;"></div>');
 			};
 
 	
