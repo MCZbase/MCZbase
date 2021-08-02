@@ -326,7 +326,7 @@ limitations under the License.
 						<!---end specimen grid--->						
 					</div>		
 								
-					<div class="row mx-0">	
+					<div class="row mx-3">	
 						<div class="col-12 col-md-6 float-left">
 						<!--- obtain a random set of specimen images, limited to a small number --->
 						<cfif specimenImgs.media_uri gt 0>
@@ -404,10 +404,9 @@ limitations under the License.
 							<h2 class="mt-3"> Images from Agents (shows 15)</h2>
 							<p class="small">Refresh page to show a different 15 images.</p>
 							<div class="carousel-wrapperZ">
-							<cfoutput>
-								<div class="carouselZ">
-									<div class="carouselImageZ initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
-									
+								<cfoutput>
+									<div class="carouselZ">
+										<div class="carouselImageZ initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
 										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][2]#"/><p>#agentImagesforCarousel['alt'][2]#</p></div>
 										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][3]#"/><p>#agentImagesforCarousel['alt'][3]#</p></div>
 										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][4]#"/><p>#agentImagesforCarousel['alt'][4]#</p></div>
@@ -422,10 +421,10 @@ limitations under the License.
 										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][13]#"/><p>#agentImagesforCarousel['alt'][13]#</p></div>
 										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][14]#"/><p>#agentImagesforCarousel['alt'][14]#</p></div>
 										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][15]#"/><p>#agentImagesforCarousel['alt'][15]#</p></div>
-								</div>
-								<div class="carousel__buttonZ--next"></div>
-								<div class="carousel__buttonZ--prev"></div>
-							</cfoutput>
+									</div>
+									<div class="carousel__buttonZ--next"></div>
+									<div class="carousel__buttonZ--prev"></div>
+								</cfoutput>
 							</div>
 						</cfif>
 						</div>
