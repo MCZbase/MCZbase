@@ -272,7 +272,7 @@ limitations under the License.
 									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
-								WHERE rownum < 16
+								Limit 15
 							</cfquery>
 							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
 								SELECT * FROM (
@@ -297,7 +297,7 @@ limitations under the License.
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
-								WHERE rownum < 31
+								limit 15
 							</cfquery>
 							<!---The encumbrance line was slowing it down too much--->
 							<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
