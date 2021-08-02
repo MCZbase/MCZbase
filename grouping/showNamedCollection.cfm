@@ -319,12 +319,12 @@ limitations under the License.
 
 								  function drawRegionsMap() {
 									var data = google.visualization.arrayToDataTable([
-									  ['Country', 'Collecting Location'],
-									  ['Germany', 200],
-									  ['United States', 300],
-									  ['Brazil', 400],
-									  ['Canada', 500],
-									  ['France', 600],
+									  ['Country', 'Collected'],
+									  ['Germany', 254],
+									  ['United States', 320],
+									  ['Brazil', 410],
+									  ['Canada', 506],
+									  ['France', 670],
 									  ['RU', 700]
 									]);
 
