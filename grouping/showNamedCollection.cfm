@@ -306,9 +306,9 @@ limitations under the License.
 							<div class="carousel-wrapperX">
 								<cfoutput>
 									<div class="carouselX">
-										<div class="carouselImageX initial"><img class="w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesforCarousel['media_id'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>									
-										<div class="carouselImageX"><img class="w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesforCarousel['media_id'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesforCarousel['media_id'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
+										<div class="carouselImageX initial"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>									
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><p>#specimenImagesforCarousel['alt'][4]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><p>#specimenImagesforCarousel['alt'][5]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><p>#specimenImagesforCarousel['alt'][6]#</p></div>
