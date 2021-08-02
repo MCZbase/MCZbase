@@ -878,7 +878,7 @@ limitations under the License.
 						<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
 							#separator#{name: '#ucase(column_name)#', type: 'string' }
 						<cfelse>
-							#separator#{name: '#ucase(column_name#)', type: 'string' }
+							#separator#{name: '#ucase(column_name)#', type: 'string' }
 						</cfif>
 						<cfset separator = ",">
 					</cfloop>
