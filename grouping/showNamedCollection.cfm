@@ -337,8 +337,8 @@ limitations under the License.
 								</cfoutput>
 							</div>
 							</cfif>
-							<div id="mapper" class="col-12">
- 							// This example requires the Visualization library. Include the libraries=visualization
+							<div id="mapper" class="col-12 px-0">
+ 							// This Google Map example requires the Visualization library. Include the libraries=visualization
 							// parameter when you first load the API. For example:
 								<style>
 								/* Always set the map height explicitly to define the size of the div
@@ -373,12 +373,12 @@ limitations under the License.
 								  z-index: 5;
 								}
 								</style>
-									<div id="floating-panel">
+<!---									<div id="floating-panel">
 									  <button id="toggle-heatmap">Toggle Heatmap</button>
 									  <button id="change-gradient">Change gradient</button>
 									  <button id="change-radius">Change radius</button>
 									  <button id="change-opacity">Change opacity</button>
-									</div>
+									</div>--->
 									<div id="map"><img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/thumbnails/google_map_Example.png" class="w-100"></div>
 							</div><!---end map--->
 								
