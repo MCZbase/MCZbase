@@ -251,7 +251,7 @@ limitations under the License.
 						<!---end specimen grid--->						
 					</div>		
 								
-					<div class="row mx-3">	
+					<div class="row mx-3 mt-3">	
 						<div class="col-12 col-md-6 float-left">
 						<!--- obtain a random set of specimen images, limited to a small number --->
 						<cfif specimenImgs.media_uri gt 0>
@@ -375,7 +375,7 @@ limitations under the License.
 								  z-index: 5;
 								}
 								</style>
-									<div id="floating-panel" class="mt-4">
+									<div id="floating-panel" class="mt-2">
 									  <button id="toggle-heatmap">Toggle Heatmap</button>
 									  <button id="change-gradient">Change gradient</button>
 									  <button id="change-radius">Change radius</button>
