@@ -297,7 +297,7 @@ limitations under the License.
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
-								WHERE Rownum <= 30
+								WHERE Rownum <= 26
 							</cfquery>
 						
 							<!---The encumbrance line was slowing it down too much--->
@@ -337,33 +337,7 @@ limitations under the License.
 								</cfoutput>
 							</div>
 							</cfif>
-							<!--- obtain a random set of agent images, limited to a small number --->
-	<!---						
-							<h2 class="mt-3"> Images from Agents (shows 15)</h2>
-							<p class="small">Refresh page to show a different 15 images.</p>
-							<div class="carousel-wrapperX">
-								<cfoutput>
-									<div class="carouselX">
-										<div class="carouselImageX initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][17]#"/><p>#agentImagesforCarousel['alt'][17]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][18]#"/><p>#agentImagesforCarousel['alt'][18]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][19]#"/><p>#agentImagesforCarousel['alt'][19]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][20]#"/><p>#agentImagesforCarousel['alt'][20]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][21]#"/><p>#agentImagesforCarousel['alt'][21]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][22]#"/><p>#agentImagesforCarousel['alt'][22]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][23]#"/><p>#agentImagesforCarousel['alt'][23]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][24]#"/><p>#agentImagesforCarousel['alt'][24]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][25]#"/><p>#agentImagesforCarousel['alt'][25]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][26]#"/><p>#agentImagesforCarousel['alt'][26]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][27]#"/><p>#agentImagesforCarousel['alt'][27]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][28]#"/><p>#agentImagesforCarousel['alt'][28]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][29]#"/><p>#agentImagesforCarousel['alt'][29]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][30]#"/><p>#agentImagesforCarousel['alt'][30]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][16]#"/><p>#agentImagesforCarousel['alt'][16]#</p></div>
-									</div>
-									<div class="carousel__buttonX--next"></div>
-									<div class="carousel__buttonX--prev"></div>
-								</cfoutput>
-							</div>--->
+
 					
 						</div>
 
