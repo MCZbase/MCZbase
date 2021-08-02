@@ -324,15 +324,15 @@ limitations under the License.
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
-								WHERE rownum < 16
+								WHERE rownum between 16 and 30
 							</cfquery>
 							<h2 class="mt-3"> Images from Agents (shows 15)</h2>
 							<p class="small">Refresh page to show a different 15 images.</p>
 							<div class="carousel-wrapperX">
 								<cfoutput>
 									<div class="carouselX">
-										<div class="carouselImageX initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][2]#"/><p>#agentImagesforCarousel['alt'][2]#</p></div>
+										<div class="carouselImageX initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][17]#"/><p>#agentImagesforCarousel['alt'][17]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][18]#"/><p>#agentImagesforCarousel['alt'][18]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][3]#"/><p>#agentImagesforCarousel['alt'][3]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][4]#"/><p>#agentImagesforCarousel['alt'][4]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][5]#"/><p>#agentImagesforCarousel['alt'][5]#</p></div>
