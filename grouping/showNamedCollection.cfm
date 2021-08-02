@@ -754,10 +754,10 @@ function initCarousel() {
 }(document));
 </script>
 <script>
-!(function(p){
+!(function(d){
 // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
 var itemClassName = "carouselImageZ";
-	items = p.getElementsByClassName(itemClassName),
+	items = d.getElementsByClassName(itemClassName),
 	totalItems = items.length,
 	slide = 0,
 	moving = true; 
@@ -775,8 +775,8 @@ function setInitialClasses() {
 // Set click events to navigation buttons
 
 function setEventListeners() {
-	var next = p.getElementsByClassName('carousel__buttonZ--next')[0],
-		prev = p.getElementsByClassName('carousel__buttonZ--prev')[0];
+	var next = d.getElementsByClassName('carousel__buttonZ--next')[0],
+		prev = d.getElementsByClassName('carousel__buttonZ--prev')[0];
 
 	next.addEventListener('click', moveNext);
 	prev.addEventListener('click', movePrev);
@@ -888,7 +888,7 @@ function initCarousel() {
 // make it rain
 	initCarousel();
 
-}(document.onload));
+}(document));
 </script>
 </cfoutput> 
 
