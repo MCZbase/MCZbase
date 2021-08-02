@@ -331,7 +331,7 @@ limitations under the License.
 											WHERE rownum < 16
 										</cfquery>
 										<div class="col-12 col-md-6 float-left">
-											<h2 class="mt-3"> Images of Agents (shows 15)</h2>
+											<h2 class="mt-3"> Images from Agents (shows 15)</h2>
 											<p class="small">Refresh page to show a different 15 images.</p>
 											<div class="carousel-wrapperX">
 												<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
@@ -375,11 +375,7 @@ limitations under the License.
 												left join media on media_relations.media_id = media.media_id
 											WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 												AND flat.guid IS NOT NULL
-												AND media_relations.media_relationship = 'shows collecting_event'
-												AND media.media_type = 'image'
-												AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-												AND MCZBASE.is_media_encumbered(media.media_id) < 1
-												AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+												AND media_relations.media_relationship = 'ledger entry for cataloged_item'
 											ORDER BY DBMS_RANDOM.RANDOM
 										) 
 										WHERE rownum < 16
