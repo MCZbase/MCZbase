@@ -883,6 +883,7 @@ limitations under the License.
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState
 				});
+				$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;width:100%;height:auto;"></div>');
 				$("##searchResultsGrid").jqxGrid("endUpdate");
 			};
 
