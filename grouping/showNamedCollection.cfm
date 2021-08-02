@@ -111,7 +111,7 @@ limitations under the License.
 }
 
 	
-/*.carousel-wrapperZ {
+.carousel-wrapperZ {
 	overflow: hidden;
 	width: 100%;
 	margin: 0;
@@ -183,7 +183,7 @@ limitations under the License.
 .carousel__buttonZ--next::after {
 	left: 20%;
 	transform: translate(-50%, -50%) rotate(-45deg);
-}*/
+}
 </style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -403,27 +403,27 @@ limitations under the License.
 							</cfquery>
 							<h2 class="mt-3"> Images from Agents (shows 15)</h2>
 							<p class="small">Refresh page to show a different 15 images.</p>
-							<div class="carousel-wrapperX">
+							<div class="carousel-wrapperZ">
 								<cfoutput>
-									<div class="carouselX">
-										<div class="carouselImageX initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][2]#"/><p>#agentImagesforCarousel['alt'][2]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][3]#"/><p>#agentImagesforCarousel['alt'][3]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][4]#"/><p>#agentImagesforCarousel['alt'][4]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][5]#"/><p>#agentImagesforCarousel['alt'][5]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][6]#"/><p>#agentImagesforCarousel['alt'][6]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][7]#"/><p>#agentImagesforCarousel['alt'][7]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][8]#"/><p>#agentImagesforCarousel['alt'][8]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][9]#"/><p>#agentImagesforCarousel['alt'][9]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][10]#"/><p>#agentImagesforCarousel['alt'][10]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][11]#"/><p>#agentImagesforCarousel['alt'][11]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][12]#"/><p>#agentImagesforCarousel['alt'][12]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][13]#"/><p>#agentImagesforCarousel['alt'][13]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][14]#"/><p>#agentImagesforCarousel['alt'][14]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][15]#"/><p>#agentImagesforCarousel['alt'][15]#</p></div>
+									<div class="carouselZ">
+										<div class="carouselImageZ initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][2]#"/><p>#agentImagesforCarousel['alt'][2]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][3]#"/><p>#agentImagesforCarousel['alt'][3]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][4]#"/><p>#agentImagesforCarousel['alt'][4]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][5]#"/><p>#agentImagesforCarousel['alt'][5]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][6]#"/><p>#agentImagesforCarousel['alt'][6]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][7]#"/><p>#agentImagesforCarousel['alt'][7]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][8]#"/><p>#agentImagesforCarousel['alt'][8]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][9]#"/><p>#agentImagesforCarousel['alt'][9]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][10]#"/><p>#agentImagesforCarousel['alt'][10]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][11]#"/><p>#agentImagesforCarousel['alt'][11]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][12]#"/><p>#agentImagesforCarousel['alt'][12]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][13]#"/><p>#agentImagesforCarousel['alt'][13]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][14]#"/><p>#agentImagesforCarousel['alt'][14]#</p></div>
+										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][15]#"/><p>#agentImagesforCarousel['alt'][15]#</p></div>
 									</div>
-									<div class="carousel__buttonX--next"></div>
-									<div class="carousel__buttonX--prev"></div>
+									<div class="carousel__buttonZ--next1"></div>
+									<div class="carousel__buttonZ--prev1"></div>
 								</cfoutput>
 							</div>
 						</cfif>
@@ -756,141 +756,141 @@ function initCarousel() {
 	
 	
 	
-//!(function (p){
-//// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
-//var itemClassName = "carouselImageZ";
-//	items = p.getElementsByClassName(itemClassName),
-//	totalItems = items.length,
-//	slide = 0,
-//	moving = true; 
-//
-//// To initialise the carousel we'll want to update the DOM with our own classes
-//function setInitialClasses() {
-//
-//	// Target the last, initial, and next items and give them the relevant class.
-//	// This assumes there are three or more items.
-//	items[totalItems - 1].classList.add("prev");
-//	items[0].classList.add("active");
-//	items[1].classList.add("next");
-//}
-//
-//// Set click events to navigation buttons
-//
-//function setEventListeners() {
-//	var next = p.getElementsByClassName('carousel__buttonZ--next')[0],
-//		prev = p.getElementsByClassName('carousel__buttonZ--prev')[0];
-//
-//	next.addEventListener('click', moveNext);
-//	prev.addEventListener('click', movePrev);
-//}
-//
-//// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
-//function disableInteraction() {
-//	moving = true;
-//
-//	setTimeout(function(){
-//		moving = false
-//	}, 500);
-//}
-//
-//function moveCarouselTo(slide) {
-//
-//	// Check if carousel is moving, if not, allow interaction
-//	if(!moving) {
-//
-//	// temporarily disable interactivity
-//	disableInteraction();
-//
-//	// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
-//	var newPrevious = slide - 1,
-//		newNext = slide + 1,
-//		oldPrevious = slide - 2,
-//		oldNext = slide + 2;
-//
-//	// Test if carousel has more than three items
-//	if ((totalItems - 1) > 3) {
-//
-//		// Checks if the new potential slide is out of bounds and sets slide numbers
-//		if (newPrevious <= 0) {
-//			oldPrevious = (totalItems - 1);
-//		} else if (newNext >= (totalItems - 1)){
-//			oldNext = 0;
-//		}
-//
-//		// Check if current slide is at the beginning or end and sets slide numbers
-//		if (slide === 0) {
-//			newPrevious = (totalItems - 1);
-//			oldPrevious = (totalItems - 2);
-//			oldNext = (slide + 1);
-//		} else if (slide === (totalItems -1)) {
-//			newPrevious = (slide - 1);
-//			newNext = 0;
-//			oldNext = 1;
-//		}
-//
-//		// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
-//
-//		// Based on the current slide, reset to default classes.
-//		items[oldPrevious].className = itemClassName;
-//		items[oldNext].className = itemClassName;
-//
-//		// Add the new classes
-//		items[newPrevious].className = itemClassName + " prev";
-//		items[slide].className = itemClassName + " active";
-//		items[newNext].className = itemClassName + " next";
-//		}
-//	}
-//}
-//
-//// Next navigation handler
-//function moveNext() {
-//
-//	// Check if moving
-//	if (!moving) {
-//
-//	// If it's the last slide, reset to 0, else +1
-//	if (slide === (totalItems - 1)) {
-//		slide = 0;
-//	} else {
-//		slide++;
-//	}
-//
-//	// Move carousel to updated slide
-//		moveCarouselTo(slide);
-//	}
-//}
-//
-//// Previous navigation handler
-//function movePrev() {
-//
-//	// Check if moving
-//	if (!moving) {
-//
-//	// If it's the first slide, set as the last slide, else -1
-//	if (slide === 0) {
-//		slide = (totalItems - 1);
-//	} else {
-//		slide--;
-//	}
-//
-//	// Move carousel to updated slide
-//		moveCarouselTo(slide);
-//	}
-//}
-//
-//// Initialise carousel
-//function initCarousel() {
-//	setInitialClasses();
-//	setEventListeners();
-//
-//	// Set moving to false now that the carousel is ready
-//	moving = false;
-//}
-//
-//// make it rain
-//	initCarousel();
-//
-//}(document.onload));
+!(function (p){
+// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+var itemClassName = "carouselImageZ";
+	items1 = p.getElementsByClassName(itemClassName),
+	totalItems1 = items1.length,
+	slide1 = 0,
+	moving1 = true; 
+
+// To initialise the carousel we'll want to update the DOM with our own classes
+function setInitialClasses() {
+
+	// Target the last, initial, and next items and give them the relevant class.
+	// This assumes there are three or more items.
+	items1[totalItems1 - 1].classList.add("prev1");
+	items1[0].classList.add("active1");
+	items1[1].classList.add("next1");
+}
+
+// Set click events to navigation buttons
+
+function setEventListeners() {
+	var next = p.getElementsByClassName('carousel__buttonZ--next1')[0],
+		prev = p.getElementsByClassName('carousel__buttonZ--prev1')[0];
+
+	next1.addEventListener('click', moveNext);
+	prev1.addEventListener('click', movePrev);
+}
+
+// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+function disableInteraction() {
+	moving = true;
+
+	setTimeout(function(){
+		moving = false
+	}, 500);
+}
+
+function moveCarouselTo(slide) {
+
+	// Check if carousel is moving, if not, allow interaction
+	if(!moving) {
+
+	// temporarily disable interactivity
+	disableInteraction();
+
+	// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+	var newPrevious1 = slide - 1,
+		newNext1 = slide + 1,
+		oldPrevious1 = slide - 2,
+		oldNext1 = slide + 2;
+
+	// Test if carousel has more than three items
+	if ((totalItems1 - 1) > 3) {
+
+		// Checks if the new potential slide is out of bounds and sets slide numbers
+		if (newPrevious1 <= 0) {
+			oldPrevious1 = (totalItems1 - 1);
+		} else if (newNext1 >= (totalItems1 - 1)){
+			oldNext1 = 0;
+		}
+
+		// Check if current slide is at the beginning or end and sets slide numbers
+		if (slide === 0) {
+			newPrevious1 = (totalItems1 - 1);
+			oldPrevious1 = (totalItems1 - 2);
+			oldNext1 = (slide + 1);
+		} else if (slide === (totalItems -1)) {
+			newPrevious1 = (slide - 1);
+			newNext1 = 0;
+			oldNext1 = 1;
+		}
+
+		// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+
+		// Based on the current slide, reset to default classes.
+		items1[oldPrevious1].className = itemClassName;
+		items1[oldNext1].className = itemClassName;
+
+		// Add the new classes
+		items1[newPrevious1].className = itemClassName + " prev1";
+		items1[slide].className = itemClassName + " active1";
+		items1[newNext1].className = itemClassName + " next1";
+		}
+	}
+}
+
+// Next navigation handler
+function moveNext() {
+
+	// Check if moving
+	if (!moving) {
+
+	// If it's the last slide, reset to 0, else +1
+	if (slide === (totalItems1 - 1)) {
+		slide = 0;
+	} else {
+		slide++;
+	}
+
+	// Move carousel to updated slide
+		moveCarouselTo(slide);
+	}
+}
+
+// Previous navigation handler
+function movePrev() {
+
+	// Check if moving
+	if (!moving) {
+
+	// If it's the first slide, set as the last slide, else -1
+	if (slide === 0) {
+		slide = (totalItems1 - 1);
+	} else {
+		slide--;
+	}
+
+	// Move carousel to updated slide
+		moveCarouselTo(slide);
+	}
+}
+
+// Initialise carousel
+function initCarousel() {
+	setInitialClasses();
+	setEventListeners();
+
+	// Set moving to false now that the carousel is ready
+	moving = false;
+}
+
+// make it rain
+	initCarousel();
+
+}(document.onload));
 </script>
 </cfoutput> 
 
