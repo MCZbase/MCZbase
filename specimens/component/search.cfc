@@ -616,6 +616,10 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 				<cfif isDefined("phylorder") AND len(phylorder) GT 0>
 					<cfif left(phylorder,1) is "=">
 						AND upper(flat.phylorder) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">
+					<cfelseif left(phylorder,1) is "$">
+						AND soundex(flat.phylorder) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">)
+					<cfelseif left(phylorder,2) is "!$">
+						AND soundex(flat.phylorder) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-2))#">)
 					<cfelseif left(phylorder,1) is "!">
 						AND upper(flat.phylorder) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">
 					<cfelseif phylorder is "NULL">
@@ -633,6 +637,10 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 				<cfif isDefined("family") AND len(family) GT 0>
 					<cfif left(family,1) is "=">
 						AND upper(flat.family) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">
+					<cfelseif left(family,1) is "$">
+						AND soundex(flat.family) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">)
+					<cfelseif left(family,2) is "!$">
+						AND soundex(flat.family) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-2))#">)
 					<cfelseif left(family,1) is "!">
 						AND upper(flat.family) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">
 					<cfelseif family is "NULL">

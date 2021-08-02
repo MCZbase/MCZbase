@@ -26,7 +26,7 @@ Report on primary types, by department.
 
 <cfoutput>
 	<div id="overlaycontainer" style="position: relative;"> 
-		<main class="container py-3">
+		<main id="content" class="container py-3">
 			<section class="row">
 				<div class="col-12">
 					<form name="searchForm" id="searchForm">
@@ -47,7 +47,7 @@ Report on primary types, by department.
 										<li class="py-1 list-inline-item">None.  No Types</li>
 									<cfelse>
 										<cfloop query="getcounts">
-											<li class="px-1 list-inline-item">#getcounts.collection#:#getcounts.ct# </li>
+											<li class="px-1 list-inline-item">#getcounts.collection#:&nbsp;#getcounts.ct# </li>
 										</cfloop>
 									</cfif>
 								</ul>
@@ -68,14 +68,22 @@ Report on primary types, by department.
 							<div class="col-12 col-md-4">
 								<cfif not isDefined("phylorder")><cfset phylorder=""></cfif>
 								<label for="phylorder" class="data-entry-label align-left-center">Order 
-									<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">(=)</button>
+									<span class="small">
+										(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">=</button>,
+										<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+										NULL, NOT NULL)
+									</span>
 								</label>
 								<input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#phylorder#" placeholder="order">
 							</div>
 							<div class="col-12 col-md-4">
 								<cfif not isDefined("family")><cfset family=""></cfif>
 								<label for="family" class="data-entry-label align-left-center">Family 
-									<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">(=)</button>
+									<span class="small">
+										(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">=</button>,
+										<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+										NULL, NOT NULL)
+									</span>
 								</label>
 								<input type="text" class="data-entry-input" id="family" name="family" value="#family#" placeholder="family">
 							</div>
