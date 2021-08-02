@@ -839,12 +839,15 @@ limitations under the License.
 					//$("##searchResultsGrid").jqxGrid('autoheight',true);
 					$("##searchResultsGrid").jqxGrid('rowsheight',36);
 					$("##searchResultsGrid").jqxGrid('height',32);
-					//cardsize: 5,
+					$("##searchResultsGrid").jqxGrid('pagesize', 50);
+					$("##searchResultsGrid").jqxGrid('pagesizeoptions', ['5','50','100']);
+					$("##searchResultsGrid").jqxGrid('pageable', 'false');
 				} else {
 					// state is row view switching to cardview
 					$("##searchResultsGrid").jqxGrid('cardheight',620);
 					//this should be ('cardsize',5); however, it multiplies the cardheight times the number of rows (which have become cards-so 5 cards per row is //really 5 rows per row of cards in cardview or "5/No. of records in results")
 					$("##searchResultsGrid").jqxGrid('cardsize',5);
+
 					$("##searchResultsGrid").jqxGrid({
 						cardviewcolumns: [
 							{ width: 'auto', datafield: 'media_id',hidable: true},
@@ -985,10 +988,7 @@ limitations under the License.
 						//autorowheight: true,
 						filterable: true,
 						sortable: true,
-						pageable: true,
 						editable: false,
-						pagesize: 50,
-						pagesizeoptions: ['5','50','100'],
 						showaggregates: true,
 						columnsresize: true,
 						keyboardnavigation: true,
