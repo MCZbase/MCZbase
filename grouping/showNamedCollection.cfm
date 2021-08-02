@@ -337,13 +337,13 @@ limitations under the License.
 								</cfoutput>
 							</div>
 							</cfif>
-<div id="mapper" class="col-6">
+<div id="mapper" class="col-12">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <!-- jsFiddle will insert css and js -->
 <script>
 // This example requires the Visualization library. Include the libraries=visualization
 // parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=visualization">
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=visualization">
 let map, heatmap;
 
 function initMap() {
