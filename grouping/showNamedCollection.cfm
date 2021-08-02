@@ -337,7 +337,7 @@ limitations under the License.
 								</cfoutput>
 							</div>
 							</cfif>
-<div id="mapper">
+<div id="mapper" class="col-6">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <!-- jsFiddle will insert css and js -->
 <script>
