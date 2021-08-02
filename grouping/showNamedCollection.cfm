@@ -765,7 +765,7 @@ var itemClassName = "carouselImageZ";
 	moving1 = true; 
 
 // To initialise the carousel we'll want to update the DOM with our own classes
-function setInitialClasses() {
+function setInitialClasses1() {
 
 	// Target the last, initial, and next items and give them the relevant class.
 	// This assumes there are three or more items.
@@ -776,7 +776,7 @@ function setInitialClasses() {
 
 // Set click events to navigation buttons
 
-function setEventListeners() {
+function setEventListeners1() {
 	var next = p.getElementsByClassName('carousel__buttonZ--next1')[0],
 		prev = p.getElementsByClassName('carousel__buttonZ--prev1')[0];
 
@@ -785,7 +785,7 @@ function setEventListeners() {
 }
 
 // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
-function disableInteraction() {
+function disableInteraction1() {
 	moving = true;
 
 	setTimeout(function(){
@@ -793,7 +793,7 @@ function disableInteraction() {
 	}, 500);
 }
 
-function moveCarouselTo(slide) {
+function moveCarouselTo1(slide) {
 
 	// Check if carousel is moving, if not, allow interaction
 	if(!moving) {
@@ -843,7 +843,7 @@ function moveCarouselTo(slide) {
 }
 
 // Next navigation handler
-function moveNext() {
+function moveNext1() {
 
 	// Check if moving
 	if (!moving) {
@@ -861,7 +861,7 @@ function moveNext() {
 }
 
 // Previous navigation handler
-function movePrev() {
+function movePrev1() {
 
 	// Check if moving
 	if (!moving) {
@@ -879,7 +879,7 @@ function movePrev() {
 }
 
 // Initialise carousel
-function initCarousel() {
+function initCarousel1() {
 	setInitialClasses();
 	setEventListeners();
 
@@ -888,9 +888,9 @@ function initCarousel() {
 }
 
 // make it rain
-	initCarousel();
+	initCarouselZ();
 
-}(document.onload));
+}(document));
 </script>
 </cfoutput> 
 
