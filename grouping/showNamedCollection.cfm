@@ -301,14 +301,14 @@ limitations under the License.
 							</cfquery>
 						
 							<!---The encumbrance line was slowing it down too much--->
-							<h2 class="mt-3">Related Images (shows 15)</h2>
+							<h2 class="mt-3">Images (shows 15)</h2>
 							<p class="small">Specimen Images (#specimenImgs.recordcount#), Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 15 images.</p>
 							<div class="carousel-wrapperX">
 								<cfoutput>
 									<div class="carouselX">
-										<div class="carouselImageX initial"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>									
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
+										<div class="carouselImageX initial"><img class="w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesforCarousel['media_id'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>									
+										<div class="carouselImageX"><img class="w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesforCarousel['media_id'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesforCarousel['media_id'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><p>#specimenImagesforCarousel['alt'][4]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><p>#specimenImagesforCarousel['alt'][5]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><p>#specimenImagesforCarousel['alt'][6]#</p></div>
