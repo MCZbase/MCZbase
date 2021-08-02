@@ -299,11 +299,10 @@ limitations under the License.
 								) 
 								WHERE Rownum <= 30
 							</cfquery>
-							<cfset agentImgCt = #agentImagesForCarousel.recordcount#>
-							<cfset specimenImgCt = #specimenImgs.recordcount#>
+						
 							<!---The encumbrance line was slowing it down too much--->
 							<h2 class="mt-3">Related Images (shows 15)</h2>
-							<p class="small">Specimen Images (#specimenImgCt.recordcount#), Agent Images (#agentImgCt.recordcount#). Refresh page to show a different 15 images.</p>
+							<p class="small">Specimen Images (#specimenImgs.recordcount#), Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 15 images.</p>
 							<div class="carousel-wrapperX">
 								<cfoutput>
 									<div class="carouselX">
