@@ -1471,7 +1471,7 @@
 				code
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#code#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#code#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctspecific_permit_type">
