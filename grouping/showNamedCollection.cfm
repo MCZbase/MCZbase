@@ -387,7 +387,7 @@ limitations under the License.
 							</div><!---end map--->
 							<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 								<h2 class="mt-4">Region Map Example</h2>
-       							<div id="regions_div" style="width: 900px; height: 500px;"></div>	
+       							<div id="regions_div" class="w-100" style="height: 550px;"></div>	
 							<script>     
 								google.charts.load('current', {
 								'packages':['geochart'],
