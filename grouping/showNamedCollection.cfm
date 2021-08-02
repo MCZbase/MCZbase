@@ -924,9 +924,9 @@ function getPoints() {
   top: 10px;
   left: 25%;
   z-index: 5;
-  background-color: #fff;
+  background-color: ##fff;
   padding: 5px;
-  border: 1px solid #999;
+  border: 1px solid ##999;
   text-align: center;
   font-family: "Roboto", "sans-serif";
   line-height: 30px;
@@ -934,8 +934,8 @@ function getPoints() {
 }
 
 ##floating-panel {
-  background-color: #fff;
-  border: 1px solid #999;
+  background-color: ##fff;
+  border: 1px solid ##999;
   left: 25%;
   padding: 5px;
   position: absolute;
