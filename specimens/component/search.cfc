@@ -203,7 +203,7 @@ limitations under the License.
 			SELECT 
 				<cfset comma = "">
 				<cfloop query="flatFields">
-					#comma##sql_element# as #column_name#
+					#comma##column_name#
 					<cfset comma = ",">
 				</cfloop>
 				<cfloop query="attrFields">
@@ -408,7 +408,7 @@ limitations under the License.
 			SELECT 
 				<cfset comma = "">
 				<cfloop query="flatFields">
-					#comma##sql_element# as #column_name#
+					#comma##column_name#
 					<cfset comma = ",">
 				</cfloop>
 				<cfloop query="attrFields">
