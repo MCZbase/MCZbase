@@ -248,299 +248,295 @@ limitations under the License.
 								<div id="jqxgrid"></div>
 							</div>
 						</div>
-						<!---end specimen grid--->
+						<!---end specimen grid--->						
+					</div>		
 								
-						</div>		
-								
-						<div class="row mx-0">	
-							<div class="col-12 col-md-6 float-left">
-							<!--- obtain a random set of specimen images, limited to a small number --->
-							<cfif specimenImgs.media_uri gt 0>
-								<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">                                    		
-									SELECT * FROM (
-									SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
-									FROM
-										underscore_collection
-										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join cataloged_item
-											on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-										left join media_relations
-											on media_relations.related_primary_key = underscore_relation.collection_object_id
-										left join media on media_relations.media_id = media.media_id
-									WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										AND media_relations.media_relationship = 'shows cataloged_item'
-										AND media.media_type = 'image'
-										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-										ORDER BY DBMS_RANDOM.RANDOM
-									) 
-									WHERE rownum < 16
-								</cfquery>
-								<!---The encumbrance line was slowing it down too much--->
-								<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
-								<p class="small">Refresh page to show a different 15 images.</p>
-								<div class="carousel-wrapperX">
-									<cfoutput>
-										<div class="carouselX">
-											<div class="carouselImageX initial"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>									
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><p>#specimenImagesforCarousel['alt'][4]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><p>#specimenImagesforCarousel['alt'][5]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><p>#specimenImagesforCarousel['alt'][6]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><p>#specimenImagesforCarousel['alt'][7]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><p>#specimenImagesforCarousel['alt'][8]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><p>#specimenImagesforCarousel['alt'][9]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><p>#specimenImagesforCarousel['alt'][10]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><p>#specimenImagesforCarousel['alt'][11]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><p>#specimenImagesforCarousel['alt'][12]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><p>#specimenImagesforCarousel['alt'][13]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><p>#specimenImagesforCarousel['alt'][14]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][15]#"/><p>#specimenImagesforCarousel['alt'][15]#</p></div>
-										</div>
-										<div class="carousel__buttonX--next"></div>
-										<div class="carousel__buttonX--prev"></div>
-									</cfoutput>
-								</div>
-								<!--- obtain a random set of agent images, limited to a small number --->
-								<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
-									SELECT * FROM (
-										SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-											MCZBASE.get_media_descriptor(media.media_id) as alt,
-											MCZBASE.get_medialabel(media.media_id,'width') as width,
-											MCZBASE.get_media_credit(media.media_id) as credit
-										FROM
-											underscore_collection
-											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-											left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-											left join media_relations on collector.agent_id = media_relations.related_primary_key
-											left join media on media_relations.media_id = media.media_id
-										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											AND flat.guid IS NOT NULL
-											AND collector.collector_role = 'c'
-											AND media_relations.media_relationship = 'shows agent'
-											AND media.media_type = 'image'
-											AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-											AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-										ORDER BY DBMS_RANDOM.RANDOM
-									) 
-									WHERE rownum < 31
-								</cfquery>
-								<h2 class="mt-3"> Images from Agents (shows 15)</h2>
-								<p class="small">Refresh page to show a different 15 images.</p>
-								<div class="carousel-wrapperX">
+					<div class="row mx-0">	
+						<div class="col-12 col-md-6 float-left">
+						<!--- obtain a random set of specimen images, limited to a small number --->
+						<cfif specimenImgs.media_uri gt 0>
+							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">                                    		
+								SELECT * FROM (
+								SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
+								FROM
+									underscore_collection
+									left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+									left join cataloged_item
+										on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+									left join media_relations
+										on media_relations.related_primary_key = underscore_relation.collection_object_id
+									left join media on media_relations.media_id = media.media_id
+								WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									AND media_relations.media_relationship = 'shows cataloged_item'
+									AND media.media_type = 'image'
+									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+									ORDER BY DBMS_RANDOM.RANDOM
+								) 
+								WHERE rownum < 16
+							</cfquery>
+							<!---The encumbrance line was slowing it down too much--->
+							<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
+							<p class="small">Refresh page to show a different 15 images.</p>
+							<div class="carousel-wrapperX">
 								<cfoutput>
-									<div class="carouselImageX initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][16]#"/><p>#agentImagesforCarousel['alt'][16]#</p></div>
-										<div class="carouselX">
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][17]#"/><p>#agentImagesforCarousel['alt'][17]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][18]#"/><p>#agentImagesforCarousel['alt'][18]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][19]#"/><p>#agentImagesforCarousel['alt'][19]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][20]#"/><p>#agentImagesforCarousel['alt'][20]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][21]#"/><p>#agentImagesforCarousel['alt'][21]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][22]#"/><p>#agentImagesforCarousel['alt'][22]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][23]#"/><p>#agentImagesforCarousel['alt'][23]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][24]#"/><p>#agentImagesforCarousel['alt'][24]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][25]#"/><p>#agentImagesforCarousel['alt'][25]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][26]#"/><p>#agentImagesforCarousel['alt'][26]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][27]#"/><p>#agentImagesforCarousel['alt'][27]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][28]#"/><p>#agentImagesforCarousel['alt'][28]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][29]#"/><p>#agentImagesforCarousel['alt'][29]#</p></div>
-											<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][30]#"/><p>#agentImagesforCarousel['alt'][30]#</p></div>
+									<div class="carouselX">
+										<div class="carouselImageX initial"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>									
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><p>#specimenImagesforCarousel['alt'][4]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><p>#specimenImagesforCarousel['alt'][5]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><p>#specimenImagesforCarousel['alt'][6]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><p>#specimenImagesforCarousel['alt'][7]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><p>#specimenImagesforCarousel['alt'][8]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><p>#specimenImagesforCarousel['alt'][9]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><p>#specimenImagesforCarousel['alt'][10]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><p>#specimenImagesforCarousel['alt'][11]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><p>#specimenImagesforCarousel['alt'][12]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><p>#specimenImagesforCarousel['alt'][13]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><p>#specimenImagesforCarousel['alt'][14]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][15]#"/><p>#specimenImagesforCarousel['alt'][15]#</p></div>
 									</div>
 									<div class="carousel__buttonX--next"></div>
 									<div class="carousel__buttonX--prev"></div>
 								</cfoutput>
+							</div>
+							<!--- obtain a random set of agent images, limited to a small number --->
+							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
+								SELECT * FROM (
+									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+										MCZBASE.get_media_descriptor(media.media_id) as alt,
+										MCZBASE.get_medialabel(media.media_id,'width') as width,
+										MCZBASE.get_media_credit(media.media_id) as credit
+									FROM
+										underscore_collection
+										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+										left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+										left join media_relations on collector.agent_id = media_relations.related_primary_key
+										left join media on media_relations.media_id = media.media_id
+									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										AND flat.guid IS NOT NULL
+										AND collector.collector_role = 'c'
+										AND media_relations.media_relationship = 'shows agent'
+										AND media.media_type = 'image'
+										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+									ORDER BY DBMS_RANDOM.RANDOM
+								) 
+								WHERE rownum < 31
+							</cfquery>
+							<h2 class="mt-3"> Images from Agents (shows 15)</h2>
+							<p class="small">Refresh page to show a different 15 images.</p>
+							<div class="carousel-wrapperX">
+							<cfoutput>
+								<div class="carouselImageX initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][16]#"/><p>#agentImagesforCarousel['alt'][16]#</p></div>
+									<div class="carouselX">
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][17]#"/><p>#agentImagesforCarousel['alt'][17]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][18]#"/><p>#agentImagesforCarousel['alt'][18]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][19]#"/><p>#agentImagesforCarousel['alt'][19]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][20]#"/><p>#agentImagesforCarousel['alt'][20]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][21]#"/><p>#agentImagesforCarousel['alt'][21]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][22]#"/><p>#agentImagesforCarousel['alt'][22]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][23]#"/><p>#agentImagesforCarousel['alt'][23]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][24]#"/><p>#agentImagesforCarousel['alt'][24]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][25]#"/><p>#agentImagesforCarousel['alt'][25]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][26]#"/><p>#agentImagesforCarousel['alt'][26]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][27]#"/><p>#agentImagesforCarousel['alt'][27]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][28]#"/><p>#agentImagesforCarousel['alt'][28]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][29]#"/><p>#agentImagesforCarousel['alt'][29]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][30]#"/><p>#agentImagesforCarousel['alt'][30]#</p></div>
 								</div>
-							</cfif>
+								<div class="carousel__buttonX--next"></div>
+								<div class="carousel__buttonX--prev"></div>
+							</cfoutput>
+							</div>
+						</cfif>
+						</div>
+
+						<div class="col mt-0 float-left">
+							<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
+							<div class="my-2 py-3 border-bottom-black">
+								<cfif len(getNamedGroup.description) GT 0 >
+									<h2 class="mt-3">Overview</h2>
+									<p>#getNamedGroup.description#</p>
+								</cfif>
+							</div>
+							<div class="row pb-4">
+								<cfif len(underscore_agent_id) GT 0 >
+									<cfif getNamedGroup.agent_name NEQ "[No Agent]" >
+										<div class="col-12 pt-3">
+											<h3>Associated Agent</h2>
+											<p class="rounded-0 border-top border-dark">
+												<a class="h4 px-2 pt-3 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a>
+											</p>
+										</div>
+									</cfif>
+								</cfif>
+								<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+									SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
+									FROM
+										underscore_relation 
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										and flat.PHYLCLASS is not null
+									ORDER BY flat.phylclass asc
+								</cfquery>
+								<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
+									<!--- try expanding to orders instead if very few classes --->
+									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+										SELECT DISTINCT flat.phylclass || ': ' || flat.phylorder as taxon, flat.phylorder as taxonlink, 'phylorder' as rank,
+											flat.phylclass, flat.phylorder
+										FROM
+											underscore_relation 
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											and flat.PHYLCLASS is not null and flat.phylorder is not null
+										ORDER BY flat.phylclass asc, flat.phylorder asc
+									</cfquery>
+								</cfif>
+								<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
+									<!--- try expanding to families instead if very few orders --->
+									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+										SELECT DISTINCT flat.phylorder || ': ' || flat.family as taxon, flat.family as taxonlink, 'family' as rank,
+											flat.phylorder, flat.family
+										FROM
+											underscore_relation 
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											and flat.PHYLCLASS is not null and flat.family is not null
+										ORDER BY flat.phylorder asc, flat.family asc
+									</cfquery>
+								</cfif>
+								<cfif taxonQuery.recordcount GT 0>
+									<div class="col-12">
+										<h3>Taxa</h3>
+										<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0 border-top border-dark">
+											<cfloop query="taxonQuery">
+												<li class="list-group-item col-12 col-md-3 float-left">
+													<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a>
+												</li>
+											</cfloop>
+										</ul>
+									</div>
+								</cfif>
+								<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="marine_result">
+									SELECT DISTINCT flat.continent_ocean as ocean
+									FROM
+										underscore_relation 
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										and flat.continent_ocean like '%Ocean%'
+									ORDER BY flat.continent_ocean asc
+								</cfquery>
+								<cfif marine.recordcount GT 0>
+									<div class="col-12">
+										<h3 class="px-2">Oceans</h3>
+										<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
+											<cfloop query="marine">
+												<li class="list-group-item col-12 col-md-3 float-left">
+													<a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a>
+												</li>
+											</cfloop>
+										</ul>
+									</div>
+								</cfif>
+								<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
+									SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
+									FROM
+										underscore_relation 
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										and flat.country is not null
+									ORDER BY flat.country asc
+								</cfquery>
+								<cfif geogQuery.recordcount GT 0 AND geogQuery.recordcount LT 5 >
+									<!--- try expanding to families instead if very few orders --->
+									<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
+										SELECT DISTINCT flat.country || ': ' || flat.state_prov as geog, flat.state_prov as geoglink, 'state_prov' as rank,
+											flat.country, flat.state_prov
+										FROM
+											underscore_relation 
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											and flat.state_prov is not null
+										ORDER BY flat.country asc, flat.state_prov asc
+									</cfquery>
+								</cfif>
+								<cfif geogQuery.recordcount GT 0>
+									<div class="col-12">
+										<h3>Geography</h3>
+										<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+											<cfloop query="geogQuery">
+												<li class="list-group-item col-12 col-md-3 float-left">
+													<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a>
+												</li>
+											</cfloop>
+										</ul>
+									</div>
+								</cfif>
+
+								<cfquery name="islandsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="islandsQuery_result">
+									SELECT DISTINCT flat.continent_ocean, flat.island as island
+									FROM
+										underscore_relation 
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										and flat.island is not null
+									ORDER BY flat.continent_ocean, flat.island asc
+								</cfquery>
+								<cfif islandsQuery.recordcount GT 0>
+									<div class="col-12">
+										<h3>Islands</h3>
+										<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+											<cfloop query="islandsQuery">
+												<li class="list-group-item col-12 col-md-3 float-left">
+													<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">
+														#continent_ocean#:
+														#islandsQuery.island#
+													</a>
+												</li>
+											</cfloop>
+										</ul>
+									</div>
+								</cfif>
+
+								<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectors_result">
+									SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
+									FROM
+										underscore_relation 
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+										left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+										left join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
+										left join person on preferred_agent_name.agent_id = person.person_id
+									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										and flat.collectors is not null
+										and collector.collector_role = 'c'
+									ORDER BY person.last_name, preferred_agent_name.agent_name asc
+								</cfquery>
+								<cfif collectors.recordcount GT 0>
+									<div class="col-12">
+										<h3>Collectors</h3>
+										<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+											<cfloop query="collectors">
+												<li class="list-group-item col-12 col-md-3 float-left">
+													<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a>
+												</li>
+											</cfloop>
+										</ul>
+									</div>
+								</cfif>
 							</div>
 						</div>
-							
-
-							<div class="col mt-0 float-left">
-								<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
-								<div class="my-2 py-3 border-bottom-black">
-									<cfif len(getNamedGroup.description) GT 0 >
-										<h2 class="mt-3">Overview</h2>
-										<p>#getNamedGroup.description#</p>
-									</cfif>
-								</div>
-								<div class="row pb-4">
-									<cfif len(underscore_agent_id) GT 0 >
-										<cfif getNamedGroup.agent_name NEQ "[No Agent]" >
-											<div class="col-12 pt-3">
-												<h3>Associated Agent</h2>
-												<p class="rounded-0 border-top border-dark">
-													<a class="h4 px-2 pt-3 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a>
-												</p>
-											</div>
-										</cfif>
-									</cfif>
-									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
-										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
-										FROM
-											underscore_relation 
-											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.PHYLCLASS is not null
-										ORDER BY flat.phylclass asc
-									</cfquery>
-									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
-										<!--- try expanding to orders instead if very few classes --->
-										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
-											SELECT DISTINCT flat.phylclass || ': ' || flat.phylorder as taxon, flat.phylorder as taxonlink, 'phylorder' as rank,
-												flat.phylclass, flat.phylorder
-											FROM
-												underscore_relation 
-												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-													on underscore_relation.collection_object_id = flat.collection_object_id
-											WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-												and flat.PHYLCLASS is not null and flat.phylorder is not null
-											ORDER BY flat.phylclass asc, flat.phylorder asc
-										</cfquery>
-									</cfif>
-									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
-										<!--- try expanding to families instead if very few orders --->
-										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
-											SELECT DISTINCT flat.phylorder || ': ' || flat.family as taxon, flat.family as taxonlink, 'family' as rank,
-												flat.phylorder, flat.family
-											FROM
-												underscore_relation 
-												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-													on underscore_relation.collection_object_id = flat.collection_object_id
-											WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-												and flat.PHYLCLASS is not null and flat.family is not null
-											ORDER BY flat.phylorder asc, flat.family asc
-										</cfquery>
-									</cfif>
-									<cfif taxonQuery.recordcount GT 0>
-										<div class="col-12">
-											<h3>Taxa</h3>
-											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0 border-top border-dark">
-												<cfloop query="taxonQuery">
-													<li class="list-group-item col-12 col-md-3 float-left">
-														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a>
-													</li>
-												</cfloop>
-											</ul>
-										</div>
-									</cfif>
-									<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="marine_result">
-										SELECT DISTINCT flat.continent_ocean as ocean
-										FROM
-											underscore_relation 
-											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.continent_ocean like '%Ocean%'
-										ORDER BY flat.continent_ocean asc
-									</cfquery>
-									<cfif marine.recordcount GT 0>
-										<div class="col-12">
-											<h3 class="px-2">Oceans</h3>
-											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
-												<cfloop query="marine">
-													<li class="list-group-item col-12 col-md-3 float-left">
-														<a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a>
-													</li>
-												</cfloop>
-											</ul>
-										</div>
-									</cfif>
-									<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
-										SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
-										FROM
-											underscore_relation 
-											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.country is not null
-										ORDER BY flat.country asc
-									</cfquery>
-									<cfif geogQuery.recordcount GT 0 AND geogQuery.recordcount LT 5 >
-										<!--- try expanding to families instead if very few orders --->
-										<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
-											SELECT DISTINCT flat.country || ': ' || flat.state_prov as geog, flat.state_prov as geoglink, 'state_prov' as rank,
-												flat.country, flat.state_prov
-											FROM
-												underscore_relation 
-												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-													on underscore_relation.collection_object_id = flat.collection_object_id
-											WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-												and flat.state_prov is not null
-											ORDER BY flat.country asc, flat.state_prov asc
-										</cfquery>
-									</cfif>
-									<cfif geogQuery.recordcount GT 0>
-										<div class="col-12">
-											<h3>Geography</h3>
-											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
-												<cfloop query="geogQuery">
-													<li class="list-group-item col-12 col-md-3 float-left">
-														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a>
-													</li>
-												</cfloop>
-											</ul>
-										</div>
-									</cfif>
-
-									<cfquery name="islandsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="islandsQuery_result">
-										SELECT DISTINCT flat.continent_ocean, flat.island as island
-										FROM
-											underscore_relation 
-											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.island is not null
-										ORDER BY flat.continent_ocean, flat.island asc
-									</cfquery>
-									<cfif islandsQuery.recordcount GT 0>
-										<div class="col-12">
-											<h3>Islands</h3>
-											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
-												<cfloop query="islandsQuery">
-													<li class="list-group-item col-12 col-md-3 float-left">
-														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">
-															#continent_ocean#:
-															#islandsQuery.island#
-														</a>
-													</li>
-												</cfloop>
-											</ul>
-										</div>
-									</cfif>
-
-									<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectors_result">
-										SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
-										FROM
-											underscore_relation 
-											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-											left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-											left join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
-											left join person on preferred_agent_name.agent_id = person.person_id
-										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.collectors is not null
-											and collector.collector_role = 'c'
-										ORDER BY person.last_name, preferred_agent_name.agent_name asc
-									</cfquery>
-									<cfif collectors.recordcount GT 0>
-										<div class="col-12">
-											<h3>Collectors</h3>
-											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
-												<cfloop query="collectors">
-													<li class="list-group-item col-12 col-md-3 float-left">
-														<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a>
-													</li>
-												</cfloop>
-											</ul>
-										</div>
-									</cfif>
-								</div>
-							</div>
-						</div><!--- end rowEverythihngElse--->
-					</div><!--- end col-12 --->
+					</div><!--- end rowEverythihngElse--->
 				</article>
 			</div>
 		</main>
