@@ -342,6 +342,7 @@ limitations under the License.
 								<h2 class="mt-4">Heat Map Example</h2>
  							<script>// This Google Map example requires the Visualization library. Include the libraries=visualization
 							// parameter when you first load the API. For example:
+								//https://developers.google.com/maps/documentation/javascript/examples/layer-heatmap#try-sample
 								// the API key is needed to make this work.
 								</script>
 								<style>
@@ -387,8 +388,9 @@ limitations under the License.
 							</div><!---end map--->
 							<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 								<h2 class="mt-4">Region Map Example</h2>
-       							<div id="regions_div" class="w-100" style="height: 550px;"></div>	
-							<script>     
+						<div id="regions_div" class="w-100" style="height: 550px;"></div>	
+							<script>
+								//https://jsfiddle.net/api/post/library/pure/
 								google.charts.load('current', {
 								'packages':['geochart'],
 								  });
