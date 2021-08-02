@@ -918,7 +918,6 @@ function getPoints() {
 
 /* Optional: Makes the sample page fill the window. */
 
-
 ##floating-panel {
   position: absolute;
   top: 10px;
@@ -952,10 +951,8 @@ function getPoints() {
     <div id="map"></div>
 
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&libraries=visualization&v=weekly&channel=2"
-      async
-    ></script>
+    <script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization"
+      async></script>
 </div><!---end map--->
 								
 								</div>
