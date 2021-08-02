@@ -280,10 +280,9 @@ limitations under the License.
 									<h2 class="mt-3">#specimenImgs.recordcount# Images of Cataloged Items (shows 15)</h2>
 									<p class="small">Refresh page to show a different 15 images.</p>
 									<div class="carousel-wrapperX">
-										<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
-										<div class="carouselX">
-											<cfoutput>
-												<div class="carouselImageX initial"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>
+										<cfoutput>
+										<div class="carouselImageX initial"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>
+											<div class="carouselX">											
 												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
 												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
 												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><p>#specimenImagesforCarousel['alt'][4]#</p></div>
@@ -298,10 +297,10 @@ limitations under the License.
 												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><p>#specimenImagesforCarousel['alt'][13]#</p></div>
 												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><p>#specimenImagesforCarousel['alt'][14]#</p></div>
 												<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][15]#"/><p>#specimenImagesforCarousel['alt'][15]#</p></div>
-											</cfoutput>
-										</div>
+											</div>
 										<div class="carousel__buttonX--next"></div>
 										<div class="carousel__buttonX--prev"></div>
+										</cfoutput>
 									</div>
 									<div class="row mx-0">
 										<!--- obtain a random set of agent images, limited to a small number --->
@@ -334,10 +333,9 @@ limitations under the License.
 											<h2 class="mt-3"> Images from Agents (shows 15)</h2>
 											<p class="small">Refresh page to show a different 15 images.</p>
 											<div class="carousel-wrapperX">
-												<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
-												<div class="carouselX">
-													<cfoutput>
-														<div class="carouselImageX initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
+											<cfoutput>
+												<div class="carouselImageX initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
+													<div class="carouselX">
 														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][2]#"/><p>#agentImagesforCarousel['alt'][2]#</p></div>
 														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][3]#"/><p>#agentImagesforCarousel['alt'][3]#</p></div>
 														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][4]#"/><p>#agentImagesforCarousel['alt'][4]#</p></div>
@@ -352,10 +350,10 @@ limitations under the License.
 														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][13]#"/><p>#agentImagesforCarousel['alt'][13]#</p></div>
 														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][14]#"/><p>#agentImagesforCarousel['alt'][14]#</p></div>
 														<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][15]#"/><p>#agentImagesforCarousel['alt'][15]#</p></div>
-													</cfoutput>
 												</div>
 												<div class="carousel__buttonX--next"></div>
 												<div class="carousel__buttonX--prev"></div>
+											</cfoutput>
 											</div>
 										</div>
 			
