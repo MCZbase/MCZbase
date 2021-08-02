@@ -153,7 +153,7 @@ Report on primary types, by department.
 			var linkPageCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				var citation_page_uri = rowData['citation_page_uri'];
-				if (citation_page_uri && citation_page_uri.startsWith('http') && value && value.length > 0) {
+				if (citation_page_uri && citation_page_uri.startsWith('http') && value && value.toString().length > 0) {
 						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + citation_page_uri + '">'+value+'</a></span>';
 					} else { 
 						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
