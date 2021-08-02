@@ -132,11 +132,34 @@ Report on primary types, by department.
 				<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>
 			</div>
 		</div>
+		<cfset cellRenderClasses = "ml-1">
 		<script>
 			// cell renderer to link out to specimen details page by guid, when value is guid.
 			var linkGuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a></span>';
+				return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a></span>';
 			};
+			var linkNameCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/name/' + encodeURIComponent(value) + '" aria-label="specimen details">'+value+'</a></span>';
+			};
+			var linkPubCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var result = "";
+				if (value && value.toString().startsWith('http')) {
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + value + '">'+value+'</a></span>';
+					} else { 
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+					}
+				return result; 
+			};
+			var linkPageCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var citation_page_uri = rowData['citation_page_uri'];
+				if (citation_page_uri && citation_page_uri.toString().startsWith('http') && value && value.toString().length > 0) {
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + citation_page_uri + '">'+value+'</a></span>';
+					} else { 
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+					}
+				return result; 
+			}
 
 			window.columnHiddenSettings = new Object();
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -239,19 +262,19 @@ Report on primary types, by department.
 							{text: 'Type Name Genus', datafield: 'typegenus', width: 130, hidable: true, hidden: getColHidProp('typegenus', false) },
 							{text: 'Type Name Species', datafield: 'typespecies', width: 130, hidable: true, hidden: getColHidProp('typespecies', false) },
 							{text: 'Type Name Subspecies', datafield: 'typesubspecies', width: 130, hidable: true, hidden: getColHidProp('typesubspecies', false) },
-							{text: 'Type Name', datafield: 'typename', width: 130, hidable: true, hidden: getColHidProp('typename', true) },
+							{text: 'Type Name', datafield: 'typename', width: 130, hidable: true, hidden: getColHidProp('typename', true), cellsrenderer: linkNameCellRenderer },
 							{text: 'Type Authorship', datafield: 'typeauthorship', width: 130, hidable: true, hidden: getColHidProp('typeauthorship', false) },
 							{text: 'Type Publication Authorship', datafield: 'pubauthorship', width: 130, hidable: true, hidden: getColHidProp('pubauthorship', true) },
 							{text: 'Type Epithet', datafield: 'typeepithet', width: 130, hidable: true, hidden: getColHidProp('typeepithet', true) },
 							{text: 'Types Of', datafield: 'typestatusplain', width: 130, hidable: true, hidden: getColHidProp('typestatusplain', true) },
-							{text: 'Current Name', datafield: 'currentname', width: 130, hidable: true, hidden: getColHidProp('currentname', false) },
+							{text: 'Current Name', datafield: 'currentname', width: 130, hidable: true, hidden: getColHidProp('currentname', false), cellsrenderer: linkNameCellRenderer },
 							{text: 'Current Author', datafield: 'currentauthorship', width: 130, hidable: true, hidden: getColHidProp('currentauthorship', false) },
 							{text: 'Country', datafield: 'country', width: 100, hidable: true, hidden: getColHidProp('country', true) },
 							{text: 'Specific Locality', datafield: 'spec_locality', width: 130, hidable: true, hidden: getColHidProp('spec_locality', true) },
 							{text: 'Associated Grant', datafield: 'associatedgrant', width: 130, hidable: true, hidden: getColHidProp('associatedgrant', true) },
 							{text: 'Named Groups', datafield: 'named_groups', width: 130, hideable: true, hidden: getColHidProp('namedgroups', false) },
-							{text: 'Page Number', datafield: 'page_number', width: 50, hidable: true, hidden: getColHidProp('page_number', false) },
-							{text: 'Citation Page URI', datafield: 'citation_page_uri', width: 80, hidable: true, hidden: getColHidProp('citation_page_uri', true) },
+							{text: 'Page Number', datafield: 'page_number', width: 50, hidable: true, hidden: getColHidProp('page_number', false), cellsrenderer: linkPageCellRenderer },
+							{text: 'Citation Page URI', datafield: 'citation_page_uri', width: 80, hidable: true, hidden: getColHidProp('citation_page_uri', true), cellsrenderer: linkPubCellRenderer },
 							{text: 'PublicationID', datafield: 'publication_id', width: 40, hidable: true, hidden: getColHidProp('publication_id', true) },
 							{text: 'Citation', datafield: 'citation', hidable: true, hidden: getColHidProp('citation', false) }
 						],
