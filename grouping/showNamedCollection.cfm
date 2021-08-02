@@ -373,12 +373,12 @@ limitations under the License.
 								  z-index: 5;
 								}
 								</style>
-<!---									<div id="floating-panel">
+									<div id="floating-panel">
 									  <button id="toggle-heatmap">Toggle Heatmap</button>
 									  <button id="change-gradient">Change gradient</button>
 									  <button id="change-radius">Change radius</button>
 									  <button id="change-opacity">Change opacity</button>
-									</div>--->
+									</div>
 									<div id="map"><img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/thumbnails/google_map_Example.png" class="w-100"></div>
 							</div><!---end map--->
 								
