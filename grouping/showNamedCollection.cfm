@@ -337,7 +337,7 @@ limitations under the License.
 								</cfoutput>
 							</div>
 							</cfif>
-<div id="map">
+<div id="mapper">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <!-- jsFiddle will insert css and js -->
 <script>
@@ -912,14 +912,14 @@ function getPoints() {
 <style>
 /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
-#map {
+##map {
   height: 100%;
 }
 
 /* Optional: Makes the sample page fill the window. */
 
 
-#floating-panel {
+##floating-panel {
   position: absolute;
   top: 10px;
   left: 25%;
@@ -933,7 +933,7 @@ function getPoints() {
   padding-left: 10px;
 }
 
-#floating-panel {
+##floating-panel {
   background-color: #fff;
   border: 1px solid #999;
   left: 25%;
