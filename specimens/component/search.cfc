@@ -203,14 +203,14 @@ limitations under the License.
 			SELECT 
 				<cfset comma = "">
 				<cfloop query="flatFields">
-					#comma##column_name#
+					#comma#flatTableName.#column_name#
 					<cfset comma = ",">
 				</cfloop>
 				<cfloop query="attrFields">
 					,#sql_element# as #column_name#
 				</cfloop>
-			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-				left join user_search_table on user_search_table.collection_object_id = flat.collection_object_id
+			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+				left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 			WHERE
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
@@ -408,14 +408,14 @@ limitations under the License.
 			SELECT 
 				<cfset comma = "">
 				<cfloop query="flatFields">
-					#comma##column_name#
+					#comma#flatTableName.#column_name#
 					<cfset comma = ",">
 				</cfloop>
 				<cfloop query="attrFields">
 					,#sql_element# as #column_name#
 				</cfloop>
-			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-				left join user_search_table on user_search_table.collection_object_id = flat.collection_object_id
+			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+				left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 			WHERE
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
