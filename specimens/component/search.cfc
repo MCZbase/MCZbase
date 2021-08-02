@@ -30,11 +30,21 @@ limitations under the License.
 
 		<!---conditional to handle different search methods keyword/querybuilder&fixed--->
 		<cfif isDefined("searchText") and len(searchText) gt 0>
+			<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
+				SELECT column_name, sql_element 
+				FROM cf_spec_res_cols
+				WHERE category = 'attribute'
+			</cfquery>
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 				SELECT
-					f.guid,
-					f.imageurl, f.collection_object_id,f.collection,f.cat_num,f.began_date, f.ended_date,
-					f.scientific_name,f.spec_locality,f.locality_id, f.higher_geog, f.collectors, f.verbatim_date,f.coll_obj_disposition,f.othercatalognumbers
+					flatTableName.guid,
+					flatTableName.imageurl, flatTableName.collection_object_id,flatTableName.collection,flatTableName.cat_num,
+					flatTableName.began_date, flatTableName.ended_date,
+					flatTableName.scientific_name,flatTableName.spec_locality,flatTableName.locality_id, flatTableName.higher_geog, 
+					flatTableName.collectors, flatTableName.verbatim_date,flatTableName.coll_obj_disposition,flatTableName.othercatalognumbers
+					<cfloop query="attrFields">
+						,#sql_element# as #column_name#
+					</cfloop>
 				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> F
 					left join FLAT_TEXT FT ON f.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
 				WHERE contains(ft.cat_num, <cfqueryparam value="#searchText#" CFSQLType="CF_SQL_VARCHAR">, 1) > 0
