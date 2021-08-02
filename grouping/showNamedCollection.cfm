@@ -951,7 +951,7 @@ function getPoints() {
     <div id="map"></div>
 
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9WEpUv8c2Hu59LE_nwfGg-YhZUkEu4IY&libraries=&libraries=visualization"
       async></script>
 </div><!---end map--->
 								
