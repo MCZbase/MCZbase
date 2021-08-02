@@ -386,7 +386,7 @@ limitations under the License.
 									<div id="map" class="mt-4"><img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/thumbnails/google_map_Example.png" class="w-100"></div>
 							</div><!---end map--->
 							<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-								<h2>Heat Map Example</h2>
+								<h2>Region Map Example</h2>
        							<div id="regions_div" style="width: 900px; height: 500px;"></div>	
 							<script>     
 								google.charts.load('current', {
