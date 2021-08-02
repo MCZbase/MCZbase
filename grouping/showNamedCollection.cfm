@@ -300,8 +300,9 @@ limitations under the License.
 									<div class="carousel__buttonX--prev"></div>
 								</cfoutput>
 							</div>
+							</cfif>
 							<!--- obtain a random set of agent images, limited to a small number --->
-			<!---				<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
+							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -325,8 +326,8 @@ limitations under the License.
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
 								WHERE rownum < 30
-							</cfquery>--->
-<!---							<h2 class="mt-3"> Images from Agents (shows 15)</h2>
+							</cfquery>
+							<h2 class="mt-3"> Images from Agents (shows 15)</h2>
 							<p class="small">Refresh page to show a different 15 images.</p>
 							<div class="carousel-wrapperX">
 								<cfoutput>
@@ -351,8 +352,8 @@ limitations under the License.
 									<div class="carousel__buttonX--prev"></div>
 								</cfoutput>
 							</div>
-						</cfif>
-						</div>--->
+					
+						</div>
 
 						<div class="col mt-0 float-left">
 							<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
