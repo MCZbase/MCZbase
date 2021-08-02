@@ -341,7 +341,7 @@ limitations under the License.
 					
 						</div>
 
-						<div class="col mt-0 float-left">
+						<div class="col mt-4 float-left">
 							<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 							<div class="my-2 py-3 border-bottom-black">
 								<cfif len(getNamedGroup.description) GT 0 >
