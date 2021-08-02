@@ -405,8 +405,9 @@ limitations under the License.
 							<p class="small">Refresh page to show a different 15 images.</p>
 							<div class="carousel-wrapperZ">
 							<cfoutput>
-								<div class="carouselImageZ initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
-									<div class="carouselZ">
+								<div class="carouselZ">
+									<div class="carouselImageZ initial"><img class="w-100" src="#agentImagesforCarousel['media_uri'][1]#"/><p>#agentImagesforCarousel['alt'][1]#</p></div>
+									
 										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][2]#"/><p>#agentImagesforCarousel['alt'][2]#</p></div>
 										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][3]#"/><p>#agentImagesforCarousel['alt'][3]#</p></div>
 										<div class="carouselImageZ"><img class="w-100" src="#agentImagesforCarousel['media_uri'][4]#"/><p>#agentImagesforCarousel['alt'][4]#</p></div>
