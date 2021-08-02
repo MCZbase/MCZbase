@@ -325,7 +325,7 @@ limitations under the License.
 											AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 										ORDER BY DBMS_RANDOM.RANDOM
 									) 
-									WHERE rownum < 16
+									WHERE rownum < 31
 								</cfquery>
 								<h2 class="mt-3"> Images from Agents (shows 15)</h2>
 								<p class="small">Refresh page to show a different 15 images.</p>
