@@ -381,7 +381,7 @@ limitations under the License.
 									  <button id="change-radius">Change radius</button>
 									  <button id="change-opacity">Change opacity</button>
 									</div>
-									<div id="map"><img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/thumbnails/google_map_Example.png" class="w-100"></div>
+									<div id="map" class="mt-4"><img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/thumbnails/google_map_Example.png" class="w-100"></div>
 							</div><!---end map--->
 								
 						</div>
