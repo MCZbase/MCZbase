@@ -330,12 +330,6 @@ limitations under the License.
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][23]#"/><p>#agentImagesforCarousel['alt'][23]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][24]#"/><p>#agentImagesforCarousel['alt'][24]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][25]#"/><p>#agentImagesforCarousel['alt'][25]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][26]#"/><p>#agentImagesforCarousel['alt'][26]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][27]#"/><p>#agentImagesforCarousel['alt'][27]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][28]#"/><p>#agentImagesforCarousel['alt'][28]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][29]#"/><p>#agentImagesforCarousel['alt'][29]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][30]#"/><p>#agentImagesforCarousel['alt'][30]#</p></div>
-									
 									</div>
 									<div class="carousel__buttonX--next"></div>
 									<div class="carousel__buttonX--prev"></div>
