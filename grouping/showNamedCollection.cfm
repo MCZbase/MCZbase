@@ -264,6 +264,7 @@ limitations under the License.
 							</div>
 							</cfif>
 							<div id="mapper" class="col-12 px-0">
+								<h2>Heat Map Example</h2>
  							<script>// This Google Map example requires the Visualization library. Include the libraries=visualization
 							// parameter when you first load the API. For example:
 								// the API key is needed to make this work.
@@ -310,6 +311,7 @@ limitations under the License.
 									<div id="map" class="mt-4"><img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/thumbnails/google_map_Example.png" class="w-100"></div>
 							</div><!---end map--->
 							<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+								<h2>Heat Map Example</h2>
        							<div id="regions_div" style="width: 900px; height: 500px;"></div>	
 							<script>     
 								google.charts.load('current', {
