@@ -144,10 +144,10 @@ limitations under the License.
 .carouselImageZ.prev, .carouselImageZ.next {
 	z-index: 800;
 }
-.carouselImageX.prev {
+.carouselImageZ.prev {
 	transform: translateX(-100%); /* go to previous item */
 }
-.carouselImageX.next {
+.carouselImageZ.next {
 	transform: translateX(100%); /* go to next item */
 }
 .carousel__buttonZ--prev, .carousel__buttonZ--next {
