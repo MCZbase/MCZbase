@@ -207,7 +207,7 @@ limitations under the License.
 					<cfset comma = ",">
 				</cfloop>
 				<cfloop query="attrFields">
-					,#sql_element# as #column_name#
+					,#sql_element# #column_name#
 				</cfloop>
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -412,7 +412,7 @@ limitations under the License.
 					<cfset comma = ",">
 				</cfloop>
 				<cfloop query="attrFields">
-					,#sql_element# as #column_name#
+					,#sql_element# #column_name#
 				</cfloop>
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
