@@ -120,7 +120,7 @@ limitations under the License.
 						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
 							SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
 								agent_remarks
-								date_to_merge, on_hold, held_by,
+								date_to_merge, on_hold, held_by
 							FROM agent_relations 
 								WHERE
 									agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -141,7 +141,7 @@ limitations under the License.
 						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
 							SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
 								agent_remarks,
-								date_to_merge, on_hold, held_by,
+								date_to_merge, on_hold, held_by
 							FROM agent_relations 
 								WHERE
 									related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
