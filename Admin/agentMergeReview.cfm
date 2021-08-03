@@ -43,6 +43,7 @@ limitations under the License.
 						goodname.agent_name good_name,
 						goodagent.edited good_edited,
 						to_char(date_to_merge, 'YYYY-MM-DD') merge_date,
+						date_to_merge,
 						DECODE(on_hold, 1, 'X', '') on_hold, 
 						held_by held_by,
 						created_by created_by
