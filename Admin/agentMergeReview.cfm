@@ -86,28 +86,22 @@ limitations under the License.
 								</tr>
 							</cfloop>
 						</cfoutput>
-						<input type="hidden" name="action" value="doIt">
-						<input type="submit" class="btn btn-xs btn-secondary"
-							 	value="Put on Hold" 
-								class="savBtn"
-								onmouseover="this.className='savBtn btnhov'" 
-								onmouseout="this.className='savBtn'">
 					</table>
+					<input type="hidden" name="action" value="doIt">
+					<input type="submit" class="btn btn-xs btn-primary" value="Put selected records on Hold" >
 				</form>
 				<!---
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-					<h2 class="h3 text-danger">Force all changes now</h2> 
-					<p>Before you even THINK about pushing this button, read through the list above, look at the individual 
-					agent records for anything that's even a little bit ambiguous, then do it again. You will be changing 
-					agent IDs in a big pile-O-tables; make sure you really want to first!</p>
-					<form name="go" method="post" action="killBadAgentDups.cfm">
-						<input type="hidden" name="action" value="doIt">
-						<input type="submit" 
-										 	value="Make the Changes" 
-											class="savBtn"
-			   								onmouseover="this.className='savBtn btnhov'" 
-											onmouseout="this.className='savBtn'">
-					</form>
+					<div class="col-12">
+						<h2 class="h3 text-danger">Force all merges now</h2> 
+						<p>Before you even THINK about pushing this button, read through the list above, look at the individual 
+						agent records for anything that's even a little bit ambiguous, then do it again. You will be changing 
+						agent IDs in a big pile-O-tables; make sure you really want to first!</p>
+						<form name="go" method="post" action="killBadAgentDups.cfm">
+							<input type="hidden" name="action" value="doIt">
+							<input type="submit" value="Make the Changes" class="btn btn-xs btn-warning">
+						</form>
+					</div>
 				</cfif>
 				--->
 			</section>
