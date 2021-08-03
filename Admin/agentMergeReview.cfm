@@ -71,7 +71,7 @@ limitations under the License.
 						</tr>
 						<cfoutput>
 							<cfloop query="bads">
-								<cfif bad_edited EQ 1 ><cfset badedited_marker="<span class='text-warning font-weight-bold'>*</span>"><cfelse><cfset badedited_marker=""></cfif> 
+								<cfif bad_edited EQ 1 ><cfset badedited_marker="<span class='text-danger font-weight-bold' style='font-size: larger;'>*</span>"><cfelse><cfset badedited_marker=""></cfif> 
 								<cfif good_edited EQ 1 ><cfset goodedited_marker="*"><cfelse><cfset goodedited_marker=""></cfif> 
 								<tr>
 									<td>
