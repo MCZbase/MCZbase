@@ -35,13 +35,13 @@ limitations under the License.
 				<!--- make privileged users able to force the change read the list before pushing the button! ---->
 
 				<cfquery name="bads" datasource="uam_god">
-					SELECT
+					SELECT distinct
 						agent_relations.agent_id,
 						badname.agent_name bad_name,
-						badname.edited bad_edited,
+						badagent.edited bad_edited,
 						related_agent_id,
 						goodname.agent_name good_name,
-						goodname.edited good_edited,
+						goodagent.edited good_edited,
 						to_char(date_to_merge, 'YYYY-MM-DD') merge_date,
 						DECODE(on_hold, 1, 'X', '') on_hold, 
 						held_by held_by,
@@ -49,7 +49,9 @@ limitations under the License.
 					FROM
 						agent_relations
 						left join preferred_agent_name badname on agent_relations.agent_id = badname.agent_id
+						left join agent badagent on agent_relations.agent_id = badagent.agent_id
 						left join preferred_agent_name goodname on agent_relations.related_agent_id = goodname.agent_id
+						left join agent goodagent on agent_relations.agent_id = goodagent.agent_id
 					WHERE
 						agent_relationship = 'bad duplicate of'
 					ORDER BY
