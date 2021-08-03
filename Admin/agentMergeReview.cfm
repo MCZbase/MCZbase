@@ -23,13 +23,14 @@ limitations under the License.
 <cfif not isDefined("action") OR len(action) EQ 0>
 	<cfset action="nothing">
 </cfif>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <cfswitch expression="#action#">
 	<cfcase value="nothing">
 		<script src="/lib/misc/sorttable.js"></script>
-		<main class=”container py-3” id=”content” >
-			<section class=”row border rounded my-2”>
-				<h1 class=”h2”>Review Pending Duplicate Agent Merges</h1>
+		<main class="container py-3" id="content" >
+			<section class="row border rounded my-2">
+				<h1 class="h2">Review Pending Duplicate Agent Merges</h1>
 
 				<!--- make privileged users able to force the change read the list before pushing the button! ---->
 
@@ -37,8 +38,10 @@ limitations under the License.
 					SELECT
 						agent_relations.agent_id,
 						badname.agent_name bad_name,
+						badname.edited bad_edited,
 						related_agent_id,
 						goodname.agent_name good_name,
+						goodname.edited good_edited,
 						to_char(date_to_merge, 'YYYY-MM-DD') merge_date,
 						DECODE(on_hold, 1, 'X', '') on_hold, 
 						held_by held_by,
@@ -65,12 +68,14 @@ limitations under the License.
 						</tr>
 						<cfoutput>
 							<cfloop query="bads">
+								<cfif bad_edited EQ 1 ><cfset badedited_marker="*"><cfelse><cfset badedited_marker=""></cfif> 
+								<cfif good_edited EQ 1 ><cfset goodedited_marker="*"><cfelse><cfset goodedited_marker=""></cfif> 
 								<tr>
 									<td>
-										<a href="/agents/Agent.cfm?agent_id=#bads.agent_id#" target="_blank">#bad_name#</a>
+										<a href="/agents/Agent.cfm?agent_id=#bads.agent_id#" target="_blank">#bad_name#</a>#badedited_marker#
 									</td>
 									<td>
-										<a href="/agents/Agent.cfm?agent_id=#bads.related_agent_id#" target="_blank">#good_name#</a>
+										<a href="/agents/Agent.cfm?agent_id=#bads.related_agent_id#" target="_blank">#good_name#</a>#goodedited_marker#
 									</td>
 									<td>
 										<input type=checkbox name=holdMerge value=#agent_id#_#related_agent_id#></input>
@@ -124,6 +129,8 @@ limitations under the License.
 				<cflocation url="/Admin/agentMergeReview.cfm">
 			<cfcatch>
 				<cftransaction action="rollback">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfthrow message="#error_message#">
 			</cfcatch>
 			</cftry>
 		</cftransaction>
