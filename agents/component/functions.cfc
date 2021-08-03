@@ -529,7 +529,7 @@ limitations under the License.
 								<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks" class="data-entry-input">
 							</li>
 								<cfif len(on_hold) GT 0><cfset hold="put on hold by"><cfelse><cfset hold=""></cfif>
-								#date_to_merge# #hold# #held_by#
+								#dateformat(date_to_merge,"yyyy-mm-dd")# #hold# #held_by#
 							<li class="list-group-item px-1">
 								<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs mt-0 btn-secondary">Save</button>
 							</li>
@@ -633,7 +633,7 @@ limitations under the License.
 								#currAgent#
 								#agent_remarks# 
 								<cfif len(on_hold) GT 0><cfset hold="put on hold by"><cfelse><cfset hold=""></cfif>
-								#date_to_merge# #hold# #held_by#
+								#dateformat(date_to_merge,"yyyy-mm-dd")# #hold# #held_by#
 							</li>
 						</ul>
 					</cfloop>
