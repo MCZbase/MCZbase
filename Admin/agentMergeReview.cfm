@@ -44,7 +44,7 @@ limitations under the License.
 						held_by held_by,
 						created_by created_by
 					FROM
-						agent_relations,
+						agent_relations
 						left join preferred_agent_name badname on agent_relations.agent_id = badname.agent_id
 						left join preferred_agent_name goodname on agent_relations.related_agent_id = goodname.agent_id
 					WHERE
