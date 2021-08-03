@@ -129,7 +129,7 @@ limitations under the License.
 						<cfif getDupAgentRel.recordcount GT 0>
 							<ul class="list-inline">
 								<cfloop query="getDupAgentRel">
-									<li class="list-inline-item">#getDupAgentRel.agent_relationship# of <a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agentid#">#getDupAgentRel.related_name#</a></li>
+									<li class="list-inline-item">#getDupAgentRel.agent_relationship# of <a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agent_id#">#getDupAgentRel.related_name#</a></li>
 								</cfloop>
 							</ul>
 						</cfif>
@@ -145,7 +145,7 @@ limitations under the License.
 						<cfif getDupAgentRel.recordcount GT 0>
 							<ul class="list-inline">
 								<cfloop query="getDupAgentRel">
-									<li class="list-inline-item">#getDupAgentRel.agent_relationship# of <a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agentid#">#getDupAgentRel.related_name#</a></li>
+									<li class="list-inline-item">#getDupAgentRel.agent_relationship# of <a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agent_id#">#getDupAgentRel.related_name#</a></li>
 								</cfloop>
 							</ul>
 						</cfif>
