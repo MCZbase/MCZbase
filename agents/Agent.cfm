@@ -127,18 +127,7 @@ limitations under the License.
 									and agent_relationship like '% duplicate of'
 								ORDER BY agent_relationship
 						</cfquery>
-						<cfif getDupAgentRel.recordcount GT 0>
-							<ul class="list-inline">
-								<cfloop query="getDupAgentRel">
-									<li class="list-inline-item">
-										#getDupAgentRel.agent_relationship# 
-										<a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agent_id#">#getDupAgentRel.related_name#</a>
-										#date_to_merge# #on_hold# #held_by#
-									</li>
-								</cfloop>
-							</ul>
-						</cfif>
-						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
+						<cfquery name="getDupAgentRelRev" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
 							SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
 								agent_remarks,
 								date_to_merge, on_hold, held_by
@@ -148,16 +137,30 @@ limitations under the License.
 									and agent_relationship like '% duplicate of'
 								ORDER BY agent_relationship
 						</cfquery>
-						<cfif getDupAgentRel.recordcount GT 0>
-							<ul class="list-inline">
-								<cfloop query="getDupAgentRel">
-									<li class="list-inline-item">
-										<a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agent_id#">#getDupAgentRel.related_name#</a>
-										#getDupAgentRel.agent_relationship# #prefName#
-										#date_to_merge# #on_hold# #held_by#
-									</li>
-								</cfloop>
-							</ul>
+						<cfif getDupAgentRel.recordcount GT 0 GT getDupAentRelRev.recordcount GT 0>
+							<cfif getDupAgentRel.recordcount GT 0>
+								<div class="row mx-0">
+								<ul class="list-inline">
+									<cfloop query="getDupAgentRel">
+										<li class="list-inline-item">
+											#getDupAgentRel.agent_relationship# 
+											<a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agent_id#">#getDupAgentRel.related_name#</a>
+											#date_to_merge# #on_hold# #held_by#
+										</li>
+									</cfloop>
+								</ul>
+							</cfif>
+							<cfif getDupAgentRelRev.recordcount GT 0>
+								<ul class="list-inline">
+									<cfloop query="getDupAgentRelRev">
+										<li class="list-inline-item">
+											<a href="/agents/Agent.cfm?agent_id=#getDupAgentRelRev.related_agent_id#">#getDupAgentRelRev.related_name#</a>
+											#getDupAgentRelRev.agent_relationship# #prefName#
+											#date_to_merge# #on_hold# #held_by#
+										</li>
+									</cfloop>
+								</ul>
+							</cfif>
 						</cfif>
 					</cfif>
 					<!--- full width, biograhy and remarks, presented with no headings --->
