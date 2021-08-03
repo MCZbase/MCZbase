@@ -116,6 +116,24 @@ limitations under the License.
 							</ul>
 						</div>
 					</div>
+					<cfif oneOfUs EQ 1>
+						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
+							SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
+								agent_remarks
+							FROM agent_relations 
+								WHERE
+									related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									and agent_relationship like '% duplicate of'
+								ORDER BY agent_relationship
+						</cfquery>
+						<cfif getDupAgentRel.recordcount GT 0>
+							<ul class="list-inline">
+								<cfloop query="getDupAgentRel">
+									<li class="list-inline-item">#getDupAgentRel.agent_relationship# of <a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agentid#">#getDupAgentRel.related_name#</li>
+								</cfloop>
+							</ul>
+						<cfif>
+					</cfif>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
 						<div class="col-12 px-3 mb-0">
