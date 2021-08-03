@@ -320,16 +320,8 @@ function makeAgentPicker(nameControl, idControl) {
 				data: { term: request.term, method: 'getAgentAutocomplete' },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : function (jqXHR, status, error) {
-					var message = "";
-					if (error == 'timeout') { 
-						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
-					} else { 
-						message = jqXHR.responseText;
-					}
-					messageDialog('Error:' + message ,'Error: ' + error);
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up agents for an agent picker");
 				}
 			})
 		},
@@ -344,6 +336,7 @@ function makeAgentPicker(nameControl, idControl) {
  *  on picklist and value on selection.
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
+ *  @see makeAgentAutocompleteMetaID to include agent_id in metadata.
  */
 function makeAgentAutocompleteMeta(nameControl, idControl) { 
 	$('#'+nameControl).autocomplete({
@@ -353,16 +346,8 @@ function makeAgentAutocompleteMeta(nameControl, idControl) {
 				data: { term: request.term, method: 'getAgentAutocompleteMeta' },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : function (jqXHR, status, error) {
-					var message = "";
-					if (error == 'timeout') { 
-						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
-					} else { 
-						message = jqXHR.responseText;
-					}
-					messageDialog('Error:' + message ,'Error: ' + error);
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up agents for an autocomplete");
 				}
 			})
 		},

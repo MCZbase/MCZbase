@@ -585,7 +585,7 @@ limitations under the License.
 					</div>
 					<script>
 						$(document).ready(function () {
-							makeAgentAutocompleteMeta("new_related_agent", "new_related_agent_id");
+							makeAgentAutocompleteMetaID("new_related_agent", "new_related_agent_id");
 							function addRel () { 
 								 addRelationshipToAgent(#agent_id#,"new_related_agent_id","new_relation_type","new_agent_remarks",reloadRelationships);
 							}
