@@ -12,7 +12,8 @@
 		goodname.agent_name good_name,
 		to_char(date_to_merge, 'YYYY-MM-DD') merge_date,
 		DECODE(on_hold, 1, 'X', '') on_hold, 
-		held_by held_by
+		held_by held_by,
+		created_by created_by
 	from
 		agent_relations,
 		preferred_agent_name badname,
@@ -31,7 +32,8 @@
 		<td>Hold</td>
 		<td>Date to be Merged</td>
 		<td>On Hold</td>
-        <td>Held By</td>
+		<td>Held By</td>
+		<td>Created By</td>
 	</tr>
 	<cfoutput>
 		<cfloop query="bads">
@@ -51,7 +53,8 @@
 				<td align=center>
 					<strong>#on_hold#</strong>
 				</td>
-                <td>#held_by#</td>
+				<td>#held_by#</td>
+				<td>#created_by#</td>
 			</tr>
 		</cfloop>
 	</cfoutput>
@@ -59,7 +62,7 @@
 	<input type="submit" 
 					 	value="Put on Hold" 
 						class="savBtn"
-   						onmouseover="this.className='savBtn btnhov'" 
+						onmouseover="this.className='savBtn btnhov'" 
 						onmouseout="this.className='savBtn'">
 </table>
 </form>
