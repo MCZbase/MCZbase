@@ -132,7 +132,7 @@ limitations under the License.
 									<li class="list-inline-item">#getDupAgentRel.agent_relationship# of <a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agentid#">#getDupAgentRel.related_name#</li>
 								</cfloop>
 							</ul>
-						<cfif>
+						</cfif>
 					</cfif>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
