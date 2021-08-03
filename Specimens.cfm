@@ -844,12 +844,12 @@ limitations under the License.
 			console.log(debug);
 	
 			<cfquery name="flatFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatFields_result">
-				SELECT upper(column_name), data_type 
+				SELECT upper(column_name) as column_name, data_type 
 				FROM all_tab_columns
 				WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
 			</cfquery>
 			<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
-				SELECT upper(column_name), 'VARCHAR2' data_type
+				SELECT upper(column_name) as column_name, 'VARCHAR2' data_type
 				FROM cf_spec_res_cols
 				WHERE category = 'attribute'
 			</cfquery>
@@ -947,7 +947,7 @@ limitations under the License.
 					<cfset separator = ",">
 					<cfloop query="attrFields">
 						<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
-						{text: '#label#', data_field: '#column_name#', width: 100, hidable:true, hidden: getColHidProp('#column_name#', true) },
+						{text: '#label#', data_field: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#column_name#', true) },
 					</cfloop>
 					{text: 'Other IDs', datafield: 'OTHERCATALOGNUMBERS', hidable: true, hidden: getColHidProp('OTHERCATALOGNUMBERS', false)  }
 				],
