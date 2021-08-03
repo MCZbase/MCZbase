@@ -29,8 +29,8 @@ limitations under the License.
 	<cfcase value="nothing">
 		<script src="/lib/misc/sorttable.js"></script>
 		<main class="container py-3" id="content" >
-			<section class="row border rounded my-2">
-				<h1 class="h2">Review Pending Duplicate Agent Merges</h1>
+			<section class="row my-2">
+				<h1 class="h2 px-2">Review Pending Duplicate Agent Merges</h1>
 
 				<!--- make privileged users able to force the change read the list before pushing the button! ---->
 
