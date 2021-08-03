@@ -399,9 +399,6 @@ limitations under the License.
 			FROM cf_spec_res_cols
 			WHERE category = 'attribute'
 		</cfquery>
-		<cfloop query="attrFields">
-			<cfset attrClauses = ",#sql_element# #column_name#">
-		</cfloop>
 		<cfquery name="flatFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatFields_result">
 			SELECT column_name, data_type 
 			FROM all_tab_columns
@@ -414,7 +411,9 @@ limitations under the License.
 					#comma#flatTableName.#column_name#
 					<cfset comma = ",">
 				</cfloop>
-				#attrClauses#
+				<cfloop query="attrFields">
+					,#replace(sql_element,"''","'","all")# #column_name#
+				</cfloop>
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 			WHERE
