@@ -191,7 +191,7 @@ limitations under the License.
 						<div class="container">
 							<div class="form-row">
 								<div class="col-12">
-									<h1 class="h2 my-2">Edit #getAgent.agent_type# agent: #nameStr# [agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
+									<h1 class="h2 my-2">Edit #getAgent.agent_type# agent: #nameStr# [Agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
 									<cfif len(getAgent.collections_scope) GT 0>
 										<p class="mb-1">Collector of MCZ material: #collections_scope#</p>
 									</cfif>
