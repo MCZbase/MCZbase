@@ -835,8 +835,6 @@ limitations under the License.
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
 				if (currentState)  {
 					// state cardview switching to row view
-					//$("##searchResultsGrid").jqxGrid('autorowheight',true);
-					//$("##searchResultsGrid").jqxGrid('autoheight',true);
 					$("##searchResultsGrid").jqxGrid('rowsheight',36);
 					$("##searchResultsGrid").jqxGrid('height',32);
 					//cardsize: 5,
@@ -905,7 +903,7 @@ limitations under the License.
 			
 					$("##overlay").show();
 			
-					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;width:100%;height:auto;"></div>');
+					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;width:100%;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
 			
