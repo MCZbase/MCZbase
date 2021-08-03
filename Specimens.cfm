@@ -844,12 +844,12 @@ limitations under the License.
 			console.log(debug);
 	
 			<cfquery name="flatFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatFields_result">
-				SELECT column_name, data_type 
+				SELECT upper(column_name), data_type 
 				FROM all_tab_columns
 				WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
 			</cfquery>
 			<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
-				SELECT column_name, 'VARCHAR2' data_type
+				SELECT upper(column_name), 'VARCHAR2' data_type
 				FROM cf_spec_res_cols
 				WHERE category = 'attribute'
 			</cfquery>
