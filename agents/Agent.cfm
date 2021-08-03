@@ -138,29 +138,30 @@ limitations under the License.
 								ORDER BY agent_relationship
 						</cfquery>
 						<cfif getDupAgentRel.recordcount GT 0 OR getDupAgentRelRev.recordcount GT 0>
-							<cfif getDupAgentRel.recordcount GT 0>
-								<div class="row mx-0">
-								<ul class="list-inline">
-									<cfloop query="getDupAgentRel">
-										<li class="list-inline-item">
-											#getDupAgentRel.agent_relationship# 
-											<a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agent_id#">#getDupAgentRel.related_name#</a>
-											#date_to_merge# #on_hold# #held_by#
-										</li>
-									</cfloop>
-								</ul>
-							</cfif>
-							<cfif getDupAgentRelRev.recordcount GT 0>
-								<ul class="list-inline">
-									<cfloop query="getDupAgentRelRev">
-										<li class="list-inline-item">
-											<a href="/agents/Agent.cfm?agent_id=#getDupAgentRelRev.related_agent_id#">#getDupAgentRelRev.related_name#</a>
-											#getDupAgentRelRev.agent_relationship# #prefName#
-											#date_to_merge# #on_hold# #held_by#
-										</li>
-									</cfloop>
-								</ul>
-							</cfif>
+							<div class="row mx-0">
+								<cfif getDupAgentRel.recordcount GT 0>
+									<ul class="list-inline">
+										<cfloop query="getDupAgentRel">
+											<li class="list-inline-item">
+												#getDupAgentRel.agent_relationship# 
+												<a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agent_id#">#getDupAgentRel.related_name#</a>
+												#date_to_merge# #on_hold# #held_by#
+											</li>
+										</cfloop>
+									</ul>
+								</cfif>
+								<cfif getDupAgentRelRev.recordcount GT 0>
+									<ul class="list-inline">
+										<cfloop query="getDupAgentRelRev">
+											<li class="list-inline-item">
+												<a href="/agents/Agent.cfm?agent_id=#getDupAgentRelRev.related_agent_id#">#getDupAgentRelRev.related_name#</a>
+												#getDupAgentRelRev.agent_relationship# #prefName#
+												#date_to_merge# #on_hold# #held_by#
+											</li>
+										</cfloop>
+									</ul>
+								</cfif>
+							</div>
 						</cfif>
 					</cfif>
 					<!--- full width, biograhy and remarks, presented with no headings --->
