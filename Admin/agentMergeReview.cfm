@@ -51,7 +51,7 @@ limitations under the License.
 						left join preferred_agent_name badname on agent_relations.agent_id = badname.agent_id
 						left join agent badagent on agent_relations.agent_id = badagent.agent_id
 						left join preferred_agent_name goodname on agent_relations.related_agent_id = goodname.agent_id
-						left join agent goodagent on agent_relations.agent_id = goodagent.agent_id
+						left join agent goodagent on agent_relations.related_agent_id = goodagent.agent_id
 					WHERE
 						agent_relationship = 'bad duplicate of'
 					ORDER BY
