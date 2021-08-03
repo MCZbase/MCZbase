@@ -137,7 +137,7 @@ limitations under the License.
 									and agent_relationship like '% duplicate of'
 								ORDER BY agent_relationship
 						</cfquery>
-						<cfif getDupAgentRel.recordcount GT 0 GT getDupAgentRelRev.recordcount GT 0>
+						<cfif getDupAgentRel.recordcount GT 0 OR getDupAgentRelRev.recordcount GT 0>
 							<cfif getDupAgentRel.recordcount GT 0>
 								<div class="row mx-0">
 								<ul class="list-inline">
