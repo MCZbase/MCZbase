@@ -119,7 +119,7 @@ limitations under the License.
 					<cfif oneOfUs EQ 1>
 						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
 							SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
-								agent_remarks
+								agent_remarks,
 								date_to_merge, on_hold, held_by
 							FROM agent_relations 
 								WHERE
