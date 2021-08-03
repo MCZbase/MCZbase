@@ -797,6 +797,16 @@ limitations under the License.
 		</main>
 		--->
 	
+	<cfquery name="flatFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatFields_result">
+		SELECT upper(column_name) as column_name, data_type 
+		FROM all_tab_columns
+		WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
+	</cfquery>
+	<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
+		SELECT upper(column_name) as column_name, 'VARCHAR2' data_type
+		FROM cf_spec_res_cols
+		WHERE category = 'attribute'
+	</cfquery>
 	<script>
 		// setup for persistence of column selections
 		window.columnHiddenSettings = new Object();
@@ -843,16 +853,6 @@ limitations under the License.
 			var debug = $("##"+gridPrefix+"SearchForm").serialize();
 			console.log(debug);
 	
-			<cfquery name="flatFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatFields_result">
-				SELECT upper(column_name) as column_name, data_type 
-				FROM all_tab_columns
-				WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
-			</cfquery>
-			<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
-				SELECT upper(column_name) as column_name, 'VARCHAR2' data_type
-				FROM cf_spec_res_cols
-				WHERE category = 'attribute'
-			</cfquery>
 			var search =
 			{
 				datatype: "json",
@@ -944,10 +944,9 @@ limitations under the License.
 					{text: 'Higher Geography', datafield: 'HIGHER_GEOG', width: 280, hidable: true, hidden: getColHidProp('HIGHER_GEOG', false) },
 					{text: 'Collectors', datafield: 'COLLECTORS', width: 180, hidable: true, hidden: getColHidProp('COLLECTORS', false) },
 					{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190, hidable: true, hidden: getColHidProp('VERBATIM_DATE', false) },
-					<cfset separator = ",">
 					<cfloop query="attrFields">
 						<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
-						{text: '#label#', data_field: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#column_name#', true) },
+						{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
 					</cfloop>
 					{text: 'Other IDs', datafield: 'OTHERCATALOGNUMBERS', hidable: true, hidden: getColHidProp('OTHERCATALOGNUMBERS', false)  }
 				],
@@ -1036,6 +1035,15 @@ limitations under the License.
 						{name: 'VERBATIM_DATE', type: 'string' },
 						{name: 'COLL_OBJECT_DISPOSITION', type: 'string' },
 						{name: 'OTHERCATALOGNUMBERS', type: 'string' }
+						<cfset separator = ",">
+						<cfloop query="attrFields">
+							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							<cfelse>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							</cfif>
+							<cfset separator = ",">
+						</cfloop>
 					],
 					updaterow: function (rowid, rowdata, commit) {
 						commit(true);
@@ -1098,6 +1106,10 @@ limitations under the License.
 						{text: 'Higher Geography', datafield: 'HIGHER_GEOG', width: 280, hidable: true, hidden: getColHidProp('HIGHER_GEOG', false) },
 						{text: 'Collectors', datafield: 'COLLECTORS', width: 180, hidable: true, hidden: getColHidProp('COLLECTORS', false) },
 						{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190, hidable: true, hidden: getColHidProp('VERBATIM_DATE', false) },
+						<cfloop query="attrFields">
+							<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
+							{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
+						</cfloop>
 						{text: 'Other IDs', datafield: 'OTHERCATALOGNUMBERS', hidable: true, hidden: getColHidProp('OTHERCATALOGNUMBERS', false)  }
 					],
 					rowdetails: true,
