@@ -129,7 +129,23 @@ limitations under the License.
 						<cfif getDupAgentRel.recordcount GT 0>
 							<ul class="list-inline">
 								<cfloop query="getDupAgentRel">
-									<li class="list-inline-item">#getDupAgentRel.agent_relationship# of <a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agentid#">#getDupAgentRel.related_name#</li>
+									<li class="list-inline-item">#getDupAgentRel.agent_relationship# of <a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agentid#">#getDupAgentRel.related_name#</a></li>
+								</cfloop>
+							</ul>
+						</cfif>
+						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
+							SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
+								agent_remarks
+							FROM agent_relations 
+								WHERE
+									agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									and agent_relationship like '% duplicate of'
+								ORDER BY agent_relationship
+						</cfquery>
+						<cfif getDupAgentRel.recordcount GT 0>
+							<ul class="list-inline">
+								<cfloop query="getDupAgentRel">
+									<li class="list-inline-item">#getDupAgentRel.agent_relationship# of <a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agentid#">#getDupAgentRel.related_name#</a></li>
 								</cfloop>
 							</ul>
 						</cfif>
