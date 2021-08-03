@@ -91,7 +91,7 @@ limitations under the License.
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<cfif oneOfUs EQ 1><cfset agent_id_bit = " (Agent ID: #getAgent.agent_id#)"><cfelse><cfset agent_id_bit=""></cfif>
-							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0">  #dates# #agent_type# #agent_id_bit#</span></cfif></h1>
+							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0">  #dates# #agent_type# #agent_id_bit#</span></h1>
 						</div>
 						<div class="col-12 col-md-1 mt-0 mt-md-2 float-right">
 							<!--- edit button at upper right for those authorized to edit agent records --->
