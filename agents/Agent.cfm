@@ -90,7 +90,7 @@ limitations under the License.
 								<cfset dates = assembleYearRange(start_year="#getAgent.start_date#",end_year="#getAgent.end_date#",year_only=true) >
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
-							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0">  #dates# #agent_type# (#getAgent.agent_id#)</span></h1>
+							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0">  #dates# #agent_type# </span><cfif oneOfUs EQ 1><span class="font-weight-light">(Agent ID: #getAgent.agent_id#)</span></cfif></h1>
 						</div>
 						<div class="col-12 col-md-1 mt-0 mt-md-2 float-right">
 							<!--- edit button at upper right for those authorized to edit agent records --->
