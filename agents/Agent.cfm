@@ -140,7 +140,7 @@ limitations under the License.
 						<cfif getDupAgentRel.recordcount GT 0 OR getDupAgentRelRev.recordcount GT 0>
 							<div class="row mx-0">
 								<cfif getDupAgentRel.recordcount GT 0>
-									<ul class="list-inline">
+									<ul class="px-3 list-inline">
 										<cfloop query="getDupAgentRel">
 											<li class="list-inline-item">
 												#getDupAgentRel.agent_relationship# 
@@ -151,7 +151,7 @@ limitations under the License.
 									</ul>
 								</cfif>
 								<cfif getDupAgentRelRev.recordcount GT 0>
-									<ul class="list-inline">
+									<ul class="px-3 list-inline">
 										<cfloop query="getDupAgentRelRev">
 											<li class="list-inline-item">
 												<a href="/agents/Agent.cfm?agent_id=#getDupAgentRelRev.related_agent_id#">#getDupAgentRelRev.related_name#</a>
