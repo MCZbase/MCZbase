@@ -118,24 +118,9 @@ limitations under the License.
 					</div>
 					<cfif oneOfUs EQ 1>
 						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
-							SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
-								agent_remarks
-							FROM agent_relations 
-								WHERE
-									related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									and agent_relationship like '% duplicate of'
-								ORDER BY agent_relationship
-						</cfquery>
-						<cfif getDupAgentRel.recordcount GT 0>
-							<ul class="list-inline">
-								<cfloop query="getDupAgentRel">
-									<li class="list-inline-item">#getDupAgentRel.agent_relationship# of <a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agent_id#">#getDupAgentRel.related_name#</a></li>
-								</cfloop>
-							</ul>
-						</cfif>
-						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
 							SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
 								agent_remarks
+								date_to_merge, on_hold, held_by,
 							FROM agent_relations 
 								WHERE
 									agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -145,7 +130,32 @@ limitations under the License.
 						<cfif getDupAgentRel.recordcount GT 0>
 							<ul class="list-inline">
 								<cfloop query="getDupAgentRel">
-									<li class="list-inline-item">#getDupAgentRel.agent_relationship# of <a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agent_id#">#getDupAgentRel.related_name#</a></li>
+									<li class="list-inline-item">
+										#getDupAgentRel.agent_relationship# 
+										<a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agent_id#">#getDupAgentRel.related_name#</a>
+										#date_to_merge# #on_hold# #held_by#
+									</li>
+								</cfloop>
+							</ul>
+						</cfif>
+						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
+							SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
+								agent_remarks,
+								date_to_merge, on_hold, held_by,
+							FROM agent_relations 
+								WHERE
+									related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									and agent_relationship like '% duplicate of'
+								ORDER BY agent_relationship
+						</cfquery>
+						<cfif getDupAgentRel.recordcount GT 0>
+							<ul class="list-inline">
+								<cfloop query="getDupAgentRel">
+									<li class="list-inline-item">
+										<a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agent_id#">#getDupAgentRel.related_name#</a>
+										#getDupAgentRel.agent_relationship# #prefName#
+										#date_to_merge# #on_hold# #held_by#
+									</li>
 								</cfloop>
 							</ul>
 						</cfif>
