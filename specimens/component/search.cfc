@@ -403,6 +403,11 @@ limitations under the License.
 			SELECT column_name, data_type 
 			FROM all_tab_columns
 			WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
+				and upper(column_name) not in (
+					SELECT column_name 
+					FROM cf_spec_res_cols
+					WHERE category = 'attribute'
+				)
 		</cfquery>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 

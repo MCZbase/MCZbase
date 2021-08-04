@@ -820,6 +820,11 @@ limitations under the License.
 		FROM all_tab_columns
 		WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
 			and upper(column_name) not in ( 'GUID', 'IMAGEURL', 'COLLECTION_OBJECT_ID', 'COLLECTION', 'CAT_NUM', 'BEGAN_DATE', 'ENDED_DATE', 'SCIENTIFIC_NAME', 'SPEC_LOCALITY', 'LOCALITY_ID', 'HIGHER_GEOG', 'COLLECTORS', 'VERBATIM_DATE', 'COLL_OBJECT_DISPOSITION', 'OTHERCATALOGNUMBERS')
+			and upper(column_name) not in (
+				SELECT upper(column_name) as column_name
+				FROM cf_spec_res_cols
+				WHERE category = 'attribute'
+			)
 	</cfquery>
 	<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
 		SELECT upper(column_name) as column_name, 'VARCHAR2' data_type
@@ -922,8 +927,8 @@ limitations under the License.
 					handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 				},
 				async: true
-			};
-	
+			};	
+
 			var dataAdapter = new $.jqx.dataAdapter(search);
 			var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 				// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
