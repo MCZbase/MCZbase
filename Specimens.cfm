@@ -393,16 +393,16 @@ limitations under the License.
 													<div id="buildercolumnPickDialog">
 														<div class="container-fluid">
 															<div class="row">
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="buildercolumnPick" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="buildercolumnPick1" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="buildercolumnPick2" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="buildercolumnPick3" class="px-1"></div>
 																</div>
 															</div>
@@ -680,16 +680,16 @@ limitations under the License.
 													<div id="fixedcolumnPickDialog">
 														<div class="container-fluid">
 															<div class="row">
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="fixedcolumnPick" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="fixedcolumnPick1" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="fixedcolumnPick2" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="fixedcolumnPick3" class="px-1"></div>
 																</div>
 															</div>
