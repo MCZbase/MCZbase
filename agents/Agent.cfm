@@ -78,7 +78,7 @@ limitations under the License.
 				<div id="agentTopDiv" class="col-12 mt-3">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
 					<div class="row mx-0">
-						<div class="col-auto px-3">
+						<div class="col-12 col-md-11 px-3">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
 								<cfif oneOfUs EQ 1 OR len(getAgent.death_date) GT 0>
@@ -90,7 +90,8 @@ limitations under the License.
 								<cfset dates = assembleYearRange(start_year="#getAgent.start_date#",end_year="#getAgent.end_date#",year_only=true) >
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
-							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0">  #dates# #agent_type#</span></h1>
+							<cfif oneOfUs EQ 1><cfset agent_id_bit = " [Agent ID: #getAgent.agent_id#]"><cfelse><cfset agent_id_bit=""></cfif>
+							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0">  #dates# #agent_type# #agent_id_bit#</span></h1>
 						</div>
 						<div class="col-12 col-md-1 mt-0 mt-md-2 float-right">
 							<!--- edit button at upper right for those authorized to edit agent records --->
@@ -115,6 +116,56 @@ limitations under the License.
 							</ul>
 						</div>
 					</div>
+					<cfif oneOfUs EQ 1>
+						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
+							SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
+								agent_remarks,
+								date_to_merge, on_hold, held_by
+							FROM agent_relations 
+								WHERE
+									agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									and agent_relationship like '% duplicate of'
+								ORDER BY agent_relationship
+						</cfquery>
+						<cfquery name="getDupAgentRelRev" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
+							SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
+								agent_remarks,
+								date_to_merge, on_hold, held_by
+							FROM agent_relations 
+								WHERE
+									related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									and agent_relationship like '% duplicate of'
+								ORDER BY agent_relationship
+						</cfquery>
+						<cfif getDupAgentRel.recordcount GT 0 OR getDupAgentRelRev.recordcount GT 0>
+							<div class="row mx-0">
+								<cfif getDupAgentRel.recordcount GT 0>
+									<ul class="px-3 list-inline">
+										<cfloop query="getDupAgentRel">
+											<cfif len(on_hold) GT 0><cfset hold="put on hold by"><cfelse><cfset hold=""></cfif>
+											<li class="list-inline-item">
+												#prefName# is a #getDupAgentRel.agent_relationship# 
+												<a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agent_id#">#getDupAgentRel.related_name#</a>
+												set to merge: #dateformat(date_to_merge,"yyyy-mm-dd")# #hold# #held_by#
+											</li>
+										</cfloop>
+									</ul>
+								</cfif>
+								<cfif getDupAgentRelRev.recordcount GT 0>
+									<ul class="px-3 list-inline">
+										<cfloop query="getDupAgentRelRev">
+											<cfif len(on_hold) GT 0><cfset hold="put on hold by"><cfelse><cfset hold=""></cfif>
+											<li class="list-inline-item">
+												<a href="/agents/Agent.cfm?agent_id=#getDupAgentRelRev.related_agent_id#">#getDupAgentRelRev.related_name#</a>
+												is a #getDupAgentRelRev.agent_relationship# #prefName#
+												set to merge into this record: #dateformat(date_to_merge,"yyyy-mm-dd")# #hold# #held_by#
+											</li>
+										</cfloop>
+									</ul>
+								</cfif>
+							</div>
+						</cfif>
+					</cfif>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
 						<div class="col-12 px-3 mb-0">

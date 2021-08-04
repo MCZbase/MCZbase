@@ -949,3 +949,33 @@ function openRankDialog(dialogDivId,dialogTitle,agentId,callback) {
 		}
 	)
 };
+
+
+/** Make a paired hidden agent_id and text agent_name control into an autocomplete agent picker that displays meta 
+ *  on picklist and value on selection, unlike makeAgentAutocompleteMeta, includes the agent_id in the metadata.
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
+ *  @see makeAgentAutocompleteMeta
+ */
+function makeAgentAutocompleteMetaID(nameControl, idControl) { 
+	$('#'+nameControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/agents/component/search.cfc",
+				data: { term: request.term, method: 'getAgentAutocompleteMeta', show_agent_id: 'true' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up agents for an autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta "matched name * (preferred name)" instead of value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};

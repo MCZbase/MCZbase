@@ -693,8 +693,15 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 <cffunction name="getAgentAutocompleteMeta" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
 	<cfargument name="constraint" type="string" required="no">
+	<cfargument name="show_agent_id" type="string" required="no">
 	<!--- perform wildcard search anywhere in agent_name.agent_name --->
 	<cfset name = "%#term#%"> 
+
+	<cfif not isDefined("show_agent_id") OR len(show_agent_id) EQ 0 >
+		<cfset show_agent_id = false>
+	<cfelse>
+		<cfset show_agent_id = true>
+	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -758,10 +765,15 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
 			<cfset row["id"] = "#search.agent_id#">
 			<cfset row["value"] = "#search.preferred_agent_name#" >
-			<cfif search.preferred_agent_name EQ search.agent_name >
-				<cfset row["meta"] = "#search.agent_name# #edited_marker#" >
+			<cfif show_agent_id >
+				<cfset agent_id_bit = " [#search.agent_id#]">
 			<cfelse>
-				<cfset row["meta"] = "#search.agent_name# (#search.preferred_agent_name#)#edited_marker#" >
+				<cfset agent_id_bit = " [#search.agent_id#]">
+			</cfif>
+			<cfif search.preferred_agent_name EQ search.agent_name >
+				<cfset row["meta"] = "#search.agent_name# #edited_marker##agent_id_bit#" >
+			<cfelse>
+				<cfset row["meta"] = "#search.agent_name# (#search.preferred_agent_name#)#edited_marker##agent_id_bit#" >
 			</cfif>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
