@@ -819,6 +819,7 @@ limitations under the License.
 		SELECT upper(column_name) as column_name, data_type 
 		FROM all_tab_columns
 		WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
+			and upper(column_name) not in ( 'GUID', 'IMAGEURL', 'COLLECTION_OBJECT_ID', 'COLLECTION', 'CAT_NUM', 'BEGAN_DATE', 'ENDED_DATE', 'SCIENTIFIC_NAME', 'SPEC_LOCALITY', 'LOCALITY_ID', 'HIGHER_GEOG', 'COLLECTORS', 'VERBATIM_DATE', 'COLL_OBJECT_DISPOSITION', 'OTHERCATALOGNUMBERS')
 	</cfquery>
 	<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
 		SELECT upper(column_name) as column_name, 'VARCHAR2' data_type
@@ -900,6 +901,15 @@ limitations under the License.
 						</cfif>
 						<cfset separator = ",">
 					</cfloop>
+					<cfset separator = ",">
+					<cfloop query="flatFields">
+						<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+							#separator#{name: '#ucase(column_name)#', type: 'string' }
+						<cfelse>
+							#separator#{name: '#ucase(column_name)#', type: 'string' }
+						</cfif>
+						<cfset separator = ",">
+					</cfloop>
 				],
 				updaterow: function (rowid, rowdata, commit) {
 					commit(true);
@@ -948,7 +958,6 @@ limitations under the License.
 				ready: function () {
 					$("##"+gridId).jqxGrid('selectrow', 0);
 				},
-				// This part needs to be dynamic
 				columns: [
 					{text: 'GUID', datafield: 'GUID', width: 130, hidable: false, cellsrenderer: linkGuidCellRenderer },
 					{text: 'CollObjectID', datafield: 'COLLECTION_OBJECT_ID', width: 100, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID',true), cellsrenderer: linkIdCellRenderer },
@@ -963,6 +972,10 @@ limitations under the License.
 					{text: 'Collectors', datafield: 'COLLECTORS', width: 180, hidable: true, hidden: getColHidProp('COLLECTORS', false) },
 					{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190, hidable: true, hidden: getColHidProp('VERBATIM_DATE', false) },
 					<cfloop query="attrFields">
+						<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
+						{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
+					</cfloop>
+					<cfloop query="flatFields">
 						<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
 						{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
 					</cfloop>
@@ -1062,6 +1075,15 @@ limitations under the License.
 							</cfif>
 							<cfset separator = ",">
 						</cfloop>
+						<cfset separator = ",">
+						<cfloop query="flatFields">
+							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							<cfelse>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							</cfif>
+							<cfset separator = ",">
+						</cfloop>
 					],
 					updaterow: function (rowid, rowdata, commit) {
 						commit(true);
@@ -1110,7 +1132,6 @@ limitations under the License.
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 					},
-					// This part needs to be dynamic.
 					columns: [
 						{text: 'GUID', datafield: 'GUID', width: 130, hidable: false, cellsrenderer: linkGuidCellRenderer },
 						{text: 'CollObjectID', datafield: 'COLLECTION_OBJECT_ID', width: 100, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID',true), cellsrenderer: linkIdCellRenderer },
@@ -1125,6 +1146,10 @@ limitations under the License.
 						{text: 'Collectors', datafield: 'COLLECTORS', width: 180, hidable: true, hidden: getColHidProp('COLLECTORS', false) },
 						{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190, hidable: true, hidden: getColHidProp('VERBATIM_DATE', false) },
 						<cfloop query="attrFields">
+							<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
+							{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
+						</cfloop>
+						<cfloop query="flatFields">
 							<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
 							{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
 						</cfloop>
