@@ -28,20 +28,29 @@ limitations under the License.
 	<cftry>
 		<!---change this to create a table of collection_object_ids, then a query to get preferred columns for user using the coll object table--->
 
-		<!---conditional to handle different search methods keyword/querybuilder&fixed--->
 		<cfif isDefined("searchText") and len(searchText) gt 0>
 			<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
 				SELECT column_name, sql_element 
 				FROM cf_spec_res_cols
 				WHERE category = 'attribute'
 			</cfquery>
+			<cfquery name="flatFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatFields_result">
+				SELECT column_name, data_type 
+				FROM all_tab_columns
+				WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
+					and upper(column_name) not in (
+						SELECT column_name 
+						FROM cf_spec_res_cols
+						WHERE category = 'attribute'
+					)
+			</cfquery>
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 				SELECT
-					flatTableName.guid,
-					flatTableName.imageurl, flatTableName.collection_object_id,flatTableName.collection,flatTableName.cat_num,
-					flatTableName.began_date, flatTableName.ended_date,
-					flatTableName.scientific_name,flatTableName.spec_locality,flatTableName.locality_id, flatTableName.higher_geog, 
-					flatTableName.collectors, flatTableName.verbatim_date,flatTableName.coll_obj_disposition,flatTableName.othercatalognumbers
+					<cfset comma = "">
+					<cfloop query="flatFields">
+						#comma#flatTableName.#column_name#
+						<cfset comma = ",">
+					</cfloop>
 					<cfloop query="attrFields">
 						,#sql_element# as #column_name#
 					</cfloop>
@@ -52,9 +61,9 @@ limitations under the License.
 						and f.collection_id in (<cfqueryparam value="#collmultiselect#" cfsqltype="cf_sql_integer" list="true">)
 					</cfif>
 			</cfquery>
-		<!---cfelse querybuilder handler goes here--->
+		<cfelse>
+			<cfthrow message="No search terms provided."
 		</cfif>
-		<!---query for returning selected columns here--->
 
 		<cfset rows = 0>
 		<cfset data = ArrayNew(1)>
@@ -63,7 +72,7 @@ limitations under the License.
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-				<cfset row["#ucase(col)#"] = "#search[col][currentRow]#">
+				<cfset row["#ucase(col)#"] = "#encodeForJavaScript(search[col][currentRow])#">
 			</cfloop>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
@@ -198,6 +207,11 @@ limitations under the License.
 			SELECT column_name, data_type 
 			FROM all_tab_columns
 			WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
+				and upper(column_name) not in (
+					SELECT column_name 
+					FROM cf_spec_res_cols
+					WHERE category = 'attribute'
+				)
 		</cfquery>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
@@ -222,7 +236,7 @@ limitations under the License.
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-				<cfset row["#ucase(col)#"] = "#search[col][currentRow]#">
+				<cfset row["#ucase(col)#"] = "#encodeForJavaScript(search[col][currentRow])#">
 			</cfloop>
 			<cfset data[i] = row>
 			<cfset i = i + 1>
@@ -432,7 +446,7 @@ limitations under the License.
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-				<cfset row["#ucase(col)#"] = "#search[col][currentRow]#">
+				<cfset row["#ucase(col)#"] = "#encodeForJavaScript(search[col][currentRow])#">
 			</cfloop>
 			<cfset data[i] = row>
 			<cfset i = i + 1>
