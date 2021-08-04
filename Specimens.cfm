@@ -406,8 +406,6 @@ limitations under the License.
 																	<div id="buildercolumnPick3" class="px-1"></div>
 																</div>
 															</div>
-															</div>
-															</div>
 														</div>
 													</div>
 													<div id="buildercolumnPickDialogButton"></div>
