@@ -72,7 +72,7 @@ limitations under the License.
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-				<cfset row["#ucase(col)#"] = "#encodeForJavaScript(search[col][currentRow])#">
+				<cfset row["#ucase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
@@ -189,6 +189,9 @@ limitations under the License.
 		<cfdump var="#session.dbuser#">
 		<cfabort>
 	</cfif>
+	<cfif NOT IsJSON(search_json)>
+		<cfthrow message="unable to construct valid json for query">
+	</cfif>
 
 	<cftry>
 		<cfset username = session.dbuser>
@@ -231,12 +234,11 @@ limitations under the License.
 
 		<cfset rows = 0>
 		<cfset data = ArrayNew(1)>
-
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-				<cfset row["#ucase(col)#"] = "#encodeForJavaScript(search[col][currentRow])#">
+				<cfset row["#ucase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
 			<cfset data[i] = row>
 			<cfset i = i + 1>
@@ -388,6 +390,9 @@ limitations under the License.
 		<cfdump var="#session.dbuser#">
 		<cfabort>
 	</cfif>
+	<cfif NOT IsJSON(search_json)>
+		<cfthrow message="unable to construct valid json for query">
+	</cfif>
 
 	<cftry>
 		<cfset username = session.dbuser>
@@ -446,7 +451,7 @@ limitations under the License.
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-				<cfset row["#ucase(col)#"] = "#encodeForJavaScript(search[col][currentRow])#">
+				<cfset row["#ucase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
 			<cfset data[i] = row>
 			<cfset i = i + 1>
