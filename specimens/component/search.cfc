@@ -62,7 +62,7 @@ limitations under the License.
 					</cfif>
 			</cfquery>
 		<cfelse>
-			<cfthrow message="No search terms provided."
+			<cfthrow message="No search terms provided.">
 		</cfif>
 
 		<cfset rows = 0>
