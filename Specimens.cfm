@@ -1253,7 +1253,7 @@ limitations under the License.
 						columnListSource1.push(listRow);
 					}
 				}
-				$("##"+whichGrid+"columnPick1").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+				$("##"+whichGrid+"columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
 				$("##"+whichGrid+"columnPick1").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
@@ -1276,7 +1276,7 @@ limitations under the License.
 						columnListSource2.push(listRow);
 					}
 				}
-				$("##"+whichGrid+"columnPick2").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+				$("##"+whichGrid+"columnPick2").jqxListBox({ source: columnListSource2, autoHeight: true, width: '260px', checkboxes: true });
 				$("##"+whichGrid+"columnPick2").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
