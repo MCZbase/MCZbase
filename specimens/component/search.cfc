@@ -159,9 +159,9 @@ limitations under the License.
 			<cfset searchId = Evaluate("searchId"&i)>
 			<cfset joinWith = Evaluate("joinOperator"&i)>
 			<cfif joinWith EQ "AND">
-				<cfset join='"join"="and",'>
+				<cfset join='"join":"and",'>
 			<cfelseif joinWith EQ "OR">
-				<cfset join='"join"="or",'>
+				<cfset join='"join":"or",'>
 			<cfelse>
 				<cfset join=''>
 			</cfif>
