@@ -756,13 +756,7 @@ limitations under the License.
 					</div><!--- search box --->
 				</div><!--- row --->
 			</section>
-		<style>
-			.jqx-grid-card-row  {height: 620px;}
-			.jqx-grid-card-cell {overflow:hidden;}
-			.jqx-grid-card-cell table {height: 600px;overflow-y:hidden!important;}
-			.jqx-grid-card-cell-label {width: 30%;font-size: 11px;}
-			
-		</style>
+		
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
 				<div class="row mx-0">
@@ -831,59 +825,9 @@ limitations under the License.
 				}
 			};
 			function toggleCardView() { 
-				$("##searchResultsGrid").jqxGrid("beginUpdate");
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
-				if (currentState)  {
-					// state cardview switching to row view
-					$("##searchResultsGrid").jqxGrid('rowsheight',36);
-					$("##searchResultsGrid").jqxGrid('height',32);
-					//cardsize: 5,
-				} else {
-					// state is row view switching to cardview
-					$("##searchResultsGrid").jqxGrid('cardheight',620);
-					//this should be ('cardsize',5); however, it multiplies the cardheight times the number of rows (which have become cards-so 5 cards per row is //really 5 rows per row of cards in cardview or "5/No. of records in results")
-					$("##searchResultsGrid").jqxGrid('cardsize',5);
-					$("##searchResultsGrid").jqxGrid({
-						cardviewcolumns: [
-							{ width: 'auto', datafield: 'media_id',hidable: true},
-							{ width: 'auto', datafield: 'preview_uri',hidable: true},
-							{ width: 'auto', datafield: 'mask_media_fg',hidable: true,hidden: getColHidProp('mask_media_fg', true)},
-							{ width: 'auto', datafield: 'media_type',hidable: true,hidden: getColHidProp('media_type', false)},
-							{ width: 'auto', datafield: 'mime_type',hidable: true,hidden: getColHidProp('mime_type', false)},
-							{ width: 'auto', datafield: 'protocol',hidable: true,hidden: getColHidProp('protocol', false)},
-							{ width: 'auto', datafield: 'host',hidable: true,hidden: getColHidProp('host', false)},
-							{ width: 'auto', datafield: 'path',hidable: true,hidden: getColHidProp('path', false)},
-							{ width: 'auto', datafield: 'filename',hidable: true,hidden: getColHidProp('filename', true)},
-							{ width: 'auto', datafield: 'extension',hidable: true,hidden: getColHidProp('extension', true)},
-							{ width: 'auto', datafield: 'aspect',hidable: true,hidden: getColHidProp('aspect', true)},
-							{ width: 'auto', datafield: 'description',hidable: true, hidden: getColHidProp('description', false)},
-							{ width: 'auto', datafield: 'made_date',hidable: true,hidden: getColHidProp('made_date', true)},
-							{ width: 'auto', datafield: 'subject',hidable: true,hidden: getColHidProp('subject', true)},
-							{ width: 'auto', datafield: 'original_filename',hidable: true,hidden: getColHidProp('original_filename', false)},
-							{ width: 'auto', datafield: 'internal_remarks',hidable: true,hidden: getColHidProp('internal_remarks', false)},
-							{ width: 'auto', datafield: 'remarks',hidable: true,hidden: getColHidProp('remarks', false)},
-							{ width: 'auto', datafield: 'spectrometer',hidable: true,hidden: getColHidProp('spectrometer', false)},
-							{ width: 'auto', datafield: 'light_source',hidable: true,hidden: getColHidProp('light_source', false)},
-							{ width: 'auto', datafield: 'spectrometer_reading_location',hidable: true,hidden: getColHidProp('spectrometer_reading_location', false)},
-							{ width: 'auto', datafield: 'height',hidable: true,hidden: getColHidProp('height', false)},
-							{ width: 'auto', datafield: 'width',hidable: true,hidden: getColHidProp('width', false)},
-							{ width: 'auto', datafield: 'creator',hidable: true,hidden: getColHidProp('creator', true)},
-							{ width: 'auto', datafield: 'owner',hidable: true,hidden: getColHidProp('owner', true)},
-							{ width: 'auto', datafield: 'credit',hidable: true,hidden: getColHidProp('credit', true)},
-							{ width: 'auto', datafield: 'dc_rights',hidable: true,hidden: getColHidProp('dc_rights', true)},
-							{ width: 'auto', datafield: 'license_display',hidable: true,hidden: getColHidProp('license_display', true)},
-							{ width: 'auto', datafield: 'relations',hidable: true,hidden: getColHidProp('relations', true)},
-							{ width: 'auto', datafield: 'ac_description',hidable: true,hidden: getColHidProp('ac_description', true)},
-							{ width: 'auto', datafield: 'media_uri',hidable: true,hidden: getColHidProp('media_uri', false)},
-						]});
-
-				}
-				$("##searchResultsGrid").jqxGrid({
-					cardview: !currentState
-				});
-				$("##searchResultsGrid").jqxGrid("endUpdate");
+				$("##searchResultsGrid").jqxGrid({cardview: !currentState});
 			};
-
 	
 			$(document).ready(function() {
 				/* Setup date time input controls */
@@ -903,7 +847,7 @@ limitations under the License.
 			
 					$("##overlay").show();
 			
-					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;width:100%;"></div>');
+					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
 			
@@ -976,35 +920,42 @@ limitations under the License.
 					}
 			
 					$("##searchResultsGrid").jqxGrid({
+						width: '100%',
+						autoheight: 'true',
+						autorowheight: 'true',
+						rowsheight: 83,
 						source: dataAdapter,
-//						rowsheight: 50,
-//						height: 650,
-						autoHeight: true,
-						//autorowheight: true,
 						filterable: true,
 						sortable: true,
 						pageable: true,
 						editable: false,
-						pagesize: 50,
+						pagesize: '50',
 						pagesizeoptions: ['5','50','100'],
 						showaggregates: true,
 						columnsresize: true,
-						keyboardnavigation: true,
 						autoshowfiltericon: true,
 						autoshowcolumnsmenubutton: false,
 						autoshowloadelement: false,  // overlay acts as load element for form+results
 						columnsreorder: true,
 						groupable: true,
-						selectionmode: 'multiplecellsadvanced',
+						selectionmode: 'singlerow',
 						altrows: true,
 						showtoolbar: false,
-						width: '100%',
 						<cfif Application.serverrole NEQ "production" >
-						cardview: false,
+							cardview: false,
+							cardviewcolumns: [
+								{ width: 'auto', datafield: 'media_id' },
+								{ width: 'auto', datafield: 'preview_uri' },
+								{ width: 'auto', datafield: 'media_type' },
+								{ width: 'auto', datafield: 'mime_type' },
+								{ width: 'auto', datafield: 'aspect' },
+								{ width: 'auto', datafield: 'description' },
+								{ width: 'auto', datafield: 'original_filename' },
+								{ width: 'auto', datafield: 'height' },
+								{ width: 'auto', datafield: 'width' },
+								{ width: 'auto', datafield: 'media_uri' }
+							],
 						</cfif>
-						//cardsize: 5,
-						width: '100%',
-						//cardheight: 620,
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
 							{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer },
@@ -1041,7 +992,7 @@ limitations under the License.
 							{text: 'Alt Text', datafield: 'ac_description', width: 200, hidable: true, hidden: getColHidProp('ac_description', true) },
 							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: getColHidProp('media_uri', false) }
 						],
-						rowdetails: false,
+						rowdetails: true,
 						rowdetailstemplate: {
 							rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 							rowdetailsheight: 1 // row details will be placed in popup dialog
