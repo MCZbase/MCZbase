@@ -275,7 +275,104 @@ limitations under the License.
 	<cfreturn getMediaThread.output>
 </cffunction>
 	
-	
+
+						
+<!--- TEST getImagesHTML obtain a block of html listing identifications for a cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
+ @return html for viewing identifications for the specified cataloged item. 
+--->
+<cffunction name="getImagesHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+		<cfthread name="getImagesThread">
+			<cfoutput>
+				<cftry>
+				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						media.media_id,
+						media.media_uri,
+						mczbase.get_media_descriptor(media.media_id) as media_descriptor
+					FROM
+						media
+						left join media_relations on media_relations.media_id = media.media_id
+					WHERE
+						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+				<cfloop query="images">
+					<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct
+							media.media_id,
+							media.media_uri,
+							media.mime_type,
+							media.media_type,
+							media_license_fg,
+							mask_media_fg
+						FROM 
+							media,
+							media_relations
+						WHERE 
+							media_relations.media_relations_id = media.media_id 
+							AND media.media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+					</cfquery>
+					<cfset mt=media.mime_type>
+					<cfset altText = media.media_descriptor>
+					<cfset puri=getMediaPreview(preview_uri,mime_type)>
+					<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							media_label,
+							label_value
+						FROM
+							media_labels
+						WHERE
+							media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					</cfquery>
+					<cfquery name="desc" dbtype="query">
+						select label_value from labels where media_label='description'
+					</cfquery>
+					<cfset description="Media Preview Image">
+					<cfif desc.recordcount is 1>
+						<cfset description=desc.label_value>
+					</cfif>
+					<cfif len(images.media_uri) gt 0>
+						<ul class="list-group mt-1 mx-2 rounded px-3 py-2 h4 font-weight-normal">
+							<div class="font-italic h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
+								<a href="/media/#image.media_id#" target="_blank">
+									<img src="#image.media_uri#" alt="#altText#"> 
+								</a>
+								<cfif len(description) gt 0>
+									<span class="sm-caps font-weight-lessbold">#description#</span>
+								</cfif>
+							</div>
+						</ul>
+					<cfelse>
+						None
+					</cfif>
+				</cfloop>
+			<cfcatch>
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+				<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert">
+								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+					</div>
+			</cfcatch>
+			</cftry>
+			</cfoutput>
+		</cfthread>
+		<cfthread action="join" name="getImagesThread" />
+	<cfreturn getImagesThread.output>
+</cffunction>
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 
