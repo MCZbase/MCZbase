@@ -311,9 +311,9 @@ limitations under the License.
 							media_relations.media_relations_id = media.media_id 
 							AND media.media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
-					<cfset mt=media.mime_type>
-					<cfset altText = media.media_descriptor>
-					<!---<cfset puri=getMediaPreview(preview_uri,mime_type)>--->
+					<cfset mt=getImages.mime_type>
+					<cfset altText = getImages.media_descriptor>
+					<cfset puri=getMediaPreview(preview_uri,mime_type)>
 					<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							media_label,
