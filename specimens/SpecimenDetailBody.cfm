@@ -94,6 +94,101 @@ limitations under the License.
 	<div class="container-lg d-none d-lg-block mb-2 my-lg-1">
 		<div class="row">
 			<cfif #oneOfUs# eq 1>
+<script>
+// multi-column CSS
+let theComboCSS = new input.ComboBox('#theComboCSS', {
+dropDownCssClass: 'cb-flex',
+displayMemberPath: 'country',
+itemsSource: getData()
+});
+	
+export function getData() {
+return [
+	{ id: 1, country: 'Luxembourg'},
+	{ id: 2, country: 'Switzerland' },
+	{ id: 3, country: 'Norway' },
+	{ id: 4, country: 'Macao' },
+	{ id: 5, country: 'Qatar' },
+	{ id: 6, country: 'Ireland'},
+	{ id: 7, country: 'United States' },
+	{ id: 8, country: 'Singapore' },
+	{ id: 9, country: 'Denmark'},
+	{ id: 10, country: 'Australia' },
+	{ id: 11, country: 'Iceland' },
+	{ id: 12, country: 'Sweden' },
+	{ id: 13, country: 'San Marino' },
+	{ id: 14, country: 'Netherlands' },
+	{ id: 15, country: 'United Kingdom' },
+	{ id: 16, country: 'Austria' },
+	{ id: 17, country: 'Canada' },
+	{ id: 18, country: 'Finland', },
+	{ id: 19, country: 'Germany' },
+	{ id: 20, country: 'Belgium' },
+	{ id: 21, country: 'United Arab Emirates' },
+	{ id: 22, country: 'France' },
+	{ id: 23, country: 'New Zealand' },
+	{ id: 24, country: 'Israel' },
+	{ id: 25, country: 'Japan' },
+	{ id: 26, country: 'Brunei Darussalam' },
+	{ id: 27, country: 'Italy' },
+	{ id: 28, country: 'Puerto Rico' },
+	{ id: 29, country: 'Kuwait' },
+	{ id: 30, country: 'South Korea' },
+	{ id: 31, country: 'Spain' },
+	{ id: 32, country: 'The Bahamas' },
+	{ id: 33, country: 'Bahrain' },
+	{ id: 34, country: 'Cyprus' },
+	{ id: 35, country: 'Malta' },
+	{ id: 37, country: 'Slovenia' },
+	{ id: 38, country: 'Saudi Arabia' },
+	{ id: 39, country: 'Portugal' },
+	{ id: 40, country: 'Trinidad and Tobago' },
+	{ id: 41, country: 'Greece' },
+	{ id: 42, country: 'Czech Republic' },
+	{ id: 43, country: 'Estonia' },
+	{ id: 44, country: 'Equatorial Guinea' },
+	{ id: 45, country: 'Oman'},
+	{ id: 46, country: 'St. Kitts and Nevis' },
+	{ id: 47, country: 'Palau' },
+	{ id: 48, country: 'Slovakia' },
+	{ id: 49, country: 'Barbados' },
+	{ id: 50, country: 'Uruguay' }
+];
+}
+</script>
+<style>
+.cb-flex {
+display: flex;
+flex-wrap: wrap;
+width: 380px;
+}
+
+.cb-flex .wj-listbox-item {
+width: 120px;
+white-space: pre;
+overflow: hidden;
+text-overflow: ellipsis;
+ }
+
+.wj-listbox-item table {
+    table-layout: fixed;
+}
+
+.wj-listbox-item td {
+    width: 120px;
+    white-space: pre;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wj-listbox-item td.number {
+    width: 80px;
+    text-align: right;
+}</style>
+<div class="form-group">
+	<label for="theComboCSS">Select Type:</label>
+	<div id="theComboCSS"></div>
+</div>
 				<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto">
 					<li class="list-group-item px-0 mx-1">
 						<div id="mediaDialog"></div>
@@ -234,6 +329,51 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+							
+					<!----------------------------- images ----------------------------------> 
+<!---					<div class="accordion" id="accordionIm">
+						<div class="card mb-2 bg-light">
+							<div id="imagesDialog"></div>
+							<script>
+								function reloadImages() { 
+								
+									loadImages(#collection_object_id#,'imagesCardBody');
+								}
+							</script>
+							<cfset blockident = getImagesHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="heading1">
+								<cfif len(#blockident#) gt 10> 
+									<h3 class="h4 my-0" tabindex="0">
+										<button type="button" class="headerLnk text-left w-100" href="##" data-toggle="collapse" data-target="##imagesPane" aria-expanded="true" aria-controls="imagesPane">
+											Images
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a role="button" href="##" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditImagesDialog(#collection_object_id#,'imagesDialog','#guid#',reloadImages)">
+												Edit
+											</a>
+										</cfif>
+									</h3>
+								<cfelse>
+									<h3 class="h4 my-0" tabindex="0">
+										<button type="button" class="headerLnk text-left w-100 h-100" href="##" data-toggle="collapse" data-target="##imagesPane" aria-controls="imagesPane">
+											Images
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a role="button" href="##" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditImagesDialog(#collection_object_id#,'imagesDialog','#guid#',reloadImages)">
+												Add
+											</a>
+										</cfif>
+									</h3>
+								</cfif>
+							</div>
+							<div id="imagesPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionIm">
+								<div class="card-body py-1 mb-1 w-100 float-left" id="imagesCardBody">
+									#blockident#
+									<div id="imagesHTML"></div>
+								</div>
+							</div>
+						</div>
+					</div>--->
 					<!----------------------------- Citations new ----------------------------------> 
 					<div class="accordion" id="accordionCitations">
 						<div class="card mb-2 bg-light">
