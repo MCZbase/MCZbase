@@ -95,7 +95,7 @@ limitations under the License.
 		<div class="row">
 			<cfif #oneOfUs# eq 1>
 <script>
-let theComboCSS = new input.ComboBox('##theComboCSS', {
+let theComboCSS = new ComboBox('##theComboCSS', {
 dropDownCssClass: 'cb-flex',
 displayMemberPath: 'country',
 itemsSource: getData()
@@ -161,33 +161,29 @@ display: flex;
 flex-wrap: wrap;
 width: 380px;
 }
-
 .cb-flex .wj-listbox-item {
 width: 120px;
 white-space: pre;
 overflow: hidden;
 text-overflow: ellipsis;
- }
-
+}
 .wj-listbox-item table {
-    table-layout: fixed;
+table-layout: fixed;
 }
-
 .wj-listbox-item td {
-    width: 120px;
-    white-space: pre;
-    overflow: hidden;
-    text-overflow: ellipsis;
+width: 120px;
+white-space: pre;
+overflow: hidden;
+text-overflow: ellipsis;
 }
-
 .wj-listbox-item td.number {
-    width: 80px;
-    text-align: right;
+width: 80px;
+text-align: right;
 }
 </style>
 <div class="form-group">
 	<label for="theComboCSS">Select Type:</label>
-	<div id="theComboCSS"></div>
+	<div><input id="theComboCSS"></div>
 </div>
 				<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto">
 					<li class="list-group-item px-0 mx-1">
