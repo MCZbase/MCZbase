@@ -302,14 +302,14 @@ limitations under the License.
 						SELECT distinct
 							media.media_id,
 							media.media_uri,
+							media.preview_uri,
 							media.mime_type,
 							media.media_type
 						FROM 
 							media,
-							media_relations
+							left join media_relations on media_relations.media_id = media.media_id
 						WHERE 
-							media_relations.media_relations_id = media.media_id 
-							AND media.media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+							media.media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 					<cfset mt=getImages.mime_type>
 					<cfset altText = images.media_descriptor>
