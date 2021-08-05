@@ -1491,13 +1491,15 @@ limitations under the License.
 									<input type="hidden" name="returnformat" value="json">
 									<input type="hidden" name="queryformat" value="column">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
+									<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
 									<div class="row mx-0">
 										<div class="col-12 px-0">
 											<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT
 													media.media_id,
-													media.media_uri
+													media.media_uri,
+													media.preview_uri,
+													media.mime_type
 												FROM
 													media
 													left join media_relations on media_relations.media_id = media.media_id
@@ -1508,19 +1510,21 @@ limitations under the License.
 												<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT distinct
 														media.media_id,
-														media.media_uri
+														media.media_uri,
+														media.preview_uri as preview_uri,
+														media.mime_type as mime_type,
+														media.media_type,
+														mczbase.get_media_descriptor(media.media_id) as media_descriptor
 													FROM 
 														media,
 														media_relations
 													WHERE 
-														media_relations.media_relations_id = media.media_id 
-														AND media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+														media_relations.media_id = media.media_id
+													AND
+														media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 												</cfquery>
-												<cfquery name="ctmedia" dbtype="query">
-													select count(*) as ct from media group by media_relationship order by media_id
-												</cfquery>
-												<cfset mt=media.mime_type>
-												<cfset altText = media.media_descriptor>
+												<cfset mt=getImages.mime_type>
+												<cfset altText = getImages.media_descriptor>
 												<cfset puri=getMediaPreview(preview_uri,mime_type)>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT
@@ -1538,8 +1542,23 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
+												<cfif len(images.media_uri) gt 0>
+													<ul class="list-group mt-1 mx-2 rounded px-3 py-2 h4 font-weight-normal">
+														<div class="font-italic h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
+															<a href="/media/#getImages.media_id#" target="_blank">
+																<img src="#puri#" alt="#altText#" class="" style="width:100px;"> 
+															</a>
+															<cfif len(description) gt 0>
+																<span class="sm-caps font-weight-lessbold">#description#</span>
+															</cfif>
+														</div>
+													</ul>
+												<cfelse>
+													None
+												</cfif>
+											</cfloop>
 											<cfset i = 1>
-											<cfset sortCount=getImagesIds.recordcount - 1>
+											<cfset sortCount=getImages.recordcount - 1>
 											<input type="hidden" name="number_of_Imgids" id="number_of_Imgids" value="#getImagesIds.recordcount#">
 											<div class="col-12 mt-2">
 												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
@@ -2279,7 +2298,6 @@ limitations under the License.
 							</form>
 						</div>
 					</cfloop>
-					<!--- theResult ---> 
 				</div>
 				<cfcatch>
 					<cfoutput>
