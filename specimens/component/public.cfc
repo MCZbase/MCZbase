@@ -303,9 +303,7 @@ limitations under the License.
 							media.media_id,
 							media.media_uri,
 							media.mime_type,
-							media.media_type,
-							media.media_license_fg,
-							media.mask_media_fg
+							media.media_type
 						FROM 
 							media,
 							media_relations
