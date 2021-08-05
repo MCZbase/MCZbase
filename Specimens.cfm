@@ -304,7 +304,10 @@ limitations under the License.
 							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="0" class="mx-0 #builderTabActive#"  #builderTabShow#>
 								<section role="search" class="container-fluid">
 									<form id="builderSearchForm">
-										<input type="hidden" id="builderMaxRows" name="builderMaxRows" value="1">
+										<cfif not isDefined("builderMaxRows") or len(builderMaxRows) eq 0>
+											<cfset builderMaxRows = 1>
+										</cfif>
+										<input type="hidden" id="builderMaxRows" name="builderMaxRows" value="#builderMaxRows#">
 										<input id="result_id_builderSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeBuilderSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="builderSearch" class="keeponclear">
@@ -374,6 +377,67 @@ limitations under the License.
 														<a aria-label="Add more search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> 
 													</div>
 												</div>
+												<cfif builderMaxRows GT 1>
+													<cfloop index="row" from="2" to="#builderMaxRows#">
+														<div class="form-row mb-2">
+															<div class="col-12 col-md-2">
+																<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
+																	<cfif isDefined("joinOperator#row#") AND eval("joinOperator#row#") EQ "or">
+																		<cfset orSel = "selected">
+																		<cfset andSel = "">
+																	<cfelse>
+																		<cfset orSel = "">
+																		<cfset andSel = "selected">
+																	</cfif>
+																	<option value="and" #andSel# >and</option>
+																	<option value="or" #orSel# >or</option>
+																</select>
+															</div>
+															<div class="col-12 col-md-4">
+																<select title="Select Field..." name="field#row#" id="field#row#" class="custom-select-sm bg-white form-control-sm border d-flex">
+																	<cfset category = "">
+																	<cfset optgroupOpen = false>
+																	<cfloop query="fields">
+																		<cfif category NEQ fields.search_category>
+																			<cfif optgroupOpen>
+																				</optgroup>
+																				<cfset optgroupOpen = false>
+																			</cfif>
+																			<optgroup label="#fields.search_category#">
+																			<cfset optgroupOpen = true>
+																			<cfset category = fields.search_category>
+																		</cfif>
+																		<cfif eval("field#row#") EQ "#fields.table_name#:#fields.column_name#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<option value="#fields.table_name#:#fields.column_name#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#)</option>
+																	</cfloop>
+																	<cfif optgroupOpen>
+																		</optgroup>
+																	</cfif>
+																</select>
+																<script>
+																	$(document).ready(function() { 
+																		$('##field#row#').jqxComboBox({
+																			autoComplete: true,
+																			searchMode: 'containsignorecase',
+																			width: '100%',
+																			dropDownHeight: 400
+																		});
+																	});
+																</script>
+															</div>
+															<div class="col-12 col-md-4">
+																<cfset sval = eval("searchText#row#")
+																<cfset sival = eval("searchId#row#")
+																<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#sval#">
+																<input type="hidden" name="searchId#row#" id="searchId#row#" value="#sival#" >
+															</div>
+															<div class="col-12 col-md-2">
+																<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn-xs px-3 btn-primary mr-auto'>Remove</button>`;
+															</div>
+														</div>
+													</cfloop>
+												</cfif>
+
 											</div><!--- end customFields: new form rows get appended here --->
 										</div>
 										<div class="form-row mt-1 mb-1">
