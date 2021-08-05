@@ -2224,7 +2224,6 @@ limitations under the License.
 					<cfabort>
 				</cfcatch>
 			</cftry>
-	
 	</cfoutput>
 </cffunction>
 <!---getCatNumOtherIDHTML function
@@ -2233,8 +2232,8 @@ limitations under the License.
 <cffunction name="getCatNumOtherIDHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
-		<cftry>
-			<cfoutput>
+		<cfoutput>
+			<cftry>
 				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					coll_obj_other_id_num.display_value
@@ -2253,7 +2252,7 @@ limitations under the License.
 				ORDER BY
 					other_id_type,
 					display_value
-			</cfquery>
+				</cfquery>
 				<div id="otherIDHTML">
 					<cfloop query="theResult">
 						<div class="OtherIDExistingForm">
@@ -2282,13 +2281,13 @@ limitations under the License.
 					</cfloop>
 					<!--- theResult ---> 
 				</div>
-			</cfoutput>
-			<cfcatch>
-				<cfoutput>
-					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-				</cfoutput>
-			</cfcatch>
-		</cftry>
+				<cfcatch>
+					<cfoutput>
+						<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+					</cfoutput>
+				</cfcatch>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getOtherIDThread" />
 	<cfreturn getOtherIDThread.output>
