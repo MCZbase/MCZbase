@@ -1430,7 +1430,7 @@ limitations under the License.
 				newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
 				newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 				newControls = newControls + '</li><li class="d-inline mr-2 col-md-1 col-sm-1 px-0 d-flex justify-content-end">';
-				newControls = newControls + `<button type='button' href=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn-xs px-3 btn-primary mr-auto'>Remove</button>`;
+				newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn-xs px-3 btn-primary mr-auto'>Remove</button>`;
 				newControls = newControls + '</li></ul>';
 				$("##customFields").append(newControls);
 				$("##builderMaxRows").val(row);
