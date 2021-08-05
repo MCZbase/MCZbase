@@ -101,7 +101,7 @@ displayMemberPath: 'country',
 itemsSource: getData()
 });
 	
-export function getData() {
+function getData() {
 return [
 	{ id: 1, country: 'Luxembourg'},
 	{ id: 2, country: 'Switzerland' },
