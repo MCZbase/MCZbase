@@ -301,7 +301,11 @@ limitations under the License.
 					<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct
 							media.media_id,
-							media.media_uri
+							media.media_uri,
+							media.mime_type,
+							media.media_type,
+							media_license_fg,
+							mask_media_fg
 						FROM 
 							media,
 							media_relations
