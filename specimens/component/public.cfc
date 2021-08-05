@@ -300,8 +300,8 @@ limitations under the License.
 						SELECT distinct
 							media.media_id,
 							media.media_uri,
-							media.preview_uri,
-							media.mime_type,
+							media.preview_uri as preview_uri,
+							media.mime_type as mime_type,
 							media.media_type,
 							mczbase.get_media_descriptor(media.media_id) as media_descriptor
 						FROM 
@@ -332,8 +332,8 @@ limitations under the License.
 					<cfif len(images.media_uri) gt 0>
 						<ul class="list-group mt-1 mx-2 rounded px-3 py-2 h4 font-weight-normal">
 							<div class="font-italic h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
-								<a href="/media/#image.media_id#" target="_blank">
-									<img src="#image.media_uri#" alt="#altText#"> 
+								<a href="/media/#getImages.media_id#" target="_blank">
+									<img src="#getImages.media_uri#" alt="#altText#"> 
 								</a>
 								<cfif len(description) gt 0>
 									<span class="sm-caps font-weight-lessbold">#description#</span>
