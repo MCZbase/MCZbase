@@ -1559,7 +1559,7 @@ limitations under the License.
 											</cfloop>
 											<cfset i = 1>
 											<cfset sortCount=getImages.recordcount - 1>
-											<input type="hidden" name="number_of_Imgids" id="number_of_Imgids" value="#getImagesIds.recordcount#">
+											<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
 											<div class="col-12 mt-2">
 												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
 													onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
