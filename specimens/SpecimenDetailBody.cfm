@@ -95,7 +95,7 @@ limitations under the License.
 		<div class="row">
 			<cfif #oneOfUs# eq 1>
 <script>
-let theComboCSS = new input.ComboBox('#theComboCSS', {
+let theComboCSS = new input.ComboBox('##theComboCSS', {
 dropDownCssClass: 'cb-flex',
 displayMemberPath: 'country',
 itemsSource: getData()
