@@ -271,11 +271,17 @@ limitations under the License.
 													<div id="keywordcolumnPickDialog">
 														<div class="container-fluid">
 															<div class="row">
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="keywordcolumnPick" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="keywordcolumnPick1" class="px-1"></div>
+																</div>
+																<div class="col-12 col-md-3">
+																	<div id="keywordcolumnPick2" class="px-1"></div>
+																</div>
+																<div class="col-12 col-md-3">
+																	<div id="keywordcolumnPick3" class="px-1"></div>
 																</div>
 															</div>
 														</div>
@@ -387,11 +393,17 @@ limitations under the License.
 													<div id="buildercolumnPickDialog">
 														<div class="container-fluid">
 															<div class="row">
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="buildercolumnPick" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="buildercolumnPick1" class="px-1"></div>
+																</div>
+																<div class="col-12 col-md-3">
+																	<div id="buildercolumnPick2" class="px-1"></div>
+																</div>
+																<div class="col-12 col-md-3">
+																	<div id="buildercolumnPick3" class="px-1"></div>
 																</div>
 															</div>
 														</div>
@@ -666,11 +678,17 @@ limitations under the License.
 													<div id="fixedcolumnPickDialog">
 														<div class="container-fluid">
 															<div class="row">
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="fixedcolumnPick" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-6">
+																<div class="col-12 col-md-3">
 																	<div id="fixedcolumnPick1" class="px-1"></div>
+																</div>
+																<div class="col-12 col-md-3">
+																	<div id="fixedcolumnPick2" class="px-1"></div>
+																</div>
+																<div class="col-12 col-md-3">
+																	<div id="fixedcolumnPick3" class="px-1"></div>
 																</div>
 															</div>
 														</div>
@@ -801,6 +819,12 @@ limitations under the License.
 		SELECT upper(column_name) as column_name, data_type 
 		FROM all_tab_columns
 		WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
+			and upper(column_name) not in ( 'GUID', 'IMAGEURL', 'COLLECTION_OBJECT_ID', 'COLLECTION', 'CAT_NUM', 'BEGAN_DATE', 'ENDED_DATE', 'SCIENTIFIC_NAME', 'SPEC_LOCALITY', 'LOCALITY_ID', 'HIGHER_GEOG', 'COLLECTORS', 'VERBATIM_DATE', 'COLL_OBJECT_DISPOSITION', 'OTHERCATALOGNUMBERS')
+			and upper(column_name) not in (
+				SELECT upper(column_name) as column_name
+				FROM cf_spec_res_cols
+				WHERE category = 'attribute'
+			)
 	</cfquery>
 	<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
 		SELECT upper(column_name) as column_name, 'VARCHAR2' data_type
@@ -882,6 +906,15 @@ limitations under the License.
 						</cfif>
 						<cfset separator = ",">
 					</cfloop>
+					<cfset separator = ",">
+					<cfloop query="flatFields">
+						<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+							#separator#{name: '#ucase(column_name)#', type: 'string' }
+						<cfelse>
+							#separator#{name: '#ucase(column_name)#', type: 'string' }
+						</cfif>
+						<cfset separator = ",">
+					</cfloop>
 				],
 				updaterow: function (rowid, rowdata, commit) {
 					commit(true);
@@ -894,8 +927,8 @@ limitations under the License.
 					handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 				},
 				async: true
-			};
-	
+			};	
+
 			var dataAdapter = new $.jqx.dataAdapter(search);
 			var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 				// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
@@ -930,7 +963,6 @@ limitations under the License.
 				ready: function () {
 					$("##"+gridId).jqxGrid('selectrow', 0);
 				},
-				// This part needs to be dynamic
 				columns: [
 					{text: 'GUID', datafield: 'GUID', width: 130, hidable: false, cellsrenderer: linkGuidCellRenderer },
 					{text: 'CollObjectID', datafield: 'COLLECTION_OBJECT_ID', width: 100, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID',true), cellsrenderer: linkIdCellRenderer },
@@ -945,6 +977,10 @@ limitations under the License.
 					{text: 'Collectors', datafield: 'COLLECTORS', width: 180, hidable: true, hidden: getColHidProp('COLLECTORS', false) },
 					{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190, hidable: true, hidden: getColHidProp('VERBATIM_DATE', false) },
 					<cfloop query="attrFields">
+						<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
+						{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
+					</cfloop>
+					<cfloop query="flatFields">
 						<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
 						{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
 					</cfloop>
@@ -1044,6 +1080,15 @@ limitations under the License.
 							</cfif>
 							<cfset separator = ",">
 						</cfloop>
+						<cfset separator = ",">
+						<cfloop query="flatFields">
+							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							<cfelse>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							</cfif>
+							<cfset separator = ",">
+						</cfloop>
 					],
 					updaterow: function (rowid, rowdata, commit) {
 						commit(true);
@@ -1092,7 +1137,6 @@ limitations under the License.
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 					},
-					// This part needs to be dynamic.
 					columns: [
 						{text: 'GUID', datafield: 'GUID', width: 130, hidable: false, cellsrenderer: linkGuidCellRenderer },
 						{text: 'CollObjectID', datafield: 'COLLECTION_OBJECT_ID', width: 100, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID',true), cellsrenderer: linkIdCellRenderer },
@@ -1107,6 +1151,10 @@ limitations under the License.
 						{text: 'Collectors', datafield: 'COLLECTORS', width: 180, hidable: true, hidden: getColHidProp('COLLECTORS', false) },
 						{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190, hidable: true, hidden: getColHidProp('VERBATIM_DATE', false) },
 						<cfloop query="attrFields">
+							<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
+							{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
+						</cfloop>
+						<cfloop query="flatFields">
 							<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
 							{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
 						</cfloop>
@@ -1199,8 +1247,9 @@ limitations under the License.
 				// add a control to show/hide columns
 				var columns = $('##' + gridId).jqxGrid('columns').records;
 				var halfcolumns = Math.round(columns.length/2);
+				var quartercolumns = Math.round(columns.length/4);
 				var columnListSource = [];
-				for (i = 1; i < halfcolumns; i++) {
+				for (i = 1; i < quartercolumns; i++) {
 					var text = columns[i].text;
 					var datafield = columns[i].datafield;
 					var hideable = columns[i].hideable;
@@ -1221,8 +1270,9 @@ limitations under the License.
 					}
 					$("##" + gridId).jqxGrid('endupdate');
 				});
+
 				var columnListSource1 = [];
-				for (i = halfcolumns; i < columns.length; i++) {
+				for (i = quartercolumns; i < halfcolumns; i++) {
 					var text = columns[i].text;
 					var datafield = columns[i].datafield;
 					var hideable = columns[i].hideable;
@@ -1235,6 +1285,52 @@ limitations under the License.
 				}
 				$("##"+whichGrid+"columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
 				$("##"+whichGrid+"columnPick1").on('checkChange', function (event) {
+					$("##" + gridId).jqxGrid('beginupdate');
+					if (event.args.checked) {
+						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+					} else {
+						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+					}
+					$("##" + gridId).jqxGrid('endupdate');
+				});
+
+				var columnListSource2 = [];
+				for (i = halfcolumns; i < halfcolumns + quartercolumns; i++) {
+					var text = columns[i].text;
+					var datafield = columns[i].datafield;
+					var hideable = columns[i].hideable;
+					var hidden = columns[i].hidden;
+					var show = ! hidden;
+					if (hideable == true) {
+						var listRow = { label: text, value: datafield, checked: show };
+						columnListSource2.push(listRow);
+					}
+				}
+				$("##"+whichGrid+"columnPick2").jqxListBox({ source: columnListSource2, autoHeight: true, width: '260px', checkboxes: true });
+				$("##"+whichGrid+"columnPick2").on('checkChange', function (event) {
+					$("##" + gridId).jqxGrid('beginupdate');
+					if (event.args.checked) {
+						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+					} else {
+						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+					}
+					$("##" + gridId).jqxGrid('endupdate');
+				});
+
+				var columnListSource3 = [];
+				for (i = halfcolumns + quartercolumns; i < columns.length; i++) {
+					var text = columns[i].text;
+					var datafield = columns[i].datafield;
+					var hideable = columns[i].hideable;
+					var hidden = columns[i].hidden;
+					var show = ! hidden;
+					if (hideable == true) {
+						var listRow = { label: text, value: datafield, checked: show };
+						columnListSource3.push(listRow);
+					}
+				}
+				$("##"+whichGrid+"columnPick3").jqxListBox({ source: columnListSource3, autoHeight: true, width: '260px', checkboxes: true });
+				$("##"+whichGrid+"columnPick3").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
 						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
@@ -1334,7 +1430,7 @@ limitations under the License.
 				newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
 				newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 				newControls = newControls + '</li><li class="d-inline mr-2 col-md-1 col-sm-1 px-0 d-flex justify-content-end">';
-				newControls = newControls + `<button href=' $("##builderRow'+row+'").remove();' arial-label='remove' class='btn-xs px-3 btn-primary mr-auto'>Remove</button>`;
+				newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn-xs px-3 btn-primary mr-auto'>Remove</button>`;
 				newControls = newControls + '</li></ul>';
 				$("##customFields").append(newControls);
 				$("##builderMaxRows").val(row);
