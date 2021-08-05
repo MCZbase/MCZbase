@@ -308,9 +308,6 @@ limitations under the License.
 							media_relations.media_relations_id = media.media_id 
 							AND media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
-					<cfquery name="ctmedia" dbtype="query">
-						select count(*) as ct from media group by media_relationship order by media_id
-					</cfquery>
 					<cfset mt=media.mime_type>
 					<cfset altText = media.media_descriptor>
 					<cfset puri=getMediaPreview(preview_uri,mime_type)>
@@ -333,7 +330,7 @@ limitations under the License.
 					<cfif len(images.media_uri) gt 0>
 						<ul class="list-group mt-1 mx-2 rounded px-3 py-2 h4 font-weight-normal">
 							<div class="font-italic h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
-								<a href="/name/#getTaxa.scientific_name#" target="_blank">
+								<a href="/media/#image.media_id#" target="_blank">
 									<img src="#image.media_uri#" alt="#altText#"> 
 								</a>
 								<cfif len(description) gt 0>
