@@ -289,7 +289,8 @@ limitations under the License.
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						media.media_id,
-						media.media_uri
+						media.media_uri,
+						mczbase.get_media_descriptor(media.media_id) as media_descriptor
 					FROM
 						media
 						left join media_relations on media_relations.media_id = media.media_id
@@ -306,7 +307,7 @@ limitations under the License.
 							media_relations
 						WHERE 
 							media_relations.media_relations_id = media.media_id 
-							AND media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+							AND media.media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 					<cfset mt=media.mime_type>
 					<cfset altText = media.media_descriptor>
