@@ -317,7 +317,7 @@ limitations under the License.
 					</cfquery>
 					<cfset mt=getImages.mime_type>
 					<cfset altText = getImages.media_descriptor>
-					<!---<cfset puri=getMediaPreview(preview_uri,mime_type)>--->
+					<cfset puri=getMediaPreview(preview_uri,mime_type)>
 					<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							media_label,
@@ -338,7 +338,7 @@ limitations under the License.
 						<ul class="list-group mt-1 mx-2 rounded px-3 py-2 h4 font-weight-normal">
 							<div class="font-italic h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
 								<a href="/media/#getImages.media_id#" target="_blank">
-									<img src="#getImages.media_uri#" alt="#altText#" class="w-100"> 
+									<img src="#puri#" alt="#altText#" class="" style="width:100px;"> 
 								</a>
 								<cfif len(description) gt 0>
 									<span class="sm-caps font-weight-lessbold">#description#</span>
