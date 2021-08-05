@@ -1004,7 +1004,7 @@ limitations under the License.
 				var args = event.args;
 				var rowIndex = args.rowindex;
 				var datarecord = args.owner.source.records[rowIndex];
-				createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+				createRowDetailsDialog(gridPrefix+'searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 			});
 			$('##'+gridId).on('rowcollapse', function (event) {
 				// remove the dialog holding the row details
