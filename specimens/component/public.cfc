@@ -304,8 +304,8 @@ limitations under the License.
 							media.media_uri,
 							media.mime_type,
 							media.media_type,
-							media_license_fg,
-							mask_media_fg
+							media.media_license_fg,
+							media.mask_media_fg
 						FROM 
 							media,
 							media_relations
