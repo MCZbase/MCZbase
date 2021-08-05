@@ -426,8 +426,8 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-4">
-																<cfset sval = eval("searchText#row#")
-																<cfset sival = eval("searchId#row#")
+																<cfset sval = eval("searchText#row#") >
+																<cfset sival = eval("searchId#row#") >
 																<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#sval#">
 																<input type="hidden" name="searchId#row#" id="searchId#row#" value="#sival#" >
 															</div>
