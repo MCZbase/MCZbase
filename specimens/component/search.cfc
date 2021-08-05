@@ -72,7 +72,7 @@ limitations under the License.
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-				<cfset row["#ucase(col)#"] = "#search[col][currentRow]#">
+				<cfset row["#ucase(col)#"] = replace(search[col][currentRow],'""','&quot;','all')>
 			</cfloop>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
@@ -238,7 +238,7 @@ limitations under the License.
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-				<cfset row["#ucase(col)#"] = "#search[col][currentRow]#">
+				<cfset row["#ucase(col)#"] = replace(search[col][currentRow],'""','&quot;','all')>
 			</cfloop>
 			<cfset data[i] = row>
 			<cfset i = i + 1>
@@ -451,7 +451,7 @@ limitations under the License.
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-				<cfset row["#ucase(col)#"] = "#search[col][currentRow]#">
+				<cfset row["#ucase(col)#"] = replace(search[col][currentRow],'""','&quot;','all')>
 			</cfloop>
 			<cfset data[i] = row>
 			<cfset i = i + 1>
