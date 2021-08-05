@@ -1470,6 +1470,434 @@ limitations under the License.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids editor dialog.
  @return html for editing other ids for the specified cataloged item. 
 --->
+						
+
+<!---TEST getEditImagesHTML obtain a block of html to populate an images editor dialog for a specimen.
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
+	editor dialog.
+ @return html for editing identifications for the specified cataloged item. 
+--->
+<cffunction name="getEditImagesHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+		<cfthread name="getEditImagesThread"> 
+			<cfoutput>
+			<cftry>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<div class="col-12 col-lg-12 float-left mb-4 px-0">
+								<form name="editImagesForm" id="editImagesForm">
+									<input type="hidden" name="method" value="updateImages">
+									<input type="hidden" name="returnformat" value="json">
+									<input type="hidden" name="queryformat" value="column">
+									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+									<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
+									<div class="row mx-0">
+										<div class="col-12 px-0">
+											<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT
+													media.media_id,
+													media.media_uri
+												FROM
+													media
+													left join media_relations on media_relations.media_id = media.media_id
+												WHERE
+													media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+											</cfquery>
+											<cfloop query="images">
+												<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													SELECT distinct
+														media.media_id,
+														media.media_uri
+													FROM 
+														media,
+														media_relations
+													WHERE 
+														media_relations.media_relations_id = media.media_id 
+														AND media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+												</cfquery>
+												<cfquery name="ctmedia" dbtype="query">
+													select count(*) as ct from media group by media_relationship order by media_id
+												</cfquery>
+												<cfset mt=media.mime_type>
+												<cfset altText = media.media_descriptor>
+												<cfset puri=getMediaPreview(preview_uri,mime_type)>
+												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													SELECT
+														media_label,
+														label_value
+													FROM
+														media_labels
+													WHERE
+														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+												</cfquery>
+												<cfquery name="desc" dbtype="query">
+													select label_value from labels where media_label='description'
+												</cfquery>
+												<cfset description="Media Preview Image">
+												<cfif desc.recordcount is 1>
+													<cfset description=desc.label_value>
+												</cfif>
+											<cfset i = 1>
+											<cfset sortCount=getImagesIds.recordcount - 1>
+											<input type="hidden" name="number_of_Imgids" id="number_of_Imgids" value="#getImagesIds.recordcount#">
+											<div class="col-12 mt-2">
+												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
+													onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
+												<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
+											</div>
+											<script>
+												function editImagesSubmit(){
+													$('##saveImagesResultDiv').html('Saving....');
+													$('##saveImagessResultDiv').addClass('text-warning');
+													$('##saveImagesResultDiv').removeClass('text-success');
+													$('##saveImagesResultDiv').removeClass('text-danger');
+													$.ajax({
+														url : "/specimens/component/functions.cfc",
+														type : "post",
+														dataType : "json",
+														data: $("##editImagesForm").serialize(),
+														success: function (result) {
+															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+																$('##saveImagesResultDiv').html('Saved');
+																$('##saveImagesResultDiv').addClass('text-success');
+																$('##saveImagesResultDiv').removeClass('text-warning');
+																$('##saveImagesResultDiv').removeClass('text-danger');
+															} else {
+																// we shouldn't be able to reach this block, backing error should return an http 500 status
+																$('##saveImagesResultDiv').html('Error');
+																$('##saveImagesResultDiv').addClass('text-danger');
+																$('##saveImagesResultDiv').removeClass('text-warning');
+																$('##saveImagesResultDiv').removeClass('text-success');
+																messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
+															}
+														},
+														error: function(jqXHR,textStatus,error){
+															$('##saveImagesResultDiv').html('Error');
+															$('##saveImagesResultDiv').addClass('text-danger');
+															$('##saveImagesResultDiv').removeClass('text-warning');
+															$('##saveImagesResultDiv').removeClass('text-success');
+															handleFail(jqXHR,textStatus,error,"saving changes to images history");
+														}
+													});
+												};
+											</script> 
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="col-12 col-lg-7 float-left px-0">
+								<div id="accordionIm">
+									<div class="card">
+										<div class="card-header pt-1" id="heading1Im">
+											<h1 class="my-0 px-1 pb-1">
+												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapse1Im" aria-expanded="true" aria-controls="collapse1Im"><span class="h4">Accordion header</span> </button>
+											</h1>
+										</div>
+										<div id="collapse1Im" class="collapse" aria-labelledby="heading1Im" data-parent="##accordionIm">
+											<div class="card-body"> 
+												<form name="newImgForm" id="newImgForm">
+													<input type="hidden" name="Action" value="createNew">
+													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+													<div class="row mx-0 mt-0 pt-2 pb-1">
+														<div class="col-12 col-md-12 px-1">
+															<label for="media_uri" class="data-entry-label" >Media URI</label>
+															<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
+														</div>
+													</div>
+													<div class="row mx-0 mt-0 pt-2 pb-1">
+														<div class="col-12 col-md-12 px-1">
+															<label for="media_uri" class="data-entry-label" >Media URI</label>
+															<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
+														</div>
+													</div>
+													<div class="row mx-0 mt-0 py-1">
+														<div class="col-12 col-md-4 px-1">
+															<label for="media_type" class="data-entry-label" >Media Type</label>
+															<input type="text" name="media_type" id="media_type" class="data-entry-input">
+														</div>
+														<div class="col-12 col-md-4 px-1">
+															<label for="mime_type" class="data-entry-label" >Mime Type</label>
+															<input type="text" name="mime_type" id="mime_type" class="data-entry-input">
+														</div>
+														<div class="col-12 col-md-4 px-1">
+															<label for="mask_media_fg" class="data-entry-label" >Visibility</label>
+															<input type="text" name="mask_media_fg" id="mask_media_fg" class="data-entry-input">
+														</div>
+													</div>
+													<div class="row mx-0 mt-0 py-1">
+														<div class="col-12 col-md-12 px-1">
+															<label for="media_license_id" class="data-entry-label mt-0" >License</label>
+															<input type="text" name="media_license_id" id="media_license_id" class="data-entry-input">
+														</div>
+													</div>
+													<div class="row mx-0 mt-0 pt-2 pb-1">
+														<div class="col-12 col-md-4 px-1">
+ 															Form inputs to add relationship
+														</div>
+													</div>
+													<div class="row mx-0 mt-0 py-1">
+														<div class="col-12 px-0">
+															Form inputs to add labels
+														</div>
+													</div>
+													<div class="row mx-0 mt-0 py-1">
+														<div class="col-12 col-md-12 px-1">
+															<button id="images_submit" value="Save" class="btn btn-xs btn-primary" title="Save Edits">Save</button>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<cfcatch>
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<cfset function_called = "#GetFunctionCalledName()#">
+					<h2 class="h3">Error in #function_called#:</h2>
+					<div>#error_message#</div>
+				</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEditImagesThread" />
+	<cfreturn getEditImagesThread.output>
+</cffunction>
+<!---TEST function updateImages update the test images block for an arbitrary number of identifications in the identification history of a collection object 
+	@param collection_object_id the collecton object to which the identification history pertains
+	@param number_of_ids the number of determinations in the identification history
+--->
+<cffunction name="updateImages" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfoutput> 
+		<cftransaction>
+			<!--- perform the updates on the arbitary number of media records --->
+			<cftry>
+				<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
+					<cfset thisMedia_uri = #evaluate("MEDIA_URI_" & n)#>
+					<cfset thisPreview_uri = #evaluate("PREVIEW_URI_" & n)#>
+					<cfset thisMedia_type = #evaluate("MEDIA_TYPE_" & n)#>
+					<cfset thisMime_type = #evaluate("MIME_TYPE_" & n)#>
+					<cfset thisMask_media_fg = #evaluate("MASK_MEDIA_FG_" & n)#>
+					<cfset thisMedia_license_id = #evaluate("MEDIA_LICENSE_ID_" & n)#>
+					<cfset thisMedia_relations_id = #evaluate("MEDIA_RELATIONS_ID_" & n)#>
+					<cfset thisMedia_label_id = #evaluate("MEDIA_LABEL_ID_" & n)#>
+					<cfif thisMedia_relations_id is "DELETE">
+						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							DELETE FROM media_relations
+							WHERE media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisMedia_relations_id#">
+						</cfquery>
+					<cfelse>
+						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE media SET
+								MEDIA_URI = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisMedia_uri#">,
+								PREVIEW_URI = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPreview_uri#">,
+								MEDIA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisMedia_type#">
+								MIME_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisMime_type#">
+								MEDIA_LICENSE_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisMedia_license_id#">
+								MASK_MEDIA_FG = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisMedia_license_id#">
+							WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisMedia_id#">
+						</cfquery>
+					</cfif>
+				</cfloop>
+				<cftransaction action="commit">
+				<cfset data=queryNew("status, message, id")>
+				<cfset t = queryaddrow(data,1)>
+				<cfset t = QuerySetCell(data, "status", "1", 1)>
+				<cfset t = QuerySetCell(data, "message", "Record updated.", 1)>
+				<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
+				<cfreturn data>
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<cfset function_called = "#GetFunctionCalledName()#">
+					<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+					<cfabort>
+				</cfcatch>
+			</cftry>
+		</cftransaction>
+	</cfoutput>
+</cffunction>
+<!--TEST-function getImagesHtml obtain an html block to popluate an edit dialog for an images 
+ @param media_id the media.media_id to edit.
+ @return html for editing the media record 
+--->
+<cffunction name="getImagesHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfthread name="getImagesThread">
+		<cftry>
+			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 1 as status, media.media_id, media.media_uri,media.preview_uri, media.media_type, media.mime_type, media.mask_media_fg, media.media_license_id 
+				FROM 
+					media
+					left join media_relations on  media_relations.media_id=media.media_id  
+					left join media_labels on media_labels.media_id = media_relations.media_id
+				WHERE 	
+					media.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				ORDER BY 
+					media_id
+			</cfquery>
+			<cfoutput>
+				<div id="imagesHTML">
+					<cfloop query="theResult">
+						<div class="imagesExistingForm">
+							<form>
+								<div class="container pl-1">
+									<div class="row mx-0 mt-0 pt-2 pb-1">
+										<div class="col-12 col-md-12 px-1">
+											<label for="media_uri" class="data-entry-label" >Media URI</label>
+											<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
+										</div>
+									</div>
+									<div class="row mx-0 mt-0 pt-2 pb-1">
+										<div class="col-12 col-md-12 px-1">
+											<label for="media_uri" class="data-entry-label" >Media URI</label>
+											<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
+										</div>
+									</div>
+									<div class="row mx-0 mt-0 py-1">
+										<div class="col-12 col-md-4 px-1">
+											<label for="media_type" class="data-entry-label" >Media Type</label>
+											<input type="text" name="media_type" id="media_type" class="data-entry-input">
+										</div>
+										<div class="col-12 col-md-4 px-1">
+											<label for="mime_type" class="data-entry-label" >Mime Type</label>
+											<input type="text" name="mime_type" id="mime_type" class="data-entry-input">
+										</div>
+										<div class="col-12 col-md-4 px-1">
+											<label for="mask_media_fg" class="data-entry-label" >Visibility</label>
+											<input type="text" name="mask_media_fg" id="mask_media_fg" class="data-entry-input">
+										</div>
+									</div>
+									<div class="row mx-0 mt-0 py-1">
+										<div class="col-12 col-md-12 px-1">
+											<label for="media_license_id" class="data-entry-label mt-0" >License</label>
+											<input type="text" name="media_license_id" id="media_license_id" class="data-entry-input">
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</cfloop>
+					<!--- theResult ---> 
+				</div>
+			</cfoutput>
+			<cfcatch>
+				<cfoutput>
+					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+				</cfoutput>
+			</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getImagesThread" />
+	<cfreturn getImagesThread.output>
+</cffunction>
+<cffunction name="getImagesTable" returntype="query" access="remote">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfset r=1>
+	<cftry>
+		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT 1 as status, media.media_id 
+					media.media_uri,media.preview_uri, media.media_type, media.mime_type, media.mask_media_fg, media.media_license_id
+				FROM 
+					media
+					left join media_relations on  media_relations.media_id=media.media_id  
+					left join media_labels on media_labels.media_id = media_relations.media_id
+				WHERE 	
+					media.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				ORDER BY 
+					media_id
+		</cfquery>
+		<cfif theResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
+		</cfif>
+		<cfcatch>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+		</cfcatch>
+	</cftry>
+	<cfif isDefined("asTable") AND asTable eq "true">
+		<cfreturn resulthtml>
+		<cfelse>
+		<cfreturn theResult>
+	</cfif>
+</cffunction>
+<cffunction name="saveImagesID" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="media_uri" type="string" required="yes">
+	<cfargument name="preview_uri" type="string" required="no">
+	<cfargument name="media_type" type="string" required="yes">
+	<cfargument name="mime_type" type="string" required="yes">
+	<cfargument name="mask_media_fg" type="string" required="yes">
+	<cfargument name="media_license_fg" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateImagesCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newImagesCheck_result">
+				SELECT count(*) as ct from media
+				WHERE
+					MEDIA_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#media_id#'>
+			</cfquery>
+			<cfif updateImagesCheck.ct NEQ 1>
+				<cfthrow message = "Unable to update images. Provided media_id does not match a record in the images ID table.">
+			</cfif>
+			<cfquery name="updateImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateImages">
+				UPDATE media SET
+					media_uri = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#media_uri#">,
+					preview_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preview_uri#">,
+					media_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_type#">,
+					mime_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#">,
+					mask_media_fg = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mask_media_fg#">
+				media_license_fg = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_license_fg#">
+				
+				where
+					media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#media_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+					<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfheader statusCode="500" statusText="#message#">
+				<cfoutput>
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+					</div>
+				</cfoutput>
+				<cfabort>
+			</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+<!---getEditOtherIDsHTML obtain a block of html to populate an other ids editor dialog for a specimen.
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids editor dialog.
+ @return html for editing other ids for the specified cataloged item. 
+--->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditOtherIDsThread">
