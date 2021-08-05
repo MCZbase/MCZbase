@@ -288,7 +288,10 @@ limitations under the License.
 				<cftry>
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						media.media_id
+						media.media_id,
+						media.media_uri,
+						media.preview_uri,
+						media.mime_type
 					FROM
 						media
 						left join media_relations on media_relations.media_id = media.media_id
