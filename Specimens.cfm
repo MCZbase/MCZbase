@@ -321,15 +321,10 @@ limitations under the License.
 														<label for="field" class="data-entry-label">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
 														<select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
-															<cfset category = "">
 															<cfloop query="fields">
-																<cfset category = fields.search_category>
 																<cfif field1 EQ "#fields.table_name#:#fields.column_name#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																<option value="#fields.table_name#:#fields.column_name#" #selected#>#fields.label#: #fields.category#</option>
+																<option value="#fields.table_name#:#fields.column_name#" #selected#>#fields.label#: #fields.search_category#</option>
 															</cfloop>
-															<cfif optgroupOpen>
-																</optgroup>
-															</cfif>
 														</select>
 														<script>
 															$(document).ready(function() { 
