@@ -95,7 +95,6 @@ limitations under the License.
 		<div class="row">
 			<cfif #oneOfUs# eq 1>
 <script>
-// multi-column CSS
 let theComboCSS = new input.ComboBox('#theComboCSS', {
 dropDownCssClass: 'cb-flex',
 displayMemberPath: 'country',
@@ -184,7 +183,8 @@ text-overflow: ellipsis;
 .wj-listbox-item td.number {
     width: 80px;
     text-align: right;
-}</style>
+}
+</style>
 <div class="form-group">
 	<label for="theComboCSS">Select Type:</label>
 	<div id="theComboCSS"></div>
