@@ -668,7 +668,8 @@ limitations under the License.
 		<cftry>
 			<cfoutput>
 				<cfquery name="accnLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select loan.transaction_id loan_id, loan_number, loan_status, 
+					select distinct 
+						loan.transaction_id loan_id, loan_number, loan_status, 
 						return_due_date, closed_date, 
 						loan.return_due_date - trunc(sysdate) dueindays
 					from cataloged_item
