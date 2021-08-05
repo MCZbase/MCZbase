@@ -316,22 +316,37 @@ limitations under the License.
 															SELECT search_category, table_name, column_name, column_alias, data_type, label
 															FROM cf_spec_search_cols
 															ORDER BY
-																label
+																search_category, label, table_name
 														</cfquery>
 														<label for="field" class="data-entry-label">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
 														<select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
+															<cfset category = "">
+															<cfset optgroupOpen = false>
 															<cfloop query="fields">
+																<cfif category NEQ fields.search_category>
+																	<cfif optgroupOpen>
+																		</optgroup>
+																		<cfset optgroupOpen = false>
+																	</cfif>
+																	<optgroup label="#fields.search_category#">
+																	<cfset optgroupOpen = true>
+																	<cfset category = fields.search_category>
+																</cfif>
 																<cfif field1 EQ "#fields.table_name#:#fields.column_name#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																<option value="#fields.table_name#:#fields.column_name#" #selected#>#fields.label#: #fields.search_category#</option>
+																<option value="#fields.table_name#:#fields.column_name#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#)</option>
 															</cfloop>
+															<cfif optgroupOpen>
+																</optgroup>
+															</cfif>
 														</select>
 														<script>
 															$(document).ready(function() { 
 																$('##field1').jqxComboBox({
 																	autoComplete: true,
-																	autoDropDownHeight: true,
-																	searchMode: 'containsignorecase'
+																	searchMode: 'containsignorecase',
+																	width: '100%',
+																	dropDownHeight: 400
 																});
 															});
 														</script>
