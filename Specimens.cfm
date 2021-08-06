@@ -406,7 +406,7 @@ limitations under the License.
 																	</select>
 																</div>
 																<div class="col-12 col-md-3">
-																	<select title="Select Field..." name="field#row#" id="field#row#" class="custom-select-sm bg-white form-control-sm border d-flex">
+																	<select title="Select Field..." name="field#row#" id="field#row#" class="data-entry-select">
 																		<cfset category = "">
 																		<cfset optgroupOpen = false>
 																		<cfloop query="fields">
@@ -480,7 +480,7 @@ limitations under the License.
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 														newControls= newControls + '</div>';
 														newControls= newControls + '<div class="col-12 col-md-3">';
-														newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="custom-select-sm bg-white form-control-sm border d-flex">';
+														newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
 														newControls = newControls + '<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>';
 														<cfset category = "">
 														<cfset optgroupOpen = false>
