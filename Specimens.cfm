@@ -253,9 +253,9 @@ limitations under the License.
 										<div class="form-row my-3">
 											<div class="col-12">
 												<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase</label>
-												<button type="submit" class="btn btn-xs btn-primary px-4 mr-md-2" id="keySearch" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
-												<button type="reset" class="btn btn-xs btn-warning mx-md-2" aria-label="Reset this search form to inital values">Reset</button>
-												<button type="button" class="btn btn-xs btn-warning mx-md-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=keywordSearch';">New Search</button>
+												<button type="submit" class="btn btn-xs btn-primary px-2 px-md-4 mx-2 mb-2 mr-md-2" id="keySearch" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
+												<button type="reset" class="btn btn-xs btn-warning mx-md-2 mb-2" aria-label="Reset this search form to inital values">Reset</button>
+												<button type="button" class="btn btn-xs btn-warning mx-md-2 mb-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=keywordSearch';">New Search</button>
 											</div>
 										</div>
 									</form>
@@ -523,8 +523,8 @@ limitations under the License.
 										</div>
 										<div class="form-row mb-3">
 											<div class="col-12">
-												<button type="submit" class="btn btn-xs px-3 mr-md-2 btn-primary mb-2" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
-												<button type="reset" class="btn btn-xs btn-warning mx-2" aria-label="Reset this search form to inital values">Reset</button>
+												<button type="submit" class="btn btn-xs px-2 px-md-4 mx-2 mr-md-2 btn-primary mb-2" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
+												<button type="reset" class="btn btn-xs btn-warning mx-2 mb-2" aria-label="Reset this search form to inital values">Reset</button>
 												<button type="button" class="btn btn-xs btn-warning mx-md-2 mb-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 													<!--- TODO: Move to top of search results bar, available after running search --->
@@ -813,7 +813,7 @@ limitations under the License.
 											</div>
 											<div class="form-row my-3">
 												<div class="col-12">
-													<button type="submit" class="btn mr-1 px-4 btn-primary mr-md-2 mb-2 btn-xs" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
+													<button type="submit" class="btn btn-xs px-2 px-md-4 btn-primary mr-md-2 mb-2" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
 													<button type="reset" class="btn btn-xs btn-warning mx-2 mb-2" aria-label="Reset this search form to inital values">Reset</button>
 													<button type="button" class="btn btn-xs btn-warning mx-2 mb-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
 												</div>
