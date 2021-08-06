@@ -312,7 +312,7 @@ limitations under the License.
 										<input id="result_id_builderSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeBuilderSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="builderSearch" class="keeponclear">
-										<div class="form-row">
+										<div class="form-row mx-0">
 											<div class="mt-1 col-12 p-0 my-2 mb-3" id="customFields">
 												<div class="form-row mb-2">
 													<div class="col-12 col-md-4">
@@ -383,7 +383,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-2 pt-3">
 														<cfif builderMaxRows EQ 1>
-															<a aria-label="Add more search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+															<a aria-label="Add more search criteria" class="btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 															<cfset addButtonShown = true>
 														</cfif>
 													</div>
