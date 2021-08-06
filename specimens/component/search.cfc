@@ -269,6 +269,7 @@ limitations under the License.
 	<cfargument name="author_text" type="string" required="no">
 	<cfargument name="scientific_name" type="string" required="no">
 	<cfargument name="taxon_name_id" type="string" required="no">
+	<cfargument name="higher_geog" type="string" required="no">
 	<cfargument name="country" type="string" required="no">
 	<cfargument name="state_prov" type="string" required="no">
 	<cfargument name="county" type="string" required="no">
@@ -337,6 +338,12 @@ limitations under the License.
 		</cfif>
 	</cfif>
 	
+	<cfif isDefined("higher_geog") AND len(higher_geog) GT 0>
+		<cfset field = '"field": "higher_geog"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#higher_geog#",separator="#separator#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
 	<cfif isDefined("country") AND len(country) GT 0>
 		<cfset field = '"field": "country"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#country#",separator="#separator#")>
