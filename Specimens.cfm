@@ -391,7 +391,7 @@ limitations under the License.
 												<cfif builderMaxRows GT 1>
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
-															<div class="form-row mb-2">
+															<div class="form-row mb-2" id="builderRow#row#">
 																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
