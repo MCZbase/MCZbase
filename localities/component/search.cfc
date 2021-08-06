@@ -99,7 +99,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfcase value="feature">feature as name</cfcase>
 					<cfcase value="water_feature">water_feature as name</cfcase>
 					<cfcase value="island_group">island_group as name</cfcase>
-					<cfcase value="island">island_group as name</cfcase>
+					<cfcase value="island">island as name</cfcase>
 					<cfcase value="sea">sea as name</cfcase>
 					<cfcase value="highergeographyid">highergeographyid as name</cfcase>
 					<cfcase value="source_authority">source_authority as name</cfcase>
@@ -118,7 +118,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfcase value="feature">upper (feature )</cfcase>
 					<cfcase value="water_feature">upper (water_feature )</cfcase>
 					<cfcase value="island_group">upper (island_group )</cfcase>
-					<cfcase value="island">upper (island_group )</cfcase>
+					<cfcase value="island">upper (island )</cfcase>
 					<cfcase value="sea">upper (sea )</cfcase>
 					<cfcase value="highergeographyid">upper (highergeographyid )</cfcase>
 					<cfcase value="source_authority">upper (source_authority )</cfcase>
@@ -136,7 +136,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfcase value="feature">feature</cfcase>
 					<cfcase value="water_feature">water_feature</cfcase>
 					<cfcase value="island_group">island_group</cfcase>
-					<cfcase value="island">island_group</cfcase>
+					<cfcase value="island">island</cfcase>
 					<cfcase value="sea">sea</cfcase>
 					<cfcase value="highergeographyid">highergeographyid</cfcase>
 					<cfcase value="source_authority">source_authority</cfcase>
