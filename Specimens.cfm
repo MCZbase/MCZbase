@@ -318,6 +318,10 @@ limitations under the License.
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
 															SELECT search_category, table_name, column_name, column_alias, data_type, label
 															FROM cf_spec_search_cols
+															<cfif oneOfUs EQ 0>
+																WHERE 
+																	search_category <> 'Accessions'
+															</cfif>
 															ORDER BY
 																search_category, label, table_name
 														</cfquery>
