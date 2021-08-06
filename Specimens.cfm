@@ -426,8 +426,8 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-4">
-																<cfif isDefined("searchText#row#"><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
-																<cfif isDefined("searchId#row#"><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
+																<cfif isDefined("searchText#row#")><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
+																<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
 																<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#sval#">
 																<input type="hidden" name="searchId#row#" id="searchId#row#" value="#sival#" >
 															</div>
