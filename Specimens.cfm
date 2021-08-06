@@ -521,7 +521,7 @@ limitations under the License.
 												});
 											</script>
 										</div>
-										<div class="form-row mt-1 mb-1">
+										<div class="form-row mb-3">
 											<div class="col-12">
 												<button type="submit" class="btn btn-xs px-2 btn-primary" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
 												<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset this search form to inital values">Reset</button>
@@ -529,7 +529,7 @@ limitations under the License.
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 													<!--- TODO: Move to top of search results bar, available after running search --->
 													<!--- TODO: Add handler to carry out this action --->
-													<button type="button" class="btn-sm px-3 btn-primary m-1 ml-0" id="save-account" aria-label="save this search">
+													<button type="button" class="btn-xs px-3 btn-primary m-1 ml-0" id="save-account" aria-label="save this search">
 														Save to My Account <i class="fa fa-user-cog"></i>
 													</button>
 												</cfif>
