@@ -36,7 +36,7 @@ Function getCountryAutocomplete.  Search for country by name with a substring ma
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				count(flat.collection_object_id) as ct,
-				count(distinc geog_auth_rec.geog_auth_rec_id) as geoct,
+				count(distinct geog_auth_rec.geog_auth_rec_id) as geoct,
 				geog_auth_rec.country
 			FROM 
 				geog_auth_rec
