@@ -250,7 +250,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="form-row mt-1">
+										<div class="form-row my-3">
 											<div class="col-12">
 												<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase</label>
 												<button type="submit" class="btn btn-xs btn-primary px-2" id="keySearch" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
