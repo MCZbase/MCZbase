@@ -448,6 +448,57 @@ limitations under the License.
 												</cfif>
 
 											</div><!--- end customFields: new form rows get appended here --->
+											<script>
+												//this is the search builder main dropdown for all the columns found in flat
+												$(document).ready(function(){
+													$(".addCF").click(function(){
+														var row = $("##builderMaxRows").val();
+														row = parseInt(row) + 1;
+														var newControls = '<div class="form-row mb-2">';
+														newControls = newControls + '<div class="col-12 col-md-1">';
+														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
+														newControls= newControls + '</div>';
+														newControls= newControls + '<div class="col-12 col-md-3">';
+														newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="custom-select-sm bg-white form-control-sm border d-flex">';
+														newControls = newControls + '<option value="">Select Field...</option>';
+														<cfset category = "">
+														<cfset optgroupOpen = false>
+														<cfloop query="fields">
+															<cfif category NEQ fields.search_category>
+																<cfif optgroupOpen>
+																	newControls = newControls + '</optgroup>';
+																	<cfset optgroupOpen = false>
+																</cfif>
+																newControls = newControls + '<optgroup label="#fields.search_category#">';
+																<cfset optgroupOpen = true>
+																<cfset category = fields.search_category>
+															</cfif>
+															newControls = newControls + '<option value="#fields.table_name#:#fields.column_name#">#fields.label# (#fields.search_category#:#fields.table_name#)</option>';
+														</cfloop>
+														<cfif optgroupOpen>
+															newControls = newControls + '</optgroup>';
+														</cfif>
+														newControls = newControls + '</select>';
+														newControls= newControls + '</div>';
+														newControls= newControls + '<div class="col-12 col-md-4">';
+														newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
+														newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
+														newControls= newControls + '</div>';
+														newControls= newControls + '<div class="col-12 col-md-1">';
+														newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn-xs px-3 btn-primary mr-auto'>Remove</button>`;
+														newControls = newControls + '</div>';
+														newControls = newControls + '</div>';
+														$("##customFields").append(newControls);
+														$("##builderMaxRows").val(row);
+														$('##field' + row).jqxComboBox({
+															autoComplete: true,
+															searchMode: 'containsignorecase',
+															width: '100%',
+															dropDownHeight: 400
+														});
+													});
+												});
+											</script>
 										</div>
 										<div class="form-row mt-1 mb-1">
 											<div class="col-12">
@@ -1478,48 +1529,6 @@ limitations under the License.
 			}
 	</script>
 	
-	<script>
-		//this is the search builder main dropdown for all the columns found in flat
-		$(document).ready(function(){
-			$(".addCF").click(function(){
-				var row = $("##builderMaxRows").val();
-				row = parseInt(row) + 1;
-				var newControls = '<ul id="builderRow'+row+'" class="row col-md-11 col-sm-12 mx-0 my-4"><li class="d-inline col-sm-12 col-md-1 px-0 mr-2">';
-				newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
-				newControls= newControls + '</li><li class="d-inline mr-2 col-sm-12 px-0 col-md-2">';
-	
-				newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="custom-select-sm bg-white form-control-sm border d-flex">';
-				newControls = newControls + '<option>Select Field...</option>';
-				<cfset category = "">
-				<cfset optgroupOpen = false>
-				<cfloop query="fields">
-					<cfif category NEQ fields.search_category>
-						<cfif optgroupOpen>
-							newControls = newControls + '</optgroup>';
-							<cfset optgroupOpen = false>
-						</cfif>
-						newControls = newControls + '<optgroup label="#fields.search_category#">';
-						<cfset optgroupOpen = true>
-						<cfset category = fields.search_category>
-					</cfif>
-					newControls = newControls + '<option value="#fields.table_name#:#fields.column_name#">#fields.label#</option>';
-				</cfloop>
-				<cfif optgroupOpen>
-					newControls = newControls + '</optgroup>';
-				</cfif>
-				newControls = newControls + '</select>';
-		
-				newControls = newControls + '</li><li class="d-inline col-sm-12 px-0 mr-2 col-md-2">';
-				newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
-				newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
-				newControls = newControls + '</li><li class="d-inline mr-2 col-md-1 col-sm-1 px-0 d-flex justify-content-end">';
-				newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn-xs px-3 btn-primary mr-auto'>Remove</button>`;
-				newControls = newControls + '</li></ul>';
-				$("##customFields").append(newControls);
-				$("##builderMaxRows").val(row);
-			});
-		});
-	</script>
 	<script>
 	//// script for DatePicker
 	//$(function() {
