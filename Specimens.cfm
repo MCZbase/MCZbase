@@ -485,7 +485,7 @@ limitations under the License.
 														newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 														newControls= newControls + '</div>';
 														newControls= newControls + '<div class="col-12 col-md-1">';
-														newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn-xs px-3 btn-primary mr-auto'>Remove</button>`;
+														newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>`;
 														newControls = newControls + '</div>';
 														newControls = newControls + '</div>';
 														$("##customFields").append(newControls);
