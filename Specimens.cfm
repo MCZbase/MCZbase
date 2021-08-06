@@ -464,7 +464,7 @@ limitations under the License.
 														newControls= newControls + '</div>';
 														newControls= newControls + '<div class="col-12 col-md-3">';
 														newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="custom-select-sm bg-white form-control-sm border d-flex">';
-														newControls = newControls + '<option value="" selected></option>';
+														newControls = newControls + '<optgroup><option value="" selected></option></optgroup>';
 														<cfset category = "">
 														<cfset optgroupOpen = false>
 														<cfloop query="fields">
