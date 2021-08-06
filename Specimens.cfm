@@ -524,7 +524,7 @@ limitations under the License.
 										<div class="form-row mb-3">
 											<div class="col-12">
 												<button type="submit" class="btn btn-xs px-2 btn-primary" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
-												<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset this search form to inital values">Reset</button>
+												<button type="reset" class="btn btn-xs btn-warning ml-3 mr-2" aria-label="Reset this search form to inital values">Reset</button>
 												<button type="button" class="btn btn-xs btn-warning mr-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 													<!--- TODO: Move to top of search results bar, available after running search --->
