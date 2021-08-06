@@ -383,7 +383,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-2 pt-3">
 														<cfif builderMaxRows EQ 1>
-															<a aria-label="Add more search criteria" class="btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+															<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 															<cfset addButtonShown = true>
 														</cfif>
 													</div>
@@ -1523,8 +1523,8 @@ limitations under the License.
 					}
 				});
 				$("##"+whichGrid+"columnPickDialogButton").html(
-					`<button id="columnPickDialogOpener" onclick=" $('##`+whichGrid+`columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
-					<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin GUID Column</button>
+					`<button id="columnPickDialogOpener" onclick=" $('##`+whichGrid+`columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
+					<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin GUID Column</button>
 					`
 				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
@@ -1535,7 +1535,7 @@ limitations under the License.
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##'+whichGrid+'resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\''+whichGrid+'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##'+whichGrid+'resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\''+whichGrid+'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 	
 			function togglePinColumn(gridId,column) { 
