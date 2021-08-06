@@ -307,6 +307,7 @@ limitations under the License.
 										<cfif not isDefined("builderMaxRows") or len(builderMaxRows) eq 0>
 											<cfset builderMaxRows = 1>
 										</cfif>
+										<cfset addButtonShown = false>
 										<input type="hidden" id="builderMaxRows" name="builderMaxRows" value="#builderMaxRows#">
 										<input id="result_id_builderSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeBuilderSearch" class="keeponclear excludeFromLink">
@@ -383,6 +384,7 @@ limitations under the License.
 													<div class="col-12 col-md-2 pt-3">
 														<cfif builderMaxRows EQ 1>
 															<a aria-label="Add more search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+															<cfset addButtonShown = true>
 														</cfif>
 													</div>
 												</div>
@@ -443,6 +445,18 @@ limitations under the License.
 																</div>
 																<div class="col-12 col-md-1">
 																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
+																</div>
+																<div class="col-12 col-md-2">
+																	<cfif row EQ builderMaxRows>
+																		<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+																		<cfset addButtonShown = true>
+																	</cfif>
+																</div>
+															</div>
+														</cfif>
+														<cfif NOT addButtonShown>
+															<div class="form-row mb-2">
+																<div class="col-12 col-md-9">
 																</div>
 																<div class="col-12 col-md-2">
 																	<cfif row EQ builderMaxRows>
