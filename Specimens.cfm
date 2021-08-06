@@ -215,9 +215,9 @@ limitations under the License.
 										<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="getSpecimens" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
-										<div class="form-row">
-											<div class="input-group mt-1 px-3">
-												<div class="input-group-btn col-12 col-sm-4 col-md-3 pr-md-0">
+										<div class="row">
+											<div class="input-group mt-1">
+												<div class="input-group-btn col-12 col-sm-4 col-md-3">
 													<label for="keywordCollection" class="data-entry-label">Limit to Collection(s)</label>
 													<div name="collection" id="keywordCollection" class="w-100 data-entry-select"></div>
 													<cfif not isdefined("collection")><cfset collection=""></cfif>
