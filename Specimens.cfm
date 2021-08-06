@@ -1524,7 +1524,7 @@ limitations under the License.
 				});
 				$("##"+whichGrid+"columnPickDialogButton").html(
 					`<button id="columnPickDialogOpener" onclick=" $('##`+whichGrid+`columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
-					<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin GUID Column</button>
+					<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-1 my-2" >Pin GUID Column</button>
 					`
 				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
