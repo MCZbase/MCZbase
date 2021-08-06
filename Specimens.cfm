@@ -374,7 +374,9 @@ limitations under the License.
 														</cfif>
 													</div>
 													<div class="col-12 col-md-2 pt-3">
-														<a aria-label="Add more search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> 
+														<cfif builderMaxRows EQ 1>
+															<a aria-label="Add more search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+														</cfif>
 													</div>
 												</div>
 												<cfif builderMaxRows GT 1>
@@ -393,7 +395,7 @@ limitations under the License.
 																	<option value="or" #orSel# >or</option>
 																</select>
 															</div>
-															<div class="col-12 col-md-4">
+															<div class="col-12 col-md-3">
 																<select title="Select Field..." name="field#row#" id="field#row#" class="custom-select-sm bg-white form-control-sm border d-flex">
 																	<cfset category = "">
 																	<cfset optgroupOpen = false>
@@ -432,10 +434,12 @@ limitations under the License.
 																<input type="hidden" name="searchId#row#" id="searchId#row#" value="#sival#" >
 															</div>
 															<div class="col-12 col-md-1">
-																<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>`;
+																<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
 															</div>
-															<div class="col-12 col-md-2 pt-3">
-																<a aria-label="Add more search criteria" class="btn btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> 
+															<div class="col-12 col-md-2">
+																<cfif row EQ builderMaxRows>
+																	<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+																</cfif>
 															</div>
 														</div>
 													</cfloop>
