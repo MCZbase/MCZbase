@@ -813,8 +813,8 @@ limitations under the License.
 											</div>
 											<div class="form-row mt-1 mb-1">
 												<div class="col-12">
-													<button type="submit" class="btn mr-1 px-3 btn-primary btn-xs" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
-													<button type="reset" class="btn btn-xs btn-warning ml-3 mr-2" aria-label="Reset this search form to inital values">Reset</button>
+													<button type="submit" class="btn mr-1 px-3 btn-primary mr-2 btn-xs" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
+													<button type="reset" class="btn btn-xs btn-warning mx-2" aria-label="Reset this search form to inital values">Reset</button>
 													<button type="button" class="btn btn-xs btn-warning mr-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
 												</div>
 											</div>
