@@ -313,7 +313,7 @@ limitations under the License.
 										<input type="hidden" name="method" value="executeBuilderSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="builderSearch" class="keeponclear">
 										<div class="form-row mx-0">
-											<div class="mt-1 col-12 p-0 my-3" id="customFields">
+											<div class="mt-1 col-12 p-0 my-2" id="customFields">
 												<div class="form-row mb-2">
 													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
