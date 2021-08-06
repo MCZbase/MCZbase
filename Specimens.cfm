@@ -381,67 +381,69 @@ limitations under the License.
 												</div>
 												<cfif builderMaxRows GT 1>
 													<cfloop index="row" from="2" to="#builderMaxRows#">
-														<div class="form-row mb-2">
-															<div class="col-12 col-md-1">
-																<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
-																	<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
-																		<cfset orSel = "selected">
-																		<cfset andSel = "">
-																	<cfelse>
-																		<cfset orSel = "">
-																		<cfset andSel = "selected">
-																	</cfif>
-																	<option value="and" #andSel# >and</option>
-																	<option value="or" #orSel# >or</option>
-																</select>
-															</div>
-															<div class="col-12 col-md-3">
-																<select title="Select Field..." name="field#row#" id="field#row#" class="custom-select-sm bg-white form-control-sm border d-flex">
-																	<cfset category = "">
-																	<cfset optgroupOpen = false>
-																	<cfloop query="fields">
-																		<cfif category NEQ fields.search_category>
-																			<cfif optgroupOpen>
-																				</optgroup>
-																				<cfset optgroupOpen = false>
-																			</cfif>
-																			<optgroup label="#fields.search_category#">
-																			<cfset optgroupOpen = true>
-																			<cfset category = fields.search_category>
+														<cfif isDefined("field#row#")>
+															<div class="form-row mb-2">
+																<div class="col-12 col-md-1">
+																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
+																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
+																			<cfset orSel = "selected">
+																			<cfset andSel = "">
+																		<cfelse>
+																			<cfset orSel = "">
+																			<cfset andSel = "selected">
 																		</cfif>
-																		<cfif Evaluate("field#row#") EQ "#fields.table_name#:#fields.column_name#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																		<option value="#fields.table_name#:#fields.column_name#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#)</option>
-																	</cfloop>
-																	<cfif optgroupOpen>
-																		</optgroup>
-																	</cfif>
-																</select>
-																<script>
-																	$(document).ready(function() { 
-																		$('##field#row#').jqxComboBox({
-																			autoComplete: true,
-																			searchMode: 'containsignorecase',
-																			width: '100%',
-																			dropDownHeight: 400
+																		<option value="and" #andSel# >and</option>
+																		<option value="or" #orSel# >or</option>
+																	</select>
+																</div>
+																<div class="col-12 col-md-3">
+																	<select title="Select Field..." name="field#row#" id="field#row#" class="custom-select-sm bg-white form-control-sm border d-flex">
+																		<cfset category = "">
+																		<cfset optgroupOpen = false>
+																		<cfloop query="fields">
+																			<cfif category NEQ fields.search_category>
+																				<cfif optgroupOpen>
+																					</optgroup>
+																					<cfset optgroupOpen = false>
+																				</cfif>
+																				<optgroup label="#fields.search_category#">
+																				<cfset optgroupOpen = true>
+																				<cfset category = fields.search_category>
+																			</cfif>
+																			<cfif Evaluate("field#row#") EQ "#fields.table_name#:#fields.column_name#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																			<option value="#fields.table_name#:#fields.column_name#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#)</option>
+																		</cfloop>
+																		<cfif optgroupOpen>
+																			</optgroup>
+																		</cfif>
+																	</select>
+																	<script>
+																		$(document).ready(function() { 
+																			$('##field#row#').jqxComboBox({
+																				autoComplete: true,
+																				searchMode: 'containsignorecase',
+																				width: '100%',
+																				dropDownHeight: 400
+																			});
 																		});
-																	});
-																</script>
+																	</script>
+																</div>
+																<div class="col-12 col-md-4">
+																	<cfif isDefined("searchText#row#")><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
+																	<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
+																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#sval#">
+																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#sival#" >
+																</div>
+																<div class="col-12 col-md-1">
+																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
+																</div>
+																<div class="col-12 col-md-2">
+																	<cfif row EQ builderMaxRows>
+																		<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+																	</cfif>
+																</div>
 															</div>
-															<div class="col-12 col-md-4">
-																<cfif isDefined("searchText#row#")><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
-																<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
-																<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#sval#">
-																<input type="hidden" name="searchId#row#" id="searchId#row#" value="#sival#" >
-															</div>
-															<div class="col-12 col-md-1">
-																<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
-															</div>
-															<div class="col-12 col-md-2">
-																<cfif row EQ builderMaxRows>
-																	<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
-																</cfif>
-															</div>
-														</div>
+														</cfif>
 													</cfloop>
 												</cfif>
 
