@@ -328,6 +328,9 @@ limitations under the License.
 														<label for="field" class="data-entry-label">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
 														<select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
+															<cfif len(field1) EQ 0>
+																<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>
+															</cfif>
 															<cfset category = "">
 															<cfset optgroupOpen = false>
 															<cfloop query="fields">
@@ -464,7 +467,7 @@ limitations under the License.
 														newControls= newControls + '</div>';
 														newControls= newControls + '<div class="col-12 col-md-3">';
 														newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="custom-select-sm bg-white form-control-sm border d-flex">';
-														newControls = newControls + '<optgroup><option value="" selected></option></optgroup>';
+														newControls = newControls + '<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>';
 														<cfset category = "">
 														<cfset optgroupOpen = false>
 														<cfloop query="fields">
