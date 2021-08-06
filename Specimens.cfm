@@ -382,7 +382,7 @@ limitations under the License.
 														<div class="form-row mb-2">
 															<div class="col-12 col-md-2">
 																<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
-																	<cfif isDefined("joinOperator#row#") AND eval("joinOperator#row#") EQ "or">
+																	<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
 																		<cfset orSel = "selected">
 																		<cfset andSel = "">
 																	<cfelse>
@@ -407,7 +407,7 @@ limitations under the License.
 																			<cfset optgroupOpen = true>
 																			<cfset category = fields.search_category>
 																		</cfif>
-																		<cfif eval("field#row#") EQ "#fields.table_name#:#fields.column_name#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																		<cfif Evaluate("field#row#") EQ "#fields.table_name#:#fields.column_name#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																		<option value="#fields.table_name#:#fields.column_name#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#)</option>
 																	</cfloop>
 																	<cfif optgroupOpen>
@@ -426,8 +426,8 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 col-md-4">
-																<cfset sval = eval("searchText#row#") >
-																<cfset sival = eval("searchId#row#") >
+																<cfset sval = Evaluate("searchText#row#") >
+																<cfset sival = Evaluate("searchId#row#") >
 																<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#sval#">
 																<input type="hidden" name="searchId#row#" id="searchId#row#" value="#sival#" >
 															</div>
