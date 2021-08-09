@@ -1494,29 +1494,6 @@ limitations under the License.
 					}
 					$("##" + gridId).jqxGrid('endupdate');
 				});
-			
-			var columnListSource4 = [];
-				for (i = quartercolumns; i < halfcolumns; i++) {
-					var text = columns[i].text;
-					var datafield = columns[i].datafield;
-					var hideable = columns[i].hideable;
-					var hidden = columns[i].hidden;
-					var show = ! hidden;
-					if (hideable == true) {
-						var listRow = { label: text, value: datafield, checked: show };
-						columnListSource4.push(listRow);
-					}
-				}
-				$("##"+whichGrid+"columnPick4").jqxListBox({ source: columnListSource4, autoHeight: true, width: '260px', checkboxes: true });
-				$("##"+whichGrid+"columnPick4").on('checkChange', function (event) {
-					$("##" + gridId).jqxGrid('beginupdate');
-					if (event.args.checked) {
-						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
-					} else {
-						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
-					}
-					$("##" + gridId).jqxGrid('endupdate');
-				});
 				$("##"+whichGrid+"columnPickDialog").dialog({
 					height: 'auto',
 					width: 'auto',
