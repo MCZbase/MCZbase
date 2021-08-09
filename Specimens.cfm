@@ -1410,7 +1410,7 @@ limitations under the License.
 				}
 				// add a control to show/hide columns
 				var columns = $('##' + gridId).jqxGrid('columns').records;
-				var halfcolumns = Math.round(columns.length/3);
+				var halfcolumns = Math.round(columns.length/2);
 				var quartercolumns = Math.round(columns.length/4);
 				var columnListSource = [];
 				for (i = 1; i < quartercolumns; i++) {
