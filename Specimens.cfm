@@ -244,7 +244,7 @@ limitations under the License.
 														});
 													</script> 
 												</div>
-												<div class="col-12 col-sm-7 col-md-7 col-xl-6">
+												<div class="col-12 col-sm-7 col-md-7 col-xl-6 pr-md-0">
 													<label for="searchText" class="data-entry-label">Keyword(s)</label>
 													<input id="searchText" type="text" class="data-entry-input py-1" name="searchText" placeholder="Search term" aria-label="search text" value="#searchText#">
 												</div>
