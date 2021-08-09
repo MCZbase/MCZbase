@@ -523,13 +523,13 @@ limitations under the License.
 										</div>
 										<div class="form-row mb-3">
 											<div class="col-12">
-												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-2 mx-0 mr-md-5 my-1" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
-												<button type="reset" class="btn btn-xs btn-warning col-12 col-md-1 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values">Reset</button>
-												<button type="button" class="btn btn-xs btn-warning col-12 col-md-2 mr-md-2 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
+												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-2 col-xl-2 mx-0 mr-md-5 my-1" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
+												<button type="reset" class="btn btn-xs btn-warning col-12 col-md-1 col-xl-1 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values">Reset</button>
+												<button type="button" class="btn btn-xs btn-warning col-12 col-md-2 col-xl-1 px-xl-2 mr-md-2 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 													<!--- TODO: Move to top of search results bar, available after running search --->
 													<!--- TODO: Add handler to carry out this action --->
-													<button type="button" class="btn btn-xs btn-primary col-12 col-md-3 mx-0 my-1" id="save-account" aria-label="save this search">
+													<button type="button" class="btn btn-xs btn-primary col-12 col-md-3 col-xl-auto px-xl-3 mx-0 my-1" id="save-account" aria-label="save this search">
 														Save to My Account <i class="fa fa-user-cog"></i>
 													</button>
 												</cfif>
