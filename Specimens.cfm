@@ -1410,7 +1410,7 @@ limitations under the License.
 				}
 				// add a control to show/hide columns
 				var columns = $('##' + gridId).jqxGrid('columns').records;
-				var halfcolumns = Math.round(columns.length/5);
+				var halfcolumns = Math.round(columns.length/2);
 				var quartercolumns = Math.round(columns.length/10);
 				var columnListSource = [];
 				for (i = 1; i < quartercolumns; i++) {
@@ -1424,7 +1424,7 @@ limitations under the License.
 						columnListSource.push(listRow);
 					}
 				}
-				$("##"+whichGrid+"columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '180px', checkboxes: true });
+				$("##"+whichGrid+"columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: 'auto', checkboxes: true });
 				$("##"+whichGrid+"columnPick").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
@@ -1447,7 +1447,7 @@ limitations under the License.
 						columnListSource1.push(listRow);
 					}
 				}
-				$("##"+whichGrid+"columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
+				$("##"+whichGrid+"columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: 'auto', checkboxes: true });
 				$("##"+whichGrid+"columnPick1").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
@@ -1470,7 +1470,7 @@ limitations under the License.
 						columnListSource2.push(listRow);
 					}
 				}
-				$("##"+whichGrid+"columnPick2").jqxListBox({ source: columnListSource2, autoHeight: true, width: '260px', checkboxes: true });
+				$("##"+whichGrid+"columnPick2").jqxListBox({ source: columnListSource2, autoHeight: true, width: 'auto', checkboxes: true });
 				$("##"+whichGrid+"columnPick2").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
@@ -1493,7 +1493,7 @@ limitations under the License.
 						columnListSource3.push(listRow);
 					}
 				}
-				$("##"+whichGrid+"columnPick3").jqxListBox({ source: columnListSource3, autoHeight: true, width: '260px', checkboxes: true });
+				$("##"+whichGrid+"columnPick3").jqxListBox({ source: columnListSource3, autoHeight: true, width: 'auto', checkboxes: true });
 				$("##"+whichGrid+"columnPick3").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
@@ -1516,7 +1516,7 @@ limitations under the License.
 						columnListSource4.push(listRow);
 					}
 				}
-				$("##"+whichGrid+"columnPick4").jqxListBox({ source: columnListSource4, autoHeight: true, width: '260px', checkboxes: true });
+				$("##"+whichGrid+"columnPick4").jqxListBox({ source: columnListSource4, autoHeight: true, width: 'auto', checkboxes: true });
 				$("##"+whichGrid+"columnPick4").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
