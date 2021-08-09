@@ -1402,7 +1402,7 @@ limitations under the License.
 				// add a control to show/hide columns
 				var columns = $('##' + gridId).jqxGrid('columns').records;
 				var halfcolumns = Math.round(columns.length/2);
-				var quartercolumns = Math.round(columns.length/5);
+				var quartercolumns = Math.round(columns.length/4);
 				var columnListSource = [];
 				for (i = 1; i < quartercolumns; i++) {
 					var text = columns[i].text;
@@ -1486,6 +1486,29 @@ limitations under the License.
 				}
 				$("##"+whichGrid+"columnPick3").jqxListBox({ source: columnListSource3, autoHeight: true, width: '260px', checkboxes: true });
 				$("##"+whichGrid+"columnPick3").on('checkChange', function (event) {
+					$("##" + gridId).jqxGrid('beginupdate');
+					if (event.args.checked) {
+						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+					} else {
+						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+					}
+					$("##" + gridId).jqxGrid('endupdate');
+				});
+			
+			var columnListSource4 = [];
+				for (i = quartercolumns; i < halfcolumns; i++) {
+					var text = columns[i].text;
+					var datafield = columns[i].datafield;
+					var hideable = columns[i].hideable;
+					var hidden = columns[i].hidden;
+					var show = ! hidden;
+					if (hideable == true) {
+						var listRow = { label: text, value: datafield, checked: show };
+						columnListSource1.push(listRow);
+					}
+				}
+				$("##"+whichGrid+"columnPick4").jqxListBox({ source: columnListSource4, autoHeight: true, width: '260px', checkboxes: true });
+				$("##"+whichGrid+"columnPick4").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
 						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
