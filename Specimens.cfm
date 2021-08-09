@@ -271,20 +271,17 @@ limitations under the License.
 													<div id="keywordcolumnPickDialog">
 														<div class="container-fluid">
 															<div class="row">
-																<div class="col-12 col-md-2">
+																<div class="col-12 col-md-3">
 																	<div id="keywordcolumnPick" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-2">
+																<div class="col-12 col-md-3">
 																	<div id="keywordcolumnPick1" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-2">
+																<div class="col-12 col-md-3">
 																	<div id="keywordcolumnPick2" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-2">
+																<div class="col-12 col-md-3">
 																	<div id="keywordcolumnPick3" class="px-1"></div>
-																</div>
-																<div class="col-12 col-md-2">
-																	<div id="keywordcolumnPick4" class="px-1"></div>
 																</div>
 															</div>
 														</div>
@@ -551,20 +548,17 @@ limitations under the License.
 													<div id="buildercolumnPickDialog">
 														<div class="container-fluid">
 															<div class="row">
-																<div class="col-12 col-md-2">
+																<div class="col-12 col-md-3">
 																	<div id="buildercolumnPick" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-2">
+																<div class="col-12 col-md-3">
 																	<div id="buildercolumnPick1" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-2">
+																<div class="col-12 col-md-3">
 																	<div id="buildercolumnPick2" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-2">
+																<div class="col-12 col-md-3">
 																	<div id="buildercolumnPick3" class="px-1"></div>
-																</div>
-																<div class="col-12 col-md-2">
-																	<div id="buildercolumnPick4" class="px-1"></div>
 																</div>
 															</div>
 														</div>
@@ -839,20 +833,17 @@ limitations under the License.
 													<div id="fixedcolumnPickDialog">
 														<div class="container-fluid">
 															<div class="row">
-																<div class="col-12 col-md-2">
+																<div class="col-12 col-md-3">
 																	<div id="fixedcolumnPick" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-2">
+																<div class="col-12 col-md-3">
 																	<div id="fixedcolumnPick1" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-2">
+																<div class="col-12 col-md-3">
 																	<div id="fixedcolumnPick2" class="px-1"></div>
 																</div>
-																<div class="col-12 col-md-2">
+																<div class="col-12 col-md-3">
 																	<div id="fixedcolumnPick3" class="px-1"></div>
-																</div>
-																<div class="col-12 col-md-2">
-																	<div id="fixedcolumnPick4" class="px-1"></div>
 																</div>
 															</div>
 														</div>
@@ -1424,16 +1415,7 @@ limitations under the License.
 						columnListSource.push(listRow);
 					}
 				}
-				function calculateCells(){
-					var table = document.getElementById("gridId");
-					var max = 0;
-					for(var i=0;i< table.rows.length;i++) {
-					if(max < table.rows[i].cells.length)
-						max = table.rows[i].cells.length;
-					}
-						return max;
-				}
-				$("##"+whichGrid+"columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '280px', checkboxes: true });
+				$("##"+whichGrid+"columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
 				$("##"+whichGrid+"columnPick").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
@@ -1445,7 +1427,7 @@ limitations under the License.
 				});
 
 				var columnListSource1 = [];
-				for (i = quartercolumns; i < max; i++) {
+				for (i = quartercolumns; i < halfcolumns; i++) {
 					var text = columns[i].text;
 					var datafield = columns[i].datafield;
 					var hideable = columns[i].hideable;
@@ -1456,7 +1438,7 @@ limitations under the License.
 						columnListSource1.push(listRow);
 					}
 				}
-				$("##"+whichGrid+"columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '280px', checkboxes: true });
+				$("##"+whichGrid+"columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
 				$("##"+whichGrid+"columnPick1").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
@@ -1479,7 +1461,7 @@ limitations under the License.
 						columnListSource2.push(listRow);
 					}
 				}
-				$("##"+whichGrid+"columnPick2").jqxListBox({ source: columnListSource2, autoHeight: true, width: '280px', checkboxes: true });
+				$("##"+whichGrid+"columnPick2").jqxListBox({ source: columnListSource2, autoHeight: true, width: '260px', checkboxes: true });
 				$("##"+whichGrid+"columnPick2").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
@@ -1502,7 +1484,7 @@ limitations under the License.
 						columnListSource3.push(listRow);
 					}
 				}
-				$("##"+whichGrid+"columnPick3").jqxListBox({ source: columnListSource3, autoHeight: true, width: '280px', checkboxes: true });
+				$("##"+whichGrid+"columnPick3").jqxListBox({ source: columnListSource3, autoHeight: true, width: '260px', checkboxes: true });
 				$("##"+whichGrid+"columnPick3").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
@@ -1512,30 +1494,6 @@ limitations under the License.
 					}
 					$("##" + gridId).jqxGrid('endupdate');
 				});
-			
-				var columnListSource4 = [];
-				for (i = halfcolumns + quartercolumns; i < columns.length; i++) {
-					var text = columns[i].text;
-					var datafield = columns[i].datafield;
-					var hideable = columns[i].hideable;
-					var hidden = columns[i].hidden;
-					var show = ! hidden;
-					if (hideable == true) {
-						var listRow = { label: text, value: datafield, checked: show };
-						columnListSource4.push(listRow);
-					}
-				}
-				$("##"+whichGrid+"columnPick4").jqxListBox({ source: columnListSource4, autoHeight: true, width: '280px', checkboxes: true });
-				$("##"+whichGrid+"columnPick4").on('checkChange', function (event) {
-					$("##" + gridId).jqxGrid('beginupdate');
-					if (event.args.checked) {
-						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
-					} else {
-						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
-					}
-					$("##" + gridId).jqxGrid('endupdate');
-				});
-			
 				$("##"+whichGrid+"columnPickDialog").dialog({
 					height: 'auto',
 					width: 'auto',
