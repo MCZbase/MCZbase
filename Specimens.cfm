@@ -1504,7 +1504,7 @@ limitations under the License.
 					var show = ! hidden;
 					if (hideable == true) {
 						var listRow = { label: text, value: datafield, checked: show };
-						columnListSource1.push(listRow);
+						columnListSource4.push(listRow);
 					}
 				}
 				$("##"+whichGrid+"columnPick4").jqxListBox({ source: columnListSource4, autoHeight: true, width: '260px', checkboxes: true });
