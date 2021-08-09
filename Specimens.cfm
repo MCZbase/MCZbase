@@ -1119,7 +1119,7 @@ limitations under the License.
 					$("##"+gridId).jqxGrid('selectrow', 0);
 				},
 				columns: [
-					{text: 'GUID', datafield: 'GUID', width: 150, hidable: false, cellsrenderer: linkGuidCellRenderer },
+					{text: 'GUID', datafield: 'GUID', width: 155, hidable: false, cellsrenderer: linkGuidCellRenderer },
 					{text: 'CollObjectID', datafield: 'COLLECTION_OBJECT_ID', width: 100, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID',true), cellsrenderer: linkIdCellRenderer },
 					{text: 'Collection', datafield: 'COLLECTION', width: 150, hidable: true, hidden: getColHidProp('COLLECTION', false) },
 					{text: 'Catalog Number', datafield: 'CAT_NUM', width: 130, hidable: true, hidden: getColHidProp('CAT_NUM', false) },
@@ -1293,7 +1293,7 @@ limitations under the License.
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 					},
 					columns: [
-						{text: 'GUID', datafield: 'GUID', width: 150, hidable: false, cellsrenderer: linkGuidCellRenderer },
+						{text: 'GUID', datafield: 'GUID', width: 155, hidable: false, cellsrenderer: linkGuidCellRenderer },
 						{text: 'CollObjectID', datafield: 'COLLECTION_OBJECT_ID', width: 100, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID',true), cellsrenderer: linkIdCellRenderer },
 						{text: 'Collection', datafield: 'COLLECTION', width: 150, hidable: true, hidden: getColHidProp('COLLECTION', false) },
 						{text: 'Catalog Number', datafield: 'CAT_NUM', width: 130, hidable: true, hidden: getColHidProp('CAT_NUM', false) },
