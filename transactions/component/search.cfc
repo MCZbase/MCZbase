@@ -1347,8 +1347,6 @@ limitations under the License.
 	<cfargument name="permit_id" type="string" required="no">
 	<cfargument name="permit_type" type="string" required="no">
 	<cfargument name="permit_specific_type" type="string" required="no">
-	<cfargument name="closed_date" type="string" required="no">
-	<cfargument name="to_closed_date" type="string" required="no">
 	<cfargument name="trans_date" type="string" required="no">
 	<cfargument name="to_trans_date" type="string" required="no">
 	<cfargument name="trans_agent_role_1" type="string" required="no">
@@ -1408,18 +1406,6 @@ limitations under the License.
 			<cfset to_trans_date = "#to_trans_date#-12-31">
 		</cfif>
 	</cfif>
-	<cfif isdefined("closed_date") and len(#closed_date#) gt 0>
-		<cfif not isdefined("to_closed_date") or len(to_closed_date) is 0>
-			<cfset to_closed_date=closed_date>
-		</cfif>
-		<!--- support search on just a year or pair of years --->
-		<cfif len(#closed_date#) EQ 4>
-			<cfset closed_date = "#closed_date#-01-01">
-		</cfif>
-		<cfif len(#to_closed_date#) EQ 4>
-			<cfset to_closed_date = "#to_closed_date#-12-31">
-		</cfif>
-	</cfif>
 
 	<!--- do the search --->
 	<cfset data = ArrayNew(1)>
@@ -1431,8 +1417,6 @@ limitations under the License.
 				deacc_number,
 				deacc_type,
 				nature_of_material,
-				closed_by,
-				to_char(closed_date,'YYYY-MM-DD') as closed_date,
 				to_char(trans_date,'YYYY-MM-DD') as date_entered,
 				deacc_status,
 				deacc_reason,
@@ -1558,11 +1542,6 @@ limitations under the License.
 					AND trans_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
-				</cfif>
-				<cfif isdefined("closed_date") and len(closed_date) gt 0>
-					AND deaccession.closed_date between 
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(closed_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_closed_date, "yyyy-mm-dd")#'>)
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
 					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>

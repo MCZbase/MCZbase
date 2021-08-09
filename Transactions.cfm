@@ -1809,17 +1809,6 @@ limitations under the License.
 												<input type="text" name="to_trans_date" id="deacc_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
-										<!--- 
-										<div class="col-md-4">
-											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="deacc_closed_date">Closed Date</label>
-												<input name="closed_date" id="deacc_closed_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#closed_date#" aria-label="start of range for date closed">
-												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="deacc_to_closed_date">end of search range for date closed</label>		
-												<input type="text" name="to_closed_date" id="deacc_to_closed_date" value="#to_closed_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
-											</div>
-										</div>
-										--->
 										<div class="col-md-4">
 											<label class="data-entry-label mb-0" for="deacc_method">Method of Transfer</label>
 											<input type="text" name="deacc_method" class="data-entry-input" value="#deacc_method#" id="deacc_method">
@@ -3159,8 +3148,6 @@ $(document).ready(function() {
 				{ name: 'deacc_remarks', type: 'string' },
 				{ name: 'deacc_number', type: 'string' },
 				{ name: 'deacc_type', type: 'string' },
-			//	{ name: 'closed_date', type: 'string' },
-			//	{ name: 'closed_by', type: 'string' },
 				{ name: 'deacc_status', type: 'string' },
 				{ name: 'deacc_reason', type: 'string' },
 				{ name: 'method', type: 'string' },
@@ -3243,8 +3230,6 @@ $(document).ready(function() {
 				{text: 'Method of Transfer', datafield: 'method', hideable: true, hidden: getColHidProp('method', true), width: 90},
 				{text: 'Value', datafield: 'value', hideable: true, hidden: getColHidProp('value', true), width: 90},
 				{text: 'Entered Date', datafield: 'date_entered', width: 100, hidable: true, hidden: getColHidProp('date_entered', true) },
-			//	{text: 'Closed Date', datafield: 'closed_date', width: 100, hideable: true, hidden: getColHidProp('closed_date', false) },
-			//	{text: 'Closed By', datafield: 'closed_by', width: 100, hideable: true, hidden: getColHidProp('closed_by', true) },
 				{text: 'Recipient Institution', datafield: 'recipient_institution_agent', width: 100, hidable: true, hidden: getColHidProp('recipient_institution_agent', false) },
 				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: getColHidProp('outside_agent', true) },
 				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: getColHidProp('rec_agent', true) },

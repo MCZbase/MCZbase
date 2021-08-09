@@ -227,7 +227,7 @@ limitations under the License.
 				<cfquery name="deaccLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select count(specimen_part.collection_object_id) as ct, 
 						loan.transaction_id loan_id, loan_number, loan_status, 
-						return_due_date, closed_date, 
+						return_due_date, loan.closed_date, 
 						loan.return_due_date - trunc(sysdate) dueindays
 					from 
 						deacc_item 
@@ -239,7 +239,7 @@ limitations under the License.
 						deacc_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					group by
 						loan.transaction_id, loan_number, loan_status, 
-						return_due_date, closed_date, 
+						return_due_date, loan.closed_date, 
 						loan.return_due_date
 				</cfquery>
 				<cfif deaccLoans.recordcount GT 0>
@@ -679,7 +679,7 @@ limitations under the License.
 				<cfquery name="accnLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct 
 						loan.transaction_id loan_id, loan_number, loan_status, 
-						return_due_date, closed_date, 
+						return_due_date, loan.closed_date, 
 						loan.return_due_date - trunc(sysdate) dueindays
 					from cataloged_item
 						left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
