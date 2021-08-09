@@ -244,7 +244,7 @@ limitations under the License.
 				</cfquery>
 				<cfif deaccLoans.recordcount GT 0>
 					<table class='table table-responsive d-md-table mb-0'>
-						<thead class='thead-light'><th>Items</th><th>Loan</th><th>Status</th><th>Due Date</th><th>Date Closed</th></thead>
+						<thead class='thead-light'><th>Items</th><th>Loan</th><th>Status</th><th>Due Date</th><th>Closed Date</th></thead>
 						<tbody>
 							<cfloop query="deaccLoans">
 								<tr>
@@ -682,7 +682,7 @@ limitations under the License.
 				</cfquery>
 				<cfif accnLoans.recordcount GT 0>
 					<table class='table table-responsive d-md-table mb-0'>
-						<thead class='thead-light'><th>Loan</th><th>Status</th><th>Due Date</th><th>Date Closed</th></thead>
+						<thead class='thead-light'><th>Loan</th><th>Status</th><th>Due Date</th><th>Closed Date</th></thead>
 						<tbody>
 							<cfloop query="accnLoans">
 								<tr>
