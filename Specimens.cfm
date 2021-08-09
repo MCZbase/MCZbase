@@ -524,7 +524,7 @@ limitations under the License.
 										<div class="form-row mb-3">
 											<div class="col-12">
 												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-1" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
-												<button type="reset" class="btn btn-xs btn-warning col-12 col-md-1 col-xl-auto px-xl-3 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values">Reset</button>
+												<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values">Reset</button>
 												<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 													<!--- TODO: Move to top of search results bar, available after running search --->
@@ -813,9 +813,9 @@ limitations under the License.
 											</div>
 											<div class="form-row my-3">
 												<div class="col-12">
-													<button type="submit" class="btn btn-xs px-3 px-md-5 btn-primary mx-2 ml-md-0 mr-md-2 mb-2" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
-													<button type="reset" class="btn btn-xs btn-warning mx-2 mb-2" aria-label="Reset this search form to inital values">Reset</button>
-													<button type="button" class="btn btn-xs btn-warning mx-2 mx-md-0 mb-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
+													<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-1 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
+													<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
+													<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
 												</div>
 											</div>
 										</div><!--- end container-flex --->
