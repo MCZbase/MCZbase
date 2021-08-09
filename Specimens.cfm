@@ -1424,7 +1424,7 @@ limitations under the License.
 						columnListSource.push(listRow);
 					}
 				}
-				$("##"+whichGrid+"columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+				$("##"+whichGrid+"columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '180px', checkboxes: true });
 				$("##"+whichGrid+"columnPick").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
