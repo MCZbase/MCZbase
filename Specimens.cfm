@@ -204,7 +204,7 @@ limitations under the License.
 						</cfswitch>
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#" id="1" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="2" role="tab" aria-controls="builderSearchPanel" #builderTabAria#>Search Builder</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="2" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" id="3" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Custom Fixed Search</button>
 						</div>
 						<div class="tab-content">
@@ -638,7 +638,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="phylorder" class="data-entry-label">Order</label>
 													<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
-													<input id="phylorder" name="phylorder" class="data-entry-input" aria-label="phylorder" value="#phylorder#" >
+													<input id="phylorder" name="phylorder" class="data-entry-input" value="#phylorder#" >
 													<script>
 														jQuery(document).ready(function() {
 															makeTaxonSearchAutocomplete('phylorder','order');
@@ -648,7 +648,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="family" class="data-entry-label">Family</label>
 													<cfif not isdefined("family")><cfset family=""></cfif>
-													<input id="family" name="family" class="data-entry-input" aria-label="family" value="#family#" >
+													<input id="family" name="family" class="data-entry-input" value="#family#" >
 													<script>
 														jQuery(document).ready(function() {
 															makeTaxonSearchAutocomplete('family','family');
@@ -658,7 +658,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="genus" class="data-entry-label">Genus</label>
 													<cfif not isdefined("genus")><cfset genus=""></cfif>
-													<input type="text" class="data-entry-input" id="genus" name="genus" aria-label="genus" value="#genus#">
+													<input type="text" class="data-entry-input" id="genus" name="genus" value="#genus#">
 													<script>
 														jQuery(document).ready(function() {
 															makeTaxonSearchAutocomplete('genus','genus');
@@ -669,7 +669,7 @@ limitations under the License.
 													<label for="scientific_name" class="data-entry-label">Scientific Name</label>
 													<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
 													<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
-													<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input" aria-label="scientific name" value="#scientific_name#" >
+													<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input" value="#scientific_name#" >
 													<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#taxon_name_id#" >
 													<script>
 														jQuery(document).ready(function() {
@@ -680,7 +680,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="author_text" class="data-entry-label">Authorship</label>
 													<cfif not isdefined("author_text")><cfset author_text=""></cfif>
-													<input id="author_text" name="author_text" class="data-entry-input" aria-label="author text" value="#author_text#" >
+													<input id="author_text" name="author_text" class="data-entry-input" value="#author_text#" >
 													<script>
 														jQuery(document).ready(function() {
 															makeTaxonSearchAutocomplete('author_text','author_text');
@@ -691,12 +691,12 @@ limitations under the License.
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-2">
 													<label for="higher_geog" class="data-entry-label">Any Geography</label>
-													<input type="text" class="data-entry-input" name="higher_geog" id="higher_geog" aria-label="any geography">
+													<input type="text" class="data-entry-input" name="higher_geog" id="higher_geog">
 												</div>
 												<div class="col-12 col-md-2">
 													<label for="country" class="data-entry-label">Country</label>
 													<cfif not isdefined("country")><cfset country=""></cfif>
-													<input type="text" class="data-entry-input" id="country" name="country" aria-label="country" value="#country#">
+													<input type="text" class="data-entry-input" id="country" name="country" value="#country#">
 													<script>
 														jQuery(document).ready(function() {
 															makeCountrySearchAutocomplete('country');
@@ -736,7 +736,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="island" class="data-entry-label">Island</label>
 													<cfif not isdefined("island")><cfset island=""></cfif>
-													<input type="text" class="data-entry-input" id="island" name="island" aria-label="island" value="#island#">
+													<input type="text" class="data-entry-input" id="island" name="island" value="#island#">
 													<script>
 														jQuery(document).ready(function() {
 															makeGeogSearchAutocomplete('island','island');
