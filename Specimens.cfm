@@ -669,7 +669,7 @@ limitations under the License.
 													<label for="scientific_name" class="data-entry-label">Scientific Name</label>
 													<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
 													<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
-													<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input" aria-label="scientific_name" value="#scientific_name#" >
+													<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input" aria-label="scientific name" value="#scientific_name#" >
 													<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#taxon_name_id#" >
 													<script>
 														jQuery(document).ready(function() {
@@ -680,7 +680,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="author_text" class="data-entry-label">Authorship</label>
 													<cfif not isdefined("author_text")><cfset author_text=""></cfif>
-													<input id="author_text" name="author_text" class="data-entry-input" aria-label="author_text" value="#author_text#" >
+													<input id="author_text" name="author_text" class="data-entry-input" aria-label="author text" value="#author_text#" >
 													<script>
 														jQuery(document).ready(function() {
 															makeTaxonSearchAutocomplete('author_text','author_text');
@@ -706,7 +706,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="state_prov" class="data-entry-label">State/Province</label>
 													<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
-													<input type="text" class="data-entry-input" id="state_prov" name="state_prov" aria-label="state_prov" value="#state_prov#">
+													<input type="text" class="data-entry-input" id="state_prov" name="state_prov" aria-label="state or province" value="#state_prov#">
 													<script>
 														jQuery(document).ready(function() {
 															makeGeogSearchAutocomplete('state_prov','state_prov');
@@ -716,7 +716,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="county" class="data-entry-label">County/Shire/Parish</label>
 													<cfif not isdefined("county")><cfset county=""></cfif>
-													<input type="text" class="data-entry-input" id="county" name="county" aria-label="county" value="#county#">
+													<input type="text" class="data-entry-input" id="county" name="county" aria-label="county shire or parish" value="#county#">
 													<script>
 														jQuery(document).ready(function() {
 															makeGeogSearchAutocomplete('county','county');
@@ -726,7 +726,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="island_group" class="data-entry-label">Island Group</label>
 													<cfif not isdefined("island_group")><cfset island_group=""></cfif>
-													<input type="text" class="data-entry-input" id="island_group" name="island_group" aria-label="island_group" value="#island_group#">
+													<input type="text" class="data-entry-input" id="island_group" name="island_group" value="#island_group#">
 													<script>
 														jQuery(document).ready(function() {
 															makeGeogSearchAutocomplete('island_group','island_group');
