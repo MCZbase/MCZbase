@@ -1545,7 +1545,7 @@ limitations under the License.
 												<cfif len(images.media_uri) gt 0>
 													<cfloop query="getImages">
 													<ul class="list-group mt-1 mx-2 rounded px-3 py-2 h4 font-weight-normal">
-														<li class="h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
+														<li class="list-group-item h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
 															<a href="/media/#getImages.media_id#" target="_blank">
 																<img src="#puri#" alt="#altText#" class="" style="width:100px;"> 
 															</a>
@@ -1553,19 +1553,19 @@ limitations under the License.
 																<span class="sm-caps font-weight-lessbold">#description#</span>
 															</cfif>
 														</li>
-														<li>
+														<li class="list-group-item">
 															<label for="media_uri" class="data-entry-label">Media URI</label>
 															<input id="media_uri" class="data-enty-input" value="#getImages.media_uri#">
 														</li>
-														<li>
+														<li class="list-group-item">
 															<label for="preview_uri" class="data-entry-label">Preview URI</label>
 															<input id="preview_uri" class="data-enty-input" value="#getImages.preview_uri#">
 														</li>
-														<li>
+														<li class="list-group-item">
 															<label for="media_type" class="data-entry-label">Media Type</label>
 															<input id="media_type" class="data-enty-input" value="#getImages.media_type#">
 														</li>
-														<li>
+														<li class="list-group-item">
 															<label for="mime_type" class="data-entry-label">Mime Type</label>
 															<input id="mime_type" class="data-enty-input" value="#getImages.mime_type#">
 														</li>
