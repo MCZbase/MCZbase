@@ -1543,7 +1543,7 @@ limitations under the License.
 													<cfset description=desc.label_value>
 												</cfif>
 												<cfif len(images.media_uri) gt 0>
-													<div class="row">
+													
 														<cfloop query="getImages">
 															<div class="col-4 float-left p-2">
 																<div class="border overflow-hidden px-2">
@@ -1561,34 +1561,8 @@ limitations under the License.
 																	</div>
 																</div>
 															</div>
-<!---															<ul>
-																<li>
-																	<a href="/media/#getImages.media_id#" target="_blank" class="">
-																		<img src="#puri#" alt="#altText#" class="" style="width:100px;"> 
-																	</a>
-																	<cfif len(description) gt 0>
-																		<span class="sm-caps font-weight-lessbold">#description#</span>
-																	</cfif>
-																</li>
-																<li class="list-group-item col-7 px-0">
-																	<label for="media_uri" class="data-entry-label">Media URI</label>
-																	<input id="media_uri" class="data-enty-input" value="#getImages.media_uri#" disabled>
-																</li>
-																<li class="list-group-item">
-																	<label for="preview_uri" class="data-entry-label">Preview URI</label>
-																	<input id="preview_uri" class="data-enty-input" value="#getImages.preview_uri#" disabled>
-																</li>
-																<li class="list-group-item">
-																	<label for="media_type" class="data-entry-label">Media Type</label>
-																	<input id="media_type" class="data-enty-input" value="#getImages.media_type#" disabled>
-																</li>
-																<li class="list-group-item">
-																	<label for="mime_type" class="data-entry-label">Mime Type</label>
-																	<input id="mime_type" class="data-enty-input" value="#getImages.mime_type#" disabled>
-																</li>
-															</ul>--->
 														</cfloop>
-													</div>
+											
 												<cfelse>
 													None
 												</cfif>
