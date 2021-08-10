@@ -1544,8 +1544,8 @@ limitations under the License.
 												</cfif>
 												<cfif len(images.media_uri) gt 0>
 													<cfloop query="getImages">
-													<ul class="list-group mt-1 mx-0 float-left col-12 rounded px-0 py-2 h4 font-weight-normal">
-														<li class="list-group-item float-left h4 mb-0 mt-2 border-0 font-weight-lessbold d-inline-block"> 
+													<ul class="list-group list-group-horizontal-md mt-1 mx-0 float-left col-12 rounded px-0 py-2 h4 font-weight-normal">
+														<li class="list-group-item float-left h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
 															<a href="/media/#getImages.media_id#" target="_blank" class="">
 																<img src="#puri#" alt="#altText#" class="" style="width:100px;"> 
 															</a>
@@ -1555,19 +1555,19 @@ limitations under the License.
 														</li>
 														<li class="list-group-item float-left">
 															<label for="media_uri" class="data-entry-label">Media URI</label>
-															<input id="media_uri" class="data-enty-input border-0" value="#getImages.media_uri#" disabled>
+															<input id="media_uri" class="data-enty-input" value="#getImages.media_uri#" disabled>
 														</li>
 														<li class="list-group-item float-left">
 															<label for="preview_uri" class="data-entry-label">Preview URI</label>
-															<input id="preview_uri" class="data-enty-input border-0" value="#getImages.preview_uri#" disabled>
+															<input id="preview_uri" class="data-enty-input" value="#getImages.preview_uri#" disabled>
 														</li>
 														<li class="list-group-item float-left">
 															<label for="media_type" class="data-entry-label">Media Type</label>
-															<input id="media_type" class="data-enty-input border-0" value="#getImages.media_type#" disabled>
+															<input id="media_type" class="data-enty-input" value="#getImages.media_type#" disabled>
 														</li>
 														<li class="list-group-item float-left">
 															<label for="mime_type" class="data-entry-label">Mime Type</label>
-															<input id="mime_type" class="data-enty-input border-0" value="#getImages.mime_type#" disabled>
+															<input id="mime_type" class="data-enty-input" value="#getImages.mime_type#" disabled>
 														</li>
 													</ul>
 													<div class="col-1 mt-2 float-left">
@@ -1583,7 +1583,7 @@ limitations under the License.
 											<cfset i = 1>
 											<cfset sortCount=getImages.recordcount - 1>
 											<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
-											<div class="col-12 mt-2">
+											<div class="col-12 mt-2 float-left">
 												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
 													onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
 												<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
