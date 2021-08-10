@@ -1571,7 +1571,7 @@ limitations under the License.
 														</li>
 													</ul>
 													<div class="col-1 mt-2 float-left">
-														<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
+														<input type="button" value="Save" aria-label="Delete Image" class="btn btn-xs btn-danger"
 															onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
 														<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
 													</div>
