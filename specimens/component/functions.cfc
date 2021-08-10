@@ -1545,7 +1545,7 @@ limitations under the License.
 												<cfif len(images.media_uri) gt 0>
 													<cfloop query="getImages">
 													<ul class="list-group list-group-horizontal-md mt-1 mx-0 float-left col-12 rounded px-0 py-2 h4 font-weight-normal">
-														<li class="list-group-item float-left h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
+														<li class="list-group-item float-left col-7 h4 px-0 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
 															<a href="/media/#getImages.media_id#" target="_blank" class="">
 																<img src="#puri#" alt="#altText#" class="" style="width:100px;"> 
 															</a>
@@ -1553,7 +1553,7 @@ limitations under the License.
 																<span class="sm-caps font-weight-lessbold">#description#</span>
 															</cfif>
 														</li>
-														<li class="list-group-item float-left">
+														<li class="list-group-item float-left col-7 px-0">
 															<label for="media_uri" class="data-entry-label">Media URI</label>
 															<input id="media_uri" class="data-enty-input" value="#getImages.media_uri#" disabled>
 														</li>
