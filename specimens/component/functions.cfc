@@ -1544,37 +1544,39 @@ limitations under the License.
 												</cfif>
 												<cfif len(images.media_uri) gt 0>
 													<cfloop query="getImages">
-													<ul class="list-group list-group-horizontal-md mt-1 mx-0 float-left col-12 rounded px-0 py-2 h4 font-weight-normal">
-														<li class="list-group-item float-left col-7 h4 px-0 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
-															<a href="/media/#getImages.media_id#" target="_blank" class="">
-																<img src="#puri#" alt="#altText#" class="" style="width:100px;"> 
-															</a>
-															<cfif len(description) gt 0>
-																<span class="sm-caps font-weight-lessbold">#description#</span>
-															</cfif>
-														</li>
-														<li class="list-group-item float-left col-7 px-0">
-															<label for="media_uri" class="data-entry-label">Media URI</label>
-															<input id="media_uri" class="data-enty-input" value="#getImages.media_uri#" disabled>
-														</li>
-														<li class="list-group-item float-left">
-															<label for="preview_uri" class="data-entry-label">Preview URI</label>
-															<input id="preview_uri" class="data-enty-input" value="#getImages.preview_uri#" disabled>
-														</li>
-														<li class="list-group-item float-left">
-															<label for="media_type" class="data-entry-label">Media Type</label>
-															<input id="media_type" class="data-enty-input" value="#getImages.media_type#" disabled>
-														</li>
-														<li class="list-group-item float-left">
-															<label for="mime_type" class="data-entry-label">Mime Type</label>
-															<input id="mime_type" class="data-enty-input" value="#getImages.mime_type#" disabled>
-														</li>
-													</ul>
-													<div class="col-1 mt-2 float-left">
-														<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
-															onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
-														<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
-													</div>
+														<div class="row">
+															<ul class="list-group list-group-horizontal-md mt-1 mx-0 float-left col-12 rounded px-0 py-2 h4 font-weight-normal">
+																<li class="list-group-item float-left col-7 h4 px-0 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
+																	<a href="/media/#getImages.media_id#" target="_blank" class="">
+																		<img src="#puri#" alt="#altText#" class="" style="width:100px;"> 
+																	</a>
+																	<cfif len(description) gt 0>
+																		<span class="sm-caps font-weight-lessbold">#description#</span>
+																	</cfif>
+																</li>
+																<li class="list-group-item float-left col-7 px-0">
+																	<label for="media_uri" class="data-entry-label">Media URI</label>
+																	<input id="media_uri" class="data-enty-input" value="#getImages.media_uri#" disabled>
+																</li>
+																<li class="list-group-item float-left">
+																	<label for="preview_uri" class="data-entry-label">Preview URI</label>
+																	<input id="preview_uri" class="data-enty-input" value="#getImages.preview_uri#" disabled>
+																</li>
+																<li class="list-group-item float-left">
+																	<label for="media_type" class="data-entry-label">Media Type</label>
+																	<input id="media_type" class="data-enty-input" value="#getImages.media_type#" disabled>
+																</li>
+																<li class="list-group-item float-left">
+																	<label for="mime_type" class="data-entry-label">Mime Type</label>
+																	<input id="mime_type" class="data-enty-input" value="#getImages.mime_type#" disabled>
+																</li>
+															</ul>
+															<div class="col-1 mt-2 float-left">
+																<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
+																	onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
+																<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
+															</div>
+														</div>
 													</cfloop>	
 												<cfelse>
 													None
