@@ -1543,8 +1543,8 @@ limitations under the License.
 													<cfset description=desc.label_value>
 												</cfif>
 												<cfif len(images.media_uri) gt 0>
-													<cfloop query="getImages">
-														<div class="row">
+													<div class="row">
+														<cfloop query="getImages">
 															<div class="col-4 float-left p-2">
 																<div class="border overflow-hidden px-2">
 																	<div class="col-5 p-2 float-left">
@@ -1561,7 +1561,6 @@ limitations under the License.
 																	</div>
 																</div>
 															</div>
-													
 <!---															<ul>
 																<li>
 																	<a href="/media/#getImages.media_id#" target="_blank" class="">
@@ -1588,11 +1587,8 @@ limitations under the License.
 																	<input id="mime_type" class="data-enty-input" value="#getImages.mime_type#" disabled>
 																</li>
 															</ul>--->
-															<div class="col-auto px-3 mt-2 float-left">
-																
-															</div>
-														</div>
-													</cfloop>	
+														</cfloop>
+													</div>
 												<cfelse>
 													None
 												</cfif>
