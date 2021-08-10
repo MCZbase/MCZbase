@@ -1543,7 +1543,9 @@ limitations under the License.
 													<cfset description=desc.label_value>
 												</cfif>
 												<cfif len(images.media_uri) gt 0>
-													
+													<cfset i = 1>
+													<cfset sortCount=getImages.recordcount - 1>
+														<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
 														<cfloop query="getImages">
 															<div class="col-4 float-left p-2">
 																<div class="border overflow-hidden px-2">
@@ -1598,7 +1600,6 @@ limitations under the License.
 																};
 															</script> 
 														</cfloop>
-											
 												<cfelse>
 													None
 												</cfif>
@@ -1606,47 +1607,6 @@ limitations under the License.
 											<cfset i = 1>
 											<cfset sortCount=getImages.recordcount - 1>
 											<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
-											<div class="col-12 mt-2 float-left">
-												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
-													onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
-												<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
-											</div>
-											<script>
-												function editImagesSubmit(){
-													$('##saveImagesResultDiv').html('Saving....');
-													$('##saveImagessResultDiv').addClass('text-warning');
-													$('##saveImagesResultDiv').removeClass('text-success');
-													$('##saveImagesResultDiv').removeClass('text-danger');
-													$.ajax({
-														url : "/specimens/component/functions.cfc",
-														type : "post",
-														dataType : "json",
-														data: $("##editImagesForm").serialize(),
-														success: function (result) {
-															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																$('##saveImagesResultDiv').html('Saved');
-																$('##saveImagesResultDiv').addClass('text-success');
-																$('##saveImagesResultDiv').removeClass('text-warning');
-																$('##saveImagesResultDiv').removeClass('text-danger');
-															} else {
-																// we shouldn't be able to reach this block, backing error should return an http 500 status
-																$('##saveImagesResultDiv').html('Error');
-																$('##saveImagesResultDiv').addClass('text-danger');
-																$('##saveImagesResultDiv').removeClass('text-warning');
-																$('##saveImagesResultDiv').removeClass('text-success');
-																messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
-															}
-														},
-														error: function(jqXHR,textStatus,error){
-															$('##saveImagesResultDiv').html('Error');
-															$('##saveImagesResultDiv').addClass('text-danger');
-															$('##saveImagesResultDiv').removeClass('text-warning');
-															$('##saveImagesResultDiv').removeClass('text-success');
-															handleFail(jqXHR,textStatus,error,"saving changes to images history");
-														}
-													});
-												};
-											</script> 
 										</div>
 									</div>
 								</form>
@@ -1710,9 +1670,47 @@ limitations under the License.
 													</div>
 													<div class="row mx-0 mt-0 py-1">
 														<div class="col-12 col-md-12 px-1">
-															<button id="images_submit" value="Save" class="btn btn-xs btn-primary" title="Save Edits">Save</button>
+															<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
+															onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
+															<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
 														</div>
 													</div>
+											<script>
+												function editImagesSubmit(){
+													$('##saveImagesResultDiv').html('Saving....');
+													$('##saveImagessResultDiv').addClass('text-warning');
+													$('##saveImagesResultDiv').removeClass('text-success');
+													$('##saveImagesResultDiv').removeClass('text-danger');
+													$.ajax({
+														url : "/specimens/component/functions.cfc",
+														type : "post",
+														dataType : "json",
+														data: $("##editImagesForm").serialize(),
+														success: function (result) {
+															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+																$('##saveImagesResultDiv').html('Saved');
+																$('##saveImagesResultDiv').addClass('text-success');
+																$('##saveImagesResultDiv').removeClass('text-warning');
+																$('##saveImagesResultDiv').removeClass('text-danger');
+															} else {
+																// we shouldn't be able to reach this block, backing error should return an http 500 status
+																$('##saveImagesResultDiv').html('Error');
+																$('##saveImagesResultDiv').addClass('text-danger');
+																$('##saveImagesResultDiv').removeClass('text-warning');
+																$('##saveImagesResultDiv').removeClass('text-success');
+																messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
+															}
+														},
+														error: function(jqXHR,textStatus,error){
+															$('##saveImagesResultDiv').html('Error');
+															$('##saveImagesResultDiv').addClass('text-danger');
+															$('##saveImagesResultDiv').removeClass('text-warning');
+															$('##saveImagesResultDiv').removeClass('text-success');
+															handleFail(jqXHR,textStatus,error,"saving changes to images history");
+														}
+													});
+												};
+											</script> 
 												</form>
 											</div>
 										</div>
