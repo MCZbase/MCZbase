@@ -1543,7 +1543,6 @@ limitations under the License.
 													<cfset description=desc.label_value>
 												</cfif>
 												<cfif len(images.media_uri) gt 0>
-
 													<cfloop query="getImages">
 														<div class="row">
 															<div class="col-4 float-left p-2">
@@ -1561,9 +1560,9 @@ limitations under the License.
 																	</div>
 																</div>
 															</div>
-															<div class="col-4 float-left p-2">
-																	<div class="border overflow-hidden px-2">
-																		<div class="col-5 p-2 float-left">
+													
+<!---															<ul>
+																<li>
 																	<a href="/media/#getImages.media_id#" target="_blank" class="">
 																		<img src="#puri#" alt="#altText#" class="" style="width:100px;"> 
 																	</a>
@@ -1587,8 +1586,8 @@ limitations under the License.
 																	<label for="mime_type" class="data-entry-label">Mime Type</label>
 																	<input id="mime_type" class="data-enty-input" value="#getImages.mime_type#" disabled>
 																</li>
-															</ul>
-															<div class="col-1 mt-2 float-left">
+															</ul>--->
+															<div class="col-auto px-3 mt-2 float-left">
 																<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
 																	onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
 																<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
