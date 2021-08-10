@@ -1617,9 +1617,9 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-lg-7 float-left px-0">
 								<div id="accordionImg">
-									<div class="card">
-										<div class="card-header pt-1" id="headingImg">
-											<h2 class="my-0 px-1 pb-1">
+									<div class="card bg-light">
+										<div class="card-header" id="headingImg">
+											<h2 class="h4 my-0 text-dark">
 												<button type="button" class="headerLnk w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseImg" aria-expanded="false" aria-controls="collapseImg"><span class="h4">Add and link new media</span> </button>
 											</h2>
 										</div>
