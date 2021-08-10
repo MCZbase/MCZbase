@@ -281,6 +281,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 	<cfargument name="phylorder" type="string" required="no">
 	<cfargument name="family" type="string" required="no">
 	<cfargument name="showplaceholders" type="string" required="no">
+	<cfargument name="author_text" type="string" required="no">
 	
 	<cfif not isdefined("showplaceholders")><cfset showplaceholders=""></cfif>
 
@@ -349,6 +350,27 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 							AND upper(flat.family) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(family)#" list="yes"> )
 						<cfelse>
 							AND upper(flat.family) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(family)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isDefined("author_text") AND len(author_text) GT 0>
+					<cfif left(author_text,1) is "=">
+						AND upper(flat.author_text) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">
+					<cfelseif left(author_text,1) is "$">
+						AND soundex(flat.author_text) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">)
+					<cfelseif left(author_text,2) is "!$">
+						AND soundex(flat.author_text) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-2))#">)
+					<cfelseif left(author_text,1) is "!">
+						AND upper(flat.author_text) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">
+					<cfelseif author_text is "NULL">
+						AND upper(flat.author_text) is null
+					<cfelseif author_text is "NOT NULL">
+						AND upper(flat.author_text) is not null
+					<cfelse>
+						<cfif find(',',author_text) GT 0>
+							AND upper(flat.author_text) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(author_text)#" list="yes"> )
+						<cfelse>
+							AND upper(flat.author_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(author_text)#%">
 						</cfif>
 					</cfif>
 				</cfif>
