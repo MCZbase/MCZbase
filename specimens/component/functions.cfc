@@ -1545,29 +1545,29 @@ limitations under the License.
 												<cfif len(images.media_uri) gt 0>
 													<cfloop query="getImages">
 													<ul class="list-group mt-1 mx-0 float-left col-12 rounded px-0 py-2 h4 font-weight-normal">
-														<li class="list-group-item h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
+														<li class="list-group-item h4 mb-0 mt-2 border-0 font-weight-lessbold d-inline-block"> 
 															<a href="/media/#getImages.media_id#" target="_blank">
-																<img src="#puri#" alt="#altText#" class="" style="width:100px;"> 
+																<img src="#puri#" alt="#altText#" class="float-left" style="width:100px;"> 
 															</a>
 															<cfif len(description) gt 0>
-																<span class="sm-caps font-weight-lessbold">#description#</span>
+																<span class="sm-caps font-weight-lessbold float-left">#description#</span>
 															</cfif>
 														</li>
 														<li class="list-group-item">
 															<label for="media_uri" class="data-entry-label">Media URI</label>
-															<input id="media_uri" class="data-enty-input" value="#getImages.media_uri#" disabled>
+															<input id="media_uri" class="data-enty-input border-0" value="#getImages.media_uri#" disabled>
 														</li>
 														<li class="list-group-item">
 															<label for="preview_uri" class="data-entry-label">Preview URI</label>
-															<input id="preview_uri" class="data-enty-input" value="#getImages.preview_uri#" disabled>
+															<input id="preview_uri" class="data-enty-input border-0" value="#getImages.preview_uri#" disabled>
 														</li>
 														<li class="list-group-item">
 															<label for="media_type" class="data-entry-label">Media Type</label>
-															<input id="media_type" class="data-enty-input" value="#getImages.media_type#" disabled>
+															<input id="media_type" class="data-enty-input border-0" value="#getImages.media_type#" disabled>
 														</li>
 														<li class="list-group-item">
 															<label for="mime_type" class="data-entry-label">Mime Type</label>
-															<input id="mime_type" class="data-enty-input" value="#getImages.mime_type#" disabled>
+															<input id="mime_type" class="data-enty-input border-0" value="#getImages.mime_type#" disabled>
 														</li>
 													</ul>
 													</cfloop>	
