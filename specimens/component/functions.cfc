@@ -1557,10 +1557,46 @@ limitations under the License.
 																		<p class="small95">#description#</p>
 																		<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
 																		onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
-																		<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
+																		<output id="deleteImagesResultDiv" class="text-danger">&nbsp;</output>
 																	</div>
 																</div>
 															</div>
+															<script>
+																function editImagesSubmit(){
+																	$('##deleteImagesResultDiv').html('Deleting....');
+																	$('##deleteImagessResultDiv').addClass('text-warning');
+																	$('##deleteImagesResultDiv').removeClass('text-success');
+																	$('##deleteImagesResultDiv').removeClass('text-danger');
+																	$.ajax({
+																		url : "/specimens/component/functions.cfc",
+																		type : "post",
+																		dataType : "json",
+																		data: $("##editImagesForm").serialize(),
+																		success: function (result) {
+																			if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+																				$('##deleteImagesResultDiv').html('Deleted');
+																				$('##deleteImagesResultDiv').addClass('text-success');
+																				$('##deleteImagesResultDiv').removeClass('text-warning');
+																				$('##deleteImagesResultDiv').removeClass('text-danger');
+																			} else {
+																				// we shouldn't be able to reach this block, backing error should return an http 500 status
+																				$('##deleteImagesResultDiv').html('Error');
+																				$('##deleteImagesResultDiv').addClass('text-danger');
+																				$('##deleteImagesResultDiv').removeClass('text-warning');
+																				$('##deleteImagesResultDiv').removeClass('text-success');
+																				messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
+																			}
+																		},
+																		error: function(jqXHR,textStatus,error){
+																			$('##deleteImagesResultDiv').html('Error');
+																			$('##deleteImagesResultDiv').addClass('text-danger');
+																			$('##deleteImagesResultDiv').removeClass('text-warning');
+																			$('##deleteImagesResultDiv').removeClass('text-success');
+																			handleFail(jqXHR,textStatus,error,"deleting relationship between image and cataloged item");
+																		}
+																	});
+																};
+															</script> 
 														</cfloop>
 											
 												<cfelse>
