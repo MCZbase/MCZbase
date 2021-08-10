@@ -1624,14 +1624,14 @@ limitations under the License.
 								</form>
 							</div>
 							<div class="col-12 col-lg-7 float-left px-0">
-								<div id="accordionIm">
+								<div id="accordionImg">
 									<div class="card">
-										<div class="card-header pt-1" id="heading1Im">
+										<div class="card-header pt-1" id="headingImg">
 											<h1 class="my-0 px-1 pb-1">
-												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapse1Im" aria-expanded="true" aria-controls="collapse1Im"><span class="h4">Accordion header</span> </button>
+												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseImg" aria-expanded="true" aria-controls="collapseImg"><span class="h4">Add and link new media</span> </button>
 											</h1>
 										</div>
-										<div id="collapse1Im" class="collapse" aria-labelledby="heading1Im" data-parent="##accordionIm">
+										<div id="collapseImg" class="collapse" aria-labelledby="heading1Im" data-parent="##accordionImg">
 											<div class="card-body"> 
 												<form name="newImgForm" id="newImgForm">
 													<input type="hidden" name="Action" value="createNew">
