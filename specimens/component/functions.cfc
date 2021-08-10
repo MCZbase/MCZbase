@@ -1555,8 +1555,9 @@ limitations under the License.
 																	</div>
 																	<div class="col-7 p-2 float-left">
 																		<p class="small95">#description#</p>
-																		<button type="button" aria-label="Remove Media" class="btn btn-xs btn-danger" onclick="removeMedia(#collection_object_id#, #media_id#)">Remove from Specimen Record</button>
-																		<output id="removeMediaResultDiv" class="text-danger">Removed #media_id#</output>
+																		<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
+																		onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
+																		<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
 																	</div>
 																</div>
 															</div>
@@ -1588,9 +1589,7 @@ limitations under the License.
 																</li>
 															</ul>--->
 															<div class="col-auto px-3 mt-2 float-left">
-																<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
-																	onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
-																<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
+																
 															</div>
 														</div>
 													</cfloop>	
