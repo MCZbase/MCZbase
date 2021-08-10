@@ -1544,7 +1544,7 @@ limitations under the License.
 												</cfif>
 												<cfif len(images.media_uri) gt 0>
 													<cfloop query="getImages">
-													<ul class="list-group mt-1 mx-2 rounded px-3 py-2 h4 font-weight-normal">
+													<ul class="list-group mt-1 mx-2 float-left col-12 rounded px-3 py-2 h4 font-weight-normal">
 														<li class="list-group-item h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
 															<a href="/media/#getImages.media_id#" target="_blank">
 																<img src="#puri#" alt="#altText#" class="" style="width:100px;"> 
