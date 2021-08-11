@@ -640,12 +640,12 @@ limitations under the License.
 						FROM  identification_taxonomy 
 							left join identification on identification_taxonomy.IDENTIFICATION_ID = identification.identification_id
 							left join cataloged_item on identification.collection_object_id = cataloged_item.COLLECTION_OBJECT_ID
-						WHERE cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_cde#">
+						WHERE cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 						UNION
 						SELECT CITED_TAXON_NAME_ID as taxon_name_id 
 						FROM CITATION 
 							left join cataloged_item on CITATION.COLLECTION_OBJECT_ID = CATALOGED_ITEM.COLLECTION_OBJECT_ID
-						WHERE cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_cde#">
+						WHERE cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 					) 
 				</cfif>
 				<cfif isdefined("common_name") AND len(common_name) gt 0>
