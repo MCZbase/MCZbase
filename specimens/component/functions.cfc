@@ -1486,151 +1486,145 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
-					<form name="editImagesForm" id="editImagesForm">
-						<input type="hidden" name="method" value="updateImages">
-						<input type="hidden" name="returnformat" value="json">
-						<input type="hidden" name="queryformat" value="column">
-						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-							<div class="col-12 col-lg-12 float-left mb-4 px-0">
-							<div id="accordionImages1">
-								<div class="card bg-light">
-									<div class="card-header p-0" id="headingImg1">
-										<h2 class="my-0 py-1 text-dark">
-											<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg1" aria-expanded="false" aria-controls="collapseImg1">
-												<span class="h3 px-2">Add and link new media</span> 
-											</button>
-										</h2>
-									</div>
-								<div id="collapseImg1" class="collapse" aria-labelledby="headingImg1" data-parent="##accordionImages1">
-										<div class="card-body"> 
-											<cfset i = 1>
-									<div class="row mx-0">
-										<div class="col-12 px-0">
-											<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												SELECT
-													media.media_id,
-													media.media_uri,
-													media.preview_uri,
-													media.mime_type
-												FROM
-													media
-													left join media_relations on media_relations.media_id = media.media_id
-												WHERE
-													media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-											</cfquery>
-											<cfloop query="images">
-											<cfif len(images.media_uri) gt 0>
-												<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT distinct
-														media.media_id,
-														media.media_uri,
-														media.preview_uri as preview_uri,
-														media.mime_type as mime_type,
-														media.media_type,
-														mczbase.get_media_descriptor(media.media_id) as media_descriptor
-													FROM 
-														media,
-														media_relations
-													WHERE 
-														media_relations.media_id = media.media_id
-													AND
-														media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-												</cfquery>
-												<cfset mt=getImages.mime_type>
-												<cfset altText = getImages.media_descriptor>
-												<cfset puri=getMediaPreview(preview_uri,mime_type)>
-												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT
-														media_label,
-														label_value
-													FROM
-														media_labels
-													WHERE
-														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-												</cfquery>
-												<cfquery name="desc" dbtype="query">
-													select label_value from labels where media_label='description'
-												</cfquery>
-												<cfset description="Media Preview Image">
-												<cfif desc.recordcount is 1>
-													<cfset description=desc.label_value>
-												</cfif>
-
-										
-																<cfset sortCount=getImages.recordcount - 1>
-																<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
-																<cfloop query="getImages">
-																	<div class="col-4 float-left p-2">
-																		<div class="border overflow-hidden px-2">
-																			<div class="col-5 p-2 float-left">
-																				<a href="/media/#getImages.media_id#" target="_blank" style="min-height: 115px;"> 
-																					<img src="#puri#" alt="#altText#" class="" width="100"> 
-																				</a> <br>
-																				<a href="/media/#getImages.media_id#" target="_blank">Media Details</a>
-																			</div>
-																			<div class="col-7 p-2 float-left">
-																				<p class="small95">#description#</p>
-																				<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
-																				onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
-																				<output id="deleteImagesResultDiv" class="text-danger">&nbsp;</output>
-																			</div>
+							<form name="editImagesForm" id="editImagesForm">
+								<input type="hidden" name="method" value="updateImages">
+								<input type="hidden" name="returnformat" value="json">
+								<input type="hidden" name="queryformat" value="column">
+								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+								<div class="col-12 col-lg-12 float-left mb-4 px-0">
+								<div id="accordionImages1">
+									<div class="card bg-light">
+										<div class="card-header p-0" id="headingImg1">
+											<h2 class="my-0 py-1 text-dark">
+												<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg1" aria-expanded="false" aria-controls="collapseImg1">
+													<span class="h3 px-2">Add and link new media</span> 
+												</button>
+											</h2>
+										</div>
+										<div id="collapseImg1" class="collapse" aria-labelledby="headingImg1" data-parent="##accordionImages1">
+											<div class="card-body"> 
+												<cfset i = 1>
+												<div class="row mx-0">
+													<div class="col-12 px-0">
+														<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															SELECT
+																media.media_id,
+																media.media_uri,
+																media.preview_uri,
+																media.mime_type
+															FROM
+																media
+																left join media_relations on media_relations.media_id = media.media_id
+															WHERE
+																media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+														</cfquery>
+														<cfloop query="images">
+														<cfif len(images.media_uri) gt 0>
+															<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																SELECT distinct
+																	media.media_id,
+																	media.media_uri,
+																	media.preview_uri as preview_uri,
+																	media.mime_type as mime_type,
+																	media.media_type,
+																	mczbase.get_media_descriptor(media.media_id) as media_descriptor
+																FROM 
+																	media,
+																	media_relations
+																WHERE 
+																	media_relations.media_id = media.media_id
+																AND
+																	media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
+															</cfquery>
+															<cfset mt=getImages.mime_type>
+															<cfset altText = getImages.media_descriptor>
+															<cfset puri=getMediaPreview(preview_uri,mime_type)>
+															<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																SELECT
+																	media_label,
+																	label_value
+																FROM
+																	media_labels
+																WHERE
+																	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+															</cfquery>
+															<cfquery name="desc" dbtype="query">
+																select label_value from labels where media_label='description'
+															</cfquery>
+															<cfset description="Media Preview Image">
+															<cfif desc.recordcount is 1>
+																<cfset description=desc.label_value>
+															</cfif>
+															<cfset sortCount=getImages.recordcount - 1>
+															<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
+															<cfloop query="getImages">
+																<div class="col-4 float-left p-2">
+																	<div class="border overflow-hidden px-2">
+																		<div class="col-5 p-2 float-left">
+																			<a href="/media/#getImages.media_id#" target="_blank" style="min-height: 115px;"> 
+																				<img src="#puri#" alt="#altText#" class="" width="100"> 
+																			</a> <br>
+																			<a href="/media/#getImages.media_id#" target="_blank">Media Details</a>
+																		</div>
+																		<div class="col-7 p-2 float-left">
+																			<p class="small95">#description#</p>
+																			<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
+																			onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
+																			<output id="deleteImagesResultDiv" class="text-danger">&nbsp;</output>
 																		</div>
 																	</div>
-																	<script>
-																		function editImagesSubmit(){
-																			$('##deleteImagesResultDiv').html('Deleting....');
-																			$('##deleteImagessResultDiv').addClass('text-warning');
-																			$('##deleteImagesResultDiv').removeClass('text-success');
-																			$('##deleteImagesResultDiv').removeClass('text-danger');
-																			$.ajax({
-																				url : "/specimens/component/functions.cfc",
-																				type : "post",
-																				dataType : "json",
-																				data: $("##editImagesForm").serialize(),
-																				success: function (result) {
-																					if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																						$('##deleteImagesResultDiv').html('Deleted');
-																						$('##deleteImagesResultDiv').addClass('text-success');
-																						$('##deleteImagesResultDiv').removeClass('text-warning');
-																						$('##deleteImagesResultDiv').removeClass('text-danger');
-																					} else {
-																						// we shouldn't be able to reach this block, backing error should return an http 500 status
-																						$('##deleteImagesResultDiv').html('Error');
-																						$('##deleteImagesResultDiv').addClass('text-danger');
-																						$('##deleteImagesResultDiv').removeClass('text-warning');
-																						$('##deleteImagesResultDiv').removeClass('text-success');
-																						messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
-																					}
-																				},
-																				error: function(jqXHR,textStatus,error){
+																</div>
+																<script>
+																	function editImagesSubmit(){
+																		$('##deleteImagesResultDiv').html('Deleting....');
+																		$('##deleteImagessResultDiv').addClass('text-warning');
+																		$('##deleteImagesResultDiv').removeClass('text-success');
+																		$('##deleteImagesResultDiv').removeClass('text-danger');
+																		$.ajax({
+																			url : "/specimens/component/functions.cfc",
+																			type : "post",
+																			dataType : "json",
+																			data: $("##editImagesForm").serialize(),
+																			success: function (result) {
+																				if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+																					$('##deleteImagesResultDiv').html('Deleted');
+																					$('##deleteImagesResultDiv').addClass('text-success');
+																					$('##deleteImagesResultDiv').removeClass('text-warning');
+																					$('##deleteImagesResultDiv').removeClass('text-danger');
+																				} else {
+																					// we shouldn't be able to reach this block, backing error should return an http 500 status
 																					$('##deleteImagesResultDiv').html('Error');
 																					$('##deleteImagesResultDiv').addClass('text-danger');
 																					$('##deleteImagesResultDiv').removeClass('text-warning');
 																					$('##deleteImagesResultDiv').removeClass('text-success');
-																					handleFail(jqXHR,textStatus,error,"deleting relationship between image and cataloged item");
+																					messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
 																				}
-																			});
-																		};
-																	</script> 
-																</cfloop>
-															</div>
-														</div>
-
-											<cfelse>
-													None
-											</cfif>
-											</cfloop>
-
-											<cfset i = 1>
-											<cfset sortCount=getImages.recordcount - 1>
-											<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
+																			},
+																			error: function(jqXHR,textStatus,error){
+																				$('##deleteImagesResultDiv').html('Error');
+																				$('##deleteImagesResultDiv').addClass('text-danger');
+																				$('##deleteImagesResultDiv').removeClass('text-warning');
+																				$('##deleteImagesResultDiv').removeClass('text-success');
+																				handleFail(jqXHR,textStatus,error,"deleting relationship between image and cataloged item");
+																			}
+																		});
+																	};
+																</script> 
+															</cfloop>
+														<cfelse>
+																None
+														</cfif>
+														</cfloop>
+													</div>
+												</div>
+												<cfset i = 1>
+												<cfset sortCount=getImages.recordcount - 1>
+												<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
+											</div>
 										</div>
 									</div>
-							
-							</div>											
-						</div>
-					</div>
-													</form>
+								</div>
+							</form>
 							<div class="col-12 col-lg-7 float-left px-0">
 								<div id="accordionImg">
 									<div class="card bg-light">
