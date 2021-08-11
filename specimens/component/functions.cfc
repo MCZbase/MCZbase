@@ -1506,10 +1506,11 @@ limitations under the License.
 												WHERE
 													media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 											</cfquery>
+														<div id="accordionImg">
+													<div class="card bg-light">
 											<cfloop query="images">
 											<cfif len(images.media_uri) gt 0>
-												<div id="accordionImg">
-													<div class="card bg-light">
+									
 												<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT distinct
 														media.media_id,
