@@ -1486,6 +1486,8 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
+							<div id="accordionImages1">
+								<div class="card bg-light">
 								<form name="editImagesForm" id="editImagesForm">
 									<input type="hidden" name="method" value="updateImages">
 									<input type="hidden" name="returnformat" value="json">
@@ -1506,11 +1508,8 @@ limitations under the License.
 												WHERE
 													media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 											</cfquery>
-														<div id="accordionImg">
-													<div class="card bg-light">
 											<cfloop query="images">
 											<cfif len(images.media_uri) gt 0>
-									
 												<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT distinct
 														media.media_id,
@@ -1546,14 +1545,14 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
-														<div class="card-header p-0" id="headingImg">
+														<div class="card-header p-0" id="headingImg1">
 															<h2 class="my-0 py-1 text-dark">
-																<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg" aria-expanded="false" aria-controls="collapseImg">
+																<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg1" aria-expanded="false" aria-controls="collapseImg1">
 																	<span class="h3 px-2">Add and link new media</span> 
 																</button>
 															</h2>
 														</div>
-														<div id="collapseImg" class="collapse" aria-labelledby="heading1Im" data-parent="##accordionImg">
+														<div id="collapseImg1" class="collapse" aria-labelledby="headingImg1" data-parent="##accordionImages1">
 															<div class="card-body"> 
 																<cfset i = 1>
 																<cfset sortCount=getImages.recordcount - 1>
@@ -1619,15 +1618,16 @@ limitations under the License.
 													None
 											</cfif>
 											</cfloop>
-											</div>
-											</div>
+
 											<cfset i = 1>
 											<cfset sortCount=getImages.recordcount - 1>
 											<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
 										</div>
 									</div>
 								</form>
-							</div>
+							</div>											
+						</div>
+					</div>
 							<div class="col-12 col-lg-7 float-left px-0">
 								<div id="accordionImg">
 									<div class="card bg-light">
