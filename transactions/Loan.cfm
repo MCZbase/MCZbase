@@ -203,7 +203,7 @@ limitations under the License.
 								<select name="loan_status" id="loan_status" class="reqdClr data-entry-select mb-1" required >
 									<cfloop query="ctLoanStatus">
 										<cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
-											<cfif #ctLoanStatus.loan_status# is "open">
+											<cfif #ctLoanStatus.loan_status# is "in process">
 												<cfset selected = "selected='selected'">
 											<cfelse>
 												<cfset selected="">
