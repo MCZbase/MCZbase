@@ -1542,67 +1542,82 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
-												<cfif len(images.media_uri) gt 0>
-													<cfset i = 1>
-													<cfset sortCount=getImages.recordcount - 1>
-														<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
-														<cfloop query="getImages">
-															<div class="col-4 float-left p-2">
-																<div class="border overflow-hidden px-2">
-																	<div class="col-5 p-2 float-left">
-																		<a href="/media/#getImages.media_id#" target="_blank" style="min-height: 115px;"> 
-																			<img src="#puri#" alt="#altText#" class="" width="100"> 
-																		</a> <br>
-																		<a href="/media/#getImages.media_id#" target="_blank">Media Details</a>
+											<cfif len(images.media_uri) gt 0>
+												<div id="accordionImg">
+													<div class="card bg-light">
+														<div class="card-header p-0" id="headingImg">
+															<h2 class="my-0 py-1 text-dark">
+																<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg" aria-expanded="false" aria-controls="collapseImg">
+																	<span class="h3 px-2">Add and link new media</span> 
+																</button>
+															</h2>
+														</div>
+														<div id="collapseImg" class="collapse" aria-labelledby="heading1Im" data-parent="##accordionImg">
+															<div class="card-body"> 
+																<cfset i = 1>
+																<cfset sortCount=getImages.recordcount - 1>
+																<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
+																<cfloop query="getImages">
+																	<div class="col-4 float-left p-2">
+																		<div class="border overflow-hidden px-2">
+																			<div class="col-5 p-2 float-left">
+																				<a href="/media/#getImages.media_id#" target="_blank" style="min-height: 115px;"> 
+																					<img src="#puri#" alt="#altText#" class="" width="100"> 
+																				</a> <br>
+																				<a href="/media/#getImages.media_id#" target="_blank">Media Details</a>
+																			</div>
+																			<div class="col-7 p-2 float-left">
+																				<p class="small95">#description#</p>
+																				<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
+																				onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
+																				<output id="deleteImagesResultDiv" class="text-danger">&nbsp;</output>
+																			</div>
+																		</div>
 																	</div>
-																	<div class="col-7 p-2 float-left">
-																		<p class="small95">#description#</p>
-																		<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
-																		onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
-																		<output id="deleteImagesResultDiv" class="text-danger">&nbsp;</output>
-																	</div>
-																</div>
-															</div>
-															<script>
-																function editImagesSubmit(){
-																	$('##deleteImagesResultDiv').html('Deleting....');
-																	$('##deleteImagessResultDiv').addClass('text-warning');
-																	$('##deleteImagesResultDiv').removeClass('text-success');
-																	$('##deleteImagesResultDiv').removeClass('text-danger');
-																	$.ajax({
-																		url : "/specimens/component/functions.cfc",
-																		type : "post",
-																		dataType : "json",
-																		data: $("##editImagesForm").serialize(),
-																		success: function (result) {
-																			if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																				$('##deleteImagesResultDiv').html('Deleted');
-																				$('##deleteImagesResultDiv').addClass('text-success');
-																				$('##deleteImagesResultDiv').removeClass('text-warning');
-																				$('##deleteImagesResultDiv').removeClass('text-danger');
-																			} else {
-																				// we shouldn't be able to reach this block, backing error should return an http 500 status
-																				$('##deleteImagesResultDiv').html('Error');
-																				$('##deleteImagesResultDiv').addClass('text-danger');
-																				$('##deleteImagesResultDiv').removeClass('text-warning');
-																				$('##deleteImagesResultDiv').removeClass('text-success');
-																				messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
-																			}
-																		},
-																		error: function(jqXHR,textStatus,error){
-																			$('##deleteImagesResultDiv').html('Error');
-																			$('##deleteImagesResultDiv').addClass('text-danger');
-																			$('##deleteImagesResultDiv').removeClass('text-warning');
+																	<script>
+																		function editImagesSubmit(){
+																			$('##deleteImagesResultDiv').html('Deleting....');
+																			$('##deleteImagessResultDiv').addClass('text-warning');
 																			$('##deleteImagesResultDiv').removeClass('text-success');
-																			handleFail(jqXHR,textStatus,error,"deleting relationship between image and cataloged item");
-																		}
-																	});
-																};
-															</script> 
-														</cfloop>
-												<cfelse>
+																			$('##deleteImagesResultDiv').removeClass('text-danger');
+																			$.ajax({
+																				url : "/specimens/component/functions.cfc",
+																				type : "post",
+																				dataType : "json",
+																				data: $("##editImagesForm").serialize(),
+																				success: function (result) {
+																					if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+																						$('##deleteImagesResultDiv').html('Deleted');
+																						$('##deleteImagesResultDiv').addClass('text-success');
+																						$('##deleteImagesResultDiv').removeClass('text-warning');
+																						$('##deleteImagesResultDiv').removeClass('text-danger');
+																					} else {
+																						// we shouldn't be able to reach this block, backing error should return an http 500 status
+																						$('##deleteImagesResultDiv').html('Error');
+																						$('##deleteImagesResultDiv').addClass('text-danger');
+																						$('##deleteImagesResultDiv').removeClass('text-warning');
+																						$('##deleteImagesResultDiv').removeClass('text-success');
+																						messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
+																					}
+																				},
+																				error: function(jqXHR,textStatus,error){
+																					$('##deleteImagesResultDiv').html('Error');
+																					$('##deleteImagesResultDiv').addClass('text-danger');
+																					$('##deleteImagesResultDiv').removeClass('text-warning');
+																					$('##deleteImagesResultDiv').removeClass('text-success');
+																					handleFail(jqXHR,textStatus,error,"deleting relationship between image and cataloged item");
+																				}
+																			});
+																		};
+																	</script> 
+																</cfloop>
+															</div>
+														</div>
+													</div>
+												</div>
+											<cfelse>
 													None
-												</cfif>
+											</cfif>
 											</cfloop>
 											<cfset i = 1>
 											<cfset sortCount=getImages.recordcount - 1>
