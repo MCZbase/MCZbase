@@ -1486,6 +1486,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
+								<form name="editImagesForm" id="editImagesForm">
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 							<div id="accordionImages1">
 								<div class="card bg-light">
@@ -1496,7 +1497,7 @@ limitations under the License.
 											</button>
 										</h2>
 									</div>
-								<form name="editImagesForm" id="editImagesForm">
+							
 									<input type="hidden" name="method" value="updateImages">
 									<input type="hidden" name="returnformat" value="json">
 									<input type="hidden" name="queryformat" value="column">
