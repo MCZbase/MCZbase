@@ -248,14 +248,14 @@ limitations under the License.
 								<input type="text" name="estimated_count" id="estimated_count" value="" class="w-100 data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="received_date" class="data-entry-label">Date Received</label>
+								<label for="received_date" class="data-entry-label">Received Date</label>
 								<input type="text" name="received_date" id="received_date" 
 									required
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
 									class="reqdClr w-100 data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="date_entered" class="data-entry-label">Date Entered</label>
+								<label for="date_entered" class="data-entry-label">Entered Date</label>
 								<input type="text" name="date_entered" id="date_entered"
 									disabled="true"
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
@@ -493,12 +493,12 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="received_date" class="data-entry-label">Date Received</label>
+								<label for="received_date" class="data-entry-label">Received Date</label>
 								<input type="text" name="received_date" id="received_date" required
 									value="#dateformat(accessionDetails.received_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
 							</div>
 							<div class="col-12 col-md-3">
-								<span class="data-entry-label">Date Entered</span>
+								<span class="data-entry-label">Entered Date</span>
 								<div class="col-12 bg-light border non-field-text">
 									<span id="date_entered">#dateformat(accessionDetails.dateEntered,'yyyy-mm-dd')#</span>
 								</div>
@@ -943,7 +943,7 @@ limitations under the License.
 			)
 		>
 			<h1 class="h2">One or more required fields are missing.</h1>
-			<p>You must fill in Collection, Accn Number, Status, Date Received, Nature of Material, Received From, and Accn Type.</p>
+			<p>You must fill in Collection, Accn Number, Status, Received Date, Nature of Material, Received From, and Accn Type.</p>
 			<p>Use your browser's back button to fix the problem and try again.</p>
 			<cfabort>
 		</cfif>

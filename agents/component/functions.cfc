@@ -1920,7 +1920,7 @@ limitations under the License.
 								<div class='form-row'>
 									<div class='col-12 col-md-4 my-1'>
 										<label for='zip' class="data-entry-label">Zip/Postcode</label>
-										<input type='text' name='zip' id='zip' class='reqdClr form-control data-entry-input' value="#zip#" required>
+										<input type='text' name='zip' id='zip' class='form-control data-entry-input' value="#zip#" >
 									</div>
 									<div class='col-12 col-md-8 my-1'>
 										<script>

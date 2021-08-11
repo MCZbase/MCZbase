@@ -698,7 +698,7 @@ limitations under the License.
 									value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
 							</div>
 							<div class="col-12 col-md-3" tabindex="0">
-								<span class="data-entry-label">Date Closed:</span>
+								<span class="data-entry-label">Closed Date:</span>
 								<div class="col-12 bg-light border non-field-text">
 									<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
 									#loanDetails.closed_date#
