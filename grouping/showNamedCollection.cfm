@@ -247,6 +247,7 @@ limitations under the License.
 							<div class="col-12 mt-2">
 								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
 								<div id="jqxgrid"></div>
+								<div id="enableselection"></div>
 							</div>
 						</div>
 						<!---end specimen grid--->						
@@ -594,6 +595,47 @@ limitations under the License.
 		</main>
 	</cfloop>
 <script>
+	function gridLoaded(gridId, searchType) { 
+				if (Object.keys(window.columnHiddenSettings).length == 0) { 
+					window.columnHiddenSettings = getColumnVisibilities('jqxgrid');		
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+					</cfif>
+				}
+				$('.jqx-header-widget').css({'z-index': maxZIndex + 1 }); 
+				var now = new Date();
+				var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+				var filename = searchType + '_results_' + nowstring + '.csv';
+				// display the number of rows found
+				var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+				var rowcount = datainformation.rowscount;
+				if (rowcount == 1) {
+					$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+				} else { 
+					$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+				}
+				// set maximum page size
+				if (rowcount > 100) { 
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
+					$('##' + gridId).jqxGrid({ pagesize: 50});
+				} else if (rowcount > 50) { 
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize: 50});
+					$('##' + gridId).jqxGrid({ pagesize: 50});
+				} else { 
+					$('##' + gridId).jqxGrid({ pageable: false });
+				}
+
+				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+				var maxZIndex = getMaxZIndex();
+				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-cell').css({'border-color': '##aaa'});
+				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
+				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+			}
+
 !(function (d){
 // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
 var itemClassName = "carouselImageX";
