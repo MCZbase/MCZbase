@@ -243,15 +243,10 @@ limitations under the License.
 										]
 									});
 								});
-								
-								var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-								var filename = searchType + '_results_' + nowstring + '.csv';
-								$('##jqxgrid').html('<button id="specimencsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
 							</script>
 							<div class="col-12 mt-2">
 								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
 								<div id="jqxgrid"></div>
-								<div id="enableselection"></div>
 							</div>
 						</div>
 						<!---end specimen grid--->						
@@ -343,32 +338,6 @@ limitations under the License.
 								</cfoutput>
 							</div>
 							</cfif>
-						<cfquery name="ledgerImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="ledgerImagesForCarousel_result">  
-							SELECT * FROM (
-								SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-									MCZBASE.get_media_descriptor(media.media_id) as alt,
-									MCZBASE.get_medialabel(media.media_id,'width') as width,
-									MCZBASE.get_media_credit(media.media_id) as credit
-								FROM
-									underscore_collection
-									left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-										on underscore_relation.collection_object_id = flat.collection_object_id
-									left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-									left join media_relations on collector.agent_id = media_relations.related_primary_key
-									left join media on media_relations.media_id = media.media_id
-								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									AND flat.guid IS NOT NULL
-									AND collector.collector_role = 'c'
-									AND media_relations.media_relationship = 'shows agent'
-									AND media.media_type = 'image'
-									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-									AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-								ORDER BY DBMS_RANDOM.RANDOM
-							) 
-							WHERE Rownum <= 26
-						</cfquery>	
-								
 							<div id="mapper" class="col-12 px-0">
 								<h2 class="mt-4">Heat Map Example</h2>
  							<script>// This Google Map example requires the Visualization library. Include the libraries=visualization
