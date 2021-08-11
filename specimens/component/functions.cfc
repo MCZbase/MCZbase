@@ -1486,7 +1486,11 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
-								<form name="editImagesForm" id="editImagesForm">
+					<form name="editImagesForm" id="editImagesForm">
+						<input type="hidden" name="method" value="updateImages">
+						<input type="hidden" name="returnformat" value="json">
+						<input type="hidden" name="queryformat" value="column">
+						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 							<div id="accordionImages1">
 								<div class="card bg-light">
@@ -1497,11 +1501,9 @@ limitations under the License.
 											</button>
 										</h2>
 									</div>
-							
-									<input type="hidden" name="method" value="updateImages">
-									<input type="hidden" name="returnformat" value="json">
-									<input type="hidden" name="queryformat" value="column">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+								<div id="collapseImg1" class="collapse" aria-labelledby="headingImg1" data-parent="##accordionImages1">
+										<div class="card-body"> 
+											<cfset i = 1>
 									<div class="row mx-0">
 										<div class="col-12 px-0">
 											<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1554,9 +1556,7 @@ limitations under the License.
 													<cfset description=desc.label_value>
 												</cfif>
 
-														<div id="collapseImg1" class="collapse" aria-labelledby="headingImg1" data-parent="##accordionImages1">
-															<div class="card-body"> 
-																<cfset i = 1>
+										
 																<cfset sortCount=getImages.recordcount - 1>
 																<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
 																<cfloop query="getImages">
@@ -1626,10 +1626,11 @@ limitations under the License.
 											<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
 										</div>
 									</div>
-								</form>
+							
 							</div>											
 						</div>
 					</div>
+													</form>
 							<div class="col-12 col-lg-7 float-left px-0">
 								<div id="accordionImg">
 									<div class="card bg-light">
