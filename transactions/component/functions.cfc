@@ -227,7 +227,7 @@ limitations under the License.
 				<cfquery name="deaccLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select count(specimen_part.collection_object_id) as ct, 
 						loan.transaction_id loan_id, loan_number, loan_status, 
-						return_due_date, closed_date, 
+						return_due_date, loan.closed_date, 
 						loan.return_due_date - trunc(sysdate) dueindays
 					from 
 						deacc_item 
@@ -239,12 +239,12 @@ limitations under the License.
 						deacc_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					group by
 						loan.transaction_id, loan_number, loan_status, 
-						return_due_date, closed_date, 
+						return_due_date, loan.closed_date, 
 						loan.return_due_date
 				</cfquery>
 				<cfif deaccLoans.recordcount GT 0>
 					<table class='table table-responsive d-md-table mb-0'>
-						<thead class='thead-light'><th>Items</th><th>Loan</th><th>Status</th><th>Due Date</th><th>Date Closed</th></thead>
+						<thead class='thead-light'><th>Items</th><th>Loan</th><th>Status</th><th>Due Date</th><th>Closed Date</th></thead>
 						<tbody>
 							<cfloop query="deaccLoans">
 								<tr>
@@ -396,27 +396,36 @@ limitations under the License.
 <!--- obtain counts of items cataloged within an accession --->
 <cffunction name="getAccnItemCounts" access="remote">
 	<cfargument name="transaction_id" type="string" required="yes">
-	<cfif listcontainsnocase(session.roles,"admin_transactions")>
-		<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT
-				1 as status,
-				count(distinct cataloged_item.collection_object_id) catItemCount,
-				count(distinct collection.collection_cde) as collectionCount,
-				count(distinct preserve_method) as preserveCount,
-				count(distinct specimen_part.collection_object_id) as partCount
-			FROM
-				cataloged_item 
-				left join specimen_part on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-				left join collection on cataloged_item.collection_id=collection.collection_id 
-			WHERE
-				cataloged_item.accn_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-		</cfquery>
-	<cfelse>
-		<cfset rankCount=queryNew("status, message")>
-		<cfset t = queryaddrow(rankCount,1)>
-		<cfset t = QuerySetCell(rankCount, "status", "-1", 1)>
-		<cfset t = QuerySetCell(rankCount, "message", "Not Authorized", 1)>
-	</cfif>
+
+	<cftry>
+		<cfif listcontainsnocase(session.roles,"admin_transactions")>
+			<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					1 as status,
+					count(distinct cataloged_item.collection_object_id) catItemCount,
+					count(distinct collection.collection_cde) as collectionCount,
+					count(distinct preserve_method) as preserveCount,
+					count(distinct specimen_part.collection_object_id) as partCount
+				FROM
+					cataloged_item 
+					left join specimen_part on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+					left join collection on cataloged_item.collection_id=collection.collection_id 
+				WHERE
+					cataloged_item.accn_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+		<cfelse>
+			<cfset rankCount=queryNew("status, message")>
+			<cfset t = queryaddrow(rankCount,1)>
+			<cfset t = QuerySetCell(rankCount, "status", "-1", 1)>
+			<cfset t = QuerySetCell(rankCount, "message", "Not Authorized", 1)>
+		</cfif>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
 	<cfreturn rankCount>
 </cffunction>
 
@@ -670,7 +679,7 @@ limitations under the License.
 				<cfquery name="accnLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct 
 						loan.transaction_id loan_id, loan_number, loan_status, 
-						return_due_date, closed_date, 
+						return_due_date, loan.closed_date, 
 						loan.return_due_date - trunc(sysdate) dueindays
 					from cataloged_item
 						left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
@@ -682,7 +691,7 @@ limitations under the License.
 				</cfquery>
 				<cfif accnLoans.recordcount GT 0>
 					<table class='table table-responsive d-md-table mb-0'>
-						<thead class='thead-light'><th>Loan</th><th>Status</th><th>Due Date</th><th>Date Closed</th></thead>
+						<thead class='thead-light'><th>Loan</th><th>Status</th><th>Due Date</th><th>Closed Date</th></thead>
 						<tbody>
 							<cfloop query="accnLoans">
 								<tr>
@@ -775,44 +784,52 @@ limitations under the License.
 <!--- obtain counts of loan items --->
 <cffunction name="getLoanItemCounts" access="remote">
 	<cfargument name="transaction_id" type="string" required="yes">
-	<cfif listcontainsnocase(session.roles,"admin_transactions")>
-		<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT
-				1 as status,
-				count(distinct cataloged_item.collection_object_id) catItemCount,
-				count(distinct collection.collection_cde) as collectionCount,
-				count(distinct preserve_method) as preserveCount,
-				count(distinct specimen_part.collection_object_id) as partCount
-			FROM
-				loan_item,
-				loan,
-				specimen_part,
-				coll_object,
-				cataloged_item,
-				coll_object_encumbrance,
-				encumbrance,
-				agent_name,
-				identification,
-				collection
-			WHERE
-				loan_item.collection_object_id = specimen_part.collection_object_id AND
-				loan.transaction_id = loan_item.transaction_id AND
-				specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
-				specimen_part.collection_object_id = coll_object.collection_object_id AND
-				coll_object.collection_object_id = coll_object_encumbrance.collection_object_id (+) and
-				coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id (+) AND
-				encumbrance.encumbering_agent_id = agent_name.agent_id (+) AND
-				cataloged_item.collection_object_id = identification.collection_object_id AND
-				identification.accepted_id_fg = 1 AND
-				cataloged_item.collection_id=collection.collection_id AND
-				loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-		</cfquery>
-	<cfelse>
-		<cfset rankCount=queryNew("status, message")>
-		<cfset t = queryaddrow(rankCount,1)>
-		<cfset t = QuerySetCell(rankCount, "status", "-1", 1)>
-		<cfset t = QuerySetCell(rankCount, "message", "Not Authorized", 1)>
-	</cfif>
+	<cftry>
+		<cfif listcontainsnocase(session.roles,"admin_transactions")>
+			<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					1 as status,
+					count(distinct cataloged_item.collection_object_id) catItemCount,
+					count(distinct collection.collection_cde) as collectionCount,
+					count(distinct preserve_method) as preserveCount,
+					count(distinct specimen_part.collection_object_id) as partCount
+				FROM
+					loan_item,
+					loan,
+					specimen_part,
+					coll_object,
+					cataloged_item,
+					coll_object_encumbrance,
+					encumbrance,
+					agent_name,
+					identification,
+					collection
+				WHERE
+					loan_item.collection_object_id = specimen_part.collection_object_id AND
+					loan.transaction_id = loan_item.transaction_id AND
+					specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
+					specimen_part.collection_object_id = coll_object.collection_object_id AND
+					coll_object.collection_object_id = coll_object_encumbrance.collection_object_id (+) and
+					coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id (+) AND
+					encumbrance.encumbering_agent_id = agent_name.agent_id (+) AND
+					cataloged_item.collection_object_id = identification.collection_object_id AND
+					identification.accepted_id_fg = 1 AND
+					cataloged_item.collection_id=collection.collection_id AND
+					loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+		<cfelse>
+			<cfset rankCount=queryNew("status, message")>
+			<cfset t = queryaddrow(rankCount,1)>
+			<cfset t = QuerySetCell(rankCount, "status", "-1", 1)>
+			<cfset t = QuerySetCell(rankCount, "message", "Not Authorized", 1)>
+		</cfif>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
 	<cfreturn rankCount>
 </cffunction>
 

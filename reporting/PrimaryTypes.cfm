@@ -65,7 +65,7 @@ Report on primary types, by department.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-3">
 								<cfif not isDefined("phylorder")><cfset phylorder=""></cfif>
 								<label for="phylorder" class="data-entry-label align-left-center">Order 
 									<span class="small">
@@ -76,7 +76,7 @@ Report on primary types, by department.
 								</label>
 								<input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#phylorder#" placeholder="order">
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-3">
 								<cfif not isDefined("family")><cfset family=""></cfif>
 								<label for="family" class="data-entry-label align-left-center">Family 
 									<span class="small">
@@ -86,6 +86,17 @@ Report on primary types, by department.
 									</span>
 								</label>
 								<input type="text" class="data-entry-input" id="family" name="family" value="#family#" placeholder="family">
+							</div>
+							<div class="col-12 col-md-3">
+								<cfif not isDefined("author_text")><cfset author_text=""></cfif>
+								<label for="author_text" class="data-entry-label align-left-center">Authorship 
+									<span class="small">
+										(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('author_text');e.value='='+e.value;">=</button>,
+										<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('author_text');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
+										NULL, NOT NULL)
+									</span>
+								</label>
+								<input type="text" class="data-entry-input" id="author_text" name="author_text" value="#author_text#" placeholder="author_text">
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -97,6 +108,7 @@ Report on primary types, by department.
 							jQuery(document).ready(function() {
 								makeTaxonSearchAutocomplete('phylorder','order');
 								makeTaxonSearchAutocomplete('family','family');
+								makeTaxonSearchAutocomplete('author_text','author_text');
 							});
 						</script>
 					</form>

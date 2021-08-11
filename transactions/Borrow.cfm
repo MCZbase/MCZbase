@@ -681,7 +681,7 @@ limitations under the License.
 								<input type="text" name="no_of_specimens" id="no_of_specimens" class="data-entry-input" value="#encodeForHTML(borrowDetails.no_of_specimens)#">
 							</div>
 							<div class="col-12 col-md-3">
-								<span class="data-entry-label">Date Entered</span>
+								<span class="data-entry-label">Entered Date</span>
 								<div class="col-12 bg-light border non-field-text">
 									<span id="date_entered">#dateformat(borrowDetails.dateEntered,'yyyy-mm-dd')#</span>
 								</div>
@@ -1459,7 +1459,7 @@ limitations under the License.
 		>
 			<!--- we shouldn't reach here, as the browser should enforce the required fields on the form before submission --->
 			<h1 class="h2">One or more required fields are missing.</h1>
-			<p>You must fill in Collection, Borrow Number, Status, Transaction Date Received, Nature of Material, Description of Borrow, Received From, Received By, Outside Authorized By, Number of Specimens, and Borrow Overseen By.  Make sure that all agents have been picked and their agent icons are green.</p>
+			<p>You must fill in Collection, Borrow Number, Status, Transaction Received Date, Nature of Material, Description of Borrow, Received From, Received By, Outside Authorized By, Number of Specimens, and Borrow Overseen By.  Make sure that all agents have been picked and their agent icons are green.</p>
 			<p>Use your browser's back button to fix the problem and try again.</p>
 			<cfabort>
 		</cfif>

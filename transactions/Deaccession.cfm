@@ -628,7 +628,7 @@ limitations under the License.
 									value="#dateformat(deaccessionDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
 							</div>
 							<div class="col-12 col-md-2">
-								<span class="data-entry-label">Date Entered</span>
+								<span class="data-entry-label">Entered Date</span>
 								<div class="col-12 bg-light border non-field-text">
 									<span id="date_entered">#dateformat(deaccessionDetails.dateEntered,'yyyy-mm-dd')#</span>
 								</div>
@@ -1096,7 +1096,7 @@ limitations under the License.
 		>
 			<!--- we shouldn't reach here, as the browser should enforce the required fields on the form before submission --->
 			<h1 class="h2">One or more required fields are missing.</h1>
-			<p>You must fill in Collection, Deaccession Number, Deaccession Type, Status, Date Received, Nature of Material, Deaccession Reason, Received From, In-House Authorized By, Recipient Institution, and Received By.  Use the agent <i>not applicable</i> if recipient institution or received by are not applicable to a discarded deaccession.</p>
+			<p>You must fill in Collection, Deaccession Number, Deaccession Type, Status, Received Date, Nature of Material, Deaccession Reason, Received From, In-House Authorized By, Recipient Institution, and Received By.  Use the agent <i>not applicable</i> if recipient institution or received by are not applicable to a discarded deaccession.</p>
 			<p>Use your browser's back button to fix the problem and try again.</p>
 			<cfabort>
 		</cfif>
