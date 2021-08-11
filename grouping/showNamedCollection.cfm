@@ -381,33 +381,33 @@ limitations under the License.
 									</div>
 									<div id="map" class="mt-4"><img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/thumbnails/google_map_Example.png" class="w-100"></div>
 							</div><!---end map--->
-							<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+						<!---	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>--->
 								<h2 class="mt-4">Region Map Example</h2>
 						<div id="regions_div" class="w-100" style="height: 550px;"></div>	
 							<script>
 								// https://jsfiddle.net/api/post/library/pure/
-								google.charts.load('current', {
-								'packages':['geochart'],
-								  });
-								  google.charts.setOnLoadCallback(drawRegionsMap);
-
-								  function drawRegionsMap() {
-									var data = google.visualization.arrayToDataTable([
-									  ['Country', 'Collected'],
-									  ['Germany', 254],
-									  ['United States', 320],
-									  ['Brazil', 410],
-									  ['Canada', 506],
-									  ['France', 670],
-									  ['RU', 700]
-									]);
-
-									var options = {};
-
-									var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-
-									chart.draw(data, options);
-								  }
+						//		google.charts.load('current', {
+//								'packages':['geochart'],
+//								  });
+//								  google.charts.setOnLoadCallback(drawRegionsMap);
+//
+//								  function drawRegionsMap() {
+//									var data = google.visualization.arrayToDataTable([
+//									  ['Country', 'Collected'],
+//									  ['Germany', 254],
+//									  ['United States', 320],
+//									  ['Brazil', 410],
+//									  ['Canada', 506],
+//									  ['France', 670],
+//									  ['RU', 700]
+//									]);
+//
+//									var options = {};
+//
+//									var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+//
+//									chart.draw(data, options);
+//								  }
 							</script>
 						</div>
 
