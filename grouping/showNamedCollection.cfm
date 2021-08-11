@@ -340,20 +340,16 @@ limitations under the License.
 							</cfif>
 							<div id="mapper" class="col-12 px-0">
 								<h2 class="mt-4">Heat Map Example</h2>
- 							<script>// This Google Map example requires the Visualization library. Include the libraries=visualization
-							// parameter when you first load the API. For example:
+ 							<script>
+								// This Google Map example requires the Visualization library. Include the libraries=visualization
+								// parameter when you first load the API. For example:
 								//https://developers.google.com/maps/documentation/javascript/examples/layer-heatmap#try-sample
 								// the API key is needed to make this work.
 								</script>
 								<style>
-								/* Always set the map height explicitly to define the size of the div
-									   /* element that contains the map. */
 								##map {
 								  height: 100%;
 								}
-
-								/* Optional: Makes the sample page fill the window. */
-
 								##floating-panel {
 								  position: absolute;
 								  top: 10px;
@@ -367,7 +363,6 @@ limitations under the License.
 								  line-height: 30px;
 								  padding-left: 10px;
 								}
-
 								##floating-panel {
 								  background-color: ##fff;
 								  border: 1px solid ##999;
@@ -390,7 +385,7 @@ limitations under the License.
 								<h2 class="mt-4">Region Map Example</h2>
 						<div id="regions_div" class="w-100" style="height: 550px;"></div>	
 							<script>
-								//https://jsfiddle.net/api/post/library/pure/
+								// https://jsfiddle.net/api/post/library/pure/
 								google.charts.load('current', {
 								'packages':['geochart'],
 								  });
