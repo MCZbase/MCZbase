@@ -1507,6 +1507,9 @@ limitations under the License.
 													media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 											</cfquery>
 											<cfloop query="images">
+											<cfif len(images.media_uri) gt 0>
+												<div id="accordionImg">
+													<div class="card bg-light">
 												<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT distinct
 														media.media_id,
@@ -1542,9 +1545,6 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
-											<cfif len(images.media_uri) gt 0>
-												<div id="accordionImg">
-													<div class="card bg-light">
 														<div class="card-header p-0" id="headingImg">
 															<h2 class="my-0 py-1 text-dark">
 																<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg" aria-expanded="false" aria-controls="collapseImg">
@@ -1613,12 +1613,13 @@ limitations under the License.
 																</cfloop>
 															</div>
 														</div>
-													</div>
-												</div>
+
 											<cfelse>
 													None
 											</cfif>
 											</cfloop>
+											</div>
+											</div>
 											<cfset i = 1>
 											<cfset sortCount=getImages.recordcount - 1>
 											<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
