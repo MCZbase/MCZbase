@@ -634,6 +634,20 @@ limitations under the License.
 				<cfelseif isdefined("we_have_some") AND we_have_some EQ 0>
 					AND #session.flatTableName#.collection_object_id is null
 				</cfif>
+				<cfif isdefined("collection_cde") AND len(collection_cde) gt 0>
+					AND taxonomy.taxon_name_id in (
+						SELECT taxon_name_id 
+						FROM  identification_taxonomy 
+							left join identification on identification_taxonomy.IDENTIFICATION_ID = identification.identification_id
+							left join cataloged_item on identification.collection_object_id = cataloged_item.COLLECTION_OBJECT_ID
+						WHERE cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_cde#">
+						UNION
+						SELECT CITED_TAXON_NAME_ID as taxon_name_id 
+						FROM CITATION 
+							left join cataloged_item on CITATION.COLLECTION_OBJECT_ID = CATALOGED_ITEM.COLLECTION_OBJECT_ID
+						WHERE cataloged_item.collection_cde = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_cde#">
+					) 
+				</cfif>
 				<cfif isdefined("common_name") AND len(common_name) gt 0>
 					<cfif left(common_name,1) is "=">
 						AND upper(common_name.common_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(common_name,len(common_name)-1))#">

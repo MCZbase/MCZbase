@@ -476,10 +476,41 @@ limitations under the License.
 											</label>
 											<input type="text" class="data-entry-input" id="tribe" name="tribe" value="#tribe#" placeholder="tribe">
 										</div>
-										<div class="col-md-4">
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+											<cfset remark_col = "col-md-2">
+										<cfelse>
+											<cfset remark_col = "col-md-4">
+										</cfif>
+										<div class="#remark_col#">
 											<label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
 											<input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#taxon_remarks#"  placeholder="taxon remarks">
 										</div>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+											<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select collection, collection_cde, collection_id from collection order by collection
+											</cfquery>
+											<cfset selectedCollection = ''>
+											<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
+												<cfquery name="lookupCollection" dbtype="query">
+													select collection from ctcollection where collection_cde = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_cde#">
+												</cfquery>
+												<cfset selectedCollection = lookupCollection.collection >
+											</cfif>
+											<div class="col-md-2">
+												<label for="collection_cde" class="data-entry-label align-left-center">Used by Coll.</label>
+												<select name="collection_cde" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
+													<option value="">any collection</option>
+													<cfloop query="ctcollection">
+														<cfif ctcollection.collection eq selectedCollection>
+															<cfset selected="selected">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#ctcollection.collection_cde#" #selected#>#ctcollection.collection#</option>
+													</cfloop>
+												</select>
+											</div>
+										</cfif>
 									</div>
 									<button type="submit" class="btn btn-xs btn-primary mr-2" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
 									<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset taxon search form to inital values">Reset</button>
