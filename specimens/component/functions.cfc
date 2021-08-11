@@ -1485,6 +1485,7 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
+							<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 							<div id="accordionImages1">
 								<div class="card bg-light">
@@ -1500,7 +1501,6 @@ limitations under the License.
 									<input type="hidden" name="returnformat" value="json">
 									<input type="hidden" name="queryformat" value="column">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
 									<div class="row mx-0">
 										<div class="col-12 px-0">
 											<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
