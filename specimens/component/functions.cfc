@@ -1625,6 +1625,7 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
+						</div>
 							<div class="col-12 col-lg-7 float-left px-0">
 								<div id="accordionImg">
 									<div class="card bg-light">
