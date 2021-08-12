@@ -250,9 +250,10 @@ limitations under the License.
 									$("##csvExport").jqxButton();
 									$("##csvExport").click(function () {
 										var now = new Date();
+										var thisurl = 'https://mczbase-dev.rc.fas.harvard.edu/lib/JQWidgets/jqwidgets/jqxexport.js';
 										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-										var filename = 'NamdedGroup_results_' + nowstring + '.csv';
-										$("##jqxgrid").jqxGrid('exportdata', 'csv', filename, true, null, true );
+										var filename = 'NamdedGroup_results_' + nowstring;
+										$("##jqxgrid").jqxGrid('exportdata', 'csv', filename, true, null, true, thisurl );
 									});
 								});
 							</script>
