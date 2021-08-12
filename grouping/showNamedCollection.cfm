@@ -252,7 +252,7 @@ limitations under the License.
 										$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
 									});
 								});
-								$('##resultDownloadButtonContainer').html('<button id="csv1Export" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick="csvExport(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
+								$('##csv1Export').html('<button id="csv1Export" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick="csvExport(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
 							</script>
 								
 							<div class="col-12 mt-2">
