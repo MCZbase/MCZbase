@@ -247,12 +247,22 @@ limitations under the License.
 											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
 										]
 									});
-									$("##csv1Export").jqxButton();
-									$("##csv1Export").click(function () {
-										$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
-									});
+									function gridLoaded(gridId) { 
+										if (Object.keys(window.columnHiddenSettings).length == 0) { 
+											window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+												saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+											</cfif>
+										}
+										var now = new Date();
+										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+										var filename = '_results_' + nowstring + '.csv';
+										$("##csvExport").jqxButton();
+										$("##csvExport").click(function () {
+											$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
+										});
 								});
-								$('##csv1Export').html('<button id="csv1Export" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick="csvExport(\'jqxgrid\', \''+filename+'\'); " ></button>');
+								$('##csvExport').html('<button id="csvExport" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick="csvExport(\'jqxgrid\', \''+filename+'\'); " ></button>');
 							</script>
 								
 							<div class="col-12 mt-2">
