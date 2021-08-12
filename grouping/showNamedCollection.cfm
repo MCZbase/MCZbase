@@ -250,7 +250,7 @@ limitations under the License.
 									$("##csvExport").jqxButton();
 									$("##csvExport").click(function () {
 										var now = new Date();
-										var thisurl = 'https://mczbase-dev.rc.fas.harvard.edu/lib/JQWidgets/jqwidgets/jqxexport.js';
+										var thisurl = '#cgi.script_name#';
 										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 										var filename = 'NamdedGroup_results_' + nowstring;
 										$("##jqxgrid").jqxGrid('exportdata', 'csv', filename, true, null, true, thisurl );
