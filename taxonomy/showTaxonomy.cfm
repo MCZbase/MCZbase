@@ -271,6 +271,7 @@
 			TAXON_NAME_ID,
 			VALID_CATALOG_TERM_FG,
 			SOURCE_AUTHORITY,
+			taxon_remarks,
 			FULL_TAXON_NAME,
 			SCIENTIFIC_NAME,
 			display_name,
