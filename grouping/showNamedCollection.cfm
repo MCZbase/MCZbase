@@ -247,13 +247,13 @@ limitations under the License.
 											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
 										]
 									});
-							
+									$("##csvExport").jqxButton();
 									$("##csvExport").click(function () {
 										var now = new Date();
 										var thisurl = 'https://mczbase-dev.rc.fas.harvard.edu/save-file.php';
 										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 										var filename = 'NamdedGroup_results_' + nowstring;
-										$("##jqxgrid").jqxGrid('exportdata', 'csv', filename, true, null, true, thisurl );
+										$("##jqxgrid").jqxGrid('exportdata', 'csv', filename, true, null, true );
 									});
 								});
 							</script>
