@@ -251,11 +251,28 @@ limitations under the License.
 							</script>
 								
 							<div class="col-12 mt-2">
-								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage #specimens.recordcount# records )</a></h2>
-								<div id="resultDownloadButtonContainer"><input type="button" value="Export to CSV" id='csvExport' /></div>
+								<h2 class="">Specimen Records 
+									<!---<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage #specimens.recordcount# records )</a>--->
+								</h2>
+<!---								<div id="resultDownloadButtonContainer"><input type="button" value="Export to CSV" id='csvExport' /></div>
 								<div id="jqxgrid"></div>
-								<div id="enableselection"></div>
+								<div id="enableselection"></div>--->
 							</div>
+							<section class="container-fluid">
+								<div class="row">
+									<div class="col-12 mb-5">
+										<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
+											<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage #specimens.recordcount# records )</a>
+											<div id="resultDownloadButtonContainer"></div>
+										</div>
+										<div class="row mt-0 mx-0">
+											<!--- Grid Related code is below along with search handlers --->
+											<div id="jqxgrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+											<div id="enableselection"></div>
+										</div>
+									</div>
+								</div>
+							</section>
 						</div>
 						<!---end specimen grid--->						
 					</div>		
@@ -633,7 +650,7 @@ limitations under the License.
 				}
 
 
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="csvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 
 !(function (d){
