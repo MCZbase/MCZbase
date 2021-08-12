@@ -249,7 +249,10 @@ limitations under the License.
 									});
 									$("##csvExport").jqxButton();
 									$("##csvExport").click(function () {
-										$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
+										var now = new Date();
+										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+										var filename = searchType + '_results_' + nowstring + '.csv';
+										$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid_' + filename);
 									});
 								});
 							</script>
