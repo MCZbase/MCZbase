@@ -20,6 +20,11 @@ limitations under the License.
 
 --->
 <cfset pageTitle = "Named Group">
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<cfset oneOfUs = 1>
+	<cfelse>
+	<cfset oneOfUs = 0>
+</cfif>
 <cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
 	<cfquery name="getTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
 		SELECT collection_name
@@ -242,12 +247,12 @@ limitations under the License.
 											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
 										]
 									});
-									$("##csvExport").jqxButton();
-									$("##csvExport").click(function () {
-										$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
-									});
+//									$("##csvExport").jqxButton();
+//									$("##csvExport").click(function () {
+//										$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
+//									});
 								});
-								$('##resultDownloadButtonContainer').html('<button id="csvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick="csvExport(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
+								$('##resultDownloadButtonContainer').html('<button id="ngcsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick="csvExport(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
 							</script>
 								
 							<div class="col-12 mt-2">
@@ -262,19 +267,18 @@ limitations under the License.
 								<div class="row">
 									<div class="col-12 mb-5">
 										<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-											<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage #specimens.recordcount# records )</a>
+											<cfif oneOfUs eq 1><a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage </cfif>#specimens.recordcount# records <cfif oneOfUs eq 1>)</a></cfif>
 											<div id="resultDownloadButtonContainer"></div>
 										</div>
 										<div class="row mt-0 mx-0">
 											<!--- Grid Related code is below along with search handlers --->
 											<div id="jqxgrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-											<div id="enableselection"></div>
 										</div>
 									</div>
 								</div>
 							</section>
 						</div>
-						<!---end specimen grid--->						
+						<!---end specimen grid--->
 					</div>		
 								
 					<div class="row mx-3 mt-3">	
