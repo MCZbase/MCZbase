@@ -623,42 +623,16 @@ limitations under the License.
 		</main>
 	</cfloop>
 <script>
-	function gridLoaded(gridId, searchType) { 
-				if (Object.keys(window.columnHiddenSettings).length == 0) { 
-					window.columnHiddenSettings = getColumnVisibilities('jqxgrid');		
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
-					</cfif>
-				}
-				$('.jqx-header-widget').css({'z-index': maxZIndex + 1 }); 
+	function gridLoaded(gridId) { 
+//				if (Object.keys(window.columnHiddenSettings).length == 0) { 
+//					window.columnHiddenSettings = getColumnVisibilities('jqxgrid');		
+//					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+//						saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+//					</cfif>
+//				}
 				var now = new Date();
 				var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-				var filename = searchType + '_results_' + nowstring + '.csv';
-				// display the number of rows found
-				var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
-				var rowcount = datainformation.rowscount;
-				if (rowcount == 1) {
-					$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
-				} else { 
-					$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
-				}
-				// set maximum page size
-				if (rowcount > 100) { 
-					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
-					$('##' + gridId).jqxGrid({ pagesize: 50});
-				} else if (rowcount > 50) { 
-					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize: 50});
-					$('##' + gridId).jqxGrid({ pagesize: 50});
-				} else { 
-					$('##' + gridId).jqxGrid({ pageable: false });
-				}
-
-				var maxZIndex = getMaxZIndex();
-				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
-				$('.jqx-grid-cell').css({'border-color': '##aaa'});
-				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
-				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
-				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+				var filename = 'grouping_results_' + nowstring + '.csv';
 				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 
