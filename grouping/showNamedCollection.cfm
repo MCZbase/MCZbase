@@ -247,13 +247,7 @@ limitations under the License.
 											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
 										]
 									});
-									function gridLoaded(gridId) { 
-										if (Object.keys(window.columnHiddenSettings).length == 0) { 
-											window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-												saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
-											</cfif>
-										}
+									function { 
 										var now = new Date();
 										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 										var filename = '_results_' + nowstring + '.csv';
@@ -261,7 +255,7 @@ limitations under the License.
 										$("##csvExport").click(function () {
 											$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
 										});
-								});
+									});
 								$('##csvExport').html('<button id="csvExport" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick="csvExport(\'jqxgrid\', \''+filename+'\'); " ></button>');
 							</script>
 								
