@@ -266,7 +266,7 @@ limitations under the License.
 									<div class="col-12 mb-5">
 											<div class="row mt-0 mx-0">
 											<!--- Grid Related code is below along with search handlers --->
-											<div id="jqxgrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+											<div id="jqxgrid"></div>
 										</div>
 									</div>
 								</div>
