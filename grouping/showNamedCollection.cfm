@@ -263,10 +263,9 @@ limitations under the License.
 								<div class="row">
 									<div class="col-12 mb-5">
 										<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-											<cfif oneOfUs eq 1><a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage </cfif>#specimens.recordcount# records <cfif oneOfUs eq 1>)</a></cfif>
-											<input type="button" value="Export to CSV" id='csvExport' />
-										</div>
-										<div class="row mt-0 mx-0">
+											<cfif oneOfUs eq 1><a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage </cfif>#specimens.recordcount# records<cfif oneOfUs eq 1>)</a></cfif>
+											<input type="button" value="Export to CSV" class="mx-2" id='csvExport' />
+										
 											<!--- Grid Related code is below along with search handlers --->
 											<div id="jqxgrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 										</div>
