@@ -253,7 +253,7 @@ limitations under the License.
 										var thisurl = 'https://mczbase-dev.rc.fas.harvard.edu/save-file.php';
 										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 										var filename = 'NamdedGroup_results_' + nowstring;
-										$("##jqxgrid").jqxGrid('exportdata', 'csv', filename, true, null, true );
+										$("##jqxgrid").jqxGrid('exportGridtoCSV', 'csv', filename, true, null, true );
 									});
 								});
 							</script>
