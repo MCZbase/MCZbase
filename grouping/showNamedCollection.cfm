@@ -251,8 +251,8 @@ limitations under the License.
 									$("##csvExport").click(function () {
 										var now = new Date();
 										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-										var filename = searchType + '_results_' + nowstring + '.csv';
-										$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid_' + filename);
+										var filename = '_results_' + nowstring + '.csv';
+										$("##jqxgrid").jqxGrid('exportdata', 'csv', filename);
 									});
 								});
 							</script>
