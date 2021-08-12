@@ -257,9 +257,7 @@ limitations under the License.
 								
 							<div class="col-12 mt-2">
 								<h2 class="">Specimen Records</h2>
-<!---								<div id="resultDownloadButtonContainer"></div>
-								<div id="jqxgrid"></div>
-								--->
+
 							</div>
 							<section class="container-fluid">
 								<div class="row">
