@@ -252,7 +252,7 @@ limitations under the License.
 										var now = new Date();
 										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 										var filename = 'NamdedGroup_results_' + nowstring + '.csv';
-										$("##jqxgrid").jqxGrid('exportdata', 'csv', filename, true, null, true, '#Application.serverRootUrl#/grouping/showNamedCollection.cfm');
+										$("##jqxgrid").jqxGrid('exportdata', 'csv', filename, true, null, true, '#Application.serverRootUrl#');
 									});
 								});
 							</script>
