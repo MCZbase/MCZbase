@@ -247,12 +247,12 @@ limitations under the License.
 										$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
 									});
 								});
-								$('##resultDownloadButtonContainer').html('<button id="csvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
+								$('##resultDownloadButtonContainer').html('<button id="csvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick="csvExport(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
 							</script>
 								
 							<div class="col-12 mt-2">
 								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage #specimens.recordcount# records )</a></h2>
-								<div id="resultDownloadButtonContainer"><!---<input type="button" value="Export to CSV" id='csvExport' />---></div>
+								<div id="resultDownloadButtonContainer"><input type="button" value="Export to CSV" id='csvExport' /></div>
 								<div id="jqxgrid"></div>
 								<div id="enableselection"></div>
 							</div>
