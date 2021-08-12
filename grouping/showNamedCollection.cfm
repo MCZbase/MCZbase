@@ -623,7 +623,7 @@ limitations under the License.
 		</main>
 	</cfloop>
 <script>
-	function gridLoaded(gridId) { 
+	function { 
 //				if (Object.keys(window.columnHiddenSettings).length == 0) { 
 //					window.columnHiddenSettings = getColumnVisibilities('jqxgrid');		
 //					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
