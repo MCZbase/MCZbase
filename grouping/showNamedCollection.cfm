@@ -234,7 +234,7 @@ limitations under the License.
 										autoshowfiltericon: false,
 										autoshowcolumnsmenubutton: false,
 										altrows: true,
-										showtoolbar: true,
+										showtoolbar: false,
 										enabletooltips: true,
 										pageable: true,
 										columns: [
