@@ -247,12 +247,12 @@ limitations under the License.
 										$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
 									});
 								});
+							
 							</script>
 							<div class="col-12 mt-2">
-								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
-								<div id="resultDownloadButtonContainer"></div>
+								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to this search - #specimens.recordcount# records)</a></h2>
+								<div id="resultDownloadButtonContainer"><input type="button" value="Export to CSV" id='csvExport' /></div>
 								<div id="jqxgrid"></div>
-								<input type="button" value="Export to CSV" id='csvExport' />
 								<div id="enableselection"></div>
 							</div>
 						</div>
@@ -345,7 +345,7 @@ limitations under the License.
 								</cfoutput>
 							</div>
 							</cfif><br>
-<cfoutput>
+						<cfoutput>
 							<div id="mapper" class="col-12 px-0">
 								<h2 class="mt-4">Heat Map Example</h2>
 								<style>
@@ -385,34 +385,34 @@ limitations under the License.
 							</div><!---end map--->
 							<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 								<h2 class="mt-4">Region Map Example</h2>
-						<div id="regions_div" class="w-100" style="height: 550px;"></div>	
-							<script>
-								// https://jsfiddle.net/api/post/library/pure/
-								google.charts.load('current', {
-								'packages':['geochart'],
-								  });
-								  google.charts.setOnLoadCallback(drawRegionsMap);
+							<div id="regions_div" class="w-100" style="height: 550px;"></div>	
+								<script>
+									// https://jsfiddle.net/api/post/library/pure/
+									google.charts.load('current', {
+									'packages':['geochart'],
+									  });
+									  google.charts.setOnLoadCallback(drawRegionsMap);
 
-								  function drawRegionsMap() {
-									var data = google.visualization.arrayToDataTable([
-									  ['Country', 'Collected'],
-									  ['Germany', 254],
-									  ['United States', 320],
-									  ['Brazil', 410],
-									  ['Canada', 506],
-									  ['France', 670],
-									  ['RU', 700]
-									]);
+									  function drawRegionsMap() {
+										var data = google.visualization.arrayToDataTable([
+										  ['Country', 'Collected'],
+										  ['Germany', 254],
+										  ['United States', 320],
+										  ['Brazil', 410],
+										  ['Canada', 506],
+										  ['France', 670],
+										  ['RU', 700]
+										]);
 
-									var options = {};
+										var options = {};
 
-									var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+										var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 
-									chart.draw(data, options);
-								  }
-							</script>
-						</div>
-</cfoutput>
+										chart.draw(data, options);
+									  }
+								</script>
+							</div>
+						</cfoutput>
 						<div class="col mt-4 float-left">
 							<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 							<div class="my-2 py-3 border-bottom-black">
