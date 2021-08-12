@@ -248,18 +248,18 @@ limitations under the License.
 								<input type="text" name="estimated_count" id="estimated_count" value="" class="w-100 data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-4">
+								<label for="accession_date" class="data-entry-label">Accession Date</label>
+								<input type="text" name="accession_date" id="accession_date"
+									disabled="true"
+									value="#dateformat(now(),"yyyy-mm-dd")#" 
+									class="w-100 data-entry-input mb-1">
+							</div>
+							<div class="col-12 col-md-4">
 								<label for="received_date" class="data-entry-label">Received Date</label>
 								<input type="text" name="received_date" id="received_date" 
 									required
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
 									class="reqdClr w-100 data-entry-input mb-1">
-							</div>
-							<div class="col-12 col-md-4">
-								<label for="date_entered" class="data-entry-label">Entered Date</label>
-								<input type="text" name="date_entered" id="date_entered"
-									disabled="true"
-									value="#dateformat(now(),"yyyy-mm-dd")#" 
-									class="w-100 data-entry-input mb-1">
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -355,7 +355,8 @@ limitations under the License.
 				select
 					trans.transaction_id,
 					trans.transaction_type,
-					trans_date dateEntered,
+					trans_date accession_date,
+					trans.date_entered dateEntered,
 					accn_number,
 					accn_type,
 					accn_status,
@@ -492,12 +493,17 @@ limitations under the License.
 									</span>
 								</cfif>
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
+								<label for="accession_date" class="data-entry-label">Accession Date</label>
+								<input type="text" name="accession_date" id="accession_date" required
+									value="#dateformat(accessionDetails.accession_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
+							</div>
+							<div class="col-12 col-md-2">
 								<label for="received_date" class="data-entry-label">Received Date</label>
 								<input type="text" name="received_date" id="received_date" required
 									value="#dateformat(accessionDetails.received_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<span class="data-entry-label">Entered Date</span>
 								<div class="col-12 bg-light border non-field-text">
 									<span id="date_entered">#dateformat(accessionDetails.dateEntered,'yyyy-mm-dd')#</span>
@@ -920,8 +926,8 @@ limitations under the License.
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "makeAccn">
 	<cfoutput>
-		<cfif not isDefined("date_entered") OR len(date_entered) is 0 >
-			<cfset date_entered = dateformat(now(),"yyyy-mm-dd") >
+		<cfif not isDefined("accession_date") OR len(accession_date) is 0 >
+			<cfset accession_date = dateformat(now(),"yyyy-mm-dd") >
 		</cfif>
 		<cfif
 			( 
@@ -931,6 +937,7 @@ limitations under the License.
 				not isDefined("received_date") OR
 				not isDefined("nature_of_material")  OR
 				not isDefined("accn_type") OR
+				not isDefined("accession_date") OR
 				not isDefined("received_agent_id") 
 			) OR (
 				len(collection_id) is 0 OR 
@@ -939,11 +946,12 @@ limitations under the License.
 				len(received_date) is 0 OR
 				len(nature_of_material) is 0 OR
 				len(accn_type) is 0 OR
+				len(accession_date) is 0 OR
 				len(received_agent_id) is 0
 			)
 		>
 			<h1 class="h2">One or more required fields are missing.</h1>
-			<p>You must fill in Collection, Accn Number, Status, Received Date, Nature of Material, Received From, and Accn Type.</p>
+			<p>You must fill in Collection, Accn Number, Status, Accession Date, Received Date, Nature of Material, Received From, and Accn Type.</p>
 			<p>Use your browser's back button to fix the problem and try again.</p>
 			<cfabort>
 		</cfif>
@@ -967,7 +975,7 @@ limitations under the License.
 					</cfif>)
 				VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#date_entered#">,
+					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#accession_date#">,
 					0,
 					'accn',
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">,
