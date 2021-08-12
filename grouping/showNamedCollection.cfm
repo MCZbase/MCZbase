@@ -247,12 +247,12 @@ limitations under the License.
 											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
 										]
 									});
-//									$("##csvExport").jqxButton();
-//									$("##csvExport").click(function () {
-//										$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
-//									});
+									$("##csvExport").jqxButton();
+									$("##csvExport").click(function () {
+										$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
+									});
 								});
-								$('##resultDownloadButtonContainer').html('<button id="ngcsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick="csvExport(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
+								$('##csvExport').html('<button id="ngcsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick="csvExport(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
 							</script>
 								
 							<div class="col-12 mt-2">
@@ -268,7 +268,7 @@ limitations under the License.
 									<div class="col-12 mb-5">
 										<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 											<cfif oneOfUs eq 1><a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage </cfif>#specimens.recordcount# records <cfif oneOfUs eq 1>)</a></cfif>
-											<div id="resultDownloadButtonContainer"></div>
+											<div id="csvExport"></div>
 										</div>
 										<div class="row mt-0 mx-0">
 											<!--- Grid Related code is below along with search handlers --->
