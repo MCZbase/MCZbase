@@ -263,10 +263,7 @@ limitations under the License.
 							<section class="container-fluid">
 								<div class="row">
 									<div class="col-12 mb-5">
-										<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-											
-										</div>
-										<div class="row mt-0 mx-0">
+											<div class="row mt-0 mx-0">
 											<!--- Grid Related code is below along with search handlers --->
 											<div id="jqxgrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 										</div>
