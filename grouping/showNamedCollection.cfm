@@ -242,9 +242,9 @@ limitations under the License.
 											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
 										]
 									});
-									$("#csvExport").jqxButton();
-									$("#csvExport").click(function () {
-										$("#jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
+									$("##csvExport").jqxButton();
+									$("##csvExport").click(function () {
+										$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
 									});
 								});
 							</script>
