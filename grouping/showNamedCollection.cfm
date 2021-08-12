@@ -247,36 +247,38 @@ limitations under the License.
 											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
 										]
 									});
-								
-									
-										$("##csvExport").jqxButton();
-										$("##csvExport").click(function () {
-											$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
-										});
-								$('##csvExport').html('<input type="button" value="Export to CSV" id="csvExport" />');
+									$("##csvExport").jqxButton();
+									$("##csvExport").click(function () {
+										$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
+									});
+								});
+								$('##resultDownloadButtonContainer').html('<button id="csvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick="csvExport(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
 							</script>
 								
 							<div class="col-12 mt-2">
-								<h2 class="">Specimen Records</h2>
-
+								<h2 class="">Specimen Records 
+									<!---<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage #specimens.recordcount# records )</a>--->
+								</h2>
+<!---								<div id="resultDownloadButtonContainer"><input type="button" value="Export to CSV" id='csvExport' /></div>
+								<div id="jqxgrid"></div>
+								<div id="enableselection"></div>--->
 							</div>
 							<section class="container-fluid">
 								<div class="row">
 									<div class="col-12 mb-5">
 										<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 											<cfif oneOfUs eq 1><a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage </cfif>#specimens.recordcount# records <cfif oneOfUs eq 1>)</a></cfif>
-											<div id="csvExport"></div>
+											<div id="resultDownloadButtonContainer"></div>
 										</div>
 										<div class="row mt-0 mx-0">
 											<!--- Grid Related code is below along with search handlers --->
 											<div id="jqxgrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-								
 										</div>
 									</div>
 								</div>
 							</section>
 						</div>
-						<!---end specimen grid--->
+						<!---end specimen grid--->						
 					</div>		
 								
 					<div class="row mx-3 mt-3">	
@@ -621,16 +623,42 @@ limitations under the License.
 		</main>
 	</cfloop>
 <script>
-	function { 
-//				if (Object.keys(window.columnHiddenSettings).length == 0) { 
-//					window.columnHiddenSettings = getColumnVisibilities('jqxgrid');		
-//					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-//						saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
-//					</cfif>
-//				}
+	function gridLoaded(gridId, searchType) { 
+				if (Object.keys(window.columnHiddenSettings).length == 0) { 
+					window.columnHiddenSettings = getColumnVisibilities('jqxgrid');		
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+					</cfif>
+				}
+				$('.jqx-header-widget').css({'z-index': maxZIndex + 1 }); 
 				var now = new Date();
 				var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-				var filename = 'grouping_results_' + nowstring + '.csv';
+				var filename = searchType + '_results_' + nowstring + '.csv';
+				// display the number of rows found
+				var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+				var rowcount = datainformation.rowscount;
+				if (rowcount == 1) {
+					$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+				} else { 
+					$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+				}
+				// set maximum page size
+				if (rowcount > 100) { 
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
+					$('##' + gridId).jqxGrid({ pagesize: 50});
+				} else if (rowcount > 50) { 
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize: 50});
+					$('##' + gridId).jqxGrid({ pagesize: 50});
+				} else { 
+					$('##' + gridId).jqxGrid({ pageable: false });
+				}
+
+				var maxZIndex = getMaxZIndex();
+				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-cell').css({'border-color': '##aaa'});
+				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
+				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 
