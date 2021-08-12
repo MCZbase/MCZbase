@@ -193,6 +193,7 @@
 			taxonomy.VALID_CATALOG_TERM_FG,
 			taxonomy.SOURCE_AUTHORITY,
 			taxonomy.taxon_status,
+			taxonomy.taxon_remarks,
 			taxonomy.FULL_TAXON_NAME,
 			<cfloop list="#taxaRanksList#" index="i">
 				taxonomy.#i#,
@@ -250,6 +251,7 @@
 			TAXON_NAME_ID,
 			VALID_CATALOG_TERM_FG,
 			SOURCE_AUTHORITY,
+			taxon_remarks,
 			FULL_TAXON_NAME,
 			SCIENTIFIC_NAME,
 			display_name,
@@ -426,6 +428,9 @@
 				</cfif>
 				<cfif len(scientificnameidlink) GT 0>
 					<p>dwc:scientificNameID: <a href="#scientificnameidlink#" target="_blank">#one.scientificnameid#</a></p>
+				</cfif>
+				<cfif len(one.taxon_remarks) GT 0>
+					<p>Remarks: #one.taxon_remarks#</p>
 				</cfif>
 				<h2 class="h4">Common Name(s):</h2>
 				<ul>
