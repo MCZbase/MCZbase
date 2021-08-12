@@ -252,7 +252,7 @@ limitations under the License.
 										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 										var filename = '_results_' + nowstring + '.csv';
 										$("##csvExport").jqxButton();
-										$("##csvExport").click(function () {
+										$("##csvExport").click(function (filename) {
 											$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
 										});
 								$('##csvExport').html('<button id="csvExport" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick="csvExport(\'jqxgrid\', \''+filename+'\'); " ></button>');
