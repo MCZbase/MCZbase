@@ -247,7 +247,7 @@ limitations under the License.
 											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
 										]
 									});
-									$("##csvExport").jqxButton();
+							
 									$("##csvExport").click(function () {
 										var now = new Date();
 										var thisurl = 'https://mczbase-dev.rc.fas.harvard.edu/save-file.php';
@@ -258,7 +258,7 @@ limitations under the License.
 								});
 							</script>
 							<div class="col-12 mt-2">
-								<h2 class="">Specimen Records <span class="smaller"><cfif oneOfUs eq 1><a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage </cfif>#specimens.recordcount# records<cfif oneOfUs eq 1>)</a></cfif>
+								<h2 class="">Specimen Records <span class="small"><cfif oneOfUs eq 1><a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage </cfif>#specimens.recordcount# records<cfif oneOfUs eq 1>)</a></cfif>
 									<input type="button" value="Export to CSV" class="mx-2" id='csvExport' /></span></h2>
 							</div>
 							<section class="container-fluid">
