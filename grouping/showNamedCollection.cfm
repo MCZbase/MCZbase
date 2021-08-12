@@ -252,7 +252,7 @@ limitations under the License.
 										var now = new Date();
 										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 										var filename = 'NamdedGroup_results_' + nowstring + '.csv';
-										$("##jqxgrid").jqxGrid('exportdata', 'csv', filename, true, null, true, #Application.serverRootUrl#);
+										$("##jqxgrid").jqxGrid('exportdata', 'csv', filename, true, null, true, https://mczbase-dev.rc.fas.harvard.edu/grouping/showNamedCollection.cfm?underscore_collection_id=121);
 									});
 								});
 							</script>
