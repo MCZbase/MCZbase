@@ -229,7 +229,7 @@ limitations under the License.
 										autoshowfiltericon: false,
 										autoshowcolumnsmenubutton: false,
 										altrows: true,
-										showtoolbar: false,
+										showtoolbar: true,
 										enabletooltips: true,
 										pageable: true,
 										columns: [
@@ -242,11 +242,17 @@ limitations under the License.
 											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
 										]
 									});
+									$("#csvExport").jqxButton();
+									$("#csvExport").click(function () {
+										$("#jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
+									});
 								});
 							</script>
 							<div class="col-12 mt-2">
 								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
+								<div id="resultDownloadButtonContainer"></div>
 								<div id="jqxgrid"></div>
+								<input type="button" value="Export to CSV" id='csvExport' />
 								<div id="enableselection"></div>
 							</div>
 						</div>
@@ -625,15 +631,8 @@ limitations under the License.
 					$('##' + gridId).jqxGrid({ pageable: false });
 				}
 
-				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
-				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
-				var maxZIndex = getMaxZIndex();
-				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
-				$('.jqx-grid-cell').css({'border-color': '##aaa'});
-				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
-				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
-				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 
 !(function (d){
