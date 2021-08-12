@@ -263,7 +263,7 @@ limitations under the License.
 							</div>
 							<section class="container-fluid">
 								<div class="row">
-									<div class="col-12 mb-5">
+									<div class="col-12 mb-3">
 											<div class="row mt-0 mx-0">
 											<!--- Grid Related code is below along with search handlers --->
 											<div id="jqxgrid"></div>
