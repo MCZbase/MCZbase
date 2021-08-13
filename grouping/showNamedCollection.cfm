@@ -256,7 +256,7 @@ limitations under the License.
 							</script>
 							<div class="col-12 mt-2">
 								<h2 class="">Specimen Records <span class="small"><cfif oneOfUs eq 1><a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage </cfif>#specimens.recordcount# records<cfif oneOfUs eq 1>)</a></cfif>
-								<!---	<input type="button" value="Export to CSV" class="mx-2 py-1" id='csvExport' />---></span></h2>
+								<div id="btnContainer"></div></span></h2>
 								<div id="btnContainer"></div>
 							</div>
 							<section class="container-fluid">
