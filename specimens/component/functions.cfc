@@ -1561,10 +1561,10 @@ limitations under the License.
 																<div class="col-4 float-left p-2">
 																	<div class="border overflow-hidden px-2">
 																		<div class="col-5 p-2 float-left">
-																			<a href="/MediaSet.cfm?media_id=#getImages.media_id#" target="_blank" style="min-height: 115px;">Media Details
+																			<a href="/MediaSet.cfm?media_id=#getImages.media_id#"  class="text-center" target="_blank" style="min-height: 115px;">Media Details
 																				<img src="#puri#" alt="#altText#" class="" width="100"> 
-																			</a> <br>
-																			<a href="/media/#getImages.media_id#" target="_blank">Media Record</a>
+																			</a>
+																			<a href="/media/#getImages.media_id#" target="_blank" class="text-center">Media Record</a>
 																		</div>
 																		<div class="col-7 p-2 float-left">
 																			<p class="small95">#description#</p>
