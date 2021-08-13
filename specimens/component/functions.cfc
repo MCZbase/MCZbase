@@ -1586,7 +1586,7 @@ limitations under the License.
 																			<a href="/media/#getImages.media_id#" target="_blank" class="text-center d-block">Media Record</a>
 																		</div>
 																		<div class="col-7 p-2 float-left">
-																			<p class="small95">#description#</p>
+																	<!---		<p class="small95">#description#</p>--->
 																			<cfset i=1>
 																	
 																<cfloop query="labels">
