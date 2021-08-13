@@ -1542,6 +1542,7 @@ limitations under the License.
 															<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
 																	media_label,
+																	media_label_id,
 																	label_value
 																FROM
 																	media_labels
@@ -1576,6 +1577,26 @@ limitations under the License.
 																</div>
 															<div class="row mx-0">
 																<cfset i=1>
+																	<cfif labels.recordcount is 0>
+																		<!--- seed --->
+																		<div class="form-row">
+																			<div id="seedLabel" style="display:none;">
+																				<div id="labelsDiv__0">
+																					<input type="hidden" id="media_label_id__0" name="media_label_id__0">
+																					<cfset d="">
+																					<label for="label__#i#" class='sr-only'>Media Label</label>
+																					<select name="label__0" id="label__0" size="1" class="col-5">
+																						<option value="delete">delete</option>
+																						<cfloop query="ctmedia_label">
+																							<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+																						</cfloop>
+																					</select>
+																					<input type="text" name="label_value__0" id="label_value__0" class="col-7">
+																				</div>
+																			</div>
+																		</div>
+																		<!--- end labels seed --->
+																	</cfif>
 																<cfloop query="labels">
 																	<cfset d=media_label>
 																	<div id="labelsDiv__#i#" class="col-12 px-0">
