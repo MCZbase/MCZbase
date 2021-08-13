@@ -248,7 +248,6 @@ limitations under the License.
 										]
 									});
 										var now = new Date();
-										var thisurl = 'https://mczbase-dev.rc.fas.harvard.edu/save-file.php';
 										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 										var filename = 'NamedGroup_results_' + nowstring;
 										$('##btnContainer').html('<button id="namedgroupcsvbutton" class="btn-xs btn-secondary px-3 py-1 m-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
