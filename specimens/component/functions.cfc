@@ -1497,7 +1497,7 @@ limitations under the License.
 										<div class="card-header p-0" id="headingImg1">
 											<h2 class="my-0 py-1 text-dark">
 												<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg1" aria-expanded="false" aria-controls="collapseImg1">
-													<span class="h3 px-2">Delete linked media</span> 
+													<span class="h3 px-2">Delete links to media</span> 
 												</button>
 											</h2>
 										</div>
@@ -1632,7 +1632,7 @@ limitations under the License.
 										<div class="card-header p-0" id="headingImg">
 											<h2 class="my-0 py-1 text-dark">
 												<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg" aria-expanded="false" aria-controls="collapseImg">
-													<span class="h3 px-2">Add and link new media</span> 
+													<span class="h3 px-2">Add new media and link to #guid#</span> 
 												</button>
 											</h2>
 										</div>
