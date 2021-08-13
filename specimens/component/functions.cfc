@@ -1518,7 +1518,7 @@ limitations under the License.
 															WHERE
 																media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 														</cfquery>
-														<cfloop query="images">
+													<cfloop query="images">
 														<cfif len(images.media_uri) gt 0>
 															<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT distinct
@@ -1536,6 +1536,24 @@ limitations under the License.
 																AND
 																	media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 															</cfquery>
+														<cfquery name="ctlabels" dbtype="query">
+															select count(*) as ct from labels group by media_label order by media_label
+														</cfquery>
+														<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select media_relationship from ctmedia_relationship order by media_relationship
+														</cfquery>
+														<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select media_label from ctmedia_label order by media_label
+														</cfquery>
+														<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select media_type from ctmedia_type order by media_type
+														</cfquery>
+														<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select mime_type from ctmime_type order by mime_type
+														</cfquery>
+														<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select media_license_id,display media_license from ctmedia_license order by media_license_id
+														</cfquery>
 															<cfset mt=getImages.mime_type>
 															<cfset altText = getImages.media_descriptor>
 															<cfset puri=getMediaPreview(preview_uri,mime_type)>
