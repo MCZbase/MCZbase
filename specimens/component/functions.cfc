@@ -1620,7 +1620,6 @@ limitations under the License.
 																	<div class="form-row">
 																		<div id="seedLabel" style="display:none;">
 																			<div id="labelsDiv__0">
-																				<input type="hidden" id="media_label_id__0" name="media_label_id__0">
 																				<cfset d="">
 																				<label for="label__#i#" class='sr-only'>Media Label</label>
 																				<select name="label__0" id="label__0" size="1" class="col-5">
@@ -1640,7 +1639,6 @@ limitations under the License.
 																<cfloop query="labels">
 																	<cfset d=media_label>
 																	<div id="labelsDiv__#i#" class="col-12 px-0">
-																		<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 																		<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
 																		<select name="label__#i#" id="label__#i#" size="1" class="float-left col-5">
 																			<option value="delete">delete</option>
