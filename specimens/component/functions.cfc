@@ -1576,6 +1576,24 @@ limitations under the License.
 																		</div>
 																	</div>
 																</div>
+															<div class="row mx-0">
+																<cfset i=1>
+																<cfloop query="labels">
+																	<cfset d=media_label>
+																	<div id="labelsDiv__#i#" class="col-12 px-0">
+																		<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
+																		<select name="label__#i#" id="label__#i#" size="1" class="float-left col-5">
+																			<option value="delete">delete</option>
+																			<cfloop query="ctmedia_label">
+																				<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+																			</cfloop>
+																		</select>
+																		<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="float-left col-7">
+																	
+																	</div>
+																	<cfset i=i+1>
+																</cfloop>
+															</div>
 																<script>
 																	function editImagesSubmit(){
 																		$('##deleteImagesResultDiv').html('Deleting....');
@@ -1613,23 +1631,7 @@ limitations under the License.
 																	};
 																</script> 
 															</cfloop>
-															<div class="row mx-0">
-																<cfset i=1>
-																<cfloop query="labels">
-																	<cfset d=media_label>
-																	<div id="labelsDiv__#i#" class="col-12 px-0">
-																		<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-																		<select name="label__#i#" id="label__#i#" size="1" class="float-left col-5">
-																			<option value="delete">delete</option>
-																			<cfloop query="ctmedia_label">
-																				<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
-																			</cfloop>
-																		</select>
-																		<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="float-left col-7">
-																	<cfset i=i+1>
-																	</div>
-																</cfloop>
-															</div>
+							
 														<cfelse>
 																None
 														</cfif>
