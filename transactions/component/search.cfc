@@ -372,6 +372,8 @@ limitations under the License.
 				loan.loan_status,
 				loan.loan_instructions,
 				loan.loan_description,
+				MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(loan.transaction_id) as shipment_count,
+				COUNT_FOREIGNSHIP_FOR_TRANS(loan.transaction_id) as foreign_shipments,
 				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
 				concattransagent(trans.transaction_id,'received by') rec_agent,
