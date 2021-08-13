@@ -660,20 +660,20 @@ limitations under the License.
 										<div class="col-12 col-md-2"> 
 											<label for="shipment_count" class="data-entry-label">Shipments</label>
 											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of shipments">
-												<option value=""><option>
-												<option value="0">None<option>
-												<option value="1">One<option>
-												<option value="1+">One or more<option>
-												<option value="2+">Two or more<option>
-												<option value="3+">Three or more<option>
+												<option value=""></option>
+												<option value="0">None</option>
+												<option value="1">One</option>
+												<option value="1+">One or more</option>
+												<option value="2+">Two or more</option>
+												<option value="3+">Three or more</option>
 											</select>
 										</div>
 										<div class="col-12 col-md-2"> 
 											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International</label>
 											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of international shipments">
-												<option value=""><option>
-												<option value="0">No<option>
-												<option value="1+">Yes<option>
+												<option value=""></option>
+												<option value="0">No</option>
+												<option value="1+">Yes</option>
 											</select>
 										</div>
 									</div>
