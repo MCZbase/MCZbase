@@ -199,25 +199,25 @@ limitations under the License.
 						OR s_permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">)
 				</cfif>
 				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
-					<cfif shipment_count EQ "0">
+					<cfif shipment_count IS "0">
 						AND transaction_view.transaction_id NOT IN
 							(select transaction_id from shipment)
-					<cfelseif shipment_count EQ "1">
+					<cfelseif shipment_count IS "1">
 						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) = 1
-					<cfelseif shipment_count EQ "1+">
+					<cfelseif shipment_count IS "1+">
 						AND transaction_view.transaction_id IN
 							(select transaction_id from shipment)
-					<cfelseif shipment_count EQ "2+">
+					<cfelseif shipment_count IS "2+">
 						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 1
-					<cfelseif shipment_count EQ "3+">
+					<cfelseif shipment_count IS "3+">
 						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 2
 					</cfif>
 				</cfif>
 				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
-					<cfif foreign_shipments EQ "0">
+					<cfif foreign_shipments IS "0">
 						AND transaction_view.transaction_id NOT IN
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
-					<cfelseif foreign_shipments EQ "1+">
+					<cfelseif foreign_shipments IS "1+">
 						AND transaction_view.transaction_id IN
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					</cfif>
