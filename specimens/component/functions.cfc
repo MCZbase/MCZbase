@@ -1618,15 +1618,15 @@ limitations under the License.
 																<cfloop query="labels">
 																	<cfset d=media_label>
 																	<div id="labelsDiv__#i#" class="col-12 px-0">
-																		<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
+							<!---											<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
 																		<select name="label__#i#" id="label__#i#" size="1" class="float-left col-5">
 																			<option value="delete">delete</option>
 																			<cfloop query="ctmedia_label">
 																				<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																			</cfloop>
 																		</select>
-																		<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="float-left col-7">
-																	<div class="">#media_label#:#encodeForHTML(label_value)#</div>
+																		<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="float-left col-7">--->
+																	<div class="">#media_label#: #encodeForHTML(label_value)#</div>
 																	</div>
 																	<cfset i=i+1>
 																</cfloop>
