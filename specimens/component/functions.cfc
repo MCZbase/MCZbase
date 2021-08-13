@@ -1568,8 +1568,6 @@ limitations under the License.
 																		</div>
 																		<div class="col-7 p-2 float-left">
 																			<p class="small95">#description#</p>
-																			
-																			<p class="small95">##</p>
 																			<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
 																			onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
 																			<output id="deleteImagesResultDiv" class="text-danger">&nbsp;</output>
