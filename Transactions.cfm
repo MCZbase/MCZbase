@@ -2621,7 +2621,7 @@ $(document).ready(function() {
 				{ name: 'trans_remarks', type: 'string' },
 				{ name: 'collection_cde', type: 'string' },
 				{ name: 'collection', type: 'string' },
-				{ name: 'number', type: 'string' },
+				{ name: 'spec_number', type: 'string' },
 				{ name: 'type', type: 'string' },
 				{ name: 'status', type: 'string' },
 				{ name: 'shipment_count', type: 'string' },
@@ -2687,7 +2687,7 @@ $(document).ready(function() {
 				$("##searchResultsGrid").jqxGrid('selectrow', 0);
 			},
 			columns: [
-				{text: 'Number', datafield: 'number', width:120, hideable: true, hidden: getColHidProp('number', true) },
+				{text: 'Number', datafield: 'spec_number', width:120, hideable: true, hidden: getColHidProp('spec_number', true) },
 				{text: 'Transaction', datafield: 'id_link', width: 120},
 				{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: getColHidProp('transaction_id', true) },
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
