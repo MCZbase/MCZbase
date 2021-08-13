@@ -202,14 +202,14 @@ limitations under the License.
 					<cfif shipment_count EQ "0">
 						AND transaction_view.transaction_id NOT IN
 							(select transaction_id from shipment)
-					<cfifelse shipment_count EQ "1">
+					<cfelseif shipment_count EQ "1">
 						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) = 1
-					<cfifelse shipment_count EQ "1+">
+					<cfelseif shipment_count EQ "1+">
 						AND transaction_view.transaction_id IN
 							(select transaction_id from shipment)
-					<cfifelse shipment_count EQ "2+">
+					<cfelseif shipment_count EQ "2+">
 						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 1
-					<cfifelse shipment_count EQ "3+">
+					<cfelseif shipment_count EQ "3+">
 						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 2
 					</cfif>
 				</cfif>
@@ -217,8 +217,7 @@ limitations under the License.
 					<cfif foreign_shipments EQ "0">
 						AND transaction_view.transaction_id NOT IN
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
-					</cfif>
-					<cfif foreign_shipments EQ "1+">
+					<cfelseif foreign_shipments EQ "1+">
 						AND transaction_view.transaction_id IN
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					</cfif>
