@@ -1568,6 +1568,8 @@ limitations under the License.
 																		</div>
 																		<div class="col-7 p-2 float-left">
 																			<p class="small95">#description#</p>
+																			
+																			<p class="small95">##</p>
 																			<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
 																			onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
 																			<output id="deleteImagesResultDiv" class="text-danger">&nbsp;</output>
@@ -1611,6 +1613,21 @@ limitations under the License.
 																	};
 																</script> 
 															</cfloop>
+															<cfloop query="labels">
+																		<cfset d=media_label>
+																		<div id="labelsDiv__#i#" class="col-12 px-0">
+																			<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
+																			<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
+																			<select name="label__#i#" id="label__#i#" size="1" class="float-left col-5">
+																				<option value="delete">delete</option>
+																				<cfloop query="ctmedia_label">
+																					<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+																				</cfloop>
+																			</select>
+																			<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="float-left col-7">
+																		<cfset i=i+1>
+																		</div>
+																	</cfloop>
 														<cfelse>
 																None
 														</cfif>
