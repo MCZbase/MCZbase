@@ -83,7 +83,7 @@ limitations under the License.
 				transaction_view.trans_remarks,
 				collection_cde, 
 				collection,
-				transaction_view.specific_number as spec_number, 
+				transaction_view.specific_number as specific_number, 
 				transaction_view.specific_type as type, 
 				transaction_view.status, 
 				MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) as shipment_count,
