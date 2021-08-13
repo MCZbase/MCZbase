@@ -253,9 +253,9 @@ limitations under the License.
 										var thisurl = 'https://mczbase-dev.rc.fas.harvard.edu/save-file.php';
 										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 										var filename = 'NamdedGroup_results_' + nowstring;
-										$("##jqxgrid").jqxGrid('exportdata', 'csv', filename, true, null, true );
+										$('##jqxgrid').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+										});
 									});
-								});
 							</script>
 							<div class="col-12 mt-2">
 								<h2 class="">Specimen Records <span class="small"><cfif oneOfUs eq 1><a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage </cfif>#specimens.recordcount# records<cfif oneOfUs eq 1>)</a></cfif>
