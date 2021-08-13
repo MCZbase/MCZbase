@@ -641,7 +641,7 @@ limitations under the License.
 											<label for="number" class="data-entry-label">Number</label>
 											<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" aria-label="add a transaction number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll" value="#number#" title="Example of transaction number formats are nnn, yyyy-n-Collection code, Byyyy-n-Collection code, Dyyyy-n-collection code">
 										</div>
-										<div class="col-12 col-md-6"> 
+										<div class="col-12 col-md-2"> 
 											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
 											<cfset pstatus = status>
 											<label for="status" class="data-entry-label">Status</label>
@@ -655,6 +655,25 @@ limitations under the License.
 													</cfif>
 													<option value="#ctStatus.status#" #selected# >#ctStatus.status#</option>
 												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="shipment_count" class="data-entry-label">Shipments</label>
+											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of shipments">
+												<option value=""><option>
+												<option value="0">None<option>
+												<option value="1">One<option>
+												<option value="1+">One or more<option>
+												<option value="2+">Two or more<option>
+												<option value="3+">Three or more<option>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International</label>
+											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of international shipments">
+												<option value=""><option>
+												<option value="0">No<option>
+												<option value="1+">Yes<option>
 											</select>
 										</div>
 									</div>

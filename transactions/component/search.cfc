@@ -42,6 +42,8 @@ limitations under the License.
 	<cfargument name="permit_id" type="string" required="no">
 	<cfargument name="permit_type" type="string" required="no">
 	<cfargument name="permit_specific_type" type="string" required="no">
+	<cfargument name="shipment_count" type="string" required="no">
+	<cfargument name="foreign_shipments" type="string" required="no">
 
 	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
@@ -196,6 +198,31 @@ limitations under the License.
 					AND (permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
 						OR s_permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">)
 				</cfif>
+				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
+					<cfif shipment_count EQ "0">
+						AND transaction_view.transaction_id NOT IN
+							(select transaction_id from shipment)
+					<cfifelse shipment_count EQ "1">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) = 1
+					<cfifelse shipment_count EQ "1+">
+						AND transaction_view.transaction_id IN
+							(select transaction_id from shipment)
+					<cfifelse shipment_count EQ "2+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 1
+					<cfifelse shipment_count EQ "3+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 2
+					</cfif>
+				</cfif>
+				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
+					<cfif foreign_shipments EQ "0">
+						AND transaction_view.transaction_id NOT IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					</cfif>
+					<cfif foreign_shipments EQ "1+">
+						AND transaction_view.transaction_id IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					</cfif>
+				</cfif>
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -273,6 +300,8 @@ limitations under the License.
 	<cfargument name="parent_loan_number" type="string" required="no">
 	<cfargument name="insurance_value" type="string" required="no">
 	<cfargument name="insurance_maintained_by" type="string" required="no">
+	<cfargument name="shipment_count" type="string" required="no">
+	<cfargument name="foreign_shipments" type="string" required="no">
 	<!--- in original API, no longer supported --->
 	<!--- notClosed=1 use loan_status = 'not closed' --->
 	<!--- in original API, not yet supported --->
@@ -987,6 +1016,8 @@ limitations under the License.
 	<cfargument name="permit_contact_id" type="string" required="no">
 	<cfargument name="permit_remarks" type="string" required="no">
 	<cfargument name="estimated_count" type="string" required="no">
+	<cfargument name="shipment_count" type="string" required="no">
+	<cfargument name="foreign_shipments" type="string" required="no">
 
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
@@ -1422,6 +1453,8 @@ limitations under the License.
 	<cfargument name="permit_remarks" type="string" required="no">
 	<cfargument name="value" type="string" required="no">
 	<cfargument name="deacc_method" type="string" required="no">
+	<cfargument name="shipment_count" type="string" required="no">
+	<cfargument name="foreign_shipments" type="string" required="no">
 
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
@@ -1806,7 +1839,8 @@ limitations under the License.
 	<cfargument name="return_acknowledged_date" type="string" required="no">
 	<cfargument name="to_return_acknowledged_date" type="string" required="no">
 	<cfargument name="lenders_invoice_returned" type="string" required="no">
-
+	<cfargument name="shipment_count" type="string" required="no">
+	<cfargument name="foreign_shipments" type="string" required="no">
 
 	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
