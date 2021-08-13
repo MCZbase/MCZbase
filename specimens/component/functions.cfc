@@ -1626,7 +1626,7 @@ limitations under the License.
 																			</cfloop>
 																		</select>
 																		<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="float-left col-7">
-																	
+																	<div class="">#media_label#:#encodeForHTML(label_value)#</div>
 																	</div>
 																	<cfset i=i+1>
 																</cfloop>
