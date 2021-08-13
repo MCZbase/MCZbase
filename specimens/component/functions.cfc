@@ -1580,8 +1580,8 @@ limitations under the License.
 																<div class="col-4 float-left p-2">
 																	<div class="border overflow-hidden px-2">
 																		<div class="col-5 p-2 float-left">
-																			<a href="/MediaSet.cfm?media_id=#getImages.media_id#"  class="text-center d-block" target="_blank" style="min-height: 115px;">Media Details
-																				<img src="#puri#" alt="#altText#" class="" width="100"> 
+																			<a href="/MediaSet.cfm?media_id=#getImages.media_id#"  class="text-center d-block" target="_blank" style="min-height: 10px;">Media Details
+																				<img src="#puri#" alt="#altText#" class="" width="93"> 
 																			</a>
 																			<a href="/media/#getImages.media_id#" target="_blank" class="text-center d-block">Media Record</a>
 																		</div>
