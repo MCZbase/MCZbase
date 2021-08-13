@@ -251,12 +251,12 @@ limitations under the License.
 										var thisurl = 'https://mczbase-dev.rc.fas.harvard.edu/save-file.php';
 										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 										var filename = 'NamdedGroup_results_' + nowstring;
-										$('##btnContainer').html('<button id="namedgroupcsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
+										$('##btnContainer').html('<button id="namedgroupcsvbutton" class="btn-xs btn-secondary px-3 py-1 my-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
 										});
 							</script>
 							<div class="col-12 mt-2">
-								<h2 class="float-left">Specimen Records <span class="small"><cfif oneOfUs eq 1><a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage </cfif>#specimens.recordcount# records<cfif oneOfUs eq 1>)</a></cfif></span><div id="btnContainer" class="float-left"></div></h2>
-							
+								<h2 class="float-left">Specimen Records <span class="small"><cfif oneOfUs eq 1><a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage </cfif>#specimens.recordcount# records<cfif oneOfUs eq 1>)</a></cfif></span></h2>
+								<div id="btnContainer" class="float-left"></div>
 							</div>
 							<section class="container-fluid">
 								<div class="row">
