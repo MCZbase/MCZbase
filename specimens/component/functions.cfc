@@ -1536,7 +1536,20 @@ limitations under the License.
 																AND
 																	media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 															</cfquery>
-														<cfquery name="ctlabels" dbtype="query">
+															<cfset mt=getImages.mime_type>
+															<cfset altText = getImages.media_descriptor>
+															<cfset puri=getMediaPreview(preview_uri,mime_type)>
+															<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																SELECT
+																	media_label,
+																	media_label_id,
+																	label_value
+																FROM
+																	media_labels
+																WHERE
+																	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+															</cfquery>
+															<cfquery name="ctlabels" dbtype="query">
 															select count(*) as ct from labels group by media_label order by media_label
 														</cfquery>
 														<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1553,20 +1566,7 @@ limitations under the License.
 														</cfquery>
 														<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select media_license_id,display media_license from ctmedia_license order by media_license_id
-														</cfquery>
-															<cfset mt=getImages.mime_type>
-															<cfset altText = getImages.media_descriptor>
-															<cfset puri=getMediaPreview(preview_uri,mime_type)>
-															<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																SELECT
-																	media_label,
-																	media_label_id,
-																	label_value
-																FROM
-																	media_labels
-																WHERE
-																	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-															</cfquery>
+														</cfquery>	
 															<cfquery name="desc" dbtype="query">
 																select label_value from labels where media_label='description'
 															</cfquery>
