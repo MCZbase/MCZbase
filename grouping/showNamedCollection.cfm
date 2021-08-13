@@ -249,7 +249,7 @@ limitations under the License.
 									});
 										var now = new Date();
 										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-										var filename = searchType + '_results_' + nowstring + '.csv';
+										var filename = 'NamedGroup_results_' + nowstring + '.csv';
 										$('##btnContainer').html('<button id="namedgroupcsvbutton" class="btn-xs btn-secondary px-3 py-1 m-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
 										});
 							</script>
