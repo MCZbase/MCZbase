@@ -255,9 +255,7 @@ limitations under the License.
 										});
 							</script>
 							<div class="col-12 mt-2">
-								<h2 class="">Specimen Records <span class="small"><cfif oneOfUs eq 1><a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage </cfif>#specimens.recordcount# records<cfif oneOfUs eq 1>)</a></cfif>
-								<div id="btnContainer"></div></span></h2>
-								<div id="btnContainer"></div>
+								<h2 class="">Specimen Records <span class="small"><cfif oneOfUs eq 1><a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage </cfif>#specimens.recordcount# records<cfif oneOfUs eq 1>)</a></cfif><div id="btnContainer"></div></span></h2>
 							</div>
 							<section class="container-fluid">
 								<div class="row">
