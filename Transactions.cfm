@@ -670,7 +670,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-2"> 
 											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International</label>
-											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of international shipments">
+											<select name="foreign_shipments" id="foreign_shipments" class="data-entry-select" title="number of international shipments">
 												<option value=""></option>
 												<option value="0">No</option>
 												<option value="1+">Yes</option>
