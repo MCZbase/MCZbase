@@ -508,6 +508,12 @@ limitations under the License.
 	<cfif not isdefined("estimated_count")>
 		<cfset estimated_count="">
 	</cfif>
+	<cfif not isdefined("shipment_count")>
+		<cfset shipment_count="">
+	</cfif>
+	<cfif not isdefined("foreign_shipments")>
+		<cfset foreign_shipments="">
+	</cfif>
 	<div id="overlaycontainer" style="position: relative;">
 	<main id="content">
 		<!--- Search form --->
@@ -661,19 +667,26 @@ limitations under the License.
 											<label for="shipment_count" class="data-entry-label">Shipments</label>
 											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of shipments">
 												<option value=""></option>
-												<option value="0">None</option>
-												<option value="1">One</option>
-												<option value="1+">One or more</option>
-												<option value="2+">Two or more</option>
-												<option value="3+">Three or more</option>
+												<cfif shipment_count IS "0"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="0" #scsel#>None</option>
+												<cfif shipment_count IS "1"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1" #scsel#>One</option>
+												<cfif shipment_count IS "1+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1+" #scsel#>One or more</option>
+												<cfif shipment_count IS "2+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="2+" #scsel#>Two or more</option>
+												<cfif shipment_count IS "3+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="3+" #scsel#>Three or more</option>
 											</select>
 										</div>
 										<div class="col-12 col-md-2"> 
-											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International</label>
-											<select name="foreign_shipments" id="foreign_shipments" class="data-entry-select" title="number of international shipments">
+											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International Shipment</label>
+											<select name="foreign_shipments" id="foreign_shipments" class="data-entry-select" title="transaction has international shipments">
 												<option value=""></option>
-												<option value="0">No</option>
-												<option value="1+">Yes</option>
+												<cfif foreign_shipments IS "0"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="0" #fssel#>No</option>
+												<cfif foreign_shipments IS "1+"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="1+" #fssel#>Yes</option>
 											</select>
 										</div>
 									</div>
