@@ -1517,8 +1517,7 @@ limitations under the License.
 															WHERE
 																media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 														</cfquery>
-													<cfset i = 1>
-												<cfset sortCount=images.recordcount - 1>
+											
 												<input type="hidden" name="number_of_mediaids" id="number_of_mediaids" value="#images.recordcount#">
 													<cfset mediaidnum=1>
 													<cfloop query="images">
@@ -1540,6 +1539,8 @@ limitations under the License.
 																AND
 																	media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 															</cfquery>
+															<cfset i = 1>
+															<cfset sortCount=getImages.recordcount - 1>
 															<cfset thisMedia_id = #media_id#>
 															<input type="hidden" name="media_id_#i#" id="media_id_#i#" value="#media_id#">
 															<input type="hidden" name="number_of_media_#i#" id="number_of_media_#i#" value="#getImages.recordcount#">
@@ -1592,13 +1593,13 @@ limitations under the License.
 																			<a href="/media/#getImages.media_id#" target="_blank" class="text-center d-block">Media Record</a>
 																		</div>
 																		<div class="col-7 p-2 float-left">
-																	
+																		<cfset i = 1>
 																			<cfloop query="labels">
 																				<cfset d=media_label>
 																				<div id="labelsDiv__#i#" class="col-12 px-0">
 																				<div class="">#media_label#: #encodeForHTML(label_value)#</div>
 																				</div>
-																				
+																				<cfset i = i+1>
 																			</cfloop>
 																			<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
 																			onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
