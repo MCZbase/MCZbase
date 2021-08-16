@@ -3611,6 +3611,7 @@ limitations under the License.
 	<cfargument name="insurance_value" type="string" required="no">
 	<cfargument name="insurance_maintained_by" type="string" required="no">
 	<cfargument name="numagents" type="string" required="no">
+	<!--- closed_date is not passed as it is set by TU_CLOSED_DATE on change of loan status to closed from some other value --->
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
