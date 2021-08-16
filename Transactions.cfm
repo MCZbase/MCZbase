@@ -813,7 +813,7 @@ limitations under the License.
 											<input id="nature_of_material" type="text" class="has-clear data-entry-select-input px-2" name="nature_of_material" value="#nature_of_material#">
 										</div>
 										<div class="col-12 col-md-4">
-											<label for="trans_remarks" class="data-entry-label">Remarks</label>
+											<label for="trans_remarks" class="data-entry-label">Internal Remarks</label>
 											<input id="trans_remarks" type="text" class="has-clear data-entry-select-input px-2" name="trans_remarks" value="#trans_remarks#">
 										</div>
 										<div class="col-12 col-md-4">
@@ -917,7 +917,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset ploan_type = loan_type>
 											<label for="loan_type" class="data-entry-label mb-0">Type</label>
 											<select name="loan_type" id="loan_type" class="data-entry-select">
@@ -932,7 +932,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset ploan_status = loan_status>
 											<label for="loan_status" class="data-entry-label mb-0">Status</label>
 											<select name="loan_status" id="loan_status" class="data-entry-select" >
@@ -946,6 +946,32 @@ limitations under the License.
 													<option value="#ctLoanStatus.loan_status#" #selected#>#ctLoanStatus.loan_status#</option>
 												</cfloop>
 												<option value="not closed">not closed</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="shipment_count" class="data-entry-label">Shipments</label>
+											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of shipments">
+												<option value=""></option>
+												<cfif shipment_count IS "0"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="0" #scsel#>None</option>
+												<cfif shipment_count IS "1"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1" #scsel#>One</option>
+												<cfif shipment_count IS "1+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1+" #scsel#>One or more</option>
+												<cfif shipment_count IS "2+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="2+" #scsel#>Two or more</option>
+												<cfif shipment_count IS "3+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="3+" #scsel#>Three or more</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International Shipment</label>
+											<select name="foreign_shipments" id="foreign_shipments" class="data-entry-select" title="transaction has international shipments">
+												<option value=""></option>
+												<cfif foreign_shipments IS "0"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="0" #fssel#>No</option>
+												<cfif foreign_shipments IS "1+"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="1+" #fssel#>Yes</option>
 											</select>
 										</div>
 									</div>
@@ -1303,7 +1329,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset paccn_type = accn_type>
 											<label for="accn_type" class="data-entry-label mb-0">Type</label>
 											<select name="accn_type" id="accn_type" class="data-entry-select">
@@ -1326,7 +1352,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset paccn_status = accn_status>
 											<label for="accn_status" class="data-entry-label mb-0">Status</label>
 											<select name="accn_status" id="accn_status" class="data-entry-select" >
@@ -1350,6 +1376,32 @@ limitations under the License.
 														<option value="!#ctAccnStatus.accn_status#" #selected#>not #ctAccnStatus.accn_status#</option>
 													</cfloop>
 												</cfif>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="shipment_count" class="data-entry-label">Shipments</label>
+											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of shipments">
+												<option value=""></option>
+												<cfif shipment_count IS "0"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="0" #scsel#>None</option>
+												<cfif shipment_count IS "1"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1" #scsel#>One</option>
+												<cfif shipment_count IS "1+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1+" #scsel#>One or more</option>
+												<cfif shipment_count IS "2+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="2+" #scsel#>Two or more</option>
+												<cfif shipment_count IS "3+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="3+" #scsel#>Three or more</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International Shipment</label>
+											<select name="foreign_shipments" id="foreign_shipments" class="data-entry-select" title="transaction has international shipments">
+												<option value=""></option>
+												<cfif foreign_shipments IS "0"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="0" #fssel#>No</option>
+												<cfif foreign_shipments IS "1+"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="1+" #fssel#>Yes</option>
 											</select>
 										</div>
 									</div>
@@ -1745,7 +1797,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset pdeacc_type = deacc_type>
 											<label for="deacc_type" class="data-entry-label mb-0">Type</label>
 											<select name="deacc_type" id="deacc_type" class="data-entry-select">
@@ -1768,7 +1820,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset pdeacc_status = deacc_status>
 											<label for="deacc_status" class="data-entry-label mb-0">Status</label>
 											<select name="deacc_status" id="deacc_status" class="data-entry-select" >
@@ -1791,6 +1843,32 @@ limitations under the License.
 														<option value="!#ctDeaccStatus.deacc_status#" #selected#>not #ctDeaccStatus.deacc_status#</option>
 													</cfloop>
 												</cfif>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="shipment_count" class="data-entry-label">Shipments</label>
+											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of shipments">
+												<option value=""></option>
+												<cfif shipment_count IS "0"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="0" #scsel#>None</option>
+												<cfif shipment_count IS "1"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1" #scsel#>One</option>
+												<cfif shipment_count IS "1+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1+" #scsel#>One or more</option>
+												<cfif shipment_count IS "2+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="2+" #scsel#>Two or more</option>
+												<cfif shipment_count IS "3+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="3+" #scsel#>Three or more</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International Shipment</label>
+											<select name="foreign_shipments" id="foreign_shipments" class="data-entry-select" title="transaction has international shipments">
+												<option value=""></option>
+												<cfif foreign_shipments IS "0"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="0" #fssel#>No</option>
+												<cfif foreign_shipments IS "1+"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="1+" #fssel#>Yes</option>
 											</select>
 										</div>
 									</div>
@@ -2144,14 +2222,14 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<label class="data-entry-label px-3 mx-1 mb-0" for="lenders_trans_num_cde">
-												Lender's Loan Number
+												Lender&apost;s Loan Number
 												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##lenders_trans_num_cde').val('='+$('##lenders_trans_num_cde').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
 											</label>
 											<input type="text" name="lenders_trans_num_cde" class="data-entry-input" value="#lenders_trans_num_cde#" id="lenders_trans_num_cde">
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset pborrow_status = borrow_status>
 											<label for="borrow_status" class="data-entry-label mb-0">Status</label>
 											<select name="borrow_status" id="borrow_status" class="data-entry-select" >
@@ -2174,6 +2252,32 @@ limitations under the License.
 														<option value="!#ctBorrowStatus.borrow_status#" #selected#>not #ctBorrowStatus.borrow_status#</option>
 													</cfloop>
 												</cfif>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="shipment_count" class="data-entry-label">Shipments</label>
+											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of shipments">
+												<option value=""></option>
+												<cfif shipment_count IS "0"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="0" #scsel#>None</option>
+												<cfif shipment_count IS "1"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1" #scsel#>One</option>
+												<cfif shipment_count IS "1+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1+" #scsel#>One or more</option>
+												<cfif shipment_count IS "2+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="2+" #scsel#>Two or more</option>
+												<cfif shipment_count IS "3+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="3+" #scsel#>Three or more</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International Shipment</label>
+											<select name="foreign_shipments" id="foreign_shipments" class="data-entry-select" title="transaction has international shipments">
+												<option value=""></option>
+												<cfif foreign_shipments IS "0"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="0" #fssel#>No</option>
+												<cfif foreign_shipments IS "1+"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="1+" #fssel#>Yes</option>
 											</select>
 										</div>
 									</div>
