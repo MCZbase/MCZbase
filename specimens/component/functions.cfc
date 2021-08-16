@@ -1520,6 +1520,8 @@ limitations under the License.
 											
 												<input type="hidden" name="number_of_mediaids" id="number_of_mediaids" value="#images.recordcount#">
 													<cfset mediaidnum=1>
+																<cfset i = 1>
+															<cfset sortCount=getImages.recordcount - 1>
 													<cfloop query="images">
 														<div id="Media_#i#_#mediaidnum#">
 														<cfif len(images.media_uri) gt 0>
@@ -1539,8 +1541,7 @@ limitations under the License.
 																AND
 																	media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 															</cfquery>
-															<cfset i = 1>
-															<cfset sortCount=getImages.recordcount - 1>
+												
 															<cfset thisMedia_id = #media_id#>
 															<input type="hidden" name="media_id_#i#" id="media_id_#i#" value="#media_id#">
 															<input type="hidden" name="number_of_media_#i#" id="number_of_media_#i#" value="#getImages.recordcount#">
