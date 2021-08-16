@@ -657,7 +657,7 @@ limitations under the License.
 								<input type="text" name="loan_number" id="loan_number" value="#encodeForHTML(loanDetails.loan_number)#" class="reqdClr data-entry-input" 
 									required pattern="#LOANNUMBERPATTERN#" >
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<label for="loan_type" class="data-entry-label">Loan Type</label>
 								<select name="loan_type" id="loan_type" class="reqdClr data-entry-select" required >
 									<cfloop query="ctLoanType">
@@ -670,10 +670,16 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<label for="initiating_date" class="data-entry-label">Transaction Date</label>
 								<input type="text" name="initiating_date" id="initiating_date"
 									value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" required >
+							</div>
+							<div class="col-12 col-md-2">
+								<span class="data-entry-label">Entered Date</span>
+								<div class="col-12 bg-light border non-field-text">
+									<span id="date_entered">#dateformat(accessionDetails.dateEntered,'yyyy-mm-dd')#</span>
+								</div>
 							</div>
 						</div>
 						<div class="form-row mb-1">
@@ -1312,6 +1318,7 @@ limitations under the License.
 			<cfloop query="obtainTransNumber">
 				<cfset new_transaction_id = obtainTransNumber.trans_id>
 			</cfloop>
+			<!--- date_entered has default sysdate in trans, not set from here --->
 			<cfquery name="newLoanTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans (
 					TRANSACTION_ID,
