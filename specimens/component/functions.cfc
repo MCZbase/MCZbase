@@ -1517,11 +1517,10 @@ limitations under the License.
 															WHERE
 																media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 														</cfquery>
-											
 												<input type="hidden" name="number_of_mediaids" id="number_of_mediaids" value="#images.recordcount#">
 													<cfset mediaidnum=1>
-																<cfset i = 1>
-															<cfset sortCount=getImages.recordcount - 1>
+													<cfset i = 1>
+													<cfset sortCount=images.recordcount - 1>
 													<cfloop query="images">
 														<div id="Media_#i#_#mediaidnum#">
 														<cfif len(images.media_uri) gt 0>
@@ -1583,7 +1582,7 @@ limitations under the License.
 															<cfif desc.recordcount is 1>
 																<cfset description=desc.label_value>
 															</cfif>
-															<cfset j=1>
+															<cfset i=1>
 															<cfloop query="getImages">
 																<div class="col-4 float-left p-2">
 																	<div class="border overflow-hidden px-2">
@@ -1594,7 +1593,7 @@ limitations under the License.
 																			<a href="/media/#getImages.media_id#" target="_blank" class="text-center d-block">Media Record</a>
 																		</div>
 																		<div class="col-7 p-2 float-left">
-																		<cfset i = 1>
+																		<cfset j = 1>
 																			<cfloop query="labels">
 																				<cfset d=media_label>
 																				<div id="labelsDiv__#j#" class="col-12 px-0">
@@ -1608,7 +1607,6 @@ limitations under the License.
 																		</div>
 																	</div>
 																</div>
-
 																<script>
 																	function editImagesSubmit(){
 																		$('##deleteImagesResultDiv').html('Deleting....');
@@ -1645,14 +1643,13 @@ limitations under the License.
 																		});
 																	};
 																</script> 
-														
 															</cfloop>
 							
 														<cfelse>
 																None
 														</cfif>
-													<cfset mediaidnum=mediaidnum+1>
-															<cfset i= i+1>
+														<cfset mediaidnum=mediaidnum+1>
+														<cfset i= i+1>
 													</cfloop>
 													</div>
 												</div>
