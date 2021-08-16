@@ -1523,7 +1523,7 @@ limitations under the License.
 												<input type="hidden" name="number_of_ids" id="number_of_ids" value="#images.recordcount#">
 													<cfset mediaidnum=1>
 													<cfloop query="images">
-														<div id="MediaD_#i#_#mediaidnum#">
+														<div id="Media_#i#_#mediaidnum#">
 														<cfif len(images.media_uri) gt 0>
 															<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT distinct
@@ -1649,7 +1649,8 @@ limitations under the License.
 														<cfelse>
 																None
 														</cfif>
-														</cfloop>
+													<cfset mediaidnum=mediaidnum+1>
+													</cfloop>
 													</div>
 												</div>
 												<cfset i = 1>
