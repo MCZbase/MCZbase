@@ -1548,16 +1548,6 @@ limitations under the License.
 																	media_label_id,
 																	label_value
 																FROM
-																	media_relations
-																WHERE
-																	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-															</cfquery>
-															<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																SELECT
-																	media_label,
-																	media_label_id,
-																	label_value
-																FROM
 																	media_labels
 																WHERE
 																	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -1587,8 +1577,7 @@ limitations under the License.
 															<cfif desc.recordcount is 1>
 																<cfset description=desc.label_value>
 															</cfif>
-															<cfset sortCount=getImages.recordcount - 1>
-															<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getImages.recordcount#">
+
 															<cfloop query="getImages">
 																<div class="col-4 float-left p-2">
 																	<div class="border overflow-hidden px-2">
@@ -1599,34 +1588,21 @@ limitations under the License.
 																			<a href="/media/#getImages.media_id#" target="_blank" class="text-center d-block">Media Record</a>
 																		</div>
 																		<div class="col-7 p-2 float-left">
-																	<!---		<p class="small95">#description#</p>--->
 																			<cfset i=1>
-																	
-																<cfloop query="labels">
-																	<cfset d=media_label>
-																	<div id="labelsDiv__#i#" class="col-12 px-0">
-		
-																	<div class="">#media_label#: #encodeForHTML(label_value)#</div>
-																	</div>
-																	<cfset i=i+1>
-																</cfloop>
-																<cfloop query="labels">
-																	<cfset d=media_label>
-																	<div id="labelsDiv__#i#" class="col-12 px-0">
-		
-																	<div class="">#media_label#: #encodeForHTML(label_value)#</div>
-																	</div>
-																	<cfset i=i+1>
-																</cfloop>
+																			<cfloop query="labels">
+																				<cfset d=media_label>
+																				<div id="labelsDiv__#i#" class="col-12 px-0">
+																				<div class="">#media_label#: #encodeForHTML(label_value)#</div>
+																				</div>
+																				<cfset i=i+1>
+																			</cfloop>
 																			<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
 																			onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
 																			<output id="deleteImagesResultDiv" class="text-danger">&nbsp;</output>
 																		</div>
 																	</div>
 																</div>
-															<div class="row mx-0">
-																
-															</div>
+
 																<script>
 																	function editImagesSubmit(){
 																		$('##deleteImagesResultDiv').html('Deleting....');
@@ -1671,6 +1647,8 @@ limitations under the License.
 														</cfloop>
 													</div>
 												</div>
+												<cfset i = 1>
+												<cfset sortCount=getImages.recordcount - 1>
 											</div>
 										</div>
 									</div>
