@@ -1582,7 +1582,7 @@ limitations under the License.
 															<cfif desc.recordcount is 1>
 																<cfset description=desc.label_value>
 															</cfif>
-															<cfset i=1>
+															<cfset j=1>
 															<cfloop query="getImages">
 																<div class="col-4 float-left p-2">
 																	<div class="border overflow-hidden px-2">
@@ -1599,7 +1599,7 @@ limitations under the License.
 																				<div id="labelsDiv__#i#" class="col-12 px-0">
 																				<div class="">#media_label#: #encodeForHTML(label_value)#</div>
 																				</div>
-																				<cfset i = i+1>
+																				<cfset j = j+1>
 																			</cfloop>
 																			<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
 																			onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
