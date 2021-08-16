@@ -1517,7 +1517,7 @@ limitations under the License.
 															WHERE
 																media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 														</cfquery>
-													<cfset number_of_media_ids = 1>
+													<cfset number_of_media_ids = images.recordcount>
 													<cfset mediaidnum=number_of_media_ids - 1>
 													<cfset i = 1>
 													<cfloop query="images">
