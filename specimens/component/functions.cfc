@@ -1645,13 +1645,14 @@ limitations under the License.
 																		});
 																	};
 																</script> 
-															<cfset i= i+1>
+														
 															</cfloop>
 							
 														<cfelse>
 																None
 														</cfif>
 													<cfset mediaidnum=mediaidnum+1>
+															<cfset i= i+1>
 													</cfloop>
 													</div>
 												</div>
