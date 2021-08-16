@@ -1056,7 +1056,7 @@ limitations under the License.
 												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4" aria-label="due date search range to">
 											</div>
 										</div>
-										<div class="col-12 col-md-md-6 col-lg-3">
+										<div class="col-12 col-md-6 col-lg-3">
 											<div class="date form-row border bg-light pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="closed_date">Close Date</label>
 												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#closed_date#" aria-label="start of range for closed date">
