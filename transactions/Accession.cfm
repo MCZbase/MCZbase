@@ -966,6 +966,7 @@ limitations under the License.
 				INSERT INTO trans (
 					TRANSACTION_ID,
 					TRANS_DATE, 
+					date_entered,
 					CORRESP_FG,
 					TRANSACTION_TYPE,
 					NATURE_OF_MATERIAL,
@@ -976,6 +977,7 @@ limitations under the License.
 				VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#accession_date#">,
+					CURRENT_TIMESTAMP,
 					0,
 					'accn',
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">,
