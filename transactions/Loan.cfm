@@ -475,6 +475,7 @@ limitations under the License.
 					trans.transaction_id,
 					trans.transaction_type,
 					trans_date,
+					date_entered,
 					loan_number,
 					loan_type,
 					loan_status,
@@ -678,7 +679,7 @@ limitations under the License.
 							<div class="col-12 col-md-2">
 								<span class="data-entry-label">Entered Date</span>
 								<div class="col-12 bg-light border non-field-text">
-									<span id="date_entered">#dateformat(loanDetails.dateEntered,'yyyy-mm-dd')#</span>
+									<span id="date_entered">#dateformat(loanDetails.date_entered,'yyyy-mm-dd')#</span>
 								</div>
 							</div>
 						</div>
