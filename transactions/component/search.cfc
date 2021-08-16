@@ -148,7 +148,7 @@ limitations under the License.
 					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
 				</cfif>
 				<cfif isDefined("nature_of_material") and len(nature_of_material) gt 0>
-					and nature_of_material like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">
+					and upper(nature_of_material) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(nature_of_material)#%">
 				</cfif>
 				<cfif isDefined("collection_id") and collection_id gt 0>
 					and collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
