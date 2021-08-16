@@ -44,7 +44,6 @@ limitations under the License.
 	<cfargument name="permit_specific_type" type="string" required="no">
 	<cfargument name="shipment_count" type="string" required="no">
 	<cfargument name="foreign_shipments" type="string" required="no">
-	<cfargument name="trans_remarks" type="string" required="no">
 	<cfargument name="nature_of_material" type="string" required="no">
 
 	<!--- set start/end date range terms to same if only one is specified --->
@@ -145,8 +144,8 @@ limitations under the License.
 				<cfif isDefined("status") and len(status) gt 0>
 					and status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#status#">
 				</cfif>
-				<cfif isDefined("trans_remarks") and len(trans_remarks) gt 0>
-					and trans_remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
+				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
+					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
 				</cfif>
 				<cfif isDefined("nature_of_material") and len(nature_of_material) gt 0>
 					and nature_of_material like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">
@@ -187,9 +186,6 @@ limitations under the License.
 					AND date_entered between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(date_entered, "yyyy-mm-dd")#'>) and
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>)
-				</cfif>
-				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
-					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
 				</cfif>
 				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
 					AND ( 
