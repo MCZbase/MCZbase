@@ -678,7 +678,7 @@ limitations under the License.
 							<div class="col-12 col-md-2">
 								<span class="data-entry-label">Entered Date</span>
 								<div class="col-12 bg-light border non-field-text">
-									<span id="date_entered">#dateformat(accessionDetails.dateEntered,'yyyy-mm-dd')#</span>
+									<span id="date_entered">#dateformat(loanDetails.dateEntered,'yyyy-mm-dd')#</span>
 								</div>
 							</div>
 						</div>
