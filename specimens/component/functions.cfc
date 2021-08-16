@@ -1517,10 +1517,9 @@ limitations under the License.
 															WHERE
 																media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 														</cfquery>
-												<input type="hidden" name="number_of_mediaids" id="number_of_mediaids" value="#images.recordcount#">
-													<cfset mediaidnum=1>
+													<input type="hidden" name="number_of_media_ids" id="number_of_media_ids" value="#images.recordcount#">
+													<cfset mediaidnum=number_of_media_ids - 1>
 													<cfset i = 1>
-													<cfset sortCount=images.recordcount - 1>
 													<cfloop query="images">
 														<div id="Media_#i#_#mediaidnum#">
 														<cfif len(images.media_uri) gt 0>
@@ -1543,7 +1542,7 @@ limitations under the License.
 												
 															<cfset thisMedia_id = #media_id#>
 															<input type="hidden" name="media_id_#i#" id="media_id_#i#" value="#media_id#">
-															<input type="hidden" name="number_of_mediaids_#i#" id="number_of_mediaids_#i#" value="#getImages.recordcount#">
+															<input type="hidden" name="number_of_media_ids_#i#" id="number_of_media_ids_#i#" value="#getImages.recordcount#">
 															<cfset mt=getImages.mime_type>
 															<cfset altText = getImages.media_descriptor>
 															<cfset puri=getMediaPreview(preview_uri,mime_type)>
@@ -1582,7 +1581,7 @@ limitations under the License.
 															<cfif desc.recordcount is 1>
 																<cfset description=desc.label_value>
 															</cfif>
-															<cfset i=1>
+															<cfset k=1>
 															<cfloop query="getImages">
 																<div class="col-4 float-left p-2">
 																	<div class="border overflow-hidden px-2">
@@ -1643,6 +1642,7 @@ limitations under the License.
 																		});
 																	};
 																</script> 
+															<cfset k = k+1>
 															</cfloop>
 							
 														<cfelse>
@@ -1790,7 +1790,7 @@ limitations under the License.
 		<cftransaction>
 			<!--- perform the updates on the arbitary number of media records --->
 			<cftry>
-				<cfloop from="1" to="#NUMBER_OF_MEDIAIDS#" index="n">
+				<cfloop from="1" to="#NUMBER_OF_MEDIA_IDS#" index="n">
 					<cfset thisMedia_uri = #evaluate("MEDIA_URI_" & n)#>
 					<cfset thisPreview_uri = #evaluate("PREVIEW_URI_" & n)#>
 					<cfset thisMedia_type = #evaluate("MEDIA_TYPE_" & n)#>
