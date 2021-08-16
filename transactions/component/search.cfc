@@ -226,6 +226,7 @@ limitations under the License.
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					</cfif>
 				</cfif>
+			ORDER BY transaction_view.transaction_type, collection_cde, trans_date
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -610,6 +611,30 @@ limitations under the License.
 						AND loan.insurance_maintained_by is NOT NULL
 					<cfelse>
 						AND upper(loan.insurance_maintained_by) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(insurance_maintained_by)#%">
+					</cfif>
+				</cfif>
+				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
+					<cfif shipment_count IS "0">
+						AND transaction_view.transaction_id NOT IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "1">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) = 1
+					<cfelseif shipment_count IS "1+">
+						AND transaction_view.transaction_id IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "2+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 1
+					<cfelseif shipment_count IS "3+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 2
+					</cfif>
+				</cfif>
+				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
+					<cfif foreign_shipments IS "0">
+						AND transaction_view.transaction_id NOT IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					<cfelseif foreign_shipments IS "1+">
+						AND transaction_view.transaction_id IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					</cfif>
 				</cfif>
 			ORDER BY to_number(regexp_substr (loan.loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan.loan_number, '[0-9]+', 1, 2)), loan.loan_number
@@ -1360,6 +1385,30 @@ limitations under the License.
 						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#estimated_count#"> 
 					</cfif>
 				</cfif>
+				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
+					<cfif shipment_count IS "0">
+						AND transaction_view.transaction_id NOT IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "1">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) = 1
+					<cfelseif shipment_count IS "1+">
+						AND transaction_view.transaction_id IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "2+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 1
+					<cfelseif shipment_count IS "3+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 2
+					</cfif>
+				</cfif>
+				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
+					<cfif foreign_shipments IS "0">
+						AND transaction_view.transaction_id NOT IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					<cfelseif foreign_shipments IS "1+">
+						AND transaction_view.transaction_id IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					</cfif>
+				</cfif>
 			ORDER BY accn_number
 		</cfquery>
 		<!---
@@ -1792,6 +1841,30 @@ limitations under the License.
 						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#estimated_count#"> 
 					</cfif>
 				</cfif>
+				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
+					<cfif shipment_count IS "0">
+						AND transaction_view.transaction_id NOT IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "1">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) = 1
+					<cfelseif shipment_count IS "1+">
+						AND transaction_view.transaction_id IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "2+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 1
+					<cfelseif shipment_count IS "3+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 2
+					</cfif>
+				</cfif>
+				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
+					<cfif foreign_shipments IS "0">
+						AND transaction_view.transaction_id NOT IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					<cfelseif foreign_shipments IS "1+">
+						AND transaction_view.transaction_id IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					</cfif>
+				</cfif>
 			ORDER BY deacc_number
 		</cfquery>
 		<cfset rows = search_result.recordcount>
@@ -2203,6 +2276,30 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("permit_remarks") and len(#permit_remarks#) gt 0>
 					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_remarks)#%">
+				</cfif>
+				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
+					<cfif shipment_count IS "0">
+						AND transaction_view.transaction_id NOT IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "1">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) = 1
+					<cfelseif shipment_count IS "1+">
+						AND transaction_view.transaction_id IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "2+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 1
+					<cfelseif shipment_count IS "3+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 2
+					</cfif>
+				</cfif>
+				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
+					<cfif foreign_shipments IS "0">
+						AND transaction_view.transaction_id NOT IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					<cfelseif foreign_shipments IS "1+">
+						AND transaction_view.transaction_id IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					</cfif>
 				</cfif>
 			ORDER BY borrow_number
 		</cfquery>
