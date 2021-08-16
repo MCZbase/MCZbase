@@ -517,6 +517,9 @@ limitations under the License.
 	<cfif not isdefined("date_entered")>
 		<cfset date_entered="">
 	</cfif>
+	<cfif not isdefined("to_date_entered")>
+		<cfset to_date_entered="">
+	</cfif>
 	<div id="overlaycontainer" style="position: relative;">
 	<main id="content">
 		<!--- Search form --->
