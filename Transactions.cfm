@@ -807,12 +807,12 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row mt-2 mx-4">
-										<div class="col-12 col-md-3 pl-0 pr-1 ml-0">
+									<div class="form-row mt-0 mx-0">
+										<div class="col-12 col-md-4">
 											<label for="nature_of_material" class="data-entry-label">Nature of Material</label>
 											<input id="nature_of_material" type="text" class="has-clear data-entry-select-input px-2" name="nature_of_material" value="#nature_of_material#">
 										</div>
-										<div class="col-12 col-md-3 pl-0 pr-1 ml-0">
+										<div class="col-12 col-md-4">
 											<label for="trans_remarks" class="data-entry-label">Remarks</label>
 											<input id="trans_remarks" type="text" class="has-clear data-entry-select-input px-2" name="trans_remarks" value="#trans_remarks#">
 										</div>
