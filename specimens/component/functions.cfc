@@ -1787,6 +1787,7 @@ limitations under the License.
 --->
 <cffunction name="updateImages" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
+			<cfargument name="number_of_media_ids" type="string" required="yes">
 	<cfoutput> 
 		<cftransaction>
 			<!--- perform the updates on the arbitary number of media records --->
