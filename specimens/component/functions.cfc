@@ -1503,7 +1503,6 @@ limitations under the License.
 										</div>
 										<div id="collapseImg1" class="collapse" aria-labelledby="headingImg1" data-parent="##accordionImages1">
 											<div class="card-body"> 
-												<cfset i = 1>
 												<div class="row mx-0">
 													<div class="col-12 px-0">
 														<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1520,7 +1519,7 @@ limitations under the License.
 														</cfquery>
 													<cfset i = 1>
 												<cfset sortCount=images.recordcount - 1>
-												<input type="hidden" name="number_of_ids" id="number_of_ids" value="#images.recordcount#">
+												<input type="hidden" name="number_of_mediaids" id="number_of_mediaids" value="#images.recordcount#">
 													<cfset mediaidnum=1>
 													<cfloop query="images">
 														<div id="Media_#i#_#mediaidnum#">
@@ -1582,7 +1581,7 @@ limitations under the License.
 															<cfif desc.recordcount is 1>
 																<cfset description=desc.label_value>
 															</cfif>
-
+															<cfset i=1>
 															<cfloop query="getImages">
 																<div class="col-4 float-left p-2">
 																	<div class="border overflow-hidden px-2">
@@ -1593,13 +1592,13 @@ limitations under the License.
 																			<a href="/media/#getImages.media_id#" target="_blank" class="text-center d-block">Media Record</a>
 																		</div>
 																		<div class="col-7 p-2 float-left">
-																			<cfset i=1>
+																	
 																			<cfloop query="labels">
 																				<cfset d=media_label>
 																				<div id="labelsDiv__#i#" class="col-12 px-0">
 																				<div class="">#media_label#: #encodeForHTML(label_value)#</div>
 																				</div>
-																				<cfset i=i+1>
+																				
 																			</cfloop>
 																			<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
 																			onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
@@ -1644,6 +1643,7 @@ limitations under the License.
 																		});
 																	};
 																</script> 
+															<cfset i= i+1>
 															</cfloop>
 							
 														<cfelse>
@@ -1653,8 +1653,6 @@ limitations under the License.
 													</cfloop>
 													</div>
 												</div>
-												<cfset i = 1>
-												<cfset sortCount=getImages.recordcount - 1>
 											</div>
 										</div>
 									</div>
