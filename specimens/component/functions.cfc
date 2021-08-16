@@ -1521,7 +1521,9 @@ limitations under the License.
 													<cfset i = 1>
 												<cfset sortCount=images.recordcount - 1>
 												<input type="hidden" name="number_of_ids" id="number_of_ids" value="#images.recordcount#">
+													<cfset mediaidnum=1>
 													<cfloop query="images">
+														<div id="MediaD_#i#_#mediaidnum#">
 														<cfif len(images.media_uri) gt 0>
 															<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT distinct
@@ -1539,6 +1541,9 @@ limitations under the License.
 																AND
 																	media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 															</cfquery>
+															<cfset thisMedia_id = #media_id#>
+															<input type="hidden" name="media_id_#i#" id="media_id_#i#" value="#media_id#">
+															<input type="hidden" name="number_of_media_#i#" id="number_of_media_#i#" value="#getImages.recordcount#">
 															<cfset mt=getImages.mime_type>
 															<cfset altText = getImages.media_descriptor>
 															<cfset puri=getMediaPreview(preview_uri,mime_type)>
