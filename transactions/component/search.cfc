@@ -615,25 +615,25 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
 					<cfif shipment_count IS "0">
-						AND transaction_view.transaction_id NOT IN
+						AND loan.transaction_id NOT IN
 							(select transaction_id from shipment)
 					<cfelseif shipment_count IS "1">
-						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) = 1
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(loan.transaction_id) = 1
 					<cfelseif shipment_count IS "1+">
-						AND transaction_view.transaction_id IN
+						AND loan.transaction_id IN
 							(select transaction_id from shipment)
 					<cfelseif shipment_count IS "2+">
-						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 1
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(loan.transaction_id) > 1
 					<cfelseif shipment_count IS "3+">
-						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 2
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(loan.transaction_id) > 2
 					</cfif>
 				</cfif>
 				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
 					<cfif foreign_shipments IS "0">
-						AND transaction_view.transaction_id NOT IN
+						AND loan.transaction_id NOT IN
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					<cfelseif foreign_shipments IS "1+">
-						AND transaction_view.transaction_id IN
+						AND loan.transaction_id IN
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					</cfif>
 				</cfif>
@@ -1387,25 +1387,25 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
 					<cfif shipment_count IS "0">
-						AND transaction_view.transaction_id NOT IN
+						AND trans.transaction_id NOT IN
 							(select transaction_id from shipment)
 					<cfelseif shipment_count IS "1">
-						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) = 1
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) = 1
 					<cfelseif shipment_count IS "1+">
-						AND transaction_view.transaction_id IN
+						AND trans.transaction_id IN
 							(select transaction_id from shipment)
 					<cfelseif shipment_count IS "2+">
-						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 1
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) > 1
 					<cfelseif shipment_count IS "3+">
-						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 2
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) > 2
 					</cfif>
 				</cfif>
 				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
 					<cfif foreign_shipments IS "0">
-						AND transaction_view.transaction_id NOT IN
+						AND trans.transaction_id NOT IN
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					<cfelseif foreign_shipments IS "1+">
-						AND transaction_view.transaction_id IN
+						AND trans.transaction_id IN
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					</cfif>
 				</cfif>
@@ -1843,25 +1843,25 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
 					<cfif shipment_count IS "0">
-						AND transaction_view.transaction_id NOT IN
+						AND trans.transaction_id NOT IN
 							(select transaction_id from shipment)
 					<cfelseif shipment_count IS "1">
-						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) = 1
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) = 1
 					<cfelseif shipment_count IS "1+">
-						AND transaction_view.transaction_id IN
+						AND trans.transaction_id IN
 							(select transaction_id from shipment)
 					<cfelseif shipment_count IS "2+">
-						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 1
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) > 1
 					<cfelseif shipment_count IS "3+">
-						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 2
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) > 2
 					</cfif>
 				</cfif>
 				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
 					<cfif foreign_shipments IS "0">
-						AND transaction_view.transaction_id NOT IN
+						AND trans.transaction_id NOT IN
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					<cfelseif foreign_shipments IS "1+">
-						AND transaction_view.transaction_id IN
+						AND trans.transaction_id IN
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					</cfif>
 				</cfif>
@@ -2279,25 +2279,25 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
 					<cfif shipment_count IS "0">
-						AND transaction_view.transaction_id NOT IN
+						AND trans.transaction_id NOT IN
 							(select transaction_id from shipment)
 					<cfelseif shipment_count IS "1">
-						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) = 1
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) = 1
 					<cfelseif shipment_count IS "1+">
-						AND transaction_view.transaction_id IN
+						AND trans.transaction_id IN
 							(select transaction_id from shipment)
 					<cfelseif shipment_count IS "2+">
-						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 1
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) > 1
 					<cfelseif shipment_count IS "3+">
-						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 2
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) > 2
 					</cfif>
 				</cfif>
 				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
 					<cfif foreign_shipments IS "0">
-						AND transaction_view.transaction_id NOT IN
+						AND trans.transaction_id NOT IN
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					<cfelseif foreign_shipments IS "1+">
-						AND transaction_view.transaction_id IN
+						AND trans.transaction_id IN
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					</cfif>
 				</cfif>
