@@ -1518,6 +1518,9 @@ limitations under the License.
 															WHERE
 																media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 														</cfquery>
+													<cfset i = 1>
+												<cfset sortCount=images.recordcount - 1>
+												<input type="hidden" name="number_of_ids" id="number_of_ids" value="#images.recordcount#">
 													<cfloop query="images">
 														<cfif len(images.media_uri) gt 0>
 															<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
