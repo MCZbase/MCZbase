@@ -44,6 +44,8 @@ limitations under the License.
 	<cfargument name="permit_specific_type" type="string" required="no">
 	<cfargument name="shipment_count" type="string" required="no">
 	<cfargument name="foreign_shipments" type="string" required="no">
+	<cfargument name="trans_remarks" type="string" required="no">
+	<cfargument name="nature_of_material" type="string" required="no">
 
 	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
@@ -142,6 +144,12 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("status") and len(status) gt 0>
 					and status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#status#">
+				</cfif>
+				<cfif isDefined("trans_remarks") and len(trans_remarks) gt 0>
+					and trans_remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
+				</cfif>
+				<cfif isDefined("nature_of_material") and len(nature_of_material) gt 0>
+					and nature_of_material like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">
 				</cfif>
 				<cfif isDefined("collection_id") and collection_id gt 0>
 					and collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">

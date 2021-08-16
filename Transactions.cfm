@@ -514,6 +514,9 @@ limitations under the License.
 	<cfif not isdefined("foreign_shipments")>
 		<cfset foreign_shipments="">
 	</cfif>
+	<cfif not isdefined("date_entered")>
+		<cfset date_entered="">
+	</cfif>
 	<div id="overlaycontainer" style="position: relative;">
 	<main id="content">
 		<!--- Search form --->
@@ -762,6 +765,15 @@ limitations under the License.
 												<input type="text" name="to_trans_date" id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 											</div>
 										</div>
+										<div class="col-12 col-md-4 mb-2">
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="date_entered">Date Entered</label>
+												<input name="date_entered" id="date_entered" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#date_entered#" aria-label="start of range for date entered">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="to_date_entered">end of search range for date entered</label>		
+												<input type="text" name="to_date_entered" id="to_date_entered" value="#to_date_entered#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											</div>
+										</div>
 										<div class="col-12 col-md-2">
 											<cfset ppermit_type = permit_type>
 											<label for="permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
@@ -791,6 +803,16 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
+									</div>
+									<div class="form-row mt-2 mx-4">
+										<div class="col-12 col-md-3 pl-0 pr-1 ml-0">
+											<label for="nature_of_material" class="data-entry-label">Nature of Material</label>
+											<input id="nature_of_material" type="text" class="has-clear data-entry-select-input px-2" name="nature_of_material" value="#nature_of_material#">
+										</div>
+										<div class="col-12 col-md-3 pl-0 pr-1 ml-0">
+											<label for="trans_remarks" class="data-entry-label">Remarks</label>
+											<input id="trans_remarks" type="text" class="has-clear data-entry-select-input px-2" name="trans_remarks" value="#trans_remarks#">
+										</div>
 										<div class="col-12 col-md-4">
 											<label for="tr_permit_num" id="tr_permit_picklist" class="data-entry-label mb-0">Document/Permit Number:</label>
 											<div class="input-group">
@@ -816,7 +838,7 @@ limitations under the License.
 												});
 											</script>
 										</div>
-								</div>
+									</div>
 									<div class="form-row mt-2 mx-4">
 										<div class="col-12 px-1">
 											<button class="btn-xs btn-primary px-3 mr-2" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
