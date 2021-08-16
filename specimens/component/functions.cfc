@@ -1548,6 +1548,16 @@ limitations under the License.
 																	media_label_id,
 																	label_value
 																FROM
+																	media_relations
+																WHERE
+																	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+															</cfquery>
+															<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																SELECT
+																	media_label,
+																	media_label_id,
+																	label_value
+																FROM
 																	media_labels
 																WHERE
 																	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -1578,7 +1588,7 @@ limitations under the License.
 																<cfset description=desc.label_value>
 															</cfif>
 															<cfset sortCount=getImages.recordcount - 1>
-															<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
+															<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getImages.recordcount#">
 															<cfloop query="getImages">
 																<div class="col-4 float-left p-2">
 																	<div class="border overflow-hidden px-2">
@@ -1592,6 +1602,14 @@ limitations under the License.
 																	<!---		<p class="small95">#description#</p>--->
 																			<cfset i=1>
 																	
+																<cfloop query="labels">
+																	<cfset d=media_label>
+																	<div id="labelsDiv__#i#" class="col-12 px-0">
+		
+																	<div class="">#media_label#: #encodeForHTML(label_value)#</div>
+																	</div>
+																	<cfset i=i+1>
+																</cfloop>
 																<cfloop query="labels">
 																	<cfset d=media_label>
 																	<div id="labelsDiv__#i#" class="col-12 px-0">
