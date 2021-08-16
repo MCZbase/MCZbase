@@ -1543,7 +1543,7 @@ limitations under the License.
 												
 															<cfset thisMedia_id = #media_id#>
 															<input type="hidden" name="media_id_#i#" id="media_id_#i#" value="#media_id#">
-															<input type="hidden" name="number_of_media_#i#" id="number_of_media_#i#" value="#getImages.recordcount#">
+															<input type="hidden" name="number_of_mediaids_#i#" id="number_of_mediaids_#i#" value="#getImages.recordcount#">
 															<cfset mt=getImages.mime_type>
 															<cfset altText = getImages.media_descriptor>
 															<cfset puri=getMediaPreview(preview_uri,mime_type)>
