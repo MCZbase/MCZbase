@@ -1653,9 +1653,6 @@ limitations under the License.
 														</cfloop>
 													</div>
 												</div>
-												<cfset i = 1>
-												<cfset sortCount=getImages.recordcount - 1>
-												<input type="hidden" name="number_of_media" id="number_of_media" value="#getImages.recordcount#">
 											</div>
 										</div>
 									</div>
