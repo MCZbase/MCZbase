@@ -3288,7 +3288,7 @@ limitations under the License.
 <!------------------------------------------------------->
 <cffunction name="saveAccn" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="string" required="yes">
-	<cfargument name="date_entered" type="string" required="no">
+	<cfargument name="accession_date" type="string" required="no">
 	<cfargument name="nature_of_material" type="string" required="yes">
 	<cfargument name="collection_id" type="string" required="yes">
 	<cfargument name="trans_remarks" type="string" required="no">
@@ -3312,8 +3312,8 @@ limitations under the License.
 			</cfif>
 			<cfquery name="updateAccnTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAccnTrans_result">
 				UPDATE trans set
-					<cfif isdefined("date_entered") AND len(#date_entered#) gt 0 >
-						TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(date_entered,'yyyy-mm-dd')#">,
+					<cfif isdefined("accession_date") AND len(#accession_date#) gt 0 >
+						TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(accession_date,'yyyy-mm-dd')#">,
 					</cfif>
 					NATURE_OF_MATERIAL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">,
 					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">

@@ -1479,10 +1479,10 @@ limitations under the License.
 									<div class="form-row px-1">
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_trans_date">Entered Date</label>
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_trans_date">Accession Date</label>
 												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for date entered">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>		
+												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for accession date</label>
 												<input type="text" name="to_trans_date" id="accn_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
@@ -1496,21 +1496,28 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-md-4">
-											<label class="data-entry-label px-2 mx-1 mb-0" for="estimated_count">Estimated Count <span class="small">(accepts: 10, &lt;10, &gt;10, NULL, NOT NULL)</span></label>
-											<input type="text" name="estimated_count" class="data-entry-input" value="#estimated_count#" id="estimated_count" placeholder="&gt;100">
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_date_entered">Entered Date</label>
+												<input name="date_entered" id="accn_date_entered" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#date_entered#" aria-label="start of range for date entered">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="accn_to_date_entered">end of search range for date entered</label>
+												<input type="text" name="to_date_entered" id="accn_to_date_entered" value="#to_date_entered#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
+											</div>
 										</div>
 									</div>
 
 									<div class="form-row px-1 mt-2">
-								
 										<div class="col-md-6">
-		
 											<div class="border bg-light rounded py-3 mb-2 px-3 px-md-4">
-												<div class="col-md-12 px-0 mt-1">
+												<div class="col-md-12">
+													<label class="data-entry-label px-2 mx-1 mb-0" for="estimated_count">Estimated Count <span class="small">(accepts: 10, &lt;10, &gt;10, NULL, NOT NULL)</span></label>
+													<input type="text" name="estimated_count" class="data-entry-input" value="#estimated_count#" id="estimated_count" placeholder="&gt;100">
+												</div>
+												<div class="col-12 col-md-6 px-0 mt-1">
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
 												</div>
-												<div class="col-md-12 px-0 mt-1">
+												<div class="col-12 col-md-6 px-0 mt-1">
 													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
 												</div>
@@ -3173,6 +3180,7 @@ $(document).ready(function() {
 			[
 				{ name: 'transaction_id', type: 'string' },
 				{ name: 'date_entered', type: 'string' },
+				{ name: 'accession_date', type: 'string' },
 				{ name: 'trans_remarks', type: 'string' },
 				{ name: 'accn_number', type: 'string' },
 				{ name: 'accn_type', type: 'string' },
@@ -3258,6 +3266,7 @@ $(document).ready(function() {
 				{text: 'Type', datafield: 'accn_type', hidable: true, hidden: getColHidProp('accn_type', false), width: 100},
 				{text: 'Status', datafield: 'accn_status', hideable: true, hidden: getColHidProp('accn_status', false), width: 100},
 				{text: 'Entered Date', datafield: 'date_entered', width: 100, hidable: true, hidden: getColHidProp('date_entered', true) },
+				{text: 'Accn. Date', datafield: 'accession_date', width: 100, hidable: true, hidden: getColHidProp('date_entered', true) },
 				{text: 'Received Date', datafield: 'received_date', width: 100, hideable: true, hidden: getColHidProp('received_date', false) },
 				{text: 'Received From', datafield: 'rec_from_agent', width: 100, hidable: true, hidden: getColHidProp('rec_from_agent', false) },
 				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: getColHidProp('outside_agent', true) },
