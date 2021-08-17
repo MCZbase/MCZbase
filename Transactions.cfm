@@ -770,7 +770,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4 mb-2">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="date_entered">Date Entered</label>
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="date_entered">Entered Date</label>
 												<input name="date_entered" id="date_entered" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#date_entered#" aria-label="start of range for date entered">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_date_entered">end of search range for date entered</label>		
@@ -1058,7 +1058,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-6 col-lg-3">
 											<div class="date form-row border bg-light pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="closed_date">Close Date</label>
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="closed_date">Closed Date</label>
 												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#closed_date#" aria-label="start of range for closed date">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_closed_date">end of range for closed date </label>
@@ -1067,7 +1067,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-6 col-lg-3">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="date_entered">Date Entered</label>
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="date_entered">Entered Date</label>
 												<input name="date_entered" id="date_entered" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#date_entered#" aria-label="start of range for date entered">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_date_entered">end of search range for date entered</label>		
@@ -1955,7 +1955,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4 mb-2">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="date_entered">Date Entered</label>
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="date_entered">Entered Date</label>
 												<input name="date_entered" id="date_entered" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#date_entered#" aria-label="start of range for date entered">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_date_entered">end of search range for date entered</label>		
@@ -2806,6 +2806,7 @@ $(document).ready(function() {
 				{ name: 'shipment_count', type: 'string' },
 				{ name: 'foreign_shipments', type: 'string' },
 				{ name: 'entered_by', type: 'string' },
+				{ name: 'date_entered', type: 'string' },
 				{ name: 'authorized_by', type: 'string' },
 				{ name: 'outside_authorized_by', type: 'string' },
 				{ name: 'received_by', type: 'string' },
@@ -2878,6 +2879,7 @@ $(document).ready(function() {
 				{text: 'Shipments', datafield: 'shipment_count', width: 80, hideable: true, hidden: getColHidProp('shipment_count', true) },
 				{text: 'Foreign Shipments', datafield: 'foreign_shipments', width: 80, hideable: true, hidden: getColHidProp('foreign_shipments', true) },
 				{text: 'Entered By', datafield: 'entered_by', width: 100, hideable: true, hidden: getColHidProp('entered_by', false) },
+				{text: 'Entered Date', datafield: 'date_entered', width: 100, hideable: true, hidden: getColHidProp('date_entered', false) },
 				{text: 'Authorized By', datafield: 'authorized_by', width: 80, hideable: true, hidden: getColHidProp('authorized_by', true) },
 				{text: 'Outside Authorized By', datafield: 'outside_authorized_by', width: 80, hideable: true, hidden: getColHidProp('outside_authorized_by', true) },
 				{text: 'Received By', datafield: 'received_by', width: 80, hideable: true, hidden: getColHidProp('received_by', true) },

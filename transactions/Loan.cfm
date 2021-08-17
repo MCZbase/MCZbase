@@ -672,7 +672,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-2">
-								<label for="initiating_date" class="data-entry-label">Transaction Date</label>
+								<label for="initiating_date" class="data-entry-label">Loan Date</label>
 								<input type="text" name="initiating_date" id="initiating_date"
 									value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" required >
 							</div>
