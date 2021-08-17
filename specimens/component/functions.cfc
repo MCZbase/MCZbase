@@ -1792,6 +1792,7 @@ limitations under the License.
 		<cftransaction>
 			<!--- perform the updates on the arbitary number of media records --->
 			<cftry>
+				<cfset n = 1>
 				<cfloop from="1" to="#mediaidnum#" index="n">
 					<cfset thisMedia_uri = #evaluate("MEDIA_URI_" & n)#>
 					<cfset thisPreview_uri = #evaluate("PREVIEW_URI_" & n)#>
