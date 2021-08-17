@@ -1518,11 +1518,9 @@ limitations under the License.
 															WHERE
 																media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 														</cfquery>
-													<cfset number_of_media_ids = images.recordcount>
-													<cfset mediaidnum=number_of_media_ids>
 													<cfset i = 1>
 													<cfloop query="images">
-													<div id="Media_#i#_#mediaidnum#">
+													<div id="Media_#i#">
 														<cfif len(images.media_uri) gt 0>
 															<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT distinct
@@ -1540,10 +1538,8 @@ limitations under the License.
 																AND
 																	media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 															</cfquery>
-												
 															<cfset thisMedia_id = #media_id#>
 															<input type="hidden" name="media_id_#i#" id="media_id_#i#" value="#media_id#">
-															<input type="hidden" name="number_of_media_ids_#i#" id="number_of_media_ids_#i#" value="#getImages.recordcount#">
 															<cfset mt=getImages.mime_type>
 															<cfset altText = getImages.media_descriptor>
 															<cfset puri=getMediaPreview(preview_uri,mime_type)>
@@ -1596,7 +1592,7 @@ limitations under the License.
 																		<cfset j = 1>
 																			<cfloop query="labels">
 																				<cfset d=media_label>
-																				<div id="labelsDiv__#j#" class="col-12 px-0">
+																				<div id="labelsDiv_#k#_#j#" class="col-12 px-0">
 																				<div class="">#media_label#: #encodeForHTML(label_value)#</div>
 																				</div>
 																				<cfset j = j+1>
@@ -1630,7 +1626,7 @@ limitations under the License.
 																					$('##deleteImagesResultDiv').addClass('text-danger');
 																					$('##deleteImagesResultDiv').removeClass('text-warning');
 																					$('##deleteImagesResultDiv').removeClass('text-success');
-																					messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
+																					messageDialog('Error updating images: '+result.DATA.MESSAGE[0], 'Error saving images.');
 																				}
 																			},
 																			error: function(jqXHR,textStatus,error){
