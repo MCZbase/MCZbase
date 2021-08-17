@@ -246,7 +246,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
 								<label for="estimated_count" class="data-entry-label">Estimated Count</label>
-								<input type="text" name="estimated_count" id="estimated_count" value="" class="w-100 data-entry-input mb-1">
+								<input type="text" name="estimated_count" id="estimated_count" value="" required class="reqdClr w-100 data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-4">
 								<label for="accession_date" class="data-entry-label">Accession Date</label>
