@@ -341,6 +341,7 @@
 			<!--- check these, move them, and tell the user to go back ---->
 			<!---- include the mover over application ---->
 			<cfset action="update">
+			<cfset headless="true">
 			<cfinclude template="/LoadBarcodes.cfm">
 			<cflocation url="containerPositions.cfm?container_id=#container_id#">
 		</CFIF>

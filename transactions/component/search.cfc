@@ -36,10 +36,15 @@ limitations under the License.
 	<cfargument name="trans_agent_role_3" type="string" required="no">
 	<cfargument name="trans_date" type="string" required="no">
 	<cfargument name="to_trans_date" type="string" required="no">
+	<cfargument name="date_entered" type="string" required="no">
+	<cfargument name="to_date_entered" type="string" required="no">
 	<cfargument name="trans_remarks" type="string" required="no">
 	<cfargument name="permit_id" type="string" required="no">
 	<cfargument name="permit_type" type="string" required="no">
 	<cfargument name="permit_specific_type" type="string" required="no">
+	<cfargument name="shipment_count" type="string" required="no">
+	<cfargument name="foreign_shipments" type="string" required="no">
+	<cfargument name="nature_of_material" type="string" required="no">
 
 	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
@@ -54,6 +59,18 @@ limitations under the License.
 			<cfset to_trans_date = "#to_trans_date#-12-31">
 		</cfif>
 	</cfif>
+	<cfif isdefined("date_entered") and len(#date_entered#) gt 0>
+		<cfif not isdefined("to_date_entered") or len(to_date_entered) is 0>
+			<cfset to_date_entered=date_entered>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#date_entered#) EQ 4>
+			<cfset date_entered = "#date_entered#-01-01">
+		</cfif>
+		<cfif len(#to_date_entered#) EQ 4>
+			<cfset to_date_entered = "#to_date_entered#-12-31">
+		</cfif>
+	</cfif>
 
 
 	<cfset data = ArrayNew(1)>
@@ -64,22 +81,25 @@ limitations under the License.
 				transaction_view.transaction_id, 
 				transaction_view.transaction_type,
 				to_char(trans_date,'YYYY-MM-DD') trans_date,
+				to_char(date_entered,'YYYY-MM-DD') date_entered,
 				transaction_view.nature_of_material, 
 				transaction_view.trans_remarks,
 				collection_cde, 
 				collection,
-				transaction_view.specific_number, 
-				transaction_view.specific_type, 
+				transaction_view.specific_number as specific_number, 
+				transaction_view.specific_type as type, 
 				transaction_view.status, 
-				concattransagent(transaction_view.transaction_id,'entered by') as entered_by_agent,
-				concattransagent(transaction_view.transaction_id,'in-house authorized by') auth_agent,
-				concattransagent(transaction_view.transaction_id,'outside authorized by') outside_auth_agent,
-				concattransagent(transaction_view.transaction_id,'received by') rec_agent,
-				concattransagent(transaction_view.transaction_id,'for use by') foruseby_agent,
-				concattransagent(transaction_view.transaction_id,'in-house contact') inHouse_agent,
-				concattransagent(transaction_view.transaction_id,'additional in-house contact') addInhouse_agent,
-				concattransagent(transaction_view.transaction_id,'additional outside contact') addOutside_agent,
-				concattransagent(transaction_view.transaction_id,'recipient institution') recip_inst
+				MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) as shipment_count,
+				COUNT_FOREIGNSHIP_FOR_TRANS(transaction_view.transaction_id) as foreign_shipments,
+				concattransagent(transaction_view.transaction_id,'entered by') as entered_by,
+				concattransagent(transaction_view.transaction_id,'in-house authorized by') authorized_by,
+				concattransagent(transaction_view.transaction_id,'outside authorized by') outside_authorized_by,
+				concattransagent(transaction_view.transaction_id,'received by') received_by,
+				concattransagent(transaction_view.transaction_id,'for use by') for_use_by,
+				concattransagent(transaction_view.transaction_id,'in-house contact') inhouse_contact,
+				concattransagent(transaction_view.transaction_id,'additional in-house contact') additional_inhouse_contact,
+				concattransagent(transaction_view.transaction_id,'additional outside contact') additional_outside_contact,
+				concattransagent(transaction_view.transaction_id,'recipient institution') recipient_institution
 			FROM 
 				MCZBASE.transaction_view
 				left join collection on transaction_view.collection_id = collection.collection_id
@@ -124,6 +144,12 @@ limitations under the License.
 				<cfif isDefined("status") and len(status) gt 0>
 					and status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#status#">
 				</cfif>
+				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
+					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
+				</cfif>
+				<cfif isDefined("nature_of_material") and len(nature_of_material) gt 0>
+					and upper(nature_of_material) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(nature_of_material)#%">
+				</cfif>
 				<cfif isDefined("collection_id") and collection_id gt 0>
 					and collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
@@ -154,10 +180,12 @@ limitations under the License.
 				<cfif isdefined("trans_date") and len(trans_date) gt 0>
 					AND trans_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
-				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
-					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
+				<cfif isdefined("date_entered") and len(date_entered) gt 0>
+					AND date_entered between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(date_entered, "yyyy-mm-dd")#'>) and
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
 					AND ( 
@@ -174,6 +202,31 @@ limitations under the License.
 					AND (permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
 						OR s_permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">)
 				</cfif>
+				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
+					<cfif shipment_count IS "0">
+						AND transaction_view.transaction_id NOT IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "1">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) = 1
+					<cfelseif shipment_count IS "1+">
+						AND transaction_view.transaction_id IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "2+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 1
+					<cfelseif shipment_count IS "3+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(transaction_view.transaction_id) > 2
+					</cfif>
+				</cfif>
+				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
+					<cfif foreign_shipments IS "0">
+						AND transaction_view.transaction_id NOT IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					<cfelseif foreign_shipments IS "1+">
+						AND transaction_view.transaction_id IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					</cfif>
+				</cfif>
+			ORDER BY transaction_view.transaction_type, collection_cde, trans_date
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -196,25 +249,9 @@ limitations under the License.
 				</cfswitch>
 			</cfif>
 			<cfset row = StructNew()>
-			<cfset row["transaction_id"] = "#search.transaction_id#">
-			<cfset row["trans_date"] = "#search.trans_date#">
-			<cfset row["transaction_type"] = "#search.transaction_type#">
-			<cfset row["nature_of_material"] = "#search.nature_of_material#">
-			<cfset row["trans_remarks"] = "#search.trans_remarks#">
-			<cfset row["collection_cde"] = "#search.collection_cde#">
-			<cfset row["collection"] = "#search.collection#">
-			<cfset row["number"] = "#search.specific_number#">
-			<cfset row["type"] = "#search.specific_type#">
-			<cfset row["status"] = "#search.status#">
-			<cfset row["entered_by"] = "#search.entered_by_agent#">
-			<cfset row["authorized_by"] = "#search.auth_agent#">
-			<cfset row["outside_authorized_by"] = "#search.outside_auth_agent#">
-			<cfset row["received_by"] = "#search.rec_agent#">
-			<cfset row["for_use_by"] = "#search.foruseby_agent#">
-			<cfset row["in-house_contact"] = "#search.inHouse_agent#">
-			<cfset row["additional_inhouse_contact"] = "#search.addInHouse_agent#">
-			<cfset row["additional_outside_contact"] = "#search.addOutside_agent#">
-			<cfset row["recipient_institution"] = "#search.recip_inst#">
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
 			<cfset row["id_link"] = "<a href='/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
@@ -251,6 +288,8 @@ limitations under the License.
 	<cfargument name="to_closed_date" type="string" required="no">
 	<cfargument name="trans_date" type="string" required="no">
 	<cfargument name="to_trans_date" type="string" required="no">
+	<cfargument name="date_entered" type="string" required="no">
+	<cfargument name="to_date_entered" type="string" required="no">
 	<cfargument name="trans_agent_role_1" type="string" required="no">
 	<cfargument name="agent_1" type="string" required="no">
 	<cfargument name="agent_1_id" type="string" required="no">
@@ -265,6 +304,8 @@ limitations under the License.
 	<cfargument name="parent_loan_number" type="string" required="no">
 	<cfargument name="insurance_value" type="string" required="no">
 	<cfargument name="insurance_maintained_by" type="string" required="no">
+	<cfargument name="shipment_count" type="string" required="no">
+	<cfargument name="foreign_shipments" type="string" required="no">
 	<!--- in original API, no longer supported --->
 	<!--- notClosed=1 use loan_status = 'not closed' --->
 	<!--- in original API, not yet supported --->
@@ -335,6 +376,18 @@ limitations under the License.
 			<cfset to_trans_date = "#to_trans_date#-12-31">
 		</cfif>
 	</cfif>
+	<cfif isdefined("date_entered") and len(#date_entered#) gt 0>
+		<cfif not isdefined("to_date_entered") or len(to_date_entered) is 0>
+			<cfset to_date_entered=date_entered>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#date_entered#) EQ 4>
+			<cfset date_entered = "#date_entered#-01-01">
+		</cfif>
+		<cfif len(#to_date_entered#) EQ 4>
+			<cfset to_date_entered = "#to_date_entered#-12-31">
+		</cfif>
+	</cfif>
 
 	<!--- do the search --->
 	<cfset data = ArrayNew(1)>
@@ -344,6 +397,7 @@ limitations under the License.
 			select distinct
 				trans.transaction_id,
 				to_char(trans_date,'YYYY-MM-DD') trans_date,
+				to_char(date_entered,'YYYY-MM-DD') date_entered,
 				trans_remarks,
 				loan.loan_number,
 				loan.loan_type loan_type,
@@ -351,6 +405,8 @@ limitations under the License.
 				loan.loan_status,
 				loan.loan_instructions,
 				loan.loan_description,
+				MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(loan.transaction_id) as shipment_count,
+				COUNT_FOREIGNSHIP_FOR_TRANS(loan.transaction_id) as foreign_shipments,
 				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
 				concattransagent(trans.transaction_id,'received by') rec_agent,
@@ -473,17 +529,22 @@ limitations under the License.
 				<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
 					AND loan.return_due_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(return_due_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_return_due_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_return_due_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("closed_date") and len(closed_date) gt 0>
 					AND loan.closed_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(closed_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_closed_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_closed_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("trans_date") and len(trans_date) gt 0>
 					AND trans_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>) + (86399/86400) )
+				</cfif>
+				<cfif isdefined("date_entered") and len(date_entered) gt 0>
+					AND date_entered between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(date_entered, "yyyy-mm-dd")#'>) and
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
 					AND trans_agent_1.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">
@@ -550,6 +611,30 @@ limitations under the License.
 						AND loan.insurance_maintained_by is NOT NULL
 					<cfelse>
 						AND upper(loan.insurance_maintained_by) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(insurance_maintained_by)#%">
+					</cfif>
+				</cfif>
+				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
+					<cfif shipment_count IS "0">
+						AND loan.transaction_id NOT IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "1">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(loan.transaction_id) = 1
+					<cfelseif shipment_count IS "1+">
+						AND loan.transaction_id IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "2+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(loan.transaction_id) > 1
+					<cfelseif shipment_count IS "3+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(loan.transaction_id) > 2
+					</cfif>
+				</cfif>
+				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
+					<cfif foreign_shipments IS "0">
+						AND loan.transaction_id NOT IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					<cfelseif foreign_shipments IS "1+">
+						AND loan.transaction_id IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					</cfif>
 				</cfif>
 			ORDER BY to_number(regexp_substr (loan.loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan.loan_number, '[0-9]+', 1, 2)), loan.loan_number
@@ -657,7 +742,7 @@ limitations under the License.
 					<cfif isdefined("issued_until_date") AND len(#issued_until_date#) gt 0>
 						AND upper(issued_date) 
 							between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_date#">, 'yyyy-mm-dd')
-							and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_until_date#">, 'yyyy-mm-dd')
+							and (to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_until_date#">, 'yyyy-mm-dd') + (86399/86400) )
 					<cfelse>
 						AND upper(issued_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_date#">, 'yyyy-mm-dd')
 					</cfif>
@@ -679,7 +764,7 @@ limitations under the License.
 					<cfif isdefined("renewed_until_date") OR len(#renewed_until_date#) gt 0>
 						AND upper(renewed_date)
 							between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_date#">, 'yyyy-mm-dd')
-							and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_until_date#">, 'yyyy-mm-dd')
+							and (to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_until_date#">, 'yyyy-mm-dd') + (86399/86400) )
 					<cfelse>
 						AND upper(renewed_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_date#">, 'yyyy-mm-dd')
 					</cfif>
@@ -701,7 +786,7 @@ limitations under the License.
 					<cfif isdefined("exp_until_date") AND len(#exp_until_date#) gt 0>
 						AND upper(exp_date) 
 							between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_date#">, 'yyyy-mm-dd')
-							and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_until_date#">, 'yyyy-mm-dd')
+							and (to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_until_date#">, 'yyyy-mm-dd') + (86399/86400) )
 					<cfelse>
 						AND upper(exp_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_date#">, 'yyyy-mm-dd')
 					</cfif>
@@ -936,6 +1021,8 @@ limitations under the License.
 	<cfargument name="to_rec_date" type="string" required="no">
 	<cfargument name="trans_date" type="string" required="no">
 	<cfargument name="to_trans_date" type="string" required="no">
+	<cfargument name="date_entered" type="string" required="no">
+	<cfargument name="to_date_entered" type="string" required="no">
 	<cfargument name="trans_agent_role_1" type="string" required="no">
 	<cfargument name="agent_1" type="string" required="no">
 	<cfargument name="agent_1_id" type="string" required="no">
@@ -957,6 +1044,8 @@ limitations under the License.
 	<cfargument name="permit_contact_id" type="string" required="no">
 	<cfargument name="permit_remarks" type="string" required="no">
 	<cfargument name="estimated_count" type="string" required="no">
+	<cfargument name="shipment_count" type="string" required="no">
+	<cfargument name="foreign_shipments" type="string" required="no">
 
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
@@ -1004,6 +1093,18 @@ limitations under the License.
 			<cfset to_rec_date = "#to_rec_date#-12-31">
 		</cfif>
 	</cfif>
+	<cfif isdefined("date_entered") and len(#date_entered#) gt 0>
+		<cfif not isdefined("to_date_entered") or len(to_date_entered) is 0>
+			<cfset to_date_entered=date_entered>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#date_entered#) EQ 4>
+			<cfset date_entered = "#date_entered#-01-01">
+		</cfif>
+		<cfif len(#to_date_entered#) EQ 4>
+			<cfset to_date_entered = "#to_date_entered#-12-31">
+		</cfif>
+	</cfif>
 
 	<!--- do the search --->
 	<cfset data = ArrayNew(1)>
@@ -1016,7 +1117,8 @@ limitations under the License.
 				accn_type,
 				nature_of_material,
 				to_char(received_date,'YYYY-MM-DD') as received_date,
-				to_char(trans_date,'YYYY-MM-DD') as date_entered,
+				to_char(trans_date,'YYYY-MM-DD') as accession_date,
+				to_char(date_entered,'YYYY-MM-DD') as date_entered,
 				accn_status,
 				trans_remarks,
 				collection,
@@ -1026,6 +1128,7 @@ limitations under the License.
 				estimated_count,
 				MCZBASE.get_permits_for_trans(trans.transaction_id) permits,
 				MCZBASE.count_shipments_for_trans(trans.transaction_id) shipment_count,
+				COUNT_FOREIGNSHIP_FOR_TRANS(trans.transaction_id) as foreign_shipments,
 				MCZBASE.count_catitems_for_accn(trans.transaction_id) item_count,
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
 				concattransagent(trans.transaction_id,'received from') rec_from_agent,
@@ -1137,12 +1240,17 @@ limitations under the License.
 				<cfif isdefined("trans_date") and len(trans_date) gt 0>
 					AND trans_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>) + (86399/86400) )
+				</cfif>
+				<cfif isdefined("date_entered") and len(date_entered) gt 0>
+					AND date_entered between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(date_entered, "yyyy-mm-dd")#'>) and
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("rec_date") and len(rec_date) gt 0>
 					AND accn.received_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(rec_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_rec_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_rec_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
 					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
@@ -1277,6 +1385,30 @@ limitations under the License.
 						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#estimated_count#"> 
 					</cfif>
 				</cfif>
+				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
+					<cfif shipment_count IS "0">
+						AND trans.transaction_id NOT IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "1">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) = 1
+					<cfelseif shipment_count IS "1+">
+						AND trans.transaction_id IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "2+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) > 1
+					<cfelseif shipment_count IS "3+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) > 2
+					</cfif>
+				</cfif>
+				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
+					<cfif foreign_shipments IS "0">
+						AND trans.transaction_id NOT IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					<cfelseif foreign_shipments IS "1+">
+						AND trans.transaction_id IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					</cfif>
+				</cfif>
 			ORDER BY accn_number
 		</cfquery>
 		<!---
@@ -1349,6 +1481,8 @@ limitations under the License.
 	<cfargument name="permit_specific_type" type="string" required="no">
 	<cfargument name="trans_date" type="string" required="no">
 	<cfargument name="to_trans_date" type="string" required="no">
+	<cfargument name="date_entered" type="string" required="no">
+	<cfargument name="to_date_entered" type="string" required="no">
 	<cfargument name="trans_agent_role_1" type="string" required="no">
 	<cfargument name="agent_1" type="string" required="no">
 	<cfargument name="agent_1_id" type="string" required="no">
@@ -1371,6 +1505,8 @@ limitations under the License.
 	<cfargument name="permit_remarks" type="string" required="no">
 	<cfargument name="value" type="string" required="no">
 	<cfargument name="deacc_method" type="string" required="no">
+	<cfargument name="shipment_count" type="string" required="no">
+	<cfargument name="foreign_shipments" type="string" required="no">
 
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
@@ -1406,6 +1542,18 @@ limitations under the License.
 			<cfset to_trans_date = "#to_trans_date#-12-31">
 		</cfif>
 	</cfif>
+	<cfif isdefined("date_entered") and len(#date_entered#) gt 0>
+		<cfif not isdefined("to_date_entered") or len(to_date_entered) is 0>
+			<cfset to_date_entered=date_entered>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#date_entered#) EQ 4>
+			<cfset date_entered = "#date_entered#-01-01">
+		</cfif>
+		<cfif len(#to_date_entered#) EQ 4>
+			<cfset to_date_entered = "#to_date_entered#-12-31">
+		</cfif>
+	</cfif>
 
 	<!--- do the search --->
 	<cfset data = ArrayNew(1)>
@@ -1417,7 +1565,8 @@ limitations under the License.
 				deacc_number,
 				deacc_type,
 				nature_of_material,
-				to_char(trans_date,'YYYY-MM-DD') as date_entered,
+				to_char(trans_date,'YYYY-MM-DD') as deaccesion_date,
+				to_char(date_entered,'YYYY-MM-DD') as date_entered,
 				deacc_status,
 				deacc_reason,
 				deacc_description,
@@ -1431,6 +1580,7 @@ limitations under the License.
 				project.project_id pid,
 				MCZBASE.get_permits_for_trans(trans.transaction_id) permits,
 				MCZBASE.count_shipments_for_trans(trans.transaction_id) shipment_count,
+				COUNT_FOREIGNSHIP_FOR_TRANS(trans.transaction_id) as foreign_shipments,
 				MCZBASE.count_catitems_for_deacc(trans.transaction_id) item_count,
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
 				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
@@ -1541,7 +1691,12 @@ limitations under the License.
 				<cfif isdefined("trans_date") and len(trans_date) gt 0>
 					AND trans_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>) + (86399/86400) )
+				</cfif>
+				<cfif isdefined("date_entered") and len(date_entered) gt 0>
+					AND date_entered between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(date_entered, "yyyy-mm-dd")#'>) and
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
 					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
@@ -1686,6 +1841,30 @@ limitations under the License.
 						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#estimated_count#"> 
 					</cfif>
 				</cfif>
+				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
+					<cfif shipment_count IS "0">
+						AND trans.transaction_id NOT IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "1">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) = 1
+					<cfelseif shipment_count IS "1+">
+						AND trans.transaction_id IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "2+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) > 1
+					<cfelseif shipment_count IS "3+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) > 2
+					</cfif>
+				</cfif>
+				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
+					<cfif foreign_shipments IS "0">
+						AND trans.transaction_id NOT IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					<cfelseif foreign_shipments IS "1+">
+						AND trans.transaction_id IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					</cfif>
+				</cfif>
 			ORDER BY deacc_number
 		</cfquery>
 		<cfset rows = search_result.recordcount>
@@ -1725,6 +1904,8 @@ limitations under the License.
 	<cfargument name="borrow_type_status" type="string" required="no">
 	<cfargument name="trans_date" type="string" required="no">
 	<cfargument name="to_trans_date" type="string" required="no">
+	<cfargument name="date_entered" type="string" required="no">
+	<cfargument name="to_date_entered" type="string" required="no">
 	<cfargument name="received_date" type="string" required="no">
 	<cfargument name="to_received_date" type="string" required="no">
 	<cfargument name="due_date" type="string" required="no">
@@ -1734,7 +1915,8 @@ limitations under the License.
 	<cfargument name="return_acknowledged_date" type="string" required="no">
 	<cfargument name="to_return_acknowledged_date" type="string" required="no">
 	<cfargument name="lenders_invoice_returned" type="string" required="no">
-
+	<cfargument name="shipment_count" type="string" required="no">
+	<cfargument name="foreign_shipments" type="string" required="no">
 
 	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
@@ -1747,6 +1929,18 @@ limitations under the License.
 		</cfif>
 		<cfif len(#to_trans_date#) EQ 4>
 			<cfset to_trans_date = "#to_trans_date#-12-31">
+		</cfif>
+	</cfif>
+	<cfif isdefined("date_entered") and len(#date_entered#) gt 0>
+		<cfif not isdefined("to_date_entered") or len(to_date_entered) is 0>
+			<cfset to_date_entered=date_entered>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#date_entered#) EQ 4>
+			<cfset date_entered = "#date_entered#-01-01">
+		</cfif>
+		<cfif len(#to_date_entered#) EQ 4>
+			<cfset to_date_entered = "#to_date_entered#-12-31">
 		</cfif>
 	</cfif>
 	<cfif isdefined("received_date") and len(#received_date#) gt 0>
@@ -1785,6 +1979,18 @@ limitations under the License.
 			<cfset to_return_acknowledged_date = "#to_return_acknowledged_date#-12-31">
 		</cfif>
 	</cfif>
+	<cfif isdefined("lenders_loan_date") and len(#lenders_loan_date#) gt 0>
+		<cfif not isdefined("to_lenders_loan_date") or len(to_lenders_loan_date) is 0>
+			<cfset to_lenders_loan_date=lenders_loan_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#lenders_loan_date#) EQ 4>
+			<cfset lenders_loan_date = "#lenders_loan_date#-01-01">
+		</cfif>
+		<cfif len(#to_lenders_loan_date#) EQ 4>
+			<cfset to_lenders_loan_date = "#to_lenders_loan_date#-12-31">
+		</cfif>
+	</cfif>
 
 	<!--- do the search --->
 	<cfset data = ArrayNew(1)>
@@ -1805,7 +2011,8 @@ limitations under the License.
 				to_char(due_date,'YYYY-MM-DD') as due_date,
 				to_char(received_date,'YYYY-MM-DD') as received_date,
 				to_char(return_acknowledged_date,'YYYY-MM-DD') as return_acknowledged_date,
-				to_char(trans_date,'YYYY-MM-DD') as date_entered,
+				to_char(trans_date,'YYYY-MM-DD') as borrow_date,
+				to_char(date_entered,'YYYY-MM-DD') as date_entered,
 				to_char(lenders_loan_date,'YYYY-MM-DD') as lenders_loan_datedate,
 				borrow_status,
 				description_of_borrow,
@@ -1816,6 +2023,7 @@ limitations under the License.
 				project.project_id pid,
 				MCZBASE.get_permits_for_trans(trans.transaction_id) permits,
 				MCZBASE.count_shipments_for_trans(trans.transaction_id) shipment_count,
+				COUNT_FOREIGNSHIP_FOR_TRANS(trans.transaction_id) as foreign_shipments,
 				(select count(*) from borrow_item where borrow_item.transaction_id = trans.transaction_id) as item_count, 
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
 				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
@@ -1943,27 +2151,32 @@ limitations under the License.
 				<cfif isdefined("trans_date") and len(trans_date) gt 0>
 					AND trans_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>) + (86399/86400) )
+				</cfif>
+				<cfif isdefined("date_entered") and len(date_entered) gt 0>
+					AND date_entered between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(date_entered, "yyyy-mm-dd")#'>) and
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("received_date") and len(received_date) gt 0>
 					AND borrow.received_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(received_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_received_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_received_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("due_date") and len(due_date) gt 0>
 					AND due_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(due_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_due_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_due_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("lenders_loan_date") and len(lenders_loan_date) gt 0>
 					AND lenders_loan_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(lenders_loan_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_lenders_loan_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_lenders_loan_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("return_acknowledged_date") and len(return_acknowledged_date) gt 0>
 					AND return_acknowledged_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(return_acknowledged_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_return_acknowledged_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_return_acknowledged_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
 					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
@@ -2075,6 +2288,30 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("permit_remarks") and len(#permit_remarks#) gt 0>
 					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_remarks)#%">
+				</cfif>
+				<cfif  isdefined("shipment_count") and len(#shipment_count#) gt 0>
+					<cfif shipment_count IS "0">
+						AND trans.transaction_id NOT IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "1">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) = 1
+					<cfelseif shipment_count IS "1+">
+						AND trans.transaction_id IN
+							(select transaction_id from shipment)
+					<cfelseif shipment_count IS "2+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) > 1
+					<cfelseif shipment_count IS "3+">
+						AND MCZBASE.COUNT_SHIPMENTS_FOR_TRANS(trans.transaction_id) > 2
+					</cfif>
+				</cfif>
+				<cfif  isdefined("foreign_shipments") and len(#foreign_shipments#) gt 0>
+					<cfif foreign_shipments IS "0">
+						AND trans.transaction_id NOT IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					<cfelseif foreign_shipments IS "1+">
+						AND trans.transaction_id IN
+							(select transaction_id from shipment where foreign_shipment_fg = 1)
+					</cfif>
 				</cfif>
 			ORDER BY borrow_number
 		</cfquery>

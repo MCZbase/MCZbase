@@ -508,6 +508,18 @@ limitations under the License.
 	<cfif not isdefined("estimated_count")>
 		<cfset estimated_count="">
 	</cfif>
+	<cfif not isdefined("shipment_count")>
+		<cfset shipment_count="">
+	</cfif>
+	<cfif not isdefined("foreign_shipments")>
+		<cfset foreign_shipments="">
+	</cfif>
+	<cfif not isdefined("date_entered")>
+		<cfset date_entered="">
+	</cfif>
+	<cfif not isdefined("to_date_entered")>
+		<cfset to_date_entered="">
+	</cfif>
 	<div id="overlaycontainer" style="position: relative;">
 	<main id="content">
 		<!--- Search form --->
@@ -641,7 +653,7 @@ limitations under the License.
 											<label for="number" class="data-entry-label">Number</label>
 											<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" aria-label="add a transaction number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll" value="#number#" title="Example of transaction number formats are nnn, yyyy-n-Collection code, Byyyy-n-Collection code, Dyyyy-n-collection code">
 										</div>
-										<div class="col-12 col-md-6"> 
+										<div class="col-12 col-md-2"> 
 											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
 											<cfset pstatus = status>
 											<label for="status" class="data-entry-label">Status</label>
@@ -655,6 +667,32 @@ limitations under the License.
 													</cfif>
 													<option value="#ctStatus.status#" #selected# >#ctStatus.status#</option>
 												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="shipment_count" class="data-entry-label">Shipments</label>
+											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of shipments">
+												<option value=""></option>
+												<cfif shipment_count IS "0"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="0" #scsel#>None</option>
+												<cfif shipment_count IS "1"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1" #scsel#>One</option>
+												<cfif shipment_count IS "1+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1+" #scsel#>One or more</option>
+												<cfif shipment_count IS "2+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="2+" #scsel#>Two or more</option>
+												<cfif shipment_count IS "3+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="3+" #scsel#>Three or more</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International Shipment</label>
+											<select name="foreign_shipments" id="foreign_shipments" class="data-entry-select" title="transaction has international shipments">
+												<option value=""></option>
+												<cfif foreign_shipments IS "0"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="0" #fssel#>No</option>
+												<cfif foreign_shipments IS "1+"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="1+" #fssel#>Yes</option>
 											</select>
 										</div>
 									</div>
@@ -730,6 +768,15 @@ limitations under the License.
 												<input type="text" name="to_trans_date" id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 											</div>
 										</div>
+										<div class="col-12 col-md-4 mb-2">
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="date_entered">Entered Date</label>
+												<input name="date_entered" id="date_entered" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#date_entered#" aria-label="start of range for date entered">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="to_date_entered">end of search range for date entered</label>		
+												<input type="text" name="to_date_entered" id="to_date_entered" value="#to_date_entered#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											</div>
+										</div>
 										<div class="col-12 col-md-2">
 											<cfset ppermit_type = permit_type>
 											<label for="permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
@@ -759,6 +806,16 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
+									</div>
+									<div class="form-row mt-0 mx-0">
+										<div class="col-12 col-md-4">
+											<label for="nature_of_material" class="data-entry-label">Nature of Material</label>
+											<input id="nature_of_material" type="text" class="has-clear data-entry-select-input px-2" name="nature_of_material" value="#nature_of_material#">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="trans_remarks" class="data-entry-label">Internal Remarks</label>
+											<input id="trans_remarks" type="text" class="has-clear data-entry-select-input px-2" name="trans_remarks" value="#trans_remarks#">
+										</div>
 										<div class="col-12 col-md-4">
 											<label for="tr_permit_num" id="tr_permit_picklist" class="data-entry-label mb-0">Document/Permit Number:</label>
 											<div class="input-group">
@@ -784,7 +841,7 @@ limitations under the License.
 												});
 											</script>
 										</div>
-								</div>
+									</div>
 									<div class="form-row mt-2 mx-4">
 										<div class="col-12 px-1">
 											<button class="btn-xs btn-primary px-3 mr-2" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
@@ -860,7 +917,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset ploan_type = loan_type>
 											<label for="loan_type" class="data-entry-label mb-0">Type</label>
 											<select name="loan_type" id="loan_type" class="data-entry-select">
@@ -875,7 +932,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset ploan_status = loan_status>
 											<label for="loan_status" class="data-entry-label mb-0">Status</label>
 											<select name="loan_status" id="loan_status" class="data-entry-select" >
@@ -889,6 +946,32 @@ limitations under the License.
 													<option value="#ctLoanStatus.loan_status#" #selected#>#ctLoanStatus.loan_status#</option>
 												</cfloop>
 												<option value="not closed">not closed</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="shipment_count" class="data-entry-label">Shipments</label>
+											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of shipments">
+												<option value=""></option>
+												<cfif shipment_count IS "0"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="0" #scsel#>None</option>
+												<cfif shipment_count IS "1"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1" #scsel#>One</option>
+												<cfif shipment_count IS "1+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1+" #scsel#>One or more</option>
+												<cfif shipment_count IS "2+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="2+" #scsel#>Two or more</option>
+												<cfif shipment_count IS "3+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="3+" #scsel#>Three or more</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International Shipment</label>
+											<select name="foreign_shipments" id="foreign_shipments" class="data-entry-select" title="transaction has international shipments">
+												<option value=""></option>
+												<cfif foreign_shipments IS "0"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="0" #fssel#>No</option>
+												<cfif foreign_shipments IS "1+"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="1+" #fssel#>Yes</option>
 											</select>
 										</div>
 									</div>
@@ -955,7 +1038,7 @@ limitations under the License.
 									</div>
 									</div>
 									<div class="form-row px-1 mt-1 mb-md-2 my-xl-2">
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-6 col-lg-3">
 											<div class="date form-row bg-light border pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="trans_date">Loan Date</label>
 												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for loan date">
@@ -964,7 +1047,7 @@ limitations under the License.
 												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-6 col-lg-3">
 											<div class="date form-row bg-light border pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="return_due_date">Due Date</label>
 												<input name="return_due_date" id="return_due_date" type="text" placeholder="start yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" value="#return_due_date#" aria-label="start of range for due date">
@@ -973,13 +1056,22 @@ limitations under the License.
 												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4" aria-label="due date search range to">
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-6 col-lg-3">
 											<div class="date form-row border bg-light pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="closed_date">Close Date</label>
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="closed_date">Closed Date</label>
 												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#closed_date#" aria-label="start of range for closed date">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_closed_date">end of range for closed date </label>
 												<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4">
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-lg-3">
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="date_entered">Entered Date</label>
+												<input name="date_entered" id="date_entered" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#date_entered#" aria-label="start of range for date entered">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="to_date_entered">end of search range for date entered</label>		
+												<input type="text" name="to_date_entered" id="to_date_entered" value="#to_date_entered#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 											</div>
 										</div>
 									</div>
@@ -1246,7 +1338,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset paccn_type = accn_type>
 											<label for="accn_type" class="data-entry-label mb-0">Type</label>
 											<select name="accn_type" id="accn_type" class="data-entry-select">
@@ -1269,7 +1361,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset paccn_status = accn_status>
 											<label for="accn_status" class="data-entry-label mb-0">Status</label>
 											<select name="accn_status" id="accn_status" class="data-entry-select" >
@@ -1293,6 +1385,32 @@ limitations under the License.
 														<option value="!#ctAccnStatus.accn_status#" #selected#>not #ctAccnStatus.accn_status#</option>
 													</cfloop>
 												</cfif>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="shipment_count" class="data-entry-label">Shipments</label>
+											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of shipments">
+												<option value=""></option>
+												<cfif shipment_count IS "0"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="0" #scsel#>None</option>
+												<cfif shipment_count IS "1"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1" #scsel#>One</option>
+												<cfif shipment_count IS "1+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1+" #scsel#>One or more</option>
+												<cfif shipment_count IS "2+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="2+" #scsel#>Two or more</option>
+												<cfif shipment_count IS "3+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="3+" #scsel#>Three or more</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International Shipment</label>
+											<select name="foreign_shipments" id="foreign_shipments" class="data-entry-select" title="transaction has international shipments">
+												<option value=""></option>
+												<cfif foreign_shipments IS "0"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="0" #fssel#>No</option>
+												<cfif foreign_shipments IS "1+"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="1+" #fssel#>Yes</option>
 											</select>
 										</div>
 									</div>
@@ -1361,10 +1479,10 @@ limitations under the License.
 									<div class="form-row px-1">
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_trans_date">Entered Date</label>
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_trans_date">Accession Date</label>
 												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for date entered">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>		
+												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for accession date</label>
 												<input type="text" name="to_trans_date" id="accn_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
@@ -1378,21 +1496,28 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-md-4">
-											<label class="data-entry-label px-2 mx-1 mb-0" for="estimated_count">Estimated Count <span class="small">(accepts: 10, &lt;10, &gt;10, NULL, NOT NULL)</span></label>
-											<input type="text" name="estimated_count" class="data-entry-input" value="#estimated_count#" id="estimated_count" placeholder="&gt;100">
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_date_entered">Entered Date</label>
+												<input name="date_entered" id="accn_date_entered" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#date_entered#" aria-label="start of range for date entered">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="accn_to_date_entered">end of search range for date entered</label>
+												<input type="text" name="to_date_entered" id="accn_to_date_entered" value="#to_date_entered#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
+											</div>
 										</div>
 									</div>
 
 									<div class="form-row px-1 mt-2">
-								
 										<div class="col-md-6">
-		
-											<div class="border bg-light rounded py-3 mb-2 px-3 px-md-4">
-												<div class="col-md-12 px-0 mt-1">
+											<div class="form-row border bg-light rounded py-3 mb-2 px-3 px-md-4">
+												<div class="col-12 col-md-12 px-0">
+													<label class="data-entry-label px-0 mt-1" for="estimated_count">Estimated Count <span class="small">(accepts: 10, &lt;10, &gt;10, NULL, NOT NULL)</span></label>
+													<input type="text" name="estimated_count" class="data-entry-input" value="#estimated_count#" id="estimated_count" placeholder="&gt;100">
+												</div>
+												<div class="col-12 col-md-6 px-0">
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
 												</div>
-												<div class="col-md-12 px-0 mt-1">
+												<div class="col-12 col-md-6 pl-1 pr-0">
 													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
 												</div>
@@ -1688,7 +1813,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset pdeacc_type = deacc_type>
 											<label for="deacc_type" class="data-entry-label mb-0">Type</label>
 											<select name="deacc_type" id="deacc_type" class="data-entry-select">
@@ -1711,7 +1836,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset pdeacc_status = deacc_status>
 											<label for="deacc_status" class="data-entry-label mb-0">Status</label>
 											<select name="deacc_status" id="deacc_status" class="data-entry-select" >
@@ -1734,6 +1859,32 @@ limitations under the License.
 														<option value="!#ctDeaccStatus.deacc_status#" #selected#>not #ctDeaccStatus.deacc_status#</option>
 													</cfloop>
 												</cfif>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="shipment_count" class="data-entry-label">Shipments</label>
+											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of shipments">
+												<option value=""></option>
+												<cfif shipment_count IS "0"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="0" #scsel#>None</option>
+												<cfif shipment_count IS "1"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1" #scsel#>One</option>
+												<cfif shipment_count IS "1+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1+" #scsel#>One or more</option>
+												<cfif shipment_count IS "2+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="2+" #scsel#>Two or more</option>
+												<cfif shipment_count IS "3+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="3+" #scsel#>Three or more</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International Shipment</label>
+											<select name="foreign_shipments" id="foreign_shipments" class="data-entry-select" title="transaction has international shipments">
+												<option value=""></option>
+												<cfif foreign_shipments IS "0"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="0" #fssel#>No</option>
+												<cfif foreign_shipments IS "1+"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="1+" #fssel#>Yes</option>
 											</select>
 										</div>
 									</div>
@@ -1809,11 +1960,20 @@ limitations under the License.
 												<input type="text" name="to_trans_date" id="deacc_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
-										<div class="col-md-4">
+										<div class="col-12 col-md-4 mb-2">
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="date_entered">Entered Date</label>
+												<input name="date_entered" id="date_entered" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#date_entered#" aria-label="start of range for date entered">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="to_date_entered">end of search range for date entered</label>		
+												<input type="text" name="to_date_entered" id="to_date_entered" value="#to_date_entered#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											</div>
+										</div>
+										<div class="col-md-2">
 											<label class="data-entry-label mb-0" for="deacc_method">Method of Transfer</label>
 											<input type="text" name="deacc_method" class="data-entry-input" value="#deacc_method#" id="deacc_method">
 										</div>
-										<div class="col-md-4">
+										<div class="col-md-2">
 											<label class="data-entry-label mb-0" for="value">Value</label>
 											<input type="text" name="value" class="data-entry-input" value="#value#" id="value">
 										</div>
@@ -2087,14 +2247,14 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<label class="data-entry-label px-3 mx-1 mb-0" for="lenders_trans_num_cde">
-												Lender's Loan Number
+												Lender&apost;s Loan Number
 												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##lenders_trans_num_cde').val('='+$('##lenders_trans_num_cde').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
 											</label>
 											<input type="text" name="lenders_trans_num_cde" class="data-entry-input" value="#lenders_trans_num_cde#" id="lenders_trans_num_cde">
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset pborrow_status = borrow_status>
 											<label for="borrow_status" class="data-entry-label mb-0">Status</label>
 											<select name="borrow_status" id="borrow_status" class="data-entry-select" >
@@ -2117,6 +2277,32 @@ limitations under the License.
 														<option value="!#ctBorrowStatus.borrow_status#" #selected#>not #ctBorrowStatus.borrow_status#</option>
 													</cfloop>
 												</cfif>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="shipment_count" class="data-entry-label">Shipments</label>
+											<select name="shipment_count" id="shipment_count" class="data-entry-select" title="number of shipments">
+												<option value=""></option>
+												<cfif shipment_count IS "0"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="0" #scsel#>None</option>
+												<cfif shipment_count IS "1"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1" #scsel#>One</option>
+												<cfif shipment_count IS "1+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="1+" #scsel#>One or more</option>
+												<cfif shipment_count IS "2+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="2+" #scsel#>Two or more</option>
+												<cfif shipment_count IS "3+"><cfset scsel="selected"><cfelse><cfset scsel=""></cfif>
+												<option value="3+" #scsel#>Three or more</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-2"> 
+											<label for="foreign_shipments" class="data-entry-label" aria-label="International Shipmements">International Shipment</label>
+											<select name="foreign_shipments" id="foreign_shipments" class="data-entry-select" title="transaction has international shipments">
+												<option value=""></option>
+												<cfif foreign_shipments IS "0"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="0" #fssel#>No</option>
+												<cfif foreign_shipments IS "1+"><cfset fssel="selected"><cfelse><cfset fssel=""></cfif>
+												<option value="1+" #fssel#>Yes</option>
 											</select>
 										</div>
 									</div>
@@ -2621,10 +2807,13 @@ $(document).ready(function() {
 				{ name: 'trans_remarks', type: 'string' },
 				{ name: 'collection_cde', type: 'string' },
 				{ name: 'collection', type: 'string' },
-				{ name: 'number', type: 'string' },
+				{ name: 'specific_number', type: 'string' },
 				{ name: 'type', type: 'string' },
 				{ name: 'status', type: 'string' },
+				{ name: 'shipment_count', type: 'string' },
+				{ name: 'foreign_shipments', type: 'string' },
 				{ name: 'entered_by', type: 'string' },
+				{ name: 'date_entered', type: 'string' },
 				{ name: 'authorized_by', type: 'string' },
 				{ name: 'outside_authorized_by', type: 'string' },
 				{ name: 'received_by', type: 'string' },
@@ -2685,7 +2874,7 @@ $(document).ready(function() {
 				$("##searchResultsGrid").jqxGrid('selectrow', 0);
 			},
 			columns: [
-				{text: 'Number', datafield: 'number', width:120, hideable: true, hidden: getColHidProp('number', true) },
+				{text: 'Number', datafield: 'specific_number', width:120, hideable: true, hidden: getColHidProp('specific_number', true) },
 				{text: 'Transaction', datafield: 'id_link', width: 120},
 				{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: getColHidProp('transaction_id', true) },
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
@@ -2694,7 +2883,10 @@ $(document).ready(function() {
 				{text: 'Type', datafield: 'type', width: 80},
 				{text: 'Date', datafield: 'trans_date', width: 100},
 				{text: 'Status', datafield: 'status', width: 100},
+				{text: 'Shipments', datafield: 'shipment_count', width: 80, hideable: true, hidden: getColHidProp('shipment_count', true) },
+				{text: 'Foreign Shipments', datafield: 'foreign_shipments', width: 80, hideable: true, hidden: getColHidProp('foreign_shipments', true) },
 				{text: 'Entered By', datafield: 'entered_by', width: 100, hideable: true, hidden: getColHidProp('entered_by', false) },
+				{text: 'Entered Date', datafield: 'date_entered', width: 100, hideable: true, hidden: getColHidProp('date_entered', false) },
 				{text: 'Authorized By', datafield: 'authorized_by', width: 80, hideable: true, hidden: getColHidProp('authorized_by', true) },
 				{text: 'Outside Authorized By', datafield: 'outside_authorized_by', width: 80, hideable: true, hidden: getColHidProp('outside_authorized_by', true) },
 				{text: 'Received By', datafield: 'received_by', width: 80, hideable: true, hidden: getColHidProp('received_by', true) },
@@ -2825,6 +3017,8 @@ $(document).ready(function() {
 				{ name: 'loan_type', type: 'string' },
 				{ name: 'loan_type_scope', type: 'string' },
 				{ name: 'loan_status', type: 'string' },
+				{ name: 'shipment_count', type: 'string' },
+				{ name: 'foreign_shipments', type: 'string' },
 				{ name: 'nature_of_material', type: 'string' },
 				{ name: 'loan_instructions', type: 'string' },
 				{ name: 'loan_description', type: 'string' },
@@ -2915,6 +3109,8 @@ $(document).ready(function() {
 				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: getColHidProp('addInhouse_agen', true) },
 				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: getColHidProp('addOutside_agent', true) },
 				{text: 'Entered By', datafield: 'ent_agent', width: 100},
+				{text: 'Shipments', datafield: 'shipment_count', width:  80, hideable: true, hidden: getColHidProp('shipment_count', true) },
+				{text: 'Foreign Shipments', datafield: 'foreign_shipments',  width: 80, hideable: true, hidden: getColHidProp('foreign_shipments', true) },
 				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: getColHidProp('trans_remarks', true) },
 				{text: 'Scope', datafield: 'loan_type_scope', hideable: true, hidden: getColHidProp('loan_type_scope', true) },
 				{text: 'Instructions', datafield: 'loan_instructions', hideable: true, hidden: getColHidProp('loan_instructions', true) },
@@ -2984,6 +3180,7 @@ $(document).ready(function() {
 			[
 				{ name: 'transaction_id', type: 'string' },
 				{ name: 'date_entered', type: 'string' },
+				{ name: 'accession_date', type: 'string' },
 				{ name: 'trans_remarks', type: 'string' },
 				{ name: 'accn_number', type: 'string' },
 				{ name: 'accn_type', type: 'string' },
@@ -3005,6 +3202,7 @@ $(document).ready(function() {
 				{ name: 'permits', type: 'int' },
 				{ name: 'item_count', type: 'int' },
 				{ name: 'shipment_count', type: 'string' },
+				{ name: 'foreign_shipments', type: 'string' },
 				{ name: 'project_name', type: 'string' },
 				{ name: 'pid', type: 'string' },
 				{ name: 'id_link', type: 'string' }
@@ -3061,12 +3259,14 @@ $(document).ready(function() {
 				{text: 'Accession', datafield: 'id_link', width: 100}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: getColHidProp('collection', true) },
-				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: getColHidProp('shipment_count', true) },
+				{text: 'Shipments', datafield: 'shipment_count', width: 80, hideable: true, hidden: getColHidProp('shipment_count', true) },
+				{text: 'Foreign Shipments', datafield: 'foreign_shipments', width: 80, hideable: true, hidden: getColHidProp('foreign_shipment', true) },
 				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: getColHidProp('item_count', false), width: 90, cellsrenderer: catitemsCellRenderer },
 				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: getColHidProp('estimated_count', false), width: 90 },
 				{text: 'Type', datafield: 'accn_type', hidable: true, hidden: getColHidProp('accn_type', false), width: 100},
 				{text: 'Status', datafield: 'accn_status', hideable: true, hidden: getColHidProp('accn_status', false), width: 100},
 				{text: 'Entered Date', datafield: 'date_entered', width: 100, hidable: true, hidden: getColHidProp('date_entered', true) },
+				{text: 'Accn. Date', datafield: 'accession_date', width: 100, hidable: true, hidden: getColHidProp('date_entered', true) },
 				{text: 'Received Date', datafield: 'received_date', width: 100, hideable: true, hidden: getColHidProp('received_date', false) },
 				{text: 'Received From', datafield: 'rec_from_agent', width: 100, hidable: true, hidden: getColHidProp('rec_from_agent', false) },
 				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: getColHidProp('outside_agent', true) },
@@ -3166,6 +3366,7 @@ $(document).ready(function() {
 				{ name: 'permits', type: 'int' },
 				{ name: 'item_count', type: 'int' },
 				{ name: 'shipment_count', type: 'string' },
+				{ name: 'foreign_shipments', type: 'string' },
 				{ name: 'project_name', type: 'string' },
 				{ name: 'pid', type: 'string' },
 				{ name: 'id_link', type: 'string' }
@@ -3222,7 +3423,8 @@ $(document).ready(function() {
 				{text: 'Deaccession', datafield: 'id_link', width: 120}, // datafield name referenced in createDeaccRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: getColHidProp('collection', true) },
-				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: getColHidProp('shipment_count', true) },
+				{text: 'Shipments', datafield: 'shipment_count', width: 80, hideable: true, hidden: getColHidProp('shipment_count', true) },
+				{text: 'Foreign Shipments', datafield: 'foreign_shipments', width: 80, hideable: true, hidden: getColHidProp('foreign_shipments', true) },
 				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: getColHidProp('item_count', false), width: 90, cellsrenderer: catitemsDeaccCellRenderer},
 				{text: 'Type', datafield: 'deacc_type', hidable: true, hidden: getColHidProp('deacc_type', false), width: 100},
 				{text: 'Status', datafield: 'deacc_status', hideable: true, hidden: getColHidProp('deacc_status', false), width: 90},
@@ -3355,6 +3557,7 @@ $(document).ready(function() {
 				{ name: 'permits', type: 'int' },
 				{ name: 'item_count', type: 'int' },
 				{ name: 'shipment_count', type: 'string' },
+				{ name: 'foreign_shipments', type: 'string' },
 				{ name: 'project_name', type: 'string' },
 				{ name: 'pid', type: 'string' },
 				{ name: 'id_link', type: 'string' }
@@ -3411,7 +3614,8 @@ $(document).ready(function() {
 				{text: 'Borrow', datafield: 'id_link', width: 120}, // datafield name referenced in createDeaccRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: getColHidProp('collection', true) },
-				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: getColHidProp('shipment_count', true) },
+				{text: 'Shipments', datafield: 'shipment_count', width: 80, hideable: true, hidden: getColHidProp('shipment_count', true) },
+				{text: 'Foreign Shipments', datafield: 'foreign_shipments', width: 80, hideable: true, hidden: getColHidProp('foreign_shipments', true) },
 				{text: 'Item Count', datafield: 'item_count', hideable: true, hidden: getColHidProp('item_count', false), width: 90 },
 				{text: 'No. of Spec.', datafield: 'no_of_specimens', hideable: true, hidden: getColHidProp('no_of_specimens', false), width: 90 },
 				{text: 'Lender Loan Type', datafield: 'lender_loan_type', hidable: true, hidden: getColHidProp('lender_loan_type', true), width: 100},
