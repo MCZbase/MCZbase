@@ -101,6 +101,7 @@ limitations under the License.
 		// setup date pickers
 		jQuery(document).ready(function() {
 			$("##received_date").datepicker({ dateFormat: 'yy-mm-dd'});
+			$("##accession_date").datepicker({ dateFormat: 'yy-mm-dd'});
 		});
 	</script>
 </cfoutput>
