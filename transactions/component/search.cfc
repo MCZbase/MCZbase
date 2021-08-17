@@ -1979,6 +1979,18 @@ limitations under the License.
 			<cfset to_return_acknowledged_date = "#to_return_acknowledged_date#-12-31">
 		</cfif>
 	</cfif>
+	<cfif isdefined("lenders_loan_date") and len(#lenders_loan_date#) gt 0>
+		<cfif not isdefined("to_lenders_loan_date") or len(to_lenders_loan_date) is 0>
+			<cfset to_lenders_loan_date=lenders_loan_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#lenders_loan_date#) EQ 4>
+			<cfset lenders_loan_date = "#lenders_loan_date#-01-01">
+		</cfif>
+		<cfif len(#to_lenders_loan_date#) EQ 4>
+			<cfset to_lenders_loan_date = "#to_lenders_loan_date#-12-31">
+		</cfif>
+	</cfif>
 
 	<!--- do the search --->
 	<cfset data = ArrayNew(1)>
