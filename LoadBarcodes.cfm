@@ -1,4 +1,10 @@
-<cfinclude template = "includes/_header.cfm">
+<cfif isDefined("headless") and headless EQ 'true'>
+  <cfif not isDefined("toProperCase")>
+		<cfthrow message = "LoadBarcodes.cfm called with headless=true, but header is not allready included.">
+	</cfif>
+<cfelse>
+	<cfinclude template = "includes/_header.cfm">
+</cfif>
 
 <CFSCRIPT>
 /**
@@ -377,4 +383,10 @@ disabled<cfabort>
 	
 </cfoutput>
 </cfif>
-<cfinclude template = "includes/_footer.cfm">
+<cfif isDefined("headless") and headless EQ 'true'>
+  <cfif not isDefined("toProperCase")>
+		<cfthrow message = "LoadBarcodes.cfm called with headless=true, but header is not allready included.">
+	</cfif>
+<cfelse>
+	<cfinclude template = "includes/_footer.cfm">
+</cfif>
