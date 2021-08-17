@@ -1648,7 +1648,6 @@ limitations under the License.
 														<cfelse>
 																None
 														</cfif>
-														<cfset mediaidnum=mediaidnum+1>
 														<cfset i= i+1>
 													</div>
 													</cfloop>
