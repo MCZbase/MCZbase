@@ -251,9 +251,9 @@ limitations under the License.
 							<div class="col-12 col-md-4">
 								<label for="accession_date" class="data-entry-label">Accession Date</label>
 								<input type="text" name="accession_date" id="accession_date"
-									disabled="true"
+									required
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
-									class="w-100 data-entry-input mb-1">
+									class="reqdClr w-100 data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-4">
 								<label for="received_date" class="data-entry-label">Received Date</label>

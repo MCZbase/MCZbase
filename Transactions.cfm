@@ -1509,15 +1509,15 @@ limitations under the License.
 									<div class="form-row px-1 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded py-3 mb-2 px-3 px-md-4">
-												<div class="col-md-12">
-													<label class="data-entry-label px-2 mx-1 mb-0" for="estimated_count">Estimated Count <span class="small">(accepts: 10, &lt;10, &gt;10, NULL, NOT NULL)</span></label>
+												<div class="col-12 col-md-12">
+													<label class="data-entry-label px-0 mt-1" for="estimated_count">Estimated Count <span class="small">(accepts: 10, &lt;10, &gt;10, NULL, NOT NULL)</span></label>
 													<input type="text" name="estimated_count" class="data-entry-input" value="#estimated_count#" id="estimated_count" placeholder="&gt;100">
 												</div>
-												<div class="col-12 col-md-6 px-0 mt-1">
+												<div class="col-12 col-md-6 px-0">
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
 												</div>
-												<div class="col-12 col-md-6 px-0 mt-1">
+												<div class="col-12 col-md-6 px-0">
 													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
 												</div>
