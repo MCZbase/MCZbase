@@ -617,7 +617,7 @@ limitations under the License.
 											</cfif>
 										<!--- TODO: Need another role for report management  --->
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Reporter.cfm">Label/Report Management</a>
+												<a class="dropdown-item" href="/Reports/reporter.cfm">Label/Report Management</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Label/Report Management</a>
 											</cfif>
