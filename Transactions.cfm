@@ -3344,6 +3344,7 @@ $(document).ready(function() {
 			[
 				{ name: 'transaction_id', type: 'string' },
 				{ name: 'date_entered', type: 'string' },
+				{ name: 'deaccession_date', type: 'string' },
 				{ name: 'trans_remarks', type: 'string' },
 				{ name: 'deacc_remarks', type: 'string' },
 				{ name: 'deacc_number', type: 'string' },
@@ -3432,6 +3433,7 @@ $(document).ready(function() {
 				{text: 'Method of Transfer', datafield: 'method', hideable: true, hidden: getColHidProp('method', true), width: 90},
 				{text: 'Value', datafield: 'value', hideable: true, hidden: getColHidProp('value', true), width: 90},
 				{text: 'Entered Date', datafield: 'date_entered', width: 100, hidable: true, hidden: getColHidProp('date_entered', true) },
+				{text: 'Deaccession Date', datafield: 'deaccession_date', width: 100, hidable: true, hidden: getColHidProp('deaccession_date', true) },
 				{text: 'Recipient Institution', datafield: 'recipient_institution_agent', width: 100, hidable: true, hidden: getColHidProp('recipient_institution_agent', false) },
 				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: getColHidProp('outside_agent', true) },
 				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: getColHidProp('rec_agent', true) },
