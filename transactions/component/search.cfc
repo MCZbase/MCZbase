@@ -180,12 +180,12 @@ limitations under the License.
 				<cfif isdefined("trans_date") and len(trans_date) gt 0>
 					AND trans_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("date_entered") and len(date_entered) gt 0>
 					AND date_entered between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(date_entered, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
 					AND ( 
@@ -529,17 +529,17 @@ limitations under the License.
 				<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
 					AND loan.return_due_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(return_due_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_return_due_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_return_due_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("closed_date") and len(closed_date) gt 0>
 					AND loan.closed_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(closed_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_closed_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_closed_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("trans_date") and len(trans_date) gt 0>
 					AND trans_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("date_entered") and len(date_entered) gt 0>
 					AND date_entered between 
@@ -742,7 +742,7 @@ limitations under the License.
 					<cfif isdefined("issued_until_date") AND len(#issued_until_date#) gt 0>
 						AND upper(issued_date) 
 							between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_date#">, 'yyyy-mm-dd')
-							and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_until_date#">, 'yyyy-mm-dd')
+							and (to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_until_date#">, 'yyyy-mm-dd') + (86399/86400) )
 					<cfelse>
 						AND upper(issued_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_date#">, 'yyyy-mm-dd')
 					</cfif>
@@ -764,7 +764,7 @@ limitations under the License.
 					<cfif isdefined("renewed_until_date") OR len(#renewed_until_date#) gt 0>
 						AND upper(renewed_date)
 							between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_date#">, 'yyyy-mm-dd')
-							and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_until_date#">, 'yyyy-mm-dd')
+							and (to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_until_date#">, 'yyyy-mm-dd') + (86399/86400) )
 					<cfelse>
 						AND upper(renewed_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_date#">, 'yyyy-mm-dd')
 					</cfif>
@@ -786,7 +786,7 @@ limitations under the License.
 					<cfif isdefined("exp_until_date") AND len(#exp_until_date#) gt 0>
 						AND upper(exp_date) 
 							between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_date#">, 'yyyy-mm-dd')
-							and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_until_date#">, 'yyyy-mm-dd')
+							and (to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_until_date#">, 'yyyy-mm-dd') + (86399/86400) )
 					<cfelse>
 						AND upper(exp_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_date#">, 'yyyy-mm-dd')
 					</cfif>
@@ -1240,17 +1240,17 @@ limitations under the License.
 				<cfif isdefined("trans_date") and len(trans_date) gt 0>
 					AND trans_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("date_entered") and len(date_entered) gt 0>
 					AND date_entered between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(date_entered, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("rec_date") and len(rec_date) gt 0>
 					AND accn.received_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(rec_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_rec_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_rec_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
 					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
@@ -1691,12 +1691,12 @@ limitations under the License.
 				<cfif isdefined("trans_date") and len(trans_date) gt 0>
 					AND trans_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("date_entered") and len(date_entered) gt 0>
 					AND date_entered between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(date_entered, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
 					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
@@ -2139,32 +2139,32 @@ limitations under the License.
 				<cfif isdefined("trans_date") and len(trans_date) gt 0>
 					AND trans_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("date_entered") and len(date_entered) gt 0>
 					AND date_entered between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(date_entered, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("received_date") and len(received_date) gt 0>
 					AND borrow.received_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(received_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_received_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_received_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("due_date") and len(due_date) gt 0>
 					AND due_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(due_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_due_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_due_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("lenders_loan_date") and len(lenders_loan_date) gt 0>
 					AND lenders_loan_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(lenders_loan_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_lenders_loan_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_lenders_loan_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("return_acknowledged_date") and len(return_acknowledged_date) gt 0>
 					AND return_acknowledged_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(return_acknowledged_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_return_acknowledged_date, "yyyy-mm-dd")#'>)
+						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_return_acknowledged_date, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
 					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
