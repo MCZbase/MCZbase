@@ -520,6 +520,12 @@ limitations under the License.
 	<cfif not isdefined("to_date_entered")>
 		<cfset to_date_entered="">
 	</cfif>
+	<cfif not isdefined("return_acknowledged_date")>
+		<cfset return_acknowledged_date="">
+	</cfif>
+	<cfif not isdefined("to_return_acknowledged_date")>
+		<cfset to_return_acknowledged_date="">
+	</cfif>
 	<div id="overlaycontainer" style="position: relative;">
 	<main id="content">
 		<!--- Search form --->
