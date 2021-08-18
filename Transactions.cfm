@@ -2390,7 +2390,7 @@ limitations under the License.
 										</div>
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="lenders_loan_date">Lender&apos;s Loan Date</label>
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="lenders_loan_date">Lender's Loan Date</label>
 												<input name="lenders_loan_date" id="lenders_loan_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#loan_date#" aria-label="start of range for date entered">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="lenders_to_loan_date">end of search range for date entered</label>		
@@ -2418,49 +2418,58 @@ limitations under the License.
 												<input type="text" name="to_date_entered" id="borrow_to_date_entered" value="#to_date_entered#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
-										<div class="col-md-2">
-											<label class="data-entry-label px-3 mx-1 mb-0" for="no_of_specimens">Total No. of Specimens</label>
-											<input type="text" name="no_of_specimens" class="data-entry-input" value="#no_of_specimens#" id="no_of_specimens" placeholder="&gt;100">
-										</div>
-										<div class="col-md-2">
-											<label for="borrow_trans_remarks" class="data-entry-label mb-0 pb-0">Lender Acknowledged Return</label>
-											<select name="lenders_invoice_returned" class="data-entry-select" value="#lenders_invoice_returned#" id="lenders_invoice_returned">
-												<cfif len(lenders_invoice_returned) EQ 0 >
-													<cfset bsel ="selected">
-													<cfset ysel ="">
-													<cfset nsel ="">
-												<cfelseif lenders_invoice_returned EQ 1 >
-													<cfset bsel ="">
-													<cfset ysel ="selected">
-													<cfset nsel ="">
-												<cfelse>
-													<cfset bsel ="">
-													<cfset ysel ="">
-													<cfset nsel ="selected">
-												</cfif>
-												<option value="" #bsel#></option>
-												<option value="1" #ysel#>Yes</option>
-												<option value="0" #nsel#>No</option>
-											</select>
+										<div class="col-md-4">
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="borrow_return_acknowledged_date">Return Acknowledged Date</label>
+												<input name="return_acknowledged_date" id="borrow_return_acknowledged_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#return_acknowledged_date#" aria-label="start of range for date return acknowleged">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="borrow_to_return_acknowledged_date">end of search range for date entered</label>		
+												<input type="text" name="to_return_acknowledged_date" id="borrow_to_return_acknowledged_date" value="#to_return_acknowledged_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
+											</div>
 										</div>
 									</div>
 
 									<div class="form-row px-1 mt-2">
 										<div class="col-md-6">
-											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
-												<div class="col-md-12 px-0 mt-1">
+											<div class="form-row border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
+												<div class="col-12 col-md-6">
+													<label class="data-entry-label px-3 mx-1 mb-0" for="no_of_specimens">Total No. of Specimens</label>
+													<input type="text" name="no_of_specimens" class="data-entry-input" value="#no_of_specimens#" id="no_of_specimens" placeholder="&gt;100">
+												</div>
+												<div class="col-12 col-md-6">
+													<label for="borrow_trans_remarks" class="data-entry-label mb-0 pb-0">Lender Acknowledged Return</label>
+													<select name="lenders_invoice_returned" class="data-entry-select" value="#lenders_invoice_returned#" id="lenders_invoice_returned">
+														<cfif len(lenders_invoice_returned) EQ 0 >
+															<cfset bsel ="selected">
+															<cfset ysel ="">
+															<cfset nsel ="">
+														<cfelseif lenders_invoice_returned EQ 1 >
+															<cfset bsel ="">
+															<cfset ysel ="selected">
+															<cfset nsel ="">
+														<cfelse>
+															<cfset bsel ="">
+															<cfset ysel ="">
+															<cfset nsel ="selected">
+														</cfif>
+														<option value="" #bsel#></option>
+														<option value="1" #ysel#>Yes</option>
+														<option value="0" #nsel#>No</option>
+													</select>
+												</div>
+												<div class="col-12 col-md-6 px-0 mt-1">
 													<label for="bo_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="bo_nature_of_material">
 												</div>
-												<div class="col-md-12 px-0">
+												<div class="col-12 col-md-6 px-0">
 													<label for="lenders_instructions" class="data-entry-label mb-0 pb-0">Lender's Instructions</label>
 													<input type="text" name="lenders_instructions" class="data-entry-input" value="#lenders_instructions#" id="lenders_instructions">
 												</div>
-												<div class="col-md-12 px-0">
+												<div class="col-12 col-md-6 px-0">
 													<label for="borrow_description" class="data-entry-label mb-0 pb-0">Borrow Description</label>
 													<input type="text" name="borrow_description" class="data-entry-input" value="#borrow_description#" id="borrow_description">
 												</div>
-												<div class="col-md-12 px-0">
+												<div class="col-12 col-md-6 px-0">
 													<label for="borrow_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="borrow_trans_remarks">
 												</div>
