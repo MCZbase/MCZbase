@@ -18,6 +18,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---   Function getTransactions  --->
 <cffunction name="getTransactions" access="remote" returntype="any" returnformat="json">
