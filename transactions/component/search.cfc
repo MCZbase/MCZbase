@@ -1565,7 +1565,7 @@ limitations under the License.
 				deacc_number,
 				deacc_type,
 				nature_of_material,
-				to_char(trans_date,'YYYY-MM-DD') as deaccesion_date,
+				to_char(trans_date,'YYYY-MM-DD') as deaccession_date,
 				to_char(date_entered,'YYYY-MM-DD') as date_entered,
 				deacc_status,
 				deacc_reason,
