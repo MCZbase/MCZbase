@@ -694,22 +694,27 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-1">
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<label for="trans_date" class="data-entry-label">Borrow Date</label>
 								<input type="text" name="trans_date" id="trans_date" 
 									value="#dateformat(borrowDetails.trans_date,"yyyy-mm-dd")#" class="data-entry-input" >
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
+								<label for="received_date" class="data-entry-label">Received Date</label>
+								<input type="text" name="received_date" id="received_date" 
+									value="#dateformat(borrowDetails.received_date,"yyyy-mm-dd")#" class="data-entry-input" >
+							</div>
+							<div class="col-12 col-md-2">
 								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
 								<input type="text" name="lenders_loan_date" id="lenders_loan_date" 
 									value="#dateformat(borrowDetails.lenders_loan_date,"yyyy-mm-dd")#" class="data-entry-input" >
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<label for="due_date" class="data-entry-label">Due Date</label>
 								<input type="text" name="due_date" id="due_date"
 									value="#dateformat(borrowDetails.due_date,"yyyy-mm-dd")#" class="data-entry-input" >
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged returned?</label>
 								<cfif borrowDetails.lenders_invoice_returned_fg EQ 1 >
 									<cfset selected0 = "">
@@ -723,7 +728,7 @@ limitations under the License.
 									<option value="1" #selected1#>yes</option>
 								</select>
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<label for="return_acknowledged_date" class="data-entry-label">Return Acknowledged Date</label>
 								<input type="text" name="return_acknowledged_date" id="return_acknowledged_date" class="data-entry-input" value="#dateformat(borrowDetails.return_acknowledged_date,'yyyy-mm-dd')#">
 							</div>
