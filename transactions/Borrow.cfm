@@ -545,10 +545,10 @@ limitations under the License.
 				select
 					trans.transaction_id,
 					trans.transaction_type,
-					trans_date dateEntered,
+					trans.date_entered,
 					borrow_number,
 					borrow_status,
-					trans_date,
+					trans.trans_date,
 					received_date,
 					due_date,
 					lenders_loan_date,
@@ -683,7 +683,7 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<span class="data-entry-label">Entered Date</span>
 								<div class="col-12 bg-light border non-field-text">
-									<span id="date_entered">#dateformat(borrowDetails.dateEntered,'yyyy-mm-dd')#</span>
+									<span id="date_entered">#dateformat(borrowDetails.date_entered,'yyyy-mm-dd')#</span>
 								</div>
 							</div>
 							<div class="col-12 col-md-3">
@@ -694,6 +694,11 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-1">
+							<div class="col-12 col-md-3">
+								<label for="trans_date" class="data-entry-label">Borrow Date</label>
+								<input type="text" name="trans_date" id="trans_date" 
+									value="#dateformat(borrowDetails.trans_date,"yyyy-mm-dd")#" class="data-entry-input" >
+							</div>
 							<div class="col-12 col-md-3">
 								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
 								<input type="text" name="lenders_loan_date" id="lenders_loan_date" 
