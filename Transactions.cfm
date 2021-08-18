@@ -2438,11 +2438,11 @@ limitations under the License.
 									<div class="form-row px-1 mt-2">
 										<div class="col-md-6">
 											<div class="form-row border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
-												<div class="col-12 col-md-6">
-													<label class="data-entry-label px-3 mx-1 mb-0" for="no_of_specimens">Total No. of Specimens</label>
+												<div class="col-12 col-md-6 px-0">
+													<label class="data-entry-label mb-0 pb-0" for="no_of_specimens">Total No. of Specimens</label>
 													<input type="text" name="no_of_specimens" class="data-entry-input" value="#no_of_specimens#" id="no_of_specimens" placeholder="&gt;100">
 												</div>
-												<div class="col-12 col-md-6">
+												<div class="col-12 col-md-6 px-0 pl-md-1">
 													<label for="borrow_trans_remarks" class="data-entry-label mb-0 pb-0">Lender Acknowledged Return</label>
 													<select name="lenders_invoice_returned" class="data-entry-select" value="#lenders_invoice_returned#" id="lenders_invoice_returned">
 														<cfif len(lenders_invoice_returned) EQ 0 >
@@ -2463,11 +2463,11 @@ limitations under the License.
 														<option value="0" #nsel#>No</option>
 													</select>
 												</div>
-												<div class="col-12 col-md-6 px-0 mt-1">
+												<div class="col-12 col-md-6 px-0">
 													<label for="bo_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="bo_nature_of_material">
 												</div>
-												<div class="col-12 col-md-6 px-0">
+												<div class="col-12 col-md-6 px-0 pl-md-1">
 													<label for="lenders_instructions" class="data-entry-label mb-0 pb-0">Lender's Instructions</label>
 													<input type="text" name="lenders_instructions" class="data-entry-input" value="#lenders_instructions#" id="lenders_instructions">
 												</div>
@@ -2475,7 +2475,7 @@ limitations under the License.
 													<label for="borrow_description" class="data-entry-label mb-0 pb-0">Borrow Description</label>
 													<input type="text" name="borrow_description" class="data-entry-input" value="#borrow_description#" id="borrow_description">
 												</div>
-												<div class="col-12 col-md-6 px-0">
+												<div class="col-12 col-md-6 px-0 pl-md-1">
 													<label for="borrow_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="borrow_trans_remarks">
 												</div>
