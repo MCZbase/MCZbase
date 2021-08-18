@@ -2390,7 +2390,7 @@ limitations under the License.
 										</div>
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="lenders_loan_date">Lender's Loan Date</label>
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="lenders_loan_date">Lender&apos;s Loan Date</label>
 												<input name="lenders_loan_date" id="lenders_loan_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#loan_date#" aria-label="start of range for date entered">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="lenders_to_loan_date">end of search range for date entered</label>		
@@ -2402,19 +2402,28 @@ limitations under the License.
 									<div class="form-row px-1 mt-2">
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="borrow_trans_date">Entered Date</label>
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="borrow_trans_date">Borrow Date</label>
 												<input name="trans_date" id="borrow_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for date entered">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="borrow_to_trans_date">end of search range for date entered</label>		
+												<label class="data-entry-label sr-only" for="borrow_to_trans_date">end of search range for borrow date</label>		
 												<input type="text" name="to_trans_date" id="borrow_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
 										<div class="col-md-4">
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="borrow_date_entered">Entered Date</label>
+												<input name="date_entered" id="borrow_date_entered" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#date_entered#" aria-label="start of range for date entered">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="borrow_to_date_entered">end of search range for date entered</label>		
+												<input type="text" name="to_date_entered" id="borrow_to_date_entered" value="#to_date_entered#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
+											</div>
+										</div>
+										<div class="col-md-2">
 											<label class="data-entry-label px-3 mx-1 mb-0" for="no_of_specimens">Total No. of Specimens</label>
 											<input type="text" name="no_of_specimens" class="data-entry-input" value="#no_of_specimens#" id="no_of_specimens" placeholder="&gt;100">
 										</div>
-										<div class="col-md-4">
-											<label for="borrow_trans_remarks" class="data-entry-label mb-0 pb-0">Return Acknowledged By Lender</label>
+										<div class="col-md-2">
+											<label for="borrow_trans_remarks" class="data-entry-label mb-0 pb-0">Lender Acknowledged Return</label>
 											<select name="lenders_invoice_returned" class="data-entry-select" value="#lenders_invoice_returned#" id="lenders_invoice_returned">
 												<cfif len(lenders_invoice_returned) EQ 0 >
 													<cfset bsel ="selected">
