@@ -90,9 +90,10 @@ limitations under the License.
 				validationFailure = true;
 			}
 			if ($('##return_acknowledged_date').val()!="" && $('##borrow_status option:selected').val() == 'open' ) { 
-				// there is a return acknowledged date, but the return acknowleged is set to no.
+				// there is a return acknowledged date, but borrow is open
 				message = message + "<dt>Borrow Status:</dt> <dd>There is a return acknowledged date, but borrow is still open.</dd>"
 				validationFailure = true;
+				// note, not testing for borrow_status in process, just for open, to allow for in process partial entry and save before closing.
 			}
 			// add any other specific tests here
 			
