@@ -79,6 +79,33 @@ limitations under the License.
 			$("##lenders_loan_date").datepicker({ dateFormat: 'yy-mm-dd'});
 			$("##return_acknowledged_date").datepicker({ dateFormat: 'yy-mm-dd'});
 		});
+		// check specific buisness rules for valid save of create or edit borrow, then general test of form field validity
+		function checkBorrowFormValidity(form) { 
+			var result = false;
+			var validationFailure = false;
+			var message = "Form Input validation problem.<br><dl>";
+			if ($('##return_acknowledged_date').val()!="" && $('##return_acknowledged option:selected').val() == 0 ) { 
+				// there is a return acknowledged date, but the return acknowleged is set to no.
+				message = message + "<dt>Return Acknowleged:</dt> <dd>There is a return acknowledged date, but return acknowledged is set to 'no'.</dd>"
+				validationFailure = true;
+			}
+			if ($('##return_acknowledged_date').val()!="" && $('##borrow_status option:selected').val() == 'open' ) { 
+				// there is a return acknowledged date, but the return acknowleged is set to no.
+				message = message + "<dt>Borrow Status:</dt> <dd>There is a return acknowledged date, but borrow is still open.</dd>"
+				validationFailure = true;
+			}
+			// add any other specific tests here
+			
+			if (validationFailure==true) {
+				// deliver warning message.
+				message = message + "</dl>"
+				messageDialog(message,'Unable to Save');
+			} else {  
+				// no specific failure, so test general form rules.
+				result = checkFormValidity(form);
+			} 
+			return result;
+		};
 	</script>
 </cfoutput>
 
@@ -463,7 +490,7 @@ limitations under the License.
 						<div class="form-row my-2">
 							<div class="form-group col-12">
 								<input type="button" value="Create Borrow" class="btn mt-2 btn-xs btn-primary"
-									onClick="if (checkFormValidity($('##newBorrow')[0])) { submit(); } ">
+									onClick="if (checkBorrowFormValidity($('##newBorrow')[0])) { submit(); } ">
 							</div>
 						</div>
 					</form>
@@ -516,33 +543,6 @@ limitations under the License.
 				console.log(transaction_id);
 				console.log(relationship);
 		 	};
-			// check specific buisness rules for valid save of edit borrow, then general test of form field validity
-			function checkEditBorrowFormValidity(form) { 
-				var result = false;
-				var validationFailure = false;
-				var message = "Form Input validation problem.<br><dl>";
-				if ($('##return_acknowledged_date').val()!="" && $('##return_acknowledged option:selected').val() == 0 ) { 
-					// there is a return acknowledged date, but the return acknowleged is set to no.
-					message = message + "<dt>Return Acknowleged:</dt> <dd>There is a return acknowledged date, but return acknowledged is set to 'no'.</dd>"
-					validationFailure = true;
-				}
-				if ($('##return_acknowledged_date').val()!="" && $('##borrow_status option:selected').val() == 'open' ) { 
-					// there is a return acknowledged date, but the return acknowleged is set to no.
-					message = message + "<dt>Borrow Status:</dt> <dd>There is a return acknowledged date, but borrow is still open.</dd>"
-					validationFailure = true;
-				}
-				// add any other specific tests here
-				
-				if (validationFailure==true) {
-					// deliver warning message.
-					message = message + "</dl>"
-					messageDialog(message,'Unable to Save');
-				} else {  
-					// no specific failure, so test general form rules.
-					result = checkFormValidity(form);
-				} 
-				return result;
-			};
 		</script>
 		<cftry>
 			<cfquery name="borrowDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowDetails_result">
@@ -802,7 +802,7 @@ limitations under the License.
 						<div class="form-row">
 							<div class="form-group col-12 mb-3 pt-1 mt-1">
 								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-									onClick="if (checkEditBorrowFormValidity($('##editBorrowForm')[0])) { saveEdits(); } " 
+									onClick="if (checkBorrowFormValidity($('##editBorrowForm')[0])) { saveEdits(); } " 
 									id="submitButton" >
 								<button type="button" aria-label="Print Borrow Paperwork" id="borrowPrintDialogLauncher"
 									class="btn btn-xs btn-info mr-2" value="Print..."
