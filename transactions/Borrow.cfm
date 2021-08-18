@@ -79,6 +79,34 @@ limitations under the License.
 			$("##lenders_loan_date").datepicker({ dateFormat: 'yy-mm-dd'});
 			$("##return_acknowledged_date").datepicker({ dateFormat: 'yy-mm-dd'});
 		});
+		// check specific buisness rules for valid save of create or edit borrow, then general test of form field validity
+		function checkBorrowFormValidity(form) { 
+			var result = false;
+			var validationFailure = false;
+			var message = "Form Input validation problem.<br><dl>";
+			if ($('##return_acknowledged_date').val()!="" && $('##return_acknowledged option:selected').val() == 0 ) { 
+				// there is a return acknowledged date, but the return acknowleged is set to no.
+				message = message + "<dt>Return Acknowleged:</dt> <dd>There is a return acknowledged date, but return acknowledged is set to 'no'.</dd>"
+				validationFailure = true;
+			}
+			if ($('##return_acknowledged_date').val()!="" && $('##borrow_status option:selected').val() == 'open' ) { 
+				// there is a return acknowledged date, but borrow is open
+				message = message + "<dt>Borrow Status:</dt> <dd>There is a return acknowledged date, but borrow is still open.</dd>"
+				validationFailure = true;
+				// note, not testing for borrow_status in process, just for open, to allow for in process partial entry and save before closing.
+			}
+			// add any other specific tests here
+			
+			if (validationFailure==true) {
+				// deliver warning message.
+				message = message + "</dl>"
+				messageDialog(message,'Unable to Save');
+			} else {  
+				// no specific failure, so test general form rules.
+				result = checkFormValidity(form);
+			} 
+			return result;
+		};
 	</script>
 </cfoutput>
 
@@ -229,20 +257,24 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-0 mb-md-2">
-							<div class="col-12 col-md-4 mb-1 mb-md-0">
-								<label for="due_date" class="data-entry-label">Due Date</label>
-								<input type="text" name="due_date" id="due_date" class="w-100 data-entry-input mb-1">
-							</div>
-							<div class="col-12 col-md-4 mb-1 mb-md-0">
-								<label for="received_date" class="data-entry-label">Received Date</label>
-								<input type="text" name="received_date" id="received_date" class="w-100 data-entry-input mb-1">
-							</div>
-							<div class="col-12 col-md-4 mb-1 mb-md-0">
-								<label for="trans_date" class="data-entry-label">Transaction Date</label>
+							<div class="col-12 col-md-3 mb-1 mb-md-0">
+								<label for="trans_date" class="data-entry-label">Borrow Date</label>
 								<input type="text" name="trans_date" id="trans_date" 
 									required
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
 									class="reqdClr w-100 data-entry-input mb-1">
+							</div>
+							<div class="col-12 col-md-3 mb-1 mb-md-0">
+								<label for="received_date" class="data-entry-label">Received Date</label>
+								<input type="text" name="received_date" id="received_date" class="w-100 data-entry-input mb-1">
+							</div>
+							<div class="col-12 col-md-3 mb-1 mb-md-0">
+								<label for="due_date" class="data-entry-label">Due Date</label>
+								<input type="text" name="due_date" id="due_date" class="w-100 data-entry-input mb-1">
+							</div>
+							<div class="col-12 col-md-3 mb-1 mb-md-0">
+								<label for="return_acknowledged_date" class="data-entry-label">Return Acknowledged Date</label>
+								<input type="text" name="return_acknowledged_date" id="return_acknowledged_date" class="w-100 data-entry-input mb-1">
 							</div>
 						</div>
 						<div class="form-row mb-0 mb-md-2">
@@ -459,7 +491,7 @@ limitations under the License.
 						<div class="form-row my-2">
 							<div class="form-group col-12">
 								<input type="button" value="Create Borrow" class="btn mt-2 btn-xs btn-primary"
-									onClick="if (checkFormValidity($('##newBorrow')[0])) { submit(); } ">
+									onClick="if (checkBorrowFormValidity($('##newBorrow')[0])) { submit(); } ">
 							</div>
 						</div>
 					</form>
@@ -512,43 +544,16 @@ limitations under the License.
 				console.log(transaction_id);
 				console.log(relationship);
 		 	};
-			// check specific buisness rules for valid save of edit borrow, then general test of form field validity
-			function checkEditBorrowFormValidity(form) { 
-				var result = false;
-				var validationFailure = false;
-				var message = "Form Input validation problem.<br><dl>";
-				if ($('##return_acknowledged_date').val()!="" && $('##return_acknowledged option:selected').val() == 0 ) { 
-					// there is a return acknowledged date, but the return acknowleged is set to no.
-					message = message + "<dt>Return Acknowleged:</dt> <dd>There is a return acknowledged date, but return acknowledged is set to 'no'.</dd>"
-					validationFailure = true;
-				}
-				if ($('##return_acknowledged_date').val()!="" && $('##borrow_status option:selected').val() == 'open' ) { 
-					// there is a return acknowledged date, but the return acknowleged is set to no.
-					message = message + "<dt>Borrow Status:</dt> <dd>There is a return acknowledged date, but borrow is still open.</dd>"
-					validationFailure = true;
-				}
-				// add any other specific tests here
-				
-				if (validationFailure==true) {
-					// deliver warning message.
-					message = message + "</dl>"
-					messageDialog(message,'Unable to Save');
-				} else {  
-					// no specific failure, so test general form rules.
-					result = checkFormValidity(form);
-				} 
-				return result;
-			};
 		</script>
 		<cftry>
 			<cfquery name="borrowDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowDetails_result">
 				select
 					trans.transaction_id,
 					trans.transaction_type,
-					trans_date dateEntered,
+					trans.date_entered,
 					borrow_number,
 					borrow_status,
-					trans_date,
+					trans.trans_date,
 					received_date,
 					due_date,
 					lenders_loan_date,
@@ -683,7 +688,7 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<span class="data-entry-label">Entered Date</span>
 								<div class="col-12 bg-light border non-field-text">
-									<span id="date_entered">#dateformat(borrowDetails.dateEntered,'yyyy-mm-dd')#</span>
+									<span id="date_entered">#dateformat(borrowDetails.date_entered,'yyyy-mm-dd')#</span>
 								</div>
 							</div>
 							<div class="col-12 col-md-3">
@@ -694,17 +699,27 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-1">
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
+								<label for="trans_date" class="data-entry-label">Borrow Date</label>
+								<input type="text" name="trans_date" id="trans_date" 
+									value="#dateformat(borrowDetails.trans_date,"yyyy-mm-dd")#" class="data-entry-input" >
+							</div>
+							<div class="col-12 col-md-2">
+								<label for="received_date" class="data-entry-label">Received Date</label>
+								<input type="text" name="received_date" id="received_date" 
+									value="#dateformat(borrowDetails.received_date,"yyyy-mm-dd")#" class="data-entry-input" >
+							</div>
+							<div class="col-12 col-md-2">
 								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
 								<input type="text" name="lenders_loan_date" id="lenders_loan_date" 
 									value="#dateformat(borrowDetails.lenders_loan_date,"yyyy-mm-dd")#" class="data-entry-input" >
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<label for="due_date" class="data-entry-label">Due Date</label>
 								<input type="text" name="due_date" id="due_date"
 									value="#dateformat(borrowDetails.due_date,"yyyy-mm-dd")#" class="data-entry-input" >
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged returned?</label>
 								<cfif borrowDetails.lenders_invoice_returned_fg EQ 1 >
 									<cfset selected0 = "">
@@ -718,7 +733,7 @@ limitations under the License.
 									<option value="1" #selected1#>yes</option>
 								</select>
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<label for="return_acknowledged_date" class="data-entry-label">Return Acknowledged Date</label>
 								<input type="text" name="return_acknowledged_date" id="return_acknowledged_date" class="data-entry-input" value="#dateformat(borrowDetails.return_acknowledged_date,'yyyy-mm-dd')#">
 							</div>
@@ -788,7 +803,7 @@ limitations under the License.
 						<div class="form-row">
 							<div class="form-group col-12 mb-3 pt-1 mt-1">
 								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-									onClick="if (checkEditBorrowFormValidity($('##editBorrowForm')[0])) { saveEdits(); } " 
+									onClick="if (checkBorrowFormValidity($('##editBorrowForm')[0])) { saveEdits(); } " 
 									id="submitButton" >
 								<button type="button" aria-label="Print Borrow Paperwork" id="borrowPrintDialogLauncher"
 									class="btn btn-xs btn-info mr-2" value="Print..."
@@ -1470,6 +1485,7 @@ limitations under the License.
 			<cfloop query="obtainTransNumber">
 				<cfset new_transaction_id = obtainTransNumber.trans_id>
 			</cfloop>
+			<!--- date_entered has default sysdate in trans, not set from here --->
 			<cfquery name="newBorrowTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newBorrowTrans_result">
 				INSERT INTO trans (
 					TRANSACTION_ID,

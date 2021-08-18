@@ -87,9 +87,6 @@ limitations under the License.
 		// setup date pickers
 		jQuery(document).ready(function() {
 			$("##trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
-			$("##to_trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
-			$("##initiating_date").datepicker({ dateFormat: 'yy-mm-dd'});
-			$("##shipped_date").datepicker({ dateFormat: 'yy-mm-dd'});
 		});
 	</script>
 </cfoutput>
@@ -307,7 +304,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
-								<label for="trans_date" class="data-entry-label">Transaction Date</label>
+								<label for="trans_date" class="data-entry-label">Deaccession Date</label>
 								<input type="text" name="trans_date" id="trans_date" 
 									required
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
@@ -469,7 +466,7 @@ limitations under the License.
 				select
 					trans.transaction_id,
 					trans.transaction_type,
-					trans_date dateEntered,
+					trans.date_entered,
 					deacc_number,
 					deacc_type,
 					deacc_status,
@@ -623,14 +620,14 @@ limitations under the License.
 									value="#encodeForHTML(deaccessionDetails.value)#" class="data-entry-input" >
 							</div>
 							<div class="col-12 col-md-2">
-								<label for="trans_date" class="data-entry-label">Transaction Date</label>
+								<label for="trans_date" class="data-entry-label">Deaccession Date</label>
 								<input type="text" name="trans_date" id="trans_date" required
 									value="#dateformat(deaccessionDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
 							</div>
 							<div class="col-12 col-md-2">
 								<span class="data-entry-label">Entered Date</span>
 								<div class="col-12 bg-light border non-field-text">
-									<span id="date_entered">#dateformat(deaccessionDetails.dateEntered,'yyyy-mm-dd')#</span>
+									<span id="date_entered">#dateformat(deaccessionDetails.date_entered,'yyyy-mm-dd')#</span>
 								</div>
 							</div>
 							<div class="col-12 col-md-2">
@@ -1064,8 +1061,8 @@ limitations under the License.
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "makeDeaccession">
 	<cfoutput>
-		<cfif not isDefined("date_entered") OR len(date_entered) is 0 >
-			<cfset date_entered = dateformat(now(),"yyyy-mm-dd") >
+		<cfif not isDefined("trans_date") OR len(trans_date) is 0 >
+			<cfset trans_date = dateformat(now(),"yyyy-mm-dd") >
 		</cfif>
 		<cfif
 			( 
@@ -1107,6 +1104,7 @@ limitations under the License.
 			<cfloop query="obtainTransNumber">
 				<cfset new_transaction_id = obtainTransNumber.trans_id>
 			</cfloop>
+			<!--- date_entered has default sysdate in trans, not set from here --->
 			<cfquery name="newDeaccessionTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newDeaccessionTrans_result">
 				INSERT INTO trans (
 					TRANSACTION_ID,
