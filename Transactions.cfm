@@ -3551,6 +3551,7 @@ $(document).ready(function() {
 			[
 				{ name: 'transaction_id', type: 'string' },
 				{ name: 'date_entered', type: 'string' },
+				{ name: 'borrow_date', type: 'string' },
 				{ name: 'trans_remarks', type: 'string' },
 				{ name: 'borrow_number', type: 'string' },
 				{ name: 'lender_loan_type', type: 'string' },
@@ -3648,6 +3649,7 @@ $(document).ready(function() {
 				{text: 'Lender Loan Num.', datafield: 'lenders_trans_num_cde', hidable: true, hidden: getColHidProp('lenders_trans_num_cde', false), width: 110},
 				{text: 'Status', datafield: 'borrow_status', hideable: true, hidden: getColHidProp('borrow_status', false), width: 90},
 				{text: 'Entered Date', datafield: 'date_entered', width: 100, hidable: true, hidden: getColHidProp('date_entered', true) },
+				{text: 'Borrow Date', datafield: 'borrow_date', width: 100, hidable: true, hidden: getColHidProp('borrow_date', true) },
 				{text: 'Loan Date', datafield: 'lenders_loan_date', width: 100, hideable: true, hidden: getColHidProp('lenders_loan_date', false) },
 				{text: 'Received Date', datafield: 'received_date', width: 100, hideable: true, hidden: getColHidProp('received_date', true) },
 				{text: 'Due Date', datafield: 'due_date', width: 100, hideable: true, hidden: getColHidProp('due_date', false) },
@@ -3778,7 +3780,7 @@ function gridLoaded(gridId, searchType) {
 	// add a control to show/hide columns
 	var columns = $('##' + gridId).jqxGrid('columns').records;
 	var columnListSource = [];
-	for (i = 0; i < columns.length; i++) {
+	for (i = 1; i < columns.length; i++) {
 		var text = columns[i].text;
 		var datafield = columns[i].datafield;
 		var hideable = columns[i].hideable;
