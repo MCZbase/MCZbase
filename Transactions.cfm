@@ -2255,7 +2255,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-2">
 											<label class="data-entry-label px-3 mx-1 mb-0" for="lenders_trans_num_cde">
-												Lender&apost;s Loan Number
+												Lender's Loan Number
 												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##lenders_trans_num_cde').val('='+$('##lenders_trans_num_cde').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
 											</label>
 											<input type="text" name="lenders_trans_num_cde" class="data-entry-input" value="#lenders_trans_num_cde#" id="lenders_trans_num_cde">
