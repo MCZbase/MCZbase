@@ -230,19 +230,23 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-4 mb-1 mb-md-0">
-								<label for="due_date" class="data-entry-label">Due Date</label>
-								<input type="text" name="due_date" id="due_date" class="w-100 data-entry-input mb-1">
+								<label for="trans_date" class="data-entry-label">Borrow Date</label>
+								<input type="text" name="trans_date" id="trans_date" 
+									required
+									value="#dateformat(now(),"yyyy-mm-dd")#" 
+									class="reqdClr w-100 data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<label for="received_date" class="data-entry-label">Received Date</label>
 								<input type="text" name="received_date" id="received_date" class="w-100 data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-4 mb-1 mb-md-0">
-								<label for="trans_date" class="data-entry-label">Transaction Date</label>
-								<input type="text" name="trans_date" id="trans_date" 
-									required
-									value="#dateformat(now(),"yyyy-mm-dd")#" 
-									class="reqdClr w-100 data-entry-input mb-1">
+								<label for="due_date" class="data-entry-label">Due Date</label>
+								<input type="text" name="due_date" id="due_date" class="w-100 data-entry-input mb-1">
+							</div>
+							<div class="col-12 col-md-4 mb-1 mb-md-0">
+								<label for="return_acknowledged_date" class="data-entry-label">Return Acknowledged Date</label>
+								<input type="text" name="return_acknowledged_date" id="return_acknowledged_date" class="w-100 data-entry-input mb-1">
 							</div>
 						</div>
 						<div class="form-row mb-0 mb-md-2">
@@ -1480,6 +1484,7 @@ limitations under the License.
 			<cfloop query="obtainTransNumber">
 				<cfset new_transaction_id = obtainTransNumber.trans_id>
 			</cfloop>
+			<!--- date_entered has default sysdate in trans, not set from here --->
 			<cfquery name="newBorrowTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newBorrowTrans_result">
 				INSERT INTO trans (
 					TRANSACTION_ID,
