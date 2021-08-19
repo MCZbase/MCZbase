@@ -970,8 +970,8 @@ function initCarousel() {
         // Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
 
         // Based on the current slide, reset to default classes.
-        items[oldPreviousX].className = itemClassNameX;
-        items[oldNextX].className = itemClassNameX;
+        itemsX[oldPreviousX].className = itemClassNameX;
+        itemsX[oldNextX].className = itemClassNameX;
 
         // Add the new classes
         itemsX[newPreviousX].className = itemClassNameX + " prevX";
