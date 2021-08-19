@@ -959,7 +959,7 @@ function initCarouselF() {
           newPreviousX = (totalItemsX - 1);
           oldPreviousX = (totalItemsX - 2);
           oldNextX = (slideX + 1);
-        } else if (slide === (totalItemsX -1)) {
+        } else if (slideX === (totalItemsX -1)) {
           newPreviousX = (slideX - 1);
           newNextX = 0;
           oldNextX = 1;
