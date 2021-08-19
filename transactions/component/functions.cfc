@@ -472,7 +472,7 @@ limitations under the License.
 										<td>#cocount#</td>
 										<td>#pcount#</td>
 										<td>#coll_obj_disposition#</td>
-										<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
+										<td><a href="/Transactions.cfm?action=findDeaccessions&execute=true&deacc_number=#encodeForURL(deacc_number)#">#deacc_number# (#deacc_status#)</a></td>
 									<cfelse>
 										<td>#collection_cde#</td>
 										<td>#pcount#</td>
