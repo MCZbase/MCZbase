@@ -157,7 +157,7 @@ limitations under the License.
 
 /* Set 'z-index' to sit behind our '.active' item. */
 .carousel__photoX.prevX,.carousel__photo1.prev1,.carousel__photoF.prevF
-.carousel__photoX.nextX,.carousel__photo1.next1, .carousel__photoF.prevF{
+.carousel__photoX.nextX,.carousel__photo1.next1, .carousel__photoF.nextF{
   z-index: 800;
 }
 
