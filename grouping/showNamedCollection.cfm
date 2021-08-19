@@ -834,7 +834,7 @@ function moveCarouselTo(slide) {
 		items[oldNext].className = itemClassName;
 
 		// Add the new classes
-		items[newPrevious].className = itemClassName + "prevF";
+		items[newPrevious].className = itemClassName + " prevF";
 		items[slide].className = itemClassName + " activeF";
 		items[newNext].className = itemClassName + " nextF";
 		}
