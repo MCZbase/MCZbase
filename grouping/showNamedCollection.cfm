@@ -422,8 +422,9 @@ limitations under the License.
 							<!---The encumbrance line was slowing it down too much--->
 							<h2 class="mt-3">Images (shows 25)</h2>
 							<p class="small">Specimen Images (#specimenImgs.recordcount#), Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 25 images.</p>
-							<div class="carousel-wrapperF">
+						
 								<cfoutput>
+								<div class="carousel-wrapperF">
 									<div class="carouselF">
 <!---										<div class="carouselImageX initial">
 											<img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p>
@@ -460,7 +461,8 @@ limitations under the License.
 									</div>
 									<div class="carousel__buttonF--nextF"></div>
 									<div class="carousel__buttonF--prevF"></div>
-									
+									</div>
+									</div>
 									
 									<div class="carousel-wrapperX">
 										<div class="carouselX">
