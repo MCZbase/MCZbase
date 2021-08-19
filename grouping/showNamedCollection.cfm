@@ -42,7 +42,7 @@ limitations under the License.
 <cfoutput>
 <style>
 	/*carousel styles*/
-.carousel-wrapperX {
+/*.carousel-wrapperX {
 	overflow: hidden;
 	width: 100%;
 	margin: 0;
@@ -76,10 +76,10 @@ limitations under the License.
 	z-index: 800;
 }
 .carouselImageX.prev {
-	transform: translateX(-100%); /* go to previous item */
+	transform: translateX(-100%); 
 }
 .carouselImageX.next {
-	transform: translateX(100%); /* go to next item */
+	transform: translateX(100%); 
 }
 .carousel__buttonX--prev, .carousel__buttonX--next {
 	position: absolute;
@@ -90,7 +90,7 @@ limitations under the License.
 	transform: translateY(-50%);
 	border-radius: 8%;
 	cursor: pointer;
-	z-index: 1001; /* sit on top of everything */
+	z-index: 1001;
 	border: none;
 }
 .carousel__buttonX--prev {
@@ -115,28 +115,28 @@ limitations under the License.
 	left: 20%;
 	transform: translate(-50%, -50%) rotate(-45deg);
 }	
-	
+	*/
 	/* Parent wrapper to carousel. Width can be changed as needed. */
-.carousel-wrapper, .carousel-wrapper1 {
+.carousel-wrapperX, .carousel-wrapper1, .carousel-wrapperF {
   overflow: hidden;
   width: 90%;
   margin: auto;
 }
 
 /* Apply 'border-box' to 'box-sizing' so border and padding is included in the width and height. */
-.carousel-wrapper *, .carousel-wrapper1 * {
+.carousel-wrapperX *, .carousel-wrapper1 *, .carousel-wrapperF {
   box-sizing: border-box;
 }
 
 /* We'll be using the 'transform' property to move the carousel's items, so setting the 'transform-style' to 'preserve-3d' will make sure our nested elements are rendered properly in the 3D space. */
-.carousel, .carousel1 {
+.carouselX, .carousel1, .carouselF {
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
   transform-style: preserve-3d;
 }
 
 /* By default we're hiding items (except the initial one) until the JS initiates. Elements are absolutely positioned with a width of 100% (as we're styling for mobile first), letting the content's height dictate the height of the carousel. Our magic property here for all our animation needs is 'transition', taking the properties we wish to animate 'transform' and 'opacity', along with the length of time in seconds. */
-.carousel__photo,.carousel__photo1 {
+.carousel__photoX,.carousel__photo1, .carousel__photoF {
   opacity: 0;
   position: absolute;
   top:0;
@@ -148,32 +148,32 @@ limitations under the License.
 }
 
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
-.carousel__photo.initialX,.carousel__photo1.initial1,
-.carousel__photo.activeX,.carousel__photo1.active1 {
+.carousel__photoX.initialX,.carousel__photo1.initial1,.carousel__photoF.initialF
+.carousel__photoX.activeX,.carousel__photo1.active1,.carousel__photoF.activeF {
   opacity: 1;
   position: relative;
   z-index: 900;
 }
 
 /* Set 'z-index' to sit behind our '.active' item. */
-.carousel__photo.prevX,.carousel__photo1.prev1,
-.carousel__photo.nextX,.carousel__photo1.next1 {
+.carousel__photo.prevX,.carousel__photo1.prev1,.carousel__photoF.prevF
+.carousel__photo.nextX,.carousel__photo1.next1, .carousel__photoF.prevF{
   z-index: 800;
 }
 
 /* Translate previous item to the left */
-.carousel__photo.prevX,.carousel__photo1.prev1 {
+.carousel__photoX.prevX,.carousel__photo1.prev1, .carousel__photoF.prevF {
   transform: translateX(-100%);
 }
 
 /* Translate next item to the right */
-.carousel__photo.nextX,.carousel__photo1.next1 {
+.carousel__photoX.nextX,.carousel__photo1.next1,.carousel__photoF.nextF {
   transform: translateX(100%);
 }
 
 /* Style navigation buttons to sit in the middle, either side of the carousel. */
-.carousel__button--prevX,.carousel__button1--prev1,
-.carousel__button--nextX,.carousel__button1--next1 {
+.carousel__buttonX--prevX,.carousel__button1--prev1,.carousel__buttonF--prevF
+.carousel__buttonX--nextX,.carousel__button1--next1, .carousel__buttonF--nextF{
   position: absolute;
   top:50%;
   width: 3rem;
@@ -188,17 +188,17 @@ limitations under the License.
   transition:opacity 1s;*/
 }
 
-.carousel__button--prevX,.carousel__button1--prev1 {
+.carousel__buttonX--prevX,.carousel__button1--prev1,.carousel__buttonF--prevF {
   left:0;
 }
 
-.carousel__button--nextX,.carousel__button1--next1 {
+.carousel__buttonX--nextX,.carousel__button1--next1,.carousel__buttonF--nextF {
   right:0;
 }
 
 /* Use pseudo elements to insert arrows inside of navigation buttons */
-.carousel__button--prevX::after,.carousel__button1--prev1::after,
-.carousel__button--nextX::after,.carousel__button1--next1::after {
+.carousel__buttonX--prevX::after,.carousel__button1--prev1::after,.carousel__buttonF--prevF::after,
+.carousel__buttonX--nextX::after,.carousel__button1--next1::after,.carousel__buttonF--nextF::after {
   content: " ";
   position: absolute;
   width: 10px;
@@ -210,7 +210,7 @@ limitations under the License.
   transform: translate(-50%, -50%) rotate(135deg);
 }
 
-.carousel__button--nextX::after,.carousel__button1--next1::after {
+.carousel__buttonX--nextX::after,.carousel__button1--next1::after,.carousel__buttonF--nextF::after {
   left: 47%;
   transform: translate(-50%, -50%) rotate(-45deg);
 }
@@ -422,10 +422,12 @@ limitations under the License.
 							<!---The encumbrance line was slowing it down too much--->
 							<h2 class="mt-3">Images (shows 25)</h2>
 							<p class="small">Specimen Images (#specimenImgs.recordcount#), Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 25 images.</p>
-							<div class="carousel-wrapperX">
+							<div class="carousel-wrapperF">
 								<cfoutput>
-									<div class="carouselX">
-										<div class="carouselImageX initial"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p></div>									
+									<div class="carouselF">
+<!---										<div class="carouselImageX initial">
+											<img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p>
+										</div>									
 										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><p>#specimenImagesforCarousel['alt'][4]#</p></div>
@@ -449,23 +451,28 @@ limitations under the License.
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][22]#"/><p>#agentImagesforCarousel['alt'][22]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][23]#"/><p>#agentImagesforCarousel['alt'][23]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][24]#"/><p>#agentImagesforCarousel['alt'][24]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][25]#"/><p>#agentImagesforCarousel['alt'][25]#</p></div>
+										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][25]#"/><p>#agentImagesforCarousel['alt'][25]#</p></div>--->
+										<img class="carousel__photoF initialF" src="http://placekitten.com/1600/900">
+										  <img class="carousel__photoF" src="http://placekitten.com/g/1600/900">
+										  <img class="carousel__photoF" src="http://placekitten.com/1600/900">
+										  <img class="carousel__photoF" src="http://placekitten.com/g/1600/900">
+										  <img class="carousel__photoF" src="http://placekitten.com/1600/900">
 									</div>
-									<div class="carousel__buttonX--next"></div>
-									<div class="carousel__buttonX--prev"></div>
+									<div class="carousel__buttonF--nextF"></div>
+									<div class="carousel__buttonF--prevF"></div>
 									
 									
-									<div class="carousel-wrapper">
-										<div class="carousel">
+									<div class="carousel-wrapperX">
+										<div class="carouselX">
 
-										  <img class="carousel__photo initialX" src="http://placekitten.com/1600/900">
-										  <img class="carousel__photo" src="http://placekitten.com/g/1600/900">
-										  <img class="carousel__photo" src="http://placekitten.com/1600/900">
-										  <img class="carousel__photo" src="http://placekitten.com/g/1600/900">
-										  <img class="carousel__photo" src="http://placekitten.com/1600/900">
+										  <img class="carousel__photoX initialX" src="http://placekitten.com/1600/900">
+										  <img class="carousel__photoX" src="http://placekitten.com/g/1600/900">
+										  <img class="carousel__photoX" src="http://placekitten.com/1600/900">
+										  <img class="carousel__photoX" src="http://placekitten.com/g/1600/900">
+										  <img class="carousel__photoX" src="http://placekitten.com/1600/900">
 
-										  <div class="carousel__button--nextX"></div>
-										  <div class="carousel__button--prevX"></div>
+										  <div class="carousel__buttonX--nextX"></div>
+										  <div class="carousel__buttonX--prevX"></div>
 
 										</div>
 										</div>
@@ -749,7 +756,7 @@ limitations under the License.
 
 !(function (d){
 // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
-var itemClassName = "carouselImageX";
+var itemClassName = "carousel__photoF";
 	items = d.getElementsByClassName(itemClassName),
 	totalItems = items.length,
 	slide = 0,
@@ -760,16 +767,16 @@ function setInitialClasses() {
 
 	// Target the last, initial, and next items and give them the relevant class.
 	// This assumes there are three or more items.
-	items[totalItems - 1].classList.add("prev");
-	items[0].classList.add("active");
-	items[1].classList.add("next");
+	items[totalItems - 1].classList.add("prevF");
+	items[0].classList.add("activeF");
+	items[1].classList.add("nextF");
 }
 
 // Set click events to navigation buttons
 
 function setEventListeners() {
-	var next = d.getElementsByClassName('carousel__buttonX--next')[0],
-		prev = d.getElementsByClassName('carousel__buttonX--prev')[0];
+	var next = d.getElementsByClassName('carousel__buttonF--nextF')[0],
+		prev = d.getElementsByClassName('carousel__buttonF--prevF')[0];
 
 	next.addEventListener('click', moveNext);
 	prev.addEventListener('click', movePrev);
@@ -826,9 +833,9 @@ function moveCarouselTo(slide) {
 		items[oldNext].className = itemClassName;
 
 		// Add the new classes
-		items[newPrevious].className = itemClassName + "prev";
-		items[slide].className = itemClassName + " active";
-		items[newNext].className = itemClassName + " next";
+		items[newPrevious].className = itemClassName + "prevF";
+		items[slide].className = itemClassName + " activeF";
+		items[newNext].className = itemClassName + " nextF";
 		}
 	}
 }
@@ -889,7 +896,7 @@ function initCarousel() {
 	
 !(function(f){
   // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
-  var itemClassNameX = "carousel__photo";
+  var itemClassNameX = "carousel__photoX";
       itemsX = f.getElementsByClassName(itemClassNameX),
       totalItemsX = itemsX.length,
       slideX = 0,
@@ -908,8 +915,8 @@ function initCarousel() {
   // Set click events to navigation buttons
 
   function setEventListenersX() {
-    var nextX = f.getElementsByClassName('carousel__button--nextX')[0],
-        prevX = f.getElementsByClassName('carousel__button--prevX')[0];
+    var nextX = f.getElementsByClassName('carousel__buttonX--nextX')[0],
+        prevX = f.getElementsByClassName('carousel__buttonX--prevX')[0];
 
     nextX.addEventListener('click', moveNextX);
     prevX.addEventListener('click', movePrevX);
