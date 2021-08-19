@@ -166,7 +166,7 @@ limitations under the License.
 }
 
 /* Translate next item to the right */
-.carousel__photoX.nextX,.carousel__photo1.next,.carousel__photoF.next {
+.carousel__photoX.next,.carousel__photo1.next,.carousel__photoF.next {
   transform: translateX(100%);
 }
 
