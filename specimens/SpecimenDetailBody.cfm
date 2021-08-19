@@ -1537,12 +1537,12 @@ limitations under the License.
 									<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
 										<li class="list-group-item">
 											<h5 class="mb-1 d-inline-block">Deaccessions: </h5>
-											<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
-							target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
+											<a href="/Transactions.cfm?action=findDeaccessions&execute=true&specimen_guid=MCZ:#one.collection_cde#:#one.cat_num#"
+												target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<cfloop query="deaccessionList">
 													<ul class="d-block">
-														<li class="d-block"> <a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a></li>
+														<li class="d-block"> <a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a></li>
 													</ul>
 												</cfloop>
 											</cfif>
