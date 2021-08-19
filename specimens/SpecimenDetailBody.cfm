@@ -631,6 +631,111 @@ limitations under the License.
 												<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">
 													Edit
 												</a>
+												<span class="small d-block">#media_type# (#mime_type#)</span>
+												<span class="small d-block">#descr#</span> 
+											</div>
+										</cfloop>
+									</cfif>
+								</li>
+								
+								<!--------------------  Project / Usage ------------------------------------>
+								
+								<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT 
+										project_name, project.project_id project_id 
+									FROM
+										project left join project_trans on project.project_id = project_trans.project_id
+									WHERE
+										project_trans.transaction_id = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
+									GROUP BY project_name, project.project_id
+								</cfquery>
+								<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT 
+										project_name, project.project_id 
+									FROM 
+										loan_item,
+										project,
+										project_trans,
+										specimen_part 
+									WHERE 
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> AND
+										loan_item.transaction_id=project_trans.transaction_id AND
+										project_trans.project_id=project.project_id AND
+										specimen_part.collection_object_id = loan_item.collection_object_id 
+									GROUP BY 
+										project_name, project.project_id
+								</cfquery>
+								<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT 
+										loan_item.collection_object_id 
+									FROM 
+										loan_item,specimen_part 
+									WHERE 
+										loan_item.collection_object_id=specimen_part.collection_object_id AND
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								</cfquery>
+								<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT 
+										distinct loan_number, loan_type, loan_status, loan.transaction_id 
+									FROM
+										specimen_part left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
+										left join loan on loan_item.transaction_id = loan.transaction_id
+									WHERE
+										loan_number is not null AND
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								</cfquery>
+								<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT 
+										deacc_item.collection_object_id 
+									FROM
+										specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
+									WHERE
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								</cfquery>
+								<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT 
+										distinct deacc_number, deacc_type, deaccession.transaction_id 
+									FROM
+										specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
+										left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+									where
+										deacc_number is not null AND
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								</cfquery>
+								<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
+									<cfloop query="isProj">
+										<li class="list-group-item"><h5 class="mb-0 d-inline-block">Contributed By Project:</h5>
+											<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#">#isProj.project_name#</a> </li>
+									</cfloop>
+									<cfloop query="isLoan">
+										<li class="list-group-item"><h5 class="mb-0 d-inline-block">Used By Project:</h5> 
+											<a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> </li>
+									</cfloop>
+									<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
+										<li class="list-group-item">
+											<h5 class="mb-0 d-inline-block">Loan History:</h5>
+											<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
+							target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+												<cfloop query="loanList">
+													<ul class="d-block">
+														<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</li>
+													</ul>
+												</cfloop>
+											</cfif>
+										</li>
+									</cfif>
+									<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
+										<li class="list-group-item">
+											<h5 class="mb-1 d-inline-block">Deaccessions: </h5>
+											<a href="/Transactions.cfm?action=findDeaccessions&execute=true&specimen_guid=MCZ:#one.collection_cde#:#one.cat_num#"
+												target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+												<cfloop query="deaccessionList">
+													<ul class="d-block">
+														<li class="d-block"> <a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a></li>
+													</ul>
+												</cfloop>
 											</cfif>
 										</h3>
 									</div>
