@@ -497,8 +497,11 @@ limitations under the License.
 									</div>
 								</div>
 								</cfoutput>
-							</div>
-							</cfif><br>
+						
+						</cfif>
+						</div>
+								
+								
 						<cfoutput>
 							<div id="mapper" class="col-12 px-0">
 								<h2 class="mt-4">Heat Map Example</h2>
