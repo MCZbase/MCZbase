@@ -156,13 +156,13 @@ limitations under the License.
 }
 
 /* Set 'z-index' to sit behind our '.active' item. */
-.carousel__photo.prev,.carousel__photo1.prev,
-.carousel__photo.next,.carousel__photo1.next {
+.carousel__photo.prevX,.carousel__photo1.prev,
+.carousel__photo.nextX,.carousel__photo1.next {
   z-index: 800;
 }
 
 /* Translate previous item to the left */
-.carousel__photo.prev,.carousel__photo1.prev {
+.carousel__photo.prevX,.carousel__photo1.prev {
   transform: translateX(-100%);
 }
 
@@ -172,8 +172,8 @@ limitations under the License.
 }
 
 /* Style navigation buttons to sit in the middle, either side of the carousel. */
-.carousel__button--prev,.carousel__button1--prev,
-.carousel__button--next,.carousel__button1--next {
+.carousel__button--prevX,.carousel__button1--prev,
+.carousel__button--nextX,.carousel__button1--next {
   position: absolute;
   top:50%;
   width: 3rem;
@@ -188,17 +188,17 @@ limitations under the License.
   transition:opacity 1s;*/
 }
 
-.carousel__button--prev,.carousel__button1--prev {
+.carousel__button--prevX,.carousel__button1--prev {
   left:0;
 }
 
-.carousel__button--next,.carousel__button1--next {
+.carousel__button--nextX,.carousel__button1--next {
   right:0;
 }
 
 /* Use pseudo elements to insert arrows inside of navigation buttons */
-.carousel__button--prev::after,.carousel__button1--prev::after,
-.carousel__button--next::after,.carousel__button1--next::after {
+.carousel__button--prevX::after,.carousel__button1--prev::after,
+.carousel__button--nextX::after,.carousel__button1--next::after {
   content: " ";
   position: absolute;
   width: 10px;
@@ -458,14 +458,14 @@ limitations under the License.
 									<div class="carousel-wrapper">
 										<div class="carousel">
 
-										  <img class="carousel__photo initial" src="http://placekitten.com/1600/900">
+										  <img class="carousel__photo initialX" src="http://placekitten.com/1600/900">
 										  <img class="carousel__photo" src="http://placekitten.com/g/1600/900">
 										  <img class="carousel__photo" src="http://placekitten.com/1600/900">
 										  <img class="carousel__photo" src="http://placekitten.com/g/1600/900">
 										  <img class="carousel__photo" src="http://placekitten.com/1600/900">
 
-										  <div class="carousel__button--next"></div>
-										  <div class="carousel__button--prev"></div>
+										  <div class="carousel__button--nextX"></div>
+										  <div class="carousel__button--prevX"></div>
 
 										</div>
 										</div>
@@ -900,19 +900,19 @@ function initCarousel() {
 
     // Target the last, initial, and next items and give them the relevant class.
     // This assumes there are three or more items.
-    itemsX[totalItemsX - 1].classList.add("prev");
-    itemsX[0].classList.add("active");
-    itemsX[1].classList.add("next");
+    itemsX[totalItemsX - 1].classList.add("prevX");
+    itemsX[0].classList.add("activeX");
+    itemsX[1].classList.add("nextX");
   }
 
   // Set click events to navigation buttons
 
   function setEventListenersX() {
-    var nextX = f.getElementsByClassName('carousel__button--next')[0],
-        prevX = f.getElementsByClassName('carousel__button--prev')[0];
+    var nextX = f.getElementsByClassName('carousel__button--nextX')[0],
+        prevX = f.getElementsByClassName('carousel__button--prevX')[0];
 
-    nextX.addEventListener('click', moveNext);
-    prevX.addEventListener('click', movePrev);
+    nextX.addEventListener('click', moveNextX);
+    prevX.addEventListener('click', movePrevX);
   }
 
   // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
@@ -966,9 +966,9 @@ function initCarousel() {
         items[oldNextX].className = itemClassNameX;
 
         // Add the new classes
-        itemsX[newPreviousX].className = itemClassNameX + " prev";
-        itemsX[slideX].className = itemClassNameX + " active";
-        itemsX[newNextX].className = itemClassNameX + " next";
+        itemsX[newPreviousX].className = itemClassNameX + " prevX";
+        itemsX[slideX].className = itemClassNameX + " activeX";
+        itemsX[newNextX].className = itemClassNameX + " nextX";
       }
     }
   }
