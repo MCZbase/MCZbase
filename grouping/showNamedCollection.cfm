@@ -115,6 +115,105 @@ limitations under the License.
 	left: 20%;
 	transform: translate(-50%, -50%) rotate(-45deg);
 }	
+	
+	/* Parent wrapper to carousel. Width can be changed as needed. */
+.carousel-wrapper, .carousel-wrapper1 {
+  overflow: hidden;
+  width: 90%;
+  margin: auto;
+}
+
+/* Apply 'border-box' to 'box-sizing' so border and padding is included in the width and height. */
+.carousel-wrapper *, .carousel-wrapper1 * {
+  box-sizing: border-box;
+}
+
+/* We'll be using the 'transform' property to move the carousel's items, so setting the 'transform-style' to 'preserve-3d' will make sure our nested elements are rendered properly in the 3D space. */
+.carousel, .carousel1 {
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+/* By default we're hiding items (except the initial one) until the JS initiates. Elements are absolutely positioned with a width of 100% (as we're styling for mobile first), letting the content's height dictate the height of the carousel. Our magic property here for all our animation needs is 'transition', taking the properties we wish to animate 'transform' and 'opacity', along with the length of time in seconds. */
+.carousel__photo,.carousel__photo1 {
+  opacity: 0;
+  position: absolute;
+  top:0;
+  width: 100%;
+  margin: auto;
+  padding: 1rem 4rem;
+  z-index: 100;
+  transition: transform .5s, opacity .5s, z-index .5s;
+}
+
+/* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
+.carousel__photo.initial,.carousel__photo1.initial,
+.carousel__photo.active,.carousel__photo1.active {
+  opacity: 1;
+  position: relative;
+  z-index: 900;
+}
+
+/* Set 'z-index' to sit behind our '.active' item. */
+.carousel__photo.prev,.carousel__photo1.prev,
+.carousel__photo.next,.carousel__photo1.next {
+  z-index: 800;
+}
+
+/* Translate previous item to the left */
+.carousel__photo.prev,.carousel__photo1.prev {
+  transform: translateX(-100%);
+}
+
+/* Translate next item to the right */
+.carousel__photo.next,.carousel__photo1.next {
+  transform: translateX(100%);
+}
+
+/* Style navigation buttons to sit in the middle, either side of the carousel. */
+.carousel__button--prev,.carousel__button1--prev,
+.carousel__button--next,.carousel__button1--next {
+  position: absolute;
+  top:50%;
+  width: 3rem;
+  height: 3rem;
+  background-color: #FFF;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  cursor: pointer; 
+  z-index: 1001; /* Sit on top of everything */
+  border:1px solid black;
+/*  opacity: 0;  Hide buttons until carousel is initialised 
+  transition:opacity 1s;*/
+}
+
+.carousel__button--prev,.carousel__button1--prev {
+  left:0;
+}
+
+.carousel__button--next,.carousel__button1--next {
+  right:0;
+}
+
+/* Use pseudo elements to insert arrows inside of navigation buttons */
+.carousel__button--prev::after,.carousel__button1--prev::after,
+.carousel__button--next::after,.carousel__button1--next::after {
+  content: " ";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 50%;
+  left: 54%;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+  transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.carousel__button--next::after,.carousel__button1--next::after {
+  left: 47%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
 </style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -354,6 +453,39 @@ limitations under the License.
 									</div>
 									<div class="carousel__buttonX--next"></div>
 									<div class="carousel__buttonX--prev"></div>
+									
+									
+									<div class="carousel-wrapper">
+										<div class="carousel">
+
+										  <img class="carousel__photo initial" src="http://placekitten.com/1600/900">
+										  <img class="carousel__photo" src="http://placekitten.com/g/1600/900">
+										  <img class="carousel__photo" src="http://placekitten.com/1600/900">
+										  <img class="carousel__photo" src="http://placekitten.com/g/1600/900">
+										  <img class="carousel__photo" src="http://placekitten.com/1600/900">
+
+										  <div class="carousel__button--next"></div>
+										  <div class="carousel__button--prev"></div>
+
+										</div>
+										</div>
+
+
+
+										<div class="carousel-wrapper1">
+										<div class="carousel1">
+
+										  <img class="carousel__photo1 initial" src="http://placekitten.com/1600/900">
+										  <img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
+										  <img class="carousel__photo1" src="http://placekitten.com/1600/900">
+										  <img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
+										  <img class="carousel__photo1" src="http://placekitten.com/1600/900">
+
+										  <div class="carousel__button1--next"></div>
+										  <div class="carousel__button1--prev"></div>
+
+										</div>
+										</div>
 								</cfoutput>
 							</div>
 							</cfif><br>
@@ -751,6 +883,282 @@ function initCarousel() {
 
 }(document));
 
+	
+	
+	
+!(function(f){
+  // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+  var itemClassName = "carousel__photo";
+      items = f.getElementsByClassName(itemClassName),
+      totalItems = items.length,
+      slide = 0,
+      moving = true; 
+
+  // To initialise the carousel we'll want to update the DOM with our own classes
+  function setInitialClasses() {
+
+    // Target the last, initial, and next items and give them the relevant class.
+    // This assumes there are three or more items.
+    items[totalItems - 1].classList.add("prev");
+    items[0].classList.add("active");
+    items[1].classList.add("next");
+  }
+
+  // Set click events to navigation buttons
+
+  function setEventListeners() {
+    var next = f.getElementsByClassName('carousel__button--next')[0],
+        prev = f.getElementsByClassName('carousel__button--prev')[0];
+
+    next.addEventListener('click', moveNext);
+    prev.addEventListener('click', movePrev);
+  }
+
+  // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+  function disableInteraction() {
+    moving = true;
+
+    setTimeout(function(){
+      moving = false
+    }, 500);
+  }
+
+  function moveCarouselTo(slide) {
+
+    // Check if carousel is moving, if not, allow interaction
+    if(!moving) {
+
+      // temporarily disable interactivity
+      disableInteraction();
+
+      // Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+      var newPrevious = slide - 1,
+          newNext = slide + 1,
+          oldPrevious = slide - 2,
+          oldNext = slide + 2;
+
+      // Test if carousel has more than three items
+      if ((totalItems - 1) > 3) {
+
+        // Checks if the new potential slide is out of bounds and sets slide numbers
+        if (newPrevious <= 0) {
+          oldPrevious = (totalItems - 1);
+        } else if (newNext >= (totalItems - 1)){
+          oldNext = 0;
+        }
+
+        // Check if current slide is at the beginning or end and sets slide numbers
+        if (slide === 0) {
+          newPrevious = (totalItems - 1);
+          oldPrevious = (totalItems - 2);
+          oldNext = (slide + 1);
+        } else if (slide === (totalItems -1)) {
+          newPrevious = (slide - 1);
+          newNext = 0;
+          oldNext = 1;
+        }
+
+        // Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+
+        // Based on the current slide, reset to default classes.
+        items[oldPrevious].className = itemClassName;
+        items[oldNext].className = itemClassName;
+
+        // Add the new classes
+        items[newPrevious].className = itemClassName + " prev";
+        items[slide].className = itemClassName + " active";
+        items[newNext].className = itemClassName + " next";
+      }
+    }
+  }
+
+  // Next navigation handler
+  function moveNext() {
+
+    // Check if moving
+    if (!moving) {
+
+      // If it's the last slide, reset to 0, else +1
+      if (slide === (totalItems - 1)) {
+        slide = 0;
+      } else {
+        slide++;
+      }
+
+      // Move carousel to updated slide
+      moveCarouselTo(slide);
+    }
+  }
+
+  // Previous navigation handler
+  function movePrev() {
+
+    // Check if moving
+    if (!moving) {
+
+      // If it's the first slide, set as the last slide, else -1
+      if (slide === 0) {
+        slide = (totalItems - 1);
+      } else {
+        slide--;
+      }
+
+      // Move carousel to updated slide
+      moveCarouselTo(slide);
+    }
+  }
+
+  // Initialise carousel
+  function initCarousel() {
+    setInitialClasses();
+    setEventListeners();
+
+    // Set moving to false now that the carousel is ready
+    moving = false;
+  }
+
+  // make it rain
+  initCarousel();
+
+}(document));
+/////////////////
+/////////////////
+!(function(e){
+  // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+  var itemClassName1 = "carousel__photo1";
+      items1 = e.getElementsByClassName(itemClassName1),
+      totalItems1 = items1.length,
+      slide1 = 0,
+      moving1 = true; 
+
+  // To initialise the carousel we'll want to update the DOM with our own classes
+  function setInitialClasses1() {
+
+    // Target the last, initial, and next items and give them the relevant class.
+    // This assumes there are three or more items.
+    items1[totalItems1 - 1].classList.add("prev");
+    items1[0].classList.add("active");
+    items1[1].classList.add("next");
+  }
+
+  // Set click events to navigation buttons
+
+  function setEventListeners1() {
+    var next = e.getElementsByClassName('carousel__button1--next')[0],
+        prev = e.getElementsByClassName('carousel__button1--prev')[0];
+
+    next.addEventListener('click', moveNext1);
+    prev.addEventListener('click', movePrev1);
+  }
+
+  // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+  function disableInteraction1() {
+    moving1 = true;
+
+    setTimeout(function(){
+      moving1 = false
+    }, 500);
+  }
+
+  function moveCarouselTo1(slide1) {
+
+    // Check if carousel is moving, if not, allow interaction
+    if(!moving1) {
+
+      // temporarily disable interactivity
+      disableInteraction1();
+
+      // Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+      var newPrevious = slide1 - 1,
+          newNext = slide1 + 1,
+          oldPrevious = slide1 - 2,
+          oldNext = slide1 + 2;
+
+      // Test if carousel has more than three items
+      if ((totalItems1 - 1) > 3) {
+
+        // Checks if the new potential slide is out of bounds and sets slide numbers
+        if (newPrevious <= 0) {
+          oldPrevious = (totalItems1 - 1);
+        } else if (newNext >= (totalItems1 - 1)){
+          oldNext = 0;
+        }
+
+        // Check if current slide is at the beginning or end and sets slide numbers
+        if (slide1 === 0) {
+          newPrevious = (totalItems1 - 1);
+          oldPrevious = (totalItems1 - 2);
+          oldNext = (slide1 + 1);
+        } else if (slide === (totalItems1 -1)) {
+          newPrevious = (slide1 - 1);
+          newNext = 0;
+          oldNext = 1;
+        }
+
+        // Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+
+        // Based on the current slide, reset to default classes.
+        items1[oldPrevious].className = itemClassName1;
+        items1[oldNext].className = itemClassName1;
+
+        // Add the new classes
+        items1[newPrevious].className = itemClassName1 + " prev";
+        items1[slide1].className = itemClassName1 + " active";
+        items1[newNext].className = itemClassName1 + " next";
+      }
+    }
+  }
+
+  // Next navigation handler
+  function moveNext1() {
+
+    // Check if moving
+    if (!moving1) {
+
+      // If it's the last slide, reset to 0, else +1
+      if (slide1 === (totalItems1 - 1)) {
+        slide1 = 0;
+      } else {
+        slide1++;
+      }
+
+      // Move carousel to updated slide
+      moveCarouselTo1(slide1);
+    }
+  }
+
+  // Previous navigation handler
+  function movePrev1() {
+
+    // Check if moving
+    if (!moving1) {
+
+      // If it's the first slide, set as the last slide, else -1
+      if (slide1 === 0) {
+        slide1 = (totalItems1 - 1);
+      } else {
+        slide1--;
+      }
+
+      // Move carousel to updated slide
+      moveCarouselTo1(slide1);
+    }
+  }
+
+  // Initialise carousel
+  function initCarousel1() {
+    setInitialClasses1();
+    setEventListeners1();
+
+    // Set moving to false now that the carousel is ready
+
+    moving1 = false;
+  }
+
+  // make it rain
+  initCarousel1();
+
+}(document));
 </script>
 </cfoutput> 
 
