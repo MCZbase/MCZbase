@@ -148,8 +148,8 @@ limitations under the License.
 }
 
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
-.carousel__photo.initial,.carousel__photo1.initial1,
-.carousel__photo.active,.carousel__photo1.active1 {
+.carousel__photo.initialX,.carousel__photo1.initial1,
+.carousel__photo.activeX,.carousel__photo1.active1 {
   opacity: 1;
   position: relative;
   z-index: 900;
@@ -167,7 +167,7 @@ limitations under the License.
 }
 
 /* Translate next item to the right */
-.carousel__photo.next,.carousel__photo1.next1 {
+.carousel__photo.nextX,.carousel__photo1.next1 {
   transform: translateX(100%);
 }
 
@@ -192,7 +192,7 @@ limitations under the License.
   left:0;
 }
 
-.carousel__button--nextX,.carousel__button1--next {
+.carousel__button--nextX,.carousel__button1--next1 {
   right:0;
 }
 
@@ -210,7 +210,7 @@ limitations under the License.
   transform: translate(-50%, -50%) rotate(135deg);
 }
 
-.carousel__button--next::after,.carousel__button1--next1::after {
+.carousel__button--nextX::after,.carousel__button1--next1::after {
   left: 47%;
   transform: translate(-50%, -50%) rotate(-45deg);
 }
