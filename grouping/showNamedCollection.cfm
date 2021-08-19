@@ -1070,42 +1070,42 @@ function initCarousel() {
       disableInteraction1();
 
       // Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
-      var newPrevious = slide1 - 1,
-          newNext = slide1 + 1,
-          oldPrevious = slide1 - 2,
-          oldNext = slide1 + 2;
+      var newPrevious1 = slide1 - 1,
+          newNext1 = slide1 + 1,
+          oldPrevious1 = slide1 - 2,
+          oldNext1 = slide1 + 2;
 
       // Test if carousel has more than three items
       if ((totalItems1 - 1) > 3) {
 
         // Checks if the new potential slide is out of bounds and sets slide numbers
-        if (newPrevious <= 0) {
-          oldPrevious = (totalItems1 - 1);
-        } else if (newNext >= (totalItems1 - 1)){
-          oldNext = 0;
+        if (newPrevious1 <= 0) {
+          oldPrevious1 = (totalItems1 - 1);
+        } else if (newNext1 >= (totalItems1 - 1)){
+          oldNext1 = 0;
         }
 
         // Check if current slide is at the beginning or end and sets slide numbers
         if (slide1 === 0) {
-          newPrevious = (totalItems1 - 1);
-          oldPrevious = (totalItems1 - 2);
-          oldNext = (slide1 + 1);
-        } else if (slide === (totalItems1 -1)) {
-          newPrevious = (slide1 - 1);
-          newNext = 0;
-          oldNext = 1;
+          newPrevious1 = (totalItems1 - 1);
+          oldPrevious1 = (totalItems1 - 2);
+          oldNext1 = (slide1 + 1);
+        } else if (slide1 === (totalItems1 -1)) {
+          newPrevious1 = (slide1 - 1);
+          newNext1 = 0;
+          oldNext1 = 1;
         }
 
         // Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
 
         // Based on the current slide, reset to default classes.
-        items1[oldPrevious].className = itemClassName1;
-        items1[oldNext].className = itemClassName1;
+        items1[oldPrevious1].className = itemClassName1;
+        items1[oldNext1].className = itemClassName1;
 
         // Add the new classes
-        items1[newPrevious].className = itemClassName1 + " prev1";
+        items1[newPrevious1].className = itemClassName1 + " prev1";
         items1[slide1].className = itemClassName1 + " active1";
-        items1[newNext].className = itemClassName1 + " next1";
+        items1[newNext1].className = itemClassName1 + " next1";
       }
     }
   }
