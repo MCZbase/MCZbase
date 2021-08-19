@@ -148,32 +148,32 @@ limitations under the License.
 }
 
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
-.carousel__photo.initial,.carousel__photo1.initial,
-.carousel__photo.active,.carousel__photo1.active {
+.carousel__photo.initial,.carousel__photo1.initial1,
+.carousel__photo.active,.carousel__photo1.active1 {
   opacity: 1;
   position: relative;
   z-index: 900;
 }
 
 /* Set 'z-index' to sit behind our '.active' item. */
-.carousel__photo.prevX,.carousel__photo1.prev,
-.carousel__photo.nextX,.carousel__photo1.next {
+.carousel__photo.prevX,.carousel__photo1.prev1,
+.carousel__photo.nextX,.carousel__photo1.next1 {
   z-index: 800;
 }
 
 /* Translate previous item to the left */
-.carousel__photo.prevX,.carousel__photo1.prev {
+.carousel__photo.prevX,.carousel__photo1.prev1 {
   transform: translateX(-100%);
 }
 
 /* Translate next item to the right */
-.carousel__photo.next,.carousel__photo1.next {
+.carousel__photo.next,.carousel__photo1.next1 {
   transform: translateX(100%);
 }
 
 /* Style navigation buttons to sit in the middle, either side of the carousel. */
-.carousel__button--prevX,.carousel__button1--prev,
-.carousel__button--nextX,.carousel__button1--next {
+.carousel__button--prevX,.carousel__button1--prev1,
+.carousel__button--nextX,.carousel__button1--next1 {
   position: absolute;
   top:50%;
   width: 3rem;
@@ -188,7 +188,7 @@ limitations under the License.
   transition:opacity 1s;*/
 }
 
-.carousel__button--prevX,.carousel__button1--prev {
+.carousel__button--prevX,.carousel__button1--prev1 {
   left:0;
 }
 
@@ -197,8 +197,8 @@ limitations under the License.
 }
 
 /* Use pseudo elements to insert arrows inside of navigation buttons */
-.carousel__button--prevX::after,.carousel__button1--prev::after,
-.carousel__button--nextX::after,.carousel__button1--next::after {
+.carousel__button--prevX::after,.carousel__button1--prev1::after,
+.carousel__button--nextX::after,.carousel__button1--next1::after {
   content: " ";
   position: absolute;
   width: 10px;
@@ -210,7 +210,7 @@ limitations under the License.
   transform: translate(-50%, -50%) rotate(135deg);
 }
 
-.carousel__button--next::after,.carousel__button1--next::after {
+.carousel__button--next::after,.carousel__button1--next1::after {
   left: 47%;
   transform: translate(-50%, -50%) rotate(-45deg);
 }
@@ -475,14 +475,14 @@ limitations under the License.
 										<div class="carousel-wrapper1">
 										<div class="carousel1">
 
-										  <img class="carousel__photo1 initial" src="http://placekitten.com/1600/900">
+										  <img class="carousel__photo1 initial1" src="http://placekitten.com/1600/900">
 										  <img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
 										  <img class="carousel__photo1" src="http://placekitten.com/1600/900">
 										  <img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
 										  <img class="carousel__photo1" src="http://placekitten.com/1600/900">
 
-										  <div class="carousel__button1--next"></div>
-										  <div class="carousel__button1--prev"></div>
+										  <div class="carousel__button1--next1"></div>
+										  <div class="carousel__button1--prev1"></div>
 
 										</div>
 										</div>
@@ -826,7 +826,7 @@ function moveCarouselTo(slide) {
 		items[oldNext].className = itemClassName;
 
 		// Add the new classes
-		items[newPrevious].className = itemClassName + " prev";
+		items[newPrevious].className = itemClassName + "prev";
 		items[slide].className = itemClassName + " active";
 		items[newNext].className = itemClassName + " next";
 		}
