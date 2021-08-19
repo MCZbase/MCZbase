@@ -776,11 +776,11 @@ function setInitialClasses() {
 // Set click events to navigation buttons
 
 function setEventListeners() {
-	var next = d.getElementsByClassName('carousel__buttonF--nextF')[0],
-		prev = d.getElementsByClassName('carousel__buttonF--prevF')[0];
+	var nextF = d.getElementsByClassName('carousel__buttonF--nextF')[0],
+		prevF = d.getElementsByClassName('carousel__buttonF--prevF')[0];
 
-	next.addEventListener('click', moveNext);
-	prev.addEventListener('click', movePrev);
+	nextF.addEventListener('click', moveNext);
+	prevF.addEventListener('click', movePrev);
 }
 
 // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
