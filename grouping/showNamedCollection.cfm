@@ -1037,16 +1037,16 @@ function initCarousel() {
 
     // Target the last, initial, and next items and give them the relevant class.
     // This assumes there are three or more items.
-    items1[totalItems1 - 1].classList.add("prev");
-    items1[0].classList.add("active");
-    items1[1].classList.add("next");
+    items1[totalItems1 - 1].classList.add("prev1");
+    items1[0].classList.add("active1");
+    items1[1].classList.add("next1");
   }
 
   // Set click events to navigation buttons
 
   function setEventListeners1() {
-    var next = e.getElementsByClassName('carousel__button1--next')[0],
-        prev = e.getElementsByClassName('carousel__button1--prev')[0];
+    var next = e.getElementsByClassName('carousel__button1--next1')[0],
+        prev = e.getElementsByClassName('carousel__button1--prev1')[0];
 
     next.addEventListener('click', moveNext1);
     prev.addEventListener('click', movePrev1);
@@ -1103,9 +1103,9 @@ function initCarousel() {
         items1[oldNext].className = itemClassName1;
 
         // Add the new classes
-        items1[newPrevious].className = itemClassName1 + " prev";
-        items1[slide1].className = itemClassName1 + " active";
-        items1[newNext].className = itemClassName1 + " next";
+        items1[newPrevious].className = itemClassName1 + " prev1";
+        items1[slide1].className = itemClassName1 + " active1";
+        items1[newNext].className = itemClassName1 + " next1";
       }
     }
   }
