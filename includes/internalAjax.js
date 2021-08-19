@@ -384,6 +384,11 @@ function clickUploadPreview(){
 	var guts = "/info/upMediaPreview.cfm";
 	theDiv.src=guts;
 }
+function getBorrow(StringFld,IdFld,formName){
+	var url="/picks/findborrow.cfm";
+	var pickwin=url+"?BorrowNumFld="+StringFld+"&BorrowIdFld="+IdFld+"&formName="+formName;
+	pickwin=window.open(pickwin,"","width=600,height=400, resizable,scrollbars");
+}
 function pickedRelationship (id){
 	var relationship=document.getElementById(id).value;
 	var formName=document.getElementById(id).form.getAttribute('name');
@@ -422,9 +427,8 @@ function pickedRelationship (id){
 		getPermit(dispInputName,idInputName,formName);
 	} else if (relatedTable=='loan'){
 		getLoan(dispInputName,idInputName,formName);
-	//  } else if (relatedTable=='borrow'){
-		// TODO: Implement a borrow picker
-		// getBorrow(dispInputName,idInputName,formName);
+	} else if (relatedTable=='borrow'){
+		getBorrow(dispInputName,idInputName,formName);
 	} else if (relatedTable=='media'){
 		findMedia(dispInputName,idInputName);
 	} else if (relatedTable=='delete'){
