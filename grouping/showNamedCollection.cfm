@@ -117,25 +117,25 @@ limitations under the License.
 }	
 	*/
 	/* Parent wrapper to carousel. Width can be changed as needed. */
-.carousel-wrapperX, .carousel-wrapper1, .carousel-wrapperF {
+.carousel-wrapperF, .carousel-wrapperX, .carousel-wrapper1 {
   overflow: hidden;
   width: 90%;
   margin: auto;
 }
 /* Apply 'border-box' to 'box-sizing' so border and padding is included in the width and height. */
-.carousel-wrapperX *, .carousel-wrapper1 *, .carousel-wrapperF *{
+.carousel-wrapperF*, .carousel-wrapperX*, .carousel-wrapper1*{
   box-sizing: border-box;
 }
 
 /* We'll be using the 'transform' property to move the carousel's items, so setting the 'transform-style' to 'preserve-3d' will make sure our nested elements are rendered properly in the 3D space. */
-.carouselX, .carousel1, .carouselF {
+.carouselF, .carouselX, .carousel1 {
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
   transform-style: preserve-3d;
 }
 
 /* By default we're hiding items (except the initial one) until the JS initiates. Elements are absolutely positioned with a width of 100% (as we're styling for mobile first), letting the content's height dictate the height of the carousel. Our magic property here for all our animation needs is 'transition', taking the properties we wish to animate 'transform' and 'opacity', along with the length of time in seconds. */
-.carousel__photoX,.carousel__photo1, .carousel__photoF {
+.carousel__photoF,.carousel__photoX, .carousel__photo1 {
   opacity: 0;
   position: absolute;
   top:0;
@@ -147,32 +147,32 @@ limitations under the License.
 }
 
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
-.carousel__photoX.initial,.carousel__photo1.initial,.carousel__photoF.initial
-.carousel__photoX.active,.carousel__photo1.active,.carousel__photoF.active {
+.carousel__photoF.initial,.carousel__photoX.initial,.carousel__photo1.initial
+.carousel__photoF.active,.carousel__photoX.active,.carousel__photo1.active {
   opacity: 1;
   position: relative;
   z-index: 900;
 }
 
 /* Set 'z-index' to sit behind our '.active' item. */
-.carousel__photoX.prev,.carousel__photo1.prev,.carousel__photoF.prev
-.carousel__photoX.next,.carousel__photo1.next, .carousel__photoF.next{
+.carousel__photoF.prev,.carousel__photoX.prev,.carousel__photo1.prev
+.carousel__photoF.next,.carousel__photoX.next, .carousel__photo1.next{
   z-index: 800;
 }
 
 /* Translate previous item to the left */
-.carousel__photoX.prev,.carousel__photo1.prev, .carousel__photoF.prev {
+.carousel__photoF.prev,.carousel__photoX.prev, .carousel__photo1.prev {
   transform: translateX(-100%);
 }
 
 /* Translate next item to the right */
-.carousel__photoX.next,.carousel__photo1.next,.carousel__photoF.next {
+.carousel__photoF.next,.carousel__photoX.next,.carousel__photo1.next {
   transform: translateX(100%);
 }
 
 /* Style navigation buttons to sit in the middle, either side of the carousel. */
-.carousel__buttonX--prev,.carousel__button1--prev,.carousel__buttonF--prev
-.carousel__buttonX--next,.carousel__button1--next, .carousel__buttonF--next{
+.carousel__buttonF--prev,.carousel__buttonX--prev,.carousel__button1--prev
+.carousel__buttonF--next,.carousel__buttonX--next, .carousel__button1--next{
   position: absolute;
   top:50%;
   width: 3rem;
@@ -187,17 +187,17 @@ limitations under the License.
   transition:opacity 1s;*/
 }
 
-.carousel__buttonX--prev,.carousel__button1--prev,.carousel__buttonF--prev {
+.carousel__buttonF--prev,.carousel__buttonX--prev,.carousel__button1--prev {
   left:0;
 }
 
-.carousel__buttonX--next,.carousel__button1--next,.carousel__buttonF--next {
+.carousel__buttonF--next,.carousel__buttonX--next,.carousel__button1--next {
   right:0;
 }
 
 /* Use pseudo elements to insert arrows inside of navigation buttons */
-.carousel__buttonX--prev::after,.carousel__button1--prev::after,.carousel__buttonF--prev::after,
-.carousel__buttonX--next::after,.carousel__button1--next::after,.carousel__buttonF--next::after {
+.carousel__buttonF--prev::after,.carousel__buttonX--prev::after,.carousel__button1--prev::after,
+.carousel__buttonF--next::after,.carousel__buttonX--next::after,.carousel__button1--next::after {
   content: " ";
   position: absolute;
   width: 10px;
@@ -209,7 +209,7 @@ limitations under the License.
   transform: translate(-50%, -50%) rotate(135deg);
 }
 
-.carousel__buttonX--next::after,.carousel__button1--next::after,.carousel__buttonF--next::after {
+.carousel__buttonF--next::after,.carousel__buttonX--next::after,.carousel__button1--next::after {
   left: 47%;
   transform: translate(-50%, -50%) rotate(-45deg);
 }
