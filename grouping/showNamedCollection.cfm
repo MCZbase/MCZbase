@@ -122,7 +122,6 @@ limitations under the License.
   width: 90%;
   margin: auto;
 }
-
 /* Apply 'border-box' to 'box-sizing' so border and padding is included in the width and height. */
 .carousel-wrapperX *, .carousel-wrapper1 *, .carousel-wrapperF *{
   box-sizing: border-box;
