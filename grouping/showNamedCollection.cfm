@@ -890,13 +890,13 @@ function initCarousel() {
 !(function(f){
   // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
   var itemClassNameX = "carousel__photo";
-      itemsX = f.getElementsByClassName(itemClassName),
+      itemsX = f.getElementsByClassName(itemClassNameX),
       totalItemsX = itemsX.length,
       slideX = 0,
       movingX = true; 
 
   // To initialise the carousel we'll want to update the DOM with our own classes
-  function setInitialClasses() {
+  function setInitialClassesX() {
 
     // Target the last, initial, and next items and give them the relevant class.
     // This assumes there are three or more items.
@@ -943,8 +943,8 @@ function initCarousel() {
 
         // Checks if the new potential slide is out of bounds and sets slide numbers
         if (newPrevious <= 0) {
-          oldPrevious = (totalItems - 1);
-        } else if (newNext >= (totalItems - 1)){
+          oldPrevious = (totalItemsX - 1);
+        } else if (newNext >= (totalItemsX - 1)){
           oldNext = 0;
         }
 
@@ -962,13 +962,13 @@ function initCarousel() {
         // Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
 
         // Based on the current slide, reset to default classes.
-        items[oldPrevious].className = itemClassName;
-        items[oldNext].className = itemClassName;
+        items[oldPrevious].className = itemClassNameX;
+        items[oldNext].className = itemClassNameX;
 
         // Add the new classes
-        itemsX[newPrevious].className = itemClassName + " prev";
-        itemsX[slideX].className = itemClassName + " active";
-        itemsX[newNext].className = itemClassName + " next";
+        itemsX[newPrevious].className = itemClassNameX + " prev";
+        itemsX[slideX].className = itemClassNameX + " active";
+        itemsX[newNext].className = itemClassNameX + " next";
       }
     }
   }
@@ -995,17 +995,17 @@ function initCarousel() {
   function movePrevX() {
 
     // Check if moving
-    if (!moving) {
+    if (!movingX) {
 
       // If it's the first slide, set as the last slide, else -1
       if (slideX === 0) {
-        slideX = (totalItems - 1);
+        slideX = (totalItemsX - 1);
       } else {
         slideX--;
       }
 
       // Move carousel to updated slide
-      moveCarouselTo(slideX);
+      moveCarouselToX(slideX);
     }
   }
 
