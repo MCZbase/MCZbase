@@ -755,10 +755,10 @@ limitations under the License.
 <script>
 
 
-!(function (d){
+!(function (f){
 // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
 var itemClassName = "carousel__photoF";
-	items = d.getElementsByClassName(itemClassName),
+	items = f.getElementsByClassName(itemClassName),
 	totalItems = items.length,
 	slide = 0,
 	moving = true; 
@@ -776,8 +776,8 @@ function setInitialClasses() {
 // Set click events to navigation buttons
 
 function setEventListeners() {
-	var nextF = d.getElementsByClassName('carousel__buttonF--nextF')[0],
-		prevF = d.getElementsByClassName('carousel__buttonF--prevF')[0];
+	var nextF = f.getElementsByClassName('carousel__buttonF--nextF')[0],
+		prevF = f.getElementsByClassName('carousel__buttonF--prevF')[0];
 
 	nextF.addEventListener('click', moveNext);
 	prevF.addEventListener('click', movePrev);
@@ -895,7 +895,7 @@ function initCarousel() {
 /////////////////////
 	//////////////////
 	
-!(function(f){
+!(function(x){
   // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
   var itemClassNameX = "carousel__photoX";
       itemsX = f.getElementsByClassName(itemClassNameX),
@@ -916,8 +916,8 @@ function initCarousel() {
   // Set click events to navigation buttons
 
   function setEventListenersX() {
-    var nextX = f.getElementsByClassName('carousel__buttonX--nextX')[0],
-        prevX = f.getElementsByClassName('carousel__buttonX--prevX')[0];
+    var nextX = x.getElementsByClassName('carousel__buttonX--nextX')[0],
+        prevX = x.getElementsByClassName('carousel__buttonX--prevX')[0];
 
     nextX.addEventListener('click', moveNextX);
     prevX.addEventListener('click', movePrevX);
@@ -1053,11 +1053,11 @@ function initCarousel() {
   // Set click events to navigation buttons
 
   function setEventListeners1() {
-    var next = e.getElementsByClassName('carousel__button1--next1')[0],
-        prev = e.getElementsByClassName('carousel__button1--prev1')[0];
+    var next1 = e.getElementsByClassName('carousel__button1--next1')[0],
+        prev1 = e.getElementsByClassName('carousel__button1--prev1')[0];
 
-    next.addEventListener('click', moveNext1);
-    prev.addEventListener('click', movePrev1);
+    next1.addEventListener('click', moveNext1);
+    prev1.addEventListener('click', movePrev1);
   }
 
   // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
