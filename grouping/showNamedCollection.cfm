@@ -458,7 +458,6 @@ limitations under the License.
 										  <img class="carousel__photoF" src="http://placekitten.com/1600/900">
 										  <img class="carousel__photoF" src="http://placekitten.com/g/1600/900">
 										  <img class="carousel__photoF" src="http://placekitten.com/1600/900">
-									</div>
 									<div class="carousel__buttonF--nextF"></div>
 									<div class="carousel__buttonF--prevF"></div>
 									</div>
