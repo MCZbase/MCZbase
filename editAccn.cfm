@@ -1,3 +1,7 @@
+<!--- retained waiting replacement of old api call in /Project.cfm 
+editAccn.cfm?project_id=#getDetails.project_id#"
+--->
+
 <cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
