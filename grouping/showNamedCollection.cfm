@@ -775,7 +775,7 @@ function setInitialClassesF() {
 
 // Set click events to navigation buttons
 
-function setEventListeners() {
+function setEventListenersF() {
 	var nextF = f.getElementsByClassName('carousel__buttonF--nextF')[0],
 		prevF = f.getElementsByClassName('carousel__buttonF--prevF')[0];
 
