@@ -147,32 +147,32 @@ limitations under the License.
 }
 
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
-.carousel__photoX.initialX,.carousel__photo1.initial,.carousel__photoF.initialF
-.carousel__photoX.activeX,.carousel__photo1.active,.carousel__photoF.activeF {
+.carousel__photoX.initial,.carousel__photo1.initial,.carousel__photoF.initial
+.carousel__photoX.active,.carousel__photo1.active,.carousel__photoF.active {
   opacity: 1;
   position: relative;
   z-index: 900;
 }
 
 /* Set 'z-index' to sit behind our '.active' item. */
-.carousel__photoX.prevX,.carousel__photo1.prev,.carousel__photoF.prevF
-.carousel__photoX.nextX,.carousel__photo1.next, .carousel__photoF.nextF{
+.carousel__photoX.prev,.carousel__photo1.prev,.carousel__photoF.prev
+.carousel__photoX.next,.carousel__photo1.next, .carousel__photoF.next{
   z-index: 800;
 }
 
 /* Translate previous item to the left */
-.carousel__photoX.prevX,.carousel__photo1.prev, .carousel__photoF.prevF {
+.carousel__photoX.prev,.carousel__photo1.prev, .carousel__photoF.prev {
   transform: translateX(-100%);
 }
 
 /* Translate next item to the right */
-.carousel__photoX.nextX,.carousel__photo1.next,.carousel__photoF.nextF {
+.carousel__photoX.nextX,.carousel__photo1.next,.carousel__photoF.next {
   transform: translateX(100%);
 }
 
 /* Style navigation buttons to sit in the middle, either side of the carousel. */
-.carousel__buttonX--prevX,.carousel__button1--prev,.carousel__buttonF--prevF
-.carousel__buttonX--nextX,.carousel__button1--next, .carousel__buttonF--nextF{
+.carousel__buttonX--prev,.carousel__button1--prev,.carousel__buttonF--prev
+.carousel__buttonX--next,.carousel__button1--next, .carousel__buttonF--next{
   position: absolute;
   top:50%;
   width: 3rem;
@@ -187,17 +187,17 @@ limitations under the License.
   transition:opacity 1s;*/
 }
 
-.carousel__buttonX--prevX,.carousel__button1--prev,.carousel__buttonF--prevF {
+.carousel__buttonX--prev,.carousel__button1--prev,.carousel__buttonF--prev {
   left:0;
 }
 
-.carousel__buttonX--nextX,.carousel__button1--next,.carousel__buttonF--nextF {
+.carousel__buttonX--next,.carousel__button1--next,.carousel__buttonF--next {
   right:0;
 }
 
 /* Use pseudo elements to insert arrows inside of navigation buttons */
-.carousel__buttonX--prevX::after,.carousel__button1--prev::after,.carousel__buttonF--prevF::after,
-.carousel__buttonX--nextX::after,.carousel__button1--next::after,.carousel__buttonF--nextF::after {
+.carousel__buttonX--prev::after,.carousel__button1--prev::after,.carousel__buttonF--prev::after,
+.carousel__buttonX--next::after,.carousel__button1--next::after,.carousel__buttonF--next::after {
   content: " ";
   position: absolute;
   width: 10px;
@@ -209,7 +209,7 @@ limitations under the License.
   transform: translate(-50%, -50%) rotate(135deg);
 }
 
-.carousel__buttonX--nextX::after,.carousel__button1--next::after,.carousel__buttonF--nextF::after {
+.carousel__buttonX--next::after,.carousel__button1--next::after,.carousel__buttonF--next::after {
   left: 47%;
   transform: translate(-50%, -50%) rotate(-45deg);
 }
@@ -453,13 +453,13 @@ limitations under the License.
 									<div class="col-12 px-0">
 										<div class="carousel-wrapperF">
 											<div class="carouselF">
-												<img class="carousel__photoF initialF" src="http://placekitten.com/1600/900">
+												<img class="carousel__photoF initial" src="http://placekitten.com/1600/900">
 												<img class="carousel__photoF" src="http://placekitten.com/g/1600/900">
 												<img class="carousel__photoF" src="http://placekitten.com/1600/900">
 												<img class="carousel__photoF" src="http://placekitten.com/g/1600/900">
 												<img class="carousel__photoF" src="http://placekitten.com/1600/900">
-												<div class="carousel__buttonF--nextF"></div>
-												<div class="carousel__buttonF--prevF"></div>
+												<div class="carousel__buttonF--next"></div>
+												<div class="carousel__buttonF--prev"></div>
 											</div>
 										</div>
 									</div>
@@ -469,14 +469,14 @@ limitations under the License.
 										<div class="carousel-wrapperX">
 											<div class="carouselX">
 
-											  <img class="carousel__photoX initialX" src="http://placekitten.com/1600/900">
+											  <img class="carousel__photoX initial" src="http://placekitten.com/1600/900">
 											  <img class="carousel__photoX" src="http://placekitten.com/g/1600/900">
 											  <img class="carousel__photoX" src="http://placekitten.com/1600/900">
 											  <img class="carousel__photoX" src="http://placekitten.com/g/1600/900">
 											  <img class="carousel__photoX" src="http://placekitten.com/1600/900">
 
-											  <div class="carousel__buttonX--nextX"></div>
-											  <div class="carousel__buttonX--prevX"></div>
+											  <div class="carousel__buttonX--next"></div>
+											  <div class="carousel__buttonX--prev"></div>
 
 											</div>
 											</div>
@@ -770,19 +770,19 @@ function setInitialClassesF() {
 
 	// Target the last, initial, and next items and give them the relevant class.
 	// This assumes there are three or more items.
-	itemsF[totalItemsF - 1].classList.add("prevF");
-	itemsF[0].classList.add("activeF");
-	itemsF[1].classList.add("nextF");
+	itemsF[totalItemsF - 1].classList.add("prev");
+	itemsF[0].classList.add("active");
+	itemsF[1].classList.add("next");
 }
 
 // Set click events to navigation buttons
 
 function setEventListenersF() {
-	var nextF = f.getElementsByClassName('carousel__buttonF--nextF')[0],
-		prevF = f.getElementsByClassName('carousel__buttonF--prevF')[0];
+	var next = f.getElementsByClassName('carousel__buttonF--next')[0],
+		prev = f.getElementsByClassName('carousel__buttonF--prev')[0];
 
-	nextF.addEventListener('click', moveNextF);
-	prevF.addEventListener('click', movePrevF);
+	next.addEventListener('click', moveNextF);
+	prev.addEventListener('click', movePrevF);
 }
 
 // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
@@ -803,42 +803,42 @@ function moveCarouselToF(slideF) {
 	disableInteractionF();
 
 	// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
-	var newPreviousF = slideF - 1,
-		newNextF = slideF + 1,
-		oldPreviousF = slideF - 2,
-		oldNextF = slideF + 2;
+	var newPrevious = slideF - 1,
+		newNext = slideF + 1,
+		oldPrevious = slideF - 2,
+		oldNext = slideF + 2;
 
 	// Test if carousel has more than three items
 	if ((totalItemsF - 1) > 3) {
 
 		// Checks if the new potential slide is out of bounds and sets slide numbers
-		if (newPreviousF <= 0) {
-			oldPreviousF = (totalItemsF - 1);
-		} else if (newNextF >= (totalItemsF - 1)){
-			oldNextF = 0;
+		if (newPrevious <= 0) {
+			oldPrevious = (totalItemsF - 1);
+		} else if (newNext >= (totalItemsF - 1)){
+			oldNext = 0;
 		}
 
 		// Check if current slide is at the beginning or end and sets slide numbers
 		if (slideF === 0) {
-			newPreviousF = (totalItemsF - 1);
-			oldPreviousF = (totalItemsF - 2);
-			oldNextF = (slideF + 1);
+			newPrevious = (totalItemsF - 1);
+			oldPrevious = (totalItemsF - 2);
+			oldNext = (slideF + 1);
 		} else if (slideF === (totalItemsF -1)) {
-			newPreviousF = (slideF - 1);
-			newNextF = 0;
-			oldNextF = 1;
+			newPrevious = (slideF - 1);
+			newNext = 0;
+			oldNext = 1;
 		}
 
 		// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
 
 		// Based on the current slide, reset to default classes.
-		itemsF[oldPreviousF].className = itemClassNameF;
-		itemsF[oldNextF].className = itemClassNameF;
+		itemsF[oldPrevious].className = itemClassNameF;
+		itemsF[oldNext].className = itemClassNameF;
 
 		// Add the new classes
-		itemsF[newPreviousF].className = itemClassNameF + " prevF";
-		itemsF[slideF].className = itemClassNameF + " activeF";
-		itemsF[newNextF].className = itemClassNameF + " nextF";
+		itemsF[newPrevious].className = itemClassNameF + " prev";
+		itemsF[slideF].className = itemClassNameF + " active";
+		itemsF[newNext].className = itemClassNameF + " next";
 		}
 	}
 }
@@ -875,7 +875,7 @@ function movePrevF() {
 	}
 
 	// Move carousel to updated slide
-		moveCarouselTo(slide);
+		moveCarouselTo(slideF);
 	}
 }
 
