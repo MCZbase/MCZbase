@@ -187,17 +187,17 @@ limitations under the License.
   transition:opacity 1s;*/
 }
 
-.carousel__buttonX--prevX,.carousel__button1--prev1,.carousel__buttonF--prevF {
+.carousel__buttonX--prevX,.carousel__button1--prev,.carousel__buttonF--prevF {
   left:0;
 }
 
-.carousel__buttonX--nextX,.carousel__button1--next1,.carousel__buttonF--nextF {
+.carousel__buttonX--nextX,.carousel__button1--next,.carousel__buttonF--nextF {
   right:0;
 }
 
 /* Use pseudo elements to insert arrows inside of navigation buttons */
-.carousel__buttonX--prevX::after,.carousel__button1--prev1::after,.carousel__buttonF--prevF::after,
-.carousel__buttonX--nextX::after,.carousel__button1--next1::after,.carousel__buttonF--nextF::after {
+.carousel__buttonX--prevX::after,.carousel__button1--prev::after,.carousel__buttonF--prevF::after,
+.carousel__buttonX--nextX::after,.carousel__button1--next::after,.carousel__buttonF--nextF::after {
   content: " ";
   position: absolute;
   width: 10px;
@@ -209,7 +209,7 @@ limitations under the License.
   transform: translate(-50%, -50%) rotate(135deg);
 }
 
-.carousel__buttonX--nextX::after,.carousel__button1--next1::after,.carousel__buttonF--nextF::after {
+.carousel__buttonX--nextX::after,.carousel__button1--next::after,.carousel__buttonF--nextF::after {
   left: 47%;
   transform: translate(-50%, -50%) rotate(-45deg);
 }
