@@ -385,7 +385,7 @@ function clickUploadPreview(){
 	theDiv.src=guts;
 }
 function getBorrow(StringFld,IdFld,formName){
-	var url="/picks/findborrow.cfm";
+	var url="/picks/findBorrow.cfm";
 	var pickwin=url+"?BorrowNumFld="+StringFld+"&BorrowIdFld="+IdFld+"&formName="+formName;
 	pickwin=window.open(pickwin,"","width=600,height=400, resizable,scrollbars");
 }
