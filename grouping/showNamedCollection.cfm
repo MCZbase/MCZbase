@@ -124,7 +124,7 @@ limitations under the License.
 }
 
 /* Apply 'border-box' to 'box-sizing' so border and padding is included in the width and height. */
-.carousel-wrapperX *, .carousel-wrapper1 *, .carousel-wrapperF {
+.carousel-wrapperX *, .carousel-wrapper1 *, .carousel-wrapperF *{
   box-sizing: border-box;
 }
 
@@ -422,11 +422,7 @@ limitations under the License.
 							<!---The encumbrance line was slowing it down too much--->
 							<h2 class="mt-3">Images (shows 25)</h2>
 							<p class="small">Specimen Images (#specimenImgs.recordcount#), Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 25 images.</p>
-						
-								<cfoutput>
-								<div class="carousel-wrapperF">
-									<div class="carouselF">
-<!---										<div class="carouselImageX initial">
+				<!---										<div class="carouselImageX initial">
 											<img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p>
 										</div>									
 										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
@@ -453,6 +449,9 @@ limitations under the License.
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][23]#"/><p>#agentImagesforCarousel['alt'][23]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][24]#"/><p>#agentImagesforCarousel['alt'][24]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][25]#"/><p>#agentImagesforCarousel['alt'][25]#</p></div>--->
+								<cfoutput>
+								<div class="carousel-wrapperF">
+									<div class="carouselF">
 										<img class="carousel__photoF initialF" src="http://placekitten.com/1600/900">
 										  <img class="carousel__photoF" src="http://placekitten.com/g/1600/900">
 										  <img class="carousel__photoF" src="http://placekitten.com/1600/900">
