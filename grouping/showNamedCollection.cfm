@@ -1096,7 +1096,7 @@ function initCarouselF() {
           newPrevious = (totalItems1 - 1);
           oldPrevious = (totalItems1 - 2);
           oldNext = (slide1 + 1);
-        } else if (slide === (totalItems1 -1)) {
+        } else if (slide1 === (totalItems1 -1)) {
           newPrevious = (slide1 - 1);
           newNext = 0;
           oldNext = 1;
