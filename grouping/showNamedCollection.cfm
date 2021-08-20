@@ -892,7 +892,7 @@ function initCarouselF() {
 }
 
 // make it rain
-	initCarousel();
+	initCarouselF();
 
 }(document));
 
