@@ -203,8 +203,8 @@ limitations under the License.
 .carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after {
   content: " ";
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
   top: 50%;
   left: 54%;
   border-right: 2px solid ##007bff;
@@ -457,7 +457,7 @@ limitations under the License.
 								<cfoutput>
 
 								<div class="row">
-									<div class="col-12">
+									<div class="col-12 px-md-0">
 										<div class="carousel-wrapper">
 											<div class="carousel">
 
@@ -475,7 +475,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-6 px-md-0">
 										<div class="carousel-wrapper1">
 											<div class="carousel1">
 
