@@ -121,6 +121,7 @@ limitations under the License.
 .carousel-wrapper, .carousel-wrapper1 {
   overflow: hidden;
   width: 90%;
+	width:100%
   margin: auto;
 }
 
