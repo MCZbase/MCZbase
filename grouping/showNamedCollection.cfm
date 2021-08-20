@@ -179,7 +179,7 @@ limitations under the License.
   position: absolute;
   top:50%;
   width: 3rem;
-  height: 3rem;
+  height: 10rem;
   background-color: transparent;
   transform: translateY(-50%);
   border-radius: 50%;
