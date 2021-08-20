@@ -452,10 +452,10 @@ limitations under the License.
 							<h2 class="mt-3">Images</h2>
 								<div class="row">
 									<cfif agentImagesForCarousel.recordcount gt 0>
-									<div class="col-12 px-md-0">
+									<div class="col-12 px-md-3">
 									<h3 class="h4">Specimen Images (25 of #specimenImgs.recordcount# images displayed).</h3>
 										<div class="carousel-wrapper">
-											<div class="carousel" style="background-color: ##f8f9fa;">
+											<div class="carousel" style="background-color: ##deebec;">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<img class="carousel__photo" src="#specimenImagesforCarousel['media_uri'][i]#">
