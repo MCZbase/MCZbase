@@ -448,8 +448,8 @@ limitations under the License.
 								WHERE Rownum <= 26
 							</cfquery>
 							<!---The encumbrance line was slowing it down too much--->
-							<h2 class="mt-3">Images (shows 25)</h2>
-							<p class="small">Specimen Images (#specimenImgs.recordcount#), Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 25 images.</p>
+							<h2 class="mt-3">Images</h2>
+							<h3 class="small">Specimen Images (#specimenImgs.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
 								<cfoutput>
 
 								<div class="row">
@@ -468,7 +468,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								
+								<h3 class="small">Agent Images (#agentImagesForCarousel.recordcount#) and Collecting Images (#collectingImagesForCarousel.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
 								<div class="row">
 									<cfif agentImagesForCarousel.recordcount gt 0>
 										<div class="col-12 col-md-auto px-md-0">
