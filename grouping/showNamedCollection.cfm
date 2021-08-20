@@ -480,13 +480,15 @@ limitations under the License.
 									<div class="col-12 col-md-6 px-md-0">
 										<div class="carousel-wrapper1">
 											<div class="carousel1">
-
-												<img class="carousel__photo1 initial" src="http://placekitten.com/1600/900">
-												<img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
+											<cfset i=1>
+											<cfloop query="specimenImagesForCarousel">
+												<img class="carousel__photo1" src="#specimenImagesforCarousel['media_uri'][i]#">
+<!---												<img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
 												<img class="carousel__photo1" src="http://placekitten.com/1600/900">
 												<img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
-												<img class="carousel__photo1" src="http://placekitten.com/1600/900">
-
+												<img class="carousel__photo1" src="http://placekitten.com/1600/900">--->
+												<cfset i=i+1>
+											</cfloop>
 												<div class="carousel__button1--next"></div>
 												<div class="carousel__button1--prev"></div>
 
@@ -496,13 +498,16 @@ limitations under the License.
 									<div class="col-12 col-md-6 px-md-0">
 										<div class="carousel-wrapper2">
 											<div class="carousel2">
-
-												<img class="carousel__photo2 initial" src="http://placekitten.com/1600/900">
+											<cfset i=1>
+											<cfloop query="specimenImagesForCarousel">
+												<img class="carousel__photo2" src="#specimenImagesforCarousel['media_uri'][i]#">
+<!---												<img class="carousel__photo2 initial" src="http://placekitten.com/1600/900">
 												<img class="carousel__photo2" src="http://placekitten.com/g/1600/900">
 												<img class="carousel__photo2" src="http://placekitten.com/1600/900">
 												<img class="carousel__photo2" src="http://placekitten.com/g/1600/900">
-												<img class="carousel__photo2" src="http://placekitten.com/1600/900">
-
+												<img class="carousel__photo2" src="http://placekitten.com/1600/900">--->
+												<cfset i=i+1>
+											</cfloop>
 												<div class="carousel__button2--next"></div>
 												<div class="carousel__button2--prev"></div>
 
