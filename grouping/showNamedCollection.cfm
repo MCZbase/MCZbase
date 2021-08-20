@@ -191,7 +191,7 @@ limitations under the License.
 }
 
 .carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev {
-  left:0;
+  left:15px;
 }
 
 .carousel__button--next,.carousel__button1--next,.carousel__button2--next {
