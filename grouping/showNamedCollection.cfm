@@ -460,7 +460,7 @@ limitations under the License.
 									<div class="col-12 px-md-0">
 										<div class="carousel-wrapper">
 											<div class="carousel">
-
+											<cfloop >
 												<img class="carousel__photo initial" src="http://placekitten.com/1600/900">
 												<img class="carousel__photo" src="http://placekitten.com/g/1600/900">
 												<img class="carousel__photo" src="http://placekitten.com/1600/900">
@@ -469,7 +469,7 @@ limitations under the License.
 
 												<div class="carousel__button--next"></div>
 												<div class="carousel__button--prev"></div>
-
+											</cfloop>
 											</div>
 										</div>
 									</div>
@@ -772,414 +772,376 @@ limitations under the License.
 <script>
 
 !(function(d){
-  // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
-  var itemClassName = "carousel__photo";
-      items = d.getElementsByClassName(itemClassName),
-      totalItems = items.length,
-      slide = 0,
-      moving = true; 
+	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+	var itemClassName = "carousel__photo";
+		items = d.getElementsByClassName(itemClassName),
+			totalItems = items.length,
+			slide = 0,
+			moving = true; 
 
-  // To initialise the carousel we'll want to update the DOM with our own classes
-  function setInitialClasses() {
+	// To initialise the carousel we'll want to update the DOM with our own classes
+	function setInitialClasses() {
 
-    // Target the last, initial, and next items and give them the relevant class.
-    // This assumes there are three or more items.
-    items[totalItems - 1].classList.add("prev");
-    items[0].classList.add("active");
-    items[1].classList.add("next");
-  }
+		// Target the last, initial, and next items and give them the relevant class.
+		// This assumes there are three or more items.
+		items[totalItems - 1].classList.add("prev");
+		items[0].classList.add("active");
+		items[1].classList.add("next");
+	}
 
-  // Set click events to navigation buttons
+	// Set click events to navigation buttons
 
-  function setEventListeners() {
-    var next = d.getElementsByClassName('carousel__button--next')[0],
-        prev = d.getElementsByClassName('carousel__button--prev')[0];
+	function setEventListeners() {
+		var next = d.getElementsByClassName('carousel__button--next')[0],
+			prev = d.getElementsByClassName('carousel__button--prev')[0];
 
-    next.addEventListener('click', moveNext);
-    prev.addEventListener('click', movePrev);
-  }
+		next.addEventListener('click', moveNext);
+		prev.addEventListener('click', movePrev);
+	}
 
-  // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
-  function disableInteraction() {
-    moving = true;
+	// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+	function disableInteraction() {
+		moving = true;
 
-    setTimeout(function(){
-      moving = false
-    }, 500);
-  }
+		setTimeout(function(){
+			moving = false
+		}, 500);
+	}
 
-  function moveCarouselTo(slide) {
+function moveCarouselTo(slide) {
 
-    // Check if carousel is moving, if not, allow interaction
-    if(!moving) {
+	// Check if carousel is moving, if not, allow interaction
+if(!moving) {
 
-      // temporarily disable interactivity
-      disableInteraction();
+	// temporarily disable interactivity
+	disableInteraction();
 
-      // Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
-      var newPrevious = slide - 1,
-          newNext = slide + 1,
-          oldPrevious = slide - 2,
-          oldNext = slide + 2;
+	// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+	var newPrevious = slide - 1,
+		newNext = slide + 1,
+		oldPrevious = slide - 2,
+		oldNext = slide + 2;
 
-      // Test if carousel has more than three items
-      if ((totalItems - 1) > 3) {
+		// Test if carousel has more than three items
+		if ((totalItems - 1) > 3) {
 
-        // Checks if the new potential slide is out of bounds and sets slide numbers
-        if (newPrevious <= 0) {
-          oldPrevious = (totalItems - 1);
-        } else if (newNext >= (totalItems - 1)){
-          oldNext = 0;
-        }
+			// Checks if the new potential slide is out of bounds and sets slide numbers
+			if (newPrevious <= 0) {
+				oldPrevious = (totalItems - 1);
+			} else if (newNext >= (totalItems - 1)){
+				oldNext = 0;
+			}
 
-        // Check if current slide is at the beginning or end and sets slide numbers
-        if (slide === 0) {
-          newPrevious = (totalItems - 1);
-          oldPrevious = (totalItems - 2);
-          oldNext = (slide + 1);
-        } else if (slide === (totalItems -1)) {
-          newPrevious = (slide - 1);
-          newNext = 0;
-          oldNext = 1;
-        }
+			// Check if current slide is at the beginning or end and sets slide numbers
+			if (slide === 0) {
+				newPrevious = (totalItems - 1);
+				oldPrevious = (totalItems - 2);
+				oldNext = (slide + 1);
+			} else if (slide === (totalItems -1)) {
+				newPrevious = (slide - 1);
+				newNext = 0;
+				oldNext = 1;
+			}
 
-        // Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+			// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
 
-        // Based on the current slide, reset to default classes.
-        items[oldPrevious].className = itemClassName;
-        items[oldNext].className = itemClassName;
+			// Based on the current slide, reset to default classes.
+			items[oldPrevious].className = itemClassName;
+			items[oldNext].className = itemClassName;
 
-        // Add the new classes
-        items[newPrevious].className = itemClassName + " prev";
-        items[slide].className = itemClassName + " active";
-        items[newNext].className = itemClassName + " next";
-      }
-    }
-  }
+			// Add the new classes
+			items[newPrevious].className = itemClassName + " prev";
+			items[slide].className = itemClassName + " active";
+			items[newNext].className = itemClassName + " next";
+		}
+	}
+}
 
-  // Next navigation handler
-  function moveNext() {
+// Next navigation handler
+function moveNext() {
+	// Check if moving
+	if (!moving) {
+		// If it's the last slide, reset to 0, else +1
+		if (slide === (totalItems - 1)) {
+			slide = 0;
+		} else {
+			slide++;
+		}
+		// Move carousel to updated slide
+	moveCarouselTo(slide);
+	}
+}
 
-    // Check if moving
-    if (!moving) {
+	// Previous navigation handler
+	function movePrev() {
 
-      // If it's the last slide, reset to 0, else +1
-      if (slide === (totalItems - 1)) {
-        slide = 0;
-      } else {
-        slide++;
-      }
+		// Check if moving
+		if (!moving) {
 
-      // Move carousel to updated slide
-      moveCarouselTo(slide);
-    }
-  }
+			// If it's the first slide, set as the last slide, else -1
+			if (slide === 0) {
+				slide = (totalItems - 1);
+			} else {
+				slide--;
+			}
 
-  // Previous navigation handler
-  function movePrev() {
+			// Move carousel to updated slide
+			moveCarouselTo(slide);
+		}
+	}
 
-    // Check if moving
-    if (!moving) {
+	// Initialise carousel
+	function initCarousel() {
+		setInitialClasses();
+		setEventListeners();
 
-      // If it's the first slide, set as the last slide, else -1
-      if (slide === 0) {
-        slide = (totalItems - 1);
-      } else {
-        slide--;
-      }
+		// Set moving to false now that the carousel is ready
+		moving = false;
+	}
 
-      // Move carousel to updated slide
-      moveCarouselTo(slide);
-    }
-  }
-
-  // Initialise carousel
-  function initCarousel() {
-    setInitialClasses();
-    setEventListeners();
-
-    // Set moving to false now that the carousel is ready
-    moving = false;
-  }
-
-  // make it rain
-  initCarousel();
+	// make it rain
+	initCarousel();
 
 }(document));
 /////////////////
 !(function(e){
-  // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
-  var itemClassName1 = "carousel__photo1";
-      items1 = e.getElementsByClassName(itemClassName1),
-      totalItems1 = items1.length,
-      slide1 = 0,
-      moving1 = true; 
+	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+	var itemClassName1 = "carousel__photo1";
+		items1 = e.getElementsByClassName(itemClassName1),
+			totalItems1 = items1.length,
+			slide1 = 0,
+			moving1 = true; 
 
-  // To initialise the carousel we'll want to update the DOM with our own classes
-  function setInitialClasses1() {
+	// To initialise the carousel we'll want to update the DOM with our own classes
+	function setInitialClasses1() {
+		// Target the last, initial, and next items and give them the relevant class.
+		// This assumes there are three or more items.
+		items1[totalItems1 - 1].classList.add("prev");
+		items1[0].classList.add("active");
+		items1[1].classList.add("next");
+	}
+	// Set click events to navigation buttons
 
-    // Target the last, initial, and next items and give them the relevant class.
-    // This assumes there are three or more items.
-    items1[totalItems1 - 1].classList.add("prev");
-    items1[0].classList.add("active");
-    items1[1].classList.add("next");
-  }
+	function setEventListeners1() {
+		var next = e.getElementsByClassName('carousel__button1--next')[0],
+			prev = e.getElementsByClassName('carousel__button1--prev')[0];
 
-  // Set click events to navigation buttons
+		next.addEventListener('click', moveNext1);
+		prev.addEventListener('click', movePrev1);
+	}
 
-  function setEventListeners1() {
-    var next = e.getElementsByClassName('carousel__button1--next')[0],
-        prev = e.getElementsByClassName('carousel__button1--prev')[0];
+	// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+	function disableInteraction1() {
+		moving1 = true;
 
-    next.addEventListener('click', moveNext1);
-    prev.addEventListener('click', movePrev1);
-  }
+		setTimeout(function(){
+			moving1 = false
+		}, 500);
+	}
 
-  // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
-  function disableInteraction1() {
-    moving1 = true;
+	function moveCarouselTo1(slide1) {
+		// Check if carousel is moving, if not, allow interaction
+		if(!moving1) {
+			// temporarily disable interactivity
+			disableInteraction1();
+			// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+			var newPrevious = slide1 - 1,
+				newNext = slide1 + 1,
+				oldPrevious = slide1 - 2,
+				oldNext = slide1 + 2;
+			// Test if carousel has more than three items
+			if ((totalItems1 - 1) > 3) {
 
-    setTimeout(function(){
-      moving1 = false
-    }, 500);
-  }
+				// Checks if the new potential slide is out of bounds and sets slide numbers
+				if (newPrevious <= 0) {
+					oldPrevious = (totalItems1 - 1);
+				} else if (newNext >= (totalItems1 - 1)){
+					oldNext = 0;
+				}
 
-  function moveCarouselTo1(slide1) {
+				// Check if current slide is at the beginning or end and sets slide numbers
+				if (slide1 === 0) {
+					newPrevious = (totalItems1 - 1);
+					oldPrevious = (totalItems1 - 2);
+					oldNext = (slide1 + 1);
+				} else if (slide === (totalItems1 -1)) {
+					newPrevious = (slide1 - 1);
+					newNext = 0;
+					oldNext = 1;
+				}
 
-    // Check if carousel is moving, if not, allow interaction
-    if(!moving1) {
+				// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
 
-      // temporarily disable interactivity
-      disableInteraction1();
+				// Based on the current slide, reset to default classes.
+				items1[oldPrevious].className = itemClassName1;
+				items1[oldNext].className = itemClassName1;
 
-      // Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
-      var newPrevious = slide1 - 1,
-          newNext = slide1 + 1,
-          oldPrevious = slide1 - 2,
-          oldNext = slide1 + 2;
+				// Add the new classes
+				items1[newPrevious].className = itemClassName1 + " prev";
+				items1[slide1].className = itemClassName1 + " active";
+				items1[newNext].className = itemClassName1 + " next";
+			}
+		}
+	}
 
-      // Test if carousel has more than three items
-      if ((totalItems1 - 1) > 3) {
-
-        // Checks if the new potential slide is out of bounds and sets slide numbers
-        if (newPrevious <= 0) {
-          oldPrevious = (totalItems1 - 1);
-        } else if (newNext >= (totalItems1 - 1)){
-          oldNext = 0;
-        }
-
-        // Check if current slide is at the beginning or end and sets slide numbers
-        if (slide1 === 0) {
-          newPrevious = (totalItems1 - 1);
-          oldPrevious = (totalItems1 - 2);
-          oldNext = (slide1 + 1);
-        } else if (slide === (totalItems1 -1)) {
-          newPrevious = (slide1 - 1);
-          newNext = 0;
-          oldNext = 1;
-        }
-
-        // Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
-
-        // Based on the current slide, reset to default classes.
-        items1[oldPrevious].className = itemClassName1;
-        items1[oldNext].className = itemClassName1;
-
-        // Add the new classes
-        items1[newPrevious].className = itemClassName1 + " prev";
-        items1[slide1].className = itemClassName1 + " active";
-        items1[newNext].className = itemClassName1 + " next";
-      }
-    }
-  }
-
-  // Next navigation handler
-  function moveNext1() {
-
-    // Check if moving
-    if (!moving1) {
-
-      // If it's the last slide, reset to 0, else +1
-      if (slide1 === (totalItems1 - 1)) {
-        slide1 = 0;
-      } else {
-        slide1++;
-      }
-
-      // Move carousel to updated slide
-      moveCarouselTo1(slide1);
-    }
-  }
-
-  // Previous navigation handler
-  function movePrev1() {
-
-    // Check if moving
-    if (!moving1) {
-
-      // If it's the first slide, set as the last slide, else -1
-      if (slide1 === 0) {
-        slide1 = (totalItems1 - 1);
-      } else {
-        slide1--;
-      }
-
-      // Move carousel to updated slide
-      moveCarouselTo1(slide1);
-    }
-  }
-
-  // Initialise carousel
-  function initCarousel1() {
-    setInitialClasses1();
-    setEventListeners1();
-
-    // Set moving to false now that the carousel is ready
-    moving1 = false;
-  }
-
-  // make it rain
-  initCarousel1();
+	// Next navigation handler
+	function moveNext1() {
+		// Check if moving
+		if (!moving1) {
+			// If it's the last slide, reset to 0, else +1
+			if (slide1 === (totalItems1 - 1)) {
+				slide1 = 0;
+			} else {
+				slide1++;
+			}
+			// Move carousel to updated slide
+			moveCarouselTo1(slide1);
+		}
+	}
+	// Previous navigation handler
+	function movePrev1() {
+		// Check if moving
+		if (!moving1) {
+			// If it's the first slide, set as the last slide, else -1
+			if (slide1 === 0) {
+				slide1 = (totalItems1 - 1);
+			} else {
+				slide1--;
+			}
+			// Move carousel to updated slide
+			moveCarouselTo1(slide1);
+		}
+	}
+	// Initialise carousel
+	function initCarousel1() {
+		setInitialClasses1();
+		setEventListeners1();
+		// Set moving to false now that the carousel is ready
+		moving1 = false;
+	}
+	// make it rain
+	initCarousel1();
 
 }(document));
 /////////////////
-	
-	
-	
 !(function(f){
-  // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
-  var itemClassName2 = "carousel__photo2";
-      items2 = f.getElementsByClassName(itemClassName2),
-      totalItems2 = items2.length,
-      slide2 = 0,
-      moving2 = true; 
+	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+	var itemClassName2 = "carousel__photo2";
+		items2 = f.getElementsByClassName(itemClassName2),
+			totalItems2 = items2.length,
+			slide2 = 0,
+			moving2 = true; 
 
-  // To initialise the carousel we'll want to update the DOM with our own classes
-  function setInitialClasses2() {
+	// To initialise the carousel we'll want to update the DOM with our own classes
+	function setInitialClasses2() {
+		// Target the last, initial, and next items and give them the relevant class.
+		// This assumes there are three or more items.
+		items2[totalItems2 - 1].classList.add("prev");
+		items2[0].classList.add("active");
+		items2[1].classList.add("next");
+	}
 
-    // Target the last, initial, and next items and give them the relevant class.
-    // This assumes there are three or more items.
-    items2[totalItems2 - 1].classList.add("prev");
-    items2[0].classList.add("active");
-    items2[1].classList.add("next");
-  }
+	// Set click events to navigation buttons
+	function setEventListeners2() {
+		var next = f.getElementsByClassName('carousel__button2--next')[0],
+			prev = f.getElementsByClassName('carousel__button2--prev')[0];
 
-  // Set click events to navigation buttons
+		next.addEventListener('click', moveNext2);
+		prev.addEventListener('click', movePrev2);
+	}
 
-  function setEventListeners2() {
-    var next = f.getElementsByClassName('carousel__button2--next')[0],
-        prev = f.getElementsByClassName('carousel__button2--prev')[0];
+	// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+	function disableInteraction2() {
+		moving2 = true;
 
-    next.addEventListener('click', moveNext2);
-    prev.addEventListener('click', movePrev2);
-  }
+		setTimeout(function(){
+			moving2 = false
+		}, 500);
+	}
 
-  // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
-  function disableInteraction2() {
-    moving2 = true;
+	function moveCarouselTo2(slide2) {
+		// Check if carousel is moving, if not, allow interaction
+		if(!moving2) {
+			// temporarily disable interactivity
+			disableInteraction2();
+			// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+			var newPrevious = slide2 - 1,
+				newNext = slide2 + 1,
+				oldPrevious = slide2 - 2,
+				oldNext = slide2 + 2;
 
-    setTimeout(function(){
-      moving2 = false
-    }, 500);
-  }
+			// Test if carousel has more than three items
+			if ((totalItems2 - 1) > 3) {
 
-  function moveCarouselTo2(slide2) {
+				// Checks if the new potential slide is out of bounds and sets slide numbers
+				if (newPrevious <= 0) {
+					oldPrevious = (totalItems2 - 1);
+				} else if (newNext >= (totalItems2 - 1)){
+					oldNext = 0;
+				}
 
-    // Check if carousel is moving, if not, allow interaction
-    if(!moving2) {
+				// Check if current slide is at the beginning or end and sets slide numbers
+				if (slide2 === 0) {
+					newPrevious = (totalItems2 - 1);
+					oldPrevious = (totalItems2 - 2);
+					oldNext = (slide2 + 1);
+				} else if (slide === (totalItems2 -1)) {
+					newPrevious = (slide2 - 1);
+					newNext = 0;
+					oldNext = 1;
+				}
+			// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+				// Based on the current slide, reset to default classes.
+				items2[oldPrevious].className = itemClassName2;
+				items2[oldNext].className = itemClassName2;
 
-      // temporarily disable interactivity
-      disableInteraction2();
+				// Add the new classes
+				items2[newPrevious].className = itemClassName2 + " prev";
+				items2[slide2].className = itemClassName2 + " active";
+				items2[newNext].className = itemClassName2 + " next";
+			}
+		}
+	}
 
-      // Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
-      var newPrevious = slide2 - 1,
-          newNext = slide2 + 1,
-          oldPrevious = slide2 - 2,
-          oldNext = slide2 + 2;
+	// Next navigation handler
+	function moveNext2() {
+		// Check if moving
+		if (!moving2) {
+			// If it's the last slide, reset to 0, else +1
+			if (slide2 === (totalItems2 - 1)) {
+				slide2 = 0;
+			} else {
+				slide2++;
+			}
+			// Move carousel to updated slide
+			moveCarouselTo2(slide2);
+		}
+	}
 
-      // Test if carousel has more than three items
-      if ((totalItems2 - 1) > 3) {
+	// Previous navigation handler
+	function movePrev2() {
+		// Check if moving
+		if (!moving2) {
+			// If it's the first slide, set as the last slide, else -1
+			if (slide2 === 0) {
+				slide2 = (totalItems2 - 1);
+			} else {
+				slide2--;
+			}
+			// Move carousel to updated slide
+			moveCarouselTo2(slide2);
+		}
+	}
 
-        // Checks if the new potential slide is out of bounds and sets slide numbers
-        if (newPrevious <= 0) {
-          oldPrevious = (totalItems2 - 1);
-        } else if (newNext >= (totalItems2 - 1)){
-          oldNext = 0;
-        }
-
-        // Check if current slide is at the beginning or end and sets slide numbers
-        if (slide2 === 0) {
-          newPrevious = (totalItems2 - 1);
-          oldPrevious = (totalItems2 - 2);
-          oldNext = (slide2 + 1);
-        } else if (slide === (totalItems2 -1)) {
-          newPrevious = (slide2 - 1);
-          newNext = 0;
-          oldNext = 1;
-        }
-
-        // Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
-
-        // Based on the current slide, reset to default classes.
-        items2[oldPrevious].className = itemClassName2;
-        items2[oldNext].className = itemClassName2;
-
-        // Add the new classes
-        items2[newPrevious].className = itemClassName2 + " prev";
-        items2[slide2].className = itemClassName2 + " active";
-        items2[newNext].className = itemClassName2 + " next";
-      }
-    }
-  }
-
-  // Next navigation handler
-  function moveNext2() {
-
-    // Check if moving
-    if (!moving2) {
-
-      // If it's the last slide, reset to 0, else +1
-      if (slide2 === (totalItems2 - 1)) {
-        slide2 = 0;
-      } else {
-        slide2++;
-      }
-
-      // Move carousel to updated slide
-      moveCarouselTo2(slide2);
-    }
-  }
-
-  // Previous navigation handler
-  function movePrev2() {
-
-    // Check if moving
-    if (!moving2) {
-
-      // If it's the first slide, set as the last slide, else -1
-      if (slide2 === 0) {
-        slide2 = (totalItems2 - 1);
-      } else {
-        slide2--;
-      }
-
-      // Move carousel to updated slide
-      moveCarouselTo2(slide2);
-    }
-  }
-
-  // Initialise carousel
-  function initCarousel2() {
-    setInitialClasses2();
-    setEventListeners2();
-
-    // Set moving to false now that the carousel is ready
-    moving2 = false;
-  }
-
-
-  // make it rain
-  initCarousel2();
+	// Initialise carousel
+	function initCarousel2() {
+		setInitialClasses2();
+		setEventListeners2();
+		// Set moving to false now that the carousel is ready
+		moving2 = false;
+	}
+	// make it rain
+	initCarousel2();
 
 }(document));
 
