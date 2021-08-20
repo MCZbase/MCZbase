@@ -447,12 +447,12 @@ limitations under the License.
 								) 
 								WHERE Rownum <= 26
 							</cfquery>
+							<cfoutput>
 							<!---The encumbrance line was slowing it down too much--->
 							<h2 class="mt-3">Images</h2>
-							<h3 class="small">Specimen Images (#specimenImgs.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
-								<cfoutput>
-
 								<div class="row">
+									<cfif agentImagesForCarousel.recordcount gt 0>
+									<h3 class="h4 text-center">Specimen Images (#specimenImgs.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
 									<div class="col-12 px-md-0">
 										<div class="carousel-wrapper">
 											<div class="carousel">
@@ -463,15 +463,14 @@ limitations under the License.
 											</cfloop>
 												<div class="carousel__button--next"></div>
 												<div class="carousel__button--prev"></div>
-									
 											</div>
 										</div>
 									</div>
+									</cfif>
 								</div>
-								
 								<div class="row">
 									<cfif agentImagesForCarousel.recordcount gt 0>
-										<h3 class="small">Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
+										<h3 class="h4 text-center">Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
 										<div class="col-12 col-md-auto px-md-0">
 											<div class="carousel-wrapper1">
 												<div class="carousel1">
@@ -488,7 +487,7 @@ limitations under the License.
 										</div>
 									</cfif>
 									<cfif collectingImagesForCarousel.recordcount gt 0>
-										<h3 class="small">Collecting Images (#collectingImagesForCarousel.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
+										<h3 class="h4 text-center">Collecting Images (#collectingImagesForCarousel.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
 										<div class="col-12 col-md-6 px-md-0">
 											<div class="carousel-wrapper2">
 												<div class="carousel2">
