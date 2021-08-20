@@ -784,8 +784,8 @@ function setEventListenersF() {
 	var nextF = f.getElementsByClassName('carousel__buttonF--nextF')[0],
 		prevF = f.getElementsByClassName('carousel__buttonF--prevF')[0];
 
-	nextF.addEventListenerF('click', moveNextF);
-	prevF.addEventListenerF('click', movePrevF);
+	nextF.addEventListener('click', moveNextF);
+	prevF.addEventListener('click', movePrevF);
 }
 
 // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
@@ -885,14 +885,14 @@ function movePrevF() {
 // Initialise carousel
 function initCarouselF() {
 	setInitialClassesF();
-	setEventListenersF();
+	setEventListeners();
 
 	// Set moving to false now that the carousel is ready
 	movingF = false;
 }
 
 // make it rain
-	initCarouselF();
+	initCarousel();
 
 }(document));
 
