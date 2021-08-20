@@ -1059,7 +1059,7 @@ limitations under the License.
 !(function(f){
   // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
   var itemClassName2 = "carousel__photo2";
-      items2 = e.getElementsByClassName(itemClassName2),
+      items2 = f.getElementsByClassName(itemClassName2),
       totalItems2 = items2.length,
       slide2 = 0,
       moving2 = true; 
