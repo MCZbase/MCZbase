@@ -209,6 +209,17 @@ limitations under the License.
   border-right: 2px solid black;
   border-bottom: 2px solid black;
   transform: translate(-50%, -50%) rotate(135deg);
+	
+	
+		content: " ";
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	top: 50%;
+	left: 80%;
+	border-right: 3px solid ##007bff;
+	border-bottom: 3px solid ##007bff;
+	transform: translate(-50%, -50%) rotate(135deg);
 }
 
 .carousel__button--next::after,.carousel__button1--next::after {
