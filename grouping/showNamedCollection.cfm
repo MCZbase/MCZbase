@@ -180,12 +180,12 @@ limitations under the License.
   top:50%;
   width: 3rem;
   height: 3rem;
-  background-color: #FFF;
+  background-color: transparent;
   transform: translateY(-50%);
   border-radius: 50%;
   cursor: pointer; 
   z-index: 1001; /* Sit on top of everything */
-  border:1px solid black;
+  border:1px solid tranparent;
 /*  opacity: 0;  Hide buttons until carousel is initialised 
   transition:opacity 1s;*/
 }
