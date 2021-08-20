@@ -492,7 +492,7 @@ limitations under the License.
 											<cfset selectedCollection = ''>
 											<cfif isdefined("collection_cde") and len(collection_cde) gt 0>
 												<cfquery name="lookupCollection" dbtype="query">
-													select collection from ctcollection where collection_cde = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_cde#">
+													select collection from ctcollection where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 												</cfquery>
 												<cfset selectedCollection = lookupCollection.collection >
 											</cfif>

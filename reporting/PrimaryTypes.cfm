@@ -54,7 +54,7 @@ Report on primary types, by department.
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-3">
 								<label for="collection" id="collection_label" class="data-entry-label">Collection</label>
 								<select name="collection" id="collection" class="data-entry-select" size="1">
 									<cfloop query="getcounts">

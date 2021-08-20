@@ -1934,6 +1934,8 @@ limitations under the License.
 													$('##other_country_cde').removeAttr('required');
 													$("##state").addClass("reqdClr");
 													$('##state').prop('required',true);
+													$("##zip").addClass("reqdClr");
+													$('##zip').prop('required',true);
 												} else {
 													$("##textUS").css({"color": "##999999", "font-weight": "normal" });
 													$("##other_country_cde").toggle(true);
@@ -1942,6 +1944,8 @@ limitations under the License.
 													$('##other_country_cde').prop('required',true);
 													$("##state").removeClass("reqdClr");
 													$('##state').removeAttr('required');
+													$("##zip").removeClass("reqdClr");
+													$('##zip').removeAttr('required');
 												}
 											}
 										</script>
