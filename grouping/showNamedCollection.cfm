@@ -460,15 +460,17 @@ limitations under the License.
 									<div class="col-12 px-md-0">
 										<div class="carousel-wrapper">
 											<div class="carousel">
-											<cfloop >
-												<img class="carousel__photo initial" src="http://placekitten.com/1600/900">
-												<img class="carousel__photo" src="http://placekitten.com/g/1600/900">
+											<cfset i=1>
+											<cfloop query="specimenImagesForCarousel">
+												<img class="carousel__photo initial" src="#specimenImagesforCarousel['media_uri'][i]#">
+<!---												<img class="carousel__photo" src="http://placekitten.com/g/1600/900">
 												<img class="carousel__photo" src="http://placekitten.com/1600/900">
 												<img class="carousel__photo" src="http://placekitten.com/g/1600/900">
-												<img class="carousel__photo" src="http://placekitten.com/1600/900">
+												<img class="carousel__photo" src="http://placekitten.com/1600/900">--->
 
 												<div class="carousel__button--next"></div>
 												<div class="carousel__button--prev"></div>
+												<cfset i=i+1>
 											</cfloop>
 											</div>
 										</div>
