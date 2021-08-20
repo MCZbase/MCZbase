@@ -468,35 +468,40 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
+								
 								<div class="row">
-									<div class="col-12 col-md-6 px-md-0">
-										<div class="carousel-wrapper1">
-											<div class="carousel1">
-											<cfset i=1>
-											<cfloop query="agentImagesForCarousel">
-												<img class="carousel__photo1" src="#agentImagesForCarousel['media_uri'][i]#">
-												<cfset i=i+1>
-											</cfloop>
-												<div class="carousel__button1--next"></div>
-												<div class="carousel__button1--prev"></div>
+									<cfif len(agentImagesForCarousel) gt 0>
+										<div class="col-12 col-md-auto px-md-0">
+											<div class="carousel-wrapper1">
+												<div class="carousel1">
+												<cfset i=1>
+												<cfloop query="agentImagesForCarousel">
+													<img class="carousel__photo1" src="#agentImagesForCarousel['media_uri'][i]#">
+													<cfset i=i+1>
+												</cfloop>
+													<div class="carousel__button1--next"></div>
+													<div class="carousel__button1--prev"></div>
 
+												</div>
 											</div>
 										</div>
-									</div>
-									<div class="col-12 col-md-6 px-md-0">
-										<div class="carousel-wrapper2">
-											<div class="carousel2">
-											<cfset i=1>
-											<cfloop query="collectingImagesForCarousel">
-												<img class="carousel__photo2" src="#collectingImagesforCarousel['media_uri'][i]#">
-												<cfset i=i+1>
-											</cfloop>
-												<div class="carousel__button2--next"></div>
-												<div class="carousel__button2--prev"></div>
+									</cfif>
+									<cfif len(collectingImagesForCarousel) gt 0>
+										<div class="col-12 col-md-6 px-md-0">
+											<div class="carousel-wrapper2">
+												<div class="carousel2">
+												<cfset i=1>
+												<cfloop query="collectingImagesForCarousel">
+													<img class="carousel__photo2" src="#collectingImagesforCarousel['media_uri'][i]#">
+													<cfset i=i+1>
+												</cfloop>
+													<div class="carousel__button2--next"></div>
+													<div class="carousel__button2--prev"></div>
 
+												</div>
 											</div>
 										</div>
-									</div>
+									</cfif>
 								</div>
 								</cfoutput>
 						
