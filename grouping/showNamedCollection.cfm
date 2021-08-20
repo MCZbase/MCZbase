@@ -184,7 +184,7 @@ limitations under the License.
   border-radius: 50%;
   cursor: pointer; 
   z-index: 1001; /* Sit on top of everything */
-  border:1px solid black;
+ /* border:1px solid black;*/
 /*  opacity: 0;  Hide buttons until carousel is initialised 
   transition:opacity 1s;*/
 }
