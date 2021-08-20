@@ -179,7 +179,7 @@ limitations under the License.
   top:50%;
   width: 3rem;
   height: 3rem;
-  background-color: #FFF;
+  background-color: ##FFF;
   transform: translateY(-50%);
   border-radius: 50%;
   cursor: pointer; 
