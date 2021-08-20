@@ -932,7 +932,7 @@ function initCarouselF() {
   function disableInteractionX() {
     movingX = true;
 
-    setTimeout(function(){
+    setTimeoutX(function(){
       movingX = false
     }, 500);
   }
@@ -1050,26 +1050,26 @@ function initCarouselF() {
 
     // Target the last, initial, and next items and give them the relevant class.
     // This assumes there are three or more items.
-    items1[totalItems1 - 1].classList.add("prev");
-    items1[0].classList.add("active");
-    items1[1].classList.add("next");
+    items1[totalItems1 - 1].classList.add("prev1");
+    items1[0].classList.add("active1");
+    items1[1].classList.add("next1");
   }
 
   // Set click events to navigation buttons
 
   function setEventListeners1() {
-    var next = e.getElementsByClassName('carousel__button1--next')[0],
-        prev = e.getElementsByClassName('carousel__button1--prev')[0];
+    var next1 = e.getElementsByClassName('carousel__button1--next1')[0],
+        prev1 = e.getElementsByClassName('carousel__button1--prev1')[0];
 
-    next.addEventListener('click', moveNext1);
-    prev.addEventListener('click', movePrev1);
+    next1.addEventListener1('click', moveNext1);
+    prev1.addEventListener1('click', movePrev1);
   }
 
   // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
   function disableInteraction1() {
     moving1 = true;
 
-    setTimeout(function(){
+    setTimeout1(function(){
       moving1 = false
     }, 500);
   }
@@ -1104,7 +1104,7 @@ function initCarouselF() {
           oldPrevious1 = (totalItems1 - 2);
           oldNext1 = (slide1 + 1);
         } else if (slide1 === (totalItems1 -1)) {
-          newPrevious = (slide1 - 1);
+          newPrevious1 = (slide1 - 1);
           newNext1 = 0;
           oldNext1 = 1;
         }
