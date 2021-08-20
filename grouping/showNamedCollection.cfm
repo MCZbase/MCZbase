@@ -188,6 +188,10 @@ limitations under the License.
  /* border:1px solid black;*/
 /*  opacity: 0;  Hide buttons until carousel is initialised 
   transition:opacity 1s;*/
+	
+	transform: translate(-50%, -50%) rotate(135deg);
+	border-right: 3px solid ##007bff;
+	border-bottom: 3px solid ##007bff;
 }
 
 .carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev {
@@ -210,7 +214,8 @@ limitations under the License.
   border-right: 2px solid black;
   border-bottom: 2px solid black;
   transform: translate(-50%, -50%) rotate(135deg);
-	
+	border-right: 3px solid ##007bff;
+	border-bottom: 3px solid ##007bff;
 	
 /*	content: " ";
 	position: absolute;
@@ -218,18 +223,15 @@ limitations under the License.
 	height: 15px;
 	top: 50%;
 	left: 80%;*/
-	border-right: 3px solid ##007bff;
-	border-bottom: 3px solid ##007bff;
+
 }
 
 .carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after {
-  left: 47%;
-  transform: translate(-50%, -50%) rotate(-45deg);
+	left: 47%;
+	transform: translate(-50%, -50%) rotate(-45deg);
 	
 	left: 20%;
 	transform: translate(-50%, -50%) rotate(-45deg);
-		border-right: 3px solid ##007bff;
-	border-bottom: 3px solid ##007bff;
 }
 </style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
