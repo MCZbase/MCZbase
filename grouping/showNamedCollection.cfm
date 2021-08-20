@@ -180,18 +180,14 @@ limitations under the License.
   top:50%;
   width: 3rem;
   height: 3rem;
-  background-color: transparent;
+  background-color: #FFF;
   transform: translateY(-50%);
   border-radius: 50%;
   cursor: pointer; 
   z-index: 1001; /* Sit on top of everything */
- /* border:1px solid black;*/
+  border:1px solid black;
 /*  opacity: 0;  Hide buttons until carousel is initialised 
   transition:opacity 1s;*/
-	
-	transform: translate(-50%, -50%) rotate(135deg);
-	border-right: 3px solid ##007bff;
-	border-bottom: 3px solid ##007bff;
 }
 
 .carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev {
@@ -203,7 +199,7 @@ limitations under the License.
 }
 
 /* Use pseudo elements to insert arrows inside of navigation buttons */
-.carousel__button--prev::after,.carousel__button1--prev::after,.carousel__button2--prev::after
+.carousel__button--prev::after,.carousel__button1--prev::after,.carousel__button2--prev::after,
 .carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after {
   content: " ";
   position: absolute;
@@ -214,16 +210,6 @@ limitations under the License.
   border-right: 2px solid black;
   border-bottom: 2px solid black;
   transform: translate(-50%, -50%) rotate(135deg);
-	border-right: 3px solid ##007bff;
-	border-bottom: 3px solid ##007bff;
-	
-/*	content: " ";
-	position: absolute;
-	width: 15px;
-	height: 15px;
-	top: 50%;
-	left: 80%;*/
-
 }
 
 .carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after {
