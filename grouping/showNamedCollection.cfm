@@ -453,7 +453,7 @@ limitations under the License.
 								<div class="row">
 									<cfif agentImagesForCarousel.recordcount gt 0>
 									<div class="col-12 px-md-0">
-									<h3 class="h4 ml-4">Specimen Images (#specimenImgs.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
+									<h3 class="h4 ml-md-5 pl-md-3">Specimen Images (#specimenImgs.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
 										<div class="carousel-wrapper">
 											<div class="carousel">
 											<cfset i=1>
@@ -471,7 +471,7 @@ limitations under the License.
 								<div class="row">
 									<cfif agentImagesForCarousel.recordcount gt 0>
 										<div class="col-12 col-md-auto px-md-0">
-											<h3 class="h4 ml-4">Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
+											<h3 class="h4 ml-md-5 pl-md-3">Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
 											<div class="carousel-wrapper1">
 												<div class="carousel1">
 												<cfset i=1>
@@ -488,7 +488,7 @@ limitations under the License.
 									</cfif>
 									<cfif collectingImagesForCarousel.recordcount gt 0>
 										<div class="col-12 col-md-6 px-md-0">
-											<h3 class="h4 ml-4">Collecting Images (#collectingImagesForCarousel.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
+											<h3 class="h4 ml-md-5 pl-md-3">Collecting Images (#collectingImagesForCarousel.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
 											<div class="carousel-wrapper2">
 												<div class="carousel2">
 												<cfset i=1>
