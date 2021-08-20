@@ -118,27 +118,27 @@ limitations under the License.
 	*/
 	/* Parent wrapper to carousel. Width can be changed as needed. */
 /* Parent wrapper to carousel. Width can be changed as needed. */
-.carousel-wrapper, .carousel-wrapper1 {
+.carousel-wrapper, .carousel-wrapper1, .carousel-wrapper2 {
   overflow: hidden;
   width: 90%;
-	width:100%
+	width:100%;
   margin: auto;
 }
 
 /* Apply 'border-box' to 'box-sizing' so border and padding is included in the width and height. */
-.carousel-wrapper *, .carousel-wrapper1 * {
+.carousel-wrapper *, .carousel-wrapper1 *, .carousel-wrapper2 * {
   box-sizing: border-box;
 }
 
 /* We'll be using the 'transform' property to move the carousel's items, so setting the 'transform-style' to 'preserve-3d' will make sure our nested elements are rendered properly in the 3D space. */
-.carousel, .carousel1 {
+.carousel, .carousel1, .carousel2 {
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
   transform-style: preserve-3d;
 }
 
 /* By default we're hiding items (except the initial one) until the JS initiates. Elements are absolutely positioned with a width of 100% (as we're styling for mobile first), letting the content's height dictate the height of the carousel. Our magic property here for all our animation needs is 'transition', taking the properties we wish to animate 'transform' and 'opacity', along with the length of time in seconds. */
-.carousel__photo,.carousel__photo1 {
+.carousel__photo,.carousel__photo1,.carousel__photo2 {
   opacity: 0;
   position: absolute;
   top:0;
@@ -150,32 +150,32 @@ limitations under the License.
 }
 
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
-.carousel__photo.initial,.carousel__photo1.initial,
-.carousel__photo.active,.carousel__photo1.active {
+.carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,
+.carousel__photo.active,.carousel__photo1.active,.carousel__photo2.active {
   opacity: 1;
   position: relative;
   z-index: 900;
 }
 
 /* Set 'z-index' to sit behind our '.active' item. */
-.carousel__photo.prev,.carousel__photo1.prev,
-.carousel__photo.next,.carousel__photo1.next {
+.carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,
+.carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next {
   z-index: 800;
 }
 
 /* Translate previous item to the left */
-.carousel__photo.prev,.carousel__photo1.prev {
+.carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev {
   transform: translateX(-100%);
 }
 
 /* Translate next item to the right */
-.carousel__photo.next,.carousel__photo1.next {
+.carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next {
   transform: translateX(100%);
 }
 
 /* Style navigation buttons to sit in the middle, either side of the carousel. */
-.carousel__button--prev,.carousel__button1--prev,
-.carousel__button--next,.carousel__button1--next {
+.carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev,
+.carousel__button--next,.carousel__button1--next,.carousel__button2--next {
   position: absolute;
   top:50%;
   width: 3rem;
@@ -190,17 +190,17 @@ limitations under the License.
   transition:opacity 1s;*/
 }
 
-.carousel__button--prev,.carousel__button1--prev {
+.carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev {
   left:0;
 }
 
-.carousel__button--next,.carousel__button1--next {
+.carousel__button--next,.carousel__button1--next,.carousel__button2--next {
   right:0;
 }
 
 /* Use pseudo elements to insert arrows inside of navigation buttons */
-.carousel__button--prev::after,.carousel__button1--prev::after,
-.carousel__button--next::after,.carousel__button1--next::after {
+.carousel__button--prev::after,.carousel__button1--prev::after,.carousel__button2--prev::after
+.carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after {
   content: " ";
   position: absolute;
   width: 10px;
@@ -223,7 +223,7 @@ limitations under the License.
 	transform: translate(-50%, -50%) rotate(135deg);
 }
 
-.carousel__button--next::after,.carousel__button1--next::after {
+.carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after {
   left: 47%;
   transform: translate(-50%, -50%) rotate(-45deg);
 	
@@ -486,7 +486,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-12">
+									<div class="col-12 col-md-6">
 										<div class="carousel-wrapper1">
 											<div class="carousel1">
 
@@ -502,7 +502,22 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									
+									<div class="col-12 col-md-6">
+										<div class="carousel-wrapper2">
+											<div class="carousel2">
+
+												<img class="carousel__photo2 initial" src="http://placekitten.com/1600/900">
+												<img class="carousel__photo2" src="http://placekitten.com/g/1600/900">
+												<img class="carousel__photo2" src="http://placekitten.com/1600/900">
+												<img class="carousel__photo2" src="http://placekitten.com/g/1600/900">
+												<img class="carousel__photo2" src="http://placekitten.com/1600/900">
+
+												<div class="carousel__button2--next"></div>
+												<div class="carousel__button2--prev"></div>
+
+											</div>
+										</div>
+									</div>
 								</div>
 								</cfoutput>
 						
@@ -969,7 +984,7 @@ limitations under the License.
           newPrevious = (totalItems1 - 1);
           oldPrevious = (totalItems1 - 2);
           oldNext = (slide1 + 1);
-        } else if (slide === (totalItems1 -1)) {
+        } else if (slide1 === (totalItems1 -1)) {
           newPrevious = (slide1 - 1);
           newNext = 0;
           oldNext = 1;
@@ -1036,6 +1051,146 @@ limitations under the License.
 
   // make it rain
   initCarousel1();
+
+}(document));
+/////////////////
+	
+	
+	
+!(function(f){
+  // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+  var itemClassName2 = "carousel__photo2";
+      items2 = e.getElementsByClassName(itemClassName2),
+      totalItems2 = items2.length,
+      slide2 = 0,
+      moving2 = true; 
+
+  // To initialise the carousel we'll want to update the DOM with our own classes
+  function setInitialClasses2() {
+
+    // Target the last, initial, and next items and give them the relevant class.
+    // This assumes there are three or more items.
+    items2[totalItems2 - 1].classList.add("prev");
+    items2[0].classList.add("active");
+    items2[1].classList.add("next");
+  }
+
+  // Set click events to navigation buttons
+
+  function setEventListeners2() {
+    var next = f.getElementsByClassName('carousel__button2--next')[0],
+        prev = f.getElementsByClassName('carousel__button2--prev')[0];
+
+    next.addEventListener('click', moveNext2);
+    prev.addEventListener('click', movePrev2);
+  }
+
+  // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+  function disableInteraction2() {
+    moving2 = true;
+
+    setTimeout(function(){
+      moving2 = false
+    }, 500);
+  }
+
+  function moveCarouselTo2(slide2) {
+
+    // Check if carousel is moving, if not, allow interaction
+    if(!moving2) {
+
+      // temporarily disable interactivity
+      disableInteraction2();
+
+      // Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+      var newPrevious = slide2 - 1,
+          newNext = slide2 + 1,
+          oldPrevious = slide2 - 2,
+          oldNext = slide2 + 2;
+
+      // Test if carousel has more than three items
+      if ((totalItems2 - 1) > 3) {
+
+        // Checks if the new potential slide is out of bounds and sets slide numbers
+        if (newPrevious <= 0) {
+          oldPrevious = (totalItems2 - 1);
+        } else if (newNext >= (totalItems2 - 1)){
+          oldNext = 0;
+        }
+
+        // Check if current slide is at the beginning or end and sets slide numbers
+        if (slide2 === 0) {
+          newPrevious = (totalItems2 - 1);
+          oldPrevious = (totalItems2 - 2);
+          oldNext = (slide2 + 1);
+        } else if (slide2 === (totalItems2 -1)) {
+          newPrevious = (slide2 - 1);
+          newNext = 0;
+          oldNext = 1;
+        }
+
+        // Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+
+        // Based on the current slide, reset to default classes.
+        items2[oldPrevious].className = itemClassName2;
+        items2[oldNext].className = itemClassName2;
+
+        // Add the new classes
+        items2[newPrevious].className = itemClassName2 + " prev";
+        items1[slide2].className = itemClassName2 + " active";
+        items1[newNext].className = itemClassName2 + " next";
+      }
+    }
+  }
+
+  // Next navigation handler
+  function moveNext2() {
+
+    // Check if moving
+    if (!moving2) {
+
+      // If it's the last slide, reset to 0, else +1
+      if (slide2 === (totalItems2 - 1)) {
+        slide2 = 0;
+      } else {
+        slide2++;
+      }
+
+      // Move carousel to updated slide
+      moveCarouselTo2(slide2);
+    }
+  }
+
+  // Previous navigation handler
+  function movePrev2() {
+
+    // Check if moving
+    if (!moving2) {
+
+      // If it's the first slide, set as the last slide, else -1
+      if (slide2 === 0) {
+        slide2 = (totalItems2 - 1);
+      } else {
+        slide2--;
+      }
+
+      // Move carousel to updated slide
+      moveCarouselTo2(slide2);
+    }
+  }
+
+  // Initialise carousel
+  function initCarousel2() {
+    setInitialClasses2();
+    setEventListeners2();
+
+    // Set moving to false now that the carousel is ready
+    moving2 = false;
+  }
+
+
+  // make it rain
+  initCarousel2();
 
 }(document));
 
