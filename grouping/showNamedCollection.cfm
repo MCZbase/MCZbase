@@ -469,7 +469,7 @@ limitations under the License.
 										<div class="carousel-wrapperX">
 											<div class="carouselX">
 
-											  <img class="carousel__photoX initial" src="http://placekitten.com/1600/900">
+											  <img class="carousel__photoX initial1" src="http://placekitten.com/1600/900">
 											  <img class="carousel__photoX" src="http://placekitten.com/g/1600/900">
 											  <img class="carousel__photoX" src="http://placekitten.com/1600/900">
 											  <img class="carousel__photoX" src="http://placekitten.com/g/1600/900">
@@ -484,7 +484,7 @@ limitations under the License.
 									<div class="col-12 col-md-6 px-0">
 										<div class="carousel-wrapper1">
 											<div class="carousel1">
-												<img class="carousel__photo1 initial" src="http://placekitten.com/1600/900">
+												<img class="carousel__photo1 initial1" src="http://placekitten.com/1600/900">
 												<img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
 												<img class="carousel__photo1" src="http://placekitten.com/1600/900">
 												<img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
@@ -784,8 +784,8 @@ function setEventListenersF() {
 	var nextF = f.getElementsByClassName('carousel__buttonF--nextF')[0],
 		prevF = f.getElementsByClassName('carousel__buttonF--prevF')[0];
 
-	nextF.addEventListener('click', moveNextF);
-	prevF.addEventListener('click', movePrevF);
+	nextF.addEventListenerF('click', moveNextF);
+	prevF.addEventListenerF('click', movePrevF);
 }
 
 // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
