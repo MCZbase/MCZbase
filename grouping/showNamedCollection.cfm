@@ -470,7 +470,7 @@ limitations under the License.
 								</div>
 								
 								<div class="row">
-									<cfif len(agentImagesForCarousel) gt 0>
+									<cfif agentImagesForCarousel.recordcount gt 0>
 										<div class="col-12 col-md-auto px-md-0">
 											<div class="carousel-wrapper1">
 												<div class="carousel1">
@@ -486,7 +486,7 @@ limitations under the License.
 											</div>
 										</div>
 									</cfif>
-									<cfif len(collectingImagesForCarousel) gt 0>
+									<cfif collectingImagesForCarousel.recordcount gt 0>
 										<div class="col-12 col-md-6 px-md-0">
 											<div class="carousel-wrapper2">
 												<div class="carousel2">
