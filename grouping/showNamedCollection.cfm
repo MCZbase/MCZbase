@@ -467,11 +467,11 @@ limitations under the License.
 												<img class="carousel__photo" src="http://placekitten.com/1600/900">
 												<img class="carousel__photo" src="http://placekitten.com/g/1600/900">
 												<img class="carousel__photo" src="http://placekitten.com/1600/900">--->
-
-												<div class="carousel__button--next"></div>
-												<div class="carousel__button--prev"></div>
 												<cfset i=i+1>
 											</cfloop>
+												<div class="carousel__button--next"></div>
+												<div class="carousel__button--prev"></div>
+									
 											</div>
 										</div>
 									</div>
