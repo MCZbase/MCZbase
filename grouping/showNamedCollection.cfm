@@ -1137,8 +1137,8 @@ limitations under the License.
 
         // Add the new classes
         items2[newPrevious].className = itemClassName2 + " prev";
-        items1[slide2].className = itemClassName2 + " active";
-        items1[newNext].className = itemClassName2 + " next";
+        items2[slide2].className = itemClassName2 + " active";
+        items2[newNext].className = itemClassName2 + " next";
       }
     }
   }
