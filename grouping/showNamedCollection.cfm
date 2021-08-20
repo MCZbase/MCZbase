@@ -462,7 +462,7 @@ limitations under the License.
 											<div class="carousel">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
-												<img class="carousel__photo initial" src="#specimenImagesforCarousel['media_uri'][i]#">
+												<img class="carousel__photo" src="#specimenImagesforCarousel['media_uri'][i]#">
 <!---												<img class="carousel__photo" src="http://placekitten.com/g/1600/900">
 												<img class="carousel__photo" src="http://placekitten.com/1600/900">
 												<img class="carousel__photo" src="http://placekitten.com/g/1600/900">
