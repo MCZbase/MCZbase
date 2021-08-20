@@ -885,7 +885,7 @@ function movePrevF() {
 // Initialise carousel
 function initCarouselF() {
 	setInitialClassesF();
-	setEventListeners();
+	setEventListener();
 
 	// Set moving to false now that the carousel is ready
 	movingF = false;
