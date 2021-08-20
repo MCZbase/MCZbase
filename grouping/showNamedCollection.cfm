@@ -451,53 +451,43 @@ limitations under the License.
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][24]#"/><p>#agentImagesforCarousel['alt'][24]#</p></div>
 										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][25]#"/><p>#agentImagesforCarousel['alt'][25]#</p></div>--->
 								<cfoutput>
+
 								<div class="row">
-									<div class="col-12 px-0">
-										<div class="carousel-wrapperF">
-											<div class="carouselF">
-												<img class="carousel__photoF initialF" src="http://placekitten.com/1600/900">
-												<img class="carousel__photoF" src="http://placekitten.com/g/1600/900">
-												<img class="carousel__photoF" src="http://placekitten.com/1600/900">
-												<img class="carousel__photoF" src="http://placekitten.com/g/1600/900">
-												<img class="carousel__photoF" src="http://placekitten.com/1600/900">
-												<div class="carousel__buttonF--nextF"></div>
-												<div class="carousel__buttonF--prevF"></div>
+									<div class="col-12">
+										<div class="carousel-wrapper">
+											<div class="carousel">
+
+												<img class="carousel__photo initial" src="http://placekitten.com/1600/900">
+												<img class="carousel__photo" src="http://placekitten.com/g/1600/900">
+												<img class="carousel__photo" src="http://placekitten.com/1600/900">
+												<img class="carousel__photo" src="http://placekitten.com/g/1600/900">
+												<img class="carousel__photo" src="http://placekitten.com/1600/900">
+
+												<div class="carousel__button--next"></div>
+												<div class="carousel__button--prev"></div>
+
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="row">
-	<div class="carousel-wrapper">
-    <div class="carousel">
+									<div class="col-12">
+										<div class="carousel-wrapper1">
+											<div class="carousel1">
 
-      <img class="carousel__photo initial" src="http://placekitten.com/1600/900">
-      <img class="carousel__photo" src="http://placekitten.com/g/1600/900">
-      <img class="carousel__photo" src="http://placekitten.com/1600/900">
-      <img class="carousel__photo" src="http://placekitten.com/g/1600/900">
-      <img class="carousel__photo" src="http://placekitten.com/1600/900">
-      
-      <div class="carousel__button--next"></div>
-      <div class="carousel__button--prev"></div>
+												<img class="carousel__photo1 initial" src="http://placekitten.com/1600/900">
+												<img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
+												<img class="carousel__photo1" src="http://placekitten.com/1600/900">
+												<img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
+												<img class="carousel__photo1" src="http://placekitten.com/1600/900">
 
-    </div>
-  </div>
+												<div class="carousel__button1--next"></div>
+												<div class="carousel__button1--prev"></div>
 
-
-
-<div class="carousel-wrapper1">
-    <div class="carousel1">
-
-      <img class="carousel__photo1 initial" src="http://placekitten.com/1600/900">
-      <img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
-      <img class="carousel__photo1" src="http://placekitten.com/1600/900">
-      <img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
-      <img class="carousel__photo1" src="http://placekitten.com/1600/900">
-      
-      <div class="carousel__button1--next"></div>
-      <div class="carousel__button1--prev"></div>
-
-    </div>
-  </div>
+											</div>
+										</div>
+									</div>
+									
 								</div>
 								</cfoutput>
 						
