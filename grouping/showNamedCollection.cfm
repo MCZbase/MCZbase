@@ -228,6 +228,8 @@ limitations under the License.
 	
 	left: 20%;
 	transform: translate(-50%, -50%) rotate(-45deg);
+		border-right: 3px solid ##007bff;
+	border-bottom: 3px solid ##007bff;
 }
 </style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
