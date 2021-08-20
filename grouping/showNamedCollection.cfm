@@ -468,9 +468,10 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								<h3 class="small">Agent Images (#agentImagesForCarousel.recordcount#) and Collecting Images (#collectingImagesForCarousel.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
+								
 								<div class="row">
 									<cfif agentImagesForCarousel.recordcount gt 0>
+										<h3 class="small">Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
 										<div class="col-12 col-md-auto px-md-0">
 											<div class="carousel-wrapper1">
 												<div class="carousel1">
@@ -487,6 +488,7 @@ limitations under the License.
 										</div>
 									</cfif>
 									<cfif collectingImagesForCarousel.recordcount gt 0>
+										<h3 class="small">Collecting Images (#collectingImagesForCarousel.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
 										<div class="col-12 col-md-6 px-md-0">
 											<div class="carousel-wrapper2">
 												<div class="carousel2">
