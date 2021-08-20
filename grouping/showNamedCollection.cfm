@@ -455,7 +455,7 @@ limitations under the License.
 									<div class="col-12 px-md-0">
 									<h3 class="h4 ml-md-5 pl-md-3">Specimen Images (#specimenImgs.recordcount#). Refresh page to show a different 25 images (if there are more than 25).</h3>
 										<div class="carousel-wrapper">
-											<div class="carousel">
+											<div class="carousel bglight">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<img class="carousel__photo" src="#specimenImagesforCarousel['media_uri'][i]#">
