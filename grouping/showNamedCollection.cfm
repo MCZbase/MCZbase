@@ -491,7 +491,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-6 px-md-0">
 										<div class="carousel-wrapper2">
 											<div class="carousel2">
 
