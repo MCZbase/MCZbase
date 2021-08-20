@@ -423,37 +423,33 @@ limitations under the License.
 								) 
 								WHERE Rownum <= 26
 							</cfquery>
-						
+							<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
+								SELECT * FROM (
+									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+										MCZBASE.get_media_descriptor(media.media_id) as alt,
+										MCZBASE.get_medialabel(media.media_id,'width') as width,
+										MCZBASE.get_media_credit(media.media_id) as credit
+									FROM
+										underscore_collection
+										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+										left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+										left join media_relations on collector.agent_id = media_relations.related_primary_key
+										left join media on media_relations.media_id = media.media_id
+									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										AND flat.guid IS NOT NULL
+										AND media_relations.media_relationship = 'shows locality'
+										AND media.media_type = 'image'
+										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+									ORDER BY DBMS_RANDOM.RANDOM
+								) 
+								WHERE Rownum <= 26
+							</cfquery>
 							<!---The encumbrance line was slowing it down too much--->
 							<h2 class="mt-3">Images (shows 25)</h2>
 							<p class="small">Specimen Images (#specimenImgs.recordcount#), Agent Images (#agentImagesForCarousel.recordcount#). Refresh page to show a different 25 images.</p>
-				<!---										<div class="carouselImageX initial">
-											<img class="w-100" src="#specimenImagesforCarousel['media_uri'][1]#"/><p>#specimenImagesforCarousel['alt'][1]#</p>
-										</div>									
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][2]#"/><p>#specimenImagesforCarousel['alt'][2]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][3]#"/><p>#specimenImagesforCarousel['alt'][3]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][4]#"/><p>#specimenImagesforCarousel['alt'][4]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][5]#"/><p>#specimenImagesforCarousel['alt'][5]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][6]#"/><p>#specimenImagesforCarousel['alt'][6]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][7]#"/><p>#specimenImagesforCarousel['alt'][7]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][8]#"/><p>#specimenImagesforCarousel['alt'][8]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][9]#"/><p>#specimenImagesforCarousel['alt'][9]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][10]#"/><p>#specimenImagesforCarousel['alt'][10]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][11]#"/><p>#specimenImagesforCarousel['alt'][11]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][12]#"/><p>#specimenImagesforCarousel['alt'][12]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][13]#"/><p>#specimenImagesforCarousel['alt'][13]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][14]#"/><p>#specimenImagesforCarousel['alt'][14]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#specimenImagesforCarousel['media_uri'][15]#"/><p>#specimenImagesforCarousel['alt'][15]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][16]#"/><p>#agentImagesforCarousel['alt'][16]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][17]#"/><p>#agentImagesforCarousel['alt'][17]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][18]#"/><p>#agentImagesforCarousel['alt'][18]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][19]#"/><p>#agentImagesforCarousel['alt'][19]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][20]#"/><p>#agentImagesforCarousel['alt'][20]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][21]#"/><p>#agentImagesforCarousel['alt'][21]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][22]#"/><p>#agentImagesforCarousel['alt'][22]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][23]#"/><p>#agentImagesforCarousel['alt'][23]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][24]#"/><p>#agentImagesforCarousel['alt'][24]#</p></div>
-										<div class="carouselImageX"><img class="w-100" src="#agentImagesforCarousel['media_uri'][25]#"/><p>#agentImagesforCarousel['alt'][25]#</p></div>--->
 								<cfoutput>
 
 								<div class="row">
@@ -463,10 +459,6 @@ limitations under the License.
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<img class="carousel__photo" src="#specimenImagesforCarousel['media_uri'][i]#">
-<!---												<img class="carousel__photo" src="http://placekitten.com/g/1600/900">
-												<img class="carousel__photo" src="http://placekitten.com/1600/900">
-												<img class="carousel__photo" src="http://placekitten.com/g/1600/900">
-												<img class="carousel__photo" src="http://placekitten.com/1600/900">--->
 												<cfset i=i+1>
 											</cfloop>
 												<div class="carousel__button--next"></div>
@@ -481,12 +473,8 @@ limitations under the License.
 										<div class="carousel-wrapper1">
 											<div class="carousel1">
 											<cfset i=1>
-											<cfloop query="specimenImagesForCarousel">
-												<img class="carousel__photo1" src="#specimenImagesforCarousel['media_uri'][i]#">
-<!---												<img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
-												<img class="carousel__photo1" src="http://placekitten.com/1600/900">
-												<img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
-												<img class="carousel__photo1" src="http://placekitten.com/1600/900">--->
+											<cfloop query="agentImagesForCarousel">
+												<img class="carousel__photo1" src="#agentImagesForCarousel['media_uri'][i]#">
 												<cfset i=i+1>
 											</cfloop>
 												<div class="carousel__button1--next"></div>
@@ -499,13 +487,8 @@ limitations under the License.
 										<div class="carousel-wrapper2">
 											<div class="carousel2">
 											<cfset i=1>
-											<cfloop query="specimenImagesForCarousel">
-												<img class="carousel__photo2" src="#specimenImagesforCarousel['media_uri'][i]#">
-<!---												<img class="carousel__photo2 initial" src="http://placekitten.com/1600/900">
-												<img class="carousel__photo2" src="http://placekitten.com/g/1600/900">
-												<img class="carousel__photo2" src="http://placekitten.com/1600/900">
-												<img class="carousel__photo2" src="http://placekitten.com/g/1600/900">
-												<img class="carousel__photo2" src="http://placekitten.com/1600/900">--->
+											<cfloop query="collectingImagesForCarousel">
+												<img class="carousel__photo2" src="#collectingImagesforCarousel['media_uri'][i]#">
 												<cfset i=i+1>
 											</cfloop>
 												<div class="carousel__button2--next"></div>
