@@ -469,7 +469,7 @@ limitations under the License.
 										<div class="carousel-wrapperX">
 											<div class="carouselX">
 
-											  <img class="carousel__photoX initialX" src="http://placekitten.com/1600/900">
+											  <img class="carousel__photoX initial" src="http://placekitten.com/1600/900">
 											  <img class="carousel__photoX" src="http://placekitten.com/g/1600/900">
 											  <img class="carousel__photoX" src="http://placekitten.com/1600/900">
 											  <img class="carousel__photoX" src="http://placekitten.com/g/1600/900">
@@ -484,7 +484,7 @@ limitations under the License.
 									<div class="col-12 col-md-6 px-0">
 										<div class="carousel-wrapper1">
 											<div class="carousel1">
-												<img class="carousel__photo1 initial1" src="http://placekitten.com/1600/900">
+												<img class="carousel__photo1 initial" src="http://placekitten.com/1600/900">
 												<img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
 												<img class="carousel__photo1" src="http://placekitten.com/1600/900">
 												<img class="carousel__photo1" src="http://placekitten.com/g/1600/900">
@@ -818,7 +818,7 @@ function moveCarouselToF(slideF) {
 		if (newPreviousF <= 0) {
 			oldPreviousF = (totalItemsF - 1);
 		} else if (newNextF >= (totalItemsF - 1)){
-			oldNext = 0;
+			oldNextF = 0;
 		}
 
 		// Check if current slide is at the beginning or end and sets slide numbers
@@ -885,7 +885,7 @@ function movePrevF() {
 // Initialise carousel
 function initCarouselF() {
 	setInitialClassesF();
-	setEventListener();
+	setEventListenersF();
 
 	// Set moving to false now that the carousel is ready
 	movingF = false;
