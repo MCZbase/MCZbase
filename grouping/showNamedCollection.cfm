@@ -455,7 +455,7 @@ limitations under the License.
 									<div class="col-12 px-md-0">
 									<h3 class="h4">Specimen Images (25 of #specimenImgs.recordcount# images displayed).</h3>
 										<div class="carousel-wrapper">
-											<div class="carousel" style="background-color: ###f8f9fa;">
+											<div class="carousel" style="background-color: ##f8f9fa;">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<img class="carousel__photo" src="#specimenImagesforCarousel['media_uri'][i]#">
