@@ -211,7 +211,7 @@ limitations under the License.
   transform: translate(-50%, -50%) rotate(135deg);
 	
 	
-		content: " ";
+	content: " ";
 	position: absolute;
 	width: 15px;
 	height: 15px;
@@ -225,6 +225,9 @@ limitations under the License.
 .carousel__button--next::after,.carousel__button1--next::after {
   left: 47%;
   transform: translate(-50%, -50%) rotate(-45deg);
+	
+	left: 20%;
+	transform: translate(-50%, -50%) rotate(-45deg);
 }
 </style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
