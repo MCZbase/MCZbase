@@ -459,6 +459,7 @@ limitations under the License.
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<img class="carousel__photo" src="#specimenImagesforCarousel['media_uri'][i]#">
+												<p>#specimenImagesforCarousel['alt'][i]#</p>
 												<cfset i=i+1>
 											</cfloop>
 												<div class="carousel__button--next"></div>
@@ -477,6 +478,7 @@ limitations under the License.
 												<cfset i=1>
 												<cfloop query="agentImagesForCarousel">
 													<img class="carousel__photo1" src="#agentImagesForCarousel['media_uri'][i]#">
+													<p>#agentImagesforCarousel['alt'][i]#</p>
 													<cfset i=i+1>
 												</cfloop>
 													<div class="carousel__button1--next"></div>
@@ -494,6 +496,7 @@ limitations under the License.
 												<cfset i=1>
 												<cfloop query="collectingImagesForCarousel">
 													<img class="carousel__photo2" src="#collectingImagesforCarousel['media_uri'][i]#">
+													<p>#collectingImagesforCarousel['alt'][i]#</p>
 													<cfset i=i+1>
 												</cfloop>
 													<div class="carousel__button2--next"></div>
