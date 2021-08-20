@@ -120,7 +120,7 @@ limitations under the License.
 /* Parent wrapper to carousel. Width can be changed as needed. */
 .carousel-wrapper, .carousel-wrapper1, .carousel-wrapper2 {
   overflow: hidden;
-  width: 90%;
+  width: 100%;
 	width:100%;
   margin: auto;
 }
@@ -207,8 +207,8 @@ limitations under the License.
   height: 10px;
   top: 50%;
   left: 54%;
-  border-right: 2px solid black;
-  border-bottom: 2px solid black;
+  border-right: 2px solid ##007bff;
+  border-bottom: 2px solid ##007bff;
   transform: translate(-50%, -50%) rotate(135deg);
 }
 
