@@ -434,26 +434,26 @@ limitations under the License.
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
 							<cfswitch expression="#otherImageTypes#">
 									<cfcase value="1">
-										<cfset colClass = "col-md-6">
+										<cfset colClass = "col-md-6 float-none">
 										<cfset imgWidth = 600>
 										
 									</cfcase>
 									<cfcase value="2">
-										<cfset colClass = "col-md-6">
+										<cfset colClass = "col-md-6 float-left">
 										<cfset imgWidth = 400>
 									</cfcase>
 									<cfcase value="3">
-										<cfset colClass = "col-md-4">
+										<cfset colClass = "col-md-4 float-left">
 										<cfset imgWidth = 300>
 									</cfcase>
 									<cfdefaultcase>
-										<cfset colClass = "col-md-3">
+										<cfset colClass = "col-md-3 float-left">
 									</cfdefaultcase>
 								</cfswitch>
 							<div class="row">
 								<div class="col-12">
 								<cfif agentImagesForCarousel.recordcount gte 3>
-									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3 float-left">
+									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 										<h3 class="h4">Agent Images (#agentImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper1">
 											
@@ -475,7 +475,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<cfif collectingImagesForCarousel.recordcount gte 3>
-									<div class="col-12 #colClass# px-md-0 mt-3 float-left">
+									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Collecting Images (#collectingImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper2">
 											<div class="carousel2" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
@@ -496,7 +496,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<cfif localityImagesForCarousel.recordcount gte 3>
-									<div class="col-12 #colClass# px-md-0 mt-3 float-left">
+									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Locality Images (#localityImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper3">
 											<div class="carousel3" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
