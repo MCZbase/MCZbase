@@ -346,6 +346,7 @@ limitations under the License.
 							</cfquery>
 							<cfif agentImagesForCarousel.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
+								<cfset agentImagesForCarousel = agentImagesForCarousel.recordcount>
 							</cfif>
 							<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 								SELECT * FROM (
@@ -512,7 +513,7 @@ limitations under the License.
 								<div class="col-12">
 								<cfif agentImagesForCarousel.recordcount gt 0>
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3 float-left">
-										<h3 class="h4">Agent Images (agentImagesForCarousel.recordcount images displayed [25 maximum]).</h3>
+										<h3 class="h4">Agent Images (#agentImagesForCarousel# images displayed [25 maximum]).</h3>
 										<div class="carousel-wrapper1">
 											<div class="carousel1" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
