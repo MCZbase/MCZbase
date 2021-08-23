@@ -344,7 +344,7 @@ limitations under the License.
 								) 
 								WHERE Rownum <= 26
 							</cfquery>
-							<cfif agentImagesForCarousel.recordcount GT 0>
+							<cfif agentImagesForCarousel.recordcount GTE 2>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
 							<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
@@ -373,7 +373,7 @@ limitations under the License.
 								) 
 								WHERE Rownum <= 26
 							</cfquery>
-							<cfif collectingImagesForCarousel.recordcount GT 0>
+							<cfif collectingImagesForCarousel.recordcount GTE 2>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
 							<cfquery name="localityImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
@@ -402,7 +402,7 @@ limitations under the License.
 								) 
 								WHERE Rownum <= 26
 							</cfquery>
-							<cfif localityImagesForCarousel.recordcount GT 0>
+							<cfif localityImagesForCarousel.recordcount GTE 2>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
 						</cfif>
