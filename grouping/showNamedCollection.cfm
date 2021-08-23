@@ -1209,7 +1209,7 @@ function moveNext() {
 !(function(g){
 	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
 	var itemClassName3 = "carousel__photo3";
-		items2 = f.getElementsByClassName(itemClassName3),
+		items2 = g.getElementsByClassName(itemClassName3),
 			totalItems3 = items3.length,
 			slide3 = 0,
 			moving3 = true; 
