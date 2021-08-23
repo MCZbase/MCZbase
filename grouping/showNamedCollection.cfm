@@ -495,6 +495,10 @@ limitations under the License.
 									<cfcase value="1">
 										<cfset colClass = "col-12">
 										<cfset imgWidth = 600>
+									</cfcase>	
+									<cfcase value="1">
+										<cfset colClass = "col-12">
+										<cfset imgWidth = 600>
 									</cfcase>
 									<cfcase value="2">
 										<cfset colClass = "col-md-6">
@@ -553,7 +557,7 @@ limitations under the License.
 											<div class="carousel3" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
-												<img class="carousel__photo3" src="http://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ293392_Riparia_riparia_riparia_d.jpg">
+												<img class="carousel__photo3 active" src="http://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ293392_Riparia_riparia_riparia_d.jpg">
 												
 										<!---		<p>#collectingImagesforCarousel['alt'][i]#</p>--->
 												<cfset i=i+1>
