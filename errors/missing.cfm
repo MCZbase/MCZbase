@@ -5,7 +5,7 @@
 	</cfif>
 	<cfset gPos=listfindnocase(rdurl,"guid","/")>
 	<cfif gPos >
-		<!---  Request for GUID --->
+		<!--- Request for GUID --->
 		<cftry>
 			<cfset accept = GetHttpRequestData().Headers['accept'] >
 		<cfcatch>
@@ -94,6 +94,7 @@
 			<cfcatch>
 				<cfdump var=#cfcatch#>
 				<!---
+<<<<<<< HEAD
 
 
 			<cfif listgetat(rdurl,gPos+2,"/")>
@@ -102,6 +103,14 @@
 				<cfset p=1>
 			</cfif>
 				<cfinclude template="/errors/404.cfm">
+=======
+					<cfif listgetat(rdurl,gPos+2,"/")>
+						<cfset p=listgetat(rdurl,gPos+2,"/")>
+					<cfelse>
+						<cfset p=1>
+					</cfif>
+					<cfinclude template="/errors/404.cfm">
+>>>>>>> test
 				--->
 			</cfcatch>
 		</cftry>
@@ -214,15 +223,15 @@
 			<cfheader name="Location" value="http://digir.mcz.harvard.edu/ipt/">
 		<cfelse>
 			<cftry>
-                <cfif !isSet(cgi.REDIRECT_URL) or !isSet(cgi.redirect_query_string)>
-				   <cfscript>
-				      	getPageContext().forward("/errors/404.cfm");
-				   </cfscript>
-                <cfelse>
-			    	<cfscript>
-		    			getPageContext().forward(cgi.REDIRECT_URL & ".cfm?" & cgi.redirect_query_string);
-	    			</cfscript>
-                </cfif>
+				<cfif !isSet(cgi.REDIRECT_URL) or !isSet(cgi.redirect_query_string)>
+					<cfscript>
+						getPageContext().forward("/errors/404.cfm");
+					</cfscript>
+				<cfelse>
+					<cfscript>
+						getPageContext().forward(cgi.REDIRECT_URL & ".cfm?" & cgi.redirect_query_string);
+					</cfscript>
+				</cfif>
 				<cfabort>
 			<cfcatch>
 				<cfscript>
