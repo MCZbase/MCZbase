@@ -401,7 +401,7 @@ limitations under the License.
 							<cfif localityImagesForCarousel.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
-						
+						</cfif>
 							<!---The encumbrance line was slowing it down too much--->
 <!---							<h2 class="mt-3">Images</h2>
 								<div class="row">
@@ -465,7 +465,8 @@ limitations under the License.
 					
 						<cfoutput>
 											
-						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0>		
+						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0>
+							<h2 class="mt-3">Images</h2>
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
 								<div class="col-12 px-md-3">
@@ -561,7 +562,6 @@ limitations under the License.
 								</cfif>
 								</div>
 							</div>
-							</div>
 						</cfif>
 						</cfoutput>
 						
@@ -571,7 +571,7 @@ limitations under the License.
 						<cfoutput>
 							<div id="mapper" class="col-12 px-0">
 								<h2 class="mt-4">Heat Map Example</h2>
-								<style>
+							<style>
 								##map {
 								  height: 100%;
 								}
@@ -635,7 +635,7 @@ limitations under the License.
 									  }
 								</script>
 						</cfoutput>
-								</cfif>
+						
 						</div>
 						<div class="col mt-4 float-left">
 							<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
