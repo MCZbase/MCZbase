@@ -316,7 +316,7 @@ limitations under the License.
 								) 
 								WHERE   Rownum  <= 26
 							</cfquery>
-							<cfif specimenImagesForCarousel.recordcount GT 0>
+							<cfif sspecimenImgs.recordcount GT 0>
 								<cfset hasSpecImages = true>
 							</cfif>
 							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
