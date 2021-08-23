@@ -547,7 +547,7 @@ limitations under the License.
 										<div class="carousel-wrapper3">
 											<div class="carousel3" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
-											<cfloop query="collectingImagesForCarousel">
+											<cfloop query="localityImagesForCarousel">
 												<img class="carousel__photo3" src="http://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ293392_Riparia_riparia_riparia_d.jpg">
 										<!---		<p>#collectingImagesforCarousel['alt'][i]#</p>--->
 												<cfset i=i+1>
