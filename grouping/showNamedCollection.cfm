@@ -412,7 +412,7 @@ limitations under the License.
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gte 2>	
 								<div class="col-12 px-md-3">
-								<h3 class="h4">Specimen Images (#specimenImagesForCarousel.recordcount# images).</h3>
+								<h3 class="h4">Specimen Images (#specimenImagesForCarousel.recordcount# images)</h3>
 									<div class="carousel-wrapper">
 										<div class="carousel" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 										<cfset i=1>
@@ -453,7 +453,7 @@ limitations under the License.
 								<div class="col-12">
 								<cfif agentImagesForCarousel.recordcount gte 2>
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3 float-left">
-										<h3 class="h4">Agent Images (#agentImagesForCarousel.recordcount# images).</h3>
+										<h3 class="h4">Agent Images (#agentImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper1">
 											
 											<div class="carousel1" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
@@ -475,7 +475,7 @@ limitations under the License.
 								</cfif>
 								<cfif collectingImagesForCarousel.recordcount gte 2>
 									<div class="col-12 #colClass# px-md-0 mt-3 float-left">
-										<h3 class="h4">Collecting Images (#collectingImagesForCarousel.recordcount# images).</h3>
+										<h3 class="h4">Collecting Images (#collectingImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper2">
 											<div class="carousel2" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
@@ -496,13 +496,13 @@ limitations under the License.
 								</cfif>
 								<cfif localityImagesForCarousel.recordcount gte 2>
 									<div class="col-12 #colClass# px-md-0 mt-3 float-left">
-										<h3 class="h4">Locality Images (#localityImagesForCarousel.recordcount# images).</h3>
+										<h3 class="h4">Locality Images (#localityImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper3">
 											<div class="carousel3" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 												<div class="carousel__photo3 <cfif #i# eq 1>active</cfif>">
-													<img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100">
+													<img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
 													<p>#localityImagesForCarousel['alt'][i]#</p>
 												</div>
 												<cfset i=i+1>
