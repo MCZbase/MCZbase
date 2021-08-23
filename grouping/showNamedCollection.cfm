@@ -71,7 +71,7 @@ limitations under the License.
 }
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
 .carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,
-.carousel__photo.active,.carousel__photo1.active,.carousel__photo2.active {
+.carousel__photo.active,.carousel__photo1.active,.carousel__photo2.active,.carousel__photo2.this {
 	opacity: 1;
 	position: relative;
 	z-index: 900;
@@ -371,7 +371,7 @@ limitations under the License.
 											<div class="carousel" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
-												<img class="carousel__photo" src="#specimenImagesforCarousel['media_uri'][i]#">
+												<img class="carousel__photo this" src="#specimenImagesforCarousel['media_uri'][i]#">
 												<!---<p>#specimenImagesforCarousel['alt'][i]#</p>--->
 												<cfset i=i+1>
 											</cfloop>
