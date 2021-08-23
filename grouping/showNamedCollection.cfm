@@ -998,7 +998,7 @@ function moveNext() {
 					newPrevious = (totalItems2 - 1);
 					oldPrevious = (totalItems2 - 2);
 					oldNext = (slide2 + 1);
-				} else if (slide2 === (totalItems2 -1)) {
+				} else if (slide === (totalItems2 -1)) {
 					newPrevious = (slide2 - 1);
 					newNext = 0;
 					oldNext = 1;
