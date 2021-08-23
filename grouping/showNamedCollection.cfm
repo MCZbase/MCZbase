@@ -465,7 +465,7 @@ limitations under the License.
 					
 						<cfoutput>
 											
-						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>		
+						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0>		
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
 								<div class="col-12 px-md-3">
