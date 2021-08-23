@@ -483,7 +483,7 @@ limitations under the License.
 											<cfset i=1>
 											<cfloop query="collectingImagesForCarousel">
 											<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
-												<div class="carousel__photo2 <cfif #i# eq 1>active</cfif>">
+												<div class="carousel__photo2 <cfif #i# eq 1>active initial</cfif>">
 													<img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100">
 													<p>#collectingImagesForCarousel['alt'][i]#</p>
 												</div>
