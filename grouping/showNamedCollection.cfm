@@ -847,7 +847,7 @@ function moveNext() {
 	function disableInteraction1() {
 		moving1 = true;
 
-		setTimeout(function(){
+		setTimeout1(function(){
 			moving1 = false
 		}, 500);
 	}
@@ -877,7 +877,7 @@ function moveNext() {
 					newPrevious = (totalItems1 - 1);
 					oldPrevious = (totalItems1 - 2);
 					oldNext = (slide1 + 1);
-				} else if (slide === (totalItems1 -1)) {
+				} else if (slide1 === (totalItems1 -1)) {
 					newPrevious = (slide1 - 1);
 					newNext = 0;
 					oldNext = 1;
@@ -967,7 +967,7 @@ function moveNext() {
 	function disableInteraction2() {
 		moving2 = true;
 
-		setTimeout(function(){
+		setTimeout2(function(){
 			moving2 = false
 		}, 500);
 	}
@@ -998,7 +998,7 @@ function moveNext() {
 					newPrevious = (totalItems2 - 1);
 					oldPrevious = (totalItems2 - 2);
 					oldNext = (slide2 + 1);
-				} else if (slide === (totalItems2 -1)) {
+				} else if (slide2 === (totalItems2 -1)) {
 					newPrevious = (slide2 - 1);
 					newNext = 0;
 					oldNext = 1;
