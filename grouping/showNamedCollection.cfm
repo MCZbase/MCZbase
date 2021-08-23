@@ -402,12 +402,12 @@ limitations under the License.
 								) 
 								WHERE Rownum <= 26
 							</cfquery>
-							<cfif localityImagesForCarousel.recordcount GTE 3>
+							<cfif localityImagesForCarousel.recordcount GTE 2>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
 						</cfif>
 						<cfoutput>
-						<cfif specimenImagesForCarousel.recordcount GTE 3 OR agentImagesForCarousel.recordcount GTE 3 OR collectingImagesForCarousel.recordcount GTE 3 OR localityImagesForCarousel.recordcount GTE 3>
+						<cfif specimenImagesForCarousel.recordcount GTE 2 OR agentImagesForCarousel.recordcount GTE 2 OR collectingImagesForCarousel.recordcount GTE 2 OR localityImagesForCarousel.recordcount GTE 2>
 							<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gte 2>	
@@ -452,7 +452,7 @@ limitations under the License.
 								</cfswitch>
 							<div class="row">
 								<div class="col-12">
-								<cfif agentImagesForCarousel.recordcount gte 3>
+								<cfif agentImagesForCarousel.recordcount gte 2>
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 										<h3 class="h4">Agent Images (#agentImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper1">
@@ -474,7 +474,7 @@ limitations under the License.
 										</div>
 									</div>
 								</cfif>
-								<cfif collectingImagesForCarousel.recordcount gte 3>
+								<cfif collectingImagesForCarousel.recordcount gte 2>
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Collecting Images (#collectingImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper2">
@@ -495,7 +495,7 @@ limitations under the License.
 										</div>
 									</div>
 								</cfif>
-								<cfif localityImagesForCarousel.recordcount gte 3>
+								<cfif localityImagesForCarousel.recordcount gte 2>
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Locality Images (#localityImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper3">
@@ -833,7 +833,7 @@ if(!moving) {
 		oldNext = slide + 2;
 
 		// Test if carousel has more than three items
-		if ((totalItems - 1) >= 3) {
+		if ((totalItems - 1) >= 2) {
 
 			// Checks if the new potential slide is out of bounds and sets slide numbers
 			if (newPrevious <= 0) {
