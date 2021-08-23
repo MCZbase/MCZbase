@@ -362,7 +362,7 @@ limitations under the License.
 							</cfquery>
 							<cfoutput>
 							<!---The encumbrance line was slowing it down too much--->
-							<h2 class="mt-3">Images</h2>
+<!---							<h2 class="mt-3">Images</h2>
 								<div class="row">
 									<cfif agentImagesForCarousel.recordcount gt 0>
 									<div class="col-12 px-md-3">
@@ -372,7 +372,7 @@ limitations under the License.
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<img class="carousel__photo" src="#specimenImagesforCarousel['media_uri'][i]#">
-												<!---<p>#specimenImagesforCarousel['alt'][i]#</p>--->
+						
 												<cfset i=i+1>
 											</cfloop>
 												<div class="carousel__button--next"></div>
@@ -392,7 +392,7 @@ limitations under the License.
 												<cfset i=1>
 												<cfloop query="agentImagesForCarousel">
 													<img class="carousel__photo1" src="#agentImagesForCarousel['media_uri'][i]#">
-													<!---<p>#agentImagesforCarousel['alt'][i]#</p>--->
+											
 													<cfset i=i+1>
 												</cfloop>
 													<div class="carousel__button1--next"></div>
@@ -410,7 +410,7 @@ limitations under the License.
 												<cfset i=1>
 												<cfloop query="collectingImagesForCarousel">
 													<img class="carousel__photo2" src="#collectingImagesforCarousel['media_uri'][i]#">
-											<!---		<p>#collectingImagesforCarousel['alt'][i]#</p>--->
+										
 													<cfset i=i+1>
 												</cfloop>
 													<div class="carousel__button2--next"></div>
@@ -420,7 +420,7 @@ limitations under the License.
 											</div>
 										</div>
 									</cfif>
-										</div></div>
+										</div></div>--->
 											
 											
 											
@@ -443,7 +443,7 @@ limitations under the License.
 									</div>
 									</cfif>
 								</div>
-								<div class="row">
+									<div class="row">
 									<div class="col-12">
 									<cfif agentImagesForCarousel.recordcount gt 0>
 										<div class="col-12 col-md-6 mx-md-auto px-md-0 mt-3 float-left">
@@ -484,7 +484,7 @@ limitations under the License.
 										</div></div>
 											
 											
-											
+								</div>
 											
 											
 								</cfoutput>
