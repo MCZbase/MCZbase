@@ -1234,6 +1234,10 @@ function moveNext() {
 				items3[newPrevious].className = itemClassName3 + " prev";
 				items3[slide3].className = itemClassName3 + " active";
 				items3[newNext].className = itemClassName3 + " next";
+			} else {
+				items3[newPrevious].className = itemClassName3 + "";
+				items3[slide3].className = itemClassName3 + " active";
+				items3[newNext].className = itemClassName3 + "";
 			}
 		}
 	}
