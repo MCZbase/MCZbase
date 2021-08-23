@@ -847,7 +847,7 @@ function moveNext() {
 	function disableInteraction1() {
 		moving1 = true;
 
-		setTimeout1(function(){
+		setTimeout(function(){
 			moving1 = false
 		}, 500);
 	}
@@ -967,7 +967,7 @@ function moveNext() {
 	function disableInteraction2() {
 		moving2 = true;
 
-		setTimeout2(function(){
+		setTimeout(function(){
 			moving2 = false
 		}, 500);
 	}
