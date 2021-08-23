@@ -204,6 +204,7 @@ limitations under the License.
 							</cfquery>
 							<cfif specimenImgs.recordcount GT 0>
 								<cfset hasSpecImages = true>
+								<cfset specimenImgsCt = specimenImgs.recordcount>
 							</cfif>
 							<script type="text/javascript">
 								var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -315,7 +316,7 @@ limitations under the License.
 								) 
 								WHERE   Rownum  <= 26
 							</cfquery>
-							<cfif specimenImages.recordcount GT 0>
+							<cfif #specimenImgsCt# GT 0>
 								<cfset hasSpecImages = true>
 							</cfif>
 							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
@@ -473,7 +474,7 @@ limitations under the License.
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
 								<div class="col-12 px-md-3">
-								<h3 class="h4">Specimen Images (#specimenImgs.recordcount# images displayed [25 maximum]).</h3>
+								<h3 class="h4">Specimen Images (#specimenImgsCt# images displayed [25 maximum]).</h3>
 									<div class="carousel-wrapper">
 										<div class="carousel" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 										<cfset i=1>
