@@ -69,6 +69,8 @@
 			<cfreturn "/shared/images/noThumbnailImage.png">
 		<cfelseif mt is "audio" || #media_type# is "audio">
 			<cfreturn "/shared/images/noThumbnailAudio.png">
+		<cfelseif mt is "video" || #media_type# is "audio">
+			<cfreturn "/shared/images/noThumbnailVideo.png">
 		<cfelseif mt is "text" || #media_type# is "text">
 			<cfreturn "/shared/images/noThumbDoc.png">
 		<cfelseif mt is "3D model" || #media_type# is "3D model">
