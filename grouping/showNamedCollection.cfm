@@ -41,175 +41,87 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfoutput>
 <style>
-	/*carousel styles*/
-/*.carousel-wrapperX {
+/* Parent wrapper to carousel. Width can be changed as needed. */
+.carousel-wrapper, .carousel-wrapper1, .carousel-wrapper2 {
 	overflow: hidden;
 	width: 100%;
-	margin: 0;
-	position: relative;
-	height: auto;
+	width:100%;
+	margin: auto;
 }
-.carousel-wrapperX * {
+/* Apply 'border-box' to 'box-sizing' so border and padding is included in the width and height. */
+.carousel-wrapper *, .carousel-wrapper1 *, .carousel-wrapper2 * {
 	box-sizing: border-box;
 }
-.carouselX {
+/* We'll be using the 'transform' property to move the carousel's items, so setting the 'transform-style' to 'preserve-3d' will make sure our nested elements are rendered properly in the 3D space. */
+.carousel, .carousel1, .carousel2 {
 	-webkit-transform-style: preserve-3d;
 	-moz-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 }
-.carouselImageX {
+/* By default we're hiding items (except the initial one) until the JS initiates. Elements are absolutely positioned with a width of 100% (as we're styling for mobile first), letting the content's height dictate the height of the carousel. Our magic property here for all our animation needs is 'transition', taking the properties we wish to animate 'transform' and 'opacity', along with the length of time in seconds. */
+.carousel__photo,.carousel__photo1,.carousel__photo2 {
 	opacity: 0;
 	position: absolute;
-	top: 0;
+	top:0;
 	width: 100%;
 	margin: auto;
-	padding: 0rem;
+	padding: 1rem 4rem;
 	z-index: 100;
 	transition: transform .5s, opacity .5s, z-index .5s;
 }
-.carouselImageX.initial, .carouselImageX.active {
+/* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
+.carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,
+.carousel__photo.active,.carousel__photo1.active,.carousel__photo2.active {
 	opacity: 1;
 	position: relative;
 	z-index: 900;
 }
-.carouselImageX.prev, .carouselImageX.next {
+/* Set 'z-index' to sit behind our '.active' item. */
+.carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,
+.carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next {
 	z-index: 800;
 }
-.carouselImageX.prev {
-	transform: translateX(-100%); 
+/* Translate previous item to the left */
+.carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev {
+  transform: translateX(-100%);
 }
-.carouselImageX.next {
-	transform: translateX(100%); 
+/* Translate next item to the right */
+.carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next {
+	transform: translateX(100%);
 }
-.carousel__buttonX--prev, .carousel__buttonX--next {
+/* Style navigation buttons to sit in the middle, either side of the carousel. */
+.carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev,
+.carousel__button--next,.carousel__button1--next,.carousel__button2--next {
 	position: absolute;
-	top: 48%;
-	width: 3.5rem;
-	height: 100%;
+	top:50%;
+	width: 3rem;
+	height: 40rem;
 	background-color: transparent;
 	transform: translateY(-50%);
-	border-radius: 8%;
-	cursor: pointer;
-	z-index: 1001;
-	border: none;
+	border-radius: 50%;
+	cursor: pointer; 
+	z-index: 1001; /* Sit on top of everything */
+	border:1px solid tranparent;
+/*  opacity: 0;  Hide buttons until carousel is initialised transition:opacity 1s;*/
 }
-.carousel__buttonX--prev {
-	left: 0;
+.carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev {
+	left:15px;
 }
-.carousel__buttonX--next {
-	right: 0;
+.carousel__button--next,.carousel__button1--next,.carousel__button2--next {
+	right:0;
 }
-.carousel__buttonX--prev::after, 
-.carousel__buttonX--next::after {
+/* Use pseudo elements to insert arrows inside of navigation buttons */
+.carousel__button--prev::after,.carousel__button1--prev::after,.carousel__button2--prev::after,
+.carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after {
 	content: " ";
 	position: absolute;
 	width: 15px;
 	height: 15px;
 	top: 50%;
-	left: 80%;
-	border-right: 3px solid ##007bff;
-	border-bottom: 3px solid ##007bff;
+	left: 54%;
+	border-right: 2px solid ##007bff;
+	border-bottom: 2px solid ##007bff;
 	transform: translate(-50%, -50%) rotate(135deg);
-}
-.carousel__buttonX--next::after {
-	left: 20%;
-	transform: translate(-50%, -50%) rotate(-45deg);
-}	
-	*/
-	/* Parent wrapper to carousel. Width can be changed as needed. */
-/* Parent wrapper to carousel. Width can be changed as needed. */
-.carousel-wrapper, .carousel-wrapper1, .carousel-wrapper2 {
-  overflow: hidden;
-  width: 100%;
-	width:100%;
-  margin: auto;
-}
-
-/* Apply 'border-box' to 'box-sizing' so border and padding is included in the width and height. */
-.carousel-wrapper *, .carousel-wrapper1 *, .carousel-wrapper2 * {
-  box-sizing: border-box;
-}
-
-/* We'll be using the 'transform' property to move the carousel's items, so setting the 'transform-style' to 'preserve-3d' will make sure our nested elements are rendered properly in the 3D space. */
-.carousel, .carousel1, .carousel2 {
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-}
-
-/* By default we're hiding items (except the initial one) until the JS initiates. Elements are absolutely positioned with a width of 100% (as we're styling for mobile first), letting the content's height dictate the height of the carousel. Our magic property here for all our animation needs is 'transition', taking the properties we wish to animate 'transform' and 'opacity', along with the length of time in seconds. */
-.carousel__photo,.carousel__photo1,.carousel__photo2 {
-  opacity: 0;
-  position: absolute;
-  top:0;
-  width: 100%;
-  margin: auto;
-  padding: 1rem 4rem;
-  z-index: 100;
-  transition: transform .5s, opacity .5s, z-index .5s;
-}
-
-/* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
-.carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,
-.carousel__photo.active,.carousel__photo1.active,.carousel__photo2.active {
-  opacity: 1;
-  position: relative;
-  z-index: 900;
-}
-
-/* Set 'z-index' to sit behind our '.active' item. */
-.carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,
-.carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next {
-  z-index: 800;
-}
-
-/* Translate previous item to the left */
-.carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev {
-  transform: translateX(-100%);
-}
-
-/* Translate next item to the right */
-.carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next {
-  transform: translateX(100%);
-}
-
-/* Style navigation buttons to sit in the middle, either side of the carousel. */
-.carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev,
-.carousel__button--next,.carousel__button1--next,.carousel__button2--next {
-  position: absolute;
-  top:50%;
-  width: 3rem;
-  height: 40rem;
-  background-color: transparent;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  cursor: pointer; 
-  z-index: 1001; /* Sit on top of everything */
-  border:1px solid tranparent;
-/*  opacity: 0;  Hide buttons until carousel is initialised 
-  transition:opacity 1s;*/
-}
-
-.carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev {
-  left:15px;
-}
-
-.carousel__button--next,.carousel__button1--next,.carousel__button2--next {
-  right:0;
-}
-
-/* Use pseudo elements to insert arrows inside of navigation buttons */
-.carousel__button--prev::after,.carousel__button1--prev::after,.carousel__button2--prev::after,
-.carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after {
-  content: " ";
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  top: 50%;
-  left: 54%;
-  border-right: 2px solid ##007bff;
-  border-bottom: 2px solid ##007bff;
-  transform: translate(-50%, -50%) rotate(135deg);
 }
 
 .carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after {
@@ -372,14 +284,13 @@ limitations under the License.
 								</div>
 							</section>
 						</div>
-						<!---end specimen grid--->						
-					</div>		
-								
-					<div class="row mx-3 mt-3">	
+						<!---end specimen grid--->
+					</div>
+					<div class="row mx-3 mt-3">
 						<div class="col-12 col-md-6 float-left">
 						<!--- obtain a random set of specimen images, limited to a small number --->
 						<cfif specimenImgs.media_uri gt 0>
-							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">                                    		
+							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 								SELECT * FROM (
 								SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_media_credit(media.media_id) as credit
 								FROM
@@ -398,7 +309,7 @@ limitations under the License.
 								) 
 								WHERE   Rownum  <= 15
 							</cfquery>
-							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">  
+							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -439,7 +350,7 @@ limitations under the License.
 										left join media on media_relations.media_id = media.media_id
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 										AND flat.guid IS NOT NULL
-										AND media_relations.media_relationship = 'shows locality'
+										AND media_relations.media_relationship = 'shows collecting_event'
 										AND media.media_type = 'image'
 										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
