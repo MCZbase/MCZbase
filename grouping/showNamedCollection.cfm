@@ -434,12 +434,12 @@ limitations under the License.
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
 							<cfswitch expression="#otherImageTypes#">
 									<cfcase value="1">
-										<cfset colClass = "col-12">
+										<cfset colClass = "col-md-6 mx-md-auto">
 										<cfset imgWidth = 600>
 										
 									</cfcase>
 									<cfcase value="2">
-										<cfset colClass = "col-md-6 mx-md-auto">
+										<cfset colClass = "col-md-6">
 										<cfset imgWidth = 400>
 									</cfcase>
 									<cfcase value="3">
