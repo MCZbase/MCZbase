@@ -383,6 +383,7 @@ limitations under the License.
 									</cfif>
 								</div>
 								<div class="row">
+									<div class="col-12 col-md-6">
 									<cfif agentImagesForCarousel.recordcount gt 0>
 										<div class="col-12 col-md-6 mx-md-auto px-md-0 mt-3">
 											<h3 class="h4">Agent Images (25 of #agentImagesForCarousel.recordcount# images displayed).</h3>
@@ -419,7 +420,7 @@ limitations under the License.
 											</div>
 										</div>
 									</cfif>
-								</div>
+										</div></div>
 								</cfoutput>
 						
 						</cfif>
