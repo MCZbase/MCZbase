@@ -451,7 +451,7 @@ limitations under the License.
 								</cfswitch>
 							<div class="row">
 								<div class="col-12">
-								<cfif agentImagesForCarousel.recordcount gte 2>
+								<cfif agentImagesForCarousel.recordcount gte 1>
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3 float-left">
 										<h3 class="h4">Agent Images (#agentImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper1">
@@ -473,7 +473,7 @@ limitations under the License.
 										</div>
 									</div>
 								</cfif>
-								<cfif collectingImagesForCarousel.recordcount gte 2>
+								<cfif collectingImagesForCarousel.recordcount gte 1>
 									<div class="col-12 #colClass# px-md-0 mt-3 float-left">
 										<h3 class="h4">Collecting Images (#collectingImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper2">
