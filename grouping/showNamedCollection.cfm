@@ -1235,9 +1235,9 @@ function moveNext() {
 				items3[slide3].className = itemClassName3 + " active";
 				items3[newNext].className = itemClassName3 + " next";
 			} else {
-				items3[newPrevious].className = itemClassName3 + "";
-				items3[slide3].className = itemClassName3 + " active";
-				items3[newNext].className = itemClassName3 + "";
+				items3[newPrevious].className = itemClassName3 + "hi";
+				items3[slide3].className = itemClassName3 + " active boo";
+				items3[newNext].className = itemClassName3 + "hello";
 			}
 		}
 	}
