@@ -42,24 +42,24 @@ limitations under the License.
 <cfoutput>
 <style>
 /* Parent wrapper to carousel. Width can be changed as needed. */
-.carousel-wrapper, .carousel-wrapper1, .carousel-wrapper2 {
+.carousel-wrapper, .carousel-wrapper1, .carousel-wrapper2, .carousel-wrapper3 {
 	overflow: hidden;
 	width: 100%;
 	width:100%;
 	margin: auto;
 }
 /* Apply 'border-box' to 'box-sizing' so border and padding is included in the width and height. */
-.carousel-wrapper *, .carousel-wrapper1 *, .carousel-wrapper2 * {
+.carousel-wrapper *, .carousel-wrapper1 *, .carousel-wrapper2 *, .carousel-wrapper3 * {
 	box-sizing: border-box;
 }
 /* We'll be using the 'transform' property to move the carousel's items, so setting the 'transform-style' to 'preserve-3d' will make sure our nested elements are rendered properly in the 3D space. */
-.carousel, .carousel1, .carousel2 {
+.carousel, .carousel1, .carousel2, .carousel3 {
 	-webkit-transform-style: preserve-3d;
 	-moz-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 }
 /* By default we're hiding items (except the initial one) until the JS initiates. Elements are absolutely positioned with a width of 100% (as we're styling for mobile first), letting the content's height dictate the height of the carousel. Our magic property here for all our animation needs is 'transition', taking the properties we wish to animate 'transform' and 'opacity', along with the length of time in seconds. */
-.carousel__photo,.carousel__photo1,.carousel__photo2 {
+.carousel__photo,.carousel__photo1,.carousel__photo2,.carousel__photo3 {
 	opacity: 0;
 	position: absolute;
 	top:0;
