@@ -316,8 +316,9 @@ limitations under the License.
 								) 
 								WHERE   Rownum  <= 26
 							</cfquery>
-							<cfif #specimenImgsCt# GT 0>
+							<cfif specimenImagesForCarousel.recordcount GT 0>
 								<cfset hasSpecImages = true>
+								<cfset specImgsCt = specimenImagesForCarousel.recordcount>
 							</cfif>
 							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 								SELECT * FROM (
@@ -476,7 +477,7 @@ limitations under the License.
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
 								<div class="col-12 px-md-3">
-								<h3 class="h4">Specimen Images (#specimenImgsCt# images displayed [25 maximum]).</h3>
+								<h3 class="h4">Specimen Images (#specImgCt# images displayed [25 maximum]).</h3>
 									<div class="carousel-wrapper">
 										<div class="carousel" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 										<cfset i=1>
@@ -530,7 +531,7 @@ limitations under the License.
 										</div>
 									</div>
 								</cfif>
-								<cfif #collImgsCt# gt 0>
+								<cfif collectingImagesForCarousel.recordcount gt 0>
 									<div class="col-12 #colClass# px-md-0 mt-3 float-left">
 										<h3 class="h4">Collecting Images (25 of #collImgsCt# images displayed).</h3>
 										<div class="carousel-wrapper2">
