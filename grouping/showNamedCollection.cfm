@@ -436,9 +436,10 @@ limitations under the License.
 									<cfcase value="1">
 										<cfset colClass = "col-12">
 										<cfset imgWidth = 600>
+										
 									</cfcase>
 									<cfcase value="2">
-										<cfset colClass = "col-md-6">
+										<cfset colClass = "col-md-6 mx-md-auto">
 										<cfset imgWidth = 400>
 									</cfcase>
 									<cfcase value="3">
