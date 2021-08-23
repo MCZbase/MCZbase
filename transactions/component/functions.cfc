@@ -2973,39 +2973,32 @@ limitations under the License.
 							<input type="text" name="permit_remarks" id="npf_permit_remarks" class="data-entry-input">
 						</div>
 					</div>
-
 					<div class="form-row">
 						<div class="col-12">
 							<label for="npf_restriction_summary" class="data-entry-label">Summary of Restrictions on use</label>
-							<div class="grow-wrap">
-							<textarea cols='80' rows='2' name='restriction_summary' id="npf_restriction_summary" class="form-control" onInput="this.parentNode.dataset.replicatedValue = this.value" style="height:auto!important;"></textarea>
-							</div>
+							<textarea cols='80' rows='3' name='restriction_summary' id="npf_restriction_summary" class="form-control autogrow"></textarea>
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-12">
 							<label for="npf_benefits_summary" class="data-entry-label">Summary of Agreed Benefits</label>
-							<div class="grow-wrap">
-							<textarea cols='80' rows='2' name='benefits_summary' id="npf_benefits_summary" class="form-control" onInput="this.parentNode.dataset.replicatedValue = this.value"  style="height:auto!important;"></textarea>
-							</div>
+							<textarea cols='80' rows='3' name='benefits_summary' id="npf_benefits_summary" class="form-control autogrow"></textarea>
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-12">
 							<label for="npf_benefits_provided" class="data-entry-label">Benefits Provided</label>
-							<div class="grow-wrap">
-							<textarea cols='80' rows='2' name='benefits_provided' id="npf_benefits_provided" onInput="this.parentNode.dataset.replicatedValue = this.value" class="form-control" style="height:auto!important;"></textarea>
-							</div>
+							<textarea cols='80' rows='3' name='benefits_provided' id="npf_benefits_provided" class="form-control autogrow"></textarea>
 						</div>
 					</div>
 					<!--- Note: Save Permit Record button is created on containing dialog by opencreatepermitdialog() js function. --->
-				<script language='javascript' type='text/javascript'>
-//						$("textarea.autogrow").keyup(autogrow);
-//						function addnewpermit(event) { 
-//							event.preventDefault();
-//							return false; 
-//						};
-			</script>
+					<script language='javascript' type='text/javascript'>
+						$("textarea.autogrow").keyup(autogrow);
+						function addnewpermit(event) { 
+							event.preventDefault();
+							return false; 
+						};
+					</script>
 				</form> 
 				<div id='permitAddResults'></div>
 			</cfoutput>
