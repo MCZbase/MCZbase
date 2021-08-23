@@ -372,7 +372,7 @@ limitations under the License.
 							<cfif collectingImagesForCarousel.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
-							<cfoutput>
+						
 							<!---The encumbrance line was slowing it down too much--->
 <!---							<h2 class="mt-3">Images</h2>
 								<div class="row">
@@ -433,8 +433,8 @@ limitations under the License.
 										</div>
 									</cfif>
 										</div></div>--->
-								</cfoutput>
-							<cfoutput>
+					
+						<cfoutput>
 											
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>		
 							<div class="row">
@@ -514,12 +514,9 @@ limitations under the License.
 								</cfif>
 								</div>
 							</div>
-
-
 							</div>
-
 						</cfif>
-								</cfoutput>
+						</cfoutput>
 						
 				
 								
@@ -564,7 +561,7 @@ limitations under the License.
 							</div><!---end map--->
 							<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 								<h2 class="mt-4">Region Map Example</h2>
-							<div id="regions_div" class="w-100" style="height: 550px;"></div>	
+							<div id="regions_div" class="w-100" style="height: 550px;"></div>
 								<script>
 									// https://jsfiddle.net/api/post/library/pure/
 									google.charts.load('current', {
@@ -590,8 +587,8 @@ limitations under the License.
 										chart.draw(data, options);
 									  }
 								</script>
-						
 						</cfoutput>
+								</cfif>
 						</div>
 						<div class="col mt-4 float-left">
 							<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
