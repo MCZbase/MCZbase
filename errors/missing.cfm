@@ -94,23 +94,12 @@
 			<cfcatch>
 				<cfdump var=#cfcatch#>
 				<!---
-<<<<<<< HEAD
-
-
-			<cfif listgetat(rdurl,gPos+2,"/")>
-				<cfset p=listgetat(rdurl,gPos+2,"/")>
-			<cfelse>
-				<cfset p=1>
-			</cfif>
-				<cfinclude template="/errors/404.cfm">
-=======
 					<cfif listgetat(rdurl,gPos+2,"/")>
 						<cfset p=listgetat(rdurl,gPos+2,"/")>
 					<cfelse>
 						<cfset p=1>
 					</cfif>
 					<cfinclude template="/errors/404.cfm">
->>>>>>> test
 				--->
 			</cfcatch>
 		</cftry>
