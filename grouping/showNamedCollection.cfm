@@ -202,6 +202,9 @@ limitations under the License.
 									AND media.media_type = 'image'
 									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 							</cfquery>
+							<cfif specimenImgs.recordcount GT 0>
+								<cfset hasSpecImages = true>
+							</cfif>
 							<script type="text/javascript">
 								var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 									if (value > 1) {
@@ -288,6 +291,9 @@ limitations under the License.
 					</div>
 					<div class="row mx-3 mt-3">
 						<div class="col-12 col-md-6 float-left">
+							<cfset leftHandColumnOn = false>
+							<cfset hasSpecImages = false>
+							<cfset otherImageTypes = 0>
 						<!--- obtain a random set of specimen images, limited to a small number --->
 						<cfif specimenImgs.media_uri gt 0>
 							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
@@ -334,6 +340,9 @@ limitations under the License.
 								) 
 								WHERE Rownum <= 26
 							</cfquery>
+							<cfif agentImagesForCarousel.recordcount GT 0>
+								<cfset otherImageTypes = otherImageTypes + 1>
+							</cfif>
 							<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
@@ -360,6 +369,9 @@ limitations under the License.
 								) 
 								WHERE Rownum <= 26
 							</cfquery>
+							<cfif collectingImagesForCarousel.recordcount GT 0>
+								<cfset otherImageTypes = otherImageTypes + 1>
+							</cfif>
 							<cfoutput>
 							<!---The encumbrance line was slowing it down too much--->
 <!---							<h2 class="mt-3">Images</h2>
@@ -423,9 +435,8 @@ limitations under the License.
 										</div></div>--->
 											
 											
-											
-									<div class="row">
-									<cfif agentImagesForCarousel.recordcount gt 0>
+						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0><div class="row">
+							<cfif specimenImagesForCarousel.recordcount gt 0>	
 									<div class="col-12 px-md-3">
 									<h3 class="h4">Specimen Images (25 of #specimenImgs.recordcount# images displayed).</h3>
 										<div class="carousel-wrapper">
@@ -443,10 +454,28 @@ limitations under the License.
 									</div>
 									</cfif>
 								</div>
+									<!--- figure out widths of sub blocks, adapt to number of blocks --->
+										<cfswitch expression="#otherImageTypes#">
+											<cfcase value="1">
+												<cfset colClass = "col-12">
+												<cfset imgWidth = 600>
+											</cfcase>
+											<cfcase value="2">
+												<cfset colClass = "col-md-6">
+												<cfset imgWidth = 400>
+											</cfcase>
+											<cfcase value="3">
+												<cfset colClass = "col-md-4">
+												<cfset imgWidth = 300>
+											</cfcase>
+											<cfdefaultcase>
+												<cfset colClass = "col-md-3">
+											</cfdefaultcase>
+										</cfswitch>
 									<div class="row">
-									<div class="col-12">
+									<div class="#colClass#">
 									<cfif agentImagesForCarousel.recordcount gt 0>
-										<div class="col-12 col-md-6 mx-md-auto px-md-0 mt-3 float-left">
+										<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3 float-left">
 											<h3 class="h4">Agent Images (25 of #agentImagesForCarousel.recordcount# images displayed).</h3>
 											<div class="carousel-wrapper1">
 												<div class="carousel1" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
