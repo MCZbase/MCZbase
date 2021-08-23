@@ -371,7 +371,7 @@ limitations under the License.
 											<div class="carousel" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
-												<img class="carousel__photo this" src="#specimenImagesforCarousel['media_uri'][i]#">
+												<img class="carousel__photo initial" src="#specimenImagesforCarousel['media_uri'][i]#">
 												<!---<p>#specimenImagesforCarousel['alt'][i]#</p>--->
 												<cfset i=i+1>
 											</cfloop>
