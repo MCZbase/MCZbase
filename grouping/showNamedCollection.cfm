@@ -474,7 +474,7 @@ limitations under the License.
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
 								<div class="col-12 px-md-3">
-								<h3 class="h4">Specimen Images (specimenImagesForCarousel.recordcount images displayed [25 maximum]).</h3>
+								<h3 class="h4">Specimen Images (#specimenImagesForCarousel.recordcount# images displayed [25 maximum]).</h3>
 									<div class="carousel-wrapper">
 										<div class="carousel" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 										<cfset i=1>
