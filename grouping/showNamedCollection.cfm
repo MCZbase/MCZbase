@@ -470,7 +470,7 @@ limitations under the License.
 						<cfoutput>
 											
 						<cfif specimenImagesForCarousel.recordcount GTE 2 OR agentImagesForCarousel.recordcount GTE 2 OR collectingImagesForCarousel.recordcount GTE 2 OR localityImagesForCarousel.recordcount GTE 2>
-							<h2 class="mt-3">Images</h2>
+							<h2 class="mt-3">Images <span class="small">(25 max. shown) </span></h2>
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gte 2>	
 								<div class="col-12 px-md-3">
