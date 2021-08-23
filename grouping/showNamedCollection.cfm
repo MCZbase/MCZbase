@@ -554,6 +554,7 @@ limitations under the License.
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 												<img class="carousel__photo3" src="http://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ293392_Riparia_riparia_riparia_d.jpg">
+												<img class="carousel__photo3" src="http://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ293392_Riparia_riparia_riparia_d.jpg">
 										<!---		<p>#collectingImagesforCarousel['alt'][i]#</p>--->
 												<cfset i=i+1>
 											</cfloop>
