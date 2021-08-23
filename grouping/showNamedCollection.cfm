@@ -403,7 +403,7 @@ limitations under the License.
 										</div>
 									</cfif>
 									<cfif collectingImagesForCarousel.recordcount gt 0>
-										<div class="col-12 col-md-auto mx-md-auto px-md-0 mt-3 float-left">
+										<div class="col-12 col-md-6 px-md-0 mt-3 float-left">
 											<h3 class="h4">Collecting Images (25 of #collectingImagesForCarousel.recordcount# images displayed).</h3>
 											<div class="carousel-wrapper2">
 												<div class="carousel2" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
