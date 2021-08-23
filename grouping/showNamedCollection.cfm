@@ -736,7 +736,7 @@ if(!moving) {
 		oldNext = slide + 2;
 
 		// Test if carousel has more than three items
-		if ((totalItems - 1) > 3) {
+		if ((totalItems - 1) >= 1) {
 
 			// Checks if the new potential slide is out of bounds and sets slide numbers
 			if (newPrevious <= 0) {
@@ -863,7 +863,7 @@ function moveNext() {
 				oldPrevious = slide1 - 2,
 				oldNext = slide1 + 2;
 			// Test if carousel has more than three items
-			if ((totalItems1 - 1) > 3) {
+			if ((totalItems1 - 1) >= 1) {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
