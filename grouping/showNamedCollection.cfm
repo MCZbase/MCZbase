@@ -492,10 +492,6 @@ limitations under the License.
 							</div>
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
 							<cfswitch expression="#otherImageTypes#">
-									<cfcase value="0">
-										<cfset colClass = "col-12">
-										<cfset imgWidth = 600>
-									</cfcase>	
 									<cfcase value="1">
 										<cfset colClass = "col-12">
 										<cfset imgWidth = 600>
@@ -1209,11 +1205,11 @@ function moveNext() {
 
 }(document));
 
-	
-!(function(k){
+/////////////////
+!(function(s){
 	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
 	var itemClassName3 = "carousel__photo3";
-		items3 = k.getElementsByClassName(itemClassName3),
+		items3 = s.getElementsByClassName(itemClassName3),
 			totalItems3 = items3.length,
 			slide3 = 0,
 			moving3 = true; 
@@ -1226,11 +1222,11 @@ function moveNext() {
 		items3[0].classList.add("active");
 		items3[1].classList.add("next");
 	}
-
 	// Set click events to navigation buttons
+
 	function setEventListeners3() {
-		var next = k.getElementsByClassName('carousel__button3--next')[0],
-			prev = k.getElementsByClassName('carousel__button3--prev')[0];
+		var next = s.getElementsByClassName('carousel__button3--next')[0],
+			prev = s.getElementsByClassName('carousel__button3--prev')[0];
 
 		next.addEventListener('click', moveNext3);
 		prev.addEventListener('click', movePrev3);
@@ -1255,9 +1251,8 @@ function moveNext() {
 				newNext = slide3 + 1,
 				oldPrevious = slide3 - 2,
 				oldNext = slide3 + 2;
-
 			// Test if carousel has more than three items
-			if ((totalItems3 - 1) >= 1) {
+			if ((totalItems3 - 1) >= 0) {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
@@ -1276,7 +1271,9 @@ function moveNext() {
 					newNext = 0;
 					oldNext = 1;
 				}
-			// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+
+				// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+
 				// Based on the current slide, reset to default classes.
 				items3[oldPrevious].className = itemClassName3;
 				items3[oldNext].className = itemClassName3;
@@ -1303,7 +1300,6 @@ function moveNext() {
 			moveCarouselTo3(slide3);
 		}
 	}
-
 	// Previous navigation handler
 	function movePrev3() {
 		// Check if moving
@@ -1318,7 +1314,6 @@ function moveNext() {
 			moveCarouselTo3(slide3);
 		}
 	}
-
 	// Initialise carousel
 	function initCarousel3() {
 		setInitialClasses3();
