@@ -344,7 +344,7 @@ limitations under the License.
 								) 
 								WHERE Rownum <= 26
 							</cfquery>
-							<cfif agentImagesForCarousel.recordcount GTE 2>
+							<cfif agentImagesForCarousel.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
 							<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
@@ -373,7 +373,7 @@ limitations under the License.
 								) 
 								WHERE Rownum <= 26
 							</cfquery>
-							<cfif collectingImagesForCarousel.recordcount GTE 2>
+							<cfif collectingImagesForCarousel.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
 							<cfquery name="localityImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
@@ -402,7 +402,7 @@ limitations under the License.
 								) 
 								WHERE Rownum <= 26
 							</cfquery>
-							<cfif localityImagesForCarousel.recordcount GTE 2>
+							<cfif localityImagesForCarousel.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
 						</cfif>
@@ -411,7 +411,7 @@ limitations under the License.
 							<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
-										<cfset hasSpecImages = true>
+								<cfset hasSpecImages = true>
 								<div class="col-12 px-md-3">
 								<h3 class="h4">Specimen Images (#specimenImagesForCarousel.recordcount# images)</h3>
 									<div class="carousel-wrapper">
