@@ -124,7 +124,7 @@ limitations under the License.
 	transform: translate(-50%, -50%) rotate(135deg);
 }
 
-.carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after,,.carousel__button3--next::after {
+.carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after,.carousel__button3--next::after {
 	left: 47%;
 	transform: translate(-50%, -50%) rotate(-45deg);
 	
