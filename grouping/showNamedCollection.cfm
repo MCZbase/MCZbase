@@ -421,6 +421,72 @@ limitations under the License.
 										</div>
 									</cfif>
 										</div></div>
+											
+											
+											
+									<div class="row">
+									<cfif agentImagesForCarousel.recordcount gt 0>
+									<div class="col-12 px-md-3">
+									<h3 class="h4">Specimen Images (25 of #specimenImgs.recordcount# images displayed).</h3>
+										<div class="carousel-wrapper">
+											<div class="carousel" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+											<cfset i=1>
+											<cfloop query="specimenImagesForCarousel">
+												<img class="carousel__photo" src="http://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ293392_Riparia_riparia_riparia_d.jpg">
+												<!---<p>#specimenImagesforCarousel['alt'][i]#</p>--->
+												<cfset i=i+1>
+											</cfloop>
+												<div class="carousel__button--next"></div>
+												<div class="carousel__button--prev"></div>
+											</div>
+										</div>
+									</div>
+									</cfif>
+								</div>
+								<div class="row">
+									<div class="col-12">
+									<cfif agentImagesForCarousel.recordcount gt 0>
+										<div class="col-12 col-md-6 mx-md-auto px-md-0 mt-3 float-left">
+											<h3 class="h4">Agent Images (25 of #agentImagesForCarousel.recordcount# images displayed).</h3>
+											<div class="carousel-wrapper1">
+												<div class="carousel1" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+												<cfset i=1>
+												<cfloop query="agentImagesForCarousel">
+													<img class="carousel__photo1" src="http://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ293392_Riparia_riparia_riparia_d.jpg">
+													<!---<p>#agentImagesforCarousel['alt'][i]#</p>--->
+													<cfset i=i+1>
+												</cfloop>
+													<div class="carousel__button1--next"></div>
+													<div class="carousel__button1--prev"></div>
+
+												</div>
+											</div>
+										</div>
+									</cfif>
+									<cfif collectingImagesForCarousel.recordcount gt 0>
+										<div class="col-12 col-md-6 px-md-0 mt-3 float-left">
+											<h3 class="h4">Collecting Images (25 of #collectingImagesForCarousel.recordcount# images displayed).</h3>
+											<div class="carousel-wrapper2">
+												<div class="carousel2" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+												<cfset i=1>
+												<cfloop query="collectingImagesForCarousel">
+													<img class="carousel__photo2" src="http://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ293392_Riparia_riparia_riparia_d.jpg">
+											<!---		<p>#collectingImagesforCarousel['alt'][i]#</p>--->
+													<cfset i=i+1>
+												</cfloop>
+													<div class="carousel__button2--next"></div>
+													<div class="carousel__button2--prev"></div>
+
+												</div>
+											</div>
+										</div>
+									</cfif>
+										</div></div>
+											
+											
+											
+											
+											
 								</cfoutput>
 						
 						</cfif>
