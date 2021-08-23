@@ -1206,10 +1206,10 @@ function moveNext() {
 }(document));
 
 	
-!(function(g){
+!(function(k){
 	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
 	var itemClassName3 = "carousel__photo3";
-		items2 = g.getElementsByClassName(itemClassName3),
+		items2 = k.getElementsByClassName(itemClassName3),
 			totalItems3 = items3.length,
 			slide3 = 0,
 			moving3 = true; 
@@ -1225,8 +1225,8 @@ function moveNext() {
 
 	// Set click events to navigation buttons
 	function setEventListeners3() {
-		var next = g.getElementsByClassName('carousel__button3--next')[0],
-			prev = g.getElementsByClassName('carousel__button3--prev')[0];
+		var next = k.getElementsByClassName('carousel__button3--next')[0],
+			prev = k.getElementsByClassName('carousel__button3--prev')[0];
 
 		next.addEventListener('click', moveNext3);
 		prev.addEventListener('click', movePrev3);
