@@ -554,7 +554,7 @@ limitations under the License.
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 												<img class="carousel__photo3" src="http://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ293392_Riparia_riparia_riparia_d.jpg">
-												<img class="carousel__photo3" src="http://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ293392_Riparia_riparia_riparia_d.jpg">
+												
 										<!---		<p>#collectingImagesforCarousel['alt'][i]#</p>--->
 												<cfset i=i+1>
 											</cfloop>
@@ -1010,7 +1010,7 @@ function moveNext() {
 				oldPrevious = slide1 - 2,
 				oldNext = slide1 + 2;
 			// Test if carousel has more than three items
-			if ((totalItems1 - 1) >= 0) {
+			if ((totalItems1 - 1) >= 1) {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
@@ -1131,7 +1131,7 @@ function moveNext() {
 				oldNext = slide2 + 2;
 
 			// Test if carousel has more than three items
-			if ((totalItems2 - 1) >= 0) {
+			if ((totalItems2 - 1) >= 1) {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
@@ -1253,7 +1253,7 @@ function moveNext() {
 				oldNext = slide3 + 2;
 
 			// Test if carousel has more than three items
-			if ((totalItems3 - 1) >= 0) {
+			if ((totalItems3 - 1) >= 1) {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
