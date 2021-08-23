@@ -407,7 +407,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<cfoutput>
-						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0>
+						<cfif specimenImgs.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0>
 							<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
