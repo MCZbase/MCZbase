@@ -263,7 +263,7 @@ limitations under the License.
 			<cfset result=result & "<div class='col-12 px-0'><ul class='mx-0 px-4 list-style-disc'>">
 			<cfloop query="tax_pub">
 				<!--- Create a link out of author year. in the publication, ensure that link closes. --->
-				<cfset publication = "<li class='mb-1'><a href='/SpecimenUsage.cfm?publication_id=#publication_id#' target='_blank' class='d-block'><img src='/images/noThumbGray.jpg' width='15' height='20' alt='document icon' class='mr-2'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') >
+				<cfset publication = "<li class='mb-1'><a href='/SpecimenUsage.cfm?publication_id=#publication_id#' target='_blank' class='d-block'><img src='/shared/images/48px-Gnome-text-x-preview.svg.png' width='15' height='20' alt='document icon' class='mr-2'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') >
 					<cfif NOT findNoCase('</a>',publication)><cfset publication = publication & "</a>"></cfif>
 						<cfset result=result & "#publication#">
 				<cfset result=result & "<button class='btn-xs btn-warning mx-1' onclick=' confirmDialog("" Remove Relatioship?"",""Remove?"", function() { removeTaxonPub(#taxonomy_publication_id#); } );' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button>">
