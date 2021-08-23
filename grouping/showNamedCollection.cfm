@@ -492,7 +492,7 @@ limitations under the License.
 							</div>
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
 							<cfswitch expression="#otherImageTypes#">
-									<cfcase value="1">
+									<cfcase value="0">
 										<cfset colClass = "col-12">
 										<cfset imgWidth = 600>
 									</cfcase>	
