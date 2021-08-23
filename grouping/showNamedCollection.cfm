@@ -316,7 +316,7 @@ limitations under the License.
 								) 
 								WHERE   Rownum  <= 26
 							</cfquery>
-							<cfif sspecimenImgs.recordcount GT 0>
+							<cfif specimenImgs.recordcount GT 0>
 								<cfset hasSpecImages = true>
 							</cfif>
 							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
@@ -411,6 +411,7 @@ limitations under the License.
 							<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
+										<cfset hasSpecImages = true>
 								<div class="col-12 px-md-3">
 								<h3 class="h4">Specimen Images (#specimenImagesForCarousel.recordcount# images)</h3>
 									<div class="carousel-wrapper">
