@@ -548,7 +548,7 @@ limitations under the License.
 								</cfif>
 								<cfif localityImagesForCarousel.recordcount gt 0>
 									<div class="col-12 #colClass# px-md-0 mt-3 float-left">
-										<h3 class="h4">Locality Images (25 of #localityImagesForCarousel.recordcount# images displayed).</h3>
+										<h3 class="h4">Locality Images (#localityImagesForCarousel.recordcount# images displayed [25 maximum]).</h3>
 										<div class="carousel-wrapper3">
 											<div class="carousel3" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
