@@ -70,28 +70,28 @@ limitations under the License.
 	transition: transform .5s, opacity .5s, z-index .5s;
 }
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
-.carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,
-.carousel__photo.active,.carousel__photo1.active,.carousel__photo2.active,.carousel__photo2.this {
+.carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,.carousel__photo3.initial,
+.carousel__photo.active,.carousel__photo1.active,.carousel__photo2.active,.carousel__photo3.active {
 	opacity: 1;
 	position: relative;
 	z-index: 900;
 }
 /* Set 'z-index' to sit behind our '.active' item. */
-.carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,
-.carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next {
+.carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,.carousel__photo3.prev,
+.carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next,.carousel__photo3.next {
 	z-index: 800;
 }
 /* Translate previous item to the left */
-.carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev {
+.carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,.carousel__photo3.prev {
   transform: translateX(-100%);
 }
 /* Translate next item to the right */
-.carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next {
+.carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next,.carousel__photo3.next {
 	transform: translateX(100%);
 }
 /* Style navigation buttons to sit in the middle, either side of the carousel. */
-.carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev,
-.carousel__button--next,.carousel__button1--next,.carousel__button2--next {
+.carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev,.carousel__button3--prev,
+.carousel__button--next,.carousel__button1--next,.carousel__button2--next,.carousel__button3--next {
 	position: absolute;
 	top:50%;
 	width: 3rem;
@@ -104,15 +104,15 @@ limitations under the License.
 	border:1px solid tranparent;
 /*  opacity: 0;  Hide buttons until carousel is initialised transition:opacity 1s;*/
 }
-.carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev {
+.carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev,.carousel__button3--prev {
 	left:15px;
 }
-.carousel__button--next,.carousel__button1--next,.carousel__button2--next {
+.carousel__button--next,.carousel__button1--next,.carousel__button2--next,.carousel__button3--next {
 	right:0;
 }
 /* Use pseudo elements to insert arrows inside of navigation buttons */
-.carousel__button--prev::after,.carousel__button1--prev::after,.carousel__button2--prev::after,
-.carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after {
+.carousel__button--prev::after,.carousel__button1--prev::after,.carousel__button2--prev::after,.carousel__button3--prev::after,
+.carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after,.carousel__button3--next::after {
 	content: " ";
 	position: absolute;
 	width: 15px;
@@ -124,7 +124,7 @@ limitations under the License.
 	transform: translate(-50%, -50%) rotate(135deg);
 }
 
-.carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after {
+.carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after,,.carousel__button3--next::after {
 	left: 47%;
 	transform: translate(-50%, -50%) rotate(-45deg);
 	
@@ -398,7 +398,7 @@ limitations under the License.
 								) 
 								WHERE Rownum <= 26
 							</cfquery>
-							<cfif collectingImagesForCarousel.recordcount GT 0>
+							<cfif localityImagesForCarousel.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
 						
@@ -544,16 +544,16 @@ limitations under the License.
 								<cfif localityImagesForCarousel.recordcount gt 0>
 									<div class="col-12 #colClass# px-md-0 mt-3 float-left">
 										<h3 class="h4">Locality Images (25 of #localityImagesForCarousel.recordcount# images displayed).</h3>
-										<div class="carousel-wrapper2">
-											<div class="carousel2" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+										<div class="carousel-wrapper3">
+											<div class="carousel3" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
 											<cfloop query="collectingImagesForCarousel">
-												<img class="carousel__photo2" src="http://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ293392_Riparia_riparia_riparia_d.jpg">
+												<img class="carousel__photo3" src="http://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ293392_Riparia_riparia_riparia_d.jpg">
 										<!---		<p>#collectingImagesforCarousel['alt'][i]#</p>--->
 												<cfset i=i+1>
 											</cfloop>
-												<div class="carousel__button2--next"></div>
-												<div class="carousel__button2--prev"></div>
+												<div class="carousel__button3--next"></div>
+												<div class="carousel__button3--prev"></div>
 
 											</div>
 										</div>
@@ -1200,6 +1200,127 @@ function moveNext() {
 
 }(document));
 
+	
+!(function(g){
+	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+	var itemClassName3 = "carousel__photo3";
+		items2 = f.getElementsByClassName(itemClassName3),
+			totalItems3 = items3.length,
+			slide3 = 0,
+			moving3 = true; 
+
+	// To initialise the carousel we'll want to update the DOM with our own classes
+	function setInitialClasses3() {
+		// Target the last, initial, and next items and give them the relevant class.
+		// This assumes there are three or more items.
+		items3[totalItems3 - 1].classList.add("prev");
+		items3[0].classList.add("active");
+		items3[1].classList.add("next");
+	}
+
+	// Set click events to navigation buttons
+	function setEventListeners3() {
+		var next = g.getElementsByClassName('carousel__button3--next')[0],
+			prev = g.getElementsByClassName('carousel__button3--prev')[0];
+
+		next.addEventListener('click', moveNext3);
+		prev.addEventListener('click', movePrev3);
+	}
+
+	// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+	function disableInteraction3() {
+		moving3 = true;
+
+		setTimeout(function(){
+			moving3 = false
+		}, 500);
+	}
+
+	function moveCarouselTo3(slide3) {
+		// Check if carousel is moving, if not, allow interaction
+		if(!moving3) {
+			// temporarily disable interactivity
+			disableInteraction3();
+			// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+			var newPrevious = slide3 - 1,
+				newNext = slide3 + 1,
+				oldPrevious = slide3 - 2,
+				oldNext = slide3 + 2;
+
+			// Test if carousel has more than three items
+			if ((totalItems3 - 1) >= 1) {
+
+				// Checks if the new potential slide is out of bounds and sets slide numbers
+				if (newPrevious <= 0) {
+					oldPrevious = (totalItems3 - 1);
+				} else if (newNext >= (totalItems3 - 1)){
+					oldNext = 0;
+				}
+
+				// Check if current slide is at the beginning or end and sets slide numbers
+				if (slide3 === 0) {
+					newPrevious = (totalItems3 - 1);
+					oldPrevious = (totalItems3 - 2);
+					oldNext = (slide3 + 1);
+				} else if (slide3 === (totalItems3 -1)) {
+					newPrevious = (slide3 - 1);
+					newNext = 0;
+					oldNext = 1;
+				}
+			// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+				// Based on the current slide, reset to default classes.
+				items3[oldPrevious].className = itemClassName3;
+				items3[oldNext].className = itemClassName3;
+
+				// Add the new classes
+				items3[newPrevious].className = itemClassName3 + " prev";
+				items3[slide3].className = itemClassName3 + " active";
+				items3[newNext].className = itemClassName3 + " next";
+			}
+		}
+	}
+
+	// Next navigation handler
+	function moveNext3() {
+		// Check if moving
+		if (!moving3) {
+			// If it's the last slide, reset to 0, else +1
+			if (slide3 === (totalItems3 - 1)) {
+				slide3 = 0;
+			} else {
+				slide3++;
+			}
+			// Move carousel to updated slide
+			moveCarouselTo3(slide3);
+		}
+	}
+
+	// Previous navigation handler
+	function movePrev3() {
+		// Check if moving
+		if (!moving3) {
+			// If it's the first slide, set as the last slide, else -1
+			if (slide3 === 0) {
+				slide3 = (totalItems3 - 1);
+			} else {
+				slide3--;
+			}
+			// Move carousel to updated slide
+			moveCarouselTo3(slide3);
+		}
+	}
+
+	// Initialise carousel
+	function initCarousel3() {
+		setInitialClasses3();
+		setEventListeners3();
+		// Set moving to false now that the carousel is ready
+		moving3 = false;
+	}
+	// make it rain
+	initCarousel3();
+
+}(document));
 </script>
 </cfoutput> 
 
