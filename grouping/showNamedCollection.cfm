@@ -456,8 +456,11 @@ limitations under the License.
 											<div class="carousel1" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
-												<img class="carousel__photo1 <cfif #i# eq 1>active</cfif>" src="#agentImagesForCarousel['media_uri'][i]#">
-												<!---<p>#agentImagesforCarousel['alt'][i]#</p>--->
+									<!---			<img class="carousel__photo1 <cfif #i# eq 1>active</cfif>" src="#agentImagesForCarousel['media_uri'][i]#">--->
+												<div class="carousel__photo1 <cfif #i# eq 1>active</cfif>">
+													<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100">
+													<p>#agentImagesForCarousel['alt'][i]#</p>
+												</div>
 												<cfset i=i+1>
 											</cfloop>
 												<div class="carousel__button1--next"></div>
