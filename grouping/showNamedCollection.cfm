@@ -1116,13 +1116,13 @@ function moveNext() {
 				oldNext = slide2 + 2;
 
 			// Test if carousel has more than three items
-			if ((totalItems2 - 1) > 3) {
+			if ((totalItems2 - 1) >= 2) {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
 					oldPrevious = (totalItems2 - 1);
 				} else if (newNext >= (totalItems2 - 1)){
-					oldNext = 0;
+					oldNext = 1; //change from 0
 				}
 
 				// Check if current slide is at the beginning or end and sets slide numbers
@@ -1238,13 +1238,13 @@ function moveNext() {
 				oldNext = slide3 + 2;
 			
 			// Test if carousel has more than three items
-			if ((totalItems3 - 1) > 3) {
+			if ((totalItems3 - 1) >= 2) {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
 					oldPrevious = (totalItems3 - 1);
 				} else if (newNext >= (totalItems3 - 1)){
-					oldNext = 0;
+					oldNext = 1;//changed from 0
 				}
 
 				// Check if current slide is at the beginning or end and sets slide numbers
