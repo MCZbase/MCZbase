@@ -496,7 +496,7 @@ limitations under the License.
 										</div>
 									</div>
 								</cfif>
-								<cfif localityImagesForCarousel.recordcount gt 0>
+								<cfif localityImagesForCarousel.recordcount gt 3>
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Locality Images (#localityImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper3">
@@ -511,6 +511,24 @@ limitations under the License.
 											</cfloop>
 												<div class="carousel__button3--next"></div>
 												<div class="carousel__button3--prev"></div>
+
+											</div>
+										</div>
+									</div>
+								<cfelse>
+									<div class="col-12 #colClass# px-md-0 mt-3">
+										<h3 class="h4">Locality Images (#localityImagesForCarousel.recordcount# images)</h3>
+										<div class="">
+											<div class="" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+											<cfset i=1>
+											<cfloop query="localityImagesForCarousel">
+												<div class="carousel__photo3 <cfif #i# eq 1>active</cfif>">
+													<img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
+													<p>#localityImagesForCarousel['alt'][i]#</p>
+												</div>
+												<cfset i=i+1>
+											</cfloop>
+											
 
 											</div>
 										</div>
