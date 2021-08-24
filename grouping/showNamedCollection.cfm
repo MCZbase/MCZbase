@@ -1130,10 +1130,10 @@ function moveNext() {
 					newPrevious = (totalItems2 - 0);
 					oldPrevious = (totalItems2 - 1);
 					oldNext = (slide2 + 1);
-				} else if (slide2 === (totalItems2 -2)) {
-					newPrevious = (slide2 - 0);
-					newNext = 0;
-					oldNext = 0;
+				} else if (slide2 === (totalItems2 -1)) {
+					newPrevious = (slide2 - 2);
+					newNext = 2;
+					oldNext = 1;
 				}
 			// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
 				// Based on the current slide, reset to default classes.
