@@ -459,7 +459,7 @@ limitations under the License.
 								</cfdefaultcase>
 							</cfswitch>
 							<div class="row">
-								<div class="col-12">
+								<div class="col-12 px-2">
 								<cfif agentImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
 								<cfif agentImagesForCarousel.recordcount gt 2>
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
