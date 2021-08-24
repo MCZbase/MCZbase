@@ -69,6 +69,10 @@ limitations under the License.
 	z-index: 100;
 	transition: transform .5s, opacity .5s, z-index .5s;
 }
+.carousel_background {
+	background-color: ##f8f9fa;
+	border:1px solid ##e8e8e8;
+}
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
 .carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,.carousel__photo3.initial,
 .carousel__photo.active,.carousel__photo1.active,.carousel__photo2.active,.carousel__photo3.active {
@@ -417,7 +421,7 @@ limitations under the License.
 								<div class="col-12 px-md-3">
 								<h3 class="h4">Specimen Images (#specimenImagesForCarousel.recordcount# images)</h3>
 									<div class="carousel-wrapper">
-										<div class="carousel" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+										<div class="carousel carousel_background">
 										<cfset i=1>
 										<cfloop query="specimenImagesForCarousel">
 										<!---	<img class="carousel__photo <cfif #i# eq 1>active</cfif>" src="#specimenImagesforCarousel['media_uri'][i]#">--->
@@ -460,7 +464,7 @@ limitations under the License.
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 										<h3 class="h4">Agent (#agentImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper1">
-											<div class="carousel1" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+											<div class="carousel1 carousel_background">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 												<div class="carousel__photo1 <cfif #i# eq 1>active initial</cfif>">
@@ -478,12 +482,12 @@ limitations under the License.
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Agent (#agentImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper1">
-											<div class="carousel1" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+											<div class="carousel1 carousel_background">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
-												<div class="px-4 py-2 <cfif #i# eq 1>active initial</cfif>">
-													<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 mt-2 <cfif #i# eq 1>active</cfif>">
+												<div class="px-4 py-3 <cfif #i# eq 1>active initial</cfif>">
+													<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
 													<p>#agentImagesForCarousel['alt'][i]#</p>
 												</div>
 												<cfset i=i+1>
@@ -499,7 +503,7 @@ limitations under the License.
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Collecting Event (#collectingImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper2">
-											<div class="carousel2" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+											<div class="carousel2 carousel_background">
 											<cfset i=1>
 											<cfloop query="collectingImagesForCarousel">
 											<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
@@ -518,12 +522,12 @@ limitations under the License.
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Collecting Event (#collectingImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper2">
-											<div class="carousel2" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+											<div class="carousel2 carousel_background">
 											<cfset i=1>
 											<cfloop query="collectingImagesForCarousel">
 											<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
-												<div class="px-4 py-2 <cfif #i# eq 1>active initial</cfif>">
-													<img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 mt-2 <cfif #i# eq 1>active</cfif>">
+												<div class="px-4 py-3 <cfif #i# eq 1>active initial</cfif>">
+													<img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
 													<p>#collectingImagesForCarousel['alt'][i]#</p>
 												</div>
 												<cfset i=i+1>
@@ -539,7 +543,7 @@ limitations under the License.
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Locality (#localityImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper3">
-											<div class="carousel3" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+											<div class="carousel3 carousel_background">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 												<div class="carousel__photo3 <cfif #i# eq 1>active</cfif>">
@@ -557,11 +561,11 @@ limitations under the License.
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Locality (#localityImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper3">
-											<div class="carousel3" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+											<div class="carousel3 carousel_background">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
-												<div class="px-4 py-2 <cfif #i# eq 1>active</cfif>">
-													<img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 mt-2 <cfif #i# eq 1>active</cfif>">
+												<div class="px-4 py-3 <cfif #i# eq 1>active</cfif>">
+													<img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
 													<p>#localityImagesForCarousel['alt'][i]#</p>
 												</div>
 												<cfset i=i+1>
