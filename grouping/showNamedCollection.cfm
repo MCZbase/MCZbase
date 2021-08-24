@@ -1120,9 +1120,9 @@ function moveNext() {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
-					oldPrevious = (totalItems2 - 1);
-				} else if (newNext >= (totalItems2 - 1)){
-					oldNext = 0; 
+					oldPrevious = (totalItems2 - 2);
+				} else if (newNext >= (totalItems2 - 0)){
+					oldNext = 1; 
 				}
 
 				// Check if current slide is at the beginning or end and sets slide numbers
