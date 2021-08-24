@@ -105,10 +105,10 @@ limitations under the License.
 /*  opacity: 0;  Hide buttons until carousel is initialised transition:opacity 1s;*/
 }
 .carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev,.carousel__button3--prev {
-	left:9px;/*changed from 15 to 9*/
+	left:4px;/*changed from 15 to 9*/
 }
 .carousel__button--next,.carousel__button1--next,.carousel__button2--next,.carousel__button3--next {
-	right:0;
+	right:-4px;
 }
 /* Use pseudo elements to insert arrows inside of navigation buttons */
 .carousel__button--prev::after,.carousel__button1--prev::after,.carousel__button2--prev::after,.carousel__button3--prev::after,
