@@ -470,7 +470,8 @@ limitations under the License.
 											<cfloop query="agentImagesForCarousel">
 												<div class="carousel__photo1 <cfif #i# eq 1>active initial</cfif>">
 													<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100">
-													<p>#agentImagesForCarousel['alt'][i]#</p>
+													<p>#agentImagesForCarousel['alt'][i]#<br>
+													<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
