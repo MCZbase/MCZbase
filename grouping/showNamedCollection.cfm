@@ -428,7 +428,9 @@ limitations under the License.
 										<!---	<img class="carousel__photo <cfif #i# eq 1>active</cfif>" src="#specimenImagesforCarousel['media_uri'][i]#">--->
 												<div class="carousel__photo border <cfif #i# eq 1>active</cfif>">
 													<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
-													<p>#specimenImagesForCarousel['alt'][i]#</p>
+													<p>#specimenImagesForCarousel['alt'][i]#
+													<br>
+													<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 												</div>
 											<cfset i=i+1>
 										</cfloop>
@@ -470,7 +472,8 @@ limitations under the License.
 											<cfloop query="agentImagesForCarousel">
 												<div class="carousel__photo1 border <cfif #i# eq 1>active initial</cfif>">
 													<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100">
-													<p>#agentImagesForCarousel['alt'][i]#<br>
+													<p>#agentImagesForCarousel['alt'][i]#
+													<br>
 													<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 												</div>
 												<cfset i=i+1>
@@ -490,7 +493,9 @@ limitations under the License.
 											<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
 												<div class="px-4 py-3 border <cfif #i# eq 1>active initial</cfif>">
 													<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
-													<p>#agentImagesForCarousel['alt'][i]#</p>
+													<p>#agentImagesForCarousel['alt'][i]#
+													<br>
+													<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
@@ -511,7 +516,9 @@ limitations under the License.
 											<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
 												<div class="carousel__photo2 border <cfif #i# eq 1>active initial</cfif>">
 													<img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
-													<p>#collectingImagesForCarousel['alt'][i]#</p>
+													<p>#collectingImagesForCarousel['alt'][i]#
+													<br>
+													<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
@@ -530,7 +537,9 @@ limitations under the License.
 											<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
 												<div class="px-4 py-3 border <cfif #i# eq 1>active initial</cfif>">
 													<img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
-													<p>#collectingImagesForCarousel['alt'][i]#</p>
+													<p>#collectingImagesForCarousel['alt'][i]#
+													<br>
+													<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
@@ -550,7 +559,9 @@ limitations under the License.
 											<cfloop query="localityImagesForCarousel">
 												<div class="carousel__photo3 border <cfif #i# eq 1>active</cfif>">
 													<img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
-													<p>#localityImagesForCarousel['alt'][i]#</p>
+													<p>#localityImagesForCarousel['alt'][i]#
+													<br>
+													<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
@@ -568,7 +579,9 @@ limitations under the License.
 											<cfloop query="localityImagesForCarousel">
 												<div class="px-4 py-3 border <cfif #i# eq 1>active</cfif>">
 													<img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
-													<p>#localityImagesForCarousel['alt'][i]#</p>
+													<p>#localityImagesForCarousel['alt'][i]#
+													<br>
+													<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
