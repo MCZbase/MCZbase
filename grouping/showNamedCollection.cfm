@@ -849,7 +849,7 @@ limitations under the License.
 
 		// Target the last, initial, and next items and give them the relevant class.
 		// This assumes there are three or more items.
-		items[totalItems - 1].classList.add("prev");
+		if (totalItems===2) {items[totalItems - 1].classList.add("");} else {items[totalItems - 1].classList.add("prev");};
 		items[0].classList.add("active");
 		items[1].classList.add("next");
 	}
