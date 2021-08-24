@@ -291,7 +291,7 @@ limitations under the License.
 						</div>
 						<!---end specimen grid--->
 					</div>
-
+						<cfset otherImageTypes = 0>
 						<!--- obtain a random set of specimen images, limited to a small number --->
 						<cfif specimenImgs.media_uri gt 0>
 							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
@@ -409,7 +409,7 @@ limitations under the License.
 						<div class="col-12 col-md-6 float-left">
 							<cfset leftHandColumnOn = true>
 							<cfset hasSpecImages = false>
-							<cfset otherImageTypes = 0>
+						
 							<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
@@ -436,29 +436,29 @@ limitations under the License.
 							</div>
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
 							<cfswitch expression="#otherImageTypes#">
-									<cfcase value="1">
-										<cfset colClass = "col-md-6 float-none">
-										<cfset imgWidth = 600>
-										
-									</cfcase>
-									<cfcase value="2">
-										<cfset colClass = "col-md-6 float-left">
-										<cfset imgWidth = 400>
-									</cfcase>
-									<cfcase value="3">
-										<cfset colClass = "col-md-4 float-left">
-										<cfset imgWidth = 300>
-									</cfcase>
-									<cfdefaultcase>
-										<cfset colClass = "col-md-3 float-left">
-									</cfdefaultcase>
-								</cfswitch>
+								<cfcase value="1">
+									<cfset colClass = "col-md-6 float-none">
+									<cfset imgWidth = 600>
+
+								</cfcase>
+								<cfcase value="2">
+									<cfset colClass = "col-md-6 float-left">
+									<cfset imgWidth = 400>
+								</cfcase>
+								<cfcase value="3">
+									<cfset colClass = "col-md-4 float-left">
+									<cfset imgWidth = 300>
+								</cfcase>
+								<cfdefaultcase>
+									<cfset colClass = "col-md-3 float-left">
+								</cfdefaultcase>
+							</cfswitch>
 							<div class="row">
 								<div class="col-12">
 								<cfif agentImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
 								<cfif agentImagesForCarousel.recordcount gt 2>
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
-										<h3 class="h4">Agent Images (#agentImagesForCarousel.recordcount# images)</h3>
+										<h3 class="h4">Agent (#agentImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper1">
 											<div class="carousel1" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
