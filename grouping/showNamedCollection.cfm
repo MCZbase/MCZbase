@@ -1110,13 +1110,13 @@ function moveNext() {
 			// temporarily disable interactivity
 			disableInteraction2();
 			// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
-			var newPrevious = slide2 - 1,// minimum = 2-1 =1
-				newNext = slide2 + 1, // minimum = 2 + 1 = 3
-				oldPrevious = slide2 - 2, // minimum = 2-1 = -1
-				oldNext = slide2 + 2; // minimum = 2+2 = 4
+			var newPrevious = slide2 - 1,
+				newNext = slide2 + 1, 
+				oldPrevious = slide2 - 2, 
+				oldNext = slide2 + 2; 
 
 			// Test if carousel has more than one item
-			if ((totalItems2 - 1) > 1) {
+			if ((totalItems2 - 1) > 2) {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious = 0) {
