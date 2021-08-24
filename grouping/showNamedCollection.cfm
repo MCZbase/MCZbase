@@ -849,7 +849,7 @@ limitations under the License.
 
 		// Target the last, initial, and next items and give them the relevant class.
 		// This assumes there are three or more items.
-		if (totalItems===2) {items[totalItems - 1].classList.add("");} else {items[totalItems - 1].classList.add("prev");};
+		items[totalItems - 1].classList.add("prev");
 		items[0].classList.add("active");
 		items[1].classList.add("next");
 	}
@@ -1101,7 +1101,7 @@ function moveNext() {
 	function setInitialClasses2() {
 		// Target the last, initial, and next items and give them the relevant class.
 		// This assumes there are three or more items.
-		items2[totalItems2 - 1].classList.add("prev");
+		if (totalItems2===2) {items2[2].classList.add("");} else {items2[totalItems2 - 1].classList.add("prev");};
 		items2[0].classList.add("active");
 		items2[1].classList.add("next");
 	}
