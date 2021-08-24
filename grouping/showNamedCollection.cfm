@@ -419,7 +419,7 @@ limitations under the License.
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
 								<cfset hasSpecImages = true>
-								<div class="col-12 px-md-2">
+								<div class="col-12 px-xl-2">
 								<h3 class="h4 px-2">Specimen Images (#specimenImagesForCarousel.recordcount# images)</h3>
 									<div class="carousel-wrapper">
 										<div class="carousel carousel_background">
