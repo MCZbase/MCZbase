@@ -205,6 +205,7 @@ limitations under the License.
 							<cfif specimenImgs.recordcount GT 0>
 								<cfset hasSpecImages = true>
 								<cfset specimenImgsCt = specimenImgs.recordcount>
+								<cfset otherimagetypes = 0>
 							</cfif>
 							<script type="text/javascript">
 								var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
