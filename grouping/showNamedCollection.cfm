@@ -522,7 +522,7 @@ limitations under the License.
 											<div class="carousel3" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
-												<div class="carousel__photo3 <cfif #i# eq 1>active</cfif>">
+												<div class=" <cfif #i# eq 1>active</cfif>">
 													<img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
 													<p>#localityImagesForCarousel['alt'][i]#</p>
 												</div>
