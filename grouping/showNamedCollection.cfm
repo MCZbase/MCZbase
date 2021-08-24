@@ -523,7 +523,7 @@ limitations under the License.
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 												<div class="px-5 py-2 <cfif #i# eq 1>active</cfif>">
-													<img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
+													<img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 mt-1 <cfif #i# eq 1>active</cfif>">
 													<p>#localityImagesForCarousel['alt'][i]#</p>
 												</div>
 												<cfset i=i+1>
