@@ -160,7 +160,7 @@ limitations under the License.
 		<main class="container-fluid py-3">
 			<div class="row mx-0">
 				<article class="w-100">
-					<div class="col-12">
+					<div class="col-12 px-0">
 						<div class="row mx-0">
 							<div class="col-12 border-dark mt-4">
 								<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name# 
