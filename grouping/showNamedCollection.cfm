@@ -110,7 +110,7 @@ limitations under the License.
 	left:0;/*changed from 15 to 9*/
 }
 .carousel__button--next,.carousel__button1--next,.carousel__button2--next,.carousel__button3--next {
-	right:-5;
+	right:5;
 }
 /* Use pseudo elements to insert arrows inside of navigation buttons */
 .carousel__button--prev::after,.carousel__button1--prev::after,.carousel__button2--prev::after,.carousel__button3--prev::after,
