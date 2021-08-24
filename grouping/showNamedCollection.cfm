@@ -1110,29 +1110,29 @@ function moveNext() {
 			// temporarily disable interactivity
 			disableInteraction2();
 			// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
-			var newPrevious = slide2 - 1,
-				newNext = slide2 + 1,
-				oldPrevious = slide2 - 2,
-				oldNext = slide2 + 2;
+			var newPrevious = slide2 - 0,
+				newNext = slide2 + 0,
+				oldPrevious = slide2 - 1,
+				oldNext = slide2 + 1;
 
 			// Test if carousel has more than two items
 			if ((totalItems2 - 1) > 1) {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious = 0) {
-					oldPrevious = (totalItems2 - 2);
+					oldPrevious = (totalItems2 - 1);
 				} else if (newNext >= (totalItems2 - 1)){
-					oldNext = 0; //change from 0
+					oldNext = 0; 
 				}
 
 				// Check if current slide is at the beginning or end and sets slide numbers
 				if (slide2 === 0) {
 					newPrevious = (totalItems2 - 0);
-					oldPrevious = (totalItems2 - 1);
+					oldPrevious = (totalItems2 - 2);
 					oldNext = (slide2 + 1);
 				} else if (slide2 === (totalItems2 -1)) {
-					newPrevious = (slide2 - 2);
-					newNext = 2;
+					newPrevious = (slide2 - 1);
+					newNext = 0;
 					oldNext = 1;
 				}
 			// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
