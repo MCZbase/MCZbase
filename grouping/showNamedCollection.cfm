@@ -437,7 +437,7 @@ limitations under the License.
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
 							<cfswitch expression="#otherImageTypes#">
 								<cfcase value="1">
-									<cfset colClass = "col-md-6 float-none">
+									<cfset colClass = "col-md-6 mx-auto float-none">
 									<cfset imgWidth = 600>
 
 								</cfcase>
@@ -514,8 +514,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-								</cfif>
-								<cfif collectingImagesForCarousel.recordcount eq 1>
+								<cfelseif collectingImagesForCarousel.recordcount eq 1>
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Collecting Event (#collectingImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper2">
@@ -532,9 +531,11 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+								<cfelse>
+								<!---no images--->
 								</cfif>
 								<cfif localityImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
-								<cfif localityImagesForCarousel.recordcount gt 3>
+								<cfif localityImagesForCarousel.recordcount gt 2>
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Locality (#localityImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper3">
@@ -552,7 +553,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-								<cfelse>
+								<cfelseif localityImagesForCarousel.recordcount eq 1>
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Locality (#localityImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper3">
@@ -568,6 +569,8 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+								<cfelse>
+								<!---no images--->
 								</cfif>
 								</div>
 							</div>
