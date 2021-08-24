@@ -476,7 +476,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<cfif collectingImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
-								<cfif collectingImagesForCarousel.recordcount gt 1>
+								<cfif collectingImagesForCarousel.recordcount gt 2>
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Collecting Event (#collectingImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper2">
@@ -1081,11 +1081,9 @@ function moveNext() {
 	function setInitialClasses2() {
 		// Target the last, initial, and next items and give them the relevant class.
 		// This assumes there are three or more items.
-	
-		items2[totalItems2 - 0].classList.add("prev");
+		items2[totalItems2 - 1].classList.add("prev");
 		items2[0].classList.add("active");
 		items2[1].classList.add("next");
-
 	}
 
 	// Set click events to navigation buttons
