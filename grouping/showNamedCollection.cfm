@@ -476,7 +476,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<cfif collectingImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
-								<cfif collectingImagesForCarousel.recordcount gt 2>
+								<cfif collectingImagesForCarousel.recordcount gt 1>
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Collecting Event (#collectingImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper2">
@@ -868,7 +868,7 @@ if(!moving) {
 		oldNext = slide + 2;
 
 		// Test if carousel has more than three items
-		if ((totalItems - 1) > 2) {
+		if ((totalItems - 1) > 1) {
 
 			// Checks if the new potential slide is out of bounds and sets slide numbers
 			if (newPrevious <= 0) {
@@ -995,7 +995,7 @@ function moveNext() {
 				oldPrevious = slide1 - 2,
 				oldNext = slide1 + 2;
 			// Test if carousel has more than three items
-			if ((totalItems1 - 1) > 2) {
+			if ((totalItems1 - 1) >= 3) {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
@@ -1081,8 +1081,8 @@ function moveNext() {
 	function setInitialClasses2() {
 		// Target the last, initial, and next items and give them the relevant class.
 		// This assumes there are three or more items.
-
-		items2[totalItems2 - 1].classList.add("prev");
+	
+		items2[totalItems2 - 0].classList.add("prev");
 		items2[0].classList.add("active");
 		items2[1].classList.add("next");
 
@@ -1118,7 +1118,7 @@ function moveNext() {
 				oldNext = slide2 + 2; 
 
 			// Test if carousel has more than one item
-			if ((totalItems2 - 1) > 2) {
+			if ((totalItems2 - 1) > 1) {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious = 0) {
@@ -1241,7 +1241,7 @@ function moveNext() {
 				oldNext = slide3 + 2;
 			
 			// Test if carousel has more than three items
-			if ((totalItems3 - 1) > 2) {
+			if ((totalItems3 - 1) > 1) {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
