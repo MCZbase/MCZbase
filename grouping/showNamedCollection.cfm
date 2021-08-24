@@ -1082,6 +1082,7 @@ function moveNext() {
 		// Target the last, initial, and next items and give them the relevant class.
 		// This assumes there are three or more items.
 		if (totalItems2 === 2) {
+		items2[totalItems2 - 0].classList.add("prev");
 		items2[0].classList.add("active");
 		items2[1].classList.add("next");
 		} else if (totalItems2 > 2) {
