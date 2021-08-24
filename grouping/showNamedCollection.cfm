@@ -411,7 +411,7 @@ limitations under the License.
 						<cfoutput>
 					<div class="row mx-3 mt-3">
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
-						<div class="col-12 col-md-6 float-left">
+						<div class="col-12 col-md-6 px-0 px-xl-2 float-left">
 							<cfset leftHandColumnOn = true>
 							<cfset hasSpecImages = false>
 						
