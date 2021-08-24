@@ -68,9 +68,7 @@ limitations under the License.
 	padding: 1rem 2rem;/*changed to 2 from 4*/
 	z-index: 100;
 	transition: transform .5s, opacity .5s, z-index .5s;
-	background-color: ##f8f9fa;border:1px solid ##e8e8e8;
 }
-
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
 .carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,.carousel__photo3.initial,
 .carousel__photo.active,.carousel__photo1.active,.carousel__photo2.active,.carousel__photo3.active {
@@ -107,10 +105,10 @@ limitations under the License.
 /*  opacity: 0;  Hide buttons until carousel is initialised transition:opacity 1s;*/
 }
 .carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev,.carousel__button3--prev {
-	left:0;/*changed from 15 to 9*/
+	left:9px;/*changed from 15 to 9*/
 }
 .carousel__button--next,.carousel__button1--next,.carousel__button2--next,.carousel__button3--next {
-	right:5;
+	right:0;
 }
 /* Use pseudo elements to insert arrows inside of navigation buttons */
 .carousel__button--prev::after,.carousel__button1--prev::after,.carousel__button2--prev::after,.carousel__button3--prev::after,
@@ -419,7 +417,7 @@ limitations under the License.
 								<div class="col-12 px-md-3">
 								<h3 class="h4">Specimen Images (#specimenImagesForCarousel.recordcount# images)</h3>
 									<div class="carousel-wrapper">
-										<div class="carousel">
+										<div class="carousel" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 										<cfset i=1>
 										<cfloop query="specimenImagesForCarousel">
 										<!---	<img class="carousel__photo <cfif #i# eq 1>active</cfif>" src="#specimenImagesforCarousel['media_uri'][i]#">--->
