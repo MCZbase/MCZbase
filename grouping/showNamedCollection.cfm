@@ -157,7 +157,7 @@ limitations under the License.
 			<!--- mask_fg = 1 = Hidden --->
 			<cflocation url="/errors/forbidden.cfm" addtoken="false">
 		</cfif> 
-		<main class="container-fluid py-3">
+		<main class="py-3">
 			<div class="row mx-0">
 				<article class="w-100">
 					<div class="col-12">
