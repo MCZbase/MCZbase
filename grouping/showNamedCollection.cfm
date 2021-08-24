@@ -1110,8 +1110,8 @@ function moveNext() {
 			// temporarily disable interactivity
 			disableInteraction2();
 			// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
-			var newPrevious = slide2 - 0,
-				newNext = slide2 + 0,
+			var newPrevious = slide2 - 2,
+				newNext = slide2 + 2,
 				oldPrevious = slide2 - 1,
 				oldNext = slide2 + 1;
 
