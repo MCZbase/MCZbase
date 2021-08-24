@@ -1126,12 +1126,12 @@ function moveNext() {
 				}
 
 				// Check if current slide is at the beginning or end and sets slide numbers
-				if (slide === 0) {
-					newPrevious = (totalItems - 1);
-					oldPrevious = (totalItems - 2);
+				if (slide2 === 0) {
+					newPrevious = (totalItems2 - 1);
+					oldPrevious = (totalItems2 - 2);
 					oldNext = (slide + 1);
-				} else if (slide === (totalItems -1)) {
-					newPrevious = (slide - 1);
+				} else if (slide2 === (totalItems2 -1)) {
+					newPrevious = (slide2 - 1);
 					newNext = 0;
 					oldNext = 1;
 				}
