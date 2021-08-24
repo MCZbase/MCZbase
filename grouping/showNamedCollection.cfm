@@ -419,7 +419,7 @@ limitations under the License.
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
 								<cfset hasSpecImages = true>
-								<div class="col-12 px-md-1">
+								<div class="col-12 px-md-2">
 								<h3 class="h4 px-2">Specimen Images (#specimenImagesForCarousel.recordcount# images)</h3>
 									<div class="carousel-wrapper">
 										<div class="carousel carousel_background">
@@ -463,7 +463,7 @@ limitations under the License.
 								<cfif agentImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
 								<cfif agentImagesForCarousel.recordcount gt 2>
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
-										<h3 class="h4">Agent (#agentImagesForCarousel.recordcount# images)</h3>
+										<h3 class="h4 px-2">Agent (#agentImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper1">
 											<div class="carousel1 carousel_background">
 											<cfset i=1>
@@ -481,7 +481,7 @@ limitations under the License.
 									</div>
 								<cfelseif agentImagesForCarousel.recordcount eq 1>
 									<div class="col-12 #colClass# px-md-0 mt-3">
-										<h3 class="h4">Agent (#agentImagesForCarousel.recordcount# #imagePlural#)</h3>
+										<h3 class="h4 px-2">Agent (#agentImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper1">
 											<div class="carousel1 carousel_background">
 											<cfset i=1>
@@ -502,7 +502,7 @@ limitations under the License.
 								<cfif collectingImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
 								<cfif collectingImagesForCarousel.recordcount gt 2>
 									<div class="col-12 #colClass# px-md-0 mt-3">
-										<h3 class="h4">Collecting Event (#collectingImagesForCarousel.recordcount# #imagePlural#)</h3>
+										<h3 class="h4 px-2">Collecting Event (#collectingImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper2">
 											<div class="carousel2 carousel_background">
 											<cfset i=1>
@@ -521,7 +521,7 @@ limitations under the License.
 									</div>
 								<cfelseif collectingImagesForCarousel.recordcount eq 1>
 									<div class="col-12 #colClass# px-md-0 mt-3">
-										<h3 class="h4">Collecting Event (#collectingImagesForCarousel.recordcount# #imagePlural#)</h3>
+										<h3 class="h4 px-2">Collecting Event (#collectingImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper2">
 											<div class="carousel2 carousel_background">
 											<cfset i=1>
@@ -542,7 +542,7 @@ limitations under the License.
 								<cfif localityImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
 								<cfif localityImagesForCarousel.recordcount gt 2>
 									<div class="col-12 #colClass# px-md-0 mt-3">
-										<h3 class="h4">Locality (#localityImagesForCarousel.recordcount# #imagePlural#)</h3>
+										<h3 class="h4 px-2">Locality (#localityImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper3">
 											<div class="carousel3 carousel_background">
 											<cfset i=1>
@@ -560,7 +560,7 @@ limitations under the License.
 									</div>
 								<cfelseif localityImagesForCarousel.recordcount eq 1>
 									<div class="col-12 #colClass# px-md-0 mt-3">
-										<h3 class="h4">Locality (#localityImagesForCarousel.recordcount# #imagePlural#)</h3>
+										<h3 class="h4 px-2">Locality (#localityImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper3">
 											<div class="carousel3 carousel_background">
 											<cfset i=1>
