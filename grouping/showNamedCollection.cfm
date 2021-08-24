@@ -482,7 +482,7 @@ limitations under the License.
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
-												<div class="px-5 py-2 <cfif #i# eq 1>active initial</cfif>">
+												<div class="px-4 py-2 <cfif #i# eq 1>active initial</cfif>">
 													<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 mt-2 <cfif #i# eq 1>active</cfif>">
 													<p>#agentImagesForCarousel['alt'][i]#</p>
 												</div>
@@ -522,7 +522,7 @@ limitations under the License.
 											<cfset i=1>
 											<cfloop query="collectingImagesForCarousel">
 											<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
-												<div class="px-5 py-2 <cfif #i# eq 1>active initial</cfif>">
+												<div class="px-4 py-2 <cfif #i# eq 1>active initial</cfif>">
 													<img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 mt-2 <cfif #i# eq 1>active</cfif>">
 													<p>#collectingImagesForCarousel['alt'][i]#</p>
 												</div>
@@ -560,7 +560,7 @@ limitations under the License.
 											<div class="carousel3" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
-												<div class="px-5 py-2 <cfif #i# eq 1>active</cfif>">
+												<div class="px-4 py-2 <cfif #i# eq 1>active</cfif>">
 													<img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 mt-2 <cfif #i# eq 1>active</cfif>">
 													<p>#localityImagesForCarousel['alt'][i]#</p>
 												</div>
