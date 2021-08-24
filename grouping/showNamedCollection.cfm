@@ -1116,7 +1116,7 @@ function moveNext() {
 				oldNext = slide2 + 2; 
 
 			// Test if carousel has more than one item
-			if ((totalItems2 - 1) > 1) {
+			if ((totalItems2 - 1) > 3) {
 
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
@@ -1128,12 +1128,12 @@ function moveNext() {
 				// Check if current slide is at the beginning or end and sets slide numbers
 				if (slide2 === 0) {
 					newPrevious = (totalItems2 - 0);
-					oldPrevious = (totalItems2 - 2);
-					oldNext = (slide2 + 1);
+					oldPrevious = (totalItems2 - 1);
+					oldNext = (slide2 - 1);
 				} else if (slide2 === (totalItems2 -1)) {
-					newPrevious = (slide2 - 1);
-					newNext = 0;
-					oldNext = 1;
+					newPrevious = (slide2 - 2);
+					newNext = 2;
+					oldNext = 0;
 				} 
 			// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
 				// Based on the current slide, reset to default classes.
