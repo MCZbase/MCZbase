@@ -316,7 +316,7 @@ limitations under the License.
 								) 
 								WHERE   Rownum  <= 26
 							</cfquery>
-							<cfif specimenImgs.recordcount GT 0>
+							<cfif specimenImgs.recordcount GT 1>
 								<cfset hasSpecImages = true>
 							</cfif>
 							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
@@ -453,16 +453,15 @@ limitations under the License.
 								</cfswitch>
 							<div class="row">
 								<div class="col-12">
-								<cfif agentImagesForCarousel.recordcount gt 0>
+								<cfif agentImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
+								<cfif agentImagesForCarousel.recordcount gt 2>
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 										<h3 class="h4">Agent Images (#agentImagesForCarousel.recordcount# images)</h3>
 										<div class="carousel-wrapper1">
-											
 											<div class="carousel1" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
-									<!---			<img class="carousel__photo1 <cfif #i# eq 1>active</cfif>" src="#agentImagesForCarousel['media_uri'][i]#">--->
-												<div class="carousel__photo1 <cfif #i# eq 1>active</cfif>">
+												<div class="carousel__photo1 <cfif #i# eq 1>active initial</cfif>">
 													<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100">
 													<p>#agentImagesForCarousel['alt'][i]#</p>
 												</div>
@@ -470,10 +469,28 @@ limitations under the License.
 											</cfloop>
 												<div class="carousel__button1--next"></div>
 												<div class="carousel__button1--prev"></div>
-
 											</div>
 										</div>
 									</div>
+								</cfif>
+								<cfif agentImagesForCarousel.recordcount eq 1>
+									<div class="col-12 #colClass# px-md-0 mt-3">
+										<h3 class="h4">Agent (#agentImagesForCarousel.recordcount# #imagePlural#)</h3>
+										<div class="carousel-wrapper1">
+											<div class="carousel1" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+											<cfset i=1>
+											<cfloop query="agentImagesForCarousel">
+											<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
+												<div class="px-5 py-2 <cfif #i# eq 1>active initial</cfif>">
+													<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 mt-2 <cfif #i# eq 1>active</cfif>">
+													<p>#agentImagesForCarousel['alt'][i]#</p>
+												</div>
+												<cfset i=i+1>
+											</cfloop>
+											</div>
+										</div>
+									</div>
+							
 								</cfif>
 								<cfif collectingImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
 								<cfif collectingImagesForCarousel.recordcount gt 2>
