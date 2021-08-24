@@ -496,7 +496,7 @@ limitations under the License.
 										</div>
 									</div>
 								</cfif>
-								<cfif localityImagesForCarousel.recordcount gte 2><cfset imagePlural = images><cfelse><cfset imagePlural = image></cfif>
+								<cfif localityImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
 								<cfif localityImagesForCarousel.recordcount gt 3>
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Locality Images (#localityImagesForCarousel.recordcount# #imagePlural#)</h3>
