@@ -1122,7 +1122,7 @@ function moveNext() {
 				if (newPrevious <= 0) {
 					oldPrevious = (totalItems2 - 1);
 				} else if (newNext >= (totalItems2 - 1)){
-					oldNext = 1; //change from 0
+					oldNext = 0; //change from 0
 				}
 
 				// Check if current slide is at the beginning or end and sets slide numbers
