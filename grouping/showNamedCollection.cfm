@@ -518,8 +518,8 @@ limitations under the License.
 								<cfelse>
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Locality Images (#localityImagesForCarousel.recordcount# images)</h3>
-										<div class="">
-											<div class="" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
+										<div class="carousel-wrapper3">
+											<div class="carousel3" style="background-color: ##f8f9fa;border:1px solid ##e8e8e8;">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 												<div class="carousel__photo3 <cfif #i# eq 1>active</cfif>">
