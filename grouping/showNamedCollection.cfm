@@ -72,6 +72,7 @@ limitations under the License.
 .carousel_background {
 	background-color: ##f8f9fa;
 	border:1px solid ##e8e8e8;
+	border: .5rem solid ##fff;
 }
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
 .carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,.carousel__photo3.initial,
@@ -418,8 +419,8 @@ limitations under the License.
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
 								<cfset hasSpecImages = true>
-								<div class="col-12 px-md-3">
-								<h3 class="h4">Specimen Images (#specimenImagesForCarousel.recordcount# images)</h3>
+								<div class="col-12 px-md-1">
+								<h3 class="h4 px-2">Specimen Images (#specimenImagesForCarousel.recordcount# images)</h3>
 									<div class="carousel-wrapper">
 										<div class="carousel carousel_background">
 										<cfset i=1>
