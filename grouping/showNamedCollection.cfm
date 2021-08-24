@@ -453,11 +453,11 @@ limitations under the License.
 									<cfset imgWidth = 400>
 								</cfcase>
 								<cfcase value="3">
-									<cfset colClass = "col-md-12 col-lg-4 float-left">
+									<cfset colClass = "col-md-12 col-xl-4 float-left">
 									<cfset imgWidth = 300>
 								</cfcase>
 								<cfdefaultcase>
-									<cfset colClass = "col-md-12 col-lg-3 float-left">
+									<cfset colClass = "col-md-12 col-xl-3 float-left">
 								</cfdefaultcase>
 							</cfswitch>
 							<div class="row">
