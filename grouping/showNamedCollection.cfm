@@ -1126,15 +1126,15 @@ function moveNext() {
 				}
 
 				// Check if current slide is at the beginning or end and sets slide numbers
-				if (slide2 === 0) {
-					newPrevious = (totalItems2 - 0);
-					oldPrevious = (totalItems2 - 1);
-					oldNext = (slide2 - 1);
-				} else if (slide2 === (totalItems2 -1)) {
-					newPrevious = (slide2 - 2);
-					newNext = 2;
-					oldNext = 0;
-				} 
+				if (slide === 0) {
+					newPrevious = (totalItems - 1);
+					oldPrevious = (totalItems - 2);
+					oldNext = (slide + 1);
+				} else if (slide === (totalItems -1)) {
+					newPrevious = (slide - 1);
+					newNext = 0;
+					oldNext = 1;
+				}
 			// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
 				// Based on the current slide, reset to default classes.
 				items2[oldPrevious].className = itemClassName2;
