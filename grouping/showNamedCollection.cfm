@@ -472,8 +472,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-								</cfif>
-								<cfif agentImagesForCarousel.recordcount eq 1>
+								<cfelseif agentImagesForCarousel.recordcount eq 1>
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4">Agent (#agentImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper1">
@@ -490,7 +489,8 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-							
+							<cfelse>
+								None
 								</cfif>
 								<cfif collectingImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
 								<cfif collectingImagesForCarousel.recordcount gt 2>
