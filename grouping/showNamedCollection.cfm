@@ -290,11 +290,7 @@ limitations under the License.
 						</div>
 						<!---end specimen grid--->
 					</div>
-					<div class="row mx-3 mt-3">
-						<div class="col-12 col-md-6 float-left">
-							<cfset leftHandColumnOn = false>
-							<cfset hasSpecImages = false>
-							<cfset otherImageTypes = 0>
+
 						<!--- obtain a random set of specimen images, limited to a small number --->
 						<cfif specimenImgs.media_uri gt 0>
 							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
@@ -314,9 +310,9 @@ limitations under the License.
 									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
-								WHERE   Rownum  <= 26
+								WHERE   Rownum  < 26
 							</cfquery>
-							<cfif specimenImgs.recordcount GT 1>
+							<cfif specimenImgs.recordcount GT 0>
 								<cfset hasSpecImages = true>
 							</cfif>
 							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
@@ -342,7 +338,7 @@ limitations under the License.
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
-								WHERE Rownum <= 26
+								WHERE Rownum < 26
 							</cfquery>
 							<cfif agentImagesForCarousel.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
@@ -371,7 +367,7 @@ limitations under the License.
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
-								WHERE Rownum <= 26
+								WHERE Rownum < 26
 							</cfquery>
 							<cfif collectingImagesForCarousel.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
@@ -407,7 +403,12 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<cfoutput>
-						<cfif specimenImgs.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0>
+					<div class="row mx-3 mt-3">
+					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
+						<div class="col-12 col-md-6 float-left">
+							<cfset leftHandColumnOn = true>
+							<cfset hasSpecImages = false>
+							<cfset otherImageTypes = 0>
 							<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
@@ -489,8 +490,8 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-							<cfelse>
-								None
+								<cfelse>
+								<!---no images--->
 								</cfif>
 								<cfif collectingImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
 								<cfif collectingImagesForCarousel.recordcount gt 2>
@@ -572,9 +573,6 @@ limitations under the License.
 						</cfif>
 						</cfoutput>
 						
-				
-								
-								
 						<cfoutput>
 							<div id="mapper" class="col-12 px-0">
 								<h2 class="mt-4">Heat Map Example</h2>
@@ -644,6 +642,7 @@ limitations under the License.
 						</cfoutput>
 						
 						</div>
+					</cfif>
 						<div class="col mt-4 float-left">
 							<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 							<div class="my-2 py-3 border-bottom-black">
