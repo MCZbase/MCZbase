@@ -328,7 +328,7 @@ limitations under the License.
 							</cfif>
 							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+									SELECT DISTINCT ct(media_id), media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_medialabel(media.media_id,'width') as width,
 										MCZBASE.get_media_credit(media.media_id) as credit
@@ -356,27 +356,32 @@ limitations under the License.
 							</cfif>
 							<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id, count(*) as CollectingCt,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_medialabel(media.media_id,'width') as width,
 										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
 										underscore_collection
 										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+										left join  flat 
 											on underscore_relation.collection_object_id = flat.collection_object_id
 											left join collecting_event 
 											on collecting_event.collecting_event_id = flat.collecting_event_id 
 											left join media_relations 
 											on collecting_event.collecting_event_id = media_relations.related_primary_key 
 										left join media on media_relations.media_id = media.media_id
-									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									WHERE underscore_collection.underscore_collection_id = 64
 										AND flat.guid IS NOT NULL
 										AND media_relations.media_relationship = 'shows collecting_event'
 										AND media.media_type = 'image'
 										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-									ORDER BY DBMS_RANDOM.RANDOM
+									GROUP BY
+										media_uri, preview_uri,media_type, media.media_id,
+										MCZBASE.get_media_descriptor(media.media_id) ,
+										MCZBASE.get_medialabel(media.media_id,'width'),
+										MCZBASE.get_media_credit(media.media_id) 
+									ORDER BY DBMS_RANDOM.RANDOM;
 								) 
 								WHERE Rownum < 26
 							</cfquery>
@@ -516,7 +521,7 @@ limitations under the License.
 								<cfif collectingImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
 								<cfif collectingImagesForCarousel.recordcount gt 2>
 									<div class="col-12 #colClass# px-md-0 mt-3">
-										<h3 class="h4 px-2">Collecting Event (#collectingImagesForCarousel.recordcount# #imagePlural#)</h3>
+										<h3 class="h4 px-2">Collecting Event (#collectingImagesForCarousel.CollectingCt# #imagePlural#)</h3>
 										<div class="carousel-wrapper2">
 											<div class="carousel2 carousel_background">
 											<cfset i=1>
