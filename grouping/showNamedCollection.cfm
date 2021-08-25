@@ -692,22 +692,7 @@ limitations under the License.
 					</cfif>
 				</cfoutput> 
 										
-	
-				<cfquery name="coordinates">
-					select lat_long.dec_lat, lat_long.DEC_LONG 
-						from locality
-						left join flat 
-						on flat.locality_id = locality.locality_id
-						left join lat_long
-						on lat_long.locality_id = flat.locality_id
-						left join underscore_relation
-						on underscore_relation.collection_object_id = flat.collection_object_id
-						left join underscore_collection
-						on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-						WHERE underscore_collection.underscore_collection_id = 64
-						and flat.guid IS NOT NULL
-				<cfquery>
-								<cfoutput>
+				<cfoutput>
 					<div class="row">
 						<div id="mapper" class="col-12 h-100 px-0">
 							<h2 class="mt-4">Heat Map Example</h2>
