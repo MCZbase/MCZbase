@@ -269,7 +269,7 @@ limitations under the License.
 						url: "/taxonomy/component/functions.cfc",
 						data : {
 							method : "getFullTaxonName",
-							taxon_name_id: #getTaxa.taxonid#
+							taxon_name_id: #getTaxa.taxon_name_id#
 						},
 						success: function (result) {
 							$("##full_taxon_name_span").html(result);
@@ -278,7 +278,7 @@ limitations under the License.
 							handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
 						},
 						dataType: "text"
-						});
+					});
 				};
 			</script>
 			<section class="row border rounded my-2 px-1 pt-1 pb-2">
