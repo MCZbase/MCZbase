@@ -422,7 +422,7 @@ limitations under the License.
 							<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
-								<cfset hasSpecImages = true>
+						<!---		<cfset hasSpecImages = true>--->
 								<div class="col-12 px-md-2">
 								<h3 class="h4 px-2">Specimen Images (#specimenImagesForCarousel.recordcount# images)</h3>
 									<div class="carousel-wrapper">
@@ -674,6 +674,7 @@ limitations under the License.
 						</div>
 				
 						<div class="col mt-4 float-left">
+							<cfset leftHandColumnOn = true>
 							<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 							<div class="my-2 py-3 border-bottom-black">
 								<cfif len(getNamedGroup.description) GT 0 >
