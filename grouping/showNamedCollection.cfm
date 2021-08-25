@@ -351,6 +351,24 @@ limitations under the License.
 								) 
 								WHERE Rownum < 26
 							</cfquery>
+							<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
+									SELECT DISTINCT media.media_id
+									FROM
+										underscore_collection
+										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+										left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+										left join media_relations on collector.agent_id = media_relations.related_primary_key
+										left join media on media_relations.media_id = media.media_id
+									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										AND flat.guid IS NOT NULL
+										AND collector.collector_role = 'c'
+										AND media_relations.media_relationship = 'shows agent'
+										AND media.media_type = 'image'
+										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+							</cfquery>
 							<cfif agentImagesForCarousel.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
@@ -492,7 +510,7 @@ limitations under the License.
 								<cfif agentImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
 								<cfif agentImagesForCarousel.recordcount gt 2>
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
-										<h3 class="h4 px-2">Agent (#agentImagesForCarousel.recordcount# images)</h3>
+										<h3 class="h4 px-2">Agent (#agentCt.recordcount# images)</h3>
 										<div class="carousel-wrapper1">
 											<div class="carousel1 carousel_background">
 											<cfset i=1>
@@ -512,7 +530,7 @@ limitations under the License.
 									</div>
 								<cfelseif agentImagesForCarousel.recordcount eq 1>
 									<div class="col-12 #colClass# px-md-0 mt-3">
-										<h3 class="h4 px-2">Agent (#agentImagesForCarousel.recordcount# #imagePlural#)</h3>
+										<h3 class="h4 px-2">Agent (#agentCt.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper1">
 											<div class="carousel1 carousel_background">
 											<cfset i=1>
