@@ -721,8 +721,7 @@ limitations under the License.
 								</style>
 				
 
- <script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization">
-let map, heatmap;
+ <script>
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
