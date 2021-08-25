@@ -300,7 +300,7 @@ limitations under the License.
 					</div>
 						<cfset otherImageTypes = 0>
 						<!--- obtain a random set of specimen images, limited to a small number --->
-						<cfif specimenImgs.media_uri gt 0>
+					
 							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 								SELECT * FROM (
 								SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_media_credit(media.media_id) as credit
@@ -409,7 +409,6 @@ limitations under the License.
 							<cfif localityImagesForCarousel.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
-						</cfif>
 						<cfoutput>
 					<div class="row mx-3 mt-3">
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
