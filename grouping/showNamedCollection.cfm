@@ -687,7 +687,9 @@ limitations under the License.
 							</div>
 						</div>
 					</cfif>
-				</cfoutput> <cfoutput>
+				</cfoutput> 
+										
+				<cfoutput>
 					<div id="mapper" class="col-12 px-0">
 						<h2 class="mt-4">Heat Map Example</h2>
 						<style>
@@ -717,10 +719,10 @@ limitations under the License.
 								  z-index: 5;
 								}
 								</style>
-					<script>
-						// This example requires the Visualization library. Include the libraries=visualization
+				
+// This example requires the Visualization library. Include the libraries=visualization
 // parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
+ <script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization">
 let map, heatmap;
 
 function initMap() {
