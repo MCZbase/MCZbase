@@ -417,9 +417,28 @@ limitations under the License.
 										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 							</cfquery>
-							<cfif collectingImagesForCarousel.recordcount GT 0>
+							<cfif collectingCt.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
+							<cfquery name="localityCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityCt"> 
+									SELECT DISTINCT media.media_id
+									FROM
+										underscore_collection
+										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+											left join locality
+											on locality.locality_id = flat.locality_id 
+											left join media_relations 
+											on locality.locality_id = media_relations.related_primary_key 
+										left join media on media_relations.media_id = media.media_id
+									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										AND flat.guid IS NOT NULL
+										AND media_relations.media_relationship = 'shows locality'
+										AND media.media_type = 'image'
+										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+							</cfquery>
 							<cfquery name="localityImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
@@ -446,7 +465,7 @@ limitations under the License.
 								) 
 								WHERE Rownum < 26
 							</cfquery>
-							<cfif localityImagesForCarousel.recordcount GT 0>
+							<cfif localityCt.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
 						<cfoutput>
