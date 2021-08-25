@@ -68,6 +68,9 @@ limitations under the License.
 	padding: 1rem 2rem;/*changed to 2 from 4*/
 	z-index: 100;
 	transition: transform .5s, opacity .5s, z-index .5s;
+	border: .5rem solid ##fff;
+	background-color: ##f8f9fa;
+	
 }
 .carousel_background {
 	background-color: ##f8f9fa;
