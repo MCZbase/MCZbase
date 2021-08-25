@@ -480,7 +480,20 @@ limitations under the License.
 					) 
 					WHERE Rownum < 26
 				</cfquery>
-
+				<cfquery name="coordinatesHeatMap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="coordinatesHeatMap_result">  
+					select lat_long.dec_lat, lat_long.DEC_LONG 
+					from locality
+					left join flat 
+					on flat.locality_id = locality.locality_id
+					left join lat_long
+					on lat_long.locality_id = flat.locality_id
+					left join underscore_relation
+					on underscore_relation.collection_object_id = flat.collection_object_id
+					left join underscore_collection
+					on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+					WHERE underscore_collection.underscore_collection_id = 64
+					and flat.guid IS NOT NULL
+				</cfquery>
 				<cfif localityCt.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
 				</cfif>
