@@ -261,8 +261,26 @@ limitations under the License.
 			</cfif>
 			<div>
 				<a class="btn btn-info btn-xs" href="/name/#encodeForURL(getTaxa.scientific_name)#" target="_blank">View Details</a>
-				<span tabindex="0"><em> Placed in:</em> #encodeForHTML(ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," "))#</span>
+				<span tabindex="0"><em> Placed in:</em> <span id="full_taxon_name_span">#encodeForHTML(ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," "))#</span></span>
 			</div>
+			<script>
+				function updateHigher() {
+					jQuery.ajax({
+						url: "/taxonomy/component/functions.cfc",
+						data : {
+							method : "getFullTaxonName",
+							taxon_name_id: #getTaxa.taxon_name_id#
+						},
+						success: function (result) {
+							$("##full_taxon_name_span").html(result);
+						},
+						error: function (jqXHR, textStatus, error) {
+							handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
+						},
+						dataType: "text"
+					});
+				};
+			</script>
 			<section class="row border rounded my-2 px-1 pt-1 pb-2">
 				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
 					<div class="row my-1">
@@ -773,6 +791,7 @@ limitations under the License.
 												$('##saveResultDiv').removeClass('text-danger');
 												$('##saveResultDiv').removeClass('text-warning');
 												loadTaxonName(#getTaxa.taxon_name_id#,'scientificNameAndAuthor');
+												updateHigher();
 											},
 											error: function(jqXHR,textStatus,error){
 												$('##saveResultDiv').html('Error.');
