@@ -251,6 +251,11 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+<!--- given a taxon name id, return the higher taxonomy string for that taxon record, leaving off any element after a space 
+ that is, return the higher taxonomy from genus up.
+ @param taxon_name_id the taxon name for which to return the higher taxonomy
+ @return the higher taxonomy from taxonomy.full_taxon_name excluding anything after the first space.
+ --->
 <cffunction name="getFullTaxonName" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cfthread name="getFullTaxonNameThread">
@@ -273,8 +278,8 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getRelationsHtmlThread" />
-	<cfreturn getRelationsHtmlThread.output>
+	<cfthread action="join" name="getFullTaxonNameThread" />
+	<cfreturn getFullTaxonNameThread.output>
 </cffunction>
 
 <!---
