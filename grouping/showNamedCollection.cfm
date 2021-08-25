@@ -184,6 +184,7 @@ limitations under the License.
 							</div>
 						</div>	
 						<div class="row mx-0">
+							<cfset otherImageTypes = 0>
 							<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT DISTINCT flat.guid, flat.scientific_name
 								FROM
@@ -298,9 +299,7 @@ limitations under the License.
 						</div>
 						<!---end specimen grid--->
 					</div>
-						<cfset otherImageTypes = 0>
 						<!--- obtain a random set of specimen images, limited to a small number --->
-					
 							<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 								SELECT * FROM (
 								SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_media_credit(media.media_id) as credit
@@ -323,7 +322,7 @@ limitations under the License.
 <!---							<cfif specimenImgs.recordcount GT 0>
 								<cfset hasSpecImages = true>
 							</cfif>--->
-							<cfif specimenImagesForCarousel.recordcount GT 0>
+							<cfif specimenImgs.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
 							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
@@ -369,7 +368,7 @@ limitations under the License.
 										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 							</cfquery>
-							<cfif agentImagesForCarousel.recordcount GT 0>
+							<cfif agentCt.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
 							<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
