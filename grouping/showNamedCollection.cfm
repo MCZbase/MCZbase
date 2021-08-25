@@ -73,8 +73,8 @@ limitations under the License.
 }
 .carousel_background {
 	background-color: ##f8f9fa;
-	border:1px solid ##e8e8e8;
-	border: .5rem solid ##fff;
+/*	border:1px solid ##e8e8e8;
+	border: .5rem solid ##fff;*/
 }
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
 .carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,.carousel__photo3.initial,
@@ -82,8 +82,6 @@ limitations under the License.
 	opacity: 1;
 	position: relative;
 	z-index: 900;
-	border: .5rem solid ##fff;
-	background-color: ##f8f9fa;
 }
 /* Set 'z-index' to sit behind our '.active' item. */
 .carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,.carousel__photo3.prev,
