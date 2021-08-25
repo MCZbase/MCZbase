@@ -1375,12 +1375,16 @@ function moveNext() {
 				// Check if current slide is at the beginning or end and sets slide numbers
 				if (slide3 === 0) {
 					newPrevious = (totalItems3 - 1);
-					oldPrevious = (totalItems3 - 2);
-					oldNext = (slide3 + 1);
+					oldPrevious = (totalItems3 - 1);
+					oldNext = (slide3);
 				} else if (slide3 === (totalItems3 -1)) {
 					newPrevious = (slide3 - 1);
+					newNext = 2;
+					oldNext = 0;
+				} else if (slide3 === (totalItems3 - 2)){
+					newPrevious = (slide3 - 0);
 					newNext = 0;
-					oldNext = 1;
+					oldNext = totalItems;
 				}
 
 				// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
