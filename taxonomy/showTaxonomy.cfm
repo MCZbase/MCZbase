@@ -29,7 +29,11 @@
 										<cfset below = "(details shown below)">
 										<cfset tnid=getTID.taxon_name_id>
 									<cfelse>
-										<cfset below = "">
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
+											<cfset below='<a class="btn btn-xs btn-primary" href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#getTID.taxon_name_id#">Edit</a>' >
+										<cfelse>
+											<cfset below = "">
+										</cfif>
 									</cfif>
 									<cfset placement = ListDeleteAt(getTID.full_taxon_name,ListLen(getTID.full_taxon_name," ")," ") >
 									<li>
@@ -149,7 +153,11 @@
 									<cfif getHomonyms.taxon_name_id EQ tnid>
 										<cfset below = "(details shown below)">
 									<cfelse>
-										<cfset below = "">
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
+											<cfset below='<a class="btn btn-xs btn-primary" href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#getHomonyms.taxon_name_id#">Edit</a>' >
+										<cfelse>
+											<cfset below = "">
+										</cfif>
 									</cfif>
 									<cfset placement = ListDeleteAt(getHomonyms.full_taxon_name,ListLen(getHomonyms.full_taxon_name," ")," ") >
 									<li>
