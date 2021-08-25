@@ -471,28 +471,7 @@ limitations under the License.
 					<div class="row mx-3 mt-3">
 						<div class="col-12 col-md-6 float-left">
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
-														<!--- figure out widths of sub blocks, adapt to number of blocks --->
-							<cfswitch expression="#otherImageTypes#">
-								<cfcase value="1">
-									<cfset colClass = "col-md-12 mx-auto float-none">
-									<cfset imgWidth = 600>
-								</cfcase>
-								<cfcase value="2">
-									<cfset colClass = "col-md-12 mx-auto float-none">
-									<cfset imgWidth = 600>
-								</cfcase>
-								<cfcase value="3">
-									<cfset colClass = "col-md-6 float-left">
-									<cfset imgWidth = 400>
-								</cfcase>
-								<cfcase value="4">
-									<cfset colClass = "col-md-12 col-xl-4 float-left">
-									<cfset imgWidth = 300>
-								</cfcase>
-								<cfdefaultcase>
-									<cfset colClass = "col-md-12 col-xl-3 float-left">
-								</cfdefaultcase>
-							</cfswitch>
+						
 						<!---	<cfset leftHandColumnOn = true>--->
 		<!---					<cfset hasSpecImages = false>--->
 						
@@ -500,7 +479,7 @@ limitations under the License.
 							<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 0>	
 						<!---		<cfset hasSpecImages = true>--->
-								<div class="col-12 #colClass# px-md-2">
+								<div class="col-12 px-md-2">
 								<h3 class="h4 px-2">Specimen Images (#specimenImgsCt# images)</h3>
 									<div class="carousel-wrapper">
 										<div class="carousel carousel_background">
@@ -522,7 +501,24 @@ limitations under the License.
 								</div>
 								</cfif>
 							</div>
-
+								<!--- figure out widths of sub blocks, adapt to number of blocks --->
+							<cfswitch expression="#otherImageTypes#">
+								<cfcase value="1">
+									<cfset colClass = "col-md-12 mx-auto float-none">
+									<cfset imgWidth = 600>
+								</cfcase>
+								<cfcase value="2">
+									<cfset colClass = "col-md-6 float-left">
+									<cfset imgWidth = 400>
+								</cfcase>
+								<cfcase value="3">
+									<cfset colClass = "col-md-12 col-xl-4 float-left">
+									<cfset imgWidth = 300>
+								</cfcase>
+								<cfdefaultcase>
+									<cfset colClass = "col-md-12 col-xl-3 float-left">
+								</cfdefaultcase>
+							</cfswitch>
 							<div class="row">
 								<div class="col-12 px-2">
 								<cfif agentImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
