@@ -471,37 +471,7 @@ limitations under the License.
 					<div class="row mx-3 mt-3">
 						<div class="col-12 col-md-6 float-left">
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
-						
-						<!---	<cfset leftHandColumnOn = true>--->
-		<!---					<cfset hasSpecImages = false>--->
-						
-							<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
-							<div class="row">
-							<cfif specimenImagesForCarousel.recordcount gt 0>	
-						<!---		<cfset hasSpecImages = true>--->
-								<div class="col-12 px-md-2">
-								<h3 class="h4 px-2">Specimen Images (#specimenImgsCt# images)</h3>
-									<div class="carousel-wrapper">
-										<div class="carousel carousel_background">
-										<cfset i=1>
-										<cfloop query="specimenImagesForCarousel">
-										<!---	<img class="carousel__photo <cfif #i# eq 1>active</cfif>" src="#specimenImagesforCarousel['media_uri'][i]#">--->
-												<div class="carousel__photo border <cfif #i# eq 1>active</cfif>">
-													<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
-													<p>#specimenImagesForCarousel['alt'][i]#
-													<br>
-													<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
-												</div>
-											<cfset i=i+1>
-										</cfloop>
-											<div class="carousel__button--next"></div>
-											<div class="carousel__button--prev"></div>
-										</div>
-									</div>
-								</div>
-								</cfif>
-							</div>
-								<!--- figure out widths of sub blocks, adapt to number of blocks --->
+														<!--- figure out widths of sub blocks, adapt to number of blocks --->
 							<cfswitch expression="#otherImageTypes#">
 								<cfcase value="1">
 									<cfset colClass = "col-md-12 mx-auto float-none">
@@ -523,6 +493,36 @@ limitations under the License.
 									<cfset colClass = "col-md-12 col-xl-3 float-left">
 								</cfdefaultcase>
 							</cfswitch>
+						<!---	<cfset leftHandColumnOn = true>--->
+		<!---					<cfset hasSpecImages = false>--->
+						
+							<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
+							<div class="row">
+							<cfif specimenImagesForCarousel.recordcount gt 0>	
+						<!---		<cfset hasSpecImages = true>--->
+								<div class="col-12 #colClass# px-md-2">
+								<h3 class="h4 px-2">Specimen Images (#specimenImgsCt# images)</h3>
+									<div class="carousel-wrapper">
+										<div class="carousel carousel_background">
+										<cfset i=1>
+										<cfloop query="specimenImagesForCarousel">
+										<!---	<img class="carousel__photo <cfif #i# eq 1>active</cfif>" src="#specimenImagesforCarousel['media_uri'][i]#">--->
+												<div class="carousel__photo border <cfif #i# eq 1>active</cfif>">
+													<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
+													<p>#specimenImagesForCarousel['alt'][i]#
+													<br>
+													<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
+												</div>
+											<cfset i=i+1>
+										</cfloop>
+											<div class="carousel__button--next"></div>
+											<div class="carousel__button--prev"></div>
+										</div>
+									</div>
+								</div>
+								</cfif>
+							</div>
+
 							<div class="row">
 								<div class="col-12 px-2">
 								<cfif agentImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
