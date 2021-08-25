@@ -328,7 +328,7 @@ limitations under the License.
 							</cfif>
 							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 								SELECT * FROM (
-									SELECT DISTINCT ct(media_id), media_uri, preview_uri,media_type, media.media_id,
+									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id, count(*) as AgentCt,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_medialabel(media.media_id,'width') as width,
 										MCZBASE.get_media_credit(media.media_id) as credit
@@ -347,6 +347,11 @@ limitations under the License.
 										AND media.media_type = 'image'
 										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+									GROUP BY
+										media_uri, preview_uri,media_type, media.media_id,
+										MCZBASE.get_media_descriptor(media.media_id) ,
+										MCZBASE.get_medialabel(media.media_id,'width'),
+										MCZBASE.get_media_credit(media.media_id) 
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
 								WHERE Rownum < 26
@@ -498,7 +503,7 @@ limitations under the License.
 									</div>
 								<cfelseif agentImagesForCarousel.recordcount eq 1>
 									<div class="col-12 #colClass# px-md-0 mt-3">
-										<h3 class="h4 px-2">Agent (#agentImagesForCarousel.recordcount# #imagePlural#)</h3>
+										<h3 class="h4 px-2">Agent (#agentImagesForCarousel.AgentCt# #imagePlural#)</h3>
 										<div class="carousel-wrapper1">
 											<div class="carousel1 carousel_background">
 											<cfset i=1>
