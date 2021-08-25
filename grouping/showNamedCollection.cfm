@@ -696,6 +696,7 @@ limitations under the License.
 							<style>
 									##map {
 									  height: 100%;
+										width: 100%;
 									}
 									##floating-panel {
 									  position: absolute;
@@ -1293,7 +1294,7 @@ limitations under the License.
 		<button id="change-radius">Change radius</button>
 		<button id="change-opacity">Change opacity</button>
 	</div>
-	<div id="map"></div>
+	<div id="map" class="col-12"></div>
 	<script async src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization&callback=initMap"></script>
 
 						</div>
