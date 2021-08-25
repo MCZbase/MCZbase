@@ -692,7 +692,7 @@ limitations under the License.
 					</cfif>
 				</cfoutput> 
 										
-				<cfoutput>
+	
 				<cfquery name="coordinates">
 					select lat_long.dec_lat, lat_long.DEC_LONG 
 						from locality
@@ -707,6 +707,7 @@ limitations under the License.
 						WHERE underscore_collection.underscore_collection_id = 64
 						and flat.guid IS NOT NULL
 				<cfquery>
+								<cfoutput>
 					<div class="row">
 						<div id="mapper" class="col-12 h-100 px-0">
 							<h2 class="mt-4">Heat Map Example</h2>
