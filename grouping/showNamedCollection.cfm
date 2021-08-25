@@ -68,13 +68,13 @@ limitations under the License.
 	padding: 1rem 2rem;/*changed to 2 from 4*/
 	z-index: 100;
 	transition: transform .5s, opacity .5s, z-index .5s;
-
+	border: 1px solid ##e8e8e8;
 	
 }
 .carousel_background {
 	background-color: ##f8f9fa;
-/*	border:1px solid ##e8e8e8;
-	border: .5rem solid ##fff;*/
+	border:1px solid ##e8e8e8;
+	border: .5rem solid ##fff;
 }
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
 .carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,.carousel__photo3.initial,
