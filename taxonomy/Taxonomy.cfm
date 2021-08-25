@@ -269,7 +269,7 @@ limitations under the License.
 						url: "/taxonomy/component/functions.cfc",
 						data : {
 							method : "getFullTaxonName",
-							taxon_name_id: #getTaxa.taxonid#,
+							taxon_name_id: #getTaxa.taxonid#
 						},
 						success: function (result) {
 							$("##full_taxon_name_span").html(result);
