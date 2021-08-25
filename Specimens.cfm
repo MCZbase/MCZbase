@@ -792,13 +792,12 @@ limitations under the License.
 													<label for="part_name" class="data-entry-label">Part Name</label>
 													<input type="text" id="part_name" name="part_name" class="data-entry-input" disabled>
 												</div>
-												<div class="col-12 col-md-2">
-													<label for="place" class="data-entry-label">Loan Number</label>
-													<input type="text" name="place" class="data-entry-input" id="place" disabled>
-												</div>
 												<div class="col-12 col-md-3">
 													<label class="data-entry-label" for="when">Verbatim Date</label>
 													<input type="text" class="data-entry-input" id="when" diabled>
+												</div>
+												<div class="col-12 col-md-2">
+													<!--- available space --->
 												</div>
 												<div class="col-12 col-md-2">
 													<cfif findNoCase('redesign',gitBranch) GT 0>
@@ -811,6 +810,31 @@ limitations under the License.
 													</cfif>
 												</div>
 											</div>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+												<div class="form-row mb-2">
+													<div class="col-12 col-md-2">
+														<cfif not isdefined("loan_number")>
+															<cfset loan_number="">
+														</cfif>
+														<label for="loan_number" class="data-entry-label">Loan Number</label>
+														<input type="text" name="loan_number" class="data-entry-input" id="loan_number" placeholder="yyyy-n-Col" value="#loan_number#" >
+													</div>
+													<div class="col-12 col-md-2">
+														<cfif not isdefined("accn_number")>
+															<cfset accn_number="">
+														</cfif>
+														<label for="accn_number" class="data-entry-label">Accession Number</label>
+														<input type="text" name="accn_number" class="data-entry-input" id="accn_number" placeholder="nnnnn" value="#accn_number#" >
+													</div>
+													<div class="col-12 col-md-2">
+														<cfif not isdefined("deaccession_number")>
+															<cfset deaccession_number="">
+														</cfif>
+														<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
+														<input type="text" name="deaccession_number" class="data-entry-input" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#deaccession_number#" >
+													</div>
+												</div>
+											</cfif>
 											<div class="form-row my-3">
 												<div class="col-12">
 													<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-1 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>

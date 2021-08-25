@@ -277,6 +277,7 @@ limitations under the License.
 	<cfargument name="island_group" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
+	<cfargument name="loan_number" type="string" required="no">
 	<cfargument name="debug" type="string" required="no">
 
 	<cfset search_json = "[">
@@ -373,6 +374,26 @@ limitations under the License.
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island#",separator="#separator#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+		<cfif isDefined("loan_number") AND len(loan_number) GT 0>
+			<cfset field = '"field": "loan_number"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#loan_number#",separator="#separator#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("accn_number") AND len(accn_number) GT 0>
+			<cfset field = '"field": "accn_number"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#accn_number#",separator="#separator#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+		<cfif isDefined("loan_number") AND len(loan_number) GT 0>
+			<cfset field = '"field": "loan_number"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#loan_number#",separator="#separator#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
 	</cfif>
 
 	<cfif isDefined("collector_agent_id") AND len(collector_agent_id) GT 0>
