@@ -1294,7 +1294,7 @@ limitations under the License.
 		<button id="change-radius">Change radius</button>
 		<button id="change-opacity">Change opacity</button>
 	</div>
-	<div id="map" class="col-12"></div>
+	<div id="map" class="col-12" style="height: 900px;"></div>
 	<script async src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization&callback=initMap"></script>
 
 						</div>
