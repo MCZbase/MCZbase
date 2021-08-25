@@ -385,7 +385,7 @@ limitations under the License.
 							</cfif>
 							<cfquery name="localityImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
 								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id, count(*) as localityCt,
+									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_medialabel(media.media_id,'width') as width,
 										MCZBASE.get_media_credit(media.media_id) as credit
@@ -405,11 +405,6 @@ limitations under the License.
 										AND media.media_type = 'image'
 										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-									GROUP BY
-										media_uri, preview_uri,media_type, media.media_id,
-										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_medialabel(media.media_id,'width') as width,
-										MCZBASE.get_media_credit(media.media_id) as credit
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
 								WHERE Rownum < 26
