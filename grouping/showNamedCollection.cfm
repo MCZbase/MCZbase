@@ -612,7 +612,7 @@ limitations under the License.
 													<cfset i=i+1>
 												</cfloop>
 												<div class="carousel__button2--next"></div>
-												<cfif collectingImagesForCarousel.recordcount gt 2><div class="carousel__button2--prev"></div></cfif>
+												<div class="carousel__button2--prev"></div>
 											</div>
 										</div>
 									</div>
