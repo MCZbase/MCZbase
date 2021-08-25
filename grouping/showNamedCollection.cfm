@@ -1383,7 +1383,7 @@ function moveNext() {
 					oldNext = 0;
 				} else if (slide3 === (totalItems3 - 2)){
 					newPrevious = (slide3 - 0);
-					newNext = 0;
+					newNext = 1;
 					oldNext = totalItems;
 				}
 
