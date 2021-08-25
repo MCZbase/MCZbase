@@ -320,9 +320,9 @@ limitations under the License.
 								) 
 								WHERE   Rownum  < 26
 							</cfquery>
-							<cfif specimenImgs.recordcount GT 0>
+<!---							<cfif specimenImgs.recordcount GT 0>
 								<cfset hasSpecImages = true>
-							</cfif>
+							</cfif>--->
 							<cfif specimenImagesForCarousel.recordcount GT 0>
 								<cfset otherImageTypes = otherImageTypes + 1>
 							</cfif>
@@ -417,7 +417,7 @@ limitations under the License.
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
 						<div class="col-12 col-md-6 float-left">
 							<cfset leftHandColumnOn = true>
-							<cfset hasSpecImages = false>
+		<!---					<cfset hasSpecImages = false>--->
 						
 							<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 							<div class="row">
