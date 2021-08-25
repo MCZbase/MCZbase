@@ -328,7 +328,7 @@ limitations under the License.
 							</cfif>
 							<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 								SELECT * FROM (
-									SELECT DISTINCT ct(media_id), media_uri, preview_uri,media_type, media.media_id,
+									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_medialabel(media.media_id,'width') as width,
 										MCZBASE.get_media_credit(media.media_id) as credit
