@@ -1387,16 +1387,20 @@ function moveNext() {
 //					oldNext = totalItems;
 //				}
 				if (slide3 === 0) {
-					newPrevious = (totalItems3 - 1);
-					oldPrevious = (totalItems3 - 1);
-					oldNext = (slide3);
+					newPrevious = (slide3 - 1);
+					oldPrevious = (slide3 - 1);
+					oldNext = (totalItems + 1);
 				} else if (slide3 === 1) {
 					newPrevious = (slide3 - 2);
 					newNext = 2;
-					oldNext = 3;
+					oldNext = (totalItems + 1);
 				} else if (slide3 === 2){
 					newPrevious = (slide3 - 0);
 					newNext = (slide3 - 1);
+					oldNext = (totalItems + 1);
+				}else if (slide3 === 3){
+					newPrevious = (slide3 - 1);
+					newNext = (slide3 - 3);
 					oldNext = (totalItems + 1);
 				}
 				// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
