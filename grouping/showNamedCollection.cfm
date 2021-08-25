@@ -476,7 +476,7 @@ limitations under the License.
 						<!---	<cfset hasSpecImages = false>--->
 							<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 							<div class="row">
-							<cfif specimenImagesForCarousel.recordcount gt 3>	
+							<cfif specimenImagesForCarousel.recordcount gt 1>	
 								<div class="col-12 px-md-2">
 								<h3 class="h4 px-2">Specimen Images (#specimenImgsCt# images)</h3>
 									<div class="carousel-wrapper">
@@ -547,7 +547,7 @@ limitations under the License.
 							<div class="row">
 								<div class="col-12 px-2">
 								<cfif agentImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
-								<cfif agentImagesForCarousel.recordcount gt 3>
+								<cfif agentImagesForCarousel.recordcount gt 1>
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 										<h3 class="h4 px-2">Agent (#agentCt.recordcount# images)</h3>
 										<div class="carousel-wrapper1">
@@ -590,7 +590,7 @@ limitations under the License.
 								<!---no images--->
 								</cfif>
 								<cfif collectingImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
-								<cfif collectingImagesForCarousel.recordcount gt 3>
+								<cfif collectingImagesForCarousel.recordcount gt 1>
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4 px-2">Collecting Event (#collectingCt.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper2">
@@ -634,7 +634,7 @@ limitations under the License.
 								<!---no images--->
 								</cfif>
 								<cfif localityImagesForCarousel.recordcount gte 2><cfset imagePlural = 'images'><cfelse><cfset imagePlural = 'image'></cfif>
-								<cfif localityImagesForCarousel.recordcount gt 3>
+								<cfif localityImagesForCarousel.recordcount gt 1>
 									<div class="col-12 #colClass# px-md-0 mt-3">
 										<h3 class="h4 px-2">Locality (#localityImagesForCarousel.recordcount# #imagePlural#)</h3>
 										<div class="carousel-wrapper3">
