@@ -139,6 +139,12 @@ limitations under the License.
 	left: 20%;
 	transform: translate(-50%, -50%) rotate(-45deg);
 }
+.current {
+	width: 300px;
+	height: 300px; 
+	border: .5rem solid ##fff;;
+	background-color: ##f8f9fa;
+}
 </style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -1239,6 +1245,8 @@ function moveNext() {
 					newPrevious = (slide2 - 1);
 					newNext = 0;
 					oldNext = 1;
+				} else {
+					current;
 				}
 			// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
 				// Based on the current slide, reset to default classes.
@@ -1249,7 +1257,7 @@ function moveNext() {
 				items2[newPrevious].className = itemClassName2 + " prev";
 				items2[slide2].className = itemClassName2 + " active";
 				items2[newNext].className = itemClassName2 + " next";
-
+				items2[current].className = itemClassName2 + " active";
 			}
 		}
 	}
