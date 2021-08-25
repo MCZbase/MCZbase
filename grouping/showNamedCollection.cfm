@@ -1393,7 +1393,7 @@ function moveNext() {
 				} else if (slide3 === 1) {
 					newPrevious = (slide3 - 2);
 					newNext = 2;
-					oldNext = 0;
+					oldNext = 3;
 				} else if (slide3 === 2){
 					newPrevious = (slide3 - 0);
 					newNext = (slide3 - 1);
