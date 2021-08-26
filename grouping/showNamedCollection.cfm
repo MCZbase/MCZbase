@@ -746,7 +746,7 @@ limitations under the License.
 
 <cfloop query="states">
 	<cfset coordinates = {#latlongset# = 'new google.maps.LatLng(#states.latitude#,#states.longitude#)'}>
-	<cfset arrayAppend(arr,state)>
+	<cfset arrayAppend(arr,coordinates)>
 </cfloop>
 
 
