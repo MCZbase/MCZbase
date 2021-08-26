@@ -760,6 +760,7 @@ var states = <cfoutput>#serializeJson(arr)#</cfoutput>;
 		
 		
 	</cfouput>
+	<cfoutput>
 	 <script>
 		function initMap() {
 		map = new google.maps.Map(document.getElementById("map"), {
