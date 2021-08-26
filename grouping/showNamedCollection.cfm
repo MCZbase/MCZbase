@@ -719,16 +719,6 @@ limitations under the License.
 							<h2 class="mt-4">Heat Map Example</h2>
 
 
-<div id="floating-panel">
-	<button id="toggle-heatmap">Toggle Heatmap</button>
-	<button id="change-gradient">Change gradient</button>
-	<button id="change-radius">Change radius</button>
-	<button id="change-opacity">Change opacity</button>
-</div>
-<div id="map"></div>
-
-<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization&v=weekly" async></script>
 		
 <script>
 	let map, heatmap;
@@ -797,6 +787,17 @@ function getPoints() {
 		return #serializeJson#;
 		}
 </script>
+
+<div id="floating-panel">
+	<button id="toggle-heatmap">Toggle Heatmap</button>
+	<button id="change-gradient">Change gradient</button>
+	<button id="change-radius">Change radius</button>
+	<button id="change-opacity">Change opacity</button>
+</div>
+<div id="map"></div>
+
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization&v=weekly" async></script>
 						</div>
 					</div>
 
