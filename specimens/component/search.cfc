@@ -497,6 +497,7 @@ function ScriptNumberListPartToSQLWhere (atom, fieldName) {
 <cffunction name="executeFixedSearch" access="remote" returntype="any" returnformat="json">
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="collection" type="string" required="no">
+	<cfargument name="cat_num" type="string" required="no">
 	<cfargument name="full_taxon_name" type="string" required="no">
 	<cfargument name="genus" type="string" required="no">
 	<cfargument name="family" type="string" required="no">
@@ -513,6 +514,8 @@ function ScriptNumberListPartToSQLWhere (atom, fieldName) {
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
 	<cfargument name="loan_number" type="string" required="no">
+	<cfargument name="accession_number" type="string" required="no">
+	<cfargument name="deaccession_number" type="string" required="no">
 	<cfargument name="debug" type="string" required="no">
 
 	<cfset search_json = "[">
@@ -527,7 +530,13 @@ function ScriptNumberListPartToSQLWhere (atom, fieldName) {
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 	</cfif>
-
+	<cfif isDefined("cat_num") AND len(cat_num) GT 0>
+		<!--- TODO: Use function able to include prefixes --->
+		<cfset clause = ScriptNumberListToJSON(cat_num, "cat_num", "", "and");
+		<cfset search_json = "#search_json##separator##clause#">
+		<cfset separator = ",">
+		<cfset join='join":"and",'>
+	<cfelse>
 	<cfif isDefined("taxon_name_id") AND len(taxon_name_id) GT 0>
 		<cfset field = '"field": "taxon_name_id"'>
 		<cfset comparator = '"comparator": "="'>
