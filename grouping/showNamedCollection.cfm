@@ -749,7 +749,7 @@ limitations under the License.
 	<cfset arrayAppend(arr,state)>
 </cfloop>
 
-
+		</cfoutput>
 <script type="text/javascript" charset="utf-8">
 var states = <cfoutput>#serializeJson(arr)#</cfoutput>; 
 </script>
