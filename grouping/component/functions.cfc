@@ -75,6 +75,30 @@ Update an existing arbitrary collection record (underscore_collection).
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+			
+
+
+<cffunction name="getMapData" access="remote">
+<cfargument name="cfmapname">
+<cfargument name="cfmaplatitude">
+<cfargument name="cfmaplongitude">
+<cfargument name="cfmapaddress">
+<cfsavecontent variable="markup">
+<br>
+<cfoutput>
+<table>
+<tr>
+<td bgcolor='red'><h4><font color='white'>CFC Bind Example</font></td>
+</tr>
+</table>
+Map Name: #cfmapname#<br>
+Latitude, Longitude: (#DecimalFormat(cfmaplatitude)#,#DecimalFormat(cfmaplongitude)#)<br>
+Address: #cfmapaddress#<br>
+</cfoutput>
+</cfsavecontent>
+<cfreturn markup>
+</cffunction>
+
 <!---
 Function getUndCollList.  Search for arbitrary collections returning json suitable for a dataadaptor.
 
