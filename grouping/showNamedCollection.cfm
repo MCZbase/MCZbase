@@ -743,7 +743,7 @@ limitations under the License.
 
 		function initMap() {
 		map = new google.maps.Map(document.getElementById("map"), {
-		zoom: 13,
+		zoom: 0,
 		center: { lat: 37.775, lng: -122.434 },
 		mapTypeId: "satellite",
 		});
