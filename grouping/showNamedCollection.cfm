@@ -483,7 +483,7 @@ limitations under the License.
 				<cfquery name="coordinatesHeatMap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="coordinatesHeatMap_result">  
 					select lat_long.dec_lat, lat_long.DEC_LONG 
 					from locality
-					left join flat 
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on flat.locality_id = locality.locality_id
 					left join lat_long
 					on lat_long.locality_id = flat.locality_id
@@ -491,7 +491,7 @@ limitations under the License.
 					on underscore_relation.collection_object_id = flat.collection_object_id
 					left join underscore_collection
 					on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-					WHERE underscore_collection.underscore_collection_id = 64
+					WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					and flat.guid IS NOT NULL
 				</cfquery>
 				<cfif localityCt.recordcount GT 0>
@@ -743,8 +743,8 @@ limitations under the License.
 
 		function initMap() {
 		map = new google.maps.Map(document.getElementById("map"), {
-		zoom: 13,
-		center: { lat: 37.775, lng: -122.434 },
+		zoom: 4,
+		center: { lat: 42.3785136, lng: -71.117796 },
 		mapTypeId: "satellite",
 		});
 		heatmap = new google.maps.visualization.HeatmapLayer({
