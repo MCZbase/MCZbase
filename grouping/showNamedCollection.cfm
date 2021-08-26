@@ -749,9 +749,9 @@ limitations under the License.
 	<cfset arrayAppend(arr,state)>
 </cfloop>
 
-</cfoutput> 
+
 <script type="text/javascript" charset="utf-8">
-var states = <cfoutput>#serializeJson(arr)#</cfoutput>; 
+var states = <cfloop>#serializeJson(arr)#</cfloop>; 
 </script>
 
 <script>
@@ -811,19 +811,19 @@ function getPoints() {
 	return [coordinates];
 }
 </script>
-	<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-	<div id="floating-panel" class="mt-2">
-		<button id="toggle-heatmap">Toggle Heatmap</button>
-		<button id="change-gradient">Change gradient</button>
-		<button id="change-radius">Change radius</button>
-		<button id="change-opacity">Change opacity</button>
-	</div>
-	<div id="map" class="col-12" style="height: 900px;"></div>
-	<script async src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization&callback=initMap"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<div id="floating-panel" class="mt-2">
+	<button id="toggle-heatmap">Toggle Heatmap</button>
+	<button id="change-gradient">Change gradient</button>
+	<button id="change-radius">Change radius</button>
+	<button id="change-opacity">Change opacity</button>
+</div>
+<div id="map" class="col-12" style="height: 900px;"></div>
+<script async src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization&callback=initMap"></script>
 
 						</div>
 					</div>
-				</cfoutput>
+			
 				</div>
 				<div class="col mt-4 float-left"> 
 					
