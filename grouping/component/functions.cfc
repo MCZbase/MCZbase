@@ -75,7 +75,6 @@ Update an existing arbitrary collection record (underscore_collection).
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-
 <!---
 Function getUndCollList.  Search for arbitrary collections returning json suitable for a dataadaptor.
 
