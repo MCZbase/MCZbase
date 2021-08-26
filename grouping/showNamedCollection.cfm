@@ -717,15 +717,7 @@ limitations under the License.
 						<div id="mapper" class="col-12 h-100">
 							<h2 class="mt-4">Heat Map Example</h2>
 
-<cfset arr = ArrayNew(1)>
-<cfloop query="states">
-	<cfset state = {#locality_id# = 'new google.maps.LatLng(#states.dec_lat#,#states.dec_long#)'}>
-	<cfset arrayAppend(arr,state)>
-</cfloop>
 
-<script type="text/javascript" charset="utf-8">
-var states = #serializeJson(arr)#; 
-</script>
 <div id="floating-panel">
 	<button id="toggle-heatmap">Toggle Heatmap</button>
 	<button id="change-gradient">Change gradient</button>
@@ -799,7 +791,14 @@ function changeOpacity() {
 // Heatmap data: 500 Points
 function getPoints() {
 	return [
-		{+state+},
+		
+	<cfset arr = ArrayNew(1)>
+	<cfloop query="states">
+		<cfset state = {#locality_id# = 'new google.maps.LatLng(#states.dec_lat#,#states.dec_long#)'}>
+		<cfset arrayAppend(arr,state)>
+	</cfloop>
+	var states = #serializeJson(arr)#; 
+		
 	];
 }
 </script>
