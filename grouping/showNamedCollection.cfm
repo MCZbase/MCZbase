@@ -751,7 +751,7 @@ limitations under the License.
 
 
 <script type="text/javascript" charset="utf-8">
-var states = <cfloop>#serializeJson(arr)#</cfloop>; 
+var states = #serializeJson(arr)#; 
 </script>
 
 <script>
