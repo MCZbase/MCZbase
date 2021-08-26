@@ -133,7 +133,9 @@ function ScriptPrefixedNumberListToJSONList(listOfNumbers, integerFieldname, pre
 	}
 	return result;
 }
+</cfscript>
 
+<cfscript>
 /**
 * Converts a list of numbers to a list of JSON clauses suitable for 
 * passing to BUILD_QUERY_DBMS_SQL
@@ -150,7 +152,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 	var result = "";
 	var orBit = "";
 	var wherePart = "";
-	<!--- '{"join":"and","field": "cat_num","comparator": "IN","value": "#encodeForJavaScript(value)#"}'  --->
+	// <!--- '{"join":"and","field": "cat_num","comparator": "IN","value": "#encodeForJavaScript(value)#"}'  --->
 
 	// Prepare list for parsing
 	listOfNumbers = trim(listOfNumbers);
@@ -221,6 +223,8 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 	}
 	return "#result#";
 }
+</cfscript>
+<cfscript>
 /**
 *
 * Supporting function for ScriptNumberListToSQLWhere(), converts a number or a range into
