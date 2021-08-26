@@ -139,32 +139,6 @@ limitations under the License.
 	border: .5rem solid ##fff;;
 	background-color: ##f8f9fa;
 }
-##map {
-	height: 100%;
-	width: 100%;
-}
-##floating-panel {
-	position: absolute;
-	top: 10px;
-	left: 25%;
-	z-index: 5;
-	background-color: ##fff;
-	padding: 5px;
-	border: 1px solid ##999;
-	text-align: center;
-	font-family: "Roboto", "sans-serif";
-	line-height: 30px;
-	padding-left: 10px;
-}
-##floating-panel {
-	background-color: ##fff;
-	border: 1px solid ##999;
-	left: 25%;
-	padding: 5px;
-	position: absolute;
-	top: 10px;
-	z-index: 5;
-}
 </style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -718,32 +692,61 @@ limitations under the License.
 							</div>
 						</div>
 					</cfif>
-		
-<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
-	SELECT lat_long.dec_lat as latitude, lat_long.DEC_LONG as longitude
-	FROM locality
-		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-		on flat.locality_id = locality.locality_id
-		left join lat_long
-		on lat_long.locality_id = flat.locality_id
-		left join underscore_relation
-		on underscore_relation.collection_object_id = flat.collection_object_id
-		left join underscore_collection
-		on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-	WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-		and flat.guid IS NOT NULL
-</cfquery>							
-	</cfoutput>		
+				</cfoutput> 
+			<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
+			SELECT lat_long.dec_lat as latitude, lat_long.DEC_LONG as longitude
+			FROM locality
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+				on flat.locality_id = locality.locality_id
+				left join lat_long
+				on lat_long.locality_id = flat.locality_id
+				left join underscore_relation
+				on underscore_relation.collection_object_id = flat.collection_object_id
+				left join underscore_collection
+				on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				and flat.guid IS NOT NULL
+		</cfquery>							
+				<cfoutput>
 					<div class="row">
 						<div id="mapper" class="col-12 h-100">
 							<h2 class="mt-4">Heat Map Example</h2>
+							<style>
+									##map {
+									  height: 100%;
+										width: 100%;
+									}
+									##floating-panel {
+									  position: absolute;
+									  top: 10px;
+									  left: 25%;
+									  z-index: 5;
+									  background-color: ##fff;
+									  padding: 5px;
+									  border: 1px solid ##999;
+									  text-align: center;
+									  font-family: "Roboto", "sans-serif";
+									  line-height: 30px;
+									  padding-left: 10px;
+									}
+									##floating-panel {
+									  background-color: ##fff;
+									  border: 1px solid ##999;
+									  left: 25%;
+									  padding: 5px;
+									  position: absolute;
+									  top: 10px;
+									  z-index: 5;
+									}
+									</style>
+				</cfoutput>
 
 
 <cfset arr = ArrayNew(1)>
 
 <cfloop query="states">
 	<cfset coordinates = {#latlongset# = 'new google.maps.LatLng(#states.latitude#,#states.longitude#)'}>
-	<cfset arrayAppend(arr,coordinates)>
+	<cfset arrayAppend(arr,state)>
 </cfloop>
 
 
@@ -808,21 +811,20 @@ function getPoints() {
 	return [coordinates];
 }
 </script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-<div id="floating-panel" class="mt-2">
-	<button id="toggle-heatmap">Toggle Heatmap</button>
-	<button id="change-gradient">Change gradient</button>
-	<button id="change-radius">Change radius</button>
-	<button id="change-opacity">Change opacity</button>
-</div>
-<div id="map" class="col-12" style="height: 900px;"></div>
-<script async src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization&callback=initMap"></script>
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+	<div id="floating-panel" class="mt-2">
+		<button id="toggle-heatmap">Toggle Heatmap</button>
+		<button id="change-gradient">Change gradient</button>
+		<button id="change-radius">Change radius</button>
+		<button id="change-opacity">Change opacity</button>
+	</div>
+	<div id="map" class="col-12" style="height: 900px;"></div>
+	<script async src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization&callback=initMap"></script>
 
 						</div>
 					</div>
-			
+				</cfoutput>
 				</div>
-				<cfoutput>
 				<div class="col mt-4 float-left"> 
 					
 					<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
