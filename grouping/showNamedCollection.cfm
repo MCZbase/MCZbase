@@ -136,7 +136,7 @@ limitations under the License.
 .current {
 	width: 300px;
 	height: 300px; 
-	border: .5rem solid ##fff;
+	border: .5rem solid ##fff;;
 	background-color: ##f8f9fa;
 }
 </style>
@@ -184,30 +184,30 @@ limitations under the License.
 					</div>
 					<div class="row mx-0">
 						<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT DISTINCT flat.guid, flat.scientific_name
-							FROM
-								underscore_relation 
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-									on underscore_relation.collection_object_id = flat.collection_object_id
-							WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								and flat.guid is not null
-							ORDER BY flat.guid asc
-						</cfquery>
+								SELECT DISTINCT flat.guid, flat.scientific_name
+								FROM
+									underscore_relation 
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+										on underscore_relation.collection_object_id = flat.collection_object_id
+								WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									and flat.guid is not null
+								ORDER BY flat.guid asc
+							</cfquery>
 						<cfquery name="specimenImgs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT DISTINCT media.media_uri
-							FROM
-								underscore_collection
-								left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-								left join cataloged_item
-									on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-								left join media_relations
-									on media_relations.related_primary_key = underscore_relation.collection_object_id
-								left join media on media_relations.media_id = media.media_id
-							WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								AND media_relations.media_relationship = 'shows cataloged_item'
-								AND media.media_type = 'image'
-								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-						</cfquery>
+								SELECT DISTINCT media.media_uri
+								FROM
+									underscore_collection
+									left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+									left join cataloged_item
+										on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+									left join media_relations
+										on media_relations.related_primary_key = underscore_relation.collection_object_id
+									left join media on media_relations.media_id = media.media_id
+								WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									AND media_relations.media_relationship = 'shows cataloged_item'
+									AND media.media_type = 'image'
+									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+							</cfquery>
 						<cfif specimenImgs.recordcount GT 0>
 							<cfset hasSpecImages = true>
 							<cfset specimenImgsCt = specimenImgs.recordcount>
@@ -273,11 +273,11 @@ limitations under the License.
 										{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
 									]
 								});
-							var now = new Date();
-							var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-							var filename = 'NamedGroup_results_' + nowstring + '.csv';
-							$('##btnContainer').html('<button id="namedgroupcsvbutton" class="btn-xs btn-secondary px-3 py-1 m-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
-							});
+									var now = new Date();
+									var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+									var filename = 'NamedGroup_results_' + nowstring + '.csv';
+									$('##btnContainer').html('<button id="namedgroupcsvbutton" class="btn-xs btn-secondary px-3 py-1 m-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
+									});
 						</script>
 						<div class="col-12 my-2">
 							<h2 class="float-left">Specimen Records <span class="small">
@@ -306,7 +306,6 @@ limitations under the License.
 				</div>
 				<cfset otherImageTypes = 0>
 				<!--- obtain a random set of specimen images, limited to a small number --->
-				
 				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 					SELECT * FROM (
 						SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_media_credit(media.media_id) as credit
@@ -326,9 +325,6 @@ limitations under the License.
 						) 
 					WHERE   Rownum  < 26
 				</cfquery>
-				<!---<cfif specimenImgs.recordcount GT 0>
-					<cfset hasSpecImages = true>
-				</cfif>--->
 				<cfif specimenImagesForCarousel.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
 				</cfif>
@@ -473,10 +469,10 @@ limitations under the License.
 					) 
 					WHERE Rownum < 26
 				</cfquery>
-			<!---	<cfquery name="coordinatesHeatMap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="coordinatesHeatMap_result">  
+<!---				<cfquery name="getLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLong_result">  
 					select lat_long.dec_lat, lat_long.DEC_LONG 
 					from locality
-					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+					left join flat 
 					on flat.locality_id = locality.locality_id
 					left join lat_long
 					on lat_long.locality_id = flat.locality_id
@@ -506,11 +502,9 @@ limitations under the License.
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<!---	<img class="carousel__photo <cfif #i# eq 1>active</cfif>" src="#specimenImagesforCarousel['media_uri'][i]#">--->
-												<div class="carousel__photo border <cfif #i# eq 1>active</cfif>"> 
-													<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
+												<div class="carousel__photo border <cfif #i# eq 1>active</cfif>"> <img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
 													<p>#specimenImagesForCarousel['alt'][i]# <br>
-														<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-													</p>
+														<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
@@ -527,11 +521,9 @@ limitations under the License.
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<!---	<img class="carousel__photo <cfif #i# eq 1>active</cfif>" src="#specimenImagesforCarousel['media_uri'][i]#">--->
-												<div class="px-4 py-3 border <cfif #i# eq 1>active</cfif>"> 
-													<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
+												<div class="px-4 py-3 border <cfif #i# eq 1>active</cfif>"> <img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
 													<p>#specimenImagesForCarousel['alt'][i]# <br>
-														<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-													</p>
+														<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
@@ -580,11 +572,9 @@ limitations under the License.
 											<div class="carousel1 carousel_background">
 												<cfset i=1>
 												<cfloop query="agentImagesForCarousel">
-													<div class="carousel__photo1 border <cfif #i# eq 1>active initial</cfif>"> 
-														<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100">
+													<div class="carousel__photo1 border <cfif #i# eq 1>active initial</cfif>"> <img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100">
 														<p>#agentImagesForCarousel['alt'][i]# <br>
-															<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-														</p>
+															<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 													</div>
 													<cfset i=i+1>
 												</cfloop>
@@ -601,11 +591,9 @@ limitations under the License.
 												<cfset i=1>
 												<cfloop query="agentImagesForCarousel">
 													<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
-													<div class="px-4 py-3 border <cfif #i# eq 1>active initial</cfif>"> 
-														<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
+													<div class="px-4 py-3 border <cfif #i# eq 1>active initial</cfif>"> <img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
 														<p>#agentImagesForCarousel['alt'][i]# <br>
-															<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-														</p>
+															<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 													</div>
 													<cfset i=i+1>
 												</cfloop>
@@ -628,11 +616,9 @@ limitations under the License.
 												<cfset i=1>
 												<cfloop query="collectingImagesForCarousel">
 													<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
-													<div class="carousel__photo2 border <cfif #i# eq 1>active initial</cfif>"> 
-														<img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
+													<div class="carousel__photo2 border <cfif #i# eq 1>active initial</cfif>"> <img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
 														<p>#collectingImagesForCarousel['alt'][i]# <br>
-															<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-														</p>
+															<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 													</div>
 													<cfset i=i+1>
 												</cfloop>
@@ -649,11 +635,9 @@ limitations under the License.
 												<cfset i=1>
 												<cfloop query="collectingImagesForCarousel">
 													<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
-													<div class="px-4 py-3 border <cfif #i# eq 1>active initial</cfif>"> 
-														<img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
+													<div class="px-4 py-3 border <cfif #i# eq 1>active initial</cfif>"> <img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
 														<p>#collectingImagesForCarousel['alt'][i]# <br>
-															<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-														</p>
+															<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 													</div>
 													<cfset i=i+1>
 												</cfloop>
@@ -675,11 +659,9 @@ limitations under the License.
 											<div class="carousel3 carousel_background">
 												<cfset i=1>
 												<cfloop query="localityImagesForCarousel">
-													<div class="carousel__photo3 border <cfif #i# eq 1>active</cfif>"> 
-														<img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
+													<div class="carousel__photo3 border <cfif #i# eq 1>active</cfif>"> <img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
 														<p>#localityImagesForCarousel['alt'][i]# <br>
-															<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-														</p>
+															<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 													</div>
 													<cfset i=i+1>
 												</cfloop>
@@ -695,11 +677,9 @@ limitations under the License.
 											<div class="carousel3 carousel_background">
 												<cfset i=1>
 												<cfloop query="localityImagesForCarousel">
-													<div class="px-4 py-3 border <cfif #i# eq 1>active</cfif>"> 
-														<img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
+													<div class="px-4 py-3 border <cfif #i# eq 1>active</cfif>"> <img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
 														<p>#localityImagesForCarousel['alt'][i]# <br>
-															<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-														</p>
+															<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 													</div>
 													<cfset i=i+1>
 												</cfloop>
@@ -712,19 +692,141 @@ limitations under the License.
 							</div>
 						</div>
 					</cfif>
-				</cfoutput> 
-										
-				<cfoutput>
+		
+			<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
+				SELECT lat_long.dec_lat as latitude, lat_long.DEC_LONG as longitude
+				FROM locality
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+					on flat.locality_id = locality.locality_id
+					left join lat_long
+					on lat_long.locality_id = flat.locality_id
+					left join underscore_relation
+					on underscore_relation.collection_object_id = flat.collection_object_id
+					left join underscore_collection
+					on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+					and flat.guid IS NOT NULL
+			</cfquery>							
+			
 					<div class="row">
-						<div id="mapper" class="col-12 h-100 px-0">
+						<div id="mapper" class="col-12 h-100">
 							<h2 class="mt-4">Heat Map Example</h2>
+							<style>
+									##map {
+									  height: 100%;
+										width: 100%;
+									}
+									##floating-panel {
+									  position: absolute;
+									  top: 10px;
+									  left: 25%;
+									  z-index: 5;
+									  background-color: ##fff;
+									  padding: 5px;
+									  border: 1px solid ##999;
+									  text-align: center;
+									  font-family: "Roboto", "sans-serif";
+									  line-height: 30px;
+									  padding-left: 10px;
+									}
+									##floating-panel {
+									  background-color: ##fff;
+									  border: 1px solid ##999;
+									  left: 25%;
+									  padding: 5px;
+									  position: absolute;
+									  top: 10px;
+									  z-index: 5;
+									}
+									</style>
+				
 
+
+<cfset arr = ArrayNew(1)>
+
+<cfloop query="states">
+	<cfset coordinates = {#latlongset# = 'new google.maps.LatLng(#states.latitude#,#states.longitude#)'}>
+	<cfset arrayAppend(arr,coordinates)>
+</cfloop>
+
+
+<script type="text/javascript" charset="utf-8">
+var states = #serializeJson(arr)#; 
+</script>
+
+<script>
+	function initMap() {
+	map = new google.maps.Map(document.getElementById("map"), {
+	zoom: 13,
+	center: { lat: 37.775, lng: -122.434 },
+	mapTypeId: "satellite",
+	});
+	heatmap = new google.maps.visualization.HeatmapLayer({
+	data: getPoints(),
+	map: map,
+	});
+	document
+	.getElementById("toggle-heatmap")
+	.addEventListener("click", toggleHeatmap);
+	document
+	.getElementById("change-gradient")
+	.addEventListener("click", changeGradient);
+	document
+	.getElementById("change-opacity")
+	.addEventListener("click", changeOpacity);
+	document
+	.getElementById("change-radius")
+	.addEventListener("click", changeRadius);
+	}
+	function toggleHeatmap() {
+	heatmap.setMap(heatmap.getMap() ? null : map);
+	}
+function changeGradient() {
+	const gradient = [
+	"rgba(0, 255, 255, 0)",
+	"rgba(0, 255, 255, 1)",
+	"rgba(0, 191, 255, 1)",
+	"rgba(0, 127, 255, 1)",
+	"rgba(0, 63, 255, 1)",
+	"rgba(0, 0, 255, 1)",
+	"rgba(0, 0, 223, 1)",
+	"rgba(0, 0, 191, 1)",
+	"rgba(0, 0, 159, 1)",
+	"rgba(0, 0, 127, 1)",
+	"rgba(63, 0, 91, 1)",
+	"rgba(127, 0, 63, 1)",
+	"rgba(191, 0, 31, 1)",
+	"rgba(255, 0, 0, 1)",
+	];
+  heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+}
+function changeRadius() {
+  heatmap.set("radius", heatmap.get("radius") ? null : 20);
+}
+function changeOpacity() {
+	heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
+}
+// Heatmap data: 500 Points
+function getPoints() {
+	return [coordinates];
+}
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<div id="floating-panel" class="mt-2">
+	<button id="toggle-heatmap">Toggle Heatmap</button>
+	<button id="change-gradient">Change gradient</button>
+	<button id="change-radius">Change radius</button>
+	<button id="change-opacity">Change opacity</button>
+</div>
+<div id="map" class="col-12" style="height: 900px;"></div>
+<script async src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization&callback=initMap"></script>
 
 						</div>
 					</div>
-				</cfoutput>
+			
 				</div>
 				<div class="col mt-4 float-left"> 
+					
 					<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 					<div class="my-2 py-3 border-bottom-black">
 						<cfif len(getNamedGroup.description) GT 0 >
@@ -897,11 +999,11 @@ limitations under the License.
 			</div>
 		</main>
 	</cfloop>
-<script>
-!(function(l){
+	<script>
+!(function(d){
 	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
 	var itemClassName = "carousel__photo";
-		items = l.getElementsByClassName(itemClassName),
+		items = d.getElementsByClassName(itemClassName),
 			totalItems = items.length,
 			slide = 0,
 			moving = true; 
@@ -915,8 +1017,8 @@ limitations under the License.
 	}
 	// Set click events to navigation buttons
 	function setEventListeners() {
-		var next = l.getElementsByClassName('carousel__button--next')[0],
-			prev = l.getElementsByClassName('carousel__button--prev')[0];
+		var next = d.getElementsByClassName('carousel__button--next')[0],
+			prev = d.getElementsByClassName('carousel__button--prev')[0];
 		next.addEventListener('click', moveNext);
 		prev.addEventListener('click', movePrev);
 	}
