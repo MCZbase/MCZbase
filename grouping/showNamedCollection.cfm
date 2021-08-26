@@ -396,6 +396,7 @@ limitations under the License.
 						AND media_relations.media_relationship = 'shows agent'
 						AND media.media_type = 'image'
 						AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 						AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 				</cfquery>
 				<cfif agentImagesForCarousel.recordcount GT 0>
@@ -422,6 +423,7 @@ limitations under the License.
 							AND media_relations.media_relationship = 'shows collecting_event'
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+							AND MCZBASE.is_media_encumbered(media.media_id) < 1
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
@@ -444,6 +446,7 @@ limitations under the License.
 						AND media_relations.media_relationship = 'shows collecting_event'
 						AND media.media_type = 'image'
 						AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 						AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 				</cfquery>
 				<cfif collectingCt.recordcount GT 0>
@@ -466,6 +469,7 @@ limitations under the License.
 							AND media_relations.media_relationship = 'shows locality'
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+							AND MCZBASE.is_media_encumbered(media.media_id) < 1
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 				</cfquery>
 				<cfquery name="localityImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
@@ -492,6 +496,7 @@ limitations under the License.
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+							AND MCZBASE.is_media_encumbered(media.media_id) < 1
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
 					WHERE Rownum < 26
