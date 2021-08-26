@@ -1,13 +1,13 @@
 <cfcomponent name="tests.TestListcatnumToBasQual" displayname="tests.TestListcatnumToBasQual" extends="mxunit.framework.TestCase">
-	<cfinclude template="../shared/functionLib.cfm">
+	<cfinclude template="../specimens/component/search.cfc">
 
 	<cffunction name="testScriptNumberListToJSON" returntype="void" access="public" hint="Tests ScriptNumberListToJSON()">
-		<!---  "( fieldname IN (list))"  or "( fieldname >= num AND fieldname <=num)" or "" --->
+		<!--- 'join":"and","field": "taxon_name_id","comparator": "IN","value": "#value#"'  --->
 		<cfscript>
-		 assertEquals(" fieldname IN ( 1 ) ", ScriptNumberListToJSON("1","fieldname"));
-		 assertEquals(" fieldname IN ( 1234567890 ) ", ScriptNumberListToJSON("1234567890","fieldname"));
-		 assertEquals(" fieldname IN ( 1234567890 ) ", ScriptNumberListToJSON("1234567890a","fieldname"));
-		 assertEquals(" fieldname IN ( 1234567890 ) ", ScriptNumberListToJSON("1234567890X","fieldname"));
+		 assertEquals('join":"and","field": "taxon_name_id","comparator": "IN","value": "1"', ScriptNumberListToJSON("1","fieldname"));
+		 assertEquals('join":"and","field": "taxon_name_id","comparator": "IN","value": "1234567890"', ScriptNumberListToJSON("1234567890","fieldname"));
+		 assertEquals('join":"and","field": "taxon_name_id","comparator": "IN","value": "1234567890"', ScriptNumberListToJSON("1234567890a","fieldname"));
+		 assertEquals('join":"and","field": "taxon_name_id","comparator": "IN","value": "1234567890"', ScriptNumberListToJSON("1234567890X","fieldname"));
 		 assertEquals(" ( fieldname >= 1 AND fieldname <= 4 ) ", ScriptNumberListToJSON("1-4","fieldname"));
 		 assertEquals(" ( fieldname >= 1 AND fieldname <= 4 ) ", ScriptNumberListToJSON("4-1","fieldname"));
 		 assertEquals("", ScriptNumberListToJSON("A","fieldname"));
