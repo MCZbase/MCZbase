@@ -306,7 +306,6 @@ limitations under the License.
 				</div>
 				<cfset otherImageTypes = 0>
 				<!--- obtain a random set of specimen images, limited to a small number --->
-				
 				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 					SELECT * FROM (
 						SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_media_credit(media.media_id) as credit
@@ -326,9 +325,6 @@ limitations under the License.
 						) 
 					WHERE   Rownum  < 26
 				</cfquery>
-				<!---							<cfif specimenImgs.recordcount GT 0>
-								<cfset hasSpecImages = true>
-							</cfif>--->
 				<cfif specimenImagesForCarousel.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
 				</cfif>
@@ -473,7 +469,7 @@ limitations under the License.
 					) 
 					WHERE Rownum < 26
 				</cfquery>
-				<cfquery name="getLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLong_result">  
+<!---				<cfquery name="getLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLong_result">  
 					select lat_long.dec_lat, lat_long.DEC_LONG 
 					from locality
 					left join flat 
@@ -486,7 +482,7 @@ limitations under the License.
 					on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 					WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					and flat.guid IS NOT NULL
-				</cfquery>
+				</cfquery>--->
 				<cfif localityCt.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
 				</cfif>
