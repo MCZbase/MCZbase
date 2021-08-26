@@ -191,6 +191,7 @@ limitations under the License.
 			<div class="row mx-0">
 			<article class="w-100">
 				<div class="col-12">
+				<cfoutput>
 					<div class="row mx-0">
 						<div class="col-12 border-dark mt-4">
 							<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name#
@@ -209,6 +210,7 @@ limitations under the License.
 							</cfif>
 						</div>
 					</div>
+				</cfoutput>
 					<div class="row mx-0">
 						<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT DISTINCT flat.guid, flat.scientific_name
@@ -235,6 +237,7 @@ limitations under the License.
 									AND media.media_type = 'image'
 									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 							</cfquery>
+						<cfoutput>
 						<cfif specimenImgs.recordcount GT 0>
 							<cfset hasSpecImages = true>
 							<cfset specimenImgsCt = specimenImgs.recordcount>
@@ -328,12 +331,12 @@ limitations under the License.
 								</div>
 							</div>
 						</section>
+						</cfoutput>
 					</div>
 					<!---end specimen grid---> 
 				</div>
 				<cfset otherImageTypes = 0>
 				<!--- obtain a random set of specimen images, limited to a small number --->
-				
 				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 					SELECT * FROM (
 						SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_media_credit(media.media_id) as credit
@@ -353,9 +356,6 @@ limitations under the License.
 						) 
 					WHERE   Rownum  < 26
 				</cfquery>
-				<!---							<cfif specimenImgs.recordcount GT 0>
-								<cfset hasSpecImages = true>
-							</cfif>--->
 				<cfif specimenImagesForCarousel.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
 				</cfif>
@@ -521,8 +521,6 @@ limitations under the License.
 					<div class="row mx-3 mt-3">
 					<div class="col-12 col-md-6 float-left">
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
-						<!---	<cfset leftHandColumnOn = true>---> 
-						<!---	<cfset hasSpecImages = false>--->
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 						<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 1>
@@ -532,7 +530,6 @@ limitations under the License.
 										<div class="carousel carousel_background">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
-												<!---	<img class="carousel__photo <cfif #i# eq 1>active</cfif>" src="#specimenImagesforCarousel['media_uri'][i]#">--->
 												<div class="carousel__photo border <cfif #i# eq 1>active</cfif>"> <img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
 													<p>#specimenImagesForCarousel['alt'][i]# <br>
 														<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
@@ -551,7 +548,6 @@ limitations under the License.
 										<div class="carousel carousel_background">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
-												<!---	<img class="carousel__photo <cfif #i# eq 1>active</cfif>" src="#specimenImagesforCarousel['media_uri'][i]#">--->
 												<div class="px-4 py-3 border <cfif #i# eq 1>active</cfif>"> <img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
 													<p>#specimenImagesForCarousel['alt'][i]# <br>
 														<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
@@ -621,7 +617,6 @@ limitations under the License.
 											<div class="carousel1 carousel_background">
 												<cfset i=1>
 												<cfloop query="agentImagesForCarousel">
-													<!---	<img class="carousel__photo2 <cfif #i# eq 1>active</cfif>" src="#collectingImagesForCarousel['media_uri'][i]#">--->
 													<div class="px-4 py-3 border <cfif #i# eq 1>active initial</cfif>"> <img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 <cfif #i# eq 1>active</cfif>">
 														<p>#agentImagesForCarousel['alt'][i]# <br>
 															<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
@@ -724,8 +719,6 @@ limitations under the License.
 						</div>
 					</cfif>
 				</cfoutput> 
-										
-			
 					<div class="row">
 						<div id="mapper" class="col-12 h-100">
 							<h2 class="mt-4">Heat Map Example</h2>
@@ -848,7 +841,7 @@ var states = <cfoutput>#serializeJson(arr)#</cfoutput>;
 
 						</div>
 					</div>
-<cfoutput>
+
 				</div>
 				<div class="col mt-4 float-left"> 
 					
@@ -1024,7 +1017,6 @@ var states = <cfoutput>#serializeJson(arr)#</cfoutput>;
 			</div>
 		</main>
 	</cfloop>
-</cfoutput>
 <script>
 !(function(d){
 	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
