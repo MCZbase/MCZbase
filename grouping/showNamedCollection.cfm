@@ -798,9 +798,9 @@ function changeOpacity() {
 
 // Heatmap data: 500 Points
 function getPoints() {
-  return [
-	state,
-  ];
+	return [
+		{+state+},
+	];
 }
 </script>
 						</div>
