@@ -724,7 +724,7 @@ limitations under the License.
 					</cfif>
 				</cfoutput> 
 										
-				<cfoutput>
+			
 					<div class="row">
 						<div id="mapper" class="col-12 h-100">
 							<h2 class="mt-4">Heat Map Example</h2>
@@ -743,7 +743,7 @@ var states = <cfoutput>#serializeJson(arr)#</cfoutput>;
 </script>
 		
 		
-	</cfouput>
+
 	 <script>
 		function initMap() {
 		map = new google.maps.Map(document.getElementById("map"), {
@@ -1023,7 +1023,7 @@ var states = <cfoutput>#serializeJson(arr)#</cfoutput>;
 			</div>
 		</main>
 	</cfloop>
-</cfoutput>
+
 	<script>
 !(function(d){
 	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
