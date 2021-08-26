@@ -790,15 +790,15 @@ function changeOpacity() {
 
 // Heatmap data: 500 Points
 function getPoints() {
-	return [
+
 		
 	<cfset arr = ArrayNew(1)>
 	<cfloop query="states">
-		<cfset state = {##='new google.maps.LatLng(#states.dec_lat#,#states.dec_long#)'}>
+		<cfset state = {#locality_id# = 'new google.maps.LatLng(#states.dec_lat#,#states.dec_long#)'}>
 		<cfset arrayAppend(arr,state)>
 	</cfloop>
 	var states = #serializeJson(arr)#; 
-		
+		return [ states	
 	];
 }
 </script>
