@@ -2,24 +2,28 @@
 	<cfinclude template="../specimens/component/search.cfc">
 
 	<cffunction name="testScriptNumberListToJSON" returntype="void" access="public" hint="Tests ScriptNumberListToJSON()">
-		<!--- 'join":"and","field": "taxon_name_id","comparator": "IN","value": "#value#"'  --->
+		<!--- '{join":"and","field": "cat_num","comparator": "IN","value": "1"}'  --->
 		<cfscript>
-		 assertEquals('join":"and","field": "taxon_name_id","comparator": "IN","value": "1"', ScriptNumberListToJSON("1","fieldname"));
-		 assertEquals('join":"and","field": "taxon_name_id","comparator": "IN","value": "1234567890"', ScriptNumberListToJSON("1234567890","fieldname"));
-		 assertEquals('join":"and","field": "taxon_name_id","comparator": "IN","value": "1234567890"', ScriptNumberListToJSON("1234567890a","fieldname"));
-		 assertEquals('join":"and","field": "taxon_name_id","comparator": "IN","value": "1234567890"', ScriptNumberListToJSON("1234567890X","fieldname"));
-		 assertEquals(" ( fieldname >= 1 AND fieldname <= 4 ) ", ScriptNumberListToJSON("1-4","fieldname"));
+		 assertEquals('{join":"and","field": "fieldname","comparator": "IN","value": "1"}', ScriptNumberListToJSON("1","fieldname"));
+		 assertEquals('{join":"and","field": "fieldname","comparator": "IN","value": "1234567890"}', ScriptNumberListToJSON("1234567890","fieldname"));
+		 assertEquals('{join":"and","field": "fieldname","comparator": "IN","value": "1234567890"}', ScriptNumberListToJSON("1234567890a","fieldname"));
+		 assertEquals('{join":"and","field": "fieldname","comparator": "IN","value": "1234567890"]}', ScriptNumberListToJSON("1234567890X","fieldname"));
+		 assertEquals('{join":"and","field": "fieldname","comparator": ">=","value": "1"]},{join":"and","field": "fieldname","comparator": "<=","value": "4"]}', ScriptNumberListToJSON("1-4","fieldname"));
+		 assertEquals('{join":"and","field": "fieldname","comparator": ">=","value": "1"]},{join":"and","field": "fieldname","comparator": "<=","value": "4"]}', ScriptNumberListToJSON("4-1","fieldname"));
 		 assertEquals(" ( fieldname >= 1 AND fieldname <= 4 ) ", ScriptNumberListToJSON("4-1","fieldname"));
 		 assertEquals("", ScriptNumberListToJSON("A","fieldname"));
 		 assertEquals("", ScriptNumberListToJSON("","fieldname"));
 		 assertEquals("", ScriptNumberListToJSON("-","fieldname"));
+		// TODO: Implement comma separated lists 
+		// assertEquals('{join":"and","field": "fieldname","comparator": ">=","value": "1"]},{join":"and","field": "fieldname","comparator": "<=","value": "4"]}', ScriptNumberListToJSON("4-1","fieldname"));
 		</cfscript>
 	</cffunction>
+<!---
+TODO: Determine JSON output
 
 	<cffunction name="testScriptPrefixedNumberListToJSONList" returntype="void" access="public" hint="Tests ScriptPrefixedNumberListToJSONList()">
 		<!--- 
    	ScriptPrefixedNumberListToJSONList(listOfNumbers, integerFieldname, prefixFieldname, embeddedSeparator) {
-		ScriptPrefixedNumberListToJSONList(listOfNumbers, integerFieldname, prefixFieldname, embeddedSeparator) { 
 		--->	
 		<cfscript>
 		        // a single number
@@ -78,6 +82,7 @@
 		</cfscript>
 	</cffunction>
 
+TODO: Determine JSON output
 	<cffunction name="testScriptPrefixedNumberListToJSONListLists" returntype="void" access="public" hint="Tests ScriptPrefixedNumberListToJSONList() for lists">
 		<cfscript>
 		assertEquals(" ( ( prefield = 'A-' AND ( ( intfield >= 1000 AND intfield <= 1500 ) ) ) ) ",ScriptPrefixedNumberListToJSONList("A-1000-1500","intfield","prefield",true));
@@ -94,6 +99,7 @@
 		        // list without dashes separating prefixes from numbers
 		assertEquals(" ( ( prefield = 'R-' AND ( ( intfield >= 1200 AND intfield <= 1210 ) ) ) OR ( prefield = 'S-' ) OR ( prefield = 'BOM-' AND ( ( intfield >= 0 AND intfield <= 100 ) ) ) ) ",ScriptPrefixedNumberListToJSONList("R1200-1210,S,BOM0-100","intfield","prefield",true));
 		</cfscript>
-		</cffunction>
+	</cffunction>
+--->
 
 </cfcomponent>
