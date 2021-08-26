@@ -510,7 +510,7 @@ limitations under the License.
 						on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 					WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 						and flat.guid IS NOT NULL
-					limit 500
+					and rowid = 500
 				</cfquery>
 				<cfif localityCt.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
