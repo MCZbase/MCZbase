@@ -692,7 +692,7 @@ limitations under the License.
 							</div>
 						</div>
 					</cfif>
-				</cfoutput> 
+		
 			<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 				SELECT lat_long.dec_lat as latitude, lat_long.DEC_LONG as longitude
 				FROM locality
@@ -749,7 +749,7 @@ limitations under the License.
 	<cfset arrayAppend(arr,state)>
 </cfloop>
 
-		</cfoutput>
+</cfoutput> 
 <script type="text/javascript" charset="utf-8">
 var states = <cfoutput>#serializeJson(arr)#</cfoutput>; 
 </script>
