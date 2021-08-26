@@ -724,127 +724,13 @@ limitations under the License.
 							<h2 class="mt-4">Heat Map Example</h2>
 
 
-<!---<cfset arr = ArrayNew(1)>
-
-<cfoutput query="states">
-	<cfset state = {#stateid# = 'new google.maps.LatLng(#states.latitude#,#states.longitude#)'}>
-	<cfset arrayAppend(arr,state)>
-</cfoutput>
-
-
-<script type="text/javascript" charset="utf-8">
-var states = <cfoutput>#serializeJson(arr)#</cfoutput>; 
-</script>--->
-		
-		
-
-	 <script>
-		function initMap() {
-		map = new google.maps.Map(document.getElementById("map"), {
-		zoom: 13,
-		center: { lat: 37.775, lng: -122.434 },
-		mapTypeId: "satellite",
-		});
-		heatmap = new google.maps.visualization.HeatmapLayer({
-		data: getPoints(),
-		map: map,
-		});
-		document
-		.getElementById("toggle-heatmap")
-		.addEventListener("click", toggleHeatmap);
-		document
-		.getElementById("change-gradient")
-		.addEventListener("click", changeGradient);
-		document
-		.getElementById("change-opacity")
-		.addEventListener("click", changeOpacity);
-		document
-		.getElementById("change-radius")
-		.addEventListener("click", changeRadius);
-		}
-		function toggleHeatmap() {
-		heatmap.setMap(heatmap.getMap() ? null : map);
-		}
-	function changeGradient() {
-		const gradient = [
-		"rgba(0, 255, 255, 0)",
-		"rgba(0, 255, 255, 1)",
-		"rgba(0, 191, 255, 1)",
-		"rgba(0, 127, 255, 1)",
-		"rgba(0, 63, 255, 1)",
-		"rgba(0, 0, 255, 1)",
-		"rgba(0, 0, 223, 1)",
-		"rgba(0, 0, 191, 1)",
-		"rgba(0, 0, 159, 1)",
-		"rgba(0, 0, 127, 1)",
-		"rgba(63, 0, 91, 1)",
-		"rgba(127, 0, 63, 1)",
-		"rgba(191, 0, 31, 1)",
-		"rgba(255, 0, 0, 1)",
-		];
-	  heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-	}
-	function changeRadius() {
-	  heatmap.set("radius", heatmap.get("radius") ? null : 20);
-	}
-	function changeOpacity() {
-		heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
-	}
-	// Heatmap data: 500 Points
-	function getPoints() {
-		return [
-		new google.maps.LatLng(37.754361, -122.442206),
-		new google.maps.LatLng(37.753719, -122.44265),
-		new google.maps.LatLng(37.753096, -122.442915),
-		new google.maps.LatLng(37.751617, -122.443211),
-		new google.maps.LatLng(37.751496, -122.443246),
-		new google.maps.LatLng(37.750733, -122.443428),
-		new google.maps.LatLng(37.750126, -122.443536),
-		new google.maps.LatLng(37.750103, -122.443784),
-		new google.maps.LatLng(37.75039, -122.44401),
-		new google.maps.LatLng(37.750448, -122.444013),
-		new google.maps.LatLng(37.750536, -122.44404),
-		new google.maps.LatLng(37.750493, -122.444141),
-		new google.maps.LatLng(37.790859, -122.402808),
-		new google.maps.LatLng(37.790864, -122.402768),
-		new google.maps.LatLng(37.790995, -122.402539),
-		new google.maps.LatLng(37.791148, -122.402172),
-		new google.maps.LatLng(37.791385, -122.401312),
-		new google.maps.LatLng(37.791405, -122.400776),
-		new google.maps.LatLng(37.791288, -122.400528),
-		new google.maps.LatLng(37.791113, -122.400441),
-		new google.maps.LatLng(37.791027, -122.400395),
-		new google.maps.LatLng(37.791094, -122.400311),
-		new google.maps.LatLng(37.791211, -122.400183),
-		new google.maps.LatLng(37.79106, -122.399334),
-
-		new google.maps.LatLng(37.786092, -122.39383),
-		new google.maps.LatLng(37.785998, -122.393899),
-		new google.maps.LatLng(37.785114, -122.394365),
-		new google.maps.LatLng(37.785022, -122.394441),
-		new google.maps.LatLng(37.784823, -122.394635),
-		new google.maps.LatLng(37.784719, -122.394629),
-		new google.maps.LatLng(37.785069, -122.394176),
-		new google.maps.LatLng(37.751266, -122.403355),
-	  ];
-	}
-	</script>
-	<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-	<div id="floating-panel" class="mt-2">
-		<button id="toggle-heatmap">Toggle Heatmap</button>
-		<button id="change-gradient">Change gradient</button>
-		<button id="change-radius">Change radius</button>
-		<button id="change-opacity">Change opacity</button>
-	</div>
-	<div id="map" class="col-12" style="height: 900px;"></div>
-	<script async src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=visualization&callback=initMap"></script>
 
 						</div>
 					</div>
 
 				</div>
 				<div class="col mt-4 float-left"> 
-					
+			<cfoutput>	
 					<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 					<div class="my-2 py-3 border-bottom-black">
 						<cfif len(getNamedGroup.description) GT 0 >
@@ -1010,6 +896,7 @@ var states = <cfoutput>#serializeJson(arr)#</cfoutput>;
 							</div>
 						</cfif>
 					</div>
+			</cfoutput>	
 				</div>
 				</div>
 				<!--- end rowEverythihngElse---> 
