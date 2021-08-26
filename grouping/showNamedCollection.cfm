@@ -496,7 +496,6 @@ limitations under the License.
 					) 
 					WHERE Rownum < 26
 				</cfquery>
-				
 				<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 					SELECT lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
 					FROM locality
@@ -510,8 +509,7 @@ limitations under the License.
 						on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 					WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 						and flat.guid IS NOT NULL
-					ORDER BY id DESC
-						FETCH FIRST 500 ROWS ONLY
+					
 				</cfquery>
 				<cfif localityCt.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
