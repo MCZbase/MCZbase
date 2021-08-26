@@ -86,6 +86,7 @@ limitations under the License.
 /* Translate previous item to the left */
 .carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,.carousel__photo3.prev {
   transform: translateX(-100%);
+
 }
 /* Translate next item to the right */
 .carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next,.carousel__photo3.next {
@@ -135,7 +136,7 @@ limitations under the License.
 .current {
 	width: 300px;
 	height: 300px; 
-	border: .5rem solid ##fff;
+	border: .5rem solid ##fff;;
 	background-color: ##f8f9fa;
 }
 </style>
@@ -348,7 +349,6 @@ limitations under the License.
 						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 							AND flat.guid IS NOT NULL
 							AND collector.collector_role = 'c'
-
 							AND media_relations.media_relationship = 'shows agent'
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
@@ -735,10 +735,11 @@ limitations under the License.
 	 <script>
 		function initMap() {
 		map = new google.maps.Map(document.getElementById("map"), {
-		zoom: 13,
+		zoom: 0,
 		center: { lat: 37.775, lng: -122.434 },
 		mapTypeId: "satellite",
 		});
+
 		heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
 		map: map,
@@ -1179,7 +1180,6 @@ limitations under the License.
 		new google.maps.LatLng(37.782076, -122.400977),
 		new google.maps.LatLng(37.782338, -122.400603),
 		new google.maps.LatLng(37.782666, -122.400133),
-
 		new google.maps.LatLng(37.783048, -122.399634),
 		new google.maps.LatLng(37.78345, -122.399198),
 		new google.maps.LatLng(37.783791, -122.398998),
@@ -1915,15 +1915,3 @@ function moveNext() {
 </script>
 </cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
-© 2021 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
