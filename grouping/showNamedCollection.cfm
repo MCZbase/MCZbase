@@ -700,7 +700,7 @@ limitations under the License.
 										
 				<cfoutput>
 					<div class="row">
-						<div id="mapper" class="col-12 h-100 px-0">
+						<div id="mapper" class="col-12 h-100">
 							<h2 class="mt-4">Heat Map Example</h2>
 							<style>
 									##map {
