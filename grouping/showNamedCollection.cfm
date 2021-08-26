@@ -34,7 +34,7 @@ limitations under the License.
 </cfif>
 <cfinclude template="/shared/_header.cfm">
 
-<cfoutput>
+
 	<style>
 /* Parent wrapper to carousel. Width can be changed as needed. */
 .carousel-wrapper, .carousel-wrapper1, .carousel-wrapper2, .carousel-wrapper3 {
@@ -63,13 +63,13 @@ limitations under the License.
 	padding: 1rem 2rem;/*changed to 2 from 4*/
 	z-index: 100;
 	transition: transform .5s, opacity .5s, z-index .5s;
-	border: 1px solid ##bac5c6;
+	border: 1px solid #bac5c6;
 	
 }
 .carousel_background {
-	background-color: ##f8f9fa;
-	border:1px solid ##e8e8e8;
-	border: .5rem solid ##fff;
+	background-color: #f8f9fa;
+	border:1px solid #e8e8e8;
+	border: .5rem solid #fff;
 }
 /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
 .carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,.carousel__photo3.initial,
@@ -122,8 +122,8 @@ limitations under the License.
 	height: 15px;
 	top: 50%;
 	left: 54%;
-	border-right: 2px solid ##007bff;
-	border-bottom: 2px solid ##007bff;
+	border-right: 2px solid #007bff;
+	border-bottom: 2px solid #007bff;
 	transform: translate(-50%, -50%) rotate(135deg);
 }
 .carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after,.carousel__button3--next::after {
@@ -136,29 +136,29 @@ limitations under the License.
 .current {
 	width: 300px;
 	height: 300px; 
-	border: .5rem solid ##fff;;
-	background-color: ##f8f9fa;
+	border: .5rem solid #fff;;
+	background-color: #f8f9fa;
 }
-##map {
+#map {
 	height: 100%;
 	width: 100%;
 }
-##floating-panel {
+#floating-panel {
 	position: absolute;
 	top: 10px;
 	left: 25%;
 	z-index: 5;
-	background-color: ##fff;
+	background-color: #fff;
 	padding: 5px;
-	border: 1px solid ##999;
+	border: 1px solid #999;
 	text-align: center;
 	font-family: "Roboto", "sans-serif";
 	line-height: 30px;
 	padding-left: 10px;
 }
-##floating-panel {
-	background-color: ##fff;
-	border: 1px solid ##999;
+#floating-panel {
+	background-color: #fff;
+	border: 1px solid #999;
 	left: 25%;
 	padding: 5px;
 	position: absolute;
@@ -181,6 +181,7 @@ limitations under the License.
 		FROM underscore_collection
 		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
+<cfoutput>
 	<cfloop query="getNamedGroup">
 		<cfif getNamedGroup.mask_fg EQ 1 AND (NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0)>
 			<!--- mask_fg = 1 = Hidden --->
@@ -1023,8 +1024,8 @@ var states = <cfoutput>#serializeJson(arr)#</cfoutput>;
 			</div>
 		</main>
 	</cfloop>
-
-	<script>
+</cfoutput>
+<script>
 !(function(d){
 	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
 	var itemClassName = "carousel__photo";
