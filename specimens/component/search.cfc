@@ -141,14 +141,16 @@ function ScriptPrefixedNumberListToJSONList(listOfNumbers, integerFieldname, pre
 * @param listOfNumbers  A string containing a list of one or more numbers or ranges
 *	 of numbers in one of the forms "1" or "1,3" or "1-3" or "1,4-9".
 * @param fieldname  The name of the fieldname on which the listOfNumbers is a condition.
+* @param nestDepth (not yet implemented, the expression nesting depth)
+* @param leadingJoin the value to use in the first join:"" in constructed JSON (not yet implemented, uses and)
 * @return A string containing conditions specified in JSON.
 * @see unit test testScriptNumberListToJSON
 */
-function ScriptNumberListToJSON(listOfNumbers, fieldname) {
+function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin) {
 	var result = "";
 	var orBit = "";
 	var wherePart = "";
-	<!--- 'join":"and","field": "cat_num","comparator": "IN","value": "#encodeForJavaScript(value)#"'  --->
+	<!--- '{"join":"and","field": "cat_num","comparator": "IN","value": "#encodeForJavaScript(value)#"}'  --->
 
 	// Prepare list for parsing
 	listOfNumbers = trim(listOfNumbers);
@@ -179,8 +181,8 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname) {
 				lowPart = parts[2];
 				highPart = parts[1];
 			}
-			result = 'join":"and","field": "' & field_name &'","comparator": ">=","value": "#encodeForJavaScript(lowPart)#"';
-			result = result & '},{join":"and","field": "' & field_name &'","comparator": "<=","value": "#encodeForJavaScript(highPart)#"';
+			result = '{join":"and","field": "' & field_name &'","comparator": ">=","value": "#encodeForJavaScript(lowPart)#"';
+			result = result & '},{join":"and","field": "' & field_name &'","comparator": "<=","value": "#encodeForJavaScript(highPart)#"}';
 		} else if (ArrayLen(REMatch("^[0-9,]+$",listOfNumbers))>0) {
 			// Just a list of numbers without ranges.
 			if (listOfNumbers!=",") {
@@ -191,6 +193,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname) {
 			}
 		} else {
 			// Error or list of numbers some of which are ranges, split and treat each separately.
+			// TODO: Refactor
 			if (ArrayLen(REMatch(",",listOfNumbers))>0) {
 				// split listOfNumbers on ","
 				lparts = ListToArray(listOfNumbers,",",false);
