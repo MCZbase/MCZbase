@@ -75,20 +75,6 @@ Update an existing arbitrary collection record (underscore_collection).
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-			
-
-
-
-<cfoutput>
-<table>
-<tr>
-<td bgcolor='red'><h4><font color='white'>CFC Bind Example</font></td>
-</tr>
-</table>
-
-Latitude, Longitude: (#cfmaplatitude#,#cfmaplongitude#)<br>
-</cfoutput>
-
 
 <!---
 Function getUndCollList.  Search for arbitrary collections returning json suitable for a dataadaptor.

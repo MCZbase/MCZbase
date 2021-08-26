@@ -739,7 +739,9 @@ limitations under the License.
 									</style>
 
 							
-							
+<cfoutput>
+Latitude, Longitude: (#cfmaplatitude#,#cfmaplongitude#)<br>
+</cfoutput>						
 							
 <script language="JavaScript">
 var getMapData = function(cfmaplatitude, cfmaplongitude){
