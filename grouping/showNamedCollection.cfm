@@ -898,10 +898,10 @@ limitations under the License.
 		</main>
 	</cfloop>
 <script>
-!(function(d){
+!(function(l){
 	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
 	var itemClassName = "carousel__photo";
-		items = d.getElementsByClassName(itemClassName),
+		items = l.getElementsByClassName(itemClassName),
 			totalItems = items.length,
 			slide = 0,
 			moving = true; 
@@ -915,8 +915,8 @@ limitations under the License.
 	}
 	// Set click events to navigation buttons
 	function setEventListeners() {
-		var next = d.getElementsByClassName('carousel__button--next')[0],
-			prev = d.getElementsByClassName('carousel__button--prev')[0];
+		var next = l.getElementsByClassName('carousel__button--next')[0],
+			prev = l.getElementsByClassName('carousel__button--prev')[0];
 		next.addEventListener('click', moveNext);
 		prev.addEventListener('click', movePrev);
 	}
