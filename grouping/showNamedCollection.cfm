@@ -740,28 +740,13 @@ limitations under the License.
 
 							
 <cfoutput>
-Latitude, Longitude: (#cfmaplatitude#,#cfmaplongitude#)<br>
+	<cfloop query="getMapData">
+		Latitude, Longitude: (#cfmaplatitude#,#cfmaplongitude#)<br>
+	</cfloop>
 </cfoutput>						
 							
-<script language="JavaScript">
-var getMapData = function(cfmaplatitude, cfmaplongitude){
-var msg = "";
-msg = msg + "Latitude,longitude: " + "(" + cfmaplatitude + "," + cfmaplongitude + ")" + "<br>";
 
-//alert(msg);
-return "<br><table><tr><td bgcolor='red'><h4><font color='white'>" + "Javascript Bind Example" + "</font></td></tr></table><hr>" + msg;
-}
-</script>
-<cfmap
-centeraddress="MCZ Cambridge, MA"
-name="map1"
-type="map"
-tip="MCZ Cambridge, MA"
-zoomControl="small3d"
-markerbind="javascript:getMapData({cfmaplatitude}, {cfmaplongitude})"
-showmarkerwindow = true>
-<cfmapitem name="m1" address="Taj Mahal, Agra, India" tip="Taj Mahal, Agra, India">
-</cfmap>
+
 
 
 
