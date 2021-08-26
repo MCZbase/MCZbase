@@ -1,20 +1,15 @@
 <!---
 vocabularies/component/functions.cfc
-
 Copyright 2020 President and Fellows of Harvard College
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
 --->
 <cfcomponent>
 <cf_rolecheck>
@@ -22,7 +17,6 @@ limitations under the License.
 
 <!--- function saveUndColl 
 Update an existing arbitrary collection record (underscore_collection).
-
 @param underscore_collection_id primary key of record to update
 @param collection_name the brief uman readable description of the arbitrary collection, must not be blank.
 @param description description of the collection
@@ -77,7 +71,6 @@ Update an existing arbitrary collection record (underscore_collection).
 
 <!---
 Function getUndCollList.  Search for arbitrary collections returning json suitable for a dataadaptor.
-
 @param collection_name name of the underscore collection (arbitrary grouping) to search for.
 @return a json structure containing matching coll event number series.
 --->
