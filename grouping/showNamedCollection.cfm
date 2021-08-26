@@ -348,7 +348,6 @@ limitations under the License.
 							AND media_relations.media_relationship = 'shows cataloged_item'
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-							AND MCZBASE.is_media_encumbered(media.media_id) < 1
 							ORDER BY DBMS_RANDOM.RANDOM
 						) 
 					WHERE   Rownum  < 26
@@ -377,7 +376,6 @@ limitations under the License.
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-							AND MCZBASE.is_media_encumbered(media.media_id) < 1
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
 					WHERE Rownum < 26
@@ -424,7 +422,6 @@ limitations under the License.
 							AND media_relations.media_relationship = 'shows collecting_event'
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-							AND MCZBASE.is_media_encumbered(media.media_id) < 1
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
@@ -495,7 +492,6 @@ limitations under the License.
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-							AND MCZBASE.is_media_encumbered(media.media_id) < 1
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
 					WHERE Rownum < 26
