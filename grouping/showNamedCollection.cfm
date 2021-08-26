@@ -331,7 +331,6 @@ limitations under the License.
 								</div>
 							</div>
 						</section>
-						</cfoutput>
 					</div>
 					<!---end specimen grid---> 
 				</div>
@@ -517,7 +516,6 @@ limitations under the License.
 				<cfif localityCt.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
 				</cfif>
-				<cfoutput>
 					<div class="row mx-3 mt-3">
 					<div class="col-12 col-md-6 float-left">
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
@@ -718,7 +716,6 @@ limitations under the License.
 							</div>
 						</div>
 					</cfif>
-				</cfoutput> 
 					<div class="row">
 						<div id="mapper" class="col-12 h-100">
 							<h2 class="mt-4">Heat Map Example</h2>
@@ -730,7 +727,6 @@ limitations under the License.
 
 				</div>
 				<div class="col mt-4 float-left"> 
-			<cfoutput>	
 					<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 					<div class="my-2 py-3 border-bottom-black">
 						<cfif len(getNamedGroup.description) GT 0 >
@@ -896,7 +892,6 @@ limitations under the License.
 							</div>
 						</cfif>
 					</div>
-			</cfoutput>	
 				</div>
 				</div>
 				<!--- end rowEverythihngElse---> 
@@ -1338,5 +1333,5 @@ function moveNext() {
 	initCarousel3();
 }(document));
 </script>
-
+</cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
