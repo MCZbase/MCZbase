@@ -1,17 +1,23 @@
 <!---
 grouping/showNamedCollection.cfm
+
 For read only public view of arbitrary groupings of collection objects and
 added value html describing them.
+
 Copyright 2021 President and Fellows of Harvard College
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
+
     http://www.apache.org/licenses/LICENSE-2.0
+
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
 --->
 <cfset pageTitle = "Named Group">
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -86,7 +92,6 @@ limitations under the License.
 /* Translate previous item to the left */
 .carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,.carousel__photo3.prev {
   transform: translateX(-100%);
-
 }
 /* Translate next item to the right */
 .carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next,.carousel__photo3.next {
@@ -126,6 +131,7 @@ limitations under the License.
 	border-bottom: 2px solid ##007bff;
 	transform: translate(-50%, -50%) rotate(135deg);
 }
+
 .carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after,.carousel__button3--next::after {
 	left: 47%;
 	transform: translate(-50%, -50%) rotate(-45deg);
@@ -242,6 +248,7 @@ limitations under the License.
 										handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
 									}
 								};
+
 								var dataAdapter = new $.jqx.dataAdapter(source);
 								// initialize jqxGrid
 								$("##jqxgrid").jqxGrid(
@@ -453,16 +460,14 @@ limitations under the License.
 							MCZBASE.get_media_credit(media.media_id) as credit
 						FROM
 							underscore_collection
-							left join underscore_relation 
-								on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+							left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 								on underscore_relation.collection_object_id = flat.collection_object_id
-							left join locality
+								left join locality
 								on locality.locality_id = flat.locality_id 
-							left join media_relations 
+								left join media_relations 
 								on locality.locality_id = media_relations.related_primary_key 
-							left join media 
-								on media_relations.media_id = media.media_id
+							left join media on media_relations.media_id = media.media_id
 						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 							AND flat.guid IS NOT NULL
 							AND media_relations.media_relationship = 'shows locality'
@@ -473,20 +478,6 @@ limitations under the License.
 					) 
 					WHERE Rownum < 26
 				</cfquery>
-			<!---	<cfquery name="coordinatesHeatMap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="coordinatesHeatMap_result">  
-					select lat_long.dec_lat, lat_long.DEC_LONG 
-					from locality
-					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-					on flat.locality_id = locality.locality_id
-					left join lat_long
-					on lat_long.locality_id = flat.locality_id
-					left join underscore_relation
-					on underscore_relation.collection_object_id = flat.collection_object_id
-					left join underscore_collection
-					on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-					WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-					and flat.guid IS NOT NULL
-				</cfquery>--->
 				<cfif localityCt.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
 				</cfif>
@@ -696,19 +687,73 @@ limitations under the License.
 							</div>
 						</div>
 					</cfif>
-				</cfoutput> 
-										
-				<cfoutput>
-					<div class="row">
-						<div id="mapper" class="col-12 h-100 px-0">
-							<h2 class="mt-4">Heat Map Example</h2>
-
-
-
-
-
+				</cfoutput> <cfoutput>
+					<div id="mapper" class="col-12 px-0">
+						<h2 class="mt-4">Heat Map Example</h2>
+						<style>
+								##map {
+								  height: 100%;
+								}
+								##floating-panel {
+								  position: absolute;
+								  top: 10px;
+								  left: 25%;
+								  z-index: 5;
+								  background-color: ##fff;
+								  padding: 5px;
+								  border: 1px solid ##999;
+								  text-align: center;
+								  font-family: "Roboto", "sans-serif";
+								  line-height: 30px;
+								  padding-left: 10px;
+								}
+								##floating-panel {
+								  background-color: ##fff;
+								  border: 1px solid ##999;
+								  left: 25%;
+								  padding: 5px;
+								  position: absolute;
+								  top: 10px;
+								  z-index: 5;
+								}
+								</style>
+						<div id="floating-panel" class="mt-2">
+							<button id="toggle-heatmap">Toggle Heatmap</button>
+							<button id="change-gradient">Change gradient</button>
+							<button id="change-radius">Change radius</button>
+							<button id="change-opacity">Change opacity</button>
 						</div>
+						<div id="map" class="mt-4"><img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/thumbnails/google_map_Example.png" class="w-100"></div>
 					</div>
+					<!---end map---> 
+<!---					<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+					<h2 class="mt-4">Region Map Example</h2>
+					<div id="regions_div" class="w-100" style="height: 550px;"></div>--->
+					<script>
+//						// https://jsfiddle.net/api/post/library/pure/
+//						google.charts.load('current', {
+//						'packages':['geochart'],
+//						  });
+//						  google.charts.setOnLoadCallback(drawRegionsMap);
+//
+//						  function drawRegionsMap() {
+//							var data = google.visualization.arrayToDataTable([
+//							  ['Country', 'Collected'],
+//							  ['Germany', 254],
+//							  ['United States', 320],
+//							  ['Brazil', 410],
+//							  ['Canada', 506],
+//							  ['France', 670],
+//							  ['RU', 700]
+//							]);
+//
+//							var options = {};
+//
+//							var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+//
+//							chart.draw(data, options);
+//						  }
+					</script> 
 				</cfoutput>
 				</div>
 				<div class="col mt-4 float-left"> 
@@ -886,6 +931,7 @@ limitations under the License.
 		</main>
 	</cfloop>
 	<script>
+
 !(function(d){
 	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
 	var itemClassName = "carousel__photo";
@@ -893,46 +939,60 @@ limitations under the License.
 			totalItems = items.length,
 			slide = 0,
 			moving = true; 
+
 	// To initialise the carousel we'll want to update the DOM with our own classes
 	function setInitialClasses() {
+
 		// Target the last, initial, and next items and give them the relevant class.
 		// This assumes there are three or more items.
 		items[totalItems - 1].classList.add("prev");
 		items[0].classList.add("active");
 		items[1].classList.add("next");
 	}
+
 	// Set click events to navigation buttons
+
 	function setEventListeners() {
 		var next = d.getElementsByClassName('carousel__button--next')[0],
 			prev = d.getElementsByClassName('carousel__button--prev')[0];
+
 		next.addEventListener('click', moveNext);
 		prev.addEventListener('click', movePrev);
 	}
+
 	// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
 	function disableInteraction() {
 		moving = true;
+
 		setTimeout(function(){
 			moving = false
 		}, 500);
 	}
+
 function moveCarouselTo(slide) {
+
 	// Check if carousel is moving, if not, allow interaction
 if(!moving) {
+
 	// temporarily disable interactivity
 	disableInteraction();
+
 	// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
 	var newPrevious = slide - 1,
 		newNext = slide + 1,
 		oldPrevious = slide - 2,
 		oldNext = slide + 2;
+
 		// Test if carousel has more than three items
 		if ((totalItems - 1) > 1) {
+
 			// Checks if the new potential slide is out of bounds and sets slide numbers
 			if (newPrevious <= 0) {
 				oldPrevious = (totalItems - 1);
 			} else if (newNext >= (totalItems - 1)){
 				oldNext = 0;
 			}
+
 			// Check if current slide is at the beginning or end and sets slide numbers
 			if (slide === 0) {
 				newPrevious = (totalItems - 1);
@@ -943,10 +1003,13 @@ if(!moving) {
 				newNext = 0;
 				oldNext = 1;
 			}
+
 			// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+
 			// Based on the current slide, reset to default classes.
 			items[oldPrevious].className = itemClassName;
 			items[oldNext].className = itemClassName;
+
 			// Add the new classes
 			items[newPrevious].className = itemClassName + " prev";
 			items[slide].className = itemClassName + " active";
@@ -954,6 +1017,7 @@ if(!moving) {
 		}
 	}
 }
+
 // Next navigation handler
 function moveNext() {
 	// Check if moving
@@ -972,6 +1036,7 @@ function moveNext() {
 	function movePrev() {
 		// Check if moving
 		if (!moving) {
+
 			// If it's the first slide, set as the last slide, else -1
 			if (slide === 0) {
 				slide = (totalItems - 1);
@@ -986,11 +1051,13 @@ function moveNext() {
 	function initCarousel() {
 		setInitialClasses();
 		setEventListeners();
+
 		// Set moving to false now that the carousel is ready
 		moving = false;
 	}
 	// make it rain
 	initCarousel();
+
 }(document));
 /////////////////
 !(function(e){
@@ -1000,6 +1067,7 @@ function moveNext() {
 			totalItems1 = items1.length,
 			slide1 = 0,
 			moving1 = true; 
+
 	// To initialise the carousel we'll want to update the DOM with our own classes
 	function setInitialClasses1() {
 		// Target the last, initial, and next items and give them the relevant class.
@@ -1009,19 +1077,24 @@ function moveNext() {
 		items1[1].classList.add("next");
 	}
 	// Set click events to navigation buttons
+
 	function setEventListeners1() {
 		var next = e.getElementsByClassName('carousel__button1--next')[0],
 			prev = e.getElementsByClassName('carousel__button1--prev')[0];
+
 		next.addEventListener('click', moveNext1);
 		prev.addEventListener('click', movePrev1);
 	}
+
 	// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
 	function disableInteraction1() {
 		moving1 = true;
+
 		setTimeout(function(){
 			moving1 = false
 		}, 500);
 	}
+
 	function moveCarouselTo1(slide1) {
 		// Check if carousel is moving, if not, allow interaction
 		if(!moving1) {
@@ -1034,12 +1107,14 @@ function moveNext() {
 				oldNext = slide1 + 2;
 			// Test if carousel has more than three items
 			if ((totalItems1 - 1) > 1) {
+
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
 					oldPrevious = (totalItems1 - 1);
 				} else if (newNext >= (totalItems1 - 1)){
 					oldNext = 0;
 				}
+
 				// Check if current slide is at the beginning or end and sets slide numbers
 				if (slide1 === 0) {
 					newPrevious = (totalItems1 - 1);
@@ -1050,10 +1125,13 @@ function moveNext() {
 					newNext = 0;
 					oldNext = 1;
 				}
+
 				// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+
 				// Based on the current slide, reset to default classes.
 				items1[oldPrevious].className = itemClassName1;
 				items1[oldNext].className = itemClassName1;
+
 				// Add the new classes
 				items1[newPrevious].className = itemClassName1 + " prev";
 				items1[slide1].className = itemClassName1 + " active";
@@ -1061,6 +1139,7 @@ function moveNext() {
 			}
 		}
 	}
+
 	// Next navigation handler
 	function moveNext1() {
 		// Check if moving
@@ -1098,6 +1177,7 @@ function moveNext() {
 	}
 	// make it rain
 	initCarousel1();
+
 }(document));
 /////////////////
 !(function(f){
@@ -1107,6 +1187,7 @@ function moveNext() {
 			totalItems2 = items2.length,
 			slide2 = 0,
 			moving2 = true; 
+
 	// To initialise the carousel we'll want to update the DOM with our own classes
 	function setInitialClasses2() {
 		// Target the last, initial, and next items and give them the relevant class.
@@ -1115,20 +1196,25 @@ function moveNext() {
 		items2[0].classList.add("active");
 		items2[1].classList.add("next");
 	}
+
 	// Set click events to navigation buttons
 	function setEventListeners2() {
 		var next = f.getElementsByClassName('carousel__button2--next')[0],
 			prev = f.getElementsByClassName('carousel__button2--prev')[0];
+
 		next.addEventListener('click', moveNext2);
 		prev.addEventListener('click', movePrev2);
 	}
+
 	// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
 	function disableInteraction2() {
 		moving2 = true;
+
 		setTimeout(function(){
 			moving2 = false
 		}, 500);
 	}
+
 	function moveCarouselTo2(slide2) {
 		// Check if carousel is moving, if not, allow interaction
 		if(!moving2) {
@@ -1139,14 +1225,17 @@ function moveNext() {
 				newNext = slide2 + 1, 
 				oldPrevious = slide2 - 2, 
 				oldNext = slide2 + 2; 
+
 			// Test if carousel has more than one item
 			if ((totalItems2 - 1) > 1) {
+
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
 					oldPrevious = (totalItems2 - 1);
 				} else if (newNext >= (totalItems2 - 1)){
 					oldNext = 0; 
 				}
+
 				// Check if current slide is at the beginning or end and sets slide numbers
 				if (slide2 === 0) {
 					newPrevious = (totalItems2 - 1);
@@ -1163,6 +1252,7 @@ function moveNext() {
 				// Based on the current slide, reset to default classes.
 				items2[oldPrevious].className = itemClassName2;
 				items2[oldNext].className = itemClassName2;
+
 				// Add the new classes
 				items2[newPrevious].className = itemClassName2 + " prev";
 				items2[slide2].className = itemClassName2 + " active";
@@ -1171,6 +1261,7 @@ function moveNext() {
 			}
 		}
 	}
+
 	// Next navigation handler
 	function moveNext2() {
 		// Check if moving
@@ -1185,6 +1276,7 @@ function moveNext() {
 			moveCarouselTo2(slide2);
 		}
 	}
+
 	// Previous navigation handler
 	function movePrev2() {
 		// Check if moving
@@ -1199,6 +1291,7 @@ function moveNext() {
 			moveCarouselTo2(slide2);
 		}
 	}
+
 	// Initialise carousel
 	function initCarousel2() {
 		setInitialClasses2();
@@ -1208,6 +1301,7 @@ function moveNext() {
 	}
 	// make it rain
 	initCarousel2();
+
 }(document));
 /////////////////
 !(function(s){
@@ -1217,6 +1311,7 @@ function moveNext() {
 			totalItems3 = items3.length,
 			slide3 = 0,
 			moving3 = true; 
+
 	// To initialise the carousel we'll want to update the DOM with our own classes
 	function setInitialClasses3() {
 		// Target the last, initial, and next items and give them the relevant class.
@@ -1226,19 +1321,24 @@ function moveNext() {
 		items3[1].classList.add("next");
 	}
 	// Set click events to navigation buttons
+
 	function setEventListeners3() {
 		var next = s.getElementsByClassName('carousel__button3--next')[0],
 			prev = s.getElementsByClassName('carousel__button3--prev')[0];
+
 		next.addEventListener('click', moveNext3);
 		prev.addEventListener('click', movePrev3);
 	}
+
 	// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
 	function disableInteraction3() {
 		moving3 = true;
+
 		setTimeout(function(){
 			moving3 = false
 		}, 500);
 	}
+
 	function moveCarouselTo3(slide3) {
 		// Check if carousel is moving, if not, allow interaction
 		if(!moving3) {
@@ -1252,12 +1352,14 @@ function moveNext() {
 			
 			// Test if carousel has more than three items
 			if ((totalItems3 - 1) > 1) {
+
 				// Checks if the new potential slide is out of bounds and sets slide numbers
 				if (newPrevious <= 0) {
 					oldPrevious = (totalItems3 - 1);
 				} else if (newNext >= (totalItems3 - 1)){
 					oldNext = 0;
 				}
+
 				// Check if current slide is at the beginning or end and sets slide numbers
 				if (slide3 === 0) {
 					newPrevious = (totalItems3 - 1);
@@ -1273,6 +1375,7 @@ function moveNext() {
 				// Based on the current slide, reset to default classes.
 				items3[oldPrevious].className = itemClassName3;
 				items3[oldNext].className = itemClassName3;
+
 				// Add the new classes
 				items3[newPrevious].className = itemClassName3 + " prev";
 				items3[slide3].className = itemClassName3 + " active";
@@ -1280,6 +1383,7 @@ function moveNext() {
 			} 
 		}
 	}
+
 	// Next navigation handler
 	function moveNext3() {
 		// Check if moving
@@ -1317,6 +1421,7 @@ function moveNext() {
 	}
 	// make it rain
 	initCarousel3();
+
 }(document));
 </script>
 </cfoutput>
