@@ -744,7 +744,7 @@ limitations under the License.
 		function initMap() {
 		map = new google.maps.Map(document.getElementById("map"), {
 		zoom: 4,
-		center: { lat: 42.3785136, lng: --71.117796 },
+		center: { lat: 42.3785136, lng: -71.117796 },
 		mapTypeId: "satellite",
 		});
 		heatmap = new google.maps.visualization.HeatmapLayer({
