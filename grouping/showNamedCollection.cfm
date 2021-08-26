@@ -724,7 +724,7 @@ limitations under the License.
 							<h2 class="mt-4">Heat Map Example</h2>
 
 
-<cfset arr = ArrayNew(1)>
+<!---<cfset arr = ArrayNew(1)>
 
 <cfoutput query="states">
 	<cfset state = {#stateid# = 'new google.maps.LatLng(#states.latitude#,#states.longitude#)'}>
@@ -734,7 +734,7 @@ limitations under the License.
 
 <script type="text/javascript" charset="utf-8">
 var states = <cfoutput>#serializeJson(arr)#</cfoutput>; 
-</script>
+</script>--->
 		
 		
 
