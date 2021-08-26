@@ -511,7 +511,7 @@ limitations under the License.
 					WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 						and flat.guid IS NOT NULL
 					ORDER BY id DESC
-						FETCH FIRST 500 ROWS ONLY;
+						FETCH FIRST 500 ROWS ONLY
 				</cfquery>
 				<cfif localityCt.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
