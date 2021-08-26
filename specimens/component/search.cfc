@@ -536,7 +536,7 @@ function ScriptNumberListPartToSQLWhere (atom, fieldName) {
 	</cfif>
 	<cfif isDefined("cat_num") AND len(cat_num) GT 0>
 		<!--- TODO: Use function able to include prefixes --->
-		<cfset clause = ScriptNumberListToJSON(cat_num, "cat_num", "", "and");
+		<cfset clause = ScriptNumberListToJSON(cat_num, "cat_num", "", "and") >
 		<cfset search_json = "#search_json##separator##clause#">
 		<cfset separator = ",">
 		<cfset join='join":"and",'>
