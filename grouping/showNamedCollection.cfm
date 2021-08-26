@@ -480,7 +480,7 @@ limitations under the License.
 					) 
 					WHERE Rownum < 26
 				</cfquery>
-				<cfquery name="coordinatesHeatMap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="coordinatesHeatMap_result">  
+				<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMapData_result">  
 					select lat_long.dec_lat, lat_long.DEC_LONG 
 					from locality
 					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
@@ -741,18 +741,6 @@ limitations under the License.
 							
 							
 							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 <script language="JavaScript">
 var getMapData = function(cfmapname, cfmaplatitude, cfmaplongitude, cfmapaddress){
 var msg = "";
@@ -772,37 +760,12 @@ zoomControl="small3d"
 markerbind="javascript:getMapData({cfmapname}, {cfmaplatitude}, {cfmaplongitude}, {cfmapaddress})"
 showmarkerwindow = true>
 <cfmapitem name="m1" address="Taj Mahal, Agra, India" tip="Taj Mahal, Agra, India">
-<cfmapitem name="m2" latitude="40.46" longitude="117.05" showmarkerwindow=true tip="Great Wall of China, Bejing">
-<cfmapitem name="m3" address="Stonehenge, England" tip="Stonehenge, England" showmarkerwindow = false>
+<cfmapitem name="m2" latitude="42.3785136" longitude="-89.0452957" showmarkerwindow=true tip="MCZ">
+<cfmapitem name="m3" address="Cambridge, Massachusetts" tip="Cambridge, Massachusetts" showmarkerwindow = false>
 </cfmap>
 
 
-	
-	
-	
-	
-	
-	
-	
-	
 
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 						</div>
 					</div>
 				</cfoutput>
