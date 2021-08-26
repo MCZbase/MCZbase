@@ -191,7 +191,6 @@ limitations under the License.
 			<div class="row mx-0">
 			<article class="w-100">
 				<div class="col-12">
-				<cfoutput>
 					<div class="row mx-0">
 						<div class="col-12 border-dark mt-4">
 							<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name#
@@ -210,7 +209,6 @@ limitations under the License.
 							</cfif>
 						</div>
 					</div>
-				</cfoutput>
 					<div class="row mx-0">
 						<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT DISTINCT flat.guid, flat.scientific_name
@@ -237,7 +235,6 @@ limitations under the License.
 									AND media.media_type = 'image'
 									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 							</cfquery>
-						<cfoutput>
 						<cfif specimenImgs.recordcount GT 0>
 							<cfset hasSpecImages = true>
 							<cfset specimenImgsCt = specimenImgs.recordcount>
