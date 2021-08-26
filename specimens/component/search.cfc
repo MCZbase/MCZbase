@@ -388,9 +388,9 @@ limitations under the License.
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
-		<cfif isDefined("loan_number") AND len(loan_number) GT 0>
-			<cfset field = '"field": "loan_number"'>
-			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#loan_number#",separator="#separator#")>
+		<cfif isDefined("deaccession_number") AND len(deaccession_number) GT 0>
+			<cfset field = '"field": "deaccession_number"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#deaccession_number#",separator="#separator#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
