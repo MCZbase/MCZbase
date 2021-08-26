@@ -540,7 +540,7 @@ function ScriptNumberListPartToSQLWhere (atom, fieldName) {
 		<cfset search_json = "#search_json##separator##clause#">
 		<cfset separator = ",">
 		<cfset join='join":"and",'>
-	<cfelse>
+	</cfif>
 	<cfif isDefined("taxon_name_id") AND len(taxon_name_id) GT 0>
 		<cfset field = '"field": "taxon_name_id"'>
 		<cfset comparator = '"comparator": "="'>
