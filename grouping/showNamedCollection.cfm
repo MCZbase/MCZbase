@@ -693,8 +693,21 @@ limitations under the License.
 						</div>
 					</cfif>
 				</cfoutput> 
-										
-				<cfoutput>
+			<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
+				SELECT lat_long.dec_lat as latitude, lat_long.DEC_LONG as longitude
+				FROM locality
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+					on flat.locality_id = locality.locality_id
+					left join lat_long
+					on lat_long.locality_id = flat.locality_id
+					left join underscore_relation
+					on underscore_relation.collection_object_id = flat.collection_object_id
+					left join underscore_collection
+					on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+					and flat.guid IS NOT NULL
+			</cfquery>							
+			
 					<div class="row">
 						<div id="mapper" class="col-12 h-100">
 							<h2 class="mt-4">Heat Map Example</h2>
@@ -726,28 +739,15 @@ limitations under the License.
 									  z-index: 5;
 									}
 									</style>
-				</cfoutput>
-<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
-	SELECT lat_long.dec_lat as latitude, lat_long.DEC_LONG as longitude
-	FROM locality
-		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-		on flat.locality_id = locality.locality_id
-		left join lat_long
-		on lat_long.locality_id = flat.locality_id
-		left join underscore_relation
-		on underscore_relation.collection_object_id = flat.collection_object_id
-		left join underscore_collection
-		on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-	WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-		and flat.guid IS NOT NULL
-</cfquery>
+				
+
 
 <cfset arr = ArrayNew(1)>
 
-<cfoutput query="states">
+<cfloop query="states">
 	<cfset coordinates = {#latlongset# = 'new google.maps.LatLng(#states.latitude#,#states.longitude#)'}>
 	<cfset arrayAppend(arr,state)>
-</cfoutput>
+</cfloop>
 
 
 <script type="text/javascript" charset="utf-8">
