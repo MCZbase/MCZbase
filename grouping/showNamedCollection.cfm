@@ -497,7 +497,7 @@ limitations under the License.
 					WHERE Rownum < 26
 				</cfquery>
 				<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
-					SELECT Distinct lat_long.locality_id,cast(lat_long.dec_lat as decimal(9,6)), cast(lat_long.DEC_LONG as decimen (9,6)) 
+					SELECT Distinct lat_long.locality_id,(cast(lat_long.dec_lat as decimal(9,6))), (cast(lat_long.DEC_LONG as decimen (9,6))) 
 					FROM locality
 						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 						on flat.locality_id = locality.locality_id
