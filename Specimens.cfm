@@ -614,8 +614,9 @@ limitations under the License.
 													</script> 
 												</div>
 												<div class="col-12 col-md-3">
+													<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 													<label for="catalogNum" class="data-entry-label">Catalog Number</label>
-													<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="Catalog ##(s)" disabled>
+													<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="1,1-4,A-1,R1-4" value="#cat_num#">
 												</div>
 												<div class="col-12 col-md-3">
 													<label for="otherID" class="data-entry-label">Other ID Type</label>
