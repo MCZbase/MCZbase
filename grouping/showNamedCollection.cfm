@@ -135,7 +135,7 @@ limitations under the License.
 .current {
 	width: 300px;
 	height: 300px; 
-	border: .5rem solid ##fff;;
+	border: .5rem solid ##fff;
 	background-color: ##f8f9fa;
 }
 </style>
