@@ -496,7 +496,7 @@ limitations under the License.
 					) 
 					WHERE Rownum < 26
 				</cfquery>
-				<cfset mapnum = '500'>
+				<cfset mapnum = 500>
 				<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 					SELECT lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
 					FROM locality
