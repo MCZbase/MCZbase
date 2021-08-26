@@ -794,12 +794,13 @@ function getPoints() {
 		
 	<cfset arr = ArrayNew(1)>
 	<cfloop query="states">
-		<cfset state = {#locality_id# = 'new google.maps.LatLng(#states.dec_lat#,#states.dec_long#)'}>
+		<cfset state = new google.maps.LatLng(#states.dec_lat#+,#states.dec_long#),<br>
 		<cfset arrayAppend(arr,state)>
 	</cfloop>
 	var states = #serializeJson(arr)#; 
-		return [ states	
-	];
+		return [ 
+			states
+		];
 }
 </script>
 						</div>
