@@ -719,16 +719,16 @@ limitations under the License.
 
 <cfset arr = ArrayNew(1)>
 
-<cfoutput query="states">
+<cfloop query="states">
 
     <cfset state = {#stateid# = 'new google.maps.LatLng(#states.dec_lat#,#states.dec_long#)'}>
     <cfset arrayAppend(arr,state)>
 
-</cfoutput>
+</cfloop>
 
 
 <script type="text/javascript" charset="utf-8">
-var states = <cfloop query="states">#serializeJson(arr)#</cfloop>; 
+var states = #serializeJson(arr)#; 
 </script>
 
 
