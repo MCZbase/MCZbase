@@ -231,11 +231,11 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 */
 function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	var result = "";
-	// check to see if listofnumbers is just one number,
+	// check to see if atom is just one number,
 	// if so return "AND fieldname IN ( number )"
 	if (ArrayLen(REMatch("^[0-9]+$",atom))>0) {
 		//  Just a single number, exact match.
-		result = '{"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJavaScript(listOfNumbers)#"}';
+		result = '{"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJavaScript(atom)#"}';
 	} else {
 		if (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",atom))>0) {
 			// Just a single range, two clauses, between start and end of range.
