@@ -205,8 +205,12 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 					// if part is a single number, return "OR fieldname IN ( number )"
 					wherePart = ScriptNumberListPartToJSON(lparts[i], fieldname, nestDepth, "or");
 					// allow for the case of two or more sequential commas.
+					comma = "";
+					if (result NEQ "") { 
+						comma = ",";
+					}
 					if (wherePart NEQ "") {
-						result = result & wherePart;
+						result = result & comma & wherePart;
 					}
 				}
 			} else {
