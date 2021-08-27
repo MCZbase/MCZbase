@@ -529,7 +529,7 @@ function ScriptNumberListPartToSQLWhere (atom, fieldName) {
 
 	<cfif isDefined("collection") AND len(collection) GT 0>
 		<cfset field = '"field": "collection_cde"'>
-		<cfset comparator = 'comparator: "IN"'>
+		<cfset comparator = '"comparator": "IN"'>
 		<cfset value = encodeForJavaScript(collection)>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
@@ -647,7 +647,7 @@ function ScriptNumberListPartToSQLWhere (atom, fieldName) {
 
 	<cfif isDefined("collector_agent_id") AND len(collector_agent_id) GT 0>
 		<cfset field = '"field": "collector_agent_id"'>
-		<cfset comparator = 'comparator: "="'>
+		<cfset comparator = '"comparator": "="'>
 		<cfset value = encodeForJavaScript(collector_agent_id)>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
