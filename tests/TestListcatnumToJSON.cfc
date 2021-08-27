@@ -7,15 +7,17 @@
 		 assertEquals('{join":"and","field": "fieldname","comparator": "IN","value": "1"}', ScriptNumberListToJSON("1","fieldname"));
 		 assertEquals('{join":"and","field": "fieldname","comparator": "IN","value": "1234567890"}', ScriptNumberListToJSON("1234567890","fieldname"));
 		 assertEquals('{join":"and","field": "fieldname","comparator": "IN","value": "1234567890"}', ScriptNumberListToJSON("1234567890a","fieldname"));
-		 assertEquals('{join":"and","field": "fieldname","comparator": "IN","value": "1234567890"]}', ScriptNumberListToJSON("1234567890X","fieldname"));
-		 assertEquals('{join":"and","field": "fieldname","comparator": ">=","value": "1"]},{join":"and","field": "fieldname","comparator": "<=","value": "4"]}', ScriptNumberListToJSON("1-4","fieldname"));
-		 assertEquals('{join":"and","field": "fieldname","comparator": ">=","value": "1"]},{join":"and","field": "fieldname","comparator": "<=","value": "4"]}', ScriptNumberListToJSON("4-1","fieldname"));
+		 assertEquals('{join":"and","field": "fieldname","comparator": "IN","value": "1234567890"}', ScriptNumberListToJSON("1234567890X","fieldname"));
+		 assertEquals('{join":"and","field": "fieldname","comparator": ">=","value": "1"},{join":"and","field": "fieldname","comparator": "<=","value": "4"}', ScriptNumberListToJSON("1-4","fieldname"));
+		 assertEquals('{join":"and","field": "fieldname","comparator": ">=","value": "1"},{join":"and","field": "fieldname","comparator": "<=","value": "4"}', ScriptNumberListToJSON("4-1","fieldname"));
+		 assertEquals('{join":"and","field": "CAT_NUM_INTEGER","comparator": ">=","value": "1"},{join":"and","field": "CAT_NUM_INTEGER","comparator": "<=","value": "4"}', ScriptNumberListToJSON("1-4","cat_num"));
+		 assertEquals('{join":"and","field": "CAT_NUM_INTEGER","comparator": ">=","value": "1"},{join":"and","field": "CAT_NUM_INTEGER","comparator": "<=","value": "4"}', ScriptNumberListToJSON("4-1","cat_num"));
 		 assertEquals(" ( fieldname >= 1 AND fieldname <= 4 ) ", ScriptNumberListToJSON("4-1","fieldname"));
 		 assertEquals("", ScriptNumberListToJSON("A","fieldname"));
 		 assertEquals("", ScriptNumberListToJSON("","fieldname"));
 		 assertEquals("", ScriptNumberListToJSON("-","fieldname"));
-		// TODO: Implement comma separated lists 
-		// assertEquals('{join":"and","field": "fieldname","comparator": ">=","value": "1"]},{join":"and","field": "fieldname","comparator": "<=","value": "4"]}', ScriptNumberListToJSON("4-1","fieldname"));
+		 assertEquals('{join":"and","field": "fieldname","comparator": ">=","value": "1"},{join":"and","field": "fieldname","comparator": "<=","value": "4"},{join":"or","field": "fieldname","comparator": "IN","value": "1"},{join":"and","field": "fieldname","comparator": "<=","value": "6"}', ScriptNumberListToJSON("1-4,6","fieldname"));
+		 assertEquals('{join":"and","field": "CAT_NUM_INTEGER","comparator": ">=","value": "1"},{join":"and","field": "CAT_NUM_INTEGER","comparator": "<=","value": "4"},{join":"or","field": "cat_num","comparator": "IN","value": "6"}', ScriptNumberListToJSON("1-4,6","cat_num"));
 		</cfscript>
 	</cffunction>
 <!---

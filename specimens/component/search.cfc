@@ -196,26 +196,18 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 			}
 		} else {
 			// Error or list of numbers some of which are ranges, split and treat each separately.
-			// TODO: Refactor
 			if (ArrayLen(REMatch(",",listOfNumbers))>0) {
 				// split listOfNumbers on ","
 				lparts = ListToArray(listOfNumbers,",",false);
-				orBit = "";
 				for(i=1; i LTE ArrayLen(lparts); i=i+1) {
 					// for each part, check to see if part is a range
 					// if part is a range, return "OR (fieldname >= minimum AND fieldname <= maximum)"
 					// if part is a single number, return "OR fieldname IN ( number )"
-					wherePart = ScriptNumberListPartToSQLWhere(lparts[i], fieldname);
+					wherePart = ScriptNumberListPartToSQLJSON(lparts[i], fieldname, nestDepth, "or");
 					// allow for the case of two or more sequential commas.
 					if (wherePart NEQ "") {
-						// Separate parts of list are separated by OR, but no leading OR
-						result = result & orBit & wherePart;
-						orBit = " OR ";
+						result = result & wherePart;
 					}
-				}
-				if (result NEQ "") {
-					// comma changes to or, so wrap whole list of parts as an AND clause
-					result = " (" & result & ") ";
 				}
 			} else {
 				// Error state.  Not a single number, list, or range.
@@ -229,20 +221,24 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 /**
 *
 * Supporting function for ScriptNumberListToSQLWhere(), converts a number or a range into
-* a portion of a SQL where clause as a condition on a specified field.
+* a portion of a SQL where clause as a condition on a specified field.  
 *
-* @param atom a number or a range of two numbers separated by a dash "4-6".
-* @param fieldName the name of the field on which atom is a condition.
+* @param atom a number or a range of two numbers separated by a dash "4-6", should not contain any commas.
+* @param fieldname the name of the field on which atom is a condition.
+* @param nestDepth (not yet implemented, the expression nesting depth)
+* @param leadingJoin the value to use in the first join:"" in constructed JSON (not yet implemented, uses and)
 * @return a string contaning "( fieldname IN (list))"  or "( fieldname >= num AND fieldname <=num)" or ""
 */
-function ScriptNumberListPartToSQLWhere (atom, fieldName) {
+function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	var result = "";
 	// check to see if listofnumbers is just one number,
 	// if so return "AND fieldname IN ( number )"
 	if (ArrayLen(REMatch("^[0-9]+$",atom))>0) {
-		result = "(" & fieldname & " IN ( " & atom & " ))";
+		//  Just a single number, exact match.
+		result = '{"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJavaScript(listOfNumbers)#"}';
 	} else {
 		if (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",atom))>0) {
+			// Just a single range, two clauses, between start and end of range.
 			parts = ListToArray(atom,"-");
 			lowPart = parts[1];
 			highPart = parts[2];
@@ -250,7 +246,11 @@ function ScriptNumberListPartToSQLWhere (atom, fieldName) {
 				lowPart = parts[2];
 				highPart = parts[1];
 			}
-			result = "(" & fieldname & " >= "& lowPart &" AND " & fieldname & " <= " & highPart & ")";
+			if (ucase(fieldname) IS "CAT_NUM") { 
+				fieldname = "CAT_NUM_INTEGER";
+			}
+			result = '{"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJavaScript(lowPart)#"';
+			result = result & '},{"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJavaScript(highPart)#"}';
 		} else {
 			// Error state.  Not a single number, list, or range.
 			// Likely to result from two sequential commas, so return an empty string.
