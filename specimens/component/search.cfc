@@ -170,7 +170,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 
 	if (ArrayLen(REMatch("^[0-9]+$",listOfNumbers))>0) {
 		//  Just a single number, exact match.
-		result = '{join":"and","field": "' & fieldname &'","comparator": "=","value": "#encodeForJavaScript(listOfNumbers)#"}';
+		result = '{"join":"and","field": "' & fieldname &'","comparator": "=","value": "#encodeForJavaScript(listOfNumbers)#"}';
 	} else {
 		if (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",listOfNumbers))>0) {
 			// Just a single range, two clauses, between start and end of range.
@@ -181,12 +181,12 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 				lowPart = parts[2];
 				highPart = parts[1];
 			}
-			result = '{join":"and","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJavaScript(lowPart)#"';
+			result = '{"join":"and","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJavaScript(lowPart)#"';
 			result = result & '},{join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJavaScript(highPart)#"}';
 		} else if (ArrayLen(REMatch("^[0-9,]+$",listOfNumbers))>0) {
 			// Just a list of numbers without ranges, translates directly to IN
 			if (listOfNumbers!=",") {
-				result = '{join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJavaScript(listOfNumbers)#"}';
+				result = '{"join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJavaScript(listOfNumbers)#"}';
 			} else {
 				// just a comma with no numbers, return empty string
 				result = "";
