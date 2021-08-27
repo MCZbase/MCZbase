@@ -181,7 +181,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 				lowPart = parts[2];
 				highPart = parts[1];
 			}
-			if (upper(fieldname) IS "CAT_NUM") { 
+			if (ucase(fieldname) IS "CAT_NUM") { 
 				fieldname = "CAT_NUM_INTEGER";
 			}
 			result = '{"join":"and","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJavaScript(lowPart)#"';
