@@ -203,7 +203,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 					// for each part, check to see if part is a range
 					// if part is a range, return "OR (fieldname >= minimum AND fieldname <= maximum)"
 					// if part is a single number, return "OR fieldname IN ( number )"
-					wherePart = ScriptNumberListPartToSQLJSON(lparts[i], fieldname, nestDepth, "or");
+					wherePart = ScriptNumberListPartToJSON(lparts[i], fieldname, nestDepth, "or");
 					// allow for the case of two or more sequential commas.
 					if (wherePart NEQ "") {
 						result = result & wherePart;
