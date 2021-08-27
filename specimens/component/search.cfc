@@ -182,7 +182,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 				highPart = parts[1];
 			}
 			result = '{"join":"and","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJavaScript(lowPart)#"';
-			result = result & '},{join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJavaScript(highPart)#"}';
+			result = result & '},{"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJavaScript(highPart)#"}';
 		} else if (ArrayLen(REMatch("^[0-9,]+$",listOfNumbers))>0) {
 			// Just a list of numbers without ranges, translates directly to IN
 			if (listOfNumbers!=",") {
