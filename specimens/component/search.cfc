@@ -333,7 +333,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfelseif left(value,2) is "=>">
 			<cfset value="#ucase(right(value,len(value)-2))#">
 			<cfset comparator = '"comparator": ">="'>
-		<cfelsefif left(value,1) is "=">
+		<cfelseif left(value,1) is "=">
 			<cfset value="#ucase(right(value,len(value)-1))#">
 			<cfset comparator = '"comparator": "="'>
 		<cfelseif left(value,1) is "~">
