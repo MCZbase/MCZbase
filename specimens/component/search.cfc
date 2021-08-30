@@ -36,7 +36,10 @@ limitations under the License.
 * @param integerFieldname  The name of the number field on which the listOfNumbers is a condition.
 * @param prefixFieldname   The name of the string field on which the listOfNumbers is a condition.
 * @param embeddedSeparator true if the separator is stored embedded within the prefix field, false
-*		if prefix field only contains the prefix data, not the field separator.
+*		if prefix field only contains the prefix data, not the field separator, if true, then a 
+*		dash separator will be added at the end of the prefix if one is not present in the provided
+*		listOfNumbers, that is A1-2 will be turned into prefixFieldName="A-" if false, then "A" alone
+*		is used.
 *
 * @return A string containing conditions to append to a SQL where clause.  See unit tests:
 *		 testScriptPrefixedNumberListToSQLWherePrefix and testScriptPrefixedNumberListToSQLWherePrefixLists
@@ -526,7 +529,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	</cfif>
 	<cfif isDefined("cat_num") AND len(cat_num) GT 0>
 		<cfset nestDepth = "">
-		<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "cat_num_numeric", "cat_num_prefix", true, nestDepth, "and")>
+		<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "CAT_NUM_INTEGER", "CAT_NUM_PREFIX", false, nestDepth, "and")>
 		<!--- cfset clause = ScriptNumberListToJSON(cat_num, "cat_num", "", "and") --->
 		<cfset search_json = "#search_json##separator##clause#">
 		<cfset separator = ",">
