@@ -170,8 +170,7 @@ limitations under the License.
 	top: 10px;
 	z-index: 5;
 }
-</style>
-	<style>
+
 .vslider {
   position: relative;
   overflow: hidden;
