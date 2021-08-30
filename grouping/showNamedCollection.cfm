@@ -654,10 +654,10 @@ limitations under the License.
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 						<div class="">
 							<cfif specimenImagesForCarousel.recordcount gt 1>
-							<cfset index = 1>
+							
 								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous image </button>
-									<input type="number" id="custom-input" class="border-0 w-50 py-1 px-2 mt-1 text-center" placeholder="index">
+									<input type="number" id="custom-input" class="border-0 w-50 py-1 px-2 mt-1 text-center" placeholder="#i#">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next image >> </button>
 								  </div>
 								  <div class="vslider" id="vslider-base" style="height:750px;">
