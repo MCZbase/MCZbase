@@ -289,6 +289,7 @@ limitations under the License.
 									altrows: true,
 									showtoolbar: false,
 									enabletooltips: true,
+									selectionmode: 'multiplecelladvanced',
 									pageable: true,
 									columns: [
 										{ text: 'GUID', datafield: 'guid', width:'180',cellsalign: 'left',cellsrenderer: cellsrenderer },
