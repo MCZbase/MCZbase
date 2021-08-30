@@ -761,6 +761,22 @@ limitations under the License.
 											</cfloop>
 										</div>
 									</div>
+								<cfelse>
+										<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
+										<h3 class="mx-2">Locality</h3>
+										 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
+											<button type="button" class="border-0 btn-outline-primary" id="custom-prev3" disabled> << previous </button>
+											<input type="number" id="custom-input3" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
+											<button type="button" class="border-0 btn-outline-primary" id="custom-next3" disabled> next >> </button>
+										  </div>
+										<div class="vslider" id="vslider-base3" style="height:370px;">
+											<cfset i=1>
+											<cfloop query="localityImagesForCarousel">
+												<div class="carousel_background border px-3 pt-3 small pb-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="w-auto mx-auto" style="max-width:100%;max-height:350px;"></a></div>
+												<cfset i=i+1>
+											</cfloop>
+										</div>
+									</div>
 								</cfif>
 							</div>
 						</div>
