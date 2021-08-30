@@ -855,14 +855,20 @@ limitations under the License.
     <button type="button" id="custom-prev">prev</button>
     <input type="number" id="custom-input" placeholder="index">
     <button type="button" id="custom-next">next</button>
+	  	  <cfset i=1>
+	<cfloop query="specimenImagesForCarousel">
+	
+		<p>#specimenImagesForCarousel['alt'][i]# <br>
+			<a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+			</p>
+		<cfset i=i+1>
+	</cfloop>
   </div>
   <div class="vslider" id="vslider-base">
 	  <cfset i=1>
 	<cfloop query="specimenImagesForCarousel">
 		<div><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-75" style="height:75%"></div>
-		<p>#specimenImagesForCarousel['alt'][i]# <br>
-			<a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-			</p>
+
 		<cfset i=i+1>
 	</cfloop>
 	  
