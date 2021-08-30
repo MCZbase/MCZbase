@@ -702,7 +702,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous image </button>
-									<input type="number" id="custom-input" class="border-0 w-50 py-1 px-2 mt-1 text-center" placeholder="index">
+									<input type="number" id="custom-input" class="border-0 w-auto py-1 px-2 mt-1 text-center" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next image >> </button>
 								  </div>
 								<div class="vslider" id="vslider-base" style="height:300px;">
@@ -723,7 +723,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-									<input type="number" id="custom-input" class="border-0 w-50 py-1 px-2 mt-1 text-center" placeholder="index">
+									<input type="number" id="custom-input" class="border-0 w-auto py-1 px-2 mt-1 text-center" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next >> </button>
 								  </div>
 								<div class="vslider" id="vslider-base" style="height:300px;">
@@ -744,7 +744,7 @@ limitations under the License.
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 										 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-											<input type="number" id="custom-input" class="border-0 w-50 py-1 px-2 mt-1 text-center" placeholder="index">
+											<input type="number" id="custom-input" class="border-0 w-auto py-1 px-2 mt-1 text-center" placeholder="index">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next >> </button>
 										  </div>
 										<div class="vslider" id="vslider-base" style="height:300px;">
