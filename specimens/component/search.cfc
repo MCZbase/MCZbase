@@ -529,7 +529,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	</cfif>
 	<cfif isDefined("cat_num") AND len(cat_num) GT 0>
 		<cfset nestDepth = "">
-		<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "CAT_NUM_INTEGER", "CAT_NUM_PREFIX", false, nestDepth, "and")>
+		<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "CAT_NUM_INTEGER", "CAT_NUM_PREFIX", true, nestDepth, "and")>
 		<!--- cfset clause = ScriptNumberListToJSON(cat_num, "cat_num", "", "and") --->
 		<cfset search_json = "#search_json##separator##clause#">
 		<cfset separator = ",">
