@@ -860,7 +860,7 @@ limitations under the License.
 	  <cfset i=1>
 	<cfloop query="specimenImagesForCarousel">
 		<p></p>
-		<div><img src="#specimenImagesForCarousel['media_uri'][i]#">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a></div>
+		<div><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a></div>
 
 		<cfset i=i+1>
 	</cfloop>
