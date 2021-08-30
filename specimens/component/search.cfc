@@ -509,6 +509,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="collection" type="string" required="no">
 	<cfargument name="cat_num" type="string" required="no">
+	<cfargument name="other_id_type" type="string" required="no">
+	<cfargument name="other_id_number" type="string" required="no">
 	<cfargument name="full_taxon_name" type="string" required="no">
 	<cfargument name="genus" type="string" required="no">
 	<cfargument name="family" type="string" required="no">
@@ -545,6 +547,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset nestDepth = "">
 		<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "CAT_NUM_INTEGER", "CAT_NUM_PREFIX", true, nestDepth, "and")>
 		<!--- cfset clause = ScriptNumberListToJSON(cat_num, "cat_num", "", "and") --->
+		<cfset search_json = "#search_json##separator##clause#">
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
+		<cfset nestDepth = "">
+		<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, nestDepth, "and")>
 		<cfset search_json = "#search_json##separator##clause#">
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
