@@ -533,14 +533,14 @@ limitations under the License.
 										<div class="carousel carousel_background">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
-												<div class="carousel__photo border <cfif #i# eq 1>active</cfif>"> <img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
+												<div class="carousel__photo border <cfif #i# eq 1>active</cfif>" tabindex="0"> <img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
 													<p>#specimenImagesForCarousel['alt'][i]# <br>
 														<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
-											<a href="##" class="carousel__button--next"></a>
-											<a href="##" class="carousel__button--prev"></a>
+											<a href="##" class="carousel__button--next" aria-label="next image"></a>
+											<a href="##" class="carousel__button--prev" aria-label="previous image"></a>
 										</div>
 									</div>
 								</div>
@@ -557,8 +557,8 @@ limitations under the License.
 												</div>
 												<cfset i=i+1>
 											</cfloop>
-											<div class="carousel__button--next"></div>
-											<div class="carousel__button--prev"></div>
+											<a href="##" class="carousel__button--next"></a>
+											<a href="##" class="carousel__button--prev"></a>
 										</div>
 									</div>
 								</div>
