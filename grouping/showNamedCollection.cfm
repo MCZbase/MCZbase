@@ -539,8 +539,8 @@ limitations under the License.
 												</div>
 												<cfset i=i+1>
 											</cfloop>
-											<a class="carousel__button--next"></a>
-											<a class="carousel__button--prev"></a>
+											<a href="##" class="carousel__button--next"></a>
+											<a href="##" class="carousel__button--prev"></a>
 										</div>
 									</div>
 								</div>
