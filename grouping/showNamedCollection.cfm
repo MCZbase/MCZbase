@@ -699,8 +699,9 @@ limitations under the License.
 									<cfset imagePlural = 'image'>
 								</cfif>
 								<cfif agentImagesForCarousel.recordcount gt 0>
-								<h3 class="mx-2">Agents</h3>
+							
 								<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
+										<h3 class="mx-2">Agents</h3>
 								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
 									<input type="number" id="custom-input1" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
@@ -721,8 +722,9 @@ limitations under the License.
 									<cfset imagePlural = 'image'>
 								</cfif>
 								<cfif collectingImagesForCarousel.recordcount gt 0>
-								<h3 class="mx-2">Collecting Event</h3>
+								
 								<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
+									<h3 class="mx-2">Collecting Event</h3>
 								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
 									<input type="number" id="custom-input2" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
@@ -743,8 +745,9 @@ limitations under the License.
 									<cfset imagePlural = 'image'>
 								</cfif>
 								<cfif localityImagesForCarousel.recordcount gt 0>
-									<h3>Locality</h3>
+									
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
+										<h3>Locality</h3>
 										 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-prev3"> << previous </button>
 											<input type="number" id="custom-input3" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
