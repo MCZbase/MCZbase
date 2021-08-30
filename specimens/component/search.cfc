@@ -327,12 +327,24 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="separator" type="string" required="yes">
 
 	<cfset search_json = "">
-		<cfif left(value,1) is "=">
+		<cfif left(value,2) is "=<">
+			<cfset value="#ucase(right(value,len(value)-2))#">
+			<cfset comparator = '"comparator": "<="'>
+		<cfelseif left(value,2) is "=>">
+			<cfset value="#ucase(right(value,len(value)-2))#">
+			<cfset comparator = '"comparator": ">="'>
+		<cfelsefif left(value,1) is "=">
 			<cfset value="#ucase(right(value,len(value)-1))#">
 			<cfset comparator = '"comparator": "="'>
 		<cfelseif left(value,1) is "~">
 			<cfset value="#ucase(right(value,len(value)-1))#">
 			<cfset comparator = '"comparator": "JARO_WINKLER"'>
+		<cfelseif left(value,2) is ">=">
+			<cfset value="#ucase(right(value,len(value)-2))#">
+			<cfset comparator = '"comparator": ">="'>
+		<cfelseif left(value,2) is "<=">
+			<cfset value="#ucase(right(value,len(value)-2))#">
+			<cfset comparator = '"comparator": "<="'>
 		<cfelseif left(value,2) is "!~">
 			<cfset value="#ucase(right(value,len(value)-2))#">
 			<cfset comparator = '"comparator": "NOT JARO_WINKLER"'>
@@ -666,23 +678,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 
 	<cftry>
 		<cfset username = session.dbuser>
-		<!--- TODO: Implement returnCode from build_query, 0=success, non zero error condition. --->
-		<!--- cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" returnCode="yes" --->
-		<!---  OR,  this could just be handled by build_query_dbms_sql throwing exceptions --->
+		<!--- errors are handled by build_query_dbms_sql throwing exceptions --->
 		<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 			<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
 			<cfprocresult name="search">
 		</cfstoredproc>
-		<!--- TODO implement return code in build_query and check return code for error value here. --->
-		<!---
-		<cfdump var="#prepareSearch_result#">
-		<cfabort>
-		<cfif prepareSearch_result NEQ 0>
-			<cfthrow message = "failed to run search, build_query returned a non zero status code">
-		</cfif>
-		--->
 		<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
 			SELECT column_name, sql_element 
 			FROM cf_spec_res_cols
