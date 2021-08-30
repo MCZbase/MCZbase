@@ -171,6 +171,134 @@ limitations under the License.
 	z-index: 5;
 }
 </style>
+	<style>
+.vslider {
+  position: relative;
+  overflow: hidden;
+}
+
+.vslider > * {
+  display: block;
+  position: relative;
+}
+
+.vslider > * + * {
+  display: none;
+  position: absolute;
+}
+
+.vslider-item {
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  -ms-touch-action: none;
+  touch-action: none;
+  transition: z-index 0s,
+  opacity .8s ease-in-out,
+  transform .4s ease-in-out;
+  z-index: 20;
+  opacity: 0;
+  transform: translateX(-10%);
+}
+
+.vslider-item[aria-hidden='false'] {
+  z-index: 30;
+  opacity: 1.0;
+  transform: translateX(0);
+}
+
+.vslider-before {
+  z-index: 10;
+  opacity: 0;
+  transform: translateX(10%);
+}
+
+.vslider-direct {
+  transition: none;
+}
+
+.vslider-status {
+  display: block;
+  list-style: none;
+  z-index: 110;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+.vslider-status-item {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.5em;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  color: ##000;
+  background: ##000;
+  border: 0.1em solid ##fff;
+  border-radius: 100%;
+  margin: 0 0.5em;
+  transition: 0.3s;
+  opacity: 0.3;
+}
+
+.vslider-status-item:hover,
+.vslider-status-item:focus,
+.vslider-status-item[aria-selected='true'] {
+  opacity: 0.6;
+}
+
+.vslider-nav {
+  display: block;
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.vslider-prev,
+.vslider-next {
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  line-height: 1;
+  font-size: 1em;
+  border: none;
+  color: currentColor;
+  background: none;
+  opacity: 0.6;
+}
+
+.vslider-prev:hover,
+.vslider-prev:focus,
+.vslider-next:hover,
+.vslider-next:focus {
+  opacity: 1;
+}
+
+.vslider-next {
+  left: auto;
+  right: 0;
+}
+
+.vslider-prev:after {
+  content: '<';
+}
+
+.vslider-next:after {
+  content: '>';
+}</style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
 	</cfif>
@@ -527,7 +655,7 @@ limitations under the License.
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 						<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 1>
-								<div class="col-12 px-md-2">
+<!---								<div class="col-12 px-md-2">
 									<h3 class="h4 px-2">Specimen Images (#specimenImgsCt# images)</h3>
 									<div class="carousel-wrapper">
 										<div class="carousel carousel_background">
@@ -563,7 +691,19 @@ limitations under the License.
 									</div>
 								</div>
 								<cfelse>
-								<!---no images--->
+								<!---no images--->--->
+								 <div class="custom-nav mb-1">
+									<button type="button" class="btn btn-xs btn-primary" id="custom-prev"> << previous image </button>
+									<input type="number" id="custom-input" style="width: 75px" placeholder="index">
+									<button type="button" class="btn btn-xs btn-primary" id="custom-next"> next image >> </button>
+								  </div>
+								  <div class="vslider" id="vslider-base" style="height:750px;">
+									  <cfset i=1>
+									<cfloop query="specimenImagesForCarousel">
+										<div class="carousel_background border px-3 pt-3">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-auto" style="max-width:100%;max-height:700px;"></a></div>
+										<cfset i=i+1>
+									</cfloop>
+								  </div>
 							</cfif>
 						</div>
 						<!--- figure out widths of sub blocks, adapt to number of blocks --->
@@ -723,148 +863,9 @@ limitations under the License.
 					</cfif>
 											
 			  <h2>Test Slider</h2>
-<style>
-.vslider {
-  position: relative;
-  overflow: hidden;
-}
 
-.vslider > * {
-  display: block;
-  position: relative;
-}
 
-.vslider > * + * {
-  display: none;
-  position: absolute;
-}
-
-.vslider-item {
-  display: block;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  bottom: 0;
-  -ms-touch-action: none;
-  touch-action: none;
-  transition: z-index 0s,
-  opacity .8s ease-in-out,
-  transform .4s ease-in-out;
-  z-index: 20;
-  opacity: 0;
-  transform: translateX(-10%);
-}
-
-.vslider-item[aria-hidden='false'] {
-  z-index: 30;
-  opacity: 1.0;
-  transform: translateX(0);
-}
-
-.vslider-before {
-  z-index: 10;
-  opacity: 0;
-  transform: translateX(10%);
-}
-
-.vslider-direct {
-  transition: none;
-}
-
-.vslider-status {
-  display: block;
-  list-style: none;
-  z-index: 110;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  padding: 0;
-  margin: 0;
-}
-
-.vslider-status-item {
-  cursor: pointer;
-  display: inline-block;
-  font-size: 0.5em;
-  width: 1em;
-  height: 1em;
-  line-height: 1;
-  color: ##000;
-  background: ##000;
-  border: 0.1em solid ##fff;
-  border-radius: 100%;
-  margin: 0 0.5em;
-  transition: 0.3s;
-  opacity: 0.3;
-}
-
-.vslider-status-item:hover,
-.vslider-status-item:focus,
-.vslider-status-item[aria-selected='true'] {
-  opacity: 0.6;
-}
-
-.vslider-nav {
-  display: block;
-  z-index: 100;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.vslider-prev,
-.vslider-next {
-  cursor: pointer;
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  line-height: 1;
-  font-size: 1em;
-  border: none;
-  color: currentColor;
-  background: none;
-  opacity: 0.6;
-}
-
-.vslider-prev:hover,
-.vslider-prev:focus,
-.vslider-next:hover,
-.vslider-next:focus {
-  opacity: 1;
-}
-
-.vslider-next {
-  left: auto;
-  right: 0;
-}
-
-.vslider-prev:after {
-  content: '<';
-}
-
-.vslider-next:after {
-  content: '>';
-}</style>
-
-  <div class="custom-nav mb-1">
-    <button type="button" class="btn btn-xs btn-primary" id="custom-prev"> << previous image </button>
-    <input type="number" id="custom-input" style="width: 75px" placeholder="index">
-    <button type="button" class="btn btn-xs btn-primary" id="custom-next"> next image >> </button>
-  </div>
-  <div class="vslider" id="vslider-base" style="height:750px;">
-	  <cfset i=1>
-	<cfloop query="specimenImagesForCarousel">
-		<div class="carousel_background border px-3 pt-3">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-auto" style="max-width:100%;max-height:700px;"></a></div>
-		<cfset i=i+1>
-	</cfloop>
-	  
-  </div>
+ 
 
 		
 <script>(function () {
