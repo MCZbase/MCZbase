@@ -873,7 +873,7 @@ limitations under the License.
     <div><img src="http://mczbase.mcz.harvard.edu/specimen_images/malacology/large/45153_Auriculella_tenuis_2.jpg" class="w-100"><br>3</div>
     <div>4</div>
     <div>5</div>--->
-  </div>			
+		
 <script>(function () {
   "use strict";
 
