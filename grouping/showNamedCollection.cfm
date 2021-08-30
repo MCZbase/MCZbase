@@ -38,7 +38,7 @@ limitations under the License.
 <style>
 /* Parent wrapper to carousel. Width can be changed as needed. */
 .carousel-wrapper, .carousel-wrapper1, .carousel-wrapper2, .carousel-wrapper3 {
-	overflow: hidden;
+	/*overflow: hidden;*/
 	width: 100%;
 	width:100%;
 	margin: auto;
