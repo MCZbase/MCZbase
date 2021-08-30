@@ -964,8 +964,8 @@ limitations under the License.
     vanillaSlider(
       document.getElementById('vslider-background'), {
         itemSelector: 'span',
-        height: '50vh',
-        swipedirection: 'v'
+        height: 'auto',
+        swipedirection: 'h'
       }
     )
 
