@@ -117,6 +117,9 @@ limitations under the License.
 .carousel__button--next,.carousel__button1--next,.carousel__button2--next,.carousel__button3--next {
 	right:-4px;
 }
+.carousel__button--prev:focus,.carousel__button1--prev:focus,.carousel__button2--prev:focus,.carousel__button3--prev:focus {
+	border: 1px solid rgb(0 163 255 / 25%);
+}
 /* Use pseudo elements to insert arrows inside of navigation buttons */
 .carousel__button--prev::after,.carousel__button1--prev::after,.carousel__button2--prev::after,.carousel__button3--prev::after,
 .carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after,.carousel__button3--next::after {
