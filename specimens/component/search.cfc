@@ -533,7 +533,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<!--- cfset clause = ScriptNumberListToJSON(cat_num, "cat_num", "", "and") --->
 		<cfset search_json = "#search_json##separator##clause#">
 		<cfset separator = ",">
-		<cfset join='join":"and",'>
+		<cfset join='"join":"and",'>
 	</cfif>
 	<cfif isDefined("taxon_name_id") AND len(taxon_name_id) GT 0>
 		<cfset field = '"field": "taxon_name_id"'>
@@ -541,7 +541,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset value = encodeForJavaScript(taxon_name_id)>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
-		<cfset join='join":"and",'>
+		<cfset join='"join":"and",'>
 	<cfelse>
 		<cfif isDefined("scientific_name") AND len(scientific_name) GT 0>
 			<cfset field = 'field: "scientific_name"'>
