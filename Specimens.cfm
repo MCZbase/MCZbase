@@ -625,10 +625,11 @@ limitations under the License.
 													<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="1,1-4,A-1,R1-4" value="#cat_num#">
 												</div>
 												<div class="col-12 col-md-3">
+													<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 													<label for="otherID" class="data-entry-label">Other ID Type</label>
 													<select title="other identifing number type" name="other_id_type" id="other_id_type" class="data-entry-select col-sm-12 pl-2">
 														<option value=""></option>
-														<cfset oidtype = other_id_type
+														<cfset oidtype = other_id_type>
 														<cfloop query="ctother_id_type">
 															<cfif oidtype EQ ctother_id_type.other_id_type><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
 															<option value="#ctother_id_type.other_id_type#" #selected#>#ctother_id_type.other_id_type# (#ctother_id_type.ct#)</option>
@@ -636,8 +637,9 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-md-3">
+													<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 													<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
-													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="Other ID(s)">
+													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="Other ID(s)" value="#other_id_number#">
 												</div>
 											</div>
 											<div class="form-row mb-2">
