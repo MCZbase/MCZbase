@@ -701,9 +701,9 @@ limitations under the License.
 								<cfif agentImagesForCarousel.recordcount gt 1>
 								<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-									<input type="number" id="custom-input" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next >> </button>
+									<button type="button" class="border-0 btn-outline-primary custom-prev"> << previous </button>
+									<input type="number" id="" class="custom-input border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
+									<button type="button" class="border-0 btn-outline-primary custom-next"> next >> </button>
 								  </div>
 								<div class="vslider vslider-base" style="height:370px;">
 									<cfset i=1>
@@ -722,9 +722,9 @@ limitations under the License.
 								<cfif collectingImagesForCarousel.recordcount gt 1>
 								<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-									<input type="number" id="custom-input" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next >> </button>
+									<button type="button" class="border-0 btn-outline-primary custom-prev"> << previous </button>
+									<input type="number" id="" class="custom-input border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
+									<button type="button" class="border-0 btn-outline-primary custom-next"> next >> </button>
 								  </div>
 								<div class="vslider vslider-base" style="height:370px;">
 									<cfset i=1>
@@ -743,9 +743,9 @@ limitations under the License.
 								<cfif localityImagesForCarousel.recordcount gt 1>
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 										 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
-											<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-											<input type="number" id="custom-input" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
-											<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next >> </button>
+											<button type="button" class="border-0 btn-outline-primary custom-prev"> << previous </button>
+											<input type="number" id="" class="custom-input border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
+											<button type="button" class="border-0 btn-outline-primary custom-next"> next >> </button>
 										  </div>
 										<div class="vslider vslider-base" style="height:370px;">
 											<cfset i=1>
@@ -777,7 +777,7 @@ limitations under the License.
     )
     console.log('window.defaultSliders:', window.defaultSliders)
 
-    var $input = document.getElementById('custom-input')
+    var $input = document.getElementsByClassName('custom-input')
     var baseSlider = vanillaSlider(
       document.getElementsByClassName('vslider-base'), {
         autoplay: false,
@@ -799,10 +799,10 @@ limitations under the License.
         parseInt(e.target.value)
       )
     }, false)
-    document.getElementById('custom-prev').addEventListener('click', function (e) {
+    document.getElementsByClassName('custom-prev').addEventListener('click', function (e) {
       baseSlider.prev()
     }, false)
-    document.getElementById('custom-next').addEventListener('click', function (e) {
+    document.getElementByClassName('custom-next').addEventListener('click', function (e) {
       baseSlider.next()
     }, false)
 
