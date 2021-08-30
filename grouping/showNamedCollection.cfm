@@ -856,7 +856,7 @@ limitations under the License.
     <input type="number" id="custom-input" placeholder="	
 	<cfloop query='specimenImagesForCarousel'>
 			<p>#specimenImagesForCarousel['alt'][i]# <br>
-			<a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+			<a href='/MediaSet.cfm?media_id=#specimenImagesForCarousel[\'media_id\'][i]#'>Media Details</a>
 			</p>
 		</div>
 		<cfset i=i+1>
