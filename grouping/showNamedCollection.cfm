@@ -35,7 +35,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 
 
-	<style>
+<style>
 /* Parent wrapper to carousel. Width can be changed as needed. */
 .carousel-wrapper, .carousel-wrapper1, .carousel-wrapper2, .carousel-wrapper3 {
 	overflow: hidden;
@@ -77,6 +77,7 @@ limitations under the License.
 	opacity: 1;
 	position: relative;
 	z-index: 900;
+	top: 0;
 }
 .carousel__photo.active img:focus, .carousel__photo1.active img:focus,.carousel__photo2.active img:focus, .carousel__photo3.active img:focus {
 	border: 1px solid rgb(0 123 255 / 25%);
