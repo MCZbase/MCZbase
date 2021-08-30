@@ -129,6 +129,7 @@ limitations under the License.
 	SELECT count(*) ct, ct.other_id_type 
 	FROM ctcoll_other_id_type ct
 		left join coll_obj_other_id_num co on ct.other_id_type = co.other_id_type
+	GROUP BY ct.other_id_type 
 	ORDER BY ct.other_id_type
 </cfquery>
 
