@@ -852,9 +852,9 @@ limitations under the License.
 }</style>
 
   <div class="custom-nav">
-    <button type="button" id="custom-prev">prev</button>
+    <button type="button" class="btn btn-xs btn-primary" id="custom-prev">previous image</button>
     <input type="number" id="custom-input" placeholder="index">
-    <button type="button" id="custom-next">next</button>
+    <button type="button" class="btn btn-xs btn-primary" id="custom-next">next image</button>
   </div>
   <div class="vslider h-100" id="vslider-base">
 	  <cfset i=1>
