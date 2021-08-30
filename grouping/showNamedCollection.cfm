@@ -701,11 +701,11 @@ limitations under the License.
 								<cfif agentImagesForCarousel.recordcount gt 1>
 								<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-									<input type="number" id="custom-input" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next >> </button>
+									<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
+									<input type="number" id="custom-input1" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
+									<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next >> </button>
 								  </div>
-								<div class="vslider" id="vslider-base" style="height:370px;">
+								<div class="vslider" id="vslider-base1" style="height:370px;">
 									<cfset i=1>
 									<cfloop query="agentImagesForCarousel">
 										<div class="carousel_background border px-3 pt-3 small pb-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#agentImagesForCarousel['media_uri'][i]#" class="w-auto mx-auto" style="max-width:100%;max-height:350px;"></a></div>
@@ -722,11 +722,11 @@ limitations under the License.
 								<cfif collectingImagesForCarousel.recordcount gt 1>
 								<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-									<input type="number" id="custom-input" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next >> </button>
+									<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
+									<input type="number" id="custom-input2" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
+									<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next >> </button>
 								  </div>
-								<div class="vslider" id="vslider-base" style="height:370px;">
+								<div class="vslider" id="vslider-base2" style="height:370px;">
 									<cfset i=1>
 									<cfloop query="collectingImagesForCarousel">
 										<div class="carousel_background border px-3 pt-3 small pb-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-auto mx-auto" style="max-width:100%;max-height:350px;"></a></div>
@@ -743,11 +743,11 @@ limitations under the License.
 								<cfif localityImagesForCarousel.recordcount gt 1>
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 										 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
-											<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-											<input type="number" id="custom-input" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
-											<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next >> </button>
+											<button type="button" class="border-0 btn-outline-primary" id="custom-prev3"> << previous </button>
+											<input type="number" id="custom-input3" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
+											<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> next >> </button>
 										  </div>
-										<div class="vslider" id="vslider-base" style="height:370px;">
+										<div class="vslider" id="vslider-base3" style="height:370px;">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 												<div class="carousel_background border px-3 pt-3 small pb-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="w-auto mx-auto" style="max-width:100%;max-height:350px;"></a></div>
@@ -763,20 +763,16 @@ limitations under the License.
  
 
 		
-<script>(function () {
+<script>
+(function () {
   "use strict";
-
   // example script
-
-
   function init() {
-
     // multiple
     window.defaultSliders = vanillaSlider(
       document.querySelectorAll('.vslider-default')
     )
     console.log('window.defaultSliders:', window.defaultSliders)
-
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base'), {
@@ -792,7 +788,6 @@ limitations under the License.
       }
     )
     window.baseSlider = baseSlider
-
     // custom controls
     $input.addEventListener('change', function (e) {
       baseSlider.next(
@@ -805,35 +800,34 @@ limitations under the License.
     document.getElementById('custom-next').addEventListener('click', function (e) {
       baseSlider.next()
     }, false)
+//    vanillaSlider(
+//      document.getElementById('vslider-noautoplay'), {
+//        autoplay: false,
+//        i18n: {
+//          title: 'Custom Carousel',
+//          navigation: 'Custom Carousel navigation',
+//          next: 'next Custom',
+//          prev: 'previous Custom'
+//        }
+//      }
+//    )
 
-    vanillaSlider(
-      document.getElementById('vslider-noautoplay'), {
-        autoplay: false,
-        i18n: {
-          title: 'Custom Carousel',
-          navigation: 'Custom Carousel navigation',
-          next: 'next Custom',
-          prev: 'previous Custom'
-        }
-      }
-    )
-
-    vanillaSlider(
-      document.getElementById('vslider-norotation'), {
-        rotation: false,
-        initialTimeout: 1000,
-        timeout: 2000
-      }
-    )
-
-    vanillaSlider(
-      document.getElementById('vslider-norotation-autoplay'), {
-        rotation: false,
-        autoplay: true,
-        initialTimeout: 1000,
-        timeout: 2000
-      }
-    )
+//    vanillaSlider(
+//      document.getElementById('vslider-norotation'), {
+//        rotation: false,
+//        initialTimeout: 1000,
+//        timeout: 2000
+//      }
+//    )
+//
+//    vanillaSlider(
+//      document.getElementById('vslider-norotation-autoplay'), {
+//        rotation: false,
+//        autoplay: true,
+//        initialTimeout: 1000,
+//        timeout: 2000
+//      }
+//    )
 
     vanillaSlider(
       document.getElementById('vslider-custom'), {
@@ -844,11 +838,11 @@ limitations under the License.
       }
     )
 
-    vanillaSlider(
-      document.getElementById('vslider-images'), {
-        height: 300
-      }
-    )
+//    vanillaSlider(
+//      document.getElementById('vslider-images'), {
+//        height: 300
+//      }
+//    )
 
 
     // Should wait for images to load and set explicit height!
