@@ -633,7 +633,7 @@ limitations under the License.
 														<cfset oidtype = other_id_type>
 														<cfloop query="ctother_id_type">
 															<cfif oidtype EQ ctother_id_type.other_id_type><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
-															<option value="#ctother_id_type.other_id_type#" #selected#>#ctother_id_type.other_id_type# (#ctother_id_type.ct#)</option>
+															<option value="=#ctother_id_type.other_id_type#" #selected#>#ctother_id_type.other_id_type# (#ctother_id_type.ct#)</option>
 														</cfloop>
 													</select>
 												</div>
