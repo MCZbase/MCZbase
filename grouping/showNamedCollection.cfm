@@ -787,7 +787,7 @@ limitations under the License.
         wheelnavigation: true,
         status: false,
         after: function (index, length) {
-          $input.value = index +1
+          $input.value = index
         }
       }
     )
