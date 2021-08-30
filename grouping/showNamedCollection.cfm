@@ -810,11 +810,157 @@ limitations under the License.
       }
     )
   }
-
   document.addEventListener('DOMContentLoaded', init, false);
+	}());	
+	
+(function () {
+  "use strict";
+  // example script
+  function init() {
+    // multiple
+    window.defaultSliders = vanillaSlider(
+      document.querySelectorAll('.vslider-default')
+    )
+    console.log('window.defaultSliders:', window.defaultSliders)
+    var $input = document.getElementById('custom-input1')
+    var baseSlider = vanillaSlider(
+      document.getElementById('vslider-base1'), {
+        autoplay: false,
+        navigation: false,
+        keyboardnavigation: false,
+        swipenavigation: false,
+        wheelnavigation: true,
+        status: false,
+        after: function (index, length) {
+          $input.value = index +1
+        }
+      }
+    )
+    window.baseSlider = baseSlider
+    // custom controls
+    $input.addEventListener('change', function (e) {
+      baseSlider.next(
+        parseInt(e.target.value)
+      )
+    }, false)
+    document.getElementById('custom-prev1').addEventListener('click', function (e) {
+      baseSlider.prev()
+    }, false)
+    document.getElementById('custom-next1').addEventListener('click', function (e) {
+      baseSlider.next()
+    }, false)
 
+    vanillaSlider(
+      document.getElementById('vslider-custom1'), {
+        height: '20em',
+        statusContent: function (i, all) {
+          return i + 1
+        },
+      }
+    )
+  }
+  document.addEventListener('DOMContentLoaded', init, false);
+	}());	
+	
+(function () {
+  "use strict";
+  // example script
+  function init() {
+    // multiple
+    window.defaultSliders = vanillaSlider(
+      document.querySelectorAll('.vslider-default')
+    )
+    console.log('window.defaultSliders:', window.defaultSliders)
+    var $input = document.getElementById('custom-input2')
+    var baseSlider = vanillaSlider(
+      document.getElementById('vslider-base2'), {
+        autoplay: false,
+        navigation: false,
+        keyboardnavigation: false,
+        swipenavigation: false,
+        wheelnavigation: true,
+        status: false,
+        after: function (index, length) {
+          $input.value = index +1
+        }
+      }
+    )
+    window.baseSlider = baseSlider
+    // custom controls
+    $input.addEventListener('change', function (e) {
+      baseSlider.next(
+        parseInt(e.target.value)
+      )
+    }, false)
+    document.getElementById('custom-prev2').addEventListener('click', function (e) {
+      baseSlider.prev()
+    }, false)
+    document.getElementById('custom-next2').addEventListener('click', function (e) {
+      baseSlider.next()
+    }, false)
+
+    vanillaSlider(
+      document.getElementById('vslider-custom2'), {
+        height: '20em',
+        statusContent: function (i, all) {
+          return i + 1
+        },
+      }
+    )
+  }
+  document.addEventListener('DOMContentLoaded', init, false);
 	}());
-											
+	
+(function () {
+  "use strict";
+  // example script
+  function init() {
+    // multiple
+    window.defaultSliders = vanillaSlider(
+      document.querySelectorAll('.vslider-default')
+    )
+    console.log('window.defaultSliders:', window.defaultSliders)
+    var $input = document.getElementById('custom-input3')
+    var baseSlider = vanillaSlider(
+      document.getElementById('vslider-base3'), {
+        autoplay: false,
+        navigation: false,
+        keyboardnavigation: false,
+        swipenavigation: false,
+        wheelnavigation: true,
+        status: false,
+        after: function (index, length) {
+          $input.value = index +1
+        }
+      }
+    )
+    window.baseSlider = baseSlider
+    // custom controls
+    $input.addEventListener('change', function (e) {
+      baseSlider.next(
+        parseInt(e.target.value)
+      )
+    }, false)
+    document.getElementById('custom-prev3').addEventListener('click', function (e) {
+      baseSlider.prev()
+    }, false)
+    document.getElementById('custom-next3').addEventListener('click', function (e) {
+      baseSlider.next()
+    }, false)
+
+    vanillaSlider(
+      document.getElementById('vslider-custom3'), {
+        height: '20em',
+        statusContent: function (i, all) {
+          return i + 1
+        },
+      }
+    )
+  }
+  document.addEventListener('DOMContentLoaded', init, false);
+	}());	
+/*!
+/*!
 /*!
  * vanillaSlider
  */
