@@ -854,7 +854,7 @@ limitations under the License.
   <div class="custom-nav">
     <button type="button" id="custom-prev">prev</button>
     <input type="number" id="custom-input" placeholder="	
-	<cfloop query="specimenImagesForCarousel">
+	<cfloop query='specimenImagesForCarousel'>
 			<p>#specimenImagesForCarousel['alt'][i]# <br>
 			<a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 			</p>
