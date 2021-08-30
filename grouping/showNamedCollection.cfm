@@ -655,43 +655,7 @@ limitations under the License.
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 						<div class="row">
 							<cfif specimenImagesForCarousel.recordcount gt 1>
-<!---								<div class="col-12 px-md-2">
-									<h3 class="h4 px-2">Specimen Images (#specimenImgsCt# images)</h3>
-									<div class="carousel-wrapper">
-										<div class="carousel carousel_background">
-											<cfset i=1>
-											<cfloop query="specimenImagesForCarousel">
-												<div class="carousel__photo border <cfif #i# eq 1>active</cfif>"> <img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
-													<p>#specimenImagesForCarousel['alt'][i]# <br>
-														<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
-												</div>
-												<cfset i=i+1>
-											</cfloop>
-											<a href="##" class="carousel__button--next" aria-label="next image"></a>
-											<a href="##" class="carousel__button--prev" aria-label="previous image"></a>
-										</div>
-									</div>
-								</div>
-								<cfelseif specimenImagesForCarousel.recordcount eq 1>
-								<div class="col-12 px-md-2">
-									<h3 class="h4 px-2">Specimen Images (#specimenImgsCt# images)</h3>
-									<div class="carousel-wrapper">
-										<div class="carousel carousel_background">
-											<cfset i=1>
-											<cfloop query="specimenImagesForCarousel">
-												<div class="px-4 py-3 border <cfif #i# eq 1>active</cfif>"> <img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
-													<p>#specimenImagesForCarousel['alt'][i]# <br>
-														<a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a></p>
-												</div>
-												<cfset i=i+1>
-											</cfloop>
-											<a href="##" class="carousel__button--next"></a>
-											<a href="##" class="carousel__button--prev"></a>
-										</div>
-									</div>
-								</div>
-								<cfelse>
-								<!---no images--->--->
+
 								 <div class="custom-nav mb-1">
 									<button type="button" class="btn btn-xs btn-primary" id="custom-prev"> << previous image </button>
 									<input type="number" id="custom-input" style="width: 75px" placeholder="index">
