@@ -859,7 +859,7 @@ limitations under the License.
   <div class="vslider" id="vslider-base" style="height:600px;">
 	  <cfset i=1>
 	<cfloop query="specimenImagesForCarousel">
-		<div>#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100" style="height:600px;"></a></div>
+		<div>#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100" style="max-height:600px;"></a></div>
 		<cfset i=i+1>
 	</cfloop>
 	  
