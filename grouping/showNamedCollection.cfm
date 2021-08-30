@@ -850,24 +850,28 @@ limitations under the License.
 .vslider-next:after {
   content: '>';
 }</style>
-<div class="custom-nav">
+
+	    <h2>Simple</h2>
+
+  <div class="custom-nav">
     <button type="button" id="custom-prev">prev</button>
     <input type="number" id="custom-input" placeholder="index">
     <button type="button" id="custom-next">next</button>
   </div>
-  <div class="vslider" id="vslider-noautoplay">
-	  
+  <div class="vslider" id="vslider-base">
 	  <cfset i=1>
-		  
 	<cfloop query="specimenImagesForCarousel">
 		<div><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
-<!---			<p>#specimenImagesForCarousel['alt'][i]# <br>
+			<p>#specimenImagesForCarousel['alt'][i]# <br>
 			<a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-			</p>--->
+			</p>
 		</div>
 		<cfset i=i+1>
 	</cfloop>
 	  
+  </div>
+
+
 <!---    <div><img src="http://mczbase.mcz.harvard.edu/specimen_images/malacology/large/298473_Tornatellina_simplex_APT.jpg" class="w-100"><br>1</div>
     <div><img src="http://mczbase.mcz.harvard.edu/specimen_images/malacology/large/edited393523_d.jpg" class="w-100"><br>2</div>
     <div><img src="http://mczbase.mcz.harvard.edu/specimen_images/malacology/large/45153_Auriculella_tenuis_2.jpg" class="w-100"><br>3</div>
