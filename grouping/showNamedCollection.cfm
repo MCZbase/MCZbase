@@ -852,7 +852,7 @@ limitations under the License.
 }</style>
 <cfset i=1>
 	<cfloop query='specimenImagesForCarousel'>
-			<cfset caption[i] = "#specimenImagesForCarousel['alt'][i]#">
+			<cfset caption = "#specimenImagesForCarousel['alt'][i]#">
 		<cfset i=i+1>
 	</cfloop>
   <div class="custom-nav">
