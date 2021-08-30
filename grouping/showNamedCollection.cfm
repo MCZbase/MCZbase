@@ -851,11 +851,16 @@ limitations under the License.
   content: '>';
 }</style>
 
-	    <h2>Simple</h2>
-
   <div class="custom-nav">
     <button type="button" id="custom-prev">prev</button>
-    <input type="number" id="custom-input" placeholder="index">
+    <input type="number" id="custom-input" placeholder="	
+	<cfloop query="specimenImagesForCarousel">
+			<p>#specimenImagesForCarousel['alt'][i]# <br>
+			<a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+			</p>
+		</div>
+		<cfset i=i+1>
+	</cfloop>">
     <button type="button" id="custom-next">next</button>
   </div>
   <div class="vslider" id="vslider-base">
