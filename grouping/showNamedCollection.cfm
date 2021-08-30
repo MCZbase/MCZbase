@@ -850,14 +850,14 @@ limitations under the License.
 .vslider-next:after {
   content: '>';
 }</style>
-
+<cfset i=1>
+	<cfloop query='specimenImagesForCarousel'>
+			<cfset caption[i] = "#specimenImagesForCarousel['alt'][i]#">
+		<cfset i=i+1>
+	</cfloop>
   <div class="custom-nav">
     <button type="button" id="custom-prev">prev</button>
-    <input type="number" id="custom-input" placeholder="	
-	<cfloop query='specimenImagesForCarousel'>
-			<p>#specimenImagesForCarousel['alt'][i]#</p>
-		<cfset i=i+1>
-	</cfloop>">
+    <input type="number" id="custom-input" placeholder="index" value="#caption[i]#">
     <button type="button" id="custom-next">next</button>
   </div>
   <div class="vslider" id="vslider-base">
