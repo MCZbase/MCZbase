@@ -78,6 +78,9 @@ limitations under the License.
 	position: relative;
 	z-index: 900;
 }
+.carousel__photo.active img:focus, .carousel__photo1.active img:focus,.carousel__photo2.active img:focus, .carousel__photo3.active img:focus {
+	border: 1px solid rgb(0 123 255 / 25%);
+		}
 /* Set 'z-index' to sit behind our '.active' item. */
 .carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,.carousel__photo3.prev,
 .carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next,.carousel__photo3.next {
@@ -101,7 +104,7 @@ limitations under the License.
 	height: 40rem;
 	background-color: transparent;
 	transform: translateY(-50%);
-	border-radius: 50%;
+	/*border-radius: 50%;*/
 	cursor: pointer; 
 	z-index: 1001; /* Sit on top of everything */
 	border:1px solid tranparent;
