@@ -856,7 +856,7 @@ limitations under the License.
     <input type="number" id="custom-input" style="width: 75px" placeholder="index">
     <button type="button" class="btn btn-xs btn-primary" id="custom-next">next image</button>
   </div>
-  <div class="vslider h-100" id="vslider-base">
+  <div class="vslider h-auto" id="vslider-base">
 	  <cfset i=1>
 	<cfloop query="specimenImagesForCarousel">
 		<p></p>
