@@ -652,7 +652,7 @@ limitations under the License.
 					<div class="col-12 col-md-6 float-left">
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
-						<div class="row">
+						<div class="">
 							<cfif specimenImagesForCarousel.recordcount gt 1>
 
 								 <div class="custom-nav mb-1">
