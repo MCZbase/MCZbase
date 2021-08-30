@@ -699,6 +699,7 @@ limitations under the License.
 									<cfset imagePlural = 'image'>
 								</cfif>
 								<cfif agentImagesForCarousel.recordcount gt 0>
+								<h3 class="mx-2">Agents</h3>
 								<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
@@ -720,7 +721,7 @@ limitations under the License.
 									<cfset imagePlural = 'image'>
 								</cfif>
 								<cfif collectingImagesForCarousel.recordcount gt 0>
-								<h3>Collecting Event</h3>
+								<h3 class="mx-2">Collecting Event</h3>
 								<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
