@@ -41,15 +41,15 @@ limitations under the License.
 * @return A string containing conditions to append to a SQL where clause.  See unit tests:
 *		 testScriptPrefixedNumberListToSQLWherePrefix and testScriptPrefixedNumberListToSQLWherePrefixLists
 */
-function ScriptPrefixedNumberListToJSONList(listOfNumbers, integerFieldname, prefixFieldname, embeddedSeparator) {
+function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixFieldname, embeddedSeparator, nestDepth, leadingJoin ) {
 	var result = "";
 	var orBit = "";
 	var wherePart = "";
 
 	// Prepare list for parsing
 	listOfNumbers = trim(listOfNumbers);
-	// Change ", " to "," and then " " to  "," to allow space and comma separators
-	listOfNumbers = REReplace(listOfNumbers, ", ", ",","all");   // comma space to comma
+	// Change ", " to "," and then " " to "," to allow space and comma separators
+	listOfNumbers = REReplace(listOfNumbers, ", ", ",","all");	// comma space to comma
 	listOfNumbers = REReplace(listOfNumbers, " ", ",","all");	// space to comma
 	listOfNumbers = REReplace(listOfNumbers, "\*", "%","all");	// dos to sql wildcard
 	// strip out any other characters
@@ -74,63 +74,50 @@ function ScriptPrefixedNumberListToJSONList(listOfNumbers, integerFieldname, pre
 	// find prefixes in atoms
 
 	prefix = "";
-	queryPrefix = "";
-	queryInfix = "";
-	querySuffix = "";
+	queryClause = "";
 	wherebit = "";
-	orBit = "";
-	for (i=1; i LTE ArrayLen(lparts); i=i+1)  {
-	   // Prefix is at least one letter optionally followed by a dash separator.
-	   // Need to use [A-Z]+ here to prevent match on dash inside bare numeric range.
-	   prefixSt = REFind("^[A-Za-z]+\-{0,1}",lparts[i],0,true);
-	   if (prefixSt.pos[1] EQ 0 ) {
+	comma = "";
+	leadingJoin = "and";
+	comma = "";
+	for (i=1; i LTE ArrayLen(lparts); i=i+1) {
+		// Prefix is at least one letter optionally followed by a dash separator.
+		// Need to use [A-Z]+ here to prevent match on dash inside bare numeric range.
+		prefixSt = REFind("^[A-Za-z]+\-{0,1}",lparts[i],0,true);
+		if (prefixSt.pos[1] EQ 0 ) {
 			prefix = "";
-	   } else {
+		} else {
 			prefix = Mid(lparts[i],prefixSt.pos[1],prefixSt.len[1]);
-	   }
-	   numericSt = REFind("[0-9]+\-*[0-9]*",lparts[i],0,true);
-	   if (numericSt.pos[1] EQ 0 ) {
+		}
+		numericSt = REFind("[0-9]+\-*[0-9]*",lparts[i],0,true);
+		if (numericSt.pos[1] EQ 0 ) {
 			numeric = "";
-	   } else {
+		} else {
 			numeric = Mid(lparts[i],numericSt.pos[1],numericSt.len[1]);
-	   }
+		}
 
-	   if (embeddedSeparator EQ true) {
+		if (embeddedSeparator EQ true) {
 			// If the prefix isn't blank and doesn't end with the separator, add it.
 			if ((prefix NEQ "") AND (Find("-",prefix) EQ 0)) {
-			  prefix = prefix & "-";
+				prefix = prefix & "-";
 			}
-	   } else {
+		} else {
 			//remove any trailing dash
 			prefix = REReplace(prefix,"\-$","");
-	   }
+		}
 
-	   if (prefix NEQ "") {
-			queryPrefix = " ( " &  prefixFieldName & " = '" & prefix & "' ";
-	   }
-	   queryInfix = ScriptNumberListToSQLWhere(numeric, integerFieldname);
-	   if (prefix NEQ "") {
-			if (queryInfix EQ "") {
-			  // allow for searches on just a prefix
-			  querySuffix = ") ";
-			} else {
-			   queryPrefix = queryPrefix & "AND (";
-			   querySuffix = ") ) ";
-			}
-	   }
-	   if (queryPrefix NEQ "" OR queryInfix NEQ "" OR querySuffix NEQ "") {
-		   // if there is a search term, add it.
-		   wherebit = wherebit & orBit & queryPrefix & queryInfix & querySuffix;
-		   orBit = "OR";
-	   }
-	   queryPrefix = "";
-	   querySuffix = "";
+		queryClause = ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
+		if (queryPrefix NEQ "" OR queryClause NEQ "" OR querySuffix NEQ "") {
+			// if there is a search term, add it.
+			wherebit = wherebit & comma & queryClause;
+			comma = ",";
+		}
+		if (prefix NEQ "") {
+			wherebit = wherebit & comma & '{"join":"and","field": "' & prefixFieldname &'","comparator": "=","value": "#encodeForJavaScript(prefix)#"}';
+			comma = ",";
+		}
+		leadingJoin = "or";
 	}
 	result = wherebit;
-	if (result NEQ "") {
-		// comma changes to or, so wrap whole list of parts as an AND clause
-		result = " (" & result & ") ";
-	}
 	return result;
 }
 </cfscript>
@@ -540,8 +527,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 	</cfif>
 	<cfif isDefined("cat_num") AND len(cat_num) GT 0>
-		<!--- TODO: Use function able to include prefixes --->
-		<cfset clause = ScriptNumberListToJSON(cat_num, "cat_num", "", "and") >
+		<cfset nestDepth = "">
+		<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "cat_num_numeric", "cat_num_prefix", true, nestDepth, "and")>
+		<!--- cfset clause = ScriptNumberListToJSON(cat_num, "cat_num", "", "and") --->
 		<cfset search_json = "#search_json##separator##clause#">
 		<cfset separator = ",">
 		<cfset join='join":"and",'>
