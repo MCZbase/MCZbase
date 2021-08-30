@@ -712,6 +712,7 @@ limitations under the License.
 										<cfset i=i+1>
 									</cfloop>
 								</div>
+								</div>
 								</cfif>
 								<cfif collectingImagesForCarousel.recordcount gte 2>
 									<cfset imagePlural = 'images'>
@@ -732,6 +733,7 @@ limitations under the License.
 										<cfset i=i+1>
 									</cfloop>
 								</div>
+								</div>
 								</cfif>
 								<cfif localityImagesForCarousel.recordcount gte 2>
 									<cfset imagePlural = 'images'>
@@ -751,6 +753,7 @@ limitations under the License.
 										<div class="carousel_background border px-3 pt-3 small pb-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="w-auto mx-auto" style="max-width:100%;max-height:300px;"></a></div>
 										<cfset i=i+1>
 									</cfloop>
+								</div>
 								</div>
 								</cfif>
 							</div>
