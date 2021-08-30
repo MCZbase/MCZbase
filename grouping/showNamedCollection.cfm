@@ -859,9 +859,7 @@ limitations under the License.
   <div class="vslider" id="vslider-base" style="height:800px;">
 	  <cfset i=1>
 	<cfloop query="specimenImagesForCarousel">
-		<p></p>
-		<div><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-auto"><br>#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a></div>
-
+		<div id="vslider-custom"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-auto"><br>#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a></div>
 		<cfset i=i+1>
 	</cfloop>
 	  
@@ -948,7 +946,7 @@ limitations under the License.
 
     vanillaSlider(
       document.getElementById('vslider-custom'), {
-        height: '5em',
+        height: '20em',
         statusContent: function (i, all) {
           return i + 1
         },
