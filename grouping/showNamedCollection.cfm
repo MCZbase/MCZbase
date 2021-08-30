@@ -850,7 +850,7 @@ limitations under the License.
 .vslider-next:after {
   content: '>';
 }</style>
-  <div class="vslider vslider-norotation">
+  <div class="vslider vslider-noautoplay">
 	  
 	  <cfset i=1>
 	<cfloop query="specimenImagesForCarousel">
