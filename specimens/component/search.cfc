@@ -111,12 +111,13 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			numericClause = ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
 			wherebit = wherebit & comma & numericClause;
 			comma = ",";
+			leadingJoin = "or";
 		}
 		if (prefix NEQ "") {
 			wherebit = wherebit & comma & '{"join":"and","field": "' & prefixFieldname &'","comparator": "=","value": "#prefix#"}';
 			comma = ",";
+			leadingJoin = "or";
 		}
-		leadingJoin = "or";
 	}
 	result = wherebit;
 	return result;
@@ -158,7 +159,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 
 	if (ArrayLen(REMatch("^[0-9]+$",listOfNumbers))>0) {
 		//  Just a single number, exact match.
-		result = '{"join":"and","field": "' & fieldname &'","comparator": "=","value": "#encodeForJavaScript(listOfNumbers)#"}';
+		result = '{"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJavaScript(listOfNumbers)#"}';
 	} else {
 		if (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",listOfNumbers))>0) {
 			// Just a single range, two clauses, between start and end of range.
@@ -172,7 +173,8 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 			if (ucase(fieldname) IS "CAT_NUM") { 
 				fieldname = "CAT_NUM_INTEGER";
 			}
-			result = '{"join":"and","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJavaScript(lowPart)#"';
+			// TODO: Implement nesting one level deeper
+			result = '{"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJavaScript(lowPart)#"';
 			result = result & '},{"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJavaScript(highPart)#"}';
 		} else if (ArrayLen(REMatch("^[0-9,]+$",listOfNumbers))>0) {
 			// Just a list of numbers without ranges, translates directly to IN
