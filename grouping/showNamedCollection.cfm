@@ -655,7 +655,7 @@ limitations under the License.
 						<div class="">
 							<cfif specimenImagesForCarousel.recordcount gt 1>
 
-								 <div class="custom-nav text-center mb-1">
+								 <div class="custom-nav text-center border p-1 mb-1">
 									<button type="button" class="btn btn-xs btn-primary" id="custom-prev"> << previous image </button>
 									<input type="number" id="custom-input" class="border-0 w-50 py-1 px-2 mt-1 text-center" placeholder="index">
 									<button type="button" class="btn btn-xs btn-primary" id="custom-next"> next image >> </button>
