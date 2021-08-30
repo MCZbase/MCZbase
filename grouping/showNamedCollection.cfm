@@ -851,10 +851,9 @@ limitations under the License.
   content: '>';
 }</style>
   <div class="vslider vslider-default">
-    <div>1
-      <br>1</div>
-    <div>2</div>
-    <div>3</div>
+    <div><img src="http://mczbase.mcz.harvard.edu/specimen_images/malacology/large/298473_Tornatellina_simplex_APT.jpg" class="w-100"><br>1</div>
+    <div><img src="http://mczbase.mcz.harvard.edu/specimen_images/malacology/large/edited393523_d.jpg" class="w-100"><br>2</div>
+    <div><img src="http://mczbase.mcz.harvard.edu/specimen_images/malacology/large/45153_Auriculella_tenuis_2.jpg" class="w-100"><br>3</div>
     <div>4</div>
     <div>5</div>
   </div>			
