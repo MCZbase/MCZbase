@@ -851,9 +851,9 @@ limitations under the License.
   content: '>';
 }</style>
 
-  <div class="custom-nav">
+  <div class="custom-nav mb-1">
     <button type="button" class="btn btn-xs btn-primary" id="custom-prev">previous image</button>
-    <input type="number" id="custom-input" placeholder="index">
+    <input type="number" id="custom-input" style="width: 30px" placeholder="index">
     <button type="button" class="btn btn-xs btn-primary" id="custom-next">next image</button>
   </div>
   <div class="vslider h-100" id="vslider-base">
