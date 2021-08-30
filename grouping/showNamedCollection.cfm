@@ -850,9 +850,15 @@ limitations under the License.
 .vslider-next:after {
   content: '>';
 }</style>
-  <div class="vslider vslider-noautoplay">
+<div class="custom-nav">
+    <button type="button" id="custom-prev">prev</button>
+    <input type="number" id="custom-input" placeholder="index">
+    <button type="button" id="custom-next">next</button>
+  </div>
+  <div class="vslider" id="vslider-noautoplay">
 	  
 	  <cfset i=1>
+		  
 	<cfloop query="specimenImagesForCarousel">
 		<div><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
 <!---			<p>#specimenImagesForCarousel['alt'][i]# <br>
