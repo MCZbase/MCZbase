@@ -660,7 +660,7 @@ limitations under the License.
 									<input type="number" id="custom-input" class="border-0 w-50 py-1 px-2 mt-1 text-center" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next image >> </button>
 								  </div>
-								  <div class="vslider" id="vslider-base" style="height:750px;">
+								  <div class="vslider vslider-base" style="height:750px;">
 									  <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 										<div class="carousel_background border px-3 pt-3 small pb-1">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-auto mx-auto" style="max-width:100%;max-height:700px;"></a></div>
@@ -779,7 +779,7 @@ limitations under the License.
 
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
-      document.getElementById('vslider-base'), {
+      document.getElementsByClassName('vslider-base'), {
         autoplay: false,
         navigation: false,
         keyboardnavigation: false,
