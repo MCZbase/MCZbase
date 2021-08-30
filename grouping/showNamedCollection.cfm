@@ -855,10 +855,7 @@ limitations under the License.
     <button type="button" id="custom-prev">prev</button>
     <input type="number" id="custom-input" placeholder="	
 	<cfloop query='specimenImagesForCarousel'>
-			<p>#specimenImagesForCarousel['alt'][i]#
-	
-			</p>
-		</div>
+			<p>#specimenImagesForCarousel['alt'][i]#</p>
 		<cfset i=i+1>
 	</cfloop>">
     <button type="button" id="custom-next">next</button>
