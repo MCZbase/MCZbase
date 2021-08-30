@@ -74,7 +74,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	// find prefixes in atoms
 
 	prefix = "";
-	queryClause = "";
+	numericClause = "";
 	wherebit = "";
 	comma = "";
 	leadingJoin = "and";
@@ -94,7 +94,6 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		} else {
 			numeric = Mid(lparts[i],numericSt.pos[1],numericSt.len[1]);
 		}
-
 		if (embeddedSeparator EQ true) {
 			// If the prefix isn't blank and doesn't end with the separator, add it.
 			if ((prefix NEQ "") AND (Find("-",prefix) EQ 0)) {
@@ -105,10 +104,9 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			prefix = REReplace(prefix,"\-$","");
 		}
 
-		queryClause = ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
-		if (queryPrefix NEQ "" OR queryClause NEQ "" OR querySuffix NEQ "") {
-			// if there is a search term, add it.
-			wherebit = wherebit & comma & queryClause;
+		if (numeric NEQ "") {
+			numericClause = ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
+			wherebit = wherebit & comma & numericClause;
 			comma = ",";
 		}
 		if (prefix NEQ "") {
