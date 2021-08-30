@@ -341,7 +341,7 @@ limitations under the License.
 				<!--- obtain a random set of specimen images, limited to a small number --->
 				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 					SELECT * FROM (
-						SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_media_credit(media.media_id) as credit
+						SELECT DISTINCT media.media_id,media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_media_credit(media.media_id) as credit
 						FROM
 							underscore_collection
 							left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -363,7 +363,7 @@ limitations under the License.
 				</cfif>
 				<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 					SELECT * FROM (
-						SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+						SELECT DISTINCT media.media_id,media_uri, preview_uri,media_type, 
 							MCZBASE.get_media_descriptor(media.media_id) as alt,
 							MCZBASE.get_medialabel(media.media_id,'width') as width,
 							MCZBASE.get_media_credit(media.media_id) as credit
@@ -850,18 +850,24 @@ limitations under the License.
 .vslider-next:after {
   content: '>';
 }</style>
-  <div class="vslider vslider-noautoplay">
-	  
+
+  <div class="custom-nav">
+    <button type="button" id="custom-prev">prev</button>
+    <input type="number" id="custom-input" placeholder="index">
+    <button type="button" id="custom-next">next</button>
+  </div>
+  <div class="vslider" id="vslider-base">
 	  <cfset i=1>
 	<cfloop query="specimenImagesForCarousel">
-		<div><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
-<!---			<p>#specimenImagesForCarousel['alt'][i]# <br>
-			<a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-			</p>--->
-		</div>
+	<!---	<p> <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a></p>--->
+		<div>#specimenImagesForCarousel['alt'][i]#<br><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-75"></div>
+
 		<cfset i=i+1>
 	</cfloop>
 	  
+  </div>
+
+
 <!---    <div><img src="http://mczbase.mcz.harvard.edu/specimen_images/malacology/large/298473_Tornatellina_simplex_APT.jpg" class="w-100"><br>1</div>
     <div><img src="http://mczbase.mcz.harvard.edu/specimen_images/malacology/large/edited393523_d.jpg" class="w-100"><br>2</div>
     <div><img src="http://mczbase.mcz.harvard.edu/specimen_images/malacology/large/45153_Auriculella_tenuis_2.jpg" class="w-100"><br>3</div>
