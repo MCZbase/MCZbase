@@ -853,7 +853,7 @@ limitations under the License.
 
   <div class="custom-nav">
     <button type="button" id="custom-prev">prev</button>
-    <input type="number" id="custom-input" placeholder="index" value="#caption#">
+    <input type="number" id="custom-input" placeholder="index" value="">
     <button type="button" id="custom-next">next</button>
   </div>
   <div class="vslider" id="vslider-base">
