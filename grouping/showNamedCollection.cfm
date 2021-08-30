@@ -341,7 +341,7 @@ limitations under the License.
 				<!--- obtain a random set of specimen images, limited to a small number --->
 				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 					SELECT * FROM (
-						SELECT DISTINCT media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_media_credit(media.media_id) as credit
+						SELECT DISTINCT media.media_id,media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_media_credit(media.media_id) as credit
 						FROM
 							underscore_collection
 							left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -363,7 +363,7 @@ limitations under the License.
 				</cfif>
 				<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 					SELECT * FROM (
-						SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+						SELECT DISTINCT media.media_id,media_uri, preview_uri,media_type, 
 							MCZBASE.get_media_descriptor(media.media_id) as alt,
 							MCZBASE.get_medialabel(media.media_id,'width') as width,
 							MCZBASE.get_media_credit(media.media_id) as credit
