@@ -1089,7 +1089,7 @@ Function getPartNameAutocompleteMeta.  Search for specimen_part.part_name values
 			GROUP BY
 				specimen_part.part_name
 			ORDER BY
-				specimen_part
+				specimen_part.part_name
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
