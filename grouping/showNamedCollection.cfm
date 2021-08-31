@@ -654,19 +654,20 @@ limitations under the License.
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 						<div class="">
 							<cfif specimenImagesForCarousel.recordcount gt 1>
-							
-								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
+							<div class="carousel_background p-3 border">
+								 <div class="custom-nav text-center px-1 pt-1 pb-2">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous image </button>
 									<input type="number" id="custom-input" class="border-0 w-50 py-1 px-2 mt-1 text-center" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next image >> </button>
 								  </div>
-								  <div class="vslider w-100 float-left" id="vslider-base">
+								  <div class="vslider w-100 float-left h-auto" id="vslider-base">
 									  <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
-										<div class="carousel_background border px-3 pt-3 small pb-1">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
+										<div class="small">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
 										<cfset i=i+1>
 									</cfloop>
 								  </div>
+							</div>
 							</cfif>
 						</div>
 						<!--- figure out widths of sub blocks, adapt to number of blocks --->
