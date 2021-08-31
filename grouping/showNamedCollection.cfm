@@ -729,9 +729,9 @@ limitations under the License.
 								<div class="carousel_background border float-left w-100 p-3">
 									<h3 class="mx-2">Collecting Event</h3>
 								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
+									<button type="button" class="border-0 bg-light btn-outline-primary" id="custom-prev2"> << previous </button>
 									<input type="number" id="custom-input2" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next >> </button>
+									<button type="button" class="border-0 bg-light btn-outline-primary" id="custom-next2"> next >> </button>
 								  </div>
 								<div class="vslider float-left w-100" style="height:auto;max-height:600px;" id="vslider-base2">
 									<cfset i=1>
