@@ -640,7 +640,7 @@ limitations under the License.
 												<div class="col-12 col-md-3">
 													<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 													<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
-													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="Other ID(s)" value="#other_id_number#">
+													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#other_id_number#">
 												</div>
 											</div>
 											<div class="form-row mb-2">
