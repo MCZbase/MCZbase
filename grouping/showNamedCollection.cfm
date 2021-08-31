@@ -705,7 +705,7 @@ limitations under the License.
 								<cfif agentImagesForCarousel.recordcount gt 0>
 								<div class="col-12 #colClass# mx-md-auto mt-3 mb-3">
 								<div class="carousel_background border float-left w-100 p-3">
-										<h3 class="mx-2">Agents (#agentCt.recordcount# images)</h3>
+										<h3 class="mx-2">Agents <span class="small">(#agentCt.recordcount# images)</span></h3>
 								 <div class="custom-nav text-center bg-white border-right border-left border-top border-bottom mb-1 px-1 pt-0 pb-1">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
 									<input type="number" id="custom-input1" class="border border-light w-25 py-1 px-2 mt-1 text-center" placeholder="index">
@@ -729,7 +729,7 @@ limitations under the License.
 								<cfif collectingImagesForCarousel.recordcount gt 0>
 								<div class="col-12 #colClass# mx-md-auto mt-3">
 								<div class="carousel_background border float-left w-100 p-3">
-									<h3 class="mx-2">Collecting Event (#collectingCt.recordcount# images)</h3>
+									<h3 class="mx-2">Collecting Event <span class="small">(#collectingCt.recordcount# images)</span></h3>
 								 <div class="custom-nav text-center bg-white border-right border-left border-top border-bottom mb-1 px-1 pt-0 pb-1">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
 									<input type="number" id="custom-input2" class="border border-light w-25 py-1 px-2 mt-1 text-center" placeholder="index">
@@ -738,7 +738,7 @@ limitations under the License.
 								<div class="vslider float-left w-100" style="height:auto;max-height:750px;" id="vslider-base2">
 									<cfset i=1>
 									<cfloop query="collectingImagesForCarousel">
-										<div class="small95 my-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
+										<div class="small95 my-1">#collectingImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
 										<cfset i=i+1>
 									</cfloop>
 								</div>
@@ -753,16 +753,16 @@ limitations under the License.
 								<cfif localityImagesForCarousel.recordcount gt 0>
 									<div class="col-12 #colClass# mx-md-auto mt-3">
 										<div class="carousel_background border float-left w-100 p-3">
-										<h3 class="mx-2">Locality (#localityCt.recordcount#)</h3>
+										<h3 class="mx-2">Locality  <span class="small">(#localityCt.recordcount#)</span></h3>
 										 <div class="custom-nav text-center bg-white border-right border-left border-top border-bottom mb-1 px-1 pt-0 pb-1">
-											<button type="button" class="border-0  btn-outline-primary" id="custom-prev3"> << <span style="letter-spacing: -.05em;">previous</span> </button>
+											<button type="button" class="border-0  btn-outline-primary" id="custom-prev3"> << previous </button>
 											<input type="number" id="custom-input3" class="border border-light w-25 py-1 px-2 mt-1 text-center" placeholder="index">
-											<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> <span style="letter-spacing: .02em;">next</span> >> </button>
+											<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> next >> </button>
 										  </div>
 										<div class="vslider w-100 float-left" style="height:auto;max-height:750px;" id="vslider-base3" style="float:left;height:auto;">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
-												<div class="small95 my-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="mx-auto w-100 float-left h-auto"></a></div>
+												<div class="small95 my-1">#localityImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="mx-auto w-100 float-left h-auto"></a></div>
 												<cfset i=i+1>
 											</cfloop>
 										</div>
