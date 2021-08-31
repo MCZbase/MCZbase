@@ -710,7 +710,7 @@ limitations under the License.
 								<div class="vslider float-left w-100 h-auto" id="vslider-base1">
 									<cfset i=1>
 									<cfloop query="agentImagesForCarousel">
-										<div class="carousel_background float-left border px-3 pt-3 small pb-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
+										<div class="carousel_background float-left border px-3 py-3 small">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
 										<cfset i=i+1>
 									</cfloop>
 								</div>
@@ -733,7 +733,7 @@ limitations under the License.
 								<div class="vslider float-left w-100 h-auto" id="vslider-base2">
 									<cfset i=1>
 									<cfloop query="collectingImagesForCarousel">
-										<div class="carousel_background float-left border px-3 pt-3 small pb-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
+										<div class="carousel_background float-left border px-3 py-3 small">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
 										<cfset i=i+1>
 									</cfloop>
 								</div>
@@ -756,7 +756,7 @@ limitations under the License.
 										<div class="vslider w-100 float-left h-auto" id="vslider-base3" style="float:left;height:auto;">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
-												<div class="carousel_background float-left border px-3 pt-3 small pb-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="mx-auto w-100 float-left h-auto"></a></div>
+												<div class="carousel_background float-left border px-3 py-3 small">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="mx-auto w-100 float-left h-auto"></a></div>
 												<cfset i=i+1>
 											</cfloop>
 										</div>
@@ -772,7 +772,7 @@ limitations under the License.
 										<div class="vslider w-100 float-left h-auto" id="vslider-base3">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
-												<div class="carousel_background float-left border px-3 pt-3 small pb-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
+												<div class="carousel_background float-left border px-3 py-3 small">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
 												<cfset i=i+1>
 											</cfloop>
 										</div>
