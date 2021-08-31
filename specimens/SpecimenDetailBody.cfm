@@ -611,7 +611,8 @@ limitations under the License.
 						</div>
 					</div>
 					<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
-						<cfif oneOfUs is 1>
+						<!--- TODO: Fix broken nesting, cause unclear, could be remnant of bad paste???? --->
+						<!---  cfif oneOfUs is 1 --->
 							<div class="accordion" id="accordionMetadata">
 								
 								<!--------------------  Project / Usage ------------------------------------>
