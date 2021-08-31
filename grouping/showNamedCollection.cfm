@@ -481,7 +481,7 @@ limitations under the License.
 							AND media_relations.media_relationship = 'shows cataloged_item'
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-							ORDER BY DBMS_RANDOM.RANDOM, height desc
+							ORDER BY DBMS_RANDOM.RANDOM, maxheight desc
 						) 
 					WHERE   Rownum  < 26
 				</cfquery>
