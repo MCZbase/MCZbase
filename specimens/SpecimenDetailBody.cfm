@@ -35,8 +35,7 @@ limitations under the License.
 </cfoutput> 
 <!--- Include the template that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
-<!--- query one is needed for the counts on media and part headers and metadata block --->
-<!--- TODO: 'one' returns multiple records, not just one record for the cataloged item, fix this --->
+<!--- query one is needed for the metadata block and one.collection_object_id is used for the counts on media and part headers --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
 	SELECT distinct
 		cataloged_item.collection_object_id as collection_object_id,
@@ -45,7 +44,6 @@ limitations under the License.
 		coll_object.coll_object_entered_date,
 		coll_object.last_edit_date,
 		coll_object.flags,
-		coll_object_remark.coll_object_remarks,
 		getpreferredagentname(coll_object.entered_person_id) EnteredBy,
 		getpreferredagentname(coll_object.last_edited_person_id) EditedBy,
 		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
@@ -53,16 +51,15 @@ limitations under the License.
 	FROM
 		cataloged_item 
 		left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
-		left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
-		left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 		left join collection on cataloged_item.collection_id = collection.collection_id
-		left join identification on cataloged_item.collection_object_id = identification.collection_object_id
-		left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 	WHERE
 		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
 <cfif one.recordcount EQ 0>
 	<cfthrow message = "Error: Unable to find cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
+</cfif>
+<cfif one.recordcount GT 1>
+	<cfthrow message = "Error: multiple rows returned from query 'one' for cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
 <cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
 <cfquery name="mediaCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaCount_result">
@@ -726,9 +723,28 @@ limitations under the License.
 								</div>
 								<div class="card-body mb-2 float-left">
 									<ul class="list-group pl-0 pt-1">
-										<cfif len(#one.coll_object_remarks#) gt 0>
-											<li class="list-group-item">Remarks: #one.coll_object_remarks# </li>
-										</cfif>
+										<cfquery name="collObJRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collObjRemarks_result">
+											SELECT 
+												coll_object_remark.coll_object_remarks
+											FROM cataloged_item
+												left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
+												left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
+											WHERE
+												cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+											UNION
+											SELECT 
+												coll_object_remark.coll_object_remarks
+											FROM cataloged_item
+												left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+												left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
+											WHERE
+												cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+										</cfquery>
+										<cfloop query="collObjRemarks">
+											<cfif len(#one.coll_object_remarks#) gt 0>
+												<li class="list-group-item">Remarks: #one.coll_object_remarks# </li>
+											</cfif>
+										</cfloop>
 										<li class="list-group-item"> Entered By: #one.EnteredBy# on #dateformat(one.coll_object_entered_date,"yyyy-mm-dd")# </li>
 										<cfif #one.EditedBy# is not "unknown" OR len(#one.last_edit_date#) is not 0>
 											<li class="list-group-item"> Last Edited By: #one.EditedBy# on #dateformat(one.last_edit_date,"yyyy-mm-dd")# </li>
