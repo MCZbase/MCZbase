@@ -1082,7 +1082,7 @@ Function getPartNameAutocompleteMeta.  Search for specimen_part.part_name values
 				specimen_part.part_name
 			FROM
 				#session.flatTableName# f
-				left join specimen_part on f.collection_object_id = specimen_part.collection_object_id
+				left join specimen_part on f.collection_object_id = specimen_part.DERIVED_FROM_CAT_ITEM
 			WHERE
 				f.collection_object_id IS NOT NULL
 				AND specimen_part.part_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
