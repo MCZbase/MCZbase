@@ -704,7 +704,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3 mb-3">
 								<div class="carousel_background border float-left w-100 p-3">
 										<h3 class="mx-2">Agents</h3>
-								 <div class="custom-nav text-center bg-white border-right border-left border-top border-bottom px-1 pt-1 pb-2">
+								 <div class="custom-nav text-center bg-white border-right border-left border-top border-bottom mb-1 px-1 pt-0 pb-1">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
 									<input type="number" id="custom-input1" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next >> </button>
