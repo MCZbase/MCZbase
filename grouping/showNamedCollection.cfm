@@ -709,7 +709,7 @@ limitations under the License.
 									<input type="number" id="custom-input1" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next >> </button>
 								  </div>
-								<div class="vslider float-left w-100" style="height:auto;max-height:auto;" id="vslider-base1">
+								<div class="vslider float-left w-100" style="height:auto;max-height:500px;" id="vslider-base1">
 									<cfset i=1>
 									<cfloop query="agentImagesForCarousel">
 										<div class="small">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
