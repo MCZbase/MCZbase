@@ -44,6 +44,11 @@ limitations under the License.
 		coll_object.coll_object_entered_date,
 		coll_object.last_edit_date,
 		coll_object.flags,
+		<cfif #oneOfUs# eq 1>
+			cataloged_item.accn_id,
+		<cfelse>
+			NULL as accn_id,
+		</cfif>
 		getpreferredagentname(coll_object.entered_person_id) EnteredBy,
 		getpreferredagentname(coll_object.last_edited_person_id) EditedBy,
 		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
@@ -604,7 +609,7 @@ limitations under the License.
 					<!--- TODO: Fix broken nesting, cause unclear, could be remnant of bad paste???? --->
 					<!--- cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail) --->
 						<!--- TODO: Fix broken nesting, cause unclear, could be remnant of bad paste???? --->
-						<!---  cfif oneOfUs is 1 --->
+						<cfif oneOfUs is 1>
 							<div class="accordion" id="accordionMetadata">
 								
 								<!--------------------  Project / Usage ------------------------------------>
@@ -715,7 +720,8 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<!---<div class="card mb-2">
+							<!---
+							<div class="card mb-2">
 								<div class="card-header pt-1 float-left w-100">
 									<h3 class="h4 my-0 mx-2 pb-1 float-left">
 									Metadata
@@ -757,7 +763,9 @@ limitations under the License.
 										</cfif>
 									</ul>
 								</div>
-							</div>--->
+							</div>
+							--->
+
 						</cfif>
 					</cfif>
 				</div>
