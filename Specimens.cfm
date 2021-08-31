@@ -125,6 +125,13 @@ limitations under the License.
 <cfquery name="ctmedia_type" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
 	select media_type from ctmedia_type order by media_type
 </cfquery>
+<cfquery name="ctother_id_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT count(*) ct, ct.other_id_type 
+	FROM ctcoll_other_id_type ct
+		left join coll_obj_other_id_num co on ct.other_id_type = co.other_id_type
+	GROUP BY ct.other_id_type 
+	ORDER BY ct.other_id_type
+</cfquery>
 
 <cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
@@ -619,16 +626,21 @@ limitations under the License.
 													<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="1,1-4,A-1,R1-4" value="#cat_num#">
 												</div>
 												<div class="col-12 col-md-3">
+													<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 													<label for="otherID" class="data-entry-label">Other ID Type</label>
-													<select title="otherID" name="otherID" id="otherID" class="data-entry-select col-sm-12 pl-2" disabled>
-														<option value="">Other ID Type</option>
-														<option value="Collector Number">Collector Number </option>
-														<option value="field number">Field Number</option>
+													<select title="other identifing number type" name="other_id_type" id="other_id_type" class="data-entry-select col-sm-12 pl-2">
+														<option value=""></option>
+														<cfset oidtype = other_id_type>
+														<cfloop query="ctother_id_type">
+															<cfif oidtype EQ ctother_id_type.other_id_type><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
+															<option value="=#ctother_id_type.other_id_type#" #selected#>#ctother_id_type.other_id_type# (#ctother_id_type.ct#)</option>
+														</cfloop>
 													</select>
 												</div>
 												<div class="col-12 col-md-3">
-													<label for="otherIDnumber" class="data-entry-label">Other ID Text</label>
-													<input type="text" class="data-entry-input" id="otherIDnumber" aria-label="Other ID number" placeholder="Other ID(s)" disabled>
+													<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
+													<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
+													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#other_id_number#">
 												</div>
 											</div>
 											<div class="form-row mb-2">

@@ -362,6 +362,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfelse>
 			<cfset comparator = '"comparator": "like"'>
 			<cfset value = encodeForJavaScript(value)>
+			<cfset value = replace(value,"\x20"," ","all")>
 		</cfif>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,"value": "#value#"}'>
 	<cfreturn #search_json#>
@@ -509,6 +510,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="collection" type="string" required="no">
 	<cfargument name="cat_num" type="string" required="no">
+	<cfargument name="other_id_type" type="string" required="no">
+	<cfargument name="other_id_number" type="string" required="no">
 	<cfargument name="full_taxon_name" type="string" required="no">
 	<cfargument name="genus" type="string" required="no">
 	<cfargument name="family" type="string" required="no">
@@ -549,6 +552,26 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 	</cfif>
+	<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
+		<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
+			<cfset field = '"field": "display_value"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number#",separator="#separator#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		<cfelse>
+			<cfset nestDepth = "">
+			<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, nestDepth, "and")>
+			<cfset search_json = "#search_json##separator##clause#">
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+		</cfif>
+	</cfif>
+	<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
+		<cfset field = '"field": "other_id_type"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_type#",separator="#separator#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
 	<cfif isDefined("taxon_name_id") AND len(taxon_name_id) GT 0>
 		<cfset field = '"field": "taxon_name_id"'>
 		<cfset comparator = '"comparator": "="'>
@@ -558,19 +581,19 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 	<cfelse>
 		<cfif isDefined("scientific_name") AND len(scientific_name) GT 0>
-			<cfset field = 'field: "scientific_name"'>
+			<cfset field = '"field": "scientific_name"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#scientific_name#",separator="#separator#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
 		<cfif isDefined("full_taxon_name") AND len(full_taxon_name) GT 0>
-			<cfset field = 'field: "full_taxon_name"'>
-			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#full_taxon_name#")>
+			<cfset field = '"field": "full_taxon_name"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#full_taxon_name#",separator="#separator#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 		</cfif>
 		<cfif isDefined("author_text") AND len(author_text) GT 0>
-			<cfset field = 'field: "author_text"'>
+			<cfset field = '"field": "author_text"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#author_text#",separator="#separator#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
