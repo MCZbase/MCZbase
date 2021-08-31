@@ -753,7 +753,7 @@ limitations under the License.
 										<div class="carousel_background border float-left w-100 p-3">
 										<h3 class="mx-2">Locality</h3>
 										 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
-											<button type="button" class="border-0 btn-outline-primary" id="custom-prev3"> << previous </button>
+											<button type="button" class="border-0  btn-light" id="custom-prev3"> << previous </button>
 											<input type="number" id="custom-input3" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> next >> </button>
 										  </div>
