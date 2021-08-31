@@ -610,33 +610,11 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
-						<cfif oneOfUs is 1>
+					<!--- TODO: Fix broken nesting, cause unclear, could be remnant of bad paste???? --->
+					<!--- cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail) --->
+						<!--- TODO: Fix broken nesting, cause unclear, could be remnant of bad paste???? --->
+						<!---  cfif oneOfUs is 1 --->
 							<div class="accordion" id="accordionMetadata">
-								<div class="card mb-2 bg-light">
-									<div id="metadataDialog"></div>
-									<script>
-										function reloadMetadata() { 
-											// invoke specimen/component/public.cfc function getCollectorsHTML via ajax and repopulate the Other ID block.
-											loadMetadata(#collection_object_id#,'metadataCardBody');
-										}
-									</script>
-									<cfset blockMeta = getMetadataHTML(collection_object_id = "#collection_object_id#")>
-									<div class="card-header" id="headingMetadata">
-										<h3 class="h4 my-0">
-											<button type="button" class="w-100 h-100 text-left headerLnk" data-toggle="collapse" aria-expanded="true" aria-collapse="MetadataPane" data-target="##MetadataPane">
-												Meta Data
-											</button>
-											<cfif listcontainsnocase(session.roles,"manage_specimens")>
-												<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">
-													Edit
-												</a>
-												<span class="small d-block">#media_type# (#mime_type#)</span>
-												<span class="small d-block">#descr#</span> 
-											</div>
-										</cfloop>
-									</cfif>
-								</li>
 								
 								<!--------------------  Project / Usage ------------------------------------>
 								

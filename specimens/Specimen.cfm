@@ -177,7 +177,7 @@ limitations under the License.
 					<div class="row mx-0">
 						<h1 class="col-12 col-md-6 mb-0 h4"> #collection#&nbsp;#cat_num#</h1>
 						<div class="float-right col-12 ml-auto col-md-6 my-2 w-auto">
-							occurrenceId: <a class="h5" href="guid: https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
+							occurrenceId: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
 						</div>
 					</div>
 					<div class="row mx-0">
