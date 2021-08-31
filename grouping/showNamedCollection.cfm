@@ -654,7 +654,7 @@ limitations under the License.
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 						<div class="">
 							<cfif specimenImagesForCarousel.recordcount gt 1>
-							<div class="carousel_background p-3 border">
+							<div class="carousel_background p-3 border float-left h-auto">
 								 <div class="custom-nav text-center px-1 pt-1 pb-2">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous image </button>
 									<input type="number" id="custom-input" class="border-0 w-50 py-1 px-2 mt-1 text-center" placeholder="index">
