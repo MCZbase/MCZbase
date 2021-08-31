@@ -515,8 +515,8 @@ limitations under the License.
 					) 
 					WHERE Rownum < 26
 				</cfquery>
-					<cfquery name="heightx" dbtype="query">
-						max(MCZBASE.get_medialabel(media.media_id,'height')) as height from agentImagesForCarousel
+					<cfquery name="heightx" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
+						max(MCZBASE.get_medialabel(media.media_id,'height')) from media where media_id = #specimenImagesForCarousel.media_id#
 					</cfquery>
 				<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
 					SELECT DISTINCT media.media_id
