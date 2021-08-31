@@ -531,6 +531,7 @@ limitations under the License.
 						AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 						AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 				</cfquery>
+				
 				<cfif agentImagesForCarousel.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
 				</cfif>
@@ -656,14 +657,15 @@ limitations under the License.
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-3">
 								<h3 class="mx-2">Specimens</h3>
-		
-								  <div class="vslider w-100 float-left" style="height: #specimenImagesForCarousel.maxheight#" id="vslider-base">
-									  <cfset i=1>
+			  <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
+								  <div class="vslider w-100 float-left" style="height: #specimenImagesForCarousel.maxheight#" id="vslider-base">
+								
 										<div class="small95 my-1 px-2 py-1">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left mx-auto" height="auto" width="100%"></a></div>
+									  </div>
 										<cfset i=i+1>
 									</cfloop>
-								  </div>
+								  
 								<div class="custom-nav text-center border mb-1 bg-white px-1 pt-0 pb-1">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous image </button>
 									<input type="number" id="custom-input" class="border border-light mx-5 w-50 py-1 px-2 mt-1 text-center" placeholder="index">
