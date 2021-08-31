@@ -468,7 +468,7 @@ limitations under the License.
 				<!--- obtain a random set of specimen images, limited to a small number --->
 				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 					SELECT * FROM (
-						SELECT DISTINCT media.media_id,media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_medialabel(media.media_id,'height') as height,MCZBASE.get_media_credit(media.media_id) as credit
+						SELECT DISTINCT media.media_id,media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_medialabel(media.media_id,'height') as heightx,MCZBASE.get_media_credit(media.media_id) as credit
 						FROM
 							underscore_collection
 							left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -661,7 +661,7 @@ limitations under the License.
 								  <div class="vslider w-100 float-left" style="height: auto; max-height: 900px;" id="vslider-base">
 									  <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
-										<div class="small95 my-1 px-2 py-1">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left mx-auto" style="height: #specimenImagesForCarousel['height'][i]#"></a></div>
+										<div class="small95 my-1 px-2 py-1">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left mx-auto" style="height: #specimenImagesForCarousel['heightx'][i]#"></a></div>
 										<cfset i=i+1>
 									</cfloop>
 								  </div>
