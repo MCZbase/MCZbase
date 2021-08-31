@@ -45,29 +45,19 @@ limitations under the License.
 		coll_object.last_edit_date,
 		coll_object.flags,
 		coll_object_remark.coll_object_remarks,
-		enteredPerson.agent_name EnteredBy,
-		editedPerson.agent_name EditedBy,
+		getpreferredagentname(coll_object.entered_person_id) EnteredBy,
+		getpreferredagentname(coll_object.last_edited_person_id) EditedBy,
 		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail
 	FROM
-		cataloged_item,
-		collection,
-		identification,
-		collecting_event,
-		coll_object,
-		coll_object_remark,
-		specimen_part,
-		preferred_agent_name enteredPerson,
-		preferred_agent_name editedPerson
+		cataloged_item 
+		left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
+		left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
+		left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+		left join collection on cataloged_item.collection_id = collection.collection_id
+		left join identification on cataloged_item.collection_object_id = identification.collection_object_id
+		left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 	WHERE
-		cataloged_item.collection_id = collection.collection_id AND
-		cataloged_item.collection_object_id = identification.collection_object_id AND
-		cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-		cataloged_item.collection_object_id = coll_object.collection_object_id AND
-		coll_object.collection_object_id = coll_object_remark.collection_object_id AND
-		coll_object.entered_person_id = enteredPerson.agent_id AND
-		coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
 <cfif one.recordcount NEQ 1>
