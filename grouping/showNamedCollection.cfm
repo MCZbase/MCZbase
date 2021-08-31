@@ -493,7 +493,6 @@ limitations under the License.
 						SELECT DISTINCT media.media_id,media_uri, preview_uri,media_type, 
 							MCZBASE.get_media_descriptor(media.media_id) as alt,
 							MCZBASE.get_medialabel(media.media_id,'width') as width,
-							MCZBASE.get_medialabel(media.media_id,'height') as maxheight,
 							MCZBASE.get_media_credit(media.media_id) as credit
 						FROM
 							underscore_collection
@@ -510,7 +509,6 @@ limitations under the License.
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-					group by height
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
 					WHERE Rownum < 26
