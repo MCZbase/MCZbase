@@ -609,7 +609,7 @@ limitations under the License.
 						SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 							MCZBASE.get_media_descriptor(media.media_id) as alt,
 							MCZBASE.get_medialabel(media.media_id,'width') as width,
-							MCZBASE.get_medialabel(media.media_id,'width') as first,
+							MCZBASE.get_medialabel(media.media_id,'width') as first_height,
 							MCZBASE.get_media_credit(media.media_id) as credit
 						FROM
 							underscore_collection
