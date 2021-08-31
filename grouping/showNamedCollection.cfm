@@ -481,7 +481,7 @@ limitations under the License.
 							AND media_relations.media_relationship = 'shows cataloged_item'
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-							ORDER BY DBMS_RANDOM.RANDOM
+							ORDER BY DBMS_RANDOM.RANDOM, height desc
 						) 
 					WHERE   Rownum  < 26
 				</cfquery>
@@ -510,7 +510,7 @@ limitations under the License.
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-						ORDER BY DBMS_RANDOM.RANDOM, height desc
+						ORDER BY DBMS_RANDOM.RANDOM
 					) 
 					WHERE Rownum < 26
 				</cfquery>
@@ -658,7 +658,7 @@ limitations under the License.
 							<div class="carousel_background border float-left w-100 p-3">
 								<h3 class="mx-2">Specimens</h3>
 		
-								  <div class="vslider w-100 float-left" style="#max(specimenImagesForCarousel.heightx)#" id="vslider-base">
+								  <div class="vslider w-100 float-left" style="#specimenImagesForCarousel.heightx#" id="vslider-base">
 									  <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 										<div class="small95 my-1 px-2 py-1">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left mx-auto flex-shrink" height="auto" width="100%"></a></div>
