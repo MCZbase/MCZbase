@@ -667,7 +667,7 @@ limitations under the License.
 								  </div>
 								<div class="custom-nav text-center border mb-1 bg-white px-1 pt-0 pb-1">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous image </button>
-									<input type="number" id="custom-input" class="border border-light w-50 py-1 px-2 mt-1 text-center" placeholder="index">
+									<input type="number" id="custom-input" class="border border-light mx-5 w-50 py-1 px-2 mt-1 text-center" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next image >> </button>
 								  </div>
 							</div>
