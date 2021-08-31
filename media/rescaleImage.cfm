@@ -23,7 +23,7 @@ Streams directly to response without use of CFFileServelet
 <cfif isdefined("width") AND len(width) GT 0 and IsNumeric(width)>
 	<cfset fitWidth = width>
 <cfelse>
-	<cfset fitWidth = 300>
+	<cfset fitWidth = 500>
 </cfif>
 <cfset mimeType = "image/png">
 <cfif NOT isdefined("media_id") OR len(media_id) EQ 0>
