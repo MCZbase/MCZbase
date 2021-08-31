@@ -36,7 +36,7 @@ limitations under the License.
 <!--- Include the template that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
 <!--- query one is needed for the counts on media and part headers and metadata block--->
-<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -68,15 +68,18 @@ limitations under the License.
 		coll_object.entered_person_id = enteredPerson.agent_id AND
 		coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
+<cfif one.recordcount NEQ 1>
+	<cfthrow message = "Error: Unable to find cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
+</cfif>
 <cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
-<cfquery name="ctmedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="mediaCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaCount_result">
 	select count(*) as ct 
 	from 
 		media_relations
 	where 
-		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" CFSQLType="CF_SQL_DECIMAL" >
+		media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#" >
 </cfquery>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
@@ -154,7 +157,7 @@ limitations under the License.
 	<div class="container-fluid mt-3 mt-lg-0">
 		<div class="row mx-0">
 			<!----------------------------- one left column for media ---------------------------------->
-			<cfif ctmedia.ct gt 0>
+			<cfif mediaCount.ct gt 0>
 				<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 					<!-----------------------------Media----------------------------------> 
 					<div class="accordion" id="accordionMedia">
@@ -170,7 +173,7 @@ limitations under the License.
 								<h3 class="h4 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
 										Media
-										<span class="text-success font-weight-light">(#ctmedia.ct#)</span>
+										<span class="text-success font-weight-light">(#mediaCount.ct#)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_media")>
 										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
@@ -188,7 +191,7 @@ limitations under the License.
 				</div>
 			</cfif>
 			<!----------------------------- two right columns ---------------------------------->
-			<div class="col-12 col-sm-12 mb-2 clearfix px-0 <cfif ctmedia.ct gt 0>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
+			<div class="col-12 col-sm-12 mb-2 clearfix px-0 <cfif mediaCount.ct gt 0>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
 				<div class="col-12 col-md-6 px-1 float-left"> 
 					<!----------------------------- identifications ----------------------------------> 
 					<div class="accordion" id="accordionB">
