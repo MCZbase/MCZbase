@@ -468,7 +468,7 @@ limitations under the License.
 				<!--- obtain a random set of specimen images, limited to a small number --->
 				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 					SELECT * FROM (
-						SELECT DISTINCT media.media_id,media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_medialabel(media.media_id,'height') as maxheight,MCZBASE.get_media_credit(media.media_id) as credit
+						SELECT DISTINCT media.media_id,media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_medialabel(media.media_id,'height') as first_height,MCZBASE.get_media_credit(media.media_id) as credit
 						FROM
 							underscore_collection
 							left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -481,7 +481,7 @@ limitations under the License.
 							AND media_relations.media_relationship = 'shows cataloged_item'
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-							ORDER BY DBMS_RANDOM.RANDOM, maxheight desc
+							ORDER BY first_height desc, DBMS_RANDOM.RANDOM
 						) 
 					WHERE   Rownum  < 26
 				</cfquery>
@@ -657,15 +657,13 @@ limitations under the License.
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-3">
 								<h3 class="mx-2">Specimens</h3>
-			  <cfset i=1>
+								  <div class="vslider w-100 float-left" style="height: #specimenImagesForCarousel.first_height#" id="vslider-base">
+									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
-								  <div class="vslider w-100 float-left" style="height: #specimenImagesForCarousel.maxheight#" id="vslider-base">
-								
 										<div class="small95 my-1 px-2 py-1">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left mx-auto" height="auto" width="100%"></a></div>
-									  </div>
 										<cfset i=i+1>
 									</cfloop>
-								  
+								  </div>
 								<div class="custom-nav text-center border mb-1 bg-white px-1 pt-0 pb-1">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous image </button>
 									<input type="number" id="custom-input" class="border border-light mx-5 w-50 py-1 px-2 mt-1 text-center" placeholder="index">
