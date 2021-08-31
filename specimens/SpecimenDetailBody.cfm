@@ -35,9 +35,10 @@ limitations under the License.
 </cfoutput> 
 <!--- Include the template that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
-<!--- query one is needed for the counts on media and part headers and metadata block--->
+<!--- query one is needed for the counts on media and part headers and metadata block --->
+<!--- TODO: 'one' returns multiple records, not just one record for the cataloged item, fix this --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
-	SELECT
+	SELECT distinct
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
 		collection.collection_cde,
@@ -60,7 +61,7 @@ limitations under the License.
 	WHERE
 		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
-<cfif one.recordcount NEQ 1>
+<cfif one.recordcount EQ 0>
 	<cfthrow message = "Error: Unable to find cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
 <cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
