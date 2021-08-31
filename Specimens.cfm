@@ -797,13 +797,18 @@ limitations under the License.
 													<input type="hidden" id="collector_agent_id" name="collector_agent_id" value="#collector_agent_id#">
 													<script>
 														jQuery(document).ready(function() {
-															$(makeConstrainedAgentPicker('collector','collector_agent_id','transaction_agent'));
+															makeConstrainedAgentPicker('collector','collector_agent_id','transaction_agent');
 														});
 													</script>
 												</div>
 												<div class="col-12 col-md-2">
 													<label for="part_name" class="data-entry-label">Part Name</label>
-													<input type="text" id="part_name" name="part_name" class="data-entry-input" disabled>
+													<input type="text" id="part_name" name="part_name" class="data-entry-input" >
+													<script>
+														jQuery(document).ready(function() {
+															makePartNameAutocompleteMeta('part_name');
+														});
+													</script>
 												</div>
 												<div class="col-12 col-md-3">
 													<label class="data-entry-label" for="when">Verbatim Date</label>
