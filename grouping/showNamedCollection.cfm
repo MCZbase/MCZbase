@@ -653,7 +653,7 @@ limitations under the License.
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 						<div class="">
-							<cfif specimenImagesForCarousel.recordcount gt 1>
+							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background p-3 border float-left h-auto">
 								 <div class="custom-nav text-center px-1 pt-1 pb-2">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous image </button>
