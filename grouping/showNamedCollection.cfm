@@ -488,12 +488,13 @@ limitations under the License.
 				<cfif specimenImagesForCarousel.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
 				</cfif>
+				<cfquery name="heightx" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 				<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 					SELECT * FROM (
 						SELECT DISTINCT media.media_id,media_uri, preview_uri,media_type, 
 							MCZBASE.get_media_descriptor(media.media_id) as alt,
 							MCZBASE.get_medialabel(media.media_id,'width') as width,
-					max(MCZBASE.get_medialabel(media.media_id,'height')) as height,
+					
 							MCZBASE.get_media_credit(media.media_id) as credit
 						FROM
 							underscore_collection
@@ -510,10 +511,13 @@ limitations under the License.
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-						ORDER BY DBMS_RANDOM.RANDOM, height desc
+						ORDER BY DBMS_RANDOM.RANDOM
 					) 
 					WHERE Rownum < 26
 				</cfquery>
+					<cfquery name="heightx" dbtype="query">
+						max(MCZBASE.get_medialabel(media.media_id,'height')) as height from agentImagesForCarousel
+					</cfquery>
 				<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
 					SELECT DISTINCT media.media_id
 					FROM
