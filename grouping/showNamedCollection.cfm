@@ -714,7 +714,6 @@ limitations under the License.
 										<div class="vslider float-left w-100" style="height:auto;max-height:750px;" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
-												#agentImagesForCarousel.width#<br>
 												<div class="small95 my-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=800&#agentImagesForCarousel['media_id'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
 												<cfset i=i+1>
 											</cfloop>
