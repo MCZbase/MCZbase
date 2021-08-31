@@ -704,21 +704,21 @@ limitations under the License.
 								</cfif>
 								<cfif agentImagesForCarousel.recordcount gt 0>
 								<div class="col-12 #colClass# mx-md-auto mt-3 mb-3">
-								<div class="carousel_background border float-left w-100 p-3">
+									<div class="carousel_background border float-left w-100 p-3">
 										<h3 class="mx-2">Agents <span class="small">(#agentCt.recordcount# images)</span></h3>
-								 <div class="custom-nav text-center bg-white border-right border-left border-top border-bottom mb-1 px-1 pt-0 pb-1">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
-									<input type="number" id="custom-input1" class="border border-light w-25 py-1 px-2 mt-1 text-center" placeholder="index">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next >> </button>
-								  </div>
-								<div class="vslider float-left w-100" style="height:auto;max-height:750px;" id="vslider-base1">
-									<cfset i=1>
-									<cfloop query="agentImagesForCarousel">
-										<div class="small95 my-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
-										<cfset i=i+1>
-									</cfloop>
-								</div>
-								</div>
+										<div class="custom-nav text-center bg-white border-right border-left border-top border-bottom mb-1 px-1 pt-0 pb-1">
+											<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
+											<input type="number" id="custom-input1" class="border border-light w-25 py-1 px-2 mt-1 text-center" placeholder="index">
+											<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next >> </button>
+										</div>
+										<div class="vslider float-left w-100" style="height:auto;max-height:750px;" id="vslider-base1">
+											<cfset i=1>
+											<cfloop query="agentImagesForCarousel">
+												<div class="small95 my-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>#agentImagesForCarousel['height'][i]#
+												<cfset i=i+1>
+											</cfloop>
+										</div>
+									</div>
 								</div>
 								</cfif>
 								<cfif collectingImagesForCarousel.recordcount gte 2>
@@ -730,18 +730,18 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto mt-3">
 								<div class="carousel_background border float-left w-100 p-3">
 									<h3 class="mx-2">Collecting Event <span class="small">(#collectingCt.recordcount# images)</span></h3>
-								 <div class="custom-nav text-center bg-white border-right border-left border-top border-bottom mb-1 px-1 pt-0 pb-1">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
-									<input type="number" id="custom-input2" class="border border-light w-25 py-1 px-2 mt-1 text-center" placeholder="index">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next >> </button>
-								  </div>
-								<div class="vslider float-left w-100" style="height:auto;max-height:750px;" id="vslider-base2">
-									<cfset i=1>
-									<cfloop query="collectingImagesForCarousel">
-										<div class="small95 my-1">#collectingImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
-										<cfset i=i+1>
-									</cfloop>
-								</div>
+									 <div class="custom-nav text-center bg-white border-right border-left border-top border-bottom mb-1 px-1 pt-0 pb-1">
+										<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
+										<input type="number" id="custom-input2" class="border border-light w-25 py-1 px-2 mt-1 text-center" placeholder="index">
+										<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next >> </button>
+									 </div>
+									<div class="vslider float-left w-100" style="height:auto;max-height:750px;" id="vslider-base2">
+										<cfset i=1>
+										<cfloop query="collectingImagesForCarousel">
+											<div class="small95 my-1">#collectingImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
+											<cfset i=i+1>
+										</cfloop>
+									</div>
 								</div>
 									</div>
 								</cfif>
