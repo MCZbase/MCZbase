@@ -654,14 +654,14 @@ limitations under the License.
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 						<div class="">
-							<cfif specimenImagesForCarousel.recordcount gt 1>
+							<cfif specimenImagesForCarousel.recordcount gt 0>
 							
 								 <div class="custom-nav text-center px-1 pt-1 pb-2">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous image </button>
 									<input type="number" id="custom-input" class="border-0 w-50 py-1 px-2 mt-1 text-center" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next image >> </button>
 								  </div>
-								  <div class="vslider w-100 float-left" style="height: #specimenImagesForCarousel['height'][i]#" id="vslider-base">
+								  <div class="vslider w-100 float-left" style="height: auto;" id="vslider-base">
 									  <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 										<div class="carousel_background border px-3 py-3 small">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left mx-auto" style="height: #specimenImagesForCarousel['height']['i']#"></a></div>
