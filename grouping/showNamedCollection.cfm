@@ -510,6 +510,7 @@ limitations under the License.
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+					group by height
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
 					WHERE Rownum < 26
