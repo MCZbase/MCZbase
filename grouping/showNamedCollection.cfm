@@ -757,7 +757,7 @@ limitations under the License.
 										 <div class="custom-nav text-center bg-white border-right border-left border-top border-bottom mb-1 px-1 pt-0 pb-1">
 											<button type="button" class="border-0  btn-outline-primary" id="custom-prev3"> << <span style="letter-spacing: -.05em;">previous</span> </button>
 											<input type="number" id="custom-input3" class="border border-light w-25 py-1 px-2 mt-1 text-center" placeholder="index">
-											<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> next >> </button>
+											<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> <span style="letter-spacing: .02em;">next</span> >> </button>
 										  </div>
 										<div class="vslider w-100 float-left" style="height:auto;max-height:750px;" id="vslider-base3" style="float:left;height:auto;">
 											<cfset i=1>
