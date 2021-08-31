@@ -493,7 +493,7 @@ limitations under the License.
 						SELECT DISTINCT media.media_id,media_uri, preview_uri,media_type, 
 							MCZBASE.get_media_descriptor(media.media_id) as alt,
 							MCZBASE.get_medialabel(media.media_id,'width') as width,
-					MCZBASE.get_medialabel(media.media_id,'height') as height,
+					max(MCZBASE.get_medialabel(media.media_id,'height')) as height,
 							MCZBASE.get_media_credit(media.media_id) as credit
 						FROM
 							underscore_collection
@@ -658,10 +658,10 @@ limitations under the License.
 							<div class="carousel_background border float-left w-100 p-3">
 								<h3 class="mx-2">Specimens</h3>
 		
-								  <div class="vslider w-100 float-left" style="height: auto; max-height: 900px;" id="vslider-base">
+								  <div class="vslider w-100 float-left" style="height: auto; #specimenImagesForCarousel['heightx'][i]#" id="vslider-base">
 									  <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
-										<div class="small95 my-1 px-2 py-1">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left mx-auto flex-shrink" height="#specimenImagesForCarousel['heightx'][i]#" width="100%"></a></div>
+										<div class="small95 my-1 px-2 py-1">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left mx-auto flex-shrink" height="auto" width="100%"></a></div>
 										<cfset i=i+1>
 									</cfloop>
 								  </div>
