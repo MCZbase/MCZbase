@@ -36,7 +36,7 @@ limitations under the License.
 <!--- Include the template that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
 <!--- query one is needed for the counts on media and part headers and metadata block--->
-<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -70,6 +70,9 @@ limitations under the License.
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
+<cfif one.recordcount NEQ 1>
+	<cfthrow message = "Error: Unable to find cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
+</cfif>
 <cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
 <cfquery name="mediaCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaCount_result">
 	select count(*) as ct 
