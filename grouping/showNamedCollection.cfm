@@ -704,7 +704,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3 mb-3">
 								<div class="carousel_background border float-left w-100 p-3">
 										<h3 class="mx-2">Agents</h3>
-								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
+								 <div class="custom-nav text-center bg-white border-right border-left border-top border-bottom px-1 pt-1 pb-2">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
 									<input type="number" id="custom-input1" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next >> </button>
@@ -728,10 +728,10 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 								<div class="carousel_background border float-left w-100 p-3">
 									<h3 class="mx-2">Collecting Event</h3>
-								 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
-									<button type="button" class="border-0 bg-light btn-outline-primary" id="custom-prev2"> << previous </button>
+								 <div class="custom-nav text-center bg-white border-right border-left border-top border-bottom px-1 pt-1 pb-2">
+									<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
 									<input type="number" id="custom-input2" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
-									<button type="button" class="border-0 bg-light btn-outline-primary" id="custom-next2"> next >> </button>
+									<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next >> </button>
 								  </div>
 								<div class="vslider float-left w-100" style="height:auto;max-height:600px;" id="vslider-base2">
 									<cfset i=1>
@@ -752,15 +752,15 @@ limitations under the License.
 									<div class="col-12 #colClass# mx-md-auto px-md-0 mt-3">
 										<div class="carousel_background border float-left w-100 p-3">
 										<h3 class="mx-2">Locality</h3>
-										 <div class="custom-nav text-center border-right border-left border-top border-bottom-0 px-1 pt-1 pb-2">
-											<button type="button" class="border-0  btn-light" id="custom-prev3"> << previous </button>
+										 <div class="custom-nav text-center border-right border-left border-top border-bottom px-1 pt-1 pb-2">
+											<button type="button" class="border-0  btn-outline-primary" id="custom-prev3"> << previous </button>
 											<input type="number" id="custom-input3" class="border-0 w-25 py-1 px-2 mt-1 text-center" placeholder="index">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> next >> </button>
 										  </div>
 										<div class="vslider w-100 float-left" style="height:auto;max-height:600px;" id="vslider-base3" style="float:left;height:auto;">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
-												<div class="carousel_background float-left border px-3 py-3 small">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="mx-auto w-100 float-left h-auto"></a></div>
+												<div class="small">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="mx-auto w-100 float-left h-auto"></a></div>
 												<cfset i=i+1>
 											</cfloop>
 										</div>
