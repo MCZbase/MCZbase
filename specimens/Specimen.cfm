@@ -204,7 +204,7 @@ limitations under the License.
 		</section>
 	</div>
 	<div class="container-fluid">
-		<section class="row">
+		<section class="row" id="resultSetNavigationSection">
 			<div class="col-12 px-2">
 				<!--- TODO: Cleanup indendation from here on ---> 
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -248,7 +248,7 @@ limitations under the License.
 					</form>
 				</cfif>
 			</div>					
-		</section>
+		</section><!-- end resultSetNavivationSection --->
 	</div>
 </cfoutput>
 <!--- (4) Bulk of the specimen page is provided on SpecimenDetailBody.cfm --->
