@@ -685,14 +685,26 @@ limitations under the License.
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 						<div class="">
 							<cfif specimenImagesForCarousel.recordcount gt 0>
-							<div class="carousel_background border float-left w-100 p-3">
+							<div class="carousel_background border float-left w-100">
 								<h3 class="mx-2">Specimens</h3>
-								  <div class="vslider w-100 float-left px-2 py-1" style="height: #specimenImagesForCarousel.first_height#" id="vslider-base">
+								  <div class="vslider w-100 float-left" style="height: #specimenImagesForCarousel.first_height#" id="vslider-base">
 									 <cfset i=1>
-									<cfloop query="specimenImagesForCarousel">
-										<div class="small95 my-1">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left mx-auto" height="auto" width="100%"></a></div>
-										<cfset i=i+1>
-									</cfloop>
+											<cfloop query="specimenImagesForCarousel">
+											<cfset alttext = specimenImagesForCarousel['alt'][i]>
+											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+											<cfif len(alttextTrunc) gt 300>
+												<cfset trimmedAltText = left(alttextTrunc, 300)>
+												<cfset trimmedAltText &= "...">
+											<cfelse>
+												<cfset trimmedAltText = altTextTrunc>
+											</cfif>
+												<div class="small95 py-2 px-3">
+													<p class="mt-1">#trimmedAltText#</p>
+													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+													<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto"></a>
+												</div>
+												<cfset i=i+1>
+											</cfloop>
 								  </div>
 								<div class="custom-nav text-center border mb-1 bg-white px-1 pt-0 pb-1">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous image </button>
@@ -736,7 +748,7 @@ limitations under the License.
 									<div class="carousel_background border float-left w-100 p-3">
 										<h3 class="mx-2">Agents <span class="small">(#agentCt.recordcount# images)</span></h3>
 
-										<div class="vslider float-left w-100"  style="height: 400px" id="vslider-base1">
+										<div class="vslider float-left w-100" style="height: 400px" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
