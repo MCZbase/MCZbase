@@ -743,9 +743,10 @@ limitations under the License.
 										<div class="vslider float-left w-100"  style="height: #agentImagesForCarousel.first_height#" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
+												<cfset alttext = agentImagesForCarousel['alt'][i]>
 												<div class="small95 my-1">
 													<cfif len(agentImagesForCarousel['alt'][i]) gt 100>
-														<cfset trimmedQuote = fullLeft(agentImagesForCarousel['alt'][i], 100)>
+														<cfset trimmedQuote = left(alttext, 100)>
 														<cfset trimmedQuote &= "...">
 													<cfelse>
 														<cfset trimmedQuote = agentImagesForCarousel['alt'][i]>
