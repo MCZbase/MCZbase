@@ -745,7 +745,7 @@ limitations under the License.
 											<cfloop query="agentImagesForCarousel">
 												<cfset alttext = agentImagesForCarousel['alt'][i]>
 												<div class="small95 my-1">
-													<cfif len(alttext) gt 100>
+													<cfif len(alttext) gt 40>
 														<cfset trimmedQuote = left(alttext, 80)>
 														<cfset trimmedQuote &= "...">
 													<cfelse>
