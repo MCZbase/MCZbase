@@ -772,12 +772,12 @@ limitations under the License.
 													<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image">
 						<!---						<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
-<!---													<cfif len(agentImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
-														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#agentImagesForCarousel['media_id'][i]#">
-													<cfelse>
-														<cfset src="#agentImagesForCarousel['media_uri'][i]#">
-													</cfif>
-														<img src="#src#" class="w-100" alt="#trimmedAltText#">--->
+														<cfif len(agentImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
+															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#agentImagesForCarousel['media_id'][i]#">
+														<cfelse>
+															<cfset src="#agentImagesForCarousel['media_uri'][i]#">
+														</cfif>
+															<img src="#src#" class="w-100" alt="#trimmedAltText#">
 													</a>
 												</div>
 												<cfset i=i+1>
