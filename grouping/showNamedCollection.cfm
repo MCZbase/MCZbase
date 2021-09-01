@@ -169,7 +169,7 @@ limitations under the License.
 .vslider > * + * {
   display: none;
   position: relative;
-background-color: black;
+background-color: white;
 }
 .vslider1 {
   position: relative;
@@ -192,6 +192,7 @@ background-color: black;
   height: calc(300px + 100px);
   top: 0;
   bottom: 0;
+background-color: black;
   -ms-touch-action: none;
   touch-action: none;
   transition: z-index 0s,
