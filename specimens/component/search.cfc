@@ -286,7 +286,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 						<cfset comma = ",">
 					</cfloop>
 					<cfloop query="attrFields">
-						,#sql_element# as #column_name#
+						,#replace(sql_element,"''","'","all")# #column_name#
 					</cfloop>
 				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flatTableName
 					left join FLAT_TEXT FT ON f.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
