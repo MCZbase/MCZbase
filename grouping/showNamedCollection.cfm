@@ -738,8 +738,14 @@ limitations under the License.
 
 										<div class="vslider float-left w-100 px-2 py-1"  style="height: #agentImagesForCarousel.first_height#" id="vslider-base1">
 											<cfset i=1>
+											<cfset alttext = agentImagesForCarousel['alt'][i]>
+											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+											<cfif len(alttextTrunc) gt 100>
+												<cfset trimmedAltText = left(alttextTrunc, 100)>
+												<cfset trimmedAltText &= "...">
+											</cfif>
 											<cfloop query="agentImagesForCarousel">
-												<div class="small95 my-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
+												<div class="small95 my-1">#trimmedAltText# <br><a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
 												<cfset i=i+1>
 											</cfloop>
 										</div>
