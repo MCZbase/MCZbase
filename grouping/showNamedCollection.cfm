@@ -168,7 +168,7 @@ limitations under the License.
 
 .vslider > * + * {
   display: none;
-  position: absolute;
+  position: relative;
 background-color: black;
 }
 .vslider1 {
@@ -687,7 +687,7 @@ background-color: black;
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-2">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider w-100 float-left h-auto" id="vslider-base">
+								  <div class="vslider w-100 float-left" style="height: 735px;" id="vslider-base">
 									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -727,21 +727,26 @@ background-color: black;
 							<cfcase value="1">
 							<cfset colClass = "col-md-12 mx-auto float-none">
 							<cfset imgWidth = 600>
+							<cfset imgHeight = "height:600px;">
 							</cfcase>
 							<cfcase value="2">
 							<cfset colClass = "col-md-12 mx-auto float-none">
 							<cfset imgWidth = 600>
+							<cfset imgHeight = "height:600px;">
 							</cfcase>
 							<cfcase value="3">
 							<cfset colClass = "col-md-6 float-left">
 							<cfset imgWidth = 400>
+							<cfset imgHeight = "height:400px;">
 							</cfcase>
 							<cfcase value="4">
 							<cfset colClass = "col-md-12 col-xl-4 float-left">
 							<cfset imgWidth = 300>
+							<cfset imgHeight = "height:300px;">
 							</cfcase>
 							<cfdefaultcase>
 							<cfset colClass = "col-md-12 col-xl-3 float-left">
+								<cfset imgHeight = "height:400px;">
 							</cfdefaultcase>
 						</cfswitch>
 						<div class="row">
@@ -755,7 +760,7 @@ background-color: black;
 								<div class="col-12 #colClass# mx-md-auto my-3">
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100 float-left h-auto" id="vslider-base1">
+										<div class="vslider w-100 float-left" #imgHeight# id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -798,7 +803,7 @@ background-color: black;
 								<div class="col-12 #colClass# mx-md-auto my-3">
 								<div class="carousel_background border float-left w-100 p-2">
 									<h3 class="mx-2">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
-									<div class="vslider w-100 float-left h-auto" id="vslider-base2">
+									<div class="vslider w-100 float-left h-auto" #imgHeight# id="vslider-base2">
 										<cfset i=1>
 										<cfloop query="collectingImagesForCarousel">
 											<cfset alttext = collectingImagesForCarousel['alt'][i]>
@@ -842,7 +847,7 @@ background-color: black;
 									<div class="col-12 #colClass# mx-md-auto mt-3">
 										<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100 float-left h-auto" id="vslider-base3">
+										<div class="vslider w-100 float-left h-auto" #imgHeight# id="vslider-base3">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 											<cfset alttext = localityImagesForCarousel['alt'][i]>
