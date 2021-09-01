@@ -745,17 +745,16 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>
 						<div class="row">
-							<div class="col-12 px-0">
+							<div class="col-12 px-0 mt-2 mb-3">
 								<cfif agentImagesForCarousel.recordcount gte 2>
 									<cfset imagePlural = 'images'>
 									<cfelse>
 									<cfset imagePlural = 'image'>
 								</cfif>
 								<cfif agentImagesForCarousel.recordcount gt 0>
-								<div class="col-12 #colClass# mx-md-auto mt-3 mb-3">
+								<div class="col-12 #colClass# mx-md-auto my-3">
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-
 										<div class="vslider float-left w-100" style="height: 375px;" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
@@ -771,7 +770,6 @@ limitations under the License.
 													<p class="mt-1">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
-						<!---						<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 														<cfif len(agentImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
 															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#agentImagesForCarousel['media_id'][i]#">
 														<cfelse>
