@@ -690,7 +690,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	</cfif>
 
 	<cfif isDefined("collector_agent_id") AND len(collector_agent_id) GT 0>
-		<cfset field = '"field": "collector_agent_id"'>
+		<cfset field = '"field": "COLLECTORS_AGENT_ID"'>
 		<cfset comparator = '"comparator": "="'>
 		<cfset value = encodeForJavaScript(collector_agent_id)>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,"value": "#value#"}'>
@@ -698,7 +698,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 	<cfelse>
 		<cfif isDefined("collector") AND len(collector) GT 0>
-			<cfset field = '"field": "collector"'>
+			<cfset field = '"field": "COLLECTORS_AGENT_NAME"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#collector#",separator="#separator#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
