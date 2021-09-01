@@ -685,7 +685,7 @@ limitations under the License.
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 						<div class="">
 							<cfif specimenImagesForCarousel.recordcount gt 0>
-							<div class="carousel_background border float-left w-100 p-2">
+							<div class="carousel_background border float-left w-100 p-3">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
 								  <div class="vslider w-100 float-left h-100" id="vslider-base">
 									 <cfset i=1>
@@ -753,7 +753,7 @@ limitations under the License.
 								</cfif>
 								<cfif agentImagesForCarousel.recordcount gt 0>
 								<div class="col-12 #colClass# mx-md-auto my-3">
-									<div class="carousel_background border float-left w-100 p-2">
+									<div class="carousel_background border float-left w-100 p-3">
 										<h3 class="mx-2">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
 										<div class="vslider float-left w-100" style="height: 375px;" id="vslider-base1">
 											<cfset i=1>
@@ -796,7 +796,7 @@ limitations under the License.
 								</cfif>
 								<cfif collectingImagesForCarousel.recordcount gt 0>
 								<div class="col-12 #colClass# mx-md-auto my-3">
-								<div class="carousel_background border float-left w-100 p-2">
+								<div class="carousel_background border float-left w-100 p-3">
 									<h3 class="mx-2">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
 									<div class="vslider float-left w-100" style="height: 375px" id="vslider-base2">
 										<cfset i=1>
@@ -840,7 +840,7 @@ limitations under the License.
 								</cfif>
 								<cfif localityImagesForCarousel.recordcount gt 0>
 									<div class="col-12 #colClass# mx-md-auto mt-3">
-										<div class="carousel_background border float-left w-100 p-2">
+										<div class="carousel_background border float-left w-100 p-3">
 										<h3 class="mx-2">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
 										<div class="vslider w-100 float-left" style="height: 375px" id="vslider-base3">
 											<cfset i=1>
