@@ -163,7 +163,7 @@ limitations under the License.
 
 .vslider > * {
   display: block;
-  position: absolute;
+  position: relative;
 	background-color: #f5f5f5;
 }
 
