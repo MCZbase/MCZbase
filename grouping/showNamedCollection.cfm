@@ -736,12 +736,12 @@ limitations under the License.
 									<div class="carousel_background border float-left w-100 p-3">
 										<h3 class="mx-2">Agents <span class="small">(#agentCt.recordcount# images)</span></h3>
 
-										<div class="vslider float-left w-100 px-2 py-1"  style="height: 430px" id="vslider-base1">
+										<div class="vslider float-left w-100 px-2 py-1"  style="height: 400px" id="vslider-base1">
 											<cfset i=1>
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
 											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-											<cfif len(alttextTrunc) gt 110>
-												<cfset trimmedAltText = left(alttextTrunc, 110)>
+											<cfif len(alttextTrunc) gt 90>
+												<cfset trimmedAltText = left(alttextTrunc, 90)>
 												<cfset trimmedAltText &= "...">
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
@@ -768,12 +768,12 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto mt-3">
 								<div class="carousel_background border float-left w-100 p-3">
 									<h3 class="mx-2">Collecting Event <span class="small">(#collectingCt.recordcount# images)</span></h3>
-									<div class="vslider float-left w-100 px-2 py-1" style="height: 430px" id="vslider-base2">
+									<div class="vslider float-left w-100 px-2 py-1" style="height: 400px" id="vslider-base2">
 										<cfset i=1>
 										<cfset alttext = collectingImagesForCarousel['alt'][i]>
 											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-											<cfif len(alttextTrunc) gt 110>
-												<cfset trimmedAltText = left(alttextTrunc, 110)>
+											<cfif len(alttextTrunc) gt 90>
+												<cfset trimmedAltText = left(alttextTrunc, 90)>
 												<cfset trimmedAltText &= "...">
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
@@ -800,12 +800,12 @@ limitations under the License.
 									<div class="col-12 #colClass# mx-md-auto mt-3">
 										<div class="carousel_background border float-left w-100 p-3">
 										<h3 class="mx-2">Locality  <span class="small">(#localityCt.recordcount#)</span></h3>
-										<div class="vslider w-100 float-left px-2 py-1" style="height: 430px" id="vslider-base3">
+										<div class="vslider w-100 float-left px-2 py-1" style="height: 400px" id="vslider-base3">
 											<cfset i=1>
 											<cfset alttext = localityImagesForCarousel['alt'][i]>
 											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-											<cfif len(alttextTrunc) gt 110>
-												<cfset trimmedAltText = left(alttextTrunc, 110)>
+											<cfif len(alttextTrunc) gt 90>
+												<cfset trimmedAltText = left(alttextTrunc, 90)>
 												<cfset trimmedAltText &= "...">
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
