@@ -698,7 +698,7 @@ limitations under the License.
 									<cfelse>
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
-										<div class="small95 w-100 float-left px-3">
+										<div class="small95 w-100 float-left px-3 h-auto">
 											<p class="mt-1">#trimmedAltText#</p>
 											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
@@ -766,7 +766,7 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 p-3 w-100 float-left">
+												<div class="small95 p-3 w-100 float-left h-auto">
 													<p class="mt-1">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
@@ -809,7 +809,7 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 p-3 float-left w-100">
+												<div class="small95 p-3 float-left w-100 h-auto">
 													<p class="mt-1">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
@@ -842,7 +842,7 @@ limitations under the License.
 									<div class="col-12 #colClass# mx-md-auto mt-3">
 										<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100 float-left" id="vslider-base3">
+										<div class="vslider w-100 float-left h-auto" id="vslider-base3">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 											<cfset alttext = localityImagesForCarousel['alt'][i]>
