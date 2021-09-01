@@ -595,7 +595,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 	<cfelse>
 		<cfif isDefined("scientific_name") AND len(scientific_name) GT 0>
-			<cfset field = '"field": "scientific_name"'>
+			<cfset field = '"field": "identifications_scientific_name"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#scientific_name#",separator="#separator#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
