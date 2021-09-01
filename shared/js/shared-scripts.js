@@ -970,7 +970,7 @@ function makeScientificNameAutocompleteMeta(valueControl, idControl) {
 		},
 		change: function (event, ui) {
 			if(!ui.item){ 
-				$('#'+idControl).val();
+				$('#'+idControl).val("");
 			}
 		},
 		minLength: 3
