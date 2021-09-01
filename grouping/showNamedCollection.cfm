@@ -609,7 +609,34 @@ limitations under the License.
 						SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 							MCZBASE.get_media_descriptor(media.media_id) as alt,
 							MCZBASE.get_medialabel(media.media_id,'width') as width,
-							MCZBASE.get_medialabel(media.media_id,'width') as first_height,
+							MCZBASE.get_medialabel(media.media_id,'height') as first_height,
+							MCZBASE.get_media_credit(media.media_id) as credit
+						FROM
+							underscore_collection
+							left join underscore_relation 
+								on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+								on underscore_relation.collection_object_id = flat.collection_object_id
+							left join locality
+								on locality.locality_id = flat.locality_id 
+							left join media_relations 
+								on locality.locality_id = media_relations.related_primary_key 
+							left join media 
+								on media_relations.media_id = media.media_id
+						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+							AND flat.guid IS NOT NULL
+							AND media_relations.media_relationship = 'shows locality'
+							AND media.media_type = 'image'
+							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+						ORDER BY DBMS_RANDOM.RANDOM
+					) 
+					WHERE Rownum < 26
+				</cfquery>
+					<cfquery name="localityImagesDesc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
+					SELECT * FROM (
+						SELECT DISTINCT media.media_id,
+							MCZBASE.get_media_descriptor(media.media_id) as alt,
 							MCZBASE.get_media_credit(media.media_id) as credit
 						FROM
 							underscore_collection
@@ -660,7 +687,7 @@ limitations under the License.
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-3">
 								<h3 class="mx-2">Specimens</h3>
-								  <div class="vslider w-100 float-left" style="height: #specimenImagesForCarousel.first_height#" id="vslider-base">
+								  <div class="vslider w-100 float-left h-auto" id="vslider-base">
 									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 										<div class="small95 my-1 px-2 py-1">#specimenImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left mx-auto" height="auto" width="100%"></a></div>
@@ -716,7 +743,17 @@ limitations under the License.
 										<div class="vslider float-left w-100"  style="height: #agentImagesForCarousel.first_height#" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
-												<div class="small95 my-1">#agentImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
+												<div class="small95 my-1">
+													<cfif len(agentImagesForCarousel['alt'][i]) gt 100>
+														<cfset trimmedQuote = fullLeft(agentImagesForCarousel['alt'][i], 100)>
+														<cfset trimmedQuote &= "...">
+													<cfelse>
+														<cfset trimmedQuote = agentImagesForCarousel['alt'][i]>
+													</cfif>
+													
+													#agentImagesForCarousel['alt'][i]# 
+													
+													<br><a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
 												<cfset i=i+1>
 											</cfloop>
 										</div>
