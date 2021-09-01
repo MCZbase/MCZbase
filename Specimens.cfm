@@ -588,8 +588,8 @@ limitations under the License.
 							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #fixedTabActive#"  #fixedTabShow#>
 								<section role="search" class="container-fluid">
 									<form id="fixedSearchForm">
-										<input id="result_id_fixedSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
-										<input id="method_fixedSearch" type="hidden" name="method" value="executeFixedSearch" class="keeponclear excludeFromLink">
+										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
+										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
 											<div class="form-row mb-2">

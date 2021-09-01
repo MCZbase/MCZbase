@@ -378,7 +378,8 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 
 /** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
  *  autocomplete agent picker, with a limitation on which agents are shown to agents relevant to the context,
- *  Not intended for use to pick agents for transaction roles where agent flags may apply
+ *  Not intended for use to pick agents for transaction roles where agent flags may apply, also not intended
+ *  for use in searches where a substring may apply, as fields are all cleared on edit not on list.
  *  
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
@@ -463,7 +464,8 @@ function makeConstrainedRichAgentPicker(nameControl, idControl, iconControl, lin
 };
 
 /** Make a paired hidden agent_id and text agent_name control into an autocomplete agent picker, intended for use
- *  with agent controls on searches, to limit selections to relevant agent names.
+ *  with agent controls on searches, to limit selections to relevant agent names, but to allow a text value not on
+ *  the list without an id value, as in a name substring.
  *
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
@@ -940,6 +942,8 @@ function makePreserveMethodAutocompleteMeta(valueControl ) {
 };
 
 /** Make a paired hidden id and text name control into an autocomplete scientific name picker
+ *  intended for use on searches, to allow selection of scientific names, but to allow a text value not on
+ *  the list without an id value, as in a name substring.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected collection_object_id (without a leading # selector).
@@ -969,6 +973,7 @@ function makeScientificNameAutocompleteMeta(valueControl, idControl) {
 			$('#'+idControl).val(result.item.id);
 		},
 		change: function (event, ui) {
+			// clear the id control if the action wasn't a selection of an item on the list
 			if(!ui.item){ 
 				$('#'+idControl).val("");
 			}
