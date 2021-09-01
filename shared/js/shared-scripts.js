@@ -926,7 +926,7 @@ function makePartNameAutocompleteMeta(valueControl ) {
 		},
 		select: function (event, result) {
 			event.preventDefault();
-			$('#'+fieldId).val("=" + result.item.value);
+			$('#'+valueControl).val("=" + result.item.value);
 		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
@@ -954,7 +954,7 @@ function makePreserveMethodAutocompleteMeta(valueControl ) {
 		},
 		select: function (event, result) {
 			event.preventDefault();
-			$('#'+fieldId).val("=" + result.item.value);
+			$('#'+valueControl).val("=" + result.item.value);
 		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
