@@ -676,7 +676,7 @@ background-color: #f5f5f5;
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-2">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider w-100 float-left" style="height: calc(600px + 50px);" id="vslider-base">
+								  <div class="vslider w-100 float-left" style="height: 650px;" id="vslider-base">
 									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -693,7 +693,7 @@ background-color: #f5f5f5;
 											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
 												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 												<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['media_uri'][i] GT 0 AND specimenImagesForCarousel['media_uri'][i] GT 1000>
-													<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#specimenImagesForCarousel['media_id'][i]#">
+													<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=800&media_id=#specimenImagesForCarousel['media_id'][i]#">
 												<cfelse>
 													<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
 												</cfif>
