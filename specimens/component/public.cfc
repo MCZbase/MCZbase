@@ -406,6 +406,7 @@ limitations under the License.
 						identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 				</cfquery>
+				<cfset formerHeadShown = false>
 				<cfloop query="identification">
 					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct
@@ -483,8 +484,9 @@ limitations under the License.
 						</ul>
 					<cfelse>
 						<!---Start of former Identifications--->
-						<cfif getTaxa.recordcount gt 0>
+						<cfif getTaxa.recordcount GT 0 AND NOT formerHeadShown>
 							<div class="h4 pl-4 mt-1 mb-0 text-success">Former Identifications</div>
+							<cfset formerHeadShown = false>
 						</cfif>
 						<!---Add Title for former identifications--->
 						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
