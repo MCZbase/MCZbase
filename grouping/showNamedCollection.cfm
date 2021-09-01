@@ -823,7 +823,10 @@ limitations under the License.
 													</cfif>
 														<img src="#src#" class="w-100" alt="#trimmedAltText#">
 													</a>
+															
+														<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">
 												</div>
+														
 											<cfset i=i+1>
 										</cfloop>
 									</div>
