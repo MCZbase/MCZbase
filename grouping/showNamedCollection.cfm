@@ -706,7 +706,7 @@ limitations under the License.
 										<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['media_uri'][i] GT 0 AND specimenImagesForCarousel['media_uri'][i] GT 1000>
 											<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#specimenImagesForCarousel['media_id'][i]#">
 										<cfelse>
-											<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
+											<cfset src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100">
 										</cfif>
 										<img src="#src#">
 											</a>
