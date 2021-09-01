@@ -163,36 +163,24 @@ limitations under the License.
 
 .vslider > * {
   display: block;
-  position: relative;
+  position: absolute;
+	background-color: #f5f5f5;
 }
 
 .vslider > * + * {
   display: none;
-  position: relative;
-background-color: white;
-}
-.vslider1 {
-  position: relative;
-  overflow: hidden;
-}
-
-.vslider1 > * {
-  display: block;
-  position: relative;
-}
-
-.vslider1 > * + * {
-  display: none;
   position: absolute;
-	 position: relative;
+background-color: #f5f5f5;
 }
+
 .vslider-item {
   display: block;
   width: 100%;
   height: calc(300px + 100px);
   top: 0;
   bottom: 0;
-background-color: black;
+  background-color: #f5f5f5;
+  border-right:1px solid #bac5c6 !important;
   -ms-touch-action: none;
   touch-action: none;
   transition: z-index 0s,
