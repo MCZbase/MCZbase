@@ -783,7 +783,11 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-											<div class="small95 px-2">#trimmedAltText#<br><a href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto"></a></div>
+												<div class="small95 py-2 px-3">
+													<p class="mt-1">#trimmedAltText#</p>
+													<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
+													<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image"><img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto"></a>
+												</div>
 											<cfset i=i+1>
 										</cfloop>
 									</div>
@@ -816,7 +820,11 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 px-2">#trimmedAltText#<br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto"></a></div>
+												<div class="small95 py-2 px-3">
+													<p class="mt-1">#trimmedAltText#</p>
+													<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
+													<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto"></a>
+												</div>
 												<cfset i=i+1>
 											</cfloop>
 										</div>
