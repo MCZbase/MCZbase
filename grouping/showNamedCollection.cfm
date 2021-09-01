@@ -687,7 +687,7 @@ limitations under the License.
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-3">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider w-100 float-left" style="height: 700px;" id="vslider-base">
+								  <div class="vslider w-100 float-left" style="height: auto; max-height: 700px;" id="vslider-base">
 									 <cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 											<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -701,7 +701,14 @@ limitations under the License.
 												<div class="small95 py-2 px-3">
 													<p class="mt-1">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-													<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image"><img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto"></a>
+													<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image">
+								<!---						<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
+													<cfif len(specimenImageQuery.width) GT 0 AND specimenImageQuery.width GT 0 AND specimenImageQuery.width GT 1000 >
+														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#">
+															<cfelse>
+														<cfset src="#specimenImageQuery.media_uri#">
+													</cfif>
+													</a>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
@@ -748,7 +755,7 @@ limitations under the License.
 									<div class="carousel_background border float-left w-100 p-3">
 										<h3 class="mx-2">Agents <span class="small">(#agentCt.recordcount# images)</span></h3>
 
-										<div class="vslider float-left w-100" style="height: 400px" id="vslider-base1">
+										<div class="vslider float-left w-100" style="height: auto; max-height: 400px;" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
