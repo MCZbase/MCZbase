@@ -1227,6 +1227,9 @@ limitations under the License.
       settings.height = settings.height + 'px'
     }
 
+	if (typeof settings.height === null) {
+      settings.height = settings.height + '200px'
+    } 
 
     var MAX = this._MAX = this._$slides.length
 
