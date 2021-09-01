@@ -812,16 +812,8 @@ function makeCatalogedItemAutocompleteMeta(valueControl, idControl) {
 				data: { term: request.term, method: 'getCatalogedItemAutocompleteMeta' },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : function (jqXHR, status, error) {
-					var message = "";
-					if (error == 'timeout') { 
-						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
-					} else { 
-						message = jqXHR.responseText;
-					}
-					messageDialog('Error:' + message ,'Error: ' + error);
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up cataloged items");
 				}
 			})
 		},
@@ -848,16 +840,8 @@ function makeLocalityAutocompleteMeta(valueControl, idControl) {
 				data: { term: request.term, method: 'getLocalityAutocompleteMeta' },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : function (jqXHR, status, error) {
-					var message = "";
-					if (error == 'timeout') { 
-						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
-					} else { 
-						message = jqXHR.responseText;
-					}
-					messageDialog('Error:' + message ,'Error: ' + error);
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up localities for a locality picker");
 				}
 			})
 		},
@@ -884,16 +868,8 @@ function makeCollectingEventAutocompleteMeta(valueControl, idControl) {
 				data: { term: request.term, method: 'getCollectingEventAutocompleteMeta' },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : function (jqXHR, status, error) {
-					var message = "";
-					if (error == 'timeout') { 
-						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
-					} else { 
-						message = jqXHR.responseText;
-					}
-					messageDialog('Error:' + message ,'Error: ' + error);
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up collecting events for a collecting event picker");
 				}
 			})
 		},
@@ -991,6 +967,11 @@ function makeScientificNameAutocompleteMeta(valueControl, idControl) {
 		},
 		select: function (event, result) {
 			$('#'+idControl).val(result.item.id);
+		},
+		change: function (event, ui) {
+			if(!ui.item){ 
+				$('#'+idControl).val();
+			}
 		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
