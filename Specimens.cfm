@@ -704,8 +704,9 @@ limitations under the License.
 											</div>
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-2">
+													<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
 													<label for="higher_geog" class="data-entry-label">Any Geography</label>
-													<input type="text" class="data-entry-input" name="higher_geog" id="higher_geog">
+													<input type="text" class="data-entry-input" name="higher_geog" id="higher_geog" value="#higher_geog#">
 												</div>
 												<div class="col-12 col-md-2">
 													<label for="country" class="data-entry-label">Country</label>
