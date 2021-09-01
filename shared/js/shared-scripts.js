@@ -930,6 +930,31 @@ function makePartNameAutocompleteMeta(valueControl ) {
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};
 };
+
+/** Make a text control into an autocomplete preserve method picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makePreserveMethodAutocompleteMeta(valueControl ) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/specimens/component/search.cfc",
+				data: { term: request.term, method: 'getPreserveMethodAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up part names for a preserve method picker");
+				}
+			})
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
 /** Make a paired hidden id and text name control into an autocomplete scientific name picker
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).

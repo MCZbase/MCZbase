@@ -512,6 +512,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="cat_num" type="string" required="no">
 	<cfargument name="other_id_type" type="string" required="no">
 	<cfargument name="part_name" type="string" required="no">
+	<cfargument name="preserve_method" type="string" required="no">
 	<cfargument name="other_id_number" type="string" required="no">
 	<cfargument name="full_taxon_name" type="string" required="no">
 	<cfargument name="genus" type="string" required="no">
@@ -576,6 +577,12 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("part_name") AND len(part_name) GT 0>
 		<cfset field = '"field": "part_name"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#part_name#",separator="#separator#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+	</cfif>
+	<cfif isDefined("preserve_method") AND len(preserve_method) GT 0>
+		<cfset field = '"field": "preserve_method"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#preserve_method#",separator="#separator#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 	</cfif>
@@ -1112,4 +1119,54 @@ Function getPartNameAutocompleteMeta.  Search for specimen_part.part_name values
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
+<!---
+Function getPreserveMethodAutocompleteMeta.  Search for specimen_part.part_name values, returning json suitable for jquery-ui autocomplete
+ with a _renderItem overriden to display more detail on the picklist, and minimal details for the selected value.
+
+@param term information to search for.
+@return a json structure containing id and value, with guid in value and collection_object_id in id, and guid with more data in meta.
+--->
+<cffunction name="getPreserveMethodAutocompleteMeta" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				count(f.collection_object_id) ct,
+				specimen_part.preserve_method
+			FROM
+				#session.flatTableName# f
+				left join specimen_part on f.collection_object_id = specimen_part.DERIVED_FROM_CAT_ITEM
+			WHERE
+				f.collection_object_id IS NOT NULL
+				AND specimen_part.preserve_method like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+			GROUP BY
+				specimen_part.preserve_method
+			ORDER BY
+				specimen_part.preserve_method
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.preserve_method#">
+			<cfset row["value"] = "#search.preserve_method#" >
+			<cfset row["meta"] = "#search.preserve_method# (#search.ct#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>

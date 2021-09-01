@@ -810,6 +810,15 @@ limitations under the License.
 														});
 													</script>
 												</div>
+												<div class="col-12 col-md-2">
+													<label for="preserve_method" class="data-entry-label">Part Name</label>
+													<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input" >
+													<script>
+														jQuery(document).ready(function() {
+															makePreserveMethodAutocompleteMeta('preserve_method');
+														});
+													</script>
+												</div>
 												<div class="col-12 col-md-3">
 													<label class="data-entry-label" for="when">Verbatim Date</label>
 													<input type="text" class="data-entry-input" id="when" diabled>
