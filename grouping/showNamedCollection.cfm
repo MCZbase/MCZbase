@@ -703,12 +703,12 @@ limitations under the License.
 											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 											<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image">
 						<!---						<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
-											<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['media_uri'][i] GT 0 AND specimenImagesForCarousel['media_uri'][i] GT 1000>
+											<!---<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['media_uri'][i] GT 0 AND specimenImagesForCarousel['media_uri'][i] GT 1000>
 												<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#specimenImagesForCarousel['media_id'][i]#">
 											<cfelse>
 												<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
 											</cfif>
-												<img src="#src#" class="w-100" alt="#trimmedAltText#">
+												<img src="#src#" class="w-100" alt="#trimmedAltText#">--->
 											</a>
 										</div>
 										<cfset i=i+1>
@@ -772,12 +772,12 @@ limitations under the License.
 													<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image">
 						<!---						<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
-													<cfif len(agentImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
+<!---													<cfif len(agentImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
 														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#agentImagesForCarousel['media_id'][i]#">
 													<cfelse>
 														<cfset src="#agentImagesForCarousel['media_uri'][i]#">
 													</cfif>
-														<img src="#src#" class="w-100" alt="#trimmedAltText#">
+														<img src="#src#" class="w-100" alt="#trimmedAltText#">--->
 													</a>
 												</div>
 												<cfset i=i+1>
@@ -869,12 +869,12 @@ limitations under the License.
 												<div class="small95 py-2 px-3">
 													<p class="mt-1">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
-													<cfif len(localityImagesForCarousel['media_uri'][i]) GT 0 AND localityImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
+<!---													<cfif len(localityImagesForCarousel['media_uri'][i]) GT 0 AND localityImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
 														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#localityImagesForCarousel['media_id'][i]#">
 													<cfelse>
 														<cfset src="#localityImagesForCarousel['media_uri'][i]#">
 													</cfif>
-														<img src="#src#" class="w-100" alt="#trimmedAltText#">
+														<img src="#src#" class="w-100" alt="#trimmedAltText#">--->
 													</a>
 												</div>
 												<cfset i=i+1>
