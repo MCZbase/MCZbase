@@ -703,10 +703,10 @@ limitations under the License.
 													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image">
 								<!---						<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
-													<cfif len(specimenImageQuery.width) GT 0 AND specimenImageQuery.width GT 0 AND specimenImageQuery.width GT 1000 >
-														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#">
+													<cfif len(specimenImagesForCarousel.width) GT 0 AND specimenImagesForCarousel.width GT 0 AND specimenImagesForCarousel.width GT 1000 >
+														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel.media_id#">
 															<cfelse>
-														<cfset src="#specimenImageQuery.media_uri#">
+														<cfset src="#specimenImagesForCarousel.media_uri#">
 													</cfif>
 													</a>
 												</div>
