@@ -155,22 +155,30 @@ limitations under the License.
 	top: 10px;
 	z-index: 5;
 }
-
-.vslider {
-  position: relative;
-  overflow: hidden;
+.vslider-styling {
+	font-size: 95%;
+	background-color: #f5f5f5;
+  	border-right:1px solid #dee2e6 !important;
+	border-left:1px solid #dee2e6 !important;
+	border-top:1px solid #dee2e6 !important;
 }
-
-.vslider > * {
-  display: block;
-  position: relative;
+.vslider {
+  	position: relative;
+  	overflow: hidden;
 	background-color: #f5f5f5;
 }
 
+.vslider > * {
+  	display: block;
+  	position: relative;
+	background-color: #f5f5f5;
+	
+}
+
 .vslider > * + * {
-  display: none;
-  position: absolute;
-background-color: #f5f5f5;
+  	display: none;
+ 	position: absolute;
+	background-color: #f5f5f5;
 }
 
 .vslider-item {
@@ -179,10 +187,6 @@ background-color: #f5f5f5;
   	height: calc(300px + 100px);
   	top: 0;
   	bottom: 0;
-  	background-color: #f5f5f5;
-  	border-right:1px solid #bac5c6 !important;
-	border-left:1px solid #bac5c6 !important;
-	border-top:1px solid #bac5c6 !important;
  	-ms-touch-action: none;
   	touch-action: none;
   	transition: z-index 0s,
@@ -689,7 +693,7 @@ background-color: #f5f5f5;
 									<cfelse>
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
-										<div class="small95 w-100 float-left px-3 h-auto">
+										<div class="small95 vslider-styling w-100 float-left px-3 h-auto">
 											<p class="mt-2">#trimmedAltText#</p>
 											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
