@@ -687,7 +687,7 @@ limitations under the License.
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-3">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider w-100 float-left h-auto" id="vslider-base">
+								  <div class="vslider w-100 float-left" id="vslider-base">
 									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -1190,7 +1190,7 @@ limitations under the License.
 
       // if null set height automatically else use height
       // number (=px) or explicit like "3em"
-      height: "auto",
+      height: null,
 
       rotation: true,
       autoplay: options.rotation === false ? false : true,
