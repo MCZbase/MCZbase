@@ -174,21 +174,23 @@ background-color: #f5f5f5;
 }
 
 .vslider-item {
-  display: block;
-  width: 100%;
-  height: calc(300px + 100px);
-  top: 0;
-  bottom: 0;
-  background-color: #f5f5f5;
-  border-right:1px solid #bac5c6 !important;
-  -ms-touch-action: none;
-  touch-action: none;
-  transition: z-index 0s,
-  opacity .8s ease-in-out,
-  transform .4s ease-in-out;
-  z-index: 20;
-  opacity: 0;
-  transform: translateX(-10%);
+  	display: block;
+  	width: 100%;
+  	height: calc(300px + 100px);
+  	top: 0;
+  	bottom: 0;
+  	background-color: #f5f5f5;
+  	border-right:1px solid #bac5c6 !important;
+	border-left:1px solid #bac5c6 !important;
+	border-top:1px solid #bac5c6 !important;
+ 	-ms-touch-action: none;
+  	touch-action: none;
+  	transition: z-index 0s,
+  	opacity .8s ease-in-out,
+  	transform .4s ease-in-out;
+  	z-index: 20;
+  	opacity: 0;
+  	transform: translateX(-10%);
 }
 
 .vslider-item[aria-hidden='false'] {
