@@ -800,7 +800,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto mt-3">
 								<div class="carousel_background border float-left w-100 p-2">
 									<h3 class="mx-2">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
-									<div class="vslider float-left w-100" style="height: 700px" id="vslider-base2">
+									<div class="vslider float-left w-100" style="height: 400px" id="vslider-base2">
 										<cfset i=1>
 										<cfloop query="collectingImagesForCarousel">
 											<cfset alttext = collectingImagesForCarousel['alt'][i]>
