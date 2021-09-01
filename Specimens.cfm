@@ -802,8 +802,9 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-2">
+													<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 													<label for="part_name" class="data-entry-label">Part Name</label>
-													<input type="text" id="part_name" name="part_name" class="data-entry-input" >
+													<input type="text" id="part_name" name="part_name" class="data-entry-input" value="#part_name#" >
 													<script>
 														jQuery(document).ready(function() {
 															makePartNameAutocompleteMeta('part_name');
@@ -811,8 +812,9 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-2">
-													<label for="preserve_method" class="data-entry-label">Part Name</label>
-													<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input" >
+													<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
+													<label for="preserve_method" class="data-entry-label">Preserve Method</label>
+													<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input" value="#preserve_method#" >
 													<script>
 														jQuery(document).ready(function() {
 															makePreserveMethodAutocompleteMeta('preserve_method');
@@ -822,9 +824,6 @@ limitations under the License.
 												<div class="col-12 col-md-3">
 													<label class="data-entry-label" for="when">Verbatim Date</label>
 													<input type="text" class="data-entry-input" id="when" diabled>
-												</div>
-												<div class="col-12 col-md-2">
-													<!--- available space --->
 												</div>
 												<div class="col-12 col-md-2">
 													<cfif findNoCase('redesign',gitBranch) GT 0>
