@@ -770,7 +770,7 @@ limitations under the License.
 												<div class="small95 py-2 px-3">
 													<p class="mt-1">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-													<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image">
+													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-darkgray" title="click to open full image">
 						<!---						<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 														<cfif len(agentImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
 															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#agentImagesForCarousel['media_id'][i]#">
