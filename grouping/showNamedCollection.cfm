@@ -749,10 +749,10 @@ limitations under the License.
 														<cfset trimmedQuote = left(alttext, 80)>
 														<cfset trimmedQuote &= "...">
 													<cfelse>
-														<cfset trimmedQuote = agentImagesForCarousel['alt'][i]>
+														<cfset trimmedQuote = alttext>
 													</cfif>
 													
-													#agentImagesForCarousel['alt'][i]# 
+													#alttext# 
 													
 													<br><a href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
 												<cfset i=i+1>
