@@ -189,7 +189,7 @@ background-color: black;
 .vslider-item {
   display: block;
   width: 100%;
-  height: 100%;
+  height: calc(300px + 100px);
   top: 0;
   bottom: 0;
   -ms-touch-action: none;
