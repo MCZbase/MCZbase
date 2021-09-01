@@ -288,7 +288,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfloop query="attrFields">
 						,#sql_element# as #column_name#
 					</cfloop>
-				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> F
+				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flatTableName
 					left join FLAT_TEXT FT ON f.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
 				WHERE contains(ft.cat_num, <cfqueryparam value="#searchText#" CFSQLType="CF_SQL_VARCHAR">, 1) > 0
 					<cfif isDefined("collmultiselect") and len(collmultiselect) gt 0>
@@ -363,6 +363,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset comparator = '"comparator": "like"'>
 			<cfset value = encodeForJavaScript(value)>
 			<cfset value = replace(value,"\x20"," ","all")>
+			<cfset value = replace(value,"\x5B","[","all")>
+			<cfset value = replace(value,"\x5D","]","all")>
 		</cfif>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,"value": "#value#"}'>
 	<cfreturn #search_json#>
