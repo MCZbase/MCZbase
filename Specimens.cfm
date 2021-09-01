@@ -645,8 +645,9 @@ limitations under the License.
 											</div>
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-2">
+													<cfif not isdefined("full_taxon_name")><cfset full_taxon_name=""></cfif>
 													<label for="taxa" class="data-entry-label">Any Taxonomy</label>
-													<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy">
+													<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy" value="#full_taxon_name#">
 												</div>
 												<div class="col-12 col-md-2">
 													<label for="phylorder" class="data-entry-label">Order</label>
@@ -822,8 +823,9 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-3">
+													<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
 													<label class="data-entry-label" for="when">Verbatim Date</label>
-													<input type="text" class="data-entry-input" id="when" diabled>
+													<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#verbatim_date#">
 												</div>
 												<div class="col-12 col-md-2">
 													<cfif findNoCase('redesign',gitBranch) GT 0>
