@@ -676,7 +676,7 @@ background-color: #f5f5f5;
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-2">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider w-100 float-left" <cfif specimenImagesForCarousel.height gt 600> style='height: 680px;'<cfelse>style='height:400px;'</cfif> id="vslider-base">
+								  <div class="vslider w-100 float-left" style="height:400px;" id="vslider-base">
 									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
