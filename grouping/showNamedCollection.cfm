@@ -676,7 +676,7 @@ background-color: #f5f5f5;
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-2">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider w-100 float-left" style="height: 650px;" id="vslider-base">
+								  <div class="vslider w-100 float-left" <cfif specimenImagesForCarousel.height gt 600> style='height: 680px;'<cfelse>style='height:400px;'</cfif> id="vslider-base">
 									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -749,7 +749,7 @@ background-color: #f5f5f5;
 								<div class="col-12 #colClass# mx-md-auto my-3">
 									<div class="carousel_background border float-left w-100 p-2 h-auto">
 										<h3 class="mx-2">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100 float-left h-auto" id="vslider-base1">
+										<div class="vslider w-100 float-left" <cfif #colClass# eq col-4> style="height: 400px;"<cfelse>style="height:400px;"</cfif> id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -760,10 +760,10 @@ background-color: #f5f5f5;
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 w-100 float-left px-3" #imgHeight#>
+												<div class="small95 w-100 float-left px-3">
 													<p class="mt-2">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
+													<a href="#media_uri#" target="_blank" class="d-block my-1 h-100" title="click to open full image">
 														<cfif len(agentImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
 															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#agentImagesForCarousel['media_id'][i]#">
 														<cfelse>
