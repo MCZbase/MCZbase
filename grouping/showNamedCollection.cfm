@@ -701,7 +701,7 @@ limitations under the License.
 										<div class="small95 py-2 px-3">
 											<p class="mt-1">#trimmedAltText#</p>
 											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-											<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image">
+											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
 												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 												<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['media_uri'][i] GT 0 AND specimenImagesForCarousel['media_uri'][i] GT 1000>
 													<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#specimenImagesForCarousel['media_id'][i]#">
@@ -770,7 +770,7 @@ limitations under the License.
 												<div class="small95 py-2 px-3">
 													<p class="mt-1">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black" title="click to open full image">
+													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
 						<!---						<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 														<cfif len(agentImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
 															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#agentImagesForCarousel['media_id'][i]#">
@@ -800,7 +800,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto mt-3">
 								<div class="carousel_background border float-left w-100 p-2">
 									<h3 class="mx-2">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
-									<div class="vslider float-left w-100" style="height: 700px" id="vslider-base2">
+									<div class="vslider float-left w-100" style="height: 400px" id="vslider-base2">
 										<cfset i=1>
 										<cfloop query="collectingImagesForCarousel">
 											<cfset alttext = collectingImagesForCarousel['alt'][i]>
@@ -813,25 +813,15 @@ limitations under the License.
 											</cfif>
 												<div class="small95 py-2 px-3">
 													<p class="mt-1">#trimmedAltText#</p>
-													
-														<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
-													
-													<span>Rescale Image load<br>
-														<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image">
-							<!---						<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
-														<cfif len(collectingImagesForCarousel['media_uri'][i]) GT 0 AND collectingImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
-															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#collectingImagesForCarousel['media_id'][i]#">
-														<cfelse>
-															<cfset src="#collectingImagesForCarousel['media_uri'][i]#">
-														</cfif>
-															<img src="#src#" class="w-100" alt="#trimmedAltText#">
-														</a>
-													</span><br>
-													<span>Fast load<br>	
-														<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image">
-															<img src="#agentImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">
-														</a>
-													</span>
+													<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
+													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
+													<cfif len(collectingImagesForCarousel['media_uri'][i]) GT 0 AND collectingImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
+														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#collectingImagesForCarousel['media_id'][i]#">
+													<cfelse>
+														<cfset src="#collectingImagesForCarousel['media_uri'][i]#">
+													</cfif>
+														<img src="#src#" class="w-100" alt="#trimmedAltText#">
+													</a>
 												</div>
 														
 											<cfset i=i+1>
@@ -856,7 +846,6 @@ limitations under the License.
 										<h3 class="mx-2">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
 										<div class="vslider w-100 float-left" style="height: 400px" id="vslider-base3">
 											<cfset i=1>
-
 											<cfloop query="localityImagesForCarousel">
 											<cfset alttext = localityImagesForCarousel['alt'][i]>
 											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
@@ -869,12 +858,13 @@ limitations under the License.
 												<div class="small95 py-2 px-3">
 													<p class="mt-1">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
-<!---													<cfif len(localityImagesForCarousel['media_uri'][i]) GT 0 AND localityImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
+													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
+													<cfif len(localityImagesForCarousel['media_uri'][i]) GT 0 AND localityImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
 														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#localityImagesForCarousel['media_id'][i]#">
 													<cfelse>
 														<cfset src="#localityImagesForCarousel['media_uri'][i]#">
 													</cfif>
-														<img src="#src#" class="w-100" alt="#trimmedAltText#">--->
+														<img src="#src#" class="w-100" alt="#trimmedAltText#">
 													</a>
 												</div>
 												<cfset i=i+1>
