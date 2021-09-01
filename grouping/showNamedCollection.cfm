@@ -689,29 +689,29 @@ limitations under the License.
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
 								  <div class="vslider w-100 float-left" style="height: auto; max-height: 700px;" id="vslider-base">
 									 <cfset i=1>
-											<cfloop query="specimenImagesForCarousel">
-											<cfset alttext = specimenImagesForCarousel['alt'][i]>
-											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-											<cfif len(alttextTrunc) gt 300>
-												<cfset trimmedAltText = left(alttextTrunc, 300)>
-												<cfset trimmedAltText &= "...">
-											<cfelse>
-												<cfset trimmedAltText = altTextTrunc>
+									<cfloop query="specimenImagesForCarousel">
+									<cfset alttext = specimenImagesForCarousel['alt'][i]>
+									<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+									<cfif len(alttextTrunc) gt 300>
+										<cfset trimmedAltText = left(alttextTrunc, 300)>
+										<cfset trimmedAltText &= "...">
+									<cfelse>
+										<cfset trimmedAltText = altTextTrunc>
+									</cfif>
+										<div class="small95 py-2 px-3">
+											<p class="mt-1">#trimmedAltText#</p>
+											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+											<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image">
+						<!---						<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
+											<cfif len(specimenImagesForCarousel.width) GT 0 AND specimenImagesForCarousel.width GT 0 AND specimenImagesForCarousel.width GT 1000 >
+												<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_uri'][i]#">
+													<cfelse>
+												<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
 											</cfif>
-												<div class="small95 py-2 px-3">
-													<p class="mt-1">#trimmedAltText#</p>
-													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-													<a href="#media_uri#" target="_blank" class="d-block my-1" title="click to open full image">
-								<!---						<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
-													<cfif len(specimenImagesForCarousel.width) GT 0 AND specimenImagesForCarousel.width GT 0 AND specimenImagesForCarousel.width GT 1000 >
-														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel.media_id#">
-															<cfelse>
-														<cfset src="#specimenImagesForCarousel.media_uri#">
-													</cfif>
-													</a>
-												</div>
-												<cfset i=i+1>
-											</cfloop>
+											</a>
+										</div>
+										<cfset i=i+1>
+									</cfloop>
 								  </div>
 								<div class="custom-nav text-center border mb-1 bg-white px-1 pt-0 pb-1">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous image </button>
