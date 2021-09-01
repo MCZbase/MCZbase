@@ -184,6 +184,7 @@ limitations under the License.
 .vslider > * + * {
   display: none;
   position: absolute;
+	 position: relative;
 }
 
 .vslider-item {
@@ -687,7 +688,7 @@ limitations under the License.
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-2">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider w-100 float-left" id="vslider-base">
+								  <div class="vslider w-100 float-left h-auto" id="vslider-base">
 									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -755,7 +756,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto my-3">
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider float-left w-100" id="vslider-base1">
+										<div class="vslider w-100 float-left h-auto" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -766,7 +767,7 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 p-3 w-100 float-left h-auto">
+												<div class="small95 w-100 float-left px-3 h-auto">
 													<p class="mt-1">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
@@ -798,7 +799,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto my-3">
 								<div class="carousel_background border float-left w-100 p-2">
 									<h3 class="mx-2">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
-									<div class="vslider float-left w-100" id="vslider-base2">
+									<div class="vslider w-100 float-left h-auto" id="vslider-base2">
 										<cfset i=1>
 										<cfloop query="collectingImagesForCarousel">
 											<cfset alttext = collectingImagesForCarousel['alt'][i]>
@@ -809,7 +810,7 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 p-3 float-left w-100 h-100">
+												<div class="small95 w-100 float-left px-3 h-auto">
 													<p class="mt-1">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
@@ -853,7 +854,7 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 p-3 w-100 float-left">
+												<div class="small95 w-100 float-left px-3 h-auto">
 													<p class="mt-1">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
