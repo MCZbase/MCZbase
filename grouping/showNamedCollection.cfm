@@ -36,42 +36,35 @@ limitations under the License.
 
 
 <style>
-/* Parent wrapper to carousel. Width can be changed as needed. */
-.carousel-wrapper, .carousel-wrapper1, .carousel-wrapper2, .carousel-wrapper3 {
-	/*overflow: hidden;*/
+/*.carousel-wrapper, .carousel-wrapper1, .carousel-wrapper2, .carousel-wrapper3 {
 	width: 100%;
 	width:100%;
 	margin: auto;
 }
-/* Apply 'border-box' to 'box-sizing' so border and padding is included in the width and height. */
 .carousel-wrapper *, .carousel-wrapper1 *, .carousel-wrapper2 *, .carousel-wrapper3 * {
 	box-sizing: border-box;
 }
-/* We'll be using the 'transform' property to move the carousel's items, so setting the 'transform-style' to 'preserve-3d' will make sure our nested elements are rendered properly in the 3D space. */
 .carousel, .carousel1, .carousel2, .carousel3 {
 	-webkit-transform-style: preserve-3d;
 	-moz-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 }
-/* By default we're hiding items (except the initial one) until the JS initiates. Elements are absolutely positioned with a width of 100% (as we're styling for mobile first), letting the content's height dictate the height of the carousel. Our magic property here for all our animation needs is 'transition', taking the properties we wish to animate 'transform' and 'opacity', along with the length of time in seconds. */
 .carousel__photo,.carousel__photo1,.carousel__photo2,.carousel__photo3 {
 	opacity: 0;
 	position: absolute;
 	top:0;
 	width: 100%;
 	margin: auto;
-	padding: 1rem 2rem;/*changed to 2 from 4*/
+	padding: 1rem 2rem;
 	z-index: 100;
 	transition: transform .5s, opacity .5s, z-index .5s;
 	border: 1px solid #bac5c6;
-	
 }
 .carousel_background {
 	background-color: #f8f9fa;
 	border:1px solid #e8e8e8;
 	border: .5rem solid #fff;
 }
-/* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
 .carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,.carousel__photo3.initial,
 .carousel__photo.active,.carousel__photo1.active,.carousel__photo2.active,.carousel__photo3.active {
 	opacity: 1;
@@ -82,43 +75,35 @@ limitations under the License.
 .carousel__photo.active img:focus, .carousel__photo1.active img:focus,.carousel__photo2.active img:focus, .carousel__photo3.active img:focus {
 	border: 1px solid rgb(0 123 255 / 25%);
 		}
-/* Set 'z-index' to sit behind our '.active' item. */
 .carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,.carousel__photo3.prev,
 .carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next,.carousel__photo3.next {
 	z-index: 800;
 }
-/* Translate previous item to the left */
 .carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,.carousel__photo3.prev {
   transform: translateX(-100%);
 
 }
-/* Translate next item to the right */
 .carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next,.carousel__photo3.next {
 	transform: translateX(100%);
 }
-/* Style navigation buttons to sit in the middle, either side of the carousel. */
 .carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev,.carousel__button3--prev,
 .carousel__button--next,.carousel__button1--next,.carousel__button2--next,.carousel__button3--next {
 	position: absolute;
 	top:50%;
-	width: 2rem; /*changed from 3 to 2*/
+	width: 2rem; 
 	height: 40rem;
 	background-color: transparent;
 	transform: translateY(-50%);
-	/*border-radius: 50%;*/
 	cursor: pointer; 
-	z-index: 1001; /* Sit on top of everything */
+	z-index: 1001; 
 	border:1px solid tranparent;
-/*  opacity: 0;  Hide buttons until carousel is initialised transition:opacity 1s;*/
 }
 .carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev,.carousel__button3--prev {
-	left:4px;/*changed from 15 to 9*/
+	left:4px;
 }
 .carousel__button--next,.carousel__button1--next,.carousel__button2--next,.carousel__button3--next {
 	right:-4px;
 }
-
-/* Use pseudo elements to insert arrows inside of navigation buttons */
 .carousel__button--prev::after,.carousel__button1--prev::after,.carousel__button2--prev::after,.carousel__button3--prev::after,
 .carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after,.carousel__button3--next::after {
 	content: " ";
@@ -137,7 +122,7 @@ limitations under the License.
 	
 	left: 20%;
 	transform: translate(-50%, -50%) rotate(-45deg);
-}
+}*/
 .current {
 	width: 300px;
 	height: 300px; 
@@ -184,9 +169,23 @@ limitations under the License.
 .vslider > * + * {
   display: none;
   position: absolute;
-	 position: relative;
+background-color: black;
+}
+.vslider1 {
+  position: relative;
+  overflow: hidden;
 }
 
+.vslider1 > * {
+  display: block;
+  position: relative;
+}
+
+.vslider1 > * + * {
+  display: none;
+  position: absolute;
+	 position: relative;
+}
 .vslider-item {
   display: block;
   width: 100%;
