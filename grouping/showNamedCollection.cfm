@@ -758,9 +758,9 @@ background-color: black;
 								</cfif>
 								<cfif agentImagesForCarousel.recordcount gt 0>
 								<div class="col-12 #colClass# mx-md-auto my-3">
-									<div class="carousel_background border float-left w-100 p-2">
+									<div class="carousel_background border float-left w-100 p-2 h-auto">
 										<h3 class="mx-2">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100 float-left" #imgHeight# id="vslider-base1">
+										<div class="vslider w-100 float-left h-auto" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -771,7 +771,7 @@ background-color: black;
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 w-100 float-left px-3 h-auto">
+												<div class="small95 w-100 float-left px-3" #imgHeight#>
 													<p class="mt-2">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
