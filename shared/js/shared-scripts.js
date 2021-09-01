@@ -924,6 +924,10 @@ function makePartNameAutocompleteMeta(valueControl ) {
 				}
 			})
 		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val("=" + result.item.value);
+		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
 		// override to display meta with additional information instead of minimal value in picklist.
@@ -947,6 +951,10 @@ function makePreserveMethodAutocompleteMeta(valueControl ) {
 					handleFail(jqXHR,textStatus,error,"looking up part names for a preserve method picker");
 				}
 			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val("=" + result.item.value);
 		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
