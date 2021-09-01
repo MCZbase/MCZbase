@@ -736,7 +736,7 @@ limitations under the License.
 									<div class="carousel_background border float-left w-100 p-3">
 										<h3 class="mx-2">Agents <span class="small">(#agentCt.recordcount# images)</span></h3>
 
-										<div class="vslider float-left w-100 px-2 py-1"  style="height: #agentImagesForCarousel.first_height#" id="vslider-base1">
+										<div class="vslider float-left w-100 px-2 py-1"  style="height: 500px" id="vslider-base1">
 											<cfset i=1>
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
 											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
@@ -768,7 +768,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto mt-3">
 								<div class="carousel_background border float-left w-100 p-3">
 									<h3 class="mx-2">Collecting Event <span class="small">(#collectingCt.recordcount# images)</span></h3>
-									<div class="vslider float-left w-100 px-2 py-1" style="height: #collectingImagesForCarousel.first_height#" id="vslider-base2">
+									<div class="vslider float-left w-100 px-2 py-1" style="height: 500px" id="vslider-base2">
 										<cfset i=1>
 										<cfset alttext = collectingImagesForCarousel['alt'][i]>
 											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
@@ -779,7 +779,7 @@ limitations under the License.
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
 										<cfloop query="collectingImagesForCarousel">
-											<div class="small95 my-1">#collectingImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
+											<div class="small95 my-1">#trimmedAltText# <br><a href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#collectingImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto mx-auto"></a></div>
 											<cfset i=i+1>
 										</cfloop>
 									</div>
@@ -800,7 +800,7 @@ limitations under the License.
 									<div class="col-12 #colClass# mx-md-auto mt-3">
 										<div class="carousel_background border float-left w-100 p-3">
 										<h3 class="mx-2">Locality  <span class="small">(#localityCt.recordcount#)</span></h3>
-										<div class="vslider w-100 float-left px-2 py-1" style="height: #localityImagesForCarousel.first_height#" id="vslider-base3">
+										<div class="vslider w-100 float-left px-2 py-1" style="height: 500px" id="vslider-base3">
 											<cfset i=1>
 											<cfset alttext = localityImagesForCarousel['alt'][i]>
 											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
@@ -811,7 +811,7 @@ limitations under the License.
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
 											<cfloop query="localityImagesForCarousel">
-												<div class="small95 my-1">#localityImagesForCarousel['alt'][i]# <br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="mx-auto w-100 float-left h-auto"></a></div>
+												<div class="small95 my-1">#trimmedAltText# <br><a href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a><br><a href="#media_uri#" target="_blank" title="click to open full image"><img src="#localityImagesForCarousel['media_uri'][i]#" class="mx-auto w-100 float-left h-auto"></a></div>
 												<cfset i=i+1>
 											</cfloop>
 										</div>
