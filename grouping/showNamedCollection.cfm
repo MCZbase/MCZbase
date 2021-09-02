@@ -683,9 +683,9 @@ limitations under the License.
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 						<div class="">
 							<cfif specimenImagesForCarousel.recordcount gt 0>
-							<div class="carousel_background border float-left w-100 p-2">
+							<div class="carousel_background border float-left w-100 p-2"  style="height:730px;">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider border-right border-left border-top border-bottom w-100" style="height:730px;" id="vslider-base">
+								  <div class="vslider border-right border-left border-top border-bottom w-100 h-100" id="vslider-base">
 									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -696,9 +696,9 @@ limitations under the License.
 									<cfelse>
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
-										<div class="vslider-styling px-3 pt-3" style="height:730px;"> 
+										<div class="vslider-styling px-3 pt-3 h-auto"> 
 											
-											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light col-12 px-0" style="max-height: 630px;overflow:hidden;" title="click to open full image">
+											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light col-12 h-auto px-0" style="max-height: 630px;overflow:hidden;" title="click to open full image">
 												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 												<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['first_height'][i] GT 1000>
 													<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
