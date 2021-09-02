@@ -730,7 +730,7 @@ padding-bottom: 1em;
 								<div class="col-12 #colClass# mx-md-auto my-3">
 									<div class="carousel_background border float-left w-100 p-2 h-auto">
 										<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100 float-left" style="height:400px;" id="vslider-base1">
+										<div class="vslider w-100 float-left" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -773,7 +773,7 @@ padding-bottom: 1em;
 								<div class="col-12 #colClass# mx-md-auto my-3">
 								<div class="carousel_background border float-left w-100 p-2">
 									<h3 class="mx-2 text-center">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
-									<div class="vslider w-100 float-left" style="height: 400px;" id="vslider-base2">
+									<div class="vslider w-100 float-left" id="vslider-base2">
 										<cfset i=1>
 										<cfloop query="collectingImagesForCarousel">
 											<cfset alttext = collectingImagesForCarousel['alt'][i]>
@@ -817,7 +817,7 @@ padding-bottom: 1em;
 									<div class="col-12 #colClass# mx-md-auto mt-3">
 										<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100 float-left" style="height: 400px;" id="vslider-base3">
+										<div class="vslider w-100 float-left" id="vslider-base3">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 											<cfset alttext = localityImagesForCarousel['alt'][i]>
@@ -1422,8 +1422,7 @@ padding-bottom: 1em;
   window.vanillaSlider = vanillaSlider
 }());											
 </script>						
-					<div class="row">
-						<div id="mapper" class="col-12 h-100">
+						<section id="mapper" class="row h-100">
 							<h2 class="mt-4 col-12 text-left">Heat Map Example</h2>
 								<script>
 									let map, heatmap;
@@ -1495,7 +1494,7 @@ padding-bottom: 1em;
 								<div id="map"></div>
 <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 <script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization&v=weekly" async></script>
-						</div>
+						</section>
 					</div>
 
 				</div>
