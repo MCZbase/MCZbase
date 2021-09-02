@@ -2223,7 +2223,7 @@ limitations under the License.
 					FROM agent_name 
 					WHERE
 						agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-						and agent_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pref_name#">
+						and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pref_name#">
 						and agent_name_type = 'preferred'
 				</cfquery>
 				<cfif checkName.recordcount EQ 0>
