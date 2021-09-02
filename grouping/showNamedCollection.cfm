@@ -864,9 +864,9 @@ padding-bottom: 1em;
   // example script
   function init() {
     // multiple
-    window.defaultSliders = vanillaSlider(
-      document.querySelectorAll('.vslider-default')
-    )
+//    window.defaultSliders = vanillaSlider(
+//      document.querySelectorAll('.vslider-default')
+//    )
     console.log('window.defaultSliders:', window.defaultSliders)
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
