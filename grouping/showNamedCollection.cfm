@@ -926,6 +926,7 @@ padding-bottom: 1em;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
+		height: '30rem',
         after: function (index, length) {
           $input.value = index +1
         }
@@ -973,6 +974,7 @@ padding-bottom: 1em;
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
+		height: '30rem',
         status: false,
         after: function (index, length) {
           $input.value = index +1
@@ -1022,6 +1024,7 @@ padding-bottom: 1em;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
+		height: '30rem',
         after: function (index, length) {
           $input.value = index +1
         }
@@ -1056,7 +1059,7 @@ padding-bottom: 1em;
 /*!
  * vanillaSlider
  */
-;
+//;
 (function () {
   "use strict";
   // Polyfill for e.g. IE
