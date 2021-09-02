@@ -769,19 +769,18 @@ limitations under the License.
 									</cfif>
 										<div class="px-3 pt-3">
 											
-						<!---					<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light float-left col-xl-9 col-12 px-0" title="click to open full image">--->
+											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light float-left col-xl-9 col-12 px-0" title="click to open full image">
 												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 												<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['first_height'][i] GT 1000>
 													<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
 												<cfelse>
 													<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
 												</cfif>
-												<img src="#src#" class="w-100" alt="#i#">
-													<!---alt="#trimmedAltText#">--->
-										<!---	</a>--->
+												<img src="#src#" class="w-100" alt="#trimmedAltText#">
+											</a>
 											<span class="d-block float-left col-12">
-											<a class="d-block h3" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-											<p class="my-1 small95">#trimmedAltText# </p>
+												<a class="d-block h3" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+												<p class="my-1 small95">#trimmedAltText# </p>
 											</span>
 											
 										</div>
@@ -799,7 +798,7 @@ limitations under the License.
 											
 					</div>
 				</div>
-											
+											</div>						
 						<!--- figure out widths of sub blocks, adapt to number of blocks --->
 						<cfswitch expression="#otherImageTypes#">
 							<cfcase value="1">
