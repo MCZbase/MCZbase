@@ -698,7 +698,7 @@ limitations under the License.
 									</cfif>
 										<div class="vslider-styling px-3 pt-3">
 											
-											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light col-12 px-0" style="max-height: 650px;" title="click to open full image">
+											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light col-12 px-0" style="max-height: 630px;overflow:hidden;" title="click to open full image">
 												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 												<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['first_height'][i] GT 1000>
 													<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
