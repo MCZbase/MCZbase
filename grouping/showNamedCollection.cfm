@@ -789,7 +789,7 @@ limitations under the License.
 												<cfset i=i+1>
 											</cfloop>
 										</div>
-										<div class="custom-nav text-center bg-white pt-1">
+										<div class="custom-nav text-center bg-white pt-2">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
 											<input type="number" id="custom-input1" class="border border-light py-2 mt-1 text-center" style="width: 50px;" placeholder="index">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
