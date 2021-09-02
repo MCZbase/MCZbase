@@ -780,7 +780,7 @@ limitations under the License.
 															<img src="#src#" class="w-100" alt="#trimmedAltText#">
 													</a>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-													<p class="my-2">#trimmedAltText#</p>
+													<p class="my-1">#trimmedAltText#</p>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
@@ -823,7 +823,7 @@ limitations under the License.
 														<img src="#src#" class="w-100" alt="#trimmedAltText#">
 													</a>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
-													<p class="mt-2">#trimmedAltText#</p>
+													<p class="my-1">#trimmedAltText#</p>
 												</div>	
 											<cfset i=i+1>
 										</cfloop>
@@ -866,7 +866,7 @@ limitations under the License.
 														<img src="#src#" class="w-100" alt="#trimmedAltText#">
 													</a>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
-													<p class="mt-2">#trimmedAltText#</p>
+													<p class="my-1">#trimmedAltText#</p>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
