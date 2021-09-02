@@ -79,6 +79,7 @@ limitations under the License.
 .vslider {
   position: relative;
   overflow: hidden;
+	background-color:#1b1b1b;
 }
 
 .vslider > * {
@@ -157,7 +158,7 @@ limitations under the License.
 .vslider-status-item[aria-selected='true'] {
   opacity: 0.6;
 }
-	.vslider-item a img {background-color:black;}
+	.vslider-item {background-color: #1b1b1b;}
 .vslider-nav {
   display: block;
   z-index: 100;
