@@ -696,7 +696,7 @@ limitations under the License.
 									<cfelse>
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
-										<div class="vslider-styling px-3 pt-3">
+										<div class="vslider-styling px-3 pt-3" style="height:730px;"> 
 											
 											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light col-12 px-0" style="max-height: 630px;overflow:hidden;" title="click to open full image">
 												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
