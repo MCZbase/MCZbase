@@ -894,6 +894,7 @@ limitations under the License.
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
+		height: '50rem',
         status: false,
         after: function (index, length) {
           $input.value = index
@@ -914,7 +915,7 @@ limitations under the License.
       baseSlider.next()
     }, false)
     vanillaSlider(
-      document.getElementById('vslider-base'), {
+      document.getElementById('vslider-custom'), {
         height: '20em',
         statusContent: function (i, all) {
           return i + 1
