@@ -2239,7 +2239,7 @@ limitations under the License.
 						<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateName_result">
 							UPDATE agent_name
 							SET
-								agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#pref_name#'>,
+								agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#pref_name#'>
 							WHERE
 								agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
 								and agent_name_type = 'preferred'
