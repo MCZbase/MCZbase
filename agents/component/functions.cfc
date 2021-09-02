@@ -2246,7 +2246,7 @@ limitations under the License.
 						</cfquery>
 					</cfloop>
 				</cfif>
-			</cfif>>
+			</cfif>
 
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
