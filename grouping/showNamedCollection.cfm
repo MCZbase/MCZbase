@@ -711,7 +711,7 @@ limitations under the License.
 												<cfelse>
 													<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
 												</cfif>
-												<img src="#src#" class="w-100" alt="#trimmedAltText#">
+												<img src="#src#" class="w-100" alt="#trimmedAltText#" style="overflow:hidden;">
 											</a>
 											<span class="d-block col-12">
 											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
