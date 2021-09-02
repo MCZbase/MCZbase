@@ -972,10 +972,10 @@ limitations under the License.
   // example script
   function init() {
     // multiple
-    window.defaultSliders = vanillaSlider(
-      document.querySelectorAll('.vslider-default')
-    )
-    console.log('window.defaultSliders:', window.defaultSliders)
+//    window.defaultSliders = vanillaSlider(
+//      document.querySelectorAll('.vslider-default')
+//    )
+//    console.log('window.defaultSliders:', window.defaultSliders)
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base'), {
@@ -1273,7 +1273,7 @@ limitations under the License.
 
       // if null set height automatically else use height
       // number (=px) or explicit like "3em"
-      height: null,
+      height: 650,
 
       rotation: true,
       autoplay: options.rotation === false ? false : true,
