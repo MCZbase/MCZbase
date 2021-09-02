@@ -696,8 +696,8 @@ limitations under the License.
 									<cfelse>
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
-										<div class="small95 vslider-styling h-100 col-10 float-left px-3 pt-2">
-											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+										<div class="vslider-styling h-100 col-10 float-left px-3 pt-2">
+											
 											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light" title="click to open full image">
 												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 												<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['first_height'][i] GT 1000>
@@ -710,7 +710,10 @@ limitations under the License.
 											
 											
 										</div>
-													<p class="my-1 col-2">#trimmedAltText#</p>
+										
+										<p class="my-1 col-2 vslider-styling small95 float-left">#trimmedAltText# 
+											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+										</p>
 										<cfset i=i+1>
 									</cfloop>
 								  </div>
