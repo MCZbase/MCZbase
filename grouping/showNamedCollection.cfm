@@ -207,17 +207,13 @@ limitations under the License.
 .vslider {
   color: #191717;
   background-color: #fff;
-  font-size: 1em;
-  font-weight: bold;
+  font-size: 1.2em;
+  font-weight: 600;
   text-align: center;
-	padding-bottom: 1em;
-  margin-bottom: 1.5em;
+padding-bottom: 1em;
+  margin-bottom: 1em;
 }
-
-
-
 /* custom status and navigation */
-
 .vslider-customstatus .vslider-status > li {
   color: #fff;
   padding: 0.25em;
@@ -232,28 +228,18 @@ limitations under the License.
   border-top: 0.5em solid transparent;
   border-bottom: 0.5em solid transparent;
 }
-
 .vslider-customstatus .vslider-prev {
   border-right: 1em solid #000;
 }
-
 .vslider-customstatus .vslider-next {
   border-left: 1em solid #000;
 }
-
-
-
 /* bg */
-
 .vslider-background span {
   background: #000 no-repeat center;
   background-size: contain;
 }
-
-
-
 /* images */
-
 .vslider-images img {
   display: block;
   margin: 0 auto;
