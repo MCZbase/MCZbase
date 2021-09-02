@@ -180,13 +180,14 @@ limitations under the License.
 
 .vslider > * + * {
   	display: none;
- 	position: absolute;
+ 	position: relative;
 	background-color: #f5f5f5;
 }
 
 .vslider-item {
   	display: block;
   	width: 100%;
+	height: 100%;
   	top: 0;
   	bottom: 0;
  	-ms-touch-action: none;
