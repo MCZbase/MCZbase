@@ -763,7 +763,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto my-3">
 									<div class="carousel_background border w-100 p-2 h-auto">
 										<h3 class="mx-1">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100" style="height:425px;" id="vslider-base1">
+										<div class="vslider w-100" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
