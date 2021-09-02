@@ -748,7 +748,7 @@ limitations under the License.
 				<cfif localityCt.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
 				</cfif>
-					<div class="row mx-3 mt-3">
+				<div class="row mx-3 mt-3">
 					<div class="col-12 col-md-6 float-left mt-3 mb-3">
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
@@ -797,7 +797,8 @@ limitations under the License.
 							</div>
 							</cfif>
 											
-											
+					</div>
+				</div>
 											
 						<!--- figure out widths of sub blocks, adapt to number of blocks --->
 						<cfswitch expression="#otherImageTypes#">
