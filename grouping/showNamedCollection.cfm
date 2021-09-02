@@ -867,7 +867,7 @@ padding-bottom: 1em;
 //    window.defaultSliders = vanillaSlider(
 //      document.querySelectorAll('.vslider-default')
 //    )
-    console.log('window.defaultSliders:', window.defaultSliders)
+  //  console.log('window.defaultSliders:', window.defaultSliders)
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base'), {
@@ -913,10 +913,10 @@ padding-bottom: 1em;
   // example script
   function init() {
     // multiple
-    window.defaultSliders = vanillaSlider(
-      document.querySelectorAll('.vslider-default')
-    )
-    console.log('window.defaultSliders:', window.defaultSliders)
+//    window.defaultSliders = vanillaSlider(
+//      document.querySelectorAll('.vslider-default')
+//    )
+//    console.log('window.defaultSliders:', window.defaultSliders)
     var $input = document.getElementById('custom-input1')
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base1'), {
@@ -962,10 +962,10 @@ padding-bottom: 1em;
   // example script
   function init() {
     // multiple
-    window.defaultSliders = vanillaSlider(
-      document.querySelectorAll('.vslider-default')
-    )
-    console.log('window.defaultSliders:', window.defaultSliders)
+//    window.defaultSliders = vanillaSlider(
+//      document.querySelectorAll('.vslider-default')
+//    )
+//    console.log('window.defaultSliders:', window.defaultSliders)
     var $input = document.getElementById('custom-input2')
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base2'), {
