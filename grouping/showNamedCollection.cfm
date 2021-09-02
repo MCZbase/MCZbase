@@ -793,12 +793,11 @@ limitations under the License.
 									<input type="number" id="custom-input" class="border border-light p-2 mt-1 text-center" style="width:50px;" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
 								  </div>
-							</div>
+						<!---	</div>--->
 							</cfif>
 											
-					</div>
-				</div>
-											</div>						
+	
+															
 						<!--- figure out widths of sub blocks, adapt to number of blocks --->
 						<cfswitch expression="#otherImageTypes#">
 							<cfcase value="1">
@@ -962,7 +961,8 @@ limitations under the License.
 							</div>
 						</div>
 					</cfif>
-											
+												</div>
+												</div>
  
 
 		
