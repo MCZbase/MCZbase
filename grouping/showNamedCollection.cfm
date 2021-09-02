@@ -896,7 +896,7 @@ limitations under the License.
         wheelnavigation: true,
         status: false,
         after: function (index, length) {
-          $input.value = index +1
+          $input.value = index
         }
       }
     )
@@ -914,7 +914,7 @@ limitations under the License.
       baseSlider.next()
     }, false)
     vanillaSlider(
-      document.getElementById('vslider-custom'), {
+      document.getElementById('vslider-base'), {
         height: '20em',
         statusContent: function (i, all) {
           return i + 1
