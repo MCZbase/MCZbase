@@ -735,7 +735,7 @@ limitations under the License.
 										
 										
 										
-							<cfif specimenImagesForCarousel.recordcount gt 0>
+						<!---	<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-2">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
 								  <div class="vslider border-right border-left border-top border-bottom w-100" style="height:450px;" id="vslider-base">
@@ -750,9 +750,7 @@ limitations under the License.
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
 										<div class="vslider-styling px-3 pt-3">
-											
 											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light col-12 px-0" title="click to open full image">
-												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 												<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['first_height'][i] GT 1000>
 													<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
 												<cfelse>
@@ -764,9 +762,7 @@ limitations under the License.
 											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 											<p class="my-1 small95">#trimmedAltText# </p>
 											</span>
-											
 										</div>
-										
 										<cfset i=i+1>
 									</cfloop>
 								  </div>
@@ -776,7 +772,7 @@ limitations under the License.
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
 								  </div>
 							</div>
-							</cfif>
+							</cfif>--->
 						</div>
 						<!--- figure out widths of sub blocks, adapt to number of blocks --->
 						<cfswitch expression="#otherImageTypes#">
