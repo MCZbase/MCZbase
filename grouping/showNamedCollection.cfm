@@ -411,15 +411,11 @@ padding-bottom: 1em;
 									});
 						</script>
 						<div class="col-12 my-2">
-							<h2 class="float-left">Specimen Records <span class="small">
-								<cfif oneOfUs eq 1>
-									<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage
-								</cfif>
-								#specimens.recordcount# records
-								<cfif oneOfUs eq 1>
-									)</a>
-								</cfif>
-								</span></h2>
+							<h2 class="float-left">Specimen Records 
+								<span class="small">
+									<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">#specimens.recordcount#</a>
+								</span>
+							</h2>
 							<div id="btnContainer" class="ml-3 float-left"></div>
 						</div>
 						<section class="container-fluid">
