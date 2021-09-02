@@ -36,92 +36,7 @@ limitations under the License.
 
 
 <style>
-/*.carousel-wrapper, .carousel-wrapper1, .carousel-wrapper2, .carousel-wrapper3 {
-	width: 100%;
-	width:100%;
-	margin: auto;
-}
-.carousel-wrapper *, .carousel-wrapper1 *, .carousel-wrapper2 *, .carousel-wrapper3 * {
-	box-sizing: border-box;
-}
-.carousel, .carousel1, .carousel2, .carousel3 {
-	-webkit-transform-style: preserve-3d;
-	-moz-transform-style: preserve-3d;
-	transform-style: preserve-3d;
-}
-.carousel__photo,.carousel__photo1,.carousel__photo2,.carousel__photo3 {
-	opacity: 0;
-	position: absolute;
-	top:0;
-	width: 100%;
-	margin: auto;
-	padding: 1rem 2rem;
-	z-index: 100;
-	transition: transform .5s, opacity .5s, z-index .5s;
-	border: 1px solid #bac5c6;
-}
-.carousel_background {
-	background-color: #f8f9fa;
-	border:1px solid #e8e8e8;
-	border: .5rem solid #fff;
-}
-.carousel__photo.initial,.carousel__photo1.initial,.carousel__photo2.initial,.carousel__photo3.initial,
-.carousel__photo.active,.carousel__photo1.active,.carousel__photo2.active,.carousel__photo3.active {
-	opacity: 1;
-	position: relative;
-	z-index: 900;
-	top: 0;
-}
-.carousel__photo.active img:focus, .carousel__photo1.active img:focus,.carousel__photo2.active img:focus, .carousel__photo3.active img:focus {
-	border: 1px solid rgb(0 123 255 / 25%);
-		}
-.carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,.carousel__photo3.prev,
-.carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next,.carousel__photo3.next {
-	z-index: 800;
-}
-.carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,.carousel__photo3.prev {
-  transform: translateX(-100%);
-}
-.carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next,.carousel__photo3.next {
-	transform: translateX(100%);
-}
-.carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev,.carousel__button3--prev,
-.carousel__button--next,.carousel__button1--next,.carousel__button2--next,.carousel__button3--next {
-	position: absolute;
-	top:50%;
-	width: 2rem; 
-	height: 40rem;
-	background-color: transparent;
-	transform: translateY(-50%);
-	cursor: pointer; 
-	z-index: 1001; 
-	border:1px solid tranparent;
-}
-.carousel__button--prev,.carousel__button1--prev,.carousel__button2--prev,.carousel__button3--prev {
-	left:4px;
-}
-.carousel__button--next,.carousel__button1--next,.carousel__button2--next,.carousel__button3--next {
-	right:-4px;
-}
-.carousel__button--prev::after,.carousel__button1--prev::after,.carousel__button2--prev::after,.carousel__button3--prev::after,
-.carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after,.carousel__button3--next::after {
-	content: " ";
-	position: absolute;
-	width: 15px;
-	height: 15px;
-	top: 50%;
-	left: 54%;
-	border-right: 2px solid #007bff;
-	border-bottom: 2px solid #007bff;
-	transform: translate(-50%, -50%) rotate(135deg);
-}
-.carousel__button--next::after,.carousel__button1--next::after,.carousel__button2--next::after,.carousel__button3--next::after {
-	left: 47%;
-	transform: translate(-50%, -50%) rotate(-45deg);
-	
-	left: 20%;
-	transform: translate(-50%, -50%) rotate(-45deg);
-}*/
+
 .current {
 	width: 300px;
 	height: 300px; 
@@ -162,49 +77,52 @@ limitations under the License.
 	border-top:1px solid #dee2e6 !important;
 }
 .vslider {
-  	position: relative;
-  	overflow: hidden;
-	background-color: #f5f5f5;
+  position: relative;
+  overflow: hidden;
 }
+
 .vslider > * {
-  	display: block;
-  	position: relative;
-	background-color: #f5f5f5;
-	
+  display: block;
+  position: relative;
 }
+
 .vslider > * + * {
-  	display: none;
- 	position: absolute;
-	background-color: #f5f5f5;
+  display: none;
+  position: absolute;
 }
+
 .vslider-item {
-  	display: block;
-  	width: 100%;
-  	height: calc(300px + 100px);
-  	top: 0;
-  	bottom: 0;
- 	-ms-touch-action: none;
-  	touch-action: none;
-  	transition: z-index 0s,
-  	opacity .8s ease-in-out,
-  	transform .4s ease-in-out;
-  	z-index: 20;
-  	opacity: 0;
-  	transform: translateX(-10%);
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  -ms-touch-action: none;
+  touch-action: none;
+  transition: z-index 0s,
+  opacity .8s ease-in-out,
+  transform .4s ease-in-out;
+  z-index: 20;
+  opacity: 0;
+  transform: translateX(-10%);
 }
+
 .vslider-item[aria-hidden='false'] {
   z-index: 30;
   opacity: 1.0;
   transform: translateX(0);
 }
+
 .vslider-before {
   z-index: 10;
   opacity: 0;
   transform: translateX(10%);
 }
+
 .vslider-direct {
   transition: none;
 }
+
 .vslider-status {
   display: block;
   list-style: none;
@@ -217,6 +135,7 @@ limitations under the License.
   padding: 0;
   margin: 0;
 }
+
 .vslider-status-item {
   cursor: pointer;
   display: inline-block;
@@ -224,19 +143,21 @@ limitations under the License.
   width: 1em;
   height: 1em;
   line-height: 1;
-  color: ##000;
-  background: ##000;
-  border: 0.1em solid ##fff;
+  color: #000;
+  background: #000;
+  border: 0.1em solid #fff;
   border-radius: 100%;
   margin: 0 0.5em;
   transition: 0.3s;
   opacity: 0.3;
 }
+
 .vslider-status-item:hover,
 .vslider-status-item:focus,
 .vslider-status-item[aria-selected='true'] {
   opacity: 0.6;
 }
+
 .vslider-nav {
   display: block;
   z-index: 100;
@@ -246,6 +167,7 @@ limitations under the License.
   left: 0;
   right: 0;
 }
+
 .vslider-prev,
 .vslider-next {
   cursor: pointer;
@@ -261,22 +183,109 @@ limitations under the License.
   background: none;
   opacity: 0.6;
 }
+
 .vslider-prev:hover,
 .vslider-prev:focus,
 .vslider-next:hover,
 .vslider-next:focus {
   opacity: 1;
 }
+
 .vslider-next {
   left: auto;
   right: 0;
 }
+
 .vslider-prev:after {
   content: '<';
 }
+
 .vslider-next:after {
   content: '>';
-}</style>
+}
+/* some basic style */
+.vslider {
+  color: #191717;
+  background-color: #fff;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+	padding-bottom: 1em;
+  margin-bottom: 1.5em;
+}
+
+
+
+/* custom status and navigation */
+
+.vslider-customstatus .vslider-status > li {
+  color: #fff;
+  padding: 0.25em;
+  border-radius: 0.25em;
+}
+
+.vslider-customstatus .vslider-prev,
+.vslider-customstatus .vslider-next {
+  color: transparent;
+  width: 0;
+  height: 0;
+  border-top: 0.5em solid transparent;
+  border-bottom: 0.5em solid transparent;
+}
+
+.vslider-customstatus .vslider-prev {
+  border-right: 1em solid #000;
+}
+
+.vslider-customstatus .vslider-next {
+  border-left: 1em solid #000;
+}
+
+
+
+/* bg */
+
+.vslider-background span {
+  background: #000 no-repeat center;
+  background-size: contain;
+}
+
+
+
+/* images */
+
+.vslider-images img {
+  display: block;
+  margin: 0 auto;
+}
+
+
+
+/* custom animation */
+
+.vslider-trans {
+  min-height: 50vh;
+  background-color: transparent;
+}
+
+.vslider-trans .vslider-item {
+  background: no-repeat center;
+  background-size: cover;
+
+  transition: z-index 0s,
+  transform 1s ease-in-out;
+  opacity: 1;
+  transform: rotateY(90deg);
+}
+
+.vslider-trans .vslider-active {
+  transform: rotateY(0deg);
+}
+
+.vslider-trans .vslider-before {
+  transform: rotateY(-90deg);
+}
+</style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
 	</cfif>
