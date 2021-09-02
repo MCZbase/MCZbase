@@ -685,7 +685,7 @@ limitations under the License.
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-2">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider border-right border-left border-top border-bottom w-100" style="height:450px;" id="vslider-base">
+								  <div class="vslider border-right border-left border-top border-bottom w-100" style="height:700px;" id="vslider-base">
 									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
