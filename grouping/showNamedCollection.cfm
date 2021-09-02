@@ -454,7 +454,7 @@ padding-bottom: 1em;
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 							ORDER BY DBMS_RANDOM.RANDOM
 						) 
-					WHERE   Rownum  < 26
+					WHERE rownum < 5
 				</cfquery>
 				<cfif specimenImagesForCarousel.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
@@ -483,7 +483,7 @@ padding-bottom: 1em;
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
-					WHERE Rownum < 26
+					WHERE rownum < 4
 				</cfquery>
 				<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
 					SELECT DISTINCT media.media_id
@@ -532,7 +532,7 @@ padding-bottom: 1em;
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
-					WHERE Rownum < 26
+					WHERE rownum < 5
 				</cfquery>
 				<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 					SELECT DISTINCT media.media_id
@@ -602,7 +602,7 @@ padding-bottom: 1em;
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
-					WHERE Rownum < 26
+					WHERE rownum < 4
 				</cfquery>
 					<cfquery name="localityImagesDesc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
 					SELECT * FROM (
@@ -629,7 +629,7 @@ padding-bottom: 1em;
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
-					WHERE Rownum < 26
+					WHERE rownum < 4
 				</cfquery>
 				<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 					SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
