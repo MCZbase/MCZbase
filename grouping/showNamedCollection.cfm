@@ -696,9 +696,8 @@ limitations under the License.
 									<cfelse>
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
-										<div class="small95 vslider-styling w-100 float-left px-3 h-auto">
-											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black" title="click to open full image">
+										<div class="small95 vslider-styling h-100 w-100 float-left px-3 pt-3">
+											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light" title="click to open full image">
 												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 												<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['first_height'][i] GT 1000>
 													<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
@@ -707,7 +706,8 @@ limitations under the License.
 												</cfif>
 												<img src="#src#" class="w-100" alt="#trimmedAltText#">
 											</a>
-											<p class="my-2">#trimmedAltText#</p>
+											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+											<p class="my-1">#trimmedAltText#</p>
 										</div>
 										<cfset i=i+1>
 									</cfloop>
@@ -769,8 +769,7 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 vslider-styling w-100 h-100 float-left px-3 pt-3">	
-													
+												<div class="small95 vslider-styling w-100 h-100 float-left px-3 pt-3">		
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light" title="click to open full image">
 														<cfif len(agentImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
 															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#agentImagesForCarousel['media_id'][i]#">
