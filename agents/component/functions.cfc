@@ -1076,7 +1076,7 @@ limitations under the License.
 						</li>
 						<li class="list-group-item px-0 col-12 col-md-7">	
 							<div class="col-12 bg-light border non-field-text">
-								<span id="preferred_name_display">#encodeForHtnl(preferredName.agent_name)#</span>
+								<span id="preferred_name_display">#encodeForHtml(preferredName.agent_name)#</span>
 							</div>
 						</li>
 						<li class="list-group-item px-1">
