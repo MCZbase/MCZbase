@@ -1068,28 +1068,20 @@ limitations under the License.
 				</cfquery>
 				<form id="preferredNameForm">
 					<ul class="list-group list-group-horizontal form-row mx-0">
-						<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#preferredName.agent_name_id#">
-						<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#preferredName.agent_name_type#">
 						<li class="list-group-item px-0">
-							<label for="preferred_name" class="data-entry-label mb-0 mt-1 font-weight-bold">Preferred Name</label>
+							<label for="preferred_name_display" class="data-entry-label mb-0 mt-1 font-weight-bold">Preferred Name</label>
 						</li>
 						<li class="list-group-item px-0 col-12 col-md-7">	
+							<div class="col-12 bg-light border non-field-text">
+								<span id="preferred_name_display">#encodeForHtml(preferredName.agent_name)#</span>
+							</div>
+							<label class="data-entry-label mb-0 mt-1 font-weight-bold"></label>
 							<input type="text" value="#preferredName.agent_name#" name="agent_name" id="preferred_name" class="data-entry-input">
 						</li>
 						<li class="list-group-item px-1">
-							<button type="button" id="preferredUpdateButton" value="preferredUpdateButton" class="btn btn-xs btn-secondary">Update</button>
-							<span id="prefAgentNameFeedback"></span>
 						</li>
 					</ul>
 				</form>
-				<script>
-					$(document).ready(function () {
-						$('##preferredUpdateButton').click(function(evt){
-							evt.preventDefault;
-							saveAgentName(#agent_id#, 'preferred_name_agent_name_id','preferred_name','preferred_name_agent_name_type','prefAgentNameFeedback');
-						});
-					});
-				</script>
 				<!--- other names --->
 				<cfquery name="notPrefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="notPrefName_result">
 					SELECT distinct
