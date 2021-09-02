@@ -686,7 +686,7 @@ limitations under the License.
 									<cfelse>
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
-										<div class="small95 vslider-styling w-100 float-left px-3 h-auto">
+										<div class="small95  w-100 float-left px-3 h-auto">
 											<p class="mt-2">#trimmedAltText#</p>
 											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
@@ -704,7 +704,7 @@ limitations under the License.
 								  </div>
 								<div class="custom-nav text-center border mb-1 bg-white pt-0 pb-1">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-									<input type="number" id="custom-input" class="border border-light p-2 mt-1 text-center" style="width:50px;" placeholder="index">
+									<input type="number" id="custom-input" class="border border-light p-2 mt-1 text-center" style="width:55px;" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
 								  </div>
 							</div>
