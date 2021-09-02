@@ -162,6 +162,9 @@ limitations under the License.
 	border-left:1px solid #dee2e6 !important;
 	border-top:1px solid #dee2e6 !important;
 }
+	.vslider-styling a.bg-light:hover {
+		background-color: #f8f9fa!important;
+	}
 .vslider {
   	position: relative;
   	overflow: hidden;
