@@ -156,7 +156,7 @@ limitations under the License.
 	z-index: 5;
 }
 .vslider-styling {
-	font-size: 95%;
+	font-size: 100%;
 	background-color: #f5f5f5;
   	border-right:1px solid #dee2e6 !important;
 	border-left:1px solid #dee2e6 !important;
@@ -338,24 +338,17 @@ limitations under the License.
   background-size: contain;
 }
 
-
-
 /* images */
 
 .vslider-images img {
   display: block;
   margin: 0 auto;
 }
-
-
-
 /* custom animation */
-
 .vslider-trans {
   min-height: 550vh;
   background-color: transparent;
 }
-
 .vslider-trans .vslider-item {
   background: no-repeat center;
   background-size: cover;
@@ -994,7 +987,7 @@ limitations under the License.
         wheelnavigation: true,
         status: false,
         after: function (index, length) {
-          $input.value = index +1
+          $input.value = index
         }
       }
     )
