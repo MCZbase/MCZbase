@@ -850,7 +850,7 @@ limitations under the License.
 									<div class="col-12 #colClass# mx-md-auto mt-3">
 										<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-1">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider border-right border-left border-top border-bottom w-100 float-left" style="height: 425px;" id="vslider-base3">
+										<div class="vslider border-right border-left border-top border-bottom w-100" style="height: 425px;" id="vslider-base3">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 											<cfset alttext = localityImagesForCarousel['alt'][i]>
@@ -861,7 +861,7 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 vslider-styling w-100 h-100 float-left px-3 pt-2">
+												<div class="small95 vslider-styling w-100 px-3 pt-2">
 													<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light" title="click to open full image">
 													<cfif len(localityImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['first_height'][i] GT 1000>
@@ -877,7 +877,7 @@ limitations under the License.
 												<cfset i=i+1>
 											</cfloop>
 										</div>
-										<div class="custom-nav text-center bg-white pt-2">
+										<div class="custom-nav text-center bg-white pt-1">
 											<button type="button" class="border-0  btn-outline-primary" id="custom-prev3"> << previous </button>
 											<input type="number" id="custom-input3" class="border border-light py-2 mt-1 text-center" style="width: 55px;" placeholder="index">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> next &nbsp; >> </button>
