@@ -162,9 +162,9 @@ limitations under the License.
 	border-left:1px solid #dee2e6 !important;
 	border-top:1px solid #dee2e6 !important;
 }
-	.vslider-styling a.bg-light:hover {
-		background-color: #f8f9fa!important;
-	}
+/*.vslider-styling a.bg-light:hover {
+	background-color: #f8f9fa!important;
+}*/
 .vslider {
   	position: relative;
   	overflow: hidden;
@@ -858,7 +858,7 @@ limitations under the License.
 												<div class="small95 vslider-styling w-100 h-100 float-left px-3">
 													<p class="mt-2">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
-													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light h-100" title="click to open full image">
+													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light p-1" title="click to open full image">
 													<cfif len(localityImagesForCarousel['media_uri'][i]) GT 0 AND localityImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
 														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?height=1000&media_id=#localityImagesForCarousel['media_id'][i]#">
 													<cfelse>
