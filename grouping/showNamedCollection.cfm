@@ -157,7 +157,7 @@ limitations under the License.
 .vslider-status-item[aria-selected='true'] {
   opacity: 0.6;
 }
-
+	.vslider a {background-color:black;}
 .vslider-nav {
   display: block;
   z-index: 100;
