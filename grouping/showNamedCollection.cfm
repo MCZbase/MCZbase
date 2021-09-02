@@ -187,7 +187,7 @@ limitations under the License.
 .vslider-item {
   	display: block;
   	width: 100%;
-  	height: calc(300px + 100px);
+  	height: 100%;
   	top: 0;
   	bottom: 0;
  	-ms-touch-action: none;
