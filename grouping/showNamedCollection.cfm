@@ -759,7 +759,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto my-3">
 									<div class="carousel_background border float-left w-100 p-2 h-auto">
 										<h3 class="mx-1">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100 float-left" style="height:450px;" id="vslider-base1">
+										<div class="vslider w-100 float-left" style="height:470px;" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -802,7 +802,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto my-3">
 								<div class="carousel_background border float-left w-100 p-2">
 									<h3 class="mx-1">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
-									<div class="vslider w-100 float-left" style="height: 450px;" id="vslider-base2">
+									<div class="vslider w-100 float-left" style="height: 470px;" id="vslider-base2">
 										<cfset i=1>
 										<cfloop query="collectingImagesForCarousel">
 											<cfset alttext = collectingImagesForCarousel['alt'][i]>
@@ -846,7 +846,7 @@ limitations under the License.
 									<div class="col-12 #colClass# mx-md-auto mt-3">
 										<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-1">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100 float-left" style="height: 450px;" id="vslider-base3">
+										<div class="vslider w-100 float-left" style="height: 470px;" id="vslider-base3">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 											<cfset alttext = localityImagesForCarousel['alt'][i]>
