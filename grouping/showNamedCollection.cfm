@@ -78,8 +78,7 @@ limitations under the License.
 }
 .vslider {
   position: relative;
- 
-	background-color:#1b1b1b;
+overflow: hidden;
 }
 
 .vslider > * {
