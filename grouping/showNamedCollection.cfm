@@ -81,7 +81,6 @@ limitations under the License.
 }
 .carousel__photo.prev,.carousel__photo1.prev,.carousel__photo2.prev,.carousel__photo3.prev {
   transform: translateX(-100%);
-
 }
 .carousel__photo.next,.carousel__photo1.next,.carousel__photo2.next,.carousel__photo3.next {
 	transform: translateX(100%);
@@ -156,62 +155,56 @@ limitations under the License.
 	z-index: 5;
 }
 .vslider-styling {
-	font-size: 100%;
+	font-size: 95%;
 	background-color: #f5f5f5;
   	border-right:1px solid #dee2e6 !important;
 	border-left:1px solid #dee2e6 !important;
 	border-top:1px solid #dee2e6 !important;
 }
-/*.vslider-styling a.bg-light:hover {
-	background-color: #f8f9fa!important;
-}*/
 .vslider {
-  position: relative;
-  overflow: hidden;
+  	position: relative;
+  	overflow: hidden;
+	background-color: #f5f5f5;
 }
-
 .vslider > * {
-  display: block;
-  position: relative;
+  	display: block;
+  	position: relative;
+	background-color: #f5f5f5;
+	
 }
-
 .vslider > * + * {
-  display: none;
-  position: absolute;
+  	display: none;
+ 	position: absolute;
+	background-color: #f5f5f5;
 }
-
 .vslider-item {
-  display: block;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  bottom: 0;
-  -ms-touch-action: none;
-  touch-action: none;
-  transition: z-index 0s,
-  opacity .8s ease-in-out,
-  transform .4s ease-in-out;
-  z-index: 20;
-  opacity: 0;
-  transform: translateX(-10%);
+  	display: block;
+  	width: 100%;
+  	height: calc(300px + 100px);
+  	top: 0;
+  	bottom: 0;
+ 	-ms-touch-action: none;
+  	touch-action: none;
+  	transition: z-index 0s,
+  	opacity .8s ease-in-out,
+  	transform .4s ease-in-out;
+  	z-index: 20;
+  	opacity: 0;
+  	transform: translateX(-10%);
 }
-
 .vslider-item[aria-hidden='false'] {
   z-index: 30;
   opacity: 1.0;
   transform: translateX(0);
 }
-
 .vslider-before {
   z-index: 10;
   opacity: 0;
   transform: translateX(10%);
 }
-
 .vslider-direct {
   transition: none;
 }
-
 .vslider-status {
   display: block;
   list-style: none;
@@ -224,7 +217,6 @@ limitations under the License.
   padding: 0;
   margin: 0;
 }
-
 .vslider-status-item {
   cursor: pointer;
   display: inline-block;
@@ -232,21 +224,19 @@ limitations under the License.
   width: 1em;
   height: 1em;
   line-height: 1;
-  color: #000;
-  background: #000;
-  border: 0.1em solid #fff;
+  color: ##000;
+  background: ##000;
+  border: 0.1em solid ##fff;
   border-radius: 100%;
   margin: 0 0.5em;
   transition: 0.3s;
   opacity: 0.3;
 }
-
 .vslider-status-item:hover,
 .vslider-status-item:focus,
 .vslider-status-item[aria-selected='true'] {
   opacity: 0.6;
 }
-
 .vslider-nav {
   display: block;
   z-index: 100;
@@ -256,7 +246,6 @@ limitations under the License.
   left: 0;
   right: 0;
 }
-
 .vslider-prev,
 .vslider-next {
   cursor: pointer;
@@ -272,101 +261,22 @@ limitations under the License.
   background: none;
   opacity: 0.6;
 }
-
 .vslider-prev:hover,
 .vslider-prev:focus,
 .vslider-next:hover,
 .vslider-next:focus {
   opacity: 1;
 }
-
 .vslider-next {
   left: auto;
   right: 0;
 }
-
 .vslider-prev:after {
   content: '<';
 }
-
 .vslider-next:after {
   content: '>';
-	}
-/* some basic style */
-.vslider {
-  color: #fff;
-  background-color: #82898c;
-  font-size: 3em;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 1.5em;
-}
-
-
-
-/* custom status and navigation */
-
-.vslider-customstatus .vslider-status > li {
-  color: #fff;
-  padding: 0.25em;
-  border-radius: 0.25em;
-}
-
-.vslider-customstatus .vslider-prev,
-.vslider-customstatus .vslider-next {
-  color: transparent;
-  width: 0;
-  height: 0;
-  border-top: 0.5em solid transparent;
-  border-bottom: 0.5em solid transparent;
-}
-
-.vslider-customstatus .vslider-prev {
-  border-right: 1em solid #000;
-}
-
-.vslider-customstatus .vslider-next {
-  border-left: 1em solid #000;
-}
-
-
-
-/* bg */
-
-.vslider-background span {
-  background: #000 no-repeat center;
-  background-size: contain;
-}
-
-/* images */
-
-.vslider-images img {
-  display: block;
-  margin: 0 auto;
-}
-/* custom animation */
-.vslider-trans {
-  min-height: 550vh;
-  background-color: transparent;
-}
-.vslider-trans .vslider-item {
-  background: no-repeat center;
-  background-size: cover;
-
-  transition: z-index 0s,
-  transform 1s ease-in-out;
-  opacity: 1;
-  transform: rotateY(90deg);
-}
-
-.vslider-trans .vslider-active {
-  transform: rotateY(0deg);
-}
-
-.vslider-trans .vslider-before {
-  transform: rotateY(-90deg);
-}
-</style>
+}</style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
 	</cfif>
@@ -748,16 +658,16 @@ limitations under the License.
 				<cfif localityCt.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
 				</cfif>
-				<div class="row mx-3 mt-3">
+					<div class="row mx-3 mt-3">
 					<div class="col-12 col-md-6 float-left mt-3 mb-3">
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
-					
+						<div class="">
 							<cfif specimenImagesForCarousel.recordcount gt 0>
-							<!---<div class="carousel_background border float-left w-100 p-2">--->
+							<div class="carousel_background border float-left w-100 p-2">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								<div class="vslider" id="vslider-base" tabindex="0" aria-label="Carousel" aria-live="polite">
-   						 		<cfset i=1>
+								  <div class="vslider w-100 float-left" style="height:650px;" id="vslider-base">
+									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
 									<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
@@ -767,9 +677,10 @@ limitations under the License.
 									<cfelse>
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
-										<div class="px-3 pt-3">
-											
-											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light float-left col-xl-9 col-12 px-0" title="click to open full image">
+										<div class="small95 vslider-styling w-100 float-left px-3 h-auto">
+											<p class="mt-2">#trimmedAltText#</p>
+											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
 												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 												<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['first_height'][i] GT 1000>
 													<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
@@ -778,13 +689,7 @@ limitations under the License.
 												</cfif>
 												<img src="#src#" class="w-100" alt="#trimmedAltText#">
 											</a>
-											<span class="d-block float-left col-12">
-												<a class="d-block h3" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-												<p class="my-1 small95">#trimmedAltText# </p>
-											</span>
-											
 										</div>
-										
 										<cfset i=i+1>
 									</cfloop>
 								  </div>
@@ -793,11 +698,9 @@ limitations under the License.
 									<input type="number" id="custom-input" class="border border-light p-2 mt-1 text-center" style="width:50px;" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
 								  </div>
-						<!---	</div>--->
+							</div>
 							</cfif>
-											
-	
-															
+						</div>
 						<!--- figure out widths of sub blocks, adapt to number of blocks --->
 						<cfswitch expression="#otherImageTypes#">
 							<cfcase value="1">
@@ -835,34 +738,34 @@ limitations under the License.
 								<cfif agentImagesForCarousel.recordcount gt 0>
 								<div class="col-12 #colClass# mx-md-auto my-3">
 									<div class="carousel_background border float-left w-100 p-2 h-auto">
-										<h3 class="mx-1">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100 float-left" style="height:425px;" id="vslider-base1">
+										<h3 class="mx-2">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
+										<div class="vslider w-100 float-left" style="height:400px;" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
 											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-											<cfif len(alttextTrunc) gt 95>
-												<cfset trimmedAltText = left(alttextTrunc, 95)>
+											<cfif len(alttextTrunc) gt 90>
+												<cfset trimmedAltText = left(alttextTrunc, 90)>
 												<cfset trimmedAltText &= "...">
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 vslider-styling w-100 h-100 float-left px-3 pt-2">		
+												<div class="small95 vslider-styling w-100 float-left px-3">
+													<p class="mt-2">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light" title="click to open full image">
-														<cfif len(agentImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['first_height'][i] GT 1000>
-															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#agentImagesForCarousel['media_id'][i]#">
+													<a href="#media_uri#" target="_blank" class="d-block my-1 h-100" title="click to open full image">
+														<cfif len(agentImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
+															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#agentImagesForCarousel['media_id'][i]#">
 														<cfelse>
 															<cfset src="#agentImagesForCarousel['media_uri'][i]#">
 														</cfif>
 															<img src="#src#" class="w-100" alt="#trimmedAltText#">
 													</a>
-													<p class="my-1">#trimmedAltText#</p>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
 										</div>
-										<div class="custom-nav text-center bg-white py-1">
+										<div class="custom-nav text-center bg-white border-right border-left border-top border-bottom mb-1 pt-0 pb-1">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
 											<input type="number" id="custom-input1" class="border border-light py-2 mt-1 text-center" style="width: 50px;" placeholder="index">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
@@ -878,37 +781,37 @@ limitations under the License.
 								<cfif collectingImagesForCarousel.recordcount gt 0>
 								<div class="col-12 #colClass# mx-md-auto my-3">
 								<div class="carousel_background border float-left w-100 p-2">
-									<h3 class="mx-1">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
-									<div class="vslider w-100 border-right border-left border-top border-bottom float-left" style="height: 425px;" id="vslider-base2">
+									<h3 class="mx-2">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
+									<div class="vslider w-100 float-left" style="height: 400px;" id="vslider-base2">
 										<cfset i=1>
 										<cfloop query="collectingImagesForCarousel">
 											<cfset alttext = collectingImagesForCarousel['alt'][i]>
 											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-											<cfif len(alttextTrunc) gt 95>
-												<cfset trimmedAltText = left(alttextTrunc, 95)>
+											<cfif len(alttextTrunc) gt 90>
+												<cfset trimmedAltText = left(alttextTrunc, 90)>
 												<cfset trimmedAltText &= "...">
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 vslider-styling h-100 w-100 float-left px-3 pt-2">
+												<div class="small95 vslider-styling w-100 float-left px-3 h-auto">
+													<p class="mt-2">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
-													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light" title="click to open full image">
-													<cfif len(collectingImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['first_height'][i] GT 1000>
-														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#collectingImagesForCarousel['media_id'][i]#">
+													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
+													<cfif len(collectingImagesForCarousel['media_uri'][i]) GT 0 AND collectingImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
+														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#collectingImagesForCarousel['media_id'][i]#">
 													<cfelse>
 														<cfset src="#collectingImagesForCarousel['media_uri'][i]#">
 													</cfif>
 														<img src="#src#" class="w-100" alt="#trimmedAltText#">
 													</a>
-													
-													<p class="my-1">#trimmedAltText#</p>
-												</div>	
+												</div>
+														
 											<cfset i=i+1>
 										</cfloop>
 									</div>
-									<div class="custom-nav text-center bg-white py-1">
+									<div class="custom-nav text-center bg-white border-right border-left border-top border-bottom mb-1 pt-0 pb-1">
 										<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
-										<input type="number" id="custom-input2" class="border border-light py-2 mt-1 text-center" style="width: 50px;" placeholder="index">
+										<input type="number" id="custom-input2" class="border border-light p-2 mt-1 text-center" style="width: 50px;" placeholder="index">
 										<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next &nbsp; >> </button>
 									 </div>
 								</div>
@@ -922,37 +825,36 @@ limitations under the License.
 								<cfif localityImagesForCarousel.recordcount gt 0>
 									<div class="col-12 #colClass# mx-md-auto mt-3">
 										<div class="carousel_background border float-left w-100 p-2">
-										<h3 class="mx-1">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider border-right border-left border-top border-bottom w-100 float-left" style="height: 425px;" id="vslider-base3">
+										<h3 class="mx-2">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
+										<div class="vslider w-100 float-left" style="height: 400px;" id="vslider-base3">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 											<cfset alttext = localityImagesForCarousel['alt'][i]>
 											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-											<cfif len(alttextTrunc) gt 95>
-												<cfset trimmedAltText = left(alttextTrunc, 95)>
+											<cfif len(alttextTrunc) gt 90>
+												<cfset trimmedAltText = left(alttextTrunc, 90)>
 												<cfset trimmedAltText &= "...">
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 vslider-styling w-100 h-100 float-left px-3 pt-2">
+												<div class="small95 vslider-styling w-100 float-left px-3">
+													<p class="mt-2">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
-													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light" title="click to open full image">
-													<cfif len(localityImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['first_height'][i] GT 1000>
-														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#localityImagesForCarousel['media_id'][i]#">
+													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
+													<cfif len(localityImagesForCarousel['media_uri'][i]) GT 0 AND localityImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
+														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?height=1000&media_id=#localityImagesForCarousel['media_id'][i]#">
 													<cfelse>
 														<cfset src="#localityImagesForCarousel['media_uri'][i]#">
 													</cfif>
 														<img src="#src#" class="w-100" alt="#trimmedAltText#">
 													</a>
-													
-													<p class="my-1">#trimmedAltText#</p>
 												</div>
 												<cfset i=i+1>
 											</cfloop>
 										</div>
-										<div class="custom-nav text-center bg-white py-1">
+										<div class="custom-nav text-center bg-white border-right border-left border-top border-bottom mb-1  pt-0 pb-1">
 											<button type="button" class="border-0  btn-outline-primary" id="custom-prev3"> << previous </button>
-											<input type="number" id="custom-input3" class="border border-light py-2 mt-1 text-center" style="width: 55px;" placeholder="index">
+											<input type="number" id="custom-input3" class="border border-light p-2 mt-1 text-center" style="width: 50px;" placeholder="index">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> next &nbsp; >> </button>
 										</div>
 									</div>
@@ -961,10 +863,9 @@ limitations under the License.
 							</div>
 						</div>
 					</cfif>
-			</div>
-				
+											
  
-												</div>
+
 		
 <script>
 (function () {
@@ -972,10 +873,10 @@ limitations under the License.
   // example script
   function init() {
     // multiple
-//    window.defaultSliders = vanillaSlider(
-//      document.querySelectorAll('.vslider-default')
-//    )
-//    console.log('window.defaultSliders:', window.defaultSliders)
+    window.defaultSliders = vanillaSlider(
+      document.querySelectorAll('.vslider-default')
+    )
+    console.log('window.defaultSliders:', window.defaultSliders)
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base'), {
@@ -986,7 +887,7 @@ limitations under the License.
         wheelnavigation: true,
         status: false,
         after: function (index, length) {
-          $input.value = index
+          $input.value = index +1
         }
       }
     )
@@ -1003,10 +904,9 @@ limitations under the License.
     document.getElementById('custom-next').addEventListener('click', function (e) {
       baseSlider.next()
     }, false)
-
     vanillaSlider(
       document.getElementById('vslider-custom'), {
-        height: '100rem',
+        height: '20em',
         statusContent: function (i, all) {
           return i + 1
         },
@@ -1035,7 +935,7 @@ limitations under the License.
         wheelnavigation: true,
         status: false,
         after: function (index, length) {
-          $input.value = index
+          $input.value = index +1
         }
       }
     )
@@ -1052,7 +952,6 @@ limitations under the License.
     document.getElementById('custom-next1').addEventListener('click', function (e) {
       baseSlider.next()
     }, false)
-
     vanillaSlider(
       document.getElementById('vslider-custom1'), {
         height: '20em',
@@ -1101,7 +1000,6 @@ limitations under the License.
     document.getElementById('custom-next2').addEventListener('click', function (e) {
       baseSlider.next()
     }, false)
-
     vanillaSlider(
       document.getElementById('vslider-custom2'), {
         height: '20em',
@@ -1150,7 +1048,6 @@ limitations under the License.
     document.getElementById('custom-next3').addEventListener('click', function (e) {
       baseSlider.next()
     }, false)
-
     vanillaSlider(
       document.getElementById('vslider-custom3'), {
         height: '20em',
@@ -1170,7 +1067,6 @@ limitations under the License.
 ;
 (function () {
   "use strict";
-
   // Polyfill for e.g. IE
   if (typeof Object.assign != 'function') {
     // Must be writable: true, enumerable: false, configurable: true
@@ -1180,12 +1076,9 @@ limitations under the License.
         if (target == null) { // TypeError if undefined or null
           throw new TypeError('Cannot convert undefined or null to object');
         }
-
         var to = Object(target);
-
         for (var index = 1; index < arguments.length; index++) {
           var nextSource = arguments[index];
-
           if (nextSource != null) { // Skip over if undefined or null
             for (var nextKey in nextSource) {
               // Avoid bugs when hasOwnProperty is shadowed
@@ -1201,7 +1094,6 @@ limitations under the License.
       configurable: true
     });
   }
-
   function initSwipe($e, handler) {
     var POINTER_EVENTS = window.PointerEvent ? true : false
     var start = {};
@@ -1209,7 +1101,6 @@ limitations under the License.
     var tracking = false;
     var thresholdTime = 500;
     var thresholdDistance = 100;
-
     function startHandler(e) {
       tracking = true;
       /* Hack - e.timeStamp is whack in Fx/Android */
@@ -1217,7 +1108,6 @@ limitations under the License.
       start.x = POINTER_EVENTS ? e.clientX : e.touches[0].clientX;
       start.y = POINTER_EVENTS ? e.clientY : e.touches[0].clientY;
     };
-
     function moveHandler(e) {
       if (tracking) {
         e.preventDefault();
@@ -1225,7 +1115,6 @@ limitations under the License.
         end.y = POINTER_EVENTS ? e.clientY : e.touches[0].clientY;
       }
     }
-
     function endEvent(e) {
       if (tracking) {
         tracking = false;
@@ -1263,23 +1152,18 @@ limitations under the License.
       $e.addEventListener('touchend', endEvent, false);
     }
   }
-
-
   var VanillaSlider = function ($slider, options) {
     var self = this
     var settings = this._settings = Object.assign({
       itemSelector: 'div',
       prefix: 'vslider-',
-
       // if null set height automatically else use height
       // number (=px) or explicit like "3em"
-      height: 650,
-
+      height: null,
       rotation: true,
       autoplay: options.rotation === false ? false : true,
       initialTimeout: 4000,
       timeout: 8000,
-
       navigation: true,
       keyboardnavigation: true,
       // needs Hammer
@@ -1287,7 +1171,6 @@ limitations under the License.
       swipedirection: 'h', // h or v
       wheelnavigation: false,
       onSwipeWheel: null,
-
       status: true,
       statusContent: function (index, length) {
         return '•';
@@ -1298,32 +1181,25 @@ limitations under the License.
         next: 'next',
         prev: 'previous'
       },
-
       after: function (index, length) {}
     }, options);
     this._$slides = $slider.querySelectorAll(settings.itemSelector)
     this._$status
     this._active = 0
     this._timer = null
-
     if (typeof settings.height === 'number') {
       settings.height = settings.height + 'px'
     }
-
-
     var MAX = this._MAX = this._$slides.length
-
     // status
     if (settings.status) {
       this._$status = document.createElement('ol')
       this._$status.classList.add(settings.prefix + 'status')
       // not accessible as keyboard and button nav
       this._$status.setAttribute('role', 'tablist')
-
       for (var i = 0, upto = MAX; i < upto; i++) {
         (function (index) {
           var $i = document.createElement('li')
-
           if (index === 0) {
             $i.setAttribute('tabindex', '0')
           }
@@ -1332,11 +1208,9 @@ limitations under the License.
           $i.setAttribute('aria-label', index)
           $i.setAttribute('aria-controls', settings.prefix + 'tabpanel$' + index)
           $i.classList.add(settings.prefix + 'status-item')
-
           if (i === 0) {
             $i.classList.add(settings.prefix + 'status-item-active')
           }
-
           $i.textContent = settings.statusContent(i, MAX)
           $i.addEventListener('click', function (e) {
             self.next(index)
@@ -1352,15 +1226,11 @@ limitations under the License.
       }
       $slider.appendChild(self._$status)
     }
-
-
     // NAVIGATION
-
     if (settings.navigation) {
       var _$navigation = document.createElement('div')
       var _$prev = document.createElement('button')
       var _$next = document.createElement('button')
-
       if (!$slider.id) {
         $slider.id = this._settings.prefix + sliderIndex + '$' + Date.now();
       }
@@ -1369,26 +1239,21 @@ limitations under the License.
       _$navigation.classList.add(this._settings.prefix + 'nav')
       _$navigation.appendChild(_$prev)
       _$navigation.appendChild(_$next)
-
       _$prev.setAttribute('aria-label', settings.i18n.prev)
       _$prev.classList.add(this._settings.prefix + 'prev')
       _$prev.addEventListener('click', function (e) {
         self.prev()
       }, true)
-
       _$next.setAttribute('aria-label', settings.i18n.next)
       _$next.classList.add(this._settings.prefix + 'next')
       _$next.addEventListener('click', function (e) {
         self.next()
       }, true)
-
       $slider.appendChild(_$navigation)
     }
-
     if (settings.keyboardnavigation) {
       $slider.addEventListener('keydown', function (e) {
         var keyCode = e.keyCode
-
         switch (keyCode) {
           case 39:
           case 40:
@@ -1401,11 +1266,9 @@ limitations under the License.
         }
       })
     }
-
     if (settings.swipenavigation) {
       $slider.style.touchAction = settings.swipedirection === 'h' ?
         'pan-y' : 'pan-x';
-
       initSwipe($slider, function (direction) {
         if (settings.swipedirection === 'h') {
           if (direction === 'left') {
@@ -1425,26 +1288,22 @@ limitations under the License.
         }
       })
     }
-
     if (settings.wheelnavigation) {
       $slider.addEventListener('wheel', function (e) {
         requestAnimationFrame(function () {
           var next = e.deltaY > 0
-
           self[next ? 'next' : 'prev']()
           settings.onSwipeWheel && settings.onSwipeWheel(self._active, MAX, !next)
         })
         e.preventDefault()
       }, false)
     }
-
     window.addEventListener('resize', function (e) {
       requestAnimationFrame(function () {
         $slider.style.height = 'auto'
         $slider.style.height = settings.height || getComputedStyle($slider).height
       })
     })
-
     // start
     if (MAX > 1) {
       $slider.setAttribute('tabindex', '0')
@@ -1464,7 +1323,6 @@ limitations under the License.
         }
         $slide.classList.add(settings.prefix + 'item')
       })
-
       if (settings.autoplay) {
         setTimeout(function () {
           this._timer = setTimeout(
@@ -1476,25 +1334,20 @@ limitations under the License.
       }
     }
   }
-
   VanillaSlider.prototype._updateStatus = function () {
     if (this._settings.status) {
       var activeClass = this._settings.prefix + 'status-item-active'
       var $prevActive = this._$status.querySelector('.' + activeClass)
       var $active = this._$status.querySelector('li:nth-child(' + (this._active + 1) + ')')
-
       $prevActive.classList.remove(activeClass)
       $active.classList.add(activeClass)
       $prevActive.setAttribute('aria-selected', 'false')
       $active.setAttribute('aria-selected', 'true')
     }
   }
-
   VanillaSlider.prototype._getActive = function (back, index) {
     clearTimeout(this._timer)
-
     this._$slides[this._active].setAttribute('aria-hidden', 'true')
-
     if (index !== undefined) {
       this._active = index >= 0 && index < this._MAX ?
         index : this._MAX - 1
@@ -1509,7 +1362,6 @@ limitations under the License.
     }
     return this._$slides[this._active]
   }
-
   VanillaSlider.prototype._finishAction = function ($active) {
     this._updateStatus()
     this._settings.after(this._active, this._MAX)
@@ -1520,43 +1372,33 @@ limitations under the License.
         this._settings.timeout)
     }
   }
-
   VanillaSlider.prototype.prev = function (index) {
     var prefix = this._settings.prefix
-
     if (index !== undefined && index === this._active) {
       return true
     }
     else if (index === undefined && !this._settings.rotation && this._active === 0) {
       return true
     }
-
     this._$slides[this._active].classList.add(prefix + 'before')
-
     var $active = this._getActive(true, index)
-
     $active.setAttribute('aria-hidden', 'true')
     $active.classList.add(prefix + 'direct')
     $active.classList.remove(prefix + 'before')
     getComputedStyle($active).opacity // DO IT!
     $active.setAttribute('aria-hidden', 'false')
     $active.classList.remove(prefix + 'direct')
-
     this._finishAction()
   }
-
   VanillaSlider.prototype.next = function (index) {
     var prefix = this._settings.prefix
-
     if (index !== undefined && index === this._active) {
       return true
     }
     else if (index === undefined && !this._settings.rotation && this._active === this._$slides.length - 1) {
       return true
     }
-
     var $active = this._getActive(false, index)
-
     $active.setAttribute('aria-hidden', 'true')
     $active.classList.add(prefix + 'direct')
     $active.classList.add(prefix + 'before')
@@ -1564,21 +1406,15 @@ limitations under the License.
     $active.setAttribute('aria-hidden', 'false')
     $active.classList.remove(prefix + 'direct')
     $active.classList.remove(prefix + 'before')
-
     this._finishAction()
   }
-
-
   // used to generate slider ID
   var sliderIndex = 0
-
   function vanillaSlider($sliders, options) {
     var sliders = [];
-
     if ($sliders instanceof Node) {
       $sliders = [$sliders]
     }
-
     [].forEach.call($sliders, function ($slider, i) {
       sliders.push(
         new VanillaSlider($slider, options || {})
@@ -1588,7 +1424,6 @@ limitations under the License.
     return sliders.length > 1 ? sliders : sliders[0]
   }
   vanillaSlider.VERSION = 2.0
-
   window.vanillaSlider = vanillaSlider
 }());											
 </script>						
@@ -1600,7 +1435,6 @@ limitations under the License.
 		
 <script>
 	let map, heatmap;
-
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 4,
@@ -1624,11 +1458,9 @@ function initMap() {
     .getElementById("change-radius")
     .addEventListener("click", changeRadius);
 }
-
 function toggleHeatmap() {
   heatmap.setMap(heatmap.getMap() ? null : map);
 }
-
 function changeGradient() {
   const gradient = [
     "rgba(0, 255, 255, 0)",
@@ -1648,15 +1480,12 @@ function changeGradient() {
   ];
   heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 }
-
 function changeRadius() {
   heatmap.set("radius", heatmap.get("radius") ? null : 20);
 }
-
 function changeOpacity() {
   heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
 }
-
 // Heatmap data: 500 Points
 function getPoints() {
 	<cfset arr = ArrayNew(1)>
@@ -1679,7 +1508,7 @@ function getPoints() {
 						</div>
 					</div>
 
-		
+				</div>
 				<div class="col mt-4 float-left"> 
 					<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 					<div class="my-2 py-3 border-bottom-black">
@@ -1854,7 +1683,440 @@ function getPoints() {
 		</main>
 	</cfloop>
 <script>
+!(function(d){
+	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+	var itemClassName = "carousel__photo";
+		items = d.getElementsByClassName(itemClassName),
+			totalItems = items.length,
+			slide = 0,
+			moving = true; 
+	// To initialise the carousel we'll want to update the DOM with our own classes
+	function setInitialClasses() {
+		// Target the last, initial, and next items and give them the relevant class.
+		// This assumes there are three or more items.
+		items[totalItems - 1].classList.add("prev");
+		items[0].classList.add("active");
+		items[1].classList.add("next");
+	}
+	// Set click events to navigation buttons
+	function setEventListeners() {
+		var next = d.getElementsByClassName('carousel__button--next')[0],
+			prev = d.getElementsByClassName('carousel__button--prev')[0];
+		next.addEventListener('click', moveNext);
+		prev.addEventListener('click', movePrev);
+	}
+	// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+	function disableInteraction() {
+		moving = true;
+		setTimeout(function(){
+			moving = false
+		}, 500);
+	}
+function moveCarouselTo(slide) {
+	// Check if carousel is moving, if not, allow interaction
+if(!moving) {
+	// temporarily disable interactivity
+	disableInteraction();
+	// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+	var newPrevious = slide - 1,
+		newNext = slide + 1,
+		oldPrevious = slide - 2,
+		oldNext = slide + 2;
+		// Test if carousel has more than three items
+		if ((totalItems - 1) > 1) {
+			// Checks if the new potential slide is out of bounds and sets slide numbers
+			if (newPrevious <= 0) {
+				oldPrevious = (totalItems - 1);
+			} else if (newNext >= (totalItems - 1)){
+				oldNext = 0;
+			}
+			// Check if current slide is at the beginning or end and sets slide numbers
+			if (slide === 0) {
+				newPrevious = (totalItems - 1);
+				oldPrevious = (totalItems - 2);
+				oldNext = (slide + 1);
+			} else if (slide === (totalItems -1)) {
+				newPrevious = (slide - 1);
+				newNext = 0;
+				oldNext = 1;
+			}
+			// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+			// Based on the current slide, reset to default classes.
+			items[oldPrevious].className = itemClassName;
+			items[oldNext].className = itemClassName;
+			// Add the new classes
+			items[newPrevious].className = itemClassName + " prev";
+			items[slide].className = itemClassName + " active";
+			items[newNext].className = itemClassName + " next";
+		}
+	}
+}
+// Next navigation handler
+function moveNext() {
+	// Check if moving
+	if (!moving) {
+		// If it's the last slide, reset to 0, else +1
+		if (slide === (totalItems - 1)) {
+			slide = 0;
+		} else {
+			slide++;
+		}
+		// Move carousel to updated slide
+	moveCarouselTo(slide);
+	}
+}
+	// Previous navigation handler
+	function movePrev() {
+		// Check if moving
+		if (!moving) {
+			// If it's the first slide, set as the last slide, else -1
+			if (slide === 0) {
+				slide = (totalItems - 1);
+			} else {
+				slide--;
+			}
+			// Move carousel to updated slide
+			moveCarouselTo(slide);
+		}
+	}
+	// Initialise carousel
+	function initCarousel() {
+		setInitialClasses();
+		setEventListeners();
+		// Set moving to false now that the carousel is ready
+		moving = false;
+	}
+	// make it rain
+	initCarousel();
+}(document));
+/////////////////
+!(function(e){
+	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+	var itemClassName1 = "carousel__photo1";
+		items1 = e.getElementsByClassName(itemClassName1),
+			totalItems1 = items1.length,
+			slide1 = 0,
+			moving1 = true; 
+	// To initialise the carousel we'll want to update the DOM with our own classes
+	function setInitialClasses1() {
+		// Target the last, initial, and next items and give them the relevant class.
+		// This assumes there are three or more items.
+		items1[totalItems1 - 1].classList.add("prev");
+		items1[0].classList.add("active");
+		items1[1].classList.add("next");
+	}
+	// Set click events to navigation buttons
+	function setEventListeners1() {
+		var next = e.getElementsByClassName('carousel__button1--next')[0],
+			prev = e.getElementsByClassName('carousel__button1--prev')[0];
+		next.addEventListener('click', moveNext1);
+		prev.addEventListener('click', movePrev1);
+	}
+	// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+	function disableInteraction1() {
+		moving1 = true;
+		setTimeout(function(){
+			moving1 = false
+		}, 500);
+	}
+	function moveCarouselTo1(slide1) {
+		// Check if carousel is moving, if not, allow interaction
+		if(!moving1) {
+			// temporarily disable interactivity
+			disableInteraction1();
+			// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+			var newPrevious = slide1 - 1,
+				newNext = slide1 + 1,
+				oldPrevious = slide1 - 2,
+				oldNext = slide1 + 2;
+			// Test if carousel has more than three items
 
+			if ((totalItems1 - 1) > 1) {
+				// Checks if the new potential slide is out of bounds and sets slide numbers
+				if (newPrevious <= 0) {
+					oldPrevious = (totalItems1 - 1);
+				} else if (newNext >= (totalItems1 - 1)){
+					oldNext = 0;
+				}
+				// Check if current slide is at the beginning or end and sets slide numbers
+				if (slide1 === 0) {
+					newPrevious = (totalItems1 - 1);
+					oldPrevious = (totalItems1 - 2);
+					oldNext = (slide1 + 1);
+				} else if (slide1 === (totalItems1 -1)) {
+					newPrevious = (slide1 - 1);
+					newNext = 0;
+					oldNext = 1;
+				}
+				// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+				// Based on the current slide, reset to default classes.
+				items1[oldPrevious].className = itemClassName1;
+				items1[oldNext].className = itemClassName1;
+				// Add the new classes
+				items1[newPrevious].className = itemClassName1 + " prev";
+				items1[slide1].className = itemClassName1 + " active";
+				items1[newNext].className = itemClassName1 + " next";
+			}
+		}
+	}
+	// Next navigation handler
+	function moveNext1() {
+		// Check if moving
+		if (!moving1) {
+			// If it's the last slide, reset to 0, else +1
+			if (slide1 === (totalItems1 - 1)) {
+				slide1 = 0;
+			} else {
+				slide1++;
+			}
+			// Move carousel to updated slide
+			moveCarouselTo1(slide1);
+		}
+	}
+	// Previous navigation handler
+	function movePrev1() {
+		// Check if moving
+		if (!moving1) {
+			// If it's the first slide, set as the last slide, else -1
+			if (slide1 === 0) {
+				slide1 = (totalItems1 - 1);
+			} else {
+				slide1--;
+			}
+			// Move carousel to updated slide
+			moveCarouselTo1(slide1);
+		}
+	}
+	// Initialise carousel
+	function initCarousel1() {
+		setInitialClasses1();
+		setEventListeners1();
+		// Set moving to false now that the carousel is ready
+		moving1 = false;
+	}
+	// make it rain
+	initCarousel1();
+}(document));
+/////////////////
+!(function(f){
+	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+	var itemClassName2 = "carousel__photo2";
+		items2 = f.getElementsByClassName(itemClassName2),
+			totalItems2 = items2.length,
+			slide2 = 0,
+			moving2 = true; 
+	// To initialise the carousel we'll want to update the DOM with our own classes
+	function setInitialClasses2() {
+		// Target the last, initial, and next items and give them the relevant class.
+		// This assumes there are three or more items.
+		items2[totalItems2 - 1].classList.add("prev");
+		items2[0].classList.add("active");
+		items2[1].classList.add("next");
+	}
+	// Set click events to navigation buttons
+	function setEventListeners2() {
+		var next = f.getElementsByClassName('carousel__button2--next')[0],
+			prev = f.getElementsByClassName('carousel__button2--prev')[0];
+		next.addEventListener('click', moveNext2);
+		prev.addEventListener('click', movePrev2);
+	}
+	// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+	function disableInteraction2() {
+		moving2 = true;
+		setTimeout(function(){
+			moving2 = false
+		}, 500);
+	}
+	function moveCarouselTo2(slide2) {
+		// Check if carousel is moving, if not, allow interaction
+		if(!moving2) {
+			// temporarily disable interactivity
+			disableInteraction2();
+			// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+			var newPrevious = slide2 - 1,
+				newNext = slide2 + 1, 
+				oldPrevious = slide2 - 2, 
+				oldNext = slide2 + 2; 
+			// Test if carousel has more than one item
+			if ((totalItems2 - 1) > 1) {
+				// Checks if the new potential slide is out of bounds and sets slide numbers
+				if (newPrevious <= 0) {
+					oldPrevious = (totalItems2 - 1);
+				} else if (newNext >= (totalItems2 - 1)){
+					oldNext = 0; 
+				}
+				// Check if current slide is at the beginning or end and sets slide numbers
+				if (slide2 === 0) {
+					newPrevious = (totalItems2 - 1);
+					oldPrevious = (totalItems2 - 2);
+					oldNext = (slide + 1);
+				} else if (slide2 === (totalItems2 -1)) {
+					newPrevious = (slide2 - 1);
+					newNext = 0;
+					oldNext = 1;
+				} else {
+					current;
+				}
+			// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+				// Based on the current slide, reset to default classes.
+				items2[oldPrevious].className = itemClassName2;
+				items2[oldNext].className = itemClassName2;
+				// Add the new classes
+				items2[newPrevious].className = itemClassName2 + " prev";
+				items2[slide2].className = itemClassName2 + " active";
+				items2[newNext].className = itemClassName2 + " next";
+				items2[current].className = itemClassName2 + " active";
+			}
+		}
+	}
+	// Next navigation handler
+	function moveNext2() {
+		// Check if moving
+		if (!moving2) {
+			// If it's the last slide, reset to 0, else +1
+			if (slide2 === (totalItems2 - 1)) {
+				slide2 = 0;
+			} else {
+				slide2++;
+			}
+			// Move carousel to updated slide
+			moveCarouselTo2(slide2);
+		}
+	}
+	// Previous navigation handler
+	function movePrev2() {
+		// Check if moving
+		if (!moving2) {
+			// If it's the first slide, set as the last slide, else -1
+			if (slide2 === 0) {
+				slide2 = (totalItems2 - 1);
+			} else {
+				slide2--;
+			}
+			// Move carousel to updated slide
+			moveCarouselTo2(slide2);
+		}
+	}
+	// Initialise carousel
+	function initCarousel2() {
+		setInitialClasses2();
+		setEventListeners2();
+		// Set moving to false now that the carousel is ready
+		moving2 = false;
+	}
+	// make it rain
+	initCarousel2();
+}(document));
+/////////////////
+!(function(s){
+	// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+	var itemClassName3 = "carousel__photo3";
+		items3 = s.getElementsByClassName(itemClassName3),
+			totalItems3 = items3.length,
+			slide3 = 0,
+			moving3 = true; 
+	// To initialise the carousel we'll want to update the DOM with our own classes
+	function setInitialClasses3() {
+		// Target the last, initial, and next items and give them the relevant class.
+		// This assumes there are three or more items.
+		items3[totalItems3 - 1].classList.add("prev");
+		items3[0].classList.add("active");
+		items3[1].classList.add("next");
+	}
+	// Set click events to navigation buttons
+	function setEventListeners3() {
+		var next = s.getElementsByClassName('carousel__button3--next')[0],
+			prev = s.getElementsByClassName('carousel__button3--prev')[0];
+		next.addEventListener('click', moveNext3);
+		prev.addEventListener('click', movePrev3);
+	}
+	// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+	function disableInteraction3() {
+		moving3 = true;
+		setTimeout(function(){
+			moving3 = false
+		}, 500);
+	}
+	function moveCarouselTo3(slide3) {
+		// Check if carousel is moving, if not, allow interaction
+		if(!moving3) {
+			// temporarily disable interactivity
+			disableInteraction3();
+			// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+			var newPrevious = slide3 - 1,
+				newNext = slide3 + 1,
+				oldPrevious = slide3 - 2,
+				oldNext = slide3 + 2;
+			
+			// Test if carousel has more than three items
+			if ((totalItems3 - 1) > 1) {
+				// Checks if the new potential slide is out of bounds and sets slide numbers
+				if (newPrevious <= 0) {
+					oldPrevious = (totalItems3 - 1);
+				} else if (newNext >= (totalItems3 - 1)){
+					oldNext = 0;
+				}
+				// Check if current slide is at the beginning or end and sets slide numbers
+				if (slide3 === 0) {
+					newPrevious = (totalItems3 - 1);
+					oldPrevious = (totalItems3 - 2);
 
+					oldNext = (slide3 + 1);
+				} else if (slide3 === (totalItems3 -1)) {
+					newPrevious = (slide3 - 1);
+					newNext = 0;
+					oldNext = 1;
+				}
+				
+			// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+				// Based on the current slide, reset to default classes.
+				items3[oldPrevious].className = itemClassName3;
+				items3[oldNext].className = itemClassName3;
+				// Add the new classes
+				items3[newPrevious].className = itemClassName3 + " prev";
+				items3[slide3].className = itemClassName3 + " active";
+				items3[newNext].className = itemClassName3 + " next";
+			} 
+		}
+	}
+	// Next navigation handler
+	function moveNext3() {
+		// Check if moving
+		if (!moving3) {
+			// If it's the last slide, reset to 0, else +1
+			if (slide3 === (totalItems3 - 1)) {
+				slide3 = 0;
+			} else {
+				slide3++;
+			}
+			// Move carousel to updated slide
+			moveCarouselTo3(slide3);
+		}
+	}
+	// Previous navigation handler
+	function movePrev3() {
+		// Check if moving
+		if (!moving3) {
+			// If it's the first slide, set as the last slide, else -1
+			if (slide3 === 0) {
+				slide3 = (totalItems3 - 1);
+			} else {
+				slide3--;
+			}
+			// Move carousel to updated slide
+			moveCarouselTo3(slide3);
+		}
+	}
+	// Initialise carousel
+	function initCarousel3() {
+		setInitialClasses3();
+		setEventListeners3();
+		// Set moving to false now that the carousel is ready
+		moving3 = false;
+	}
+	// make it rain
+	initCarousel3();
+}(document));
+</script>
 </cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
