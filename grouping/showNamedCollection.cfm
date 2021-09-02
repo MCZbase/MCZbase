@@ -696,7 +696,7 @@ limitations under the License.
 									<cfelse>
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
-										<div class="vslider-styling float-left px-3 pt-2">
+										<div class="vslider-styling float-left px-3 pt-3">
 											
 											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light float-left col-10 px-0" title="click to open full image">
 												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
@@ -707,7 +707,7 @@ limitations under the License.
 												</cfif>
 												<img src="#src#" class="w-100" alt="#trimmedAltText#">
 											</a>
-											<span class="d-block float-left col-2 px-0">
+											<span class="d-block float-left col-2 px-0 pl-md-1">
 											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 											<p class="my-1 small95">#trimmedAltText# </p>
 											</span>
