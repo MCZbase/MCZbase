@@ -490,6 +490,7 @@
 							<li> <a href="/guid/#guid#">#guid#</a> #type_status# #page# in <a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#short_citation#</a> </li>
 						</cfloop>
 					</cfif>
+				</ul>
 				<h2 class="h4">Synonymns and other Related Names:</h2>
 				<ul>
 					<cfif related.recordcount is 0 and imp_related.recordcount is 0>
