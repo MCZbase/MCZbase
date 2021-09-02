@@ -167,7 +167,7 @@ limitations under the License.
 }*/
 .vslider {
   	position: relative;
-/*  	overflow: hidden;*/
+  	overflow: hidden;
 	background-color: #f5f5f5;
 }
 
@@ -187,6 +187,7 @@ limitations under the License.
 .vslider-item {
   	display: block;
   	width: 100%;
+  	height: calc(300px + 100px);
   	top: 0;
   	bottom: 0;
  	-ms-touch-action: none;
@@ -676,70 +677,15 @@ limitations under the License.
 				<cfif localityCt.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
 				</cfif>
-					
-					
-	
-	
-					
-				<div class="row mx-3 mt-3">
+					<div class="row mx-3 mt-3">
 					<div class="col-12 col-md-6 float-left mt-3 mb-3">
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 						<div class="">
-						
-						
-						<cfif specimenImagesForCarousel.recordcount gt 0>
-							<div class="carousel_background border float-left w-100 p-2">
-								<h3 class="mx-2">SpecimensTest <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider col-12 bg-light" id="vslider-custom">
-									 <cfset i=1>
-									<cfloop query="specimenImagesForCarousel">
-									<cfset alttext = specimenImagesForCarousel['alt'][i]>
-									<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-									<cfif len(alttextTrunc) gt 300>
-										<cfset trimmedAltText = left(alttextTrunc, 300)>
-										<cfset trimmedAltText &= "...">
-									<cfelse>
-										<cfset trimmedAltText = altTextTrunc>
-									</cfif>
-										<div class="vslider-styling col-8 mx-auto">
-											<ul><li><a href="#media_uri#" target="_blank" class="d-block" title="click to open full image">
-												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
-												<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['first_height'][i] GT 1000>
-													<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
-												<cfelse>
-													<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
-												</cfif>
-												<img src="#src#" class="w-100" alt="#trimmedAltText#" style="overflow:hidden;">
-											</a>
-																									<span class="d-block col-12">
-											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-											<p class="my-1 small95">#trimmedAltText# </p>
-											</span></li></ul>
-											
-
-											
-										</div>
-										
-										<cfset i=i+1>
-									</cfloop>
-								  </div>
-								<div class="custom-nav text-center bg-white pt-2">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-									<input type="number" id="custom-input" class="border border-light p-2 mt-1 text-center" style="width:55px;" placeholder="index">
-									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
-								  </div>
-							</div>
-						</cfif>
-										
-										
-										
-										
-										
-						<!---	<cfif specimenImagesForCarousel.recordcount gt 0>
+							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-2">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider border-right border-left border-top border-bottom w-100" style="height:450px;" id="vslider-base">
+								  <div class="vslider w-100 float-left" style="height:500px;" id="vslider-base">
 									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -750,8 +696,10 @@ limitations under the License.
 									<cfelse>
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
-										<div class="vslider-styling px-3 pt-3">
-											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light col-12 px-0" title="click to open full image">
+										<div class="vslider-styling float-left px-3 pt-3">
+											
+											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light float-left col-xl-9 col-12 px-0" title="click to open full image">
+												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 												<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['first_height'][i] GT 1000>
 													<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
 												<cfelse>
@@ -759,21 +707,23 @@ limitations under the License.
 												</cfif>
 												<img src="#src#" class="w-100" alt="#trimmedAltText#">
 											</a>
-											<span class="d-block float-left col-12 px-0">
+											<span class="d-block float-left col-xl-3 col-12 px-0 px-xl-2">
 											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 											<p class="my-1 small95">#trimmedAltText# </p>
 											</span>
+											
 										</div>
+										
 										<cfset i=i+1>
 									</cfloop>
 								  </div>
-								<div class="custom-nav text-center bg-white pt-2">
+								<div class="custom-nav text-center border mb-1 bg-white pt-0 pb-1">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-									<input type="number" id="custom-input" class="border border-light p-2 mt-1 text-center" style="width:55px;" placeholder="index">
+									<input type="number" id="custom-input" class="border border-light p-2 mt-1 text-center" style="width:50px;" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
 								  </div>
 							</div>
-							</cfif>--->
+							</cfif>
 						</div>
 						<!--- figure out widths of sub blocks, adapt to number of blocks --->
 						<cfswitch expression="#otherImageTypes#">
@@ -811,9 +761,9 @@ limitations under the License.
 								</cfif>
 								<cfif agentImagesForCarousel.recordcount gt 0>
 								<div class="col-12 #colClass# mx-md-auto my-3">
-									<div class="carousel_background border w-100 p-2 h-auto">
+									<div class="carousel_background border float-left w-100 p-2 h-auto">
 										<h3 class="mx-1">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100 border-right border-left border-top border-bottom" style="height:425px;" id="vslider-base1">
+										<div class="vslider w-100 float-left" style="height:425px;" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -824,7 +774,7 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 vslider-styling w-100 px-3 pt-2">		
+												<div class="small95 vslider-styling w-100 h-100 float-left px-3 pt-2">		
 													<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light" title="click to open full image">
 														<cfif len(agentImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['first_height'][i] GT 1000>
@@ -839,7 +789,7 @@ limitations under the License.
 												<cfset i=i+1>
 											</cfloop>
 										</div>
-										<div class="custom-nav text-center bg-white pt-2">
+										<div class="custom-nav text-center bg-white py-1">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
 											<input type="number" id="custom-input1" class="border border-light py-2 mt-1 text-center" style="width: 50px;" placeholder="index">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
@@ -856,7 +806,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto my-3">
 								<div class="carousel_background border float-left w-100 p-2">
 									<h3 class="mx-1">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
-									<div class="vslider w-100 border-right border-left border-top border-bottom" style="height: 425px;" id="vslider-base2">
+									<div class="vslider w-100 border-right border-left border-top border-bottom float-left" style="height: 425px;" id="vslider-base2">
 										<cfset i=1>
 										<cfloop query="collectingImagesForCarousel">
 											<cfset alttext = collectingImagesForCarousel['alt'][i]>
@@ -867,7 +817,7 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 vslider-styling w-100 px-3 pt-2">
+												<div class="small95 vslider-styling h-100 w-100 float-left px-3 pt-2">
 													<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light" title="click to open full image">
 													<cfif len(collectingImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['first_height'][i] GT 1000>
@@ -883,7 +833,7 @@ limitations under the License.
 											<cfset i=i+1>
 										</cfloop>
 									</div>
-									<div class="custom-nav text-center bg-white pt-1">
+									<div class="custom-nav text-center bg-white py-1">
 										<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
 										<input type="number" id="custom-input2" class="border border-light py-2 mt-1 text-center" style="width: 50px;" placeholder="index">
 										<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next &nbsp; >> </button>
@@ -898,9 +848,9 @@ limitations under the License.
 								</cfif>
 								<cfif localityImagesForCarousel.recordcount gt 0>
 									<div class="col-12 #colClass# mx-md-auto mt-3">
-										<div class="carousel_background border w-100 p-2">
+										<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-1">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider border-right border-left border-top border-bottom w-100" style="height: 425px;" id="vslider-base3">
+										<div class="vslider border-right border-left border-top border-bottom w-100 float-left" style="height: 425px;" id="vslider-base3">
 											<cfset i=1>
 											<cfloop query="localityImagesForCarousel">
 											<cfset alttext = localityImagesForCarousel['alt'][i]>
@@ -911,7 +861,7 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 vslider-styling w-100 px-3 pt-2">
+												<div class="small95 vslider-styling w-100 h-100 float-left px-3 pt-2">
 													<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light" title="click to open full image">
 													<cfif len(localityImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['first_height'][i] GT 1000>
@@ -927,9 +877,9 @@ limitations under the License.
 												<cfset i=i+1>
 											</cfloop>
 										</div>
-										<div class="custom-nav text-center bg-white pt-2">
+										<div class="custom-nav text-center bg-white py-1">
 											<button type="button" class="border-0  btn-outline-primary" id="custom-prev3"> << previous </button>
-											<input type="number" id="custom-input3" class="border border-light py-2 mt-1 text-center" style="width: 50px;" placeholder="index">
+											<input type="number" id="custom-input3" class="border border-light py-2 mt-1 text-center" style="width: 55px;" placeholder="index">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> next &nbsp; >> </button>
 										</div>
 									</div>
@@ -962,7 +912,7 @@ limitations under the License.
         wheelnavigation: true,
         status: false,
         after: function (index, length) {
-          $input.value = index
+          $input.value = index +1
         }
       }
     )
@@ -980,63 +930,17 @@ limitations under the License.
       baseSlider.next()
     }, false)
 
-	  
-	 vanillaSlider(
-      document.getElementById('vslider-noautoplay'), {
-        autoplay: false,
-        i18n: {
-          title: 'Custom Carousel',
-          navigation: 'Custom Carousel navigation',
-          next: 'next Custom',
-          prev: 'previous Custom'
-        }
-      }
-    )
-
-    vanillaSlider(
-      document.getElementById('vslider-norotation'), {
-        rotation: false,
-        initialTimeout: 1000,
-        timeout: 2000
-      }
-    )
-
-    vanillaSlider(
-      document.getElementById('vslider-norotation-autoplay'), {
-        rotation: false,
-        autoplay: true,
-        initialTimeout: 1000,
-        timeout: 2000
-      }
-    )
     vanillaSlider(
       document.getElementById('vslider-custom'), {
-        height: '5em',
+        height: '20em',
         statusContent: function (i, all) {
           return i + 1
         },
       }
     )
-
-vanillaSlider(
-      document.getElementById('vslider-images'), {
-        height: 300
-      }
-    )
-    // Should wait for images to load and set explicit height!
-    vanillaSlider(
-      document.getElementById('vslider-background'), {
-        itemSelector: 'span',
-        height: '50vh',
-        swipedirection: 'v'
-      }
-    )
-
   }
-
   document.addEventListener('DOMContentLoaded', init, false);
-
-}());
+	}());	
 	
 (function () {
   "use strict";
@@ -1189,7 +1093,7 @@ vanillaSlider(
 /*!
  * vanillaSlider
  */
-//;
+;
 (function () {
   "use strict";
 
@@ -1702,179 +1606,181 @@ function getPoints() {
 					</div>
 
 				</div>
-					<div class="col mt-4 float-left"> 
-						<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
-						<div class="my-2 py-3 border-bottom-black">
-							<cfif len(getNamedGroup.description) GT 0 >
-								<h2 class="mt-3">Overview</h2>
-								<p>#getNamedGroup.description#</p>
-							</cfif>
-						</div>
-						<div class="row pb-4">
-							<cfif len(underscore_agent_id) GT 0 >
-								<cfif getNamedGroup.agent_name NEQ "[No Agent]" >
-									<div class="col-12 pt-3">
-										<h3>
-										Associated Agent
-										</h2>
-										<p class="rounded-0 border-top border-dark"> <a class="h4 px-2 pt-3 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a> </p>
-									</div>
-								</cfif>
-							</cfif>
-							<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
-								SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
-								FROM
-									underscore_relation 
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-										on underscore_relation.collection_object_id = flat.collection_object_id
-								WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									and flat.PHYLCLASS is not null
-								ORDER BY flat.phylclass asc
-							</cfquery>
-							<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
-								<!--- try expanding to orders instead if very few classes --->
-								<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
-									SELECT DISTINCT flat.phylclass || ': ' || flat.phylorder as taxon, flat.phylorder as taxonlink, 'phylorder' as rank,
-										flat.phylclass, flat.phylorder
-									FROM
-										underscore_relation 
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										and flat.PHYLCLASS is not null and flat.phylorder is not null
-									ORDER BY flat.phylclass asc, flat.phylorder asc
-								</cfquery>
-							</cfif>
-							<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
-								<!--- try expanding to families instead if very few orders --->
-								<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
-									SELECT DISTINCT flat.phylorder || ': ' || flat.family as taxon, flat.family as taxonlink, 'family' as rank,
-										flat.phylorder, flat.family
-									FROM
-										underscore_relation 
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										and flat.PHYLCLASS is not null and flat.family is not null
-									ORDER BY flat.phylorder asc, flat.family asc
-								</cfquery>
-							</cfif>
-							<cfif taxonQuery.recordcount GT 0>
-								<div class="col-12">
-									<h3>Taxa</h3>
-									<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0 border-top border-dark">
-										<cfloop query="taxonQuery">
-											<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
-										</cfloop>
-									</ul>
-								</div>
-							</cfif>
-							<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="marine_result">
-								SELECT DISTINCT flat.continent_ocean as ocean
-								FROM
-									underscore_relation 
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-										on underscore_relation.collection_object_id = flat.collection_object_id
-								WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									and flat.continent_ocean like '%Ocean%'
-								ORDER BY flat.continent_ocean asc
-							</cfquery>
-							<cfif marine.recordcount GT 0>
-								<div class="col-12">
-									<h3 class="px-2">Oceans</h3>
-									<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
-										<cfloop query="marine">
-											<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
-										</cfloop>
-									</ul>
-								</div>
-							</cfif>
-							<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
-								SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
-								FROM
-									underscore_relation 
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-										on underscore_relation.collection_object_id = flat.collection_object_id
-								WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									and flat.country is not null
-								ORDER BY flat.country asc
-							</cfquery>
-							<cfif geogQuery.recordcount GT 0 AND geogQuery.recordcount LT 5 >
-								<!--- try expanding to families instead if very few orders --->
-								<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
-									SELECT DISTINCT flat.country || ': ' || flat.state_prov as geog, flat.state_prov as geoglink, 'state_prov' as rank,
-										flat.country, flat.state_prov
-									FROM
-										underscore_relation 
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										and flat.state_prov is not null
-									ORDER BY flat.country asc, flat.state_prov asc
-								</cfquery>
-							</cfif>
-							<cfif geogQuery.recordcount GT 0>
-								<div class="col-12">
-									<h3>Geography</h3>
-									<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
-										<cfloop query="geogQuery">
-											<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> </li>
-										</cfloop>
-									</ul>
-								</div>
-							</cfif>
-							<cfquery name="islandsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="islandsQuery_result">
-								SELECT DISTINCT flat.continent_ocean, flat.island as island
-								FROM
-									underscore_relation 
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-										on underscore_relation.collection_object_id = flat.collection_object_id
-								WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									and flat.island is not null
-								ORDER BY flat.continent_ocean, flat.island asc
-							</cfquery>
-							<cfif islandsQuery.recordcount GT 0>
-								<div class="col-12">
-									<h3>Islands</h3>
-									<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
-										<cfloop query="islandsQuery">
-											<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
-										</cfloop>
-									</ul>
-								</div>
-							</cfif>
-							<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectors_result">
-								SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
-								FROM
-									underscore_relation 
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-										on underscore_relation.collection_object_id = flat.collection_object_id
-									left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-									left join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
-									left join person on preferred_agent_name.agent_id = person.person_id
-								WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									and flat.collectors is not null
-									and collector.collector_role = 'c'
-								ORDER BY person.last_name, preferred_agent_name.agent_name asc
-							</cfquery>
-							<cfif collectors.recordcount GT 0>
-								<div class="col-12">
-									<h3>Collectors</h3>
-									<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
-										<cfloop query="collectors">
-											<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
-										</cfloop>
-									</ul>
-								</div>
-							</cfif>
-						</div>
+				<div class="col mt-4 float-left"> 
+					<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
+					<div class="my-2 py-3 border-bottom-black">
+						<cfif len(getNamedGroup.description) GT 0 >
+							<h2 class="mt-3">Overview</h2>
+							<p>#getNamedGroup.description#</p>
+						</cfif>
 					</div>
+					<div class="row pb-4">
+						<cfif len(underscore_agent_id) GT 0 >
+							<cfif getNamedGroup.agent_name NEQ "[No Agent]" >
+								<div class="col-12 pt-3">
+									<h3>
+									Associated Agent
+									</h2>
+									<p class="rounded-0 border-top border-dark"> <a class="h4 px-2 pt-3 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a> </p>
+								</div>
+							</cfif>
+						</cfif>
+						<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+							SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
+							FROM
+								underscore_relation 
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+									on underscore_relation.collection_object_id = flat.collection_object_id
+							WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+								and flat.PHYLCLASS is not null
+							ORDER BY flat.phylclass asc
+						</cfquery>
+						<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
+							<!--- try expanding to orders instead if very few classes --->
+							<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+								SELECT DISTINCT flat.phylclass || ': ' || flat.phylorder as taxon, flat.phylorder as taxonlink, 'phylorder' as rank,
+									flat.phylclass, flat.phylorder
+								FROM
+									underscore_relation 
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+										on underscore_relation.collection_object_id = flat.collection_object_id
+								WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									and flat.PHYLCLASS is not null and flat.phylorder is not null
+								ORDER BY flat.phylclass asc, flat.phylorder asc
+							</cfquery>
+						</cfif>
+						<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
+							<!--- try expanding to families instead if very few orders --->
+							<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+								SELECT DISTINCT flat.phylorder || ': ' || flat.family as taxon, flat.family as taxonlink, 'family' as rank,
+									flat.phylorder, flat.family
+								FROM
+									underscore_relation 
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+										on underscore_relation.collection_object_id = flat.collection_object_id
+								WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									and flat.PHYLCLASS is not null and flat.family is not null
+								ORDER BY flat.phylorder asc, flat.family asc
+							</cfquery>
+						</cfif>
+						<cfif taxonQuery.recordcount GT 0>
+							<div class="col-12">
+								<h3>Taxa</h3>
+								<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0 border-top border-dark">
+									<cfloop query="taxonQuery">
+										<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
+						<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="marine_result">
+							SELECT DISTINCT flat.continent_ocean as ocean
+							FROM
+								underscore_relation 
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+									on underscore_relation.collection_object_id = flat.collection_object_id
+							WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+								and flat.continent_ocean like '%Ocean%'
+							ORDER BY flat.continent_ocean asc
+						</cfquery>
+						<cfif marine.recordcount GT 0>
+							<div class="col-12">
+								<h3 class="px-2">Oceans</h3>
+								<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
+									<cfloop query="marine">
+										<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
+						<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
+							SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
+							FROM
+								underscore_relation 
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+									on underscore_relation.collection_object_id = flat.collection_object_id
+							WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+								and flat.country is not null
+							ORDER BY flat.country asc
+						</cfquery>
+						<cfif geogQuery.recordcount GT 0 AND geogQuery.recordcount LT 5 >
+							<!--- try expanding to families instead if very few orders --->
+							<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
+								SELECT DISTINCT flat.country || ': ' || flat.state_prov as geog, flat.state_prov as geoglink, 'state_prov' as rank,
+									flat.country, flat.state_prov
+								FROM
+									underscore_relation 
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+										on underscore_relation.collection_object_id = flat.collection_object_id
+								WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									and flat.state_prov is not null
+								ORDER BY flat.country asc, flat.state_prov asc
+							</cfquery>
+						</cfif>
+						<cfif geogQuery.recordcount GT 0>
+							<div class="col-12">
+								<h3>Geography</h3>
+								<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+									<cfloop query="geogQuery">
+										<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> </li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
+						<cfquery name="islandsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="islandsQuery_result">
+							SELECT DISTINCT flat.continent_ocean, flat.island as island
+							FROM
+								underscore_relation 
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+									on underscore_relation.collection_object_id = flat.collection_object_id
+							WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+								and flat.island is not null
+							ORDER BY flat.continent_ocean, flat.island asc
+						</cfquery>
+						<cfif islandsQuery.recordcount GT 0>
+							<div class="col-12">
+								<h3>Islands</h3>
+								<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+									<cfloop query="islandsQuery">
+										<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
+						<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectors_result">
+							SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
+							FROM
+								underscore_relation 
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+									on underscore_relation.collection_object_id = flat.collection_object_id
+								left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+								left join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
+								left join person on preferred_agent_name.agent_id = person.person_id
+							WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+								and flat.collectors is not null
+								and collector.collector_role = 'c'
+							ORDER BY person.last_name, preferred_agent_name.agent_name asc
+						</cfquery>
+						<cfif collectors.recordcount GT 0>
+							<div class="col-12">
+								<h3>Collectors</h3>
+								<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+									<cfloop query="collectors">
+										<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
+					</div>
+				</div>
 				</div>
 				<!--- end rowEverythihngElse---> 
 			</article>
 			</div>
 		</main>
 	</cfloop>
+<script>
+
 
 </cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
