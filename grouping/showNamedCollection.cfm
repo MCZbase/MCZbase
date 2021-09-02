@@ -696,7 +696,7 @@ limitations under the License.
 									<cfelse>
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
-										<div class="vslider-styling float-left px-3 pt-3">
+										<div class="vslider-styling  border-right border-left border-top border-bottom float-left float-left px-3 pt-3">
 											
 											<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light float-left col-xl-9 col-12 px-0" title="click to open full image">
 												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
@@ -717,7 +717,7 @@ limitations under the License.
 										<cfset i=i+1>
 									</cfloop>
 								  </div>
-								<div class="custom-nav text-center border mb-1 bg-white pt-0 pb-1">
+								<div class="custom-nav text-center bg-white py-1">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
 									<input type="number" id="custom-input" class="border border-light p-2 mt-1 text-center" style="width:50px;" placeholder="index">
 									<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
