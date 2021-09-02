@@ -1011,7 +1011,7 @@ limitations under the License.
     )
     vanillaSlider(
       document.getElementById('vslider-custom'), {
-        height: '5em',
+        height: '50em',
         statusContent: function (i, all) {
           return i + 1
         },
@@ -1020,7 +1020,7 @@ limitations under the License.
 
 vanillaSlider(
       document.getElementById('vslider-images'), {
-        height: 300
+        height: 600
       }
     )
     // Should wait for images to load and set explicit height!
