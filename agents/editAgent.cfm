@@ -545,7 +545,7 @@ limitations under the License.
 										monitorForChanges('editAgentForm',handleChange);
 									});
 									function saveEdits(){ 
-										saveEditsFromForm("editAgentForm","/agents/component/functions.cfc","saveResultDiv","saving agent record");
+										saveEditsFromFormCallback("editAgentForm","/agents/component/functions.cfc","saveResultDiv","saving agent record",reloadAgentNames);
 									};
 									function suggestName(ntype,targetInput){
 										try {
