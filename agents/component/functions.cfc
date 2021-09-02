@@ -2235,7 +2235,9 @@ limitations under the License.
 							agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 							and agent_name_type = 'preferred'
 					</cfquery>
-					<cfset updatePrefRes = updateAgentName(agent_name_id="#agent_name_id#",agent_name="#pref_name#",agent_name_type="preferred")>
+					<cfloop query="getNameID">
+						<cfset updatePrefRes = updateAgentName(agent_name_id="#getNameId.agent_name_id#",agent_name="#pref_name#",agent_name_type="preferred")>
+					</cfloop>
 				</cfif>
 			</cfif>>
 
