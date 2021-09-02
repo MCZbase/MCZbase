@@ -763,8 +763,8 @@ limitations under the License.
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<!---<div class="carousel_background border float-left w-100 p-2">--->
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider  vslider-images" id="vslider-images">
-									 <cfset i=1>
+								<div class="vslider" id="vslider-base" tabindex="0" aria-label="Carousel" aria-live="polite">
+   						 		<cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
 									<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
