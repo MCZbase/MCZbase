@@ -1006,7 +1006,7 @@ limitations under the License.
 
     vanillaSlider(
       document.getElementById('vslider-custom'), {
-        height: '20em',
+        height: '100rem',
         statusContent: function (i, all) {
           return i + 1
         },
