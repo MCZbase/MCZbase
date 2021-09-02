@@ -761,9 +761,9 @@ limitations under the License.
 								</cfif>
 								<cfif agentImagesForCarousel.recordcount gt 0>
 								<div class="col-12 #colClass# mx-md-auto my-3">
-									<div class="carousel_background border w-100 p-2 h-auto">
+									<div class="carousel_background border w-100 p-2">
 										<h3 class="mx-1">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100" id="vslider-base1">
+										<div class="vslider w-100 h-auto" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
