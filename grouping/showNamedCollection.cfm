@@ -166,38 +166,34 @@ limitations under the License.
 	background-color: #f8f9fa!important;
 }*/
 .vslider {
-  	position: relative;
-  	overflow: hidden;
-	background-color: #f5f5f5;
+  position: relative;
+  overflow: hidden;
 }
 
 .vslider > * {
-  	display: block;
-  	position: relative;
-	background-color: #f5f5f5;
-	
+  display: block;
+  position: relative;
 }
 
 .vslider > * + * {
-  	display: none;
- 	position: absolute;
-	background-color: #f5f5f5;
+  display: none;
+  position: absolute;
 }
 
 .vslider-item {
-  	display: block;
-  	width: 100%;
-  	height: calc(300px + 100px);
-  	top: 0;
-  	bottom: 0;
- 	-ms-touch-action: none;
-  	touch-action: none;
-  	transition: z-index 0s,
-  	opacity .8s ease-in-out,
-  	transform .4s ease-in-out;
-  	z-index: 20;
-  	opacity: 0;
-  	transform: translateX(-10%);
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  -ms-touch-action: none;
+  touch-action: none;
+  transition: z-index 0s,
+  opacity .8s ease-in-out,
+  transform .4s ease-in-out;
+  z-index: 20;
+  opacity: 0;
+  transform: translateX(-10%);
 }
 
 .vslider-item[aria-hidden='false'] {
@@ -236,9 +232,9 @@ limitations under the License.
   width: 1em;
   height: 1em;
   line-height: 1;
-  color: ##000;
-  background: ##000;
-  border: 0.1em solid ##fff;
+  color: #000;
+  background: #000;
+  border: 0.1em solid #fff;
   border-radius: 100%;
   margin: 0 0.5em;
   transition: 0.3s;
@@ -295,7 +291,89 @@ limitations under the License.
 
 .vslider-next:after {
   content: '>';
-}</style>
+	}
+/* some basic style */
+.vslider {
+  color: #fff;
+  background-color: #82898c;
+  font-size: 3em;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5em;
+}
+
+
+
+/* custom status and navigation */
+
+.vslider-customstatus .vslider-status > li {
+  color: #fff;
+  padding: 0.25em;
+  border-radius: 0.25em;
+}
+
+.vslider-customstatus .vslider-prev,
+.vslider-customstatus .vslider-next {
+  color: transparent;
+  width: 0;
+  height: 0;
+  border-top: 0.5em solid transparent;
+  border-bottom: 0.5em solid transparent;
+}
+
+.vslider-customstatus .vslider-prev {
+  border-right: 1em solid #000;
+}
+
+.vslider-customstatus .vslider-next {
+  border-left: 1em solid #000;
+}
+
+
+
+/* bg */
+
+.vslider-background span {
+  background: #000 no-repeat center;
+  background-size: contain;
+}
+
+
+
+/* images */
+
+.vslider-images img {
+  display: block;
+  margin: 0 auto;
+}
+
+
+
+/* custom animation */
+
+.vslider-trans {
+  min-height: 50vh;
+  background-color: transparent;
+}
+
+.vslider-trans .vslider-item {
+  background: no-repeat center;
+  background-size: cover;
+
+  transition: z-index 0s,
+  transform 1s ease-in-out;
+  opacity: 1;
+  transform: rotateY(90deg);
+}
+
+.vslider-trans .vslider-active {
+  transform: rotateY(0deg);
+}
+
+.vslider-trans .vslider-before {
+  transform: rotateY(-90deg);
+}
+</style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
 	</cfif>
@@ -696,7 +774,7 @@ limitations under the License.
 									<cfelse>
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
-										<div class="vslider-styling float-left px-3 pt-3">
+										<div class="px-3 pt-3">
 											
 						<!---					<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light float-left col-xl-9 col-12 px-0" title="click to open full image">--->
 												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
