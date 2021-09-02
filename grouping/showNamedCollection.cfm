@@ -761,9 +761,9 @@ limitations under the License.
 								</cfif>
 								<cfif agentImagesForCarousel.recordcount gt 0>
 								<div class="col-12 #colClass# mx-md-auto my-3">
-									<div class="carousel_background border float-left w-100 p-2 h-auto">
+									<div class="carousel_background border w-100 p-2 h-auto">
 										<h3 class="mx-1">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100 float-left" style="height:425px;" id="vslider-base1">
+										<div class="vslider w-100" style="height:425px;" id="vslider-base1">
 											<cfset i=1>
 											<cfloop query="agentImagesForCarousel">
 											<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -774,7 +774,7 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 vslider-styling w-100 h-100 float-left px-3 pt-2">		
+												<div class="small95 vslider-styling w-100 px-3 pt-2">		
 													<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light" title="click to open full image">
 														<cfif len(agentImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['first_height'][i] GT 1000>
@@ -789,7 +789,7 @@ limitations under the License.
 												<cfset i=i+1>
 											</cfloop>
 										</div>
-										<div class="custom-nav text-center bg-white pt-2">
+										<div class="custom-nav text-center bg-white pt-1">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
 											<input type="number" id="custom-input1" class="border border-light py-2 mt-1 text-center" style="width: 50px;" placeholder="index">
 											<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
@@ -817,7 +817,7 @@ limitations under the License.
 											<cfelse>
 												<cfset trimmedAltText = altTextTrunc>
 											</cfif>
-												<div class="small95 vslider-styling h-100 w-100 float-left px-3 pt-2">
+												<div class="small95 vslider-styling w-100 px-3 pt-2">
 													<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-light" title="click to open full image">
 													<cfif len(collectingImagesForCarousel['media_uri'][i]) GT 0 AND agentImagesForCarousel['first_height'][i] GT 1000>
@@ -833,7 +833,7 @@ limitations under the License.
 											<cfset i=i+1>
 										</cfloop>
 									</div>
-									<div class="custom-nav text-center bg-white pt-2">
+									<div class="custom-nav text-center bg-white pt-1">
 										<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
 										<input type="number" id="custom-input2" class="border border-light py-2 mt-1 text-center" style="width: 50px;" placeholder="index">
 										<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next &nbsp; >> </button>
