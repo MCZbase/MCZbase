@@ -683,9 +683,9 @@ limitations under the License.
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
 						<div class="">
 							<cfif specimenImagesForCarousel.recordcount gt 0>
-							<div class="carousel_background border float-left w-100 p-2">
+							<!---<div class="carousel_background border float-left w-100 p-2">--->
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider vslider-default w-100 float-left" style="height:500px;" id="vslider-base">
+								  <div class="vslider  vslider-images" id="vslider-images">
 									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -724,7 +724,10 @@ limitations under the License.
 								  </div>
 							</div>
 							</cfif>
-						</div>
+				<!---		</div>--->
+											
+											
+											
 						<!--- figure out widths of sub blocks, adapt to number of blocks --->
 						<cfswitch expression="#otherImageTypes#">
 							<cfcase value="1">
