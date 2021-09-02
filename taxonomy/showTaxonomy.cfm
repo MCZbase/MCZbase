@@ -347,6 +347,15 @@
 			taxonomy_publication.publication_id=formatted_publication.publication_id and
 			taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 	</cfquery>
+	<cfquery name="citedSpecimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citedSpecimens_result">
+		SELECT type_status, occurs_page_number, citation_remarks, citation_page_uri, publication_id, 
+			mczbase.getshortcitation(publication_id) as short_citation, 
+			'MCZ:' || collection_cde || ':' || cat_num as guid 
+		FROM citation 
+			LEFT JOIN cataloged_item on CITATION.COLLECTION_OBJECT_ID = CATALOGED_ITEM.COLLECTION_OBJECT_ID
+		WHERE 
+			cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+	</cfquery>
 	<cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
 		from ctguid_type 
@@ -463,6 +472,24 @@
 						</cfloop>
 					</cfif>
 				</ul>
+				<h2 class="h4">Cited MCZ Specimens:</h2>
+				<ul>
+					<cfif citedSpecimens.recordcount is 0>
+						<li><b>No cited MCZ specimens.</b></li>
+					<cfelse>
+						<cfloop query="citedSpecimens">
+							<cfif len(citedSpecimens.occurs_page_number) GT 0>
+								<cfif len(citedSpecimens.citation_page_uri) GT 0>
+									<cfset page = "p. <a href=#citation_page_uri#>#occurs_page_number#</a>" >
+								<cfelse>
+									<cfset page = "p. #occurs_page_number#">
+								</cfif>
+							<cfelse>
+									<cfset page = "">
+							</cfif>
+							<li> <a href="/guid/#guid#">#guid#</a> #type_status# #page# in <a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#short_citation#</a> </li>
+						</cfloop>
+					</cfif>
 				<h2 class="h4">Synonymns and other Related Names:</h2>
 				<ul>
 					<cfif related.recordcount is 0 and imp_related.recordcount is 0>
