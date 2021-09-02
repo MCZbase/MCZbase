@@ -685,7 +685,7 @@ limitations under the License.
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-2">
 								<h3 class="mx-2">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider w-100 float-left" style="height:820px;" id="vslider-base">
+								  <div class="vslider w-100 float-left" style="height:600px;" id="vslider-base">
 									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -709,7 +709,7 @@ limitations under the License.
 											</a>
 											<span class="d-block float-left col-2 px-0">
 											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-											<p class="my-1 col-2 small95 float-left">#trimmedAltText# </p>
+											<p class="my-1 small95">#trimmedAltText# </p>
 											</span>
 											
 										</div>
