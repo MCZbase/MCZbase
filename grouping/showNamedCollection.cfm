@@ -787,7 +787,7 @@ limitations under the License.
 													<!---alt="#trimmedAltText#">--->
 										<!---	</a>--->
 											<span class="d-block float-left col-12">
-											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+											<a class="d-block h3" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 											<p class="my-1 small95">#trimmedAltText# </p>
 											</span>
 											
