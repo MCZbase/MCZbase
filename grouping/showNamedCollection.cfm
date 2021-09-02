@@ -70,11 +70,11 @@ limitations under the License.
 	z-index: 5;
 }
 .vslider-styling {
-	font-size: 95%;
+/*	font-size: 95%;
 	background-color: #f5f5f5;
   	border-right:1px solid #dee2e6 !important;
 	border-left:1px solid #dee2e6 !important;
-	border-top:1px solid #dee2e6 !important;
+	border-top:1px solid #dee2e6 !important;*/
 }
 .vslider {
   position: relative;
@@ -157,7 +157,6 @@ overflow: hidden;
 .vslider-status-item[aria-selected='true'] {
   opacity: 0.6;
 }
-	.vslider-item {background-color: #1b1b1b;}
 .vslider-nav {
   display: block;
   z-index: 100;
@@ -244,8 +243,6 @@ padding-bottom: 1em;
   display: block;
   margin: 0 auto;
 }
-
-
 
 /* custom animation */
 
