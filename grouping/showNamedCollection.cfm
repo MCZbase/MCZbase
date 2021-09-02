@@ -806,7 +806,7 @@ limitations under the License.
 								<div class="col-12 #colClass# mx-md-auto my-3">
 								<div class="carousel_background border float-left w-100 p-2">
 									<h3 class="mx-1">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
-									<div class="vslider w-100 float-left" style="height: 425px;" id="vslider-base2">
+									<div class="vslider w-100 border-right border-left border-top border-bottom float-left" style="height: 425px;" id="vslider-base2">
 										<cfset i=1>
 										<cfloop query="collectingImagesForCarousel">
 											<cfset alttext = collectingImagesForCarousel['alt'][i]>
@@ -833,7 +833,7 @@ limitations under the License.
 											<cfset i=i+1>
 										</cfloop>
 									</div>
-									<div class="custom-nav text-center bg-white border-right border-left border-top border-bottom mb-1 pt-0 pb-1">
+									<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
 										<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
 										<input type="number" id="custom-input2" class="border border-light py-2 mt-1 text-center" style="width: 50px;" placeholder="index">
 										<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next &nbsp; >> </button>
