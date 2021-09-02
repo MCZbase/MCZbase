@@ -1075,6 +1075,8 @@ limitations under the License.
 							<div class="col-12 bg-light border non-field-text">
 								<span id="preferred_name_display">#encodeForHtml(preferredName.agent_name)#</span>
 							</div>
+							<label class="data-entry-label mb-0 mt-1 font-weight-bold"></label>
+							<input type="text" value="#preferredName.agent_name#" name="agent_name" id="preferred_name" class="data-entry-input">
 						</li>
 						<li class="list-group-item px-1">
 						</li>
