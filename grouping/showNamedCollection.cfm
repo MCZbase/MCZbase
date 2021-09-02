@@ -1027,7 +1027,7 @@ vanillaSlider(
     vanillaSlider(
       document.getElementById('vslider-background'), {
         itemSelector: 'span',
-        height: '500vh',
+        height: '600vh',
         swipedirection: 'v'
       }
     )
