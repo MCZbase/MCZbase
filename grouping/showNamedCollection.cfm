@@ -180,14 +180,13 @@ limitations under the License.
 
 .vslider > * + * {
   	display: none;
- 	position: relative;
+ 	position: absolute;
 	background-color: #f5f5f5;
 }
 
 .vslider-item {
   	display: block;
   	width: 100%;
-	height: 100%;
   	top: 0;
   	bottom: 0;
  	-ms-touch-action: none;
@@ -692,7 +691,7 @@ limitations under the License.
 						<cfif specimenImagesForCarousel.recordcount gt 0>
 							<div class="carousel_background border float-left w-100 p-2">
 								<h3 class="mx-2">SpecimensTest <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-								  <div class="vslider col-12 bg-light vslider-customstatus" id="vslider-base">
+								  <div class="vslider col-12 bg-light" id="vslider-custom">
 									 <cfset i=1>
 									<cfloop query="specimenImagesForCarousel">
 									<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -704,8 +703,7 @@ limitations under the License.
 										<cfset trimmedAltText = altTextTrunc>
 									</cfif>
 										<div class="vslider-styling col-8 mx-auto">
-											
-											<a href="#media_uri#" target="_blank" class="d-block" title="click to open full image">
+											<ul><li><a href="#media_uri#" target="_blank" class="d-block" title="click to open full image">
 												<!---<img src="#specimenImagesForCarousel['media_uri'][i]#" class="w-100 float-left h-auto">--->
 												<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND specimenImagesForCarousel['first_height'][i] GT 1000>
 													<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
@@ -714,10 +712,12 @@ limitations under the License.
 												</cfif>
 												<img src="#src#" class="w-100" alt="#trimmedAltText#" style="overflow:hidden;">
 											</a>
-											<span class="d-block col-12">
+																									<span class="d-block col-12">
 											<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 											<p class="my-1 small95">#trimmedAltText# </p>
-											</span>
+											</span></li></ul>
+											
+
 											
 										</div>
 										
@@ -1011,7 +1011,7 @@ limitations under the License.
     )
     vanillaSlider(
       document.getElementById('vslider-custom'), {
-        height: '50em',
+        height: '5em',
         statusContent: function (i, all) {
           return i + 1
         },
@@ -1020,14 +1020,14 @@ limitations under the License.
 
 vanillaSlider(
       document.getElementById('vslider-images'), {
-        height: 600
+        height: 300
       }
     )
     // Should wait for images to load and set explicit height!
     vanillaSlider(
       document.getElementById('vslider-background'), {
         itemSelector: 'span',
-        height: '600vh',
+        height: '50vh',
         swipedirection: 'v'
       }
     )
