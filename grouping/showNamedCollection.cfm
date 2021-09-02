@@ -352,7 +352,7 @@ limitations under the License.
 /* custom animation */
 
 .vslider-trans {
-  min-height: 50vh;
+  min-height: 550vh;
   background-color: transparent;
 }
 
