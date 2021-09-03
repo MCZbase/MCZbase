@@ -410,7 +410,7 @@ overflow: hidden;
 							SELECT DISTINCT media.media_id,media.media_uri, 
 							MCZBASE.get_media_descriptor(media.media_id) as alt, 
 							MCZBASE.get_medialabel(media.media_id,'width') as width,
-							MCZBASE.get_maxheightmediaset(media.media_id) as maxheight,
+							MCZBASE.get_medialabel(media.media_id, 'height') as height,
 							MCZBASE.get_media_credit(media.media_id) as credit
 							FROM
 								underscore_collection
@@ -1089,7 +1089,7 @@ overflow: hidden;
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input')
-	var #toScript(specimenImagesForCarousel.maxheight, "maxheight")#;
+	var #toScript(specimenImagesForCarousel.height, "maxheight")#;
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base'), {
         autoplay: false,
