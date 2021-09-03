@@ -283,31 +283,31 @@ overflow: hidden;
 						<div class="row mx-0">
 							<!---for specimen record grid--->
 							<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT DISTINCT flat.guid, flat.scientific_name
-									FROM
-										underscore_relation 
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										and flat.guid is not null
-									ORDER BY flat.guid asc
-								</cfquery>
-								<!---for specimen image count--->
+								SELECT DISTINCT flat.guid, flat.scientific_name
+								FROM
+									underscore_relation 
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+										on underscore_relation.collection_object_id = flat.collection_object_id
+								WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									and flat.guid is not null
+								ORDER BY flat.guid asc
+							</cfquery>
+							<!---for specimen image count--->
 							<cfquery name="specimenImgs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT DISTINCT media.media_uri
-									FROM
-										underscore_collection
-										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join cataloged_item
-											on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-										left join media_relations
-											on media_relations.related_primary_key = underscore_relation.collection_object_id
-										left join media on media_relations.media_id = media.media_id
-									WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										AND media_relations.media_relationship = 'shows cataloged_item'
-										AND media.media_type = 'image'
-										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-								</cfquery>
+								SELECT DISTINCT media.media_uri
+								FROM
+									underscore_collection
+									left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+									left join cataloged_item
+										on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+									left join media_relations
+										on media_relations.related_primary_key = underscore_relation.collection_object_id
+									left join media on media_relations.media_id = media.media_id
+								WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									AND media_relations.media_relationship = 'shows cataloged_item'
+									AND media.media_type = 'image'
+									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+							</cfquery>
 							<cfif specimenImgs.recordcount GT 0>
 								<cfset hasSpecImages = true>
 								<cfset specimenImgsCt = specimenImgs.recordcount>
@@ -398,7 +398,7 @@ overflow: hidden;
 									</div>
 								</div>
 							</section>
-							<!--- Grid Related code is in section above (fills into id = "jqxgrid" div) along with search handlers --->
+						<!--- Grid Related code is in section above (fills into id = "jqxgrid" div) along with search handlers --->
 						</div>
 						<!---end specimen grid---> 
 					</div>
@@ -524,23 +524,23 @@ overflow: hidden;
 						<cfset otherImageTypes = otherImageTypes + 1>
 					</cfif>
 					<cfquery name="localityCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityCt"> 
-							SELECT DISTINCT media.media_id
-							FROM
-								underscore_collection
-								left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-									on underscore_relation.collection_object_id = flat.collection_object_id
-									left join locality
-									on locality.locality_id = flat.locality_id 
-									left join media_relations 
-									on locality.locality_id = media_relations.related_primary_key 
-								left join media on media_relations.media_id = media.media_id
-							WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								AND flat.guid IS NOT NULL
-								AND media_relations.media_relationship = 'shows locality'
-								AND media.media_type = 'image'
-								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-								AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+						SELECT DISTINCT media.media_id
+						FROM
+							underscore_collection
+							left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+								on underscore_relation.collection_object_id = flat.collection_object_id
+								left join locality
+								on locality.locality_id = flat.locality_id 
+								left join media_relations 
+								on locality.locality_id = media_relations.related_primary_key 
+							left join media on media_relations.media_id = media.media_id
+						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+							AND flat.guid IS NOT NULL
+							AND media_relations.media_relationship = 'shows locality'
+							AND media.media_type = 'image'
+							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 					</cfquery>
 					<cfquery name="localityImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
 						SELECT * FROM (
@@ -590,24 +590,23 @@ overflow: hidden;
 						<cfset otherImageTypes = otherImageTypes + 1>
 					</cfif>
 					<div class="row mx-3 mt-3">
-					<div class="col-12 col-md-6 float-left mt-3 mb-3">
-						<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
-							<h2 class="mt-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
-					
-							<cfif specimenImagesForCarousel.recordcount gt 0>
-								<div class="carousel_background border float-left w-100 p-2">
-									<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-									  	<div class="vslider w-100 float-left" style="height: 630px;" id="vslider-base">
+						<div class="col-12 col-md-6 float-left mt-3 mb-3">
+							<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
+								<h2 class="mt-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
+								<cfif specimenImagesForCarousel.recordcount gt 0>
+									<div class="carousel_background border float-left w-100 p-2">
+										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
+										<div class="vslider w-100 float-left" style="height: 630px;" id="vslider-base">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<cfset alttext = specimenImagesForCarousel['alt'][i]>
 												<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
 												<cfif len(alttextTrunc) gt 300>
-												<cfset trimmedAltText = left(alttextTrunc, 300)>
-												<cfset trimmedAltText &= "...">
-											<cfelse>
-												<cfset trimmedAltText = altTextTrunc>
-											</cfif>
+													<cfset trimmedAltText = left(alttextTrunc, 300)>
+													<cfset trimmedAltText &= "...">
+												<cfelse>
+													<cfset trimmedAltText = altTextTrunc>
+												</cfif>
 												<div class="w-100 float-left px-3 h-auto">
 													<p class="mt-2 bg-light">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
@@ -629,253 +628,267 @@ overflow: hidden;
 														</ul>
 													</cfif>
 												</div>
-												<cfset i=i+1>
+											<cfset i=i+1>
 											</cfloop>
-									  	</div>
-									<div class="custom-nav text-center mb-1 bg-white pt-0 pb-1">
-										<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-										<input type="number" id="custom-input" class="custom-input border border-light" placeholder="index">
-										<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
-									  </div>
-								</div>
-							</cfif>		
-							<!--- figure out widths of sub blocks, adapt to number of blocks --->
-							<cfswitch expression="#otherImageTypes#">
-								<cfcase value="1">
-								<cfset colClass = "col-md-12 mx-auto float-none">
-								<cfset imgWidth = 600>
-								<cfset imgHeight = "height:600px;">
-								</cfcase>
-								<cfcase value="2">
-								<cfset colClass = "col-md-12 mx-auto float-none">
-								<cfset imgWidth = 600>
-								<cfset imgHeight = "height:600px;">
-								</cfcase>
-								<cfcase value="3">
-								<cfset colClass = "col-md-6 float-left">
-								<cfset imgWidth = 400>
-								<cfset imgHeight = "height:400px;">
-								</cfcase>
-								<cfcase value="4">
-								<cfset colClass = "col-md-12 col-xl-4 float-left">
-								<cfset imgWidth = 300>
-								<cfset imgHeight = "height:300px;">
-								</cfcase>
-								<cfdefaultcase>
-								<cfset colClass = "col-md-12 col-xl-3 float-left">
+										</div>
+										<div class="custom-nav text-center mb-1 bg-white pt-0 pb-1">
+											<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
+											<input type="number" id="custom-input" class="custom-input border border-light" placeholder="index">
+											<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
+										</div>
+									</div>
+								</cfif>		
+								<!--- figure out widths of sub blocks, adapt to number of blocks --->
+								<cfswitch expression="#otherImageTypes#">
+									<cfcase value="1">
+									<cfset colClass = "col-md-12 mx-auto float-none">
+									<cfset imgWidth = 600>
+									<cfset imgHeight = "height:600px;">
+									</cfcase>
+									<cfcase value="2">
+									<cfset colClass = "col-md-12 mx-auto float-none">
+									<cfset imgWidth = 600>
+									<cfset imgHeight = "height:600px;">
+									</cfcase>
+									<cfcase value="3">
+									<cfset colClass = "col-md-6 float-left">
+									<cfset imgWidth = 400>
 									<cfset imgHeight = "height:400px;">
-								</cfdefaultcase>
-							</cfswitch>
-							<div class="row">
-								<div class="col-12 px-0 mt-2 mb-3">
-								<cfif agentImagesForCarousel.recordcount gte 2>
-										<cfset imagePlural = 'images'>
+									</cfcase>
+									<cfcase value="4">
+									<cfset colClass = "col-md-12 col-xl-4 float-left">
+									<cfset imgWidth = 300>
+									<cfset imgHeight = "height:300px;">
+									</cfcase>
+									<cfdefaultcase>
+									<cfset colClass = "col-md-12 col-xl-3 float-left">
+										<cfset imgHeight = "height:400px;">
+									</cfdefaultcase>
+								</cfswitch>
+								<div class="row">
+									<div class="col-12 px-0 mt-2 mb-3">
+										<cfif agentImagesForCarousel.recordcount gte 2>
+											<cfset imagePlural = 'images'>
 										<cfelse>
-										<cfset imagePlural = 'image'>
-									</cfif>
-									<cfif agentImagesForCarousel.recordcount gt 0>
-										<div class="col-12 #colClass# mx-md-auto my-3">
-											<div class="carousel_background border float-left w-100 p-2 h-auto">
-												<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-												<div class="vslider w-100 float-left" style="height: 630px;" id="vslider-base">
-												<cfset i=1>
-												<cfloop query="agentImagesForCarousel">
-													<cfset alttext = agentImagesForCarousel['alt'][i]>
-													<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-													<cfif len(alttextTrunc) gt 300>
-														<cfset trimmedAltText = left(alttextTrunc, 300)>
-														<cfset trimmedAltText &= "...">
-													<cfelse>
-														<cfset trimmedAltText = altTextTrunc>
-													</cfif>
-													<div class="w-100 float-left px-3 h-auto">
-														<p class="mt-2 bg-light">#trimmedAltText#</p>
-														<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-														<cfset src=agentImagesForCarousel['media_uri'][i]>
-														<cfif fileExists(#src#)>
-															<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-															</a>
-														<cfelse>
-															<ul class="bg-dark px-0 list-unstyled">
-																<li>
-																	<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
-																		No image is stored
-																	</h3>
-																</li>
-															</ul>
-														</cfif>
+											<cfset imagePlural = 'image'>
+										</cfif>
+										<cfif agentImagesForCarousel.recordcount gt 0>
+											<div class="col-12 #colClass# mx-md-auto my-3">
+												<div class="carousel_background border float-left w-100 p-2 h-auto">
+													<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
+													<div class="vslider w-100 float-left" style="height: 430px;" id="vslider-base">
+														<cfset i=1>
+														<cfloop query="agentImagesForCarousel">
+															<cfset alttext = agentImagesForCarousel['alt'][i]>
+															<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+															<cfif len(alttextTrunc) gt 300>
+																<cfset trimmedAltText = left(alttextTrunc, 300)>
+																<cfset trimmedAltText &= "...">
+															<cfelse>
+																<cfset trimmedAltText = altTextTrunc>
+															</cfif>
+															<div class="w-100 float-left px-3 h-auto">
+																<p class="mt-2 bg-light">#trimmedAltText#</p>
+																<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
+																<cfset src=agentImagesForCarousel['media_uri'][i]>
+																<cfif fileExists(#src#)>
+																	<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																		<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+																	</a>
+																<cfelse>
+																	<ul class="bg-dark px-0 list-unstyled">
+																		<li>
+																			<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
+																				No image is stored
+																			</h3>
+																		</li>
+																	</ul>
+																</cfif>
+															</div>
+															<cfset i=i+1>
+														</cfloop>
 													</div>
-													<cfset i=i+1>
-												</cfloop>
-											</div>
-												<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
-													<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
-													<input type="number" id="custom-input1" class="custom-input border border-light" placeholder="index">
-													<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
+													<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
+														<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
+														<input type="number" id="custom-input1" class="custom-input border border-light" placeholder="index">
+														<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
+													</div>
 												</div>
 											</div>
-										</div>
-									</cfif>
-								<cfif collectingImagesForCarousel.recordcount gte 2>
-									<cfset imagePlural = 'images'>
-										<cfelse>
-									<cfset imagePlural = 'image'>
-								</cfif>
-								<cfif collectingImagesForCarousel.recordcount gt 0>
-									<div class="col-12 #colClass# mx-md-auto my-3">
-									<div class="carousel_background border float-left w-100 p-2">
-										<h3 class="mx-2 text-center">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
-											<div class="vslider w-100 float-left" style="height: 630px;" id="vslider-base">
-											<cfset i=1>
-												<cfloop query="collectingImagesForCarousel">
-													<cfset alttext = collectingImagesForCarousel['alt'][i]>
-													<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-													<cfif len(alttextTrunc) gt 300>
-														<cfset trimmedAltText = left(alttextTrunc, 300)>
-														<cfset trimmedAltText &= "...">
-													<cfelse>
-														<cfset trimmedAltText = altTextTrunc>
-													</cfif>
-													<div class="w-100 float-left px-3 h-auto">
-														<p class="mt-2 bg-light">#trimmedAltText#</p>
-														<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
-														<cfset src=collectingImagesForCarousel['media_uri'][i]>
-														<cfif fileExists(#src#)>
-															<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-															</a>
-														<cfelse>
-															<ul class="bg-dark px-0 list-unstyled">
-																<li>
-																	<h3 class="text-white mx-auto message">
-																		No image is stored
-																	</h3>
-																</li>
-															</ul>
-														</cfif>
-													</div>
-													<cfset i=i+1>
-												</cfloop>
-											</div>
-											<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
-												<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
-												<input type="number" id="custom-input2" class="border border-light" placeholder="index">
-												<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next &nbsp; >> </button>
-										 	</div>
-										</div>
-									</div>
-								</cfif>
-					<!---				<cfif localityImagesForCarousel.recordcount gte 2>
-										<cfset imagePlural = 'images'>
-										<cfelse>
-										<cfset imagePlural = 'image'>
-									</cfif>
-									<cfif localityImagesForCarousel.recordcount gt 0>
-										<div class="col-12 #colClass# mx-md-auto mt-3">
-											<div class="carousel_background border float-left w-100 p-2">
-											<h3 class="mx-2 text-center">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-											<div class="vslider w-100 float-left" id="vslider-base3">
-												<cfset i=1>
-												<cfloop query="localityImagesForCarousel">
-												<cfset alttext = localityImagesForCarousel['alt'][i]>
-												<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-												<cfif len(alttextTrunc) gt 90>
-													<cfset trimmedAltText = left(alttextTrunc, 90)>
-													<cfset trimmedAltText &= "...">
+										</cfif>
+										<cfif collectingImagesForCarousel.recordcount gte 2>
+											<cfset imagePlural = 'images'>
 												<cfelse>
-													<cfset trimmedAltText = altTextTrunc>
-												</cfif>
-													<div class="small95 vslider-styling w-100 float-left px-3">
-														<p class="mt-2">#trimmedAltText#</p>
-														<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
-														<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
-														<cfif len(localityImagesForCarousel['media_uri'][i]) GT 0 AND localityImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
-															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?height=1000&media_id=#localityImagesForCarousel['media_id'][i]#">
-														<cfelse>
-															<cfset src="#localityImagesForCarousel['media_uri'][i]#">
-														</cfif>
-															<img src="#src#" class="w-100" alt="#trimmedAltText#">
-														</a>
+											<cfset imagePlural = 'image'>
+										</cfif>
+										<cfif collectingImagesForCarousel.recordcount gt 0>
+											<div class="col-12 #colClass# mx-md-auto my-3">
+												<div class="carousel_background border float-left w-100 p-2">
+												<h3 class="mx-2 text-center">Collecting Event 
+													<span class="small">(#collectingCt.recordcount# #imagePlural#)</span>
+												</h3>
+													<div class="vslider w-100 float-left" style="height: 430px;" id="vslider-base">
+														<cfset i=1>
+														<cfloop query="collectingImagesForCarousel">
+															<cfset alttext = collectingImagesForCarousel['alt'][i]>
+															<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+															<cfif len(alttextTrunc) gt 300>
+																<cfset trimmedAltText = left(alttextTrunc, 300)>
+																<cfset trimmedAltText &= "...">
+															<cfelse>
+																<cfset trimmedAltText = altTextTrunc>
+															</cfif>
+															<div class="w-100 float-left px-3 h-auto">
+																<p class="mt-2 bg-light">#trimmedAltText#</p>
+																<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
+																<cfset src=collectingImagesForCarousel['media_uri'][i]>
+																<cfif fileExists(#src#)>
+																	<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																		<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+																	</a>
+																<cfelse>
+																	<ul class="bg-dark px-0 list-unstyled">
+																		<li>
+																			<h3 class="text-white mx-auto message">
+																				No image is stored
+																			</h3>
+																		</li>
+																	</ul>
+																</cfif>
+															</div>
+															<cfset i=i+1>
+														</cfloop>
 													</div>
-													<cfset i=i+1>
-												</cfloop>
+													<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
+														<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
+														<input type="number" id="custom-input2" class="border border-light" placeholder="index">
+														<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next &nbsp; >> </button>
+													</div>
+												</div>
 											</div>
-											<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
-												<button type="button" class="border-0  btn-outline-primary" id="custom-prev3"> << previous </button>
-												<input type="number" id="custom-input3" class="border border-light p-2 mt-1 text-center" style="width: 53px;" placeholder="index">
-												<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> next &nbsp; >> </button>
-											</div>
-										</div>
+										</cfif>
+										<cfif localityImagesForCarousel.recordcount gte 2>
+												<cfset imagePlural = 'images'>
+												<cfelse>
+												<cfset imagePlural = 'image'>
+										</cfif>
+										<cfif localityImagesForCarousel.recordcount gt 0>
+											<div class="col-12 #colClass# mx-md-auto mt-3">
+												<div class="carousel_background border float-left w-100 p-2">
+													<h3 class="mx-2 text-center">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
+														<div class="vslider w-100 float-left" style="height: 430px;" id="vslider-base">
+															<cfset i=1>
+															<cfloop query="localityImagesForCarousel">
+																<cfset alttext = localityImagesForCarousel['alt'][i]>
+																<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+																<cfif len(alttextTrunc) gt 300>
+																	<cfset trimmedAltText = left(alttextTrunc, 300)>
+																	<cfset trimmedAltText &= "...">
+																<cfelse>
+																	<cfset trimmedAltText = altTextTrunc>
+																</cfif>
+																<div class="w-100 float-left px-3 h-auto">
+																	<p class="mt-2 bg-light">#trimmedAltText#</p>
+																	<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
+																	<cfset src=localityImagesForCarousel['media_uri'][i]>
+																	<cfif fileExists(#src#)>
+																		<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																			<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+																		</a>
+																	<cfelse>
+																		<ul class="bg-dark px-0 list-unstyled">
+																			<li>
+																				<h3 class="text-white mx-auto message">
+																					No image is stored
+																				</h3>
+																			</li>
+																		</ul>
+																	</cfif>
+																</div>
+																<cfset i=i+1>
+															</cfloop>
+														</div>
+														<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
+															<button type="button" class="border-0  btn-outline-primary" id="custom-prev3"> << previous </button>
+															<input type="number" id="custom-input3" class="border border-light" placeholder="index">
+															<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> next &nbsp; >> </button>
+														</div>
+													</div>
+												</div>
+											</cfif>
 									</div>
-									</cfif>--->
 								</div>
-							</div>
-						</cfif>
-
-						<section class="row h-100">
+							</cfif>
+<!---///////////////////////////////--->
+<!---/// HIDE HEAT MAP FOR NOW ///// --->
+<!---///////////////////////////////--->
+<!---////////// BELOW //////////////--->
+<!---///////////////////////////////--->
+																	
+							<!---<section class="row h-100">
 								<div class="col-6">
-								<h2 class="mt-4 text-left">Heat Map Example</h2>
+									<h2 class="mt-4 text-left">Heat Map Example</h2>--->
 									<script>
-										let map, heatmap;
-									function initMap() {
-									  map = new google.maps.Map(document.getElementById("map"), {
-										zoom: 4,
-										center: { lat: 42.378765, lng: -71.115540 },
-										mapTypeId: "satellite",
-									  });
-									  heatmap = new google.maps.visualization.HeatmapLayer({
-										data: getPoints(),
-										map: map,
-									  });
-									  document
-										.getElementById("toggle-heatmap")
-										.addEventListener("click", toggleHeatmap);
-									  document
-										.getElementById("change-gradient")
-										.addEventListener("click", changeGradient);
-									  document
-										.getElementById("change-opacity")
-										.addEventListener("click", changeOpacity);
-									  document
-										.getElementById("change-radius")
-										.addEventListener("click", changeRadius);
-									}
-									function toggleHeatmap() {
-									  heatmap.setMap(heatmap.getMap() ? null : map);
-									}
-									function changeGradient() {
-									  const gradient = [
-										"rgba(0, 255, 255, 0)",
-										"rgba(0, 255, 255, 1)",
-										"rgba(0, 191, 255, 1)",
-										"rgba(0, 127, 255, 1)",
-										"rgba(0, 63, 255, 1)",
-										"rgba(0, 0, 255, 1)",
-										"rgba(0, 0, 223, 1)",
-										"rgba(0, 0, 191, 1)",
-										"rgba(0, 0, 159, 1)",
-										"rgba(0, 0, 127, 1)",
-										"rgba(63, 0, 91, 1)",
-										"rgba(127, 0, 63, 1)",
-										"rgba(191, 0, 31, 1)",
-										"rgba(255, 0, 0, 1)",
-									  ];
-									  heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-									}
-									function changeRadius() {
-									  heatmap.set("radius", heatmap.get("radius") ? null : 20);
-									}
-									function changeOpacity() {
-									  heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
-									}
-									// Heatmap data: 500 Points
-									function getPoints() {
-										<cfset arr = ArrayNew(1)>
-										<cfloop query="states">new google.maps.LatLng(#states.dec_lat#,#states.dec_long#),
-										</cfloop>
-											return #serializeJson#;
-											}
+									//	let map, heatmap;
+//										function initMap() {
+//										  map = new google.maps.Map(document.getElementById("map"), {
+//											zoom: 4,
+//											center: { lat: 42.378765, lng: -71.115540 },
+//											mapTypeId: "satellite",
+//										  });
+//										  heatmap = new google.maps.visualization.HeatmapLayer({
+//											data: getPoints(),
+//											map: map,
+//										  });
+//										  document
+//											.getElementById("toggle-heatmap")
+//											.addEventListener("click", toggleHeatmap);
+//										  document
+//											.getElementById("change-gradient")
+//											.addEventListener("click", changeGradient);
+//										  document
+//											.getElementById("change-opacity")
+//											.addEventListener("click", changeOpacity);
+//										  document
+//											.getElementById("change-radius")
+//											.addEventListener("click", changeRadius);
+//										}
+//										function toggleHeatmap() {
+//										  heatmap.setMap(heatmap.getMap() ? null : map);
+//										}
+//										function changeGradient() {
+//										  const gradient = [
+//											"rgba(0, 255, 255, 0)",
+//											"rgba(0, 255, 255, 1)",
+//											"rgba(0, 191, 255, 1)",
+//											"rgba(0, 127, 255, 1)",
+//											"rgba(0, 63, 255, 1)",
+//											"rgba(0, 0, 255, 1)",
+//											"rgba(0, 0, 223, 1)",
+//											"rgba(0, 0, 191, 1)",
+//											"rgba(0, 0, 159, 1)",
+//											"rgba(0, 0, 127, 1)",
+//											"rgba(63, 0, 91, 1)",
+//											"rgba(127, 0, 63, 1)",
+//											"rgba(191, 0, 31, 1)",
+//											"rgba(255, 0, 0, 1)",
+//										  ];
+//										  heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+//										}
+//										function changeRadius() {
+//										  heatmap.set("radius", heatmap.get("radius") ? null : 20);
+//										}
+//										function changeOpacity() {
+//										  heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
+//										}
+//										// Heatmap data: 500 Points
+//										function getPoints() {
+//											<cfset arr = ArrayNew(1)>
+//											<cfloop query="states">
+//												new google.maps.LatLng(#states.dec_lat#,#states.dec_long#),
+//											</cfloop>
+//										return #serializeJson#;
+//										}
 									</script>
 									<div id="floating-panel" class="col-6">
 										<button id="toggle-heatmap">Toggle Heatmap</button>
@@ -883,15 +896,20 @@ overflow: hidden;
 										<button id="change-radius">Change radius</button>
 										<button id="change-opacity">Change opacity</button>
 									</div>
-									<div id="map"></div>
-								</div>
-	<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization&v=weekly" async></script>
-							</section>
-					</div>
-						<!--- end images & heat map---> 
-					<div class="col-12 col-md-6 float-left mt-3 mb-3">	
-						<div class="col mt-4 float-left"> 
+							<!---		<div id="map"></div>
+								</div>--->
+								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<!---								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization&v=weekly" async></script>--->
+						<!---	</section>--->
+<!---///////////////////////////////--->
+<!---/// HIDE HEAT MAP FOR NOW ///// --->
+<!---///////////////////////////////--->
+<!---/////////// ABOVE /////////////--->
+<!---///////////////////////////////--->
+																	
+				</div><!--- end images & heat map---> 
+				<div class="col-12 col-md-6 float-left mt-3 mb-3">	
+					<div class="col mt-4 float-left"> 
 						<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 						<div class="my-2 py-3 border-bottom-black">
 							<cfif len(getNamedGroup.description) GT 0 >
@@ -1058,10 +1076,8 @@ overflow: hidden;
 							</cfif>
 						</div>
 					</div>
-						<!--- end rowEverythihngElse--->
-					</div>
-
-				</div>
+				</div><!--- end rowEverythihngElse--->
+			</div>
 				</article>
 			</div>
 		</main>
