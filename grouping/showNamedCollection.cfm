@@ -442,7 +442,7 @@ overflow: hidden;
 								AND media.media_type = 'image'
 								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 						  order by maximumheight desc     
-						) where rownum < 2	
+						rownum < 2	
 					</cfquery>
 					<cfif specimenImagesForCarousel.recordcount GT 0>
 						<cfset otherImageTypes = otherImageTypes>
