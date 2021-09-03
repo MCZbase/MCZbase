@@ -409,8 +409,6 @@ overflow: hidden;
 						SELECT * FROM (
 							SELECT DISTINCT media.media_id,media.media_uri, 
 							MCZBASE.get_media_descriptor(media.media_id) as alt, 
-							MCZBASE.get_medialabel(media.media_id,'width') as width,
-							MCZBASE.get_medialabel(media.media_id,'height') as height,
 							MCZBASE.get_media_credit(media.media_id) as credit
 							FROM
 								underscore_collection
@@ -435,7 +433,6 @@ overflow: hidden;
 						SELECT * FROM (
 							SELECT DISTINCT media.media_id,media_uri, preview_uri,media_type, 
 								MCZBASE.get_media_descriptor(media.media_id) as alt,
-								MCZBASE.get_medialabel(media.media_id,'width') as width,
 								MCZBASE.get_media_credit(media.media_id) as credit
 							FROM
 								underscore_collection
@@ -678,7 +675,7 @@ overflow: hidden;
 											<div class="col-12 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2 h-auto">
 													<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-													<div class="vslider w-100 float-left" style="height: 430px;" id="vslider-base">
+													<div class="vslider w-100 float-left" id="vslider-base">
 														<cfset i=1>
 														<cfloop query="agentImagesForCarousel">
 															<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -778,7 +775,7 @@ overflow: hidden;
 											<div class="col-12 #colClass# mx-md-auto mt-3">
 												<div class="carousel_background border float-left w-100 p-2">
 													<h3 class="mx-2 text-center">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-														<div class="vslider w-100 float-left" style="height: 430px;" id="vslider-base">
+														<div class="vslider w-100 float-left" id="vslider-base">
 															<cfset i=1>
 															<cfloop query="localityImagesForCarousel">
 																<cfset alttext = localityImagesForCarousel['alt'][i]>
