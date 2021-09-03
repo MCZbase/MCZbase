@@ -39,8 +39,8 @@ Metadata page with summary information on label reports.
 	from cf_report_sql 
 	where report_name not like 'mcz_%' 
 		and report_name like '%\_\_%'
+		escape '\'
 	order by report_name
-	escape '\'
 </cfquery>
 <!-- Obtain a list of collection codes for which this user has expressed a preference for seeing label reports for -->
 <cfquery name="userColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="userColls_result">
@@ -69,6 +69,7 @@ Metadata page with summary information on label reports.
 						<th>Shown</th>
 						<th>Report name</th>
 						<th>Description</th>
+						<th>Use</th>
 						<th>Part Limit</th>
 						<th>Preserve Limit</th>
 						<th>Format</th>
@@ -108,6 +109,9 @@ Metadata page with summary information on label reports.
 								</cfif>
 							</td>
 							<td>#description#</td>
+							<td>
+								#left(report_name,find('_',report_name))#
+							</td>
 							<td>#partLimit#</td>
 							<td>#preserveLimit#</td>
 							<td>#report_format#</td>
