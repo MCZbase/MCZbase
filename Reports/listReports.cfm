@@ -62,7 +62,7 @@ Metadata page with summary information on label reports.
 						<th>Part Limit</th>
 						<th>Preserve Limit</th>
 						<th>Format</th>
-					<tr>
+					</tr>
 					<cfloop query="reports">
 						<cfif partnamelimit GT 0><cfset partLimit = "Yes"><cfelse><cfset partLimit = ""></cfif>
 						<cfif preservemethodlimit GT 0><cfset preserveLimit = "Yes"><cfelse><cfset preserveLimit = ""></cfif>
