@@ -1272,8 +1272,8 @@ const slideHandlers = {
   }
 }
 
-slideHandlers.nextSlide('#next-slide');
-slideHandlers.prevSlide('#prev-slide');
+slideHandlers.nextSlide('##next-slide');
+slideHandlers.prevSlide('##prev-slide');
 
 // Dynamic slideshow height
 
