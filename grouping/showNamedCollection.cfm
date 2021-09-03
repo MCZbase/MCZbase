@@ -1232,10 +1232,10 @@ right: 0;
         }
       }
     )
-    window.baseSlider = baseSlider[0]
+    window.baseSlider = baseSlider
     // custom controls
     $input.addEventListener('change', function (e) {
-      baseSlider[].next(
+      baseSlider.next(
         parseInt(e.target.value)
       )
     }, false)
