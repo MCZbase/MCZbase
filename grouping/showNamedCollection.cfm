@@ -856,8 +856,9 @@ overflow: hidden;
 
 		
 						
-						<section id="mapper" class="row h-100">
-							<h2 class="mt-4 col-12 text-left">Heat Map Example</h2>
+						<section class="row h-100">
+							<div class="col-12">
+							<h2 class="mt-4 text-left">Heat Map Example</h2>
 								<script>
 									let map, heatmap;
 								function initMap() {
@@ -926,6 +927,7 @@ overflow: hidden;
 									<button id="change-opacity">Change opacity</button>
 								</div>
 								<div id="map"></div>
+							</div>
 <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 <script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization&v=weekly" async></script>
 						</section>
