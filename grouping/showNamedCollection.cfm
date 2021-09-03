@@ -747,20 +747,18 @@ right: 0;
 											<div class="w-100 float-left px-3 h-auto">
 												<p class="mt-2">#trimmedAltText#</p>
 												<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-												<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
-													<!---<cfif len(specimenImagesForCarousel['width'][i]) GT 2000>
+												<!---<cfif len(specimenImagesForCarousel['width'][i]) GT 2000>
 														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
 													<cfelse>
-														
 													</cfif>--->
-												
 												<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
 												<cfif fileExists(#src#)>
-													<img src="#src#" class="mx-auto" alt="#trimmedAltText#" width="#specimenImagesForCarousel['width'][i]#" height="#specimenImagesForCarousel['first_height'][i]#">
+													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
+														<img src="#src#" class="mx-auto" alt="#trimmedAltText#" width="#specimenImagesForCarousel['width'][i]#" height="#specimenImagesForCarousel['first_height'][i]#">
+													</a>
 												<cfelse>
-													<h2 class="bg-dark h-100 mt-5 mx-auto">No image is stored</h2>
+													<h2 class="bg-dark h-100 mt-5 mx-auto" style="padding-top: 42%;font-size: 2.2rem;">No image is stored</h2>
 												</cfif>
-												</a>
 											</div>
 											<cfset i=i+1>
 										</cfloop>
