@@ -429,7 +429,7 @@ overflow: hidden;
 						WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 					</cfquery>
 					<cfquery name="maxheight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="maxheight_resultt">
-	   				select *(MCZBASE.get_medialabel(media.media_id,'height') as maximumheight
+	   				select top 2 MCZBASE.get_medialabel(media.media_id,'height') as points
 						  from underscore_collection
 								left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 								left join cataloged_item
@@ -441,10 +441,7 @@ overflow: hidden;
 								AND media_relations.media_relationship = 'shows cataloged_item'
 								AND media.media_type = 'image'
 								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-						order by to_number(maximumheight) desc  
-						) where rownum < 2
-						  
-					
+						order by points desc  
 					</cfquery>
 					<cfif specimenImagesForCarousel.recordcount GT 0>
 						<cfset otherImageTypes = otherImageTypes>
@@ -612,7 +609,7 @@ overflow: hidden;
 				
 				<cfset i=1>
 				<cfloop query="maxheight">
-					#maxheight.maximumheight#
+					#maxheight.points#
 					<cfset i = i+1>
 				</cfloop>
 				
