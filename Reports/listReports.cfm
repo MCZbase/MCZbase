@@ -115,7 +115,7 @@ Metadata page with summary information on label reports.
 								#left(report_name,find('_',report_name)-1)#
 							</td>
 							<td>
-								<cfif find('_Type_',report_name) GT 0><strong>Yes</strong></cfif>
+								<cfif find('_Type',report_name) GT 0><strong>Yes</strong></cfif>
 							</td>
 							<td>#partLimit#</td>
 							<td>#preserveLimit#</td>
