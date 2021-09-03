@@ -759,8 +759,12 @@ right: 0;
 														<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 													</a>
 												<cfelse>
-													<ul class="bg-dark h-100 px-0 list-unstyled">
-														<li><h2 class="text-white mx-auto" style="padding-top: 25%;font-size: 2rem;">No image is stored</h2></li>
+													<ul class="bg-dark px-0 list-unstyled">
+														<li>
+															<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
+																No image is stored
+															</h3>
+														</li>
 													</ul>
 												</cfif>
 											</div>
