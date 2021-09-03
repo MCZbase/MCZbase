@@ -226,6 +226,7 @@
     <cfelse>
         <a href='report_printer.cfm?&show_all=false&collection_object_id=#collection_object_id#&container_id=#container_id#&transaction_id=#transaction_id#&sort=#sort#'>Show just reports for my collections</a>
     </cfif>
+	<div>See the <a href="/Reports/listReports.cfm" target="_blank">summary of all reports</a> to see descriptions of all reports.</div>
 </cfif>
 <!------------------------------------------------------>
 <cfif #action# is "print">
