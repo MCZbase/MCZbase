@@ -1207,7 +1207,7 @@ right: 0;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: '70rem',
+		height: '45rem',
         after: function (index, length) {
           $input.value = index
         }
