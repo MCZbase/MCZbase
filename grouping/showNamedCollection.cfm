@@ -410,7 +410,7 @@ overflow: hidden;
 							SELECT DISTINCT media.media_id,media.media_uri, 
 							MCZBASE.get_media_descriptor(media.media_id) as alt, 
 							MCZBASE.get_medialabel(media.media_id,'width') as width,
-							MCZBASE.get_maxheightmediaset(media.media_id,'height') as maxheight,
+							MCZBASE.get_maxheightmediaset(media.media_id) as maxheight,
 							MCZBASE.get_media_credit(media.media_id) as credit
 							FROM
 								underscore_collection
@@ -598,7 +598,7 @@ overflow: hidden;
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-										<div class="vslider w-100 float-left" style="height: #specimenImagesForCarousel['maxheight']#" id="vslider-base">
+										<div class="vslider w-100 float-left" style="height: #specimenImagesForCarousel.maxheight#" id="vslider-base">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<cfset alttext = specimenImagesForCarousel['alt'][i]>
