@@ -305,7 +305,7 @@ overflow: hidden;
 							</div>
 						</div>
 						<div class="row mx-0">
-<!---							<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT DISTINCT flat.guid, flat.scientific_name
 									FROM
 										underscore_relation 
@@ -419,7 +419,7 @@ overflow: hidden;
 										</div>
 									</div>
 								</div>
-							</section>--->
+							</section>
 							<!--- Grid Related code is in section above (fills into id = "jqxgrid" div) along with search handlers --->
 						</div>
 						<!---end specimen grid---> 
@@ -447,7 +447,7 @@ overflow: hidden;
 						WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 					</cfquery>
 					<cfif specimenImagesForCarousel.recordcount GT 0>
-						<cfset otherImageTypes = otherImageTypes + 1>
+						<cfset otherImageTypes = otherImageTypes>
 					</cfif>
 					<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 						SELECT * FROM (
