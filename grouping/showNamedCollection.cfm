@@ -595,8 +595,8 @@ overflow: hidden;
 			
 			
 					<div class="row mx-3 mt-3">
-						<div class="col-12 col-md-6 float-left mt-3 mb-3">
-							<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
+						<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
+							<div class="col-12 col-md-6 float-left mt-3 mb-3">
 								<h2 class="mt-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="carousel_background border float-left w-100 p-2">
@@ -907,10 +907,9 @@ overflow: hidden;
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
 							<!---///////////////////////////////--->
 							<!---/////////// ABOVE /////////////--->
-							<!---///////////////////////////////--->
-							</cfif>										
-						</div><!--- end images & heat map---> 	
-				
+							<!---///////////////////////////////--->										
+							</div><!--- end images & heat map---> 	
+						</cfif>
 						<div class="col mt-4 float-left"> 
 							<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 							<div class="my-2 py-3 border-bottom-black">
