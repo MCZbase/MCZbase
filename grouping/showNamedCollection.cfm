@@ -530,24 +530,7 @@ right: 0;
 							) 
 						WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 					</cfquery>
-					<cfquery name="firstSpecImageForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="firstSpecImageForCarousel_result">
-						SELECT * FROM (
-							SELECT DISTINCT media.media_id,media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
-							FROM
-								underscore_collection
-								left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-								left join cataloged_item
-									on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-								left join media_relations
-									on media_relations.related_primary_key = underscore_relation.collection_object_id
-								left join media on media_relations.media_id = media.media_id
-							WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								AND media_relations.media_relationship = 'shows cataloged_item'
-								AND media.media_type = 'image'
-								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-							) 
-						WHERE rownum =1
-					</cfquery>
+				
 					<cfif specimenImagesForCarousel.recordcount GT 0>
 						<cfset otherImageTypes = otherImageTypes>
 					</cfif>
@@ -765,14 +748,15 @@ right: 0;
 												<p class="mt-2">#trimmedAltText#</p>
 												<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 												<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
-<!---													<cfif len(specimenImagesForCarousel['width'][i]) GT 2000>
+													<!---<cfif len(specimenImagesForCarousel['width'][i]) GT 2000>
 														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
 													<cfelse>
 														
 													</cfif>--->
-													<cfset src="#firstSpecImageForCarousel['media_uri'][i]#">
-													<cfset srcClick="#specimenImagesForCarousel['media_uri'][i]#">
-													<img src="#srcClick#" data-src="#srcClick#" class="w-100" alt="#trimmedAltText#">
+												
+											
+													<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
+													<img src="#src#" class="w-100" alt="#trimmedAltText#">
 												</a>
 											</div>
 											<cfset i=i+1>
@@ -1198,15 +1182,12 @@ right: 0;
 						<!--- end rowEverythihngElse--->
 					</div>
 
-
 				</div>
 				</article>
 			</div>
 		</main>
 	</cfloop>
 <script>
-	
-
 
 (function () {
   "use strict";
