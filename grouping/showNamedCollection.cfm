@@ -441,7 +441,8 @@ overflow: hidden;
 								AND media_relations.media_relationship = 'shows cataloged_item'
 								AND media.media_type = 'image'
 								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-						  order by to_number(maximumheight) desc     
+						  order by to_number(maximumheight) desc  
+						first first 1 row
 					</cfquery>
 					<cfif specimenImagesForCarousel.recordcount GT 0>
 						<cfset otherImageTypes = otherImageTypes>
