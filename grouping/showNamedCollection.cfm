@@ -207,11 +207,10 @@ overflow: hidden;
 .vslider {
   color: #191717;
   background-color: #fff;
-  font-size: 1.2em;
   font-weight: 600;
   text-align: center;
-padding-bottom: 1em;
-  margin-bottom: 1em;
+/*padding-bottom: 1em;*/
+  margin-bottom: .75rem;
 }
 /* custom status and navigation */
 .vslider-customstatus .vslider-status > li {
