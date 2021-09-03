@@ -598,7 +598,7 @@ overflow: hidden;
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-										<div class="vslider w-100 float-left" style="height: #specimenImagesForCarousel.maxheight#" id="vslider-base">
+										<div class="vslider w-100 float-left" id="vslider-base">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -1089,6 +1089,7 @@ overflow: hidden;
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input')
+	var #toScript(specimenImagesForCarousel.maxheight, "maxheight")#;
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base'), {
         autoplay: false,
@@ -1097,8 +1098,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		//height: '45rem',
-		height: 'auto',
+		height: maxheight,
         after: function (index, length) {
           $input.value = index
         }
