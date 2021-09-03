@@ -62,13 +62,6 @@ limitations under the License.
 	top: 10px;
 	z-index: 5;
 }
-.vslider-styling {
-/*	font-size: 95%;
-	background-color: #f5f5f5;
-  	border-right:1px solid #dee2e6 !important;
-	border-left:1px solid #dee2e6 !important;
-	border-top:1px solid #dee2e6 !important;*/
-}
 .vslider {
   position: relative;
 overflow: hidden;
@@ -99,23 +92,19 @@ overflow: hidden;
   opacity: 0;
   transform: translateX(-10%);
 }
-
 .vslider-item[aria-hidden='false'] {
   z-index: 30;
   opacity: 1.0;
   transform: translateX(0);
 }
-
 .vslider-before {
   z-index: 10;
   opacity: 0;
   transform: translateX(10%);
 }
-
 .vslider-direct {
   transition: none;
 }
-
 .vslider-status {
   display: block;
   list-style: none;
@@ -128,7 +117,6 @@ overflow: hidden;
   padding: 0;
   margin: 0;
 }
-
 .vslider-status-item {
   cursor: pointer;
   display: inline-block;
@@ -144,7 +132,6 @@ overflow: hidden;
   transition: 0.3s;
   opacity: 0.3;
 }
-
 .vslider-status-item:hover,
 .vslider-status-item:focus,
 .vslider-status-item[aria-selected='true'] {
@@ -159,7 +146,6 @@ overflow: hidden;
   left: 0;
   right: 0;
 }
-
 .vslider-prev,
 .vslider-next {
   cursor: pointer;
@@ -175,23 +161,19 @@ overflow: hidden;
   background: none;
   opacity: 0.6;
 }
-
 .vslider-prev:hover,
 .vslider-prev:focus,
 .vslider-next:hover,
 .vslider-next:focus {
   opacity: 1;
 }
-
 .vslider-next {
   left: auto;
   right: 0;
 }
-
 .vslider-prev:after {
   content: '<';
 }
-
 .vslider-next:after {
   content: '>';
 }
@@ -225,15 +207,11 @@ overflow: hidden;
 .vslider-customstatus .vslider-next {
   border-left: 1em solid #000;
 }
-/* bg */
-.vslider-background span {
-  background: #000 no-repeat center;
-  background-size: contain;
-}
-/* images */
-.vslider-images img {
-  display: block;
-  margin: 0 auto;
+.custom-input {
+	padding: .5rem;
+	margin-top:.25rem;
+	text-align: center;
+	width:53px; 
 }
 
 /* custom animation */
@@ -389,6 +367,7 @@ right: 0;
 							</div>
 						</div>
 						<div class="row mx-0">
+							<!---for specimen record grid--->
 							<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT DISTINCT flat.guid, flat.scientific_name
 									FROM
@@ -399,6 +378,7 @@ right: 0;
 										and flat.guid is not null
 									ORDER BY flat.guid asc
 								</cfquery>
+								<!---for specimen image count--->
 							<cfquery name="specimenImgs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT DISTINCT media.media_uri
 									FROM
@@ -510,7 +490,7 @@ right: 0;
 					</div>
 					<cfset maxRandomImages = 5>
 					<cfset otherImageTypes = 0>
-					<!--- obtain a random set of specimen images, limited to a small number --->
+					<!--- obtain a random set of specimen images, limited to a small number/for carousel --->
 					<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 						SELECT * FROM (
 							SELECT DISTINCT media.media_id,media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_medialabel(media.media_id,'height') as first_height,MCZBASE.get_media_credit(media.media_id) as credit
@@ -679,34 +659,6 @@ right: 0;
 						) 
 						WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 					</cfquery>
-					<!--- TODO: Remove localityImagesDesc??? It doesn't appear to be used, and returns descriptions for a different set of random locality images than localityOmagesForCarousel --->
-					<cfquery name="localityImagesDesc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
-						SELECT * FROM (
-							SELECT DISTINCT media.media_id,
-								MCZBASE.get_media_descriptor(media.media_id) as alt,
-								MCZBASE.get_media_credit(media.media_id) as credit
-							FROM
-								underscore_collection
-								left join underscore_relation 
-									on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-									on underscore_relation.collection_object_id = flat.collection_object_id
-								left join locality
-									on locality.locality_id = flat.locality_id 
-								left join media_relations 
-									on locality.locality_id = media_relations.related_primary_key 
-								left join media 
-									on media_relations.media_id = media.media_id
-							WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								AND flat.guid IS NOT NULL
-								AND media_relations.media_relationship = 'shows locality'
-								AND media.media_type = 'image'
-								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-								AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-							ORDER BY DBMS_RANDOM.RANDOM
-						) 
-						WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
-					</cfquery>
 					<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 						SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
 						FROM locality
@@ -728,7 +680,7 @@ right: 0;
 					<div class="row mx-3 mt-3">
 					<div class="col-12 col-md-6 float-left mt-3 mb-3">
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
-							<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
+							<h2 class="mt-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
 					
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 								<div class="carousel_background border float-left w-100 p-2">
@@ -747,12 +699,9 @@ right: 0;
 											<div class="w-100 float-left px-3 h-auto">
 												<p class="mt-2">#trimmedAltText#</p>
 												<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-												<!---<cfif len(specimenImagesForCarousel['width'][i]) GT 2000>
-														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
-													<cfelse>
-													</cfif>--->
-												<cfset width=specimenImagesForCarousel['width'][i]>
-												<cfset height=specimenImagesForCarousel['first_height'][i]>
+												<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
+												<!---<cfset width=specimenImagesForCarousel['width'][i]>
+												<cfset height=specimenImagesForCarousel['first_height'][i]>--->
 												<cfset src=specimenImagesForCarousel['media_uri'][i]>
 												<cfif fileExists(#src#)>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black w-100" title="click to open full image">
@@ -773,7 +722,7 @@ right: 0;
 									  </div>
 									<div class="custom-nav text-center mb-1 bg-white pt-0 pb-1">
 										<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-										<input type="number" id="custom-input" class="border border-light p-2 mt-1 text-center" style="width:53px;" placeholder="index">
+										<input type="number" id="custom-input" placeholder="index">
 										<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
 									  </div>
 								</div>
