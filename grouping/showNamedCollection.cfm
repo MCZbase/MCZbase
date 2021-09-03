@@ -758,7 +758,7 @@ right: 0;
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100 w-100" title="click to open full image">
 														<img src="#src#" class="mx-auto" alt="#trimmedAltText#" 
 													<cfif height lt 650>height="auto" width="#width#"
-													<cfselseif height gt 650>height="650" width="auto"
+													<cfelseif height gt 650>height="650" width="auto"
 													<cfelse>
 														
 													</cfif>
