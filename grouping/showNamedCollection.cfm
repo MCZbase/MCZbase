@@ -1057,7 +1057,7 @@ overflow: hidden;
 		</main>
 	</cfloop>
 <script>
-
+///////////below is for specimen image slider
 (function () {
   "use strict";
   function init() {
@@ -1089,206 +1089,116 @@ overflow: hidden;
     document.getElementById('custom-next').addEventListener('click', function (e) {
       baseSlider.next()
     }, false)
-
-	  vanillaSlider(
-      document.getElementById('vslider-norotation'), {
-        rotation: false,
-        initialTimeout: 1000,
-        timeout: 2000
+  }
+  document.addEventListener('DOMContentLoaded', init, false);
+}());
+///////////below is for agent image slider
+(function () {
+  "use strict";
+  function init() {
+    var $input = document.getElementById('custom-input1')
+    var baseSlider = vanillaSlider(
+      document.getElementById('vslider-base1'), {
+        autoplay: false,
+        navigation: false,
+        keyboardnavigation: false,
+        swipenavigation: false,
+        wheelnavigation: true,
+        status: false,
+		height: '45rem',
+        after: function (index, length) {
+          $input.value = index
+        }
       }
     )
+    window.baseSlider = baseSlider
+    // custom controls
+    $input.addEventListener('change', function (e) {
+      baseSlider.next(
+        parseInt(e.target.value)
+      )
+    }, false)
+    document.getElementById('custom-prev1').addEventListener('click', function (e) {
+      baseSlider.prev()
+    }, false)
+    document.getElementById('custom-next1').addEventListener('click', function (e) {
+      baseSlider.next()
+    }, false)
   }
-
   document.addEventListener('DOMContentLoaded', init, false);
-
 }());
-	
-//(function () {
-//  "use strict";
-//  // example script
-//  function init() {
-//    // multiple
-////    window.defaultSliders = vanillaSlider(
-////      document.querySelectorAll('.vslider-default')
-////    )
-////    console.log('window.defaultSliders:', window.defaultSliders)
-//    var $input = document.getElementById('custom-input1')
-//    var baseSlider = vanillaSlider(
-//      document.getElementById('vslider-base1'), {
-//        autoplay: false,
-//        navigation: false,
-//        keyboardnavigation: false,
-//        swipenavigation: false,
-//        wheelnavigation: true,
-//        status: false,
-//		height: '30rem',
-//        after: function (index, length) {
-//          $input.value = index +1
-//        }
-//      }
-//    )
-//    window.baseSlider = baseSlider
-//    // custom controls
-//    $input.addEventListener('change', function (e) {
-//      baseSlider.next(
-//        parseInt(e.target.value)
-//      )
-//    }, false)
-//    document.getElementById('custom-prev1').addEventListener('click', function (e) {
-//      baseSlider.prev()
-//    }, false)
-//    document.getElementById('custom-next1').addEventListener('click', function (e) {
-//      baseSlider.next()
-//    }, false)
-//    vanillaSlider(
-//      document.getElementById('vslider-custom1'), {
-//        height: '20em',
-//        statusContent: function (i, all) {
-//          return i + 1
-//        },
-//      }
-//    )
-//  }
-//  document.addEventListener('DOMContentLoaded', init, false);
-//	}());	
-//	
-//(function () {
-//  "use strict";
-//  // example script
-//  function init() {
-//    // multiple
-////    window.defaultSliders = vanillaSlider(
-////      document.querySelectorAll('.vslider-default')
-////    )
-////    console.log('window.defaultSliders:', window.defaultSliders)
-//    var $input = document.getElementById('custom-input2')
-//    var baseSlider = vanillaSlider(
-//      document.getElementById('vslider-base2'), {
-//        autoplay: false,
-//        navigation: false,
-//        keyboardnavigation: false,
-//        swipenavigation: false,
-//        wheelnavigation: true,
-//		height: '30rem',
-//        status: false,
-//        after: function (index, length) {
-//          $input.value = index +1
-//        }
-//      }
-//    )
-//    window.baseSlider = baseSlider
-//    // custom controls
-//    $input.addEventListener('change', function (e) {
-//      baseSlider.next(
-//        parseInt(e.target.value)
-//      )
-//    }, false)
-//    document.getElementById('custom-prev2').addEventListener('click', function (e) {
-//      baseSlider.prev()
-//    }, false)
-//    document.getElementById('custom-next2').addEventListener('click', function (e) {
-//      baseSlider.next()
-//    }, false)
-//    vanillaSlider(
-//      document.getElementById('vslider-custom2'), {
-//        height: '20em',
-//        statusContent: function (i, all) {
-//          return i + 1
-//        },
-//      }
-//    )
-//  }
-//  document.addEventListener('DOMContentLoaded', init, false);
-//	}());
-//	
-//(function () {
-//  "use strict";
-//  // example script
-//  function init() {
-//    // multiple
-//    window.defaultSliders = vanillaSlider(
-//      document.querySelectorAll('.vslider-default')
-//    )
-//    console.log('window.defaultSliders:', window.defaultSliders)
-//    var $input = document.getElementById('custom-input3')
-//    var baseSlider = vanillaSlider(
-//      document.getElementById('vslider-base3'), {
-//        autoplay: false,
-//        navigation: false,
-//        keyboardnavigation: false,
-//        swipenavigation: false,
-//        wheelnavigation: true,
-//        status: false,
-//		height: '30rem',
-//        after: function (index, length) {
-//          $input.value = index +1
-//        }
-//      }
-//    )
-//    window.baseSlider = baseSlider
-//    // custom controls
-//    $input.addEventListener('change', function (e) {
-//      baseSlider.next(
-//        parseInt(e.target.value)
-//      )
-//    }, false)
-//    document.getElementById('custom-prev3').addEventListener('click', function (e) {
-//      baseSlider.prev()
-//    }, false)
-//    document.getElementById('custom-next3').addEventListener('click', function (e) {
-//      baseSlider.next()
-//    }, false)
-//    vanillaSlider(
-//      document.getElementById('vslider-custom3'), {
-//        height: '20em',
-//        statusContent: function (i, all) {
-//          return i + 1
-//        },
-//      }
-//    )
-//  }
-//  document.addEventListener('DOMContentLoaded', init, false);
-//	}());	
-/*!
-/*!
- * vanillaSlider
- */
-//;
-registerListener('load', lazyLoad);
-registerListener('scroll', lazyLoad);
-
-function lazyLoad(){
-	    var lazy = 
-	    document.getElementsByClassName('vslider-item');
-	
-	    for(var i=0; i<lazy.length; i++) {
-	        if(isInViewport(lazy[i])){
-               lazy[i].src =
-                lazy[i].getAttribute('data-src');
-            }
-	    }
-	 }
-
-function isInViewport(el){
-    var rect = el.getBoundingClientRect();
-    
-    return (
-        rect.bottom >= 0 && 
-        rect.right >= 0 && 
-        rect.top <= (window.innerHeight || document.documentElement.clientHeight) && 
-        rect.left <= (window.innerWidth || document.documentElement.clientWidth)
-     );
-}
-
-function registerListener(event, func) {
-    if (window.addEventListener) {
-        window.addEventListener(event, func)
-    } else {
-        window.attachEvent('on' + event, func)
-    }
-}
-	
-	
+///////////below is for collecting event image slider
+(function () {
+  "use strict";
+  function init() {
+    var $input = document.getElementById('custom-input2')
+    var baseSlider = vanillaSlider(
+      document.getElementById('vslider-base2'), {
+        autoplay: false,
+        navigation: false,
+        keyboardnavigation: false,
+        swipenavigation: false,
+        wheelnavigation: true,
+        status: false,
+		height: '45rem',
+        after: function (index, length) {
+          $input.value = index
+        }
+      }
+    )
+    window.baseSlider = baseSlider
+    // custom controls
+    $input.addEventListener('change', function (e) {
+      baseSlider.next(
+        parseInt(e.target.value)
+      )
+    }, false)
+    document.getElementById('custom-prev2').addEventListener('click', function (e) {
+      baseSlider.prev()
+    }, false)
+    document.getElementById('custom-next2').addEventListener('click', function (e) {
+      baseSlider.next()
+    }, false)
+  }
+  document.addEventListener('DOMContentLoaded', init, false);
+}());
+///////////below is for locality image slider
+(function () {
+  "use strict";
+  function init() {
+    var $input = document.getElementById('custom-input2')
+    var baseSlider = vanillaSlider(
+      document.getElementById('vslider-base2'), {
+        autoplay: false,
+        navigation: false,
+        keyboardnavigation: false,
+        swipenavigation: false,
+        wheelnavigation: true,
+        status: false,
+		height: '45rem',
+        after: function (index, length) {
+          $input.value = index
+        }
+      }
+    )
+    window.baseSlider = baseSlider
+    // custom controls
+    $input.addEventListener('change', function (e) {
+      baseSlider.next(
+        parseInt(e.target.value)
+      )
+    }, false)
+    document.getElementById('custom-prev2').addEventListener('click', function (e) {
+      baseSlider.prev()
+    }, false)
+    document.getElementById('custom-next2').addEventListener('click', function (e) {
+      baseSlider.next()
+    }, false)
+  }
+  document.addEventListener('DOMContentLoaded', init, false);
+}());
+////////////////
+  // More code for the Vanilla javascript carousel slider for images 	
 (function () {
   "use strict";
   // Polyfill for e.g. IE
