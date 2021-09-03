@@ -441,7 +441,7 @@ overflow: hidden;
 								AND media_relations.media_relationship = 'shows cataloged_item'
 								AND media.media_type = 'image'
 								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-						  order by to_number(MCZBASE.get_medialabel(media.media_id,'height')) desc     
+						  order by to_number(maximumheight)) desc     
 						) where rownum < 2	
 					</cfquery>
 					<cfif specimenImagesForCarousel.recordcount GT 0>
