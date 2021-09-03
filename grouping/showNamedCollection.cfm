@@ -722,7 +722,7 @@ right: 0;
 									  </div>
 									<div class="custom-nav text-center mb-1 bg-white pt-0 pb-1">
 										<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-										<input type="number" id="custom-input" placeholder="index">
+										<input type="number" id="custom-input" class="custom-input border border-light" placeholder="index">
 										<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
 									  </div>
 								</div>
