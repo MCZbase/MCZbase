@@ -27,8 +27,8 @@ Metadata page with summary information on label reports.
 	select 
 		report_name,
 		substr(report_name,instr(report_name,'__')+2) departments,
-		nvl(instr(SQL_TEXT,'-- #limit_part_name#'),0) partnamelimit,
-		nvl(instr(SQL_TEXT,'-- #limit_preserve_method#'),0) preservemethodlimit,
+		nvl(instr(SQL_TEXT,'-- ##limit_part_name##'),0) partnamelimit,
+		nvl(instr(SQL_TEXT,'-- ##limit_preserve_method##'),0) preservemethodlimit,
 		report_template,
 		pre_function,
 		report_format,
