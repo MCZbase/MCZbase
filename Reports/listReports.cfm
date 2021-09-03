@@ -74,7 +74,7 @@ Metadata page with summary information on label reports.
 							<td>#description#</td>
 							<td>#partLimit#</td>
 							<td>#preserveLimit#</td>
-							<td>#reportformat#</td>
+							<td>#report_format#</td>
 						<tr>
 					</cfloop>
 					</tbody>
