@@ -110,7 +110,7 @@ Metadata page with summary information on label reports.
 							</td>
 							<td>#description#</td>
 							<td>
-								#left(report_name,find('_',report_name))#
+								#left(report_name,find('_',report_name)-1)#
 							</td>
 							<td>#partLimit#</td>
 							<td>#preserveLimit#</td>
