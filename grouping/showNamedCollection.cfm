@@ -733,7 +733,7 @@ right: 0;
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 								<div class="carousel_background border float-left w-100 p-2">
 									<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-									  <div class="vslider w-100 float-left" id="vslider-base">
+									  <div class="vslider w-100 float-left" style="height: 630px;" id="vslider-base">
 										 <cfset i=1>
 										<cfloop query="specimenImagesForCarousel">
 										<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -753,8 +753,13 @@ right: 0;
 													</cfif>--->
 												<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
 												<cfif fileExists(#src#)>
-													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
-														<img src="#src#" class="mx-auto" alt="#trimmedAltText#" width="#specimenImagesForCarousel['width'][i]#" height="#specimenImagesForCarousel['first_height'][i]#">
+													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100 w-100" title="click to open full image">
+														<img src="#src#" class="mx-auto" alt="#trimmedAltText#" 
+													<cfif #specimenImagesForCarousel['first_height'][i]# lt 650>height="auto" width="#specimenImagesForCarousel['width'][i]"
+													<cfselseif #specimenImagesForCarousel['first_height'][i]# gt 650>height="650" width="auto"
+													<cfelse>
+														
+													</cfif>
 													</a>
 												<cfelse>
 													<ul class="bg-dark h-100 px-0 list-unstyled">
