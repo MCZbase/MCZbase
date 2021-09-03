@@ -47,9 +47,11 @@ Metadata page with summary information on label reports.
 	WHERE 
 		username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 </cfquery>
+<cfset collList = []>
 <cfloop query="userColls">
-	<cfset userCollsArray = ListToArray(userColls.reportprefs,',')>
+	<cfset collList = ListToArray(userColls.reportprefs,',')>
 </cfloop>
+<cfset added = ArrayPrepend(collList,"All") >
 
 <cfoutput>
 	<main class="container py-3" id="content">
@@ -76,12 +78,17 @@ Metadata page with summary information on label reports.
 						<cfif preservemethodlimit GT 0><cfset preserveLimit = "Yes"><cfelse><cfset preserveLimit = ""></cfif>
 						<cfset departmentsArray = ListToArray(departments,'_')>
 						<cfset highlight="">
-						<cfloop array="#userCollsArray#" index="idx">
-							<cfif ArrayContains(departmentsArray,idx)><cfset highlight = "yes"><cfelse><cfset highlight=""></cfif>
+						<!---  If the report name includes a collection code in the user's list, then note that it is shown. --->
+						<cfloop index="element" array="#departmentsArray#">
+							<cfloop index="cel" array="#collList#">
+								<cfif cel EQ element >
+									<cfset highlight = "yes" >
+								</cfif>
+							</cfloop>
 						</cfloop>
 						<tr>
 							<cfif highlight EQ "yes">
-								<td>#replace(departments,'_',',')#</td>
+								<td><strong>#replace(departments,'_',', ')#</strong></td>
 							<cfelse>
 								<td>#replace(departments,'_',',')#</td>
 							</cfif>
