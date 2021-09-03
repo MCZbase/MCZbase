@@ -442,7 +442,6 @@ overflow: hidden;
 								AND media.media_type = 'image'
 								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 						  order by to_number(maximumheight) desc     
-						limit 1	
 					</cfquery>
 					<cfif specimenImagesForCarousel.recordcount GT 0>
 						<cfset otherImageTypes = otherImageTypes>
@@ -608,8 +607,13 @@ overflow: hidden;
 						<cfset otherImageTypes = otherImageTypes + 1>
 					</cfif>
 				
+				<cfset i=1>
+				<cfloop query="maxheight">
+					#maxheight.maximumheight#
+					<cfset i = i+1>
+				</cfloop>
 				
-						#maxheight.height#
+					
 			
 					<div class="row mx-3 mt-3">
 						<div class="col-12 col-md-6 float-left mt-3 mb-3">
