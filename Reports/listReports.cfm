@@ -76,7 +76,7 @@ Metadata page with summary information on label reports.
 						<cfif preservemethodlimit GT 0><cfset preserveLimit = "Yes"><cfelse><cfset preserveLimit = ""></cfif>
 						<cfset departmentsArray = ListToArray(departments,'_')>
 						<cfloop array="#userCollsArray#" index="idx">
-							<cfif ArrayContainsNoCase(departmentsArray,idx)><highlight = "yes"><cfelse><highlight=""></cfif>
+							<cfif ArrayContains(departmentsArray,idx)><highlight = "yes"><cfelse><highlight=""></cfif>
 						</cfloop>
 						<tr>
 							<cfif highlight EQ "yes">
