@@ -429,7 +429,7 @@ overflow: hidden;
 						WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 					</cfquery>
 					<cfquery name="maxheight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="maxheight_resultt">
-	   				select * from 
+	   				select * as height from 
 						(select MCZBASE.get_medialabel(media.media_id,'height') as maximumheight
 						  from underscore_collection
 								left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -611,7 +611,7 @@ overflow: hidden;
 					</cfif>
 				
 				
-						#maxheight.*#
+						#maxheight.height#
 			
 					<div class="row mx-3 mt-3">
 						<div class="col-12 col-md-6 float-left mt-3 mb-3">
