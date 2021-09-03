@@ -412,15 +412,11 @@ padding-bottom: 1em;
 									});
 						</script>
 						<div class="col-12 my-2">
-							<h2 class="float-left">Specimen Records <span class="small">
-								<cfif oneOfUs eq 1>
-									<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(Link to manage
-								</cfif>
-								#specimens.recordcount# records
-								<cfif oneOfUs eq 1>
-									)</a>
-								</cfif>
-								</span></h2>
+							<h2 class="float-left">Specimen Records 
+								<span class="small">
+									<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">#specimens.recordcount#</a>
+								</span>
+							</h2>
 							<div id="btnContainer" class="ml-3 float-left"></div>
 						</div>
 						<section class="container-fluid">
@@ -436,6 +432,7 @@ padding-bottom: 1em;
 					</div>
 					<!---end specimen grid---> 
 				</div>
+				<cfset maxRandomImages = 5>
 				<cfset otherImageTypes = 0>
 				<!--- obtain a random set of specimen images, limited to a small number --->
 				<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
@@ -455,7 +452,7 @@ padding-bottom: 1em;
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 							ORDER BY DBMS_RANDOM.RANDOM
 						) 
-					WHERE rownum < 5
+					WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 				</cfquery>
 				<cfif specimenImagesForCarousel.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
@@ -484,7 +481,7 @@ padding-bottom: 1em;
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
-					WHERE rownum < 4
+					WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 				</cfquery>
 				<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
 					SELECT DISTINCT media.media_id
@@ -533,7 +530,7 @@ padding-bottom: 1em;
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
-					WHERE rownum < 5
+					WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 				</cfquery>
 				<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 					SELECT DISTINCT media.media_id
@@ -603,9 +600,10 @@ padding-bottom: 1em;
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
-					WHERE rownum < 4
+					WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 				</cfquery>
-					<cfquery name="localityImagesDesc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
+				<!--- TODO: Remove localityImagesDesc??? It doesn't appear to be used, and returns descriptions for a different set of random locality images than localityOmagesForCarousel --->
+				<cfquery name="localityImagesDesc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
 					SELECT * FROM (
 						SELECT DISTINCT media.media_id,
 							MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -630,7 +628,7 @@ padding-bottom: 1em;
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 						ORDER BY DBMS_RANDOM.RANDOM
 					) 
-					WHERE rownum < 4
+					WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 				</cfquery>
 				<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 					SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
@@ -646,7 +644,6 @@ padding-bottom: 1em;
 					WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 						and flat.guid IS NOT NULL
 						and lat_long.dec_lat is not null
-					
 				</cfquery>
 				<cfif localityCt.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>

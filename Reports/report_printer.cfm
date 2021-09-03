@@ -25,6 +25,13 @@
 		where 
 			sql_text like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%-- ##limit_preserve_method##%">
 	</cfquery>
+	<!--- Obtain a list of reports that contain the limit_part_name marker --->
+	<cfquery name="partnameRewrite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select report_name 
+		from cf_report_sql 
+		where 
+			sql_text like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%-- ##limit_part_name##%">
+	</cfquery>
 	<cfif isdefined("report") and len(#report#) gt 0>
 		<cfquery name="id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select report_id 
@@ -108,7 +115,18 @@
                 </cfloop>
                 <cfif len(#reportsWithPreserveRewrite#) GT 0>
                    <cfset reportsWithPreserveRewrite = "(#reportsWithPreserveRewrite#)">
-		</cfif>
+		          </cfif>
+                <!--- Compile a list of reports that cotain the limit_preserve_method marker, 
+                      for only those reports show the picklist of preservation types --->
+                <cfset reportsWithPartNameRewrite = "">
+                <cfset rwprSeparator = "">
+                <cfloop query="partnameRewrite">
+                   <cfset reportsWithPartNameRewrite = "#reportsWithPartNameRewrite##rwprSeparator##partnameRewrite.report_name#" >
+                   <cfset rwprSeparator = "|">
+                </cfloop>
+                <cfif len(#reportsWithPartNameRewrite#) GT 0>
+                   <cfset reportsWithPartNameRewrite = "(#reportsWithPartNameRewrite#)">
+		          </cfif>
                 <script>
                     	$("##report_id").change( function () { 
                            var sel = $(this).find(":selected").text();
@@ -117,6 +135,12 @@
                               $("##preserve_limit_section").show();
                            } else { 
                               $("##preserve_limit_section").hide();
+                           }
+                           var match = sel.match(/^#reportsWithPartNameRewrite#$/);
+                           if (match!=null && match.length>0) { 
+                              $("##part_name_limit_section").show();
+                           } else { 
+                              $("##part_name_limit_section").hide();
                            }
 
                            $.getJSON("/component/functions.cfc",
@@ -140,38 +164,60 @@
                            );
                        });
                 </script>
-                <script>
-			jQuery(document).ready(function() {
-                              $("##preserve_limit_section").hide();
-			});
-                </script>
-		    </td>
-	            <td style='vertical-align: top;'>
-		      <input type="submit" value="Print Report">
-                      <div id="preserve_limit_section">
-        	      <cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
-        		<label for="preserve_limit">Limit to Preservation Type:</label>                 
-		        <cfquery name="partsList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select count(*) as ct, preserve_method 
-							from specimen_part
-							left join cataloged_item on derived_from_cat_item = cataloged_item.collection_object_id
-							where 
-								cataloged_item.collection_object_id in
-								( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes"> )
-							group by preserve_method
-		        </cfquery>
-                        <select name="preserve_limit" id="preserve_limit">
-                           <option value="">All</option>
-  			   <cfloop query="partsList">
-                              <option value="#preserve_method#">#preserve_method# (#ct#)</option>
-			   </cfloop>
-                        </select>
-        	      </cfif>
-                      <p>Many reports are configured to limit printing of labels to a class of preservation type (e.g. fluid or dry), but will print one label for each preservation type in that class.  In some cases it is desirable to print reports for only one particular preservation type.  Reports that have been configured to also use this pick list can limit labels to a single preservation type (e.g 70% ethanol).  If you pick "All", one label will be printed for each part with the preservation type allowed for by the label (e.g. any fluid type).  If you pick a specific preservation type from the picklist, one label will be printed for each part with the preservation type that you picked.  This pick list further filters rather than overiding the preservation types allowed by the selected report, if you pick "Dry", or another preservation type that isn't normally included on that particular label report, for a Fluid label, you will get an empty report. </p>
-                      </div>
-                      <div id="report_description_section">Select a report from the list.</div>
-		    </td>
-		  </tr>
+				<script>
+					jQuery(document).ready(function() {
+						$("##preserve_limit_section").hide();
+						$("##part_name_limit_section").hide();
+					});
+				</script>
+			</td>
+			<td style='vertical-align: top;'>
+				<input type="submit" value="Print Report">
+					<div id="preserve_limit_section">
+						<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
+							<label for="preserve_limit">Limit to Preservation Type:</label>
+							<cfquery name="partsList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select count(*) as ct, preserve_method 
+								from specimen_part
+								left join cataloged_item on derived_from_cat_item = cataloged_item.collection_object_id
+								where 
+									cataloged_item.collection_object_id in
+									( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes"> )
+								group by preserve_method
+							</cfquery>
+							<select name="preserve_limit" id="preserve_limit">
+								<option value="">All</option>
+								<cfloop query="partsList">
+									<option value="#preserve_method#">#preserve_method# (#ct#)</option>
+								</cfloop>
+							</select>
+						</cfif>
+						<p>Many reports are configured to limit printing of labels to a class of preservation type (e.g. fluid or dry), but will print one label for each preservation type in that class.  In some cases it is desirable to print reports for only one particular preservation type.  Reports that have been configured to also use this pick list can limit labels to a single preservation type (e.g 70% ethanol).  If you pick "All", one label will be printed for each part with the preservation type allowed for by the label (e.g. any fluid type).  If you pick a specific preservation type from the picklist, one label will be printed for each part with the preservation type that you picked.  This pick list further filters rather than overiding the preservation types allowed by the selected report, if you pick "Dry", or another preservation type that isn't normally included on that particular label report, for a Fluid label, you will get an empty report. </p>
+					</div>
+					<div id="part_name_limit_section">
+						<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
+							<label for="part_name_limit">Limit to Part Name:</label>
+							<cfquery name="partNameList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select count(*) as ct, part_name
+								from specimen_part
+								left join cataloged_item on derived_from_cat_item = cataloged_item.collection_object_id
+								where 
+									cataloged_item.collection_object_id in
+									( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes"> )
+								group by part_name 
+							</cfquery>
+							<select name="part_name_limit" id="part_name_limit">
+								<option value="">All</option>
+								<cfloop query="partNameList">
+									<option value="#part_name#">#part_name# (#ct#)</option>
+								</cfloop>
+							</select>
+						</cfif>
+						<p>In some cases, for reports that print one label per part, it is desirable to print reports for only one part name.  Reports that have been configured to also use this pick list can limit labels to a single part name (e.g whole animal).  If you pick "All", one label will be printed for each part.  If you pick a specific part name from the picklist, one label will be printed for each part (possibly also limited to a selected preservation type) that you picked.  This pick list further filters rather than overiding the preservation types allowed by the selected report.</p>
+					</div>
+					<div id="report_description_section">Select a report from the list.</div>
+				</td>
+			</tr>
 		</table>
 	</form>
     <cfif NOT show_all is "true">
@@ -210,6 +256,17 @@
                         <cfset sql=replace(sql,"-- ##limit_preserve_method##","specimen_part.preserve_method = '#preserve_limit#' AND ","All")>
                    <cfelse>
                         <cfset sql=replace(sql,"-- ##limit_preserve_method##",'',"All")>
+                   </cfif>
+                </cfif>
+                <!---  Include comment and the special tag '#limit_part_name#' 
+                       to allow optional insertion of a preservation type limit on the report query 
+                       in the form "-- #limit_part_name#" as a where clause other than the last where clause in the query.
+                --->
+                <cfif sql contains "-- ##limit_part_name##">
+                   <cfif isdefined("part_name_limit") and len(#part_name_limit#) gt 0>
+                        <cfset sql=replace(sql,"-- ##limit_part_name##","specimen_part.part_name = '#part_name_limit#' AND ","All")>
+                   <cfelse>
+                        <cfset sql=replace(sql,"-- ##limit_part_name##",'',"All")>
                    </cfif>
                 </cfif>
 		<cfif sql contains "##container_id##">

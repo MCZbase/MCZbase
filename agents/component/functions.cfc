@@ -1067,29 +1067,23 @@ limitations under the License.
 						agent_name
 				</cfquery>
 				<form id="preferredNameForm">
+					<!--- edit preferred name only in single place above, where edit field is tied to duplicate check --->
 					<ul class="list-group list-group-horizontal form-row mx-0">
 						<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#preferredName.agent_name_id#">
 						<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#preferredName.agent_name_type#">
 						<li class="list-group-item px-0">
-							<label for="preferred_name" class="data-entry-label mb-0 mt-1 font-weight-bold">Preferred Name</label>
+							<label for="preferred_name_display" class="data-entry-label mb-0 mt-1 font-weight-bold">Preferred Name</label>
 						</li>
 						<li class="list-group-item px-0 col-12 col-md-7">	
-							<input type="text" value="#preferredName.agent_name#" name="agent_name" id="preferred_name" class="data-entry-input">
+							<div class="col-12 bg-light border non-field-text">
+								<span id="preferred_name_display">#encodeForHtml(preferredName.agent_name)#</span>
+							</div>
 						</li>
 						<li class="list-group-item px-1">
-							<button type="button" id="preferredUpdateButton" value="preferredUpdateButton" class="btn btn-xs btn-secondary">Update</button>
 							<span id="prefAgentNameFeedback"></span>
 						</li>
 					</ul>
 				</form>
-				<script>
-					$(document).ready(function () {
-						$('##preferredUpdateButton').click(function(evt){
-							evt.preventDefault;
-							saveAgentName(#agent_id#, 'preferred_name_agent_name_id','preferred_name','preferred_name_agent_name_type','prefAgentNameFeedback');
-						});
-					});
-				</script>
 				<!--- other names --->
 				<cfquery name="notPrefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="notPrefName_result">
 					SELECT distinct
@@ -1264,6 +1258,7 @@ limitations under the License.
  @param agent_name_type the new value of the agent name type
  @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
 --->
+
 <cffunction name="updateAgentName" returntype="any" access="remote" returnformat="json">
 	<cfargument name="agent_name_id" type="string" required="yes">
 	<cfargument name="agent_name" type="string" required="yes">
@@ -1293,9 +1288,9 @@ limitations under the License.
 			<cfif updateName_result.recordcount eq 1>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-				<cfset t = QuerySetCell(theResult, "message", "Name added to Agent.", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Name updated for Agent.", 1)>
 			<cfelse>
-				<cfthrow message="Error adding name to agent.">
+				<cfthrow message="Error updating agent name.">
 			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
@@ -2037,6 +2032,7 @@ limitations under the License.
 <cffunction name="saveAgent" access="remote" returntype="any" returnformat="json">
 	<cfargument name="agent_id" type="string" required="yes">
 	<cfargument name="agent_type" type="string" required="yes">
+	<cfargument name="pref_name" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cfset provided_agent_type = agent_type >
@@ -2211,7 +2207,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif removePerson>
-				<!~--- needs enforced foreign keys on coll_object.entered_by_person_id, last_edited_person_id, loan_item.reconciled_by_person_id and deacc_item.reconciled_by_person_id --->
+				<!--- needs enforced foreign keys on coll_object.entered_by_person_id, last_edited_person_id, loan_item.reconciled_by_person_id and deacc_item.reconciled_by_person_id --->
 				<!--- TODO: Support changing a person to a non-person --->
 				<cfthrow message="conversion of a non-person agent to a person is not supported yet">
 				<cfquery name="deletePerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deletePerson_result">
@@ -2219,6 +2215,37 @@ limitations under the License.
 					where
 						person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
+			</cfif>
+			<cfif isdefined("pref_name") and len(pref_name) GT 0>
+				<!--- update the preferred name, if one was provided, and the provided value is different from the current value --->
+				<cfquery name="checkName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkName_result">
+					SELECT agent_name_id
+					FROM agent_name 
+					WHERE
+						agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+						and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pref_name#">
+						and agent_name_type = 'preferred'
+				</cfquery>
+				<cfif checkName.recordcount EQ 0>
+					<!--- current preferred name is differrent, update --->
+					<cfquery name="getNameID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNameID_result">
+						SELECT agent_name_id
+						FROM agent_name 
+						WHERE
+							agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+							and agent_name_type = 'preferred'
+					</cfquery>
+					<cfloop query="getNameID">
+						<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateName_result">
+							UPDATE agent_name
+							SET
+								agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#pref_name#'>
+							WHERE
+								agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
+								and agent_name_type = 'preferred'
+						</cfquery>
+					</cfloop>
+				</cfif>
 			</cfif>
 
 			<cfset row = StructNew()>
