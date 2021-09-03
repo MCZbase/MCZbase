@@ -1213,9 +1213,9 @@ right: 0;
   // example script
   function init() {
     // multiple
-    window.slider = vanillaSlider(
-      document.querySelectorAll('.vslider')
-    )
+//    window.slider = vanillaSlider(
+//      document.querySelectorAll('.vslider-base')
+//    )
   //  console.log('window.defaultSliders:', window.defaultSliders)
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
