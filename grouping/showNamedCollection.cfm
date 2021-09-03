@@ -442,7 +442,7 @@ overflow: hidden;
 								AND media.media_type = 'image'
 								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 						  order by to_number(MCZBASE.get_medialabel(media.media_id,'height')) desc     
-						) and where rownum < 2	
+						) where rownum < 2	
 					</cfquery>
 					<cfif specimenImagesForCarousel.recordcount GT 0>
 						<cfset otherImageTypes = otherImageTypes>
