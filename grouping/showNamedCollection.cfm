@@ -1212,11 +1212,6 @@ right: 0;
   "use strict";
   // example script
   function init() {
-    // multiple
-//    window.slider = vanillaSlider(
-//      document.querySelectorAll('.vslider-base')
-//    )
-  //  console.log('window.defaultSliders:', window.defaultSliders)
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base'), {
@@ -1408,6 +1403,41 @@ right: 0;
  * vanillaSlider
  */
 //;
+registerListener('load', lazyLoad);
+registerListener('scroll', lazyLoad);
+
+function lazyLoad(){
+	    var lazy = 
+	    document.getElementsByClassName('vslider-item');
+	
+	    for(var i=0; i<lazy.length; i++) {
+	        if(isInViewport(lazy[i])){
+               lazy[i].src =
+                lazy[i].getAttribute('data-src');
+            }
+	    }
+	 }
+
+function isInViewport(el){
+    var rect = el.getBoundingClientRect();
+    
+    return (
+        rect.bottom >= 0 && 
+        rect.right >= 0 && 
+        rect.top <= (window.innerHeight || document.documentElement.clientHeight) && 
+        rect.left <= (window.innerWidth || document.documentElement.clientWidth)
+     );
+}
+
+function registerListener(event, func) {
+    if (window.addEventListener) {
+        window.addEventListener(event, func)
+    } else {
+        window.attachEvent('on' + event, func)
+    }
+}
+	
+	
 (function () {
   "use strict";
   // Polyfill for e.g. IE
