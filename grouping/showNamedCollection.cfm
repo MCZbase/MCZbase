@@ -758,7 +758,7 @@ right: 0;
 												<cfif fileExists(#src#)>
 													<img src="#src#" class="mx-auto" alt="#trimmedAltText#" width="#specimenImagesForCarousel['width'][i]#" height="#specimenImagesForCarousel['first_height'][i]#">
 												<cfelse>
-													<h2 style="vertical-align:middle;">No image is stored</h2>
+													<h2 style="top: 45%">No image is stored</h2>
 												</cfif>
 												</a>
 											</div>
