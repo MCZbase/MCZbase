@@ -753,7 +753,7 @@ right: 0;
 													</cfif>--->
 												<cfset width="specimenImagesForCarousel['width'][i]">
 												<cfset height=specimenImagesForCarousel['first_height'][i]>
-												<cfset src=specimenImagesForCarousel['media_uri'][i]#>
+												<cfset src=specimenImagesForCarousel['media_uri'][i]>
 												<cfif fileExists(#src#)>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100 w-100" title="click to open full image">
 														<img src="#src#" class="mx-auto" alt="#trimmedAltText#" 
