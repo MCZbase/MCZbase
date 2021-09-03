@@ -21,6 +21,7 @@ Metadata page with summary information on label reports.
 --->
 <cfset pageTitle = "Reports">
 <cfinclude template = "/shared/_header.cfm">
+<script src="/lib/misc/sorttable.js"></script>
 	
 <!-- Obtain the list of reports -->
 <cfquery name="reports" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="reports_result">
@@ -47,15 +48,13 @@ Metadata page with summary information on label reports.
 </cfquery>
 
 <cfoutput>
-	<script src="/lib/misc/sorttable.js"></script>
 	<main class="container py-3" id="content">
 		<section class="row">
 			<div class="col-12">
 				<h1 class="h2">Label Reports</h1>
 				<p>Reports used to generate labels are accessed through Specimen Search - Manage -> Print any report...</p>
 				
-				<table class="table table-responsive table-striped d-lg-table sortable">
-					<thead class="thead-light">
+				<table border id="labelsTable" class="sortable table table-responsive d-xl-table">
 					<tr>
 						<th>Department(s)</th>
 						<th>Report name</th>
@@ -64,8 +63,6 @@ Metadata page with summary information on label reports.
 						<th>Preserve Limit</th>
 						<th>Format</th>
 					<tr>
-					</thead>
-					<tbody>
 					<cfloop query="reports">
 						<cfif partnamelimit GT 0><cfset partLimit = "Yes"><cfelse><cfset partLimit = ""></cfif>
 						<cfif preservemethodlimit GT 0><cfset preserveLimit = "Yes"><cfelse><cfset preserveLimit = ""></cfif>
@@ -78,7 +75,6 @@ Metadata page with summary information on label reports.
 							<td>#report_format#</td>
 						<tr>
 					</cfloop>
-					</tbody>
 				</table>
 			</div>
 		</section>
