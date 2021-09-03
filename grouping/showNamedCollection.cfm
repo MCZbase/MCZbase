@@ -1198,9 +1198,9 @@ right: 0;
     )
     console.log('window.defaultSliders:', window.defaultSliders)
 
-    var $input = document.getElementById('custom-input')
+    var $input = document.querySelectorAll('custom-input','custom-input1','custom-input2','custom-input3')
     var baseSlider = vanillaSlider(
-      document.getElementById('vslider-base'), {
+      document.querySelectorAll('vslider-base','vslider-base1','vslider-base2','vslider-base3'), {
         autoplay: false,
         navigation: false,
         keyboardnavigation: false,
@@ -1220,11 +1220,11 @@ right: 0;
         parseInt(e.target.value)
       )
     }, false)
-    document.getElementById('custom-prev').addEventListener('click', function (e) {
-      baseSlider.prev()
+    document.querySelectorAll('custom-prev','custom-prev1','custom-prev2','custom-prev3').addEventListener('click', function (e) {
+      baseSlider[0].prev(3)()
     }, false)
-    document.getElementById('custom-next').addEventListener('click', function (e) {
-      baseSlider.next()
+    document.querySelectorAll('custom-next','custom-next1','custom-next2','custom-next3').addEventListener('click', function (e) {
+      baseSlider[0].next(3)()
     }, false)
 
     vanillaSlider(
@@ -1256,30 +1256,30 @@ right: 0;
       }
     )
 
-    vanillaSlider(
-      document.getElementById('vslider-custom'), {
-        height: '5em',
-        statusContent: function (i, all) {
-          return i + 1
-        },
-      }
-    )
+//    vanillaSlider(
+//      document.getElementById('vslider-custom'), {
+//        height: '5em',
+//        statusContent: function (i, all) {
+//          return i + 1
+//        },
+//      }
+//    )
 
-    vanillaSlider(
-      document.getElementById('vslider-images'), {
-        height: 300
-      }
-    )
+//    vanillaSlider(
+//      document.getElementById('vslider-images'), {
+//        height: 300
+//      }
+//    )
 
 
     // Should wait for images to load and set explicit height!
-    vanillaSlider(
-      document.getElementById('vslider-background'), {
-        itemSelector: 'span',
-        height: '500vh',
-        swipedirection: 'v'
-      }
-    )
+//    vanillaSlider(
+//      document.getElementById('vslider-background'), {
+//        itemSelector: 'span',
+//        height: '500vh',
+//        swipedirection: 'v'
+//      }
+//    )
 
   }
 
