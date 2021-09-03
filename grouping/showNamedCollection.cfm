@@ -305,7 +305,7 @@ overflow: hidden;
 							</div>
 						</div>
 						<div class="row mx-0">
-							<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---							<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT DISTINCT flat.guid, flat.scientific_name
 									FROM
 										underscore_relation 
@@ -414,12 +414,13 @@ overflow: hidden;
 								<div class="row">
 									<div class="col-12 mb-3">
 										<div class="row mt-0 mx-0"> 
-											<!--- Grid Related code is below along with search handlers --->
+											
 											<div id="jqxgrid"></div>
 										</div>
 									</div>
 								</div>
-							</section>
+							</section>--->
+							<!--- Grid Related code is in section above (fills into id = "jqxgrid" div) along with search handlers --->
 						</div>
 						<!---end specimen grid---> 
 					</div>
