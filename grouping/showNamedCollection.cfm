@@ -283,14 +283,17 @@ overflow: hidden;
 						<div class="row mx-0">
 							<!---for specimen record grid--->
 							<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT DISTINCT flat.guid, flat.scientific_name
-								FROM
-									underscore_relation 
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-										on underscore_relation.collection_object_id = flat.collection_object_id
-								WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									and flat.guid is not null
-								ORDER BY flat.guid asc
+								SELECT * FROM (
+									SELECT DISTINCT flat.guid, flat.scientific_name
+									FROM
+										underscore_relation 
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										and flat.guid is not null
+									ORDER BY flat.guid asc
+									) 
+								WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 							</cfquery>
 							<!---for specimen image count--->
 							<cfquery name="specimenImgs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
