@@ -357,6 +357,9 @@
 							<a class="dropdown-item" target="_blank" href="https://mcz.harvard.edu/database">About MCZbase</a>
 							<a class="dropdown-item" target="_blank" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
 							<a class="dropdown-item" href="/Collections/index.cfm">Holdings</a>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+								<a class="dropdown-item" href="/Reports/listReports.cfm">List of Label Reports</a>
+							</cfif>
 					 		<a class="dropdown-item" target="_blank" href="/info/api.cfm">API</a>
 						</div>
 					</li>

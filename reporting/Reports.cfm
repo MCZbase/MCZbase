@@ -23,7 +23,7 @@ Landing pad page with lists of various self service reports.
 <cfinclude template = "/shared/_header.cfm">
 
 <cfoutput>
-	<main class="container py-3">
+	<main class="container py-3" id="content">
 		<section class="row">
 			<div class="col-12">
 				<h1 class="h2">Reports</h1>
