@@ -758,7 +758,7 @@ right: 0;
 													</a>
 												<cfelse>
 													<ul class="bg-dark h-100 px-0 list-unstyled">
-														<li><h2 class="text-white mx-auto" style="padding-top: 42%;font-size: 2.2rem;">No image is stored</h2></li>
+														<li><h2 class="text-white mx-auto" style="padding-top: 25%;font-size: 2rem;">No image is stored</h2></li>
 													</ul>
 												</cfif>
 											</div>
