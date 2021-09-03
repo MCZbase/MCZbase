@@ -26,6 +26,7 @@ Metadata page with summary information on label reports.
 <!-- Obtain the list of reports -->
 <cfquery name="reports" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="reports_result">
 	select 
+		report_id,
 		report_name,
 		substr(report_name,instr(report_name,'__')+2) departments,
 		nvl(instr(SQL_TEXT,'-- ##limit_part_name##'),0) partnamelimit,
@@ -46,6 +47,9 @@ Metadata page with summary information on label reports.
 	WHERE 
 		username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 </cfquery>
+<cfloop query="userColls">
+	<cfset userCollsArray = ListToArray(reportprefs,',')>
+</cfloop>
 
 <cfoutput>
 	<main class="container py-3" id="content">
@@ -58,6 +62,7 @@ Metadata page with summary information on label reports.
 					<thead class="thead-light">
 					<tr>
 						<th>Department(s)</th>
+						<th>Shown</th>
 						<th>Report name</th>
 						<th>Description</th>
 						<th>Part Limit</th>
@@ -69,9 +74,29 @@ Metadata page with summary information on label reports.
 					<cfloop query="reports">
 						<cfif partnamelimit GT 0><cfset partLimit = "Yes"><cfelse><cfset partLimit = ""></cfif>
 						<cfif preservemethodlimit GT 0><cfset preserveLimit = "Yes"><cfelse><cfset preserveLimit = ""></cfif>
+						<cfset departmentsArray = ListToArray(departments,'_')>
+						<cfloop array="#userColls#" index="idx">
+							<cfif ArrayContainsNoCase(departmentsArray,idx)><highlight = "yes"><cfelse><highlight=""></cfif>
+						</cfloop>
 						<tr>
-							<td>#departments#</td>
-							<td>#report_name#</td>
+							<cfif highlight EQ "yes">
+								<td>#replace(departments,'_',',')#</td>
+							<cfelse>
+								<td>#replace(departments,'_',',')#</td>
+							</cfif>
+							<cfif highlight EQ "yes" OR len(userColls.reportprefs) EQ 0>
+								<td>By Default</td>
+							<cfelse>
+								<td>No</td>
+							</cfif>
+							<td>
+								<!--- TODO: Need role for editing reports --->
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+									<a href="/Reports/reporter.cfm?action=edit&report_id=#report_id#" target="_blank">#report_name#</a>
+								<cfelse>
+									#report_name#
+								</cfif>
+							</td>
 							<td>#description#</td>
 							<td>#partLimit#</td>
 							<td>#preserveLimit#</td>
