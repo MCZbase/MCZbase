@@ -889,12 +889,12 @@ overflow: hidden;
 //										return #serializeJson#;
 //										}
 									</script>
-									<div id="floating-panel" class="col-6">
+<!---									<div id="floating-panel" class="col-6">
 										<button id="toggle-heatmap">Toggle Heatmap</button>
 										<button id="change-gradient">Change gradient</button>
 										<button id="change-radius">Change radius</button>
 										<button id="change-opacity">Change opacity</button>
-									</div>
+									</div>--->
 								<!---<div id="map"></div>
 									</div>--->
 								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
