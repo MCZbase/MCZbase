@@ -757,9 +757,9 @@ right: 0;
 														<img src="#src#" class="mx-auto" alt="#trimmedAltText#" width="#specimenImagesForCarousel['width'][i]#" height="#specimenImagesForCarousel['first_height'][i]#">
 													</a>
 												<cfelse>
-													<div class="bg-dark h-100">
-														<h2 class="text-white mx-auto" style="padding-top: 42%;font-size: 2.2rem;">No image is stored</h2>
-													</div>
+													<ul class="bg-dark h-100 px-0 list-unstyled">
+														<li><h2 class="text-white mx-auto" style="padding-top: 42%;font-size: 2.2rem;">No image is stored</h2></li>
+													</ul>
 												</cfif>
 											</div>
 											<cfset i=i+1>
