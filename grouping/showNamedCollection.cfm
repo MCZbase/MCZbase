@@ -1089,7 +1089,7 @@ overflow: hidden;
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input')
-	var #toScript(specimenImagesForCarousel.height, "height")#;
+	var #toScript(mczbase.specimenImagesForCarousel.height, "height")#;
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base'), {
         autoplay: false,
