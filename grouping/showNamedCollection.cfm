@@ -48,25 +48,16 @@ limitations under the License.
 	width: 100%;
 }
 #floating-panel {
-	position: absolute;
-	top: 10px;
-	left: 25%;
-	z-index: 5;
-	background-color: #fff;
-	padding: 5px;
-	border: 1px solid #999;
 	text-align: center;
 	font-family: "Roboto", "sans-serif";
 	line-height: 30px;
-	padding-left: 10px;
-}
-#floating-panel {
 	background-color: #fff;
 	border: 1px solid #999;
 	left: 25%;
 	left: 0;
 	padding: 5px;
-	position: absolute;
+	padding-left: 10px;
+/*	position: absolute;*/
 	position: relative;
 	top: 10px;
 	z-index: 5;
@@ -671,7 +662,7 @@ overflow: hidden;
 												<p class="mt-2">#trimmedAltText#</p>
 												<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 												<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
-													<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND len(specimenImagesForCarousel['media_uri'][0]) gt 0>
+													<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND len(specimenImagesForCarousel['media_uri'][i]) gt 0>
 														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
 													<cfelse>
 														<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
@@ -853,11 +844,7 @@ overflow: hidden;
 							</div>
 						</cfif>
 
-
-
-
-
-							<section class="row h-100">
+						<section class="row h-100">
 								<div class="col-6">
 								<h2 class="mt-4 text-left">Heat Map Example</h2>
 									<script>
