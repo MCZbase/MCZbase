@@ -910,7 +910,7 @@ overflow: hidden;
 							<!---///////////////////////////////--->
 																	
 						</div><!--- end images & heat map---> 
-						<div class="col-12 col-md-6 float-left mt-3 mb-3">	
+						<div class="mt-3 mb-3">	
 							<div class="col mt-4 float-left"> 
 								<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 								<div class="my-2 py-3 border-bottom-black">
