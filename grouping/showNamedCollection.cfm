@@ -441,8 +441,9 @@ overflow: hidden;
 								AND media_relations.media_relationship = 'shows cataloged_item'
 								AND media.media_type = 'image'
 								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+						and rownum < 2
 						  order by to_number(maximumheight) desc  
-						FETCH FIRST 1 ROWS ONLY
+					
 					</cfquery>
 					<cfif specimenImagesForCarousel.recordcount GT 0>
 						<cfset otherImageTypes = otherImageTypes>
