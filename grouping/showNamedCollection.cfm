@@ -183,7 +183,6 @@ overflow: hidden;
   background-color: #fff;
   font-weight: 600;
   text-align: center;
-/*padding-bottom: 1em;*/
   margin-bottom: .75rem;
 }
 /* custom status and navigation */
@@ -213,14 +212,11 @@ overflow: hidden;
 	text-align: center;
 	width:53px; 
 }
-
 /* custom animation */
-
 .vslider-trans {
   min-height: 50vh;
   background-color: transparent;
 }
-
 .vslider-trans .vslider-item {
   background: no-repeat center;
   background-size: cover;
@@ -237,90 +233,6 @@ overflow: hidden;
 
 .vslider-trans .vslider-before {
   transform: rotateY(-90deg);
-}
-	
-	
-
-.slide-wrap {
-  position: relative;
-    max-width:1000px;
-  margin: 0 auto;
-  transition:300ms;
-}
-
-.slideshow {
-  position: relative;
-  z-index: 10;
-}
-
-.slide-entry {
-  position: absolute;
-  top: 0;
-  left: 0;
-right: 0;
-  margin:0 auto;
-  text-align: center;
-  z-index: 20;
-  opacity: 0;
-  visibility: hidden;
-  padding: 20px 5%;
-  transition:300ms;
-	}
-.slide-entry.active {
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
-
-.slide-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items:center;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  top: 50%;
-  transform: translateY(-60%);
-  width: 100%;
-  list-style: none;
-  padding: 0;
-  z-index: 0;
-}
- .slide-nav li {
-    cursor: pointer;
-    color:#ccc;
-    font-size:25px;
-  }
-
-
-#prev-slide {
-  margin-left:-20px;
-}
-
-#next-slide {
-  margin-right:-20px;
-}
-
-/* Responsive Video Embeds
-========================================================= */
-.embed-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  max-width: 100%;
-  height: auto;
-}
-
-.embed-container iframe,
-.embed-container object,
-.embed-container embed {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
 }
 </style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
@@ -704,7 +616,7 @@ right: 0;
 												<cfset height=specimenImagesForCarousel['first_height'][i]>--->
 												<cfset src=specimenImagesForCarousel['media_uri'][i]>
 												<cfif fileExists(#src#)>
-													<a href="#media_uri#" target="_blank" class="d-block border-top border border-thick border-bottom my-1 w-100" title="click to open full image">
+													<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 														<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 													</a>
 												<cfelse>
