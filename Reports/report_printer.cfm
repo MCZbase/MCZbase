@@ -204,7 +204,7 @@
 								where 
 									cataloged_item.collection_object_id in
 									( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes"> )
-								group by preserve_method
+								group by part_name 
 							</cfquery>
 							<select name="part_name_limit" id="part_name_limit">
 								<option value="">All</option>
