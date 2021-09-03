@@ -260,6 +260,90 @@ overflow: hidden;
 .vslider-trans .vslider-before {
   transform: rotateY(-90deg);
 }
+	
+	
+
+.slide-wrap {
+  position: relative;
+    max-width:1000px;
+  margin: 0 auto;
+  transition:300ms;
+}
+
+.slideshow {
+  position: relative;
+  z-index: 10;
+}
+
+.slide-entry {
+  position: absolute;
+  top: 0;
+  left: 0;
+right: 0;
+  margin:0 auto;
+  text-align: center;
+  z-index: 20;
+  opacity: 0;
+  visibility: hidden;
+  padding: 20px 5%;
+  transition:300ms;
+	}
+.slide-entry.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+
+.slide-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 50%;
+  transform: translateY(-60%);
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  z-index: 0;
+}
+ .slide-nav li {
+    cursor: pointer;
+    color:#ccc;
+    font-size:25px;
+  }
+
+
+#prev-slide {
+  margin-left:-20px;
+}
+
+#next-slide {
+  margin-right:-20px;
+}
+
+/* Responsive Video Embeds
+========================================================= */
+.embed-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  height: auto;
+}
+
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 </style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -644,7 +728,7 @@ overflow: hidden;
 					<div class="col-12 col-md-6 float-left mt-3 mb-3">
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
 							<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
-							<div class="">
+					
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 								<div class="carousel_background border float-left w-100 p-2">
 									<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
@@ -681,7 +765,44 @@ overflow: hidden;
 									  </div>
 								</div>
 								</cfif>
-							</div>
+											
+											
+								<cfif specimenImagesForCarousel.recordcount gt 0>
+								<div class="slide-wrap border float-left w-100 p-2">
+									<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
+									  <div class="slideshow">
+										 <cfset i=1>
+										<cfloop query="specimenImagesForCarousel">
+											<cfset alttext = specimenImagesForCarousel['alt'][i]>
+											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+											<cfif len(alttextTrunc) gt 300>
+												<cfset trimmedAltText = left(alttextTrunc, 300)>
+												<cfset trimmedAltText &= "...">
+											<cfelse>
+												<cfset trimmedAltText = altTextTrunc>
+											</cfif>
+											<div class="slide-entry">
+        										<div class="slide-content">
+												<p class="mt-2">#trimmedAltText#</p>
+												<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+												<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
+												<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
+												<img src="#src#" class="w-100" alt="#trimmedAltText#">
+												</a>
+											</div>
+											</div>
+											<cfset i=i+1>
+										</cfloop>
+
+										<ul class="slide-nav">
+										  <li id="prev-slide"><i class="fas fa-chevron-left"></i></li>
+										  <li id="next-slide"><i class="fas fa-chevron-right"></i></li>
+										</ul>
+									</div>
+								</div>
+							</cfif>				
+
+							
 							<!--- figure out widths of sub blocks, adapt to number of blocks --->
 							<cfswitch expression="#otherImageTypes#">
 								<cfcase value="1">
@@ -754,7 +875,7 @@ overflow: hidden;
 										</div>
 									</div>
 									</cfif>--->
-						<!---			<cfif collectingImagesForCarousel.recordcount gte 2>
+					<!---			<cfif collectingImagesForCarousel.recordcount gte 2>
 										<cfset imagePlural = 'images'>
 										<cfelse>
 										<cfset imagePlural = 'image'>
@@ -1100,7 +1221,114 @@ overflow: hidden;
 		</main>
 	</cfloop>
 <script>
-// are two properties exposed by the interface
+	
+const slideshow = document.querySelector('.slide-wrap');
+
+if (slideshow != null ) { //make sure we don't run this script if the slideshow is not present
+
+  let slides = document.querySelectorAll('.slide-entry'),
+	slideCount = slides.length - 1,
+	currentSlide = 0,
+	slideHeight = null,
+	initialHeight = slides[0].clientHeight;
+
+	slides[0].classList.add('active'); //on load, activate the first slide
+
+function moveToSlide(n) { // set up our slide navigation functionality
+  slides[currentSlide].className = 'slide-entry';
+  currentSlide = (n+slideCount)%slideCount;
+  slides[currentSlide].className = 'slide-entry active';
+  slideHeight = slides[currentSlide].clientHeight;
+  slideshow.style.height = slideHeight + 'px';
+  window.addEventListener('resize', function(){
+    resizedSlideHeight = slides[currentSlide].clientHeight;
+    slideshow.style.height = resizedSlideHeight + 'px';
+  });
+}
+
+function nextSlide(e){
+  moveToSlide(currentSlide+1);
+  let code = e.keyCode;
+  if( code == 39 ) {
+    moveToSlide(currentSlide+1);
+  }
+};
+function prevSlide(e){
+  moveToSlide(currentSlide+-1);
+  let code = e.keyCode;
+  if( code == 37 ) {
+    moveToSlide(currentSlide+-1);
+  }
+};
+
+const slideHandlers = {
+  nextSlide: function(element){
+    document.querySelector(element).addEventListener('click',nextSlide);
+    document.body.addEventListener('keydown',nextSlide, false);
+  },
+  prevSlide: function(element){
+    document.querySelector(element).addEventListener('click',prevSlide);
+    document.body.addEventListener('keydown',prevSlide, false);
+  }
+}
+
+slideHandlers.nextSlide('#next-slide');
+slideHandlers.prevSlide('#prev-slide');
+
+// Dynamic slideshow height
+
+  slideshow.style.height = initialHeight + 'px'; //on load, set the height of the slider to the first active slide
+
+window.addEventListener('resize', function(){ // adjust the height of the slidehow as the browser is resized
+  let resizedHeight = slides[0].clientHeight;
+  slideshow.style.height = resizedHeight + 'px';
+});
+
+// Detect swipe events for touch devices, credit to Kirupa @ https://www.kirupa.com/html5/detecting_touch_swipe_gestures.htm
+let initialX = null;
+let initialY = null;
+function startTouch(e) {
+  initialX = e.touches[0].clientX;
+  initialY = e.touches[0].clientY;
+};
+function moveTouch(e) {
+  if (initialX === null) {
+    return;
+  }
+  if (initialY === null) {
+    return;
+  }
+  let currentX = e.touches[0].clientX;
+  let currentY = e.touches[0].clientY;
+  let diffX = initialX - currentX;
+  let diffY = initialY - currentY;
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    if (diffX > 0) {
+// swiped left
+moveToSlide(currentSlide+1);
+} else {
+// swiped right
+moveToSlide(currentSlide+-1);
+}
+}
+initialX = null;
+initialY = null;
+e.preventDefault();
+};
+
+slideshow.addEventListener("touchstart", startTouch, false);
+slideshow.addEventListener("touchmove", moveTouch, false);  
+
+// optional autoplay function  
+  setInterval(function(){
+    nextSlide();
+  },8000); 
+
+} //end slideshow	
+	
+	
+	
+}
 
 
 (function () {
@@ -1152,152 +1380,152 @@ overflow: hidden;
   document.addEventListener('DOMContentLoaded', init, false);
 	}());	
 	
-(function () {
-  "use strict";
-  // example script
-  function init() {
-    // multiple
+//(function () {
+//  "use strict";
+//  // example script
+//  function init() {
+//    // multiple
+////    window.defaultSliders = vanillaSlider(
+////      document.querySelectorAll('.vslider-default')
+////    )
+////    console.log('window.defaultSliders:', window.defaultSliders)
+//    var $input = document.getElementById('custom-input1')
+//    var baseSlider = vanillaSlider(
+//      document.getElementById('vslider-base1'), {
+//        autoplay: false,
+//        navigation: false,
+//        keyboardnavigation: false,
+//        swipenavigation: false,
+//        wheelnavigation: true,
+//        status: false,
+//		height: '30rem',
+//        after: function (index, length) {
+//          $input.value = index +1
+//        }
+//      }
+//    )
+//    window.baseSlider = baseSlider
+//    // custom controls
+//    $input.addEventListener('change', function (e) {
+//      baseSlider.next(
+//        parseInt(e.target.value)
+//      )
+//    }, false)
+//    document.getElementById('custom-prev1').addEventListener('click', function (e) {
+//      baseSlider.prev()
+//    }, false)
+//    document.getElementById('custom-next1').addEventListener('click', function (e) {
+//      baseSlider.next()
+//    }, false)
+//    vanillaSlider(
+//      document.getElementById('vslider-custom1'), {
+//        height: '20em',
+//        statusContent: function (i, all) {
+//          return i + 1
+//        },
+//      }
+//    )
+//  }
+//  document.addEventListener('DOMContentLoaded', init, false);
+//	}());	
+//	
+//(function () {
+//  "use strict";
+//  // example script
+//  function init() {
+//    // multiple
+////    window.defaultSliders = vanillaSlider(
+////      document.querySelectorAll('.vslider-default')
+////    )
+////    console.log('window.defaultSliders:', window.defaultSliders)
+//    var $input = document.getElementById('custom-input2')
+//    var baseSlider = vanillaSlider(
+//      document.getElementById('vslider-base2'), {
+//        autoplay: false,
+//        navigation: false,
+//        keyboardnavigation: false,
+//        swipenavigation: false,
+//        wheelnavigation: true,
+//		height: '30rem',
+//        status: false,
+//        after: function (index, length) {
+//          $input.value = index +1
+//        }
+//      }
+//    )
+//    window.baseSlider = baseSlider
+//    // custom controls
+//    $input.addEventListener('change', function (e) {
+//      baseSlider.next(
+//        parseInt(e.target.value)
+//      )
+//    }, false)
+//    document.getElementById('custom-prev2').addEventListener('click', function (e) {
+//      baseSlider.prev()
+//    }, false)
+//    document.getElementById('custom-next2').addEventListener('click', function (e) {
+//      baseSlider.next()
+//    }, false)
+//    vanillaSlider(
+//      document.getElementById('vslider-custom2'), {
+//        height: '20em',
+//        statusContent: function (i, all) {
+//          return i + 1
+//        },
+//      }
+//    )
+//  }
+//  document.addEventListener('DOMContentLoaded', init, false);
+//	}());
+//	
+//(function () {
+//  "use strict";
+//  // example script
+//  function init() {
+//    // multiple
 //    window.defaultSliders = vanillaSlider(
 //      document.querySelectorAll('.vslider-default')
 //    )
 //    console.log('window.defaultSliders:', window.defaultSliders)
-    var $input = document.getElementById('custom-input1')
-    var baseSlider = vanillaSlider(
-      document.getElementById('vslider-base1'), {
-        autoplay: false,
-        navigation: false,
-        keyboardnavigation: false,
-        swipenavigation: false,
-        wheelnavigation: true,
-        status: false,
-		height: '30rem',
-        after: function (index, length) {
-          $input.value = index +1
-        }
-      }
-    )
-    window.baseSlider = baseSlider
-    // custom controls
-    $input.addEventListener('change', function (e) {
-      baseSlider.next(
-        parseInt(e.target.value)
-      )
-    }, false)
-    document.getElementById('custom-prev1').addEventListener('click', function (e) {
-      baseSlider.prev()
-    }, false)
-    document.getElementById('custom-next1').addEventListener('click', function (e) {
-      baseSlider.next()
-    }, false)
-    vanillaSlider(
-      document.getElementById('vslider-custom1'), {
-        height: '20em',
-        statusContent: function (i, all) {
-          return i + 1
-        },
-      }
-    )
-  }
-  document.addEventListener('DOMContentLoaded', init, false);
-	}());	
-	
-(function () {
-  "use strict";
-  // example script
-  function init() {
-    // multiple
-//    window.defaultSliders = vanillaSlider(
-//      document.querySelectorAll('.vslider-default')
+//    var $input = document.getElementById('custom-input3')
+//    var baseSlider = vanillaSlider(
+//      document.getElementById('vslider-base3'), {
+//        autoplay: false,
+//        navigation: false,
+//        keyboardnavigation: false,
+//        swipenavigation: false,
+//        wheelnavigation: true,
+//        status: false,
+//		height: '30rem',
+//        after: function (index, length) {
+//          $input.value = index +1
+//        }
+//      }
 //    )
-//    console.log('window.defaultSliders:', window.defaultSliders)
-    var $input = document.getElementById('custom-input2')
-    var baseSlider = vanillaSlider(
-      document.getElementById('vslider-base2'), {
-        autoplay: false,
-        navigation: false,
-        keyboardnavigation: false,
-        swipenavigation: false,
-        wheelnavigation: true,
-		height: '30rem',
-        status: false,
-        after: function (index, length) {
-          $input.value = index +1
-        }
-      }
-    )
-    window.baseSlider = baseSlider
-    // custom controls
-    $input.addEventListener('change', function (e) {
-      baseSlider.next(
-        parseInt(e.target.value)
-      )
-    }, false)
-    document.getElementById('custom-prev2').addEventListener('click', function (e) {
-      baseSlider.prev()
-    }, false)
-    document.getElementById('custom-next2').addEventListener('click', function (e) {
-      baseSlider.next()
-    }, false)
-    vanillaSlider(
-      document.getElementById('vslider-custom2'), {
-        height: '20em',
-        statusContent: function (i, all) {
-          return i + 1
-        },
-      }
-    )
-  }
-  document.addEventListener('DOMContentLoaded', init, false);
-	}());
-	
-(function () {
-  "use strict";
-  // example script
-  function init() {
-    // multiple
-    window.defaultSliders = vanillaSlider(
-      document.querySelectorAll('.vslider-default')
-    )
-    console.log('window.defaultSliders:', window.defaultSliders)
-    var $input = document.getElementById('custom-input3')
-    var baseSlider = vanillaSlider(
-      document.getElementById('vslider-base3'), {
-        autoplay: false,
-        navigation: false,
-        keyboardnavigation: false,
-        swipenavigation: false,
-        wheelnavigation: true,
-        status: false,
-		height: '30rem',
-        after: function (index, length) {
-          $input.value = index +1
-        }
-      }
-    )
-    window.baseSlider = baseSlider
-    // custom controls
-    $input.addEventListener('change', function (e) {
-      baseSlider.next(
-        parseInt(e.target.value)
-      )
-    }, false)
-    document.getElementById('custom-prev3').addEventListener('click', function (e) {
-      baseSlider.prev()
-    }, false)
-    document.getElementById('custom-next3').addEventListener('click', function (e) {
-      baseSlider.next()
-    }, false)
-    vanillaSlider(
-      document.getElementById('vslider-custom3'), {
-        height: '20em',
-        statusContent: function (i, all) {
-          return i + 1
-        },
-      }
-    )
-  }
-  document.addEventListener('DOMContentLoaded', init, false);
-	}());	
+//    window.baseSlider = baseSlider
+//    // custom controls
+//    $input.addEventListener('change', function (e) {
+//      baseSlider.next(
+//        parseInt(e.target.value)
+//      )
+//    }, false)
+//    document.getElementById('custom-prev3').addEventListener('click', function (e) {
+//      baseSlider.prev()
+//    }, false)
+//    document.getElementById('custom-next3').addEventListener('click', function (e) {
+//      baseSlider.next()
+//    }, false)
+//    vanillaSlider(
+//      document.getElementById('vslider-custom3'), {
+//        height: '20em',
+//        statusContent: function (i, all) {
+//          return i + 1
+//        },
+//      }
+//    )
+//  }
+//  document.addEventListener('DOMContentLoaded', init, false);
+//	}());	
 /*!
 /*!
  * vanillaSlider
