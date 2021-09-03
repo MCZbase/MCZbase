@@ -592,7 +592,7 @@ overflow: hidden;
 						<cfset otherImageTypes = otherImageTypes + 1>
 					</cfif>
 					<cfloop query='specimenImagesForCarousel'>
-						#specimenImagesForCarousel.['height'][i]#
+						#specimenImagesForCarousel['height'][i]#
 					</cfloop>
 					<div class="row mx-3 mt-3">
 						<div class="col-12 col-md-6 float-left mt-3 mb-3">
