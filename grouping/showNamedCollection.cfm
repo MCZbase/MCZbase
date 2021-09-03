@@ -756,7 +756,7 @@ right: 0;
 												
 												<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
 												<cfif fileExists(#src#)>
-													<img src="#src#" class="w-100" alt="#trimmedAltText#" height="#specimenImagesForCarousel['first_height'][i]#">
+													<img src="#src#" class="mx-auto" alt="#trimmedAltText#" width="#specimenImagesForCarousel['width'][i]" height="#specimenImagesForCarousel['first_height'][i]#">
 												<cfelse>
 													<h2>No image is stored</h2>
 												</cfif>
