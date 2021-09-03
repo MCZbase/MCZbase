@@ -591,8 +591,10 @@ overflow: hidden;
 					<cfif localityCt.recordcount GT 0>
 						<cfset otherImageTypes = otherImageTypes + 1>
 					</cfif>
+					<cfset i = 1>
 					<cfloop query='specimenImagesForCarousel'>
 						#specimenImagesForCarousel['height'][i]#
+						<cfset i=i+1>
 					</cfloop>
 					<div class="row mx-3 mt-3">
 						<div class="col-12 col-md-6 float-left mt-3 mb-3">
