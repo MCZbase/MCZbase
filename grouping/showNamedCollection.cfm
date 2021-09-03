@@ -407,7 +407,11 @@ overflow: hidden;
 					<!--- obtain a random set of specimen images, limited to a small number/for carousel --->
 					<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 						SELECT * FROM (
-							SELECT DISTINCT media.media_id,media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, MCZBASE.get_medialabel(media.media_id,'height') as first_height,MCZBASE.get_media_credit(media.media_id) as credit
+							SELECT DISTINCT media.media_id,media.media_uri, 
+							MCZBASE.get_media_descriptor(media.media_id) as alt, 
+							MCZBASE.get_medialabel(media.media_id,'width') as width,
+							MCZBASE.get_maxheightmediaset(media.media_id) as maxheight,
+							MCZBASE.get_media_credit(media.media_id) as credit
 							FROM
 								underscore_collection
 								left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -432,7 +436,6 @@ overflow: hidden;
 							SELECT DISTINCT media.media_id,media_uri, preview_uri,media_type, 
 								MCZBASE.get_media_descriptor(media.media_id) as alt,
 								MCZBASE.get_medialabel(media.media_id,'width') as width,
-								MCZBASE.get_medialabel(media.media_id,'height') as first_height,
 								MCZBASE.get_media_credit(media.media_id) as credit
 							FROM
 								underscore_collection
@@ -479,7 +482,6 @@ overflow: hidden;
 							SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 								MCZBASE.get_media_descriptor(media.media_id) as alt,
 								MCZBASE.get_medialabel(media.media_id,'width') as width,
-								MCZBASE.get_medialabel(media.media_id,'height') as first_height,
 								MCZBASE.get_media_credit(media.media_id) as credit
 							FROM
 								underscore_collection
@@ -596,7 +598,7 @@ overflow: hidden;
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-										<div class="vslider w-100 float-left" style="height: 630px;" id="vslider-base">
+										<div class="vslider w-100 float-left" style="height: #specimenImagesForCarousel['maxheight']#" id="vslider-base">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -612,7 +614,7 @@ overflow: hidden;
 													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 													<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
 													<!---<cfset width=specimenImagesForCarousel['width'][i]>
-													<cfset height=specimenImagesForCarousel['first_height'][i]>--->
+													<cfset height=specimenImagesForCarousel['maxheight'][i]>--->
 													<cfset src=specimenImagesForCarousel['media_uri'][i]>
 													<cfif fileExists(#src#)>
 														<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
