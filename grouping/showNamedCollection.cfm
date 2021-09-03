@@ -1221,10 +1221,10 @@ right: 0;
       )
     }, false)
     document.querySelectorAll('custom-prev','custom-prev1','custom-prev2','custom-prev3').addEventListener('click', function (e) {
-      baseSlider[0].prev(3)()
+      baseSlider[0].prev(),baseSlider[1].prev(),baseSlider[2].prev(),baseSlider[3].prev()
     }, false)
     document.querySelectorAll('custom-next','custom-next1','custom-next2','custom-next3').addEventListener('click', function (e) {
-      baseSlider[0].next(3)()
+      baseSlider[0].next(),baseSlider[1].next(),baseSlider[2].next(),baseSlider[3].next()
     }, false)
 
     vanillaSlider(
