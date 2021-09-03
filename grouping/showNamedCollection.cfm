@@ -231,6 +231,11 @@ overflow: hidden;
 .vslider-trans .vslider-before {
   transform: rotateY(-90deg);
 }
+.message { 
+	padding-top: 25%;
+	padding-bottom: 25%;
+	font-size: 2rem;
+}
 </style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -712,50 +717,55 @@ overflow: hidden;
 											</div>
 										</div>
 									</cfif>
-									<cfif collectingImagesForCarousel.recordcount gte 2>
-										<cfset imagePlural = 'images'>
+								<cfif collectingImagesForCarousel.recordcount gte 2>
+									<cfset imagePlural = 'images'>
 										<cfelse>
-										<cfset imagePlural = 'image'>
-									</cfif>
-									<cfif collectingImagesForCarousel.recordcount gt 0>
+									<cfset imagePlural = 'image'>
+								</cfif>
+								<cfif collectingImagesForCarousel.recordcount gt 0>
 									<div class="col-12 #colClass# mx-md-auto my-3">
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
-										<div class="vslider w-100 float-left" id="vslider-base2">
+											<div class="vslider w-100 float-left" style="height: 630px;" id="vslider-base">
 											<cfset i=1>
-											<cfloop query="collectingImagesForCarousel">
-												<cfset alttext = collectingImagesForCarousel['alt'][i]>
-												<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-												<cfif len(alttextTrunc) gt 90>
-													<cfset trimmedAltText = left(alttextTrunc, 90)>
-													<cfset trimmedAltText &= "...">
-												<cfelse>
-													<cfset trimmedAltText = altTextTrunc>
-												</cfif>
-													<div class="small95 vslider-styling w-100 float-left px-3 h-auto">
-														<p class="mt-2">#trimmedAltText#</p>
+												<cfloop query="collectingImagesForCarousel">
+													<cfset alttext = collectingImagesForCarousel['alt'][i]>
+													<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+													<cfif len(alttextTrunc) gt 300>
+														<cfset trimmedAltText = left(alttextTrunc, 300)>
+														<cfset trimmedAltText &= "...">
+													<cfelse>
+														<cfset trimmedAltText = altTextTrunc>
+													</cfif>
+													<div class="w-100 float-left px-3 h-auto">
+														<p class="mt-2 bg-light">#trimmedAltText#</p>
 														<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
-														<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
-														<cfif len(collectingImagesForCarousel['media_uri'][i]) GT 0 AND collectingImagesForCarousel['media_uri'][i] GT 0 AND agentImagesForCarousel['media_uri'][i] GT 1000>
-															<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=999&media_id=#collectingImagesForCarousel['media_id'][i]#">
+														<cfset src=collectingImagesForCarousel['media_uri'][i]>
+														<cfif fileExists(#src#)>
+															<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+															</a>
 														<cfelse>
-															<cfset src="#collectingImagesForCarousel['media_uri'][i]#">
+															<ul class="bg-dark px-0 list-unstyled">
+																<li>
+																	<h3 class="text-white mx-auto message">
+																		No image is stored
+																	</h3>
+																</li>
+															</ul>
 														</cfif>
-															<img src="#src#" class="w-100" alt="#trimmedAltText#">
-														</a>
 													</div>
-
-												<cfset i=i+1>
-											</cfloop>
+													<cfset i=i+1>
+												</cfloop>
+											</div>
+											<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
+												<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
+												<input type="number" id="custom-input2" class="border border-light" placeholder="index">
+												<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next &nbsp; >> </button>
+										 	</div>
 										</div>
-										<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
-											<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
-											<input type="number" id="custom-input2" class="border border-light p-2 mt-1 text-center" style="width: 53px;" placeholder="index">
-											<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next &nbsp; >> </button>
-										 </div>
 									</div>
-										</div>
-									</cfif>
+								</cfif>
 					<!---				<cfif localityImagesForCarousel.recordcount gte 2>
 										<cfset imagePlural = 'images'>
 										<cfelse>
