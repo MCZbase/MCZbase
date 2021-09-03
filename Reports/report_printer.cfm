@@ -196,7 +196,7 @@
 					</div>
 					<div id="part_name_limit_section">
 						<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
-							<label for="part_name_limit">Limit to Preservation Type:</label>
+							<label for="part_name_limit">Limit to Part Name:</label>
 							<cfquery name="partNameList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(*) as ct, part_name
 								from specimen_part
@@ -213,7 +213,7 @@
 								</cfloop>
 							</select>
 						</cfif>
-						<p>In some cases, for reports that print one label per part, it is desirable to print reports for only one particular part name.  Reports that have been configured to also use this pick list can limit labels to a single part name (e.g whole animal).  If you pick "All", one label will be printed for each part.  If you pick a specific part name from the picklist, one label will be printed for each part (possibly also limited to a selected preservation type) that you picked.  This pick list further filters rather than overiding the preservation types allowed by the selected report.</p>
+						<p>In some cases, for reports that print one label per part, it is desirable to print reports for only one part name.  Reports that have been configured to also use this pick list can limit labels to a single part name (e.g whole animal).  If you pick "All", one label will be printed for each part.  If you pick a specific part name from the picklist, one label will be printed for each part (possibly also limited to a selected preservation type) that you picked.  This pick list further filters rather than overiding the preservation types allowed by the selected report.</p>
 					</div>
 					<div id="report_description_section">Select a report from the list.</div>
 				</td>
