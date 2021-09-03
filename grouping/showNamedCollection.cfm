@@ -1227,7 +1227,7 @@ const slideshow = document.querySelector('.slide-wrap');
 if (slideshow != null ) { //make sure we don't run this script if the slideshow is not present
 
   let slides = document.querySelectorAll('.slide-entry'),
-	slideCount = slides.length - 1,
+	slideCount = slides.length,
 	currentSlide = 0,
 	slideHeight = null,
 	initialHeight = slides[0].clientHeight;
