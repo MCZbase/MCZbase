@@ -410,7 +410,7 @@ overflow: hidden;
 							SELECT DISTINCT media.media_id,media.media_uri, 
 							MCZBASE.get_media_descriptor(media.media_id) as alt, 
 							MCZBASE.get_medialabel(media.media_id,'width') as width,
-							max(MCZBASE.get_medialabel(media.media_id,'height') as height),
+							MCZBASE.get_medialabel(media.media_id,'height') as height,
 							MCZBASE.get_media_credit(media.media_id) as credit
 							FROM
 								underscore_collection
@@ -427,21 +427,6 @@ overflow: hidden;
 								ORDER BY DBMS_RANDOM.RANDOM
 							) 
 						WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
-					</cfquery>
-					<cfquery name="maxheight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="maxheight_resultt">
-	   				select max(MCZBASE.get_medialabel(media.media_id,'height') as points)
-						  from underscore_collection
-								left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-								left join cataloged_item
-									on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-								left join media_relations
-									on media_relations.related_primary_key = underscore_relation.collection_object_id
-								left join media on media_relations.media_id = media.media_id
-							WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								AND media_relations.media_relationship = 'shows cataloged_item'
-								AND media.media_type = 'image'
-								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-						order by points desc  
 					</cfquery>
 					<cfif specimenImagesForCarousel.recordcount GT 0>
 						<cfset otherImageTypes = otherImageTypes>
@@ -606,14 +591,7 @@ overflow: hidden;
 					<cfif localityCt.recordcount GT 0>
 						<cfset otherImageTypes = otherImageTypes + 1>
 					</cfif>
-				
-				<cfset i=1>
-				<cfloop query="specimenImagesForCarousel">
-					#specimenImagesForCarousel.height#
-					<cfset i = i+1>
-				</cfloop>
-				
-					
+			
 			
 					<div class="row mx-3 mt-3">
 						<div class="col-12 col-md-6 float-left mt-3 mb-3">
@@ -1109,9 +1087,8 @@ overflow: hidden;
 ///////////below is for specimen image slider
 (function () {
   "use strict";
-  function init() {
+  function init(height) {
     var $input = document.getElementById('custom-input')
-	var #toScript(mczbase.specimenImagesForCarousel.height, "height")#;
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base'), {
         autoplay: false,
@@ -1120,7 +1097,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: maxheight,
+		height: height,
         after: function (index, length) {
           $input.value = index
         }
