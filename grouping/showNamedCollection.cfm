@@ -1198,7 +1198,7 @@ right: 0;
     )
     console.log('window.defaultSliders:', window.defaultSliders)
 
-    var $input = document.querySelectorAll('custom-input','custom-input1','custom-input2','custom-input3')
+    var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
       document.querySelectorAll('vslider-base','vslider-base1','vslider-base2','vslider-base3'), {
         autoplay: false,
@@ -1216,14 +1216,14 @@ right: 0;
     window.baseSlider = baseSlider
     // custom controls
     $input.addEventListener('change', function (e) {
-      baseSlider[0].next(3)(
+      baseSlider.next(
         parseInt(e.target.value)
       )
     }, false)
-    document.querySelectorAll('custom-prev','custom-prev1','custom-prev2','custom-prev3').addEventListener('click', function (e) {
+    document.getElementById('custom-prev').addEventListener('click', function (e) {
       baseSlider.prev()
     }, false)
-    document.querySelectorAll('custom-next','custom-next1','custom-next2','custom-next3').addEventListener('click', function (e) {
+    document.getElementById('custom-next').addEventListener('click', function (e) {
       baseSlider.next()
     }, false)
 
