@@ -674,7 +674,7 @@ padding-bottom: 1em;
 												<cfif len(specimenImagesForCarousel['media_uri'][i]) GT 0 AND len(specimenImagesForCarousel['media_uri'][0]) gt 0>
 													<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
 												<cfelse>
-												<!---	<cfset src="#specimenImagesForCarousel['media_uri'][i]#">--->
+													<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
 												</cfif>
 												<img src="#src#" class="w-100" alt="#trimmedAltText#">
 											</a>
