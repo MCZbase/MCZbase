@@ -770,9 +770,9 @@ right: 0;
 													<cfelse>
 														
 													</cfif>--->
-													<cfset src="#firstSpecImageForCarousel['media_uri']#">
+													<cfset src="#firstSpecImageForCarousel['media_uri'][i]#">
 													<cfset srcClick="#specimenImagesForCarousel['media_uri'][i]#">
-													<img src="#src#" data-src="#srcClick#" class="w-100" alt="#trimmedAltText#">
+													<img src="#srcClick#" data-src="#srcClick#" class="w-100" alt="#trimmedAltText#">
 												</a>
 											</div>
 											<cfset i=i+1>
