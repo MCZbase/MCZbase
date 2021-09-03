@@ -751,12 +751,14 @@ right: 0;
 														<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">
 													<cfelse>
 													</cfif>--->
-												<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
+												<cfset width="specimenImagesForCarousel['width'][i]">
+												<cfset height=specimenImagesForCarousel['first_height'][i]>
+												<cfset src=specimenImagesForCarousel['media_uri'][i]#>
 												<cfif fileExists(#src#)>
 													<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100 w-100" title="click to open full image">
 														<img src="#src#" class="mx-auto" alt="#trimmedAltText#" 
-													<cfif #specimenImagesForCarousel['first_height'][i]# lt 650>height="auto" width="#specimenImagesForCarousel['width'][i]"
-													<cfselseif #specimenImagesForCarousel['first_height'][i]# gt 650>height="650" width="auto"
+													<cfif height lt 650>height="auto" width="#width#"
+													<cfselseif height gt 650>height="650" width="auto"
 													<cfelse>
 														
 													</cfif>
