@@ -61,7 +61,7 @@ Metadata page with summary information on label reports.
 			<div class="col-12">
 				<h1 class="h2">Label Reports</h1>
 				<p>Reports used to generate labels are accessed through Specimen Search - Manage -> Print any report...</p>
-				<p><strong>Department(s)</strong> lists the department or departments for which the reports were designed, this does not limit use to particular department, but data from other departments may or may not fit the assumptions of the report.  <strong>Shown</strong> indicates whether a particular report will be shown to you on the Print any report page by default, or if you need to click through the Show All Reports link at the bottom of that page to access that report.  The list of collections for which reports can be seen is configured for each user, if you or another user do not have Shown="By Default" for the desired set of labels, please file a bug report for the user and the desired list of collections.  <strong>Use</strong> is a guideline, though many Fluid reports will not produce labels for Dry specimens.  Every report has a different set of conditions and assumptions, these are spelled out in the <strong>Description</strong>.  Pay careful note to highlighted information, particularly cases where labels will not work as might be expected for types.  <strong>Part Limit</strong> and <strong>Preserve Limit</strong> denote reports that include picklists allowing the generated PDF pages to be filtered to produced labels for only particular part types or preservation methods, if you would like these limits added to a report that does not have them, please file a bug report.</p>
+				<p><strong>Department(s)</strong> lists the department or departments for which the reports were designed, this does not limit use to particular department, but data from other departments may or may not fit the assumptions of the report.  <strong>Shown</strong> indicates whether a particular report will be shown to you on the Print any report page by default, or if you need to click through the Show All Reports link at the bottom of that page to access that report.  The list of collections for which reports can be seen is configured for each user, if you or another user do not have Shown="By Default" for the desired set of labels, please file a bug report for the user and the desired list of collections.  <strong>Use</strong> is a guideline, though many Fluid reports will not produce labels for Dry specimens.  Every report has a different set of conditions and assumptions, these are spelled out in the <strong>Description</strong>.  Pay carefull attention to highlighted information, particularly cases where labels will not work as might be expected for types.  <strong>Types</strong> indicates reports that have been designed to work with type specimens.  <strong>Part Limit</strong> and <strong>Preserve Limit</strong> denote reports that include picklists allowing the generated PDF pages to be filtered to produced labels for only particular part types or preservation methods, if you would like these limits added to a report that does not have them, please file a bug report.</p>
 				
 				<table border id="labelsTable" class="sortable table table-responsive d-xl-table">
 					<thead class="thead-light">
@@ -71,6 +71,7 @@ Metadata page with summary information on label reports.
 						<th>Report name</th>
 						<th>Description</th>
 						<th>Use</th>
+						<th>Types</th>
 						<th>Part Limit</th>
 						<th>Preserve Limit</th>
 						<th>Format</th>
@@ -112,6 +113,9 @@ Metadata page with summary information on label reports.
 							<td>#description#</td>
 							<td>
 								#left(report_name,find('_',report_name)-1)#
+							</td>
+							<td>
+								<cfif find('_Type_',report_name) GT 0><strong>Yes</strong></cfif>
 							</td>
 							<td>#partLimit#</td>
 							<td>#preserveLimit#</td>
