@@ -712,7 +712,7 @@ overflow: hidden;
 											</div>
 										</div>
 									</cfif>
-					<!---			<cfif collectingImagesForCarousel.recordcount gte 2>
+									<cfif collectingImagesForCarousel.recordcount gte 2>
 										<cfset imagePlural = 'images'>
 										<cfelse>
 										<cfset imagePlural = 'image'>
