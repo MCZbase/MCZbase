@@ -55,6 +55,7 @@ Metadata page with summary information on label reports.
 				<p>Reports used to generate labels are accessed through Specimen Search - Manage -> Print any report...</p>
 				
 				<table border id="labelsTable" class="sortable table table-responsive d-xl-table">
+					<thead class="thead-light">
 					<tr>
 						<th>Department(s)</th>
 						<th>Report name</th>
@@ -63,6 +64,8 @@ Metadata page with summary information on label reports.
 						<th>Preserve Limit</th>
 						<th>Format</th>
 					</tr>
+					</thead>
+					<tbody>
 					<cfloop query="reports">
 						<cfif partnamelimit GT 0><cfset partLimit = "Yes"><cfelse><cfset partLimit = ""></cfif>
 						<cfif preservemethodlimit GT 0><cfset preserveLimit = "Yes"><cfelse><cfset preserveLimit = ""></cfif>
@@ -75,6 +78,7 @@ Metadata page with summary information on label reports.
 							<td>#report_format#</td>
 						</tr>
 					</cfloop>
+					</tbody>
 				</table>
 			</div>
 		</section>
