@@ -1087,7 +1087,7 @@ overflow: hidden;
 ///////////below is for specimen image slider
 (function () {
   "use strict";
-  function init(height) {
+  function init() {
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base'), {
@@ -1097,7 +1097,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: height,
+		height: "54rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
         after: function (index, length) {
           $input.value = index
         }
