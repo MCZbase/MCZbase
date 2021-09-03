@@ -733,7 +733,7 @@ right: 0;
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 								<div class="carousel_background border float-left w-100 p-2">
 									<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-									  <div class="vslider w-100 float-left" style="height:650px;" id="vslider-base">
+									  <div class="vslider w-100 float-left" id="vslider-base">
 										 <cfset i=1>
 										<cfloop query="specimenImagesForCarousel">
 										<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -757,7 +757,9 @@ right: 0;
 														<img src="#src#" class="mx-auto" alt="#trimmedAltText#" width="#specimenImagesForCarousel['width'][i]#" height="#specimenImagesForCarousel['first_height'][i]#">
 													</a>
 												<cfelse>
-													<h2 class="bg-dark h-100 mt-5 mx-auto" style="padding-top: 42%;font-size: 2.2rem;">No image is stored</h2>
+													<div class="bg-dark h-100">
+														<h2 class="text-white mx-auto" style="padding-top: 42%;font-size: 2.2rem;">No image is stored</h2>
+													</div>
 												</cfif>
 											</div>
 											<cfset i=i+1>
