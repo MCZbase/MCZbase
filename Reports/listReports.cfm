@@ -47,13 +47,14 @@ Metadata page with summary information on label reports.
 </cfquery>
 
 <cfoutput>
+	<script src="/lib/misc/sorttable.js"></script>
 	<main class="container py-3" id="content">
 		<section class="row">
 			<div class="col-12">
 				<h1 class="h2">Label Reports</h1>
 				<p>Reports used to generate labels are accessed through Specimen Search - Manage -> Print any report...</p>
 				
-				<table class="table table-responsive table-striped d-lg-table">
+				<table class="table table-responsive table-striped d-lg-table sortable">
 					<thead class="thead-light">
 					<tr>
 						<th>Department(s)</th>
