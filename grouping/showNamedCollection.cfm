@@ -280,6 +280,7 @@ overflow: hidden;
 								</cfif>
 							</div>
 						</div>
+						<cfset maxSpecimens = 25>
 						<div class="row mx-0">
 							<!---for specimen record grid--->
 							<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -293,7 +294,7 @@ overflow: hidden;
 										and flat.guid is not null
 									ORDER BY flat.guid asc
 									) 
-								WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
+								WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxSpecimens#">
 							</cfquery>
 							<!---for specimen image count--->
 							<cfquery name="specimenImgs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
