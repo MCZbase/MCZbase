@@ -648,7 +648,7 @@ padding-bottom: 1em;
 				<cfif localityCt.recordcount GT 0>
 					<cfset otherImageTypes = otherImageTypes + 1>
 				</cfif>
-					<div class="row mx-3 mt-3">
+				<div class="row mx-3 mt-3">
 					<div class="col-12 col-md-6 float-left mt-3 mb-3">
 					<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
 						<h2 class="mt-3">Images <span class="small">(25 max. shown per category) </span></h2>
@@ -931,9 +931,9 @@ padding-bottom: 1em;
 <script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization&v=weekly" async></script>
 						</section>
 					</div>
-
-				</div>
-				<div class="col mt-4 float-left"> 
+					<!--- end images & heat map---> 
+					
+					<div class="col mt-4 float-left"> 
 					<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 					<div class="my-2 py-3 border-bottom-black">
 						<cfif len(getNamedGroup.description) GT 0 >
@@ -1100,8 +1100,9 @@ padding-bottom: 1em;
 						</cfif>
 					</div>
 				</div>
+					<!--- end rowEverythihngElse--->
 				</div>
-				<!--- end rowEverythihngElse---> 
+				 
 			</article>
 			</div>
 		</main>
