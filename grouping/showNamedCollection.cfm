@@ -1691,5 +1691,6 @@ imgs.forEach(img => {
   window.vanillaSlider = vanillaSlider
 }());											
 </script>
+<script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 </cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
