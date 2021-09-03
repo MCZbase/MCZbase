@@ -1192,15 +1192,10 @@ right: 0;
 (function () {
   "use strict";
   function init() {
-    // multiple
-    window.defaultSliders = vanillaSlider(
-      document.querySelectorAll('.vslider-default')
-    )
-    console.log('window.defaultSliders:', window.defaultSliders)
 
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
-      document.querySelectorAll('vslider-base','vslider-base1','vslider-base2','vslider-base3'), {
+      document.getElementById('vslider-base'), {
         autoplay: false,
         navigation: false,
         keyboardnavigation: false,
