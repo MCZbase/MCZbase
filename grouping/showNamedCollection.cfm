@@ -764,43 +764,7 @@ right: 0;
 										<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
 									  </div>
 								</div>
-								</cfif>
-											
-											
-								<cfif specimenImagesForCarousel.recordcount gt 0>
-								<div class="slide-wrap border float-left w-100 p-2">
-									<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-									  <div class="slideshow">
-										 <cfset i=1>
-										<cfloop query="specimenImagesForCarousel">
-											<cfset alttext = specimenImagesForCarousel['alt'][i]>
-											<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-											<cfif len(alttextTrunc) gt 300>
-												<cfset trimmedAltText = left(alttextTrunc, 300)>
-												<cfset trimmedAltText &= "...">
-											<cfelse>
-												<cfset trimmedAltText = altTextTrunc>
-											</cfif>
-											<div class="slide-entry">
-        										<div class="slide-content">
-												<p class="mt-2">#trimmedAltText#</p>
-												<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-												<a href="#media_uri#" target="_blank" class="d-block my-1 bg-black h-100" title="click to open full image">
-												<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
-												<img src="#src#" class="w-100" alt="#trimmedAltText#">
-												</a>
-											</div>
-											</div>
-											<cfset i=i+1>
-										</cfloop>
-
-										<ul class="slide-nav">
-										  <li id="prev-slide"><i class="fas fa-chevron-left"></i></li>
-										  <li id="next-slide"><i class="fas fa-chevron-right"></i></li>
-										</ul>
-									</div>
-								</div>
-							</cfif>				
+								</cfif>		
 
 							
 							<!--- figure out widths of sub blocks, adapt to number of blocks --->
@@ -1222,113 +1186,6 @@ right: 0;
 	</cfloop>
 <script>
 	
-const slideshow = document.querySelector('.slide-wrap');
-
-if (slideshow != null ) { //make sure we don't run this script if the slideshow is not present
-
-  let slides = document.querySelectorAll('.slide-entry'),
-	slideCount = slides.length,
-	currentSlide = 0,
-	slideHeight = null,
-	initialHeight = slides[0].clientHeight;
-
-	slides[0].classList.add('active'); //on load, activate the first slide
-
-function moveToSlide(n) { // set up our slide navigation functionality
-  slides[currentSlide].className = 'slide-entry';
-  currentSlide = (n+slideCount)%slideCount;
-  slides[currentSlide].className = 'slide-entry active';
-  slideHeight = slides[currentSlide].clientHeight;
-  slideshow.style.height = slideHeight + 'px';
-  window.addEventListener('resize', function(){
-    resizedSlideHeight = slides[currentSlide].clientHeight;
-    slideshow.style.height = resizedSlideHeight + 'px';
-  });
-}
-
-function nextSlide(e){
-  moveToSlide(currentSlide+1);
-  let code = e.keyCode;
-  if( code == 39 ) {
-    moveToSlide(currentSlide+1);
-  }
-};
-function prevSlide(e){
-  moveToSlide(currentSlide+-1);
-  let code = e.keyCode;
-  if( code == 37 ) {
-    moveToSlide(currentSlide+-1);
-  }
-};
-
-const slideHandlers = {
-  nextSlide: function(element){
-    document.querySelector(element).addEventListener('click',nextSlide);
-    document.body.addEventListener('keydown',nextSlide, false);
-  },
-  prevSlide: function(element){
-    document.querySelector(element).addEventListener('click',prevSlide);
-    document.body.addEventListener('keydown',prevSlide, false);
-  }
-}
-
-slideHandlers.nextSlide('##next-slide');
-slideHandlers.prevSlide('##prev-slide');
-
-// Dynamic slideshow height
-
-  slideshow.style.height = initialHeight + 'px'; //on load, set the height of the slider to the first active slide
-
-window.addEventListener('resize', function(){ // adjust the height of the slidehow as the browser is resized
-  let resizedHeight = slides[0].clientHeight;
-  slideshow.style.height = resizedHeight + 'px';
-});
-
-// Detect swipe events for touch devices, credit to Kirupa @ https://www.kirupa.com/html5/detecting_touch_swipe_gestures.htm
-let initialX = null;
-let initialY = null;
-function startTouch(e) {
-  initialX = e.touches[0].clientX;
-  initialY = e.touches[0].clientY;
-};
-function moveTouch(e) {
-  if (initialX === null) {
-    return;
-  }
-  if (initialY === null) {
-    return;
-  }
-  let currentX = e.touches[0].clientX;
-  let currentY = e.touches[0].clientY;
-  let diffX = initialX - currentX;
-  let diffY = initialY - currentY;
-  if (Math.abs(diffX) > Math.abs(diffY)) {
-    if (diffX > 0) {
-// swiped left
-moveToSlide(currentSlide+1);
-} else {
-// swiped right
-moveToSlide(currentSlide+-1);
-}
-}
-initialX = null;
-initialY = null;
-e.preventDefault();
-};
-
-slideshow.addEventListener("touchstart", startTouch, false);
-slideshow.addEventListener("touchmove", moveTouch, false);  
-
-// optional autoplay function  
-  setInterval(function(){
-    nextSlide();
-  },8000); 
-
-} //end slideshow	
-	
-	
-	
-}
 
 
 (function () {
@@ -1355,10 +1212,10 @@ slideshow.addEventListener("touchmove", moveTouch, false);
         }
       }
     )
-    window.baseSlider = baseSlider
+    window.baseSlider = baseSlider[0]
     // custom controls
     $input.addEventListener('change', function (e) {
-      baseSlider.next(
+      baseSlider[i++].next(
         parseInt(e.target.value)
       )
     }, false)
