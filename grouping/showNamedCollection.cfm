@@ -756,7 +756,7 @@ right: 0;
 												
 											
 													<cfset src="#specimenImagesForCarousel['media_uri'][i]#">
-													<img src="#src#" class="w-100" alt="#trimmedAltText#" height="#specimenImagesForCarousel['firstHeight'][i]#">
+													<img src="#src#" class="w-100" alt="#trimmedAltText#" height="#specimenImagesForCarousel['first_height'][i]#">
 												</a>
 											</div>
 											<cfset i=i+1>
