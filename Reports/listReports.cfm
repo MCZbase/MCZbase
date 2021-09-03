@@ -75,8 +75,9 @@ Metadata page with summary information on label reports.
 						<cfif partnamelimit GT 0><cfset partLimit = "Yes"><cfelse><cfset partLimit = ""></cfif>
 						<cfif preservemethodlimit GT 0><cfset preserveLimit = "Yes"><cfelse><cfset preserveLimit = ""></cfif>
 						<cfset departmentsArray = ListToArray(departments,'_')>
+						<cfset highlight="">
 						<cfloop array="#userCollsArray#" index="idx">
-							<cfif ArrayContains(departmentsArray,idx)><highlight = "yes"><cfelse><highlight=""></cfif>
+							<cfif ArrayContains(departmentsArray,idx)><cfset highlight = "yes"><cfelse><cfset highlight=""></cfif>
 						</cfloop>
 						<tr>
 							<cfif highlight EQ "yes">
