@@ -1097,7 +1097,8 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: '45rem',
+		//height: '45rem',
+		height: 'auto',
         after: function (index, length) {
           $input.value = index
         }
