@@ -48,7 +48,7 @@ Metadata page with summary information on label reports.
 		username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 </cfquery>
 <cfloop query="userColls">
-	<cfset userCollsArray = ListToArray(reportprefs,',')>
+	<cfset userCollsArray = ListToArray(userColls.reportprefs,',')>
 </cfloop>
 
 <cfoutput>
@@ -75,7 +75,7 @@ Metadata page with summary information on label reports.
 						<cfif partnamelimit GT 0><cfset partLimit = "Yes"><cfelse><cfset partLimit = ""></cfif>
 						<cfif preservemethodlimit GT 0><cfset preserveLimit = "Yes"><cfelse><cfset preserveLimit = ""></cfif>
 						<cfset departmentsArray = ListToArray(departments,'_')>
-						<cfloop array="#userColls#" index="idx">
+						<cfloop array="#userCollsArray#" index="idx">
 							<cfif ArrayContainsNoCase(departmentsArray,idx)><highlight = "yes"><cfelse><highlight=""></cfif>
 						</cfloop>
 						<tr>
