@@ -697,14 +697,14 @@ right: 0;
 											<cfset trimmedAltText = altTextTrunc>
 										</cfif>
 											<div class="w-100 float-left px-3 h-auto">
-												<p class="mt-2">#trimmedAltText#</p>
+												<p class="mt-2 bg-light">#trimmedAltText#</p>
 												<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 												<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
 												<!---<cfset width=specimenImagesForCarousel['width'][i]>
 												<cfset height=specimenImagesForCarousel['first_height'][i]>--->
 												<cfset src=specimenImagesForCarousel['media_uri'][i]>
 												<cfif fileExists(#src#)>
-													<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+													<a href="#media_uri#" target="_blank" class="d-block bg-secondary py-2 my-1 w-100" title="click to open full image">
 														<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 													</a>
 												<cfelse>
