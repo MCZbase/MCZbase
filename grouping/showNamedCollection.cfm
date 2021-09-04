@@ -1329,7 +1329,7 @@ overflow: hidden;
       prefix: 'vslider-',
       // if null set height automatically else use height
       // number (=px) or explicit like "3em"
-      height: null,
+      height: '37rem',
       rotation: true,
       autoplay: options.rotation === false ? false : true,
       initialTimeout: 4000,
