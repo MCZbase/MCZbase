@@ -779,7 +779,7 @@ overflow: hidden;
 											<div class="col-12 #colClass# mx-md-auto mt-3">
 												<div class="carousel_background border float-left w-100 p-2">
 													<h3 class="mx-2 text-center">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-														<div class="vslider w-100 float-left" id="vslider-base">
+														<div class="vslider w-100 float-left bg-light" id="vslider-base">
 															<cfset i=1>
 															<cfloop query="localityImagesForCarousel">
 																<cfset alttext = localityImagesForCarousel['alt'][i]>
