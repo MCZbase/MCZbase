@@ -600,7 +600,7 @@ overflow: hidden;
 								<div class="col-12">
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-										<div class="vslider w-100 float-left bg-light pb-2" style="height: 50rem;" id="vslider-base">
+										<div class="vslider w-100 float-left bg-light pb-2" style="height: 45rem;" id="vslider-base">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<cfset alttext = specimenImagesForCarousel['alt'][i]>
