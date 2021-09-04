@@ -1093,7 +1093,7 @@ overflow: hidden;
 		</main>
 	</cfloop>
 <script>
-(function () {
+function () {
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input')
@@ -1126,7 +1126,7 @@ overflow: hidden;
     }, false)
   }
   document.addEventListener('DOMContentLoaded', init, false);
-}());
+}();
 (function () {
   "use strict";
   function init() {
