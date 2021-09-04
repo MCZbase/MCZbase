@@ -1097,7 +1097,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: "50rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
+		height: "48rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
         after: function (index, length) {
           $input.value = index
         }
