@@ -1097,6 +1097,7 @@ overflow: hidden;
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input')
+	var index = i,
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base'), {
         autoplay: false,
