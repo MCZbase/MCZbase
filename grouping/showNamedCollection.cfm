@@ -1094,6 +1094,7 @@ overflow: hidden;
 	</cfloop>
 <script>
 ///////////below is for specimen image slider
+;
 (function () {
   "use strict";
   function init() {
@@ -1129,6 +1130,7 @@ overflow: hidden;
   document.addEventListener('DOMContentLoaded', init, false);
 }());
 ///////////below is for agent image slider
+;
 (function () {
   "use strict";
   function init() {
@@ -1164,6 +1166,7 @@ overflow: hidden;
   document.addEventListener('DOMContentLoaded', init, false);
 }());
 ///////////below is for collecting event image slider
+;
 (function () {
   "use strict";
   function init() {
@@ -1199,7 +1202,8 @@ overflow: hidden;
   document.addEventListener('DOMContentLoaded', init, false);
 }());
 ///////////below is for locality image slider
-(function () {
+;
+	(function () {
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input3')
@@ -1233,8 +1237,9 @@ overflow: hidden;
   }
   document.addEventListener('DOMContentLoaded', init, false);
 }());
-////////////////
+
   // More code for the Vanilla javascript carousel slider for images 	
+;
 (function () {
   "use strict";
   // Polyfill for e.g. IE
