@@ -668,7 +668,7 @@ overflow: hidden;
 										<cfset imgHeight = "height:400px;">
 									</cfdefaultcase>
 								</cfswitch>
-								<div class="row">
+								<div class="row bottom">
 									<div class="col-12 px-0 mt-2 mb-3">
 										<cfif agentImagesForCarousel.recordcount gte 2>
 											<cfset imagePlural = 'images'>
