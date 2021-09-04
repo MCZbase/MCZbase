@@ -599,6 +599,7 @@ overflow: hidden;
 							<div class="col-12 col-md-6 float-left mt-3 mb-3">
 								<h2 class="mt-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
+								<div class="col-12">
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
 										<div class="vslider w-100 float-left bg-light" id="vslider-base">
@@ -640,7 +641,8 @@ overflow: hidden;
 											<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
 										</div>
 									</div>
-								</cfif>		
+								</cfif>	
+							</div>
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
 								<cfswitch expression="#otherImageTypes#">
 									<cfcase value="1">
