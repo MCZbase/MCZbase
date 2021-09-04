@@ -431,7 +431,7 @@ overflow: hidden;
 						WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 					</cfquery>
 					<cfif specimenImagesForCarousel.recordcount GT 0>
-						<cfset otherImageTypes = otherImageTypes>
+						<cfset otherImageTypes = 1>
 					</cfif>
 					<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 						SELECT * FROM (
@@ -592,8 +592,6 @@ overflow: hidden;
 					<cfif localityCt.recordcount GT 0>
 						<cfset otherImageTypes = otherImageTypes + 1>
 					</cfif>
-			
-			
 					<div class="row mx-3 mt-3">
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
 							<div class="col-12 col-md-6 float-left mt-3 mb-3">
