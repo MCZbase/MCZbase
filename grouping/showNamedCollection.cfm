@@ -1165,7 +1165,6 @@ overflow: hidden;
   }
   document.addEventListener('DOMContentLoaded', init, false);
 }());
-///////////below is for collecting event image slider
 ;
 (function () {
   "use strict";
@@ -1201,7 +1200,6 @@ overflow: hidden;
   }
   document.addEventListener('DOMContentLoaded', init, false);
 }());
-///////////below is for locality image slider
 ;
 	(function () {
   "use strict";
