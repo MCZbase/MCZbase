@@ -1232,8 +1232,7 @@ overflow: hidden;
   document.addEventListener('DOMContentLoaded', init, false);
 }());
 
-  // More code for the Vanilla javascript carousel slider for images 	
-;
+
 (function () {
   "use strict";
   // Polyfill for e.g. IE
