@@ -1106,8 +1106,8 @@ overflow: hidden;
         wheelnavigation: true,
         status: false,
 		height: "43rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
-        after: function (i, length) {
-          $input.value = i
+        after: function (index, length) {
+          $input.value = index
         }
       }
     )
