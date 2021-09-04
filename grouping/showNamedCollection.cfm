@@ -614,8 +614,8 @@ overflow: hidden;
 											<cfloop query="specimenImagesForCarousel">
 												<cfset alttext = specimenImagesForCarousel['alt'][i]>
 												<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-												<cfif len(alttextTrunc) gt 300>
-													<cfset trimmedAltText = left(alttextTrunc, 300)>
+												<cfif len(alttextTrunc) gt 200>
+													<cfset trimmedAltText = left(alttextTrunc, 200)>
 													<cfset trimmedAltText &= "...">
 												<cfelse>
 													<cfset trimmedAltText = altTextTrunc>
