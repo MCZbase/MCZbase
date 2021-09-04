@@ -236,6 +236,15 @@ overflow: hidden;
 	padding-bottom: 25%;
 	font-size: 2rem;
 }
+	@media only screen and (max-width: 300px){
+		.vslider {height: 23rem;}
+	}
+	@media only screen and (max-width: 600px){
+		.vslider {height: 43rem;}
+	}
+	@media only screen and (max-width: 1000px){
+		.vslider {height: 35rem;}
+	}
 </style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
