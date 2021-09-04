@@ -600,7 +600,7 @@ overflow: hidden;
 								<div class="col-12">
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-										<div class="vslider w-100 float-left bg-light pb-2" style="height: 45rem;" id="vslider-base">
+										<div class="vslider w-100 float-left bg-light pb-2" style="height: 43rem;" id="vslider-base">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -1097,7 +1097,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: "48rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
+		height: "43rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
         after: function (index, length) {
           $input.value = index
         }
