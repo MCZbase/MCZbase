@@ -1202,9 +1202,9 @@ overflow: hidden;
 (function () {
   "use strict";
   function init() {
-    var $input = document.getElementById('custom-input2')
+    var $input = document.getElementById('custom-input3')
     var baseSlider = vanillaSlider(
-      document.getElementById('vslider-base2'), {
+      document.getElementById('vslider-base3'), {
         autoplay: false,
         navigation: false,
         keyboardnavigation: false,
@@ -1224,10 +1224,10 @@ overflow: hidden;
         parseInt(e.target.value)
       )
     }, false)
-    document.getElementById('custom-prev2').addEventListener('click', function (e) {
+    document.getElementById('custom-prev3').addEventListener('click', function (e) {
       baseSlider.prev()
     }, false)
-    document.getElementById('custom-next2').addEventListener('click', function (e) {
+    document.getElementById('custom-next3').addEventListener('click', function (e) {
       baseSlider.next()
     }, false)
   }
