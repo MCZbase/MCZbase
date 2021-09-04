@@ -1093,8 +1093,6 @@ overflow: hidden;
 		</main>
 	</cfloop>
 <script>
-///////////below is for specimen image slider
-;
 (function () {
   "use strict";
   function init() {
@@ -1129,8 +1127,6 @@ overflow: hidden;
   }
   document.addEventListener('DOMContentLoaded', init, false);
 }());
-///////////below is for agent image slider
-;
 (function () {
   "use strict";
   function init() {
@@ -1165,7 +1161,7 @@ overflow: hidden;
   }
   document.addEventListener('DOMContentLoaded', init, false);
 }());
-;
+
 (function () {
   "use strict";
   function init() {
@@ -1200,8 +1196,8 @@ overflow: hidden;
   }
   document.addEventListener('DOMContentLoaded', init, false);
 }());
-;
-	(function () {
+
+(function () {
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input3')
