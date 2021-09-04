@@ -236,15 +236,15 @@ overflow: hidden;
 	padding-bottom: 25%;
 	font-size: 2rem;
 }
-	@media only screen and (max-width: 300px){
-		.vslider {height: 23rem;}
-	}
-	@media only screen and (max-width: 600px){
-		.vslider {height: 43rem;}
-	}
-	@media only screen and (max-width: 1000px){
-		.vslider {height: 35rem;}
-	}
+@media only screen and (max-width: 300px){
+	.vslider {height: 23rem;}
+}
+@media only screen and (max-width: 600px){
+	.vslider {height: 43rem;}
+}
+@media only screen and (max-width: 1000px){
+	.vslider {height: 35rem;}
+}
 </style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -614,8 +614,8 @@ overflow: hidden;
 											<cfloop query="specimenImagesForCarousel">
 												<cfset alttext = specimenImagesForCarousel['alt'][i]>
 												<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-												<cfif len(alttextTrunc) gt 150>
-													<cfset trimmedAltText = left(alttextTrunc, 150)>
+												<cfif len(alttextTrunc) gt 140>
+													<cfset trimmedAltText = left(alttextTrunc, 140)>
 													<cfset trimmedAltText &= "...">
 												<cfelse>
 													<cfset trimmedAltText = altTextTrunc>
@@ -632,7 +632,7 @@ overflow: hidden;
 													<cfelse>
 														<ul class="bg-dark px-0 list-unstyled">
 															<li>
-																<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
+																<h3 class="text-white mx-auto message">
 																	No image is stored
 																</h3>
 															</li>
