@@ -609,7 +609,7 @@ overflow: hidden;
 								<div class="col-12 px-0">
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-										<div class="vslider w-100 float-left bg-light pb-2" id="vslider-base">
+										<div class="vslider w-100 float-left bg-light py-2" id="vslider-base">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -689,7 +689,7 @@ overflow: hidden;
 											<div class="col-12 px-0 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2 h-auto">
 													<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-													<div class="vslider w-100 float-left bg-light pb-2" style="height: 400px;" id="vslider-base">
+													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base">
 														<cfset i=1>
 														<cfloop query="agentImagesForCarousel">
 															<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -740,7 +740,7 @@ overflow: hidden;
 												<h3 class="mx-2 text-center">Collecting Event 
 													<span class="small">(#collectingCt.recordcount# #imagePlural#)</span>
 												</h3>
-													<div class="vslider w-100 float-left bg-light pb-2" style="height: 400px;" id="vslider-base">
+													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base">
 														<cfset i=1>
 														<cfloop query="collectingImagesForCarousel">
 															<cfset alttext = collectingImagesForCarousel['alt'][i]>
@@ -789,7 +789,7 @@ overflow: hidden;
 											<div class="col-12 px-0 #colClass# mx-md-auto mt-3">
 												<div class="carousel_background border float-left w-100 p-2">
 													<h3 class="mx-2 text-center">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-														<div class="vslider w-100 float-left bg-light pb-2" style="height: 400px;" id="vslider-base">
+														<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base">
 															<cfset i=1>
 															<cfloop query="localityImagesForCarousel">
 																<cfset alttext = localityImagesForCarousel['alt'][i]>
