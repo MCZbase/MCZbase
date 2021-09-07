@@ -415,7 +415,7 @@ overflow: hidden;
 						</div>
 						<!---end specimen grid---> 
 					</div>
-					<cfset maxRandomImages = 3>
+					<cfset maxRandomImages = 5>
 					<cfset otherImageTypes = 0>
 					<!--- obtain a random set of specimen images, limited to a small number/for carousel --->
 					<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
@@ -621,14 +621,15 @@ overflow: hidden;
 													<cfset trimmedAltText = altTextTrunc>
 												</cfif>
 												<div class="w-100 float-left px-3 h-auto">
+													
 													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 													<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
 													<cfset src=specimenImagesForCarousel['media_uri'][i]>
 													<cfif fileExists(#src#)>
 														<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 															<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-															
 														</a>
+														<p class="mt-2 bg-light small">#trimmedAltText#</p>
 													<cfelse>
 														<ul class="bg-dark px-0 list-unstyled">
 															<li>
@@ -688,7 +689,7 @@ overflow: hidden;
 											<div class="col-12 px-0 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2 h-auto">
 													<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base1">
+													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base">
 														<cfset i=1>
 														<cfloop query="agentImagesForCarousel">
 															<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -739,7 +740,7 @@ overflow: hidden;
 												<h3 class="mx-2 text-center">Collecting Event 
 													<span class="small">(#collectingCt.recordcount# #imagePlural#)</span>
 												</h3>
-													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base2">
+													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base">
 														<cfset i=1>
 														<cfloop query="collectingImagesForCarousel">
 															<cfset alttext = collectingImagesForCarousel['alt'][i]>
@@ -788,7 +789,7 @@ overflow: hidden;
 											<div class="col-12 px-0 #colClass# mx-md-auto mt-3">
 												<div class="carousel_background border float-left w-100 p-2">
 													<h3 class="mx-2 text-center">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-														<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base3">
+														<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base">
 															<cfset i=1>
 															<cfloop query="localityImagesForCarousel">
 																<cfset alttext = localityImagesForCarousel['alt'][i]>
@@ -830,9 +831,7 @@ overflow: hidden;
 											</cfif>
 									</div>
 								</div>
-
-
-
+						
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
 							<!---///////////////////////////////--->
@@ -1141,7 +1140,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: "43rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
+		height: '36rem',
         after: function (index, length) {
           $input.value = index
         }
@@ -1175,8 +1174,8 @@ overflow: hidden;
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-        status: true,
-		height: '35rem',
+        status: false,
+		height: '36rem',
         after: function (index, length) {
           $input.value = index
         }
@@ -1211,7 +1210,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: '35rem',
+		height: '36rem',
         after: function (index, length) {
           $input.value = index
         }
@@ -1478,7 +1477,7 @@ overflow: hidden;
       $slider.setAttribute('tabindex', '0')
       $slider.setAttribute('aria-label', settings.i18n.title)
       $slider.setAttribute('aria-live', 'polite')
-      $slider.style.height = settings.height || getComputedStyle($slider).height;
+      $slider.style.height = settings.height || getComputedStyle($slider).height
       [].forEach.call(this._$slides, function ($slide, i) {// the empty brackets are causing an error. Also see lines 1582 and 1586 or around there.
         $slide.setAttribute('id', settings.prefix + 'tabpanel$' + i)
         $slide.setAttribute('role', 'tabpanel')
