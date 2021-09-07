@@ -1306,7 +1306,7 @@ limitations under the License.
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
-					timeout: 60000,  // units not specified, miliseconds?
+					timeout: 120000,  // units not specified, miliseconds?
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
