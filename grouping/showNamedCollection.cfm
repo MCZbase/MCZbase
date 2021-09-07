@@ -1099,7 +1099,7 @@ overflow: hidden;
   function init() {
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
-      document.getElementById('vslider-base'), {
+      document.getElementById('vslider-custom'), {
         autoplay: false,
         navigation: false,
         keyboardnavigation: false,
@@ -1110,6 +1110,14 @@ overflow: hidden;
         after: function (index, length) {
           $input.value = index
         }
+      }
+    )
+	vanillaSlider(
+      document.getElementById('vslider-custom'), {
+        height: '5em',
+        statusContent: function (i, all) {
+          return i + 1
+        },
       }
     )
     window.baseSlider = baseSlider
