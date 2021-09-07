@@ -606,10 +606,10 @@ overflow: hidden;
 							<div class="col-12 col-md-6 float-left px-0 mt-3 mb-3">
 								<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
-								<div class="col-12 px-0">
+								<div class="col-12">
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-										<div class="vslider w-100 float-left bg-light py-2" id="vslider-base">
+										<div class="vslider w-100 float-left bg-light pb-2" id="vslider-base">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -621,14 +621,13 @@ overflow: hidden;
 													<cfset trimmedAltText = altTextTrunc>
 												</cfif>
 												<div class="w-100 float-left px-3 h-auto">
-													
+													<p class="mt-2 bg-light">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 													<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
 													<cfset src=specimenImagesForCarousel['media_uri'][i]>
 													<cfif fileExists(#src#)>
 														<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 															<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-															
 														</a>
 													<cfelse>
 														<ul class="bg-dark px-0 list-unstyled">
@@ -654,7 +653,7 @@ overflow: hidden;
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
 								<cfswitch expression="#otherImageTypes#">
 									<cfcase value="1">
-									<cfset colClass = "col-md-12 px-0 mx-auto float-none">
+									<cfset colClass = "col-md-12 mx-auto float-none">
 									<cfset imgWidth = 600>
 									<cfset imgHeight = "height:600px;">
 									</cfcase>
@@ -686,10 +685,10 @@ overflow: hidden;
 											<cfset imagePlural = 'image'>
 										</cfif>
 										<cfif agentImagesForCarousel.recordcount gt 0>
-											<div class="col-12 px-0 #colClass# mx-md-auto my-3">
+											<div class="col-12 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2 h-auto">
 													<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base1">
+													<div class="vslider w-100 float-left bg-light pb-2" style="height: 400px;" id="vslider-base">
 														<cfset i=1>
 														<cfloop query="agentImagesForCarousel">
 															<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -701,13 +700,13 @@ overflow: hidden;
 																<cfset trimmedAltText = altTextTrunc>
 															</cfif>
 															<div class="w-100 float-left px-3 h-auto">
+																<p class="mt-2 bg-light">#trimmedAltText#</p>
 																<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
 																<cfset src=agentImagesForCarousel['media_uri'][i]>
 																<cfif fileExists(#src#)>
 																	<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																	</a>
-																	<p class="mt-2 small bg-light">#trimmedAltText#</p>
 																<cfelse>
 																	<ul class="bg-dark px-0 list-unstyled">
 																		<li>
@@ -735,12 +734,12 @@ overflow: hidden;
 											<cfset imagePlural = 'image'>
 										</cfif>
 										<cfif collectingImagesForCarousel.recordcount gt 0>
-											<div class="col-12 px-0 #colClass# mx-md-auto my-3">
+											<div class="col-12 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2">
 												<h3 class="mx-2 text-center">Collecting Event 
 													<span class="small">(#collectingCt.recordcount# #imagePlural#)</span>
 												</h3>
-													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base2">
+													<div class="vslider w-100 float-left bg-light pb-2" style="height: 400px;" id="vslider-base">
 														<cfset i=1>
 														<cfloop query="collectingImagesForCarousel">
 															<cfset alttext = collectingImagesForCarousel['alt'][i]>
@@ -752,13 +751,13 @@ overflow: hidden;
 																<cfset trimmedAltText = altTextTrunc>
 															</cfif>
 															<div class="w-100 float-left px-3 h-auto">
+																<p class="mt-2 bg-light">#trimmedAltText#</p>
 																<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
 																<cfset src=collectingImagesForCarousel['media_uri'][i]>
 																<cfif fileExists(#src#)>
 																	<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																	</a>
-																	<p class="mt-2 small bg-light">#trimmedAltText#</p>
 																<cfelse>
 																	<ul class="bg-dark px-0 list-unstyled">
 																		<li>
@@ -786,10 +785,10 @@ overflow: hidden;
 												<cfset imagePlural = 'image'>
 										</cfif>
 										<cfif localityImagesForCarousel.recordcount gt 0>
-											<div class="col-12 px-0 #colClass# mx-md-auto mt-3">
+											<div class="col-12 #colClass# mx-md-auto mt-3">
 												<div class="carousel_background border float-left w-100 p-2">
 													<h3 class="mx-2 text-center">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-														<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base3">
+														<div class="vslider w-100 float-left bg-light pb-2" style="height: 400px;" id="vslider-base">
 															<cfset i=1>
 															<cfloop query="localityImagesForCarousel">
 																<cfset alttext = localityImagesForCarousel['alt'][i]>
@@ -801,13 +800,13 @@ overflow: hidden;
 																	<cfset trimmedAltText = altTextTrunc>
 																</cfif>
 																<div class="w-100 float-left px-3 h-auto">
+																	<p class="mt-2 bg-light">#trimmedAltText#</p>
 																	<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
 																	<cfset src=localityImagesForCarousel['media_uri'][i]>
 																	<cfif fileExists(#src#)>
 																		<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																			<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																		</a>
-																		<p class="mt-2 small bg-light">#trimmedAltText#</p>
 																	<cfelse>
 																		<ul class="bg-dark px-0 list-unstyled">
 																			<li>
@@ -831,9 +830,7 @@ overflow: hidden;
 											</cfif>
 									</div>
 								</div>
-
-
-
+						
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
 							<!---///////////////////////////////--->
@@ -1142,7 +1139,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: "43rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
+		height: '36rem',
         after: function (index, length) {
           $input.value = index
         }
@@ -1176,8 +1173,8 @@ overflow: hidden;
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-        status: true,
-		height: '35rem',
+        status: false,
+		height: '36rem',
         after: function (index, length) {
           $input.value = index
         }
@@ -1212,7 +1209,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: '35rem',
+		height: '36rem',
         after: function (index, length) {
           $input.value = index
         }
@@ -1479,8 +1476,9 @@ overflow: hidden;
       $slider.setAttribute('tabindex', '0')
       $slider.setAttribute('aria-label', settings.i18n.title)
       $slider.setAttribute('aria-live', 'polite')
-      $slider.style.height = settings.height || getComputedStyle($slider).height;
-      [].forEach.call(this._$slides, function ($slide, i) {// the empty brackets are causing an error. Also see lines 1582 and 1586 or around there.
+      $slider.style.height = settings.height || getComputedStyle($slider).height
+      ;
+      [].forEach.call(this._$slides, function ($slide, i) {
         $slide.setAttribute('id', settings.prefix + 'tabpanel$' + i)
         $slide.setAttribute('role', 'tabpanel')
         $slide.setAttribute('aria-labelledby', settings.prefix + 'tab$' + i)
