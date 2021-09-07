@@ -627,7 +627,9 @@ overflow: hidden;
 													<cfset src=specimenImagesForCarousel['media_uri'][i]>
 													<cfif fileExists(#src#)>
 														<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-															<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+															
+															<cfdump var="#trimmedAltText#">
+																<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 														</a>
 														<p class="mt-2 bg-light small">#trimmedAltText#</p>
 													<cfelse>
@@ -831,7 +833,9 @@ overflow: hidden;
 											</cfif>
 									</div>
 								</div>
-						
+
+
+
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
 							<!---///////////////////////////////--->
@@ -1342,8 +1346,6 @@ overflow: hidden;
       status: true,
       statusContent: function (index, length) {
         return '•';
-		 var trimmedAltText = <cfoutput>#serializeJson(aryData)#</cfoutput>; 
-console.log(trimmedAltText);
       },
       i18n: {
         title: 'Carousel',
