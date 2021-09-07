@@ -461,7 +461,7 @@ overflow: hidden;
 						) 
 						WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 					</cfquery>
-					<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
+					<!---<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
 						SELECT DISTINCT media.media_id
 						FROM
 							underscore_collection
@@ -478,7 +478,7 @@ overflow: hidden;
 							AND media.media_type = 'image'
 							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-					</cfquery>
+					</cfquery>--->
 					<cfif agentImagesForCarousel.recordcount GT 0>
 						<cfset otherImageTypes = otherImageTypes + 1>
 					</cfif>
@@ -683,7 +683,7 @@ overflow: hidden;
 										<cfif agentImagesForCarousel.recordcount gt 0>
 											<div class="col-12 px-0 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2 h-auto">
-													<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
+													<h3 class="mx-2 text-center">Agents <!---<span class="small">(#agentCt.recordcount# #imagePlural#)</span>---></h3>
 													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base1">
 														<cfset i=1>
 														<cfloop query="agentImagesForCarousel">
@@ -1089,7 +1089,6 @@ overflow: hidden;
 		</main>
 	</cfloop>
 <script>
-
 (function () {
   "use strict";
   function init() {
@@ -1586,7 +1585,6 @@ overflow: hidden;
   vanillaSlider.VERSION = 2.0
   window.vanillaSlider = vanillaSlider
 }());											
-</script>
 </script>
 </cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
