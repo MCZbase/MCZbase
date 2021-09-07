@@ -1202,7 +1202,7 @@ overflow: hidden;
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input3')
-    var baseSlider = vanillaSlider(
+    var baseSlider3 = vanillaSlider(
       document.getElementById('vslider-base3'), {
         autoplay: false,
         navigation: false,
@@ -1216,7 +1216,7 @@ overflow: hidden;
         }
       }
     )
-    window.baseSlider = baseSlider
+    window.baseSlider3 = baseSlider3
     // custom controls
     $input.addEventListener('change', function (e) {
       baseSlider.next(
@@ -1224,10 +1224,10 @@ overflow: hidden;
       )
     }, false)
     document.getElementById('custom-prev3').addEventListener('click', function (e) {
-      baseSlider.prev()
+      baseSlider3.prev()
     }, false)
     document.getElementById('custom-next3').addEventListener('click', function (e) {
-      baseSlider.next()
+      baseSlider3.next()
     }, false)
   }
   document.addEventListener('DOMContentLoaded', init, false);
