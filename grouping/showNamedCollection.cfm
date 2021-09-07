@@ -646,7 +646,7 @@ overflow: hidden;
 										</div>
 									</div>
 								</cfif>
-							</div>
+						
 						<cfif localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
 							<div class="col-12 col-md-6 float-left px-0 mt-3 mb-3">
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
