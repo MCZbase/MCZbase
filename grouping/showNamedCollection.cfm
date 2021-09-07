@@ -1340,7 +1340,7 @@ overflow: hidden;
       swipedirection: 'h', // h or v
       wheelnavigation: false,
       onSwipeWheel: null,
-      status: true,
+      status: false,
       statusContent: function (index, length) {
         return '•';
       },
