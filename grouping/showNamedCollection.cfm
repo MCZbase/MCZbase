@@ -829,7 +829,7 @@ overflow: hidden;
 										</cfif>
 									</div>
 								</div>
-														
+							</div>
 						
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
