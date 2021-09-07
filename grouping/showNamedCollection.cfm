@@ -654,7 +654,7 @@ overflow: hidden;
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
 								<cfswitch expression="#otherImageTypes#">
 									<cfcase value="1">
-									<cfset colClass = "col-md-12 mx-auto float-none">
+									<cfset colClass = "col-md-12 px-0 mx-auto float-none">
 									<cfset imgWidth = 600>
 									<cfset imgHeight = "height:600px;">
 									</cfcase>
@@ -686,7 +686,7 @@ overflow: hidden;
 											<cfset imagePlural = 'image'>
 										</cfif>
 										<cfif agentImagesForCarousel.recordcount gt 0>
-											<div class="col-12 px-1 #colClass# mx-md-auto my-3">
+											<div class="col-12 px-0 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2 h-auto">
 													<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
 													<div class="vslider w-100 float-left bg-light pb-2" style="height: 400px;" id="vslider-base">
@@ -735,7 +735,7 @@ overflow: hidden;
 											<cfset imagePlural = 'image'>
 										</cfif>
 										<cfif collectingImagesForCarousel.recordcount gt 0>
-											<div class="col-12 px-1 #colClass# mx-md-auto my-3">
+											<div class="col-12 px-0 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2">
 												<h3 class="mx-2 text-center">Collecting Event 
 													<span class="small">(#collectingCt.recordcount# #imagePlural#)</span>
@@ -786,7 +786,7 @@ overflow: hidden;
 												<cfset imagePlural = 'image'>
 										</cfif>
 										<cfif localityImagesForCarousel.recordcount gt 0>
-											<div class="col-12 px-1 #colClass# mx-md-auto mt-3">
+											<div class="col-12 px-0 #colClass# mx-md-auto mt-3">
 												<div class="carousel_background border float-left w-100 p-2">
 													<h3 class="mx-2 text-center">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
 														<div class="vslider w-100 float-left bg-light pb-2" style="height: 400px;" id="vslider-base">
