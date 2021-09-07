@@ -601,51 +601,53 @@ overflow: hidden;
 							<div class="col-12 col-md-6 float-left px-0 mt-3 mb-3">
 								<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
-								<div class="col-12 px-0">
-									<div class="carousel_background border float-left w-100 p-2">
-										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-										<div class="vslider w-100 float-left bg-light py-2" id="vslider-base">
-											<cfset i=1>
-											<cfloop query="specimenImagesForCarousel">
-												<cfset alttext = specimenImagesForCarousel['alt'][i]>
-												<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-												<cfif len(alttextTrunc) gt 140>
-													<cfset trimmedAltText = left(alttextTrunc, 140)>
-													<cfset trimmedAltText &= "...">
-												<cfelse>
-													<cfset trimmedAltText = altTextTrunc>
-												</cfif>
-												<div class="w-100 float-left px-3 h-auto">
-													
-													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-													<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
-													<cfset src=specimenImagesForCarousel['media_uri'][i]>
-													<cfif fileExists(#src#)>
-														<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-															<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-														</a>
-														<p class="mt-2 bg-light small">#trimmedAltText#</p>
+									<div class="col-12 px-0">
+										<div class="carousel_background border float-left w-100 p-2">
+											<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
+											<div class="vslider w-100 float-left bg-light py-2" id="vslider-base">
+												<cfset i=1>
+												<cfloop query="specimenImagesForCarousel">
+													<cfset alttext = specimenImagesForCarousel['alt'][i]>
+													<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+													<cfif len(alttextTrunc) gt 140>
+														<cfset trimmedAltText = left(alttextTrunc, 140)>
+														<cfset trimmedAltText &= "...">
 													<cfelse>
-														<ul class="bg-dark px-0 list-unstyled">
-															<li>
-																<h3 class="text-white mx-auto message">
-																	No image is stored
-																</h3>
-															</li>
-														</ul>
+														<cfset trimmedAltText = altTextTrunc>
 													</cfif>
-												</div>
-											<cfset i=i+1>
-											</cfloop>
-										</div>
-										<div class="custom-nav text-center mb-1 bg-white pt-0 pb-1">
-											<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-											<input type="number" id="custom-input" class="custom-input border border-light" placeholder="index">
-											<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
+													<div class="w-100 float-left px-3 h-auto">
+
+														<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+														<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
+														<cfset src=specimenImagesForCarousel['media_uri'][i]>
+														<cfif fileExists(#src#)>
+															<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+															</a>
+															<p class="mt-2 bg-light small">#trimmedAltText#</p>
+														<cfelse>
+															<ul class="bg-dark px-0 list-unstyled">
+																<li>
+																	<h3 class="text-white mx-auto message">
+																		No image is stored
+																	</h3>
+																</li>
+															</ul>
+														</cfif>
+													</div>
+												<cfset i=i+1>
+												</cfloop>
+											</div>
+											<div class="custom-nav text-center mb-1 bg-white pt-0 pb-1">
+												<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
+												<input type="number" id="custom-input" class="custom-input border border-light" placeholder="index">
+												<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
+											</div>
 										</div>
 									</div>
-								</cfif>	
+								</cfif>
 							</div>
+						
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
 								<cfswitch expression="#otherImageTypes#">
 									<cfcase value="1">
@@ -784,46 +786,46 @@ overflow: hidden;
 											<div class="col-12 px-0 #colClass# mx-md-auto mt-3">
 												<div class="carousel_background border float-left w-100 p-2">
 													<h3 class="mx-2 text-center">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-														<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base3">
-															<cfset i=1>
-															<cfloop query="localityImagesForCarousel">
-																<cfset alttext = localityImagesForCarousel['alt'][i]>
-																<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-																<cfif len(alttextTrunc) gt 300>
-																	<cfset trimmedAltText = left(alttextTrunc, 300)>
-																	<cfset trimmedAltText &= "...">
+													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base3">
+														<cfset i=1>
+														<cfloop query="localityImagesForCarousel">
+															<cfset alttext = localityImagesForCarousel['alt'][i]>
+															<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+															<cfif len(alttextTrunc) gt 300>
+																<cfset trimmedAltText = left(alttextTrunc, 300)>
+																<cfset trimmedAltText &= "...">
+															<cfelse>
+																<cfset trimmedAltText = altTextTrunc>
+															</cfif>
+															<div class="w-100 float-left px-3 h-auto">
+																<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
+																<cfset src=localityImagesForCarousel['media_uri'][i]>
+																<cfif fileExists(#src#)>
+																	<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																		<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+																	</a>
+																	<p class="mt-2 small bg-light">#trimmedAltText#</p>
 																<cfelse>
-																	<cfset trimmedAltText = altTextTrunc>
+																	<ul class="bg-dark px-0 list-unstyled">
+																		<li>
+																			<h3 class="text-white mx-auto message">
+																				No image is stored
+																			</h3>
+																		</li>
+																	</ul>
 																</cfif>
-																<div class="w-100 float-left px-3 h-auto">
-																	<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
-																	<cfset src=localityImagesForCarousel['media_uri'][i]>
-																	<cfif fileExists(#src#)>
-																		<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																			<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-																		</a>
-																		<p class="mt-2 small bg-light">#trimmedAltText#</p>
-																	<cfelse>
-																		<ul class="bg-dark px-0 list-unstyled">
-																			<li>
-																				<h3 class="text-white mx-auto message">
-																					No image is stored
-																				</h3>
-																			</li>
-																		</ul>
-																	</cfif>
-																</div>
-																<cfset i=i+1>
-															</cfloop>
-														</div>
-														<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
-															<button type="button" class="border-0  btn-outline-primary" id="custom-prev3"> << previous </button>
-															<input type="number" id="custom-input3" class="custom-input border border-light" placeholder="index">
-															<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> next &nbsp; >> </button>
-														</div>
+															</div>
+															<cfset i=i+1>
+														</cfloop>
+													</div>
+													<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
+														<button type="button" class="border-0  btn-outline-primary" id="custom-prev3"> << previous </button>
+														<input type="number" id="custom-input3" class="custom-input border border-light" placeholder="index">
+														<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> next &nbsp; >> </button>
 													</div>
 												</div>
-											</cfif>
+											</div>
+										</cfif>
 									</div>
 								</div>
 						
