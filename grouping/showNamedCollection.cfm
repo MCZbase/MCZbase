@@ -1479,7 +1479,7 @@ overflow: hidden;
       $slider.setAttribute('aria-live', 'polite')
       $slider.style.height = settings.height || getComputedStyle($slider).height
       ;
-      [].forEach.call(this._$slides, function ($slide, i) {
+      [$sliders].forEach.call(this._$slides, function ($slide, i) {
         $slide.setAttribute('id', settings.prefix + 'tabpanel$' + i)
         $slide.setAttribute('role', 'tabpanel')
         $slide.setAttribute('aria-labelledby', settings.prefix + 'tab$' + i)
@@ -1579,11 +1579,11 @@ overflow: hidden;
   // used to generate slider ID
   var sliderIndex = 0
   function vanillaSlider($sliders, options) {
-    var sliders = [];
+    var sliders = [$sliders];
     if ($sliders instanceof Node) {
       $sliders = [$sliders]
     }
-    [].forEach.call($sliders, function ($slider, i) {
+    [$sliders].forEach.call($sliders, function ($slider, i) {
       sliders.push(
         new VanillaSlider($slider, options || {})
       )
