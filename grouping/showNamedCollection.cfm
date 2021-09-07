@@ -1089,6 +1089,7 @@ overflow: hidden;
 		</main>
 	</cfloop>
 <script>
+
 (function () {
   "use strict";
   function init() {
@@ -1168,8 +1169,8 @@ overflow: hidden;
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-        status: true,
-		height: '35rem',
+        status: false,
+		height: '36rem',
         after: function (index, length) {
           $input.value = index
         }
@@ -1203,7 +1204,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: '35rem',
+		height: '36rem',
         after: function (index, length) {
           $input.value = index
         }
@@ -1585,6 +1586,7 @@ overflow: hidden;
   vanillaSlider.VERSION = 2.0
   window.vanillaSlider = vanillaSlider
 }());											
+</script>
 </script>
 </cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
