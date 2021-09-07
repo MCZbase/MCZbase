@@ -686,7 +686,7 @@ overflow: hidden;
 											<cfset imagePlural = 'image'>
 										</cfif>
 										<cfif agentImagesForCarousel.recordcount gt 0>
-											<div class="col-12 #colClass# mx-md-auto my-3">
+											<div class="col-12 px-1 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2 h-auto">
 													<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
 													<div class="vslider w-100 float-left bg-light pb-2" style="height: 400px;" id="vslider-base">
@@ -735,7 +735,7 @@ overflow: hidden;
 											<cfset imagePlural = 'image'>
 										</cfif>
 										<cfif collectingImagesForCarousel.recordcount gt 0>
-											<div class="col-12 #colClass# mx-md-auto my-3">
+											<div class="col-12 px-1 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2">
 												<h3 class="mx-2 text-center">Collecting Event 
 													<span class="small">(#collectingCt.recordcount# #imagePlural#)</span>
@@ -786,7 +786,7 @@ overflow: hidden;
 												<cfset imagePlural = 'image'>
 										</cfif>
 										<cfif localityImagesForCarousel.recordcount gt 0>
-											<div class="col-12 #colClass# mx-md-auto mt-3">
+											<div class="col-12 px-1 #colClass# mx-md-auto mt-3">
 												<div class="carousel_background border float-left w-100 p-2">
 													<h3 class="mx-2 text-center">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
 														<div class="vslider w-100 float-left bg-light pb-2" style="height: 400px;" id="vslider-base">
@@ -1479,7 +1479,7 @@ overflow: hidden;
       $slider.setAttribute('aria-live', 'polite')
       $slider.style.height = settings.height || getComputedStyle($slider).height
       ;
-      [].forEach.call(this._$slides, function ($slide, i) {
+      [].forEach.call(this._$slides, function ($slide, i) {// the empty brackets are causing an error. Also see lines 1582 and 1586 or around there.
         $slide.setAttribute('id', settings.prefix + 'tabpanel$' + i)
         $slide.setAttribute('role', 'tabpanel')
         $slide.setAttribute('aria-labelledby', settings.prefix + 'tab$' + i)
