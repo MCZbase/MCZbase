@@ -627,11 +627,9 @@ overflow: hidden;
 													<cfset src=specimenImagesForCarousel['media_uri'][i]>
 													<cfif fileExists(#src#)>
 														<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-															
-															<cfdump var="#trimmedAltText#">
-																<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+															<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+															<p class="mt-2 bg-light small text-dark font-weight-normal">#trimmedAltText#</p>
 														</a>
-														<p class="mt-2 bg-light small">#trimmedAltText#</p>
 													<cfelse>
 														<ul class="bg-dark px-0 list-unstyled">
 															<li>
