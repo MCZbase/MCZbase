@@ -1114,7 +1114,7 @@ overflow: hidden;
     )
 	vanillaSlider(
       document.getElementById('vslider-custom'), {
-        height: '5em',
+        height: '43rem',
         statusContent: function (i, all) {
           return i + 1
         },
