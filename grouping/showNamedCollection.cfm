@@ -36,7 +36,6 @@ limitations under the License.
 
 
 <style>
-
 .current {
 	width: 300px;
 	height: 300px; 
@@ -66,17 +65,14 @@ limitations under the License.
   position: relative;
 overflow: hidden;
 }
-
 .vslider > * {
   display: block;
   position: relative;
 }
-
 .vslider > * + * {
   display: none;
   position: absolute;
 }
-
 .vslider-item {
   display: block;
   width: 100%;
@@ -191,7 +187,6 @@ overflow: hidden;
   padding: 0.25em;
   border-radius: 0.25em;
 }
-
 .vslider-customstatus .vslider-prev,
 .vslider-customstatus .vslider-next {
   color: transparent;
@@ -1140,7 +1135,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: '36rem',
+		height: "43rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
         after: function (index, length) {
           $input.value = index
         }
@@ -1162,7 +1157,6 @@ overflow: hidden;
   }
   document.addEventListener('DOMContentLoaded', init, false);
 }());
-
 (function () {
   "use strict";
   function init() {
@@ -1174,8 +1168,8 @@ overflow: hidden;
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-        status: false,
-		height: '36rem',
+        status: true,
+		height: '35rem',
         after: function (index, length) {
           $input.value = index
         }
@@ -1197,7 +1191,6 @@ overflow: hidden;
   }
   document.addEventListener('DOMContentLoaded', init, false);
 }());
-
 (function () {
   "use strict";
   function init() {
@@ -1210,7 +1203,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: '36rem',
+		height: '35rem',
         after: function (index, length) {
           $input.value = index
         }
@@ -1232,7 +1225,6 @@ overflow: hidden;
   }
   document.addEventListener('DOMContentLoaded', init, false);
 }());
-
 (function () {
   "use strict";
   // Polyfill for e.g. IE
@@ -1342,6 +1334,8 @@ overflow: hidden;
       status: true,
       statusContent: function (index, length) {
         return '•';
+		 var trimmedAltText = <cfoutput>#serializeJson(aryData)#</cfoutput>; 
+console.log(trimmedAltText);
       },
       i18n: {
         title: 'Carousel',
