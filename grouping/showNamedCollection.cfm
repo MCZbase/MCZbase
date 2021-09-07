@@ -1478,7 +1478,6 @@ overflow: hidden;
       $slider.setAttribute('aria-label', settings.i18n.title)
       $slider.setAttribute('aria-live', 'polite')
       $slider.style.height = settings.height || getComputedStyle($slider).height
-      ;
       [].forEach.call(this._$slides, function ($slide, i) {// the empty brackets are causing an error. Also see lines 1582 and 1586 or around there.
         $slide.setAttribute('id', settings.prefix + 'tabpanel$' + i)
         $slide.setAttribute('role', 'tabpanel')
