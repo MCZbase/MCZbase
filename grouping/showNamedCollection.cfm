@@ -916,6 +916,7 @@ overflow: hidden;
 							<!---/////////// ABOVE /////////////--->
 							<!---///////////////////////////////--->										
 							</div><!--- end images & heat map---> 	
+							</cfif>
 						<cfelse>
 						<div class="col mt-4 float-left"> 
 							<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
