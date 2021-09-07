@@ -294,6 +294,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfif isDefined("collmultiselect") and len(collmultiselect) gt 0>
 						and flatTableName.collection_id in (<cfqueryparam value="#collmultiselect#" cfsqltype="cf_sql_integer" list="true">)
 					</cfif>
+					and rownum < 100
 			</cfquery>
 		<cfelse>
 			<cfthrow message="No search terms provided.">
