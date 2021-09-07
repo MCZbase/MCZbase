@@ -601,12 +601,12 @@ overflow: hidden;
 					<cfif localityCt.recordcount GT 0>
 						<cfset otherImageTypes = otherImageTypes + 1>
 					</cfif>
-					<div class="row mx-2 mt-1">
+					<div class="row mx-3 mt-1">
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
 							<div class="col-12 col-md-6 float-left px-0 mt-3 mb-3">
 								<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
-								<div class="col-12">
+								<div class="col-12 px-0">
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
 										<div class="vslider w-100 float-left bg-light pb-2" id="vslider-base">
