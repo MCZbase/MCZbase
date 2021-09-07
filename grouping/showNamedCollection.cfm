@@ -631,7 +631,7 @@ overflow: hidden;
 															<cfdump var="#trimmedAltText#">
 																<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 														</a>
-														
+														<p class="mt-2 bg-light small">#trimmedAltText#</p>
 													<cfelse>
 														<ul class="bg-dark px-0 list-unstyled">
 															<li>
