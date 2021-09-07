@@ -621,7 +621,7 @@ overflow: hidden;
 													<cfset trimmedAltText = altTextTrunc>
 												</cfif>
 												<div class="w-100 float-left px-3 h-auto">
-													<p class="mt-2 bg-light">#trimmedAltText#</p>
+													<p class="mt-2 bg-light small">#trimmedAltText#</p>
 													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 													<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
 													<cfset src=specimenImagesForCarousel['media_uri'][i]>
@@ -700,13 +700,13 @@ overflow: hidden;
 																<cfset trimmedAltText = altTextTrunc>
 															</cfif>
 															<div class="w-100 float-left px-3 h-auto">
-																<p class="mt-2 bg-light">#trimmedAltText#</p>
 																<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
 																<cfset src=agentImagesForCarousel['media_uri'][i]>
 																<cfif fileExists(#src#)>
 																	<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																	</a>
+																	<p class="mt-2 small bg-light">#trimmedAltText#</p>
 																<cfelse>
 																	<ul class="bg-dark px-0 list-unstyled">
 																		<li>
@@ -751,13 +751,13 @@ overflow: hidden;
 																<cfset trimmedAltText = altTextTrunc>
 															</cfif>
 															<div class="w-100 float-left px-3 h-auto">
-																<p class="mt-2 bg-light">#trimmedAltText#</p>
 																<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
 																<cfset src=collectingImagesForCarousel['media_uri'][i]>
 																<cfif fileExists(#src#)>
 																	<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																	</a>
+																	<p class="mt-2 small bg-light">#trimmedAltText#</p>
 																<cfelse>
 																	<ul class="bg-dark px-0 list-unstyled">
 																		<li>
@@ -800,13 +800,13 @@ overflow: hidden;
 																	<cfset trimmedAltText = altTextTrunc>
 																</cfif>
 																<div class="w-100 float-left px-3 h-auto">
-																	<p class="mt-2 bg-light">#trimmedAltText#</p>
 																	<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
 																	<cfset src=localityImagesForCarousel['media_uri'][i]>
 																	<cfif fileExists(#src#)>
 																		<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																			<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																		</a>
+																		<p class="mt-2 small bg-light">#trimmedAltText#</p>
 																	<cfelse>
 																		<ul class="bg-dark px-0 list-unstyled">
 																			<li>
