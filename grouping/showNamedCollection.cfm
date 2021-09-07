@@ -628,8 +628,8 @@ overflow: hidden;
 													<cfif fileExists(#src#)>
 														<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 															<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+															<ol class="mt-2 bg-light small"><li>#trimmedAltText#</li></ol>
 														</a>
-														<ol class="mt-2 bg-light small"><li>#trimmedAltText#</li></ol>
 													<cfelse>
 														<ol class="bg-dark px-0 list-unstyled">
 															<li>
@@ -1349,7 +1349,7 @@ overflow: hidden;
       onSwipeWheel: null,
       status: true,
       statusContent: function (index, length) {
-        return HTMLDListElement;
+        return '•';
       },
       i18n: {
         title: 'Carousel',
