@@ -689,7 +689,7 @@ overflow: hidden;
 											<div class="col-12 px-0 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2 h-auto">
 													<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-													<div class="vslider w-100 float-left bg-light py-2" id="vslider-base">
+													<div class="vslider w-100 float-left bg-light py-2" id="vslider-custom">
 														<cfset i=1>
 														<cfloop query="agentImagesForCarousel">
 															<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -707,15 +707,15 @@ overflow: hidden;
 																	<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																	</a>
-																	<p class="mt-2 small bg-light">#trimmedAltText#</p>
+																	<ol class="mt-2 small bg-light"><li>#trimmedAltText#</li></ol>
 																<cfelse>
-																	<ul class="bg-dark px-0 list-unstyled">
+																	<ol class="bg-dark px-0 list-unstyled">
 																		<li>
 																			<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
 																				No image is stored
 																			</h3>
 																		</li>
-																	</ul>
+																	</ol>
 																</cfif>
 															</div>
 															<cfset i=i+1>
@@ -1099,7 +1099,7 @@ overflow: hidden;
   function init() {
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
-      document.getElementById('vslider-custom'), {
+      document.getElementById('vslider-base'), {
         autoplay: false,
         navigation: false,
         keyboardnavigation: false,
