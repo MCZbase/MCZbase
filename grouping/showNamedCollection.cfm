@@ -1579,7 +1579,7 @@ overflow: hidden;
   // used to generate slider ID
   var sliderIndex = 0
   function vanillaSlider($sliders, options) {
-    var sliders = [$sliders];
+    var sliders = [];
     if ($sliders instanceof Node) {
       $sliders = [$sliders]
     }
