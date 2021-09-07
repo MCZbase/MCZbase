@@ -1344,8 +1344,9 @@ overflow: hidden;
       wheelnavigation: false,
       onSwipeWheel: null,
       status: true,
+		var getHolidays = <cfoutput>#serializeJson(trimmedAltText)#</cfoutput>
       statusContent: function (index, length) {
-        return '•';
+        return 'getHolidays';
       },
       i18n: {
         title: 'Carousel',
