@@ -631,7 +631,7 @@ overflow: hidden;
 															<cfdump var="#trimmedAltText#">
 																<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 														</a>
-														<p class="mt-2 bg-light small">#trimmedAltText#</p>
+														
 													<cfelse>
 														<ul class="bg-dark px-0 list-unstyled">
 															<li>
@@ -709,7 +709,7 @@ overflow: hidden;
 																	<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																	</a>
-																	
+																	<p class="mt-2 small bg-light">#trimmedAltText#</p>
 																<cfelse>
 																	<ul class="bg-dark px-0 list-unstyled">
 																		<li>
