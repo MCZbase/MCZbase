@@ -689,7 +689,7 @@ overflow: hidden;
 											<div class="col-12 px-0 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2 h-auto">
 													<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-													<div class="vslider w-100 float-left bg-light py-2" id="vslider-base">
+													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base">
 														<cfset i=1>
 														<cfloop query="agentImagesForCarousel">
 															<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -740,7 +740,7 @@ overflow: hidden;
 												<h3 class="mx-2 text-center">Collecting Event 
 													<span class="small">(#collectingCt.recordcount# #imagePlural#)</span>
 												</h3>
-													<div class="vslider w-100 float-left bg-light py-2" id="vslider-base">
+													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base">
 														<cfset i=1>
 														<cfloop query="collectingImagesForCarousel">
 															<cfset alttext = collectingImagesForCarousel['alt'][i]>
@@ -789,7 +789,7 @@ overflow: hidden;
 											<div class="col-12 px-0 #colClass# mx-md-auto mt-3">
 												<div class="carousel_background border float-left w-100 p-2">
 													<h3 class="mx-2 text-center">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-														<div class="vslider w-100 float-left bg-light py-2" id="vslider-base">
+														<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base">
 															<cfset i=1>
 															<cfloop query="localityImagesForCarousel">
 																<cfset alttext = localityImagesForCarousel['alt'][i]>
@@ -1167,7 +1167,7 @@ overflow: hidden;
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input2')
-    var baseSlider2 = vanillaSlider(
+    var baseSlider = vanillaSlider(
       document.getElementById('vslider-base2'), {
         autoplay: false,
         navigation: false,
@@ -1181,18 +1181,18 @@ overflow: hidden;
         }
       }
     )
-    window.baseSlider2 = baseSlider2
+    window.baseSlider = baseSlider
     // custom controls
     $input.addEventListener('change', function (e) {
-      baseSlider2.next(
+      baseSlider.next(
         parseInt(e.target.value)
       )
     }, false)
     document.getElementById('custom-prev2').addEventListener('click', function (e) {
-      baseSlider2.prev()
+      baseSlider.prev()
     }, false)
     document.getElementById('custom-next2').addEventListener('click', function (e) {
-      baseSlider2.next()
+      baseSlider.next()
     }, false)
   }
   document.addEventListener('DOMContentLoaded', init, false);
@@ -1202,7 +1202,7 @@ overflow: hidden;
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input3')
-    var baseSlider3 = vanillaSlider(
+    var baseSlider = vanillaSlider(
       document.getElementById('vslider-base3'), {
         autoplay: false,
         navigation: false,
@@ -1216,7 +1216,7 @@ overflow: hidden;
         }
       }
     )
-    window.baseSlider3 = baseSlider3
+    window.baseSlider = baseSlider
     // custom controls
     $input.addEventListener('change', function (e) {
       baseSlider.next(
@@ -1224,10 +1224,10 @@ overflow: hidden;
       )
     }, false)
     document.getElementById('custom-prev3').addEventListener('click', function (e) {
-      baseSlider3.prev()
+      baseSlider.prev()
     }, false)
     document.getElementById('custom-next3').addEventListener('click', function (e) {
-      baseSlider3.next()
+      baseSlider.next()
     }, false)
   }
   document.addEventListener('DOMContentLoaded', init, false);
