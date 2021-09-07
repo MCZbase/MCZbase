@@ -597,58 +597,55 @@ overflow: hidden;
 						<cfset otherImageTypes = otherImageTypes + 1>
 					</cfif>
 					<div class="row mx-3 mt-1">
-						
-							<div class="col-12 col-md-6 float-left px-0 mt-3 mb-3">
-								<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
-								<cfif specimenImagesForCarousel.recordcount gt 0>
-									<div class="col-12 px-0">
-										<div class="carousel_background border float-left w-100 p-2">
-											<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-											<div class="vslider w-100 float-left bg-light py-2" id="vslider-base">
-												<cfset i=1>
-												<cfloop query="specimenImagesForCarousel">
-													<cfset alttext = specimenImagesForCarousel['alt'][i]>
-													<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-													<cfif len(alttextTrunc) gt 140>
-														<cfset trimmedAltText = left(alttextTrunc, 140)>
-														<cfset trimmedAltText &= "...">
-													<cfelse>
-														<cfset trimmedAltText = altTextTrunc>
-													</cfif>
-													<div class="w-100 float-left px-3 h-auto">
+						<div class="col-12 col-md-6 float-left px-0 mt-3 mb-3">
+							<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
+							<cfif specimenImagesForCarousel.recordcount gt 0>
+								<div class="col-12 px-0">
+									<div class="carousel_background border float-left w-100 p-2">
+										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
+										<div class="vslider w-100 float-left bg-light py-2" id="vslider-base">
+											<cfset i=1>
+											<cfloop query="specimenImagesForCarousel">
+												<cfset alttext = specimenImagesForCarousel['alt'][i]>
+												<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+												<cfif len(alttextTrunc) gt 140>
+													<cfset trimmedAltText = left(alttextTrunc, 140)>
+													<cfset trimmedAltText &= "...">
+												<cfelse>
+													<cfset trimmedAltText = altTextTrunc>
+												</cfif>
+												<div class="w-100 float-left px-3 h-auto">
 
-														<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-														<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
-														<cfset src=specimenImagesForCarousel['media_uri'][i]>
-														<cfif fileExists(#src#)>
-															<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-															</a>
-															<p class="mt-2 bg-light small">#trimmedAltText#</p>
-														<cfelse>
-															<ul class="bg-dark px-0 list-unstyled">
-																<li>
-																	<h3 class="text-white mx-auto message">
-																		No image is stored
-																	</h3>
-																</li>
-															</ul>
-														</cfif>
-													</div>
-												<cfset i=i+1>
-												</cfloop>
-											</div>
-											<div class="custom-nav text-center mb-1 bg-white pt-0 pb-1">
-												<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-												<input type="number" id="custom-input" class="custom-input border border-light" placeholder="index">
-												<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
-											</div>
+													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+													<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
+													<cfset src=specimenImagesForCarousel['media_uri'][i]>
+													<cfif fileExists(#src#)>
+														<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+															<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+														</a>
+														<p class="mt-2 bg-light small">#trimmedAltText#</p>
+													<cfelse>
+														<ul class="bg-dark px-0 list-unstyled">
+															<li>
+																<h3 class="text-white mx-auto message">
+																	No image is stored
+																</h3>
+															</li>
+														</ul>
+													</cfif>
+												</div>
+											<cfset i=i+1>
+											</cfloop>
+										</div>
+										<div class="custom-nav text-center mb-1 bg-white pt-0 pb-1">
+											<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
+											<input type="number" id="custom-input" class="custom-input border border-light" placeholder="index">
+											<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
 										</div>
 									</div>
-								</cfif>
-						
-						<cfif localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
-							<div class="col-12 col-md-6 float-left px-0 mt-3 mb-3">
+								</div>
+							</cfif>
+							<cfif localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
 								<cfswitch expression="#otherImageTypes#">
 									<cfcase value="1">
@@ -829,8 +826,6 @@ overflow: hidden;
 										</cfif>
 									</div>
 								</div>
-							</div>
-						
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
 							<!---///////////////////////////////--->
