@@ -609,7 +609,7 @@ overflow: hidden;
 								<div class="col-12 px-0">
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-										<div class="vslider w-100 float-left bg-light py-2" id="vslider-base">
+										<div class="vslider w-100 float-left bg-light py-2" id="vslider-custom">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -629,15 +629,15 @@ overflow: hidden;
 														<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 															<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 														</a>
-														<p class="mt-2 bg-light small">#trimmedAltText#</p>
+														<ol class="mt-2 bg-light small"><li>#trimmedAltText#</li></ol>
 													<cfelse>
-														<ul class="bg-dark px-0 list-unstyled">
+														<ol class="bg-dark px-0 list-unstyled">
 															<li>
 																<h3 class="text-white mx-auto message">
 																	No image is stored
 																</h3>
 															</li>
-														</ul>
+														</ol>
 													</cfif>
 												</div>
 											<cfset i=i+1>
@@ -1349,7 +1349,7 @@ overflow: hidden;
       onSwipeWheel: null,
       status: true,
       statusContent: function (index, length) {
-        return '•';
+        return HTMLDListElement;
       },
       i18n: {
         title: 'Carousel',
