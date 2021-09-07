@@ -621,13 +621,14 @@ overflow: hidden;
 													<cfset trimmedAltText = altTextTrunc>
 												</cfif>
 												<div class="w-100 float-left px-3 h-auto">
+													
 													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 													<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
 													<cfset src=specimenImagesForCarousel['media_uri'][i]>
 													<cfif fileExists(#src#)>
 														<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 															<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-															<p class="mt-2 bg-light small text-dark font-weight-normal text-decoration-none">#trimmedAltText#</p>
+															
 														</a>
 													<cfelse>
 														<ul class="bg-dark px-0 list-unstyled">
@@ -1107,6 +1108,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
+		height: "43rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
         after: function (index, length) {
           $input.value = index
         }
@@ -1140,6 +1142,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
+		height: "43rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
         after: function (index, length) {
           $input.value = index
         }
@@ -1173,7 +1176,8 @@ overflow: hidden;
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-        status: false,
+        status: true,
+		height: '35rem',
         after: function (index, length) {
           $input.value = index
         }
@@ -1208,6 +1212,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
+		height: '35rem',
         after: function (index, length) {
           $input.value = index
         }
@@ -1324,7 +1329,7 @@ overflow: hidden;
       prefix: 'vslider-',
       // if null set height automatically else use height
       // number (=px) or explicit like "3em"
-      height: null,
+      height: '37rem',
       rotation: true,
       autoplay: options.rotation === false ? false : true,
       initialTimeout: 4000,
@@ -1336,7 +1341,7 @@ overflow: hidden;
       swipedirection: 'h', // h or v
       wheelnavigation: false,
       onSwipeWheel: null,
-      status: false,
+      status: true,
       statusContent: function (index, length) {
         return '•';
       },
