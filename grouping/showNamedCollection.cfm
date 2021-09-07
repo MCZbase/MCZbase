@@ -628,7 +628,7 @@ overflow: hidden;
 													<cfif fileExists(#src#)>
 														<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 															<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-															<p class="mt-2 bg-light small text-dark font-weight-normal">#trimmedAltText#</p>
+															<p class="mt-2 bg-light small text-dark font-weight-normal text-decoration-none">#trimmedAltText#</p>
 														</a>
 													<cfelse>
 														<ul class="bg-dark px-0 list-unstyled">
