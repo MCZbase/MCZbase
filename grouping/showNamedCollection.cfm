@@ -1334,8 +1334,6 @@ overflow: hidden;
       status: true,
       statusContent: function (index, length) {
         return '•';
-		 var trimmedAltText = <cfoutput>#serializeJson(aryData)#</cfoutput>; 
-console.log(trimmedAltText);
       },
       i18n: {
         title: 'Carousel',
