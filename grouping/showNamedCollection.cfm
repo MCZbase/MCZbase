@@ -1349,7 +1349,7 @@ overflow: hidden;
       onSwipeWheel: null,
       status: true,
       statusContent: function (index, length) {
-        return '•';
+        return '#trimmedAltText#';
       },
       i18n: {
         title: 'Carousel',
