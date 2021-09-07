@@ -1109,7 +1109,7 @@ overflow: hidden;
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-        status: true,
+        status: false,
 		height: "43rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
         after: function (index, length) {
           $input.value = index
@@ -1344,11 +1344,9 @@ overflow: hidden;
       wheelnavigation: false,
       onSwipeWheel: null,
       status: true,
-		var getHolidays = #serializeJson(trimmedAltText)# {
       statusContent: function (index, length) {
-        return 'getHolidays';
-      }
-												  },
+        return '•';
+      },
       i18n: {
         title: 'Carousel',
         navigation: 'Carousel navigation',
