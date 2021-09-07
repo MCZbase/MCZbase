@@ -609,7 +609,7 @@ overflow: hidden;
 								<div class="col-12 px-0">
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-										<div class="vslider w-100 float-left bg-light py-2" id="vslider-custom">
+										<div class="vslider w-100 float-left bg-light py-2" id="vslider-base">
 											<cfset i=1>
 											<cfloop query="specimenImagesForCarousel">
 												<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -628,16 +628,16 @@ overflow: hidden;
 													<cfif fileExists(#src#)>
 														<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 															<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-															<ol class="mt-2 bg-light small"><li>#trimmedAltText#</li></ol>
 														</a>
+														<p class="mt-2 bg-light small">#trimmedAltText#</p>
 													<cfelse>
-														<ol class="bg-dark px-0 list-unstyled">
+														<ul class="bg-dark px-0 list-unstyled">
 															<li>
 																<h3 class="text-white mx-auto message">
 																	No image is stored
 																</h3>
 															</li>
-														</ol>
+														</ul>
 													</cfif>
 												</div>
 											<cfset i=i+1>
@@ -689,7 +689,7 @@ overflow: hidden;
 											<div class="col-12 px-0 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2 h-auto">
 													<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-													<div class="vslider w-100 float-left bg-light py-2" id="vslider-custom">
+													<div class="vslider w-100 float-left bg-light py-2" id="vslider-base">
 														<cfset i=1>
 														<cfloop query="agentImagesForCarousel">
 															<cfset alttext = agentImagesForCarousel['alt'][i]>
@@ -707,15 +707,15 @@ overflow: hidden;
 																	<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																	</a>
-																	<ol class="mt-2 small bg-light"><li>#trimmedAltText#</li></ol>
+																	<p class="mt-2 small bg-light">#trimmedAltText#</p>
 																<cfelse>
-																	<ol class="bg-dark px-0 list-unstyled">
+																	<ul class="bg-dark px-0 list-unstyled">
 																		<li>
 																			<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
 																				No image is stored
 																			</h3>
 																		</li>
-																	</ol>
+																	</ul>
 																</cfif>
 															</div>
 															<cfset i=i+1>
@@ -1112,14 +1112,6 @@ overflow: hidden;
         }
       }
     )
-	vanillaSlider(
-      document.getElementById('vslider-custom'), {
-        height: '43rem',
-        statusContent: function (i, all) {
-          return i + 1
-        },
-      }
-    )
     window.baseSlider = baseSlider
     // custom controls
     $input.addEventListener('change', function (e) {
@@ -1349,7 +1341,7 @@ overflow: hidden;
       onSwipeWheel: null,
       status: true,
       statusContent: function (index, length) {
-        return '#trimmedAltText#';
+        return '•';
       },
       i18n: {
         title: 'Carousel',
