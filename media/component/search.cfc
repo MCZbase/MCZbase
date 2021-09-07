@@ -230,7 +230,7 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isdefined("media_id") AND isnumeric(#media_id#)>
-					AND agent_name.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfif>
 				<cfif isdefined("has_roi") and len(has_roi) gt 0>
 					-- tags are not, as would be expected text, but regions of interest on images, implementation appears incomplete.
