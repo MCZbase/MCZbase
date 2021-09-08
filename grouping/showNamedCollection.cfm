@@ -1104,6 +1104,11 @@ $(window).on('load resize', function () {
   $("##vslider-base")
     .css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
 });
+$(window).on('load resize', function () {
+  var w = $(window).width();
+  $("##vslider-base1")
+    .css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
+});
 (function () {
   "use strict";
   function init() {
@@ -1150,7 +1155,7 @@ $(window).on('load resize', function () {
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: null,
+		height: '45rem',
         status: false,
         after: function (index, length) {
           $input.value = index
