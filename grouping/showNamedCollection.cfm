@@ -384,6 +384,9 @@ div.vslider-item[aria-hidden="true"]{
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 		</cfquery>
+		<cfif collectingImagesForCarousel.recordcount GT 0>
+			<cfset otherImageTypes = otherImageTypes + 1>
+		</cfif>
 		<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 			SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
 			FROM locality
