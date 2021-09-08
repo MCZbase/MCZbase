@@ -235,10 +235,10 @@ limitations under the License.
 	font-size: 2rem;
 }
 .vslider::-webkit-scrollbar, .vslider-item::-webkit-scrollbar {
-    width: .5em;
+    width: .55em;
 }
 .vslider::-webkit-scrollbar-track, .vslider-item::-webkit-scrollbar {
-    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
 }
 .vslider::-webkit-scrollbar-thumb, .vslider-item::-webkit-scrollbar {
 	background-color: lightgrey;
