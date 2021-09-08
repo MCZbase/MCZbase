@@ -1090,8 +1090,7 @@ limitations under the License.
 		</main>
 	</cfloop>
 <script>
-	var mainNode = document.getElementById("vslider-base");
-mainNode.style.width = (screen.width + 40) + "px";
+
 (function () {
   "use strict";
   function init() {
@@ -1103,8 +1102,8 @@ mainNode.style.width = (screen.width + 40) + "px";
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
+		height: '35rem',
         status: false,
-		height:	mainNode,
         after: function (index, length) {
           $input.value = index
         }
