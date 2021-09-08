@@ -679,60 +679,63 @@ limitations under the License.
 								</cfdefaultcase>
 							</cfswitch>
 							
-								<div class="row bottom px-3"><!---for all three other image blocks--->
-									<div class="col-12 px-0 mt-2 mb-3"><!---for all three other image blocks--->
-									<!---	<h3 class="mx-2 text-center">Other Images</h3>--->
-										<cfif agentImagesForCarousel.recordcount gte 2>
-											<cfset imagePlural = 'images'>
-										<cfelse>
-											<cfset imagePlural = 'image'>
-										</cfif>
-										<cfif agentImagesForCarousel.recordcount gt 0>
-											<div class="col-12 px-0 #colClass# mx-md-auto my-3"><!---just for agent block--->
-												<div class="vslider w-100 float-left bg-light" id="vslider-base">
-													<div class="carousel_background border float-left w-100 p-2">
-														<h3 class="mx-2 text-center">Agents<!---<span class="small">(#agentCt.recordcount# #imagePlural#)</span>---></h3>
-														<div class="vslider w-100 float-left bg-light py-2" id="vslider-base1">
-															<cfset i=1>
-															<cfloop query="agentImagesForCarousel">
-																<cfset alttext = agentImagesForCarousel['alt'][i]>
-																<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-																<cfif len(alttextTrunc) gt 300>
-																	<cfset trimmedAltText = left(alttextTrunc, 300)>
-																	<cfset trimmedAltText &= "...">
+							<div class="row bottom px-3"><!---for all three other image blocks--->
+								<div class="col-12 px-0 mt-2 mb-3"><!---for all three other image blocks--->
+								<!---	<h3 class="mx-2 text-center">Other Images</h3>--->
+									<cfif agentImagesForCarousel.recordcount gte 2>
+										<cfset imagePlural = 'images'>
+									<cfelse>
+										<cfset imagePlural = 'image'>
+									</cfif>
+									<cfif agentImagesForCarousel.recordcount gt 0>
+										<div class="col-12 px-0 #colClass# mx-md-auto my-3"><!---just for agent block--->
+											<div class="vslider w-100 float-left bg-light" id="vslider-base">
+												<div class="carousel_background border float-left w-100 p-2">
+													<h3 class="mx-2 text-center">Agents<!---<span class="small">(#agentCt.recordcount# #imagePlural#)</span>---></h3>
+													<div class="vslider w-100 float-left bg-light py-2" id="vslider-base1">
+														<cfset i=1>
+														<cfloop query="agentImagesForCarousel">
+															<cfset alttext = agentImagesForCarousel['alt'][i]>
+															<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+															<cfif len(alttextTrunc) gt 300>
+																<cfset trimmedAltText = left(alttextTrunc, 300)>
+																<cfset trimmedAltText &= "...">
+															<cfelse>
+																<cfset trimmedAltText = altTextTrunc>
+															</cfif>
+															<div class="w-100 float-left px-3 h-auto">
+																<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
+																<cfset src=agentImagesForCarousel['media_uri'][i]>
+																<cfif fileExists(#src#)>
+																	<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																		<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+																	</a>
+																	<p class="mt-2 small bg-light">#trimmedAltText#</p>
 																<cfelse>
-																	<cfset trimmedAltText = altTextTrunc>
+																	<ul class="bg-dark px-0 list-unstyled">
+																		<li>
+																			<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
+																				No image is stored
+																			</h3>
+																		</li>
+																	</ul>
 																</cfif>
-																<div class="w-100 float-left px-3 h-auto">
-																	<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-																	<cfset src=agentImagesForCarousel['media_uri'][i]>
-																	<cfif fileExists(#src#)>
-																		<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																			<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-																		</a>
-																		<p class="mt-2 small bg-light">#trimmedAltText#</p>
-																	<cfelse>
-																		<ul class="bg-dark px-0 list-unstyled">
-																			<li>
-																				<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
-																					No image is stored
-																				</h3>
-																			</li>
-																		</ul>
-																	</cfif>
-																</div>
-																<cfset i=i+1>
-															</cfloop>
-														</div>
-														<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
-															<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
-															<input type="number" id="custom-input1" class="custom-input border border-light" placeholder="index">
-															<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
-														</div>
+															</div>
+															<cfset i=i+1>
+														</cfloop>
+													</div>
+													<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
+														<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
+														<input type="number" id="custom-input1" class="custom-input border border-light" placeholder="index">
+														<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
 													</div>
 												</div>
-											</cfif>
-										</section>
+											</div>
+										</div>
+									</cfif>
+								</div>
+							</div>
+						</section>
 <!---										<cfif collectingImagesForCarousel.recordcount gte 2>
 											<cfset imagePlural = 'images'>
 												<cfelse>
@@ -833,8 +836,7 @@ limitations under the License.
 												</div>
 											</div>
 										</cfif>--->
-									</div>
-								</div>
+							
 						</cfif>
 					</div>
 		<!---			<section class="heatmap">--->
