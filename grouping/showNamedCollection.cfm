@@ -835,7 +835,6 @@ limitations under the License.
 										</cfif>--->
 						</section>	
 					</cfif>
-					</div>
 		<!---			<section class="heatmap">--->
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
