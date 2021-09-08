@@ -463,7 +463,10 @@ overflow: hidden;
 				ORDER BY DBMS_RANDOM.RANDOM
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
-		</cfquery>--->
+		</cfquery>
+		<cfif localityCt.recordcount GT 0>
+			<cfset otherImageTypes = otherImageTypes + 1>
+		</cfif>--->
 		<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 			SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
 			FROM locality
@@ -479,9 +482,7 @@ overflow: hidden;
 				and flat.guid IS NOT NULL
 				and lat_long.dec_lat is not null
 		</cfquery>
-		<cfif localityCt.recordcount GT 0>
-			<cfset otherImageTypes = otherImageTypes + 1>
-		</cfif>
+
 		<main class="py-3" id="content">
 			<div class="row mx-0">
 				<article class="col-12">
