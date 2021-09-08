@@ -234,12 +234,13 @@ limitations under the License.
 	padding-bottom: 25%;
 	font-size: 2rem;
 }
+	.vslider {width:100%;}
 .vslider-item {
   height: 100%;
   background: whitesmoke;
   overflow: scroll;
-  width: 80%;
-  max-width: 600px;
+  width: 90%;
+  max-width: 800px;
   margin: 0 auto;
   padding: 3em;
   font: 100%/1.4 serif;
