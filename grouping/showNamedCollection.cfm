@@ -1096,7 +1096,7 @@ limitations under the License.
   function init() {
 	  	$(document).ready(function() {
     $('.vslider-item').click(function(){
-        $('button').next().css('height','47rem');
+        $('button')getElementById(custom-next)().css('height','47rem');
     });
 });
     var $input = document.getElementById('custom-input')
