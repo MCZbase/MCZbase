@@ -331,7 +331,7 @@ div.vslider-item[aria-hidden="true"]{
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 		</cfquery>
 		<cfif specimenImagesForCarousel.recordcount GT 0>
-			<cfset otherImageTypes = 1>
+			<cfset otherImageTypes = 0>
 		</cfif>
 		<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
@@ -384,58 +384,6 @@ div.vslider-item[aria-hidden="true"]{
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 		</cfquery>
-		<!--
-		<cfquery name="localityCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityCt"> 
-			SELECT DISTINCT media.media_id
-			FROM
-				underscore_collection
-				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-					on underscore_relation.collection_object_id = flat.collection_object_id
-					left join locality
-					on locality.locality_id = flat.locality_id 
-					left join media_relations 
-					on locality.locality_id = media_relations.related_primary_key 
-				left join media on media_relations.media_id = media.media_id
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				AND flat.guid IS NOT NULL
-				AND media_relations.media_relationship = 'shows locality'
-				AND media.media_type = 'image'
-				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-				AND media.auto_host = 'mczbase.mcz.harvard.edu'
-		</cfquery>
-		<cfquery name="localityImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
-			SELECT * FROM (
-				SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-					MCZBASE.get_media_descriptor(media.media_id) as alt,
-					MCZBASE.get_medialabel(media.media_id,'width') as width,
-					MCZBASE.get_medialabel(media.media_id,'height') as first_height,
-					MCZBASE.get_media_credit(media.media_id) as credit
-				FROM
-					underscore_collection
-					left join underscore_relation 
-						on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-						on underscore_relation.collection_object_id = flat.collection_object_id
-					left join locality
-						on locality.locality_id = flat.locality_id 
-					left join media_relations 
-						on locality.locality_id = media_relations.related_primary_key 
-					left join media 
-						on media_relations.media_id = media.media_id
-				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-					AND flat.guid IS NOT NULL
-					AND media_relations.media_relationship = 'shows locality'
-					AND media.media_type = 'image'
-					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-					AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-				ORDER BY DBMS_RANDOM.RANDOM
-			) 
-			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
-		</cfquery>
-		<cfif localityCt.recordcount GT 0>
-			<cfset otherImageTypes = otherImageTypes + 1>
-		</cfif>--->
 		<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 			SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
 			FROM locality
@@ -451,7 +399,6 @@ div.vslider-item[aria-hidden="true"]{
 				and flat.guid IS NOT NULL
 				and lat_long.dec_lat is not null
 		</cfquery>
-
 		<main class="py-3" id="content">
 			<div class="row mx-0">
 				<article class="col-12">
