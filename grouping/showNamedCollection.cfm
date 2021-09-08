@@ -1108,8 +1108,8 @@ $(window).on('load resize', function () {
     .css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
 });
 $(div).on('load resize', function () {
-  var w = $(div).width();
-  $("##vslider-base1")
+  var w = $(div##vslider-base1).width();
+  $("##vslider-item")
     .css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
 });
 (function () {
