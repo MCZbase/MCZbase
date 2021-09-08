@@ -234,7 +234,7 @@ limitations under the License.
 	padding-bottom: 25%;
 	font-size: 2rem;
 }
-.slider-item::-webkit-scrollbar {
+.vslider-item::-webkit-scrollbar {
     width: .5em;
 }
 .vslider-item::-webkit-scrollbar-track {
@@ -1153,7 +1153,7 @@ $(window).on('load resize', function () {
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: '45rem',
+		height: '50rem',
         status: false,
         after: function (index, length) {
           $input.value = index
