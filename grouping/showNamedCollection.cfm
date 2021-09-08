@@ -33,8 +33,6 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfinclude template="/shared/_header.cfm">
-
-
 <style>
 .current {
 	width: 300px;
@@ -241,6 +239,9 @@ overflow: hidden;
 	.vslider {height: 35rem;}
 }
 </style>
+	<cfset maxSpecimens = 25>
+	<cfset maxRandomImages = 5>
+	<cfset otherImageTypes = 0>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
 	</cfif>
@@ -297,9 +298,6 @@ overflow: hidden;
 			<cfset specimenImgsCt = specimenImgs.recordcount>
 			<cfset otherimagetypes = 0>
 		</cfif>
-		<cfset maxSpecimens = 25>
-		<cfset maxRandomImages = 5>
-		<cfset otherImageTypes = 0>
 		<!--- obtain a random set of specimen images, limited to a small number/for carousel --->
 		<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 			SELECT * FROM (
