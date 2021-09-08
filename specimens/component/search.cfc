@@ -254,13 +254,19 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 }
 </cfscript>
 
-<!---   Function getSpecimens backing method for specimen search --->
-<cffunction name="getSpecimens" access="remote" returntype="any" returnformat="json">
-	<cfargument name="searchText" type="string" required="no">
-	<cfargument name="collmultiselect" type="string" required="no">
+<!---   Function executeKeywordSearch backing method for specimen search 
+	@param result_id a uuid which identifies this search.
+	@param searchText search string using the CONTEXT grammar
+	@param collection_cde a list of zero or more collection_cde values to limit the search
+	@returns json for a jqxgrid or an http 500 status with an error message
+--->
+<cffunction name="executeKeywordSearch" access="remote" returntype="any" returnformat="json">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="searchText" type="string" required="yes">
+	<cfargument name="collection_cde" type="string" required="no">
 
 	<cftry>
-		<!---change this to create a table of collection_object_ids, then a query to get preferred columns for user using the coll object table--->
+		<!--- TODO: change this to create a table of collection_object_ids, then a query to get preferred columns for user using the coll object table--->
 
 		<cfif isDefined("searchText") and len(searchText) gt 0>
 			<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
@@ -291,8 +297,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flatTableName
 					left join FLAT_TEXT FT ON flatTableName.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
 				WHERE contains(ft.cat_num, <cfqueryparam value="#searchText#" CFSQLType="CF_SQL_VARCHAR">, 1) > 0
-					<cfif isDefined("collmultiselect") and len(collmultiselect) gt 0>
-						and flatTableName.collection_id in (<cfqueryparam value="#collmultiselect#" cfsqltype="cf_sql_integer" list="true">)
+					<cfif isDefined("collection_cde") and len(collection_cde) gt 0>
+						and flatTableName.collection_cde in (<cfqueryparam value="#collection_cde#" cfsqltype="CF_SQL_VARCHAR" list="true">)
 					</cfif>
 					and rownum < 100
 			</cfquery>

@@ -220,15 +220,15 @@ limitations under the License.
 								<section role="search" class="container-fluid">
 									<form name= "keywordSearchForm" id="keywordSearchForm">
 										<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
-										<input type="hidden" name="method" value="getSpecimens" class="keeponclear excludeFromLink">
+										<input type="hidden" name="method" value="executeKeywordSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
 										<div class="row">
 											<div class="input-group mt-1">
 												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3">
 													<label for="keywordCollection" class="data-entry-label">Limit to Collection(s)</label>
-													<div name="collection" id="keywordCollection" class="w-100 data-entry-select"></div>
-													<cfif not isdefined("collection")><cfset collection=""></cfif>
-													<cfset collection_array = ListToArray(collection)>
+													<div name="collection_cde" id="keywordCollection" class="w-100 data-entry-select"></div>
+													<cfif not isdefined("collection_cde")><cfset collection_cde=""></cfif>
+													<cfset collection_array = ListToArray(collection_cde)>
 													<script>
 														function setKeywordCollectionValues() {
 															$('##keywordCollection').jqxComboBox('clearSelection');
