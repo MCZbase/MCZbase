@@ -96,12 +96,12 @@ div.vslider-item[aria-hidden='false'] {
   	opacity: 1.0;
   	transform: translateX(0);
 }
-	div.vslider-item[aria-hidden="true"]{
-		display:block;
-	}
+div.vslider-item[aria-hidden="true"]{
+	display:block;
+}
 .vslider-before {
  	z-index: 10;
-  	opacity: 0;
+  	opacity: 1;
   	transform: translateX(5%);
 }
 .vslider-direct {
