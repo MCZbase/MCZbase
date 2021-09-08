@@ -332,7 +332,7 @@ limitations under the License.
 		</cfif>
 	<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
-				SELECT DISTINCT media.media_id, media_uri,MCZBASE.get_media_descriptor(media.media_id) as alt
+				SELECT DISTINCT media.media_id, media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
 					FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -375,10 +375,7 @@ limitations under the License.
 		</cfif>
 		<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 			SELECT * FROM (
-				SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-					MCZBASE.get_media_descriptor(media.media_id) as alt,
-					MCZBASE.get_medialabel(media.media_id,'width') as width,
-					MCZBASE.get_media_credit(media.media_id) as credit
+				SELECT DISTINCT media.media_id, media.media_id, media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -399,7 +396,7 @@ limitations under the License.
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 		</cfquery>
-		<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
+		<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingCtForCarousel_result">  
 			SELECT DISTINCT media.media_id
 			FROM
 				underscore_collection
