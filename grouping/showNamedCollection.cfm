@@ -54,7 +54,6 @@ limitations under the License.
 	left: 0;
 	padding: 5px;
 	padding-left: 10px;
-/*	position: absolute;*/
 	position: relative;
 	top: 10px;
 	z-index: 5;
@@ -63,8 +62,6 @@ limitations under the License.
   	position: relative;
 	overflow: auto;
 	width: 100%;
-
-	
 }
 .vslider > * {
   	display: block;
