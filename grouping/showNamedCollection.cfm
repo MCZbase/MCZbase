@@ -323,7 +323,7 @@ overflow: hidden;
 		<cfif specimenImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = 1>
 		</cfif>
-		<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
+	<!---	<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
 				SELECT DISTINCT media.media_id,media_uri, preview_uri,media_type, 
 					MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -463,7 +463,7 @@ overflow: hidden;
 				ORDER BY DBMS_RANDOM.RANDOM
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
-		</cfquery>
+		</cfquery>--->
 		<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 			SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
 			FROM locality
@@ -505,7 +505,7 @@ overflow: hidden;
 							</div>
 						</div>
 					</section>
-					<section class="row mx-0">
+					<section class="spec-table row mx-0">
 					<!--- Grid Related code is in section above (fills into id = "jqxgrid" div) along with search handlers --->
 							<script type="text/javascript">
 								var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -641,7 +641,7 @@ overflow: hidden;
 									</div>
 								</div>
 							</cfif>
-							<cfif agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0>
+			<!---				<cfif agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0>--->
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
 								<cfswitch expression="#otherImageTypes#">
 									<cfcase value="1">
@@ -671,7 +671,7 @@ overflow: hidden;
 								</cfswitch>
 								<div class="row bottom px-3">
 									<div class="col-12 px-0 mt-2 mb-3">
-										<cfif agentImagesForCarousel.recordcount gte 2>
+<!---										<cfif agentImagesForCarousel.recordcount gte 2>
 											<cfset imagePlural = 'images'>
 										<cfelse>
 											<cfset imagePlural = 'image'>
@@ -679,7 +679,7 @@ overflow: hidden;
 										<cfif agentImagesForCarousel.recordcount gt 0>
 											<div class="col-12 px-0 #colClass# mx-md-auto my-3">
 												<div class="carousel_background border float-left w-100 p-2 h-auto">
-													<h3 class="mx-2 text-center">Agents <!---<span class="small">(#agentCt.recordcount# #imagePlural#)</span>---></h3>
+													<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
 													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base1">
 														<cfset i=1>
 														<cfloop query="agentImagesForCarousel">
@@ -719,8 +719,8 @@ overflow: hidden;
 													</div>
 												</div>
 											</div>
-										</cfif>
-										<cfif collectingImagesForCarousel.recordcount gte 2>
+										</cfif>--->
+<!---										<cfif collectingImagesForCarousel.recordcount gte 2>
 											<cfset imagePlural = 'images'>
 												<cfelse>
 											<cfset imagePlural = 'image'>
@@ -770,11 +770,11 @@ overflow: hidden;
 													</div>
 												</div>
 											</div>
-										</cfif>
-										<cfif localityImagesForCarousel.recordcount gte 2>
-												<cfset imagePlural = 'images'>
-												<cfelse>
-												<cfset imagePlural = 'image'>
+										</cfif>--->
+<!---									<cfif localityImagesForCarousel.recordcount gte 2>
+											<cfset imagePlural = 'images'>
+											<cfelse>
+											<cfset imagePlural = 'image'>
 										</cfif>
 										<cfif localityImagesForCarousel.recordcount gt 0>
 											<div class="col-12 px-0 #colClass# mx-md-auto mt-3">
@@ -819,10 +819,10 @@ overflow: hidden;
 													</div>
 												</div>
 											</div>
-										</cfif>
+										</cfif>--->
 									</div>
 								</div>
-							</cfif>
+						<!---	</cfif>--->
 						</div>
 					</section>
 					<section class="heatmap">
@@ -913,7 +913,7 @@ overflow: hidden;
 							<!---/////////// ABOVE /////////////--->
 							<!---///////////////////////////////--->										
 					</section><!--- end images & heat map---> 	
-					<section class="overviewLinks">
+					<section class="overview-links">
 						<div class="col mt-4 float-left"> 
 							<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 							<div class="my-2 py-3 border-bottom-black">
