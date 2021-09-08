@@ -1094,7 +1094,7 @@ limitations under the License.
 $(window).on('load resize', function () {
   var w = $(window).width();
   $("##vslider-base")
-    .css('max-height', w > 1280 ? 515 : w > 480 ? 615 : 715);
+    .css('max-height', w > 1280 ? 515 : w > 480 ? 500 : 715);
 });
 (function () {
   "use strict";
