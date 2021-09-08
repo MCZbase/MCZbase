@@ -728,7 +728,7 @@ limitations under the License.
 													</div>
 												</div>
 											</cfif>
-											<cfif collectingImagesForCarousel gt 0>
+									<!---		<cfif collectingImagesForCarousel gt 0>
 												<cfif collectingImagesForCarousel.recordcount gte 2>
 													<cfset imagePlural = 'images'>
 														<cfelse>
@@ -777,7 +777,7 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-											</cfif>
+											</cfif>--->
 										</div>
 									</div>
 								</div>
