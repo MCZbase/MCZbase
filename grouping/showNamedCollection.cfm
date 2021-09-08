@@ -245,7 +245,7 @@ limitations under the License.
 	outline: 1px solid slategrey;
 }
 </style>
-	<cfset maxSpecimens = 4000>
+	<cfset maxSpecimens = 5000>
 	<cfset maxRandomImages = 15>
 	<cfset otherImageTypes = 0>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
