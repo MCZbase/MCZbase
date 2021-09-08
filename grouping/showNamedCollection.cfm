@@ -1095,8 +1095,8 @@ limitations under the License.
   "use strict";
   function init() {
 	  	$(document).ready(function() {
-    $('.slider-item').click(function(){
-        $('button').next().css('height','48rem');
+    $('.vslider-item').click(function(){
+        $('button').next().css('height','47rem');
     });
 });
     var $input = document.getElementById('custom-input')
