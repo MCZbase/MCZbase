@@ -220,7 +220,7 @@ limitations under the License.
 								<section role="search" class="container-fluid">
 									<form name= "keywordSearchForm" id="keywordSearchForm">
 										<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
-										<input type="hidden" name="method" value="getSpecimens" class="keeponclear excludeFromLink">
+										<input type="hidden" name="method" value="executeKeywordSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
 										<div class="row">
 											<div class="input-group mt-1">
