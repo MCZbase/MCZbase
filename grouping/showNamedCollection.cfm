@@ -205,8 +205,8 @@ limitations under the License.
   border-left: 1em solid #000;
 }
 .custom-input {
-	padding: .5rem;
-	margin-top:.25rem;
+/*	padding: .5rem;
+	margin-top:.25rem;*/
 	text-align: center;
 	width:53px; 
 }
