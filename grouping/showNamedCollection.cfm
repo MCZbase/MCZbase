@@ -642,7 +642,7 @@ limitations under the License.
 											</div>
 											<div class="custom-nav text-center mb-1 bg-white pt-0 pb-1">
 												<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-												<input type="number" id="custom-input" class="custom-input border border-light" placeholder="index">
+												<input type="number" id="custom-input" class="custom-input border data-entry-input d-inline border-light" placeholder="index">
 												<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
 											</div>
 										</div>
@@ -722,7 +722,7 @@ limitations under the License.
 															</div>
 															<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
 																<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
-																<input type="number" id="custom-input1" class="custom-input border border-light" placeholder="index">
+																<input type="number" id="custom-input1" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
 																<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
 															</div>
 													</div>
