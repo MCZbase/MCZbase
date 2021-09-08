@@ -406,7 +406,7 @@ div.vslider-item[aria-hidden="true"]{
 				<article class="col-12">
 					<section class="feature">
 						<div class="row mx-0">
-							<div class="col-12 px-0 border-dark mt-4">
+							<div class="col-12 px-1 border-dark mt-4">
 								<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name#
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 										<div class="d-inline-block float-right"> <a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">Edit</a> </div>
