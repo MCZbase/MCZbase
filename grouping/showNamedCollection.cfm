@@ -249,7 +249,7 @@ div.vslider-item[aria-hidden="true"]{
 	border-radius: 10px;
 }
 </style>
-	<cfset maxSpecimens = 1000>
+	<cfset maxSpecimens = 11000>
 	<cfset maxRandomImages = 15>
 	<cfset otherImageTypes = 0>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
