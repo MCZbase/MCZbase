@@ -333,7 +333,7 @@ div.vslider-item[aria-hidden="true"]{
 		<cfif specimenImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = 1>
 		</cfif>
-	<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
+		<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
 				SELECT DISTINCT media.media_id, media_uri,MCZBASE.get_media_descriptor(media.media_id) as alt
 					FROM
@@ -358,7 +358,7 @@ div.vslider-item[aria-hidden="true"]{
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
 		</cfif>
-	<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
+		<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 			SELECT * FROM (
 				SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 					MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -379,8 +379,8 @@ div.vslider-item[aria-hidden="true"]{
 					AND media_relations.media_relationship = 'shows collecting_event'
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-					AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-				ORDER BY DBMS_RANDOM.RANDOM
+					AND media.auto_host = 'mczbase.mcz.harvard.edu'
+				ORDER BY width desc, DBMS_RANDOM.RANDOM
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 		</cfquery>
@@ -402,7 +402,7 @@ div.vslider-item[aria-hidden="true"]{
 				AND media_relations.media_relationship = 'shows locality'
 				AND media.media_type = 'image'
 				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-				AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+				AND media.auto_host = 'mczbase.mcz.harvard.edu'
 		</cfquery>
 		<cfquery name="localityImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
 			SELECT * FROM (
