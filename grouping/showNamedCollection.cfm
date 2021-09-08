@@ -691,7 +691,7 @@ limitations under the License.
 											<div class="col-12 px-0 #colClass# mx-md-auto my-3"><!---just for agent block--->
 												<div class="vslider w-100 float-left bg-light" id="vslider-base">
 													<div class="carousel_background border float-left w-100 p-2">
-														<h3 class="mx-2 text-center">Agents <span class="small"><!---(#agentCt.recordcount# #imagePlural#)---></span></h3>
+														<h3 class="mx-2 text-center">Agents<!---<span class="small">(#agentCt.recordcount# #imagePlural#)</span>---></h3>
 														<div class="vslider w-100 float-left bg-light py-2" id="vslider-base1">
 															<cfset i=1>
 															<cfloop query="agentImagesForCarousel">
@@ -836,6 +836,7 @@ limitations under the License.
 									</div>
 								</div>
 						</cfif>
+					</div>
 		<!---			<section class="heatmap">--->
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
