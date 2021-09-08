@@ -1096,7 +1096,7 @@ limitations under the License.
   function init() {
 	  	$(document).ready(function() {
     $('.slider-item').click(function(){
-        $('button').next().css('height','45rem');
+        $('button').next().css('height','48rem');
     });
 });
     var $input = document.getElementById('custom-input')
