@@ -373,7 +373,7 @@ limitations under the License.
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
 		</cfif>
-		<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
+<!---		<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 			SELECT * FROM (
 				SELECT DISTINCT media.media_id, media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
 				FROM
@@ -417,7 +417,7 @@ limitations under the License.
 		</cfquery>
 		<cfif collectingCt.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
-		</cfif>
+		</cfif>--->
 		<!---<cfquery name="localityCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityCt"> 
 			SELECT DISTINCT media.media_id
 			FROM
@@ -726,14 +726,14 @@ limitations under the License.
 												</div>
 											<cfelse>
 											</cfif>
-											<cfif collectingImagesForCarousel.recordcount GT 0>
-												<!---<h3 class="mx-2 text-center">Other Images</h3>--->
+										<!---	<cfif collectingImagesForCarousel.recordcount GT 0>
+												
 												<cfif collectingImagesForCarousel.recordcount gte 2>
 													<cfset imagePlural = 'images'>
 												<cfelse>
 													<cfset imagePlural = 'image'>
 												</cfif>
-												<div class="col-12 px-0 #colClass# mx-md-auto my-3"><!---just for collecting block--->
+												<div class="col-12 px-0 #colClass# mx-md-auto my-3">
 													<div class="carousel_background border float-left w-100 p-2">
 														<h3 class="mx-2 text-center">Collecting Events <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base2">
@@ -777,7 +777,7 @@ limitations under the License.
 												</div>
 											<cfelse>
 												
-											</cfif>
+											</cfif>--->
 										</div>
 									</div>
 								</div>
