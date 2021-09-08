@@ -285,7 +285,6 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					)
 			</cfquery>
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-				SELECT * FROM (
 				SELECT
 					score(1),
 					<cfset comma = "">
@@ -303,8 +302,6 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 						and flatTableName.collection_cde in (<cfqueryparam value="#collection_cde#" cfsqltype="CF_SQL_VARCHAR" list="true">)
 					</cfif>
 				ORDER BY score(1) desc
-				)
-				WHERE rownum < 1000
 			</cfquery>
 		<cfelse>
 			<cfthrow message="No search terms provided.">
