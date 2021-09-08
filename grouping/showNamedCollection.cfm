@@ -89,10 +89,9 @@ limitations under the License.
   	z-index: 20;
   	opacity: 0;
   	transform: translateX(-10%);
-				resize:both;
-	max-height: fit-content;
-	max-width: fit-content;
-		overflow:auto;
+	resize: vertical;
+	overflow:auto;
+	font-size: 3rem;
 }
 .vslider-item[aria-hidden='false'] {
   	z-index: 30;
