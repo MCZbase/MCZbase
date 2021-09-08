@@ -60,71 +60,72 @@ limitations under the License.
 	z-index: 5;
 }
 .vslider {
-  position: relative;
-overflow: hidden;
+  	position: relative;
+	overflow: hidden;
 }
 .vslider > * {
-  display: block;
-  position: relative;
+  	display: block;
+  	position: relative;
+	padding-bottom: 50%;
 }
 .vslider > * + * {
-  display: none;
-  position: absolute;
+  	display: none;
+  	position: absolute;
 }
 .vslider-item {
-  display: block;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  bottom: 0;
-  -ms-touch-action: none;
-  touch-action: none;
-  transition: z-index 0s,
-  opacity .8s ease-in-out,
-  transform .4s ease-in-out;
-  z-index: 20;
-  opacity: 0;
-  transform: translateX(-10%);
+ 	display: block;
+  	width: 100%;
+  	height: 100%;
+  	top: 0;
+  	bottom: 0;
+  	-ms-touch-action: none;
+  	touch-action: none;
+  	transition: z-index 0s,
+  	opacity .8s ease-in-out,
+  	transform .4s ease-in-out;
+  	z-index: 20;
+  	opacity: 0;
+  	transform: translateX(-10%);
 }
 .vslider-item[aria-hidden='false'] {
-  z-index: 30;
-  opacity: 1.0;
-  transform: translateX(0);
+  	z-index: 30;
+  	opacity: 1.0;
+  	transform: translateX(0);
 }
 .vslider-before {
-  z-index: 10;
-  opacity: 0;
-  transform: translateX(10%);
+ 	z-index: 10;
+  	opacity: 0;
+  	transform: translateX(10%);
 }
 .vslider-direct {
-  transition: none;
+  	transition: none;
 }
 .vslider-status {
-  display: block;
-  list-style: none;
-  z-index: 110;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  padding: 0;
-  margin: 0;
+  	display: block;
+  	list-style: none;
+  	z-index: 110;
+  	position: absolute;
+  	left: 0;
+  	bottom: 0;
+  	width: 100%;
+  	text-align: center;
+  	padding: 0;
+  	margin: 0;
 }
 .vslider-status-item {
-  cursor: pointer;
-  display: inline-block;
-  font-size: 0.5em;
-  width: 1em;
-  height: 1em;
-  line-height: 1;
-  color: #000;
-  background: #000;
-  border: 0.1em solid #fff;
-  border-radius: 100%;
-  margin: 0 0.5em;
-  transition: 0.3s;
-  opacity: 0.3;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 0.5em;
+	width: 1em;
+	height: 1em;
+	line-height: 1;
+	color: #000;
+	background: #000;
+	border: 0.1em solid #fff;
+	border-radius: 100%;
+	margin: 0 0.5em;
+	transition: 0.3s;
+	opacity: 0.3;
 }
 .vslider-status-item:hover,
 .vslider-status-item:focus,
@@ -1101,7 +1102,7 @@ overflow: hidden;
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: "43rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
+		height: "0",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
         after: function (index, length) {
           $input.value = index
         }
