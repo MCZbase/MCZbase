@@ -1102,7 +1102,7 @@ limitations under the License.
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: '35rem',
+		height: '45rem',
         status: false,
         after: function (index, length) {
           $input.value = index
