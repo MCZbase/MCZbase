@@ -563,28 +563,19 @@ div.vslider-item[aria-hidden="true"]{
 									<!--- figure out widths of sub blocks, adapt to number of blocks --->
 									<cfswitch expression="#otherImageTypes#">
 										<cfcase value="1">
-										<cfset colClass = "col-md-12 px-0 mx-auto float-none">
-										<cfset imgWidth = 600>
-										<cfset imgHeight = "height:600px;">
+											<cfset colClass = "col-md-12 mx-auto float-none">
 										</cfcase>
 										<cfcase value="2">
-										<cfset colClass = "col-md-12 mx-auto float-none">
-										<cfset imgWidth = 600>
-										<cfset imgHeight = "height:600px;">
+											<cfset colClass = "col-md-6 mx-auto float-left">
 										</cfcase>
 										<cfcase value="3">
-										<cfset colClass = "col-md-6 float-left">
-										<cfset imgWidth = 400>
-										<cfset imgHeight = "height:400px;">
+											<cfset colClass = "col-md-6 float-left">
 										</cfcase>
 										<cfcase value="4">
-										<cfset colClass = "col-md-12 col-xl-4 float-left">
-										<cfset imgWidth = 300>
-										<cfset imgHeight = "height:300px;">
+											<cfset colClass = "col-md-12 col-xl-4 float-left">
 										</cfcase>
 										<cfdefaultcase>
-										<cfset colClass = "col-md-12 col-xl-3 float-left">
-											<cfset imgHeight = "height:400px;">
+											<cfset colClass = "col-md-12 col-xl-3 float-left">
 										</cfdefaultcase>
 									</cfswitch>
 									<div class="row bottom px-3"><!---for all three other image blocks--->
