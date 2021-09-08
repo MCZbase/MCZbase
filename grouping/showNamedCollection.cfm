@@ -518,7 +518,7 @@ div.vslider-item[aria-hidden="true"]{
 							<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="col-12 px-1">
-										<div class="carousel_background border float-left w-100 p-2">
+										<div class="carousel_background border rounded float-left w-100 p-2">
 											<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
 											<div class="vslider w-100 float-left bg-light" id="vslider-base">
 												<cfset i=1>
@@ -608,7 +608,7 @@ div.vslider-item[aria-hidden="true"]{
 														<cfset imagePlural = 'image'>
 													</cfif>
 												<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
-													<div class="carousel_background border float-left w-100 p-2">
+													<div class="carousel_background border rounded float-left w-100 p-2">
 														<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
@@ -679,7 +679,7 @@ div.vslider-item[aria-hidden="true"]{
 													<cfset imagePlural = 'image'>
 												</cfif>	
 												<div class="col-12 px-1 #colClass# mx-md-auto my-3">
-													<div class="carousel_background border float-left w-100 p-2">
+													<div class="carousel_background border rounded float-left w-100 p-2">
 													<h3 class="mx-2 text-center">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span>
 													</h3>
 														<div class="vslider w-100 float-left bg-light" id="vslider-base2">
