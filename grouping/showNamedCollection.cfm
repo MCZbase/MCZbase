@@ -63,9 +63,7 @@ limitations under the License.
   	position: relative;
 	overflow: auto;
 	width: 100%;
-	resize:both;
-	max-height: fit-content;
-	max-width: fit-content;
+
 	
 }
 .vslider > * {
@@ -235,15 +233,12 @@ limitations under the License.
 	padding-bottom: 25%;
 	font-size: 2rem;
 }
-@media only screen and (max-width: 300px){
-	.vslider {height: 23rem;}
-}
-@media only screen and (max-width: 600px){
-	.vslider {height: 43rem;}
-}
-@media only screen and (max-width: 1000px){
-	.vslider {height: 35rem;}
-}
+	.carousel_background {
+			resize:both;
+	max-height: fit-content;
+	max-width: fit-content;
+		overflow:auto;
+	}
 </style>
 	<cfset maxSpecimens = 25>
 	<cfset maxRandomImages = 5>
