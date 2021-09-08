@@ -257,13 +257,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 <!---   Function executeKeywordSearch backing method for specimen search 
 	@param result_id a uuid which identifies this search.
 	@param searchText search string using the CONTEXT grammar
-	@param collection a list of zero or more collection_id values to limit the search
+	@param collection_cde a list of zero or more collection_cde values to limit the search
 	@returns json for a jqxgrid or an http 500 status with an error message
 --->
 <cffunction name="executeKeywordSearch" access="remote" returntype="any" returnformat="json">
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="searchText" type="string" required="yes">
-	<cfargument name="collection" type="string" required="no">
+	<cfargument name="collection_cde" type="string" required="no">
 
 	<cftry>
 		<!--- TODO: change this to create a table of collection_object_ids, then a query to get preferred columns for user using the coll object table--->
@@ -297,8 +297,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flatTableName
 					left join FLAT_TEXT FT ON flatTableName.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
 				WHERE contains(ft.cat_num, <cfqueryparam value="#searchText#" CFSQLType="CF_SQL_VARCHAR">, 1) > 0
-					<cfif isDefined("collection") and len(colllection) gt 0>
-						and flatTableName.collection_id in (<cfqueryparam value="#collection#" cfsqltype="CF_SQL_DECIMAL" list="true">)
+					<cfif isDefined("collection_cde") and len(colllection) gt 0>
+						and flatTableName.collection_cde in (<cfqueryparam value="#collection_cde#" cfsqltype="CF_SQL_VARCHAR" list="true">)
 					</cfif>
 					and rownum < 100
 			</cfquery>
