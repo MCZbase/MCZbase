@@ -102,7 +102,7 @@ limitations under the License.
 .vslider-before {
  	z-index: 10;
   	opacity: 0;
-  	transform: translateX(10%);
+  	transform: translateX(5%);
 }
 .vslider-direct {
   	transition: none;
