@@ -235,16 +235,6 @@ limitations under the License.
 	font-size: 2rem;
 }
 
-/*.vslider {
-  height: 100%;
-  background: whitesmoke;
-  overflow: scroll;*/
-/*  width: 90%;
-  max-width: 900px;
-  margin: 0 auto;*/
-/*  padding: 3em;
-  border: 1px solid rgba(0,0,0,0.25)
-}*/
 v.slider-item::-webkit-scrollbar {
     width: .5em;
 }
@@ -252,7 +242,7 @@ v.slider-item::-webkit-scrollbar {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 .vslider-item::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
+  background-color: lightgrey;
   outline: 1px solid slategrey;
 }
 </style>
