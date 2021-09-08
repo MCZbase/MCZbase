@@ -63,6 +63,7 @@ limitations under the License.
   	position: relative;
 	overflow: hidden;
 	width: 100%;
+	min-height: 20rem;
 }
 .vslider > * {
   	display: block;
