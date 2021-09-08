@@ -352,24 +352,7 @@ limitations under the License.
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 		</cfquery>
-		<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
-			SELECT DISTINCT media.media_id
-			FROM
-				underscore_collection
-				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-					on underscore_relation.collection_object_id = flat.collection_object_id
-				left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-				left join media_relations on collector.agent_id = media_relations.related_primary_key
-				left join media on media_relations.media_id = media.media_id
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				AND flat.guid IS NOT NULL
-				AND collector.collector_role = 'c'
-				AND media_relations.media_relationship = 'shows agent'
-				AND media.media_type = 'image'
-				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-				AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-		</cfquery>
+
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
 		</cfif>
@@ -493,7 +476,7 @@ limitations under the License.
 				<article class="col-12">
 					<section class="feature">
 						<div class="row mx-0">
-							<div class="col-12 border-dark mt-4">
+							<div class="col-12 px-0 border-dark mt-4">
 								<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name#
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 										<div class="d-inline-block float-right"> <a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">Edit</a> </div>
@@ -680,6 +663,24 @@ limitations under the License.
 										<div class="col-12 px-0 mt-2 mb-3"><!---for all three other image blocks--->
 											<cfif agentImagesForCarousel.recordcount GT 0>
 												<!---<h3 class="mx-2 text-center">Other Images</h3>--->
+												<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
+													SELECT DISTINCT media.media_id
+													FROM
+														underscore_collection
+														left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+															on underscore_relation.collection_object_id = flat.collection_object_id
+														left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+														left join media_relations on collector.agent_id = media_relations.related_primary_key
+														left join media on media_relations.media_id = media.media_id
+													WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+														AND flat.guid IS NOT NULL
+														AND collector.collector_role = 'c'
+														AND media_relations.media_relationship = 'shows agent'
+														AND media.media_type = 'image'
+														AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+														AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+												</cfquery>
 												<cfif agentImagesForCarousel.recordcount gte 2>
 														<cfset imagePlural = 'images'>
 													<cfelse>
