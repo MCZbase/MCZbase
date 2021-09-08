@@ -205,8 +205,8 @@ limitations under the License.
   border-left: 1em solid #000;
 }
 .custom-input {
-	padding: .5rem;
-	margin-top:.25rem;
+/*	padding: .5rem;
+	margin-top:.25rem;*/
 	text-align: center;
 	width:53px; 
 }
@@ -234,19 +234,20 @@ limitations under the License.
 	padding-bottom: 25%;
 	font-size: 2rem;
 }
-.slider-item::-webkit-scrollbar {
-    width: .5em;
+.vslider::-webkit-scrollbar, .vslider-item::-webkit-scrollbar {
+    width: 10px;
 }
-.vslider-item::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+.vslider::-webkit-scrollbar-track, .vslider-item::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+	background: aliceblue;
 }
-.vslider-item::-webkit-scrollbar-thumb {
+.vslider::-webkit-scrollbar-thumb, .vslider-item::-webkit-scrollbar-thumb {
 	background-color: lightgrey;
-	outline: 1px solid slategrey;
+	border-radius: 10px;
 }
 </style>
-	<cfset maxSpecimens = 5000>
-	<cfset maxRandomImages = 15>
+	<cfset maxSpecimens = 100>
+	<cfset maxRandomImages = 5>
 	<cfset otherImageTypes = 0>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -329,12 +330,10 @@ limitations under the License.
 		<cfif specimenImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = 1>
 		</cfif>
-	<!---	<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
+	<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
-				SELECT DISTINCT media.media_id,media_uri, preview_uri,media_type, 
-					MCZBASE.get_media_descriptor(media.media_id) as alt,
-					MCZBASE.get_media_credit(media.media_id) as credit
-				FROM
+				SELECT DISTINCT media.media_id, media_uri,MCZBASE.get_media_descriptor(media.media_id) as alt
+					FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
@@ -353,7 +352,7 @@ limitations under the License.
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 		</cfquery>
-		<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
+	<	<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
 			SELECT DISTINCT media.media_id
 			FROM
 				underscore_collection
@@ -374,7 +373,7 @@ limitations under the License.
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
 		</cfif>
-		<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
+	<!---	<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 			SELECT * FROM (
 				SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 					MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -601,133 +600,138 @@ limitations under the License.
 					<!---end specimen grid---> 
 					</section>
 					<div class="row mx-0">
-					<cfif specimenImagesForCarousel.recordcount gt 0>
-					<section class="imagesLeft mx-3 mt-1 col-12 col-md-6 float-left px-0 mt-3 mb-3">	
-						<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
-							<cfif specimenImagesForCarousel.recordcount gt 0>
-								<div class="col-12 px-0">
-									<div class="carousel_background border float-left w-100 p-2">
-										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
-										<div class="vslider w-100 float-left bg-light" id="vslider-base">
-											<cfset i=1>
-											<cfloop query="specimenImagesForCarousel">
-												<cfset alttext = specimenImagesForCarousel['alt'][i]>
-												<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-												<cfif len(alttextTrunc) gt 140>
-													<cfset trimmedAltText = left(alttextTrunc, 140)>
-													<cfset trimmedAltText &= "...">
-												<cfelse>
-													<cfset trimmedAltText = altTextTrunc>
-												</cfif>
-												<div class="w-100 float-left px-3 h-auto">
-													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-													<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
-													<cfset src=specimenImagesForCarousel['media_uri'][i]>
-													<cfif fileExists(#src#)>
-														<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-															<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-														</a>
-														<p class="mt-2 bg-light small">#trimmedAltText#</p>
+					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0>
+						<section class="imagesLeft mx-3 mt-1 col-12 col-md-6 float-left px-0 mt-3 mb-3">	
+							<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
+								<cfif specimenImagesForCarousel.recordcount gt 0>
+									<div class="col-12 px-0">
+										<div class="carousel_background border float-left w-100 p-2">
+											<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
+											<div class="vslider w-100 float-left bg-light" id="vslider-base">
+												<cfset i=1>
+												<cfloop query="specimenImagesForCarousel">
+													<cfset alttext = specimenImagesForCarousel['alt'][i]>
+													<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+													<cfif len(alttextTrunc) gt 140>
+														<cfset trimmedAltText = left(alttextTrunc, 140)>
+														<cfset trimmedAltText &= "...">
 													<cfelse>
-														<ul class="bg-dark px-0 list-unstyled">
-															<li>
-																<h3 class="text-white mx-auto message">
-																	No image is stored
-																</h3>
-															</li>
-														</ul>
+														<cfset trimmedAltText = altTextTrunc>
 													</cfif>
-												</div>
-											<cfset i=i+1>
-											</cfloop>
+													<div class="w-100 float-left px-3 h-auto">
+														<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+														<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
+														<cfset src=specimenImagesForCarousel['media_uri'][i]>
+														<cfif fileExists(#src#)>
+															<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+															</a>
+															<p class="mt-2 bg-light small">#trimmedAltText#</p>
+														<cfelse>
+															<ul class="bg-dark px-0 list-unstyled">
+																<li>
+																	<h3 class="text-white mx-auto message">
+																		No image is stored
+																	</h3>
+																</li>
+															</ul>
+														</cfif>
+													</div>
+												<cfset i=i+1>
+												</cfloop>
+											</div>
+											<div class="custom-nav text-center mb-1 bg-white pt-0 pb-1">
+												<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
+												<input type="number" id="custom-input" class="custom-input border data-entry-input d-inline border-light" placeholder="index">
+												<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
+											</div>
 										</div>
-										<div class="custom-nav text-center mb-1 bg-white pt-0 pb-1">
-											<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << previous </button>
-											<input type="number" id="custom-input" class="custom-input border border-light" placeholder="index">
-											<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
+									</div>
+								</cfif>	
+								<div class="other-images">
+									<!--- figure out widths of sub blocks, adapt to number of blocks --->
+									<cfswitch expression="#otherImageTypes#">
+										<cfcase value="1">
+										<cfset colClass = "col-md-12 px-0 mx-auto float-none">
+										<cfset imgWidth = 600>
+										<cfset imgHeight = "height:600px;">
+										</cfcase>
+										<cfcase value="2">
+										<cfset colClass = "col-md-12 mx-auto float-none">
+										<cfset imgWidth = 600>
+										<cfset imgHeight = "height:600px;">
+										</cfcase>
+										<cfcase value="3">
+										<cfset colClass = "col-md-6 float-left">
+										<cfset imgWidth = 400>
+										<cfset imgHeight = "height:400px;">
+										</cfcase>
+										<cfcase value="4">
+										<cfset colClass = "col-md-12 col-xl-4 float-left">
+										<cfset imgWidth = 300>
+										<cfset imgHeight = "height:300px;">
+										</cfcase>
+										<cfdefaultcase>
+										<cfset colClass = "col-md-12 col-xl-3 float-left">
+											<cfset imgHeight = "height:400px;">
+										</cfdefaultcase>
+									</cfswitch>
+									<div class="row bottom px-3"><!---for all three other image blocks--->
+										<div class="col-12 px-0 mt-2 mb-3"><!---for all three other image blocks--->
+											<cfif agentImagesForCarousel.recordcount GT 0>
+												<!---<h3 class="mx-2 text-center">Other Images</h3>--->
+												<cfif agentImagesForCarousel.recordcount gte 2>
+														<cfset imagePlural = 'images'>
+													<cfelse>
+														<cfset imagePlural = 'image'>
+													</cfif>
+												<div class="col-12 px-0 #colClass# mx-md-auto my-3"><!---just for agent block--->
+													<div class="carousel_background border float-left w-100 p-2">
+														<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
+															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
+																<cfset i=1>
+																<cfloop query="agentImagesForCarousel">
+																	<cfset alttext = agentImagesForCarousel['alt'][i]>
+																	<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+																	<cfif len(alttextTrunc) gt 300>
+																		<cfset trimmedAltText = left(alttextTrunc, 300)>
+																		<cfset trimmedAltText &= "...">
+																	<cfelse>
+																		<cfset trimmedAltText = altTextTrunc>
+																	</cfif>
+																	<div class="w-100 float-left px-3 h-auto">
+																		<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
+																		<cfset src=agentImagesForCarousel['media_uri'][i]>
+																		<cfif fileExists(#src#)>
+																			<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																				<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+																			</a>
+																			<p class="mt-2 small bg-light">#trimmedAltText#</p>
+																		<cfelse>
+																			<ul class="bg-dark px-0 list-unstyled">
+																				<li>
+																					<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
+																						No image is stored
+																					</h3>
+																				</li>
+																			</ul>
+																		</cfif>
+																	</div>
+																	<cfset i=i+1>
+																</cfloop>
+															</div>
+															<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
+																<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
+																<input type="number" id="custom-input1" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
+																<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
+															</div>
+													</div>
+												</div>
+											</cfif>
 										</div>
 									</div>
 								</div>
-							</cfif>
-			<!---				<cfif agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0>--->
-								<!--- figure out widths of sub blocks, adapt to number of blocks --->
-								<cfswitch expression="#otherImageTypes#">
-									<cfcase value="1">
-									<cfset colClass = "col-md-12 px-0 mx-auto float-none">
-									<cfset imgWidth = 600>
-									<cfset imgHeight = "height:600px;">
-									</cfcase>
-									<cfcase value="2">
-									<cfset colClass = "col-md-12 mx-auto float-none">
-									<cfset imgWidth = 600>
-									<cfset imgHeight = "height:600px;">
-									</cfcase>
-									<cfcase value="3">
-									<cfset colClass = "col-md-6 float-left">
-									<cfset imgWidth = 400>
-									<cfset imgHeight = "height:400px;">
-									</cfcase>
-									<cfcase value="4">
-									<cfset colClass = "col-md-12 col-xl-4 float-left">
-									<cfset imgWidth = 300>
-									<cfset imgHeight = "height:300px;">
-									</cfcase>
-									<cfdefaultcase>
-									<cfset colClass = "col-md-12 col-xl-3 float-left">
-										<cfset imgHeight = "height:400px;">
-									</cfdefaultcase>
-								</cfswitch>
-								<div class="row bottom px-3">
-									<div class="col-12 px-0 mt-2 mb-3">
-<!---										<cfif agentImagesForCarousel.recordcount gte 2>
-											<cfset imagePlural = 'images'>
-										<cfelse>
-											<cfset imagePlural = 'image'>
-										</cfif>
-										<cfif agentImagesForCarousel.recordcount gt 0>
-											<div class="col-12 px-0 #colClass# mx-md-auto my-3">
-												<div class="carousel_background border float-left w-100 p-2 h-auto">
-													<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base1">
-														<cfset i=1>
-														<cfloop query="agentImagesForCarousel">
-															<cfset alttext = agentImagesForCarousel['alt'][i]>
-															<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-															<cfif len(alttextTrunc) gt 300>
-																<cfset trimmedAltText = left(alttextTrunc, 300)>
-																<cfset trimmedAltText &= "...">
-															<cfelse>
-																<cfset trimmedAltText = altTextTrunc>
-															</cfif>
-															<div class="w-100 float-left px-3 h-auto">
-																<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-																<cfset src=agentImagesForCarousel['media_uri'][i]>
-																<cfif fileExists(#src#)>
-																	<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																		<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-																	</a>
-																	<p class="mt-2 small bg-light">#trimmedAltText#</p>
-																<cfelse>
-																	<ul class="bg-dark px-0 list-unstyled">
-																		<li>
-																			<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
-																				No image is stored
-																			</h3>
-																		</li>
-																	</ul>
-																</cfif>
-															</div>
-															<cfset i=i+1>
-														</cfloop>
-													</div>
-													<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
-														<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << previous </button>
-														<input type="number" id="custom-input1" class="custom-input border border-light" placeholder="index">
-														<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
-													</div>
-												</div>
-											</div>
-										</cfif>--->
+								
 <!---										<cfif collectingImagesForCarousel.recordcount gte 2>
 											<cfset imagePlural = 'images'>
 												<cfelse>
@@ -828,10 +832,7 @@ limitations under the License.
 												</div>
 											</div>
 										</cfif>--->
-									</div>
-								</div>
-						<!---	</cfif>--->
-					</section>
+						</section>	
 					</cfif>
 		<!---			<section class="heatmap">--->
 							<!---///////////////////////////////--->
@@ -1102,6 +1103,11 @@ $(window).on('load resize', function () {
   $("##vslider-base")
     .css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
 });
+$(window).on('load resize', function () {
+  var w = $(window).width();
+  $("##vslider-base1")
+    .css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
+});
 (function () {
   "use strict";
   function init() {
@@ -1148,7 +1154,7 @@ $(window).on('load resize', function () {
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: null,
+		height: '50rem',
         status: false,
         after: function (index, length) {
           $input.value = index
