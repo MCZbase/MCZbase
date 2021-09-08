@@ -376,7 +376,7 @@ div.vslider-item[aria-hidden="true"]{
 					left join media on media_relations.media_id = media.media_id
 				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					AND flat.guid IS NOT NULL
-					AND media_relations.media_relationship = 'shows collecting_event'
+					AND (media_relations.media_relationship = 'shows collecting_event' or media_relations.media_relationship = 'locality')
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 					AND media.auto_host = 'mczbase.mcz.harvard.edu'
