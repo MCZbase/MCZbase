@@ -246,8 +246,8 @@ limitations under the License.
 	border-radius: 10px;
 }
 </style>
-	<cfset maxSpecimens = 100>
-	<cfset maxRandomImages = 5>
+	<cfset maxSpecimens = 1000>
+	<cfset maxRandomImages = 15>
 	<cfset otherImageTypes = 0>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
