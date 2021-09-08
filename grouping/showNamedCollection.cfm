@@ -1090,8 +1090,8 @@ limitations under the License.
 		</main>
 	</cfloop>
 <script>
-	var $heightslide =document.getElementById("vslider-base").style.height = 
-		Math.round((document.getElementById("vslider-base").style.width * 100) / 35) + "px";
+	var mainNode = document.getElementById("vslider-base");
+mainNode.style.height = (screen.height + 40) + "px";
 (function () {
   "use strict";
   function init() {
@@ -1104,7 +1104,7 @@ limitations under the License.
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height:	heightslide,
+		height:	mainNode,
         after: function (index, length) {
           $input.value = index
         }
