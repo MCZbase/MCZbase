@@ -96,6 +96,9 @@ limitations under the License.
   	opacity: 1.0;
   	transform: translateX(0);
 }
+	div.vslider-item[aria-hidden="true"]{
+		display:block;
+	}
 .vslider-before {
  	z-index: 10;
   	opacity: 0;
@@ -600,7 +603,7 @@ limitations under the License.
 													<cfelse>
 														<cfset trimmedAltText = altTextTrunc>
 													</cfif>
-													<div class="w-100 float-left px-3 h-auto">
+													<div class="w-100 bg-light float-left px-3 h-auto">
 														<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 														<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
 														<cfset src=specimenImagesForCarousel['media_uri'][i]>
