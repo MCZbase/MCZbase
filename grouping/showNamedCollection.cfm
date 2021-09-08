@@ -91,7 +91,7 @@ limitations under the License.
   	transform: translateX(-10%);
 	resize: vertical;
 	overflow:auto;
-	font-size: 3rem;
+	font-size: 1rem;
 }
 .vslider-item[aria-hidden='false'] {
   	z-index: 30;
