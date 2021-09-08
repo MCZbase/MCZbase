@@ -234,16 +234,15 @@ limitations under the License.
 	padding-bottom: 25%;
 	font-size: 2rem;
 }
-
-v.slider-item::-webkit-scrollbar {
+.slider-item::-webkit-scrollbar {
     width: .5em;
 }
 .vslider-item::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 .vslider-item::-webkit-scrollbar-thumb {
-  background-color: lightgrey;
-  outline: 1px solid slategrey;
+	background-color: lightgrey;
+	outline: 1px solid slategrey;
 }
 </style>
 	<cfset maxSpecimens = 25>
