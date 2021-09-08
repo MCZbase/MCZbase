@@ -595,8 +595,7 @@ limitations under the License.
 							</div>
 					<!---end specimen grid---> 
 					</section>
-					<section class="imagesLeft row mx-3 mt-1">	
-						<div class="col-12 col-md-6 float-left px-0 mt-3 mb-3">
+					<section class="imagesLeft row mx-3 mt-1 col-12 col-md-6 float-left px-0 mt-3 mb-3">	
 							<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
 							<cfif specimenImagesForCarousel.recordcount gt 0>
 								<div class="col-12 px-0">
@@ -825,7 +824,6 @@ limitations under the License.
 									</div>
 								</div>
 						<!---	</cfif>--->
-						</div>
 					</section>
 					<section class="heatmap">
 							<!---///////////////////////////////--->
@@ -915,10 +913,9 @@ limitations under the License.
 							<!---/////////// ABOVE /////////////--->
 							<!---///////////////////////////////--->										
 					</section><!--- end images & heat map---> 	
-					<section class="overview-links">
-						<div class="col mt-4 float-left"> 
+					<section class="overview-links col mt-4 float-left">
 							<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
-							<div class="my-2 py-3 border-bottom-black">
+						<div class="my-2 py-3 border-bottom-black">
 							
 									<h2 class="mt-3">Overview</h2>
 								<cfif len(getNamedGroup.description) GT 0 >
@@ -1082,7 +1079,6 @@ limitations under the License.
 										</ul>
 									</div>
 								</cfif>
-							</div>
 						</div>
 					</section>
 				</article>
