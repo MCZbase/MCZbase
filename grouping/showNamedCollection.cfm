@@ -262,10 +262,232 @@ overflow: hidden;
 			<!--- mask_fg = 1 = Hidden --->
 			<cflocation url="/errors/forbidden.cfm" addtoken="false">
 		</cfif>
+		<!---for specimen record grid--->
+		<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT * FROM (
+				SELECT DISTINCT flat.guid, flat.scientific_name
+				FROM
+					underscore_relation 
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+						on underscore_relation.collection_object_id = flat.collection_object_id
+				WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+					and flat.guid is not null
+				ORDER BY flat.guid asc
+				) 
+			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxSpecimens#">
+		</cfquery>
+		<!---for specimen image count--->
+		<cfquery name="specimenImgs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT DISTINCT media.media_uri
+			FROM
+				underscore_collection
+				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				left join cataloged_item
+					on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+				left join media_relations
+					on media_relations.related_primary_key = underscore_relation.collection_object_id
+				left join media on media_relations.media_id = media.media_id
+			WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				AND media_relations.media_relationship = 'shows cataloged_item'
+				AND media.media_type = 'image'
+				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+		</cfquery>
+		<cfif specimenImgs.recordcount GT 0>
+			<cfset hasSpecImages = true>
+			<cfset specimenImgsCt = specimenImgs.recordcount>
+			<cfset otherimagetypes = 0>
+		</cfif>
+		<cfset maxSpecimens = 25>
+		<cfset maxRandomImages = 5>
+		<cfset otherImageTypes = 0>
+		<!--- obtain a random set of specimen images, limited to a small number/for carousel --->
+		<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
+			SELECT * FROM (
+				SELECT DISTINCT media.media_id,media.media_uri, 
+				MCZBASE.get_media_descriptor(media.media_id) as alt, 
+				MCZBASE.get_media_credit(media.media_id) as credit
+				FROM
+					underscore_collection
+					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+					left join cataloged_item
+						on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+					left join media_relations
+						on media_relations.related_primary_key = underscore_relation.collection_object_id
+					left join media on media_relations.media_id = media.media_id
+				WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+					AND media_relations.media_relationship = 'shows cataloged_item'
+					AND media.media_type = 'image'
+					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+					ORDER BY DBMS_RANDOM.RANDOM
+				) 
+			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
+		</cfquery>
+		<cfif specimenImagesForCarousel.recordcount GT 0>
+			<cfset otherImageTypes = 1>
+		</cfif>
+		<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
+			SELECT * FROM (
+				SELECT DISTINCT media.media_id,media_uri, preview_uri,media_type, 
+					MCZBASE.get_media_descriptor(media.media_id) as alt,
+					MCZBASE.get_media_credit(media.media_id) as credit
+				FROM
+					underscore_collection
+					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+						on underscore_relation.collection_object_id = flat.collection_object_id
+					left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+					left join media_relations on collector.agent_id = media_relations.related_primary_key
+					left join media on media_relations.media_id = media.media_id
+				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+					AND flat.guid IS NOT NULL
+					AND collector.collector_role = 'c'
+					AND media_relations.media_relationship = 'shows agent'
+					AND media.media_type = 'image'
+					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+					AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+				ORDER BY DBMS_RANDOM.RANDOM
+			) 
+			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
+		</cfquery>
+		<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
+			SELECT DISTINCT media.media_id
+			FROM
+				underscore_collection
+				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+					on underscore_relation.collection_object_id = flat.collection_object_id
+				left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+				left join media_relations on collector.agent_id = media_relations.related_primary_key
+				left join media on media_relations.media_id = media.media_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				AND flat.guid IS NOT NULL
+				AND collector.collector_role = 'c'
+				AND media_relations.media_relationship = 'shows agent'
+				AND media.media_type = 'image'
+				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+				AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+		</cfquery>
+		<cfif agentImagesForCarousel.recordcount GT 0>
+			<cfset otherImageTypes = otherImageTypes + 1>
+		</cfif>
+		<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
+			SELECT * FROM (
+				SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+					MCZBASE.get_media_descriptor(media.media_id) as alt,
+					MCZBASE.get_medialabel(media.media_id,'width') as width,
+					MCZBASE.get_media_credit(media.media_id) as credit
+				FROM
+					underscore_collection
+					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+						on underscore_relation.collection_object_id = flat.collection_object_id
+						left join collecting_event 
+						on collecting_event.collecting_event_id = flat.collecting_event_id 
+						left join media_relations 
+						on collecting_event.collecting_event_id = media_relations.related_primary_key 
+					left join media on media_relations.media_id = media.media_id
+				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+					AND flat.guid IS NOT NULL
+					AND media_relations.media_relationship = 'shows collecting_event'
+					AND media.media_type = 'image'
+					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+					AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+				ORDER BY DBMS_RANDOM.RANDOM
+			) 
+			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
+		</cfquery>
+		<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
+			SELECT DISTINCT media.media_id
+			FROM
+				underscore_collection
+				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+					on underscore_relation.collection_object_id = flat.collection_object_id
+					left join collecting_event 
+					on collecting_event.collecting_event_id = flat.collecting_event_id 
+					left join media_relations 
+					on collecting_event.collecting_event_id = media_relations.related_primary_key 
+				left join media on media_relations.media_id = media.media_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				AND flat.guid IS NOT NULL
+				AND media_relations.media_relationship = 'shows collecting_event'
+				AND media.media_type = 'image'
+				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+				AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+		</cfquery>
+		<cfif collectingCt.recordcount GT 0>
+			<cfset otherImageTypes = otherImageTypes + 1>
+		</cfif>
+		<cfquery name="localityCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityCt"> 
+			SELECT DISTINCT media.media_id
+			FROM
+				underscore_collection
+				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+					on underscore_relation.collection_object_id = flat.collection_object_id
+					left join locality
+					on locality.locality_id = flat.locality_id 
+					left join media_relations 
+					on locality.locality_id = media_relations.related_primary_key 
+				left join media on media_relations.media_id = media.media_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				AND flat.guid IS NOT NULL
+				AND media_relations.media_relationship = 'shows locality'
+				AND media.media_type = 'image'
+				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+				AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+		</cfquery>
+		<cfquery name="localityImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
+			SELECT * FROM (
+				SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+					MCZBASE.get_media_descriptor(media.media_id) as alt,
+					MCZBASE.get_medialabel(media.media_id,'width') as width,
+					MCZBASE.get_medialabel(media.media_id,'height') as first_height,
+					MCZBASE.get_media_credit(media.media_id) as credit
+				FROM
+					underscore_collection
+					left join underscore_relation 
+						on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+						on underscore_relation.collection_object_id = flat.collection_object_id
+					left join locality
+						on locality.locality_id = flat.locality_id 
+					left join media_relations 
+						on locality.locality_id = media_relations.related_primary_key 
+					left join media 
+						on media_relations.media_id = media.media_id
+				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+					AND flat.guid IS NOT NULL
+					AND media_relations.media_relationship = 'shows locality'
+					AND media.media_type = 'image'
+					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+					AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+				ORDER BY DBMS_RANDOM.RANDOM
+			) 
+			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
+		</cfquery>
+		<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
+			SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
+			FROM locality
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+				on flat.locality_id = locality.locality_id
+				left join lat_long
+				on lat_long.locality_id = flat.locality_id
+				left join underscore_relation
+				on underscore_relation.collection_object_id = flat.collection_object_id
+				left join underscore_collection
+				on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				and flat.guid IS NOT NULL
+				and lat_long.dec_lat is not null
+		</cfquery>
+		<cfif localityCt.recordcount GT 0>
+			<cfset otherImageTypes = otherImageTypes + 1>
+		</cfif>
 		<main class="py-3" id="content">
 			<div class="row mx-0">
-				<article class="w-100">
-					<div class="col-12">
+				<article class="col-12">
+					<section>
 						<div class="row mx-0">
 							<div class="col-12 border-dark mt-4">
 								<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name#
@@ -284,43 +506,9 @@ overflow: hidden;
 								</cfif>
 							</div>
 						</div>
-						<cfset maxSpecimens = 25>
-						<div class="row mx-0">
-							<!---for specimen record grid--->
-							<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT * FROM (
-									SELECT DISTINCT flat.guid, flat.scientific_name
-									FROM
-										underscore_relation 
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										and flat.guid is not null
-									ORDER BY flat.guid asc
-									) 
-								WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxSpecimens#">
-							</cfquery>
-							<!---for specimen image count--->
-							<cfquery name="specimenImgs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT DISTINCT media.media_uri
-								FROM
-									underscore_collection
-									left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-									left join cataloged_item
-										on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-									left join media_relations
-										on media_relations.related_primary_key = underscore_relation.collection_object_id
-									left join media on media_relations.media_id = media.media_id
-								WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									AND media_relations.media_relationship = 'shows cataloged_item'
-									AND media.media_type = 'image'
-									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-							</cfquery>
-							<cfif specimenImgs.recordcount GT 0>
-								<cfset hasSpecImages = true>
-								<cfset specimenImgsCt = specimenImgs.recordcount>
-								<cfset otherimagetypes = 0>
-							</cfif>
+					</section>
+					<section class="row mx-0">
+					<!--- Grid Related code is in section above (fills into id = "jqxgrid" div) along with search handlers --->
 							<script type="text/javascript">
 								var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 									if (value > 1) {
@@ -396,213 +584,21 @@ overflow: hidden;
 								</h2>
 								<div id="btnContainer" class="ml-3 float-left"></div>
 							</div>
-							<section class="container-fluid">
+							<div class="container-fluid">
 								<div class="row">
 									<div class="col-12 mb-3">
 										<div class="row mt-0 mx-0"> 
-											
 											<div id="jqxgrid"></div>
 										</div>
 									</div>
 								</div>
-							</section>
-						<!--- Grid Related code is in section above (fills into id = "jqxgrid" div) along with search handlers --->
-						</div>
-						<!---end specimen grid---> 
-					</div>
-					<cfset maxRandomImages = 5>
-					<cfset otherImageTypes = 0>
-					<!--- obtain a random set of specimen images, limited to a small number/for carousel --->
-					<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
-						SELECT * FROM (
-							SELECT DISTINCT media.media_id,media.media_uri, 
-							MCZBASE.get_media_descriptor(media.media_id) as alt, 
-							MCZBASE.get_media_credit(media.media_id) as credit
-							FROM
-								underscore_collection
-								left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-								left join cataloged_item
-									on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-								left join media_relations
-									on media_relations.related_primary_key = underscore_relation.collection_object_id
-								left join media on media_relations.media_id = media.media_id
-							WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								AND media_relations.media_relationship = 'shows cataloged_item'
-								AND media.media_type = 'image'
-								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-								ORDER BY DBMS_RANDOM.RANDOM
-							) 
-						WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
-					</cfquery>
-					<cfif specimenImagesForCarousel.recordcount GT 0>
-						<cfset otherImageTypes = 1>
-					</cfif>
-					<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
-						SELECT * FROM (
-							SELECT DISTINCT media.media_id,media_uri, preview_uri,media_type, 
-								MCZBASE.get_media_descriptor(media.media_id) as alt,
-								MCZBASE.get_media_credit(media.media_id) as credit
-							FROM
-								underscore_collection
-								left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-									on underscore_relation.collection_object_id = flat.collection_object_id
-								left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-								left join media_relations on collector.agent_id = media_relations.related_primary_key
-								left join media on media_relations.media_id = media.media_id
-							WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								AND flat.guid IS NOT NULL
-								AND collector.collector_role = 'c'
-								AND media_relations.media_relationship = 'shows agent'
-								AND media.media_type = 'image'
-								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-								AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-							ORDER BY DBMS_RANDOM.RANDOM
-						) 
-						WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
-					</cfquery>
-					<!---<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
-						SELECT DISTINCT media.media_id
-						FROM
-							underscore_collection
-							left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-								on underscore_relation.collection_object_id = flat.collection_object_id
-							left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-							left join media_relations on collector.agent_id = media_relations.related_primary_key
-							left join media on media_relations.media_id = media.media_id
-						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-							AND flat.guid IS NOT NULL
-							AND collector.collector_role = 'c'
-							AND media_relations.media_relationship = 'shows agent'
-							AND media.media_type = 'image'
-							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-					</cfquery>--->
-					<cfif agentImagesForCarousel.recordcount GT 0>
-						<cfset otherImageTypes = otherImageTypes + 1>
-					</cfif>
-					<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
-						SELECT * FROM (
-							SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-								MCZBASE.get_media_descriptor(media.media_id) as alt,
-								MCZBASE.get_medialabel(media.media_id,'width') as width,
-								MCZBASE.get_media_credit(media.media_id) as credit
-							FROM
-								underscore_collection
-								left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-									on underscore_relation.collection_object_id = flat.collection_object_id
-									left join collecting_event 
-									on collecting_event.collecting_event_id = flat.collecting_event_id 
-									left join media_relations 
-									on collecting_event.collecting_event_id = media_relations.related_primary_key 
-								left join media on media_relations.media_id = media.media_id
-							WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								AND flat.guid IS NOT NULL
-								AND media_relations.media_relationship = 'shows collecting_event'
-								AND media.media_type = 'image'
-								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-								AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-							ORDER BY DBMS_RANDOM.RANDOM
-						) 
-						WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
-					</cfquery>
-					<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
-						SELECT DISTINCT media.media_id
-						FROM
-							underscore_collection
-							left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-								on underscore_relation.collection_object_id = flat.collection_object_id
-								left join collecting_event 
-								on collecting_event.collecting_event_id = flat.collecting_event_id 
-								left join media_relations 
-								on collecting_event.collecting_event_id = media_relations.related_primary_key 
-							left join media on media_relations.media_id = media.media_id
-						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-							AND flat.guid IS NOT NULL
-							AND media_relations.media_relationship = 'shows collecting_event'
-							AND media.media_type = 'image'
-							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-					</cfquery>
-					<cfif collectingCt.recordcount GT 0>
-						<cfset otherImageTypes = otherImageTypes + 1>
-					</cfif>
-					<cfquery name="localityCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityCt"> 
-						SELECT DISTINCT media.media_id
-						FROM
-							underscore_collection
-							left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-								on underscore_relation.collection_object_id = flat.collection_object_id
-								left join locality
-								on locality.locality_id = flat.locality_id 
-								left join media_relations 
-								on locality.locality_id = media_relations.related_primary_key 
-							left join media on media_relations.media_id = media.media_id
-						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-							AND flat.guid IS NOT NULL
-							AND media_relations.media_relationship = 'shows locality'
-							AND media.media_type = 'image'
-							AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-							AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-					</cfquery>
-					<cfquery name="localityImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImagesForCarousel_result">  
-						SELECT * FROM (
-							SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
-								MCZBASE.get_media_descriptor(media.media_id) as alt,
-								MCZBASE.get_medialabel(media.media_id,'width') as width,
-								MCZBASE.get_medialabel(media.media_id,'height') as first_height,
-								MCZBASE.get_media_credit(media.media_id) as credit
-							FROM
-								underscore_collection
-								left join underscore_relation 
-									on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-									on underscore_relation.collection_object_id = flat.collection_object_id
-								left join locality
-									on locality.locality_id = flat.locality_id 
-								left join media_relations 
-									on locality.locality_id = media_relations.related_primary_key 
-								left join media 
-									on media_relations.media_id = media.media_id
-							WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-								AND flat.guid IS NOT NULL
-								AND media_relations.media_relationship = 'shows locality'
-								AND media.media_type = 'image'
-								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-								AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-							ORDER BY DBMS_RANDOM.RANDOM
-						) 
-						WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
-					</cfquery>
-					<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
-						SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
-						FROM locality
-							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-							on flat.locality_id = locality.locality_id
-							left join lat_long
-							on lat_long.locality_id = flat.locality_id
-							left join underscore_relation
-							on underscore_relation.collection_object_id = flat.collection_object_id
-							left join underscore_collection
-							on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-						WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-							and flat.guid IS NOT NULL
-							and lat_long.dec_lat is not null
-					</cfquery>
-					<cfif localityCt.recordcount GT 0>
-						<cfset otherImageTypes = otherImageTypes + 1>
-					</cfif>
-					<div class="row mx-3 mt-1">
-						
-						<cfif specimenImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
+							</div>
+					<!---end specimen grid---> 
+					</section>
+					<section class="imagesLeft row mx-3 mt-1">	
 						<div class="col-12 col-md-6 float-left px-0 mt-3 mb-3">
 							<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
 							<cfif specimenImagesForCarousel.recordcount gt 0>
-						
 								<div class="col-12 px-0">
 									<div class="carousel_background border float-left w-100 p-2">
 										<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
@@ -618,7 +614,6 @@ overflow: hidden;
 													<cfset trimmedAltText = altTextTrunc>
 												</cfif>
 												<div class="w-100 float-left px-3 h-auto">
-
 													<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 													<!---<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImagesForCarousel['media_id'][i]#">--->
 													<cfset src=specimenImagesForCarousel['media_uri'][i]>
@@ -648,7 +643,7 @@ overflow: hidden;
 									</div>
 								</div>
 							</cfif>
-							<cfif localityImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0>
+							<cfif agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0>
 								<!--- figure out widths of sub blocks, adapt to number of blocks --->
 								<cfswitch expression="#otherImageTypes#">
 									<cfcase value="1">
@@ -829,6 +824,10 @@ overflow: hidden;
 										</cfif>
 									</div>
 								</div>
+							</cfif>
+						</div>
+					</section>
+					<section class="heatmap">
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
 							<!---///////////////////////////////--->
@@ -915,9 +914,8 @@ overflow: hidden;
 							<!---///////////////////////////////--->
 							<!---/////////// ABOVE /////////////--->
 							<!---///////////////////////////////--->										
-							</div><!--- end images & heat map---> 	
-							</cfif>
-						</cfif>
+					</section><!--- end images & heat map---> 	
+					<section class="overviewLinks">
 						<div class="col mt-4 float-left"> 
 							<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 							<div class="my-2 py-3 border-bottom-black">
@@ -1086,9 +1084,7 @@ overflow: hidden;
 								</cfif>
 							</div>
 						</div>
-						<!--- end rowEverythihngElse--->
-						
-					</div>
+					</section>
 				</article>
 			</div>
 		</main>
