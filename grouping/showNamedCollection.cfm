@@ -1104,7 +1104,7 @@ limitations under the License.
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: sliderheight,
+		height: sliderheight
         after: function (index, length) {
           $input.value = index
         }
