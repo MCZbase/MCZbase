@@ -597,7 +597,7 @@ limitations under the License.
 					<!---end specimen grid---> 
 					</section>
 					<div class="row mx-0">
-					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0>
+					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0 or collectingImagesForCarousel.recordcount gt 0>
 						<section class="imagesLeft mx-3 mt-1 col-12 col-md-6 float-left px-0 mt-3 mb-3">	
 							<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
@@ -726,13 +726,13 @@ limitations under the License.
 												</div>
 											<cfelse>
 											</cfif>
-										<cfif collectingImagesForCarousel.recordcount GT 0>
+											<cfif collectingImagesForCarousel.recordcount GT 0>
 												<!---<h3 class="mx-2 text-center">Other Images</h3>--->
 												<cfif collectingImagesForCarousel.recordcount gte 2>
-														<cfset imagePlural = 'images'>
-													<cfelse>
-														<cfset imagePlural = 'image'>
-													</cfif>
+													<cfset imagePlural = 'images'>
+												<cfelse>
+													<cfset imagePlural = 'image'>
+												</cfif>
 												<div class="col-12 px-0 #colClass# mx-md-auto my-3"><!---just for collecting block--->
 													<div class="carousel_background border float-left w-100 p-2">
 														<h3 class="mx-2 text-center">Collecting Events <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
