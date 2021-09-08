@@ -1110,7 +1110,7 @@ $(window).on('load resize', function () {
 $(window).on('load resize', function () {
   var w = $(window).width();
   $("##vslider-base1")
-    .css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
+    .css('max-height', w > 1280 ? 500 : w > 480 ? 400 : 315);
 });
 (function () {
   "use strict";
