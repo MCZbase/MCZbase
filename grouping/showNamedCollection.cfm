@@ -234,13 +234,13 @@ limitations under the License.
 	padding-bottom: 25%;
 	font-size: 2rem;
 }
-.vslider::-webkit-scrollbar {
+.vslider::-webkit-scrollbar, .vslider-item::-webkit-scrollbar {
     width: .5em;
 }
-.vslider::-webkit-scrollbar-track {
+.vslider::-webkit-scrollbar-track, .vslider-item::-webkit-scrollbar {
     -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
 }
-.vslider::-webkit-scrollbar-thumb {
+.vslider::-webkit-scrollbar-thumb, .vslider-item::-webkit-scrollbar {
 	background-color: lightgrey;
 	outline: 1px solid slategrey;
 }
