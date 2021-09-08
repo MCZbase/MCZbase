@@ -302,7 +302,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfif isDefined("collection_cde") and len(collection_cde) gt 0>
 						and flatTableName.collection_cde in (<cfqueryparam value="#collection_cde#" cfsqltype="CF_SQL_VARCHAR" list="true">)
 					</cfif>
-				ORDER BY score(1) desc;
+				ORDER BY score(1) desc
 				)
 				WHERE rownum < 1000
 			</cfquery>
