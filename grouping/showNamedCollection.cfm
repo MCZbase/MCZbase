@@ -237,7 +237,7 @@ limitations under the License.
 .vslider::-webkit-scrollbar, .vslider-item::-webkit-scrollbar {
     width: 10px;
 }
-.vslider::-webkit-scrollbar-track, vslider-item::-webkit-scrollbar-track {
+.vslider::-webkit-scrollbar-track, .vslider-item::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
 	background: aliceblue;
 }
