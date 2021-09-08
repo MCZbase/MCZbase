@@ -1360,8 +1360,8 @@ $(window).on('load resize', function () {
         return '•';
       },
       i18n: {
-        title: 'Carousel',
-        navigation: 'Carousel navigation',
+        title: 'carousel for images',
+        navigation: 'carousel navigation',
         next: 'next',
         prev: 'previous'
       },
