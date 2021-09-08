@@ -660,7 +660,7 @@ limitations under the License.
 									<div class="row bottom px-3"><!---for all three other image blocks--->
 										<div class="col-12 px-0 mt-2 mb-3"><!---for all three other image blocks--->
 											<cfif agentImagesForCarousel.recordcount GT 0>
-												<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
+												<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt_result">
 													SELECT DISTINCT media.media_id
 													FROM
 														underscore_collection
