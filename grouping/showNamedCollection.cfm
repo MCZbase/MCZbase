@@ -97,7 +97,7 @@ div.vslider-item[aria-hidden='false'] {
   	transform: translateX(0);
 }
 div.vslider-item[aria-hidden="true"]{
-	display:block;
+	display:hidden;
 }
 .vslider-before {
  	z-index: 10;
