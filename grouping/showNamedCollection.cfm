@@ -234,14 +234,14 @@ limitations under the License.
 	padding-bottom: 25%;
 	font-size: 2rem;
 }
-.vslider {width:100%;}
-.vslider-item {
+
+.vslider- {
   height: 100%;
   background: whitesmoke;
   overflow: scroll;
-  width: 90%;
+/*  width: 90%;
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0 auto;*/
   padding: 3em;
   font: 100%/1.4 sans-serif;
   border: 1px solid rgba(0,0,0,0.25)
