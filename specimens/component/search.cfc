@@ -287,7 +287,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 				SELECT * FROM (
 				SELECT
-					score(1)
+					score(1),
 					<cfset comma = "">
 					<cfloop query="flatFields">
 						#comma#flatTableName.#column_name#
