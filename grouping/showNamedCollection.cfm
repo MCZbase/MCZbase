@@ -710,7 +710,7 @@ div.vslider-item[aria-hidden="true"]{
 													</div>
 												</div>
 											</cfif>
-											<cfif collectingImagesForCarousel gt 0>
+											<cfif collectingImagesForCarousel.recordcount gt 0>
 												<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 													SELECT DISTINCT media.media_id
 													FROM
