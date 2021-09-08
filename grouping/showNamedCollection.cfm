@@ -61,9 +61,12 @@ limitations under the License.
 }
 .vslider {
   	position: relative;
-	overflow: hidden;
+	overflow: auto;
 	width: 100%;
-	min-height: 20rem;
+	resize:both;
+	max-height: fit-content;
+	max-width: fit-content;
+	
 }
 .vslider > * {
   	display: block;
