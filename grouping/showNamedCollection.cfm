@@ -66,7 +66,6 @@ limitations under the License.
 .vslider > * {
   	display: block;
   	position: relative;
-	padding-bottom: 50%;
 }
 .vslider > * + * {
   	display: none;
@@ -1136,12 +1135,13 @@ limitations under the License.
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: "43rem",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
         after: function (index, length) {
           $input.value = index
         }
       }
     )
+	document.getElementById("content").style.height = 
+		Math.round((document.getElementById("vslider").style.width * 100) / 35) + "px";
     window.baseSlider = baseSlider
     // custom controls
     $input.addEventListener('change', function (e) {
