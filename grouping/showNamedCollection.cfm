@@ -1101,7 +1101,7 @@ limitations under the License.
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: "0",//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
+		height: 'auto',//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
         after: function (index, length) {
           $input.value = index
         }
@@ -1320,7 +1320,7 @@ limitations under the License.
       prefix: 'vslider-',
       // if null set height automatically else use height
       // number (=px) or explicit like "3em"
-      height: '37rem',
+      height: 'auto',
       rotation: true,
       autoplay: options.rotation === false ? false : true,
       initialTimeout: 4000,
