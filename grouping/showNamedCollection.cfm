@@ -85,6 +85,7 @@ limitations under the License.
   	transform .4s ease-in-out;
   	z-index: 20;
   	opacity: 0;
+	padding: .5rem 0;
   	transform: translateX(-10%);
 	resize: vertical;
 	overflow:auto;
