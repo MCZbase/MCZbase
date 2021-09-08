@@ -1107,9 +1107,9 @@ $(window).on('load resize', function () {
   $("##vslider-base")
     .css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
 });
-$(div).on('load resize', function () {
-  var w = $(div##vslider-base1).width();
-  $("##vslider-item")
+$(window).on('load resize', function () {
+  var w = $(window).width();
+  $("##vslider-base1")
     .css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
 });
 (function () {
