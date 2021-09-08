@@ -234,9 +234,27 @@ limitations under the License.
 	padding-bottom: 25%;
 	font-size: 2rem;
 }
-	.carousel_background {
-
-	}
+.vslider-item {
+  height: 100%;
+  background: whitesmoke;
+  overflow: scroll;
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 3em;
+  font: 100%/1.4 serif;
+  border: 1px solid rgba(0,0,0,0.25)
+}
+v.slider-item::-webkit-scrollbar {
+    width: 1em;
+}
+.vslider-item::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+.vslider-item::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
 </style>
 	<cfset maxSpecimens = 25>
 	<cfset maxRandomImages = 5>
