@@ -234,16 +234,17 @@ limitations under the License.
 	padding-bottom: 25%;
 	font-size: 2rem;
 }
-.vslider::-webkit-scrollbar, .vslider.vslider-item::-webkit-scrollbar {
-    width: .55em;
+.vslider::-webkit-scrollbar, .vslider-item::-webkit-scrollbar {
+    width: 12px;
 }
-.vslider::-webkit-scrollbar-track, .vslider.vslider-item::-webkit-scrollbar {
+.vslider::-webkit-scrollbar-track, vslider-item::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+	background: orange;
 }
-.vslider::-webkit-scrollbar-thumb, .vslider.vslider-item::-webkit-scrollbar {
+.vslider::-webkit-scrollbar-thumb, .vslider-item::-webkit-scrollbar-thumb {
 	background-color: lightgrey;
 	outline: 1px solid slategrey;
-	height: 200px;
+	border-radius: 10px;
 }
 </style>
 	<cfset maxSpecimens = 100>
