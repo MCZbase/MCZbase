@@ -1090,8 +1090,6 @@ limitations under the License.
 		</main>
 	</cfloop>
 <script>
-	var sliderheight = document.getElementById("content").style.height = 
-		Math.round((document.getElementById("vslider-base").style.width * 100) / 35) + "px";,//this should be maximum height chosen from all the images listed from the specimenImagesForCarousel query. I can't get it.
 (function () {
   "use strict";
   function init() {
@@ -1104,7 +1102,8 @@ limitations under the License.
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: sliderheight
+		height:	document.getElementById("content").style.height = 
+		Math.round((document.getElementById("vslider").style.width * 100) / 35) + "px",
         after: function (index, length) {
           $input.value = index
         }
