@@ -724,6 +724,7 @@ limitations under the License.
 															</div>
 													</div>
 												</div>
+											<cfelse>
 											</cfif>
 										<cfif collectingImagesForCarousel.recordcount GT 0>
 												<!---<h3 class="mx-2 text-center">Other Images</h3>--->
@@ -774,6 +775,8 @@ limitations under the License.
 															</div>
 													</div>
 												</div>
+											<cfelse>
+												
 											</cfif>
 										</div>
 									</div>
