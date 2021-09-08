@@ -246,7 +246,7 @@ limitations under the License.
   border: 1px solid rgba(0,0,0,0.25)
 }*/
 v.slider-item::-webkit-scrollbar {
-    width: 1em;
+    width: .5em;
 }
 .vslider-item::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
