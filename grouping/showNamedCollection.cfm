@@ -101,8 +101,8 @@ div.vslider-item[aria-hidden="true"]{
 }
 .vslider-before {
  	z-index: 10;
-  	opacity: 1;
-  	transform: translateX(5%);
+  	opacity: 0;
+  	transform: translateX(0%);
 }
 .vslider-direct {
   	transition: none;
