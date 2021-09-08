@@ -597,7 +597,7 @@ limitations under the License.
 					<!---end specimen grid---> 
 					</section>
 					<div class="row mx-0">
-					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0 or collectingImagesForCarousel.recordcount gt 0>
+					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0 >
 						<section class="imagesLeft mx-3 mt-1 col-12 col-md-6 float-left px-0 mt-3 mb-3">	
 							<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
