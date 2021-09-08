@@ -1094,6 +1094,11 @@ limitations under the License.
 (function () {
   "use strict";
   function init() {
+	  	$(document).ready(function() {
+    $('.slider-item').click(function(){
+        $('button').next().css('height','45rem');
+    });
+});
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base'), {
@@ -1102,7 +1107,6 @@ limitations under the License.
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: '45rem',
         status: false,
         after: function (index, length) {
           $input.value = index
@@ -1126,11 +1130,7 @@ limitations under the License.
   document.addEventListener('DOMContentLoaded', init, false);
 }());
 (function () {
-	$(document).ready(function() {
-    $('.slider-item').click(function(){
-        $('button').next().css('height','45rem');
-    });
-});
+
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input1')
@@ -1147,8 +1147,6 @@ limitations under the License.
         }
       }
     )
-	document.getElementById("content").style.height = 
-		Math.round((document.getElementById("vslider").style.width * 100) / 35) + "px";
     window.baseSlider = baseSlider
     // custom controls
     $input.addEventListener('change', function (e) {
