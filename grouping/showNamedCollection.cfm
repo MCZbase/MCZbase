@@ -1091,7 +1091,7 @@ limitations under the License.
 	</cfloop>
 <script>
 	var mainNode = document.getElementById("vslider-base");
-mainNode.style.height = (screen.height + 40) + "px";
+mainNode.style.width = (screen.width + 40) + "px";
 (function () {
   "use strict";
   function init() {
