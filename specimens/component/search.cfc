@@ -297,7 +297,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flatTableName
 					left join FLAT_TEXT FT ON flatTableName.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
 				WHERE contains(ft.cat_num, <cfqueryparam value="#searchText#" CFSQLType="CF_SQL_VARCHAR">, 1) > 0
-					<cfif isDefined("collection_cde") and len(colllection) gt 0>
+					<cfif isDefined("collection_cde") and len(collection_cde) gt 0>
 						and flatTableName.collection_cde in (<cfqueryparam value="#collection_cde#" cfsqltype="CF_SQL_VARCHAR" list="true">)
 					</cfif>
 					and rownum < 100
