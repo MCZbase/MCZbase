@@ -332,7 +332,7 @@ limitations under the License.
 		</cfif>
 	<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
-				SELECT DISTINCT media.media_id, media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
+				SELECT DISTINCT media.media_id, media_uri,MCZBASE.get_media_descriptor(media.media_id) as alt
 					FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -373,9 +373,12 @@ limitations under the License.
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
 		</cfif>
-<!---		<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
+	<!---	<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 			SELECT * FROM (
-				SELECT DISTINCT media.media_id, media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
+				SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+					MCZBASE.get_media_descriptor(media.media_id) as alt,
+					MCZBASE.get_medialabel(media.media_id,'width') as width,
+					MCZBASE.get_media_credit(media.media_id) as credit
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -396,7 +399,7 @@ limitations under the License.
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 		</cfquery>
-		<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingCt_result">  
+		<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 			SELECT DISTINCT media.media_id
 			FROM
 				underscore_collection
@@ -417,8 +420,8 @@ limitations under the License.
 		</cfquery>
 		<cfif collectingCt.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
-		</cfif>--->
-		<!---<cfquery name="localityCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityCt"> 
+		</cfif>
+		<cfquery name="localityCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityCt"> 
 			SELECT DISTINCT media.media_id
 			FROM
 				underscore_collection
@@ -468,7 +471,7 @@ limitations under the License.
 		</cfquery>
 		<cfif localityCt.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
-		</cfif>
+		</cfif>--->
 		<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 			SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
 			FROM locality
@@ -483,7 +486,7 @@ limitations under the License.
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				and flat.guid IS NOT NULL
 				and lat_long.dec_lat is not null
-		</cfquery>--->
+		</cfquery>
 
 		<main class="py-3" id="content">
 			<div class="row mx-0">
@@ -597,7 +600,7 @@ limitations under the License.
 					<!---end specimen grid---> 
 					</section>
 					<div class="row mx-0">
-					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0 >
+					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0>
 						<section class="imagesLeft mx-3 mt-1 col-12 col-md-6 float-left px-0 mt-3 mb-3">	
 							<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomImages# max. shown per category) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
@@ -724,60 +727,57 @@ limitations under the License.
 															</div>
 													</div>
 												</div>
-											<cfelse>
 											</cfif>
-										<!---	<cfif collectingImagesForCarousel.recordcount GT 0>
-												
+											<cfif collectingImagesForCarousel gt 0>
 												<cfif collectingImagesForCarousel.recordcount gte 2>
 													<cfset imagePlural = 'images'>
-												<cfelse>
+														<cfelse>
 													<cfset imagePlural = 'image'>
-												</cfif>
+												</cfif>	
 												<div class="col-12 px-0 #colClass# mx-md-auto my-3">
 													<div class="carousel_background border float-left w-100 p-2">
-														<h3 class="mx-2 text-center">Collecting Events <span class="small">(#collectingCt.recordcount# #imagePlural#)</span></h3>
-															<div class="vslider w-100 float-left bg-light" id="vslider-base2">
-																<cfset i=1>
-																<cfloop query="collectingImagesForCarousel">
-																	<cfset alttext = collectingImagesForCarousel['alt'][i]>
-																	<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-																	<cfif len(alttextTrunc) gt 300>
-																		<cfset trimmedAltText = left(alttextTrunc, 300)>
-																		<cfset trimmedAltText &= "...">
+													<h3 class="mx-2 text-center">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span>
+													</h3>
+														<div class="vslider w-100 float-left bg-light" id="vslider-base2">
+															<cfset i=1>
+															<cfloop query="collectingImagesForCarousel">
+																<cfset alttext = collectingImagesForCarousel['alt'][i]>
+																<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+																<cfif len(alttextTrunc) gt 300>
+																	<cfset trimmedAltText = left(alttextTrunc, 300)>
+																	<cfset trimmedAltText &= "...">
+																<cfelse>
+																	<cfset trimmedAltText = altTextTrunc>
+																</cfif>
+																<div class="w-100 float-left px-3 h-auto">
+																	<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
+																	<cfset src=collectingImagesForCarousel['media_uri'][i]>
+																	<cfif fileExists(#src#)>
+																		<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																			<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+																		</a>
+																		<p class="mt-2 small bg-light">#trimmedAltText#</p>
 																	<cfelse>
-																		<cfset trimmedAltText = altTextTrunc>
+																		<ul class="bg-dark px-0 list-unstyled">
+																			<li>
+																				<h3 class="text-white mx-auto message">
+																					No image is stored
+																				</h3>
+																			</li>
+																		</ul>
 																	</cfif>
-																	<div class="w-100 float-left px-3 h-auto">
-																		<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
-																		<cfset src=collectingImagesForCarousel['media_uri'][i]>
-																		<cfif fileExists(#src#)>
-																			<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																				<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-																			</a>
-																			<p class="mt-2 small bg-light">#trimmedAltText#</p>
-																		<cfelse>
-																			<ul class="bg-dark px-0 list-unstyled">
-																				<li>
-																					<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
-																						No image is stored
-																					</h3>
-																				</li>
-																			</ul>
-																		</cfif>
-																	</div>
-																	<cfset i=i+1>
-																</cfloop>
-															</div>
-															<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
-																<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
-																<input type="number" id="custom-input2" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
-																<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next &nbsp; >> </button>
-															</div>
+																</div>
+																<cfset i=i+1>
+															</cfloop>
+														</div>
+														<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
+															<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
+															<input type="number" id="custom-input2" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
+															<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next &nbsp; >> </button>
+														</div>
 													</div>
 												</div>
-											<cfelse>
-												
-											</cfif>--->
+											</cfif>
 										</div>
 									</div>
 								</div>
