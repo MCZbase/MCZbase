@@ -246,8 +246,8 @@ limitations under the License.
 	border-radius: 10px;
 }
 </style>
-	<cfset maxSpecimens = 100>
-	<cfset maxRandomImages = 5>
+	<cfset maxSpecimens = 5000>
+	<cfset maxRandomImages = 15>
 	<cfset otherImageTypes = 0>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -330,7 +330,7 @@ limitations under the License.
 		<cfif specimenImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = 1>
 		</cfif>
-	<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
+		<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
 				SELECT DISTINCT media.media_id, media_uri,MCZBASE.get_media_descriptor(media.media_id) as alt
 					FROM
@@ -453,7 +453,7 @@ limitations under the License.
 		<cfif localityCt.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
 		</cfif>--->
-		<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
+<!---		<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 			SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
 			FROM locality
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
@@ -467,7 +467,7 @@ limitations under the License.
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				and flat.guid IS NOT NULL
 				and lat_long.dec_lat is not null
-		</cfquery>
+		</cfquery>--->
 
 		<main class="py-3" id="content">
 			<div class="row mx-0">
