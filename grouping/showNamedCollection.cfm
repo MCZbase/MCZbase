@@ -243,6 +243,7 @@ limitations under the License.
 .vslider::-webkit-scrollbar-thumb, .vslider-item::-webkit-scrollbar {
 	background-color: lightgrey;
 	outline: 1px solid slategrey;
+	height: 100px;
 }
 </style>
 	<cfset maxSpecimens = 100>
