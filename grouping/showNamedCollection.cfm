@@ -649,7 +649,7 @@ limitations under the License.
 							</cfif>
 					</section>
 					</cfif>
-					<cfif agentImagesForCarousel.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0 OR localityImagesForCarousel.recordcount GT 0>
+					<cfif agentImagesForCarousel.recordcount GT 0>
 						<section class="other-images">	
 						<!--- figure out widths of sub blocks, adapt to number of blocks --->
 							<cfswitch expression="#otherImageTypes#">
@@ -681,7 +681,7 @@ limitations under the License.
 							
 								<div class="row bottom px-3"><!---for all three other image blocks--->
 									<div class="col-12 px-0 mt-2 mb-3"><!---for all three other image blocks--->
-										<h3 class="mx-2 text-center">Other Images</h3>
+									<!---	<h3 class="mx-2 text-center">Other Images</h3>--->
 										<cfif agentImagesForCarousel.recordcount gte 2>
 											<cfset imagePlural = 'images'>
 										<cfelse>
@@ -835,7 +835,7 @@ limitations under the License.
 										</cfif>--->
 									</div>
 								</div>
-						<!---	</cfif>--->
+						</cfif>
 		<!---			<section class="heatmap">--->
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
