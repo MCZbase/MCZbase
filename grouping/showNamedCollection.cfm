@@ -351,7 +351,7 @@ limitations under the License.
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 		</cfquery>
-	<!---		<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
+	<	<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
 			SELECT DISTINCT media.media_id
 			FROM
 				underscore_collection
@@ -372,7 +372,7 @@ limitations under the License.
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
 		</cfif>
-		<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
+	<!---	<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 			SELECT * FROM (
 				SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 					MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -686,7 +686,7 @@ limitations under the License.
 													</cfif>
 												<div class="col-12 px-0 #colClass# mx-md-auto my-3"><!---just for agent block--->
 													<div class="carousel_background border float-left w-100 p-2">
-														<h3 class="mx-2 text-center">Agents<!---<span class="small">(#agentCt.recordcount# #imagePlural#)</span>---></h3>
+														<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
 																<cfloop query="agentImagesForCarousel">
