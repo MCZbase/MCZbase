@@ -1126,6 +1126,11 @@ limitations under the License.
   document.addEventListener('DOMContentLoaded', init, false);
 }());
 (function () {
+	$(document).ready(function() {
+    $('.slider-item').click(function(){
+        $('button').next().css('height','45rem');
+    });
+});
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input1')
