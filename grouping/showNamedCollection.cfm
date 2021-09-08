@@ -375,7 +375,7 @@ limitations under the License.
 		</cfif>
 		<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 			SELECT * FROM (
-				SELECT DISTINCT media.media_id, media.media_id, media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
+				SELECT DISTINCT media.media_id, media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
