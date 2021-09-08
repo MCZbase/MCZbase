@@ -235,17 +235,16 @@ limitations under the License.
 	font-size: 2rem;
 }
 
-.vslider- {
+/*.vslider {
   height: 100%;
   background: whitesmoke;
-  overflow: scroll;
+  overflow: scroll;*/
 /*  width: 90%;
   max-width: 900px;
   margin: 0 auto;*/
-  padding: 3em;
-  font: 100%/1.4 sans-serif;
+/*  padding: 3em;
   border: 1px solid rgba(0,0,0,0.25)
-}
+}*/
 v.slider-item::-webkit-scrollbar {
     width: 1em;
 }
