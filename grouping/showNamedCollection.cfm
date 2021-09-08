@@ -62,6 +62,7 @@ limitations under the License.
 .vslider {
   	position: relative;
 	overflow: hidden;
+	width: 100%;
 }
 .vslider > * {
   	display: block;
@@ -1090,15 +1091,14 @@ limitations under the License.
 		</main>
 	</cfloop>
 <script>
-
+$(window).on('load resize', function () {
+  var w = $(window).width();
+  $("#vslider-item")
+    .css('max-height', w > 1280 ? 515 : w > 480 ? 615 : 715);
+});
 (function () {
   "use strict";
   function init() {
-	  	$(document).ready(function() {
-    $('.vslider-item').click(function(){
-        $('button')getElementById(custom-next)().css('height','47rem');
-    });
-});
     var $input = document.getElementById('custom-input')
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base'), {
@@ -1107,6 +1107,7 @@ limitations under the License.
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
+		height: '54rem',
         status: false,
         after: function (index, length) {
           $input.value = index
@@ -1141,6 +1142,7 @@ limitations under the License.
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
+		height: null,
         status: false,
         after: function (index, length) {
           $input.value = index
@@ -1325,7 +1327,7 @@ limitations under the License.
       prefix: 'vslider-',
       // if null set height automatically else use height
       // number (=px) or explicit like "3em"
-      height: 'auto',
+      height: null,
       rotation: true,
       autoplay: options.rotation === false ? false : true,
       initialTimeout: 4000,
