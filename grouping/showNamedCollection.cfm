@@ -246,8 +246,8 @@ limitations under the License.
 	border-radius: 10px;
 }
 </style>
-	<cfset maxSpecimens = 5000>
-	<cfset maxRandomImages = 15>
+	<cfset maxSpecimens = 100>
+	<cfset maxRandomImages = 5>
 	<cfset otherImageTypes = 0>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -330,7 +330,7 @@ limitations under the License.
 		<cfif specimenImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = 1>
 		</cfif>
-		<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
+	<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
 				SELECT DISTINCT media.media_id, media_uri,MCZBASE.get_media_descriptor(media.media_id) as alt
 					FROM
@@ -352,8 +352,27 @@ limitations under the License.
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
 		</cfquery>
-		
-
+	<	<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
+			SELECT DISTINCT media.media_id
+			FROM
+				underscore_collection
+				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+					on underscore_relation.collection_object_id = flat.collection_object_id
+				left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+				left join media_relations on collector.agent_id = media_relations.related_primary_key
+				left join media on media_relations.media_id = media.media_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				AND flat.guid IS NOT NULL
+				AND collector.collector_role = 'c'
+				AND media_relations.media_relationship = 'shows agent'
+				AND media.media_type = 'image'
+				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+				AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+		</cfquery>
+		<cfif agentImagesForCarousel.recordcount GT 0>
+			<cfset otherImageTypes = otherImageTypes + 1>
+		</cfif>
 	<!---	<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 			SELECT * FROM (
 				SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
@@ -453,7 +472,7 @@ limitations under the License.
 		<cfif localityCt.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
 		</cfif>--->
-<!---		<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
+		<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 			SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
 			FROM locality
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
@@ -467,7 +486,7 @@ limitations under the License.
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				and flat.guid IS NOT NULL
 				and lat_long.dec_lat is not null
-		</cfquery>--->
+		</cfquery>
 
 		<main class="py-3" id="content">
 			<div class="row mx-0">
@@ -660,27 +679,6 @@ limitations under the License.
 									<div class="row bottom px-3"><!---for all three other image blocks--->
 										<div class="col-12 px-0 mt-2 mb-3"><!---for all three other image blocks--->
 											<cfif agentImagesForCarousel.recordcount GT 0>
-												<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt_result">
-													SELECT DISTINCT media.media_id
-													FROM
-														underscore_collection
-														left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-															on underscore_relation.collection_object_id = flat.collection_object_id
-														left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-														left join media_relations on collector.agent_id = media_relations.related_primary_key
-														left join media on media_relations.media_id = media.media_id
-													WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-														AND flat.guid IS NOT NULL
-														AND collector.collector_role = 'c'
-														AND media_relations.media_relationship = 'shows agent'
-														AND media.media_type = 'image'
-														AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-														AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-												</cfquery>
-												<cfif agentImagesForCarousel.recordcount GT 0>
-													<cfset otherImageTypes = otherImageTypes + 1>
-												</cfif>
 												<!---<h3 class="mx-2 text-center">Other Images</h3>--->
 												<cfif agentImagesForCarousel.recordcount gte 2>
 														<cfset imagePlural = 'images'>
@@ -730,7 +728,7 @@ limitations under the License.
 													</div>
 												</div>
 											</cfif>
-								<!---			<cfif collectingImagesForCarousel gt 0>
+											<cfif collectingImagesForCarousel gt 0>
 												<cfif collectingImagesForCarousel.recordcount gte 2>
 													<cfset imagePlural = 'images'>
 														<cfelse>
@@ -779,11 +777,15 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-											</cfif>--->
+											</cfif>
 										</div>
 									</div>
 								</div>
 								
+<!---						
+										<cfif collectingImagesForCarousel.recordcount gt 0>
+											
+										</cfif>--->
 <!---									<cfif localityImagesForCarousel.recordcount gte 2>
 											<cfset imagePlural = 'images'>
 											<cfelse>
@@ -834,7 +836,6 @@ limitations under the License.
 											</div>
 										</cfif>--->
 						</section>	
-					<cfelse>
 					</cfif>
 		<!---			<section class="heatmap">--->
 							<!---///////////////////////////////--->
