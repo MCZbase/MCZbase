@@ -834,6 +834,7 @@ limitations under the License.
 											</div>
 										</cfif>--->
 						</section>	
+					<cfelse>
 					</cfif>
 		<!---			<section class="heatmap">--->
 							<!---///////////////////////////////--->
