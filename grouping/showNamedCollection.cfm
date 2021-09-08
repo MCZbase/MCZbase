@@ -89,6 +89,10 @@ limitations under the License.
   	z-index: 20;
   	opacity: 0;
   	transform: translateX(-10%);
+				resize:both;
+	max-height: fit-content;
+	max-width: fit-content;
+		overflow:auto;
 }
 .vslider-item[aria-hidden='false'] {
   	z-index: 30;
@@ -234,10 +238,7 @@ limitations under the License.
 	font-size: 2rem;
 }
 	.carousel_background {
-			resize:both;
-	max-height: fit-content;
-	max-width: fit-content;
-		overflow:auto;
+
 	}
 </style>
 	<cfset maxSpecimens = 25>
