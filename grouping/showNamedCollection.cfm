@@ -313,7 +313,6 @@ div.vslider-item[aria-hidden="true"]{
 			SELECT * FROM (
 			select distinct media.media_id, media.media_uri, 
 			MCZBASE.get_media_descriptor(media.media_id) as alt, 
-			MCZBASE.get_medialabel(media.media_id,'width') as width, 
             MCZBASE.get_medialabel(media.media_id,'width')/(sum(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by MCZBASE.get_medialabel(media.media_id,'height'))) as Ratio
 				FROM
 					underscore_collection
@@ -339,7 +338,6 @@ div.vslider-item[aria-hidden="true"]{
 			SELECT * FROM (
 			SELECT DISTINCT media.media_id, media.media_uri, 
 			MCZBASE.get_media_descriptor(media.media_id) as alt,
-			MCZBASE.get_medialabel(media.media_id,'height') as height
 			MCZBASE.get_medialabel(media.media_id,'width')/(sum(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by MCZBASE.get_medialabel(media.media_id,'height'))) as Ratio
 					FROM
 					underscore_collection
