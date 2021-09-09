@@ -250,7 +250,7 @@ div.vslider-item[aria-hidden="true"]{
 }
 </style>
 	<cfset maxSpecimens = 11000>
-	<cfset maxRandomImages = 15>
+	<cfset maxRandomImages = 5>
 	<cfset otherImageTypes = 0>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -369,9 +369,9 @@ div.vslider-item[aria-hidden="true"]{
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 					left join cataloged_item 
 						on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-						left join collecting_event 
+					left join collecting_event 
 						on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
-						left join media_relations 
+					left join media_relations 
 						on collecting_event.collecting_event_id = media_relations.related_primary_key 
 					left join media on media_relations.media_id = media.media_id
 				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
