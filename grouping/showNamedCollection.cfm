@@ -603,7 +603,7 @@ div.vslider-item[aria-hidden="true"]{
 												</cfquery>													
 												<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
 													<div class="carousel_background border rounded float-left w-100 p-2">
-														<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount#, #maxRandomSpecimenImages# shown)</span></h3>
+														<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount#, #maxRandomSpecimenImages# max. shown)</span></h3>
 														<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 															<cfset i=1>
 															<cfloop query="agentImagesForCarousel">
@@ -669,7 +669,7 @@ div.vslider-item[aria-hidden="true"]{
 												</cfif>	
 												<div class="col-12 px-1 #colClass# mx-md-auto my-3">
 													<div class="carousel_background border rounded float-left w-100 p-2">
-													<h3 class="mx-2 text-center">Collecting Event <span class="small">(#collectingCt.recordcount#, #maxRandomSpecimenImages# shown)</span>
+													<h3 class="mx-2 text-center">Collecting <span class="small">(#collectingCt.recordcount#, #maxRandomOtherImages# max. shown)</span>
 													</h3>
 														<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 															<cfset i=1>
@@ -704,7 +704,7 @@ div.vslider-item[aria-hidden="true"]{
 															</cfloop>
 														</div>
 														<div class="custom-nav small text-center bg-white mb-1 pt-0 pb-1">
-															<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
+															<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << prev </button>
 															<input type="number" id="custom-input2" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
 															<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next &nbsp; >> </button>
 														</div>
