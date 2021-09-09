@@ -252,7 +252,8 @@ div.vslider-item[aria-hidden="true"]{
 }
 </style>
 	<cfset maxSpecimens = 11000>
-	<cfset maxRandomImages = 5>
+	<cfset maxRandomSpecimenImages = 15>
+	<cfset maxRandomOtherImages = 5>
 	<cfset otherImageTypes = 0>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -330,7 +331,7 @@ div.vslider-item[aria-hidden="true"]{
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 				ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
 				) 
-			WHERE rownum <= 15
+			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomSpecimenImages#">
 		</cfquery>
 		<cfif specimenImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = 0>
@@ -356,7 +357,7 @@ div.vslider-item[aria-hidden="true"]{
 					AND media.auto_host = 'mczbase.mcz.harvard.edu'
 				ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
 			) 
-			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
+			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
 		</cfquery>
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
@@ -383,7 +384,7 @@ div.vslider-item[aria-hidden="true"]{
 					AND media.auto_host = 'mczbase.mcz.harvard.edu'
 				ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
 			) 
-			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
+			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
 		</cfquery>
 		<cfif collectingImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
@@ -605,50 +606,52 @@ div.vslider-item[aria-hidden="true"]{
 														AND media.auto_host = 'mczbase.mcz.harvard.edu'
 												</cfquery>
 												<cfif agentImagesForCarousel.recordcount gte 2>
-														<cfset imagePlural = 'images'>
-													<cfelse>
-														<cfset imagePlural = 'image'>
-													</cfif>
+													<cfset imagePlural = 'images'>
+												<cfelse>
+													<cfset imagePlural = 'image'>
+												</cfif>
+														
 												<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
 													<div class="carousel_background border rounded float-left w-100 p-2">
 														<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
-															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
-																<cfset i=1>
-																<cfloop query="agentImagesForCarousel">
-																	<cfset alttext = agentImagesForCarousel['alt'][i]>
-																	<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-																	<cfif len(alttextTrunc) gt 300>
-																		<cfset trimmedAltText = left(alttextTrunc, 300)>
-																		<cfset trimmedAltText &= "...">
+														<div class="vslider w-100 float-left bg-light" id="vslider-base1">
+															<cfset i=1>
+															<cfloop query="agentImagesForCarousel">
+																<cfset alttext = agentImagesForCarousel['alt'][i]>
+																<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
+																<cfif len(alttextTrunc) gt 300>
+																	<cfset trimmedAltText = left(alttextTrunc, 300)>
+																	<cfset trimmedAltText &= "...">
+																<cfelse>
+																	<cfset trimmedAltText = altTextTrunc>
+																</cfif>
+																<div class="w-100 float-left px-3 h-auto">
+																	<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
+
+																	<cfset src=agentImagesForCarousel['media_uri'][i]>
+																	<cfif fileExists(#src#)>
+																		<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																			<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+																		</a>
+																		<p class="mt-2 small bg-light">#trimmedAltText#</p>
 																	<cfelse>
-																		<cfset trimmedAltText = altTextTrunc>
+																		<ul class="bg-dark px-0 list-unstyled">
+																			<li>
+																				<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
+																					No image is stored
+																				</h3>
+																			</li>
+																		</ul>
 																	</cfif>
-																	<div class="w-100 float-left px-3 h-auto">
-																		<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-																		<cfset src=agentImagesForCarousel['media_uri'][i]>
-																		<cfif fileExists(#src#)>
-																			<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																				<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-																			</a>
-																			<p class="mt-2 small bg-light">#trimmedAltText#</p>
-																		<cfelse>
-																			<ul class="bg-dark px-0 list-unstyled">
-																				<li>
-																					<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
-																						No image is stored
-																					</h3>
-																				</li>
-																			</ul>
-																		</cfif>
-																	</div>
-																	<cfset i=i+1>
-																</cfloop>
-															</div>
-															<div class="custom-nav text-center small bg-white mb-1 pt-0 pb-1">
-																<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << prev </button>
-																<input type="number" id="custom-input1" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
-																<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
-															</div>
+																</div>
+																<cfset i=i+1>
+															</cfloop>
+														</div>
+														<div class="custom-nav text-center small bg-white mb-1 pt-0 pb-1">
+															<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << prev </button>
+															<input type="number" id="custom-input1" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
+															<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
+														</div>
 													</div>
 												</div>
 											</cfif>
@@ -727,62 +730,11 @@ div.vslider-item[aria-hidden="true"]{
 										</div>
 									</div>
 								</div>
-								
-<!---						
-										<cfif collectingImagesForCarousel.recordcount gt 0>
-											
-										</cfif>--->
-<!---									<cfif localityImagesForCarousel.recordcount gte 2>
-											<cfset imagePlural = 'images'>
-											<cfelse>
-											<cfset imagePlural = 'image'>
-										</cfif>
-										<cfif localityImagesForCarousel.recordcount gt 0>
-											<div class="col-12 px-0 #colClass# mx-md-auto mt-3">
-												<div class="carousel_background border float-left w-100 p-2">
-													<h3 class="mx-2 text-center">Locality  <span class="small">(#localityCt.recordcount# #imagePlural#)</span></h3>
-													<div class="vslider w-100 float-left bg-light py-2" style="height: 400px;" id="vslider-base3">
-														<cfset i=1>
-														<cfloop query="localityImagesForCarousel">
-															<cfset alttext = localityImagesForCarousel['alt'][i]>
-															<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-															<cfif len(alttextTrunc) gt 300>
-																<cfset trimmedAltText = left(alttextTrunc, 300)>
-																<cfset trimmedAltText &= "...">
-															<cfelse>
-																<cfset trimmedAltText = altTextTrunc>
-															</cfif>
-															<div class="w-100 float-left px-3 h-auto">
-																<a class="d-block" href="/MediaSet.cfm?media_id=#localityImagesForCarousel['media_id'][i]#">Media Details</a>
-																<cfset src=localityImagesForCarousel['media_uri'][i]>
-																<cfif fileExists(#src#)>
-																	<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																		<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-																	</a>
-																	<p class="mt-2 small bg-light">#trimmedAltText#</p>
-																<cfelse>
-																	<ul class="bg-dark px-0 list-unstyled">
-																		<li>
-																			<h3 class="text-white mx-auto message">
-																				No image is stored
-																			</h3>
-																		</li>
-																	</ul>
-																</cfif>
-															</div>
-															<cfset i=i+1>
-														</cfloop>
-													</div>
-													<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
-														<button type="button" class="border-0  btn-outline-primary" id="custom-prev3"> << previous </button>
-														<input type="number" id="custom-input3" class="custom-input border border-light" placeholder="index">
-														<button type="button" class="border-0 btn-outline-primary" id="custom-next3"> next &nbsp; >> </button>
-													</div>
-												</div>
-											</div>
-										</cfif>--->
-						</section>	
-					</cfif>
+							</section>	
+						</cfif>
+																
+																
+																
 		<!---			<section class="heatmap">--->
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
@@ -1047,16 +999,14 @@ div.vslider-item[aria-hidden="true"]{
 		</main>
 	</cfloop>
 <script>
+//  carousel fix for specimen images on small screens below.  I tried to fix this with the ratio select added to the query but that only works if there are a lot of images to choose from; for small images pools, where the most common ratio cannot be selected, this may still help.	
 $(window).on('load resize', function () {
   var w = $(window).width();
   $("##vslider-item")
     .css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
 });
-//$(window).on('load resize', function () {
-//  var w = $(window).width();
-//  $("##vslider-base1")
-//    .css('max-height', w > 1280 ? 500 : w > 480 ? 400 : 315);
-//});
+	
+//  carousel for specimen images below with custom-input, vslider-base, etc.
 (function () {
   "use strict";
   function init() {
@@ -1091,8 +1041,10 @@ $(window).on('load resize', function () {
   }
   document.addEventListener('DOMContentLoaded', init, false);
 }());
+	
+	
+//  carousel for agent images below with custom-input1, vslider-base1, etc.
 (function () {
-
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input1')
@@ -1126,6 +1078,8 @@ $(window).on('load resize', function () {
   }
   document.addEventListener('DOMContentLoaded', init, false);
 }());
+	
+//  carousel for collecting and locality images below with custom-input2, vslider-base2, etc. [There aren't many connected to specimen records right now so I lumped them together. It made for a better presentation.  We can change it later if we have more media relationships.]
 (function () {
   "use strict";
   function init() {
@@ -1160,40 +1114,9 @@ $(window).on('load resize', function () {
   }
   document.addEventListener('DOMContentLoaded', init, false);
 }());
-(function () {
-  "use strict";
-  function init() {
-    var $input = document.getElementById('custom-input3')
-    var baseSlider = vanillaSlider(
-      document.getElementById('vslider-base3'), {
-        autoplay: false,
-        navigation: false,
-        keyboardnavigation: false,
-        swipenavigation: false,
-        wheelnavigation: true,
-        status: false,
-		height: '100%',
-        after: function (index, length) {
-          $input.value = index
-        }
-      }
-    )
-    window.baseSlider = baseSlider
-    // custom controls
-    $input.addEventListener('change', function (e) {
-      baseSlider.next(
-        parseInt(e.target.value)
-      )
-    }, false)
-    document.getElementById('custom-prev3').addEventListener('click', function (e) {
-      baseSlider.prev()
-    }, false)
-    document.getElementById('custom-next3').addEventListener('click', function (e) {
-      baseSlider.next()
-    }, false)
-  }
-  document.addEventListener('DOMContentLoaded', init, false);
-}());
+	
+	
+//  carousel for javascript main code below	
 (function () {
   "use strict";
   // Polyfill for e.g. IE
