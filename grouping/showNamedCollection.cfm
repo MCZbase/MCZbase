@@ -312,7 +312,7 @@ div.vslider-item[aria-hidden="true"]{
 		<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 			SELECT * FROM (
 			select distinct media.media_id, media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, media_labels.label_value as height, 
-            ratio_to_report(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by media_labels.label_value) as RATIO_TO_REPORT
+            MCZBASE.get_medialabel(media.media_id,'width')/(sum(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by media_labels.label_value)) as Ratio
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -329,30 +329,9 @@ div.vslider-item[aria-hidden="true"]{
                     and media_labels.media_id = media.media_id
                     and media_labels.media_label = 'height'
                     and media_labels.label_value is not null
-                    and media_labels.label_value < 838
-					ORDER BY RATIO_TO_REPORT asc, height, DBMS_RANDOM.RANDOM
+					ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
 				) 
 			WHERE rownum <= 15
-			
-			<!---SELECT * FROM (
-				SELECT DISTINCT media.media_id,media.media_uri, 
-				MCZBASE.get_media_descriptor(media.media_id) as alt,
-				MCZBASE.get_medialabel(media.media_id,'height') as height
-				FROM
-					underscore_collection
-					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-					left join cataloged_item
-						on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-					left join media_relations
-						on media_relations.related_primary_key = underscore_relation.collection_object_id
-					left join media on media_relations.media_id = media.media_id
-				WHERE underscore_collection.underscore_collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-					AND media_relations.media_relationship = 'shows cataloged_item'
-					AND media.media_type = 'image'
-					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-					ORDER BY height asc, DBMS_RANDOM.RANDOM
-				) 
-			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">--->
 		</cfquery>
 		<cfif specimenImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = 0>
