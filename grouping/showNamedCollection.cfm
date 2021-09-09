@@ -311,8 +311,10 @@ div.vslider-item[aria-hidden="true"]{
 		<!--- obtain a random set of specimen images, limited to a small number/for carousel --->
 		<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 			SELECT * FROM (
-			select distinct media.media_id, media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, media_labels.label_value as height, 
-            MCZBASE.get_medialabel(media.media_id,'width')/(sum(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by media_labels.label_value)) as Ratio
+			select distinct media.media_id, media.media_uri, 
+			MCZBASE.get_media_descriptor(media.media_id) as alt, 
+			MCZBASE.get_medialabel(media.media_id,'width') as width, 
+            MCZBASE.get_medialabel(media.media_id,'width')/(sum(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by MCZBASE.get_medialabel(media.media_id,'height'))) as Ratio
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -321,14 +323,11 @@ div.vslider-item[aria-hidden="true"]{
 					left join media_relations
 						on media_relations.related_primary_key = underscore_relation.collection_object_id
 					left join media on media_relations.media_id = media.media_id
-                    left join media_labels on media_labels.media_id = media.media_id
 				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					AND media_relations.media_relationship = 'shows cataloged_item'
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-                    and media_labels.media_id = media.media_id
-                    and media_labels.media_label = 'height'
-                    and media_labels.label_value is not null
+					AND media.auto_host = 'mczbase.mcz.harvard.edu'
 					ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
 				) 
 			WHERE rownum <= 15
@@ -338,6 +337,29 @@ div.vslider-item[aria-hidden="true"]{
 		</cfif>
 		<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
+			SELECT DISTINCT media.media_id, media.media_uri, 
+			MCZBASE.get_media_descriptor(media.media_id) as alt,
+			MCZBASE.get_medialabel(media.media_id,'height') as height
+			MCZBASE.get_medialabel(media.media_id,'width')/(sum(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by MCZBASE.get_medialabel(media.media_id,'height'))) as Ratio
+					FROM
+					underscore_collection
+					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+						on underscore_relation.collection_object_id = flat.collection_object_id
+					left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+					left join media_relations on collector.agent_id = media_relations.related_primary_key
+				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+					AND flat.guid IS NOT NULL
+					AND collector.collector_role = 'c'
+					AND media_relations.media_relationship = 'shows agent'
+					AND media.media_type = 'image'
+					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+					AND media.auto_host = 'mczbase.mcz.harvard.edu'
+				ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
+			) 
+			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
+			
+<!---			SELECT * FROM (
 				SELECT DISTINCT media.media_id, media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt,MCZBASE.get_medialabel(media.media_id,'height') as height
 					FROM
 					underscore_collection
@@ -356,7 +378,7 @@ div.vslider-item[aria-hidden="true"]{
 					AND media.auto_host = 'mczbase.mcz.harvard.edu'
 				ORDER BY height asc, DBMS_RANDOM.RANDOM
 			) 
-			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
+			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">--->
 		</cfquery>
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
