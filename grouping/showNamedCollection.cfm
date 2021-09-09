@@ -329,7 +329,7 @@ div.vslider-item[aria-hidden="true"]{
                     and media_labels.media_id = media.media_id
                     and media_labels.media_label = 'height'
                     and media_labels.label_value is not null
-                    and media_labels.label_value <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="827">
+                    and media_labels.label_value <= 827
 					ORDER BY RATIO_TO_REPORT asc, height, DBMS_RANDOM.RANDOM
 				) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
