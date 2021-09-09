@@ -253,7 +253,7 @@ div.vslider-item[aria-hidden="true"]{
 </style>
 	<cfset maxSpecimens = 11000>
 	<cfset maxRandomSpecimenImages = 15>
-	<cfset maxRandomOtherImages = 5>
+	<cfset maxRandomOtherImages = 15>
 	<cfset otherImageTypes = 0>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
@@ -518,11 +518,11 @@ div.vslider-item[aria-hidden="true"]{
 					<div class="row mx-0">
 					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0>
 						<section class="imagesLeft mt-1 col-12 col-md-6 float-left px-0 mt-3 mb-3">	
-							<h2 class="mt-3 mx-3">Images <span class="small">(#maxRandomSpecimenImages# Specimen Images Shown) </span></h2>
+							<h2 class="mt-3 mx-3">Images <span class="small">(maximum of #maxRandomSpecimenImages# per category shown) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="col-12 px-1">
 										<div class="carousel_background border rounded float-left w-100 p-2">
-											<h3 class="mx-2 text-center">Specimens<br><span class="small">(#specimenImgs.recordcount# images)</span></h3>
+											<h3 class="mx-2 text-center">Specimens<span class="small"> #specimenImgs.recordcount#</span></h3>
 											<div class="vslider w-100 float-left bg-light" id="vslider-base">
 												<cfset i=1>
 												<cfloop query="specimenImagesForCarousel">
@@ -601,7 +601,7 @@ div.vslider-item[aria-hidden="true"]{
 												</cfquery>													
 												<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
 													<div class="carousel_background border rounded float-left w-100 p-2">
-														<h3 class="mx-2 text-center">Agents<br><span class="small">(#agentCt.recordcount#, #maxRandomOtherImages# max. shown)</span></h3>
+														<h3 class="mx-2 text-center">Agents<br><span class="small"> #agentCt.recordcount#</span></h3>
 														<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 															<cfset i=1>
 															<cfloop query="agentImagesForCarousel">
@@ -667,7 +667,7 @@ div.vslider-item[aria-hidden="true"]{
 												</cfif>	
 												<div class="col-12 px-1 #colClass# mx-md-auto my-3">
 													<div class="carousel_background border rounded float-left w-100 p-2">
-													<h3 class="mx-2 text-center">Collecting<br><span class="small">(#collectingCt.recordcount#, #maxRandomOtherImages# max. shown)</span>
+													<h3 class="mx-2 text-center">Collecting <span class="small">#collectingCt.recordcount#</span>
 													</h3>
 														<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 															<cfset i=1>
