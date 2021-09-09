@@ -522,7 +522,7 @@ div.vslider-item[aria-hidden="true"]{
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="col-12 px-1">
 										<div class="carousel_background border rounded float-left w-100 p-2">
-											<h3 class="mx-2 text-center">Specimens <span class="small">(#specimenImgs.recordcount# images)</span></h3>
+											<h3 class="mx-2 text-center">Specimens<br><span class="small">(#specimenImgs.recordcount# images)</span></h3>
 											<div class="vslider w-100 float-left bg-light" id="vslider-base">
 												<cfset i=1>
 												<cfloop query="specimenImagesForCarousel">
@@ -601,7 +601,7 @@ div.vslider-item[aria-hidden="true"]{
 												</cfquery>													
 												<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
 													<div class="carousel_background border rounded float-left w-100 p-2">
-														<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount#, #maxRandomOtherImages# max. shown)</span></h3>
+														<h3 class="mx-2 text-center">Agents<br><span class="small">(#agentCt.recordcount#, #maxRandomOtherImages# max. shown)</span></h3>
 														<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 															<cfset i=1>
 															<cfloop query="agentImagesForCarousel">
@@ -667,7 +667,7 @@ div.vslider-item[aria-hidden="true"]{
 												</cfif>	
 												<div class="col-12 px-1 #colClass# mx-md-auto my-3">
 													<div class="carousel_background border rounded float-left w-100 p-2">
-													<h3 class="mx-2 text-center">Collecting <span class="small">(#collectingCt.recordcount#, #maxRandomOtherImages# max. shown)</span>
+													<h3 class="mx-2 text-center">Collecting<br><span class="small">(#collectingCt.recordcount#, #maxRandomOtherImages# max. shown)</span>
 													</h3>
 														<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 															<cfset i=1>
