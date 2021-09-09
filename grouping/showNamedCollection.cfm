@@ -604,16 +604,10 @@ div.vslider-item[aria-hidden="true"]{
 														AND media.media_type = 'image'
 														AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 														AND media.auto_host = 'mczbase.mcz.harvard.edu'
-												</cfquery>
-												<cfif agentImagesForCarousel.recordcount gte 2>
-													<cfset imagePlural = 'images'>
-												<cfelse>
-													<cfset imagePlural = 'image'>
-												</cfif>
-														
+												</cfquery>													
 												<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
 													<div class="carousel_background border rounded float-left w-100 p-2">
-														<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount# #imagePlural#)</span></h3>
+														<h3 class="mx-2 text-center">Agents <span class="small">(#agentCt.recordcount#, #maxRandomSpecimenImages# shown)</span></h3>
 														<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 															<cfset i=1>
 															<cfloop query="agentImagesForCarousel">
@@ -627,7 +621,6 @@ div.vslider-item[aria-hidden="true"]{
 																</cfif>
 																<div class="w-100 float-left px-3 h-auto">
 																	<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
-
 																	<cfset src=agentImagesForCarousel['media_uri'][i]>
 																	<cfif fileExists(#src#)>
 																		<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
@@ -677,15 +670,10 @@ div.vslider-item[aria-hidden="true"]{
 												</cfquery>
 												<cfif collectingCt.recordcount GT 0>
 													<cfset otherImageTypes = otherImageTypes + 1>
-												</cfif>
-												<cfif collectingCt.recordcount gte 2>
-													<cfset imagePlural = 'images'>
-														<cfelse>
-													<cfset imagePlural = 'image'>
 												</cfif>	
 												<div class="col-12 px-1 #colClass# mx-md-auto my-3">
 													<div class="carousel_background border rounded float-left w-100 p-2">
-													<h3 class="mx-2 text-center">Collecting Event <span class="small">(#collectingCt.recordcount# #imagePlural#)</span>
+													<h3 class="mx-2 text-center">Collecting Event <span class="small">(#collectingCt.recordcount#, #maxRandomSpecimenImages# shown)</span>
 													</h3>
 														<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 															<cfset i=1>
