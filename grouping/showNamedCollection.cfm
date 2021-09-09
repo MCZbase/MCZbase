@@ -332,7 +332,7 @@ div.vslider-item[aria-hidden="true"]{
                     and media_labels.label_value < 838
 					ORDER BY RATIO_TO_REPORT asc, height, DBMS_RANDOM.RANDOM
 				) 
-			WHERE rownum <= 200
+			WHERE rownum <= 15
 			
 			<!---SELECT * FROM (
 				SELECT DISTINCT media.media_id,media.media_uri, 
