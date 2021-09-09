@@ -574,19 +574,15 @@ div.vslider-item[aria-hidden="true"]{
 											<cfset colClass = "col-md-6 mx-auto float-left">
 										</cfcase>
 										<cfcase value="3">
-											<cfset colClass = "col-md-6 float-left">
-										</cfcase>
-										<cfcase value="4">
 											<cfset colClass = "col-md-12 col-xl-4 float-left">
 										</cfcase>
 										<cfdefaultcase>
-											<cfset colClass = "col-md-12 col-xl-3 float-left">
+											<cfset colClass = "col-md-12 col-xl-4 float-left">
 										</cfdefaultcase>
 									</cfswitch>
 									<div class="row bottom px-3"><!---for all three other image blocks--->
 										<div class="col-12 px-0 mt-2 mb-3"><!---for all three other image blocks--->
 											<cfif agentImagesForCarousel.recordcount GT 0>
-												<!---<h3 class="mx-2 text-center">Other Images</h3>--->
 												<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
 													SELECT DISTINCT media.media_id
 													FROM
