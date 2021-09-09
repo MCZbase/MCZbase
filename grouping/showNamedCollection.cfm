@@ -161,7 +161,9 @@ div.vslider-item[aria-hidden="true"]{
   border: none;
   color: currentColor;
   background: none;
+	background: blue;
   opacity: 0.6;
+	opacity: 0.3;
 }
 .vslider-prev:hover,
 .vslider-prev:focus,
@@ -1170,7 +1172,7 @@ $(window).on('load resize', function () {
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: '36rem',
+		height: '100%',
         after: function (index, length) {
           $input.value = index
         }
