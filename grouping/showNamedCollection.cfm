@@ -607,8 +607,8 @@ div.vslider-item[aria-hidden="true"]{
 															<cfloop query="agentImagesForCarousel">
 																<cfset alttext = agentImagesForCarousel['alt'][i]>
 																<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-																<cfif len(alttextTrunc) gt 140>
-																	<cfset trimmedAltText = left(alttextTrunc, 140)>
+																<cfif len(alttextTrunc) gt 100>
+																	<cfset trimmedAltText = left(alttextTrunc, 100)>
 																	<cfset trimmedAltText &= "...">
 																<cfelse>
 																	<cfset trimmedAltText = altTextTrunc>
@@ -674,8 +674,8 @@ div.vslider-item[aria-hidden="true"]{
 															<cfloop query="collectingImagesForCarousel">
 																<cfset alttext = collectingImagesForCarousel['alt'][i]>
 																<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-																<cfif len(alttextTrunc) gt 140>
-																	<cfset trimmedAltText = left(alttextTrunc, 140)>
+																<cfif len(alttextTrunc) gt 100>
+																	<cfset trimmedAltText = left(alttextTrunc, 100)>
 																	<cfset trimmedAltText &= "...">
 																<cfelse>
 																	<cfset trimmedAltText = altTextTrunc>
