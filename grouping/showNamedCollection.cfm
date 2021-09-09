@@ -311,7 +311,7 @@ div.vslider-item[aria-hidden="true"]{
 		<!--- obtain a random set of specimen images, limited to a small number/for carousel --->
 		<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 			SELECT * FROM (
-			select distinct media.media_id, MCZBASE.get_medialabel(media.media_id,'width') as width, media_labels.label_value as height, 
+			select distinct media.media_id, media.media_uri, MCZBASE.get_media_descriptor(media.media_id) as alt, MCZBASE.get_medialabel(media.media_id,'width') as width, media_labels.label_value as height, 
             ratio_to_report(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by media_labels.label_value) as RATIO_TO_REPORT
 				FROM
 					underscore_collection
