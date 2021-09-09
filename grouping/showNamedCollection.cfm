@@ -703,7 +703,7 @@ div.vslider-item[aria-hidden="true"]{
 																<cfset i=i+1>
 															</cfloop>
 														</div>
-														<div class="custom-nav text-center bg-white mb-1 pt-0 pb-1">
+														<div class="custom-nav small text-center bg-white mb-1 pt-0 pb-1">
 															<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << previous </button>
 															<input type="number" id="custom-input2" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
 															<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next &nbsp; >> </button>
