@@ -322,17 +322,17 @@ div.vslider-item[aria-hidden="true"]{
 						on media_relations.related_primary_key = underscore_relation.collection_object_id
 					left join media on media_relations.media_id = media.media_id
                     left join media_labels on media_labels.media_id = media.media_id
-				WHERE underscore_collection.underscore_collection_id ==<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				WHERE underscore_collection.underscore_collection_id =64
 					AND media_relations.media_relationship = 'shows cataloged_item'
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
                     and media_labels.media_id = media.media_id
                     and media_labels.media_label = 'height'
                     and media_labels.label_value is not null
-                    and media_labels.label_value <= 827
+                    and media_labels.label_value < 838
 					ORDER BY RATIO_TO_REPORT asc, height, DBMS_RANDOM.RANDOM
 				) 
-			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomImages#">
+			WHERE rownum <= 200
 			
 			<!---SELECT * FROM (
 				SELECT DISTINCT media.media_id,media.media_uri, 
