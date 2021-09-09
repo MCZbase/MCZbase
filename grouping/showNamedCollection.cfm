@@ -370,7 +370,7 @@ div.vslider-item[aria-hidden="true"]{
 					left join cataloged_item 
 						on underscore_relation.collection_object_id = cataloged_item.collection_object_id
 						left join collecting_event 
-						on collecting_event.collecting_event_id = flat.collecting_event_id 
+						on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
 						left join media_relations 
 						on collecting_event.collecting_event_id = media_relations.related_primary_key 
 					left join media on media_relations.media_id = media.media_id
