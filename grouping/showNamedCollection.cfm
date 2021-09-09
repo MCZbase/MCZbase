@@ -210,8 +210,6 @@ div.vslider-item[aria-hidden="true"]{
   border-left: 1em solid #000;
 }
 .custom-input {
-/*	padding: .5rem;
-	margin-top:.25rem;*/
 	text-align: center;
 	width:53px; 
 }
@@ -228,10 +226,10 @@ div.vslider-item[aria-hidden="true"]{
   opacity: 1;
   transform: rotateY(90deg);
 }
-.vslider-trans .vslider-active {
+.vslider-trans .vslider-active, .vslider-trans .vslider-item[aria-hidden='false'] {
   transform: rotateY(0deg);
 }
-.vslider-trans .vslider-before {
+.vslider-trans .vslider-before  {
   transform: rotateY(-90deg);
 }
 .message { 
