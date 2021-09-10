@@ -999,7 +999,7 @@ $(window).on('load resize', function () {
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: null, // setting height to null leaves it free to be calculated (line 1348);  need max height code for $slider there;
+		height: '100%', // setting height to null leaves it free to be calculated (line 1348);  need max height code for $slider there;
         status: false,
         after: function (index, length) {
           $input.value = index
@@ -1036,7 +1036,7 @@ $(window).on('load resize', function () {
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: null, // setting height to null leaves it free to be calculated (line 1348)
+		height: '100%', // setting height to null leaves it free to be calculated (line 1348)
         status: false,
         after: function (index, length) {
           $input.value = index
@@ -1336,13 +1336,12 @@ $(window).on('load resize', function () {
     }
     window.addEventListener('resize', function (e) {
       requestAnimationFrame(function () {
-      //  $slider.style.height = 'auto'
-      //  $slider.style.height = settings.height || 
-		  getComputedStyle($slider).height //this is where max height should be found (MHK)
+        $slider.style.height = 'auto'
+        $slider.style.height = settings.height || getComputedStyle($slider).height //this is where max height should be found or within line 1344 {} (MHK)
       })
     })
     // start
-    if (MAX > 0) {
+    if (MAX > 1) {
       $slider.setAttribute('tabindex', '0')
       $slider.setAttribute('aria-label', settings.i18n.title)
       $slider.setAttribute('aria-live', 'polite')
