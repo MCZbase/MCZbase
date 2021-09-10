@@ -1203,7 +1203,7 @@ $(window).on('load resize', function () {
       swipedirection: 'h', // h or v
       wheelnavigation: false,
       onSwipeWheel: null,
-      status: true,
+      status: false,
       statusContent: function (index, length) {
         return '•';
       },
@@ -1221,9 +1221,10 @@ $(window).on('load resize', function () {
     this._timer = null
 
     var MAX = this._MAX = this._$slides.length
+	var MAXheight = this._MAX = this._$slides.height
 	if (typeof settings.height === 'number') {
       settings.height = settings.height + 'px'
-    } else { settings.height = MAX + '5rem'}
+    } else { settings.height = MAXheight + '5rem'}
     // status
     if (settings.status) {
       this._$status = document.createElement('ol')
