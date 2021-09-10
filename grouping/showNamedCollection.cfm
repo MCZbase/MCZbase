@@ -1334,18 +1334,18 @@ $(window).on('load resize', function () {
         e.preventDefault()
       }, false)
     }
-    window.addEventListener('resize', function (e) {//this is where max height should be found (MHK)
-      requestAnimationFrame(function () {
+
+    // start
+    if (MAX > 0) {
+      $slider.setAttribute('tabindex', '0')
+      $slider.setAttribute('aria-label', settings.i18n.title)
+      $slider.setAttribute('aria-live', 'polite')
+       window.addEventListener('resize', function (e) {//this is where max height should be found (MHK)
+      	requestAnimationFrame(function () {
         $slider.style.height = 'auto'
         $slider.style.height = settings.height || getComputedStyle($slider).height
       })
     })
-    // start
-    if (MAX >= 0) {
-      $slider.setAttribute('tabindex', '0')
-      $slider.setAttribute('aria-label', settings.i18n.title)
-      $slider.setAttribute('aria-live', 'polite')
-      $slider.style.height = settings.height || getComputedStyle($slider).height;
 		
       [].forEach.call(this._$slides, function ($slide, i) {
         $slide.setAttribute('id', settings.prefix + 'tabpanel$' + i)
