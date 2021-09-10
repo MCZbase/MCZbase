@@ -304,8 +304,6 @@ div.vslider-item[aria-hidden="true"]{
 				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 		</cfquery>
 		<cfif specimenImgs.recordcount GT 0>
-			<cfset hasSpecImages = true>
-			<cfset specimenImgsCt = specimenImgs.recordcount>
 			<cfset otherimagetypes = 0>
 		</cfif>
 		<!--- obtain a random set of specimen images, limited to a small number/for carousel --->
@@ -345,7 +343,7 @@ div.vslider-item[aria-hidden="true"]{
 						on underscore_relation.collection_object_id = cataloged_item.collection_object_id
 					left join collector on underscore_relation.collection_object_id = collector.collection_object_id
 					left join media_relations on collector.agent_id = media_relations.related_primary_key
-					left join media SAMPLE(75) on media_relations.media_id = media.media_id
+					left join media on media_relations.media_id = media.media_id
 				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					AND collector.collector_role = 'c'
 					AND media_relations.media_relationship = 'shows agent'
@@ -374,7 +372,7 @@ div.vslider-item[aria-hidden="true"]{
 						on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
 					left join media_relations 
 						on collecting_event.collecting_event_id = media_relations.related_primary_key 
-					left join media SAMPLE(99) on media_relations.media_id = media.media_id 
+					left join media on media_relations.media_id = media.media_id 
 				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					AND (media_relations.media_relationship = 'shows collecting_event' or media_relations.media_relationship = 'locality')
 					AND media.media_type = 'image'
