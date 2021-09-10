@@ -85,7 +85,6 @@ limitations under the License.
   	transform .4s ease-in-out;
   	z-index: 20;
   	opacity: 0;
-	padding-top: .5rem;
   	transform: translateX(-10%);
 	resize: vertical;
 	overflow:auto;
@@ -533,7 +532,7 @@ div.vslider-item[aria-hidden="true"]{
 														<cfset trimmedAltText = altTextTrunc>
 													</cfif>
 													<div class="w-100 bg-light float-left px-3 h-auto">
-														<a class="d-block" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+														<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 														<cfset src=specimenImagesForCarousel['media_uri'][i]>
 														<cfif fileExists(#src#)>
 															<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
@@ -612,7 +611,7 @@ div.vslider-item[aria-hidden="true"]{
 																	<cfset trimmedAltText = altTextTrunc>
 																</cfif>
 																<div class="w-100 float-left px-3 h-auto">
-																	<a class="d-block" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
+																	<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
 																	<cfset src=agentImagesForCarousel['media_uri'][i]>
 																	<cfif fileExists(#src#)>
 																		<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
@@ -679,7 +678,7 @@ div.vslider-item[aria-hidden="true"]{
 																	<cfset trimmedAltText = altTextTrunc>
 																</cfif>
 																<div class="w-100 float-left px-3 h-auto">
-																	<a class="d-block" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
+																	<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
 																	<cfset src=collectingImagesForCarousel['media_uri'][i]>
 																	<cfif fileExists(#src#)>
 																		<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
