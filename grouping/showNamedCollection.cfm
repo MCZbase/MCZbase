@@ -337,7 +337,7 @@ div.vslider-item[aria-hidden="true"]{
 			SELECT * FROM (
 				SELECT DISTINCT media.media_id, media.media_uri, 
 					MCZBASE.get_media_descriptor(media.media_id) as alt,
-					MCZBASE.get_medialabel(media.media_id,'height')
+					MCZBASE.get_medialabel(media.media_id,'height') as height
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -364,7 +364,7 @@ div.vslider-item[aria-hidden="true"]{
 			SELECT * FROM (
 				SELECT DISTINCT media_uri, media.media_id,
 					MCZBASE.get_media_descriptor(media.media_id) as alt,
-					MCZBASE.get_medialabel(media.media_id,'height')			
+					MCZBASE.get_medialabel(media.media_id,'height') as height		
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
