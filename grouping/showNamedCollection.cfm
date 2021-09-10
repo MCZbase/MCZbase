@@ -1035,7 +1035,7 @@ $(window).on('load resize', function () {
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: '100%',
+		height: null,
         status: false,
         after: function (index, length) {
           $input.value = index
