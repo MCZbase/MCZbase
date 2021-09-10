@@ -1222,10 +1222,20 @@ $(window).on('load resize', function () {
     if (typeof settings.height === 'number') {
       settings.height = settings.height + 'px'
     }
-    var MAX = this._MAX = this._$slides.length
-	 for (var i = 0, upto = MAX; i < upto; i++) {
-		 settings.height = settings.height + 'px'
-	 }
+	//Set an empty array
+	var arrM = [];
+
+	//Loop through the elements
+	$('.vslider-item').each(function() {
+	   //Push each value into the array
+	   arrM.push(parseFloat($(this).outerHeight()));
+	});
+
+	//Get the max value with sort function
+	var maxH = arrM.sort(function(a,b) { return b-a })[0];
+
+	//Apply the max value to the '.example' elements
+	$('.vslider-item').css({'height': maxH + 'px'});
     // status
    // if (settings.status) {
 //    //  this._$status = document.createElement('ol')
