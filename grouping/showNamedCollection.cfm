@@ -321,7 +321,7 @@ div.vslider-item[aria-hidden="true"]{
 						on underscore_relation.collection_object_id = cataloged_item.collection_object_id
 					left join media_relations
 						on media_relations.related_primary_key = underscore_relation.collection_object_id
-					left join media SAMPLE(99) on media_relations.media_id = media.media_id							
+					left join media SAMPLE(80) on media_relations.media_id = media.media_id							
 				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					AND media_relations.media_relationship = 'shows cataloged_item'
 					AND media.media_type = 'image'
