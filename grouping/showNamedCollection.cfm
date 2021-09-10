@@ -1074,7 +1074,8 @@ $(window).on('load resize', function () {
         status: false,
 		height: '100%',
         after: function (index, length) {
-          $input.value = index
+          	$input.value = index
+			var MAXheight = this._MAXheight = this._$slides.length
         }
       }
     )
