@@ -998,7 +998,6 @@ $(window).on('load resize', function () {
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: '100%',
         status: false,
         after: function (index, length) {
           $input.value = index
@@ -1035,7 +1034,6 @@ $(window).on('load resize', function () {
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: '100%',
         status: false,
         after: function (index, length) {
           $input.value = index
@@ -1064,7 +1062,6 @@ $(window).on('load resize', function () {
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input2')
-	var MAXheight = this._MAXheight = this._$slides.length
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base2'), {
         autoplay: false,
@@ -1073,7 +1070,6 @@ $(window).on('load resize', function () {
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: MAXheight,
         after: function (index, length) {
           	$input.value = index
 			
@@ -1344,6 +1340,7 @@ $(window).on('load resize', function () {
       $slider.setAttribute('aria-label', settings.i18n.title)
       $slider.setAttribute('aria-live', 'polite')
       $slider.style.height = settings.height || getComputedStyle($slider).height;
+		
       [].forEach.call(this._$slides, function ($slide, i) {// the empty brackets are causing an error. Also see lines 1582 and 1586 or around there.
         $slide.setAttribute('id', settings.prefix + 'tabpanel$' + i)
         $slide.setAttribute('role', 'tabpanel')
