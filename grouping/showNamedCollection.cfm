@@ -1337,7 +1337,7 @@ $(window).on('load resize', function () {
     window.addEventListener('resize', function (e) {//this is where max height should be found (MHK)
       requestAnimationFrame(function () {
         $slider.style.height = 'auto'
-        $slider.style.height = settings.height || getComputedStyle($slider).height + '5rem'
+        $slider.style.height = settings.height || getComputedStyle($slider).height
       })
     })
     // start
@@ -1345,7 +1345,7 @@ $(window).on('load resize', function () {
       $slider.setAttribute('tabindex', '0')
       $slider.setAttribute('aria-label', settings.i18n.title)
       $slider.setAttribute('aria-live', 'polite')
-      $slider.style.height = settings.height || getComputedStyle($slider).height;
+      $slider.style.height = settings.height || getComputedStyle($slider).height + '5rem';
 		
       [].forEach.call(this._$slides, function ($slide, i) {
         $slide.setAttribute('id', settings.prefix + 'tabpanel$' + i)
