@@ -337,7 +337,7 @@ div.vslider-item[aria-hidden="true"]{
 			SELECT * FROM (
 				SELECT DISTINCT media.media_id, media.media_uri, 
 					MCZBASE.get_media_descriptor(media.media_id) as alt,
-					MCZBASE.get_medialabel(media.media_id,'height') as height
+					MCZBASE.get_medialabel(media.media_id,'width')/(sum(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by MCZBASE.get_medialabel(media.media_id,'height'))) as Ratio
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -345,17 +345,17 @@ div.vslider-item[aria-hidden="true"]{
 						on underscore_relation.collection_object_id = cataloged_item.collection_object_id
 					left join collector on underscore_relation.collection_object_id = collector.collection_object_id
 					left join media_relations on collector.agent_id = media_relations.related_primary_key
-					left join media SAMPLE(99) on media_relations.media_id = media.media_id
+					left join media on media_relations.media_id = media.media_id
 				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					AND collector.collector_role = 'c'
 					AND media_relations.media_relationship = 'shows agent'
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 					AND media.auto_host = 'mczbase.mcz.harvard.edu'
-				ORDER BY height asc
+				ORDER BY Ratio asc
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
-			<!---Put in SAMPLE(99) and Took off DBMS_RANDOM.RANDOM until a large number of images are related with "show agent" since it slows query down--->
+			<!---PUT IN SAMPLE(99) and Took off DBMS_RANDOM.RANDOM until a large number of images are related with "show agent" since it slows query down--->
 		</cfquery>
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
@@ -364,7 +364,7 @@ div.vslider-item[aria-hidden="true"]{
 			SELECT * FROM (
 				SELECT DISTINCT media_uri, media.media_id,
 					MCZBASE.get_media_descriptor(media.media_id) as alt,
-					MCZBASE.get_medialabel(media.media_id,'height') as height		
+					MCZBASE.get_medialabel(media.media_id,'height')			
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -1334,10 +1334,10 @@ $(window).on('load resize', function () {
         e.preventDefault()
       }, false)
     }
-    window.addEventListener('resize', function (e) {
+    window.addEventListener('resize', function (e) {//this is where max height should be found (MHK)
       requestAnimationFrame(function () {
         $slider.style.height = 'auto'
-        $slider.style.height = settings.height || getComputedStyle($slider).height
+        $slider.style.height = settings.height || getComputedStyle($slider).height + '5rem'
       })
     })
     // start
@@ -1347,7 +1347,7 @@ $(window).on('load resize', function () {
       $slider.setAttribute('aria-live', 'polite')
       $slider.style.height = settings.height || getComputedStyle($slider).height;
 		
-      [].forEach.call(this._$slides, function ($slide, i) {// the empty brackets are causing an error. Also see lines 1582 and 1586 or around there.
+      [].forEach.call(this._$slides, function ($slide, i) {
         $slide.setAttribute('id', settings.prefix + 'tabpanel$' + i)
         $slide.setAttribute('role', 'tabpanel')
         $slide.setAttribute('aria-labelledby', settings.prefix + 'tab$' + i)
