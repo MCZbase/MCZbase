@@ -60,7 +60,7 @@ limitations under the License.
 }
 .vslider {
   	position: relative;
-	overflow: auto;
+/*	overflow: auto;*/
 	width: 100%;
 }
 .vslider > * {
