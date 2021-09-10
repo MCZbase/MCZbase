@@ -1203,7 +1203,7 @@ $(window).on('load resize', function () {
       swipedirection: 'h', // h or v
       wheelnavigation: false,
       onSwipeWheel: null,
-      status: false,
+      status: true,
       statusContent: function (index, length) {
         return '•';
       },
@@ -1222,14 +1222,42 @@ $(window).on('load resize', function () {
     if (typeof settings.height === 'number') {
       settings.height = settings.height + 'px'
     }
-	
-
-//	var $vslideritem = $('.vslider-item');
-//	var $maxH = $vslideritem.outerHeight(); 
-//	var $styles = {'height': $height}
-//	 	//Apply the max value to the '.vslider-item' elements
-//	$('.vslider').css({'height': maxH + 'px'});
-
+    var MAX = this._MAX = this._$slides.length
+    // status
+    if (settings.status) {
+      this._$status = document.createElement('ol')
+      this._$status.classList.add(settings.prefix + 'status')
+      // not accessible as keyboard and button nav
+      this._$status.setAttribute('role', 'tablist')
+      for (var i = 0, upto = MAX; i < upto; i++) {
+        (function (index) {
+          var $i = document.createElement('li')
+          if (index === 0) {
+            $i.setAttribute('tabindex', '0')
+          }
+          $i.setAttribute('id', settings.prefix + 'tab$' + index)
+          $i.setAttribute('role', 'tab')
+          $i.setAttribute('aria-label', index)
+          $i.setAttribute('aria-controls', settings.prefix + 'tabpanel$' + index)
+          $i.classList.add(settings.prefix + 'status-item')
+          if (i === 0) {
+            $i.classList.add(settings.prefix + 'status-item-active')
+          }
+          $i.textContent = settings.statusContent(i, MAX)
+          $i.addEventListener('click', function (e) {
+            self.next(index)
+          }, false)
+          $i.addEventListener('keydown', function (e) {
+            console.log(e.keyCode)
+            if (e.keyCode === 13) {
+              self.next(index)
+            }
+          }, false)
+          self._$status.appendChild($i)
+        }(i));
+      }
+      $slider.appendChild(self._$status)
+    }
     // NAVIGATION
     if (settings.navigation) {
       var _$navigation = document.createElement('div')
