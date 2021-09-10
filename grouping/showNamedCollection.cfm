@@ -999,7 +999,7 @@ $(window).on('load resize', function () {
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: null,
+		height: null, // setting height to null leaves it free to be calculated (line 1348);  need max height code for $slider there;
         status: false,
         after: function (index, length) {
           $input.value = index
@@ -1036,7 +1036,7 @@ $(window).on('load resize', function () {
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: null,
+		height: null, // setting height to null leaves it free to be calculated (line 1348)
         status: false,
         after: function (index, length) {
           $input.value = index
@@ -1073,7 +1073,7 @@ $(window).on('load resize', function () {
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: null,
+		height: null, // setting height to null leaves it free to be calculated (line 1348)
         after: function (index, length) {
           	$input.value = index
 			
@@ -1193,7 +1193,7 @@ $(window).on('load resize', function () {
       prefix: 'vslider-',
       // if null set height automatically else use height
       // number (=px) or explicit like "3em"
-      height: null,
+      height: null,  // setting height to null leaves it free to be calculated (line 1348)
       rotation: true,
       autoplay: options.rotation === false ? false : true,
       initialTimeout: 4000,
@@ -1345,7 +1345,7 @@ $(window).on('load resize', function () {
       $slider.setAttribute('tabindex', '0')
       $slider.setAttribute('aria-label', settings.i18n.title)
       $slider.setAttribute('aria-live', 'polite')
-      $slider.style.height = settings.height || getComputedStyle($slider).height + '5rem';
+      $slider.style.height = settings.height || getComputedStyle($slider).height;
 		
       [].forEach.call(this._$slides, function ($slide, i) {
         $slide.setAttribute('id', settings.prefix + 'tabpanel$' + i)
