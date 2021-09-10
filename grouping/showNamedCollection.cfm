@@ -555,9 +555,9 @@ div.vslider-item[aria-hidden="true"]{
 												</cfloop>
 											</div>
 											<div class="custom-nav text-center small mb-1 bg-white pt-0 pb-1">
-												<button type="button" class="border-0 btn-outline-primary" id="custom-prev"> << prev </button>
+												<button type="button" class="border-0 btn-outline-primary rounded" id="custom-prev"> << prev </button>
 												<input type="number" id="custom-input" class="custom-input border data-entry-input d-inline border-light" placeholder="index">
-												<button type="button" class="border-0 btn-outline-primary" id="custom-next"> next &nbsp; >> </button>
+												<button type="button" class="border-0 btn-outline-primary rounded" id="custom-next"> next &nbsp; >> </button>
 											</div>
 										</div>
 									</div>
@@ -634,9 +634,9 @@ div.vslider-item[aria-hidden="true"]{
 															</cfloop>
 														</div>
 														<div class="custom-nav text-center small bg-white mb-1 pt-0 pb-1">
-															<button type="button" class="border-0 btn-outline-primary" id="custom-prev1"> << prev </button>
+															<button type="button" class="border-0 btn-outline-primary rounded" id="custom-prev1"> << prev </button>
 															<input type="number" id="custom-input1" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
-															<button type="button" class="border-0 btn-outline-primary" id="custom-next1"> next &nbsp; >> </button>
+															<button type="button" class="border-0 btn-outline-primary rounded" id="custom-next1"> next &nbsp; >> </button>
 														</div>
 													</div>
 												</div>
@@ -700,9 +700,9 @@ div.vslider-item[aria-hidden="true"]{
 															</cfloop>
 														</div>
 														<div class="custom-nav small text-center bg-white mb-1 pt-0 pb-1">
-															<button type="button" class="border-0 btn-outline-primary" id="custom-prev2"> << prev </button>
+															<button type="button" class="border-0 btn-outline-primary rounded" id="custom-prev2"> << prev </button>
 															<input type="number" id="custom-input2" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
-															<button type="button" class="border-0 btn-outline-primary" id="custom-next2"> next &nbsp; >> </button>
+															<button type="button" class="border-0 btn-outline-primary rounded" id="custom-next2"> next &nbsp; >> </button>
 														</div>
 													</div>
 												</div>
