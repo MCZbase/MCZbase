@@ -1064,6 +1064,7 @@ $(window).on('load resize', function () {
   "use strict";
   function init() {
     var $input = document.getElementById('custom-input2')
+	var MAXheight = this._MAXheight = this._$slides.length
     var baseSlider = vanillaSlider(
       document.getElementById('vslider-base2'), {
         autoplay: false,
@@ -1072,10 +1073,10 @@ $(window).on('load resize', function () {
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: '100%',
+		height: MAXheight,
         after: function (index, length) {
           	$input.value = index
-			var MAXheight = this._MAXheight = this._$slides.length
+			
         }
       }
     )
