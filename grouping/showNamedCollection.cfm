@@ -517,11 +517,11 @@ div.vslider-item[aria-hidden="true"]{
 					<div class="row mx-0">
 					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0>
 						<section class="imagesLeft mt-1 col-12 col-md-6 float-left px-0 mt-3 mb-3">	
-							<h2 class="mt-3 mx-3">Images <span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records ) </span></h2>
+							<h2 class="mt-3 mx-3">Images <span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="col-12 px-1">
 										<div class="carousel_background border rounded float-left w-100 p-2">
-											<h3 class="mx-2 text-center">Specimens<span class="small"> #specimenImgs.recordcount#</span></h3>
+											<h3 class="mx-2 text-center">#specimenImgs.recordcount# Specimens</h3>
 											<div class="vslider w-100 float-left bg-light" id="vslider-base">
 												<cfset i=1>
 												<cfloop query="specimenImagesForCarousel">
@@ -600,7 +600,7 @@ div.vslider-item[aria-hidden="true"]{
 												</cfquery>													
 												<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
 													<div class="carousel_background border rounded float-left w-100 p-2">
-														<h3 class="mx-2 text-center">Agents <span class="small"> #agentCt.recordcount#</span></h3>
+														<h3 class="mx-2 text-center">#agentCt.recordcount# Agents </h3>
 														<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 															<cfset i=1>
 															<cfloop query="agentImagesForCarousel">
@@ -647,15 +647,14 @@ div.vslider-item[aria-hidden="true"]{
 													FROM
 														underscore_collection
 														left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-															on underscore_relation.collection_object_id = flat.collection_object_id
+														left join cataloged_item
+															on underscore_relation.collection_object_id = cataloged_item.collection_object_id
 															left join collecting_event 
-															on collecting_event.collecting_event_id = flat.collecting_event_id 
+															on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
 															left join media_relations 
 															on collecting_event.collecting_event_id = media_relations.related_primary_key 
 														left join media on media_relations.media_id = media.media_id
 													WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-														AND flat.guid IS NOT NULL
 														AND media_relations.media_relationship = 'shows collecting_event'
 														AND media.media_type = 'image'
 														AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
@@ -666,7 +665,7 @@ div.vslider-item[aria-hidden="true"]{
 												</cfif>	
 												<div class="col-12 px-1 #colClass# mx-md-auto my-3">
 													<div class="carousel_background border rounded float-left w-100 p-2">
-													<h3 class="mx-2 text-center">Collecting <span class="small">#collectingCt.recordcount#</span>
+													<h3 class="mx-2 text-center">#collectingCt.recordcount# Collecting
 													</h3>
 														<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 															<cfset i=1>
