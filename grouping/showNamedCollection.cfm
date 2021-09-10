@@ -517,7 +517,7 @@ div.vslider-item[aria-hidden="true"]{
 					<div class="row mx-0">
 					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0>
 						<section class="imagesLeft mt-1 col-12 col-md-6 float-left px-0 mt-3 mb-3">	
-							<h2 class="mt-3 mx-3">Images <span class="small">(a small sample of total is shown) </span></h2>
+							<h2 class="mt-3 mx-3">Images <span class="smaller">(a small sample of total is shown&mdash;click refresh or visit records to see more images) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="col-12 px-1">
 										<div class="carousel_background border rounded float-left w-100 p-2">
