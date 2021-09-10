@@ -364,7 +364,7 @@ div.vslider-item[aria-hidden="true"]{
 			SELECT * FROM (
 				SELECT DISTINCT media_uri, media.media_id,
 					MCZBASE.get_media_descriptor(media.media_id) as alt,
-					MCZBASE.get_medialabel(media.media_id,'width')/(sum(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by MCZBASE.get_medialabel(media.media_id,'height'))) as Ratio					
+					MCZBASE.get_medialabel(media.media_id,'height')			
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -374,13 +374,13 @@ div.vslider-item[aria-hidden="true"]{
 						on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
 					left join media_relations 
 						on collecting_event.collecting_event_id = media_relations.related_primary_key 
-					left join media on media_relations.media_id = media.media_id 
+					left join media SAMPLE(99) on media_relations.media_id = media.media_id 
 				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					AND (media_relations.media_relationship = 'shows collecting_event' or media_relations.media_relationship = 'locality')
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 					AND media.auto_host = 'mczbase.mcz.harvard.edu'
-				ORDER BY Ratio asc
+				ORDER BY height asc
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
 			<!---Took off DBMS_RANDOM.RANDOM until a large number of images are related with "show agent" since it slows query down--->
