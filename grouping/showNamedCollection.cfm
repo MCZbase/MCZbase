@@ -1221,10 +1221,10 @@ $(window).on('load resize', function () {
     this._timer = null
 
     var MAX = this._MAX = this._$slides.length
-	var MAXheight = this._MAXheight = this._$slides.height
+
 	if (typeof settings.height === 'number') {
       settings.height = settings.height + 'px'
-    } else { settings.height = MAXheight + '5rem'}
+    } 
     // status
     if (settings.status) {
       this._$status = document.createElement('ol')
