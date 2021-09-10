@@ -1223,7 +1223,9 @@ $(window).on('load resize', function () {
     if (typeof settings.height === 'number') {
       settings.height = settings.height + 'px'
     }
+	settings.height = parseFloat($(this).outerHeight()) > settings.height ? parseFloat($(this).outerHeight()) : settings.height;
     var MAX = this._MAX = this._$slides.length
+	
     // status
     if (settings.status) {
       this._$status = document.createElement('ol')
