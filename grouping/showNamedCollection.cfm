@@ -1220,11 +1220,11 @@ $(window).on('load resize', function () {
     this._$status
     this._active = 0
     this._timer = null
-    if (typeof settings.height === 'number') {
-      settings.height = settings.height + 'px'
-    } else { settings.height = 60 + 'rem'}
+
     var MAX = this._MAX = this._$slides.length
-	
+	if (typeof settings.height === 'number') {
+      settings.height = settings.height + 'px'
+    } else { settings.height = MAX + '2rem'}
     // status
     if (settings.status) {
       this._$status = document.createElement('ol')
