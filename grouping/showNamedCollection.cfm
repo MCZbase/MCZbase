@@ -308,12 +308,12 @@ div.vslider-item[aria-hidden="true"]{
 			<cfset specimenImgsCt = specimenImgs.recordcount>
 			<cfset otherimagetypes = 0>
 		</cfif>
-		<!--- obtain a random set of specimen images, limited to a small number/for carousel --->
+		<!--- obtain a random set of specimen images, limited to a small number/for carousel; took out DBMS_RANDOM.RANDOM in favor of SAMPLE(%)--->
 		<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 			SELECT * FROM (
 				SELECT distinct media.media_id, media.media_uri, 
 					MCZBASE.get_media_descriptor(media.media_id) as alt, 
-					MCZBASE.get_medialabel(media.media_id,'width')/(sum(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by MCZBASE.get_medialabel(media.media_id,'height'))) as Ratio
+					MCZBASE.get_medialabel(media.media_id,'height') as height
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -321,12 +321,12 @@ div.vslider-item[aria-hidden="true"]{
 						on underscore_relation.collection_object_id = cataloged_item.collection_object_id
 					left join media_relations
 						on media_relations.related_primary_key = underscore_relation.collection_object_id
-					left join media on media_relations.media_id = media.media_id							
+					left join media SAMPLE(99) on media_relations.media_id = media.media_id							
 				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					AND media_relations.media_relationship = 'shows cataloged_item'
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-				ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
+				ORDER BY height asc
 				) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomSpecimenImages#">
 		</cfquery>
