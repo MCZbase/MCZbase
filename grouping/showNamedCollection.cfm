@@ -1217,7 +1217,7 @@ $(window).on('load resize', function () {
     }, options);
     this._$slides = $slider.querySelectorAll(settings.itemSelector)
     this._$status
-    this._active = 0
+    this._active 
     this._timer = null
 
     var MAX = this._MAX = this._$slides.length
@@ -1456,6 +1456,7 @@ $(window).on('load resize', function () {
       sliderIndex++;
     })
     return sliders.length > 1 ? sliders : sliders[0]
+	return sliders.height
   }
   vanillaSlider.VERSION = 2.0
   window.vanillaSlider = vanillaSlider
