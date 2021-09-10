@@ -249,8 +249,8 @@ div.vslider-item[aria-hidden="true"]{
 }
 </style>
 	<cfset maxSpecimens = 11000>
-	<cfset maxRandomSpecimenImages = 15>
-	<cfset maxRandomOtherImages = 15>
+	<cfset maxRandomSpecimenImages = 12>
+	<cfset maxRandomOtherImages = 10>
 	<cfset otherImageTypes = 0>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<cfthrow message="No named group specified to show.">
