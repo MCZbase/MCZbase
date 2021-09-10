@@ -1341,7 +1341,7 @@ $(window).on('load resize', function () {
       })
     })
     // start
-    if (MAX > 1) {
+    if (MAX >= 0) {
       $slider.setAttribute('tabindex', '0')
       $slider.setAttribute('aria-label', settings.i18n.title)
       $slider.setAttribute('aria-live', 'polite')
