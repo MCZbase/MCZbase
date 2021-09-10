@@ -720,7 +720,7 @@ div.vslider-item[aria-hidden="true"]{
 																
 							<section class="heatmap">							
 								<div class="row h-100">
-									<div class="col-6">
+									<div class="col-12 px-0">
 										<h2 class="mt-4 text-left">Heat Map Example</h2>
 										<script>
 											let map, heatmap;
@@ -784,7 +784,7 @@ div.vslider-item[aria-hidden="true"]{
 											return #serializeJson#;
 											}
 										</script>
-										<div id="floating-panel" class="col-6">
+										<div id="floating-panel">
 											<button id="toggle-heatmap">Toggle Heatmap</button>
 											<button id="change-gradient">Change gradient</button>
 											<button id="change-radius">Change radius</button>
