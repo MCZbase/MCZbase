@@ -1337,7 +1337,8 @@ $(window).on('load resize', function () {
     window.addEventListener('resize', function (e) {
       requestAnimationFrame(function () {
       //  $slider.style.height = 'auto'
-        $slider.style.height = settings.height || getComputedStyle($slider).height //this is where max height should be found (MHK)
+      //  $slider.style.height = settings.height || 
+		  getComputedStyle($slider).height //this is where max height should be found (MHK)
       })
     })
     // start
