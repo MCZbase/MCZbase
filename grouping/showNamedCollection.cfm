@@ -322,12 +322,12 @@ div.vslider-item[aria-hidden="true"]{
 						on underscore_relation.collection_object_id = cataloged_item.collection_object_id
 					left join media_relations
 						on media_relations.related_primary_key = underscore_relation.collection_object_id
-					left join media on media_relations.media_id = media.media_id
+					left join media SAMPLE(3) on media_relations.media_id = media.media_id							
 				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					AND media_relations.media_relationship = 'shows cataloged_item'
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-				ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
+				ORDER BY Ratio asc
 				) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomSpecimenImages#">
 		</cfquery>
@@ -346,20 +346,21 @@ div.vslider-item[aria-hidden="true"]{
 						on underscore_relation.collection_object_id = cataloged_item.collection_object_id
 					left join collector on underscore_relation.collection_object_id = collector.collection_object_id
 					left join media_relations on collector.agent_id = media_relations.related_primary_key
-					left join media on media_relations.media_id = media.media_id
+					left join media SAMPLE(25) on media_relations.media_id = media.media_id
 				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					AND collector.collector_role = 'c'
 					AND media_relations.media_relationship = 'shows agent'
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 					AND media.auto_host = 'mczbase.mcz.harvard.edu'
-				ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
+				ORDER BY Ratio asc
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
 		</cfquery>
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
 		</cfif>
+			<!---SAMPLE(N) should change as people add media relations to "collecting_event" and "locality". Right now all the images could be shown. N=99 seems to return everything that is in the db with these relationships--->
 		<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 			SELECT * FROM (
 				SELECT DISTINCT media_uri, media.media_id,
@@ -374,13 +375,13 @@ div.vslider-item[aria-hidden="true"]{
 						on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
 					left join media_relations 
 						on collecting_event.collecting_event_id = media_relations.related_primary_key 
-					left join media on media_relations.media_id = media.media_id
+					left join media SAMPLE(99) on media_relations.media_id = media.media_id 
 				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					AND (media_relations.media_relationship = 'shows collecting_event' or media_relations.media_relationship = 'locality')
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 					AND media.auto_host = 'mczbase.mcz.harvard.edu'
-				ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
+				ORDER BY Ratio asc
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
 		</cfquery>
@@ -516,7 +517,7 @@ div.vslider-item[aria-hidden="true"]{
 					<div class="row mx-0">
 					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0>
 						<section class="imagesLeft mt-1 col-12 col-md-6 float-left px-0 mt-3 mb-3">	
-							<h2 class="mt-3 mx-3">Images <span class="small">(maximum of #maxRandomSpecimenImages# per category shown) </span></h2>
+							<h2 class="mt-3 mx-3">Images <span class="small">(a random sample is shown) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="col-12 px-1">
 										<div class="carousel_background border rounded float-left w-100 p-2">
