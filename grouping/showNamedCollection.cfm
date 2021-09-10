@@ -998,8 +998,8 @@ $(window).on('load resize', function () {
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: null,
-        status: true,
+		height: '100%',
+        status: false,
         after: function (index, length) {
           $input.value = index
         }
@@ -1035,8 +1035,8 @@ $(window).on('load resize', function () {
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-		height: null,
-        status: true,
+		height: '100%',
+        status: false,
         after: function (index, length) {
           $input.value = index
         }
@@ -1071,8 +1071,8 @@ $(window).on('load resize', function () {
         keyboardnavigation: false,
         swipenavigation: false,
         wheelnavigation: true,
-        status: true,
-		height: null,
+        status: false,
+		height: '100%',
         after: function (index, length) {
           $input.value = index
         }
@@ -1203,7 +1203,7 @@ $(window).on('load resize', function () {
       swipedirection: 'h', // h or v
       wheelnavigation: false,
       onSwipeWheel: null,
-      status: true,
+      status: false,
       statusContent: function (index, length) {
         return '•';
       },
@@ -1223,14 +1223,13 @@ $(window).on('load resize', function () {
       settings.height = settings.height + 'px'
     }
 	
-    // status
-   if (settings.status) {
-	var $vslideritem = $('.vslider-item');
-	var $maxH = $vslideritem.outerHeight(); 
-	var $styles = {'height': $height}
-	 	//Apply the max value to the '.vslider-item' elements
-	$('.vslider').css({'height': maxH + 'px'});
-   }
+
+//	var $vslideritem = $('.vslider-item');
+//	var $maxH = $vslideritem.outerHeight(); 
+//	var $styles = {'height': $height}
+//	 	//Apply the max value to the '.vslider-item' elements
+//	$('.vslider').css({'height': maxH + 'px'});
+
     // NAVIGATION
     if (settings.navigation) {
       var _$navigation = document.createElement('div')
