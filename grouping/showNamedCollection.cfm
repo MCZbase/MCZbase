@@ -383,8 +383,7 @@ div.vslider-item[aria-hidden="true"]{
 				ORDER BY Ratio asc
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
-			
-		<!---Took off DBMS_RANDOM.RANDOM until a large number of images are related with "show collecting_event" and "show locality"--->
+			<!---Took off DBMS_RANDOM.RANDOM until a large number of images are related with "show agent" since it slows query down--->
 		</cfquery>
 		<cfif collectingImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
@@ -1220,7 +1219,7 @@ $(window).on('load resize', function () {
     }, options);
     this._$slides = $slider.querySelectorAll(settings.itemSelector)
     this._$status
-    this._active 
+    this._active = 0
     this._timer = null
 
     var MAX = this._MAX = this._$slides.length
