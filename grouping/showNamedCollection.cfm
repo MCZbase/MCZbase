@@ -722,7 +722,7 @@ div.vslider-item[aria-hidden="true"]{
 								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 								<script>
 								let map: google.maps.Map, heatmap: google.maps.visualization.HeatmapLayer;
-									function initMap(): void {
+									function initMap() {
 										var heatmapData = [
 										<cfloop query="points">
 											new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
@@ -762,7 +762,7 @@ div.vslider-item[aria-hidden="true"]{
 									<button id="change-opacity">Change opacity</button>
 								</div>
 								<div class="col-12">
-									<div id="map" class=""></div>
+									<div id="map"></div>
 								</div>
 								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 								
