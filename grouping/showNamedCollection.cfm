@@ -705,6 +705,13 @@ div.vslider-item[aria-hidden="true"]{
 							<!---////////// BELOW //////////////--->
 							<!---///////////////////////////////--->									
 							<section class="heatmap">
+								<div id="floating-panel">
+									<button id="toggle-heatmap">Toggle Heatmap</button>
+									<button id="change-gradient">Change gradient</button>
+									<button id="change-radius">Change radius</button>
+									<button id="change-opacity">Change opacity</button>
+								</div>
+								<div id="map"></div>
 								<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 									SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
 									FROM locality
@@ -722,18 +729,18 @@ div.vslider-item[aria-hidden="true"]{
 								</cfquery>
 								<h2 class="mt-4 text-left">Heat Map Example</h2>
 								<script>
-									 var map, heatmap;
+									var map, heatmap;
 
 									function initMap() {
 										var CenterLat =  42.378765;
 										var CenterLong = -71.115540;
 										var ArrMarkers=[];
-										var ServerData =function getPoints() {
+										var getPoints() {
 										<cfset arr = ArrayNew(1)>
 										<cfloop query="points">
 											new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
 										</cfloop>
-									return #serializeJson#;
+									
 									}
 										var Latitude;
 										var Longitude;
@@ -765,13 +772,7 @@ div.vslider-item[aria-hidden="true"]{
 									}//end InitMap
 
 								</script>
-								<div id="floating-panel">
-									<button id="toggle-heatmap">Toggle Heatmap</button>
-									<button id="change-gradient">Change gradient</button>
-									<button id="change-radius">Change radius</button>
-									<button id="change-opacity">Change opacity</button>
-								</div>
-								<div id="map"></div>
+					
 							<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 							<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization&v=weekly" async></script>
 						</section><!--- end images & heat map---> 	
