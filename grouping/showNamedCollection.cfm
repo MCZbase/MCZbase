@@ -721,7 +721,6 @@ div.vslider-item[aria-hidden="true"]{
 								<h2 class="mt-4 text-left">Heat Map Example</h2>
 								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 								<script>
-								let map: google.maps.Map, heatmap: google.maps.visualization.HeatmapLayer;
 									function initMap() {
 										var heatmapData = [
 										<cfloop query="points">
