@@ -738,32 +738,10 @@ div.vslider-item[aria-hidden="true"]{
 											data: heatmapData
 										});
 										heatmap.setMap(map);
-										document
-											.getElementById("toggle-heatmap")!
-											.addEventListener("click", toggleHeatmap);
-										document
-											.getElementById("change-gradient")!
-											.addEventListener("click", changeGradient);
-										document
-											.getElementById("change-opacity")!
-											.addEventListener("click", changeOpacity);
-										document
-											.getElementById("change-radius")!
-											.addEventListener("click", changeRadius);
 									}//end InitMap
-									function toggleHeatmap(): void {
-										heatmap.setMap(heatmap.getMap() ? null : map);
-									}
 								</script>
-								<div id="floating-panel">
-									<button id="toggle-heatmap">Toggle Heatmap</button>
-									<button id="change-gradient">Change gradient</button>
-									<button id="change-radius">Change radius</button>
-									<button id="change-opacity">Change opacity</button>
-								</div>
-								<div class="col-12">
-									<div id="map"></div>
-								</div>
+
+								<div id="map" class="col-12 px-0"></div>
 								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 								
 							</section><!--- end images & heat map---> 	
