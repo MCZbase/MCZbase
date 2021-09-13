@@ -740,7 +740,7 @@ div.vslider-item[aria-hidden="true"]{
 									}//end InitMap
 								</script>
 
-								<div id="map" class="col-12 px-0"></div>
+								<div id="map" class="h-100"></div>
 								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 								
 							</section><!--- end images & heat map---> 	
