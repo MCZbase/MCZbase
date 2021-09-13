@@ -732,30 +732,23 @@ div.vslider-item[aria-hidden="true"]{
 									var map, heatmap;
 
 									function initMap() {
-										var CenterLat =  42.378765;
-										var CenterLong = -71.115540;
 										var ArrMarkers=[];
-										var marker = {
+										var heatMapData = [
 										<cfset arr = ArrayNew(1)>
 										<cfloop query="points">
-											location: new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
+											{location: new google.maps.LatLng(#points.Latitude#,#points.Longitude#)},
 										</cfloop>
-											ArrMarkers.push(marker);
-										}
-
-										var mapCoordinates = {
-											center: new google.maps.LatLng(CenterLat, CenterLong),
+										];
+										var Cambridge = new google.maps.LatLng(42.378765, -71.115540);
+										map = new google.maps.Map(document.getElementById('map'), {
+											center: Cambridge,
 											zoom: 4,
 											mapTypeId: 'satellite'
-										};
-										map = new google.maps.Map(document.getElementById('map'), mapCoordinates);
-
-										heatmap = new google.maps.visualization.HeatmapLayer({
-											data: ArrMarkers,
-											radius: 15,
-											opacity:0.5,
-											map: map
 										});
+										var heatmap = new google.maps.visualization.HeatmapLayer({
+											data: heatMapData
+										});
+										heatmap.setMap(map);
 
 									}//end InitMap
 
