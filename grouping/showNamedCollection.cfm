@@ -697,21 +697,28 @@ div.vslider-item[aria-hidden="true"]{
 								</div>
 							</section>
 																
-							<cfquery name="get_points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
-								SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
-								FROM locality
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-									on flat.locality_id = locality.locality_id
-									left join lat_long
-									on lat_long.locality_id = flat.locality_id
-									left join underscore_relation
-									on underscore_relation.collection_object_id = flat.collection_object_id
-									left join underscore_collection
-									on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									and flat.guid IS NOT NULL
-									and lat_long.dec_lat is not null
-							</cfquery>
+
+							<script>
+								function requestPoints() { 
+									$.ajax({
+											url: "/grouping/component/functions.cfc",
+											data: { 
+												method: 'get_coordList' 
+											},
+												dataType: 'json',
+												success : function (data) { response(data); },
+											error : function (jqXHR, status, error) {
+												var message = "";
+												if (error == 'timeout') { 
+													message = ' Server took too long to respond.';
+												} else { 
+													message = jqXHR.responseText;
+												}
+												messageDialog('Error:' + message ,'Error: ' + error);
+											}
+										})
+									}
+							</script>
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
 							<!---///////////////////////////////--->
