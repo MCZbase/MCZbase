@@ -742,7 +742,7 @@ div.vslider-item[aria-hidden="true"]{
 								<div id="map" class="h-100"></div>
 								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-								<script>
+
 							</section><!--- end images & heat map---> 	
 						<!---///////////////////////////////--->
 						<!---/// HIDE HEAT MAP FOR NOW ///// --->
