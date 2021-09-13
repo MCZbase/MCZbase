@@ -714,7 +714,7 @@ div.vslider-item[aria-hidden="true"]{
 									{
 										datatype: "json",
 										datafields: [],
-										callback=requestPoints,
+										callback=get_coordList,
 										url: '/grouping/component/functions.cfc?method=get_coordList&underscore_collection_id=#underscore_collection_id#',
 										timeout: 30000,  // units not specified, miliseconds? 
 										loadError: function(jqXHR, textStatus, error) { 
@@ -773,14 +773,6 @@ div.vslider-item[aria-hidden="true"]{
 									function changeOpacity() {
 									  heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
 									}
-									// Heatmap data: 500 Points
-								//	function getPoints() {
-//										<cfset arr = ArrayNew(1)>
-//										<cfloop query="states">
-//											new google.maps.LatLng(#states.dec_lat#,#states.dec_long#),
-//										</cfloop>
-//									return #serializeJson#;
-//									}
 								</script>
 								<div id="floating-panel">
 									<button id="toggle-heatmap">Toggle Heatmap</button>
