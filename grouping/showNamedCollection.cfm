@@ -696,6 +696,22 @@ div.vslider-item[aria-hidden="true"]{
 									</div>
 								</div>
 							</section>
+																
+							<cfquery name="get_points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
+								SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
+								FROM locality
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+									on flat.locality_id = locality.locality_id
+									left join lat_long
+									on lat_long.locality_id = flat.locality_id
+									left join underscore_relation
+									on underscore_relation.collection_object_id = flat.collection_object_id
+									left join underscore_collection
+									on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									and flat.guid IS NOT NULL
+									and lat_long.dec_lat is not null
+							</cfquery>
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
 							<!---///////////////////////////////--->
@@ -704,75 +720,42 @@ div.vslider-item[aria-hidden="true"]{
 							<section class="heatmap">							
 								<h2 class="mt-4 text-left">Heat Map Example</h2>
 								<script>
-								function initMap(json) {
-									var map = new google.maps.Map(document.getElementById('map'), {
-										zoom: 4,
-										center: { lat: 42.378765, lng: -71.115540 },
-										mapTypeId: "satellite",
-									});
-									var source =
-									{
-										datatype: "json",
-										datafields: [],
-										callback=get_coordList,
-										url: '/grouping/component/functions.cfc?method=get_coordList&underscore_collection_id=#underscore_collection_id#',
-										timeout: 30000,  // units not specified, miliseconds? 
-										loadError: function(jqXHR, textStatus, error) { 
-											handleFail(jqXHR,textStatus,error,"retrieving coordinates for heatmap");
+									 var map, heatmap;
+
+									function initMap() {
+										var CenterLat =  42.378765;
+										var CenterLong = -71.115540;
+										var ArrMarkers=[];
+										var ServerData =<#points_result()#>;
+										var Latitude;
+										var Longitude;
+
+										for (var i = 0; i < ServerData.length; i++) {
+
+											Latitude = ServerData[i].Latitude;
+											Longitude = ServerData[i].Longitude;
+
+											var marker = { location: new google.maps.LatLng(Latitude, Longitude) };
+											ArrMarkers.push(marker);
+
 										}
-									};
-									var points = json.points;
-									var data = [];
-									var i;
-									for (i = 0; i < points.length; i++) {
-										data[i] = new google.maps.LatLng(points[i][0], points[i][1]);
-									}
-									
-									var heatmap = new google.maps.visualization.HeatmapLayer({
-										data: data,
-										map: map
-									});
-									document
-										.getElementById("toggle-heatmap")
-										.addEventListener("click", toggleHeatmap);
-									document
-										.getElementById("change-gradient")
-										.addEventListener("click", changeGradient);
-									document
-										.getElementById("change-opacity")
-										.addEventListener("click", changeOpacity);
-									document
-										.getElementById("change-radius")
-										.addEventListener("click", changeRadius);
-									}
-									function toggleHeatmap() {
-									  heatmap.setMap(heatmap.getMap() ? null : map);
-									}
-									function changeGradient() {
-									  const gradient = [
-										"rgba(0, 255, 255, 0)",
-										"rgba(0, 255, 255, 1)",
-										"rgba(0, 191, 255, 1)",
-										"rgba(0, 127, 255, 1)",
-										"rgba(0, 63, 255, 1)",
-										"rgba(0, 0, 255, 1)",
-										"rgba(0, 0, 223, 1)",
-										"rgba(0, 0, 191, 1)",
-										"rgba(0, 0, 159, 1)",
-										"rgba(0, 0, 127, 1)",
-										"rgba(63, 0, 91, 1)",
-										"rgba(127, 0, 63, 1)",
-										"rgba(191, 0, 31, 1)",
-										"rgba(255, 0, 0, 1)",
-									  ];
-									  heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-									}
-									function changeRadius() {
-									  heatmap.set("radius", heatmap.get("radius") ? null : 20);
-									}
-									function changeOpacity() {
-									  heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
-									}
+
+										var mapCoordinates = {
+											center: new google.maps.LatLng(CenterLat, CenterLong),
+											zoom: 4,
+											mapTypeId: 'satellite'
+										};
+										map = new google.maps.Map(document.getElementById('map'), mapCoordinates);
+
+										heatmap = new google.maps.visualization.HeatmapLayer({
+											data: ArrMarkers,
+											radius: 15,
+											opacity:0.5,
+											map: map
+										});
+
+									}//end InitMap
+
 								</script>
 								<div id="floating-panel">
 									<button id="toggle-heatmap">Toggle Heatmap</button>
