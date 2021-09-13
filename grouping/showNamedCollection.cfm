@@ -735,7 +735,7 @@ div.vslider-item[aria-hidden="true"]{
 										var ArrMarkers=[];
 										var heatmapData = [
 										<cfloop query="points">
-											{location: new google.maps.LatLng(#points.Latitude#,#points.Longitude#)},
+											new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
 										</cfloop>
 										];
 										var Cambridge = new google.maps.LatLng(42.378765, -71.115540);
