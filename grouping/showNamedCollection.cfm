@@ -701,7 +701,6 @@ div.vslider-item[aria-hidden="true"]{
 							<!---///////////////////////////////--->
 							<!---////////// BELOW //////////////--->
 							<!---///////////////////////////////--->									
-																<script></script>									
 							<section class="heatmap">							
 								<h2 class="mt-4 text-left">Heat Map Example</h2>
 								<script>
