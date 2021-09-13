@@ -733,7 +733,7 @@ div.vslider-item[aria-hidden="true"]{
 										var CenterLat =  42.378765;
 										var CenterLong = -71.115540;
 										var ArrMarkers=[];
-										var ServerData =<#points.dec_lat# #points.dec_long#>;
+										var ServerData =<#points.Latitude# #points.Longitude#>;
 										var Latitude;
 										var Longitude;
 
