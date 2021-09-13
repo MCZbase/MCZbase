@@ -719,7 +719,7 @@ div.vslider-item[aria-hidden="true"]{
 										and lat_long.dec_lat is not null
 								</cfquery>
 								<h2 class="mt-4 text-left">Heat Map Example</h2>
-		
+								<script>
 									function initMap() {
 										var heatmapData = [
 										<cfloop query="points">
