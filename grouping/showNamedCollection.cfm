@@ -727,14 +727,13 @@ div.vslider-item[aria-hidden="true"]{
 										and flat.guid IS NOT NULL
 										and lat_long.dec_lat is not null
 								</cfquery>
+								
 								<h2 class="mt-4 text-left">Heat Map Example</h2>
 								<script>
-									var map, heatmap;
 
 									function initMap() {
 										var ArrMarkers=[];
-										var heatMapData = [
-										<cfset arr = ArrayNew(1)>
+										var heatmapData = [
 										<cfloop query="points">
 											{location: new google.maps.LatLng(#points.Latitude#,#points.Longitude#)},
 										</cfloop>
@@ -746,7 +745,7 @@ div.vslider-item[aria-hidden="true"]{
 											mapTypeId: 'satellite'
 										});
 										var heatmap = new google.maps.visualization.HeatmapLayer({
-											data: heatMapData
+											data: heatmapData
 										});
 										heatmap.setMap(map);
 
