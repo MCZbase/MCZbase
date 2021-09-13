@@ -386,21 +386,7 @@ div.vslider-item[aria-hidden="true"]{
 		<cfif collectingImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
 		</cfif>
-<!---		<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
-			SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
-			FROM locality
-				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-				on flat.locality_id = locality.locality_id
-				left join lat_long
-				on lat_long.locality_id = flat.locality_id
-				left join underscore_relation
-				on underscore_relation.collection_object_id = flat.collection_object_id
-				left join underscore_collection
-				on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				and flat.guid IS NOT NULL
-				and lat_long.dec_lat is not null
-		</cfquery>--->
+
 		<main class="py-3" id="content">
 			<div class="row mx-0">
 				<article class="col-12">
@@ -719,8 +705,8 @@ div.vslider-item[aria-hidden="true"]{
 							<section class="heatmap">							
 								<h2 class="mt-4 text-left">Heat Map Example</h2>
 								<script>
-									let map, heatmap;
-									function initMap() {
+								//	let map, heatmap;
+									function initMap(json) {
 									var map = new google.maps.Map(document.getElementById('map'), {
 										zoom: 4,
 										center: { lat: 42.378765, lng: -71.115540 },
@@ -732,11 +718,10 @@ div.vslider-item[aria-hidden="true"]{
 									for (i = 0; i < points.length; i++) {
 										data[i] = new google.maps.LatLng(points[i][0], points[i][1]);
 									}
-									var points = 
 									heatmap = new google.maps.visualization.HeatmapLayer({
 										//data: getPoints(),
 										data: data,
-										map: map,
+										map: map
 									});
 									document
 										.getElementById("toggle-heatmap")

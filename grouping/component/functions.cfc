@@ -25,8 +25,9 @@ Update an existing arbitrary collection record (underscore_collection).
 --->
 <cffunction name="get_coordList" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="coords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="coords_result">
+		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 			SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
 			FROM locality
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
@@ -42,7 +43,6 @@ Update an existing arbitrary collection record (underscore_collection).
 				and lat_long.dec_lat is not null
 		</cfquery>
 		<cfset row = StructNew()>
-		<cfset row["status"] = "saved">
 		<cfset row["id"] = "#underscore_collection_id#">
 		<cfset data[1] = row>
 	<cfcatch>
