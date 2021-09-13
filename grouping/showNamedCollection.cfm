@@ -701,25 +701,35 @@ div.vslider-item[aria-hidden="true"]{
 							<!---///////////////////////////////--->
 							<!---////////// BELOW //////////////--->
 							<!---///////////////////////////////--->									
-																
+																<script></script>									
 							<section class="heatmap">							
 								<h2 class="mt-4 text-left">Heat Map Example</h2>
 								<script>
-								//	let map, heatmap;
-									function initMap(json) {
+								function initMap(json) {
 									var map = new google.maps.Map(document.getElementById('map'), {
 										zoom: 4,
 										center: { lat: 42.378765, lng: -71.115540 },
 										mapTypeId: "satellite",
 									});
+									var source =
+									{
+										datatype: "json",
+										datafields: [],
+										callback=requestPoints,
+										url: '/grouping/component/functions.cfc?method=get_coordList&underscore_collection_id=#underscore_collection_id#',
+										timeout: 30000,  // units not specified, miliseconds? 
+										loadError: function(jqXHR, textStatus, error) { 
+											handleFail(jqXHR,textStatus,error,"retrieving coordinates for heatmap");
+										}
+									};
 									var points = json.points;
 									var data = [];
 									var i;
 									for (i = 0; i < points.length; i++) {
 										data[i] = new google.maps.LatLng(points[i][0], points[i][1]);
 									}
-									heatmap = new google.maps.visualization.HeatmapLayer({
-										//data: getPoints(),
+									
+									var heatmap = new google.maps.visualization.HeatmapLayer({
 										data: data,
 										map: map
 									});
