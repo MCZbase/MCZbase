@@ -386,7 +386,7 @@ div.vslider-item[aria-hidden="true"]{
 		<cfif collectingImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
 		</cfif>
-		<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
+<!---		<cfquery name="states" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="states_result">
 			SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
 			FROM locality
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
@@ -400,7 +400,7 @@ div.vslider-item[aria-hidden="true"]{
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				and flat.guid IS NOT NULL
 				and lat_long.dec_lat is not null
-		</cfquery>
+		</cfquery>--->
 		<main class="py-3" id="content">
 			<div class="row mx-0">
 				<article class="col-12">
@@ -721,25 +721,33 @@ div.vslider-item[aria-hidden="true"]{
 								<script>
 									let map, heatmap;
 									function initMap() {
-									  map = new google.maps.Map(document.getElementById("map"), {
+									var map = new google.maps.Map(document.getElementById('map'), {
 										zoom: 4,
 										center: { lat: 42.378765, lng: -71.115540 },
 										mapTypeId: "satellite",
-									  });
-									  heatmap = new google.maps.visualization.HeatmapLayer({
-										data: getPoints(),
+									});
+									var points = json.points;
+									var data = [];
+									var i;
+									for (i = 0; i < points.length; i++) {
+										data[i] = new google.maps.LatLng(points[i][0], points[i][1]);
+									}
+									var points = 
+									heatmap = new google.maps.visualization.HeatmapLayer({
+										//data: getPoints(),
+										data: data,
 										map: map,
-									  });
-									  document
+									});
+									document
 										.getElementById("toggle-heatmap")
 										.addEventListener("click", toggleHeatmap);
-									  document
+									document
 										.getElementById("change-gradient")
 										.addEventListener("click", changeGradient);
-									  document
+									document
 										.getElementById("change-opacity")
 										.addEventListener("click", changeOpacity);
-									  document
+									document
 										.getElementById("change-radius")
 										.addEventListener("click", changeRadius);
 									}
@@ -772,13 +780,13 @@ div.vslider-item[aria-hidden="true"]{
 									  heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
 									}
 									// Heatmap data: 500 Points
-									function getPoints() {
-										<cfset arr = ArrayNew(1)>
-										<cfloop query="states">
-											new google.maps.LatLng(#states.dec_lat#,#states.dec_long#),
-										</cfloop>
-									return #serializeJson#;
-									}
+								//	function getPoints() {
+//										<cfset arr = ArrayNew(1)>
+//										<cfloop query="states">
+//											new google.maps.LatLng(#states.dec_lat#,#states.dec_long#),
+//										</cfloop>
+//									return #serializeJson#;
+//									}
 								</script>
 								<div id="floating-panel">
 									<button id="toggle-heatmap">Toggle Heatmap</button>
