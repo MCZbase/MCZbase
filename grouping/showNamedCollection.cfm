@@ -738,8 +738,9 @@ div.vslider-item[aria-hidden="true"]{
 										heatmap.setMap(map);
 									}//end InitMap
 								</script>
-
-								<div id="map" class="h-100"></div>
+								<div class="col-12">
+									<div id="map" class="h-100" style="height: 800px;"></div>
+								</div>
 								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 
