@@ -499,7 +499,7 @@ div.vslider-item[aria-hidden="true"]{
 					<!---end specimen grid---> 
 					</section>
 					<div class="row mx-0">
-					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0>
+					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0 OR points.recordcount gt 0>
 					<div class="mt-1 col-12 col-md-6 float-left px-0 mt-3 mb-3">	
 							<section class="imagesLeft">
 							<h2 class="mt-3 mx-3">Images <span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records) </span></h2>
@@ -697,21 +697,12 @@ div.vslider-item[aria-hidden="true"]{
 								</div>
 							</section>
 																
-
-
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
 							<!---///////////////////////////////--->
 							<!---////////// BELOW //////////////--->
 							<!---///////////////////////////////--->									
 							<section class="heatmap">
-								<div id="floating-panel">
-									<button id="toggle-heatmap">Toggle Heatmap</button>
-									<button id="change-gradient">Change gradient</button>
-									<button id="change-radius">Change radius</button>
-									<button id="change-opacity">Change opacity</button>
-								</div>
-								<div id="map"></div>
 								<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 									SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
 									FROM locality
@@ -727,12 +718,9 @@ div.vslider-item[aria-hidden="true"]{
 										and flat.guid IS NOT NULL
 										and lat_long.dec_lat is not null
 								</cfquery>
-								
 								<h2 class="mt-4 text-left">Heat Map Example</h2>
 								<script>
-
 									function initMap() {
-										var ArrMarkers=[];
 										var heatmapData = [
 										<cfloop query="points">
 											new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
@@ -748,14 +736,18 @@ div.vslider-item[aria-hidden="true"]{
 											data: heatmapData
 										});
 										heatmap.setMap(map);
-
 									}//end InitMap
-
 								</script>
-					
-							<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-							<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-						</section><!--- end images & heat map---> 	
+								<div id="floating-panel">
+									<button id="toggle-heatmap">Toggle Heatmap</button>
+									<button id="change-gradient">Change gradient</button>
+									<button id="change-radius">Change radius</button>
+									<button id="change-opacity">Change opacity</button>
+								</div>
+								<div id="map" class="col-12 px-0"></div>
+								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
+							</section><!--- end images & heat map---> 	
 						<!---///////////////////////////////--->
 						<!---/// HIDE HEAT MAP FOR NOW ///// --->
 						<!---///////////////////////////////--->
