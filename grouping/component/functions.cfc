@@ -28,7 +28,7 @@ Update an existing arbitrary collection record (underscore_collection).
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
-			SELECT Distinct lat_long.locality_id,lat_long.dec_lat, lat_long.DEC_LONG 
+			SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
 			FROM locality
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 				on flat.locality_id = locality.locality_id
