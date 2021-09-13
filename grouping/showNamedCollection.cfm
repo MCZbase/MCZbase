@@ -735,24 +735,12 @@ div.vslider-item[aria-hidden="true"]{
 										var CenterLat =  42.378765;
 										var CenterLong = -71.115540;
 										var ArrMarkers=[];
-										var getPoints() {
+										var marker = {
 										<cfset arr = ArrayNew(1)>
 										<cfloop query="points">
-											new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
+											location: new google.maps.LatLng(#points.Latitude#,#points.Longitude#),
 										</cfloop>
-									
-									}
-										var Latitude;
-										var Longitude;
-
-										for (var i = 0; i < ServerData.length; i++) {
-
-											Latitude = ServerData[i].Latitude;
-											Longitude = ServerData[i].Longitude;
-
-											var marker = { location: new google.maps.LatLng(Latitude, Longitude) };
 											ArrMarkers.push(marker);
-
 										}
 
 										var mapCoordinates = {
