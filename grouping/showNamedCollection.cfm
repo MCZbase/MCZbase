@@ -760,8 +760,7 @@ div.vslider-item[aria-hidden="true"]{
 											data: heatmapData
 										});
 										heatmap.setMap(map);
-									}//end InitMap
-									  document
+										 document
 										.getElementById("toggle-heatmap")
 										.addEventListener("click", toggleHeatmap);
 									  document
@@ -807,6 +806,8 @@ div.vslider-item[aria-hidden="true"]{
 									function changeOpacity() {
 									  heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
 									}
+									}//end InitMap
+									 
 								</script>
 								<div class="col-12 px-0">
 									    <div id="floating-panel">
