@@ -762,17 +762,19 @@ div.vslider-item[aria-hidden="true"]{
 											data: heatmapData
 										});
 										heatmap.setMap(map);
-										 
+										 function changeOpacity() {
+  heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
+}
 									}//end InitMap
 									 
 								</script>
 								<div class="col-12 px-1">
-<!---									    <div id="floating-panel">
+									<div id="floating-panel">
 										  <button id="toggle-heatmap">Toggle Heatmap</button>
 										  <button id="change-gradient">Change gradient</button>
 										  <button id="change-radius">Change radius</button>
 										  <button id="change-opacity">Change opacity</button>
-										</div>--->
+									</div>
 									<div id="map" class="w-100" style="height: 800px;"></div>
 								</div>
 								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
