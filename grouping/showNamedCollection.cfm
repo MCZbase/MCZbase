@@ -273,12 +273,12 @@ div.vslider-item[aria-hidden="true"]{
 }
 @media screen and (max-width: 1199px) {
   #map {
-    height: 600px;
+    height: 400px;
   }
 }
 @media screen and (max-width: 480px) {
   #map {
-    height: 400px;
+    height: 350px;
   }
 }
 @media screen and (min-width: 1200px) {
