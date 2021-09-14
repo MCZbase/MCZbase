@@ -762,9 +762,13 @@ div.vslider-item[aria-hidden="true"]{
 											data: heatmapData
 										});
 										heatmap.setMap(map);
-										 function changeOpacity() {
-  heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
-}
+										function changeOpacity() {
+  											heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
+										}
+										  map.data.addListener("mouseover", (event) => {
+    										map.data.revertStyle();
+    											map.data.overrideStyle(event.feature, { strokeWeight: 8 });
+  });
 									}//end InitMap
 									 
 								</script>
