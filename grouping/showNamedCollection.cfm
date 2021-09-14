@@ -947,11 +947,11 @@ div.vslider-item[aria-hidden="true"]{
 								</cfquery>
 								<cfif collectors.recordcount GT 0>
 									<div class="col-12">
-									<h3 class="border-bottom border-dark">Collectors</h3>
+									<h3 class="border-bottom border-dark pb-2">Collectors</h3>
 									<cfif collectors.recordcount gt 50>
 										
 									<div class="accordion col-12 px-0 mb-3" id="accordionForCollectors">
-										<div class="card mb-2 bg-light ml-3">
+										<div class="card mb-2 bg-light">
 											<div class="card-header py-0">
 												<h3 class="h4 my-0">
 													<button type="button" class="headerLnk w-100 text-left collapsed" data-toggle="collapse" aria-expanded="false" data-target="##collapseCollectors">
