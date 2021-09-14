@@ -957,6 +957,8 @@ div.vslider-item[aria-hidden="true"]{
 											</div>
 										<cfelse>
 										</cfif>
+											</div>
+										</cfif>
 								<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectors_result">
 									SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
 									FROM
