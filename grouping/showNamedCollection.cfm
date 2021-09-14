@@ -772,7 +772,7 @@ div.vslider-item[aria-hidden="true"]{
 									  document
 										.getElementById("change-radius")
 										.addEventListener("click", changeRadius);
-									}
+									}//end InitMap
 
 									function toggleHeatmap() {
 									  heatmap.setMap(heatmap.getMap() ? null : map);
@@ -806,7 +806,7 @@ div.vslider-item[aria-hidden="true"]{
 									function changeOpacity() {
 									  heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
 									}
-									}//end InitMap
+								
 									 
 								</script>
 								<div class="col-12 px-0">
