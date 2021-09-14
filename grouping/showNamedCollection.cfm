@@ -762,23 +762,17 @@ div.vslider-item[aria-hidden="true"]{
 											data: heatmapData
 										});
 										heatmap.setMap(map);
-										function changeOpacity() {
-  											heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
-										}
-										  map.data.addListener("mouseover", (event) => {
-    										map.data.revertStyle();
-    											map.data.overrideStyle(event.feature, { strokeWeight: 8 });
-  });
+										
 									}//end InitMap
 									 
 								</script>
 								<div class="col-12 px-1">
-									<div id="floating-panel">
+<!---									<div id="floating-panel">
 										  <button id="toggle-heatmap">Toggle Heatmap</button>
 										  <button id="change-gradient">Change gradient</button>
 										  <button id="change-radius">Change radius</button>
 										  <button id="changeOpacity">Change opacity</button>
-									</div>
+									</div>--->
 									<div id="map" class="w-100" style="height: 800px;"></div>
 								</div>
 								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
@@ -953,12 +947,43 @@ div.vslider-item[aria-hidden="true"]{
 								</cfquery>
 								<cfif collectors.recordcount GT 0>
 									<div class="col-12">
-										<h3>Collectors</h3>
-										<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
-											<cfloop query="collectors">
-												<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
-											</cfloop>
-										</ul>
+									<h3>Collectors</h3>
+									<cfif collectors.recordcount gt 50>
+										
+									<div class="accordion col-12 col-lg-9 col-xl-7 px-0 mb-3" id="accordionForCollectors">
+										<div class="card mb-2 bg-light ml-3">
+										<h3 class="h4 my-0">
+											<button type="button" class="headerLnk w-100 text-left collapsed" data-toggle="collapse" aria-expanded="false" data-target="#collapseCollectors">
+											Collector count
+											</button>
+										</h3>
+											<div class="card-body px-3 py-0">
+												<div id="collapseCollectors" class="collapse" ari-labelledby="headingCollectors" data-parent="#accordionForCollectors">
+													<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+													<cfloop query="collectors">
+														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
+													</cfloop>
+													</ul>
+										
+									<cfelse>
+											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+												<cfloop query="collectors">
+													<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
+												</cfloop>
+											</ul>
+									</cfif>	
+											
+									<cfif collectors.recordcount gt 50>
+												</div>
+											</div>
+										</div>
+									</div>
+									<cfelse>
+									</cfif>
+										
+										
+										
+										
 									</div>
 								</cfif>
 							</div>
