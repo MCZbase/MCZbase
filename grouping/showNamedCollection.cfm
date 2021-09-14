@@ -962,7 +962,7 @@ div.vslider-item[aria-hidden="true"]{
 													</button>
 												</h3>
 											</div>
-											<div class="card-body px-3 py-0">
+											<div class="card-body pl-2 pr-0 py-0">
 												<div id="collapseCollectors"   ari-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapse show">
 													<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="collectors">
