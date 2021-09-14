@@ -947,7 +947,7 @@ div.vslider-item[aria-hidden="true"]{
 								</cfquery>
 								<cfif collectors.recordcount GT 0>
 									<div class="col-12">
-									<h3>Collectors</h3>
+									<h3 class="border-bottom border-dark">Collectors</h3>
 									<cfif collectors.recordcount gt 50>
 										
 									<div class="accordion col-12 px-0 mb-3" id="accordionForCollectors">
@@ -961,7 +961,7 @@ div.vslider-item[aria-hidden="true"]{
 											</div>
 											<div class="card-body px-3 py-0">
 												<div id="collapseCollectors" class="collapse" ari-labelledby="headingCollectors" data-parent="##accordionForCollectors">
-													<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+													<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="collectors">
 														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
 													</cfloop>
