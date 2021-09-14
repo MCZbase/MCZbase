@@ -58,6 +58,7 @@ limitations under the License.
 	top: 10px;
 	z-index: 5;
 }
+
 .vslider {
   	position: relative;
 /*	overflow: auto;*/
@@ -269,6 +270,11 @@ div.vslider-item[aria-hidden="true"]{
   position: absolute;
   top: 10px;
   z-index: 5;
+}
+@media screen and (min-width: 480px) {
+  #map {
+    height: 500px;
+  }
 }
 </style>
 	<cfset maxSpecimens = 11000>
