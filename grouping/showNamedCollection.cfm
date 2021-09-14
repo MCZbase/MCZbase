@@ -923,20 +923,20 @@ div.vslider-item[aria-hidden="true"]{
 								</cfquery>
 								<cfif islandsQuery.recordcount GT 0>
 									<div class="col-12">
-										<h3>Islands</h3>
+										<h3 class="pb-2 border-bottom border-dark">Islands</h3>
 										<cfif islandsQuery.recordcount gt 50>
 											<div class="accordion col-12 px-0 mb-3" id="accordionForIslands">
 												<div class="card mb-2 bg-light">
 													<div class="card-header py-0" id="headingIS">
 														<h3 class="h4 my-0">
-															<button type="button" class="headerLnk w-100 text-left collapsed" data-toggle="collapse" aria-expanded="true" data-target="##collapseIS">
+															<button type="button" class="headerLnk w-100 text-left collapsed" data-toggle="collapse" aria-expanded="false" data-target="##collapseIS">
 															#islandsQuery.recordcount# Islands
 															</button>
 														</h3>
 													</div>
 													<div class="card-body pl-2 pr-0 py-0">
-														<div id="collapseIS" aria-labelledby="headingIS" data-parent="##accordionForCollectors" class="collapse show">
-															<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+														<div id="collapseIS" aria-labelledby="headingIS" data-parent="##accordionForIslands" class="collapse show">
+															<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="islandsQuery">
 																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
 																</cfloop>
