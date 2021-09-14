@@ -760,23 +760,21 @@ div.vslider-item[aria-hidden="true"]{
 											data: heatmapData
 										});
 										heatmap.setMap(map);
-										 	document
-											.getElementById("toggle-heatmap")
-											.addEventListener("click", toggleHeatmap);
-										  	document
-											.getElementById("change-gradient")
-											.addEventListener("click", changeGradient);
-										  	document
-											.getElementById("change-opacity")
-											.addEventListener("click", changeOpacity);
-										  	document
-											.getElementById("change-radius")
-											.addEventListener("click", changeRadius);
-										
-										
-									
+										  document
+    .getElementById("toggle-heatmap")
+    .addEventListener("click", toggleHeatmap);
+  document
+    .getElementById("change-gradient")
+    .addEventListener("click", changeGradient);
+  document
+    .getElementById("change-opacity")
+    .addEventListener("click", changeOpacity);
+  document
+    .getElementById("change-radius")
+    .addEventListener("click", changeRadius);
 }
-									function toggleHeatmap() {
+
+function toggleHeatmap() {
   heatmap.setMap(heatmap.getMap() ? null : map);
 }
 
@@ -808,6 +806,7 @@ function changeRadius() {
 function changeOpacity() {
   heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
 }
+									}//end InitMap
 									 
 								</script>
 								<div class="col-12 px-0">
