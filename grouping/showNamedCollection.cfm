@@ -759,8 +759,7 @@ div.vslider-item[aria-hidden="true"]{
 										var heatmap = new google.maps.visualization.HeatmapLayer({
 											data: heatmapData
 										});
-										heatmap.setMap(map);
-									 document
+										 document
     .getElementById("toggle-heatmap")
     .addEventListener("click", toggleHeatmap);
   document
@@ -772,6 +771,9 @@ div.vslider-item[aria-hidden="true"]{
   document
     .getElementById("change-radius")
     .addEventListener("click", changeRadius);
+										
+									//	heatmap.setMap(map);
+									
 }
 									function toggleHeatmap() {
   heatmap.setMap(heatmap.getMap() ? null : map);
