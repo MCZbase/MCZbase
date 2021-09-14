@@ -955,7 +955,7 @@ div.vslider-item[aria-hidden="true"]{
 											<div class="card-header py-0">
 												<h3 class="h4 my-0">
 													<button type="button" class="headerLnk w-100 text-left collapsed" data-toggle="collapse" aria-expanded="false" data-target="##collapseCollectors">
-													Collector count
+													#collectors.recordcount#
 													</button>
 												</h3>
 											</div>
@@ -968,7 +968,7 @@ div.vslider-item[aria-hidden="true"]{
 													</ul>
 										
 									<cfelse>
-											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
 												<cfloop query="collectors">
 													<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
 												</cfloop>
