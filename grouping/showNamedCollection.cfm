@@ -276,6 +276,11 @@ div.vslider-item[aria-hidden="true"]{
     height: 500px;
   }
 }
+@media screen and (min-width: 1200px) {
+  #map {
+    height: 800px;
+  }
+}
 </style>
 	<cfset maxSpecimens = 11000>
 	<cfset maxRandomSpecimenImages = 12>
@@ -779,7 +784,7 @@ div.vslider-item[aria-hidden="true"]{
 										  <button id="change-radius">Change radius</button>
 										  <button id="changeOpacity">Change opacity</button>
 									</div>--->
-									<div id="map" class="w-100" style="height: 800px;"></div>
+									<div id="map" class="w-100"></div>
 								</div>
 								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
