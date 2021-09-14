@@ -950,7 +950,7 @@ div.vslider-item[aria-hidden="true"]{
 									<h3>Collectors</h3>
 									<cfif collectors.recordcount gt 50>
 										
-									<div class="accordion col-12 col-lg-9 col-xl-7 px-0 mb-3" id="accordionForCollectors">
+									<div class="accordion col-12 px-0 mb-3" id="accordionForCollectors">
 										<div class="card mb-2 bg-light ml-3">
 											<div class="card-header py-0">
 												<h3 class="h4 my-0">
