@@ -759,20 +759,21 @@ div.vslider-item[aria-hidden="true"]{
 										var heatmap = new google.maps.visualization.HeatmapLayer({
 											data: heatmapData
 										});
-										 document
-    .getElementById("toggle-heatmap")
-    .addEventListener("click", toggleHeatmap);
-  document
-    .getElementById("change-gradient")
-    .addEventListener("click", changeGradient);
-  document
-    .getElementById("change-opacity")
-    .addEventListener("click", changeOpacity);
-  document
-    .getElementById("change-radius")
-    .addEventListener("click", changeRadius);
-										
 										heatmap.setMap(map);
+										 	document
+											.getElementById("toggle-heatmap")
+											.addEventListener("click", toggleHeatmap);
+										  	document
+											.getElementById("change-gradient")
+											.addEventListener("click", changeGradient);
+										  	document
+											.getElementById("change-opacity")
+											.addEventListener("click", changeOpacity);
+										  	document
+											.getElementById("change-radius")
+											.addEventListener("click", changeRadius);
+										
+										
 									
 }
 									function toggleHeatmap() {
