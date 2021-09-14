@@ -945,16 +945,6 @@ div.vslider-item[aria-hidden="true"]{
 										and collector.collector_role = 'c'
 									ORDER BY person.last_name, preferred_agent_name.agent_name asc
 								</cfquery>
-									<style>
-										##collapseCollectors.collapse {height: 400px;max-height: 400px;}
-									</style>
-									<script>
-										$(".more").toggle(function(){
-												$(this).text("less..").siblings(".complete").show();    
-											}, function(){
-												$(this).text("more..").siblings(".complete").hide();    
-											});
-									</script>
 								<cfif collectors.recordcount GT 0>
 									<div class="col-12">
 									<h3 class="border-bottom border-dark pb-2">Collectors</h3>
@@ -975,7 +965,6 @@ div.vslider-item[aria-hidden="true"]{
 													<cfloop query="collectors">
 														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name# Collectors</a> </li>
 													</cfloop>
-														<span class="more">more</span>
 													</ul>
 										
 									<cfelse>
