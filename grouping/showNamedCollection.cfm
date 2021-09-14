@@ -283,7 +283,7 @@ div.vslider-item[aria-hidden="true"]{
 }
 @media screen and (min-width: 1200px) {
   #map {
-    height: 800px;
+    height: 600px;
   }
 }
 </style>
