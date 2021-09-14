@@ -945,7 +945,7 @@ div.vslider-item[aria-hidden="true"]{
 											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
 												<cfloop query="islandsQuery">
 													<li class="list-group-item col-12 col-md-3 float-left"> 
-														<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> 
+														<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#islandsQuery.island#</a> 
 													</li>
 												</cfloop>
 											</ul>
