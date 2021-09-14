@@ -751,6 +751,12 @@ div.vslider-item[aria-hidden="true"]{
 											new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 										</cfloop>
 										];
+										var Cambridge = new google.maps.LatLng(42.378765, -71.115540);
+										map = new google.maps.Map(document.getElementById('map'), {
+											center: Cambridge,
+											zoom: 2,
+											mapTypeId: 'satellite'
+										});
 																				 document
     .getElementById("toggle-heatmap")
     .addEventListener("click", toggleHeatmap);
@@ -797,12 +803,6 @@ function changeRadius() {
 function changeOpacity() {
   heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
 }
-										var Cambridge = new google.maps.LatLng(42.378765, -71.115540);
-										map = new google.maps.Map(document.getElementById('map'), {
-											center: Cambridge,
-											zoom: 2,
-											mapTypeId: 'satellite'
-										});
 										var heatmap = new google.maps.visualization.HeatmapLayer({
 											data: heatmapData
 										});
