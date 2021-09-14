@@ -924,13 +924,39 @@ div.vslider-item[aria-hidden="true"]{
 								<cfif islandsQuery.recordcount GT 0>
 									<div class="col-12">
 										<h3>Islands</h3>
-										<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
-											<cfloop query="islandsQuery">
-												<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
-											</cfloop>
-										</ul>
-									</div>
-								</cfif>
+										<cfif islandsQuery.recordcount gt 50>
+											<div class="accordion col-12 px-0 mb-3" id="accordionForIslands">
+												<div class="card mb-2 bg-light">
+													<div class="card-header py-0" id="headingIS">
+														<h3 class="h4 my-0">
+															<button type="button" class="headerLnk w-100 text-left collapsed" data-toggle="collapse" aria-expanded="true" data-target="##collapseIS">
+															#islandsQuery.recordcount# Islands
+															</button>
+														</h3>
+													</div>
+													<div class="card-body pl-2 pr-0 py-0">
+														<div id="collapseIS" aria-labelledby="headingIS" data-parent="##accordionForCollectors" class="collapse show">
+															<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+																<cfloop query="islandsQuery">
+																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
+																</cfloop>
+															</ul>
+										<cfelse>
+											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+												<cfloop query="islandsQuery">
+													<li class="list-group-item col-12 col-md-3 float-left"> 
+														<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> 
+													</li>
+												</cfloop>
+											</ul>
+										</cfif>	
+										<cfif collectors.recordcount gt 50>
+														</div>
+													</div>
+												</div>
+											</div>
+										<cfelse>
+										</cfif>
 								<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectors_result">
 									SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
 									FROM
@@ -952,7 +978,7 @@ div.vslider-item[aria-hidden="true"]{
 										
 									<div class="accordion col-12 px-0 mb-3" id="accordionForCollectors">
 										<div class="card mb-2 bg-light">
-											<div class="card-header py-0">
+											<div class="card-header py-0" id="headingCollectors">
 												<h3 class="h4 my-0">
 													<button type="button" class="headerLnk w-100 text-left collapsed" data-toggle="collapse" aria-expanded="true" data-target="##collapseCollectors">
 													#collectors.recordcount# Collectors
@@ -960,7 +986,7 @@ div.vslider-item[aria-hidden="true"]{
 												</h3>
 											</div>
 											<div class="card-body pl-2 pr-0 py-0">
-												<div id="collapseCollectors"   ari-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapse show">
+												<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapse show">
 													<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="collectors">
 														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name# Collectors</a> </li>
