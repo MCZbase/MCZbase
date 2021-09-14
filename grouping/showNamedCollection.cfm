@@ -718,7 +718,7 @@ div.vslider-item[aria-hidden="true"]{
 										and flat.guid IS NOT NULL
 										and lat_long.dec_lat is not null
 								</cfquery>
-								<h2 class="mt-4 text-left">Heat Map Example</h2>
+								<h2 class="mt-4 text-left">Heat Map of Georeferenced Specimen Locations (Map centered on Cambridge, MA)</h2>
 								<script>
 									function initMap() {
 										var heatmapData = [
