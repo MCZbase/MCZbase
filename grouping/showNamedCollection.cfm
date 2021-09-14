@@ -271,14 +271,14 @@ div.vslider-item[aria-hidden="true"]{
   top: 10px;
   z-index: 5;
 }
+@media screen and (max-width: 1199px) {
+  #map {
+    height: 600px;
+  }
+}
 @media screen and (max-width: 480px) {
   #map {
     height: 400px;
-  }
-}
-	@media screen and (max-width: 1199px) {
-  #map {
-    height: 600px;
   }
 }
 @media screen and (min-width: 1200px) {
