@@ -247,6 +247,29 @@ div.vslider-item[aria-hidden="true"]{
 	background-color: lightgrey;
 	border-radius: 10px;
 }
+#floating-panel {
+  position: absolute;
+  top: 10px;
+  left: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: "Roboto", "sans-serif";
+  line-height: 30px;
+  padding-left: 10px;
+}
+
+#floating-panel {
+  background-color: #fff;
+  border: 1px solid #999;
+  left: 25%;
+  padding: 5px;
+  position: absolute;
+  top: 10px;
+  z-index: 5;
+}
 </style>
 	<cfset maxSpecimens = 11000>
 	<cfset maxRandomSpecimenImages = 12>
@@ -703,6 +726,7 @@ div.vslider-item[aria-hidden="true"]{
 							<!---////////// BELOW //////////////--->
 							<!---///////////////////////////////--->									
 							<section class="heatmap">
+								  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 								<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 									SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
 									FROM locality
