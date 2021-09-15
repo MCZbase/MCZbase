@@ -916,16 +916,30 @@ div.vslider-item[aria-hidden="true"]{
 															</button>
 														</h3>
 													</div>
+													<div class="card-body pl-2 pr-0 py-0">
+														<div id="collapseMar" aria-labelledby="headingMar" data-parent="##accordionForMarine" class="collapse">
+															<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
+																<cfloop query="marine">
+																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
+																</cfloop>
+															</ul>
+									<cfelse>
 															<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
 																<cfloop query="marine">
 																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
 																</cfloop>
 															</ul>
 														</div>
+									</cfif>
+									<cfif marine.recordcount gt 30>
+														</div>
+													</div>
+												</div>
+											</div>
+										<cfelse>
+										</cfif>
 											</div>
 										</cfif>
-									</div>
-								</cfif>
 								<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
 									SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
 									FROM
