@@ -906,13 +906,40 @@ div.vslider-item[aria-hidden="true"]{
 								<cfif marine.recordcount GT 0>
 									<div class="col-12">
 										<h3 class="px-2">Oceans</h3>
-										<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
-											<cfloop query="marine">
-												<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
-											</cfloop>
-										</ul>
-									</div>
-								</cfif>
+										<cfif islandsQuery.recordcount gt 30>
+											<div class="accordion col-12 px-0 mb-3" id="accordionForIslands">
+												<div class="card mb-2 bg-light">
+													<div class="card-header py-0" id="headingIS">
+														<h3 class="h4 my-0">
+															<button type="button" class="headerLnk w-100 text-left collapsed" data-toggle="collapse" aria-expanded="false" data-target="##collapseIS">
+															#islandsQuery.recordcount# Islands
+															</button>
+														</h3>
+													</div>
+													<div class="card-body pl-2 pr-0 py-0">
+														<div id="collapseIS" aria-labelledby="headingIS" data-parent="##accordionForIslands" class="collapse">
+															<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
+																<cfloop query="marine">
+																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
+																</cfloop>
+															</ul>
+									<cfelse>
+															<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
+																<cfloop query="marine">
+																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
+																</cfloop>
+															</ul>
+														</div>
+									</cfif>
+									<cfif islandsQuery.recordcount gt 30>
+														</div>
+													</div>
+												</div>
+											</div>
+										<cfelse>
+										</cfif>
+											</div>
+										</cfif>
 								<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
 									SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
 									FROM
