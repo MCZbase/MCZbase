@@ -769,8 +769,13 @@ div.vslider-item[aria-hidden="true"]{
 										];
 										var Cambridge = new google.maps.LatLng(42.378765, -71.115540);
 										map = new google.maps.Map(document.getElementById('map'), {
-											center: Cambridge,
-											zoom: 2,
+											var markers = [];//some array
+											var bounds = new google.maps.LatLngBounds();
+												for (var i = 0; i < markers.length; i++) {
+ 													bounds.extend(markers[i]);
+												}
+												map.fitBounds(bounds);
+											setZoom: 2,
 											mapTypeId: 'satellite'
 										});
 																			
