@@ -1038,7 +1038,7 @@ div.vslider-item[aria-hidden="true"]{
 									ORDER BY person.last_name, preferred_agent_name.agent_name asc
 								</cfquery>
 								<cfif collectors.recordcount GT 0>
-									<div class="col-12">
+									<div class="col-12 px-0">
 									<h3 class="border-bottom border-dark pb-2">Collectors</h3>
 									<cfif collectors.recordcount gt 50>
 										
