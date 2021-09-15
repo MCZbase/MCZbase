@@ -768,18 +768,19 @@ div.vslider-item[aria-hidden="true"]{
 										</cfloop>
 										];
 										var Cambridge = new google.maps.LatLng(42.378765, -71.115540);
-											var bounds = new google.maps.LatLngBounds();
-												for (var i = 0; i < heatmapData.length; i++) {
- 													bounds.extend(heatmapData[i]);
-												}
-												map.fitBounds(bounds);
 										map = new google.maps.Map(document.getElementById('map'), {
-											
-											setCenter: Cambridge,
-											setZoom: 2,
+											center: bounds.getCenter()),
+											zoom: 2,
 											mapTypeId: 'satellite'
 										});
-																			
+										if(heatmapData > 1){
+										map.fitBounds(bounds);
+										}
+										else if (heatmapData == 1) {
+											var listener = google.maps.event.addListener(map, "idle", function() { 
+												map.setCenter(mapBounds.getCenter());
+												map.setZoom(14);
+											}
 										var heatmap = new google.maps.visualization.HeatmapLayer({
 											data: heatmapData
 										});
