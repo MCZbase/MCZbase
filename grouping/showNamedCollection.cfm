@@ -622,8 +622,6 @@ div.vslider-item[aria-hidden="true"]{
 									left join underscore_collection
 									on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									and flat.guid IS NOT NULL
-									and lat_long.dec_lat is not null
 							</cfquery>
 							<cfquery name="points3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 								SELECT median(lat_long.dec_long as mylng) 
@@ -637,8 +635,6 @@ div.vslider-item[aria-hidden="true"]{
 									left join underscore_collection
 									on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									and flat.guid IS NOT NULL
-									and lat_long.dec_long is not null
 							</cfquery>
 							
 						<cfif points.recordcount gt 0>
@@ -652,9 +648,9 @@ div.vslider-item[aria-hidden="true"]{
 											new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 										</cfloop>
 										];
-										var mylat = map.getCenter().lat(#points2.mylat#);
-										var mylng = map.getCenter().lng(#points3.mylng#);	
-										var Cambridge = new google.maps.LatLng(mylat, mylng);
+										var mylat = map.getCenter().lat('#points2.mylat#');
+										var mylng = map.getCenter().lng('#points3.mylng#');	
+										var Cambridge = new google.maps.LatLng('mylat', 'mylng');
 										map = new google.maps.Map(document.getElementById('map'), {
 							//				center: Cambridge,
 											center: Cambridge,
