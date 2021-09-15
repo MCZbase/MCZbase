@@ -307,7 +307,7 @@
 				</cfloop>
 			</cfif--->
 			<cfset specialmail="">
-			<!---cfif loan.loan_status EQ "open under-review">
+			<cfif loan.loan_status EQ "open under-review">
 				<cfset toaddresses = ValueList(cc_agents.address,";")>
 				<cfset ccaddresses = "">
 				<cfset specialmail="underreview">
@@ -318,11 +318,11 @@
 			<cfelse>
 				<cfset toaddresses = ValueList(to_agents.address,";")>
 				<cfset ccaddresses = ValueList(cc_agents.address,";")>
-			</cfif--->
+			</cfif>
 			<cfset toaddresses = ValueList(cc_agents.address,";")>
 			<cfmail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
 						to="#toaddresses#"
-						<!---cc="#ccaddresses#"--->
+						cc="#ccaddresses#"
 						bcc="bhaley@oeb.harvard.edu"
 						subject="MCZbase Notification for Exhibition Loan Number: #loan.loan_number#"
 						from="no_reply_loan_notification@#Application.fromEmail#"

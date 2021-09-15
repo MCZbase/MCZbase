@@ -300,7 +300,7 @@
 				</cfloop>
 			</cfif--->
 			<cfset specialmail="">
-			<!---cfif loan.loan_status EQ "open under-review">
+			<cfif loan.loan_status EQ "open under-review">
 				<cfset toaddresses = ValueList(cc_agents.address,";")>
 				<cfset ccaddresses = "">
 				<cfset specialmail="underreview">
@@ -311,14 +311,14 @@
 			<cfelse>
 				<cfset toaddresses = ValueList(to_agents.address,";")>
 				<cfset ccaddresses = ValueList(cc_agents.address,";")>
-			</cfif--->
+			</cfif>
 
 			<cfset toaddresses = ValueList(cc_agents.address,";")>
 			<cfset uscodes="US,USA,UNITED STATES,UNITED STATES OF AMERICA,U.S.A">
 
 			<cfmail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
 						to="#toaddresses#"
-						<!--->cc="#ccaddresses#"--->
+						cc="#ccaddresses#"
 						bcc="bhaley@oeb.harvard.edu"
 						subject="MCZbase Notification for Loan Number: #loan.loan_number#"
 						from="no_reply_loan_notification@#Application.fromEmail#"
@@ -390,9 +390,9 @@
 					<li>Provide the name of the courier (e.g., FedEx, DHL, trackable post), the Airway Bill number, and an
 						invoice of contents (scientific names and number of specimens of each) to the MCZ Curatorial
 						Associate <strong>at least 72 hours in advance of any shipment.</strong></li>
-					<li>Include â€œ<strong>USFWS CLEARANCE REQUIRED</strong>â€� on the International waybill AND in red on all sides of the
-						outside of the package. (Note: â€œScientific research specimens, not restricted, Special Provision A180
-						appliesâ€� should also be noted on the waybill and package if applicable.)</li>
+					<li>Include <strong>USFWS CLEARANCE REQUIRED</strong> on the International waybill AND in red on all sides of the
+						outside of the package. (Note: Scientific research specimens, not restricted, Special Provision A180
+						applies should also be noted on the waybill and package if applicable.)</li>
 					<li>Include three copies of all documentation in the waybill pouch.</li>
 				</ul>
 				</cfif>
@@ -416,7 +416,7 @@
 					<!---changed reminder type to I for social distancing period, for "internal"--->
 					<cfquery name="upLogTable" datasource="uam_god">
 						insert into LOAN_REMINDER_LOG(agent_id, date_sent, transaction_id, reminder_type, TOADDRESSES)
-						values(#receivedBy.agent_id#, SYSDATE, #loan.transaction_id#, 'I', '#toaddresses#')
+						values(#receivedBy.agent_id#, SYSDATE, #loan.transaction_id#, 'R', '#toaddresses#')
 					</cfquery>
 			</cfif>
 		</cfloop>
