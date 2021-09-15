@@ -623,7 +623,7 @@ div.vslider-item[aria-hidden="true"]{
 									on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 							</cfquery>							
-						<cfif points.recordcount gt 0>
+							<cfif points.recordcount gt 0>
 							<section class="heatmap mt-2">
 								<h2 class="mt-4 px-3 text-left">Heat Map of Georeferenced Specimen Locations <span class="small">(Map centered on Cambridge, MA)</span></h2>
 								<script>
@@ -663,8 +663,8 @@ div.vslider-item[aria-hidden="true"]{
 								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 
 							</section><!--- end images & heat map---> 	
-						<cfelse>
-						</cfif>
+							<cfelse>
+							</cfif>
 						<!---///////////////////////////////--->
 						<!---/// HIDE HEAT MAP FOR NOW ///// --->
 						<!---///////////////////////////////--->
@@ -820,7 +820,7 @@ div.vslider-item[aria-hidden="true"]{
 									</div>
 								</div>
 							</section>
-					</div>	
+						</div>	
 					</cfif>
 															
 
@@ -960,7 +960,7 @@ div.vslider-item[aria-hidden="true"]{
 								<cfif islandsQuery.recordcount GT 0>
 									<div class="col-12">
 										<h3 class="pb-2 border-bottom border-dark">Islands</h3>
-										<cfif islandsQuery.recordcount gt 50>
+										<cfif islandsQuery.recordcount gt 30 and cfclient.properties.width lte 760>
 											<div class="accordion col-12 px-0 mb-3" id="accordionForIslands">
 												<div class="card mb-2 bg-light">
 													<div class="card-header py-0" id="headingIS">
