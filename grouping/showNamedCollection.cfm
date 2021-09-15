@@ -661,7 +661,7 @@ div.vslider-item[aria-hidden="true"]{
 									<!--- figure out widths of sub blocks, adapt to number of blocks --->
 									<cfswitch expression="#otherImageTypes#">
 										<cfcase value="1">
-											<cfset colClass = "col-md-9 mx-auto float-none">
+											<cfset colClass = "col-md-8 mx-auto float-none">
 										</cfcase>
 										<cfcase value="2">
 											<cfset colClass = "col-md-6 mx-auto float-left">
