@@ -769,10 +769,10 @@ div.vslider-item[aria-hidden="true"]{
 										];
 										var Cambridge = new google.maps.LatLng(42.378765, -71.115540);
 										map = new google.maps.Map(document.getElementById('map'), {
-											var markers = [];//some array
+											
 											var bounds = new google.maps.LatLngBounds();
-												for (var i = 0; i < markers.length; i++) {
- 													bounds.extend(markers[i]);
+												for (var i = 0; i < heatmapData.length; i++) {
+ 													bounds.extend(heatmapData[i]);
 												}
 												map.fitBounds(bounds);
 											setZoom: 2,
