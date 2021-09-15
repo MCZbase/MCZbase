@@ -960,7 +960,6 @@ div.vslider-item[aria-hidden="true"]{
 								<cfif islandsQuery.recordcount GT 0>
 									<div class="col-12">
 										<h3 class="pb-2 border-bottom border-dark">Islands</h3>
-										<cfclientsettings detectDevice=true />
 										<cfif islandsQuery.recordcount gt 30>
 											<cfclient.properties.width lte 760>
 											<div class="accordion col-12 px-0 mb-3" id="accordionForIslands">
