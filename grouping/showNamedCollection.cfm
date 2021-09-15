@@ -904,7 +904,7 @@ div.vslider-item[aria-hidden="true"]{
 									ORDER BY flat.continent_ocean asc
 								</cfquery>
 								<cfif marine.recordcount GT 0>
-									<div class="col-12">
+									<div class="col-12 px-0">
 										<h3 class="px-2">Oceans</h3>
 										<cfif marine.recordcount gt 30>
 											<div class="accordion col-12 px-0 mb-3" id="accordionForMarine">
@@ -965,7 +965,7 @@ div.vslider-item[aria-hidden="true"]{
 									</cfquery>
 								</cfif>
 								<cfif geogQuery.recordcount GT 0>
-									<div class="col-12">
+									<div class="col-12 px-0">
 										<h3>Geography</h3>
 										<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
 											<cfloop query="geogQuery">
@@ -985,7 +985,7 @@ div.vslider-item[aria-hidden="true"]{
 									ORDER BY flat.continent_ocean, flat.island asc
 								</cfquery>
 								<cfif islandsQuery.recordcount GT 0>
-									<div class="col-12">
+									<div class="col-12 px-0">
 										<h3 class="pb-2 border-bottom border-dark">Islands</h3>
 										<cfif islandsQuery.recordcount gt 30>
 	
