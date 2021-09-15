@@ -758,6 +758,7 @@ div.vslider-item[aria-hidden="true"]{
 										and flat.guid IS NOT NULL
 										and lat_long.dec_lat is not null
 								</cfquery>
+							<cfif points.Latitude gt 0>
 								<h2 class="mt-4 px-3 text-left">Heat Map of Georeferenced Specimen Locations <span class="small">(Map centered on Cambridge, MA)</span></h2>
 								<script>
 									function initMap() {
@@ -793,7 +794,8 @@ div.vslider-item[aria-hidden="true"]{
 								</div>
 								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-
+							</cfif>
+							<cfelse>
 							</section><!--- end images & heat map---> 	
 						<!---///////////////////////////////--->
 						<!---/// HIDE HEAT MAP FOR NOW ///// --->
