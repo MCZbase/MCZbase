@@ -767,7 +767,15 @@ div.vslider-item[aria-hidden="true"]{
 											new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points['Latitude'][0]#,#points['Longitude'][0]#<cfelse>42.378765,-71.115540</cfif>),
 										</cfloop>
 										];
-										
+										google.maps.event.addListenerOnce(map, 'heatmapData', function(event) {
+											this.setZoom(map.getZoom()-1);
+
+											if (this.getZoom() > 15) {
+												this.setZoom(15);
+											}
+										});
+										map.fitBounds(bounds);
+
 										var Cambridge = new google.maps.LatLng(heatmapData);
 										map = new google.maps.Map(document.getElementById('map'), {
 											center: Cambridge,
