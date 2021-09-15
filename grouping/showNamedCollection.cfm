@@ -916,28 +916,12 @@ div.vslider-item[aria-hidden="true"]{
 															</button>
 														</h3>
 													</div>
-													<div class="card-body pl-2 pr-0 py-0">
-														<div id="collapseMar" aria-labelledby="headingMar" data-parent="##accordionForMarine" class="collapse">
-															<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
-																<cfloop query="marine">
-																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
-																</cfloop>
-															</ul>
-									<cfelse>
 															<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
 																<cfloop query="marine">
 																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
 																</cfloop>
 															</ul>
 														</div>
-									</cfif>
-									<cfif marine.recordcount gt 30>
-														</div>
-													</div>
-												</div>
-											</div>
-										<cfelse>
-										</cfif>
 											</div>
 										</cfif>
 								<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
@@ -969,7 +953,9 @@ div.vslider-item[aria-hidden="true"]{
 										<h3>Geography</h3>
 										<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
 											<cfloop query="geogQuery">
-												<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> </li>
+												<li class="list-group-item col-12 col-md-3 float-left"> 
+													<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
+												</li>
 											</cfloop>
 										</ul>
 									</div>
@@ -988,7 +974,6 @@ div.vslider-item[aria-hidden="true"]{
 									<div class="col-12 px-0">
 										<h3 class="pb-2 border-bottom border-dark">Islands</h3>
 										<cfif islandsQuery.recordcount gt 30>
-	
 											<div class="accordion col-12 px-0 mb-3" id="accordionForIslands">
 												<div class="card mb-2 bg-light">
 													<div class="card-header py-0" id="headingIS">
