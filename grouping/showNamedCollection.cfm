@@ -544,7 +544,7 @@ div.vslider-item[aria-hidden="true"]{
 							<h2 class="mt-3 mx-3">Images <span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="col-12 px-1">
-										<div class="carousel_background border rounded float-left w-100 p-2">
+										<div class="carousel_background border rounded float-left w-100 p-2 mb-3">
 											<h3 class="mx-2 text-center">#specimenImgs.recordcount# Specimens</h3>
 											<div class="vslider w-100 float-left bg-light" id="vslider-base">
 												<cfset i=1>
