@@ -740,25 +740,25 @@ div.vslider-item[aria-hidden="true"]{
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
 							<!---///////////////////////////////--->
 							<!---////////// BELOW //////////////--->
-							<!---///////////////////////////////--->									
+							<!---///////////////////////////////--->
+							<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+							<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
+								SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
+								FROM locality
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+									on flat.locality_id = locality.locality_id
+									left join lat_long
+									on lat_long.locality_id = flat.locality_id
+									left join underscore_relation
+									on underscore_relation.collection_object_id = flat.collection_object_id
+									left join underscore_collection
+									on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									and flat.guid IS NOT NULL
+									and lat_long.dec_lat is not null
+							</cfquery>
+						<cfif points.recordcount gt 0>
 							<section class="heatmap">
-								<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-								<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
-									SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
-									FROM locality
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-										on flat.locality_id = locality.locality_id
-										left join lat_long
-										on lat_long.locality_id = flat.locality_id
-										left join underscore_relation
-										on underscore_relation.collection_object_id = flat.collection_object_id
-										left join underscore_collection
-										on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										and flat.guid IS NOT NULL
-										and lat_long.dec_lat is not null
-								</cfquery>
-							<cfif points.recordcount gt 0>
 								<h2 class="mt-4 px-3 text-left">Heat Map of Georeferenced Specimen Locations <span class="small">(Map centered on Cambridge, MA)</span></h2>
 								<script>
 									function initMap() {
@@ -794,9 +794,10 @@ div.vslider-item[aria-hidden="true"]{
 								</div>
 								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-							</cfif>
-							<cfelse>
+
 							</section><!--- end images & heat map---> 	
+						<cfelse>
+						</cfif>
 						<!---///////////////////////////////--->
 						<!---/// HIDE HEAT MAP FOR NOW ///// --->
 						<!---///////////////////////////////--->
