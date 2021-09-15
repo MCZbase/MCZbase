@@ -763,8 +763,8 @@ div.vslider-item[aria-hidden="true"]{
 									function initMap() {
 										var heatmapData = [
 										<cfloop query="points">
-											var coords = '#points.Latitude#,#points.Longitude#'
-											new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+											
+											new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points['Latitude'][0]#,#points['Longitude'][0]#<cfelse>42.378765,-71.115540</cfif>),
 										</cfloop>
 										];
 										
