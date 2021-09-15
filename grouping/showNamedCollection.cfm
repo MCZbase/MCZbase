@@ -771,16 +771,9 @@ div.vslider-item[aria-hidden="true"]{
 									
 										map = new google.maps.Map(document.getElementById('map'), {
 										
-											mapTypeId: 'satellite'
-												if(heatmapData > 1){
-										map.fitBounds(bounds);
-										}
-										else if (heatmapData == 1) {
-											var listener = google.maps.event.addListener(map, "idle", function() { 
-												map.setCenter(mapBounds.getCenter());
-												map.setZoom(14);
-											}
-										});
+											mapTypeId: 'satellite',
+											center: heatmapData,
+											zoom: 2
 										
 										var heatmap = new google.maps.visualization.HeatmapLayer({
 											data: heatmapData
