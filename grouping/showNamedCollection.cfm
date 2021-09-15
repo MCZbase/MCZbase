@@ -761,12 +761,13 @@ div.vslider-item[aria-hidden="true"]{
 								<h2 class="mt-4 px-3 text-left">Heat Map of Georeferenced Specimen Locations <span class="small">(Map centered on Cambridge, MA)</span></h2>
 								<script>
 									function initMap() {
-
+										var coords = '#points.Latitude#,#points.Longitude#'
 										var heatmapData = [
 										<cfloop query="points">
-											new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+											new google.maps.LatLng(<cfif len(points.Latitude)gt 0>coords<cfelse>42.378765,-71.115540</cfif>),
 										</cfloop>
 										];
+										
 										var Cambridge = new google.maps.LatLng(42.378765, -71.115540);
 										map = new google.maps.Map(document.getElementById('map'), {
 											center: Cambridge,
