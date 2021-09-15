@@ -611,7 +611,7 @@ div.vslider-item[aria-hidden="true"]{
 									and lat_long.dec_lat is not null
 							</cfquery>
 						<cfif points.recordcount gt 0>
-							<section class="heatmap">
+							<section class="heatmap mt-2">
 								<h2 class="mt-4 px-3 text-left">Heat Map of Georeferenced Specimen Locations <span class="small">(Map centered on Cambridge, MA)</span></h2>
 								<script>
 									function initMap() {
@@ -656,7 +656,7 @@ div.vslider-item[aria-hidden="true"]{
 						<!---///////////////////////////////--->
 						<!---/////////// ABOVE /////////////--->
 						<!---///////////////////////////////--->	
-							<section class="otherImages">
+							<section class="otherImages mt-3">
 								<div class="other-images">
 									<!--- figure out widths of sub blocks, adapt to number of blocks --->
 									<cfswitch expression="#otherImageTypes#">
