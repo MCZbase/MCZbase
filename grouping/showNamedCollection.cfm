@@ -639,6 +639,7 @@ div.vslider-item[aria-hidden="true"]{
 										map = new google.maps.Map(document.getElementById('map'), {
 											center: Cambridge,
 											zoom: 2,
+											maxZoom: 10,
 											mapTypeId: 'satellite'
 										});
 								
