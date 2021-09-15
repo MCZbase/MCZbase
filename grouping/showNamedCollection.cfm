@@ -611,7 +611,7 @@ div.vslider-item[aria-hidden="true"]{
 									and lat_long.dec_lat is not null
 							</cfquery>
 							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
-								SELECT median(lat_long.dec_lat as mylat) 
+								SELECT median(lat_long.dec_lat) as mylat
 								FROM locality
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 									on flat.locality_id = locality.locality_id
@@ -624,7 +624,7 @@ div.vslider-item[aria-hidden="true"]{
 								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 							</cfquery>
 							<cfquery name="points3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
-								SELECT median(lat_long.dec_long as mylng) 
+								SELECT median(lat_long.dec_long) as mylng 
 								FROM locality
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 									on flat.locality_id = locality.locality_id
@@ -648,9 +648,9 @@ div.vslider-item[aria-hidden="true"]{
 											new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 										</cfloop>
 										];
-										var mylat = map.getCenter().lat('#points2.mylat#');
-										var mylng = map.getCenter().lng('#points3.mylng#');	
-										var Cambridge = new google.maps.LatLng('mylat', 'mylng');
+										var mylat = map.getCenter().lat(#points2.mylat#);
+										var mylng = map.getCenter().lng(#points3.mylng#);	
+										var Cambridge = new google.maps.LatLng(mylat, mylng);
 										map = new google.maps.Map(document.getElementById('map'), {
 							//				center: Cambridge,
 											center: Cambridge,
