@@ -768,7 +768,7 @@ div.vslider-item[aria-hidden="true"]{
 										</cfloop>
 										];
 										var Cambridge = new google.maps.LatLng(42.378765, -71.115540);
-										map = new google.maps.Map(document.getElementById('map'), {
+										map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
 											center: Cambridge,
 											zoom: 2,
 											mapTypeId: 'satellite'
