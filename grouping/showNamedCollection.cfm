@@ -962,7 +962,6 @@ div.vslider-item[aria-hidden="true"]{
 										<h3 class="pb-2 border-bottom border-dark">Islands</h3>
 										<cfclientsettings detectDevice=true />
 										<cfif islandsQuery.recordcount gt 30>
-											
 											<cfclient.properties.width lte 760>
 											<div class="accordion col-12 px-0 mb-3" id="accordionForIslands">
 												<div class="card mb-2 bg-light">
@@ -980,7 +979,7 @@ div.vslider-item[aria-hidden="true"]{
 																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
 																</cfloop>
 															</ul>
-											</cfif>
+											</cfclient>
 										<cfelse>
 											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
 												<cfloop query="islandsQuery">
