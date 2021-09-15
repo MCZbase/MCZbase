@@ -904,7 +904,7 @@ div.vslider-item[aria-hidden="true"]{
 									ORDER BY flat.continent_ocean asc
 								</cfquery>
 								<cfif marine.recordcount GT 0>
-									<div class="col-12 px-0">
+									<div class="col-12">
 										<h3 class="px-2">Oceans</h3>
 										<cfif marine.recordcount gt 30>
 											<div class="accordion col-12 px-0 mb-3" id="accordionForMarine">
