@@ -768,13 +768,14 @@ div.vslider-item[aria-hidden="true"]{
 										</cfloop>
 										];
 										var Cambridge = new google.maps.LatLng(42.378765, -71.115540);
-										map = new google.maps.Map(document.getElementById('map'), {
-											
 											var bounds = new google.maps.LatLngBounds();
 												for (var i = 0; i < heatmapData.length; i++) {
  													bounds.extend(heatmapData[i]);
 												}
 												map.fitBounds(bounds);
+										map = new google.maps.Map(document.getElementById('map'), {
+											
+											setCenter: Cambridge,
 											setZoom: 2,
 											mapTypeId: 'satellite'
 										});
