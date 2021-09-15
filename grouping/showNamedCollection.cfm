@@ -924,6 +924,8 @@ div.vslider-item[aria-hidden="true"]{
 														</div>
 											</div>
 										</cfif>
+									</div>
+								</cfif>
 								<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
 									SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
 									FROM
