@@ -966,7 +966,7 @@ div.vslider-item[aria-hidden="true"]{
 								</cfif>
 								<cfif geogQuery.recordcount GT 0>
 									<div class="col-12 px-0">
-										<h3>Geography</h3>
+										<h3 class="px-2">Geography</h3>
 										<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
 											<cfloop query="geogQuery">
 												<li class="list-group-item col-12 col-md-3 float-left"> 
