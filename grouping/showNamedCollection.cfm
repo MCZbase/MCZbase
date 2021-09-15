@@ -987,7 +987,7 @@ div.vslider-item[aria-hidden="true"]{
 												</cfloop>
 											</ul>
 										</cfif>	
-										<cfif islandsQuery.recordcount gt 50>
+										<cfif islandsQuery.recordcount gt 30>
 														</div>
 													</div>
 												</div>
