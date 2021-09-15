@@ -742,7 +742,7 @@ div.vslider-item[aria-hidden="true"]{
 							<!---////////// BELOW //////////////--->
 							<!---///////////////////////////////--->									
 							<section class="heatmap">
-								  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+								<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 								<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 									SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
 									FROM locality
@@ -758,7 +758,7 @@ div.vslider-item[aria-hidden="true"]{
 										and flat.guid IS NOT NULL
 										and lat_long.dec_lat is not null
 								</cfquery>
-							<cfif points.Latitude gt 0>
+							<cfif points.recordcount gt 0>
 								<h2 class="mt-4 px-3 text-left">Heat Map of Georeferenced Specimen Locations <span class="small">(Map centered on Cambridge, MA)</span></h2>
 								<script>
 									function initMap() {
