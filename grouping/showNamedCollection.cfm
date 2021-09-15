@@ -769,8 +769,8 @@ div.vslider-item[aria-hidden="true"]{
 										];
 										var Cambridge = new google.maps.LatLng(42.378765, -71.115540);
 										map = new google.maps.Map(document.getElementById('map'), {
-											center: bounds.getCenter()),
-											zoom: 2,
+											//center: 
+											//zoom: 2,
 											mapTypeId: 'satellite'
 										});
 										if(heatmapData > 1){
