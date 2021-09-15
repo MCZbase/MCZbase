@@ -611,7 +611,7 @@ div.vslider-item[aria-hidden="true"]{
 									and lat_long.dec_lat is not null
 							</cfquery>
 							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
-								SELECT median(lat_long.dec_lat) as mylat
+								SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
 								FROM locality
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 									on flat.locality_id = locality.locality_id
@@ -622,21 +622,7 @@ div.vslider-item[aria-hidden="true"]{
 									left join underscore_collection
 									on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-							</cfquery>
-							<cfquery name="points3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
-								SELECT median(lat_long.dec_long) as mylng 
-								FROM locality
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-									on flat.locality_id = locality.locality_id
-									left join lat_long
-									on lat_long.locality_id = flat.locality_id
-									left join underscore_relation
-									on underscore_relation.collection_object_id = flat.collection_object_id
-									left join underscore_collection
-									on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-							</cfquery>
-							
+							</cfquery>							
 						<cfif points.recordcount gt 0>
 							<section class="heatmap mt-2">
 								<h2 class="mt-4 px-3 text-left">Heat Map of Georeferenced Specimen Locations <span class="small">(Map centered on Cambridge, MA)</span></h2>
@@ -649,7 +635,7 @@ div.vslider-item[aria-hidden="true"]{
 										</cfloop>
 										];
 								
-										var Cambridge = new google.maps.LatLng(#points2.mylat#, #points3.mylng#);
+										var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 										map = new google.maps.Map(document.getElementById('map'), {
 											center: Cambridge,
 											zoom: 2,
