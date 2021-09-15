@@ -775,7 +775,7 @@ div.vslider-item[aria-hidden="true"]{
 										});
 																			
 										var heatmap = new google.maps.visualization.HeatmapLayer({
-											data: heatmapData
+											data: heatmapData()
 										});
 										heatmap.setMap(map);
 										
