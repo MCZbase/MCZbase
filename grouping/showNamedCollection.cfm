@@ -563,7 +563,7 @@ div.vslider-item[aria-hidden="true"]{
 															<cfset ImageScaleToFit(#src#,1000,1000)>
 														<cfif fileExists(#src#)>
 															<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																<cfimage source="src" action="writeToBrowser" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+																<cfimage source="src" action="writeToBrowser">
 															</a>
 															<p class="mt-2 bg-light small">#trimmedAltText#</p>
 														<cfelse>
