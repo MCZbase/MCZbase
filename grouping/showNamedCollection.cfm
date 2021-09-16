@@ -560,6 +560,7 @@ div.vslider-item[aria-hidden="true"]{
 													<div class="w-100 bg-light float-left px-3 h-auto">
 														<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 														<cfset src=specimenImagesForCarousel['media_uri'][i]>
+															<cfset ImageScaleToFit(#src#,1000,1000)>
 														<cfif fileExists(#src#)>
 															<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
