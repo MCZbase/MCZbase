@@ -559,7 +559,6 @@ div.vslider-item[aria-hidden="true"]{
 													</cfif>
 														<cfimage source="https://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2009_06_15/IMG_009424.JPG" name="myImage">
 														<!--- Turn on antialiasing to improve image quality. --->
-														<cfset ImageSetAntialiasing(myImage,"on")>
 														<cfset ImageScaleToFit(myImage,1000,1000)>
 														<!--- Display the modified image in a browser. --->
 														<cfimage source="#myImage#" action="writeToBrowser">
