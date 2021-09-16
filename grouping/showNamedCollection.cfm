@@ -561,7 +561,12 @@ div.vslider-item[aria-hidden="true"]{
 														<!--- Turn on antialiasing to improve image quality. --->
 														<cfset ImageScaleToFit(myImage,1000,1000)>
 														<!--- Display the modified image in a browser. --->
-														<cfimage source="#myImage#" action="writeToBrowser">
+														<cfscript>
+														cfimage (
+															action = "writeToBrowser",
+															source = variables.myImage
+														);
+													</cfscript>
 													<div class="w-100 bg-light float-left px-3 h-auto">
 														<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 														<cfset src=specimenImagesForCarousel['media_uri'][i]>
