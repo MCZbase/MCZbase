@@ -923,13 +923,15 @@ div.vslider-item[aria-hidden="true"]{
 																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
 																</cfloop>
 															</ul>
+														</div>
+													</div>
 									<cfelse>
 															<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
 																<cfloop query="marine">
 																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
 																</cfloop>
 															</ul>
-														</div>
+													
 									</cfif>
 									<cfif marine.recordcount gt 30>
 														</div>
