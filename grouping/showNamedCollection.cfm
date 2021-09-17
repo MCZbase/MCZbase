@@ -420,8 +420,23 @@ div.vslider-item[aria-hidden="true"]{
 				ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
-			<!---Took off DBMS_RANDOM.RANDOM until a large number of images are related with "show agent" since it slows query down--->
 		</cfquery>
+		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
+			SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
+			FROM locality
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+				on flat.locality_id = locality.locality_id
+				left join lat_long
+				on lat_long.locality_id = flat.locality_id
+				left join underscore_relation
+				on underscore_relation.collection_object_id = flat.collection_object_id
+				left join underscore_collection
+				on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				and flat.guid IS NOT NULL
+				and lat_long.dec_lat is not null
+		</cfquery>
+		
 		<cfif collectingImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
 		</cfif>
@@ -595,21 +610,7 @@ div.vslider-item[aria-hidden="true"]{
 							<!---////////// BELOW //////////////--->
 							<!---///////////////////////////////--->
 							<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-							<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
-								SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
-								FROM locality
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-									on flat.locality_id = locality.locality_id
-									left join lat_long
-									on lat_long.locality_id = flat.locality_id
-									left join underscore_relation
-									on underscore_relation.collection_object_id = flat.collection_object_id
-									left join underscore_collection
-									on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									and flat.guid IS NOT NULL
-									and lat_long.dec_lat is not null
-							</cfquery>
+
 							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 								SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
 								FROM locality
@@ -623,7 +624,7 @@ div.vslider-item[aria-hidden="true"]{
 									on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 							</cfquery>							
-							<cfif points.recordcount gt 0>
+							<cfif points2.recordcount gt 0>
 							<section class="heatmap mt-2">
 								<h2 class="mt-4 px-3 text-left">Heat Map of Georeferenced Specimen Locations <span class="small">(Map centered on Cambridge, MA)</span></h2>
 								<script>
