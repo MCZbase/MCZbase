@@ -556,11 +556,10 @@ div.vslider-item[aria-hidden="true"]{
 					<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0 OR points.recordcount gt 0>
 					<div class="mt-1 col-12 col-md-6 float-left px-0 mt-3 mb-3">	
 							<section class="imagesLeft">
-							<h2 class="mt-3 mx-3">Images <span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records) </span></h2>
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="col-12 px-1">
 										<div class="carousel_background border rounded float-left w-100 p-2 mb-3">
-											<h3 class="mx-2 text-center">#specimenImgs.recordcount# Specimens</h3>
+											<h3 class="mx-2 text-center">#specimenImgs.recordcount# Specimens <br><span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records) </span></h3>
 											<div class="vslider w-100 float-left bg-light" id="vslider-base">
 												<cfset i=1>
 												<cfloop query="specimenImagesForCarousel">
