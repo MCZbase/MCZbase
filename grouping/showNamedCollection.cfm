@@ -48,9 +48,8 @@ limitations under the License.
 	text-align: center;
 	font-family: "Roboto", "sans-serif";
 	background-color: #fff;
-	border: 1px solid #ccc;
 	border-radius: 5px;
-	padding: 6px;
+	padding: 0 0 3px 0;
 	position: relative;
 	line-height: 20px;
 	float:left;
