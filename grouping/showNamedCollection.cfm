@@ -822,8 +822,6 @@ div.vslider-item[aria-hidden="true"]{
 								</section>
 							</div>	
 						</cfif>
-															
-
 						<section class="overview-links col mt-4 float-left">
 							<div class=""> 
 						<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
@@ -904,7 +902,7 @@ div.vslider-item[aria-hidden="true"]{
 									</cfquery>
 									<cfif marine.recordcount GT 0>
 										<div class="col-12">
-											<h3 class="px-2">Oceans</h3>
+											<h3 class="px-2 pb-2 border-bottom border-dark">Oceans</h3>
 											<cfif marine.recordcount gt 30>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForMarine">
 													<div class="card mb-2 bg-light">
@@ -917,7 +915,7 @@ div.vslider-item[aria-hidden="true"]{
 														</div>
 														<div class="card-body pl-2 pr-0 py-0">
 															<div id="collapseMar" aria-labelledby="headingMar" data-parent="##accordionForMarine" class="collapse">
-																<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
+																<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="marine">
 																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
 																	</cfloop>
@@ -961,9 +959,9 @@ div.vslider-item[aria-hidden="true"]{
 										</cfquery>
 									</cfif>
 									<cfif geogQuery.recordcount GT 0>
-										<div class="col-12 px-0">
-											<h3 class="px-2">Geography</h3>
-											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+										<div class="col-12">
+											<h3 class="px-2 pb-2 border-bottom border-dark">Geography</h3>
+											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
 												<cfloop query="geogQuery">
 													<li class="list-group-item col-12 col-md-3 float-left"> 
 														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
@@ -983,8 +981,8 @@ div.vslider-item[aria-hidden="true"]{
 										ORDER BY flat.continent_ocean, flat.island asc
 									</cfquery>
 									<cfif islandsQuery.recordcount GT 0>
-										<div class="col-12 px-0">
-											<h3 class="pb-2 border-bottom border-dark">Islands</h3>
+										<div class="col-12">
+											<h3 class="px-2 pb-2 border-bottom border-dark">Islands</h3>
 											<cfif islandsQuery.recordcount gt 30>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForIslands">
 													<div class="card mb-2 bg-light">
