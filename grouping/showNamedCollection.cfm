@@ -624,7 +624,7 @@ div.vslider-item[aria-hidden="true"]{
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>							
 								<cfif points.recordcount gt 0>
-								<section class="heatmap mt-4 float-left w-100">
+								<section class="heatmap mt-3 float-left w-100">
 									
 									<script>
 										function initMap() {
@@ -651,7 +651,7 @@ div.vslider-item[aria-hidden="true"]{
 
 									</script>
 									<div class="col-12 px-1 float-left border rounded">
-										<h2 class="px-3 text-center">Heat Map of Georeferenced Specimen Locations</h2>
+										<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
 	<!---									<div id="floating-panel">
 											  <button id="toggle-heatmap">Toggle Heatmap</button>
 											  <button id="change-gradient">Change gradient</button>
