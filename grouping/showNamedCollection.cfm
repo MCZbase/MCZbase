@@ -837,7 +837,7 @@ div.vslider-item[aria-hidden="true"]{
 											<div class="col-12 pt-3">
 												<h3>
 												Associated Agent
-												</h2>
+												</h3>
 												<p class="rounded-0 border-top border-dark"> <a class="h4 px-2 pt-3 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a> </p>
 											</div>
 										</cfif>
@@ -881,13 +881,36 @@ div.vslider-item[aria-hidden="true"]{
 										</cfquery>
 									</cfif>
 									<cfif taxonQuery.recordcount GT 0>
-										<div class="col-12">
-											<h3>Taxa</h3>
-											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0 border-top border-dark">
-												<cfloop query="taxonQuery">
-													<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
-												</cfloop>
-											</ul>
+										<div class="col-12 pb-2">
+											<h3 class="px-2 border-bottom border-dark">Taxa</h3>
+											<cfif taxonQuery.recordcount gt 30>
+												<div class="accordion col-12 px-0 mb-3" id="accordionForTaxa">
+													<div class="card mb-2 bg-light">
+														<div class="card-header py-0" id="headingTax">
+															<h3 class="h4 my-0">
+																<button type="button" class="headerLnk w-100 text-left collapsed" data-toggle="collapse" aria-expanded="false" data-target="##collapseTax">
+																#taxonQuery.recordcount# Taxa
+																</button>
+															</h3>
+														</div>
+														<div class="card-body pl-2 pr-0 py-0">
+															<div id="collapseTax" aria-labelledby="headingTax" data-parent="##accordionForTaxa" class="collapse">
+																<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+																	<cfloop query="taxonQuery">
+																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
+																	</cfloop>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											<cfelse>
+												<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+													<cfloop query="taxonQuery">
+														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
+													</cfloop>
+												</ul>
+											</cfif>
 										</div>
 									</cfif>
 									<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="marine_result">
