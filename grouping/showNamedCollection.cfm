@@ -50,13 +50,12 @@ limitations under the License.
 	background-color: #fff;
 	border-radius: 5px;
 	padding: 0 0 3px 0;
-	position: absolute;
+	position: relative;
 	line-height: 20px;
 	float:left;
 	width: auto;
 	margin: 0 auto;
 	z-index: 5;
-	bottom: -5px;
 }
 
 .vslider {
@@ -671,13 +670,13 @@ div.vslider-item[aria-hidden="true"]{
 									<div class="col-12 px-0 float-left">
 										<div class="border rounded px-1 mx-1 pb-1">
 											<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
-										<div id="floating-panel" class="w-100 mx-auto">
+											<div id="map" class="w-100 rounded"></div>
+											<div id="floating-panel" class="w-100 mx-auto">
 												<button id="toggle-heatmap" class="border-info rounded">Toggle Heatmap</button>
 												<button id="change-gradient" class="border-info rounded">Change gradient</button>
 												<button id="change-radius" class="border-info rounded">Change radius</button>
 												<button id="change-opacity" class="border-info rounded">Change opacity</button>
 											</div>
-											<div id="map" class="w-100 rounded"></div>
 										</div>
 									</div>
 									<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
