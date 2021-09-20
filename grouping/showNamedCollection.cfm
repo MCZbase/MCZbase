@@ -554,7 +554,7 @@ div.vslider-item[aria-hidden="true"]{
 					</section>
 					<div class="row mx-0">
 						<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0 OR points.recordcount gt 0>
-						<div class="mt-1 col-12 col-md-6 float-left px-0 mt-3 mb-3">	
+						<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">	
 								<section class="imagesLeft">
 									<cfif specimenImagesForCarousel.recordcount gt 0>
 										<div class="col-12 px-1">
@@ -624,8 +624,8 @@ div.vslider-item[aria-hidden="true"]{
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>							
 								<cfif points2.recordcount gt 0>
-								<section class="heatmap mt-3 float-left w-100">
-									<h2 class="mt-2 px-3 text-center">Heat Map of Georeferenced Specimen Locations</h2>
+								<section class="heatmap mt-4 float-left w-100">
+									<h2 class="px-3 text-center">Heat Map of Georeferenced Specimen Locations</h2>
 									<script>
 										function initMap() {
 
@@ -825,7 +825,7 @@ div.vslider-item[aria-hidden="true"]{
 						<section class="overview-links col mt-4 float-left">
 							<div class=""> 
 						<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
-								<div class="my-2 py-3 border-bottom-black">
+								<div class="mb-2 pb-3 border-bottom-black">
 									<h2 class="mt-3 px-2">Overview</h2>
 									<cfif len(getNamedGroup.description) GT 0 >
 										<p class="px-2">#getNamedGroup.description#</p>
