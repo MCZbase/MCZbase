@@ -670,7 +670,7 @@ div.vslider-item[aria-hidden="true"]{
 							<!---///////////////////////////////--->
 							<!---/////////// ABOVE /////////////--->
 							<!---///////////////////////////////--->	
-								<section class="otherImages mt-3">
+								<section class="otherImages float-left w-100 mt-4">
 									<div class="other-images">
 										<!--- figure out widths of sub blocks, adapt to number of blocks --->
 										<cfswitch expression="#otherImageTypes#">
