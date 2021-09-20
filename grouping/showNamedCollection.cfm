@@ -925,6 +925,8 @@ div.vslider-item[aria-hidden="true"]{
 															</ul>
 														</div>
 													</div>
+												</div>
+											</div>
 									<cfelse>
 															<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
 																<cfloop query="marine">
@@ -933,13 +935,6 @@ div.vslider-item[aria-hidden="true"]{
 															</ul>
 													
 									</cfif>
-									<cfif marine.recordcount gt 30>
-														</div>
-													</div>
-												</div>
-											</div>
-										<cfelse>
-										</cfif>
 											</div>
 										</cfif>
 								<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
