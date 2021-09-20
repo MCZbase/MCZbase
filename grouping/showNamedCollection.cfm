@@ -623,7 +623,7 @@ div.vslider-item[aria-hidden="true"]{
 										on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>							
-								<cfif points2.recordcount gt 0>
+								<cfif points.recordcount gt 0>
 								<section class="heatmap mt-4 float-left w-100">
 									<h2 class="px-3 text-center">Heat Map of Georeferenced Specimen Locations</h2>
 									<script>
