@@ -806,8 +806,8 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-2">
-							<label for="paste_to_preferred"class="data-entry-label">Copy to (blank) preferred</label>
-							<input type="button" id="paste_to_preferred" class="btn btn-secondary btn-xs" value="Copy" onclick="pastFMLtoPreferred();">
+							<label for="paste_to_preferred"class="data-entry-label">Copy to preferred name</label>
+							<input type="button" id="paste_to_preferred" class="btn btn-secondary btn-xs" value="Copy" onclick="pasteFMLtoPreferred();">
 						</div>
 						<script>
 							function pasteFMLtoPreferred() {
