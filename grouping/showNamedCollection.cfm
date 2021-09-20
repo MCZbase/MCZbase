@@ -54,6 +54,8 @@ limitations under the License.
 	position: relative;
 	line-height: 20px;
 	float:left;
+	width: auto;
+	margin: 0 auto;
 	z-index: 5;
 }
 
