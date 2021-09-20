@@ -47,16 +47,14 @@ limitations under the License.
 #floating-panel {
 	text-align: center;
 	font-family: "Roboto", "sans-serif";
-	line-height: 30px;
 	background-color: #fff;
 	border: 1px solid #ccc;
 	border-radius: 5px;
-	left: 25%;
-	left: 0;
 	padding: 5px;
 	padding-left: 10px;
 	position: relative;
-	top: 10px;
+	line-height: 14px;
+	float:left;
 	z-index: 5;
 }
 
@@ -249,29 +247,7 @@ div.vslider-item[aria-hidden="true"]{
 	background-color: lightgrey;
 	border-radius: 10px;
 }
-#floating-panel {
-  position: absolute;
-  top: 10px;
-  left: 25%;
-  z-index: 5;
-  background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
-  text-align: center;
-  font-family: "Roboto", "sans-serif";
-  line-height: 30px;
-  padding-left: 10px;
-}
 
-#floating-panel {
-  background-color: #fff;
-  border: 1px solid #999;
-  left: 25%;
-  padding: 5px;
-  position: absolute;
-  top: 10px;
-  z-index: 5;
-}
 @media screen and (max-width: 1199px) {
   #map {
     height: 400px;
