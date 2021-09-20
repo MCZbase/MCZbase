@@ -1029,7 +1029,7 @@ div.vslider-item[aria-hidden="true"]{
 									</cfquery>
 									<cfif islandsQuery.recordcount GT 0>
 										<div class="col-12 pb-2">
-											<h3 class="px-2 border-bottom border-dark">Islands</h3>
+											<h3 class="px-2 pb-1 border-bottom border-dark">Islands</h3>
 											<cfif islandsQuery.recordcount gt 30>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForIslands">
 													<div class="card mb-2 bg-light">
@@ -1078,7 +1078,7 @@ div.vslider-item[aria-hidden="true"]{
 									</cfquery>
 									<cfif collectors.recordcount GT 0>
 										<div class="col-12 pb-2">
-											<h3 class="border-bottom border-dark px-2">Collectors</h3>
+											<h3 class="border-bottom pb-1 border-dark px-2">Collectors</h3>
 											<cfif collectors.recordcount gt 50>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForCollectors">
 													<div class="card mb-2 bg-light">
