@@ -826,7 +826,7 @@ div.vslider-item[aria-hidden="true"]{
 							<div class=""> 
 						<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 								<div class="mb-2 pb-3 border-bottom-black">
-									<h2 class="mt-3 px-2">Overview</h2>
+									<h2 class="px-2">Overview</h2>
 									<cfif len(getNamedGroup.description) GT 0 >
 										<p class="px-2">#getNamedGroup.description#</p>
 									</cfif>
