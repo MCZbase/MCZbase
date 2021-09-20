@@ -650,8 +650,8 @@ div.vslider-item[aria-hidden="true"]{
 										}//end InitMap
 
 									</script>
-									<div class="col-12 px-2 pb-2 float-left">
-										<div class="border rounded">
+									<div class="col-12 float-left">
+										<div class="border rounded px-1 pb-1">
 											<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
 	<!---									<div id="floating-panel">
 												<button id="toggle-heatmap">Toggle Heatmap</button>
