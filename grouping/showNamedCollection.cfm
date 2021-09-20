@@ -50,10 +50,9 @@ limitations under the License.
 	background-color: #fff;
 	border: 1px solid #ccc;
 	border-radius: 5px;
-	padding: 5px;
-	padding-left: 10px;
+	padding: 6px;
 	position: relative;
-	line-height: 14px;
+	line-height: 20px;
 	float:left;
 	z-index: 5;
 }
@@ -672,7 +671,7 @@ div.vslider-item[aria-hidden="true"]{
 											<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
 										<div id="floating-panel">
 												<button id="toggle-heatmap" class="border-info rounded">Toggle Heatmap</button>
-												<button id="change-gradient" class="border-info rouned">Change gradient</button>
+												<button id="change-gradient" class="border-info rounded">Change gradient</button>
 												<button id="change-radius" class="border-info rounded">Change radius</button>
 												<button id="change-opacity" class="border-info rounded">Change opacity</button>
 											</div>
