@@ -826,19 +826,19 @@ div.vslider-item[aria-hidden="true"]{
 							<div class=""> 
 						<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 								<div class="my-2 py-3 border-bottom-black">
-									<h2 class="mt-3">Overview</h2>
+									<h2 class="mt-3 px-2">Overview</h2>
 									<cfif len(getNamedGroup.description) GT 0 >
-										<p>#getNamedGroup.description#</p>
+										<p class="px-2">#getNamedGroup.description#</p>
 									</cfif>
 								</div>
 								<div class="row pb-4">
 									<cfif len(underscore_agent_id) GT 0 >
 										<cfif getNamedGroup.agent_name NEQ "[No Agent]" >
-											<div class="col-12 pt-3 pb-3">
+											<div class="col-12 pt-3 pb-2">
 												<h3 class="px-2 pb-1 border-bottom border-dark">
 												Associated Agent
 												</h3>
-												<p class="rounded-0 border-top border-dark"> 
+												<p class="rounded-0"> 
 													<a class="h4 px-2 py-2 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a> </p>
 											</div>
 										</cfif>
