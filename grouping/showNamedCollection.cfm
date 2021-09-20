@@ -646,7 +646,6 @@ div.vslider-item[aria-hidden="true"]{
 												document
 													.getElementById("change-radius")!
 													.addEventListener("click", changeRadius);
-										}
 										function toggleHeatmap(){
 											heatmap.setMap(heatmap.getMap() ? null : map);
 										}
@@ -669,11 +668,9 @@ div.vslider-item[aria-hidden="true"]{
 											];
 											heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 										}
-
 										function changeRadius() {
 											heatmap.set("radius", heatmap.get("radius") ? null : 20);
 										}
-
 										function changeOpacity() {
 											heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
 										}
