@@ -684,7 +684,7 @@ div.vslider-item[aria-hidden="true"]{
 											];
 									}//end InitMap
 									</script>
-									<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
+									
 									<div class="col-12 px-0 float-left">
 										<div class="border rounded px-1 mx-1 pb-1">
 											<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
@@ -699,7 +699,7 @@ div.vslider-item[aria-hidden="true"]{
 									</div>
 									<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 								
-
+<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 								</section><!--- end images & heat map---> 	
 								<cfelse>
 								</cfif>
