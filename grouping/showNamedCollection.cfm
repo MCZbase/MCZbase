@@ -697,7 +697,7 @@ div.vslider-item[aria-hidden="true"]{
 												<button id="toggle-heatmap">Toggle Heatmap</button>
 												<button id="change-gradient">Change gradient</button>
 												<button id="change-radius">Change radius</button>
-												<button id="changeOpacity">Change opacity</button>
+												<button id="change-opacity">Change opacity</button>
 											</div>
 											<div id="map" class="w-100 rounded"></div>
 										</div>
