@@ -50,12 +50,13 @@ limitations under the License.
 	background-color: #fff;
 	border-radius: 5px;
 	padding: 0 0 3px 0;
-	position: relative;
+	position: absolute;
 	line-height: 20px;
 	float:left;
 	width: auto;
 	margin: 0 auto;
 	z-index: 5;
+	bottom: -5px;
 }
 
 .vslider {
