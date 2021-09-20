@@ -937,145 +937,135 @@ div.vslider-item[aria-hidden="true"]{
 									</cfif>
 											</div>
 										</cfif>
-								<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
-									SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
-									FROM
-										underscore_relation 
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										and flat.country is not null
-									ORDER BY flat.country asc
-								</cfquery>
-								<cfif geogQuery.recordcount GT 0 AND geogQuery.recordcount LT 5 >
-									<!--- try expanding to families instead if very few orders --->
 									<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
-										SELECT DISTINCT flat.country || ': ' || flat.state_prov as geog, flat.state_prov as geoglink, 'state_prov' as rank,
-											flat.country, flat.state_prov
+										SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
 										FROM
 											underscore_relation 
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 												on underscore_relation.collection_object_id = flat.collection_object_id
 										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.state_prov is not null
-										ORDER BY flat.country asc, flat.state_prov asc
+											and flat.country is not null
+										ORDER BY flat.country asc
 									</cfquery>
-								</cfif>
-								<cfif geogQuery.recordcount GT 0>
-									<div class="col-12 px-0">
-										<h3 class="px-2">Geography</h3>
-										<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
-											<cfloop query="geogQuery">
-												<li class="list-group-item col-12 col-md-3 float-left"> 
-													<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
-												</li>
-											</cfloop>
-										</ul>
-									</div>
-								</cfif>
-								<cfquery name="islandsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="islandsQuery_result">
-									SELECT DISTINCT flat.continent_ocean, flat.island as island
-									FROM
-										underscore_relation 
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										and flat.island is not null
-									ORDER BY flat.continent_ocean, flat.island asc
-								</cfquery>
-								<cfif islandsQuery.recordcount GT 0>
-									<div class="col-12 px-0">
-										<h3 class="pb-2 border-bottom border-dark">Islands</h3>
-										<cfif islandsQuery.recordcount gt 30>
-											<div class="accordion col-12 px-0 mb-3" id="accordionForIslands">
-												<div class="card mb-2 bg-light">
-													<div class="card-header py-0" id="headingIS">
-														<h3 class="h4 my-0">
-															<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseIS">
-															#islandsQuery.recordcount# Islands
-															</button>
-														</h3>
-													</div>
-													<div class="card-body pl-2 pr-0 py-0">
-														<div id="collapseIS" aria-labelledby="headingIS" data-parent="##accordionForIslands" class="">
-															<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
-																<cfloop query="islandsQuery">
-																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
-																</cfloop>
-															</ul>
-										<cfelse>
-											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
-												<cfloop query="islandsQuery">
+									<cfif geogQuery.recordcount GT 0 AND geogQuery.recordcount LT 5 >
+										<!--- try expanding to families instead if very few orders --->
+										<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
+											SELECT DISTINCT flat.country || ': ' || flat.state_prov as geog, flat.state_prov as geoglink, 'state_prov' as rank,
+												flat.country, flat.state_prov
+											FROM
+												underscore_relation 
+												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+													on underscore_relation.collection_object_id = flat.collection_object_id
+											WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+												and flat.state_prov is not null
+											ORDER BY flat.country asc, flat.state_prov asc
+										</cfquery>
+									</cfif>
+									<cfif geogQuery.recordcount GT 0>
+										<div class="col-12 px-0">
+											<h3 class="px-2">Geography</h3>
+											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+												<cfloop query="geogQuery">
 													<li class="list-group-item col-12 col-md-3 float-left"> 
-														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#" target="_blank">#islandsQuery.island#</a> 
+														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
 													</li>
 												</cfloop>
 											</ul>
-										</cfif>	
-										<cfif islandsQuery.recordcount gt 30>
+										</div>
+									</cfif>
+									<cfquery name="islandsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="islandsQuery_result">
+										SELECT DISTINCT flat.continent_ocean, flat.island as island
+										FROM
+											underscore_relation 
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											and flat.island is not null
+										ORDER BY flat.continent_ocean, flat.island asc
+									</cfquery>
+									<cfif islandsQuery.recordcount GT 0>
+										<div class="col-12 px-0">
+											<h3 class="pb-2 border-bottom border-dark">Islands</h3>
+											<cfif islandsQuery.recordcount gt 30>
+												<div class="accordion col-12 px-0 mb-3" id="accordionForIslands">
+													<div class="card mb-2 bg-light">
+														<div class="card-header py-0" id="headingIS">
+															<h3 class="h4 my-0">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseIS">
+																#islandsQuery.recordcount# Islands
+																</button>
+															</h3>
+														</div>
+														<div class="card-body pl-2 pr-0 py-0">
+															<div id="collapseIS" aria-labelledby="headingIS" data-parent="##accordionForIslands" class="">
+																<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+																	<cfloop query="islandsQuery">
+																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
+																	</cfloop>
+																</ul>
+															</div>
 														</div>
 													</div>
 												</div>
-											</div>
-										<cfelse>
-										</cfif>
-											</div>
-										</cfif>
-								<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectors_result">
-									SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
-									FROM
-										underscore_relation 
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-										left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-										left join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
-										left join person on preferred_agent_name.agent_id = person.person_id
-									WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										and flat.collectors is not null
-										and collector.collector_role = 'c'
-									ORDER BY person.last_name, preferred_agent_name.agent_name asc
-								</cfquery>
-								<cfif collectors.recordcount GT 0>
-									<div class="col-12 px-0">
-									<h3 class="border-bottom border-dark pb-2">Collectors</h3>
-									<cfif collectors.recordcount gt 50>
-										
-									<div class="accordion col-12 px-0 mb-3" id="accordionForCollectors">
-										<div class="card mb-2 bg-light">
-											<div class="card-header py-0" id="headingCollectors">
-												<h3 class="h4 my-0">
-													<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseCollectors">
-													#collectors.recordcount# Collectors
-													</button>
-												</h3>
-											</div>
-											<div class="card-body pl-2 pr-0 py-0">
-												<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="">
-													<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
-													<cfloop query="collectors">
-														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name# Collectors</a> </li>
+											<cfelse>
+												<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+													<cfloop query="islandsQuery">
+														<li class="list-group-item col-12 col-md-3 float-left"> 
+															<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#" target="_blank">#islandsQuery.island#</a> 
+														</li>
 													</cfloop>
-													</ul>
-										
-									<cfelse>
-											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
-												<cfloop query="collectors">
-													<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
-												</cfloop>
-											</ul>
-									</cfif>	
-											
-									<cfif collectors.recordcount gt 50>
-												</div>
-											</div>
+												</ul>
+											</cfif>
 										</div>
-									</div>
-									<cfelse>
 									</cfif>
-										
-										
-										
-										
+									<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectors_result">
+										SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
+										FROM
+											underscore_relation 
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+											left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+											left join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
+											left join person on preferred_agent_name.agent_id = person.person_id
+										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											and flat.collectors is not null
+											and collector.collector_role = 'c'
+										ORDER BY person.last_name, preferred_agent_name.agent_name asc
+									</cfquery>
+									<cfif collectors.recordcount GT 0>
+										<div class="col-12 px-0">
+											<h3 class="border-bottom border-dark pb-2">Collectors</h3>
+											<cfif collectors.recordcount gt 50>
+
+												<div class="accordion col-12 px-0 mb-3" id="accordionForCollectors">
+													<div class="card mb-2 bg-light">
+														<div class="card-header py-0" id="headingCollectors">
+															<h3 class="h4 my-0">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseCollectors">
+																#collectors.recordcount# Collectors
+																</button>
+															</h3>
+														</div>
+														<div class="card-body pl-2 pr-0 py-0">
+															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="">
+																<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+																<cfloop query="collectors">
+																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name# Collectors</a> </li>
+																</cfloop>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											<cfelse>
+													<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+														<cfloop query="collectors">
+															<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
+														</cfloop>
+													</ul>
+											</cfif>	
+										</div>
+									</cfif>
 									</div>
 								</cfif>
 							</div>
