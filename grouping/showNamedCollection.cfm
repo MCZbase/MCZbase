@@ -56,6 +56,7 @@ limitations under the License.
 	width: auto;
 	margin: 0 auto;
 	z-index: 5;
+	font-size: .8rem;
 }
 
 .vslider {
