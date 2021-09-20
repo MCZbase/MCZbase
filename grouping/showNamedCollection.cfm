@@ -683,7 +683,7 @@ div.vslider-item[aria-hidden="true"]{
 											heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
 										}
 										
-									}//end InitMap
+									//end InitMap
 									</script>
 									
 									<div class="col-12 px-0 float-left">
