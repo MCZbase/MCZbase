@@ -49,7 +49,8 @@ limitations under the License.
 	font-family: "Roboto", "sans-serif";
 	line-height: 30px;
 	background-color: #fff;
-	border: 1px solid #999;
+	border: 1px solid #ccc;
+	border-radius: 5px;
 	left: 25%;
 	left: 0;
 	padding: 5px;
