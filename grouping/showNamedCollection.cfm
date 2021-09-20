@@ -625,7 +625,7 @@ div.vslider-item[aria-hidden="true"]{
 								</cfquery>							
 								<cfif points2.recordcount gt 0>
 								<section class="heatmap mt-2">
-									<h2 class="mt-4 px-3 text-left">Heat Map of Georeferenced Specimen Locations</h2>
+									<h2 class="mt-5 px-3 text-center">Heat Map of Georeferenced Specimen Locations</h2>
 									<script>
 										function initMap() {
 
