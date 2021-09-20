@@ -628,7 +628,7 @@ div.vslider-item[aria-hidden="true"]{
 										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 									<script>
 										let map: google.maps.Map, heatmap: google.maps.visualization.HeatmapLayer;
-										function initMap() : void {
+										function initMap():void {
 											var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 											map = new google.maps.Map(document.getElementById('map'), {
 												center: Cambridge,
