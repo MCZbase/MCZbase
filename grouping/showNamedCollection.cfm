@@ -834,11 +834,12 @@ div.vslider-item[aria-hidden="true"]{
 								<div class="row pb-4">
 									<cfif len(underscore_agent_id) GT 0 >
 										<cfif getNamedGroup.agent_name NEQ "[No Agent]" >
-											<div class="col-12 pt-3">
-												<h3>
+											<div class="col-12 pt-3 pb-3">
+												<h3 class="px-2 pb-1 border-bottom border-dark">
 												Associated Agent
 												</h3>
-												<p class="rounded-0 border-top border-dark"> <a class="h4 px-2 pt-3 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a> </p>
+												<p class="rounded-0 border-top border-dark"> 
+													<a class="h4 px-2 py-2 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a> </p>
 											</div>
 										</cfif>
 									</cfif>
@@ -881,7 +882,7 @@ div.vslider-item[aria-hidden="true"]{
 										</cfquery>
 									</cfif>
 									<cfif taxonQuery.recordcount GT 0>
-										<div class="col-12 pb-2">
+										<div class="col-12 pb-3">
 											<h3 class="px-2 pb-1 border-bottom border-dark">Taxa</h3>
 											<cfif taxonQuery.recordcount gt 30>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForTaxa">
@@ -895,7 +896,7 @@ div.vslider-item[aria-hidden="true"]{
 														</div>
 														<div class="card-body pl-2 pr-0 py-0">
 															<div id="collapseTax" aria-labelledby="headingTax" data-parent="##accordionForTaxa" class="collapse">
-																<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="taxonQuery">
 																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
 																	</cfloop>
@@ -905,7 +906,7 @@ div.vslider-item[aria-hidden="true"]{
 													</div>
 												</div>
 											<cfelse>
-												<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="taxonQuery">
 														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
 													</cfloop>
@@ -924,7 +925,7 @@ div.vslider-item[aria-hidden="true"]{
 										ORDER BY flat.continent_ocean asc
 									</cfquery>
 									<cfif marine.recordcount GT 0>
-										<div class="col-12 pb-2">
+										<div class="col-12 pb-3">
 											<h3 class="px-2 pb-1 border-bottom border-dark">Oceans</h3>
 											<cfif marine.recordcount gt 30>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForMarine">
@@ -938,7 +939,7 @@ div.vslider-item[aria-hidden="true"]{
 														</div>
 														<div class="card-body pl-2 pr-0 py-0">
 															<div id="collapseMar" aria-labelledby="headingMar" data-parent="##accordionForMarine" class="collapse">
-																<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="marine">
 																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
 																	</cfloop>
@@ -948,7 +949,7 @@ div.vslider-item[aria-hidden="true"]{
 													</div>
 												</div>
 											<cfelse>
-												<ul class="list-group py-3 list-group-horizontal flex-wrap  rounded-0">
+												<ul class="list-group py-2 list-group-horizontal flex-wrap  rounded-0">
 													<cfloop query="marine">
 														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
 													</cfloop>
@@ -981,7 +982,7 @@ div.vslider-item[aria-hidden="true"]{
 										</cfquery>
 									</cfif>
 									<cfif geogQuery.recordcount GT 0>
-										<div class="col-12 pb-2">
+										<div class="col-12 pb-3">
 											<h3 class="px-2 pb-1 border-bottom border-dark">Geography</h3>
 											<cfif geogQuery.recordcount gt 30>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForGeog">
@@ -995,7 +996,7 @@ div.vslider-item[aria-hidden="true"]{
 														</div>
 														<div class="card-body pl-2 pr-0 py-0">
 															<div id="collapseGeog" aria-labelledby="headingGeog" data-parent="##accordionForGeog" class="collapse">
-																<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="geogQuery">
 																		<li class="list-group-item col-12 col-md-3 float-left"> 
 																			<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
@@ -1007,7 +1008,7 @@ div.vslider-item[aria-hidden="true"]{
 													</div>
 												</div>
 											<cfelse>
-												<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="geogQuery">
 														<li class="list-group-item col-12 col-md-3 float-left"> 
 															<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
@@ -1028,7 +1029,7 @@ div.vslider-item[aria-hidden="true"]{
 										ORDER BY flat.continent_ocean, flat.island asc
 									</cfquery>
 									<cfif islandsQuery.recordcount GT 0>
-										<div class="col-12 pb-2">
+										<div class="col-12 pb-3">
 											<h3 class="px-2 pb-1 border-bottom border-dark">Islands</h3>
 											<cfif islandsQuery.recordcount gt 30>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForIslands">
@@ -1042,7 +1043,7 @@ div.vslider-item[aria-hidden="true"]{
 														</div>
 														<div class="card-body pl-2 pr-0 py-0">
 															<div id="collapseIS" aria-labelledby="headingIS" data-parent="##accordionForIslands" class="">
-																<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="islandsQuery">
 																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
 																	</cfloop>
@@ -1052,7 +1053,7 @@ div.vslider-item[aria-hidden="true"]{
 													</div>
 												</div>
 											<cfelse>
-												<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="islandsQuery">
 														<li class="list-group-item col-12 col-md-3 float-left"> 
 															<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#" target="_blank">#islandsQuery.island#</a> 
@@ -1077,7 +1078,7 @@ div.vslider-item[aria-hidden="true"]{
 										ORDER BY person.last_name, preferred_agent_name.agent_name asc
 									</cfquery>
 									<cfif collectors.recordcount GT 0>
-										<div class="col-12 pb-2">
+										<div class="col-12 pb-3">
 											<h3 class="border-bottom pb-1 border-dark px-2">Collectors</h3>
 											<cfif collectors.recordcount gt 50>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForCollectors">
@@ -1091,7 +1092,7 @@ div.vslider-item[aria-hidden="true"]{
 														</div>
 														<div class="card-body pl-2 pr-0 py-0">
 															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="">
-																<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="collectors">
 																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name# Collectors</a> </li>
 																</cfloop>
@@ -1101,7 +1102,7 @@ div.vslider-item[aria-hidden="true"]{
 													</div>
 												</div>
 											<cfelse>
-													<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
+													<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 														<cfloop query="collectors">
 															<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
 														</cfloop>
