@@ -559,7 +559,7 @@ div.vslider-item[aria-hidden="true"]{
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="col-12 px-1">
 										<div class="carousel_background border rounded float-left w-100 p-2 mb-3">
-											<h3 class="mx-2 text-center">#specimenImgs.recordcount# Specimens <br><span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records) </span></h3>
+											<h3 class="mx-2 text-center">#specimenImgs.recordcount# Specimen Images <br><span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records) </span></h3>
 											<div class="vslider w-100 float-left bg-light" id="vslider-base">
 												<cfset i=1>
 												<cfloop query="specimenImagesForCarousel">
@@ -625,7 +625,7 @@ div.vslider-item[aria-hidden="true"]{
 							</cfquery>							
 							<cfif points2.recordcount gt 0>
 							<section class="heatmap mt-2">
-								<h2 class="mt-4 px-3 text-left">Heat Map of Georeferenced Specimen Locations <span class="small">(Map centered on Cambridge, MA)</span></h2>
+								<h2 class="mt-4 px-3 text-left">Heat Map of Georeferenced Specimen Locations</h2>
 								<script>
 									function initMap() {
 
