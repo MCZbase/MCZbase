@@ -639,7 +639,8 @@ div.vslider-item[aria-hidden="true"]{
 											<cfloop query="points">
 												new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 											</cfloop>
-											];
+											]
+											});
 												document
 													.getElementById("toggle-heatmap")
 													.addEventListener("click", toggleHeatmap);
