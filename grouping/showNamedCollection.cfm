@@ -625,9 +625,8 @@ div.vslider-item[aria-hidden="true"]{
 								</cfquery>							
 								<cfif points.recordcount gt 0>
 								<section class="heatmap mt-2 float-left w-100">
-										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 									<script>
-										let map: google.maps.Map, heatmap: google.maps.visualization.HeatmapLayer;
+										let map, heatmap;
 										function initMap() {
 											var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 											map = new google.maps.Map(document.getElementById('map'), {
@@ -683,11 +682,9 @@ div.vslider-item[aria-hidden="true"]{
 												new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 											</cfloop>
 											];
-
-										
 									}//end InitMap
-
 									</script>
+									<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 									<div class="col-12 px-0 float-left">
 										<div class="border rounded px-1 mx-1 pb-1">
 											<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
