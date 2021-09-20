@@ -636,11 +636,8 @@ div.vslider-item[aria-hidden="true"]{
 												mapTypeId: 'satellite'
 											});
 											heatmap = new google.maps.visualization.HeatmapLayer({
-											var heatmapData = [
-											<cfloop query="points">
-												new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
-											</cfloop>
-											]
+												data: getPoints(),
+													map: map,
 											});
 												document
 													.getElementById("toggle-heatmap")
@@ -683,7 +680,13 @@ div.vslider-item[aria-hidden="true"]{
 										function changeOpacity() {
 											heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
 										}
-										
+										function getPoints(){
+											return [
+											<cfloop query="points">
+												new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+											</cfloop>
+											]
+										}
 									//end InitMap
 									</script>
 									
