@@ -635,17 +635,18 @@ div.vslider-item[aria-hidden="true"]{
 												mapTypeId: 'satellite'
 											});
 												document
-													.getElementById("toggle-heatmap")!
+													.getElementById("toggle-heatmap")
 													.addEventListener("click", toggleHeatmap);
 												document
-													.getElementById("change-gradient")!
+													.getElementById("change-gradient")
 													.addEventListener("click", changeGradient);
 												document
-													.getElementById("change-opacity")!
+													.getElementById("change-opacity")
 													.addEventListener("click", changeOpacity);
 												document
-													.getElementById("change-radius")!
+													.getElementById("change-radius")
 													.addEventListener("click", changeRadius);
+										}
 										function toggleHeatmap(){
 											heatmap.setMap(heatmap.getMap() ? null : map);
 										}
