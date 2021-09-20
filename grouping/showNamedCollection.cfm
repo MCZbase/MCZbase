@@ -628,9 +628,13 @@ div.vslider-item[aria-hidden="true"]{
 									
 									<script>
 										let map: google.maps.Map, heatmap: google.maps.visualization.HeatmapLayer;
-										
 										function initMap() : void {
-
+											var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+											map = new google.maps.Map(document.getElementById('map'), {
+												center: Cambridge,
+												zoom: 2,
+												mapTypeId: 'satellite'
+											});
 												document
 													.getElementById("toggle-heatmap")!
 													.addEventListener("click", toggleHeatmap);
@@ -680,12 +684,7 @@ div.vslider-item[aria-hidden="true"]{
 											</cfloop>
 											];
 
-											var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-											map = new google.maps.Map(document.getElementById('map'), {
-												center: Cambridge,
-												zoom: 2,
-												mapTypeId: 'satellite'
-											});
+										
 									}//end InitMap
 
 									</script>
