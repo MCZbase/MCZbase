@@ -628,7 +628,7 @@ div.vslider-item[aria-hidden="true"]{
 										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 									<script>
 										let map: google.maps.Map, heatmap: google.maps.visualization.HeatmapLayer;
-										function initMap():void {
+										function initMap() {
 											var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 											map = new google.maps.Map(document.getElementById('map'), {
 												center: Cambridge,
@@ -648,10 +648,10 @@ div.vslider-item[aria-hidden="true"]{
 													.getElementById("change-radius")!
 													.addEventListener("click", changeRadius);
 										}
-										function toggleHeatmap(): void {
+										function toggleHeatmap(){
 											heatmap.setMap(heatmap.getMap() ? null : map);
 										}
-										function changeGradient(): void {
+										function changeGradient() {
 											const gradient = [
 												"rgba(0, 255, 255, 0)",
 												"rgba(0, 255, 255, 1)",
@@ -671,11 +671,11 @@ div.vslider-item[aria-hidden="true"]{
 											heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 										}
 
-										function changeRadius(): void {
+										function changeRadius() {
 											heatmap.set("radius", heatmap.get("radius") ? null : 20);
 										}
 
-										function changeOpacity(): void {
+										function changeOpacity() {
 											heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
 										}
 										var heatmapData = [
