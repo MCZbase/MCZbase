@@ -625,7 +625,7 @@ div.vslider-item[aria-hidden="true"]{
 								</cfquery>							
 								<cfif points.recordcount gt 0>
 								<section class="heatmap mt-2 float-left w-100">
-									
+										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 									<script>
 										let map: google.maps.Map, heatmap: google.maps.visualization.HeatmapLayer;
 										function initMap() : void {
@@ -701,7 +701,7 @@ div.vslider-item[aria-hidden="true"]{
 										</div>
 									</div>
 									<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-									<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
+								
 
 								</section><!--- end images & heat map---> 	
 								<cfelse>
