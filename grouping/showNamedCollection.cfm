@@ -901,8 +901,8 @@ div.vslider-item[aria-hidden="true"]{
 										ORDER BY flat.continent_ocean asc
 									</cfquery>
 									<cfif marine.recordcount GT 0>
-										<div class="col-12">
-											<h3 class="px-2 pb-2 border-bottom border-dark">Oceans</h3>
+										<div class="col-12 pb-2">
+											<h3 class="px-2 border-bottom border-dark">Oceans</h3>
 											<cfif marine.recordcount gt 30>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForMarine">
 													<div class="card mb-2 bg-light">
@@ -959,8 +959,8 @@ div.vslider-item[aria-hidden="true"]{
 										</cfquery>
 									</cfif>
 									<cfif geogQuery.recordcount GT 0>
-										<div class="col-12">
-											<h3 class="px-2 pb-2 border-bottom border-dark">Geography</h3>
+										<div class="col-12 pb-2">
+											<h3 class="px-2 border-bottom border-dark">Geography</h3>
 											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0">
 												<cfloop query="geogQuery">
 													<li class="list-group-item col-12 col-md-3 float-left"> 
@@ -981,8 +981,8 @@ div.vslider-item[aria-hidden="true"]{
 										ORDER BY flat.continent_ocean, flat.island asc
 									</cfquery>
 									<cfif islandsQuery.recordcount GT 0>
-										<div class="col-12">
-											<h3 class="px-2 pb-2 border-bottom border-dark">Islands</h3>
+										<div class="col-12 pb-2">
+											<h3 class="px-2 border-bottom border-dark">Islands</h3>
 											<cfif islandsQuery.recordcount gt 30>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForIslands">
 													<div class="card mb-2 bg-light">
@@ -1030,8 +1030,8 @@ div.vslider-item[aria-hidden="true"]{
 										ORDER BY person.last_name, preferred_agent_name.agent_name asc
 									</cfquery>
 									<cfif collectors.recordcount GT 0>
-										<div class="col-12 px-0">
-											<h3 class="border-bottom border-dark pb-2">Collectors</h3>
+										<div class="col-12 pb-2">
+											<h3 class="border-bottom border-dark px-2">Collectors</h3>
 											<cfif collectors.recordcount gt 50>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForCollectors">
 													<div class="card mb-2 bg-light">
