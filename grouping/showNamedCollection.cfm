@@ -650,15 +650,17 @@ div.vslider-item[aria-hidden="true"]{
 										}//end InitMap
 
 									</script>
-									<div class="col-12 px-2 pb-2 float-left border rounded">
-										<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
+									<div class="col-12 px-2 pb-2 float-left">
+										<div class="border rounded">
+											<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
 	<!---									<div id="floating-panel">
-											  <button id="toggle-heatmap">Toggle Heatmap</button>
-											  <button id="change-gradient">Change gradient</button>
-											  <button id="change-radius">Change radius</button>
-											  <button id="changeOpacity">Change opacity</button>
-										</div>--->
-										<div id="map" class="w-100 rounded"></div>
+												<button id="toggle-heatmap">Toggle Heatmap</button>
+												<button id="change-gradient">Change gradient</button>
+												<button id="change-radius">Change radius</button>
+												<button id="changeOpacity">Change opacity</button>
+											</div>--->
+											<div id="map" class="w-100 rounded"></div>
+										</div>
 									</div>
 									<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 									<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
