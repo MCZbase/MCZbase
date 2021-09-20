@@ -631,19 +631,6 @@ div.vslider-item[aria-hidden="true"]{
 										
 										function initMap() : void {
 
-											var heatmapData = [
-											<cfloop query="points">
-												new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
-											</cfloop>
-											];
-
-											var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-											map = new google.maps.Map(document.getElementById('map'), {
-												center: Cambridge,
-												zoom: 2,
-												mapTypeId: 'satellite'
-											});
-
 												document
 													.getElementById("toggle-heatmap")!
 													.addEventListener("click", toggleHeatmap);
@@ -656,7 +643,7 @@ div.vslider-item[aria-hidden="true"]{
 												document
 													.getElementById("change-radius")!
 													.addEventListener("click", changeRadius);
-
+										}
 										function toggleHeatmap(): void {
 											heatmap.setMap(heatmap.getMap() ? null : map);
 										}
@@ -680,15 +667,26 @@ div.vslider-item[aria-hidden="true"]{
 											heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 										}
 
-function changeRadius(): void {
-  heatmap.set("radius", heatmap.get("radius") ? null : 20);
-}
+										function changeRadius(): void {
+											heatmap.set("radius", heatmap.get("radius") ? null : 20);
+										}
 
-function changeOpacity(): void {
-  heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
-}
+										function changeOpacity(): void {
+											heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
+										}
+										var heatmapData = [
+											<cfloop query="points">
+												new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+											</cfloop>
+											];
 
-										}//end InitMap
+											var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+											map = new google.maps.Map(document.getElementById('map'), {
+												center: Cambridge,
+												zoom: 2,
+												mapTypeId: 'satellite'
+											});
+									}//end InitMap
 
 									</script>
 									<div class="col-12 px-0 float-left">
