@@ -627,7 +627,9 @@ div.vslider-item[aria-hidden="true"]{
 								<section class="heatmap mt-2 float-left w-100">
 									
 									<script>
-										function initMap() {
+										let map: google.maps.Map, heatmap: google.maps.visualization.HeatmapLayer;
+										
+										function initMap() : void {
 
 											var heatmapData = [
 											<cfloop query="points">
@@ -642,10 +644,51 @@ div.vslider-item[aria-hidden="true"]{
 												mapTypeId: 'satellite'
 											});
 
-											var heatmap = new google.maps.visualization.HeatmapLayer({
-												data: heatmapData
-											});
-											heatmap.setMap(map);
+											 document
+    .getElementById("toggle-heatmap")!
+    .addEventListener("click", toggleHeatmap);
+  document
+    .getElementById("change-gradient")!
+    .addEventListener("click", changeGradient);
+  document
+    .getElementById("change-opacity")!
+    .addEventListener("click", changeOpacity);
+  document
+    .getElementById("change-radius")!
+    .addEventListener("click", changeRadius);
+}
+
+function toggleHeatmap(): void {
+  heatmap.setMap(heatmap.getMap() ? null : map);
+}
+										function changeGradient(): void {
+  const gradient = [
+    "rgba(0, 255, 255, 0)",
+    "rgba(0, 255, 255, 1)",
+    "rgba(0, 191, 255, 1)",
+    "rgba(0, 127, 255, 1)",
+    "rgba(0, 63, 255, 1)",
+    "rgba(0, 0, 255, 1)",
+    "rgba(0, 0, 223, 1)",
+    "rgba(0, 0, 191, 1)",
+    "rgba(0, 0, 159, 1)",
+    "rgba(0, 0, 127, 1)",
+    "rgba(63, 0, 91, 1)",
+    "rgba(127, 0, 63, 1)",
+    "rgba(191, 0, 31, 1)",
+    "rgba(255, 0, 0, 1)",
+  ];
+
+  heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+}
+
+function changeRadius(): void {
+  heatmap.set("radius", heatmap.get("radius") ? null : 20);
+}
+
+function changeOpacity(): void {
+  heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
+}
 
 										}//end InitMap
 
@@ -653,12 +696,12 @@ div.vslider-item[aria-hidden="true"]{
 									<div class="col-12 px-0 float-left">
 										<div class="border rounded px-1 mx-1 pb-1">
 											<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
-	<!---									<div id="floating-panel">
+										<div id="floating-panel">
 												<button id="toggle-heatmap">Toggle Heatmap</button>
 												<button id="change-gradient">Change gradient</button>
 												<button id="change-radius">Change radius</button>
 												<button id="changeOpacity">Change opacity</button>
-											</div>--->
+											</div>
 											<div id="map" class="w-100 rounded"></div>
 										</div>
 									</div>
