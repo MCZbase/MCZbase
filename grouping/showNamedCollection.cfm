@@ -634,6 +634,10 @@ div.vslider-item[aria-hidden="true"]{
 												zoom: 2,
 												mapTypeId: 'satellite'
 											});
+											  heatmap = new google.maps.visualization.HeatmapLayer({
+data: heatmapData,
+map: map,
+  });
 												document
 													.getElementById("toggle-heatmap")
 													.addEventListener("click", toggleHeatmap);
