@@ -23,39 +23,7 @@ Update an existing arbitrary collection record (underscore_collection).
 @param underscore_agent_id the agent associated with this arbitrary collection
 @return json structure with status and id or http status 500
 --->
-<cffunction name="get_coordList" access="remote" returntype="any" returnformat="json">
-	<cfargument name="underscore_collection_id" type="string" required="yes">
-	<cfset data = ArrayNew(1)>
-	<cftry>
-		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
-			SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
-			FROM locality
-				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-				on flat.locality_id = locality.locality_id
-				left join lat_long
-				on lat_long.locality_id = flat.locality_id
-				left join underscore_relation
-				on underscore_relation.collection_object_id = flat.collection_object_id
-				left join underscore_collection
-				on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				and flat.guid IS NOT NULL
-				and lat_long.dec_lat is not null
-		</cfquery>
-		<cfset row = StructNew()>
-		<cfset row["id"] = "#underscore_collection_id#">
-		<cfset data[1] = row>
-	<cfcatch>
-		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
-
-			
+		
 			
 <cffunction name="saveUndColl" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
@@ -132,6 +100,8 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				underscore_collection
 			WHERE
 				collection_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">
+			ORDER BY
+				collection_name
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
