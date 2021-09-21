@@ -320,7 +320,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 					author_text,
 					taxon_relationship,
 					relation_authority,
-					taxon_name_id
+					taxonomy.taxon_name_id
 				FROM
 					taxon_relations,
 					taxonomy
