@@ -318,14 +318,15 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 				SELECT
 					scientific_name,
 					author_text,
-					taxon_relationship,
+					taxon_relations.taxon_relationship,
+					cttaxon_relation.inverse_relation,
 					relation_authority,
 					taxonomy.taxon_name_id
 				FROM
-					taxon_relations,
-					taxonomy
+					taxon_relations
+					left join taxonomy on taxon_relations.taxon_name_id = taxonomy.taxon_name_id
+					left join cttaxon_relation on taxon_relations.taxon_relationship = cttaxon_relation.taxon_relationship
 				WHERE
-					taxon_relations.taxon_name_id = taxonomy.taxon_name_id
 					AND taxon_relations.related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 			</cfquery>
 			<cfset i=0>
@@ -336,8 +337,9 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 							<cfloop query="relations">
 								<cfset i=i+1>
 								<!--- PRIMARY KEY ("TAXON_NAME_ID", "RELATED_TAXON_NAME_ID", "TAXON_RELATIONSHIP") --->
-								<li class="mb-1">#relations.taxon_relationship#
-								<!--- Create a link out of scientific name --->
+								<li class="mb-1">
+									#taxonname# #relations.taxon_relationship#
+									<!--- Create a link out of scientific name --->
 									<em><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#relations.related_taxon_name_id#' target='_blank'>#relations.scientific_name#</a></em>
 									<span class='sm-caps'>#relations.author_text#</span>
 									<cfif len(relations.relation_authority) GT 0>
@@ -356,13 +358,13 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 						<ul class="px-4 list-style-disc"><li>No relationships from this taxon</li></ul>
 					</cfif>
 					<cfif inverse_relations.recordcount gt 0>
-						<ul class="mx-0 px-4 mt-1 list-style-disc">
+						<ul class="mx-0 px-4 mt-1 list-style-circle">
 							<cfloop query="inverse_relations">
 								<cfset i=i+1>
 								<li class="mb-1">
 									<em><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#inverse_relations.taxon_name_id#' target='_blank'>#inverse_relations.scientific_name#</a></em>
 									<span class='sm-caps'>#inverse_relations.author_text#</span>
-									#inverse_relations.taxon_relationship# of #taxonname#
+									#inverse_relations.inverse_relation# #taxonname#
 									<cfif len(inverse_relations.relation_authority) GT 0>
 										 fide #inverse_relations.relation_authority# 
 									</cfif>
@@ -370,7 +372,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 							</cfloop>
 						</ul>
 					<cfelse>
-						<ul class="px-4 list-style-disc"><li>No relationships from this taxon</li></ul>
+						<ul class="px-4 list-style-circle"><li>No relationships to this taxon</li></ul>
 					</cfif>
 				<cfelse>
 					<ul class="px-4 list-style-disc"><li>No Taxon Relationships</li></ul>
