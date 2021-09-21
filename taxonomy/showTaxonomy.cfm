@@ -517,7 +517,7 @@
 								left join taxonomy on taxon_relations.taxon_name_id = taxonomy.taxon_name_id
 								left join cttaxon_relation on taxon_relations.taxon_relationship = cttaxon_relation.taxon_relationship
 							WHERE
-								AND taxon_relations.related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+								taxon_relations.related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 						</cfquery>
 						<cfloop query="inverse_relations">
 							<li> 
