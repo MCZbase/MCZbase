@@ -100,7 +100,6 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				underscore_collection
 			WHERE
 				collection_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">
-			ORDER BY collection_name asc
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
