@@ -56,7 +56,7 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="search">
 		<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
-			select collection_id, collection_cde, collection from collection order by collection
+			select collection_id, collection_cde, collection from collection
 		</cfquery>
 		<div id="overlaycontainer" style="position: relative;"> 
 			<!--- ensure fields have empty values present if not defined. --->
