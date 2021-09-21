@@ -486,7 +486,7 @@ div.vslider-item[aria-hidden="true"]{
 										pageable: true,
 										editable: false,
 										pagesize: '5',
-										pagesizeoptions: ['5','15','20','50','100'],
+										pagesizeoptions: ['5','10','15','20','50','100'],
 										columnsresize: false,
 										autoshowfiltericon: false,
 										autoshowcolumnsmenubutton: false,
