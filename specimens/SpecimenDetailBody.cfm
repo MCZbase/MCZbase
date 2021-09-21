@@ -772,10 +772,11 @@ limitations under the License.
 				</div>
 				<!--- end of column 3 --->
 				<cfif oneOfUs is 1>
+					</div>
 					</form>
 				</cfif>
 			</div>
 		</div>
-	</div>
+	
 </div>
 </cfoutput>
