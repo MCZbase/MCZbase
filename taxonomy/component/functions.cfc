@@ -296,7 +296,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 		<cftry>
 			<cfquery name="taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
 				SELECT scientific_name, author_text
-				FROM taxomomy
+				FROM taxonomy
 				WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 			</cfquery>
 			<cfset taxonname = "#taxon.scientific_name# <span class='sm-caps'>#taxon.author_text#</span>" >
