@@ -1133,7 +1133,7 @@ div.vslider-item[aria-hidden="true"]{
 									</cfif>
 								</div>
 							</div>
-							<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
+						<!---	<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
 								SELECT
 									citation.type_status,
 									citation.occurs_page_number,
@@ -1159,7 +1159,7 @@ div.vslider-item[aria-hidden="true"]{
 							</cfquery>
 ;							<cfloop query="citations">
 								#citations.formatted_publication#, page #citations.occurs_page_number#, #citations.type_status# of #citations.cited_name#
-							</cfloop>
+							</cfloop>--->
 						</section>
 					</div>
 				</article>
