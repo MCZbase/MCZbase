@@ -1145,7 +1145,7 @@ div.vslider-item[aria-hidden="true"]{
 											left join taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
 											left join formatted_publication on formatted_publication.publication_id =citation.publication_id
 										WHERE
-											format_style='short' and
+											format_style='long' and
 											underscore_collection.underscore_collection_id = <cfqueryparam value="#underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL">
 										ORDER BY
 											substr(formatted_publication, - 4)
