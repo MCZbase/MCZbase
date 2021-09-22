@@ -920,7 +920,7 @@
 		</table>
 	<cfelseif tbl is "cttaxon_relation"><!--------------------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT count(*) ct, cttaxon_relation.taxon_relationship, description, inverse_relation
+			SELECT count(taxon_relations.taxon_name_id) ct, cttaxon_relation.taxon_relationship, description, inverse_relation
 			FROM cttaxon_relation 
 				LEFT JOIN taxon_relations on cttaxon_relation.taxon_relationship = taxon_relations.taxon_relationship
 			GROUP BY
