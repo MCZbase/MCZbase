@@ -498,7 +498,7 @@
 					<cfelse>
 						<cfloop query="related">
 							<li>
-								#one.display_name# #TAXON_RELATIONSHIP# <a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><b><i>#related_name#</i> <span class="sm-caps">#related.related_author_text#<span></b></a>
+								#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span> #TAXON_RELATIONSHIP# <a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><b><i>#related_name#</i> <span class="sm-caps">#related.related_author_text#<span></b></a>
 								<cfif len(RELATION_AUTHORITY) gt 0>
 									(According to: #encodeForHTML(RELATION_AUTHORITY)#)
 								</cfif>
@@ -521,7 +521,7 @@
 						</cfquery>
 						<cfloop query="inverse_relations">
 							<li> 
-								#one.display_name#
+								#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span>
 								#inverse_relations.inverse_relation#
 								<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#inverse_relations.taxon_name_id#"><b><i>#inverse_relations.scientific_name#</i> <span class="sm-caps">#inverse_relations.author_text#</span></b></a> 
 								<cfif len(inverse_relations.RELATION_AUTHORITY) gt 0>
