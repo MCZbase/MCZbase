@@ -1106,13 +1106,13 @@ div.vslider-item[aria-hidden="true"]{
 													<div class="card mb-2 bg-light">
 														<div class="card-header py-0" id="headingCollectors">
 															<h3 class="h4 my-0">
-																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseCollectors">
+																<button type="button" class="headerLnk w-100 text-left" data-bs-toggle="collapse" aria-expanded="true" data-target="##collapseCollectors">
 																#collectors.recordcount# Collectors
 																</button>
 															</h3>
 														</div>
 														<div class="card-body pl-2 pr-0 py-0">
-															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapsed">
+															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="collectors">
 																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name# Collectors</a> </li>
@@ -1165,10 +1165,12 @@ div.vslider-item[aria-hidden="true"]{
 															</h3>
 														</div>
 														<div class="card-body pl-2 pr-0 py-0">
-															<div id="collapseCitations" aria-labelledby="headingCitations" data-parent="##accordionForCitations">
+															<div id="collapseCitations" aria-labelledby="headingCitations" class="collapse show" data-parent="##accordionForCitations">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="citations">
-																	<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h5" href="/SpecimenUsage.cfm?action=search&publication_id=" target="_blank">#citations.formatted_publication#</a> </li>
+																	<li class="list-group-item col-12 col-md-12 float-left py-2"> 
+																		<a class="h5" href="/SpecimenUsage.cfm?action=search&publication_id=" target="_blank">#citations.formatted_publication#</a>
+																	</li>
 																</cfloop>
 																</ul>
 															</div>
