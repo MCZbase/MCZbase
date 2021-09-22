@@ -521,9 +521,9 @@
 						</cfquery>
 						<cfloop query="inverse_relations">
 							<li> 
-								<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#inverse_relations.taxon_name_id#"><b><i>#inverse_relations.scientific_name#</i> <span class="sm-caps">#inverse_relations.author_text#</span></b></a> 
-								#inverse_relations.inverse_relation#
 								#one.display_name#
+								#inverse_relations.inverse_relation#
+								<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#inverse_relations.taxon_name_id#"><b><i>#inverse_relations.scientific_name#</i> <span class="sm-caps">#inverse_relations.author_text#</span></b></a> 
 								<cfif len(inverse_relations.RELATION_AUTHORITY) gt 0>
 									(According to: #encodeForHTML(inverse_relations.RELATION_AUTHORITY)#)
 								</cfif>
