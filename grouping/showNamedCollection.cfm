@@ -1106,7 +1106,7 @@ div.vslider-item[aria-hidden="true"]{
 													<div class="card mb-2 bg-light">
 														<div class="card-header py-0" id="headingCollectors">
 															<h3 class="h4 my-0">
-																<button type="button" class="headerLnk w-100 text-left" data-bs-toggle="collapse" aria-expanded="true" data-target="##collapseCollectors">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseCollectors">
 																#collectors.recordcount# Collectors
 																</button>
 															</h3>
