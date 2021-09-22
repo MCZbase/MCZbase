@@ -362,9 +362,10 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 							<cfloop query="inverse_relations">
 								<cfset i=i+1>
 								<li class="mb-1">
+									#taxonname#
+									#inverse_relations.inverse_relation# 
 									<em><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#inverse_relations.taxon_name_id#' target='_blank'>#inverse_relations.scientific_name#</a></em>
 									<span class='sm-caps'>#inverse_relations.author_text#</span>
-									#inverse_relations.inverse_relation# #taxonname#
 									<cfif len(inverse_relations.relation_authority) GT 0>
 										 fide #inverse_relations.relation_authority# 
 									</cfif>
