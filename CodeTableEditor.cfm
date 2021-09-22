@@ -950,7 +950,7 @@
 						<textarea name="description" rows="4" cols="40"></textarea>
 					</td>
 					<td>
-						<input type="text" name="inverse_relation" size="50">
+						<input type="text" name="inverse_relation">
 					</td>
 					<td>
 						<input type="submit" 
@@ -966,6 +966,7 @@
 				<th>Taxon Relationship</th>
 				<th>Description</th>
 				<th>Inverse Relation</th>
+				<th>Action</th>
 				<th>Instances</th>
 			</tr>
 			<cfloop query="q">
@@ -981,7 +982,7 @@
 							<textarea name="description" rows="4" cols="40">#description#</textarea>
 						</td>
 						<td>
-							<input type="text" name="inverse_relation" size="60" value="#inverse_relation#">
+							<input type="text" name="inverse_relation" value="#inverse_relation#">
 						</td>				
 						<td>
 							<input type="button" 
