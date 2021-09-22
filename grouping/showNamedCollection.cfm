@@ -1136,15 +1136,23 @@ div.vslider-item[aria-hidden="true"]{
 									<div class="col-12 px-0">
 									<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
 										SELECT
-											citation.type_status,
-											citation.occurs_page_number,
-											citation.citation_page_uri,
-											citation.CITATION_REMARKS,
-											taxonomy.scientific_name as cited_name,
-											taxonomy.taxon_name_id as cited_name_id,
-											formatted_publication.formatted_publication,
-											formatted_publication.publication_id,
-											taxonomy.taxon_status as cited_name_status
+											distinct formatted_publication.formatted_publication, citation.type_status,taxonomy.scientific_name as cited_name 
+										FROM
+											underscore_collection
+											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											left join cataloged_item on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+											left join citation on citation.collection_object_id = cataloged_item.collection_object_id
+											left join taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
+											left join formatted_publication on formatted_publication.publication_id =citation.publication_id
+										WHERE
+											format_style='short' and
+											underscore_collection.underscore_collection_id = <cfqueryparam value="#underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL">
+										ORDER BY
+											substr(formatted_publication, - 4)
+									</cfquery>
+									<cfquery name="pubID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pubID">
+										SELECT
+											distinct formatted_publication.publication_id
 										FROM
 											underscore_collection
 											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -1185,7 +1193,7 @@ div.vslider-item[aria-hidden="true"]{
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="citations">
-														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.formatted_publication#, page #citations.occurs_page_number#, #citations.type_status# of #citations.cited_name#</a> </li>
+														<li class="list-group-item col-12 col-md-6 float-left"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.formatted_publication#, page #citations.occurs_page_number#, #citations.type_status# of #citations.cited_name#</a> </li>
 													</cfloop>
 												</ul>
 											</cfif>
