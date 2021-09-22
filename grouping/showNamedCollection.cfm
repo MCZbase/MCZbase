@@ -1112,7 +1112,7 @@ div.vslider-item[aria-hidden="true"]{
 															</h3>
 														</div>
 														<div class="card-body pl-2 pr-0 py-0">
-															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="">
+															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapsed">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="collectors">
 																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name# Collectors</a> </li>
