@@ -1136,7 +1136,7 @@ div.vslider-item[aria-hidden="true"]{
 									<div class="col-12 px-0">
 									<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
 										SELECT
-											distinct formatted_publication.publication_id,formatted_publication.formatted_publication, citation.type_status,taxonomy.scientific_name as cited_name 
+											distinct formatted_publication.formatted_publication
 										FROM
 											underscore_collection
 											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
