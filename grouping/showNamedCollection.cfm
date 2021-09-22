@@ -910,13 +910,13 @@ div.vslider-item[aria-hidden="true"]{
 													<div class="card mb-2 bg-light">
 														<div class="card-header py-0" id="headingTax">
 															<h3 class="h4 my-0">
-																<button type="button" class="headerLnk w-100 text-left collapsed" data-toggle="collapse" aria-expanded="false" data-target="##collapseTax">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseTax">
 																#taxonQuery.recordcount# Taxa
 																</button>
 															</h3>
 														</div>
 														<div class="card-body pl-2 pr-0 py-0">
-															<div id="collapseTax" aria-labelledby="headingTax" data-parent="##accordionForTaxa" class="collapse">
+															<div id="collapseTax" aria-labelledby="headingTax" data-parent="##accordionForTaxa" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="taxonQuery">
 																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
@@ -953,13 +953,13 @@ div.vslider-item[aria-hidden="true"]{
 													<div class="card mb-2 bg-light">
 														<div class="card-header py-0" id="headingMar">
 															<h3 class="h4 my-0">
-																<button type="button" class="headerLnk w-100 text-left collapsed" data-toggle="collapse" aria-expanded="false" data-target="##collapseMar">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseMar">
 																#marine.recordcount# Oceans
 																</button>
 															</h3>
 														</div>
 														<div class="card-body pl-2 pr-0 py-0">
-															<div id="collapseMar" aria-labelledby="headingMar" data-parent="##accordionForMarine" class="collapse">
+															<div id="collapseMar" aria-labelledby="headingMar" data-parent="##accordionForMarine" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="marine">
 																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
@@ -970,7 +970,7 @@ div.vslider-item[aria-hidden="true"]{
 													</div>
 												</div>
 											<cfelse>
-												<ul class="list-group py-2 list-group-horizontal flex-wrap  rounded-0">
+												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="marine">
 														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
 													</cfloop>
@@ -1010,13 +1010,13 @@ div.vslider-item[aria-hidden="true"]{
 													<div class="card mb-2 bg-light">
 														<div class="card-header py-0" id="headingGeog">
 															<h3 class="h4 my-0">
-																<button type="button" class="headerLnk w-100 text-left collapsed" data-toggle="collapse" aria-expanded="false" data-target="##collapseGeog">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseGeog">
 																#geogQuery.recordcount# Higher Geography Records
 																</button>
 															</h3>
 														</div>
 														<div class="card-body pl-2 pr-0 py-0">
-															<div id="collapseGeog" aria-labelledby="headingGeog" data-parent="##accordionForGeog" class="collapse">
+															<div id="collapseGeog" aria-labelledby="headingGeog" data-parent="##accordionForGeog" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="geogQuery">
 																		<li class="list-group-item col-12 col-md-3 float-left"> 
@@ -1063,7 +1063,7 @@ div.vslider-item[aria-hidden="true"]{
 															</h3>
 														</div>
 														<div class="card-body pl-2 pr-0 py-0">
-															<div id="collapseIS" aria-labelledby="headingIS" data-parent="##accordionForIslands" class="">
+															<div id="collapseIS" aria-labelledby="headingIS" data-parent="##accordionForIslands" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="islandsQuery">
 																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
