@@ -1132,7 +1132,7 @@ div.vslider-item[aria-hidden="true"]{
 										</div>
 									</cfif>
 							
-								<div class="row">
+						
 									<div class="col-12 px-0">
 									<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
 										SELECT
