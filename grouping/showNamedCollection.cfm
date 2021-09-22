@@ -1147,6 +1147,7 @@ div.vslider-item[aria-hidden="true"]{
 										WHERE
 											format_style='long' and
 											underscore_collection.underscore_collection_id = <cfqueryparam value="#underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL">
+											and formatted_publication not like '%Author not listed%'
 										ORDER BY
 											substr(formatted_publication, - 4)
 									</cfquery>
