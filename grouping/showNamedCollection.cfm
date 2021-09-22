@@ -1168,7 +1168,7 @@ div.vslider-item[aria-hidden="true"]{
 															<div id="collapseCitations" aria-labelledby="headingCitations" data-parent="##accordionForCitations">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="citations">
-																	<li class="list-group-item col-12 col-md-6 float-left"> <a class="h5" href="/SpecimenUsage.cfm?action=search&publication_id=" target="_blank">#citations.formatted_publication#</a> </li>
+																	<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h5" href="/SpecimenUsage.cfm?action=search&publication_id=" target="_blank">#citations.formatted_publication#</a> </li>
 																</cfloop>
 																</ul>
 															</div>
@@ -1178,7 +1178,7 @@ div.vslider-item[aria-hidden="true"]{
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="citations">
-														<li class="list-group-item col-12 col-md-6 float-left"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=" target="_blank">#citations.formatted_publication#, </a> </li>
+														<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=" target="_blank">#citations.formatted_publication#, </a> </li>
 													</cfloop>
 												</ul>
 											</cfif>
