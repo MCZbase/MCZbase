@@ -1133,7 +1133,7 @@ div.vslider-item[aria-hidden="true"]{
 									</cfif>
 								</div>
 								<div class="row">
-									<div class="col-12">
+									<div class="col-12 px-0">
 									<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
 										SELECT
 											citation.type_status,
@@ -1174,7 +1174,7 @@ div.vslider-item[aria-hidden="true"]{
 														<div class="card-body pl-2 pr-0 py-0">
 															<div id="collapseCitations" aria-labelledby="headingCitations" data-parent="##accordionForCitations">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
-																<cfloop query="collectors">
+																<cfloop query="citations">
 																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.formatted_publication#, page #citations.occurs_page_number#, #citations.type_status# of #citations.cited_name#</a> </li>
 																</cfloop>
 																</ul>
@@ -1183,11 +1183,11 @@ div.vslider-item[aria-hidden="true"]{
 													</div>
 												</div>
 											<cfelse>
-													<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
-														<cfloop query="collectors">
-															<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
-														</cfloop>
-													</ul>
+												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+													<cfloop query="citations">
+														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.formatted_publication#, page #citations.occurs_page_number#, #citations.type_status# of #citations.cited_name#</a> </li>
+													</cfloop>
+												</ul>
 											</cfif>
 										</div>
 									</cfif>
