@@ -929,7 +929,7 @@
 		</cfquery>	
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
 			<input type="hidden" name="action" value="newValue">
-			<input type="hidden" name="tbl" value="cttaxon_relationship">
+			<input type="hidden" name="tbl" value="cttaxon_relation">
 			<h2>Phrase taxon relationships and inverse relations in the form</h2>
 			<ul>
 				<li>A taxon_relationship B inverse_relation A</li>
