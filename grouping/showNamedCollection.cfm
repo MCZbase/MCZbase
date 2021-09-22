@@ -1136,7 +1136,9 @@ div.vslider-item[aria-hidden="true"]{
 									<div class="col-12 px-0">
 									<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
 										SELECT
-											distinct distinct formatted_publication.formatted_publication, formatted_publication.publication_id
+											distinct 
+											formatted_publication.formatted_publication, 
+											formatted_publication.publication_id
 										FROM
 											underscore_collection
 											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -1149,7 +1151,7 @@ div.vslider-item[aria-hidden="true"]{
 											underscore_collection.underscore_collection_id = <cfqueryparam value="#underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL">
 											and formatted_publication not like '%Author not listed%'
 										ORDER BY
-											formatted_publication 
+											formatted_publication
 									</cfquery>
 									<cfif citations.recordcount GT 0>
 										<div class="col-12 pb-3">
@@ -1169,7 +1171,7 @@ div.vslider-item[aria-hidden="true"]{
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="citations">
 																	<li class="list-group-item col-12 col-md-12 float-left py-2"> 
-																		<a class="h5" href="/SpecimenUsage.cfm?action=search&publication_id=" target="_blank">#citations.formatted_publication#</a>
+																		<a class="h5" href="/SpecimenUsage.cfm?action=search&publication_id=#formatted_publication.publication_id#" target="_blank">#citations.formatted_publication#</a>
 																	</li>
 																</cfloop>
 																</ul>
@@ -1180,7 +1182,7 @@ div.vslider-item[aria-hidden="true"]{
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="citations">
-														<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=" target="_blank">#citations.formatted_publication#, </a> </li>
+														<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#formatted_publication.publication_id#" target="_blank">#citations.formatted_publication#, </a> </li>
 													</cfloop>
 												</ul>
 											</cfif>
