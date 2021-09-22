@@ -987,11 +987,13 @@
 							<input type="button" 
 								value="Save" 
 								class="savBtn"
-								onclick="#tbl##i#.action.value='saveEdit';submit();">	
-							<input type="button" 
-								value="Delete" 
-								class="delBtn"
-								onclick="#tbl##i#.action.value='deleteValue';submit();">	
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<cfif q.ct EQ 0>
+								<input type="button" 
+									value="Delete" 
+									class="delBtn"
+									onclick="#tbl##i#.action.value='deleteValue';submit();">	
+							</cfif>
 						</td>
 						<td>
 							#ct#
