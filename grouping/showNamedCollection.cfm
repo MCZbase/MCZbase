@@ -1132,34 +1132,68 @@ div.vslider-item[aria-hidden="true"]{
 										</div>
 									</cfif>
 								</div>
+								<div class="row">
+									<div class="col-12">
+									<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
+										SELECT
+											citation.type_status,
+											citation.occurs_page_number,
+											citation.citation_page_uri,
+											citation.CITATION_REMARKS,
+											taxonomy.scientific_name as cited_name,
+											taxonomy.taxon_name_id as cited_name_id,
+											formatted_publication.formatted_publication,
+											formatted_publication.publication_id,
+											taxonomy.taxon_status as cited_name_status
+										FROM
+											underscore_collection
+											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											left join cataloged_item on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+											left join citation on citation.collection_object_id = cataloged_item.collection_object_id
+											left join taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
+											left join formatted_publication on formatted_publication.publication_id =citation.publication_id
+										WHERE
+											format_style='short' and
+											underscore_collection.underscore_collection_id = <cfqueryparam value="#underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL">
+										ORDER BY
+											substr(formatted_publication, - 4)
+									</cfquery>
+									<cfif citations.recordcount GT 0>
+										<div class="col-12 pb-3">
+											<h3 class="border-bottom pb-1 border-dark px-2">Citations</h3>
+											<cfif citations.recordcount gt 50>
+												<div class="accordion col-12 px-0 mb-3" id="accordionForCitations">
+													<div class="card mb-2 bg-light">
+														<div class="card-header py-0" id="headingCitations">
+															<h3 class="h4 my-0">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseCitations">
+																#citations.recordcount# Citations
+																</button>
+															</h3>
+														</div>
+														<div class="card-body pl-2 pr-0 py-0">
+															<div id="collapseCitations" aria-labelledby="headingCitations" data-parent="##accordionForCitations">
+																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+																<cfloop query="collectors">
+																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.formatted_publication#, page #citations.occurs_page_number#, #citations.type_status# of #citations.cited_name#</a> </li>
+																</cfloop>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											<cfelse>
+													<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+														<cfloop query="collectors">
+															<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
+														</cfloop>
+													</ul>
+											</cfif>
+										</div>
+									</cfif>
+									</div>
+								</div>
 							</div>
-						<!---	<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
-								SELECT
-									citation.type_status,
-									citation.occurs_page_number,
-									citation.citation_page_uri,
-									citation.CITATION_REMARKS,
-									taxonomy.scientific_name as cited_name,
-									taxonomy.taxon_name_id as cited_name_id,
-									formatted_publication.formatted_publication,
-									formatted_publication.publication_id,
-									taxonomy.taxon_status as cited_name_status
-								FROM
-									underscore_collection
-									left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-									left join cataloged_item on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-									left join citation on citation.collection_object_id = cataloged_item.collection_object_id
-									left join taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
-									left join formatted_publication on formatted_publication.publication_id =citation.publication_id
-								WHERE
-									format_style='short' and
-									underscore_collection.underscore_collection_id = <cfqueryparam value="#underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL">
-								ORDER BY
-									substr(formatted_publication, - 4)
-							</cfquery>
-;							<cfloop query="citations">
-								#citations.formatted_publication#, page #citations.occurs_page_number#, #citations.type_status# of #citations.cited_name#
-							</cfloop>--->
 						</section>
 					</div>
 				</article>
