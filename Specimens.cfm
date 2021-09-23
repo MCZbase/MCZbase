@@ -665,6 +665,26 @@ limitations under the License.
 													<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy" value="#full_taxon_name#">
 												</div>
 												<div class="col-12 col-md-2">
+													<label for="phylum" class="data-entry-label">Phylum</label>
+													<cfif not isdefined("phylum")><cfset phylum=""></cfif>
+													<input id="phylum" name="phylum" class="data-entry-input" value="#phylum#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeTaxonSearchAutocomplete('phylum','phylum');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="phylclass" class="data-entry-label">Class</label>
+													<cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
+													<input id="phylclass" name="phylclass" class="data-entry-input" value="#phylclass#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeTaxonSearchAutocomplete('phylclass','class');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
 													<label for="phylorder" class="data-entry-label">Order</label>
 													<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
 													<input id="phylorder" name="phylorder" class="data-entry-input" value="#phylorder#" >
