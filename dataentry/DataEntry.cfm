@@ -411,6 +411,7 @@ limitations under the License.
 						<div class="form-row mx-0">
 							<label for="agent_id" class="sr-only">Agent</label>
 							<div id="customAgent1">
+								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent1 loginButtons mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i></a>
 								<div class="form-row mx-0">
 									<label for="agent_id" class="sr-only">Agent</label>
 									<select class="data-entry-select" required>
@@ -419,7 +420,7 @@ limitations under the License.
 									</select>
 									<input type="text" class="data-entry-input"  name="agent_id" placeholder="Agent">
 								</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent1 loginButtons mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i></a>
+							
 							</div>
 						</div>
 					</div>
