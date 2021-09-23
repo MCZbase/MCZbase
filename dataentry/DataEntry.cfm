@@ -1264,7 +1264,7 @@ $(document).ready(function(){
 	
 $(document).ready(function(){
 	$(".addAgent1").click(function(){
-		$("##customAgent1").append('<div class="form-row mt-1"><label for="agent_id" class="sr-only"></label><div class="col-12 col-xl-5 pr-1 float-left"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="0">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 px-1 float-left"><input type="text" class="data-entry-input"  name="agent_id" placeholder="Agent ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent p-0 m-0 float-left data-entry-button remAgent1" style="width:20px;"><i class="fas fa-times"></i></button></div>');
+		$("##customAgent1").append('<div class="form-row mx-0 mt-1"><label for="agent_id" class="sr-only"></label><select class="data-entry-select" required><option value="0">Coll.</option><option value="1">Prep.</option></select><input type="text" class="data-entry-input" name="agent_id" placeholder="Agent ID"><button href="javascript:void(0);" arial-label="remove" class="btn addAgent p-0 m-0 float-left data-entry-button remAgent1" style="width:20px;"><i class="fas fa-times"></i></button></div>');
 	});
 		$("##customAgent1").on('click','.remAgent1',function(){$(this).parent().remove();});
 	});
