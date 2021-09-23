@@ -1609,11 +1609,6 @@ limitations under the License.
 															<cfelse>
 																<li class="">
 																	<cfset lastTrans ="#getTransactions.specific_number#">
-																	<cfif transaction_type IS "deaccession">
-																		<cfset targetStatus="deacc_status">
-																	<cfelse>
-																		<cfset targetStatus="#transaction_type#">
-																	</cfif>
 																	<cfset statusDate = "(#getTransactions.status# #trans_date#)">
 																	#statusDate#
 																	<span class="text-capitalize">#transaction_type#</span> 
