@@ -1615,7 +1615,7 @@ limitations under the License.
 																	<cfif len(lastTrans) gt 0>
 																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true"> #specific_number#</a><cfelse>
 																	</cfif>
-																	, #trans_agent_role#
+																	#trans_agent_role#
 																</li>
 																
 															</cfif>
