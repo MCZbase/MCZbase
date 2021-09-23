@@ -1610,19 +1610,20 @@ limitations under the License.
 																</li>
 															<cfelse>
 																<cfif lastTrans NEQ getTransactions.specific_number>
-																	<!--- encountered a new transaction --->
+																	<!--- encountered a new transaction (or the first)--->
+																	<cfif lastTrans NEQ "">
+																		<!--- not the first transaction, so close the list from the previous transaction --->
+																		</li>
+																		<cfset liOpen = false>
+																	</cfif>
 																	<li class="">
 																		<cfset liOpen = true>
-																		<cfif lastTrans NEQ "">
-																			<!--- not the first transaction, so close the list from the previous transaction --->
-																			</li>
-																			<cfset liOpen = false>
-																		</cfif>
 																		#statusDate#
 																		<span class="text-capitalize">#transaction_type#</span> 
 																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
 																		#trans_agent_role#
 																		<cfset statusDate = "(#getTransactions.status# #trans_date#)">
+																	<!--- /li added in cfif either above or below --->
 																<cfelse>
 																	<!--- accumulate transaction agents, rows in getTransactions repeat for different roles by this agent in the same transaction --->
 																	, #trans_agent_role#
