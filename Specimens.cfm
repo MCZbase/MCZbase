@@ -153,6 +153,7 @@ limitations under the License.
 	</cfquery>
 	<cfloop query="lookupCollection_cde">
 		<cfset collection_cde = lookupCollection_cde.code>
+		<cfset collection = lookupCollection_cde.code>
 	</cfloop>
 </cfif>
 
