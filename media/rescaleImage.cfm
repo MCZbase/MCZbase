@@ -20,8 +20,14 @@ limitations under the License.
 Streams directly to response without use of CFFileServelet
 
 --->
+<cfset fitHeight = "">
 <cfif isdefined("width") AND len(width) GT 0 and IsNumeric(width)>
 	<cfset fitWidth = width>
+	<cfif isdefined("height") AND len(height) GT 0 and IsNumeric(height)>
+		<cfset fitHeight = height>
+	<cfelse>
+		<cfset fitHeight = "">
+	</cfif>
 <cfelse>
 	<cfset fitWidth = 500>
 </cfif>
@@ -41,23 +47,23 @@ Streams directly to response without use of CFFileServelet
 	<cfif media.recordcount EQ 1>
 		<cfloop query="media">
 			<cfif mime_type EQ 'image/jpeg' OR mime_type EQ 'image/png'>
-				<cfif len(media.width) GT 0 and media.width GT 0 AND fitWidth GT media.width >
+				<cfif len(media.width) GT 0 and media.width GT 0 AND fitWidth GT media.width AND len(fitHeight) EQ 0 >
 					<!--- just deliver the image --->
 					<cflocation URL="#media.media_uri#">
 					<cfabort>
 				<cfelse>
+					<!--- setup to rescale --->
 					<cfset target = replace(media_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
 					<cfset target = replace(media_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
 					<cfset mimeType = "#mime_type#">
 				</cfif>
 			<cfelse>
 				<cfif media_type EQ 'image'>
-					<cfif len(media.width) GT 0 and media.width GT 0 AND fitWidth GT media.width >
+					<cfif len(media.width) GT 0 and media.width GT 0 AND fitWidth GT media.width>
 						<!--- just deliver the image --->
 						<cflocation URL="#media.media_uri#">
 						<cfabort>
 					<cfelse>
-						<!--- setup to rescale --->
 						<cfset target = "#Application.webDirectory#/shared/images/noExternalImage.png">
 					</cfif>
 				<cfelse>
@@ -74,13 +80,25 @@ Streams directly to response without use of CFFileServelet
 </cfif>
 
 <cftry>
-	<cfimage source="#target#" name="targetImage">
-	<cfset ImageSetAntialiasing(targetImage,"on")>
-	<cfset ImageScaleToFit(targetImage,#fitWidth#,"","highestPerformance")>
-	<cfset response = getPageContext().getFusionContext().getResponse()>
-	<cfheader name="Content-Type" value="#mimeType#">
-	<cfset response.getOutputStream().writeThrough(ImageGetBlob(targetImage))>
-	<cfabort>
+	<cfif len(fitWidth) GT 0>
+		<!--- Rescale the image to fit an image of the specified fitWidth and fitHeight, preserving the original aspect ratio of the image within the fit height/width image with a background where the aspect ratio of the original and fit targets differ --->
+		<cfimage source="#target#" name="targetImage">
+		<cfset ImageSetAntialiasing(targetImage,"on")>
+		<cfset ImageScaleToFit(targetImage,#fitWidth#,#fitHeight#,"highestPerformance")>
+		<cfset response = getPageContext().getFusionContext().getResponse()>
+		<cfheader name="Content-Type" value="#mimeType#">
+		<cfset response.getOutputStream().writeThrough(ImageGetBlob(targetImage))>
+		<cfabort>
+	<cfelse>
+		<!--- Rescale the image to fit the provided width --->
+		<cfimage source="#target#" name="targetImage">
+		<cfset ImageSetAntialiasing(targetImage,"on")>
+		<cfset ImageScaleToFit(targetImage,#fitWidth#,"","highestPerformance")>
+		<cfset response = getPageContext().getFusionContext().getResponse()>
+		<cfheader name="Content-Type" value="#mimeType#">
+		<cfset response.getOutputStream().writeThrough(ImageGetBlob(targetImage))>
+		<cfabort>
+	</cfif>
 <cfcatch>
 	<cfif isDefined("debug") AND len(debug) GT 0>
 		<cfdump var="#cfcatch#">
