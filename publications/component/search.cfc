@@ -164,12 +164,12 @@ Function getPublicationAutocompleteMeta.  Search for publications by name with a
 </cffunction>
 
 <!---
-Function getTypeStatusAutocomplete.  Search for type status values, returning json suitable for jquery-ui autocomplete.
+Function getTypeStatusSearchAutocomplete.  Search for type status values, returning json suitable for jquery-ui autocomplete.
 
 @param term type status to search for.
 @return a json structure containing id and value, with matching publications with type_status in name and in id.
 --->
-<cffunction name="getTypeStatusAutocomplete" access="remote" returntype="any" returnformat="json">
+<cffunction name="getTypeStatusSearchAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
 	<cfset name = "%#term#%"> 
 
