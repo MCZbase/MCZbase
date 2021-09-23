@@ -559,7 +559,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset field = '"field": "collection_cde"'>
 		<cfset comparator = '"comparator": "IN"'>
 		<cfset value = encodeForJavaScript(collection)>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#"#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
