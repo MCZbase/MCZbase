@@ -61,7 +61,7 @@ limitations under the License.
 	outline: 1px solid transparent;
 }
 #map button:focus {
-	outline: 1px solid rgb(0 123 255 / 25%);
+	outline: 2px solid rgb(0 123 255 / 75%);
 }
 .vslider {
   	position: relative;
