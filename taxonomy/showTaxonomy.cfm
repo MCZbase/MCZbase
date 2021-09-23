@@ -498,17 +498,34 @@
 					<cfelse>
 						<cfloop query="related">
 							<li>
-								#TAXON_RELATIONSHIP# of <a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><b><i>#related_name#</i> <span class="sm-caps">#related.related_author_text#<span></b></a>
+								#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span> #TAXON_RELATIONSHIP# <a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><b><i>#related_name#</i> <span class="sm-caps">#related.related_author_text#<span></b></a>
 								<cfif len(RELATION_AUTHORITY) gt 0>
 									(According to: #encodeForHTML(RELATION_AUTHORITY)#)
 								</cfif>
 							</li>
 						</cfloop>
-						<cfloop query="imp_related">
+						<cfquery name="inverse_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
+							SELECT
+								scientific_name,
+								author_text,
+								taxon_relations.taxon_relationship,
+								cttaxon_relation.inverse_relation,
+								relation_authority,
+								taxonomy.taxon_name_id
+							FROM
+								taxon_relations
+								left join taxonomy on taxon_relations.taxon_name_id = taxonomy.taxon_name_id
+								left join cttaxon_relation on taxon_relations.taxon_relationship = cttaxon_relation.taxon_relationship
+							WHERE
+								taxon_relations.related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
+						</cfquery>
+						<cfloop query="inverse_relations">
 							<li> 
-								<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#imp_RELATED_TAXON_NAME_ID#"><b><i>#imp_related_name#</i> <span class="sm-caps">#imp_related_author_text#</span></b></a> is #imp_TAXON_RELATIONSHIP#
-								<cfif len(imp_RELATION_AUTHORITY) gt 0>
-									(According to: #encodeForHTML(imp_RELATION_AUTHORITY)#)
+								#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span>
+								#inverse_relations.inverse_relation#
+								<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#inverse_relations.taxon_name_id#"><b><i>#inverse_relations.scientific_name#</i> <span class="sm-caps">#inverse_relations.author_text#</span></b></a> 
+								<cfif len(inverse_relations.RELATION_AUTHORITY) gt 0>
+									(According to: #encodeForHTML(inverse_relations.RELATION_AUTHORITY)#)
 								</cfif>
 							</li>
 						</cfloop>

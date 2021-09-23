@@ -294,6 +294,12 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 	<cfargument name="target" type="string" required="yes">
 	<cfthread name="getRelationsHtmlThread">
 		<cftry>
+			<cfquery name="taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
+				SELECT scientific_name, author_text
+				FROM taxonomy
+				WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+			</cfquery>
+			<cfset taxonname = "#taxon.scientific_name# <span class='sm-caps'>#taxon.author_text#</span>" >
 			<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
 				SELECT
 					scientific_name,
@@ -308,29 +314,67 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 					taxon_relations.related_taxon_name_id = taxonomy.taxon_name_id
 					AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 			</cfquery>
+			<cfquery name="inverse_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
+				SELECT
+					scientific_name,
+					author_text,
+					taxon_relations.taxon_relationship,
+					cttaxon_relation.inverse_relation,
+					relation_authority,
+					taxonomy.taxon_name_id
+				FROM
+					taxon_relations
+					left join taxonomy on taxon_relations.taxon_name_id = taxonomy.taxon_name_id
+					left join cttaxon_relation on taxon_relations.taxon_relationship = cttaxon_relation.taxon_relationship
+				WHERE
+					taxon_relations.related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+			</cfquery>
 			<cfset i=0>
 			<cfoutput>
-				<cfif relations.recordcount gt 0>
-					<ul class="mx-0 px-4 mt-1 list-style-disc">
-						<cfloop query="relations">
-							<cfset i=i+1>
-							<!--- PRIMARY KEY ("TAXON_NAME_ID", "RELATED_TAXON_NAME_ID", "TAXON_RELATIONSHIP") --->
-							<li class="mb-1">#relations.taxon_relationship#
-							<!--- Create a link out of scientific name --->
-								<em><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#relations.related_taxon_name_id#' target='_blank'>#relations.scientific_name#</a></em>
-								<span class='sm-caps'>#relations.author_text#</span>
-								<cfif len(relations.relation_authority) GT 0>
-									 fide #relations.relation_authority# 
-								</cfif>
-								<button class='btn-xs btn-secondary mx-1' 
-									onclick='openEditTaxonRelationDialog(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","editTaxonRelationDialog","#target#");' value='Edit' 
-									title='Edit' aria-label='Edit this Taxon Relation'>Edit</button>
-								<button class='btn-xs btn-warning mx-1' 
-									onclick=' confirmDialog(" Remove Relatioship?","Remove?", function() { deleteTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","#target#"); }); ' 
-									value='Remove' title='Remove' aria-label='Remove this Relation from Taxonomy'>Remove</button>
-								</li>
-						</cfloop>
-					</ul>
+				<cfif relations.recordcount gt 0 OR inverse_relations.recordcount gt 0>
+					<cfif relations.recordcount gt 0>
+						<ul class="mx-0 px-4 mt-1 list-style-disc">
+							<cfloop query="relations">
+								<cfset i=i+1>
+								<!--- PRIMARY KEY ("TAXON_NAME_ID", "RELATED_TAXON_NAME_ID", "TAXON_RELATIONSHIP") --->
+								<li class="mb-1">
+									#taxonname# #relations.taxon_relationship#
+									<!--- Create a link out of scientific name --->
+									<em><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#relations.related_taxon_name_id#' target='_blank'>#relations.scientific_name#</a></em>
+									<span class='sm-caps'>#relations.author_text#</span>
+									<cfif len(relations.relation_authority) GT 0>
+										 fide #relations.relation_authority# 
+									</cfif>
+									<button class='btn-xs btn-secondary mx-1' 
+										onclick='openEditTaxonRelationDialog(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","editTaxonRelationDialog","#target#");' value='Edit' 
+										title='Edit' aria-label='Edit this Taxon Relation'>Edit</button>
+									<button class='btn-xs btn-warning mx-1' 
+										onclick=' confirmDialog(" Remove Relatioship?","Remove?", function() { deleteTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","#target#"); }); ' 
+										value='Remove' title='Remove' aria-label='Remove this Relation from Taxonomy'>Remove</button>
+									</li>
+							</cfloop>
+						</ul>
+					<cfelse>
+						<ul class="px-4 list-style-disc"><li>No relationships from this taxon</li></ul>
+					</cfif>
+					<cfif inverse_relations.recordcount gt 0>
+						<ul class="mx-0 px-4 mt-1 list-style-circle">
+							<cfloop query="inverse_relations">
+								<cfset i=i+1>
+								<li class="mb-1">
+									#taxonname#
+									#inverse_relations.inverse_relation# 
+									<em><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#inverse_relations.taxon_name_id#' target='_blank'>#inverse_relations.scientific_name#</a></em>
+									<span class='sm-caps'>#inverse_relations.author_text#</span>
+									<cfif len(inverse_relations.relation_authority) GT 0>
+										 fide #inverse_relations.relation_authority# 
+									</cfif>
+									</li>
+							</cfloop>
+						</ul>
+					<cfelse>
+						<ul class="px-4 list-style-circle"><li>No relationships to this taxon</li></ul>
+					</cfif>
 				<cfelse>
 					<ul class="px-4 list-style-disc"><li>No Taxon Relationships</li></ul>
 				</cfif>

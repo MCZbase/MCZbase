@@ -1763,6 +1763,9 @@ input#readMore_check_id {
 .list-style-disc {
 	list-style-type: disc;
 }
+.list-style-circle {
+	list-style-type: circle;
+}
 #overlay {
 	position: absolute;
 	top: 0;

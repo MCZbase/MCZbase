@@ -319,7 +319,7 @@
 				<cfset toaddresses = ValueList(to_agents.address,";")>
 				<cfset ccaddresses = ValueList(cc_agents.address,";")>
 			</cfif>
-			<cfset toaddresses = ValueList(cc_agents.address,";")>
+
 			<cfmail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
 						to="#toaddresses#"
 						cc="#ccaddresses#"

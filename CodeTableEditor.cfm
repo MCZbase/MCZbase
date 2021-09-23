@@ -918,6 +918,92 @@
 				<cfset i = #i#+1>
 			</cfloop>
 		</table>
+	<cfelseif tbl is "cttaxon_relation"><!--------------------------------------------------------------->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT count(taxon_relations.taxon_name_id) ct, cttaxon_relation.taxon_relationship, description, inverse_relation
+			FROM cttaxon_relation 
+				LEFT JOIN taxon_relations on cttaxon_relation.taxon_relationship = taxon_relations.taxon_relationship
+			GROUP BY
+				cttaxon_relation.taxon_relationship, description, inverse_relation
+			ORDER BY taxon_relationship
+		</cfquery>	
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="cttaxon_relation">
+			<h2>Phrase taxon relationships and inverse relations in the form</h2>
+			<ul>
+				<li>A taxon_relationship B inverse_relation A</li>
+				<li>A junior homonym of B senior homonym of A</li>
+			</ul>
+			<table class="newRec">
+				<tr>
+					<th>Taxon Relationship</th>
+					<th>Description</th>
+					<th>Inverse Relation</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<textarea name="description" rows="4" cols="40"></textarea>
+					</td>
+					<td>
+						<input type="text" name="inverse_relation">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">					
+					</td>
+				</tr>
+			</table>
+		</form>
+		<cfset i = 1>
+		<table>
+			<tr>
+				<th>Taxon Relationship</th>
+				<th>Description</th>
+				<th>Inverse Relation</th>
+				<th>Action</th>
+				<th>Instances</th>
+			</tr>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="cttaxon_relation">
+						<input type="hidden" name="origData" value="#taxon_relationship#">
+						<td>
+							<input type="text" name="other_id_type" value="#taxon_relationship#" size="50">
+						</td>
+						<td>
+							<textarea name="description" rows="4" cols="40">#description#</textarea>
+						</td>
+						<td>
+							<input type="text" name="inverse_relation" value="#inverse_relation#">
+						</td>				
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<cfif q.ct EQ 0>
+								<input type="button" 
+									value="Delete" 
+									class="delBtn"
+									onclick="#tbl##i#.action.value='deleteValue';submit();">	
+							</cfif>
+						</td>
+						<td>
+							#ct#
+						</td>				
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
 	<cfelseif tbl is "ctnomenclatural_code"><!--------------------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select nomenclatural_code, description, sort_order from ctnomenclatural_code order by sort_order
@@ -1258,7 +1344,13 @@
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctcoll_other_id_type
 			where
-				OTHER_ID_TYPE='#origData#'
+				OTHER_ID_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "cttaxon_relation">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			DELETE FROM cttaxon_relation
+			WHERE
+				taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctattribute_code_tables">
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1374,6 +1466,15 @@
 				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
 				BASE_URL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#base_url#" />
 			where
+				OTHER_ID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "cttaxon_relation">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			UPDATE cttaxon_relation SET 
+				taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_relationship#" />,
+				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				inverse_relation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />
+			WHERE
 				OTHER_ID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctattribute_code_tables">
@@ -1505,9 +1606,21 @@
 				DESCRIPTION,
 				base_URL
 			) values (
-				'#newData#',
-				'#description#',
-				'#base_url#'
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#base_url#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "cttaxon_relation">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into cttaxon_relation (
+				taxon_relationship,
+				DESCRIPTION,
+				inverse_relation
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctattribute_code_tables">

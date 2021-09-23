@@ -783,7 +783,7 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-2">
 							<label for="first_name"class="data-entry-label">First Name</label>
 							<input type="text" name="first_name" id="first_name"class="data-entry-input">
 						</div>
@@ -791,7 +791,7 @@ limitations under the License.
 							<label for="middle_name" class="data-entry-label">Middle Name</label>
 							<input type="text" name="middle_name" id="middle_name"class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-2">
 							<cfif curAgentType EQ "person"><cfset req="required"><cfelse><cfset req=""></cfif>
 							<label for="last_name"class="data-entry-label">Last Name</label>
 							<input type="text" name="last_name" id="last_name" class="data-entry-input reqdClr" #req#>
@@ -805,6 +805,20 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
+						<div class="col-12 col-md-2">
+							<label for="paste_to_preferred"class="data-entry-label">Copy to preferred name</label>
+							<input type="button" id="paste_to_preferred" class="btn btn-secondary btn-xs" value="Copy" onclick="pasteFMLtoPreferred();">
+						</div>
+						<script>
+							function pasteFMLtoPreferred() {
+								if ($('##pref_name').val()=='') { 
+									var fml = $('##prefix option:selected').text() + " " + $('##first_name').val() + " " + $('##middle_name').val() + " " + $('##last_name').val() + " " +  $('##suffix option:selected').text();
+									$('##pref_name').val(fml.trim().replace("  "," "));
+								} else { 
+									messageDialog("You must edit an existing preferred name by hand.");
+								} 
+							}
+						</script>
 					</div>
 					<div class="form-row mb-1">
 						<div class="col-12 col-md-6">

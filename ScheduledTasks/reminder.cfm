@@ -313,7 +313,6 @@
 				<cfset ccaddresses = ValueList(cc_agents.address,";")>
 			</cfif>
 
-			<cfset toaddresses = ValueList(cc_agents.address,";")>
 			<cfset uscodes="US,USA,UNITED STATES,UNITED STATES OF AMERICA,U.S.A">
 
 			<cfmail 	<!---to="bhaley@oeb.harvard.edu;heliumcell@gmail.com"--->
