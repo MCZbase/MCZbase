@@ -141,6 +141,20 @@ limitations under the License.
 <cfif NOT isdefined("searchText")>
 	<cfset searchText = "">
 </cfif>
+<cfif not isdefined("collection_cde") AND isdefined("collection_id") AND len(collection_id) GT 0 >
+	<!--- if collection id was provided, but not a collection code, lookup the collection code --->
+	<cfquery name="lookupCollection_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupCollection_cde_result">
+		SELECT
+			collection_cde code
+		FROM
+			collection
+		WHERE
+			collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+	</cfquery>
+	<cfloop query="lookupCollection_cde">
+		<cfset collection_cde = lookupCollection_cde.code>
+	</cfloop>
+</cfif>
 
 <cfoutput>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
