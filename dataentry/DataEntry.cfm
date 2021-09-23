@@ -74,9 +74,6 @@ limitations under the License.
 	-moz-transform: rotate(-3deg);
 	-webkit-transform: rotate(-3deg);
 }
-body {
-	min-width: 100%;
-}
 .column {
 	width: 10%;
 	float: left;
