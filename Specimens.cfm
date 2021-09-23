@@ -684,6 +684,18 @@ limitations under the License.
 														});
 													</script>
 												</div>
+											</div>
+											<div class="form-row mb-2">
+												<div class="col-12 col-md-2">
+													<label for="type_status" class="data-entry-label">Type Status</label>
+													<cfif not isdefined("type_status")><cfset type_status=""></cfif>
+													<input type="text" class="data-entry-input" id="type_status" name="type_status" value="#type_status#">
+													<script>
+														jQuery(document).ready(function() {
+															makeTypeStatusSearchAutocomplete('type_status');
+														});
+													</script>
+												</div>
 												<div class="col-12 col-md-2">
 													<label for="genus" class="data-entry-label">Genus</label>
 													<cfif not isdefined("genus")><cfset genus=""></cfif>

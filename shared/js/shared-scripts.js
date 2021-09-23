@@ -765,6 +765,35 @@ function makePublicationAutocompleteMeta(valueControl, idControl) {
 	};
 };
 
+/** Make a text name control into an autocomplete type status picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makeTypeStatusSearchAutocomplete(valueControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/publications/component/search.cfc",
+				data: { term: request.term, method: 'getTypeStatusSearchAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+						message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		minLength: 3
+	};
+};
+
 /** Make a paired hidden id and text name control into an autocomplete project picker.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).

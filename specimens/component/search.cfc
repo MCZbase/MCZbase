@@ -525,10 +525,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="part_name" type="string" required="no">
 	<cfargument name="preserve_method" type="string" required="no">
 	<cfargument name="other_id_number" type="string" required="no">
+	<cfargument name="type_status" type="string" required="no">
 	<cfargument name="full_taxon_name" type="string" required="no">
 	<cfargument name="genus" type="string" required="no">
 	<cfargument name="family" type="string" required="no">
 	<cfargument name="phylorder" type="string" required="no">
+	<cfargument name="phylclass" type="string" required="no">
+	<cfargument name="phylum" type="string" required="no">
 	<cfargument name="author_text" type="string" required="no">
 	<cfargument name="scientific_name" type="string" required="no">
 	<cfargument name="taxon_name_id" type="string" required="no">
@@ -662,6 +665,27 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
 		</cfif>
+		<cfif isDefined("phylclass") AND len(phylclass) GT 0>
+			<cfset field = '"field": "phylclass"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#phylclass#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
+		<cfif isDefined("phylum") AND len(phylum) GT 0>
+			<cfset field = '"field": "phylum"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#phylum#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
+	</cfif>
+	<cfif isDefined("type_status") AND len(type_status) GT 0>
+		<cfset field = '"field": "citations_type_status"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#type_status#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
 	</cfif>
 	
 	<cfif isDefined("higher_geog") AND len(higher_geog) GT 0>
