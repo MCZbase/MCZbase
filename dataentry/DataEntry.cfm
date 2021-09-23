@@ -75,7 +75,7 @@ limitations under the License.
 	-webkit-transform: rotate(-3deg);
 }
 .column {
-	width: 10%;
+	width: 14%;
 	float: left;
 	padding-bottom: 100px;
 }
