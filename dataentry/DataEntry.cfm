@@ -78,7 +78,7 @@ body {
 	min-width: 520px;
 }
 .column {
-	width: 170px;
+	width: 10%;
 	float: left;
 	padding-bottom: 100px;
 }
