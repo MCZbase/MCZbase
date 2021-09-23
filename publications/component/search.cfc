@@ -17,6 +17,8 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---
 Function getPublicationList.  Search for publications by name with a substring match on any name, returning json suitable for a dataadaptor.
@@ -164,12 +166,12 @@ Function getPublicationAutocompleteMeta.  Search for publications by name with a
 </cffunction>
 
 <!---
-Function getTypeStatusAutocomplete.  Search for type status values, returning json suitable for jquery-ui autocomplete.
+Function getTypeStatusSearchAutocomplete.  Search for type status values, returning json suitable for jquery-ui autocomplete.
 
 @param term type status to search for.
 @return a json structure containing id and value, with matching publications with type_status in name and in id.
 --->
-<cffunction name="getTypeStatusAutocomplete" access="remote" returntype="any" returnformat="json">
+<cffunction name="getTypeStatusSearchAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
 	<cfset name = "%#term#%"> 
 
@@ -180,7 +182,7 @@ Function getTypeStatusAutocomplete.  Search for type status values, returning js
 			SELECT 
 			   type_status, category	
 			FROM 
-				ctcitation_type_satus
+				ctcitation_type_status
 			WHERE
 				upper(type_status) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 		</cfquery>
