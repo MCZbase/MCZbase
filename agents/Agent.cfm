@@ -1614,7 +1614,7 @@ limitations under the License.
 																			</li>
 																		</cfif>
 																		<span class="text-capitalize">#transaction_type#</span>
-																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true"> #specific_number#</a>
+																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true"> #specific_number#</a><cfelse>
 																		#trans_agent_role#
 																		<cfset statusDate = "(#getTransactions.status# #trans_date#)">
 																	<cfelse>
