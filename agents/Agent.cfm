@@ -1618,11 +1618,11 @@ limitations under the License.
 																	</cfif>
 																	<li class="">
 																		<cfset liOpen = true>
+																		<cfset statusDate = "(#getTransactions.status# #trans_date#)">
 																		#statusDate#
 																		<span class="text-capitalize">#transaction_type#</span> 
 																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
 																		#trans_agent_role#
-																		<cfset statusDate = "(#getTransactions.status# #trans_date#)">
 																	<!--- /li added in cfif either above or below --->
 																<cfelse>
 																	<!--- accumulate transaction agents, rows in getTransactions repeat for different roles by this agent in the same transaction --->
