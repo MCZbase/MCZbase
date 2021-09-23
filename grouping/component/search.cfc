@@ -91,7 +91,7 @@ limitations under the License.
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end,
 				mask_fg
-			ORDER BY 
+			ORDER BY
 				underscore_collection.collection_name
 		</cfquery>
 		<cfset rows = search_result.recordcount>
