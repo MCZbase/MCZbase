@@ -76,7 +76,7 @@ limitations under the License.
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 	WHERE
-		topytypestatuskind = 'Primary'
+		toptypestatuskind = 'Primary'
 	GROUP BY
 		collection, collection_id, toptypestatus
 </cfquery>
