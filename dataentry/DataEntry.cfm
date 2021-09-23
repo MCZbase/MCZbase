@@ -355,10 +355,10 @@ limitations under the License.
 	
 	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1111px;">
 		<div class="row mx-0 bg-blue-gray" style="background-color:##deebec!important;">
+			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
 			<div class="col-12 mt-0 offset-1">
 				<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
-				<h1 class="text-center mt-2">Enter a New Record</h1>
 				<div class="column">
 					<div class="portlet">
 						<div class="portlet-header">COLLECTION</div>
