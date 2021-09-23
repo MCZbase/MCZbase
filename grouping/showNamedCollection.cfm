@@ -676,18 +676,6 @@ div.vslider-item[aria-hidden="true"]{
 										<div class="border rounded px-1 mx-1 pb-1">
 											<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
 											<div id="map" class="w-100 rounded"></div>
-											<div style="display: none">
-												<div class="controls zoom-control">
-													<button class="zoom-control-in" title="Zoom In">+</button>
-													<button class="zoom-control-out" title="Zoom Out">−</button>
-												</div>
-												<div class="controls maptype-control maptype-control-is-map">
-													<button class="maptype-control-map" title="Show road map">Map</button>
-													<button class="maptype-control-satellite" title="Show satellite imagery">
-													Satellite
-													</button>
-												</div>
-											</div>
 											<div id="floating-panel" class="w-100 mx-auto">
 												<button id="toggle-heatmap" class="mt-1 border-info rounded">Toggle Heatmap</button>
 												<button id="change-gradient" class="mt-1 border-info rounded">Change gradient</button>
