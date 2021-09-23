@@ -98,7 +98,6 @@ body {
 	position: absolute;
 	top: 50%;
 	right: 0;
-	margin-top: -8px;
 }
 .portlet-content {
 	padding: 0.4em;
