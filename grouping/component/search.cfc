@@ -92,7 +92,7 @@ limitations under the License.
 					end,
 				mask_fg
 			ORDER BY
-				collection_name
+				underscore_collection.collection_name
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
