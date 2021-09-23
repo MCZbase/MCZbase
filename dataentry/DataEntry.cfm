@@ -363,7 +363,6 @@ limitations under the License.
 					<div class="portlet">
 						<div class="portlet-header">COLLECTION</div>
 						<div class="portlet-content">
-							<h2 class="data-entry-title mt-">Collection</h2>
 							<div class="row">
 								<label for="collection" class="sr-only">Collection</label>
 								<div class="col-12">
@@ -389,9 +388,18 @@ limitations under the License.
 					<div class="portlet">
 						<div class="portlet-header">ACCESSION NUMBER</div>
 						<div class="portlet-content">
-							<label for="cat_num" class="sr-only">Accession Number</label>
+							<label for="accn" class="sr-only">Accession Number</label>
 							<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession Number" name="accn">
 							<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
+						</div>
+					</div>
+					<div class="portlet">
+						<div class="portlet-header">ENCUMBRANCE</div>
+						<div class="portlet-content">
+							<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center pr-0" style="margin-top: -5px;">Mask Record</label>
+							<input class="form-check-input w-auto mt-1" value="mask" type="checkbox" id="gridCheck1">
+							<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>--> 
+							<small id="accnHelp" class="form-text float-left text-muted">Puts it in a generic encumbrance.</small>
 						</div>
 					</div>
 				</div>
