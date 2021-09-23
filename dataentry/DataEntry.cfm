@@ -357,16 +357,30 @@ body {
 	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1111px;">
 		<div class="row mx-0 bg-blue-gray" style="background-color:##deebec!important;">
 			<div class="col-12 mt-0 offset-1">
-	<div class="column">
-    <div class="portlet">
-        <div class="portlet-header">Feeds</div>
-        <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-    </div>
-    <div class="portlet">
-        <div class="portlet-header">News</div>
-        <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-    </div>
-</div>
+				<div class="column">
+					<div class="portlet">
+						<div class="portlet-header">COLLECTION</div>
+						<div class="portlet-content">
+							<h2 class="data-entry-title">Collection</h2>
+							<div class="row">
+								<label for="collection" class="sr-only">Collection</label>
+								<div class="col-12">
+									<select class="data-entry-select px-0" required>
+										<option value="">Select Collection</option>
+										<option value="1">Herpetology</option>
+										<option value="2">Mammalogy</option>
+										<option value="3">Malacology</option>
+									</select>
+									<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="portlet">
+						<div class="portlet-header">News</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					</div>
+				</div>
 
 <div class="column">
     <div class="portlet">
