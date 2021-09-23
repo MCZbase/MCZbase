@@ -64,6 +64,49 @@ limitations under the License.
 	z-index: 10;
 	font-size: 
 }
+.tilt.right {
+	transform: rotate(3deg);
+	-moz-transform: rotate(3deg);
+	-webkit-transform: rotate(3deg);
+}
+.tilt.left {
+	transform: rotate(-3deg);
+	-moz-transform: rotate(-3deg);
+	-webkit-transform: rotate(-3deg);
+}
+body {
+	min-width: 100%;
+}
+.column {
+	width: 10%;
+	float: left;
+	padding-bottom: 100px;
+}
+.portlet {
+	margin: 0 1em 1em 0;
+	padding: 0.3em;
+}
+.portlet-header {
+	padding: 0.2em 0.3em;
+	margin-bottom: 0.5em;
+	position: relative;
+}
+.portlet-header span.ui-icon {
+	margin-top:-9px;
+}
+.portlet-toggle {
+	position: absolute;
+	top: 50%;
+	right: 0;
+}
+.portlet-content {
+	padding: 0.4em;
+}
+.portlet-placeholder {
+	border: 1px dotted black;
+	margin: 0 1em 1em 0;
+	height: 50px;
+}
 #regFormAll .data-entry-title{font-size: .76rem;}
 
 </style>
@@ -73,7 +116,7 @@ limitations under the License.
 	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> </div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
 		<div class="row">
-			<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
+			<div class="col-12 justify-content-center mt-2 mx-auto">
 				<form id="regForm" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
 					<h1 class="text-center my-2">Enter a New Record</h1>
@@ -315,7 +358,53 @@ limitations under the License.
 	
 	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1111px;">
 		<div class="row mx-0 bg-blue-gray" style="background-color:##deebec!important;">
-			<div class="col-12 mt-0">
+			<div class="col-12 mt-0 offset-1">
+				<div class="column">
+					<div class="portlet">
+						<div class="portlet-header">COLLECTION</div>
+						<div class="portlet-content">
+							<h2 class="data-entry-title">Collection</h2>
+							<div class="row">
+								<label for="collection" class="sr-only">Collection</label>
+								<div class="col-12">
+									<select class="data-entry-select px-0" required>
+										<option value="">Select Collection</option>
+										<option value="1">Herpetology</option>
+										<option value="2">Mammalogy</option>
+										<option value="3">Malacology</option>
+									</select>
+									<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="portlet">
+						<div class="portlet-header">News</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					</div>
+				</div>
+
+<div class="column">
+    <div class="portlet">
+        <div class="portlet-header">Shopping</div>
+        <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+    </div>
+</div>
+ 
+<div class="column">
+    <div class="portlet">
+        <div class="portlet-header">Links</div>
+        <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+    </div>
+    <div class="portlet">
+        <div class="portlet-header">Images</div>
+        <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+    </div>
+</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-2 mb-0">Enter a New Record</h1>
@@ -984,6 +1073,50 @@ function dragElement(elmnt) {
 }
 </script>
 	<!---Step by step form for each section of the Data Entry form -- Form wizard--->
+<script>
+$( ".column" ).sortable({
+    connectWith: ".column",
+    handle: ".portlet-header",
+    cancel: ".portlet-toggle",
+    start: function (event, ui) {
+        ui.item.addClass('tilt');
+        tilt_direction(ui.item);
+    },
+    stop: function (event, ui) {
+        ui.item.removeClass("tilt");
+        $("html").unbind('mousemove', ui.item.data("move_handler"));
+        ui.item.removeData("move_handler");
+    }
+});
+
+function tilt_direction(item) {
+    var left_pos = item.position().left,
+        move_handler = function (e) {
+            if (e.pageX >= left_pos) {
+                item.addClass("right");
+                item.removeClass("left");
+            } else {
+                item.addClass("left");
+                item.removeClass("right");
+            }
+            left_pos = e.pageX;
+        };
+    $("html").bind("mousemove", move_handler);
+    item.data("move_handler", move_handler);
+}  
+
+$( ".portlet" )
+    .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
+    .find( ".portlet-header" )
+    .addClass( "ui-widget-header ui-corner-all" )
+    .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
+
+$( ".portlet-toggle" ).click(function() {
+    var icon = $( this );
+    icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
+    icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
+});
+</script>
 <script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row 
 		
