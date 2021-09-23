@@ -1253,7 +1253,7 @@ $(document).ready(function(){
 	
 $(document).ready(function(){
 	$(".addAgent1").click(function(){
-		$("##customAgent1").append('<div class="form-row mx-0 mt-1"><label for="agent_id" class="sr-only"></label><select class="data-entry-select" required><option value="0">Coll.</option><option value="1">Prep.</option></select><input type="text" class="data-entry-input" name="agent_id" placeholder="Agent ID"><button href="javascript:void(0);" arial-label="remove" class="btn addAgent p-0 m-0 float-left data-entry-button remAgent1" style="width:20px;"><i class="fas fa-times"></i></button></div>');
+		$("##customAgent1").append('<div class="form-row mx-0 mt-1"><label for="agent_id" class="sr-only"></label><select class="data-entry-select" required><option value="0">Collector</option><option value="1">Preparator</option></select><input type="text" class="data-entry-input" name="agent_id" placeholder="Agent ID"><button href="javascript:void(0);" arial-label="remove" class="btn addAgent p-0 m-0 float-left data-entry-button remAgent1" style="width:20px;"><i class="fas fa-times"></i></button></div>');
 	});
 		$("##customAgent1").on('click','.remAgent1',function(){$(this).parent().remove();});
 	});
