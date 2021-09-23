@@ -1612,14 +1612,14 @@ limitations under the License.
 																<cfif lastTrans NEQ getTransactions.specific_number>
 																	<!--- encountered a new transaction (or the first)--->
 																	<cfif lastTrans NEQ "">
-																		<!--- not the first transaction, so close the list from the previous transaction --->
+																		<!--- not the first transaction, so show status/date and close the list from the previous transaction --->
+																		#statusDate#
 																		</li>
 																		<cfset liOpen = false>
 																	</cfif>
 																	<li class="">
 																		<cfset liOpen = true>
 																		<cfset statusDate = "(#getTransactions.status# #trans_date#)">
-																		#statusDate#
 																		<span class="text-capitalize">#transaction_type#</span> 
 																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
 																		#trans_agent_role#
@@ -1633,6 +1633,7 @@ limitations under the License.
 														</cfloop>
 														<cfif liOpen >
 															<!--- clean up at end of oversizeSet IS false block --->
+															#statusDate#
 															</li>
 														</cfif>
 													</ul>
