@@ -383,7 +383,15 @@ limitations under the License.
 						<div class="portlet-content">
 							<label for="cat_num" class="sr-only">Catalog Number</label>
 							<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
-							<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection.</small>
+							<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
+						</div>
+					</div>
+					<div class="portlet">
+						<div class="portlet-header">ACCESSION NUMBER</div>
+						<div class="portlet-content">
+							<label for="cat_num" class="sr-only">Accession Number</label>
+							<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession Number" name="accn">
+							<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
 						</div>
 					</div>
 				</div>
@@ -392,19 +400,36 @@ limitations under the License.
 				<div class="portlet">
 					<div class="portlet-header">Shopping</div>
 						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-    </div>
-</div>
- 
-<div class="column">
-    <div class="portlet">
-        <div class="portlet-header">Links</div>
-        <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-    </div>
-    <div class="portlet">
-        <div class="portlet-header">Images</div>
-        <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-    </div>
-</div>
+					</div>
+				</div>
+				<div class="portlet">
+					<div class="portlet-header">Shopping</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="portlet">
+					<div class="portlet-header">Shopping</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					</div>
+				</div>
+				<div class="portlet">
+					<div class="portlet-header">Shopping</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="portlet">
+					<div class="portlet-header">Links</div>
+					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+				</div>
+				<div class="portlet">
+					<div class="portlet-header">Images</div>
+					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+				</div>
+			</div>
 			</div>
 		</div>
 		<div class="row">
