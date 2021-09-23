@@ -75,7 +75,7 @@ limitations under the License.
 	-webkit-transform: rotate(-3deg);
 }
 body {
-	min-width: 520px;
+	min-width: 100%;
 }
 .column {
 	width: 10%;
@@ -90,6 +90,9 @@ body {
 	padding: 0.2em 0.3em;
 	margin-bottom: 0.5em;
 	position: relative;
+}
+.portlet-header span.ui-icon {
+	margin-top:-9px;
 }
 .portlet-toggle {
 	position: absolute;
