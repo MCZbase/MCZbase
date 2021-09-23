@@ -791,7 +791,7 @@ function makeTypeStatusSearchAutocomplete(valueControl) {
 			})
 		},
 		minLength: 3
-	};
+	});
 };
 
 /** Make a paired hidden id and text name control into an autocomplete project picker.
