@@ -398,26 +398,22 @@ limitations under the License.
 
 			<div class="column">
 				<div class="portlet">
-					<div class="portlet-header">Shopping</div>
-						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-					</div>
+					<div class="portlet-header">Shopping1</div>
+					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 				</div>
 				<div class="portlet">
-					<div class="portlet-header">Shopping</div>
-						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-					</div>
+					<div class="portlet-header">Shopping2</div>
+					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 				</div>
 			</div>
 			<div class="column">
 				<div class="portlet">
-					<div class="portlet-header">Shopping</div>
-						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-					</div>
+					<div class="portlet-header">Shopping3</div>
+					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 				</div>
 				<div class="portlet">
-					<div class="portlet-header">Shopping</div>
-						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-					</div>
+					<div class="portlet-header">Shopping4</div>
+					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 				</div>
 			</div>
 			<div class="column">
@@ -430,7 +426,7 @@ limitations under the License.
 					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 				</div>
 			</div>
-			</div>
+
 		</div>
 		<div class="row">
 			<div class="col-12">
