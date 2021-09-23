@@ -411,13 +411,13 @@ limitations under the License.
 						<div id="customAgent">
 							<div class="form-row">
 								<label for="other_id" class="sr-only">Agent</label>
-								<div id="customAgent">
+								<div id="customAgent" class="w-100">
 									<select class="data-entry-select">
 										<option value="">Collector</option>
 										<option value="1">Preparator</option>
 									</select>
 									<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent loginButtons col mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent col mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
