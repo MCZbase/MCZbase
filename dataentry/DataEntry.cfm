@@ -358,12 +358,12 @@ limitations under the License.
 			<div class="col-12 mt-0 offset-1">
 				<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
-				<h1 class="text-center mt-2 mb-0">Enter a New Record</h1>
+				<h1 class="text-center mt-2">Enter a New Record</h1>
 				<div class="column">
 					<div class="portlet">
 						<div class="portlet-header">COLLECTION</div>
 						<div class="portlet-content">
-							<h2 class="data-entry-title">Collection</h2>
+							<h2 class="data-entry-title mt-">Collection</h2>
 							<div class="row">
 								<label for="collection" class="sr-only">Collection</label>
 								<div class="col-12">
@@ -426,7 +426,7 @@ limitations under the License.
 					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 				</div>
 			</div>
-
+		</div>
 		</div>
 		<div class="row">
 			<div class="col-12">
