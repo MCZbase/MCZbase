@@ -409,15 +409,30 @@ limitations under the License.
 					<div class="portlet-header">Collector/Preparator</div>
 					<div class="portlet-content">
 						<div class="form-row mx-0">
-							<label for="other_id" class="sr-only">Agent</label>
-							<div id="customAgent" class="w-100">
+							<label for="agent_id" class="sr-only">Agent</label>
+							<div id="customAgent">
+								<div class="form-row">
+									<label for="agent_id" class="sr-only">Other ID</label>
+									<div class="col-xl-5 pr-1">
+										<select class="data-entry-select" required>
+											<option value="">Collector</option>
+											<option value="1">Preparator</option>
+										</select>
+									</div>
+									<div class="col-xl-6 px-1">
+										<input type="text" class="data-entry-input"  name="agent_id" placeholder="Agent">
+									</div>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary col addAgent loginButtons mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i></a>
+								</div>
+							</div>
+							<!---<div id="customAgent" class="w-100">
 								<a aria-label="Add another set of search criteria" class="btn btn-xs py-0 btn-primary addAgent mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								<select class="data-entry-select">
 									<option value="">Collector</option>
 									<option value="1">Preparator</option>
 								</select>
 								<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
-							</div>
+							</div>--->
 						</div>
 					</div>
 				</div>
