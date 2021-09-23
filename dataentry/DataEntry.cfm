@@ -407,7 +407,24 @@ limitations under the License.
 			<div class="column">
 				<div class="portlet">
 					<div class="portlet-header">Collector/Preparator</div>
-					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					<div class="portlet-content">
+						<div id="customAgent">
+								<div class="form-row">
+									<label for="other_id" class="sr-only">Agent</label>
+									<div class="col-12 col-xl-5 pr-1">
+										<select class="data-entry-select">
+											<option value="">Collector</option>
+											<option value="1">Preparator</option>
+										</select>
+									</div>
+									<div class="col-12 col-xl-6 px-1">
+										<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
+									</div>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent loginButtons col mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="portlet">
 					<div class="portlet-header">Scientific Name</div>
