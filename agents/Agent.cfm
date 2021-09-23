@@ -1596,31 +1596,27 @@ limitations under the License.
 																	<cfif transaction_type IS "deaccession">
 																		<cfset targetStatus="deacc_status">
 																	<cfelse>
-																		<cfset targetStatus="#transaction_type#_status">
+																		<cfset targetStatus="#transaction_type#">
 																	</cfif>
 																	<a href="/Transactions.cfm?execute=true&action=find#transaction_type#&collection_id=#collection_id#&#targetStatus#=#status#&trans_agent_role_1=#trans_agent_role#&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#">
 																		#getTransactions.ct# 
 																	</a>
-																	<span class="text-capitalize">#transaction_type#</span> 
-																	#trans_agent_role#
+																	<span class="text-capitalize">#transaction_type#</span>, 
+																	#trans_agent_role#,
 																	#status# in #collection_cde#
 																	<span><!-- workaround --></span>
 																</li>
 															<cfelse>
 																<li class="">
-																	<cfif lastTrans NEQ getTransactions.specific_number>
-																		<cfif lastTrans NEQ "">
-																			#statusDate#
-																		</cfif>
-																		<span class="text-capitalize">#transaction_type#</span> 
-																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
-																		#trans_agent_role#
-																		<cfset statusDate = "(#getTransactions.status# #trans_date#)">
-																	<cfelse>
-																		, #trans_agent_role#
+																	<cfset lastTrans ="#getTransactions.specific_number#">
+																	<cfset statusDate = "(#getTransactions.status# #trans_date#)">
+																	#statusDate#
+																	<span class="text-capitalize">#transaction_type#</span>
+																	<cfif len(lastTrans) gt 0>
+																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true"> #specific_number#</a><cfelse>
 																	</cfif>
+																	#trans_agent_role#
 																</li>
-																<cfset lastTrans ="#getTransactions.specific_number#">
 															</cfif>
 														</cfloop>
 													</ul>
