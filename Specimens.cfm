@@ -270,6 +270,16 @@ limitations under the License.
 													<label for="searchText" class="data-entry-label">Keyword(s)</label>
 													<input id="searchText" type="text" class="data-entry-input py-1" name="searchText" placeholder="Search term" aria-label="search text" value="#searchText#">
 												</div>
+												<div class="col-12 col-xl-2">
+													<cfif findNoCase('redesign',gitBranch) GT 0>
+														<label class="data-entry-label" for="debug">Debug</label>
+														<select title="debug" name="debug" id="dbug" class="data-entry-select">
+															<option value=""></option>
+															<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+															<option value="true" #selected#>Debug JSON</option>
+														</select>
+													</cfif>
+												</div>
 											</div>
 										</div>
 										<div class="form-row my-3">

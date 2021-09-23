@@ -264,8 +264,45 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="searchText" type="string" required="yes">
 	<cfargument name="collection_cde" type="string" required="no">
 
+	<cfset search_json = "[">
+	<cfset separator = "">
+	<cfset join = ''>
+
+	<cfset nest = 1>
+	
+	<cfif isDefined("collection_cde") AND len(collection_cde) GT 0>
+		<cfset field = '"field": "collection_cde"'>
+		<cfset comparator = '"comparator": "IN"'>
+		<cfset value = encodeForJavaScript(collection_cde)>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("searchText") AND len(searchText) GT 0>
+		<cfset field = '"field": "kewyordSearchText"'>
+		<cfset comparator = '"comparator": ""'>
+		<cfset value = encodeForJavaScript(collection_cde)>
+		<cfset value = replace(value,"\x20"," ","all")>
+		<cfset value = replace(value,"\x5B","[","all")>
+		<cfset value = replace(value,"\x5D","]","all")>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	
+	<cfset search_json = "#search_json#]">
+	<cfif isdefined("debug") AND len(debug) GT 0>
+		<cfdump var="#search_json#">
+		<cfdump var="#session.dbuser#">
+		<cfabort>
+	</cfif>
+
 	<cftry>
-		<!--- TODO: change this to create a table of collection_object_ids, then a query to get preferred columns for user using the coll object table--->
+		<cfif NOT IsJSON(search_json)>
+			<cfthrow message="unable to construct valid json for query">
+		</cfif>
 
 		<cfif isDefined("searchText") and len(searchText) gt 0>
 			<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
@@ -283,6 +320,31 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 						WHERE category = 'attribute'
 					)
 			</cfquery>
+
+			<!--- 
+			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
+				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
+				<cfprocresult name="search">
+			</cfstoredproc>
+			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+				SELECT 
+					<cfset comma = "">
+					<cfloop query="flatFields">
+						#comma#flatTableName.#column_name#
+						<cfset comma = ",">
+					</cfloop>
+					<cfloop query="attrFields">
+						,#replace(sql_element,"''","'","all")# #column_name#
+					</cfloop>
+				FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+					left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+				WHERE
+					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			</cfquery>
+			--->
+
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 				SELECT
 					<cfset comma = "">
