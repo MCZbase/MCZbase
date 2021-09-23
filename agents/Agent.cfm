@@ -1608,20 +1608,15 @@ limitations under the License.
 																</li>
 															<cfelse>
 																<li class="">
-																	<cfif lastTrans NEQ getTransactions.specific_number>
-																		<cfif lastTrans NEQ "">
-																			#statusDate#
-																			</li>
-																		</cfif>
-																		<span class="text-capitalize">#transaction_type#</span>
+																	<cfset lastTrans ="#getTransactions.specific_number#">
+																	<cfset statusDate = "(#getTransactions.status# #trans_date#)">
+																	#statusDate#
+																	<span class="text-capitalize">#transaction_type#</span>
+																	<cfif len(lastTrans) gt 0>
 																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true"> #specific_number#</a><cfelse>
-																		#trans_agent_role#
-																		<cfset statusDate = "(#getTransactions.status# #trans_date#)">
-																	<cfelse>
-																		, #trans_agent_role#
 																	</cfif>
-																<!--- </li> is embedded in lastTrans test above above --->
-																<cfset lastTrans ="#getTransactions.specific_number#">
+																	#trans_agent_role#
+																</li>
 															</cfif>
 														</cfloop>
 													</ul>
