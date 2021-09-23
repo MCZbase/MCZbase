@@ -411,7 +411,7 @@ limitations under the License.
 						<div class="form-row mx-0">
 							<label for="agent_id" class="sr-only">Agent</label>
 							<div id="customAgent1">
-								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent1 loginButtons mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i></a>
+								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent1 loginButtons mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Coll. or Prep.</a>
 								<div class="form-row mx-0">
 									<label for="agent_id" class="sr-only">Agent</label>
 									<select class="data-entry-select" required>
