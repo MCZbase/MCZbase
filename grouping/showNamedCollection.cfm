@@ -57,12 +57,11 @@ limitations under the License.
 	z-index: 5;
 }
 #map button {
-	border: 1px solid red;
-	outline: 1px solid black;
+	border: 1px solid transparent;
+	outline: 1px solid transparent;
 }
 #map button:focus {
-	border: 1px solid green;
-	outline: 1px solid blue;
+	outline: 1px solid rgb(0 123 255 / 25%);
 }
 .vslider {
   	position: relative;
