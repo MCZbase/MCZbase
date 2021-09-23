@@ -1611,11 +1611,10 @@ limitations under the License.
 																	<cfset lastTrans ="#getTransactions.specific_number#">
 																	<cfset statusDate = "(#getTransactions.status# #trans_date#)">
 																	#statusDate#
-																	<span class="text-capitalize">#transaction_type#</span> 
+																	<span class="text-capitalize">#transaction_type#</span>
 																	<cfif len(lastTrans) gt 0>
-																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
+																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true"> #specific_number#</a>
 																	<cfelse>
-																		
 																	</cfif>
 																	, #trans_agent_role#
 																</li>
