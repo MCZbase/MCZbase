@@ -1241,11 +1241,18 @@ $(document).ready(function(){
 	});
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
+//$(document).ready(function(){
+//	$(".addAgent").click(function(){$("##customAgent").append('<div class="form-row mx-0 mt-2"><label for="agent_id" class="sr-only float-left">Agent as collector</label><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select><input type="text" class="data-entry-input" name="agent" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent data-entry-button p-0 m-0 remAgent" style="width:20px;"><i class="fas fa-times"></i></button></div>');
+//	});
+//	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
+//});
+	
 $(document).ready(function(){
-	$(".addAgent").click(function(){$("##customAgent").append('<div class="form-row mx-0 mt-2"><label for="other_id" class="sr-only float-left">Agent as collector</label><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select><input type="text" class="data-entry-input" name="agent" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent data-entry-button p-0 m-0 remAgent" style="width:20px;"><i class="fas fa-times"></i></button></div>');
+	$(".addAgent").click(function(){
+		$("##customAgent").append('<div class="form-row mt-1"><label for="agent_id" class="sr-only"></label><div class="col-12 col-xl-5 pr-1 float-left"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="0">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 px-1 float-left"><input type="text" class="data-entry-input"  name="agent_id" placeholder="Agent ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent p-0 m-0 float-left data-entry-button remOtherID" style="width:20px;"><i class="fas fa-times"></i></button></div>');
 	});
-	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
-});
+		$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
+	});
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
