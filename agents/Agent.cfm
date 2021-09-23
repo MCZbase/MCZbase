@@ -1588,8 +1588,10 @@ limitations under the License.
 													<ul class="list-group"><li class="list-group-item">Not a Transaction Agent in MCZbase</li></ul>
 												<cfelse>
 													<ul class="list-group mt-0">
+														<!--- lastTrans, statusDate, liOpen handle repeating rows in getTransactions for this agent in several roles in one transaction --->
 														<cfset lastTrans ="">
 														<cfset statusDate ="">
+														<cfset liOpen = false>
 														<cfloop query="getTransactions">
 															<cfif oversizeSet IS true>
 																<li class="">
@@ -1607,22 +1609,31 @@ limitations under the License.
 																	<span><!-- workaround --></span>
 																</li>
 															<cfelse>
-																<li class="">
-																	<cfif lastTrans NEQ getTransactions.specific_number>
+																<cfif lastTrans NEQ getTransactions.specific_number>
+																	<!--- encountered a new transaction --->
+																	<li class="">
+																		<cfset liOpen = true>
 																		<cfif lastTrans NEQ "">
-																			#statusDate#
+																			<!--- not the first transaction, so close the list from the previous transaction --->
+																			</li>
+																			<cfset liOpen = false>
 																		</cfif>
+																		#statusDate#
 																		<span class="text-capitalize">#transaction_type#</span> 
 																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
 																		#trans_agent_role#
 																		<cfset statusDate = "(#getTransactions.status# #trans_date#)">
-																	<cfelse>
-																		, #trans_agent_role#
-																	</cfif>
-																</li>
+																<cfelse>
+																	<!--- accumulate transaction agents, rows in getTransactions repeat for different roles by this agent in the same transaction --->
+																	, #trans_agent_role#
+																</cfif>
 																<cfset lastTrans ="#getTransactions.specific_number#">
 															</cfif>
 														</cfloop>
+														<cfif liOpen >
+															<!--- clean up at end of oversizeSet IS false block --->
+															</li>
+														</cfif>
 													</ul>
 												</cfif>
 											</div>
