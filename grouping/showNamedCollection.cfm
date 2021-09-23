@@ -610,6 +610,11 @@ div.vslider-item[aria-hidden="true"]{
 											map = new google.maps.Map(document.getElementById('map'), {
 												center: Cambridge,
 												zoom: 2,
+												mapTypeControl: true,
+												mapTypeControlOptions: {
+													style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+													mapTypeIds: ["satellite", "terrain"],
+												},
 												mapTypeId: 'satellite'
 											});
 											heatmap = new google.maps.visualization.HeatmapLayer({
