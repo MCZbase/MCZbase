@@ -282,7 +282,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("searchText") AND len(searchText) GT 0>
 		<cfset field = '"field": "kewyordSearchText"'>
 		<cfset comparator = '"comparator": ""'>
-		<cfset value = encodeForJavaScript(collection_cde)>
+		<cfset value = encodeForJavaScript(searchText)>
 		<cfset value = replace(value,"\x20"," ","all")>
 		<cfset value = replace(value,"\x5B","[","all")>
 		<cfset value = replace(value,"\x5D","]","all")>
