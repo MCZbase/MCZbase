@@ -409,15 +409,30 @@ limitations under the License.
 					<div class="portlet-header">Collector/Preparator</div>
 					<div class="portlet-content">
 						<div class="form-row mx-0">
-							<label for="other_id" class="sr-only">Agent</label>
-							<div id="customAgent" class="w-100">
+							<label for="agent_id" class="sr-only">Agent</label>
+							<div id="customAgent1">
+								<div class="form-row">
+									<label for="agent_id" class="sr-only">Agent</label>
+									<div class="col-xl-5 pr-1">
+										<select class="data-entry-select" required>
+											<option value="">Collector</option>
+											<option value="1">Preparator</option>
+										</select>
+									</div>
+									<div class="col-xl-6 px-1">
+										<input type="text" class="data-entry-input"  name="agent_id" placeholder="Agent">
+									</div>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary col addAgent1 loginButtons mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i></a>
+								</div>
+							</div>
+							<!---<div id="customAgent" class="w-100">
 								<a aria-label="Add another set of search criteria" class="btn btn-xs py-0 btn-primary addAgent mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								<select class="data-entry-select">
 									<option value="">Collector</option>
 									<option value="1">Preparator</option>
 								</select>
 								<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
-							</div>
+							</div>--->
 						</div>
 					</div>
 				</div>
@@ -569,7 +584,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv4">
 						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader4">
-							<h2 class="data-entry-title">Collector/Preparator</h2>
+							<h2 class="data-entry-title">COLLECTOR/PREPARATOR</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 6</h3>--->
 							<div id="customAgent">
 								<div class="form-row">
@@ -1241,11 +1256,18 @@ $(document).ready(function(){
 	});
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
+//$(document).ready(function(){
+//	$(".addAgent").click(function(){$("##customAgent").append('<div class="form-row mx-0 mt-2"><label for="agent_id" class="sr-only float-left">Agent as collector</label><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select><input type="text" class="data-entry-input" name="agent" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent data-entry-button p-0 m-0 remAgent" style="width:20px;"><i class="fas fa-times"></i></button></div>');
+//	});
+//	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
+//});
+	
 $(document).ready(function(){
-	$(".addAgent").click(function(){$("##customAgent").append('<div class="form-row mx-0 mt-2"><label for="other_id" class="sr-only float-left">Agent as collector</label><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select><input type="text" class="data-entry-input" name="agent" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent data-entry-button p-0 m-0 remAgent" style="width:20px;"><i class="fas fa-times"></i></button></div>');
+	$(".addAgent1").click(function(){
+		$("##customAgent1").append('<div class="form-row mx-0 mt-1"><label for="agent_id" class="sr-only"></label><select class="data-entry-select" required><option value="0">Coll.</option><option value="1">Prep.</option></select><input type="text" class="data-entry-input" name="agent_id" placeholder="Agent ID"><button href="javascript:void(0);" arial-label="remove" class="btn addAgent p-0 m-0 float-left data-entry-button remAgent1" style="width:20px;"><i class="fas fa-times"></i></button></div>');
 	});
-	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
-});
+		$("##customAgent1").on('click','.remAgent1',function(){$(this).parent().remove();});
+	});
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
