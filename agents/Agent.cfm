@@ -1601,7 +1601,7 @@ limitations under the License.
 																	<a href="/Transactions.cfm?execute=true&action=find#transaction_type#&collection_id=#collection_id#&#targetStatus#=#status#&trans_agent_role_1=#trans_agent_role#&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#">
 																		#getTransactions.ct# 
 																	</a>
-																	<span class="text-capitalize">#transaction_type#</span>,  
+																	<span class="text-capitalize">#transaction_type#</span>, 
 																	#trans_agent_role#,
 																	#status# in #collection_cde#
 																	<span><!-- workaround --></span>
@@ -1613,8 +1613,7 @@ limitations under the License.
 																	#statusDate#
 																	<span class="text-capitalize">#transaction_type#</span>
 																	<cfif len(lastTrans) gt 0>
-																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true"> #specific_number#</a>
-																	<cfelse>
+																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true"> #specific_number#</a><cfelse>
 																	</cfif>
 																	, #trans_agent_role#
 																</li>
