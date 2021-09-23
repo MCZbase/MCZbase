@@ -1608,19 +1608,22 @@ limitations under the License.
 																</li>
 															<cfelse>
 																<li class="">
-																	<cfif lastTrans NEQ getTransactions.specific_number>
-																		<cfif lastTrans NEQ "">
-																			#statusDate#
-																		</cfif>
-																		<span class="text-capitalize">#transaction_type#</span> 
+																	<cfset lastTrans ="#getTransactions.specific_number#">
+																	<cfif transaction_type IS "deaccession">
+																		<cfset targetStatus="deacc_status">
+																	<cfelse>
+																		<cfset targetStatus="#transaction_type#">
+																	</cfif>
+																	<cfset statusDate = "(#getTransactions.status# #trans_date#)">
+																	#statusDate#
+																	<span class="text-capitalize">#transaction_type#</span> 
+																	<cfif len(lastTrans) gt 0>
 																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
-																		#trans_agent_role#
-																		<cfset statusDate = "(#getTransactions.status# #trans_date#)">
 																	<cfelse>
 																		, #trans_agent_role#
 																	</cfif>
 																</li>
-																<cfset lastTrans ="#getTransactions.specific_number#">
+																
 															</cfif>
 														</cfloop>
 													</ul>
