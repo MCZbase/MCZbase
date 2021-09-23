@@ -82,8 +82,9 @@ Streams directly to response without use of CFFileServelet
 <cftry>
 	<cfif len(fitHeight) GT 0>
 		<!--- Rescale the image to fit an image of the specified fitWidth and fitHeight, preserving the original aspect ratio of the image within the fit height/width image with a background where the aspect ratio of the original and fit targets differ --->
-		<cfimage source="#target#" name="sourceImage">
-		<cfset targetImage=ImageNew("#Application.webDirectory#/shared/images/grey_background.jpg",fitWidth,fitHeight)>
+		<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
+		<cfset ImageRescale(targetImage,#fitWidth#,#fitHeight#,"highestPerformance") >
+		<cfimage name="sourceImage" source="#target#">
 		<cfset ImageSetAntialiasing(sourceImage,"on")>
 		<cfset ImageScaleToFit(sourceImage,#fitWidth#,#fitHeight#,"highestPerformance")>
 		<cfset sourceWidth = ImageGetWidth(sourceImage)>
@@ -94,7 +95,7 @@ Streams directly to response without use of CFFileServelet
 		<cfif uly LT 1 ><cfset uly = 1></cfif>
 		<cfset ImagePaste(targetImage,sourceImage,ulx,uly)>
 		<cfset response = getPageContext().getFusionContext().getResponse()>
-		<cfheader name="Content-Type" value="#mimeType#">
+		<cfheader name="Content-Type" value="image/jpeg">
 		<cfset response.getOutputStream().writeThrough(ImageGetBlob(targetImage))>
 		<cfabort>
 	<cfelse>
