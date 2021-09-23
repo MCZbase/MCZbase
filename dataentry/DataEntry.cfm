@@ -356,6 +356,9 @@ limitations under the License.
 	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1111px;">
 		<div class="row mx-0 bg-blue-gray" style="background-color:##deebec!important;">
 			<div class="col-12 mt-0 offset-1">
+				<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
+				<!-- One "tab" for each step in the form: -->
+				<h1 class="text-center mt-2 mb-0">Enter a New Record</h1>
 				<div class="column">
 					<div class="portlet">
 						<div class="portlet-header">COLLECTION</div>
@@ -376,15 +379,19 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="portlet">
-						<div class="portlet-header">News</div>
-						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+						<div class="portlet-header">CATALOG NUMBER</div>
+						<div class="portlet-content">
+							<label for="cat_num" class="sr-only">Catalog Number</label>
+							<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
+							<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection.</small>
+						</div>
 					</div>
 				</div>
 
-<div class="column">
-    <div class="portlet">
-        <div class="portlet-header">Shopping</div>
-        <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+			<div class="column">
+				<div class="portlet">
+					<div class="portlet-header">Shopping</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
     </div>
 </div>
  
