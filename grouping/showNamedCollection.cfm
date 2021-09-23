@@ -55,9 +55,15 @@ limitations under the License.
 	width: auto;
 	margin: 0 auto;
 	z-index: 5;
-
 }
-
+.maptype-control-satellite {
+	border: 1px solid red;
+	outline: 1px solid black;
+}
+.maptype-control-satellite:focus {
+	border: 1px solid green;
+	outline: 1px solid blue;
+}
 .vslider {
   	position: relative;
 /*	overflow: auto;*/
