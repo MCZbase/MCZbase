@@ -406,47 +406,47 @@ limitations under the License.
 
 			<div class="column">
 				<div class="portlet">
-					<div class="portlet-header">Shopping1</div>
+					<div class="portlet-header">Collector/Preparator</div>
 					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 				</div>
 				<div class="portlet">
-					<div class="portlet-header">Shopping2</div>
-					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-				</div>
-			</div>
-			<div class="column">
-				<div class="portlet">
-					<div class="portlet-header">Shopping3</div>
-					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-				</div>
-				<div class="portlet">
-					<div class="portlet-header">Shopping4</div>
+					<div class="portlet-header">Scientific Name</div>
 					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 				</div>
 			</div>
 			<div class="column">
 				<div class="portlet">
-					<div class="portlet-header">Links</div>
+					<div class="portlet-header">Collecting Event</div>
 					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 				</div>
 				<div class="portlet">
-					<div class="portlet-header">Images</div>
+					<div class="portlet-header">Other IDs</div>
 					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 				</div>
 			</div>
 			<div class="column">
 				<div class="portlet">
-					<div class="portlet-header">Links3</div>
+					<div class="portlet-header">Parts</div>
 					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 				</div>
 				<div class="portlet">
-					<div class="portlet-header">Images4</div>
+					<div class="portlet-header">Attributes</div>
+					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="portlet">
+					<div class="portlet-header">Biological Relationships</div>
+					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+				</div>
+				<div class="portlet">
+					<div class="portlet-header">Curatorial Relationships</div>
 					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 				</div>
 			</div>
 				<div class="column">
 					<div class="portlet">
-						<div class="portlet-header">COLLECTION</div>
+						<div class="portlet-header">Locality</div>
 						<div class="portlet-content">
 							<div class="row">
 								<label for="collection" class="sr-only">Collection</label>
