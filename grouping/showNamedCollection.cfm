@@ -687,21 +687,13 @@ div.vslider-item[aria-hidden="true"]{
 													Satellite
 													</button>
 												</div>
-												<div class="controls fullscreen-control">
-													<button title="Toggle Fullscreen">
-														<div class="fullscreen-control-icon fullscreen-control-top-left"></div>
-														<div class="fullscreen-control-icon fullscreen-control-top-right"></div>
-														<div class="fullscreen-control-icon fullscreen-control-bottom-left"></div>
-														<div class="fullscreen-control-icon fullscreen-control-bottom-right"></div>
-													</button>
-												</div>
-												</div>
-<!---											<div id="floating-panel" class="w-100 mx-auto">
+											</div>
+											<div id="floating-panel" class="w-100 mx-auto">
 												<button id="toggle-heatmap" class="mt-1 border-info rounded">Toggle Heatmap</button>
 												<button id="change-gradient" class="mt-1 border-info rounded">Change gradient</button>
 												<button id="change-radius" class="mt-1 border-info rounded">Change radius</button>
 												<button id="change-opacity" class="mt-1 border-info rounded">Change opacity</button>
-											</div>--->
+											</div>
 										</div>
 									</div>
 									<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
