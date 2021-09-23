@@ -357,7 +357,8 @@ body {
 	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1111px;">
 		<div class="row mx-0 bg-blue-gray" style="background-color:##deebec!important;">
 			<div class="col-12 mt-0">
-				    <div class="portlet">
+	<div class="column">
+    <div class="portlet">
         <div class="portlet-header">Feeds</div>
         <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
     </div>
