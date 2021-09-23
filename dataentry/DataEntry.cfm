@@ -426,6 +426,16 @@ limitations under the License.
 					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 				</div>
 			</div>
+			<div class="column">
+				<div class="portlet">
+					<div class="portlet-header">Links3</div>
+					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+				</div>
+				<div class="portlet">
+					<div class="portlet-header">Images4</div>
+					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+				</div>
+			</div>
 		</div>
 		</div>
 		<div class="row">
