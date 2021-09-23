@@ -56,11 +56,11 @@ limitations under the License.
 	margin: 0 auto;
 	z-index: 5;
 }
-.maptype-control-satellite {
+#map button {
 	border: 1px solid red;
 	outline: 1px solid black;
 }
-.maptype-control-satellite:focus {
+#map button:focus {
 	border: 1px solid green;
 	outline: 1px solid blue;
 }
