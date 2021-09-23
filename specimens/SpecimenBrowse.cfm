@@ -86,7 +86,7 @@ limitations under the License.
 		<div class="row">
 			<div class="col-4">
 				<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-					<cfset specimenSearch="/Specimens.cfm?execute=true">
+					<cfset specimenSearch="/Specimens.cfm?execute=true&action=fixedSearch&">
 				<cfelse>
 					<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
 				</cfif>
