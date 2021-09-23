@@ -408,18 +408,15 @@ limitations under the License.
 				<div class="portlet">
 					<div class="portlet-header">Collector/Preparator</div>
 					<div class="portlet-content">
-						<div id="customAgent">
-							<div class="form-row mx-0">
-								<label for="other_id" class="sr-only">Agent</label>
-								
-								<div id="customAgent" class="w-100">
-									<a aria-label="Add another set of search criteria" class="btn btn-xs py-0 btn-primary addAgent mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
-									<select class="data-entry-select">
-										<option value="">Collector</option>
-										<option value="1">Preparator</option>
-									</select>
-									<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
-								</div>
+						<div class="form-row mx-0">
+							<label for="other_id" class="sr-only">Agent</label>
+							<div id="customAgent" class="w-100">
+								<a aria-label="Add another set of search criteria" class="btn btn-xs py-0 btn-primary addAgent mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+								<select class="data-entry-select">
+									<option value="">Collector</option>
+									<option value="1">Preparator</option>
+								</select>
+								<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
 							</div>
 						</div>
 					</div>
