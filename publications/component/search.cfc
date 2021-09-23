@@ -17,6 +17,8 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---
 Function getPublicationList.  Search for publications by name with a substring match on any name, returning json suitable for a dataadaptor.
@@ -180,7 +182,7 @@ Function getTypeStatusSearchAutocomplete.  Search for type status values, return
 			SELECT 
 			   type_status, category	
 			FROM 
-				ctcitation_type_satus
+				ctcitation_type_status
 			WHERE
 				upper(type_status) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 		</cfquery>
