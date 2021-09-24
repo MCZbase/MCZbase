@@ -358,7 +358,7 @@ limitations under the License.
 		<a class="btn btn-xs btn-secondary mx-2 px-4 mt-5 position-absolute" href="##">Save Order</a> 
 		<div class="row mx-0 bg-blue-gray" style="background-color:##deebec!important;">
 			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
-			<div class="col-12 mt-0 offset-1">
+			<div class="col-11 mt-0 mx-auto">
 				<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
 				<div class="column">
