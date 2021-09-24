@@ -430,20 +430,22 @@ limitations under the License.
 							<div class="form-row mx-0">
 								<div id="customSciName">
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
-								<label for="scientific_name" class="data-entry-label text-center px-0">Scientific Name</label>
-								<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
-								<label for="made_by" class="data-entry-label text-center px-0">ID Made By</label>
-								<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
-								<label for="nature_of_id" class="data-entry-label text-center px-0">Nature of ID</label>
-								<select class="data-entry-select" required>
-									<option value="">Expert ID</option>
-									<option value="1">Field ID</option>
-									<option value="2">Non-Expert ID</option>
-									<option value="3">Curatorial ID</option>
-								</select>
-								<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
-								<label for="id_remark" class="data-entry-label text-center text-md-right px-0">ID Remark</label>
-								<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea" placeholder="ID Remark"/></textarea>
+								<div class="form-row mx-0 mb-2">
+									<label for="scientific_name" class="sr-only">Scientific Name</label>
+									<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
+									<label for="made_by" class="sr-only">ID Made By</label>
+									<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
+									<label for="nature_of_id" class="sr-only">Nature of ID</label>
+									<select class="data-entry-select" required>
+										<option value="">Expert ID</option>
+										<option value="1">Field ID</option>
+										<option value="2">Non-Expert ID</option>
+										<option value="3">Curatorial ID</option>
+									</select>
+									<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
+									<label for="id_remark" class="data-entry-label text-left px-0">ID Remark</label>
+									<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea" placeholder="ID Remark"/></textarea>
+								</div>
 							</div>
 						</div>
 					</div>
