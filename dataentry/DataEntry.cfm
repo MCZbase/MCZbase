@@ -75,7 +75,7 @@ limitations under the License.
 	-webkit-transform: rotate(-3deg);
 }
 .column {
-	width: 14%;
+	width: 17%;
 	float: left;
 	padding-bottom: 100px;
 }
@@ -537,35 +537,8 @@ limitations under the License.
 						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 					</div>
 				</div>
-<!---				<div class="column">
-					<div class="portlet">
-						<div class="portlet-header">LOCALITY</div>
-						<div class="portlet-content">
-							<div class="row">
-								<label for="collection" class="sr-only">Collection</label>
-								<div class="col-12">
-									<select class="data-entry-select px-0" required>
-										<option value="">Select Collection</option>
-										<option value="1">Herpetology</option>
-										<option value="2">Mammalogy</option>
-										<option value="3">Malacology</option>
-									</select>
-									<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="portlet">
-						<div class="portlet-header">COORDINATES</div>
-						<div class="portlet-content">
-							<label for="cat_num" class="sr-only">Coordinates</label>
-							<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
-							<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
-						</div>
-					</div>
 
-				</div>--->
-		</div>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-12">
