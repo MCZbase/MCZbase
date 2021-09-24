@@ -411,7 +411,7 @@ limitations under the License.
 								<label for="agent_id" class="sr-only">Agent</label>
 								<div id="customAgent1">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 m-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
-									<div class="form-row mx-0 mb-2">
+									<div class="form-row mx-0 my-2">
 										<label for="agent_id" class="sr-only">Agent</label>
 										<select class="data-entry-select" required>
 											<option value="">Collector</option>
