@@ -399,7 +399,7 @@ limitations under the License.
 							<label for="mask_record" class="float-left mt-2">Mask Record</label>
 							<input class="float-left ml-2 mt-1" value="1" type="checkbox" id="gridCheck1">
 							<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>--> 
-							<small id="accnHelp" class="form-text float-left text-muted">Puts it in a generic encumbrance.</small>
+							<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
 						</div>
 					</div>
 					<div class="portlet">
