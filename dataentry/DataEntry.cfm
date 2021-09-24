@@ -453,37 +453,49 @@ limitations under the License.
 					</div>
 				<div class="column">
 					<div class="portlet">
-						<div class="portlet-header">Collecting Event</div>
+						<div class="portlet-header">COLLECTING EVENT</div>
 						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 					</div>
 					<div class="portlet">
-						<div class="portlet-header">Other IDs</div>
+						<div class="portlet-header">OTHER IDS</div>
+						<div class="portlet-content">
+						<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i></a>
+							<div class="form-row mx-0 my-2">
+								<label for="other_id" class="sr-only">Other ID</label>
+								<select class="data-entry-select" required>
+									<option value="">Other ID Type</option>
+									<option value="1">Field Number</option>
+									<option value="2">Collector Number</option>
+									<option value="3">Previous Number</option>
+								</select>
+								<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="portlet">
+						<div class="portlet-header">PARTS</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					</div>
+					<div class="portlet">
+						<div class="portlet-header">ATTRIBUTES</div>
 						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 					</div>
 				</div>
 				<div class="column">
 					<div class="portlet">
-						<div class="portlet-header">Parts</div>
+						<div class="portlet-header">BIOLOGICAL RELATIONSHIPS</div>
 						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 					</div>
 					<div class="portlet">
-						<div class="portlet-header">Attributes</div>
-						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-					</div>
-				</div>
-				<div class="column">
-					<div class="portlet">
-						<div class="portlet-header">Biological Relationships</div>
-						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-					</div>
-					<div class="portlet">
-						<div class="portlet-header">Curatorial Relationships</div>
+						<div class="portlet-header">CURATORIAL RELATIONSHIPS</div>
 						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 					</div>
 				</div>
 				<div class="column">
 					<div class="portlet">
-						<div class="portlet-header">Locality</div>
+						<div class="portlet-header">LOCALITY</div>
 						<div class="portlet-content">
 							<div class="row">
 								<label for="collection" class="sr-only">Collection</label>
@@ -500,9 +512,9 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="portlet">
-						<div class="portlet-header">CATALOG NUMBER</div>
+						<div class="portlet-header">COORDINATES</div>
 						<div class="portlet-content">
-							<label for="cat_num" class="sr-only">Catalog Number</label>
+							<label for="cat_num" class="sr-only">Coordinates</label>
 							<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
 							<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
 						</div>
