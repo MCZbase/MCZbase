@@ -524,8 +524,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					
-					
 				</div>
 				<div class="column">
 					<div class="portlet">
@@ -565,8 +563,7 @@ limitations under the License.
 							</div>
 							</div>
 					</div>
-				</div>
-							
+				</div>				
 				<div class="column">
 					<div class="portlet">
 						<div class="portlet-header">LOCALITY</div>
@@ -614,7 +611,9 @@ limitations under the License.
 
 
 			</div>
-		</div>
+			</div>
+	</div>
+
 		<div class="row">
 			<div class="col-12">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
