@@ -490,8 +490,8 @@ limitations under the License.
 									<div class="form-row mx-0 my-2">
 										<label for="collecting_event_id" class="data-entry-label text-center px-0">Use ID only</label>
 										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
-										<span class="small">- OR - </span>
-										<h5 class="small font-weight-bold float-left d-block">New Locality</h5>
+										<span class="small w-100 float-left">- OR - </span>
+										<span class="small font-weight-bold float-left d-block">New Locality</span>
 										<label for="verbatim_locality" class="sr-only">Verbatim Locality</label>
 										<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
 										<label for="inputPassword3" class="sr-only">ISO Dates</label>
