@@ -617,9 +617,8 @@ limitations under the License.
 		<div class="row">
 			<div class="col-12">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
-				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-2 mb-0">Enter a New Record</h1>
-				<div class="row">
+<!---				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
 							<h2 class="data-entry-title">Collection</h2>
@@ -651,7 +650,7 @@ limitations under the License.
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv2">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader2">
 							<h2 class="data-entry-title">Accession Number</h2>
-							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
+						
 							<div class="form-row">
 								<label for="cat_num" class="sr-only">Accession</label>
 								<div class="col-12">
@@ -663,21 +662,21 @@ limitations under the License.
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv3">
 						<div class="border-fill px-3 py-2 m-1" id="mydivheader3">
 							<h2 class="data-entry-title">Encumbrance</h2>
-						<!---	<h3 class="data-entry-subtitle">This is step 3</h3>--->
+						
 							<div id="encumbrance">
 								<div class="row mb-3">
 									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center pr-0" style="margin-top: -5px;">Mask Record</label>
 									<div class="col-xl-9">
 										<div class="form-check form-check-inline">
 											<input class="form-check-input w-auto mt-1" value="mask" type="checkbox" id="gridCheck1">
-											<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>--> 
+	
 											<small id="accnHelp" class="form-text float-left text-muted">Puts it in a generic encumbrance.</small> </div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>--->
 				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv4">
 						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader4">
