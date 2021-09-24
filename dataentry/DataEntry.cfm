@@ -426,7 +426,24 @@ limitations under the License.
 					</div>
 					<div class="portlet">
 						<div class="portlet-header">CURATORIAL RELATIONSHIPS</div>
-						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+						<div class="portlet-content">
+							<div class="form-row mx-0">
+								<div id="customCurRelations">
+								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
+								<div class="form-row mx-0 my-2">
+									<label for="relations" class="sr-only">Relationship</label>
+									<select class="data-entry-select">
+										<option value="">Relationship Type</option>
+										<option value="1">Re-Cataloged as</option>
+										<option value="2">Bad Duplicate of</option>
+										<option value="3">Cloned from Record</option>
+										<option value="4">Duplicate Recataloged as</option>
+									</select>
+									<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
+								</div>
+							</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="column">
@@ -1395,7 +1412,7 @@ $(document).ready(function(){
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
-	$(".addBiolRelations").click(function(){$("##customBiolRelations").append('<div class="form-row mt-1"><label for="relations" class="sr-only">Relationship</label><div class="col-xl-5 pr-1"><select class="data-entry-select"><option value="">Relationship Type</option><option value="1">Re-Cataloged as</option><option value="2">Bad Duplicate of</option><option value="3">Cloned from Record</option><option value="4">Duplicate Recataloged as</option></select></div><div class="col-xl-6 px-1"><input type="text" class="data-entry-input" id="record_number" placeholder="Record Number"></div><button href="javascript:void(0);" arial-label="remove" class="btn addBiolRelations data-entry-button float-left col py-0 px-1 mx-1 remBiolRelations"><i class="fas fa-times"></i></button></div>');
+	$(".addBiolRelations").click(function(){$("##customBiolRelations").append('<div class="form-row my-2 mx-0"><label for="relations" class="sr-only">Relationship</label><select class="data-entry-select"><option value="">Relationship Type</option><option value="1">Same lot as</option><option value="2">Egg of</option><option value="3">Parent of</option><option value="4">In Nest</option></select><input type="text" class="data-entry-input" id="relationship" placeholder="Record Number"></div><button href="javascript:void(0);" arial-label="remove" class="btn addBiolRelations data-entry-button float-left col py-0 px-1 mx-1 remBiolRelations"><i class="fas fa-times"></i></button></div>');
 	});
 	$("##customBiolRelations").on('click','.remBiolRelations',function(){$(this).parent().remove();});
 	});
