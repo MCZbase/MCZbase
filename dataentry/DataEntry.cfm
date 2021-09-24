@@ -530,70 +530,39 @@ limitations under the License.
 						<div class="portlet-header">PARTS</div>
 						<div class="portlet-content">
 							<div id="customPart">
-								<div class="row">
-									<label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
-									<div class="col-12 col-lg-8">
-										<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
-									</div>
-								</div>
-									<div class="row">
-									<label for="preserv_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
-									<div class="col-12 col-lg-8">
-										<select class="data-entry-select" required>
-											<option value="">Ethanol</option>
-											<option value="1">RNALater</option>
-											<option value="2">DNA/RNA Shield</option>
-											<option value="3">Alcohol</option>
-										</select>
-									</div>
-								</div>
-									<div class="row">
-									<label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label>
-									<div class="col-12 col-lg-8">
-										<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
-									</div>
-								</div>
-									<div class="row">
-									<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Disposition</label>
-									<div class="col-12 col-lg-8">
-										<select class="data-entry-select" required>
-											<option value="">Being Processed</option>
-											<option value="1">Deaccessioned</option>
-											<option value="2">In Collection</option>
-											<option value="3">Missing</option>
-										</select>
-									</div>
-								</div>
-									<div class="row">
-								
-										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label>
-										<div class="col-12 col-lg-4 pr-xl-0">
-											<select class="data-entry-select pr-xl-0" required="">
-												<option value="">Modifier</option>
-												<option value="1">ca.</option>
-												<option value="2">&gt;</option>
-												<option value="3">&lt;</option>
-											</select>
-										</div>
-										<div class="col-12 col-lg-4">
-											<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
-										</div>
-									</div>
-									<div class="row">
-									<label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label>
-									<div class="col-12 col-lg-8">
-										<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
-									</div>
-								</div>
-									<div class="row">
-									<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Remark</label>
-									<div class="col-12 col-lg-8">
-										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
-										</textarea>
-									</div>
 								<a aria-label="Add another set of search criteria"  style="width: 20px;" class="btn btn-xs btn-primary addPart loginButtons rounded px-1 mr-auto mt-0 mx-1 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+								<div class="form-row">
+									<label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
+									<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
+									<label for="preserv_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
+									<select class="data-entry-select" required>
+										<option value="">Ethanol</option>
+										<option value="1">RNALater</option>
+										<option value="2">DNA/RNA Shield</option>
+										<option value="3">Alcohol</option>
+									</select>
+									<label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label>
+									<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
+									<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Disposition</label>
+									<select class="data-entry-select" required>
+										<option value="">Being Processed</option>
+										<option value="1">Deaccessioned</option>
+										<option value="2">In Collection</option>
+										<option value="3">Missing</option>
+									</select>								
+									<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label>
+									<select class="data-entry-select pr-xl-0" required="">
+										<option value="">Modifier</option>
+										<option value="1">ca.</option>
+										<option value="2">&gt;</option>
+										<option value="3">&lt;</option>
+									</select>
+									<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
+									<label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label>
+									<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
+									<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Remark</label>
+									<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea>
 								</div>
-								
 							</div>
 						</div>
 					</div>
