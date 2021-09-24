@@ -632,13 +632,13 @@ limitations under the License.
 											<option value="4">Miles</option>
 											<option value="5">Kilometers</option>
 										</select>
-										<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right px-0">Sovereign Nation</label>
+										<label for="sovereign_nation" class="sr-only">Sovereign Nation</label>
 										<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
-										<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
+										<label for="higher_geog" class="sr-only">Geology Attribute</label>
 										<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
-										<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
+										<label for="habitat" class="sr-only">Habitat</label>
 										<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
-										<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
+										<label for="locality_remark" class="sr-only">Locality Remark</label>
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/></textarea>
 									</div>
 								</div>
