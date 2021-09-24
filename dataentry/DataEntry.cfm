@@ -532,25 +532,25 @@ limitations under the License.
 							<div id="customPart">
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
 								<div class="form-row">
-									<label for="part_name" class="data-entry-label text-center">Part Name</label>
+									<label for="part_name" class="sr-only">Part Name</label>
 									<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
-									<label for="preserv_method" class="data-entry-label text-center">Preserve Method</label>
+									<label for="preserv_method" class="sr-only">Preserve Method</label>
 									<select class="data-entry-select" required>
 										<option value="">Ethanol</option>
 										<option value="1">RNALater</option>
 										<option value="2">DNA/RNA Shield</option>
 										<option value="3">Alcohol</option>
 									</select>
-									<label for="condition" class="data-entry-label text-center">Condition</label>
+									<label for="condition" class="sr-only">Condition</label>
 									<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
-									<label for="disposition" class="data-entry-label text-center">Disposition</label>
+									<label for="disposition" class="sr-only">Disposition</label>
 									<select class="data-entry-select" required>
 										<option value="">Being Processed</option>
 										<option value="1">Deaccessioned</option>
 										<option value="2">In Collection</option>
 										<option value="3">Missing</option>
 									</select>								
-									<label for="part_number" class="data-entry-label text-center">## of Parts</label>
+									<label for="part_number" class="sr-only">## of Parts</label>
 									<select class="data-entry-select" required="">
 										<option value="">Modifier</option>
 										<option value="1">ca.</option>
@@ -558,9 +558,9 @@ limitations under the License.
 										<option value="3">&lt;</option>
 									</select>
 									<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
-									<label for="container_unique_id" class="data-entry-label text-center">Container</label>
+									<label for="container_unique_id" class="sr-only">Container</label>
 									<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
-									<label for="part_remark" class="data-entry-label text-center">Part Remark</label>
+									<label for="part_remark" class="sr-only">Part Remark</label>
 									<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea>
 								</div>
 							</div>
