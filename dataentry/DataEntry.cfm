@@ -491,32 +491,33 @@ limitations under the License.
 										<label for="collecting_event_id" class="data-entry-label text-center px-0">Use ID only</label>
 										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 										<span class="small">- OR - </span>
-										<label for="verbatim_locality" class="data-entry-label text-center px-xl-0">Verbatim Locality</label>
+										<span class="small font-weight-bold">New Locality</span>
+										<label for="verbatim_locality" class="sr-only">Verbatim Locality</label>
 										<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
-										<label for="inputPassword3" class="data-entry-label text-center px-xl-0">ISO Dates</label>
+										<label for="inputPassword3" class="sr-only">ISO Dates</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="began_date" placeholder="Began Date">
 										<input type="text" class="data-entry-input pr-xl-0" id="ended_date" placeholder="Date Ended">
-										<label for="inputPassword3" class="data-entry-label text-center">Verbatim Date and Time</label>
+										<label for="inputPassword3" class="sr-only">Verbatim Date and Time</label>
 										<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
 										<input type="text" class="data-entry-input pr-xl-0" id="collecting_time" placeholder="Collecting Time">
-										<label for="start_end_dayOfyear" class="data-entry-label text-center px-xl-0">Day of Year</label>
+										<label for="start_end_dayOfyear" class="sr-only">Day of Year</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="start_day_of_year" placeholder="Start Day of Year">
 										<input type="text" class="data-entry-input pr-xl-0" id="end_day_of_year" placeholder="End Day of Year">
-										<label for="collecting_source_method" class="data-entry-label text-center px-0">Source &amp; Method</label>
+										<label for="collecting_source_method" class="sr-only">Source &amp; Method</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="collecting_source" placeholder="Collecting Source">
 										<input type="text" class="data-entry-input pr-xl-0" id="collecting_method" placeholder="Collecting Method">
-										<label for="Habitat" class="data-entry-label text-center px-0">Habitat</label>
+										<label for="Habitat" class="sr-only">Habitat</label>
 										<input type="text" name="habitat_desc" class="data-entry-input" placeholder="Habitat" />
-										<label for="microhabitat" class="data-entry-label text-center px-0">Microhabitat</label>
+										<label for="microhabitat" class="sr-only">Microhabitat</label>
 										<input type="text" name="habitat" class="data-entry-input" placeholder="Microhabitat" />
-										<label for="locality_remark" class="data-entry-label text-center px-0">Collecting Remark</label>
+										<label for="locality_remark" class="sr-only">Collecting Remark</label>
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 										</textarea>
 										<span class="small font-weight-bold">Verbatim Georeference</span>
-										<label for="Coord. System" class="data-entry-label text-center px-xl-0">Coordinate System</label>
+										<label for="Coord. System" class="sr-only">Coordinate System</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="e.g., decimal degrees">
 										<input type="text" class="data-entry-input pr-xl-0" id="Datum" placeholder="SRS or Datum">
-										<label for="lat_long" class="data-entry-label text-center px-xl-0">Lat. and Long.</label>
+										<label for="lat_long" class="sr-only">Lat. and Long.</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="latitude" placeholder="Latitude">
 										<input type="text" class="data-entry-input pr-xl-0" id="longitude" placeholder="Longitude">
 									</div>
