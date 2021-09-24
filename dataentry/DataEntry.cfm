@@ -537,7 +537,7 @@ limitations under the License.
 						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
 					</div>
 				</div>
-				<div class="column">
+<!---				<div class="column">
 					<div class="portlet">
 						<div class="portlet-header">LOCALITY</div>
 						<div class="portlet-content">
@@ -564,7 +564,7 @@ limitations under the License.
 						</div>
 					</div>
 
-				</div>
+				</div>--->
 		</div>
 		</div>
 		<div class="row">
