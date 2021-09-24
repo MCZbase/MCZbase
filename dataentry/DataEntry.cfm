@@ -530,27 +530,27 @@ limitations under the License.
 						<div class="portlet-header">PARTS</div>
 						<div class="portlet-content">
 							<div id="customPart">
-								<a aria-label="Add another set of search criteria"  style="width: 20px;" class="btn btn-xs btn-primary addPart loginButtons rounded px-1 mr-auto mt-0 mx-1 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+								<a aria-label="Add another set of search criteria"  style="width: 20px;" class="btn btn-xs btn-primary addPart py-0 m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
 								<div class="form-row">
-									<label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
+									<label for="part_name" class="data-entry-label text-center">Part Name</label>
 									<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
-									<label for="preserv_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
+									<label for="preserv_method" class="data-entry-label text-center">Preserve Method</label>
 									<select class="data-entry-select" required>
 										<option value="">Ethanol</option>
 										<option value="1">RNALater</option>
 										<option value="2">DNA/RNA Shield</option>
 										<option value="3">Alcohol</option>
 									</select>
-									<label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label>
+									<label for="condition" class="data-entry-label text-center">Condition</label>
 									<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
-									<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Disposition</label>
+									<label for="disposition" class="data-entry-label text-center">Disposition</label>
 									<select class="data-entry-select" required>
 										<option value="">Being Processed</option>
 										<option value="1">Deaccessioned</option>
 										<option value="2">In Collection</option>
 										<option value="3">Missing</option>
 									</select>								
-									<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label>
+									<label for="part_number" class="data-entry-label text-center">## of Parts</label>
 									<select class="data-entry-select pr-xl-0" required="">
 										<option value="">Modifier</option>
 										<option value="1">ca.</option>
@@ -558,9 +558,9 @@ limitations under the License.
 										<option value="3">&lt;</option>
 									</select>
 									<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
-									<label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label>
+									<label for="container_unique_id" class="data-entry-label text-center">Container</label>
 									<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
-									<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Remark</label>
+									<label for="part_remark" class="data-entry-label text-center">Part Remark</label>
 									<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea>
 								</div>
 							</div>
@@ -607,38 +607,38 @@ limitations under the License.
 							<div class="form-row mx-0">
 								<div id="customSciName">
 									<div class="form-row mx-0 my-2">
-										<label for="locality_id" class="data-entry-label text-center px-0">Use ID only</label>
+										<label for="locality_id" class="data-entry-label text-center">Use ID only</label>
 										<input type="text" name="locality_id" class="data-entry-input" placeholder="Collecting Event ID" />
-										<label for="collecting_event_id" class="data-entry-label text-center px-0"></label>
+										<label for="collecting_event_id" class="data-entry-label text-center"></label>
 										<span class="small">- OR - </span>
-										<label for="verbatim_locality" class="data-entry-label text-center px-xl-0">Verbatim Locality</label>
+										<label for="verbatim_locality" class="data-entry-label text-center">Verbatim Locality</label>
 										<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
-										<label for="inputPassword3" class="data-entry-label text-center px-xl-0">ISO Dates</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="began_date" placeholder="Began Date">
-										<input type="text" class="data-entry-input pr-xl-0" id="ended_date" placeholder="Date Ended">
+										<label for="inputPassword3" class="data-entry-label text-center">ISO Dates</label>
+										<input type="text" class="data-entry-input" id="began_date" placeholder="Began Date">
+										<input type="text" class="data-entry-input" id="ended_date" placeholder="Date Ended">
 										<label for="inputPassword3" class="data-entry-label text-center">Verbatim Date and Time</label>
 										<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
-										<input type="text" class="data-entry-input pr-xl-0" id="collecting_time" placeholder="Collecting Time">
-										<label for="start_end_dayOfyear" class="data-entry-label text-center px-xl-0">Day of Year</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="start_day_of_year" placeholder="Start Day of Year">
-										<input type="text" class="data-entry-input pr-xl-0" id="end_day_of_year" placeholder="End Day of Year">
-										<label for="collecting_source_method" class="data-entry-label text-center px-0">Source &amp; Method</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="collecting_source" placeholder="Collecting Source">
-										<input type="text" class="data-entry-input pr-xl-0" id="collecting_method" placeholder="Collecting Method">
-										<label for="Habitat" class="data-entry-label text-center px-0">Habitat</label>
+										<input type="text" class="data-entry-input" id="collecting_time" placeholder="Collecting Time">
+										<label for="start_end_dayOfyear" class="data-entry-label text-center">Day of Year</label>
+										<input type="text" class="data-entry-input" id="start_day_of_year" placeholder="Start Day of Year">
+										<input type="text" class="data-entry-input" id="end_day_of_year" placeholder="End Day of Year">
+										<label for="collecting_source_method" class="data-entry-label text-center">Source &amp; Method</label>
+										<input type="text" class="data-entry-input" id="collecting_source" placeholder="Collecting Source">
+										<input type="text" class="data-entry-input" id="collecting_method" placeholder="Collecting Method">
+										<label for="Habitat" class="data-entry-label text-center">Habitat</label>
 										<input type="text" name="habitat_desc" class="data-entry-input" placeholder="Habitat" />
-										<label for="microhabitat" class="data-entry-label text-center px-0">Microhabitat</label>
+										<label for="microhabitat" class="data-entry-label text-center">Microhabitat</label>
 										<input type="text" name="habitat" class="data-entry-input" placeholder="Microhabitat" />
-										<label for="locality_remark" class="data-entry-label text-center px-0">Collecting Remark</label>
+										<label for="locality_remark" class="data-entry-label text-center">Collecting Remark</label>
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 										</textarea>
 										<span class="small font-weight-bold">Verbatim Georeference</span>
-										<label for="Coord. System" class="data-entry-label text-center px-xl-0">Coordinate System</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="e.g., decimal degrees">
-										<input type="text" class="data-entry-input pr-xl-0" id="Datum" placeholder="SRS or Datum">
-										<label for="lat_long" class="data-entry-label text-center px-xl-0">Lat. and Long.</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="latitude" placeholder="Latitude">
-										<input type="text" class="data-entry-input pr-xl-0" id="longitude" placeholder="Longitude">
+										<label for="Coord. System" class="data-entry-label text-center">Coordinate System</label>
+										<input type="text" class="data-entry-input" id="coord_system" placeholder="e.g., decimal degrees">
+										<input type="text" class="data-entry-input" id="Datum" placeholder="SRS or Datum">
+										<label for="lat_long" class="data-entry-label text-center">Lat. and Long.</label>
+										<input type="text" class="data-entry-input" id="latitude" placeholder="Latitude">
+										<input type="text" class="data-entry-input" id="longitude" placeholder="Longitude">
 									</div>
 								</div>
 							</div>
