@@ -403,63 +403,82 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
+				<div class="column">
+					<div class="portlet">
+						<div class="portlet-header">COLLECTOR/PREPARATOR</div>
+						<div class="portlet-content">
+							<div class="form-row mx-0">
+								<label for="agent_id" class="sr-only">Agent</label>
+								<div id="customAgent1">
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 m-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
+									<div class="form-row mx-0 mb-2">
+										<label for="agent_id" class="sr-only">Agent</label>
+										<select class="data-entry-select" required>
+											<option value="">Collector</option>
+											<option value="1">Preparator</option>
+										</select>
+										<input type="text" class="data-entry-input"  name="agent_id" placeholder="Agent">
+									</div>
 
-			<div class="column">
-				<div class="portlet">
-					<div class="portlet-header">Collector/Preparator</div>
-					<div class="portlet-content">
-						<div class="form-row mx-0">
-							<label for="agent_id" class="sr-only">Agent</label>
-							<div id="customAgent1">
-								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
-								<div class="form-row mx-0 mb-2">
-									<label for="agent_id" class="sr-only">Agent</label>
-									<select class="data-entry-select" required>
-										<option value="">Collector</option>
-										<option value="1">Preparator</option>
-									</select>
-									<input type="text" class="data-entry-input"  name="agent_id" placeholder="Agent">
 								</div>
-							
+							</div>
+						</div>
+					</div>
+					<div class="portlet">
+						<div class="portlet-header">SCIENTIFIC NAME</div>
+						<div class="portlet-content">
+							<div class="form-row mx-0">
+								<div id="customSciName">
+								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+								<label for="scientific_name" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">Scientific Name</label>
+								<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
+								<label for="made_by" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">ID Made By</label>
+								<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
+								<label for="nature_of_id" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">Nature of ID</label>
+								<select class="data-entry-select" required>
+									<option value="">Expert ID</option>
+									<option value="1">Field ID</option>
+									<option value="2">Non-Expert ID</option>
+									<option value="3">Curatorial ID</option>
+								</select>
+								<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
+								<label for="id_remark" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">ID Remark</label>
+								<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea" placeholder="ID Remark"/></textarea>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="portlet">
-					<div class="portlet-header">Scientific Name</div>
-					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+
+				<div class="column">
+					<div class="portlet">
+						<div class="portlet-header">Collecting Event</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					</div>
+					<div class="portlet">
+						<div class="portlet-header">Other IDs</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					</div>
 				</div>
-			</div>
-			<div class="column">
-				<div class="portlet">
-					<div class="portlet-header">Collecting Event</div>
-					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+				<div class="column">
+					<div class="portlet">
+						<div class="portlet-header">Parts</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					</div>
+					<div class="portlet">
+						<div class="portlet-header">Attributes</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					</div>
 				</div>
-				<div class="portlet">
-					<div class="portlet-header">Other IDs</div>
-					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+				<div class="column">
+					<div class="portlet">
+						<div class="portlet-header">Biological Relationships</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					</div>
+					<div class="portlet">
+						<div class="portlet-header">Curatorial Relationships</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					</div>
 				</div>
-			</div>
-			<div class="column">
-				<div class="portlet">
-					<div class="portlet-header">Parts</div>
-					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-				</div>
-				<div class="portlet">
-					<div class="portlet-header">Attributes</div>
-					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-				</div>
-			</div>
-			<div class="column">
-				<div class="portlet">
-					<div class="portlet-header">Biological Relationships</div>
-					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-				</div>
-				<div class="portlet">
-					<div class="portlet-header">Curatorial Relationships</div>
-					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-				</div>
-			</div>
 				<div class="column">
 					<div class="portlet">
 						<div class="portlet-header">Locality</div>
