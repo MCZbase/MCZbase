@@ -405,7 +405,7 @@ limitations under the License.
 				</div>
 				<div class="column">
 					<div class="portlet">
-						<div class="portlet-header">COLLECTOR/PREPARATOR</div>
+						<div class="portlet-header px-2">COLLECTOR/PREPARATOR</div>
 						<div class="portlet-content">
 							<div class="form-row mx-0">
 								<label for="agent_id" class="sr-only">Agent</label>
@@ -425,12 +425,12 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="portlet">
-						<div class="portlet-header">SCIENTIFIC NAME</div>
+						<div class="portlet-header px-2">SCIENTIFIC NAME</div>
 						<div class="portlet-content">
 							<div class="form-row mx-0">
 								<div id="customSciName">
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Scientific Name</a>
-								<div class="form-row mx-0 mb-2">
+								<div class="form-row mx-0 my-2">
 									<label for="scientific_name" class="sr-only">Scientific Name</label>
 									<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
 									<label for="made_by" class="sr-only">ID Made By</label>
