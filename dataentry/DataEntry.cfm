@@ -551,7 +551,7 @@ limitations under the License.
 										<option value="3">Missing</option>
 									</select>								
 									<label for="part_number" class="data-entry-label text-center">## of Parts</label>
-									<select class="data-entry-select pr-xl-0" required="">
+									<select class="data-entry-select" required="">
 										<option value="">Modifier</option>
 										<option value="1">ca.</option>
 										<option value="2">&gt;</option>
