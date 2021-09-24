@@ -573,9 +573,9 @@ limitations under the License.
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
 								<div id="customAtt">
 									<div class="form-row mx-0 my-2">
-										<label for="attribute_name" class="data-entry-label text-center pr-0">Attribute Type</label>
+										<label for="attribute_name" class="sr-only">Attribute Type</label>
 										<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
-										<label for="part_number" class="data-entry-label text-center px-0">Attribute Value</label>
+										<label for="part_number" class="sr-only">Attribute Value</label>
 										<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
 										<select class="data-entry-select" required="">
 											<option value="">Units</option>
@@ -583,13 +583,13 @@ limitations under the License.
 											<option value="2">Citation</option>
 											<option value="3">Host</option>
 										</select>
-										<label for="date" class="data-entry-label text-center pr-0">Date</label>
+										<label for="date" class="sr-only">Date</label>
 										<input type="text" class="data-entry-input" name="date" placeholder="Date">
-										<label for="determiner" class="data-entry-label text-center pr-0">Determiner</label>
+										<label for="determiner" class="sr-only">Determiner</label>
 										<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
-										<label for="method" class="data-entry-label text-center pr-0">Method</label>
+										<label for="method" class="sr-only">Method</label>
 										<input type="text" class="data-entry-input" name="method" placeholder="Method">
-										<label for="attribute_remark" class="data-entry-label text-center pr-0">Attribute Remark</label>
+										<label for="attribute_remark" class="sr-only">Attribute Remark</label>
 										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
 										</textarea>
 									</div>
