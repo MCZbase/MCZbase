@@ -491,7 +491,7 @@ limitations under the License.
 										<label for="collecting_event_id" class="data-entry-label text-center px-0">Use ID only</label>
 										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 										<span class="small w-100 float-left">- OR - </span>
-										<span class="small font-weight-bold float-left d-block">New Locality</span>
+										<span class="small font-weight-bold float-left d-block">New Collecting Event</span>
 										<label for="verbatim_locality" class="sr-only">Verbatim Locality</label>
 										<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
 										<label for="inputPassword3" class="sr-only">ISO Dates</label>
@@ -594,11 +594,9 @@ limitations under the License.
 										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
 										</textarea>
 									</div>
-								
 								</div>
-						
 							</div>
-							</div>
+						</div>
 					</div>
 				</div>				
 				<div class="column">
@@ -608,37 +606,40 @@ limitations under the License.
 							<div class="form-row mx-0">
 								<div id="customSciName">
 									<div class="form-row mx-0 my-2">
-										<label for="locality_id" class="data-entry-label text-center">Use ID only</label>
-										<input type="text" name="locality_id" class="data-entry-input" placeholder="Collecting Event ID" />
-										<span class="small">- OR - </span>
-										<label for="verbatim_locality" class="data-entry-label text-center">Verbatim Locality</label>
-										<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
-										<label for="inputPassword3" class="sr-only">ISO Dates</label>
-										<input type="text" class="data-entry-input" id="began_date" placeholder="Began Date">
-										<input type="text" class="data-entry-input" id="ended_date" placeholder="Date Ended">
-										<label for="inputPassword3" class="sr-only">Verbatim Date and Time</label>
-										<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
-										<input type="text" class="data-entry-input" id="collecting_time" placeholder="Collecting Time">
-										<label for="start_end_dayOfyear" class="sr-only">Day of Year</label>
-										<input type="text" class="data-entry-input" id="start_day_of_year" placeholder="Start Day of Year">
-										<input type="text" class="data-entry-input" id="end_day_of_year" placeholder="End Day of Year">
-										<label for="collecting_source_method" class="sr-only">Source &amp; Method</label>
-										<input type="text" class="data-entry-input" id="collecting_source" placeholder="Collecting Source">
-										<input type="text" class="data-entry-input" id="collecting_method" placeholder="Collecting Method">
-										<label for="Habitat" class="sr-only">Habitat</label>
-										<input type="text" name="habitat_desc" class="data-entry-input" placeholder="Habitat" />
-										<label for="microhabitat" class="sr-only">Microhabitat</label>
-										<input type="text" name="habitat" class="data-entry-input" placeholder="Microhabitat" />
-										<label for="locality_remark" class="sr-only">Collecting Remark</label>
-										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
-										</textarea>
-										<span class="small font-weight-bold">Verbatim Georeference</span>
-										<label for="Coord. System" class="data-entry-label text-center">Coordinate System</label>
-										<input type="text" class="data-entry-input" id="coord_system" placeholder="e.g., decimal degrees">
-										<input type="text" class="data-entry-input" id="Datum" placeholder="SRS or Datum">
-										<label for="lat_long" class="data-entry-label text-center">Lat. and Long.</label>
-										<input type="text" class="data-entry-input" id="latitude" placeholder="Latitude">
-										<input type="text" class="data-entry-input" id="longitude" placeholder="Longitude">
+										<label for="higher_geog" class="sr-only">Higher Geography</label>
+										<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
+										<label for="spec_locality" class="sr-only">Specific Locality</label>
+										<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
+										<label for="inputMinElev" class="sr-only">Elevation</label>
+										<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
+										<input type="text" class="data-entry-input" id="inputMaxElev" placeholder="Max Elevation">
+										<select class="data-entry-select" required>
+											<option value="">Feet</option>
+											<option value="1">Fathoms</option>
+											<option value="2">Yards</option>
+											<option value="3">Meters</option>
+											<option value="4">Miles</option>
+											<option value="5">Kilometers</option>
+										</select>
+										<label for="inputMinDepth" class="sr-only">Depth</label>
+										<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
+										<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
+										<select class="data-entry-select" required>
+											<option value="">Feet</option>
+											<option value="1">Fathoms</option>
+											<option value="2">Yards</option>
+											<option value="3">Meters</option>
+											<option value="4">Miles</option>
+											<option value="5">Kilometers</option>
+										</select>
+										<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right px-0">Sovereign Nation</label>
+										<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
+										<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
+										<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
+										<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
+										<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
+										<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
+										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/></textarea>
 									</div>
 								</div>
 							</div>
