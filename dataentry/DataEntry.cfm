@@ -443,7 +443,7 @@ limitations under the License.
 										<option value="3">Curatorial ID</option>
 									</select>
 									<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
-									<label for="id_remark" class="data-entry-label text-left px-0">ID Remark</label>
+									<label for="id_remark" class="sr-only">ID Remark</label>
 									<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea" placeholder="ID Remark"/></textarea>
 								</div>
 							</div>
