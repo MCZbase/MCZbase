@@ -448,7 +448,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-
+					</div>
 				<div class="column">
 					<div class="portlet">
 						<div class="portlet-header">Collecting Event</div>
