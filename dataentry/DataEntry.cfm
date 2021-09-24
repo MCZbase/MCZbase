@@ -459,7 +459,7 @@ limitations under the License.
 					<div class="portlet">
 						<div class="portlet-header">OTHER IDS</div>
 						<div class="portlet-content">
-						<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i></a>
+						<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 m-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i></a>
 							<div class="form-row mx-0 my-2">
 								<label for="other_id" class="sr-only">Other ID</label>
 								<select class="data-entry-select" required>
