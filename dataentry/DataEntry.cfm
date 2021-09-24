@@ -677,11 +677,10 @@ limitations under the License.
 						</div>
 					</div>
 				</div>--->
-				<div class="row">
+<!---				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv4">
 						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader4">
 							<h2 class="data-entry-title">COLLECTOR/PREPARATOR</h2>
-							<!---<h3 class="data-entry-subtitle">This is step 6</h3>--->
 							<div id="customAgent">
 								<div class="form-row">
 									<label for="other_id" class="sr-only">Agent</label>
@@ -698,11 +697,10 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv5">
+					</div>--->
+<!---					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv5">
 						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader5">
 							<h2 class="data-entry-title">Other IDs</h2>
-						<!---	<h3 class="data-entry-subtitle">This is step 5</h3>--->
 							<div id="customOtherID">
 								<div class="form-row">
 									<label for="other_id" class="sr-only">Other ID</label>
@@ -721,11 +719,10 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv6">
+					</div>--->
+				<!---	<div class="col-12 col-md-6 pb-1 px-1" id="mydiv6">
 						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader6">
 							<h2 class="data-entry-title">Scientific Name</h2>
-							<!---<h3 class="data-entry-subtitle">This is step 7</h3>--->
 							<div id="customSciName">
 								<div class="row">
 									<label for="scientific_name" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">Scientific Name</label>
@@ -763,11 +760,10 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv7">
+					</div>--->
+<!---					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv7">
 						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader7">
 							<h2 class="data-entry-title">Collecting Event</h2>
-							<!---<h3 class="data-entry-subtitle">This is step 8</h3>--->
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Use ID only</label>
 								<div class="col-sm-4">
@@ -860,7 +856,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</div>				
+					</div>--->				
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv8">
 						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader8">
 							<h2 class="data-entry-title">Locality</h2>
