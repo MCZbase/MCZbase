@@ -1388,7 +1388,7 @@ $(document).ready(function(){
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
-	$(".addCurRelations").click(function(){$("##customCurRelations").append('<div class="form-row mt-1"><label for="relations" class="sr-only">Relationship</label><div class="col-xl-5 pr-1"><select class="data-entry-select"><option value="">Relationship Type</option><option value="1">Re-Cataloged as</option><option value="2">Bad Duplicate of</option><option value="3">Cloned from Record</option><option value="4">Duplicate Recataloged as</option></select></div><div class="col-xl-6 px-1"><input type="text" class="data-entry-input" id="record_number" placeholder="Record Number"></div><button href="javascript:void(0);" arial-label="remove" class="btn addCurRelations data-entry-button float-left py-0 px-1 col mx-1 remCurRelations"><i class="fas fa-times"></i></button></div>');
+	$(".addCurRelations").click(function(){$("##customCurRelations").append('<div class="form-row my-2 mx-0"><label for="relations" class="sr-only">Relationship</label><select class="data-entry-select"><option value="">Relationship Type</option><option value="1">Same lot as</option><option value="2">Egg of</option><option value="3">Parent of</option><option value="4">In Nest</option></select><input type="text" class="data-entry-input" id="relationship" placeholder="Record Number"></div><button href="javascript:void(0);" arial-label="remove" class="btn addCurRelations data-entry-button float-left py-0 px-1 col mx-1 remCurRelations"><i class="fas fa-times"></i></button></div>');
 	});
 	$("##customCurRelations").on('click','.remCurRelations',function(){$(this).parent().remove();});
 	});
