@@ -429,7 +429,7 @@ limitations under the License.
 						<div class="portlet-content">
 							<div class="form-row mx-0">
 								<div id="customSciName">
-								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Scientific Name</a>
 								<div class="form-row mx-0 mb-2">
 									<label for="scientific_name" class="sr-only">Scientific Name</label>
 									<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
