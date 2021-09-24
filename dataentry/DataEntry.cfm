@@ -459,16 +459,20 @@ limitations under the License.
 					<div class="portlet">
 						<div class="portlet-header">OTHER IDS</div>
 						<div class="portlet-content">
-						<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 m-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i></a>
-							<div class="form-row mx-0 my-2">
-								<label for="other_id" class="sr-only">Other ID</label>
-								<select class="data-entry-select" required>
-									<option value="">Other ID Type</option>
-									<option value="1">Field Number</option>
-									<option value="2">Collector Number</option>
-									<option value="3">Previous Number</option>
-								</select>
-								<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
+							<div class="form-row mx-0">
+								<div id="customOtherID">
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 m-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i></a>
+									<div class="form-row mx-0 my-2">
+										<label for="other_id" class="sr-only">Other ID</label>
+										<select class="data-entry-select" required>
+											<option value="">Other ID Type</option>
+											<option value="1">Field Number</option>
+											<option value="2">Collector Number</option>
+											<option value="3">Previous Number</option>
+										</select>
+										<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
