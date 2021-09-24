@@ -1246,7 +1246,7 @@ $( ".portlet-toggle" ).click(function() {
 		
 $(document).ready(function(){
 	$(".addOtherID").click(function(){
-		$("##customOtherID").append('<div class="form-row mx-0 my-2"><label for="other_id" class="sr-only">Other ID</label><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addOtherID p-0 m-0 float-left data-entry-button remOtherID" style="width:20px;"><i class="fas fa-times"></i></button></div>');
+		$("##customOtherID").append('<div class="form-row mx-0 my-2"><label for="other_id" class="sr-only">Other ID</label><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"><button href="javascript:void(0);" arial-label="remove" class="btn addOtherID p-0 m-0 float-left data-entry-button remOtherID" style="width:20px;"><i class="fas fa-times"></i></button></div>');
 	});
 		$("##customOtherID").on('click','.remOtherID',function(){$(this).parent().remove();});
 	});
