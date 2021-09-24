@@ -355,7 +355,7 @@ limitations under the License.
 	</div>
 	
 	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1111px;">
-		<a class="btn btn-xs btn-secondary px-4 mt-5 position-absolute" href="##">Save Order</a> 
+		<a class="btn btn-xs btn-secondary mx-2 px-2 mt-5 position-absolute" href="##">Save Order</a> 
 		<div class="row mx-0 bg-blue-gray" style="background-color:##deebec!important;">
 			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
 			<div class="col-12 mt-0 offset-1">
