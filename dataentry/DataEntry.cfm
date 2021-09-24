@@ -609,27 +609,26 @@ limitations under the License.
 									<div class="form-row mx-0 my-2">
 										<label for="locality_id" class="data-entry-label text-center">Use ID only</label>
 										<input type="text" name="locality_id" class="data-entry-input" placeholder="Collecting Event ID" />
-										<label for="collecting_event_id" class="data-entry-label text-center"></label>
 										<span class="small">- OR - </span>
 										<label for="verbatim_locality" class="data-entry-label text-center">Verbatim Locality</label>
 										<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
-										<label for="inputPassword3" class="data-entry-label text-center">ISO Dates</label>
+										<label for="inputPassword3" class="sr-only">ISO Dates</label>
 										<input type="text" class="data-entry-input" id="began_date" placeholder="Began Date">
 										<input type="text" class="data-entry-input" id="ended_date" placeholder="Date Ended">
-										<label for="inputPassword3" class="data-entry-label text-center">Verbatim Date and Time</label>
+										<label for="inputPassword3" class="sr-only">Verbatim Date and Time</label>
 										<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
 										<input type="text" class="data-entry-input" id="collecting_time" placeholder="Collecting Time">
-										<label for="start_end_dayOfyear" class="data-entry-label text-center">Day of Year</label>
+										<label for="start_end_dayOfyear" class="sr-only">Day of Year</label>
 										<input type="text" class="data-entry-input" id="start_day_of_year" placeholder="Start Day of Year">
 										<input type="text" class="data-entry-input" id="end_day_of_year" placeholder="End Day of Year">
-										<label for="collecting_source_method" class="data-entry-label text-center">Source &amp; Method</label>
+										<label for="collecting_source_method" class="sr-only">Source &amp; Method</label>
 										<input type="text" class="data-entry-input" id="collecting_source" placeholder="Collecting Source">
 										<input type="text" class="data-entry-input" id="collecting_method" placeholder="Collecting Method">
-										<label for="Habitat" class="data-entry-label text-center">Habitat</label>
+										<label for="Habitat" class="sr-only">Habitat</label>
 										<input type="text" name="habitat_desc" class="data-entry-input" placeholder="Habitat" />
-										<label for="microhabitat" class="data-entry-label text-center">Microhabitat</label>
+										<label for="microhabitat" class="sr-only">Microhabitat</label>
 										<input type="text" name="habitat" class="data-entry-input" placeholder="Microhabitat" />
-										<label for="locality_remark" class="data-entry-label text-center">Collecting Remark</label>
+										<label for="locality_remark" class="sr-only">Collecting Remark</label>
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 										</textarea>
 										<span class="small font-weight-bold">Verbatim Georeference</span>
