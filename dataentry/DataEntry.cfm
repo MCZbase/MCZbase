@@ -493,28 +493,28 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				<div class="portlet">
-					<div class="portlet-header">BIOLOGICAL RELATIONSHIPS</div>
-					<div class="portlet-content">
-						<div class="form-row mx-0">
-							<div id="customBiolRelations">
-								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
-								<div class="form-row my-2 mx-0">
-									<label for="relations" class="sr-only">Relationship</label>
-									<select class="data-entry-select">
-										<option value="">Relationship Type</option>
-										<option value="1">Same lot as</option>
-										<option value="2">Egg of</option>
-										<option value="3">Parent of</option>
-										<option value="4">In Nest</option>
-									</select>
-									<input type="text" class="data-entry-input" id="relationship" placeholder="Record Number">
+					<div class="portlet">
+						<div class="portlet-header">BIOLOGICAL RELATIONSHIPS</div>
+						<div class="portlet-content">
+							<div class="form-row mx-0">
+								<div id="customBiolRelations">
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
+									<div class="form-row my-2 mx-0">
+										<label for="relations" class="sr-only">Relationship</label>
+										<select class="data-entry-select">
+											<option value="">Relationship Type</option>
+											<option value="1">Same lot as</option>
+											<option value="2">Egg of</option>
+											<option value="3">Parent of</option>
+											<option value="4">In Nest</option>
+										</select>
+										<input type="text" class="data-entry-input" id="relationship" placeholder="Record Number">
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 				<div class="column">
 					<div class="portlet">
 						<div class="portlet-header">COLLECTING EVENT</div>
@@ -686,247 +686,7 @@ limitations under the License.
 
 		<div class="row">
 			<div class="col-12">
-			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
-	<!---			<h1 class="text-center mt-2 mb-0">Enter a New Record</h1>--->
-<!---				<div class="row">
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
-							<h2 class="data-entry-title">Collection</h2>
-								<div class="row">
-								<label for="collection" class="sr-only">Collection</label>
-								<div class="col-12">
-									<select class="data-entry-select px-0" required>
-										<option value="">Select Collection</option>
-										<option value="1">Herpetology</option>
-										<option value="2">Mammalogy</option>
-										<option value="3">Malacology</option>
-									</select>
-									<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv1">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader1">
-							<h2 class="data-entry-title">Catalog Number</h2>
-							<div class="row">
-								<label for="cat_num" class="sr-only">Catalog Number</label>
-								<div class="col-12">
-									<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
-									<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection.</small> </div>
-							</div>
-						</div>
-					</div>
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv2">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader2">
-							<h2 class="data-entry-title">Accession Number</h2>
-						
-							<div class="form-row">
-								<label for="cat_num" class="sr-only">Accession</label>
-								<div class="col-12">
-									<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession Number" name="accn">
-									<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database.</small> </div>
-							</div>
-						</div>
-					</div>
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv3">
-						<div class="border-fill px-3 py-2 m-1" id="mydivheader3">
-							<h2 class="data-entry-title">Encumbrance</h2>
-						
-							<div id="encumbrance">
-								<div class="row mb-3">
-									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center pr-0" style="margin-top: -5px;">Mask Record</label>
-									<div class="col-xl-9">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input w-auto mt-1" value="mask" type="checkbox" id="gridCheck1">
-	
-											<small id="accnHelp" class="form-text float-left text-muted">Puts it in a generic encumbrance.</small> </div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>--->
-<!---				<div class="row">
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv4">
-						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader4">
-							<h2 class="data-entry-title">COLLECTOR/PREPARATOR</h2>
-							<div id="customAgent">
-								<div class="form-row">
-									<label for="other_id" class="sr-only">Agent</label>
-									<div class="col-12 col-xl-5 pr-1">
-										<select class="data-entry-select">
-											<option value="">Collector</option>
-											<option value="1">Preparator</option>
-										</select>
-									</div>
-									<div class="col-12 col-xl-6 px-1">
-										<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
-									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent loginButtons col mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>--->
-<!---					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv5">
-						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader5">
-							<h2 class="data-entry-title">Other IDs</h2>
-							<div id="customOtherID">
-								<div class="form-row">
-									<label for="other_id" class="sr-only">Other ID</label>
-									<div class="col-xl-5 pr-1">
-										<select class="data-entry-select" required>
-											<option value="">Other ID Type</option>
-											<option value="1">Field Number</option>
-											<option value="2">Collector Number</option>
-											<option value="3">Previous Number</option>
-										</select>
-									</div>
-									<div class="col-xl-6 px-1">
-										<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
-									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary col addOtherID loginButtons mt-0 mx-0 mb-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>--->
-				<!---	<div class="col-12 col-md-6 pb-1 px-1" id="mydiv6">
-						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader6">
-							<h2 class="data-entry-title">Scientific Name</h2>
-							<div id="customSciName">
-								<div class="row">
-									<label for="scientific_name" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">Scientific Name</label>
-									<div class="col-12 col-lg-8">
-										<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
-									</div>
-								</div>
-								<div class="row">
-									<label for="made_by" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">ID Made By</label>
-									<div class="col-12 col-lg-8">
-										<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
-									</div>
-								</div>
-								<div class="row">
-									<label for="nature_of_id" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">Nature of ID</label>
-									<div class="col-12 col-lg-4 pr-xl-0">
-										<select class="data-entry-select" required>
-											<option value="">Expert ID</option>
-											<option value="1">Field ID</option>
-											<option value="2">Non-Expert ID</option>
-											<option value="3">Curatorial ID</option>
-										</select>
-									</div>
-									<div class="col-12 col-lg-4">
-										<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
-									</div>
-								</div>
-								<div class="row">
-									<label for="id_remark" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">ID Remark</label>
-									<div class="col-12 col-lg-8">
-										<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea" placeholder="ID Remark"/>
-										</textarea>
-									</div>
-								<a aria-label="Add another set of search criteria"  style="max-width: 22px;" class="btn btn-xs btn-primary addSciName col loginButtons rounded px-1 mr-auto m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>--->
-<!---					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv7">
-						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader7">
-							<h2 class="data-entry-title">Collecting Event</h2>
-							<div class="row">
-								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Use ID only</label>
-								<div class="col-sm-4">
-									<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
-								<div class="col-sm-8"> <span class="small">- OR - </span> </div>
-							</div>
-							<div class="row">
-								<label for="verbatim_locality" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Verbatim Locality</label>
-								<div class="col-sm-8">
-									<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">ISO Dates</label>
-								<div class="col-12 col-sm-4 pr-0">
-									<input type="text" class="data-entry-input pr-xl-0" id="began_date" placeholder="Began Date">
-								</div>
-								<div class="col-12 col-sm-4">
-									<input type="text" class="data-entry-input pr-xl-0" id="ended_date" placeholder="Date Ended">
-								</div>
-						
-							</div>
-							<div class="row">
-								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Verbatim Date and Time</label>
-								<div class="col-12 col-sm-4 pr-xl-0">
-									<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
-								</div>
-								<div class="col-12 col-sm-4">
-									<input type="text" class="data-entry-input pr-xl-0" id="collecting_time" placeholder="Collecting Time">
-								</div>
-							</div>
-							<div class="row">
-								<label for="start_end_dayOfyear" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Day of Year</label>
-								<div class="col-12 col-sm-4 pr-0">
-									<input type="text" class="data-entry-input pr-xl-0" id="start_day_of_year" placeholder="Start Day of Year">
-								</div>
-								<div class="col-12 col-sm-4">
-									<input type="text" class="data-entry-input pr-xl-0" id="end_day_of_year" placeholder="End Day of Year">
-								</div>
-							</div>
-							<div class="row">
-								<label for="collecting_source_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Source &amp; Method</label>
-								<div class="col-12 col-sm-4 pr-0">
-									<input type="text" class="data-entry-input pr-xl-0" id="collecting_source" placeholder="Collecting Source">
-								</div>
-								<div class="col-12 col-sm-4">
-									<input type="text" class="data-entry-input pr-xl-0" id="collecting_method" placeholder="Collecting Method">
-								</div>
-							</div>
-							<div class="row">
-								<label for="Habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
-								<div class="col-sm-8">
-									<input type="text" name="habitat_desc" class="data-entry-input" placeholder="Habitat" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="microhabitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Microhabitat</label>
-								<div class="col-sm-8">
-									<input type="text" name="habitat" class="data-entry-input" placeholder="Microhabitat" />
-								</div>
-							</div>
-							<div class="row">
-								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Remark</label>
-								<div class="col-sm-8">
-									<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
-									</textarea>
-								</div>
-							</div>
-							<div class="row">
-								<div class="text-left w-100 py-1 px-5"><span class="small font-weight-bold">Verbatim Georeference</span></div>
-								<label for="Coord. System" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Coordinate System</label>
-								<div class="col-12 col-sm-4 pr-0">
-									<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="e.g., decimal degrees">
-								</div>
-								<div class="col-12 col-sm-4 pr-0">
-									<input type="text" class="data-entry-input pr-xl-0" id="Datum" placeholder="SRS or Datum">
-								</div>
-							</div>
-							<div class="row">
-								<label for="lat_long" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Lat. and Long.</label>
-								<div class="col-12 col-sm-4 pr-0">
-									<input type="text" class="data-entry-input pr-xl-0" id="latitude" placeholder="Latitude">
-								</div>
-								<div class="col-12 col-sm-4 pr-0">
-									<input type="text" class="data-entry-input pr-xl-0" id="longitude" placeholder="Longitude">
-								</div>
-							</div>
-						</div>
-					</div>--->				
+			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">			
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv8">
 						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader8">
 							<h2 class="data-entry-title">Locality</h2>
@@ -1165,189 +925,14 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv11">
-						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader11">
-							<h2 class="data-entry-title">Biological Relationships</h2>
-				<!---			<h3 class="data-entry-subtitle">This is step 5</h3>--->
-							<div id="customBiolRelations">
-								<div class="form-row">
-									<label for="relations" class="sr-only">Relationship</label>
-									<div class="col-12 col-xl-5 pr-1">
-										<select class="data-entry-select">
-											<option value="">Relationship Type</option>
-											<option value="1">Same lot as</option>
-											<option value="2">Egg of</option>
-											<option value="3">Parent of</option>
-											<option value="4">In Nest</option>
-										</select>
-									</div>
-									<div class="col-12 col-xl-6 px-1">
-										<input type="text" class="data-entry-input" id="relationship" placeholder="Record Number">
-									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations loginButtons px-1 rounded mr-auto mx-1 mt-0 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv12">
-						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader12">
-							<h2 class="data-entry-title">Curatorial Relationships</h2>
-							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
-							<div id="customCurRelations">
-								<div class="form-row">
-									<label for="relations" class="sr-only">Relationship</label>
-									<div class="col-12 col-xl-5 pr-1">
-										<select class="data-entry-select">
-											<option value="">Relationship Type</option>
-											<option value="1">Re-Cataloged as</option>
-											<option value="2">Bad Duplicate of</option>
-											<option value="3">Cloned from Record</option>
-											<option value="4">Duplicate Recataloged as</option>
-										</select>
-									</div>
-									<div class="col-12 col-xl-6 px-1">
-										<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
-									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary col addCurRelations loginButtons rounded mr-auto mt-0 mx-1 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-12 col-md-6 px-1" id="mydiv13">
-						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader13">
-							<h2 class="data-entry-title">Parts</h2>
-				
-							<!---<h3 class="data-entry-subtitle">This is step 11</h3>--->
-							<div id="customPart">
-								<div class="row">
-									<label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
-									<div class="col-12 col-lg-8">
-										<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
-									</div>
-								</div>
-									<div class="row">
-									<label for="preserv_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
-									<div class="col-12 col-lg-8">
-										<select class="data-entry-select" required>
-											<option value="">Ethanol</option>
-											<option value="1">RNALater</option>
-											<option value="2">DNA/RNA Shield</option>
-											<option value="3">Alcohol</option>
-										</select>
-									</div>
-								</div>
-									<div class="row">
-									<label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label>
-									<div class="col-12 col-lg-8">
-										<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
-									</div>
-								</div>
-									<div class="row">
-									<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Disposition</label>
-									<div class="col-12 col-lg-8">
-										<select class="data-entry-select" required>
-											<option value="">Being Processed</option>
-											<option value="1">Deaccessioned</option>
-											<option value="2">In Collection</option>
-											<option value="3">Missing</option>
-										</select>
-									</div>
-								</div>
-									<div class="row">
-								
-										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label>
-										<div class="col-12 col-lg-4 pr-xl-0">
-											<select class="data-entry-select pr-xl-0" required="">
-												<option value="">Modifier</option>
-												<option value="1">ca.</option>
-												<option value="2">&gt;</option>
-												<option value="3">&lt;</option>
-											</select>
-										</div>
-										<div class="col-12 col-lg-4">
-											<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
-										</div>
-									</div>
-									<div class="row">
-									<label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label>
-									<div class="col-12 col-lg-8">
-										<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
-									</div>
-								</div>
-									<div class="row">
-									<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Remark</label>
-									<div class="col-12 col-lg-8">
-										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
-										</textarea>
-									</div>
-								<a aria-label="Add another set of search criteria"  style="width: 20px;" class="btn btn-xs btn-primary addPart loginButtons rounded px-1 mr-auto mt-0 mx-1 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
-								</div>
-								
-							</div>
-							</div>
-					</div>
+
+
 				</div>
 			</form>
 			</div>
 		</div>
 	</div>
-<script>
-	dragElement(document.getElementById("mydiv"));
-	dragElement(document.getElementById("mydiv1"));
-	dragElement(document.getElementById("mydiv2"));
-	dragElement(document.getElementById("mydiv3"));
-	dragElement(document.getElementById("mydiv4"));
-	dragElement(document.getElementById("mydiv5"));
-	dragElement(document.getElementById("mydiv6"));
-	dragElement(document.getElementById("mydiv7"));
-	dragElement(document.getElementById("mydiv8"));
-	dragElement(document.getElementById("mydiv9"));
-	dragElement(document.getElementById("mydiv10"));
-	dragElement(document.getElementById("mydiv11"));
-	dragElement(document.getElementById("mydiv12"));
-	dragElement(document.getElementById("mydiv13"));
-function dragElement(elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id + "header")) {
-    // if present, the header is where you move the DIV from:
-    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-  } else {
-    // otherwise, move the DIV from anywhere inside the DIV:
-    elmnt.onmousedown = dragMouseDown;
-  }
 
-  function dragMouseDown(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
-  }
-
-  function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    // set the element's new position:
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-  }
-
-  function closeDragElement() {
-    // stop moving when mouse button is released:
-    document.onmouseup = null;
-    document.onmousemove = null;
-  }
-
-}
-</script>
 	<!---Step by step form for each section of the Data Entry form -- Form wizard--->
 <script>
 $( ".column" ).sortable({
