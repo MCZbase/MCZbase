@@ -527,7 +527,40 @@ limitations under the License.
 					</div>
 					<div class="portlet">
 						<div class="portlet-header">ATTRIBUTES</div>
-						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+						<div class="portlet-content">
+							<div class="form-row mx-0">
+								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt m-1 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
+								<div id="customAtt">
+									<div class="form-row mx-0 my-2">
+										<label for="attribute_name" class="data-entry-label text-center pr-0">Attribute Type</label>
+										<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
+										<label for="part_number" class="data-entry-label text-center px-0">Attribute Value</label>
+										<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
+										<select class="data-entry-select" required="">
+											<option value="">Units</option>
+											<option value="1">Life Cycle Stage</option>
+											<option value="2">Citation</option>
+											<option value="3">Host</option>
+										</select>
+										<label for="date" class="data-entry-label text-center pr-0">Date</label>
+										<input type="text" class="data-entry-input" name="date" placeholder="Date">
+										<label for="determiner" class="data-entry-label text-center pr-0">Determiner</label>
+										<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
+										<label for="method" class="data-entry-label text-center pr-0">Method</label>
+										<input type="text" class="data-entry-input" name="method" placeholder="Method">
+										<label for="attribute_remark" class="data-entry-label text-center pr-0">Attribute Remark</label>
+										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
+										</textarea>
+									</div>
+								
+								</div>
+						
+							</div>
+							</div>
+						</div>
+					</div>
+							
+						</div>
 					</div>
 				</div>
 				<div class="column">
