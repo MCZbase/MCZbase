@@ -531,7 +531,7 @@ limitations under the License.
 						<div class="portlet-content">
 							<div id="customPart">
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
-								<div class="form-row mx-0">
+								<div class="form-row mx-0 my-2">
 									<label for="part_name" class="sr-only">Part Name</label>
 									<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
 									<label for="preserv_method" class="sr-only">Preserve Method</label>
