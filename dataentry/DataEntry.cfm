@@ -570,7 +570,7 @@ limitations under the License.
 						<div class="portlet-header">ATTRIBUTES</div>
 						<div class="portlet-content">
 							<div class="form-row mx-0">
-								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt m-1 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
+								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
 								<div id="customAtt">
 									<div class="form-row mx-0 my-2">
 										<label for="attribute_name" class="data-entry-label text-center pr-0">Attribute Type</label>
@@ -644,9 +644,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-
-
-			</div>
+				</div>
 			</div>
 	</div>
 
