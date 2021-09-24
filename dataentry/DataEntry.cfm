@@ -530,7 +530,7 @@ limitations under the License.
 						<div class="portlet-header">PARTS</div>
 						<div class="portlet-content">
 							<div id="customPart">
-								<a aria-label="Add another set of search criteria"  style="width: 20px;" class="btn btn-xs btn-primary addPart py-0 m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
+								<a aria-label="Add another set of search criteria"  style="width: 20px;" class="btn btn-xs btn-primary addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
 								<div class="form-row">
 									<label for="part_name" class="data-entry-label text-center">Part Name</label>
 									<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
