@@ -481,22 +481,17 @@ limitations under the License.
 					<div class="portlet-content">
 						<div class="form-row mx-0">
 							<div id="customBiolRelations">
-							<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
-								<div class="form-row">
+								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
+								<div class="form-row my-2 mx-0">
 									<label for="relations" class="sr-only">Relationship</label>
-									<div class="col-12 col-xl-5 pr-1">
-										<select class="data-entry-select">
-											<option value="">Relationship Type</option>
-											<option value="1">Same lot as</option>
-											<option value="2">Egg of</option>
-											<option value="3">Parent of</option>
-											<option value="4">In Nest</option>
-										</select>
-									</div>
-									<div class="col-12 col-xl-6 px-1">
-										<input type="text" class="data-entry-input" id="relationship" placeholder="Record Number">
-									</div>
-							
+									<select class="data-entry-select">
+										<option value="">Relationship Type</option>
+										<option value="1">Same lot as</option>
+										<option value="2">Egg of</option>
+										<option value="3">Parent of</option>
+										<option value="4">In Nest</option>
+									</select>
+									<input type="text" class="data-entry-input" id="relationship" placeholder="Record Number">
 								</div>
 							</div>
 						</div>
