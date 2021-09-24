@@ -424,6 +424,10 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+					<div class="portlet">
+						<div class="portlet-header">CURATORIAL RELATIONSHIPS</div>
+						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+					</div>
 				</div>
 				<div class="column">
 					<div class="portlet">
@@ -472,7 +476,11 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-					</div>
+				<div class="portlet">
+					<div class="portlet-header">BIOLOGICAL RELATIONSHIPS</div>
+					<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+				</div>
+			</div>
 				<div class="column">
 					<div class="portlet">
 						<div class="portlet-header">COLLECTING EVENT</div>
@@ -482,7 +490,6 @@ limitations under the License.
 									<div class="form-row mx-0 my-2">
 										<label for="collecting_event_id" class="data-entry-label text-center px-0">Use ID only</label>
 										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
-										<label for="collecting_event_id" class="data-entry-label text-center px-0"></label>
 										<span class="small">- OR - </span>
 										<label for="verbatim_locality" class="data-entry-label text-center px-xl-0">Verbatim Locality</label>
 										<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
@@ -567,8 +574,8 @@ limitations under the License.
 							<div class="form-row mx-0">
 								<div id="customSciName">
 									<div class="form-row mx-0 my-2">
-										<label for="collecting_event_id" class="data-entry-label text-center px-0">Use ID only</label>
-										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
+										<label for="locality_id" class="data-entry-label text-center px-0">Use ID only</label>
+										<input type="text" name="locality_id" class="data-entry-input" placeholder="Collecting Event ID" />
 										<label for="collecting_event_id" class="data-entry-label text-center px-0"></label>
 										<span class="small">- OR - </span>
 										<label for="verbatim_locality" class="data-entry-label text-center px-xl-0">Verbatim Locality</label>
@@ -604,16 +611,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				<div class="column">
-					<div class="portlet">
-						<div class="portlet-header">BIOLOGICAL RELATIONSHIPS</div>
-						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-					</div>
-					<div class="portlet">
-						<div class="portlet-header">CURATORIAL RELATIONSHIPS</div>
-						<div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-					</div>
-				</div>
+
 
 			</div>
 		</div>
