@@ -614,18 +614,19 @@ limitations under the License.
 										<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
 										<input type="text" class="data-entry-input" id="inputMaxElev" placeholder="Max Elevation">
 										<select class="data-entry-select" required>
-											<option value="">Feet</option>
-											<option value="1">Fathoms</option>
-											<option value="2">Yards</option>
-											<option value="3">Meters</option>
-											<option value="4">Miles</option>
-											<option value="5">Kilometers</option>
+											<option value="">Units</option>
+											<option value="1">Feet</option>
+											<option value="2">Fathoms</option>
+											<option value="3">Yards</option>
+											<option value="4">Meters</option>
+											<option value="5">Miles</option>
+											<option value="6">Kilometers</option>
 										</select>
 										<label for="inputMinDepth" class="sr-only">Depth</label>
 										<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
 										<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
 										<select class="data-entry-select" required>
-											<option value="">Feet</option>
+											<option value="">Units</option>
 											<option value="1">Fathoms</option>
 											<option value="2">Yards</option>
 											<option value="3">Meters</option>
