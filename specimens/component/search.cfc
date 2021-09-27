@@ -305,20 +305,20 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfif>
 
 		<cfif isDefined("searchText") and len(searchText) gt 0>
-			<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
-				SELECT column_name, sql_element 
-				FROM cf_spec_res_cols
-				WHERE category = 'attribute'
-			</cfquery>
-			<cfquery name="flatFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatFields_result">
-				SELECT column_name, data_type 
-				FROM all_tab_columns
-				WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
-					and upper(column_name) not in (
-						SELECT column_name 
-						FROM cf_spec_res_cols
-						WHERE category = 'attribute'
-					)
+			<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
+				SELECT upper(column_name) as column_name, 'VARCHAR2' data_type, category, label, disp_order
+				FROM cf_spec_res_cols_r
+				WHERE access = 'PUBLIC'
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						OR access = 'COLDFUSION_USER'
+					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+						OR access = 'MANAGE_TRANSACTIONS'
+					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
+						OR access = 'DATA_ENTRY'
+					</cfif>
+				ORDER by category, disp_order
 			</cfquery>
 
 			<!--- 
@@ -331,12 +331,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 				SELECT 
 					<cfset comma = "">
-					<cfloop query="flatFields">
-						#comma#flatTableName.#column_name#
-						<cfset comma = ",">
-					</cfloop>
-					<cfloop query="attrFields">
+					<cfloop query="getFieldMetadata">
 						,#replace(sql_element,"''","'","all")# #column_name#
+						<cfset comma = ",">
 					</cfloop>
 				FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 					left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -348,12 +345,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 				SELECT
 					<cfset comma = "">
-					<cfloop query="flatFields">
-						#comma#flatTableName.#column_name#
-						<cfset comma = ",">
-					</cfloop>
-					<cfloop query="attrFields">
+					<cfloop query="getFieldMetadata">
 						,#replace(sql_element,"''","'","all")# #column_name#
+						<cfset comma = ",">
 					</cfloop>
 				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flatTableName
 					join FLAT_TEXT FT ON flatTableName.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
@@ -455,7 +449,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfthrow message="Value provided for builderMaxRows is not a number">
 	</cfif>
 
-	<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
+	<cfquery name="searchFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchFields_result">
 		SELECT search_category, table_name, column_name, column_alias, data_type, label
 		FROM cf_spec_search_cols
 		ORDER BY
@@ -485,11 +479,11 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			</cfif>
 			<cfset matched = false>
 			<cfset nest = 1>
-			<cfloop query="fields">
-				<cfset tableField = "#fields.table_name#:#fields.column_name#">
+			<cfloop query="searchFields">
+				<cfset tableField = "#searchFields.table_name#:#searchFields.column_name#">
 				<cfif fieldProvided EQ tableField AND len(searchText) GT 0>
 					<cfset matched = true>
-					<cfset field = '"field": "#fields.column_alias#"'>
+					<cfset field = '"field": "#searchFields.column_alias#"'>
 					<!--- Warning: only searchText may be passed directly from the user here, join and field must be known good values ---> 
 					<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
 					<cfset separator = ",">
@@ -521,30 +515,27 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
 			<cfprocresult name="search">
 		</cfstoredproc>
-		<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
-			SELECT column_name, sql_element 
-			FROM cf_spec_res_cols
-			WHERE category = 'attribute'
-		</cfquery>
-		<cfquery name="flatFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatFields_result">
-			SELECT column_name, data_type 
-			FROM all_tab_columns
-			WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
-				and upper(column_name) not in (
-					SELECT column_name 
-					FROM cf_spec_res_cols
-					WHERE category = 'attribute'
-				)
+		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
+			SELECT upper(column_name) as column_name, 'VARCHAR2' data_type, category, label, disp_order
+			FROM cf_spec_res_cols_r
+			WHERE access = 'PUBLIC'
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					OR access = 'COLDFUSION_USER'
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+					OR access = 'MANAGE_TRANSACTIONS'
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
+					OR access = 'DATA_ENTRY'
+				</cfif>
+			ORDER by category, disp_order
 		</cfquery>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				<cfset comma = "">
-				<cfloop query="flatFields">
-					#comma#flatTableName.#column_name#
-					<cfset comma = ",">
-				</cfloop>
-				<cfloop query="attrFields">
+				<cfloop query="getFieldMetadata">
 					,#replace(sql_element,"''","'","all")# #column_name#
+					<cfset comma = ",">
 				</cfloop>
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -853,30 +844,27 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
 			<cfprocresult name="search">
 		</cfstoredproc>
-		<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
-			SELECT column_name, sql_element 
-			FROM cf_spec_res_cols
-			WHERE category = 'attribute'
-		</cfquery>
-		<cfquery name="flatFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatFields_result">
-			SELECT column_name, data_type 
-			FROM all_tab_columns
-			WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
-				and upper(column_name) not in (
-					SELECT column_name 
-					FROM cf_spec_res_cols
-					WHERE category = 'attribute'
-				)
+		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
+			SELECT upper(column_name) as column_name, 'VARCHAR2' data_type, category, label, disp_order
+			FROM cf_spec_res_cols_r
+			WHERE access = 'PUBLIC'
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					OR access = 'COLDFUSION_USER'
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+					OR access = 'MANAGE_TRANSACTIONS'
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
+					OR access = 'DATA_ENTRY'
+				</cfif>
+			ORDER by category, disp_order
 		</cfquery>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				<cfset comma = "">
-				<cfloop query="flatFields">
-					#comma#flatTableName.#column_name#
+				<cfloop query="getFieldMetadata">
+					#comma##replace(sql_element,"''","'","all")# #column_name#
 					<cfset comma = ",">
-				</cfloop>
-				<cfloop query="attrFields">
-					,#replace(sql_element,"''","'","all")# #column_name#
 				</cfloop>
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id

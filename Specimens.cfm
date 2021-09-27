@@ -1082,21 +1082,22 @@ limitations under the License.
 		</main>
 		--->
 	
-	<cfquery name="flatFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatFields_result">
-		SELECT upper(column_name) as column_name, data_type 
-		FROM all_tab_columns
-		WHERE table_name = <cfif ucase(#session.flatTableName#) EQ 'FLAT'>'FLAT'<cfelse>'FILTERED_FLAT'</cfif>
-			and upper(column_name) not in ( 'GUID', 'IMAGEURL', 'COLLECTION_OBJECT_ID', 'COLLECTION', 'CAT_NUM', 'BEGAN_DATE', 'ENDED_DATE', 'SCIENTIFIC_NAME', 'SPEC_LOCALITY', 'LOCALITY_ID', 'HIGHER_GEOG', 'COLLECTORS', 'VERBATIM_DATE', 'COLL_OBJECT_DISPOSITION', 'OTHERCATALOGNUMBERS')
-			and upper(column_name) not in (
-				SELECT upper(column_name) as column_name
-				FROM cf_spec_res_cols
-				WHERE category = 'attribute'
-			)
-	</cfquery>
-	<cfquery name="attrFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
-		SELECT upper(column_name) as column_name, 'VARCHAR2' data_type
-		FROM cf_spec_res_cols
-		WHERE category = 'attribute'
+	<!--- lastcolumn is the column to put at the end of the default column set with no width specified --->
+	<cfset lastcolumn = 'OTHERCATALOGNUMBERS'>
+	<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
+		SELECT upper(column_name) as column_name, data_type, category, label, disp_order, hideable, hidden, cellsrenderer, width
+		FROM cf_spec_res_cols_r
+		WHERE access = 'PUBLIC'
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				OR access = 'COLDFUSION_USER'
+			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+				OR access = 'MANAGE_TRANSACTIONS'
+			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
+				OR access = 'DATA_ENTRY'
+			</cfif>
+		ORDER by category, disp_order
 	</cfquery>
 	<script>
 		// setup for persistence of column selections
@@ -1149,32 +1150,8 @@ limitations under the License.
 				datatype: "json",
 				datafields:
 				[
-					{name: 'GUID', type: 'string' },
-					{name: 'IMAGEURL', type: 'string' },
-					{name: 'COLLECTION_OBJECT_ID', type: 'n' },
-					{name: 'COLLECTION', type: 'string' },
-					{name: 'CAT_NUM', type: 'string' },
-					{name: 'BEGAN_DATE', type: 'string' },
-					{name: 'ENDED_DATE', type: 'string' },
-					{name: 'SCIENTIFIC_NAME', type: 'string' },
-					{name: 'SPEC_LOCALITY', type: 'string' },
-					{name: 'LOCALITY_ID', type: 'n' },
-					{name: 'HIGHER_GEOG', type: 'string' },
-					{name: 'COLLECTORS', type: 'string' },
-					{name: 'VERBATIM_DATE', type: 'string' },
-					{name: 'COLL_OBJECT_DISPOSITION', type: 'string' },
-					{name: 'OTHERCATALOGNUMBERS', type: 'string' }
-					<cfset separator = ",">
-					<cfloop query="attrFields">
-						<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
-							#separator#{name: '#ucase(column_name)#', type: 'string' }
-						<cfelse>
-							#separator#{name: '#ucase(column_name)#', type: 'string' }
-						</cfif>
-						<cfset separator = ",">
-					</cfloop>
-					<cfset separator = ",">
-					<cfloop query="flatFields">
+					<cfset separator = "">
+					<cfloop query="getFieldMetadata">
 						<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
 							#separator#{name: '#ucase(column_name)#', type: 'string' }
 						<cfelse>
@@ -1231,27 +1208,22 @@ limitations under the License.
 					$("##"+gridId).jqxGrid('selectrow', 0);
 				},
 				columns: [
-					{text: 'GUID', datafield: 'GUID', width: 155, hidable: false, cellsrenderer: linkGuidCellRenderer },
-					{text: 'CollObjectID', datafield: 'COLLECTION_OBJECT_ID', width: 100, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID',true), cellsrenderer: linkIdCellRenderer },
-					{text: 'Collection', datafield: 'COLLECTION', width: 150, hidable: true, hidden: getColHidProp('COLLECTION', false) },
-					{text: 'Catalog Number', datafield: 'CAT_NUM', width: 130, hidable: true, hidden: getColHidProp('CAT_NUM', false) },
-					{text: 'Began Date', datafield: 'BEGAN_DATE', width: 115, cellsformat: 'yyyy-mm-dd', filtertype: 'date', hidable: true, hidden: getColHidProp('BEGAN_DATE', false) },
-					{text: 'Ended Date', datafield: 'ENDED_DATE',filtertype: 'date', cellsformat: 'yyyy-mm-dd',width: 115, hidable: true, hidden: getColHidProp('ENDED_DATE', false) },
-					{text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width: 250, hidable: true, hidden: getColHidProp('SCIENTIFIC_NAME', false) },
-					{text: 'Specific Locality', datafield: 'SPEC_LOCALITY', width: 280, hidable: true, hidden: getColHidProp('SPEC_LOCALITY', false) },
-					{text: 'Locality by ID', datafield: 'LOCALITY_ID', width: 100, hidable: true, hidden: getColHidProp('LOCALITY_ID', true)  },
-					{text: 'Higher Geography', datafield: 'HIGHER_GEOG', width: 280, hidable: true, hidden: getColHidProp('HIGHER_GEOG', false) },
-					{text: 'Collectors', datafield: 'COLLECTORS', width: 180, hidable: true, hidden: getColHidProp('COLLECTORS', false) },
-					{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190, hidable: true, hidden: getColHidProp('VERBATIM_DATE', false) },
-					<cfloop query="attrFields">
-						<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
-						{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
+					<cfset lastrow ="">
+					<cfloop query="getFieldMetadata">
+						<cfif ucase(data_type) EQ 'DATE'>
+							<cfset filtertype = " filtertype: 'date',">
+						<cfelse>
+							<cfset filtertype = "">
+						</cfif>
+						<cfif ucase(column_name) EQ lastcolumn>
+							<!--- leave off the width on the last column, no trailing comma --->
+							<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+						<cfset>
+						<cfelse> 
+							{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+						</cfif>
 					</cfloop>
-					<cfloop query="flatFields">
-						<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
-						{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
-					</cfloop>
-					{text: 'Other IDs', datafield: 'OTHERCATALOGNUMBERS', hidable: true, hidden: getColHidProp('OTHERCATALOGNUMBERS', false)  }
+					#lastrow#
 				],
 				rowdetails: true,
 				rowdetailstemplate: {
@@ -1323,32 +1295,8 @@ limitations under the License.
 					datatype: "json",
 					datafields:
 					[
-						{name: 'GUID', type: 'string' },
-						{name: 'IMAGEURL', type: 'string' },
-						{name: 'COLLECTION_OBJECT_ID', type: 'n' },
-						{name: 'COLLECTION', type: 'string' },
-						{name: 'CAT_NUM', type: 'string' },
-						{name: 'BEGAN_DATE', type: 'string' },
-						{name: 'ENDED_DATE', type: 'string' },
-						{name: 'SCIENTIFIC_NAME', type: 'string' },
-						{name: 'SPEC_LOCALITY', type: 'string' },
-						{name: 'LOCALITY_ID', type: 'n' },
-						{name: 'HIGHER_GEOG', type: 'string' },
-						{name: 'COLLECTORS', type: 'string' },
-						{name: 'VERBATIM_DATE', type: 'string' },
-						{name: 'COLL_OBJECT_DISPOSITION', type: 'string' },
-						{name: 'OTHERCATALOGNUMBERS', type: 'string' }
-						<cfset separator = ",">
-						<cfloop query="attrFields">
-							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
-								#separator#{name: '#ucase(column_name)#', type: 'string' }
-							<cfelse>
-								#separator#{name: '#ucase(column_name)#', type: 'string' }
-							</cfif>
-							<cfset separator = ",">
-						</cfloop>
-						<cfset separator = ",">
-						<cfloop query="flatFields">
+						<cfset separator = "">
+						<cfloop query="getFieldMetadata">
 							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
 								#separator#{name: '#ucase(column_name)#', type: 'string' }
 							<cfelse>
@@ -1405,27 +1353,22 @@ limitations under the License.
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 					},
 					columns: [
-						{text: 'GUID', datafield: 'GUID', width: 155, hidable: false, cellsrenderer: linkGuidCellRenderer },
-						{text: 'CollObjectID', datafield: 'COLLECTION_OBJECT_ID', width: 100, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID',true), cellsrenderer: linkIdCellRenderer },
-						{text: 'Collection', datafield: 'COLLECTION', width: 150, hidable: true, hidden: getColHidProp('COLLECTION', false) },
-						{text: 'Catalog Number', datafield: 'CAT_NUM', width: 130, hidable: true, hidden: getColHidProp('CAT_NUM', false) },
-						{text: 'Began Date', datafield: 'BEGAN_DATE', width: 115, cellsformat: 'yyyy-mm-dd', filtertype: 'date', hidable: true, hidden: getColHidProp('BEGAN_DATE', false) },
-						{text: 'Ended Date', datafield: 'ENDED_DATE',filtertype: 'date', cellsformat: 'yyyy-mm-dd',width: 115, hidable: true, hidden: getColHidProp('ENDED_DATE', false) },
-						{text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width: 250, hidable: true, hidden: getColHidProp('SCIENTIFIC_NAME', false) },
-						{text: 'Specific Locality', datafield: 'SPEC_LOCALITY', width: 280, hidable: true, hidden: getColHidProp('SPEC_LOCALITY', false) },
-						{text: 'Locality by ID', datafield: 'LOCALITY_ID', width: 100, hidable: true, hidden: getColHidProp('LOCALITY_ID', true)  },
-						{text: 'Higher Geography', datafield: 'HIGHER_GEOG', width: 280, hidable: true, hidden: getColHidProp('HIGHER_GEOG', false) },
-						{text: 'Collectors', datafield: 'COLLECTORS', width: 180, hidable: true, hidden: getColHidProp('COLLECTORS', false) },
-						{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190, hidable: true, hidden: getColHidProp('VERBATIM_DATE', false) },
-						<cfloop query="attrFields">
-							<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
-							{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
+						<cfset lastrow ="">
+						<cfloop query="getFieldMetadata">
+							<cfif ucase(data_type) EQ 'DATE'>
+								<cfset filtertype = " filtertype: 'date',">
+							<cfelse>
+								<cfset filtertype = "">
+							</cfif>
+							<cfif ucase(column_name) EQ lastcolumn>
+								<!--- leave off the width on the last column, no trailing comma --->
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+							<cfset>
+							<cfelse> 
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+							</cfif>
 						</cfloop>
-						<cfloop query="flatFields">
-							<cfset label = REReplaceNoCase(replace(column_name,"_"," "), "\b(\w)(\w{0,})\b", "\U\1\L\2", "all")>
-							{text: '#label#', datafield: '#ucase(column_name)#', width: 100, hidable:true, hidden: getColHidProp('#ucase(column_name)#', true) },
-						</cfloop>
-						{text: 'Other IDs', datafield: 'OTHERCATALOGNUMBERS', hidable: true, hidden: getColHidProp('OTHERCATALOGNUMBERS', false)  }
+						#lastrow#
 					],
 					rowdetails: true,
 					rowdetailstemplate: {
