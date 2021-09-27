@@ -462,7 +462,6 @@ limitations under the License.
 										</select>
 										<input type="text" class="data-entry-input"  name="agent_id" placeholder="Agent">
 									</div>
-
 								</div>
 							</div>
 						</div>
