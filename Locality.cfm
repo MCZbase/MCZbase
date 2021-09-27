@@ -2445,7 +2445,7 @@ You deleted a collecting event.
 		<!--- obtain distinct geographies from cf_findLocality localityResults --->
 		<cfquery name="localityResults2" dbtype="query">
 			select count(locality_id) as ct, geog_auth_rec_id,higher_geog
-			from localityResults where valid_catalog_term_fg = 1
+			from localityResults
 			group by geog_auth_rec_id, higher_geog
 			order by higher_geog
 		</cfquery>
@@ -2453,9 +2453,10 @@ You deleted a collecting event.
 		<tr>
 			<td><b>Geog ID</b></td><td><b>Higher Geog</b></td><td><b>Localities</b></td>
 		</tr>
+		
 		<cfloop query="localityResults2">
 			<tr>
-				<td><cfif VALID_CATALOG_TERM_FG eq 'yes'><a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#"></cfif>#geog_auth_rec_id#<cfif VALID_CATALOG_TERM_FG eq 'yes'></a></cfif></td>
+				<td><cfif VALID_CATALOG_TERM_FG eq '`'><a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#"></cfif>#geog_auth_rec_id#<cfif VALID_CATALOG_TERM_FG eq '1'></a></cfif></td>
 				<td>
 					<input style="border:none;" value="#higher_geog#" size="80" readonly/>
 				</td>
