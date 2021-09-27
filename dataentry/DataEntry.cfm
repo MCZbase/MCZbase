@@ -702,11 +702,9 @@ limitations under the License.
 										<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
 										<select class="data-entry-select" required>
 											<option value="">Units</option>
-											<option value="1">Fathoms</option>
-											<option value="2">Yards</option>
-											<option value="3">Meters</option>
-											<option value="4">Miles</option>
-											<option value="5">Kilometers</option>
+											<cfloop query="error_units">
+												<option value="ctlat_long_error_units"></option>
+											</cfloop>
 										</select>
 										<label for="sovereign_nation" class="sr-only">Sovereign Nation</label>
 										<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
