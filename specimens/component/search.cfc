@@ -332,8 +332,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				SELECT 
 					<cfset comma = "">
 					<cfloop query="getFieldMetadata">
-						,#replace(sql_element,"''","'","all")# #column_name#
-						<cfset comma = ",">
+						<cfif len(sql_element) GT 0> 
+							,#replace(sql_element,"''","'","all")# #column_name#
+							<cfset comma = ",">
+						</cfif>
 					</cfloop>
 				FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 					left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -346,8 +348,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				SELECT
 					<cfset comma = "">
 					<cfloop query="getFieldMetadata">
-						,#replace(sql_element,"''","'","all")# #column_name#
-						<cfset comma = ",">
+						<cfif len(sql_element) GT 0> 
+							,#replace(sql_element,"''","'","all")# #column_name#
+							<cfset comma = ",">
+						</cfif>
 					</cfloop>
 				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flatTableName
 					join FLAT_TEXT FT ON flatTableName.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
@@ -534,8 +538,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			SELECT 
 				<cfset comma = "">
 				<cfloop query="getFieldMetadata">
-					,#replace(sql_element,"''","'","all")# #column_name#
-					<cfset comma = ",">
+					<cfif len(sql_element) GT 0> 
+						,#replace(sql_element,"''","'","all")# #column_name#
+						<cfset comma = ",">
+					</cfif>
 				</cfloop>
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -863,8 +869,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			SELECT 
 				<cfset comma = "">
 				<cfloop query="getFieldMetadata">
-					#comma##replace(sql_element,"''","'","all")# #column_name#
-					<cfset comma = ",">
+					<cfif len(sql_element) GT 0> 
+						#comma##replace(sql_element,"''","'","all")# #column_name#
+						<cfset comma = ",">
+					</cfif>
 				</cfloop>
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
