@@ -555,7 +555,7 @@ div.vslider-item[aria-hidden="true"]{
 														</cfif>
 														<div class="w-100 bg-light float-left px-3 h-auto">
 															<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-															<cfset src=/media/rescaleImage.cfm?media_id=>
+															<cfset src=media/rescaleImage.cfm?media_id=>
 															<cfset specMedia=specimenImagesForCarousel['media_id'][i]>
 															<cfset mediaSize=&height=1000&width=1000>
 															<cfif fileExists(#specMedia#)>
