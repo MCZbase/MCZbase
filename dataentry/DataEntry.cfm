@@ -111,7 +111,7 @@ limitations under the License.
 <cfoutput>
  <cfquery name="error_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
-		lat_long_error_units
+		ctlat_long_error_units.lat_long_error_units
 	from
 		mczbase.ctlat_long_error_units
 	order by lat_long_error_units asc
@@ -703,7 +703,7 @@ limitations under the License.
 										<select class="data-entry-select" required>
 											<option value="">Units</option>
 											<cfloop query="error_units">
-												<option value="#error_units.lat_long_error_units#"></option>
+												<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
 											</cfloop>
 										</select>
 										<label for="sovereign_nation" class="sr-only">Sovereign Nation</label>
