@@ -703,7 +703,7 @@ limitations under the License.
 										<select class="data-entry-select" required>
 											<option value="">Units</option>
 											<cfloop query="error_units">
-												<option value="ctlat_long_error_units"></option>
+												<option value="error_units.lat_long_error_units"></option>
 											</cfloop>
 										</select>
 										<label for="sovereign_nation" class="sr-only">Sovereign Nation</label>
