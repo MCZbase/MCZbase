@@ -109,7 +109,13 @@ limitations under the License.
 </style>
 
 <cfoutput>
-
+ <cfquery name="error_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select
+		lat_long_error_units
+	from
+		ct_lat_long_error_units
+	order by lat_long_error_units asc
+</cfquery>
 	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
@@ -293,12 +299,10 @@ limitations under the License.
 							</div>
 							<div class="col-sm-2">
 								<select class="form-control border" required>
-									<option value="">Feet</option>
-									<option value="1">Fathoms</option>
-									<option value="2">Yards</option>
-									<option value="3">Meters</option>
-									<option value="4">Miles</option>
-									<option value="5">Kilometers</option>
+									<cfloop query="error_units">
+										<option value="">Units</option>
+										<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
+									</cfloop>								
 								</select>
 							</div>
 						</div>
@@ -655,6 +659,48 @@ limitations under the License.
 											<option value="5">Miles</option>
 											<option value="6">Kilometers</option>
 										</select>
+										<label for="inputMinDepth" class="sr-only">Depth</label>
+										<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
+										<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
+										<select class="data-entry-select" required>
+											<option value="">Units</option>
+											<option value="1">Fathoms</option>
+											<option value="2">Yards</option>
+											<option value="3">Meters</option>
+											<option value="4">Miles</option>
+											<option value="5">Kilometers</option>
+										</select>
+										<label for="sovereign_nation" class="sr-only">Sovereign Nation</label>
+										<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
+										<label for="higher_geog" class="sr-only">Geology Attribute</label>
+										<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
+										<label for="habitat" class="sr-only">Habitat</label>
+										<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
+										<label for="locality_remark" class="sr-only">Locality Remark</label>
+										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="portlet">
+						<div class="portlet-header">COORDINATES</div>
+						<div class="portlet-content">
+							<div class="form-row mx-0">
+								<div id="customSciName">
+									<div class="form-row mx-0 my-2">
+										<label for="higher_geog" class="sr-only">Max Error</label>
+										<input type="text" name="max_error_distance" class="data-entry-input" placeholder="Max Error" />
+										<select class="data-entry-select" required>
+											<cfloop query="error_units"
+											
+											</cfloop>
+										</select>
+										<label for="spec_locality" class="sr-only">GPS Accurcy</label>
+										<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
+										<label for="inputMinElev" class="sr-only">Extent</label>
+										<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
+										
 										<label for="inputMinDepth" class="sr-only">Depth</label>
 										<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
 										<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
