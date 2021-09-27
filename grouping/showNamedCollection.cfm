@@ -559,7 +559,7 @@ div.vslider-item[aria-hidden="true"]{
 															<cfset size='?width=1000&height=1000'>
 															<cfif fileExists(#src#)>
 																<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																	<img src="https://mczbase-dev.rc.fas.harvard.edu/media/rescaleImage.cfm?media_id=1474028&height=300&width=300" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+																	<img src="/media/rescaleImage.cfm?specimenImagesForCarousel['media_uri'][i]" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																</a>
 																<p class="mt-2 bg-light small">#trimmedAltText#</p>
 															<cfelse>
