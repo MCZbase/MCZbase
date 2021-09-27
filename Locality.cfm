@@ -2455,7 +2455,7 @@ You deleted a collecting event.
 		</tr>
 		<cfloop query="localityResults2">
 			<tr>
-				<td><cfif VALID_CATALOG_TERM_FG eq 'yes'><a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#"></cfif>#geog_auth_rec_id#<cfif></a></cfif></td>
+				<td><cfif VALID_CATALOG_TERM_FG eq 'yes'><a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#"></cfif>#geog_auth_rec_id#<cfif VALID_CATALOG_TERM_FG eq 'yes'></a></cfif></td>
 				<td>
 					<input style="border:none;" value="#higher_geog#" size="80" readonly/>
 				</td>
