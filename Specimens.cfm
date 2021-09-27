@@ -1087,15 +1087,15 @@ limitations under the License.
 	<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
 		SELECT upper(column_name) as column_name, data_type, category, label, disp_order, hideable, hidden, cellsrenderer, width
 		FROM cf_spec_res_cols_r
-		WHERE access = 'PUBLIC'
+		WHERE access_role = 'PUBLIC'
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				OR access = 'COLDFUSION_USER'
+				OR access_role = 'COLDFUSION_USER'
 			</cfif>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-				OR access = 'MANAGE_TRANSACTIONS'
+				OR access_role = 'MANAGE_TRANSACTIONS'
 			</cfif>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
-				OR access = 'DATA_ENTRY'
+				OR access_role = 'DATA_ENTRY'
 			</cfif>
 		ORDER by category, disp_order
 	</cfquery>
