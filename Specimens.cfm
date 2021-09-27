@@ -1218,7 +1218,6 @@ limitations under the License.
 						<cfif ucase(column_name) EQ lastcolumn>
 							<!--- leave off the width on the last column, no trailing comma --->
 							<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
-						<cfset>
 						<cfelse> 
 							{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 						</cfif>
@@ -1363,7 +1362,6 @@ limitations under the License.
 							<cfif ucase(column_name) EQ lastcolumn>
 								<!--- leave off the width on the last column, no trailing comma --->
 								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
-							<cfset>
 							<cfelse> 
 								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
