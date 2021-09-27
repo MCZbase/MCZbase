@@ -2351,7 +2351,8 @@ You deleted a collecting event.
 			maximum_elevation,
 			orig_elev_units,
 			collcountlocality,
-			curated_fg
+			curated_fg,
+			valid_catalog_term_fg
 		from localityResults
 		order by
 			higher_geog, spec_locality
@@ -2444,7 +2445,7 @@ You deleted a collecting event.
 
 		<!--- obtain distinct geographies from cf_findLocality localityResults --->
 		<cfquery name="localityResults2" dbtype="query">
-			select count(locality_id) as ct, geog_auth_rec_id,higher_geog, valid_catalog_term_fg
+			select count(locality_id) as ct, geog_auth_rec_id,higher_geog
 			from localityResults
 			group by geog_auth_rec_id, higher_geog
 			order by higher_geog
