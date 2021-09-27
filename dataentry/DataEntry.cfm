@@ -315,13 +315,11 @@ limitations under the License.
 								<input type="text" class="form-control" id="inputMaxDepth" placeholder="Max Depth">
 							</div>
 							<div class="col-sm-2">
-								<select class="border form-control" required>
-									<option value="">Feet</option>
-									<option value="1">Fathoms</option>
-									<option value="2">Yards</option>
-									<option value="3">Meters</option>
-									<option value="4">Miles</option>
-									<option value="5">Kilometers</option>
+								<select class="form-control border" required>
+									<option value="">Units</option>
+									<cfloop query="error_units">
+										<option value="error_units.lat_long_error_units"></option>
+									</cfloop>								
 								</select>
 							</div>
 						</div>
