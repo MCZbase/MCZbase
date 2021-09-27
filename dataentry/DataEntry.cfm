@@ -690,7 +690,10 @@ limitations under the License.
 										<label for="higher_geog" class="sr-only">Max Error</label>
 										<input type="text" name="max_error_distance" class="data-entry-input" placeholder="Max Error" />
 										<select class="data-entry-select" required>
-					
+											<option value="">Units</option>
+											<cfloop query="error_units">
+												<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
+											</cfloop>
 										</select>
 										<label for="spec_locality" class="sr-only">GPS Accurcy</label>
 										<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
