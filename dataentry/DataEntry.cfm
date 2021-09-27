@@ -299,9 +299,9 @@ limitations under the License.
 							</div>
 							<div class="col-sm-2">
 								<select class="form-control border" required>
+									<option value="">Units</option>
 									<cfloop query="error_units">
-										<option value="">Units</option>
-										<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
+										<option value="error_units.lat_long_error_units"></option>
 									</cfloop>								
 								</select>
 							</div>
