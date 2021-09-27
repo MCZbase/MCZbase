@@ -306,7 +306,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 
 		<cfif isDefined("searchText") and len(searchText) gt 0>
 			<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
-				SELECT upper(column_name) as column_name, 'VARCHAR2' data_type, category, label, disp_order
+				SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
 				FROM cf_spec_res_cols_r
 				WHERE access_role = 'PUBLIC'
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -516,7 +516,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfprocresult name="search">
 		</cfstoredproc>
 		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
-			SELECT upper(column_name) as column_name, 'VARCHAR2' data_type, category, label, disp_order
+			SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
 			FROM cf_spec_res_cols_r
 			WHERE access_role = 'PUBLIC'
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -845,7 +845,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfprocresult name="search">
 		</cfstoredproc>
 		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
-			SELECT upper(column_name) as column_name, 'VARCHAR2' data_type, category, label, disp_order
+			SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
 			FROM cf_spec_res_cols_r
 			WHERE access_role = 'PUBLIC'
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
