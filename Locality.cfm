@@ -2445,7 +2445,7 @@ You deleted a collecting event.
 		<!--- obtain distinct geographies from cf_findLocality localityResults --->
 		<cfquery name="localityResults2" dbtype="query">
 			select count(locality_id) as ct, geog_auth_rec_id,higher_geog
-			from localityResults
+			from localityResults where valid_catalog_term_fg = 1
 			group by geog_auth_rec_id, higher_geog
 			order by higher_geog
 		</cfquery>
