@@ -1223,9 +1223,9 @@ limitations under the License.
 							<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
 								<cfif left(gridId,7) EQ "builder">
 									<cfset cellrenderer = " cellsrenderer:builder#getFieldMetadata.cellsrenderer#,">
-								<cfif left(gridId,5) EQ "fixed">
+								<cfelseif left(gridId,5) EQ "fixed">
 									<cfset cellrenderer = " cellsrenderer:fixed#getFieldMetadata.cellsrenderer#,">
-								<cfif left(gridId,7) EQ "keyword">
+								<cfelseif left(gridId,7) EQ "keyword">
 									<cfset cellrenderer = " cellsrenderer:keyword#getFieldMetadata.cellsrenderer#,">
 								</cfif>
 							<cfelse>
@@ -1381,9 +1381,9 @@ limitations under the License.
 								<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
 									<cfif left(gridId,7) EQ "builder">
 										<cfset cellrenderer = " cellsrenderer:builder#getFieldMetadata.cellsrenderer#,">
-									<cfif left(gridId,5) EQ "fixed">
+									<cfelseif left(gridId,5) EQ "fixed">
 										<cfset cellrenderer = " cellsrenderer:fixed#getFieldMetadata.cellsrenderer#,">
-									<cfif left(gridId,7) EQ "keyword">
+									<cfelseif left(gridId,7) EQ "keyword">
 										<cfset cellrenderer = " cellsrenderer:keyword#getFieldMetadata.cellsrenderer#,">
 									</cfif>
 								<cfelse>
