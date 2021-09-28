@@ -1212,7 +1212,7 @@ limitations under the License.
 					<cfloop query="getFieldMetadata">
 						<cfset cellrenderer = "">
 						<cfif len(getFieldMetadata.cellsrenderer) GT 0>
-							<cfset cellrenderer = " cellrenderer:#getFieldMetadata.cellsrenderer#,">
+							<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
 						</cfif> 
 						<cfif ucase(data_type) EQ 'DATE'>
 							<cfset filtertype = " filtertype: 'date',">
@@ -1360,7 +1360,7 @@ limitations under the License.
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
 							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
-								<cfset cellrenderer = " cellrenderer:#getFieldMetadata.cellsrenderer#,">
+								<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
 							</cfif> 
 							<cfif ucase(data_type) EQ 'DATE'>
 								<cfset filtertype = " filtertype: 'date',">
