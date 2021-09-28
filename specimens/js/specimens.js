@@ -1064,7 +1064,7 @@ function makeSpecResColsAutocomplete(inputId, targetField) {
 		source: function (request, response) {
 			$.ajax({
 				url: "/specimens/component/search.cfc",
-				data: { term: request.term, method: 'getSpecResColsAutocomplete', rank: targetRank },
+				data: { term: request.term, method: 'getSpecResColsAutocomplete', rank: targetField },
 				dataType: 'json',
 				success : function (data) { response(data); },
 				error : function (jqXHR, textStatus, error) {
@@ -1092,7 +1092,7 @@ function makeSpecSearchColsAutocomplete(inputId, targetField) {
 		source: function (request, response) {
 			$.ajax({
 				url: "/specimens/component/search.cfc",
-				data: { term: request.term, method: 'getSpecSearchColsAutocomplete', rank: targetRank },
+				data: { term: request.term, method: 'getSpecSearchColsAutocomplete', rank: targetField },
 				dataType: 'json',
 				success : function (data) { response(data); },
 				error : function (jqXHR, textStatus, error) {
