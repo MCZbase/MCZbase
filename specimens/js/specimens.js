@@ -1055,12 +1055,12 @@ function openItemConditionHistoryDialog(collection_object_id, dialogId) {
 }
 /** makeSpecResCollsAutocomplete make an input control into a picker for a arbitrary specimen search
  * results field metadata.
- * @param inpitId the id for the input without a leading # selector.
+ * @param inputId the id for the input without a leading # selector.
  * @param targetField the field in cf_spec_res_cols_r for which to lookup distinct values and
  *  to bind the autocomplete to.  
 **/
 function makeSpecResColsAutocomplete(inputId, targetField) { 
-	jQuery("#"+fieldId).autocomplete({
+	jQuery("#"+inputId).autocomplete({
 		source: function (request, response) {
 			$.ajax({
 				url: "/specimens/component/search.cfc",
@@ -1074,7 +1074,7 @@ function makeSpecResColsAutocomplete(inputId, targetField) {
 		},
 		select: function (event, result) {
 			event.preventDefault();
-			$('#'+fieldId).val(result.item.value);
+			$('#'+inputId).val(result.item.value);
 		},
 		minLength: 3
 	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
@@ -1083,12 +1083,12 @@ function makeSpecResColsAutocomplete(inputId, targetField) {
 };
 /** makeSpecSearchCollsAutocomplete make an input control into a picker for a arbitrary specimen search
  * results field metadata.
- * @param inpitId the id for the input without a leading # selector.
+ * @param inputId the id for the input without a leading # selector.
  * @param targetField the field in cf_spec_search_cols for which to lookup distinct values and
  *  to bind the autocomplete to.  
 **/
 function makeSpecSearchColsAutocomplete(inputId, targetField) { 
-	jQuery("#"+fieldId).autocomplete({
+	jQuery("#"+inputId).autocomplete({
 		source: function (request, response) {
 			$.ajax({
 				url: "/specimens/component/search.cfc",
@@ -1102,7 +1102,7 @@ function makeSpecSearchColsAutocomplete(inputId, targetField) {
 		},
 		select: function (event, result) {
 			event.preventDefault();
-			$('#'+fieldId).val(result.item.value);
+			$('#'+inputId).val(result.item.value);
 		},
 		minLength: 3
 	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
