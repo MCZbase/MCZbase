@@ -137,6 +137,221 @@ limitations under the License.
 						</div>
 					</section>
 				</main>
+				<cfset cellRenderClasses = "ml-1">
+				<script>
+					window.columnHiddenSettings = new Object();
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					</cfif>
+
+					$(document).ready(function() {
+						/* Setup jqxgrid for Search */
+						$('##searchForm').bind('submit', function(evt){
+							evt.preventDefault();
+					
+							$("##overlay").show();
+					
+							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+							$('##resultCount').html('');
+							$('##resultLink').html('');
+					
+							var search =
+							{
+								datatype: "json",
+								datafields:
+								[
+									{ name: 'CF_SPEC_RES_COLS_ID', type: 'string' },
+									{ name: 'SQL_ELEMENT', type: 'string' },
+									{ name: 'DISP_ORDER', type: 'string' },
+									{ name: 'COLUMN_NAME', type: 'string' },
+									{ name: 'ACCESS_ROLE', type: 'string' },
+									{ name: 'CATEGORY', type: 'string' },
+									{ name: 'DATA_TYPE', type: 'string' },
+									{ name: 'ACCESS_ROLE', type: 'string' },
+									{ name: 'HIDEABLE', type: 'string' },
+									{ name: 'HIDDEN', type: 'string' },
+									{ name: 'CELLSRENDERER', type: 'string' },
+									{ name: 'WIDTH', type: 'string' },
+									{ name: 'LABEL', type: 'string' }
+								],
+								updaterow: function (rowid, rowdata, commit) {
+									commit(true);
+								},
+								root: 'cf_spec_search_cols_Record',
+								id: 'id',
+								url: '/specimens/component/admin.cfc?' + $('##searchForm').serialize(),
+								timeout: 30000,  // units not specified, miliseconds? 
+								loadError: function(jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+								},
+								async: true
+							};
+					
+							var dataAdapter = new $.jqx.dataAdapter(search);
+							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+								var details = $($(parentElement).children()[0]);
+								details.html("<div id='rowDetailsTarget" + index + "'></div>");
+					
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+								// Workaround, expansion sits below row in zindex.
+								var maxZIndex = getMaxZIndex();
+								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+							}
+					
+							$("##searchResultsGrid").jqxGrid({
+								width: '100%',
+								autoheight: 'true',
+								source: dataAdapter,
+								filterable: true,
+								sortable: true,
+								pageable: true,
+								editable: false,
+								pagesize: '50',
+								pagesizeoptions: ['5','50','100'],
+								showaggregates: true,
+								columnsresize: true,
+								autoshowfiltericon: true,
+								autoshowcolumnsmenubutton: false,
+								autoshowloadelement: false,  // overlay acts as load element for form+results
+								columnsreorder: true,
+								groupable: true,
+								selectionmode: 'singlerow',
+								altrows: true,
+								showtoolbar: false,
+								columns: [
+									{text: 'Column Name', datafield: 'COLUMN_NAME', width: 150, hidable: true, hidden: getColHidProp('COLUMN_NAME', false) },
+									{text: 'Label', datafield: 'LABEL', width: 250, hidable: true, hidden: getColHidProp('LABEL', false) },
+									{text: 'Category', datafield: 'CATEGORY', width: 120, hidable: true, hidden: getColHidProp('CATEGORY', false) },
+									{text: 'Order', datafield: 'DISP_ORDER', width: 100, hidable: true, hidden: getColHidProp('DISP_ORDER', false) },
+									{text: 'Access Role', datafield: 'ACCESS_ROLE', width: 120, hidable: true, hidden: getColHidProp('ACCESS_ROLE', false) },
+									{text: 'Hideable', datafield: 'HIDEABLE', width: 80, hidable: true, hidden: getColHidProp('HIDEABLE', false) },
+									{text: 'Hidden', datafield: 'HIDDEN', width: 80, hidable: true, hidden: getColHidProp('HIDDEN', false) },
+									{text: 'CellsRenderer', datafield: 'CELLSRENDERER', width: 150, hidable: true, hidden: getColHidProp('CELLSRENDERER', false) },
+									{text: 'Width', datafield: 'WIDTH', width: 80, hidable: true, hidden: getColHidProp('WIDTH', false) },
+									{text: 'Data Type', datafield: 'DATA_TYPE', width: 150, hidable: true, hidden: getColHidProp('DATA_TYPE', false) },
+									{text: 'ID', datafield: 'CF_SPEC_RES_COLS_ID', width: 80 hideable: true, hidden: getColHidProp('CF_SPEC_RES_COLS_ID', false) },
+									{text: 'SQL', datafield: 'SQL_ELEMENT', hidable: true, hidden: getColHidProp('SQL_ELEMENT', false) }
+								],
+								rowdetails: true,
+								rowdetailstemplate: {
+									rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+									rowdetailsheight: 1 // row details will be placed in popup dialog
+								},
+								initrowdetails: initRowDetails
+							});
+							$("##searchResultsGrid").on("bindingcomplete", function(event) {
+								// add a link out to this search, serializing the form as http get parameters
+								$('##resultLink').html('<a href="/specimens/adminSpecimenSearch.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+								gridLoaded('searchResultsGrid','collection');
+							});
+							$('##searchResultsGrid').on('rowexpand', function (event) {
+								//  Create a content div, add it to the detail row, and make it into a dialog.
+								var args = event.args;
+								var rowIndex = args.rowindex;
+								var datarecord = args.owner.source.records[rowIndex];
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+							});
+							$('##searchResultsGrid').on('rowcollapse', function (event) {
+								// remove the dialog holding the row details
+								var args = event.args;
+								var rowIndex = args.rowindex;
+								$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+							});
+						});
+						/* End Setup jqxgrid for Search ******************************/
+		
+						// If requested in uri, execute search immediately.
+						<cfif isdefined("execute")>
+							$('##searchForm').submit();
+						</cfif>
+					}); /* End document.ready */
+	
+					function gridLoaded(gridId, searchType) { 
+						if (Object.keys(window.columnHiddenSettings).length == 0) { 
+							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+							</cfif>
+						}
+						$("##overlay").hide();
+						var now = new Date();
+						var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+						var filename = searchType + '_results_' + nowstring + '.csv';
+						// display the number of rows found
+						var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+						var rowcount = datainformation.rowscount;
+						if (rowcount == 1) {
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+						} else { 
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+						}
+						// set maximum page size
+						if (rowcount > 100) { 
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
+						} else if (rowcount > 50) { 
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
+						} else { 
+							$('##' + gridId).jqxGrid({ pageable: false });
+						}
+						// add a control to show/hide columns
+						var columns = $('##' + gridId).jqxGrid('columns').records;
+						var columnListSource = [];
+						for (i = 1; i < columns.length; i++) {
+							var text = columns[i].text;
+							var datafield = columns[i].datafield;
+							var hideable = columns[i].hideable;
+							var hidden = columns[i].hidden;
+							var show = ! hidden;
+							if (hideable == true) { 
+								var listRow = { label: text, value: datafield, checked: show };
+								columnListSource.push(listRow);
+							}
+						} 
+						$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+						$("##columnPick").on('checkChange', function (event) {
+							$("##" + gridId).jqxGrid('beginupdate');
+							if (event.args.checked) {
+								$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+							} else {
+								$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+							}
+							$("##" + gridId).jqxGrid('endupdate');
+						});
+						$("##columnPickDialog").dialog({ 
+							height: 'auto', 
+							title: 'Show/Hide Columns',
+							autoOpen: false,
+							modal: true, 
+							reszable: true, 
+							buttons: { 
+								Ok: function(){
+									window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+									</cfif>
+									$(this).dialog("close"); 
+								}
+							},
+							open: function (event, ui) { 
+								var maxZIndex = getMaxZIndex();
+								// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+								$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+								$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+							} 
+						});
+						$("##columnPickDialogButton").html(
+							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-1 mx-3' >Show/Hide Columns</button>"
+						);
+						// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+						// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+						var maxZIndex = getMaxZIndex();
+						$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+						$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+						$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+					}
+				</script> 
 			</cfoutput>
 			<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
 				<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -5em; opacity: 1;">
