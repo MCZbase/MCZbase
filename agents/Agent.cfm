@@ -1588,38 +1588,54 @@ limitations under the License.
 													<ul class="list-group"><li class="list-group-item">Not a Transaction Agent in MCZbase</li></ul>
 												<cfelse>
 													<ul class="list-group mt-0">
+														<!--- lastTrans, statusDate, liOpen handle repeating rows in getTransactions for this agent in several roles in one transaction --->
 														<cfset lastTrans ="">
 														<cfset statusDate ="">
+														<cfset liOpen = false>
 														<cfloop query="getTransactions">
 															<cfif oversizeSet IS true>
 																<li class="">
 																	<cfif transaction_type IS "deaccession">
 																		<cfset targetStatus="deacc_status">
 																	<cfelse>
-																		<cfset targetStatus="#transaction_type#">
+																		<cfset targetStatus="#transaction_type#_status">
 																	</cfif>
 																	<a href="/Transactions.cfm?execute=true&action=find#transaction_type#&collection_id=#collection_id#&#targetStatus#=#status#&trans_agent_role_1=#trans_agent_role#&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#">
 																		#getTransactions.ct# 
 																	</a>
-																	<span class="text-capitalize">#transaction_type#</span>, 
-																	#trans_agent_role#,
+																	<span class="text-capitalize">#transaction_type#</span> 
+																	#trans_agent_role#
 																	#status# in #collection_cde#
 																	<span><!-- workaround --></span>
 																</li>
 															<cfelse>
-																<li class="">
-																	<cfset lastTrans ="#getTransactions.specific_number#">
-																	<cfset statusDate = "(#getTransactions.status# #trans_date#)">
-																	#statusDate#
-																	<span class="text-capitalize">#transaction_type#</span>
-																	<cfif len(lastTrans) gt 0>
-																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true"> #specific_number#</a><cfelse>
+																<cfif lastTrans NEQ getTransactions.specific_number>
+																	<!--- encountered a new transaction (or the first)--->
+																	<cfif lastTrans NEQ "">
+																		<!--- not the first transaction, so show status/date and close the list from the previous transaction --->
+																		#statusDate#
+																		</li>
+																		<cfset liOpen = false>
 																	</cfif>
-																	#trans_agent_role#
-																</li>
-																
+																	<li class="">
+																		<cfset liOpen = true>
+																		<cfset statusDate = "(#getTransactions.status# #trans_date#)">
+																		<span class="text-capitalize">#transaction_type#</span> 
+																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
+																		#trans_agent_role#
+																	<!--- /li added in cfif either above or below --->
+																<cfelse>
+																	<!--- accumulate transaction agents, rows in getTransactions repeat for different roles by this agent in the same transaction --->
+																	, #trans_agent_role#
+																</cfif>
+																<cfset lastTrans ="#getTransactions.specific_number#">
 															</cfif>
 														</cfloop>
+														<cfif liOpen >
+															<!--- clean up at end of oversizeSet IS false block --->
+															#statusDate#
+															</li>
+														</cfif>
 													</ul>
 												</cfif>
 											</div>
