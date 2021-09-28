@@ -306,6 +306,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cftransaction>
+	<cfreturn theResult>
 </cffunction>
 
 <!--- backing method for row update in cf_spec_res_cols_r grid 
@@ -367,6 +368,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cftransaction>
+	<cfreturn theResult>
 </cffunction>
 
 </cfcomponent>
