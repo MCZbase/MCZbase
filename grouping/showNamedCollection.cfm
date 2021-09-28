@@ -555,11 +555,19 @@ div.vslider-item[aria-hidden="true"]{
 														</cfif>
 														<div class="w-100 bg-light float-left px-3 h-auto">
 															<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+							<cfquery name="mediaSizeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
+								select label_value from media, media_labels where media_label = 'height' and label_value > 1100 and media.media_id = media_labels.media_id
+							</cfquery>
+		
 															<cfset src=specimenImagesForCarousel['media_uri'][i]>
-															<cfset size='&width=800&height=600'>
+															<cfif mediaSizeType.label_value gt 1100>
+																<cfset sizeType='&width=800&height=1200'>
+															<cfelse>
+																<cfset sizeType='&width=800&height=600'>
+															</cfif>
 															<cfif fileExists(#src#)>
 																<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																	<img src="/media/rescaleImage.cfm?media_id=#specimenImagesForCarousel['media_id'][i]##size#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+																	<img src="/media/rescaleImage.cfm?media_id=#specimenImagesForCarousel['media_id'][i]##sizeType#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																</a>
 																<p class="mt-2 bg-light small">#trimmedAltText#</p>
 															<cfelse>
