@@ -450,7 +450,7 @@ limitations under the License.
 												<input type="text" id="table_name" name="table_name" class="data-entry-input" value="#table_name#" aria-labelledby="table_name_label" >
 												<script>
 													jQuery(document).ready(function() {
-														makeSpecSearchAutocomplete('table_name','table_name');
+														makeSpecSearchColsAutocomplete('table_name','table_name');
 													});
 												</script>
 											</div>
@@ -459,7 +459,7 @@ limitations under the License.
 												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#column_name#" aria-labelledby="column_name_label" >
 												<script>
 													jQuery(document).ready(function() {
-														makeSpecSearchAutocomplete('column_name','column_name');
+														makeSpecSearchColsAutocomplete('column_name','column_name');
 													});
 												</script>
 											</div>
@@ -468,7 +468,7 @@ limitations under the License.
 												<input type="text" id="label" name="label" class="data-entry-input" value="#label#" aria-labelledby="label_label" >
 												<script>
 													jQuery(document).ready(function() {
-														makeSpecSearchAutocomplete('label','label');
+														makeSpecSearchColsAutocomplete('label','label');
 													});
 												</script>
 											</div>
