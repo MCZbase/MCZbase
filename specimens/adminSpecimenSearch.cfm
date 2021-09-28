@@ -84,20 +84,40 @@ limitations under the License.
 										<input type="hidden" name="method" value="getcf_spec_res_cols" class="keeponclear">
 										<div class="form-row mt-1 mb-2">
 											<div class="col-md-3">
-												<label for="category" class="data-entry-label" id="category_label">Category</label>
-												<input type="text" id="category" name="category" class="data-entry-input" value="#category#" aria-labelledby="category_label" >
-											</div>
-											<div class="col-md-3">
 												<label for="column_name" class="data-entry-label" id="column_name_label">Column Name</label>
 												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#column_name#" aria-labelledby="column_name_label" >
-											</div>
-											<div class="col-md-3">
-												<label for="hidden" class="data-entry-label" id="hidden_label">Hidden</label>
-												<input type="text" id="hidden" name="hidden" class="data-entry-input" value="#hidden#" aria-labelledby="hidden_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecResColsAutocomplete('column_name','column_name');
+													});
+												</script>
 											</div>
 											<div class="col-md-3">
 												<label for="label" class="data-entry-label" id="label_label">Label</label>
 												<input type="text" id="label" name="label" class="data-entry-input" value="#label#" aria-labelledby="label_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecResColsAutocomplete('label','label');
+													});
+												</script>
+											</div>
+											<div class="col-md-3">
+												<label for="category" class="data-entry-label" id="category_label">Category</label>
+												<input type="text" id="category" name="category" class="data-entry-input" value="#category#" aria-labelledby="category_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecResColsAutocomplete('column_name','column_name');
+													});
+												</script>
+											</div>
+											<div class="col-md-3">
+												<label for="hidden" class="data-entry-label" id="hidden_label">Hidden</label>
+												<input type="text" id="hidden" name="hidden" class="data-entry-input" value="#hidden#" aria-labelledby="hidden_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecResColsAutocomplete('hidden','hidden');
+													});
+												</script>
 											</div>
 										</div>
 										<div class="form-row mt-2 mx-0">
@@ -419,18 +439,38 @@ limitations under the License.
 											<div class="col-md-3">
 												<label for="search_category" class="data-entry-label" id="search_category_label">Search Category</label>
 												<input type="text" id="search_category" name="search_category" class="data-entry-input" value="#search_category#" aria-labelledby="search_category_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchColsAutocomplete('search_category','search_category');
+													});
+												</script>
 											</div>
 											<div class="col-md-3">
 												<label for="table_name" class="data-entry-label" id="table_name_label">Table Name</label>
 												<input type="text" id="table_name" name="table_name" class="data-entry-input" value="#table_name#" aria-labelledby="table_name_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchAutocomplete('table_name','table_name');
+													});
+												</script>
 											</div>
 											<div class="col-md-3">
 												<label for="column_name" class="data-entry-label" id="column_name_label">Column Name</label>
 												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#column_name#" aria-labelledby="column_name_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchAutocomplete('column_name','column_name');
+													});
+												</script>
 											</div>
 											<div class="col-md-3">
 												<label for="label" class="data-entry-label" id="label_label">Label</label>
 												<input type="text" id="label" name="label" class="data-entry-input" value="#label#" aria-labelledby="label_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchAutocomplete('label','label');
+													});
+												</script>
 											</div>
 										</div>
 										<div class="form-row mt-2 mx-0">
