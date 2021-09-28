@@ -1097,7 +1097,7 @@ limitations under the License.
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
 				OR access_role = 'DATA_ENTRY'
 			</cfif>
-		ORDER by category, disp_order
+		ORDER by disp_order
 	</cfquery>
 	<script>
 		// setup for persistence of column selections
