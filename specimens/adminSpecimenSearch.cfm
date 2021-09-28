@@ -328,7 +328,7 @@ limitations under the License.
 							});
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
-								$('##resultLink').html('<a href="/grouping/NamedCollection.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+								$('##resultLink').html('<a href="/specimens/adminSpecimenSearch.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 								gridLoaded('searchResultsGrid','collection');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
