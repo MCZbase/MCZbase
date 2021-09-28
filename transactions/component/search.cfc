@@ -231,23 +231,13 @@ limitations under the License.
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
-			<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
-				<!--- Links for integration on production --->
-				<cfswitch expression="#search.transaction_type#">
-					<!--- NOTE: Leading / is included below in id_link assembly --->
-					<cfcase value="loan"><cfset targetform = "transactions/Loan.cfm?action=editLoan&"></cfcase>
-					<cfcase value="accn"><cfset targetform = "transactions/Accession.cfm?action=edit&"></cfcase>
-					<cfcase value="borrow"><cfset targetform = "transactions/Borrow.cfm?action=edit&"></cfcase>
-					<cfcase value="deaccession"><cfset targetform = "transactions/Deaccession.cfm?action=edit&"></cfcase>
-				</cfswitch>
-			<cfelse>
-				<!--- Links for redesign --->
-				<cfswitch expression="#search.transaction_type#">
-					<cfcase value="loan"><cfset targetform = "transactions/Loan.cfm?action=editLoan&"></cfcase>
-					<cfcase value="accn"><cfset targetform = "transactions/Accession.cfm?action=edit&"></cfcase>
-					<cfdefaultcase ><cfset targetform = "transaction.cfm?"></cfdefaultcase>
-				</cfswitch>
-			</cfif>
+			<cfswitch expression="#search.transaction_type#">
+				<!--- NOTE: Leading / is included below in id_link assembly --->
+				<cfcase value="loan"><cfset targetform = "transactions/Loan.cfm?action=editLoan&"></cfcase>
+				<cfcase value="accn"><cfset targetform = "transactions/Accession.cfm?action=edit&"></cfcase>
+				<cfcase value="borrow"><cfset targetform = "transactions/Borrow.cfm?action=edit&"></cfcase>
+				<cfcase value="deaccession"><cfset targetform = "transactions/Deaccession.cfm?action=edit&"></cfcase>
+			</cfswitch>
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
