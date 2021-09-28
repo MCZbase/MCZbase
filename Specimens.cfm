@@ -1108,8 +1108,8 @@ limitations under the License.
 	
 		// ***** cell renderers *****
 		// cell renderer to display a thumbnail with alt tag given columns preview_uri, media_uri, and ac_description 
-		var thumbCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-			var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var thumbCellRenderer_f = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 			var puri = rowData['preview_uri'];
 			var muri = rowData['media_uri'];
 			var alt = rowData['ac_description'];
@@ -1121,8 +1121,16 @@ limitations under the License.
 		};
 	
 		// cell renderer to link out to specimen details page by specimen id
-		var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-			var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var fixed_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
+		};
+		var keyword_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
+		};
+		var buidler_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
 		};
 	
@@ -1212,7 +1220,17 @@ limitations under the License.
 					<cfloop query="getFieldMetadata">
 						<cfset cellrenderer = "">
 						<cfif len(getFieldMetadata.cellsrenderer) GT 0>
-							<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
+							<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
+								<cfif left(gridId,7) EQ "builder">
+									<cfset cellrenderer = " cellsrenderer:builder#getFieldMetadata.cellsrenderer#,">
+								<cfif left(gridId,5) EQ "fixed">
+									<cfset cellrenderer = " cellsrenderer:fixed#getFieldMetadata.cellsrenderer#,">
+								<cfif left(gridId,7) EQ "keyword">
+									<cfset cellrenderer = " cellsrenderer:keyword#getFieldMetadata.cellsrenderer#,">
+								</cfif>
+							<cfelse>
+								<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
+							</cfif>
 						</cfif> 
 						<cfif ucase(data_type) EQ 'DATE'>
 							<cfset filtertype = " filtertype: 'date',">
@@ -1360,7 +1378,17 @@ limitations under the License.
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
 							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
-								<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
+								<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
+									<cfif left(gridId,7) EQ "builder">
+										<cfset cellrenderer = " cellsrenderer:builder#getFieldMetadata.cellsrenderer#,">
+									<cfif left(gridId,5) EQ "fixed">
+										<cfset cellrenderer = " cellsrenderer:fixed#getFieldMetadata.cellsrenderer#,">
+									<cfif left(gridId,7) EQ "keyword">
+										<cfset cellrenderer = " cellsrenderer:keyword#getFieldMetadata.cellsrenderer#,">
+									</cfif>
+								<cfelse>
+									<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
+								</cfif>
 							</cfif> 
 							<cfif ucase(data_type) EQ 'DATE'>
 								<cfset filtertype = " filtertype: 'date',">
