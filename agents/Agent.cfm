@@ -1598,13 +1598,13 @@ limitations under the License.
 																	<cfif transaction_type IS "deaccession">
 																		<cfset targetStatus="deacc_status">
 																	<cfelse>
-																		<cfset targetStatus="#transaction_type#">
+																		<cfset targetStatus="#transaction_type#_status">
 																	</cfif>
 																	<a href="/Transactions.cfm?execute=true&action=find#transaction_type#&collection_id=#collection_id#&#targetStatus#=#status#&trans_agent_role_1=#trans_agent_role#&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#">
 																		#getTransactions.ct# 
 																	</a>
-																	<span class="text-capitalize">#transaction_type#</span>, 
-																	#trans_agent_role#,
+																	<span class="text-capitalize">#transaction_type#</span> 
+																	#trans_agent_role#
 																	#status# in #collection_cde#
 																	<span><!-- workaround --></span>
 																</li>
