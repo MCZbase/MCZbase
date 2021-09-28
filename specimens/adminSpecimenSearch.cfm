@@ -175,9 +175,34 @@ limitations under the License.
 									{ name: 'LABEL', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
-									commit(true);
+									var data = "method=updatecf_spec_res_cols";
+									data = data + "&CF_SPEC_RES_COLS_ID=" + rowdata.CF_SPEC_RES_COLS_ID;
+									data = data + "&SQL_ELEMENT=" + rowdata.SQL_ELEMENT;
+									data = data + "&DISP_ORDER=" + rowdata.DISP_ORDER;
+									data = data + "&COLUMN_NAME=" + rowdata.COLUMN_NAME;
+									data = data + "&ACCESS_ROLE=" + rowdata.ACCESS_ROLE;
+									data = data + "&CATEGORY=" + rowdata.CATEGORY;
+									data = data + "&DATA_TYPE=" + rowdata.DATA_TYPE;
+									data = data + "&ACCESS_ROLE=" + rowdata.ACCESS_ROLE;
+									data = data + "&HIDEABLE=" + rowdata.HIDEABLE;
+									data = data + "&HIDDEN=" + rowdata.HIDDEN;
+									data = data + "&CELLSRENDERER=" + rowdata.CELLSRENDERER;
+									data = data + "&WIDTH=" + rowdata.WIDTH;
+									data = data + "&LABEL=" + rowdata.LABEL;
+									$.ajax({
+										dataType: 'json',
+										url: '/specimens/component/admin.cfc',
+										data: data,
+											success: function (data, status, xhr) {
+											commit(true);
+										},
+										error: function (jqXHR,textStatus,error) {
+											commit(false);
+											handleFail(jqXHR,textStatus,error,"saving cf_spec_res_cols row");
+										}
+									});
 								},
-								root: 'cf_spec_search_cols_Record',
+								root: 'cf_spec_res_cols_Record',
 								id: 'id',
 								url: '/specimens/component/admin.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
@@ -206,7 +231,7 @@ limitations under the License.
 								filterable: true,
 								sortable: true,
 								pageable: true,
-								editable: false,
+								editable: true,
 								pagesize: '50',
 								pagesizeoptions: ['5','50','100'],
 								showaggregates: true,
