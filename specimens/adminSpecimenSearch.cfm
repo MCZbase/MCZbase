@@ -281,10 +281,14 @@ limitations under the License.
 						// display the number of rows found
 						var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 						var rowcount = datainformation.rowscount;
+						var items = "."
+						if (rowcount > 0) {
+							items = ". Click on a cell to edit. ";
+						}
 						if (rowcount == 1) {
-							$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
 						} else { 
-							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's' + items);
 						}
 						// set maximum page size
 						if (rowcount > 100) { 
@@ -479,7 +483,28 @@ limitations under the License.
 									{ name: 'LABEL', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
-									commit(true);
+									var data = "method=updatecf_spec_search_cols";
+									data = data + "&id=" + rowdata.ID;
+									data = data + "&table_name=" + rowdata.TABLE_NAME;
+									data = data + "&table_alias=" + rowdata.TABLE_ALIAS;
+									data = data + "&column_name=" + rowdata.COLUMN_NAME;
+									data = data + "&column_alias=" + rowdata.COLUMN_ALIAS;
+									data = data + "&search_category=" + rowdata.SEARCH_CATEGORY;
+									data = data + "&data_type=" + rowdata.DATA_TYPE;
+									data = data + "&data_length=" + rowdata.DATA_LENGTH;
+									data = data + "&label=" + rowdata.LABEL;
+									$.ajax({
+										dataType: 'json',
+										url: '/specimens/component/admin.cfc',
+										data: data,
+											success: function (data, status, xhr) {
+											commit(true);
+										},
+										error: function (jqXHR,textStatus,error) {
+											commit(false);
+											handleFail(jqXHR,textStatus,error,"saving cf_spec_search_cols row");
+										}
+									});
 								},
 								root: 'cf_spec_search_cols_Record',
 								id: 'id',
@@ -510,7 +535,7 @@ limitations under the License.
 								filterable: true,
 								sortable: true,
 								pageable: true,
-								editable: false,
+								editable: true,
 								pagesize: '50',
 								pagesizeoptions: ['5','50','100'],
 								showaggregates: true,
@@ -532,7 +557,7 @@ limitations under the License.
 									{text: 'Data Type', datafield: 'DATA_TYPE', width: 80, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
 									{text: 'Data Length', datafield: 'DATA_LENGTH', width: 80, hideable: true, hidden: getColHidProp('DATA_LENGTH', false) },
 									{text: 'Label', datafield: 'LABEL', width: 250, hideable: true, hidden: getColHidProp('LABEL', false) },
-									{text: 'ID', datafield: 'ID', hideable: true, hidden: getColHidProp('ID', false) }
+									{text: 'ID', editable: false, datafield: 'ID', hideable: true, hidden: getColHidProp('ID', false) }
 								],
 								rowdetails: true,
 								rowdetailstemplate: {
@@ -582,10 +607,14 @@ limitations under the License.
 						// display the number of rows found
 						var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 						var rowcount = datainformation.rowscount;
+						var items = "."
+						if (rowcount > 0) {
+							items = ". Click on a cell to edit. ";
+						}
 						if (rowcount == 1) {
-							$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
 						} else { 
-							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's' + items);
 						}
 						// set maximum page size
 						if (rowcount > 100) { 
