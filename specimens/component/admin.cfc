@@ -345,7 +345,7 @@ limitations under the License.
 					DATA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">  
 					LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">  
 				WHERE
-					CF_SPEC_RES_COLS_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ID#">
+					CF_SPEC_RES_COLS_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CF_SPEC_RES_COLS_ID#">
 			</cfquery>
 			<cfif doUpdate_result.recordcount NEQ 1>
 				<cfthrow message="Record not updated. #ID# #doUpdate_result.sql#">
