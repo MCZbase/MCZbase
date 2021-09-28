@@ -268,17 +268,10 @@ limitations under the License.
 								},
 								root: 'cf_spec_search_cols_Record',
 								id: 'id',
-								url: '/specimen/component/admin.cfc?' + $('##searchForm').serialize(),
+								url: '/specimens/component/admin.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
-								loadError: function(jqXHR, status, error) { 
-									$("##overlay").hide();
-									var message = "";
-									if (error == 'timeout') { 
-										message = ' Server took too long to respond.';
-									} else { 
-										message = jqXHR.responseText;
-									}
-									messageDialog('Error:' + message,'Error: ' + error.substring(0,50));
+								loadError: function(jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 								},
 								async: true
 							};
