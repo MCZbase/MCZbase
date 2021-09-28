@@ -1210,6 +1210,10 @@ limitations under the License.
 				columns: [
 					<cfset lastrow ="">
 					<cfloop query="getFieldMetadata">
+						<cfset cellrenderer = "">
+						<cfif len(getFieldMetadata.cellsrenderer) GT 0>
+							<cfset cellrenderer = " cellrenderer:#getFieldMetadata.cellsrenderer#,">
+						</cfif> 
 						<cfif ucase(data_type) EQ 'DATE'>
 							<cfset filtertype = " filtertype: 'date',">
 						<cfelse>
@@ -1217,7 +1221,7 @@ limitations under the License.
 						</cfif>
 						<cfif ucase(column_name) EQ lastcolumn>
 							<!--- leave off the width on the last column, no trailing comma --->
-							<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+							<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 						<cfelse> 
 							{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 						</cfif>
@@ -1354,6 +1358,10 @@ limitations under the License.
 					columns: [
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
+							<cfset cellrenderer = "">
+							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
+								<cfset cellrenderer = " cellrenderer:#getFieldMetadata.cellsrenderer#,">
+							</cfif> 
 							<cfif ucase(data_type) EQ 'DATE'>
 								<cfset filtertype = " filtertype: 'date',">
 							<cfelse>
@@ -1361,7 +1369,7 @@ limitations under the License.
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
 								<!--- leave off the width on the last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
 								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
