@@ -98,7 +98,7 @@ limitations under the License.
 				<cfif isdefined("label") AND len(label) GT 0>
 					AND label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#">
 				</cfif>
-			ORDER BY CATEGORY, COLUMN_NAME
+			ORDER BY SEARCH_CATEGORY, COLUMN_NAME
 		</cfquery>
 
 		<cfset rows = 0>
