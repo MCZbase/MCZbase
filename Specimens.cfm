@@ -1189,7 +1189,7 @@ limitations under the License.
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 					var details = $($(parentElement).children()[0]);
 					details.html("<div id='keywordrowDetailsTarget" + index + "'></div>");
-					createRowDetailsDialog('keywordsearchResultsGrid','keywordrowDetailsTarget',datarecord,index);
+					createRowDetailsDialogNoBlanks('keywordsearchResultsGrid','keywordrowDetailsTarget',datarecord,index);
 					// Workaround, expansion sits below row in zindex.
 					var maxZIndex = getMaxZIndex();
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -1261,7 +1261,7 @@ limitations under the License.
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
-					createRowDetailsDialog('keywordsearchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+					createRowDetailsDialogNoBlanks('keywordsearchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 				});
 				$('##keywordsearchResultsGrid').on('rowcollapse', function (event) {
 					// remove the dialog holding the row details
@@ -1326,7 +1326,7 @@ limitations under the License.
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 					var details = $($(parentElement).children()[0]);
 					details.html("<div id='builderrowDetailsTarget" + index + "'></div>");
-					createRowDetailsDialog('buildersearchResultsGrid','builderrowDetailsTarget',datarecord,index);
+					createRowDetailsDialogNoBlanks('buildersearchResultsGrid','builderrowDetailsTarget',datarecord,index);
 					// Workaround, expansion sits below row in zindex.
 					var maxZIndex = getMaxZIndex();
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -1398,7 +1398,7 @@ limitations under the License.
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
-					createRowDetailsDialog('buildersearchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+					createRowDetailsDialogNoBlanks('buildersearchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 				});
 				$('##buildersearchResultsGrid').on('rowcollapse', function (event) {
 					// remove the dialog holding the row details
@@ -1464,7 +1464,7 @@ limitations under the License.
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 					var details = $($(parentElement).children()[0]);
 					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
-					createRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
+					createRowDetailsDialogNoBlanks('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
 					// Workaround, expansion sits below row in zindex.
 					var maxZIndex = getMaxZIndex();
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -1536,7 +1536,7 @@ limitations under the License.
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
-					createRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
+					createRowDetailsDialogNoBlanks('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
 				});
 				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
 					// remove the dialog holding the row details
