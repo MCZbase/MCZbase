@@ -164,7 +164,6 @@ limitations under the License.
 									{ name: 'SQL_ELEMENT', type: 'string' },
 									{ name: 'DISP_ORDER', type: 'string' },
 									{ name: 'COLUMN_NAME', type: 'string' },
-									{ name: 'ACCESS_ROLE', type: 'string' },
 									{ name: 'CATEGORY', type: 'string' },
 									{ name: 'DATA_TYPE', type: 'string' },
 									{ name: 'ACCESS_ROLE', type: 'string' },
@@ -180,7 +179,6 @@ limitations under the License.
 									data = data + "&SQL_ELEMENT=" + rowdata.SQL_ELEMENT;
 									data = data + "&DISP_ORDER=" + rowdata.DISP_ORDER;
 									data = data + "&COLUMN_NAME=" + rowdata.COLUMN_NAME;
-									data = data + "&ACCESS_ROLE=" + rowdata.ACCESS_ROLE;
 									data = data + "&CATEGORY=" + rowdata.CATEGORY;
 									data = data + "&DATA_TYPE=" + rowdata.DATA_TYPE;
 									data = data + "&ACCESS_ROLE=" + rowdata.ACCESS_ROLE;
