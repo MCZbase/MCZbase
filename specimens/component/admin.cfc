@@ -334,16 +334,16 @@ limitations under the License.
 				UPDATE cf_spec_res_cols_r
 				SET			
 					COLUMN_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_NAME#">, 
-					SQL_ELEMENT = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SQL_ELEMENT#">  
-					CATEGORY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CATEGORY#">  
-					DISP_ORDER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DISP_ORDER#">  
-					ACCESS_ROLE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCESS_ROLE#">  
-					HIDEABLE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HIDEABLE#">  
-					HIDDEN = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HIDDEN#">  
-					CELLSRENDERER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CELLSRENDERER#">  
-					WIDTH = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#WIDTH#">  
-					DATA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">  
-					LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">  
+					SQL_ELEMENT = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SQL_ELEMENT#">,
+					CATEGORY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CATEGORY#">, 
+					DISP_ORDER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DISP_ORDER#">,
+					ACCESS_ROLE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCESS_ROLE#">,
+					HIDEABLE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HIDEABLE#">,
+					HIDDEN = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HIDDEN#">,
+					CELLSRENDERER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CELLSRENDERER#">,
+					WIDTH = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#WIDTH#">,
+					DATA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">, 
+					LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">
 				WHERE
 					CF_SPEC_RES_COLS_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CF_SPEC_RES_COLS_ID#">
 			</cfquery>
