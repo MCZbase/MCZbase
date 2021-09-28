@@ -311,7 +311,7 @@ limitations under the License.
 <!--- backing method for row update in cf_spec_res_cols_r grid 
 	@param CF_SPEC_RES_COLS_ID the primary key of the row to update
 --->
-<cffunction name="updatecf_spec_search_cols" access="remote" returntype="any" returnformat="json">
+<cffunction name="updatecf_spec_res_cols" access="remote" returntype="any" returnformat="json">
 	<cfargument name="CF_SPEC_RES_COLS_ID" type="string" required="yes">
 	<cfargument name="SQL_ELEMENT" type="string" required="yes">
 	<cfargument name="CATEGORY" type="string" required="yes">
