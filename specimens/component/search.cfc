@@ -286,6 +286,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset value = replace(value,"\x20"," ","all")>
 		<cfset value = replace(value,"\x5B","[","all")>
 		<cfset value = replace(value,"\x5D","]","all")>
+		<cfset value = replace(value,"\x28","(","all")>
+		<cfset value = replace(value,"\x29",")","all")>
 		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
