@@ -509,7 +509,6 @@ limitations under the License.
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 px-0 pt-0">
 												<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for Specimen Search Fields">Search<span class="fa fa-search pl-1"></span></button>
-												<button type="button" class="btn-xs btn-secondary my-2 mr-1" aria-label="Add Rows" onclick="$('##searchResultsGrid').jqxGrid('showeverpresentrow',true);">Add Rows</button>
 												<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/specimens/adminSpecimenSearch.cfm?action=search';" >New Search</button>
 												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/specimens/adminSpecimenSearch.cfm?action=results';" >Manage Results Columns</button>
@@ -520,6 +519,106 @@ limitations under the License.
 							</div><!--- search box --->
 						</div><!--- row --->
 					</section>
+					<cfset openAccord = "">
+					<cfset btnAccord = "collapsed">
+					<div class="accordion w-100" id="itemAccordion">
+						<div class="card bg-light">
+							<div class="card-header" id="itemAccordHeadingOne">
+								<h3 class="h4 my-0">
+									<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
+										Add Specimen Search Field
+									</button>
+								</h3>
+							</div>
+							<div id="itemCollapseOne" class="#openAccord#" aria-labelledby="itemAccordHeadingOne" data-parent="##itemAccordion">
+								<div class="card-body px-3">
+									<form id="addSpecSearchColForm">
+										<div class="row mx-0">
+											<input type="hidden" name="method" value="addCFSpecSearchColsRow">
+											<input type="hidden" name="returnformat" value="json">
+											<input type="hidden" name="queryformat" value="column">
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="table_name" class="data-entry-label">Table Name</label>
+												<input type="text" class="data-entry-input" name="table_name" id="table_name">
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchColsAutocomplete('table_name','table_name');
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="table_alias" class="data-entry-label">Table Alias</label>
+												<input type="text" class="data-entry-input" name="table_alias" id="table_alias">
+											</div>
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="column_name" class="data-entry-label">Column Name</label>
+												<input type="text" class="data-entry-input" name="column_name" id="column_name">
+											</div>
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="column_alias" class="data-entry-label">Column Alias (unique)</label>
+												<input type="text" class="data-entry-input" name="column_alias" id="column_alias">
+											</div>
+										</div>
+										<div class="row mx-0">
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="search_category" class="data-entry-label">Search Category</label>
+												<input type="text" class="data-entry-input" name="search_category" id="column_alias">
+											</div>
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="data_type" class="data-entry-label">Data Type</label>
+												<input type="text" class="data-entry-input" name="data_type" id="column_alias">
+											</div>
+											<div class="col-12 col-md-2 px-1 mt-1">
+												<label for="data_length" class="data-entry-label">Data Length</label>
+												<input type="text" class="data-entry-input" name="data_length" id="column_alias">
+											</div>
+											<div class="col-12 col-md-4 px-1 mt-1">
+												<label for="label" class="data-entry-label">Label</label>
+												<input type="text" class="data-entry-input" name="label" id="column_alias">
+											</div>
+										</div>
+										<div class="row mx-0">
+											<div class="form-group col-12 px-1 pt-2">
+												<button class="btn btn-xs btn-primary mr-1" type="button" onclick=" addSpecSearchColRow();" value="Add Row">Add Row</button>
+												<span id="addItemFeedback" class="text-danger">&nbsp;</span>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<script>
+							function addSpecSearchColRow() {
+								$('##addItemFeedback').html("Saving...");
+								$('##addItemFeedback').addClass('text-warning');
+								$('##addItemFeedback').removeClass('text-success');
+								$('##addItemFeedback').removeClass('text-danger');
+								jQuery.ajax( {
+									url : "/specimens/component/admin.cfc",
+									type : "post",
+									dataType : "json",
+									data : $("##addSpecSearchColForm").serialize(),
+									success : function (data) {
+										$('##addItemFeedback').html("Added borrow item.");
+										$('##addItemFeedback').addClass('text-success');
+										$('##addItemFeedback').removeClass('text-warning');
+										$('##addItemFeedback').removeClass('text-danger');
+										$("##catalog_number").val('');
+										$("##no_of_spec").val('');
+										$("##type_status").val('');
+										reloadGrid();
+									},
+									error: function(jqXHR,textStatus,error){
+										$('##addItemFeedback').html("Error");
+										$('##addItemFeedback').addClass('text-danger');
+										$('##addItemFeedback').removeClass('text-success');
+										$('##addItemFeedback').removeClass('text-warning');
+										handleFail(jqXHR,textStatus,error,"adding borrow item");
+									}
+								});
+							};
+						</script>
+					</div>
 		
 					<!--- Results table as a jqxGrid. --->
 					<section class="container-fluid">
@@ -566,10 +665,6 @@ limitations under the License.
 								handleFail(jqXHR,textStatus,error,"removing cf_spec_search_cols item");
 							}
 						});
-					};
-					function reloadGrid() { 
-						var dataAdapter = new $.jqx.dataAdapter(search);
-						$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
 					};
 					window.columnHiddenSettings = new Object();
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -649,6 +744,11 @@ limitations under the License.
 								async: true
 							};
 					
+							function reloadGrid() { 
+								var dataAdapter = new $.jqx.dataAdapter(search);
+								$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
+							};
+
 							var dataAdapter = new $.jqx.dataAdapter(search);
 							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.

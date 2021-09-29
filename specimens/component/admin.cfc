@@ -253,11 +253,9 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!--- backing method for row update in cf_spec_search_cols grid 
-	@param ID the id of the row to update
+<!--- backing method for row insert in cf_spec_search_cols grid 
 --->
-<cffunction name="updatecf_spec_search_cols" access="remote" returntype="any" returnformat="json">
-	<cfargument name="ID" type="string" required="yes">
+<cffunction name="addCFSpecSearchColsRow" access="remote" returntype="any" returnformat="json">
 	<cfargument name="TABLE_NAME" type="string" required="yes">
 	<cfargument name="TABLE_ALIAS" type="string" required="yes">
 	<cfargument name="COLUMN_NAME" type="string" required="yes">
@@ -272,7 +270,6 @@ limitations under the License.
 			<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"GLOBAL_ADMIN")>
 				<cfthrow message="Insufficient Access Rights">
 			</cfif>
-			<cfif len(ID) EQ 0>
 				<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
 					INSERT INTO cf_spec_search_cols (
 						TABLE_NAME,
@@ -294,22 +291,65 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">  
 					)
 				</cfquery>
-			<cfelse>
-				<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
-					UPDATE cf_spec_search_cols
-					SET			
-						TABLE_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_NAME#">, 
-						TABLE_ALIAS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_ALIAS#">, 
-						COLUMN_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_NAME#">, 
-						COLUMN_ALIAS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_ALIAS#">, 
-						SEARCH_CATEGORY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SEARCH_CATEGORY#">,
-						DATA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">, 
-						DATA_LENGTH = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_LENGTH#">, 
-						LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">  
-					WHERE
-						ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ID#">
-				</cfquery>
+			<cfif doUpdate_result.recordcount NEQ 1>
+				<cfthrow message="Record not updated. #ID# #doUpdate_result.sql#">
 			</cfif>
+			<cfif doUpdate_result.recordcount eq 1>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "cf_spec_search_cols row added.", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn theResult>
+</cffunction>
+
+<!--- backing method for row update in cf_spec_search_cols grid 
+	@param ID the id of the row to update
+--->
+<cffunction name="updatecf_spec_search_cols" access="remote" returntype="any" returnformat="json">
+	<cfargument name="ID" type="string" required="yes">
+	<cfargument name="TABLE_NAME" type="string" required="yes">
+	<cfargument name="TABLE_ALIAS" type="string" required="yes">
+	<cfargument name="COLUMN_NAME" type="string" required="yes">
+	<cfargument name="COLUMN_ALIAS" type="string" required="yes">
+	<cfargument name="SEARCH_CATEGORY" type="string" required="yes">
+	<cfargument name="DATA_TYPE" type="string" required="yes">
+	<cfargument name="DATA_LENGTH" type="string" required="yes">
+	<cfargument name="LABEL" type="string" required="yes">
+
+	<cftransaction>
+		<cftry>
+			<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"GLOBAL_ADMIN")>
+				<cfthrow message="Insufficient Access Rights">
+			</cfif>
+			<cfif len(ID) EQ 0>
+				<cfthrow message="No value provided for primary key for row to update.">
+			</cfif>
+			<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
+				UPDATE cf_spec_search_cols
+				SET			
+					TABLE_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_NAME#">, 
+					TABLE_ALIAS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_ALIAS#">, 
+					COLUMN_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_NAME#">, 
+					COLUMN_ALIAS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_ALIAS#">, 
+					SEARCH_CATEGORY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SEARCH_CATEGORY#">,
+					DATA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">, 
+					DATA_LENGTH = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_LENGTH#">, 
+					LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">  
+				WHERE
+					ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ID#">
+			</cfquery>
 			<cfif doUpdate_result.recordcount NEQ 1>
 				<cfthrow message="Record not updated. #ID# #doUpdate_result.sql#">
 			</cfif>
