@@ -564,6 +564,90 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		<cfset basQual = " #basQual# AND upper(taxonomy.subspecies) like '%#ucase(subspecies)#%'">
 	</cfif>
 </cfif>
+<cfif isdefined("kingdom") AND len(kingdom) gt 0>
+	<cfset mapurl = "#mapurl#&kingdom=#kingdom#">
+	<cfif basJoin does not contain " identification ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
+		(cataloged_item.collection_object_id = identification.collection_object_id)">
+	</cfif>
+	<cfif basJoin does not contain " identification_taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
+		(identification.identification_id = identification_taxonomy.identification_id)">
+	</cfif>
+	<cfif basJoin does not contain " taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
+		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
+	</cfif>
+    <cfif kingdom contains "|">
+        <cfset clause = "">
+        <cfset orbit = "">
+        <cfif left(kingdom,1) is '='>
+            <cfset kingdom = Replace(kingdom,"=","","All")>
+            <cfloop index="classbit" list="#kingdom#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.kingdom) = '#ucase(trim(classbit))#'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+            <cfset kingdom = Replace(kingdom,"=","","All")>
+            <cfloop index="classbit" list="#kingdom#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.kingdom) like '%#ucase(trim(classbit))#%'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        </cfif>
+    <cfelse>
+    	<cfif left(kingdom,1) is '='>
+	    	<cfset basQual = " #basQual# AND upper(taxonomy.kingdom) = '#ucase(right(kingdom,len(kingdom)-1))#'">
+    	<cfelseif compare(kingdom,"NULL") is 0>
+		    <cfset basQual = " #basQual# AND taxonomy.kingdom is NULL">
+	    <cfelse>
+		    <cfset basQual = " #basQual# AND upper(taxonomy.kingdom) like '%#ucase(kingdom)#%'">
+	    </cfif>
+    </cfif>
+</cfif>
+<cfif isdefined("phylum") AND len(phylum) gt 0>
+	<cfset mapurl = "#mapurl#&phylum=#phylum#">
+	<cfif basJoin does not contain " identification ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
+		(cataloged_item.collection_object_id = identification.collection_object_id)">
+	</cfif>
+	<cfif basJoin does not contain " identification_taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
+		(identification.identification_id = identification_taxonomy.identification_id)">
+	</cfif>
+	<cfif basJoin does not contain " taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
+		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
+	</cfif>
+    <cfif phylum contains "|">
+        <cfset clause = "">
+        <cfset orbit = "">
+        <cfif left(phylum,1) is '='>
+            <cfset phylum = Replace(phylum,"=","","All")>
+            <cfloop index="classbit" list="#phylum#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylum) = '#ucase(trim(classbit))#'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+            <cfset phylum = Replace(phylum,"=","","All")>
+            <cfloop index="classbit" list="#phylum#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylum) like '%#ucase(trim(classbit))#%'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        </cfif>
+    <cfelse>
+    	<cfif left(phylum,1) is '='>
+	    	<cfset basQual = " #basQual# AND upper(taxonomy.phylum) = '#ucase(right(phylum,len(phylum)-1))#'">
+    	<cfelseif compare(phylum,"NULL") is 0>
+		    <cfset basQual = " #basQual# AND taxonomy.phylum is NULL">
+	    <cfelse>
+		    <cfset basQual = " #basQual# AND upper(taxonomy.phylum) like '%#ucase(phylum)#%'">
+	    </cfif>
+    </cfif>
+</cfif>
 <cfif isdefined("Phylclass") AND len(Phylclass) gt 0>
 	<cfset mapurl = "#mapurl#&Phylclass=#Phylclass#">
 	<cfif basJoin does not contain " identification ">
