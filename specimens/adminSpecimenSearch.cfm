@@ -137,14 +137,16 @@ limitations under the License.
 						<!--- to have open by default 
 						<cfset openAccord = "">
 						<cfset btnAccord = "collapsed">
+						<cfset ariaExpanded ="true">
 						--->
 						<cfset openAccord = "collapse show">
 						<cfset btnAccord = "">
+						<cfset ariaExpanded ="false">
 						<div class="accordion w-100" id="itemAccordion">
 							<div class="card bg-light">
 								<div class="card-header" id="itemAccordHeadingOne">
 									<h3 class="h4 my-0">
-										<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
+										<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="#ariaExpanded#" aria-controls="itemCollapseOne">
 											Add Specimen Results Column
 										</button>
 									</h3>
@@ -661,11 +663,12 @@ limitations under the License.
 					<section class="container-fluid mt-1 mb-3">
 						<cfset openAccord = "">
 						<cfset btnAccord = "collapsed">
+						<cfset ariaExpanded ="false">
 						<div class="accordion w-100" id="itemAccordion">
 							<div class="card bg-light">
 								<div class="card-header" id="itemAccordHeadingOne">
 									<h3 class="h4 my-0">
-										<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
+										<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="#ariaExpanded#" aria-controls="itemCollapseOne">
 											Add Specimen Search Field
 										</button>
 									</h3>
