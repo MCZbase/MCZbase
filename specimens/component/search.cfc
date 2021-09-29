@@ -371,7 +371,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfif isDefined("collection_cde") and len(collection_cde) gt 0>
 						and flatTableName.collection_cde in (<cfqueryparam value="#collection_cde#" cfsqltype="CF_SQL_VARCHAR" list="true">)
 					</cfif>
-					and rownum < 1000
+					and rownum < 5001
 			</cfquery>
 		<cfelse>
 			<cfthrow message="No search terms provided.">
