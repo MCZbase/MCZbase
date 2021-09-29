@@ -437,15 +437,6 @@ limitations under the License.
 										<input type="hidden" name="method" value="getcf_spec_search_cols" class="keeponclear">
 										<div class="form-row mt-1 mb-2">
 											<div class="col-md-3">
-												<label for="search_category" class="data-entry-label" id="search_category_label">Search Category</label>
-												<input type="text" id="search_category" name="search_category" class="data-entry-input" value="#search_category#" aria-labelledby="search_category_label" >
-												<script>
-													jQuery(document).ready(function() {
-														makeSpecSearchColsAutocomplete('search_category','search_category');
-													});
-												</script>
-											</div>
-											<div class="col-md-3">
 												<label for="table_name" class="data-entry-label" id="table_name_label">Table Name</label>
 												<input type="text" id="table_name" name="table_name" class="data-entry-input" value="#table_name#" aria-labelledby="table_name_label" >
 												<script>
@@ -460,6 +451,15 @@ limitations under the License.
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecSearchColsAutocomplete('column_name','column_name');
+													});
+												</script>
+											</div>
+											<div class="col-md-3">
+												<label for="search_category" class="data-entry-label" id="search_category_label">Search Category</label>
+												<input type="text" id="search_category" name="search_category" class="data-entry-input" value="#search_category#" aria-labelledby="search_category_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchColsAutocomplete('search_category','search_category');
 													});
 												</script>
 											</div>
