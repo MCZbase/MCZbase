@@ -323,7 +323,7 @@ limitations under the License.
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
 								$('##resultLink').html('<a href="/specimens/adminSpecimenSearch.cfm?action=results&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-								gridLoaded('searchResultsGrid','collection');
+								gridLoaded('searchResultsGrid','cf_spec_res_col_r row');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -706,7 +706,7 @@ limitations under the License.
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
 								$('##resultLink').html('<a href="/specimens/adminSpecimenSearch.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-								gridLoaded('searchResultsGrid','collection');
+								gridLoaded('searchResultsGrid','cf_spec_search_col row');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
