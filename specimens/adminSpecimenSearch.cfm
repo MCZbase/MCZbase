@@ -134,6 +134,105 @@ limitations under the License.
 							</div><!--- search box --->
 						</div><!--- row --->
 					</section>
+					<section class="container-fluid mt-1 mb-3">
+						<!--- to have open by default 
+						<cfset openAccord = "">
+						<cfset btnAccord = "collapsed">
+						--->
+						<cfset openAccord = "collapse show">
+						<cfset btnAccord = "">
+						<div class="accordion w-100" id="itemAccordion">
+							<div class="card bg-light">
+								<div class="card-header" id="itemAccordHeadingOne">
+									<h3 class="h4 my-0">
+										<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
+											Add Specimen Results Column
+										</button>
+									</h3>
+								</div>
+								<div id="itemCollapseOne" class="#openAccord#" aria-labelledby="itemAccordHeadingOne" data-parent="##itemAccordion">
+									<div class="card-body px-3">
+										<form id="addSpecResColForm">
+											<div class="row mx-0">
+												<input type="hidden" name="method" value="addcf_spec_res_cols">
+												<input type="hidden" name="returnformat" value="json">
+												<input type="hidden" name="queryformat" value="column">
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_column_name" class="data-entry-label">Column Name</label>
+													<input type="text" class="data-entry-input" name="column_name" id="in_column_name">
+													<script>
+														jQuery(document).ready(function() {
+															makeSpecSearchColsAutocomplete('in_column_name','column_name');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_sql_element" class="data-entry-label">SQL Element</label>
+													<input type="text" class="data-entry-input" name="sql_element" id="in_sql_element">
+												</div>
+											</div>
+											<div class="row mx-0">
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_category" class="data-entry-label">Category</label>
+													<input type="text" class="data-entry-input" name="category" id="in_category">
+													<script>
+														jQuery(document).ready(function() {
+															makeSpecSearchColsAutocomplete('in_category','category');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_data_type" class="data-entry-label">Data Type</label>
+													<input type="text" class="data-entry-input" name="data_type" id="in_data_type">
+												</div>
+												<div class="col-12 col-md-4 px-1 mt-1">
+													<label for="in_label" class="data-entry-label">Label</label>
+													<input type="text" class="data-entry-input" name="label" id="in_label">
+												</div>
+											</div>
+											<div class="row mx-0">
+												<div class="form-group col-12 px-1 pt-2">
+													<button class="btn btn-xs btn-primary mr-1" type="button" onclick=" addSpecSearchColRow();" value="Add Row">Add Row</button>
+													<span id="addItemFeedback" class="text-danger">&nbsp;</span>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<script>
+								function addSpecSearchColRow() {
+									$('##addItemFeedback').html("Saving...");
+									$('##addItemFeedback').addClass('text-warning');
+									$('##addItemFeedback').removeClass('text-success');
+									$('##addItemFeedback').removeClass('text-danger');
+									jQuery.ajax( {
+										url : "/specimens/component/admin.cfc",
+										type : "post",
+										dataType : "json",
+										data : $("##addSpecResColForm").serialize(),
+										success : function (data) {
+											$('##addItemFeedback').html("Added row to cf_spec_res_cols_r.");
+											$('##addItemFeedback').addClass('text-success');
+											$('##addItemFeedback').removeClass('text-warning');
+											$('##addItemFeedback').removeClass('text-danger');
+											$("##catalog_number").val('');
+											$("##no_of_spec").val('');
+											$("##type_status").val('');
+											reloadGrid();
+										},
+										error: function(jqXHR,textStatus,error){
+											$('##addItemFeedback').html("Error");
+											$('##addItemFeedback').addClass('text-danger');
+											$('##addItemFeedback').removeClass('text-success');
+											$('##addItemFeedback').removeClass('text-warning');
+											handleFail(jqXHR,textStatus,error,"adding row to cf_spec_res_cols_r.");
+										}
+									});
+								};
+							</script>
+						</div>
+					</section>
 					<!--- Results table as a jqxGrid. --->
 					<section class="container-fluid">
 						<div class="row mx-0">
@@ -459,7 +558,7 @@ limitations under the License.
 			<!--- Search Form ---> 
 			<cfoutput>
 				<main id="content">
-					<section class="container-fluid mt-2 mb-3" role="search" aria-labelledby="formheader">
+					<section class="container-fluid mt-2 mb-1" role="search" aria-labelledby="formheader">
 						<div class="row mx-0 mb-3">
 							<div class="search-box">
 								<div class="search-box-header">
@@ -519,106 +618,113 @@ limitations under the License.
 							</div><!--- search box --->
 						</div><!--- row --->
 					</section>
-					<cfset openAccord = "">
-					<cfset btnAccord = "collapsed">
-					<div class="accordion w-100" id="itemAccordion">
-						<div class="card bg-light">
-							<div class="card-header" id="itemAccordHeadingOne">
-								<h3 class="h4 my-0">
-									<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
-										Add Specimen Search Field
-									</button>
-								</h3>
-							</div>
-							<div id="itemCollapseOne" class="#openAccord#" aria-labelledby="itemAccordHeadingOne" data-parent="##itemAccordion">
-								<div class="card-body px-3">
-									<form id="addSpecSearchColForm">
-										<div class="row mx-0">
-											<input type="hidden" name="method" value="addCFSpecSearchColsRow">
-											<input type="hidden" name="returnformat" value="json">
-											<input type="hidden" name="queryformat" value="column">
-											<div class="col-12 col-md-3 px-1 mt-1">
-												<label for="table_name" class="data-entry-label">Table Name</label>
-												<input type="text" class="data-entry-input" name="table_name" id="table_name">
-												<script>
-													jQuery(document).ready(function() {
-														makeSpecSearchColsAutocomplete('table_name','table_name');
-													});
-												</script>
+					<section class="container-fluid mt-1 mb-3">
+						<cfset openAccord = "">
+						<cfset btnAccord = "collapsed">
+						<div class="accordion w-100" id="itemAccordion">
+							<div class="card bg-light">
+								<div class="card-header" id="itemAccordHeadingOne">
+									<h3 class="h4 my-0">
+										<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
+											Add Specimen Search Field
+										</button>
+									</h3>
+								</div>
+								<div id="itemCollapseOne" class="#openAccord#" aria-labelledby="itemAccordHeadingOne" data-parent="##itemAccordion">
+									<div class="card-body px-3">
+										<form id="addSpecSearchColForm">
+											<div class="row mx-0">
+												<input type="hidden" name="method" value="addCFSpecSearchColsRow">
+												<input type="hidden" name="returnformat" value="json">
+												<input type="hidden" name="queryformat" value="column">
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_table_name" class="data-entry-label">Table Name</label>
+													<input type="text" class="data-entry-input" name="table_name" id="in_table_name">
+													<script>
+														jQuery(document).ready(function() {
+															makeSpecSearchColsAutocomplete('in_table_name','table_name');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_table_alias" class="data-entry-label">Table Alias</label>
+													<input type="text" class="data-entry-input" name="table_alias" id="in_table_alias">
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_column_name" class="data-entry-label">Column Name</label>
+													<input type="text" class="data-entry-input" name="column_name" id="in_column_name">
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_column_alias" class="data-entry-label">Column Alias (unique)</label>
+													<input type="text" class="data-entry-input" name="column_alias" id="in_column_alias">
+												</div>
 											</div>
-											<div class="col-12 col-md-3 px-1 mt-1">
-												<label for="table_alias" class="data-entry-label">Table Alias</label>
-												<input type="text" class="data-entry-input" name="table_alias" id="table_alias">
+											<div class="row mx-0">
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_search_category" class="data-entry-label">Search Category</label>
+													<input type="text" class="data-entry-input" name="search_category" id="in_search_category">
+													<script>
+														jQuery(document).ready(function() {
+															makeSpecSearchColsAutocomplete('in_search_category','search_category');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_data_type" class="data-entry-label">Data Type</label>
+													<input type="text" class="data-entry-input" name="data_type" id="in_data_type">
+												</div>
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_data_length" class="data-entry-label">Data Length</label>
+													<input type="text" class="data-entry-input" name="data_length" id="in_data_length">
+												</div>
+												<div class="col-12 col-md-4 px-1 mt-1">
+													<label for="in_label" class="data-entry-label">Label</label>
+													<input type="text" class="data-entry-input" name="label" id="in_label">
+												</div>
 											</div>
-											<div class="col-12 col-md-3 px-1 mt-1">
-												<label for="column_name" class="data-entry-label">Column Name</label>
-												<input type="text" class="data-entry-input" name="column_name" id="column_name">
+											<div class="row mx-0">
+												<div class="form-group col-12 px-1 pt-2">
+													<button class="btn btn-xs btn-primary mr-1" type="button" onclick=" addSpecSearchColRow();" value="Add Row">Add Row</button>
+													<span id="addItemFeedback" class="text-danger">&nbsp;</span>
+												</div>
 											</div>
-											<div class="col-12 col-md-3 px-1 mt-1">
-												<label for="column_alias" class="data-entry-label">Column Alias (unique)</label>
-												<input type="text" class="data-entry-input" name="column_alias" id="column_alias">
-											</div>
-										</div>
-										<div class="row mx-0">
-											<div class="col-12 col-md-3 px-1 mt-1">
-												<label for="search_category" class="data-entry-label">Search Category</label>
-												<input type="text" class="data-entry-input" name="search_category" id="column_alias">
-											</div>
-											<div class="col-12 col-md-3 px-1 mt-1">
-												<label for="data_type" class="data-entry-label">Data Type</label>
-												<input type="text" class="data-entry-input" name="data_type" id="column_alias">
-											</div>
-											<div class="col-12 col-md-2 px-1 mt-1">
-												<label for="data_length" class="data-entry-label">Data Length</label>
-												<input type="text" class="data-entry-input" name="data_length" id="column_alias">
-											</div>
-											<div class="col-12 col-md-4 px-1 mt-1">
-												<label for="label" class="data-entry-label">Label</label>
-												<input type="text" class="data-entry-input" name="label" id="column_alias">
-											</div>
-										</div>
-										<div class="row mx-0">
-											<div class="form-group col-12 px-1 pt-2">
-												<button class="btn btn-xs btn-primary mr-1" type="button" onclick=" addSpecSearchColRow();" value="Add Row">Add Row</button>
-												<span id="addItemFeedback" class="text-danger">&nbsp;</span>
-											</div>
-										</div>
-									</form>
+										</form>
+									</div>
 								</div>
 							</div>
+							<script>
+								function addSpecSearchColRow() {
+									$('##addItemFeedback').html("Saving...");
+									$('##addItemFeedback').addClass('text-warning');
+									$('##addItemFeedback').removeClass('text-success');
+									$('##addItemFeedback').removeClass('text-danger');
+									jQuery.ajax( {
+										url : "/specimens/component/admin.cfc",
+										type : "post",
+										dataType : "json",
+										data : $("##addSpecSearchColForm").serialize(),
+										success : function (data) {
+											$('##addItemFeedback').html("Added row to cf_spec_search_cols.");
+											$('##addItemFeedback').addClass('text-success');
+											$('##addItemFeedback').removeClass('text-warning');
+											$('##addItemFeedback').removeClass('text-danger');
+											$("##catalog_number").val('');
+											$("##no_of_spec").val('');
+											$("##type_status").val('');
+											reloadGrid();
+										},
+										error: function(jqXHR,textStatus,error){
+											$('##addItemFeedback').html("Error");
+											$('##addItemFeedback').addClass('text-danger');
+											$('##addItemFeedback').removeClass('text-success');
+											$('##addItemFeedback').removeClass('text-warning');
+											handleFail(jqXHR,textStatus,error,"adding row to cf_spec_search_cols.");
+										}
+									});
+								};
+							</script>
 						</div>
-						<script>
-							function addSpecSearchColRow() {
-								$('##addItemFeedback').html("Saving...");
-								$('##addItemFeedback').addClass('text-warning');
-								$('##addItemFeedback').removeClass('text-success');
-								$('##addItemFeedback').removeClass('text-danger');
-								jQuery.ajax( {
-									url : "/specimens/component/admin.cfc",
-									type : "post",
-									dataType : "json",
-									data : $("##addSpecSearchColForm").serialize(),
-									success : function (data) {
-										$('##addItemFeedback').html("Added borrow item.");
-										$('##addItemFeedback').addClass('text-success');
-										$('##addItemFeedback').removeClass('text-warning');
-										$('##addItemFeedback').removeClass('text-danger');
-										$("##catalog_number").val('');
-										$("##no_of_spec").val('');
-										$("##type_status").val('');
-										reloadGrid();
-									},
-									error: function(jqXHR,textStatus,error){
-										$('##addItemFeedback').html("Error");
-										$('##addItemFeedback').addClass('text-danger');
-										$('##addItemFeedback').removeClass('text-success');
-										$('##addItemFeedback').removeClass('text-warning');
-										handleFail(jqXHR,textStatus,error,"adding borrow item");
-									}
-								});
-							};
-						</script>
-					</div>
+					</section>
 		
 					<!--- Results table as a jqxGrid. --->
 					<section class="container-fluid">
