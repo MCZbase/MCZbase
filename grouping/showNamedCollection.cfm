@@ -556,9 +556,9 @@ div.vslider-item[aria-hidden="true"]{
 															<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 															<cfquery name="mediaSizeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaSizeType_result">
 																select label_value 
-																from media, media_labels 
+																from media
+																left join media_labels on media.media_id = media_labels.media_id
 																where media_label = 'height'
-																and media.media_id = media_labels.media_id
 															</cfquery>
 															<cfset src=specimenImagesForCarousel['media_uri'][i]>
 															<cfif mediaSizeType.label_value gt 1199>
