@@ -160,6 +160,29 @@ limitations under the License.
 				</main>
 				<cfset cellRenderClasses = "ml-1">
 				<script>
+					function deleteSpecResRow(id) {
+						jQuery.ajax({
+						url : "/specimens/component/admin.cfc",
+							type : "post",
+							dataType : "json",
+							data : {
+								method : "deleteCFSpecResColsRow",
+								returnformat : "json",
+								queryformat : 'column',
+								ID : id
+							},
+							success : function (data) {
+								reloadGrid();
+							},
+							error: function(jqXHR,textStatus,error){
+								handleFail(jqXHR,textStatus,error,"removing cf_spec_res_cols item");
+							}
+						});
+					};
+					function reloadGrid() { 
+						var dataAdapter = new $.jqx.dataAdapter(search);
+						$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
+					};
 					window.columnHiddenSettings = new Object();
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 						lookupColumnVisibilities ('#cgi.script_name#','Default');
@@ -175,6 +198,19 @@ limitations under the License.
 							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 							$('##resultCount').html('');
 							$('##resultLink').html('');
+
+							// Cell renderers
+							var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								var result = "";
+								var itemid = rowData['CF_SPEC_RES_COLS_ID'];
+								if (itemid) {
+									result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="deleteRow" type="button" value="Delete" onclick="deleteSpecResRow(' + itemid+ ');" class="btn btn-xs btn-danger">Delete</a></span>';
+								} else { 
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+								}
+								return result;
+							};
 					
 							var search =
 							{
@@ -516,6 +552,29 @@ limitations under the License.
 		
 				<cfset cellRenderClasses = "ml-1">
 				<script>
+					function deleteSpecSearchRow(id) {
+						jQuery.ajax({
+						url : "/specimens/component/admin.cfc",
+							type : "post",
+							dataType : "json",
+							data : {
+								method : "deleteCFSpecSearchColsRow",
+								returnformat : "json",
+								queryformat : 'column',
+								ID : id
+							},
+							success : function (data) {
+								reloadGrid();
+							},
+							error: function(jqXHR,textStatus,error){
+								handleFail(jqXHR,textStatus,error,"removing cf_spec_search_cols item");
+							}
+						});
+					};
+					function reloadGrid() { 
+						var dataAdapter = new $.jqx.dataAdapter(search);
+						$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
+					};
 					window.columnHiddenSettings = new Object();
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 						lookupColumnVisibilities ('#cgi.script_name#','Default');
@@ -531,6 +590,19 @@ limitations under the License.
 							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 							$('##resultCount').html('');
 							$('##resultLink').html('');
+
+							// Cell renderers
+							var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								var result = "";
+								var itemid = rowData['ID'];
+								if (itemid) {
+									result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="deleteRow" type="button" value="Delete" onclick="deleteSpecSearchRow(' + itemid+ ');" class="btn btn-xs btn-danger">Delete</a></span>';
+								} else { 
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+								}
+								return result;
+							};
 					
 							var search =
 							{
@@ -622,7 +694,7 @@ limitations under the License.
 									{text: 'Data Type', datafield: 'DATA_TYPE', width: 80, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
 									{text: 'Data Length', datafield: 'DATA_LENGTH', width: 80, hideable: true, hidden: getColHidProp('DATA_LENGTH', false) },
 									{text: 'Label', datafield: 'LABEL', width: 250, hideable: true, hidden: getColHidProp('LABEL', false) },
-									{text: 'ID', editable: false, datafield: 'ID', hideable: true, hidden: getColHidProp('ID', false) }
+									{text: 'ID', editable: false, datafield: 'ID', hideable: true, hidden: getColHidProp('ID', false), cellsrenderer: deleteCellRenderer }
 								],
 								rowdetails: true,
 								rowdetailstemplate: {

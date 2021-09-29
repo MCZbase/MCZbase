@@ -426,4 +426,76 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
+<!--- Remove a row from cf_spec_search_cols.
+ @param ID the primary key value of the row to be deleted.
+--->
+<cffunction name="deleteCFSpecSearchColsRow" access="remote" returntype="any" returnformat="json">
+	<cfargument name="ID" type="numeric" required="yes">
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="delRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delRow_result">
+				DELETE from cf_spec_search_colls
+				where
+					ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ID#">
+			</cfquery>
+			<cfif delRow_result.recordcount NEQ 1>
+				<cfthrow message = "Record not deleted. #ID# #delRow_result.sql#">
+			</cfif>
+			<cfif delRow_result.recordcount eq 1>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "cf_spec_search_cols row deleted.", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+
+	<cfreturn theResult>
+</cffunction>
+
+<!--- Remove a row from cf_spec_res_cols_r. 
+ @param ID the primary key value of the row to be deleted.
+--->
+<cffunction name="deleteCFSpecResColsRow" access="remote" returntype="any" returnformat="json">
+	<cfargument name="CF_SPEC_RES_COLS_ID" type="numeric" required="yes">
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="delRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delRow_result">
+				DELETE from cf_spec_res_colls_r
+				where
+					CF_SPEC_RES_COLS_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CF_SPEC_RES_COLS_ID#">
+			</cfquery>
+			<cfif delRow_result.recordcount NEQ 1>
+				<cfthrow message = "Record not deleted. #CF_SPEC_RES_COLS_ID# #delRow_result.sql#">
+			</cfif>
+			<cfif delRow_result.recordcount eq 1>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "cf_spec_search_cols row deleted.", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+
+	<cfreturn theResult>
+</cffunction>
+
 </cfcomponent>
