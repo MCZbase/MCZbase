@@ -256,7 +256,6 @@ limitations under the License.
 											$("##catalog_number").val('');
 											$("##no_of_spec").val('');
 											$("##type_status").val('');
-											reloadGrid();
 										},
 										error: function(jqXHR,textStatus,error){
 											$('##addItemFeedback').html("Error");
@@ -760,7 +759,6 @@ limitations under the License.
 											$("##catalog_number").val('');
 											$("##no_of_spec").val('');
 											$("##type_status").val('');
-											reloadGrid();
 										},
 										error: function(jqXHR,textStatus,error){
 											$('##addItemFeedback').html("Error");
@@ -899,11 +897,6 @@ limitations under the License.
 								async: true
 							};
 					
-							function reloadGrid() { 
-								var dataAdapter = new $.jqx.dataAdapter(search);
-								$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
-							};
-
 							var dataAdapter = new $.jqx.dataAdapter(search);
 							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
