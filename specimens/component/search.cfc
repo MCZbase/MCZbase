@@ -284,6 +284,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset comparator = '"comparator": ""'>
 		<cfset value = encodeForJavaScript(searchText)>
 		<cfset value = replace(value,"\x20"," ","all")>
+		<cfset value = replace(value,"\x21","!","all")>
 		<cfset value = replace(value,"\x24","$","all")>
 		<cfset value = replace(value,"\x25","%","all")>
 		<cfset value = replace(value,"\x26","&","all")>
