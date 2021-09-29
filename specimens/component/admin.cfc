@@ -272,20 +272,44 @@ limitations under the License.
 			<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"GLOBAL_ADMIN")>
 				<cfthrow message="Insufficient Access Rights">
 			</cfif>
-			<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
-				UPDATE cf_spec_search_cols
-				SET			
-					TABLE_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_NAME#">, 
-					TABLE_ALIAS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_ALIAS#">, 
-					COLUMN_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_NAME#">, 
-					COLUMN_ALIAS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_ALIAS#">, 
-					SEARCH_CATEGORY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SEARCH_CATEGORY#">,
-					DATA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">, 
-					DATA_LENGTH = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_LENGTH#">, 
-					LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">  
-				WHERE
-					ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ID#">
-			</cfquery>
+			<cfif len(ID) EQ 0>
+				<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
+					INSERT INTO cf_spec_search_cols (
+						TABLE_NAME,
+						TABLE_ALIAS,
+						COLUMN_NAME,
+						COLUMN_ALIAS,
+						SEARCH_CATEGORY,
+						DATA_TYPE,
+						DATA_LENGTH,
+						LABEL,
+					) VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_NAME#">, 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_ALIAS#">, 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_NAME#">, 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_ALIAS#">, 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SEARCH_CATEGORY#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">, 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_LENGTH#">, 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">  
+					)
+				</cfquery>
+			<cfelse>
+				<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
+					UPDATE cf_spec_search_cols
+					SET			
+						TABLE_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_NAME#">, 
+						TABLE_ALIAS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_ALIAS#">, 
+						COLUMN_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_NAME#">, 
+						COLUMN_ALIAS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_ALIAS#">, 
+						SEARCH_CATEGORY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SEARCH_CATEGORY#">,
+						DATA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">, 
+						DATA_LENGTH = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_LENGTH#">, 
+						LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">  
+					WHERE
+						ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ID#">
+				</cfquery>
+			</cfif>
 			<cfif doUpdate_result.recordcount NEQ 1>
 				<cfthrow message="Record not updated. #ID# #doUpdate_result.sql#">
 			</cfif>
@@ -331,23 +355,54 @@ limitations under the License.
 			<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"GLOBAL_ADMIN")>
 				<cfthrow message="Insufficient Access Rights">
 			</cfif>
-			<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
-				UPDATE cf_spec_res_cols_r
-				SET			
-					COLUMN_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_NAME#">, 
-					SQL_ELEMENT = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SQL_ELEMENT#">,
-					CATEGORY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CATEGORY#">, 
-					DISP_ORDER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DISP_ORDER#">,
-					ACCESS_ROLE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCESS_ROLE#">,
-					HIDEABLE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HIDEABLE#">,
-					HIDDEN = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HIDDEN#">,
-					CELLSRENDERER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CELLSRENDERER#">,
-					WIDTH = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#WIDTH#">,
-					DATA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">, 
-					LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">
-				WHERE
-					CF_SPEC_RES_COLS_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CF_SPEC_RES_COLS_ID#">
-			</cfquery>
+			<cfif len(CF_SPEC_RES_COLS) EQ 0>
+				<!--- if provided primary key is blank, do an insert.  --->
+				<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
+					INSERT INTO cf_spec_res_cols_r (
+						COLUMN_NAME,
+						SQL_ELEMENT,
+						CATEGORY,
+						DISP_ORDER,
+						ACCESS_ROLE,
+						HIDEABLE,
+						HIDDEN,
+						CELLSRENDERER,
+						WIDTH,
+						DATA_TYPE, 
+						LABEL
+					) VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_NAME#">, 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SQL_ELEMENT#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CATEGORY#">, 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DISP_ORDER#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCESS_ROLE#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HIDEABLE#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HIDDEN#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CELLSRENDERER#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#WIDTH#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">, 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">
+					)
+				</cfquery>
+			<cfelse>
+				<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
+					UPDATE cf_spec_res_cols_r
+					SET			
+						COLUMN_NAME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_NAME#">, 
+						SQL_ELEMENT = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SQL_ELEMENT#">,
+						CATEGORY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CATEGORY#">, 
+						DISP_ORDER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DISP_ORDER#">,
+						ACCESS_ROLE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCESS_ROLE#">,
+						HIDEABLE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HIDEABLE#">,
+						HIDDEN = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HIDDEN#">,
+						CELLSRENDERER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CELLSRENDERER#">,
+						WIDTH = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#WIDTH#">,
+						DATA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">, 
+						LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">
+					WHERE
+						CF_SPEC_RES_COLS_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CF_SPEC_RES_COLS_ID#">
+				</cfquery>
+			</cfif>
 			<cfif doUpdate_result.recordcount NEQ 1>
 				<cfthrow message="Record not updated. #ID# #doUpdate_result.sql#">
 			</cfif>

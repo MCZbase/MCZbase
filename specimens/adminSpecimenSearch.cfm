@@ -123,6 +123,7 @@ limitations under the License.
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 px-0 pt-0">
 												<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for Specimen Search Fields">Search<span class="fa fa-search pl-1"></span></button>
+												<button type="button" class="btn-xs btn-secondary my-2 mr-1" aria-label="Add Rows" onclick="$('##searchResultsGrid').jqxGrid('showEverPresentRow',true);">Add Rows</button>
 												<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/specimens/adminSpecimenSearch.cfm?action=results';" >New Search</button>
 												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/specimens/adminSpecimenSearch.cfm?action=search';" >Manage Search Fields</button>
@@ -476,6 +477,7 @@ limitations under the License.
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 px-0 pt-0">
 												<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for Specimen Search Fields">Search<span class="fa fa-search pl-1"></span></button>
+												<button type="button" class="btn-xs btn-secondary my-2 mr-1" aria-label="Add Rows" onclick="$('##searchResultsGrid').jqxGrid('showEverPresentRow',true);">Add Rows</button>
 												<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/specimens/adminSpecimenSearch.cfm?action=search';" >New Search</button>
 												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/specimens/adminSpecimenSearch.cfm?action=results';" >Manage Results Columns</button>
