@@ -86,6 +86,10 @@
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+									<a class="dropdown-item" target="_top" href="/Specimens.cfm">Specimens (new)</a>
+									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens By Category</a>
+								</cfif>
 								<a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
 								<a class="dropdown-item" target="_top" href="/media/findMedia.cfm">Media</a>
 								<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media (old)</a>
@@ -293,6 +297,8 @@
 										<a class="dropdown-item" target="_top" href="/Reports/reporter.cfm">Label/Report Management</a>
 										<a class="dropdown-item" target="_top" href="/tools/downloadData.cfm">Download Tables</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+											<a class="dropdown-item" target="_top" href="/specimens/adminSpecimenSearch.cfm?action=search">Manage Specimen Search Fields</a>
+											<a class="dropdown-item" target="_top" href="/specimens/adminSpecimenSearch.cfm?action=results">Manage Specimen Results Columns</a>
 											<a class="dropdown-item" target="_top" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
 											<a class="dropdown-item" target="_top" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
 											<a class="dropdown-item" target="_top" href="/tools/imageList.cfm">Image List</a>

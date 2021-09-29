@@ -26,9 +26,13 @@ limitations under the License.
 </cfcatch>
 </cftry>
 <cfif findNoCase('redesign',gitBranch) EQ 0>
-	<cfscript>
-		getPageContext().forward("/SpecimenSearch.cfm");
-	</cfscript>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		<!--- logged in users now able to see redesigned specimen search on production --->
+	<cfelse>
+		<cfscript>
+			getPageContext().forward("/SpecimenSearch.cfm");
+		</cfscript>
+	</cfif>
 </cfif>
 <!--- **** End temporary block ******************************************************************************** --->
 
@@ -1097,7 +1101,7 @@ limitations under the License.
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
 				OR access_role = 'DATA_ENTRY'
 			</cfif>
-		ORDER by category, disp_order
+		ORDER by disp_order
 	</cfquery>
 	<script>
 		// setup for persistence of column selections
@@ -1108,8 +1112,8 @@ limitations under the License.
 	
 		// ***** cell renderers *****
 		// cell renderer to display a thumbnail with alt tag given columns preview_uri, media_uri, and ac_description 
-		var thumbCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-			var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var thumbCellRenderer_f = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 			var puri = rowData['preview_uri'];
 			var muri = rowData['media_uri'];
 			var alt = rowData['ac_description'];
@@ -1121,8 +1125,16 @@ limitations under the License.
 		};
 	
 		// cell renderer to link out to specimen details page by specimen id
-		var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-			var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var fixed_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
+		};
+		var keyword_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
+		};
+		var buidler_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
 		};
 	
@@ -1132,146 +1144,280 @@ limitations under the License.
 		};
 	
 	
-		/* execute arbitrary search and populate jqxgrid  */
-		function setupGrid(gridId,gridPrefix) { 
-			var uuid = getVersion4UUID();
-			$("##result_id_"+gridPrefix+"Search").val(uuid);
-	
-			$("##overlay").show();
-	
-			$("##"+gridPrefix+"searchResultsGrid").replaceWith('<div id="'+gridPrefix+'searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
-			$("##"+gridPrefix+"resultCount").html("");
-			$("##"+gridPrefix+"resultLink").html("");
-			var debug = $("##"+gridPrefix+"SearchForm").serialize();
-			console.log(debug);
-	
-			var search =
-			{
-				datatype: "json",
-				datafields:
-				[
-					<cfset separator = "">
-					<cfloop query="getFieldMetadata">
-						<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
-							#separator#{name: '#ucase(column_name)#', type: 'string' }
-						<cfelse>
-							#separator#{name: '#ucase(column_name)#', type: 'string' }
-						</cfif>
-						<cfset separator = ",">
-					</cfloop>
-				],
-				updaterow: function (rowid, rowdata, commit) {
-					commit(true);
-				},
-				root: 'specimenRecord',
-				id: 'collection_object_id',
-				url: '/specimens/component/search.cfc?' + $("##"+gridPrefix+"SearchForm").serialize(),
-				timeout: 30000,  // units not specified, miliseconds?
-				loadError: function(jqXHR, textStatus, error) {
-					handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
-				},
-				async: true
-			};	
-
-			var dataAdapter = new $.jqx.dataAdapter(search);
-			var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-				// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-				var details = $($(parentElement).children()[0]);
-				details.html("<div id='"+gridPrefix+"rowDetailsTarget" + index + "'></div>");
-				createRowDetailsDialog(gridId,gridPrefix+'rowDetailsTarget',datarecord,index);
-				// Workaround, expansion sits below row in zindex.
-				var maxZIndex = getMaxZIndex();
-				$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-			}
-	
-			$("##"+gridId).jqxGrid({
-				width: '100%',
-				autoheight: 'true',
-				source: dataAdapter,
-				filterable: true,
-				sortable: true,
-				pageable: true,
-				editable: false,
-				pagesize: '50',
-				pagesizeoptions: ['5','50','100'], // reset in gridLoaded
-				showaggregates: true,
-				columnsresize: true,
-				autoshowfiltericon: true,
-				autoshowcolumnsmenubutton: false,
-				autoshowloadelement: false,  // overlay acts as load element for form+results
-				columnsreorder: true,
-				groupable: true,
-				selectionmode: 'singlerow',
-				altrows: true,
-				showtoolbar: false,
-				ready: function () {
-					$("##"+gridId).jqxGrid('selectrow', 0);
-				},
-				columns: [
-					<cfset lastrow ="">
-					<cfloop query="getFieldMetadata">
-						<cfif ucase(data_type) EQ 'DATE'>
-							<cfset filtertype = " filtertype: 'date',">
-						<cfelse>
-							<cfset filtertype = "">
-						</cfif>
-						<cfif ucase(column_name) EQ lastcolumn>
-							<!--- leave off the width on the last column, no trailing comma --->
-							<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
-						<cfelse> 
-							{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
-						</cfif>
-					</cfloop>
-					#lastrow#
-				],
-				rowdetails: true,
-				rowdetailstemplate: {
-					rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-					rowdetailsheight:  1 // row details will be placed in popup dialog
-				},
-				initrowdetails: initRowDetails
-			});
-	
-			$("##"+gridId).on("bindingcomplete", function(event) {
-				// add a link out to this search, serializing the form as http get parameters
-				$('##'+gridPrefix+'resultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##'+gridPrefix+'SearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
-				gridLoaded(gridId,'occurrence record',gridPrefix);
-			});
-			$('##'+gridId).on('rowexpand', function (event) {
-				//  Create a content div, add it to the detail row, and make it into a dialog.
-				var args = event.args;
-				var rowIndex = args.rowindex;
-				var datarecord = args.owner.source.records[rowIndex];
-				createRowDetailsDialog(gridPrefix+'searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
-			});
-			$('##'+gridId).on('rowcollapse', function (event) {
-				// remove the dialog holding the row details
-				var args = event.args;
-				var rowIndex = args.rowindex;
-				$("##"+gridPrefix+"searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-			});
-			// display selected row index.
-			$("##"+gridId).on('rowselect', function (event) {
-				$("##"+gridPrefix+"selectrowindex").text(event.args.rowindex);
-			});
-			// display unselected row index.
-			$("##"+gridId).on('rowunselect', function (event) {
-				$("##"+gridPrefix+"unselectrowindex").text(event.args.rowindex);
-			});
-		}
-		/* End Setup jqxgrid for search ****************************************************************************************/
-	
+		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
 				evt.preventDefault();
-				setupGrid('keywordsearchResultsGrid','keyword');
+				var uuid = getVersion4UUID();
+				$("##result_id_keywordSearch").val(uuid);
+		
+				$("##overlay").show();
+		
+				$("##keywordsearchResultsGrid").replaceWith('<div id="keywordsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+				$("##keywordresultCount").html("");
+				$("##keywordresultLink").html("");
+				var debug = $("##keywordSearchForm").serialize();
+				console.log(debug);
+		
+				var search =
+				{
+					datatype: "json",
+					datafields:
+					[
+						<cfset separator = "">
+						<cfloop query="getFieldMetadata">
+							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							<cfelse>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							</cfif>
+							<cfset separator = ",">
+						</cfloop>
+					],
+					updaterow: function (rowid, rowdata, commit) {
+						commit(true);
+					},
+					root: 'specimenRecord',
+					id: 'collection_object_id',
+					url: '/specimens/component/search.cfc?' + $("##keywordSearchForm").serialize(),
+					timeout: 30000,  // units not specified, miliseconds?
+					loadError: function(jqXHR, textStatus, error) {
+						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+					},
+					async: true
+				};	
+	
+				var dataAdapter = new $.jqx.dataAdapter(search);
+				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+					var details = $($(parentElement).children()[0]);
+					details.html("<div id='keywordrowDetailsTarget" + index + "'></div>");
+					createRowDetailsDialogNoBlanks('keywordsearchResultsGrid','keywordrowDetailsTarget',datarecord,index);
+					// Workaround, expansion sits below row in zindex.
+					var maxZIndex = getMaxZIndex();
+					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+				}
+		
+				$("##keywordsearchResultsGrid").jqxGrid({
+					width: '100%',
+					autoheight: 'true',
+					source: dataAdapter,
+					filterable: true,
+					sortable: true,
+					pageable: true,
+					editable: false,
+					pagesize: '50',
+					pagesizeoptions: ['5','50','100'], // reset in gridLoaded
+					showaggregates: true,
+					columnsresize: true,
+					autoshowfiltericon: true,
+					autoshowcolumnsmenubutton: false,
+					autoshowloadelement: false,  // overlay acts as load element for form+results
+					columnsreorder: true,
+					groupable: true,
+					selectionmode: 'singlerow',
+					altrows: true,
+					showtoolbar: false,
+					ready: function () {
+						$("##keywordsearchResultsGrid").jqxGrid('selectrow', 0);
+					},
+					columns: [
+						<cfset lastrow ="">
+						<cfloop query="getFieldMetadata">
+							<cfset cellrenderer = "">
+							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
+								<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
+									<cfset cellrenderer = " cellsrenderer:keyword#getFieldMetadata.cellsrenderer#,">
+								<cfelse>
+									<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
+								</cfif>
+							</cfif> 
+							<cfif ucase(data_type) EQ 'DATE'>
+								<cfset filtertype = " filtertype: 'date',">
+							<cfelse>
+								<cfset filtertype = "">
+							</cfif>
+							<cfif ucase(column_name) EQ lastcolumn>
+								<!--- leave off the width on the last column, no trailing comma --->
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+							<cfelse> 
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+							</cfif>
+						</cfloop>
+						#lastrow#
+					],
+					rowdetails: true,
+					rowdetailstemplate: {
+						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+						rowdetailsheight:  1 // row details will be placed in popup dialog
+					},
+					initrowdetails: initRowDetails
+				});
+		
+				$("##keywordsearchResultsGrid").on("bindingcomplete", function(event) {
+					// add a link out to this search, serializing the form as http get parameters
+					$('##keywordresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##keywordSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
+				});
+				$('##keywordsearchResultsGrid').on('rowexpand', function (event) {
+					//  Create a content div, add it to the detail row, and make it into a dialog.
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					var datarecord = args.owner.source.records[rowIndex];
+					createRowDetailsDialogNoBlanks('keywordsearchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+				});
+				$('##keywordsearchResultsGrid').on('rowcollapse', function (event) {
+					// remove the dialog holding the row details
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					$("##keywordsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+				});
+				// display selected row index.
+				$("##keywordsearchResultsGrid").on('rowselect', function (event) {
+					$("##keywordselectrowindex").text(event.args.rowindex);
+				});
+				// display unselected row index.
+				$("##keywordsearchResultsGrid").on('rowunselect', function (event) {
+					$("##keywordunselectrowindex").text(event.args.rowindex);
+				});
 			});
 	
 			/* Setup jqxgrid for builder Search */
 			$('##builderSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
-				setupGrid('buildersearchResultsGrid','builder');
+				var uuid = getVersion4UUID();
+				$("##result_id_builderSearch").val(uuid);
+		
+				$("##overlay").show();
+		
+				$("##buildersearchResultsGrid").replaceWith('<div id="buildersearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+				$("##builderresultCount").html("");
+				$("##builderresultLink").html("");
+				var debug = $("##builderSearchForm").serialize();
+				console.log(debug);
+		
+				var search =
+				{
+					datatype: "json",
+					datafields:
+					[
+						<cfset separator = "">
+						<cfloop query="getFieldMetadata">
+							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							<cfelse>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							</cfif>
+							<cfset separator = ",">
+						</cfloop>
+					],
+					updaterow: function (rowid, rowdata, commit) {
+						commit(true);
+					},
+					root: 'specimenRecord',
+					id: 'collection_object_id',
+					url: '/specimens/component/search.cfc?' + $("##builderSearchForm").serialize(),
+					timeout: 30000,  // units not specified, miliseconds?
+					loadError: function(jqXHR, textStatus, error) {
+						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+					},
+					async: true
+				};	
+	
+				var dataAdapter = new $.jqx.dataAdapter(search);
+				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+					var details = $($(parentElement).children()[0]);
+					details.html("<div id='builderrowDetailsTarget" + index + "'></div>");
+					createRowDetailsDialogNoBlanks('buildersearchResultsGrid','builderrowDetailsTarget',datarecord,index);
+					// Workaround, expansion sits below row in zindex.
+					var maxZIndex = getMaxZIndex();
+					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+				}
+		
+				$("##buildersearchResultsGrid").jqxGrid({
+					width: '100%',
+					autoheight: 'true',
+					source: dataAdapter,
+					filterable: true,
+					sortable: true,
+					pageable: true,
+					editable: false,
+					pagesize: '50',
+					pagesizeoptions: ['5','50','100'], // reset in gridLoaded
+					showaggregates: true,
+					columnsresize: true,
+					autoshowfiltericon: true,
+					autoshowcolumnsmenubutton: false,
+					autoshowloadelement: false,  // overlay acts as load element for form+results
+					columnsreorder: true,
+					groupable: true,
+					selectionmode: 'singlerow',
+					altrows: true,
+					showtoolbar: false,
+					ready: function () {
+						$("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
+					},
+					columns: [
+						<cfset lastrow ="">
+						<cfloop query="getFieldMetadata">
+							<cfset cellrenderer = "">
+							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
+								<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
+									<cfset cellrenderer = " cellsrenderer:builder#getFieldMetadata.cellsrenderer#,">
+								<cfelse>
+									<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
+								</cfif>
+							</cfif> 
+							<cfif ucase(data_type) EQ 'DATE'>
+								<cfset filtertype = " filtertype: 'date',">
+							<cfelse>
+								<cfset filtertype = "">
+							</cfif>
+							<cfif ucase(column_name) EQ lastcolumn>
+								<!--- leave off the width on the last column, no trailing comma --->
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+							<cfelse> 
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+							</cfif>
+						</cfloop>
+						#lastrow#
+					],
+					rowdetails: true,
+					rowdetailstemplate: {
+						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+						rowdetailsheight:  1 // row details will be placed in popup dialog
+					},
+					initrowdetails: initRowDetails
+				});
+		
+				$("##buildersearchResultsGrid").on("bindingcomplete", function(event) {
+					// add a link out to this search, serializing the form as http get parameters
+					$('##builderresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##builderSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					gridLoaded('buildersearchResultsGrid','occurrence record','builder');
+				});
+				$('##buildersearchResultsGrid').on('rowexpand', function (event) {
+					//  Create a content div, add it to the detail row, and make it into a dialog.
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					var datarecord = args.owner.source.records[rowIndex];
+					createRowDetailsDialogNoBlanks('buildersearchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+				});
+				$('##buildersearchResultsGrid').on('rowcollapse', function (event) {
+					// remove the dialog holding the row details
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					$("##buildersearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+				});
+				// display selected row index.
+				$("##buildersearchResultsGrid").on('rowselect', function (event) {
+					$("##builderselectrowindex").text(event.args.rowindex);
+				});
+				// display unselected row index.
+				$("##buildersearchResultsGrid").on('rowunselect', function (event) {
+					$("##builderunselectrowindex").text(event.args.rowindex);
+				});
 			});
 	
 			/* Setup jqxgrid for fixed Search */
@@ -1322,7 +1468,7 @@ limitations under the License.
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 					var details = $($(parentElement).children()[0]);
 					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
-					createRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
+					createRowDetailsDialogNoBlanks('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
 					// Workaround, expansion sits below row in zindex.
 					var maxZIndex = getMaxZIndex();
 					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -1354,6 +1500,14 @@ limitations under the License.
 					columns: [
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
+							<cfset cellrenderer = "">
+							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
+								<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
+									<cfset cellrenderer = " cellsrenderer:fixed#getFieldMetadata.cellsrenderer#,">
+								<cfelse>
+									<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
+								</cfif>
+							</cfif> 
 							<cfif ucase(data_type) EQ 'DATE'>
 								<cfset filtertype = " filtertype: 'date',">
 							<cfelse>
@@ -1361,9 +1515,9 @@ limitations under the License.
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
 								<!--- leave off the width on the last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
-								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
 						</cfloop>
 						#lastrow#
@@ -1386,7 +1540,7 @@ limitations under the License.
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
-					createRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
+					createRowDetailsDialogNoBlanks('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
 				});
 				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
 					// remove the dialog holding the row details

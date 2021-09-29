@@ -1294,4 +1294,213 @@ Function getPreserveMethodAutocompleteMeta.  Search for specimen_part.part_name 
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!---
+Function getSpecResColsAutocomplete.  Search for distinct values of fields in cf_spec_res_cols_r with a 
+  case insensitive substring match, returning json suitable for jquery-ui autocomplete.
+
+@param term the field value to search for.
+@param field the field in which to search for the value.
+@return a json structure containing id and value, with matched term in value and id and count in meta.
+--->
+<cffunction name="getSpecResColsAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfargument name="field" type="string" required="yes">
+	<!--- perform wildcard search anywhere in provided search term --->
+	<cfset name = "%#term#%"> 
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				count(*) as ct,
+				<cfif field EQ "category">
+					category as fld
+				<cfelseif field EQ "sql_element">
+					sql_element as fld
+				<cfelseif field EQ "label">
+					label as fld
+				<cfelseif field EQ "column_name">
+					column_name as fld
+				<cfelseif field EQ "data_type">
+					data_type as fld
+				<cfelseif field EQ "hidden">
+					hidden as fld
+				</cfif>
+			FROM 
+				cf_spec_res_cols_r
+			WHERE
+				<cfif field EQ "category">
+					upper(category)
+				<cfelseif field EQ "sql_element">
+					upper(sql_element)
+				<cfelseif field EQ "label">
+					upper(label)
+				<cfelseif field EQ "column_name">
+					upper(column_name)
+				<cfelseif field EQ "data_type">
+					upper(data_type)
+				<cfelseif field EQ "hidden">
+					upper(hidden)
+				</cfif>
+				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+			GROUP BY
+				<cfif field EQ "category">
+					category
+				<cfelseif field EQ "sql_element">
+					sql_element 
+				<cfelseif field EQ "label">
+					label
+				<cfelseif field EQ "column_name">
+					column_name
+				<cfelseif field EQ "data_type">
+					data_type
+				<cfelseif field EQ "hidden">
+					hidden
+				</cfif>
+			ORDER BY 
+				<cfif field EQ "category">
+					category
+				<cfelseif field EQ "sql_element">
+					sql_element 
+				<cfelseif field EQ "label">
+					label
+				<cfelseif field EQ "column_name">
+					column_name
+				<cfelseif field EQ "data_type">
+					data_type
+				<cfelseif field EQ "hidden">
+					hidden
+				</cfif>
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.fld#">
+			<cfset row["value"] = "#search.fld#" >
+			<cfset row["meta"] = "#search.ct#" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+<!---
+Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in cf_spec_search_cols with a 
+  case insensitive substring match, returning json suitable for jquery-ui autocomplete.
+
+@param term the field value to search for.
+@param field the field in which to search for the value.
+@return a json structure containing id and value, with matched term in value and id and count in meta.
+--->
+<cffunction name="getSpecSearchColsAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfargument name="field" type="string" required="yes">
+	<!--- perform wildcard search anywhere in provided search term --->
+	<cfset name = "%#term#%"> 
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				count(*) as ct,
+				<cfif field EQ "search_category">
+					search_category as fld
+				<cfelseif field EQ "table_name">
+					table_name as fld
+				<cfelseif field EQ "table_alias">
+					table_alias as fld
+				<cfelseif field EQ "label">
+					label as fld
+				<cfelseif field EQ "column_name">
+					column_name as fld
+				<cfelseif field EQ "column_alias">
+					column_alias as fld
+				<cfelseif field EQ "data_type">
+					data_type as fld
+				</cfif>
+			FROM 
+				cf_spec_search_cols
+			WHERE
+				<cfif field EQ "search_category">
+					upper(search_category)
+				<cfelseif field EQ "table_name">
+					upper(table_name)
+				<cfelseif field EQ "table_alias">
+					upper(table_alias)
+				<cfelseif field EQ "label">
+					upper(label)
+				<cfelseif field EQ "column_name">
+					upper(column_name)
+				<cfelseif field EQ "column_alias">
+					upper(column_alias)
+				<cfelseif field EQ "data_type">
+					upper(data_type)
+				</cfif>
+				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+			GROUP BY
+				<cfif field EQ "search_category">
+					search_category
+				<cfelseif field EQ "table_name">
+					table_name 
+				<cfelseif field EQ "table_alias">
+					table_alias 
+				<cfelseif field EQ "label">
+					label
+				<cfelseif field EQ "column_name">
+					column_name
+				<cfelseif field EQ "column_alias">
+					column_alias
+				<cfelseif field EQ "data_type">
+					data_type
+				</cfif>
+			ORDER BY 
+				<cfif field EQ "search_category">
+					search_category
+				<cfelseif field EQ "table_name">
+					table_name 
+				<cfelseif field EQ "table_alias">
+					table_alias 
+				<cfelseif field EQ "label">
+					label
+				<cfelseif field EQ "column_name">
+					column_name
+				<cfelseif field EQ "column_alias">
+					column_alias
+				<cfelseif field EQ "data_type">
+					data_type
+				</cfif>
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.fld#">
+			<cfset row["value"] = "#search.fld#" >
+			<cfset row["meta"] = "#search.ct#" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
