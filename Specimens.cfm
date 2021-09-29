@@ -1133,7 +1133,7 @@ limitations under the License.
 			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
 		};
-		var buidler_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var builder_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
 		};
