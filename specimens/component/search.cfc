@@ -1324,7 +1324,6 @@ Function getSpecResColsAutocomplete.  Search for distinct values of fields in cf
 					column_name as fld
 				<cfelseif field EQ "data_type">
 					data_type as fld
-				</cfif>
 				<cfelseif field EQ "hidden">
 					hidden as fld
 				</cfif>
