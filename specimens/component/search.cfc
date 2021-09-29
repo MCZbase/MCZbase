@@ -544,7 +544,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					</cfif>
 				</cfloop>
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-				left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 			WHERE
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
@@ -591,6 +591,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="phylorder" type="string" required="no">
 	<cfargument name="phylclass" type="string" required="no">
 	<cfargument name="phylum" type="string" required="no">
+	<cfargument name="kingdom" type="string" required="no">
 	<cfargument name="author_text" type="string" required="no">
 	<cfargument name="scientific_name" type="string" required="no">
 	<cfargument name="taxon_name_id" type="string" required="no">
@@ -738,6 +739,12 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
 		</cfif>
+		<cfif isDefined("kingdom") AND len(kingdom) GT 0>
+			<cfset field = '"field": "kingdom"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#kingdom#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
 	</cfif>
 	<cfif isDefined("type_status") AND len(type_status) GT 0>
 		<cfset field = '"field": "citations_type_status"'>
@@ -875,7 +882,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					</cfif>
 				</cfloop>
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-				left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 			WHERE
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
