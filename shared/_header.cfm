@@ -633,6 +633,8 @@ limitations under the License.
 											</cfif>
 									
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=search">Manage Specimen Search Fields</a>
+											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=results">Manage Specimen Results Columns</a>
 											<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
