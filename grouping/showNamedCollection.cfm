@@ -64,64 +64,63 @@ limitations under the License.
 	outline: 2px solid rgb(0 123 255 / 75%);
 }
 .vslider {
-  	position: relative;
-/*	overflow: auto;*/
+	position: relative;
 	width: 100%;
 }
 .vslider > * {
-  	display: block;
-  	position: relative;
+	display: block;
+	position: relative;
 	
 }
 .vslider > * + * {
-  	display: none;
-  	position: absolute;
+	display: none;
+	position: absolute;
 }
 .vslider-item {
- 	display: block;
-  	width: 100%;
-  	height: 100%;
-  	top: 0;
-  	bottom: 0;
-  	-ms-touch-action: none;
-  	touch-action: none;
-  	transition: z-index 0s,
-  	opacity .8s ease-in-out,
-  	transform .4s ease-in-out;
-  	z-index: 20;
-  	opacity: 0;
-  	transform: translateX(-10%);
+	display: block;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	bottom: 0;
+	-ms-touch-action: none;
+	touch-action: none;
+	transition: z-index 0s,
+	opacity .8s ease-in-out,
+	transform .4s ease-in-out;
+	z-index: 20;
+	opacity: 0;
+	transform: translateX(-10%);
 	resize: vertical;
 	overflow:auto;
 	font-size: 1rem;
 }
 div.vslider-item[aria-hidden='false'] {
-  	z-index: 30;
-  	opacity: 1.0;
-  	transform: translateX(0);
+	z-index: 30;
+	opacity: 1.0;
+	transform: translateX(0);
 }
 div.vslider-item[aria-hidden="true"]{
 	display:block;
 }
 .vslider-before {
- 	z-index: 10;
-  	opacity: 0;
-  	transform: translateX(0%);
+	z-index: 10;
+	opacity: 0;
+	transform: translateX(0%);
 }
 .vslider-direct {
-  	transition: none;
+	transition: none;
 }
 .vslider-status {
-  	display: block;
-  	list-style: none;
-  	z-index: 110;
-  	position: absolute;
-  	left: 0;
-  	bottom: 0;
-  	width: 100%;
-  	text-align: center;
-  	padding: 0;
-  	margin: 0;
+	display: block;
+	list-style: none;
+	z-index: 110;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	padding: 0;
+	margin: 0;
 }
 .vslider-status-item {
 	cursor: pointer;
@@ -141,77 +140,77 @@ div.vslider-item[aria-hidden="true"]{
 .vslider-status-item:hover,
 .vslider-status-item:focus,
 .vslider-status-item[aria-selected='true'] {
-  opacity: 0.6;
+	opacity: 0.6;
 }
 .vslider-nav {
-  display: block;
-  z-index: 100;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+	display: block;
+	z-index: 100;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 .vslider-prev,
 .vslider-next {
-  cursor: pointer;
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  line-height: 1;
-  font-size: 1em;
-  border: none;
-  color: currentColor;
-  background: none;
+	cursor: pointer;
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translateY(-50%);
+	line-height: 1;
+	font-size: 1em;
+	border: none;
+	color: currentColor;
+	background: none;
 	background: blue;
-  opacity: 0.6;
+	opacity: 0.6;
 	opacity: 0.3;
 }
 .vslider-prev:hover,
 .vslider-prev:focus,
 .vslider-next:hover,
 .vslider-next:focus {
-  opacity: 1;
+	opacity: 1;
 }
 .vslider-next {
-  left: auto;
-  right: 0;
+	left: auto;
+	right: 0;
 }
 .vslider-prev:after {
-  content: '<';
+	content: '<';
 }
 .vslider-next:after {
-  content: '>';
+	content: '>';
 }
 /* some basic style */
 .vslider {
-  color: #191717;
-  background-color: #fff;
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: .75rem;
+	color: #191717;
+	background-color: #fff;
+	font-weight: 600;
+	text-align: center;
+	margin-bottom: .75rem;
 }
 /* custom status and navigation */
 .vslider-customstatus .vslider-status > li {
-  color: #fff;
-  padding: 0.25em;
-  border-radius: 0.25em;
+	color: #fff;
+	padding: 0.25em;
+	border-radius: 0.25em;
 }
 .vslider-customstatus .vslider-prev,
 .vslider-customstatus .vslider-next {
-  color: transparent;
-  width: 0;
-  height: 0;
-  border-top: 0.5em solid transparent;
-  border-bottom: 0.5em solid transparent;
+	color: transparent;
+	width: 0;
+	height: 0;
+	border-top: 0.5em solid transparent;
+	border-bottom: 0.5em solid transparent;
 }
 .vslider-customstatus .vslider-prev {
-  border-right: 1em solid #000;
+	border-right: 1em solid #000;
 }
 .vslider-customstatus .vslider-next {
-  border-left: 1em solid #000;
+	border-left: 1em solid #000;
 }
 .custom-input {
 	text-align: center;
@@ -219,22 +218,22 @@ div.vslider-item[aria-hidden="true"]{
 }
 /* custom animation */
 .vslider-trans {
-  min-height: 50vh;
-  background-color: transparent;
+	min-height: 50vh;
+	background-color: transparent;
 }
 .vslider-trans .vslider-item {
-  background: no-repeat center;
-  background-size: cover;
-  transition: z-index 0s,
-  transform 1s ease-in-out;
-  opacity: 1;
-  transform: rotateY(90deg);
+	background: no-repeat center;
+	background-size: cover;
+	transition: z-index 0s,
+	transform 1s ease-in-out;
+	opacity: 1;
+	transform: rotateY(90deg);
 }
 .vslider-trans .vslider-active, .vslider-trans .vslider-item[aria-hidden='false'] {
-  transform: rotateY(0deg);
+	transform: rotateY(0deg);
 }
 .vslider-trans .vslider-before  {
-  transform: rotateY(-90deg);
+	transform: rotateY(-90deg);
 }
 .message { 
 	padding-top: 25%;
@@ -242,10 +241,10 @@ div.vslider-item[aria-hidden="true"]{
 	font-size: 2rem;
 }
 .vslider::-webkit-scrollbar, .vslider-item::-webkit-scrollbar {
-    width: 10px;
+	width: 10px;
 }
 .vslider::-webkit-scrollbar-track, .vslider-item::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+	-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
 	background: aliceblue;
 }
 .vslider::-webkit-scrollbar-thumb, .vslider-item::-webkit-scrollbar-thumb {
@@ -254,40 +253,40 @@ div.vslider-item[aria-hidden="true"]{
 }
 
 @media screen and (max-width: 1199px) {
-  #map {
-    height: 400px;
-  }
+	#map {
+		height: 400px;
+	}
 }
 @media screen and (max-width: 480px) {
-  #map {
-    height: 350px;
-  }
+	#map {
+		height: 350px;
+	}
 }
 @media screen and (min-width: 1200px) {
-  #map {
-    height: 600px;
-  }
+	#map {
+		height: 600px;
+	}
 }
 </style>
-	<cfset maxSpecimens = 11000>
-	<cfset maxRandomSpecimenImages = 15>
-	<cfset maxRandomOtherImages = 15>
-	<cfset otherImageTypes = 0>
-	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
-		<cfthrow message="No named group specified to show.">
-	</cfif>
-	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
-		SELECT underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
-			case 
-				when underscore_agent_id is null then '[No Agent]'
-			else 
-				MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
-			end
-			as agent_name,
-			mask_fg
-		FROM underscore_collection
-		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-	</cfquery>
+<cfset maxSpecimens = 11000>
+<cfset maxRandomSpecimenImages = 15>
+<cfset maxRandomOtherImages = 15>
+<cfset otherImageTypes = 0>
+<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
+	<cfthrow message="No named group specified to show.">
+</cfif>
+<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
+	SELECT underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
+		case 
+			when underscore_agent_id is null then '[No Agent]'
+		else 
+			MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
+		end
+		as agent_name,
+		mask_fg
+	FROM underscore_collection
+	WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+</cfquery>
 <cfoutput>
 	<cfloop query="getNamedGroup">
 		<cfif getNamedGroup.mask_fg EQ 1 AND (NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0)>
@@ -555,9 +554,9 @@ div.vslider-item[aria-hidden="true"]{
 														</cfif>
 														<div class="w-100 bg-light float-left px-3 h-auto">
 															<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-							<cfquery name="mediaSizeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
-								select label_value from media, media_labels where media_label = 'height' and label_value > 1100 and media.media_id = media_labels.media_id
-							</cfquery>
+															<cfquery name="mediaSizeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaSizeType_result">
+																select label_value from media, media_labels where media_label = 'height' and label_value > 1100 and media.media_id = media_labels.media_id
+															</cfquery>
 		
 															<cfset src=specimenImagesForCarousel['media_uri'][i]>
 															<cfif mediaSizeType.label_value gt 1100>
