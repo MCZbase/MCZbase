@@ -1181,7 +1181,7 @@ limitations under the License.
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##keywordSearchForm").serialize(),
-					timeout: 30000,  // units not specified, miliseconds?
+					timeout: 60000,  // units not specified, miliseconds?
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
@@ -1318,7 +1318,7 @@ limitations under the License.
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##builderSearchForm").serialize(),
-					timeout: 30000,  // units not specified, miliseconds?
+					timeout: 60000,  // units not specified, miliseconds?
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
