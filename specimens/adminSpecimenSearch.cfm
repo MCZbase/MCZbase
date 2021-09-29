@@ -184,7 +184,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="row mx-0">
-												<div class="col-12 col-md-2 px-1 mt-1">
+												<div class="col-12 col-md-1 px-1 mt-1">
 													<label for="in_disp_order" class="data-entry-label">Display Order</label>
 													<input type="number" class="data-entry-input reqdClr" name="disp_order" id="in_disp_order" required pattern="[0-9]+" >
 												</div>
@@ -211,7 +211,7 @@ limitations under the License.
 														<option value="false">false (shown by default)</option>
 													</select>
 												</div>
-												<div class="col-12 col-md-2 px-1 mt-1">
+												<div class="col-12 col-md-1 px-1 mt-1">
 													<label for="in_width" class="data-entry-label">Width</label>
 													<input type="number" class="data-entry-input reqdClr" name="width" id="in_width" required pattern="[0-9]+" >
 												</div>
