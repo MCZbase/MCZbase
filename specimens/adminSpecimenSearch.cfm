@@ -163,7 +163,7 @@ limitations under the License.
 													<input type="text" class="data-entry-input reqdClr" name="category" id="in_category" required>
 													<script>
 														jQuery(document).ready(function() {
-															makeSpecSearchColsAutocomplete('in_category','category');
+															makeSpecResColsAutocomplete('in_category','category');
 														});
 													</script>
 												</div>
@@ -172,7 +172,7 @@ limitations under the License.
 													<input type="text" class="data-entry-input reqdClr" name="column_name" id="in_column_name" required>
 													<script>
 														jQuery(document).ready(function() {
-															makeSpecSearchColsAutocomplete('in_column_name','column_name');
+															makeSpecResColsAutocomplete('in_column_name','column_name');
 														});
 													</script>
 												</div>
@@ -234,7 +234,7 @@ limitations under the License.
 											</div>
 											<div class="row mx-0">
 												<div class="form-group col-12 px-1 pt-2">
-													<button class="btn btn-xs btn-primary mr-1" type="button" onclick=" addSpecSearchColRow();" value="Add Row">Add Row</button>
+													<button class="btn btn-xs btn-primary mr-1" type="button" onclick=" addSpecResColRow();" value="Add Row">Add Row</button>
 													<span id="addItemFeedback" class="text-danger">&nbsp;</span>
 												</div>
 											</div>
@@ -243,7 +243,7 @@ limitations under the License.
 								</div>
 							</div>
 							<script>
-								function addSpecSearchColRow() {
+								function addSpecResColRow() {
 									$('##addItemFeedback').html("Saving...");
 									$('##addItemFeedback').addClass('text-warning');
 									$('##addItemFeedback').removeClass('text-success');
