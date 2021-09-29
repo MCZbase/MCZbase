@@ -134,12 +134,7 @@ limitations under the License.
 						</div><!--- row --->
 					</section>
 					<section class="container-fluid mt-1 mb-3">
-						<!--- to have open by default 
-						<cfset openAccord = "">
-						<cfset btnAccord = "collapsed">
-						<cfset ariaExpanded ="true">
-						--->
-						<cfset openAccord = "collapse show">
+						<cfset openAccord = "collapse">
 						<cfset btnAccord = "">
 						<cfset ariaExpanded ="false">
 						<div class="accordion w-100" id="itemAccordion">
@@ -661,8 +656,8 @@ limitations under the License.
 						</div><!--- row --->
 					</section>
 					<section class="container-fluid mt-1 mb-3">
-						<cfset openAccord = "">
-						<cfset btnAccord = "collapsed">
+						<cfset openAccord = "collapse">
+						<cfset btnAccord = "">
 						<cfset ariaExpanded ="false">
 						<div class="accordion w-100" id="itemAccordion">
 							<div class="card bg-light">
