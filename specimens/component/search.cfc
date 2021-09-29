@@ -333,7 +333,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfset comma = "">
 					<cfloop query="getFieldMetadata">
 						<cfif len(sql_element) GT 0> 
-							,#replace(sql_element,"''","'","all")# #column_name#
+							#comma##replace(sql_element,"''","'","all")# #column_name#
 							<cfset comma = ",">
 						</cfif>
 					</cfloop>
@@ -349,7 +349,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfset comma = "">
 					<cfloop query="getFieldMetadata">
 						<cfif len(sql_element) GT 0> 
-							,#replace(sql_element,"''","'","all")# #column_name#
+							#comma##replace(sql_element,"''","'","all")# #column_name#
 							<cfset comma = ",">
 						</cfif>
 					</cfloop>
@@ -539,7 +539,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfset comma = "">
 				<cfloop query="getFieldMetadata">
 					<cfif len(sql_element) GT 0> 
-						,#replace(sql_element,"''","'","all")# #column_name#
+						#comma##replace(sql_element,"''","'","all")# #column_name#
 						<cfset comma = ",">
 					</cfif>
 				</cfloop>
