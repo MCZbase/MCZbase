@@ -393,7 +393,7 @@ limitations under the License.
 								url: '/specimens/component/admin.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+									handleFail(jqXHR,textStatus,error, "Error performing search for cf_spec_res_cols rows: "); 
 								},
 								async: true
 							};
@@ -502,13 +502,16 @@ limitations under the License.
 							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's' + items);
 						}
 						// set maximum page size
-						if (rowcount > 100) { 
-							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
-						} else if (rowcount > 50) { 
-							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
-						} else { 
-							$('##' + gridId).jqxGrid({ pageable: false });
-						}
+						// commenting out dynamic page size set, for some reason it causes browser to go into a 15 second+ javascript delay 
+ 						// for just this grid when all rows are selected, so using pagable fales, for just this grid... 
+						$('##' + gridId).jqxGrid({ pageable: false });
+						//if (rowcount > 100) { 
+						//	$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
+						//} else if (rowcount > 50) { 
+						//	$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
+						//} else { 
+						//	$('##' + gridId).jqxGrid({ pageable: false });
+						//}
 						// add a control to show/hide columns
 						var columns = $('##' + gridId).jqxGrid('columns').records;
 						var columnListSource = [];
@@ -892,7 +895,7 @@ limitations under the License.
 								url: '/specimens/component/admin.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+									handleFail(jqXHR,textStatus,error, "Error performing search for cf_spec_search_cols rows: "); 
 								},
 								async: true
 							};
