@@ -435,7 +435,7 @@ limitations under the License.
 	<cftransaction>
 		<cftry>
 			<cfquery name="delRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delRow_result">
-				DELETE from cf_spec_search_colls
+				DELETE from cf_spec_search_cols
 				where
 					ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ID#">
 			</cfquery>
@@ -471,7 +471,7 @@ limitations under the License.
 	<cftransaction>
 		<cftry>
 			<cfquery name="delRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delRow_result">
-				DELETE from cf_spec_res_colls_r
+				DELETE from cf_spec_res_cols_r
 				where
 					CF_SPEC_RES_COLS_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CF_SPEC_RES_COLS_ID#">
 			</cfquery>
