@@ -1422,7 +1422,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					data_type as fld
 				</cfif>
 			FROM 
-				cf_spec_res_cols_r
+				cf_spec_search_cols
 			WHERE
 				<cfif field EQ "search_category">
 					upper(search_category)
