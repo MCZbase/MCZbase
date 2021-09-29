@@ -267,7 +267,8 @@ limitations under the License.
 								<cfelse>
 									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a>
 								</cfif>				
-								<cfif targetMenu EQ "redesign">
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<a class="dropdown-item" href="/Specimens.cfm">Specimens (new)</a>
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens By Category</a>
 								</cfif>
 								<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
@@ -633,6 +634,8 @@ limitations under the License.
 											</cfif>
 									
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=search">Manage Specimen Search Fields</a>
+											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=results">Manage Specimen Results Columns</a>
 											<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>

@@ -583,7 +583,39 @@ function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex)
 	for (i = 1; i < columns.length; i++) {
 		var text = columns[i].text;
 		var datafield = columns[i].datafield;
-		var content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+	}
+	content = content + "</ul></div>";
+	$("#" + rowDetailsTargetId + rowIndex).html(content);
+	$("#"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
+		{ 
+			autoOpen: true, 
+			buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("#" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+			width: dialogWidth,
+			title: 'Record Details'		
+		}
+	);
+	// Workaround, expansion sits below row in zindex.
+	var maxZIndex = getMaxZIndex();
+	$("#"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+};
+/** function createRowDetailsDialogNoBlanks works as createRowDetailsDialog, but leaves out fields 
+  for which there is no value in the specified rowIndex.
+
+  @see createRowDetailsDialog
+*/
+function createRowDetailsDialogNoBlanks(gridId, rowDetailsTargetId, datarecord,rowIndex) {
+	var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
+	var columns = $('#' + gridId).jqxGrid('columns').records;
+	var gridWidth = $('#' + gridId).width();
+	var dialogWidth = Math.round(gridWidth/2);
+	if (dialogWidth < 150) { dialogWidth = 150; }
+	for (i = 1; i < columns.length; i++) {
+		var text = columns[i].text;
+		var datafield = columns[i].datafield;
+		if (datarecord[datafield]) { 
+			content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+		}
 	}
 	content = content + "</ul></div>";
 	$("#" + rowDetailsTargetId + rowIndex).html(content);

@@ -974,7 +974,7 @@ limitations under the License.
 										reloadBorrowItems(#transaction_id#);
 									},
 									error: function(jqXHR,textStatus,error){
-										handleFail(jqXHR,textStatus,error,"adding borrow item");
+										handleFail(jqXHR,textStatus,error,"removing borrow item");
 									}
 								});
 							};

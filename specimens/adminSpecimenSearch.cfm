@@ -84,20 +84,40 @@ limitations under the License.
 										<input type="hidden" name="method" value="getcf_spec_res_cols" class="keeponclear">
 										<div class="form-row mt-1 mb-2">
 											<div class="col-md-3">
-												<label for="category" class="data-entry-label" id="category_label">Category</label>
-												<input type="text" id="category" name="category" class="data-entry-input" value="#category#" aria-labelledby="category_label" >
-											</div>
-											<div class="col-md-3">
 												<label for="column_name" class="data-entry-label" id="column_name_label">Column Name</label>
 												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#column_name#" aria-labelledby="column_name_label" >
-											</div>
-											<div class="col-md-3">
-												<label for="hidden" class="data-entry-label" id="hidden_label">Hidden</label>
-												<input type="text" id="hidden" name="hidden" class="data-entry-input" value="#hidden#" aria-labelledby="hidden_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecResColsAutocomplete('column_name','column_name');
+													});
+												</script>
 											</div>
 											<div class="col-md-3">
 												<label for="label" class="data-entry-label" id="label_label">Label</label>
 												<input type="text" id="label" name="label" class="data-entry-input" value="#label#" aria-labelledby="label_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecResColsAutocomplete('label','label');
+													});
+												</script>
+											</div>
+											<div class="col-md-3">
+												<label for="category" class="data-entry-label" id="category_label">Category</label>
+												<input type="text" id="category" name="category" class="data-entry-input" value="#category#" aria-labelledby="category_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecResColsAutocomplete('category','category');
+													});
+												</script>
+											</div>
+											<div class="col-md-3">
+												<label for="hiddenctl" class="data-entry-label" id="hidden_label">Hidden</label>
+												<input type="text" id="hiddenctl" name="hidden" class="data-entry-input" value="#hidden#" aria-labelledby="hidden_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecResColsAutocomplete('hiddenctl','hidden');
+													});
+												</script>
 											</div>
 										</div>
 										<div class="form-row mt-2 mx-0">
@@ -112,6 +132,142 @@ limitations under the License.
 								</div><!--- col --->
 							</div><!--- search box --->
 						</div><!--- row --->
+					</section>
+					<section class="container-fluid mt-1 mb-3">
+						<cfset openAccord = "collapse">
+						<cfset btnAccord = "">
+						<cfset ariaExpanded ="false">
+						<div class="accordion w-100" id="itemAccordion">
+							<div class="card bg-light">
+								<div class="card-header" id="itemAccordHeadingOne">
+									<h3 class="h4 my-0">
+										<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="#ariaExpanded#" aria-controls="itemCollapseOne">
+											Add Specimen Results Column
+										</button>
+									</h3>
+								</div>
+								<div id="itemCollapseOne" class="#openAccord#" aria-labelledby="itemAccordHeadingOne" data-parent="##itemAccordion">
+									<div class="card-body px-3">
+										<form id="addSpecResColForm">
+											<div class="row mx-0">
+												<input type="hidden" name="method" value="addcf_spec_res_cols">
+												<input type="hidden" name="returnformat" value="json">
+												<input type="hidden" name="queryformat" value="column">
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_category" class="data-entry-label">Category</label>
+													<input type="text" class="data-entry-input reqdClr" name="category" id="in_category" required>
+													<script>
+														jQuery(document).ready(function() {
+															makeSpecResColsAutocomplete('in_category','category');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_column_name" class="data-entry-label">Column Name</label>
+													<input type="text" class="data-entry-input reqdClr" name="column_name" id="in_column_name" required>
+													<script>
+														jQuery(document).ready(function() {
+															makeSpecResColsAutocomplete('in_column_name','column_name');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_sql_element" class="data-entry-label">SQL Element (e.g. flatTableName.guid)</label>
+													<input type="text" class="data-entry-input reqdClr" name="sql_element" id="in_sql_element" required>
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_label" class="data-entry-label">Label</label>
+													<input type="text" class="data-entry-input reqdClr" name="label" id="in_label" required>
+												</div>
+											</div>
+											<div class="row mx-0">
+												<div class="col-12 col-md-1 px-1 mt-1">
+													<label for="in_disp_order" class="data-entry-label">Display Order</label>
+													<input type="number" class="data-entry-input reqdClr" name="disp_order" id="in_disp_order" required pattern="[0-9]+" >
+												</div>
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_access_role" class="data-entry-label">Access Role</label>
+													<select class="data-entry-select reqdClr mb-1" name="access_role" id="in_access_role" required >
+														<option value="PUBLIC" selected>PUBLIC</option>
+														<option value="COLDFUSION_USER">COLDFUSION_USER</option>
+														<option value="DATA_ENTRY">DATA_ENTRY</option>
+														<option value="HIDE">HIDE (column is not queried or shown)</option>
+													</select>
+												</div>
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_hideable" class="data-entry-label">Hideable</label>
+													<select class="data-entry-select reqdClr mb-1" size="1" name="hideable" id="in_hideable" required >
+														<option value="true" selected>true (user can show/hide)</option>
+														<option value="false">false (always shown)</option>
+													</select>
+												</div>
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_hidden" class="data-entry-label">Hidden</label>
+													<select class="data-entry-select reqdClr mb-1" size="1" name="hidden" id="in_hidden" required >
+														<option value="true" selected>true (hidden by default)</option>
+														<option value="false">false (shown by default)</option>
+													</select>
+												</div>
+												<div class="col-12 col-md-1 px-1 mt-1">
+													<label for="in_width" class="data-entry-label">Width</label>
+													<input type="number" class="data-entry-input reqdClr" name="width" id="in_width" required pattern="[0-9]+" >
+												</div>
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_cellsrenderer" class="data-entry-label">Cellsrenderer</label>
+													<input type="text" class="data-entry-input" name="cellsrenderer" id="in_cellsrenderer">
+												</div>
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_data_type" class="data-entry-label">Data Type</label>
+													<select class="data-entry-select reqdClr mb-1" name="data_type" id="in_data_type" required >
+														<option value="VARCHAR2" selected>VARCHAR2</option>
+														<option value="NUMBER">NUMBER</option>
+														<option value="DATE">DATE</option>
+														<option value="CHAR">CHAR</option>
+														<option value="CLOB">CLOB</option>
+													</select>
+												</div>
+											</div>
+											<div class="row mx-0">
+												<div class="form-group col-12 px-1 pt-2">
+													<button class="btn btn-xs btn-primary mr-1" type="button" onclick=" addSpecResColRow();" value="Add Row">Add Row</button>
+													<span id="addItemFeedback" class="text-danger">&nbsp;</span>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<script>
+								function addSpecResColRow() {
+									$('##addItemFeedback').html("Saving...");
+									$('##addItemFeedback').addClass('text-warning');
+									$('##addItemFeedback').removeClass('text-success');
+									$('##addItemFeedback').removeClass('text-danger');
+									jQuery.ajax( {
+										url : "/specimens/component/admin.cfc",
+										type : "post",
+										dataType : "json",
+										data : $("##addSpecResColForm").serialize(),
+										success : function (data) {
+											$('##addItemFeedback').html("Added row to cf_spec_res_cols_r.");
+											$('##addItemFeedback').addClass('text-success');
+											$('##addItemFeedback').removeClass('text-warning');
+											$('##addItemFeedback').removeClass('text-danger');
+											$("##catalog_number").val('');
+											$("##no_of_spec").val('');
+											$("##type_status").val('');
+										},
+										error: function(jqXHR,textStatus,error){
+											$('##addItemFeedback').html("Error");
+											$('##addItemFeedback').addClass('text-danger');
+											$('##addItemFeedback').removeClass('text-success');
+											$('##addItemFeedback').removeClass('text-warning');
+											handleFail(jqXHR,textStatus,error,"adding row to cf_spec_res_cols_r.");
+										}
+									});
+								};
+							</script>
+						</div>
 					</section>
 					<!--- Results table as a jqxGrid. --->
 					<section class="container-fluid">
@@ -139,6 +295,25 @@ limitations under the License.
 				</main>
 				<cfset cellRenderClasses = "ml-1">
 				<script>
+					function deleteSpecResRow(id) {
+						jQuery.ajax({
+						url : "/specimens/component/admin.cfc",
+							type : "post",
+							dataType : "json",
+							data : {
+								method : "deleteCFSpecResColsRow",
+								returnformat : "json",
+								queryformat : 'column',
+								CF_SPEC_RES_COLS_ID : id
+							},
+							success : function (data) {
+								$('##searchResultsGrid').jqxGrid('deleterow', id);
+							},
+							error: function(jqXHR,textStatus,error){
+								handleFail(jqXHR,textStatus,error,"removing cf_spec_res_cols item");
+							}
+						});
+					};
 					window.columnHiddenSettings = new Object();
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 						lookupColumnVisibilities ('#cgi.script_name#','Default');
@@ -154,6 +329,19 @@ limitations under the License.
 							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 							$('##resultCount').html('');
 							$('##resultLink').html('');
+
+							// Cell renderers
+							var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								var result = "";
+								var itemid = rowData['CF_SPEC_RES_COLS_ID'];
+								if (itemid) {
+									result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="deleteRow" type="button" value="Delete" onclick="deleteSpecResRow(' + itemid+ ');" class="btn btn-xs btn-danger">Delete</a></span>';
+								} else { 
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+								}
+								return result;
+							};
 					
 							var search =
 							{
@@ -164,7 +352,6 @@ limitations under the License.
 									{ name: 'SQL_ELEMENT', type: 'string' },
 									{ name: 'DISP_ORDER', type: 'string' },
 									{ name: 'COLUMN_NAME', type: 'string' },
-									{ name: 'ACCESS_ROLE', type: 'string' },
 									{ name: 'CATEGORY', type: 'string' },
 									{ name: 'DATA_TYPE', type: 'string' },
 									{ name: 'ACCESS_ROLE', type: 'string' },
@@ -175,10 +362,34 @@ limitations under the License.
 									{ name: 'LABEL', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
-									commit(true);
+									var data = "method=updatecf_spec_res_cols";
+									data = data + "&CF_SPEC_RES_COLS_ID=" + rowdata.CF_SPEC_RES_COLS_ID;
+									data = data + "&SQL_ELEMENT=" + rowdata.SQL_ELEMENT;
+									data = data + "&DISP_ORDER=" + rowdata.DISP_ORDER;
+									data = data + "&COLUMN_NAME=" + rowdata.COLUMN_NAME;
+									data = data + "&CATEGORY=" + rowdata.CATEGORY;
+									data = data + "&DATA_TYPE=" + rowdata.DATA_TYPE;
+									data = data + "&ACCESS_ROLE=" + rowdata.ACCESS_ROLE;
+									data = data + "&HIDEABLE=" + rowdata.HIDEABLE;
+									data = data + "&HIDDEN=" + rowdata.HIDDEN;
+									data = data + "&CELLSRENDERER=" + rowdata.CELLSRENDERER;
+									data = data + "&WIDTH=" + rowdata.WIDTH;
+									data = data + "&LABEL=" + rowdata.LABEL;
+									$.ajax({
+										dataType: 'json',
+										url: '/specimens/component/admin.cfc',
+										data: data,
+											success: function (data, status, xhr) {
+											commit(true);
+										},
+										error: function (jqXHR,textStatus,error) {
+											commit(false);
+											handleFail(jqXHR,textStatus,error,"saving cf_spec_res_cols row");
+										}
+									});
 								},
-								root: 'cf_spec_search_cols_Record',
-								id: 'id',
+								root: 'cf_spec_res_cols_Record',
+								id: 'CF_SPEC_RES_COLS_ID',
 								url: '/specimens/component/admin.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
@@ -206,7 +417,7 @@ limitations under the License.
 								filterable: true,
 								sortable: true,
 								pageable: true,
-								editable: false,
+								editable: true,
 								pagesize: '50',
 								pagesizeoptions: ['5','50','100'],
 								showaggregates: true,
@@ -230,8 +441,8 @@ limitations under the License.
 									{text: 'CellsRenderer', datafield: 'CELLSRENDERER', width: 150, hideable: true, hidden: getColHidProp('CELLSRENDERER', false) },
 									{text: 'Width', datafield: 'WIDTH', width: 70, hideable: true, hidden: getColHidProp('WIDTH', false) },
 									{text: 'Data Type', datafield: 'DATA_TYPE', width: 100, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
-									{text: 'ID', datafield: 'CF_SPEC_RES_COLS_ID', width: 80, hideable: true, hidden: getColHidProp('CF_SPEC_RES_COLS_ID', false) },
-									{text: 'SQL', datafield: 'SQL_ELEMENT', hideable: true, hidden: getColHidProp('SQL_ELEMENT', false) }
+									{text: 'SQL', datafield: 'SQL_ELEMENT', width: 250, hideable: true, hidden: getColHidProp('SQL_ELEMENT', false) },
+									{text: 'ID', datafield: 'CF_SPEC_RES_COLS_ID', editable: false, hideable: true, hidden: getColHidProp('CF_SPEC_RES_COLS_ID', false), cellsrenderer: deleteCellRenderer }
 								],
 								rowdetails: true,
 								rowdetailstemplate: {
@@ -243,7 +454,7 @@ limitations under the License.
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
 								$('##resultLink').html('<a href="/specimens/adminSpecimenSearch.cfm?action=results&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-								gridLoaded('searchResultsGrid','collection');
+								gridLoaded('searchResultsGrid','cf_spec_res_col_r row');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -383,7 +594,7 @@ limitations under the License.
 			<!--- Search Form ---> 
 			<cfoutput>
 				<main id="content">
-					<section class="container-fluid mt-2 mb-3" role="search" aria-labelledby="formheader">
+					<section class="container-fluid mt-2 mb-1" role="search" aria-labelledby="formheader">
 						<div class="row mx-0 mb-3">
 							<div class="search-box">
 								<div class="search-box-header">
@@ -394,20 +605,40 @@ limitations under the License.
 										<input type="hidden" name="method" value="getcf_spec_search_cols" class="keeponclear">
 										<div class="form-row mt-1 mb-2">
 											<div class="col-md-3">
-												<label for="search_category" class="data-entry-label" id="search_category_label">Search Category</label>
-												<input type="text" id="search_category" name="search_category" class="data-entry-input" value="#search_category#" aria-labelledby="search_category_label" >
-											</div>
-											<div class="col-md-3">
 												<label for="table_name" class="data-entry-label" id="table_name_label">Table Name</label>
 												<input type="text" id="table_name" name="table_name" class="data-entry-input" value="#table_name#" aria-labelledby="table_name_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchColsAutocomplete('table_name','table_name');
+													});
+												</script>
 											</div>
 											<div class="col-md-3">
 												<label for="column_name" class="data-entry-label" id="column_name_label">Column Name</label>
 												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#column_name#" aria-labelledby="column_name_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchColsAutocomplete('column_name','column_name');
+													});
+												</script>
+											</div>
+											<div class="col-md-3">
+												<label for="search_category" class="data-entry-label" id="search_category_label">Search Category</label>
+												<input type="text" id="search_category" name="search_category" class="data-entry-input" value="#search_category#" aria-labelledby="search_category_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchColsAutocomplete('search_category','search_category');
+													});
+												</script>
 											</div>
 											<div class="col-md-3">
 												<label for="label" class="data-entry-label" id="label_label">Label</label>
 												<input type="text" id="label" name="label" class="data-entry-input" value="#label#" aria-labelledby="label_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchColsAutocomplete('label','label');
+													});
+												</script>
 											</div>
 										</div>
 										<div class="form-row mt-2 mx-0">
@@ -422,6 +653,124 @@ limitations under the License.
 								</div><!--- col --->
 							</div><!--- search box --->
 						</div><!--- row --->
+					</section>
+					<section class="container-fluid mt-1 mb-3">
+						<cfset openAccord = "collapse">
+						<cfset btnAccord = "">
+						<cfset ariaExpanded ="false">
+						<div class="accordion w-100" id="itemAccordion">
+							<div class="card bg-light">
+								<div class="card-header" id="itemAccordHeadingOne">
+									<h3 class="h4 my-0">
+										<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="#ariaExpanded#" aria-controls="itemCollapseOne">
+											Add Specimen Search Field
+										</button>
+									</h3>
+								</div>
+								<div id="itemCollapseOne" class="#openAccord#" aria-labelledby="itemAccordHeadingOne" data-parent="##itemAccordion">
+									<div class="card-body px-3">
+										<form id="addSpecSearchColForm">
+											<div class="row mx-0">
+												<input type="hidden" name="method" value="addCFSpecSearchColsRow">
+												<input type="hidden" name="returnformat" value="json">
+												<input type="hidden" name="queryformat" value="column">
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_table_name" class="data-entry-label">Table Name</label>
+													<input type="text" class="data-entry-input reqdClr" name="table_name" id="in_table_name" required >
+													<script>
+														jQuery(document).ready(function() {
+															makeSpecSearchColsAutocomplete('in_table_name','table_name');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_table_alias" class="data-entry-label">Table Alias</label>
+													<input type="text" class="data-entry-input reqdClr" name="table_alias" id="in_table_alias" required >
+													<script>
+														jQuery(document).ready(function() {
+															makeSpecSearchColsAutocomplete('in_table_alias','table_alias');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_column_name" class="data-entry-label">Column Name</label>
+													<input type="text" class="data-entry-input reqdClr" name="column_name" id="in_column_name" required >
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_column_alias" class="data-entry-label">Column Alias (unique)</label>
+													<input type="text" class="data-entry-input reqdClr" name="column_alias" id="in_column_alias" required >
+												</div>
+											</div>
+											<div class="row mx-0">
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_search_category" class="data-entry-label">Search Category</label>
+													<input type="text" class="data-entry-input reqdClr" name="search_category" id="in_search_category" required >
+													<script>
+														jQuery(document).ready(function() {
+															makeSpecSearchColsAutocomplete('in_search_category','search_category');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_data_type" class="data-entry-label">Data Type</label>
+													<select class="data-entry-select reqdClr mb-1" name="data_type" id="in_data_type" required >
+														<option value="VARCHAR2" selected>VARCHAR2</option>
+														<option value="NUMBER">NUMBER</option>
+														<option value="DATE">DATE</option>
+														<option value="CHAR">CHAR</option>
+														<option value="CLOB">CLOB</option>
+													</select>
+												</div>
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_data_length" class="data-entry-label">Data Length</label>
+													<input type="number" class="data-entry-input reqdClr" name="data_length" id="in_data_length" required pattern="[0-9]+" >
+												</div>
+												<div class="col-12 col-md-4 px-1 mt-1">
+													<label for="in_label" class="data-entry-label">Label</label>
+													<input type="text" class="data-entry-input reqdClr" name="label" id="in_label" required >
+												</div>
+											</div>
+											<div class="row mx-0">
+												<div class="form-group col-12 px-1 pt-2">
+													<button class="btn btn-xs btn-primary mr-1" type="button" onclick=" addSpecSearchColRow();" value="Add Row">Add Row</button>
+													<span id="addItemFeedback" class="text-danger">&nbsp;</span>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<script>
+								function addSpecSearchColRow() {
+									$('##addItemFeedback').html("Saving...");
+									$('##addItemFeedback').addClass('text-warning');
+									$('##addItemFeedback').removeClass('text-success');
+									$('##addItemFeedback').removeClass('text-danger');
+									jQuery.ajax( {
+										url : "/specimens/component/admin.cfc",
+										type : "post",
+										dataType : "json",
+										data : $("##addSpecSearchColForm").serialize(),
+										success : function (data) {
+											$('##addItemFeedback').html("Added row to cf_spec_search_cols.");
+											$('##addItemFeedback').addClass('text-success');
+											$('##addItemFeedback').removeClass('text-warning');
+											$('##addItemFeedback').removeClass('text-danger');
+											$("##catalog_number").val('');
+											$("##no_of_spec").val('');
+											$("##type_status").val('');
+										},
+										error: function(jqXHR,textStatus,error){
+											$('##addItemFeedback').html("Error");
+											$('##addItemFeedback').addClass('text-danger');
+											$('##addItemFeedback').removeClass('text-success');
+											$('##addItemFeedback').removeClass('text-warning');
+											handleFail(jqXHR,textStatus,error,"adding row to cf_spec_search_cols.");
+										}
+									});
+								};
+							</script>
+						</div>
 					</section>
 		
 					<!--- Results table as a jqxGrid. --->
@@ -451,6 +800,25 @@ limitations under the License.
 		
 				<cfset cellRenderClasses = "ml-1">
 				<script>
+					function deleteSpecSearchRow(id) {
+						jQuery.ajax({
+						url : "/specimens/component/admin.cfc",
+							type : "post",
+							dataType : "json",
+							data : {
+								method : "deleteCFSpecSearchColsRow",
+								returnformat : "json",
+								queryformat : 'column',
+								ID : id
+							},
+							success : function (data) {
+								$('##searchResultsGrid').jqxGrid('deleterow', id);
+							},
+							error: function(jqXHR,textStatus,error){
+								handleFail(jqXHR,textStatus,error,"removing cf_spec_search_cols item");
+							}
+						});
+					};
 					window.columnHiddenSettings = new Object();
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 						lookupColumnVisibilities ('#cgi.script_name#','Default');
@@ -466,6 +834,19 @@ limitations under the License.
 							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 							$('##resultCount').html('');
 							$('##resultLink').html('');
+
+							// Cell renderers
+							var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								var result = "";
+								var itemid = rowData['ID'];
+								if (itemid) {
+									result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="deleteRow" type="button" value="Delete" onclick="deleteSpecSearchRow(' + itemid+ ');" class="btn btn-xs btn-danger">Delete</a></span>';
+								} else { 
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+								}
+								return result;
+							};
 					
 							var search =
 							{
@@ -507,7 +888,7 @@ limitations under the License.
 									});
 								},
 								root: 'cf_spec_search_cols_Record',
-								id: 'id',
+								id: 'ID',
 								url: '/specimens/component/admin.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
@@ -557,7 +938,7 @@ limitations under the License.
 									{text: 'Data Type', datafield: 'DATA_TYPE', width: 80, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
 									{text: 'Data Length', datafield: 'DATA_LENGTH', width: 80, hideable: true, hidden: getColHidProp('DATA_LENGTH', false) },
 									{text: 'Label', datafield: 'LABEL', width: 250, hideable: true, hidden: getColHidProp('LABEL', false) },
-									{text: 'ID', editable: false, datafield: 'ID', hideable: true, hidden: getColHidProp('ID', false) }
+									{text: 'ID', editable: false, datafield: 'ID', hideable: true, hidden: getColHidProp('ID', false), cellsrenderer: deleteCellRenderer }
 								],
 								rowdetails: true,
 								rowdetailstemplate: {
@@ -569,7 +950,7 @@ limitations under the License.
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
 								$('##resultLink').html('<a href="/specimens/adminSpecimenSearch.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-								gridLoaded('searchResultsGrid','collection');
+								gridLoaded('searchResultsGrid','cf_spec_search_col row');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
