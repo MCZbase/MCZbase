@@ -561,7 +561,7 @@ div.vslider-item[aria-hidden="true"]{
 																and media.media_id = media_labels.media_id
 															</cfquery>
 															<cfset src=specimenImagesForCarousel['media_uri'][i]>
-															<cfif mediaSizeType.label_value gt 1100>
+															<cfif mediaSizeType.label_value gt 1199>
 																<cfset sizeType='&width=800&height=1200'>
 															<cfelse>
 																<cfset sizeType='&width=800&height=600'>
