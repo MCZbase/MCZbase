@@ -193,8 +193,8 @@ limitations under the License.
 													<select class="data-entry-select reqdClr mb-1" name="access_role" id="in_access_role" required >
 														<option value="PUBLIC" selected>PUBLIC</option>
 														<option value="COLDFUSION_USER">COLDFUSION_USER</option>
-														<option value="DATA_ENTRY" selected>DATA_ENTRY</option>
-														<option value="HIDE" selected>HIDE (column is not queried or shown)</option>
+														<option value="DATA_ENTRY">DATA_ENTRY</option>
+														<option value="HIDE">HIDE (column is not queried or shown)</option>
 													</select>
 												</div>
 												<div class="col-12 col-md-2 px-1 mt-1">
