@@ -157,23 +157,8 @@ limitations under the License.
 												<input type="hidden" name="returnformat" value="json">
 												<input type="hidden" name="queryformat" value="column">
 												<div class="col-12 col-md-3 px-1 mt-1">
-													<label for="in_column_name" class="data-entry-label">Column Name</label>
-													<input type="text" class="data-entry-input" name="column_name" id="in_column_name">
-													<script>
-														jQuery(document).ready(function() {
-															makeSpecSearchColsAutocomplete('in_column_name','column_name');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-3 px-1 mt-1">
-													<label for="in_sql_element" class="data-entry-label">SQL Element</label>
-													<input type="text" class="data-entry-input" name="sql_element" id="in_sql_element">
-												</div>
-											</div>
-											<div class="row mx-0">
-												<div class="col-12 col-md-3 px-1 mt-1">
 													<label for="in_category" class="data-entry-label">Category</label>
-													<input type="text" class="data-entry-input" name="category" id="in_category">
+													<input type="text" class="data-entry-input reqdClr" name="category" id="in_category" required>
 													<script>
 														jQuery(document).ready(function() {
 															makeSpecSearchColsAutocomplete('in_category','category');
@@ -181,12 +166,68 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-3 px-1 mt-1">
-													<label for="in_data_type" class="data-entry-label">Data Type</label>
-													<input type="text" class="data-entry-input" name="data_type" id="in_data_type">
+													<label for="in_column_name" class="data-entry-label">Column Name</label>
+													<input type="text" class="data-entry-input reqdClr" name="column_name" id="in_column_name" required>
+													<script>
+														jQuery(document).ready(function() {
+															makeSpecSearchColsAutocomplete('in_column_name','column_name');
+														});
+													</script>
 												</div>
-												<div class="col-12 col-md-4 px-1 mt-1">
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_sql_element" class="data-entry-label">SQL Element (e.g. flatTableName.guid)</label>
+													<input type="text" class="data-entry-input reqdClr" name="sql_element" id="in_sql_element" required>
+												</div>
+												<div class="col-12 col-md-3 px-1 mt-1">
 													<label for="in_label" class="data-entry-label">Label</label>
-													<input type="text" class="data-entry-input" name="label" id="in_label">
+													<input type="text" class="data-entry-input reqdClr" name="label" id="in_label" required>
+												</div>
+											</div>
+											<div class="row mx-0">
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_disp_order" class="data-entry-label">Display Order</label>
+													<input type="number" class="data-entry-input reqdClr" name="disp_order" id="in_disp_order" required pattern="[0-9]+" >
+												</div>
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_access_role" class="data-entry-label">Access Role</label>
+													<select class="data-entry-select reqdClr mb-1" name="access_role" id="in_access_role" required >
+														<option value="PUBLIC" selected>PUBLIC</option>
+														<option value="COLDFUSION_USER">COLDFUSION_USER</option>
+														<option value="DATA_ENTRY" selected>DATA_ENTRY</option>
+														<option value="HIDE" selected>HIDE (column is not queried or shown)</option>
+													</select>
+												</div>
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_hideable" class="data-entry-label">Hideable</label>
+													<select class="data-entry-select reqdClr mb-1" size="1" name="hideable" id="in_hideable" required >
+														<option value="true" selected>true (user can show/hide)</option>
+														<option value="false">false (always shown)</option>
+													</select>
+												</div>
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_hidden" class="data-entry-label">Hidden</label>
+													<select class="data-entry-select reqdClr mb-1" size="1" name="hidden" id="in_hidden" required >
+														<option value="true" selected>true (hidden by default)</option>
+														<option value="false">false (shown by default)</option>
+													</select>
+												</div>
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_width" class="data-entry-label">Width</label>
+													<input type="number" class="data-entry-input reqdClr" name="width" id="in_width" required pattern="[0-9]+" >
+												</div>
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_cellsrenderer" class="data-entry-label">Cellsrenderer</label>
+													<input type="text" class="data-entry-input" name="cellsrenderer" id="in_cellsrenderer">
+												</div>
+												<div class="col-12 col-md-2 px-1 mt-1">
+													<label for="in_data_type" class="data-entry-label">Data Type</label>
+													<select class="data-entry-select reqdClr mb-1" name="data_type" id="in_data_type" required >
+														<option value="VARCHAR2" selected>VARCHAR2</option>
+														<option value="NUMBER">NUMBER</option>
+														<option value="DATE">DATE</option>
+														<option value="CHAR">CHAR</option>
+														<option value="CLOB">CLOB</option>
+													</select>
 												</div>
 											</div>
 											<div class="row mx-0">
@@ -638,7 +679,7 @@ limitations under the License.
 												<input type="hidden" name="queryformat" value="column">
 												<div class="col-12 col-md-3 px-1 mt-1">
 													<label for="in_table_name" class="data-entry-label">Table Name</label>
-													<input type="text" class="data-entry-input" name="table_name" id="in_table_name">
+													<input type="text" class="data-entry-input reqdClr" name="table_name" id="in_table_name" required >
 													<script>
 														jQuery(document).ready(function() {
 															makeSpecSearchColsAutocomplete('in_table_name','table_name');
@@ -647,21 +688,26 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-3 px-1 mt-1">
 													<label for="in_table_alias" class="data-entry-label">Table Alias</label>
-													<input type="text" class="data-entry-input" name="table_alias" id="in_table_alias">
+													<input type="text" class="data-entry-input reqdClr" name="table_alias" id="in_table_alias" required >
+													<script>
+														jQuery(document).ready(function() {
+															makeSpecSearchColsAutocomplete('in_table_alias','table_alias');
+														});
+													</script>
 												</div>
 												<div class="col-12 col-md-3 px-1 mt-1">
 													<label for="in_column_name" class="data-entry-label">Column Name</label>
-													<input type="text" class="data-entry-input" name="column_name" id="in_column_name">
+													<input type="text" class="data-entry-input reqdClr" name="column_name" id="in_column_name" required >
 												</div>
 												<div class="col-12 col-md-3 px-1 mt-1">
 													<label for="in_column_alias" class="data-entry-label">Column Alias (unique)</label>
-													<input type="text" class="data-entry-input" name="column_alias" id="in_column_alias">
+													<input type="text" class="data-entry-input reqdClr" name="column_alias" id="in_column_alias" required >
 												</div>
 											</div>
 											<div class="row mx-0">
 												<div class="col-12 col-md-3 px-1 mt-1">
 													<label for="in_search_category" class="data-entry-label">Search Category</label>
-													<input type="text" class="data-entry-input" name="search_category" id="in_search_category">
+													<input type="text" class="data-entry-input reqdClr" name="search_category" id="in_search_category" required >
 													<script>
 														jQuery(document).ready(function() {
 															makeSpecSearchColsAutocomplete('in_search_category','search_category');
@@ -670,15 +716,21 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-3 px-1 mt-1">
 													<label for="in_data_type" class="data-entry-label">Data Type</label>
-													<input type="text" class="data-entry-input" name="data_type" id="in_data_type">
+													<select class="data-entry-select reqdClr mb-1" name="data_type" id="in_data_type" required >
+														<option value="VARCHAR2" selected>VARCHAR2</option>
+														<option value="NUMBER">NUMBER</option>
+														<option value="DATE">DATE</option>
+														<option value="CHAR">CHAR</option>
+														<option value="CLOB">CLOB</option>
+													</select>
 												</div>
 												<div class="col-12 col-md-2 px-1 mt-1">
 													<label for="in_data_length" class="data-entry-label">Data Length</label>
-													<input type="text" class="data-entry-input" name="data_length" id="in_data_length">
+													<input type="number" class="data-entry-input reqdClr" name="data_length" id="in_data_length" required pattern="[0-9]+" >
 												</div>
 												<div class="col-12 col-md-4 px-1 mt-1">
 													<label for="in_label" class="data-entry-label">Label</label>
-													<input type="text" class="data-entry-input" name="label" id="in_label">
+													<input type="text" class="data-entry-input reqdClr" name="label" id="in_label" required >
 												</div>
 											</div>
 											<div class="row mx-0">
