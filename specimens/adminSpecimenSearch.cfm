@@ -172,16 +172,12 @@ limitations under the License.
 								CF_SPEC_RES_COLS_ID : id
 							},
 							success : function (data) {
-								reloadGrid();
+								$('##searchResultsGrid').jqxGrid('deleterow', id);
 							},
 							error: function(jqXHR,textStatus,error){
 								handleFail(jqXHR,textStatus,error,"removing cf_spec_res_cols item");
 							}
 						});
-					};
-					function reloadGrid() { 
-						var dataAdapter = new $.jqx.dataAdapter(search);
-						$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
 					};
 					window.columnHiddenSettings = new Object();
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -258,7 +254,7 @@ limitations under the License.
 									});
 								},
 								root: 'cf_spec_res_cols_Record',
-								id: 'id',
+								id: 'CF_SPEC_RES_COLS_ID',
 								url: '/specimens/component/admin.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
@@ -564,7 +560,7 @@ limitations under the License.
 								ID : id
 							},
 							success : function (data) {
-								reloadGrid();
+								$('##searchResultsGrid').jqxGrid('deleterow', id);
 							},
 							error: function(jqXHR,textStatus,error){
 								handleFail(jqXHR,textStatus,error,"removing cf_spec_search_cols item");
@@ -644,7 +640,7 @@ limitations under the License.
 									});
 								},
 								root: 'cf_spec_search_cols_Record',
-								id: 'id',
+								id: 'ID',
 								url: '/specimens/component/admin.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
