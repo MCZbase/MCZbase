@@ -404,7 +404,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif doUpdate_result.recordcount NEQ 1>
-				<cfthrow message="Record not updated. #ID# #doUpdate_result.sql#">
+				<cfthrow message="Record not updated. #CF_SPEC_RES_COLS_ID# #doUpdate_result.sql#">
 			</cfif>
 			<cfif doUpdate_result.recordcount eq 1>
 				<cfset theResult=queryNew("status, message")>
