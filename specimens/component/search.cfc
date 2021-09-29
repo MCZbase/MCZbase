@@ -745,6 +745,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
+		</cfif>
 	</cfif>
 	<cfif isDefined("type_status") AND len(type_status) GT 0>
 		<cfset field = '"field": "citations_type_status"'>
