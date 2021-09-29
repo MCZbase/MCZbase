@@ -274,7 +274,7 @@ limitations under the License.
 									{text: 'CellsRenderer', datafield: 'CELLSRENDERER', width: 150, hideable: true, hidden: getColHidProp('CELLSRENDERER', false) },
 									{text: 'Width', datafield: 'WIDTH', width: 70, hideable: true, hidden: getColHidProp('WIDTH', false) },
 									{text: 'Data Type', datafield: 'DATA_TYPE', width: 100, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
-									{text: 'ID', datafield: 'CF_SPEC_RES_COLS_ID', width: 80, hideable: true, hidden: getColHidProp('CF_SPEC_RES_COLS_ID', false) },
+									{text: 'ID', datafield: 'CF_SPEC_RES_COLS_ID', editable: false, width: 80, hideable: true, hidden: getColHidProp('CF_SPEC_RES_COLS_ID', false) },
 									{text: 'SQL', datafield: 'SQL_ELEMENT', hideable: true, hidden: getColHidProp('SQL_ELEMENT', false) }
 								],
 								rowdetails: true,
