@@ -26,9 +26,13 @@ limitations under the License.
 </cfcatch>
 </cftry>
 <cfif findNoCase('redesign',gitBranch) EQ 0>
-	<cfscript>
-		getPageContext().forward("/SpecimenSearch.cfm");
-	</cfscript>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		<!--- logged in users now able to see redesigned specimen search on production --->
+	<cfelse>
+		<cfscript>
+			getPageContext().forward("/SpecimenSearch.cfm");
+		</cfscript>
+	</cfif>
 </cfif>
 <!--- **** End temporary block ******************************************************************************** --->
 
