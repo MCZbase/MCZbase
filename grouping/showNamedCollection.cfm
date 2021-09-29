@@ -555,12 +555,14 @@ div.vslider-item[aria-hidden="true"]{
 														<div class="w-100 bg-light float-left px-3 h-auto">
 															<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 															<cfquery name="mediaSizeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaSizeType_result">
-																select label_value from media, media_labels where media_label = 'height' and label_value > 1100 and media.media_id = media_labels.media_id
+																select label_value 
+																from media, media_labels 
+																where media_label = 'height'
+																and media.media_id = media_labels.media_id
 															</cfquery>
-		
 															<cfset src=specimenImagesForCarousel['media_uri'][i]>
 															<cfif mediaSizeType.label_value gt 1100>
-																<cfset sizeType='&width=800&height=600'>
+																<cfset sizeType='&width=800&height=1200'>
 															<cfelse>
 																<cfset sizeType='&width=800&height=600'>
 															</cfif>
