@@ -355,7 +355,7 @@ limitations under the License.
 			<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"GLOBAL_ADMIN")>
 				<cfthrow message="Insufficient Access Rights">
 			</cfif>
-			<cfif len(CF_SPEC_RES_COLS) EQ 0>
+			<cfif len(CF_SPEC_RES_COLS_ID) EQ 0>
 				<!--- if provided primary key is blank, do an insert.  --->
 				<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
 					INSERT INTO cf_spec_res_cols_r (
