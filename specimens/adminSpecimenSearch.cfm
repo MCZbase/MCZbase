@@ -106,16 +106,16 @@ limitations under the License.
 												<input type="text" id="category" name="category" class="data-entry-input" value="#category#" aria-labelledby="category_label" >
 												<script>
 													jQuery(document).ready(function() {
-														makeSpecResColsAutocomplete('column_name','column_name');
+														makeSpecResColsAutocomplete('category','category');
 													});
 												</script>
 											</div>
 											<div class="col-md-3">
-												<label for="hidden" class="data-entry-label" id="hidden_label">Hidden</label>
-												<input type="text" id="hidden" name="hidden" class="data-entry-input" value="#hidden#" aria-labelledby="hidden_label" >
+												<label for="hiddenctl" class="data-entry-label" id="hidden_label">Hidden</label>
+												<input type="text" id="hiddenctl" name="hidden" class="data-entry-input" value="#hidden#" aria-labelledby="hidden_label" >
 												<script>
 													jQuery(document).ready(function() {
-														makeSpecResColsAutocomplete('hidden','hidden');
+														makeSpecResColsAutocomplete('hiddenctl','hidden');
 													});
 												</script>
 											</div>
