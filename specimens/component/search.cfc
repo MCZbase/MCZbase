@@ -1346,6 +1346,8 @@ Function getSpecResColsAutocomplete.  Search for distinct values of fields in cf
 					data_type as fld
 				<cfelseif field EQ "hidden">
 					hidden as fld
+				<cfelseif field EQ "access_role">
+					access_role as fld
 				</cfif>
 			FROM 
 				cf_spec_res_cols_r
@@ -1362,6 +1364,8 @@ Function getSpecResColsAutocomplete.  Search for distinct values of fields in cf
 					upper(data_type)
 				<cfelseif field EQ "hidden">
 					upper(hidden)
+				<cfelseif field EQ "access_role">
+					upper(access_role)
 				</cfif>
 				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			GROUP BY
@@ -1377,6 +1381,8 @@ Function getSpecResColsAutocomplete.  Search for distinct values of fields in cf
 					data_type
 				<cfelseif field EQ "hidden">
 					hidden
+				<cfelseif field EQ "access_role">
+					access_role
 				</cfif>
 			ORDER BY 
 				<cfif field EQ "category">
@@ -1391,6 +1397,8 @@ Function getSpecResColsAutocomplete.  Search for distinct values of fields in cf
 					data_type
 				<cfelseif field EQ "hidden">
 					hidden
+				<cfelseif field EQ "access_role">
+					access_role
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>

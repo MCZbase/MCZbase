@@ -249,6 +249,10 @@ limitations under the License.
 				<cfif isdefined("ui_function") AND len(ui_function) GT 0>
 					<cfif left(ui_function,1) is "=">
 						AND upper(ui_function) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ui_function,len(ui_function)-1))#">
+					<cfelseif ui_function IS "NULL">
+						AND ui_function IS NULL
+					<cfelseif ui_function IS "NOT NULL">
+						AND ui_function IS NOT NULL
 					<cfelseif left(ui_function,1) is "~">
 						AND utl_match.jaro_winkler(ui_function, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(ui_function,len(ui_function)-1)#">) >= 0.90
 					<cfelseif left(ui_function,1) is "!~">
