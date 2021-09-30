@@ -403,8 +403,8 @@ limitations under the License.
 							<div class="row">
 								<label for="collection" class="sr-only">Collection</label>
 								<div class="col-12">
-									<select class="data-entry-select px-0" required>
-											<option value="">select Collection</option>
+									<select class="data-entry-select" required>
+											<option value="">Select Collection</option>
 											<cfloop query="collection_full_name">
 												<option value="#collection_full_name.collection#">#collection_full_name.collection#</option>
 											</cfloop>
