@@ -352,8 +352,8 @@ limitations under the License.
 											<div class="mt-1 col-12 p-0 my-2" id="customFields">
 												<div class="form-row mb-2">
 													<div class="col-12 col-md-1">
-														<label for="nestbutton" class="data-entry-label">&nbsp;</label>
-														<button id="nestbutton" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">Nest</button>
+														<label for="nestbutton" class="data-entry-label">Nest</label>
+														<button id="nestbutton" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
 													</div>
 													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
