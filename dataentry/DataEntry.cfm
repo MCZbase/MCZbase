@@ -548,7 +548,7 @@ limitations under the License.
 									<div class="form-row mx-0 mb-2">
 										<h5 class="mb-0 font-weight-bold text-center mt-0 d-block w-100"><label for="collecting_event_id" class="">Use Collecting Event ID only</label></h5>
 										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
-										<span class="small w-100 float-left text-center">- OR - </span>
+										<span class="small w-100 float-left text-center mt-2">- OR - </span>
 										<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Collecting Event</h5>
 										<label for="verbatim_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Locality</label>
 										<input type="text" name="verbatim_locality mt-0" class="data-entry-input"/>
@@ -559,7 +559,7 @@ limitations under the License.
 										</div>
 										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
 										<input type="text" class="data-entry-input mt-0" id="verbatim_date">
-										<label for="inputPassword3" class="small font-weight-light float-left d-block">Time</label>
+										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Time</label>
 										<input type="text" class="data-entry-input mt-0" id="collecting_time">
 										<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block mt-1 mb-0">Day of Year</label>
 										<div class="w-100">
