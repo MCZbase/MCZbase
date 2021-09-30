@@ -563,8 +563,7 @@ div.vslider-item[aria-hidden="true"]{
 																	<img src="/media/rescaleImage.cfm?media_id=#specimenImagesForCarousel['media_id'][i]##sizeType#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																</a>
 																<p class="mt-2 bg-light small">#trimmedAltText#</p>
-															<cfelseif fileExists(#src#) and i gt 1>
-																<cfinclude template="/grouping/component/images.cfc" runOnce="true">
+												
 															<cfelse>
 																<ul class="bg-dark px-0 list-unstyled">
 																	<li>
