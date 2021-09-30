@@ -352,7 +352,7 @@ limitations under the License.
 											<div class="mt-1 col-12 p-0 my-2" id="customFields">
 												<div class="form-row mb-2">
 													<div class="col-12 col-md-1">
-														<label for="nestbutton" class="data-entry-label">&nbsp;</label>
+														<label for="nestbutton" class="data-entry-label">Nest</label>
 														<button id="nestbutton" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
 													</div>
 													<div class="col-12 col-md-4">
@@ -524,7 +524,7 @@ limitations under the License.
 														row = parseInt(row) + 1;
 														var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
 														newControls = newControls + '<div class="col-12 col-md-1">';
-														newControls = newControls + '<button type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\"Not implemented yet\");">&gt;</button>';
+														newControls = newControls + '<button type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
 														newControls = newControls + '</div>';
 														newControls = newControls + '<div class="col-12 col-md-1">';
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
