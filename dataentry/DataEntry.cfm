@@ -140,6 +140,9 @@ limitations under the License.
 <cfquery name="lat_long_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select orig_lat_Long_units from ctlat_long_units
 </cfquery>
+<cfquery name="obj_disp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select coll_obj_disposition from ctcoll_obj_disp
+</cfquery>
 	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
@@ -610,24 +613,24 @@ limitations under the License.
 									<label for="part_name" class="small font-weight-light float-left d-block mt-1 mb-0">Part Name</label>
 									<input type="text" class="data-entry-input" name="part_name">
 									<label for="preserv_method" class="small font-weight-light float-left d-block mt-1 mb-0">Preserve Method</label>
-									<select class="data-entry-select mt-1" required>
+									<select class="data-entry-select" required>
 										<option value="">Ethanol</option>
 										<option value="1">RNALater</option>
 										<option value="2">DNA/RNA Shield</option>
 										<option value="3">Alcohol</option>
 									</select>
 									<label for="condition" class="small font-weight-light float-left d-block mt-1 mb-0">Condition</label>
-									<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
+									<input type="text" class="data-entry-input" name="condition">
 									<label for="disposition" class="small font-weight-light float-left d-block mt-1 mb-0">Disposition</label>
-										<select class="data-entry-select mt-1">
-											<option value="">Biological Relationship Type</option>
+										<select class="data-entry-select">
+											<option value="">Bio. Relationship Type</option>
 											<cfloop query="biolRelations">
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
 										</select>							
 									<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">## of Parts</label>
-										<select class="data-entry-select mt-1">
-											<option value="">Biological Relationship Type</option>
+										<select class="data-entry-select">
+											<option value="">select Bio. Relationship Type</option>
 											<cfloop query="biolRelations">
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
