@@ -559,7 +559,7 @@ limitations under the License.
 										</div>
 										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
 										<input type="text" class="data-entry-input mt-0" id="verbatim_date">
-										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Time</label>
+										<label for="inputPassword3" class="small font-weight-light float-left d-block">Time</label>
 										<input type="text" class="data-entry-input mt-0" id="collecting_time">
 										<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block mt-1 mb-0">Day of Year</label>
 										<div class="w-100">
