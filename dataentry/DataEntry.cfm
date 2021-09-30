@@ -558,17 +558,18 @@ limitations under the License.
 										<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
 										<input type="text" class="data-entry-input pr-xl-0" id="collecting_time" placeholder="Collecting Time">
 										<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block">Day of Year</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="start_day_of_year" placeholder="Start Day of Year">
-										<input type="text" class="data-entry-input pr-xl-0" id="end_day_of_year" placeholder="End Day of Year">
-										<label for="collecting_source_method" class="small font-weight-light float-left d-block">Source &amp; Method</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="collecting_source" placeholder="Collecting Source">
-										<input type="text" class="data-entry-input pr-xl-0" id="collecting_method" placeholder="Collecting Method">
+										<input type="text" class="data-entry-input pr-xl-0 float-left w-50" id="start_day_of_year" placeholder="Start Day of Year">
+										<input type="text" class="data-entry-input pr-xl-0 float-left w-50" id="end_day_of_year" placeholder="End Day of Year">
+										<label for="collecting_source_method" class="small font-weight-light float-left d-block">Source</label>
+										<input type="text" class="data-entry-input pr-xl-0" id="collecting_source">
+										<label for="collecting_source_method" class="small font-weight-light float-left d-block">Method</label>
+										<input type="text" class="data-entry-input pr-xl-0" id="collecting_method">
 										<label for="Habitat" class="small font-weight-light float-left d-block">Habitat</label>
-										<input type="text" name="habitat_desc" class="data-entry-input" placeholder="Habitat" />
+										<input type="text" name="habitat_desc" class="data-entry-input"/>
 										<label for="microhabitat" class="small font-weight-light float-left d-block">Microhabitat</label>
-										<input type="text" name="habitat" class="data-entry-input" placeholder="Microhabitat" />
+										<input type="text" name="habitat" class="data-entry-input"/>
 										<label for="locality_remark" class="small font-weight-light float-left d-block">Collecting Remark</label>
-										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
+										<textarea type="text" name="locality_remark" class="data-entry-textarea"/>
 										</textarea>
 										<h5 class="mb-0 mt-2 font-weight-bold w-100 text-center">Verbatim Georeference</h5>
 										<select class="data-entry-select">
@@ -596,25 +597,25 @@ limitations under the License.
 							<div id="customPart">
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
 								<div class="form-row mx-0 my-2">
-									<label for="part_name" class="sr-only">Part Name</label>
-									<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
-									<label for="preserv_method" class="sr-only">Preserve Method</label>
+									<label for="part_name" class="small font-weight-light float-left d-block">Part Name</label>
+									<input type="text" class="data-entry-input" name="part_name">
+									<label for="preserv_method" class="small font-weight-light float-left d-block">Preserve Method</label>
 									<select class="data-entry-select" required>
 										<option value="">Ethanol</option>
 										<option value="1">RNALater</option>
 										<option value="2">DNA/RNA Shield</option>
 										<option value="3">Alcohol</option>
 									</select>
-									<label for="condition" class="sr-only">Condition</label>
+									<label for="condition" class="small font-weight-light float-left d-block">Condition</label>
 									<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
-									<label for="disposition" class="sr-only">Disposition</label>
+									<label for="disposition" class="small font-weight-light float-left d-block">Disposition</label>
 										<select class="data-entry-select">
 											<option value="">Biological Relationship Type</option>
 											<cfloop query="biolRelations">
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
 										</select>							
-									<label for="part_number" class="sr-only">## of Parts</label>
+									<label for="part_number" class="small font-weight-light float-left d-block">## of Parts</label>
 										<select class="data-entry-select">
 											<option value="">Biological Relationship Type</option>
 											<cfloop query="biolRelations">
@@ -622,9 +623,9 @@ limitations under the License.
 											</cfloop>
 										</select>
 									<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
-									<label for="container_unique_id" class="sr-only">Container</label>
+									<label for="container_unique_id" class="small font-weight-light float-left d-block">Container</label>
 									<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
-									<label for="part_remark" class="sr-only">Part Remark</label>
+									<label for="part_remark" class="small font-weight-light float-left d-block">Part Remark</label>
 									<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea>
 								</div>
 							</div>
@@ -638,9 +639,9 @@ limitations under the License.
 								<div id="customAtt">
 									<div class="form-row mx-0 my-2">
 										<label for="attribute_name" class="sr-only">Attribute Type</label>
-										<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
+										<input type="text" class="data-entry-input" name="attribute">
 										<label for="part_number" class="sr-only">Attribute Value</label>
-										<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
+										<input type="text" name="attribute value" class="data-entry-input">
 										<select class="data-entry-select">
 											<option value="">Biological Relationship Type</option>
 											<cfloop query="biolRelations">
@@ -648,13 +649,13 @@ limitations under the License.
 											</cfloop>
 										</select>
 										<label for="date" class="sr-only">Date</label>
-										<input type="text" class="data-entry-input" name="date" placeholder="Date">
+										<input type="text" class="data-entry-input" name="date">
 										<label for="determiner" class="sr-only">Determiner</label>
-										<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
+										<input type="text" class="data-entry-input" name="determiner">
 										<label for="method" class="sr-only">Method</label>
-										<input type="text" class="data-entry-input" name="method" placeholder="Method">
+										<input type="text" class="data-entry-input" name="method">
 										<label for="attribute_remark" class="sr-only">Attribute Remark</label>
-										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
+										<textarea type="text" name="attribute_remark" class="data-entry-textarea"/>
 										</textarea>
 									</div>
 								</div>
