@@ -495,6 +495,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			</cfif>
 			<cfset matched = false>
 			<cfset nest = 1>
+			<cfif isDefined("searchId") AND len(searchId) GT 0>
+				<!--- if a searchId{n} value was provided, use it instead of searchText{n} to support autocomplete field pairs --->
+				<cfset searchText = searchId>
+			</cfif>
 			<cfloop query="searchFields">
 				<cfset tableField = "#searchFields.table_name#:#searchFields.column_name#">
 				<cfif fieldProvided EQ tableField AND len(searchText) GT 0>
