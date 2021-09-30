@@ -427,7 +427,10 @@ limitations under the License.
 																	autoComplete: true,
 																	searchMode: 'containsignorecase',
 																	width: '100%',
-																	dropDownHeight: 400
+																	dropDownHeight: 400,
+																});
+																$('##field1').on("select", function(event) { 
+																	handleFieldSelection();
 																});
 															});
 														</script>
