@@ -116,6 +116,9 @@ limitations under the License.
 		mczbase.ctlat_long_error_units
 	order by lat_long_error_units asc
 </cfquery>
+ <cfquery name="collection_full_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select collection from ctcollections_full_names
+</cfquery>
 	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
@@ -302,7 +305,7 @@ limitations under the License.
 									<option value="">Units</option>
 									<cfloop query="error_units">
 										<option value="error_units.lat_long_error_units"></option>
-									</cfloop>								
+									</cfloop>
 								</select>
 							</div>
 						</div>
@@ -358,7 +361,7 @@ limitations under the License.
 	
 	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1111px;">
 	
-		<div class="row mx-0 bg-blue-gray" style="background-color:##deebec!important;">
+		<div class="row mx-0 bg-blue-gray full" style="background-color:##deebec!important;">
 			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
 			<div class="col-12 mt-0">
 				<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
@@ -371,10 +374,10 @@ limitations under the License.
 								<label for="collection" class="sr-only">Collection</label>
 								<div class="col-12">
 									<select class="data-entry-select px-0" required>
-										<option value="">Select Collection</option>
-										<option value="1">Herpetology</option>
-										<option value="2">Mammalogy</option>
-										<option value="3">Malacology</option>
+											<option value="">Collection</option>
+											<cfloop query="error_units">
+												<option value="#error_units.lat_long_error_units#">#collection_full_name.collection#</option>
+											</cfloop>
 									</select>
 									<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
 								</div>
