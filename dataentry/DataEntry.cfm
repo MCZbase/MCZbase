@@ -464,7 +464,8 @@ limitations under the License.
 												<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
 											</cfloop>
 										</select>
-									<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
+									<label for="record number" class="small font-weight-light float-left d-block mt-1 mb-0">Related Record Number</label>
+									<input type="text" class="data-entry-input" id="record_number">
 								</div>
 								</div>
 							</div>
