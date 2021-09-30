@@ -942,6 +942,8 @@ limitations under the License.
 									data = data + "&data_type=" + rowdata.DATA_TYPE;
 									data = data + "&data_length=" + rowdata.DATA_LENGTH;
 									data = data + "&label=" + rowdata.LABEL;
+									data = data + "&access_role=" + rowdata.ACCESS_ROLE;
+									data = data + "&ui_function=" + rowdata.UI_FUNCTION;
 									$.ajax({
 										dataType: 'json',
 										url: '/specimens/component/admin.cfc',
