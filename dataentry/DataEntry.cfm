@@ -146,6 +146,9 @@ limitations under the License.
 <cfquery name="num_mod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select modifier from ctnumeric_modifiers
 </cfquery>
+<cfquery name="spec_preserv_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select preserve_method from ctspecimen_preserv_method
+</cfquery>
 	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
@@ -620,8 +623,8 @@ limitations under the License.
 									<label for="preserv_method" class="small font-weight-light float-left d-block mt-1 mb-0">Preserve Method</label>
 										<select class="data-entry-select">
 											<option value="">Bio. Relationship Type</option>
-											<cfloop query="biolRelations">
-												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+											<cfloop query="spec_preserv_method">
+												<option value="#spec_preserv_method.preserve_method#">#spec_preserv_method.preserve_method#</option>
 											</cfloop>
 										</select>
 									<label for="condition" class="small font-weight-light float-left d-block mt-1 mb-0">Condition</label>
@@ -635,7 +638,7 @@ limitations under the License.
 										</select>							
 									<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">## Modifier</label>
 										<select class="data-entry-select">
-											<option value="">select m </option>
+											<option value="">Select Modifier </option>
 											<cfloop query="num_mod">
 												<option value="#num_mod.modifier#">#num_mod.modifier#</option>
 											</cfloop>
