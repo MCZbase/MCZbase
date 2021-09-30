@@ -466,7 +466,7 @@ limitations under the License.
 								<div class="form-row mx-0 my-2">
 									<label for="relations" class="sr-only">Relationship</label>
 										<select class="data-entry-select mt-1">
-											<option value="">Curatorial Relationship Type</option>
+											<option value="">Select Curatorial Relationship Type</option>
 											<cfloop query="currRelations">
 												<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
 											</cfloop>
@@ -514,7 +514,7 @@ limitations under the License.
 									<input type="text" name="made_by" class="data-entry-input"/>
 									<label for="nature_of_id" class="sr-only">Nature of ID</label>
 										<select class="data-entry-select mt-2">
-											<option value="">select Nature of ID</option>
+											<option value="">Select Nature of ID</option>
 											<cfloop query="nature_of_id">
 												<option value="#nature_of_id.nature_of_id#">#nature_of_id.nature_of_id#</option>
 											</cfloop>
@@ -537,7 +537,7 @@ limitations under the License.
 									<div class="form-row my-2 mx-0">
 										
 										<select class="data-entry-select mt-1">
-											<option value="">Biological Relationship Type</option>
+											<option value="">Select Bio. Relationship Type</option>
 											<cfloop query="biolRelations">
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
@@ -589,8 +589,9 @@ limitations under the License.
 										<textarea type="text" name="locality_remark" class="data-entry-textarea mt-0"/>
 										</textarea>
 										<h5 class="mb-0 mt-2 font-weight-bold w-100 text-center">Verbatim Georeference</h5>
+										<label for="Coord. System" class="sr-only">Coordinate System</label>
 										<select class="data-entry-select">
-											<option value="">Coordinate System</option>
+											<option value="">Choose Coordinate System</option>
 											<cfloop query="lat_long_units">
 												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
 											</cfloop>
