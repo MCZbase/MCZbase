@@ -551,11 +551,11 @@ limitations under the License.
 										<span class="small w-100 float-left text-center">- OR - </span>
 										<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Collecting Event</h5>
 										<label for="verbatim_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Locality</label>
-										<input type="text" name="verbatim_locality" class="data-entry-input"/>
+										<input type="text" name="verbatim_locality mt-0" class="data-entry-input"/>
 										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">ISO Dates</label>
 										<div class="w-100">
 										<input type="text" class="data-entry-input w-50 float-left mt-0" id="began_date" placeholder="Began Date">
-										<input type="text" class="data-entry-input w-50 float-left" id="ended_date" placeholder="Date Ended">
+										<input type="text" class="data-entry-input w-50 float-left mt-0" id="ended_date" placeholder="Date Ended">
 										</div>
 										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
 										<input type="text" class="data-entry-input mt-0" id="verbatim_date">
@@ -573,9 +573,9 @@ limitations under the License.
 										<label for="Habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
 										<input type="text" name="habitat_desc" class="data-entry-input mt-0"/>
 										<label for="microhabitat" class="small font-weight-light float-left d-block mt-1 mb-0">Microhabitat</label>
-										<input type="text" name="habitat" class="data-entry-input"/>
+										<input type="text" name="habitat" class="data-entry-input mt-0"/>
 										<label for="locality_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Collecting Remark</label>
-										<textarea type="text" name="locality_remark" class="data-entry-textarea"/>
+										<textarea type="text" name="locality_remark" class="data-entry-textarea mt-0"/>
 										</textarea>
 										<h5 class="mb-0 mt-2 font-weight-bold w-100 text-center">Verbatim Georeference</h5>
 										<select class="data-entry-select">
