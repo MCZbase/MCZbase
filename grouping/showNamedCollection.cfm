@@ -546,7 +546,7 @@ div.vslider-item[aria-hidden="true"]{
 													<cfset i=1>
 													<cfif i eq 1>
 													<script>
-														var src = '<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image"><img src="/media/rescaleImage.cfm?media_id=#specimenImagesForCarousel["media_id"][1]##sizeType#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%"></a>';
+														var src = "<a href='#media_uri#' target='_blank' class='d-block my-1 w-100' title='click to open full image'><img src='/media/rescaleImage.cfm?media_id=#specimenImagesForCarousel['media_id'][1]##sizeType#' class='mx-auto' alt='#trimmedAltText#' height='100%' width='100%'></a>";
 														var image = new Image();
 														image.addEventListener('load', function() {
 															div.carousel_background.style.backgroundImage = 'url(' + src + ')';
