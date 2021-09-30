@@ -389,7 +389,7 @@ limitations under the License.
 														<cfset columnMetadata = "[">
 														<cfset comma = "">
 														<cfloop query="fields">
-															<cfset columnMetadata = '#columMetadata##comma#{"column":"#fields.table_name#:#fields.column_name#","data_type":"#fields.data_type#","ui_function":"#fields.ui_function#"}'>
+															<cfset columnMetadata = '#columnMetadata##comma#{"column":"#fields.table_name#:#fields.column_name#","data_type":"#fields.data_type#","ui_function":"#fields.ui_function#"}'>
 															<cfset comma = ",">
 														</cfloop>
 														<cfset columnMetadata = "#columnMetadata#]">
