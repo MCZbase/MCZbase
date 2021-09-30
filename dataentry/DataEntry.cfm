@@ -542,10 +542,10 @@ limitations under the License.
 							<div class="form-row mx-0">
 								<div id="customSciName">
 									<div class="form-row mx-0 my-2">
-										<label for="collecting_event_id" class="small font-weight-bold float-left d-block">Use Collecting Event ID only</label>
+										<h5><label for="collecting_event_id" class="small font-weight-bold float-left d-block">Use Collecting Event ID only</label></h5>
 										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 										<span class="small w-100 float-left">- OR - </span>
-										<span class="font-weight-bold float-left d-block">New Collecting Event</span><br>
+										<h5 class="font-weight-bold float-left d-block">New Collecting Event</h5>
 										<label for="verbatim_locality" class="small font-weight-bold float-left d-block">Verbatim Locality</label>
 										<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
 										<label for="inputPassword3" class="small font-weight-bold float-left d-block">ISO Dates</label>
