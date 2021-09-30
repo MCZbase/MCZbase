@@ -458,7 +458,7 @@ limitations under the License.
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 								<div class="form-row mx-0 my-2">
 									<label for="relations" class="sr-only">Relationship</label>
-										<select class="data-entry-select">
+										<select class="data-entry-select mt-1">
 											<option value="">Curatorial Relationship Type</option>
 											<cfloop query="currRelations">
 												<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
