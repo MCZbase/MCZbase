@@ -554,24 +554,24 @@ limitations under the License.
 										<input type="text" name="verbatim_locality" class="data-entry-input"/>
 										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">ISO Dates</label>
 										<div class="w-100">
-										<input type="text" class="data-entry-input w-50 float-left mb-0 mt-1" id="began_date" placeholder="Began Date">
-										<input type="text" class="data-entry-input w-50 float-left mb-0 mt-1" id="ended_date" placeholder="Date Ended">
+										<input type="text" class="data-entry-input w-50 float-left mt-0" id="began_date" placeholder="Began Date">
+										<input type="text" class="data-entry-input w-50 float-left" id="ended_date" placeholder="Date Ended">
 										</div>
 										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
-										<input type="text" class="data-entry-input" id="verbatim_date">
+										<input type="text" class="data-entry-input mt-0" id="verbatim_date">
 										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Time</label>
-										<input type="text" class="data-entry-input" id="collecting_time">
+										<input type="text" class="data-entry-input mt-0" id="collecting_time">
 										<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block mt-1 mb-0">Day of Year</label>
 										<div class="w-100">
-										<input type="text" class="data-entry-input float-left w-50 mt-1 mb-0" id="start_day_of_year" placeholder="Start Day of Year">
-										<input type="text" class="data-entry-input float-left w-50 mt-1 mb-0" id="end_day_of_year" placeholder="End Day of Year">
+										<input type="text" class="data-entry-input float-left w-50 mt-0" id="start_day_of_year" placeholder="Start Day of Year">
+										<input type="text" class="data-entry-input float-left w-50 mt-0" id="end_day_of_year" placeholder="End Day of Year">
 										</div>
 										<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Source</label>
-										<input type="text" class="data-entry-input" id="collecting_source">
+										<input type="text" class="data-entry-input mt-0" id="collecting_source">
 										<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Method</label>
-										<input type="text" class="data-entry-input" id="collecting_method">
+										<input type="text" class="data-entry-input mt-0" id="collecting_method">
 										<label for="Habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
-										<input type="text" name="habitat_desc" class="data-entry-input"/>
+										<input type="text" name="habitat_desc" class="data-entry-input mt-0"/>
 										<label for="microhabitat" class="small font-weight-light float-left d-block mt-1 mb-0">Microhabitat</label>
 										<input type="text" name="habitat" class="data-entry-input"/>
 										<label for="locality_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Collecting Remark</label>
