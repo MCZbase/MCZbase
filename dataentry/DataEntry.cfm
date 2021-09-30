@@ -498,11 +498,11 @@ limitations under the License.
 								<div id="customSciName">
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Scientific Name</a>
 								<div class="form-row mx-0 my-2">
-									<label for="scientific_name" class="sr-only">Scientific Name</label>
+									<label for="scientific_name" class="small font-weight-light float-left d-block mt-1 mb-0">Scientific Name</label>
 									<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
-									<label for="made_by" class="sr-only">ID Made By</label>
+									<label for="made_by" class="small font-weight-light float-left d-block mt-1 mb-0">ID Made By</label>
 									<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
-									<label for="nature_of_id" class="sr-only">Nature of ID</label>
+									<label for="nature_of_id" class="small font-weight-light float-left d-block mt-1 mb-0">Nature of ID</label>
 										<select class="data-entry-select">
 											<option value="">Nature of ID</option>
 											<cfloop query="biolRelations">
@@ -510,7 +510,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
-									<label for="id_remark" class="sr-only">ID Remark</label>
+									<label for="id_remark" class="small font-weight-light float-left d-block mt-1 mb-0">ID Remark</label>
 									<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea" placeholder="ID Remark"/></textarea>
 								</div>
 							</div>
@@ -550,31 +550,31 @@ limitations under the License.
 										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 										<span class="small w-100 float-left text-center">- OR - </span>
 										<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Collecting Event</h5>
-										<label for="verbatim_locality" class="small font-weight-light float-left d-block">Verbatim Locality</label>
+										<label for="verbatim_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Locality</label>
 										<input type="text" name="verbatim_locality" class="data-entry-input"/>
-										<label for="inputPassword3" class="small font-weight-light float-left d-block">ISO Dates</label>
+										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">ISO Dates</label>
 										<div class="w-100">
-										<input type="text" class="data-entry-input w-50 float-left" id="began_date" placeholder="Began Date">
-										<input type="text" class="data-entry-input w-50 float-left" id="ended_date" placeholder="Date Ended">
+										<input type="text" class="data-entry-input w-50 float-left mb-0 mt-1" id="began_date" placeholder="Began Date">
+										<input type="text" class="data-entry-input w-50 float-left mb-0 mt-1" id="ended_date" placeholder="Date Ended">
 										</div>
-										<label for="inputPassword3" class="small font-weight-light float-left d-block">Verbatim Date</label>
+										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
 										<input type="text" class="data-entry-input" id="verbatim_date">
-										<label for="inputPassword3" class="small font-weight-light float-left d-block">Time</label>
+										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Time</label>
 										<input type="text" class="data-entry-input" id="collecting_time">
-										<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block">Day of Year</label>
+										<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block mt-1 mb-0">Day of Year</label>
 										<div class="w-100">
-										<input type="text" class="data-entry-input float-left w-50" id="start_day_of_year" placeholder="Start Day of Year">
-										<input type="text" class="data-entry-input float-left w-50" id="end_day_of_year" placeholder="End Day of Year">
+										<input type="text" class="data-entry-input float-left w-50 mt-1 mb-0" id="start_day_of_year" placeholder="Start Day of Year">
+										<input type="text" class="data-entry-input float-left w-50 mt-1 mb-0" id="end_day_of_year" placeholder="End Day of Year">
 										</div>
-										<label for="collecting_source_method" class="small font-weight-light float-left d-block">Source</label>
+										<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Source</label>
 										<input type="text" class="data-entry-input" id="collecting_source">
-										<label for="collecting_source_method" class="small font-weight-light float-left d-block">Method</label>
+										<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Method</label>
 										<input type="text" class="data-entry-input" id="collecting_method">
-										<label for="Habitat" class="small font-weight-light float-left d-block">Habitat</label>
+										<label for="Habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
 										<input type="text" name="habitat_desc" class="data-entry-input"/>
-										<label for="microhabitat" class="small font-weight-light float-left d-block">Microhabitat</label>
+										<label for="microhabitat" class="small font-weight-light float-left d-block mt-1 mb-0">Microhabitat</label>
 										<input type="text" name="habitat" class="data-entry-input"/>
-										<label for="locality_remark" class="small font-weight-light float-left d-block">Collecting Remark</label>
+										<label for="locality_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Collecting Remark</label>
 										<textarea type="text" name="locality_remark" class="data-entry-textarea"/>
 										</textarea>
 										<h5 class="mb-0 mt-2 font-weight-bold w-100 text-center">Verbatim Georeference</h5>
