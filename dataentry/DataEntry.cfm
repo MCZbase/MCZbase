@@ -620,7 +620,7 @@ limitations under the License.
 								<div class="form-row mx-0 my-2">
 									<label for="part_name" class="small font-weight-light float-left d-block mt-1 mb-0">Part Name</label>
 									<input type="text" class="data-entry-input" name="part_name">
-									<label for="preserv_method" class="sr-only">Preserve Method</label>
+									<label for="preserv_method" class="small font-weight-light float-left d-block mt-1 mb-0">Preserve Method</label>
 										<select class="data-entry-select">
 											<option value="">Select Preserve Method</option>
 											<cfloop query="spec_preserv_method">
@@ -631,9 +631,9 @@ limitations under the License.
 									<input type="text" class="data-entry-input" name="condition">
 									<label for="disposition" class="small font-weight-light float-left d-block mt-1 mb-0">Disposition</label>
 										<select class="data-entry-select">
-											<option value="">Bio. Relationship Type</option>
-											<cfloop query="biolRelations">
-												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+											<option value="">Select Disposition</option>
+											<cfloop query="obj_disp">
+												<option value="#obj_disp.coll_obj_disposition#">#obj_disp.coll_obj_disposition#</option>
 											</cfloop>
 										</select>							
 									<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">## Modifier</label>
