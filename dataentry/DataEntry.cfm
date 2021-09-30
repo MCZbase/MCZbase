@@ -531,7 +531,7 @@ limitations under the License.
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
 										</select>
-										<label for="relations" class="small font-weight-light float-left d-block">Relationship Value</label>
+										<label for="relations" class="small font-weight-light float-left d-block mt-1 mb-0">Relationship Value</label>
 										<input type="text" class="data-entry-input" id="relationship">
 									</div>
 								</div>
