@@ -466,7 +466,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	</cfif>
 
 	<cfquery name="searchFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchFields_result">
-		SELECT search_category, table_name, column_name, column_alias, data_type, label
+		SELECT search_category, table_name, column_name, column_alias, data_type
 		FROM cf_spec_search_cols
 		ORDER BY
 		search_category, table_name, label
@@ -1448,6 +1448,12 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					column_alias as fld
 				<cfelseif field EQ "data_type">
 					data_type as fld
+				<cfelseif field EQ "access_role">
+					access_role as fld
+				<cfelseif field EQ "label">
+					label as fld
+				<cfelseif field EQ "ui_function">
+					ui_function as fld
 				</cfif>
 			FROM 
 				cf_spec_search_cols
@@ -1466,6 +1472,12 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					upper(column_alias)
 				<cfelseif field EQ "data_type">
 					upper(data_type)
+				<cfelseif field EQ "access_role">
+					upper(access_role)
+				<cfelseif field EQ "label">
+					upper(label)
+				<cfelseif field EQ "ui_function">
+					upper(ui_function)
 				</cfif>
 				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			GROUP BY
@@ -1483,6 +1495,12 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					column_alias
 				<cfelseif field EQ "data_type">
 					data_type
+				<cfelseif field EQ "access_role">
+					access_role
+				<cfelseif field EQ "label">
+					label 
+				<cfelseif field EQ "ui_function">
+					ui_function 
 				</cfif>
 			ORDER BY 
 				<cfif field EQ "search_category">
@@ -1499,6 +1517,12 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					column_alias
 				<cfelseif field EQ "data_type">
 					data_type
+				<cfelseif field EQ "access_role">
+					access_role
+				<cfelseif field EQ "label">
+					label 
+				<cfelseif field EQ "ui_function">
+					ui_function 
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>

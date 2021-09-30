@@ -629,7 +629,8 @@ limitations under the License.
 									<form name="searchForm" id="searchForm">
 										<input type="hidden" name="method" value="getcf_spec_search_cols" class="keeponclear">
 										<div class="form-row mt-1 mb-2">
-											<div class="col-md-3">
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("table_name")><cfset table_name=""></cfif>
 												<label for="table_name" class="data-entry-label" id="table_name_label">Table Name</label>
 												<input type="text" id="table_name" name="table_name" class="data-entry-input" value="#table_name#" aria-labelledby="table_name_label" >
 												<script>
@@ -638,7 +639,8 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-md-3">
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("column_name")><cfset column_name=""></cfif>
 												<label for="column_name" class="data-entry-label" id="column_name_label">Column Name</label>
 												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#column_name#" aria-labelledby="column_name_label" >
 												<script>
@@ -647,7 +649,8 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-md-3">
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("search_category")><cfset search_category=""></cfif>
 												<label for="search_category" class="data-entry-label" id="search_category_label">Search Category</label>
 												<input type="text" id="search_category" name="search_category" class="data-entry-input" value="#search_category#" aria-labelledby="search_category_label" >
 												<script>
@@ -656,12 +659,23 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-md-3">
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("label")><cfset label=""></cfif>
 												<label for="label" class="data-entry-label" id="label_label">Label</label>
 												<input type="text" id="label" name="label" class="data-entry-input" value="#label#" aria-labelledby="label_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecSearchColsAutocomplete('label','label');
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("access_role")><cfset access_role=""></cfif>
+												<label for="access_role" class="data-entry-label" id="label_access_role">Access Role</label>
+												<input type="text" id="access_role" name="access_role" class="data-entry-input" value="#access_role#" aria-labelledby="label_access_role" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchColsAutocomplete('access_role','access_role');
 													});
 												</script>
 											</div>
@@ -745,13 +759,41 @@ limitations under the License.
 														<option value="CLOB">CLOB</option>
 													</select>
 												</div>
-												<div class="col-12 col-md-2 px-1 mt-1">
+												<div class="col-12 col-md-3 px-1 mt-1">
 													<label for="in_data_length" class="data-entry-label">Data Length</label>
 													<input type="number" class="data-entry-input reqdClr" name="data_length" id="in_data_length" required pattern="[0-9]+" >
 												</div>
-												<div class="col-12 col-md-4 px-1 mt-1">
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_access_role" class="data-entry-label">Access Role (to see in builder)</label>
+													<select class="data-entry-select reqdClr mb-1" name="access_role" id="in_access_role" required >
+														<option value="PUBLIC" selected>PUBLIC</option>
+														<option value="COLDFUSION_USER">COLDFUSION_USER</option>
+														<option value="DATA_ENTRY">DATA_ENTRY</option>
+														<option value="MANAGE_TRANSACTIONS">MANAGE_TRANSACTIONS</option>
+														<option value="MANAGE_SPECIMENS">MANAGE_SPECIMENS</option>
+														<option value="MANAGE_CONTAINER">MANAGE_CONTAINER</option>
+														<option value="MANAGE_TRANSACTIONS">MANAGE_TRANSACTIONS</option>
+														<option value="GLOBAL_ADMIN">GLOBAL_ADMIN</option>
+														<option value="MANAGE_AGENTS">MANAGE_AGENTS</option>
+														<option value="MANAGE_MEDIA">MANAGE_MEDIA</option>
+														<option value="MANAGE_COLLECTION">MANAGE_COLLECTION</option>
+														<option value="MANAGE_TAXONOMY">MANAGE_TAXONOMY</option>
+														<option value="MANAGE_CODETABLES">MANAGE_CODETABLES</option>
+														<option value="MANAGE_LOCALITY">MANAGE_LOCALITY</option>
+														<option value="MANAGE_PUBLICATIONS">MANAGE_PUBLICATIONS</option>
+														<option value="MANAGE_AGENT_RANKING">MANAGE_AGENT_RANKING</option>
+														<option value="HIDE">HIDE (column is not queried or shown)</option>
+													</select>
+												</div>
+											</div>
+											<div class="row mx-0">
+												<div class="col-12 col-md-6 px-1 mt-1">
 													<label for="in_label" class="data-entry-label">Label</label>
 													<input type="text" class="data-entry-input reqdClr" name="label" id="in_label" required >
+												</div>
+												<div class="col-12 col-md-6 px-1 mt-1">
+													<label for="in_ui_function" class="data-entry-label">UI Function (e.g. makeScientificNameAutocompleteMeta)</label>
+													<input type="text" class="data-entry-input" name="ui_function" id="in_ui_function">
 												</div>
 											</div>
 											<div class="row mx-0">
@@ -885,7 +927,9 @@ limitations under the License.
 									{ name: 'SEARCH_CATEGORY', type: 'string' },
 									{ name: 'DATA_TYPE', type: 'string' },
 									{ name: 'DATA_LENGTH', type: 'string' },
-									{ name: 'LABEL', type: 'string' }
+									{ name: 'LABEL', type: 'string' },
+									{ name: 'ACCESS_ROLE', type: 'string' },
+									{ name: 'UI_FUNCTION', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
 									var data = "method=updatecf_spec_search_cols";
@@ -973,6 +1017,14 @@ limitations under the License.
 										}
 									},
 									{text: 'Label', datafield: 'LABEL', width: 250, hideable: true, hidden: getColHidProp('LABEL', false) },
+									{text: 'Access Role', datafield: 'ACCESS_ROLE', width: 100, hideable: true, hidden: getColHidProp('ACCESS_ROLE', false),
+										columntype: 'dropdownlist', 
+										initeditor: function (row, cellvalue, editor) { 
+											var typeList = ["PUBLIC","COLDFUISON_USER","MANAGE_TRANSACTIONS","DATA_ENTRY","GLOBAL_ADMIN","MANAGE_AGENTS","MANAGE_MEDIA","MANAGE_COLLECTION","MANAGE_TAXONOMY","MANAGE_CODETABLES","MANAGE_LOCALITY","MANAGE_PUBLICATIONS","MANAGE_AGENT_RANKING","MANAGE_SPECIMENS","MANAGE_CONTAINER","HIDE"];
+											editor.jqxDropDownList( { source: typeList }); 
+										}
+									},
+									{text: 'UI Function', datafield: 'UI_FUNCTION', width: 100, hideable: true, hidden: getColHidProp('UI_FUNCTION', false) },
 									{text: 'ID', editable: false, datafield: 'ID', hideable: true, hidden: getColHidProp('ID', false), cellsrenderer: deleteCellRenderer }
 								],
 								rowdetails: true,
