@@ -394,7 +394,7 @@ limitations under the License.
 														</cfloop>
 														<cfset columnMetadata = "#columnMetadata#]">
 														<script>
-															var columnMetadata = JSON.parse(#columnMetadata#);
+															var columnMetadata = JSON.parse('#columnMetadata#');
 														</script>
 														<label for="field1" class="data-entry-label">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
