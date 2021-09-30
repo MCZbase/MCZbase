@@ -644,9 +644,9 @@ limitations under the License.
 											</cfloop>
 										</select>
 									<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">Number of Parts</label>
-									<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
-									<label for="container_unique_id" class="small font-weight-light float-left d-block mt-1 mb-0">Container</label>
-									<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
+									<input type="text" name="part_number" class="data-entry-input">
+									<label for="container_unique_id" class="small font-weight-light float-left d-block mt-1 mb-0">Container Unique ID</label>
+									<input type="text" class="data-entry-input" name="container_unique_id">
 									<label for="part_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Part Remark</label>
 									<textarea type="text" name="part_remark" class="data-entry-textarea"/></textarea>
 								</div>
