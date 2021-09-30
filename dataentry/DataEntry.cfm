@@ -515,7 +515,7 @@ limitations under the License.
 									<input type="text" name="scientific_name" class="data-entry-input"/>
 									<label for="made_by" class="small font-weight-light float-left d-block mt-1 mb-0">ID Made By</label>
 									<input type="text" name="made_by" class="data-entry-input"/>
-									<label for="nature_of_id" class="sr-only">Nature of ID</label>
+									<label for="nature_of_id" class="small font-weight-light float-left d-block mt-1 mb-0">Nature of ID</label>
 										<select class="data-entry-select mt-2">
 											<option value="">Select Nature of ID</option>
 											<cfloop query="nature_of_id">
