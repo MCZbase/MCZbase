@@ -421,9 +421,7 @@ div.vslider-item[aria-hidden="true"]{
 				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 				AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 		</cfquery>
-		<cfif collectingCt.recordcount GT 0>
-			<cfset otherImageTypes = otherImageTypes + 1>
-		</cfif>	
+
 		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 			SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
 			FROM locality
