@@ -131,6 +131,9 @@ limitations under the License.
 <cfquery name="depthUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select depth_units from ctdepth_units
 </cfquery>
+<cfquery name="nature_of_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select nature_of_id from ctnature_of_id
+</cfquery>
 	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
@@ -495,7 +498,7 @@ limitations under the License.
 									<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
 									<label for="nature_of_id" class="sr-only">Nature of ID</label>
 										<select class="data-entry-select">
-											<option value="">Biological Relationship Type</option>
+											<option value="">Nature of ID</option>
 											<cfloop query="biolRelations">
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
@@ -662,7 +665,7 @@ limitations under the License.
 										<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
 										<input type="text" class="data-entry-input" id="inputMaxElev" placeholder="Max Elevation">
 										<select class="data-entry-select">
-											<option value="">Biological Relationship Type</option>
+											<option value="">Elevation Units</option>
 											<cfloop query="biolRelations">
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
