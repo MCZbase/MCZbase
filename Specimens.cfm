@@ -347,7 +347,7 @@ limitations under the License.
 												console.log(columnMetadata);
 												for (var i=0; i<columnMetadata.length; i++) {
 													if(selection==columnMetadata[i].column) { 
-														console.log(columnMetadata[i].ui_function;
+														console.log(columnMetadata[i].ui_function);
 														if (columnMetadata[i].ui_function) {
 															var invokeBinding = Function(columnMetadata[i].ui_function+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
 															invokeBinding(); 
@@ -389,7 +389,7 @@ limitations under the License.
 														<cfset columnMetadata = "[">
 														<cfset comma = "">
 														<cfloop query="fields">
-															<cfset columnMetadata = '#comma#{"column":"#fields.table_name#:#fields.column_name#","data_type":"#fields.data_type#","ui_function":"#fields.ui_function#"}'>
+															<cfset columnMetadata = '#columMetadata##comma#{"column":"#fields.table_name#:#fields.column_name#","data_type":"#fields.data_type#","ui_function":"#fields.ui_function#"}'>
 															<cfset comma = ",">
 														</cfloop>
 														<cfset columnMetadata = "#columnMetadata#]">
