@@ -340,6 +340,22 @@ limitations under the License.
 							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="0" class="mx-0 #builderTabActive#"  #builderTabShow#>
 								<section role="search" class="container-fluid">
 									<form id="builderSearchForm">
+										<script>
+											// bind autocomplete to text input/hidden input, and other actions on field selection
+											function handleFieldSelection(fieldSelect,rowNumber) { 
+												var selection = $('##'+fieldSelect).val();
+												console.log(columnMetadata);
+												for (var i=0; i<columnMetadata.length; i++) {
+													if(selection==columnMetadata[i].column) { 
+														console.log(columnMetadata[i].ui_function;
+														if (columnMetadata[i].ui_function) {
+															var invokeBinding = Function(columnMetadata[i].ui_function+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
+															invokeBinding(); 
+														}
+													}
+												}
+											}
+										</script>
 										<cfif not isDefined("builderMaxRows") or len(builderMaxRows) eq 0>
 											<cfset builderMaxRows = 1>
 										</cfif>
@@ -370,7 +386,17 @@ limitations under the License.
 															ORDER BY
 																search_category, label, table_name
 														</cfquery>
-														<label for="field" class="data-entry-label">Search Field</label>
+														<cfset columnMetadata = "[">
+														<cfset comma = "">
+														<cfloop query="fields">
+															<cfset columnMetadata = '#comma#{"column":"#fields.table_name#:#fields.column_name#","data_type":"#fields.data_type#","ui_function":"#fields.ui_function#"}'>
+															<cfset comma = ",">
+														</cfloop>
+														<cfset columnMetadata = "#columnMetadata#]">
+														<script>
+															var columnMetadata = JSON.parse(#columnMetadata#);
+														</script>
+														<label for="field1" class="data-entry-label">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
 														<select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
 															<cfif len(field1) EQ 0>
