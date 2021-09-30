@@ -1310,7 +1310,7 @@ $(window).on('load resize', function () {
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: null, // setting height to null leaves it free to be calculated (line 1348)
+		height: '100%', // setting height to null leaves it free to be calculated (line 1348)
         after: function (index, length) {
           	$input.value = index
 			
