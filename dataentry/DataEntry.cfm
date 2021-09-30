@@ -673,7 +673,7 @@ limitations under the License.
 										<select class="data-entry-select">
 											<option value="">Depth Units</option>
 											<cfloop query="depthUnits">
-												<option value="#depthUnits.depthUnits#">#depthUnits.depthUnits#</option>
+												<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
 											</cfloop>
 										</select>
 										<label for="sovereign_nation" class="sr-only">Sovereign Nation</label>
@@ -713,8 +713,8 @@ limitations under the License.
 										<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
 										<select class="data-entry-select" required>
 											<option value="">Units</option>
-											<cfloop query="error_units">
-												<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
+											<cfloop query="depthUnits">
+												<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
 											</cfloop>
 										</select>
 										<label for="sovereign_nation" class="sr-only">Sovereign Nation</label>
