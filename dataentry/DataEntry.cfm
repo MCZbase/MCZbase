@@ -499,19 +499,20 @@ limitations under the License.
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Scientific Name</a>
 								<div class="form-row mx-0 my-2">
 									<label for="scientific_name" class="small font-weight-light float-left d-block mt-1 mb-0">Scientific Name</label>
-									<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
+									<input type="text" name="scientific_name" class="data-entry-input"/>
 									<label for="made_by" class="small font-weight-light float-left d-block mt-1 mb-0">ID Made By</label>
-									<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
+									<input type="text" name="made_by" class="data-entry-input"/>
 									<label for="nature_of_id" class="small font-weight-light float-left d-block mt-1 mb-0">Nature of ID</label>
 										<select class="data-entry-select">
 											<option value="">Nature of ID</option>
-											<cfloop query="biolRelations">
-												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+											<cfloop query="nature_of_id">
+												<option value="#nature_of_id.nature_of_id#">#nature_of_id.nature_of_id#</option>
 											</cfloop>
 										</select>
+									<label for="made_by_date" class="small font-weight-light float-left d-block mt-1 mb-0">Date of ID</label>
 									<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
 									<label for="id_remark" class="small font-weight-light float-left d-block mt-1 mb-0">ID Remark</label>
-									<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea" placeholder="ID Remark"/></textarea>
+									<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea"/></textarea>
 								</div>
 							</div>
 						</div>
@@ -525,7 +526,7 @@ limitations under the License.
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 									<div class="form-row my-2 mx-0">
 										
-										<select class="data-entry-select">
+										<select class="data-entry-select mt-1">
 											<option value="">Biological Relationship Type</option>
 											<cfloop query="biolRelations">
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
