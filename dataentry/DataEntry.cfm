@@ -119,6 +119,9 @@ limitations under the License.
  <cfquery name="collection_full_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection from ctcollections_full_names
 </cfquery>
+<cfquery name="otherIDType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select other_id_type from ctcoll_other_id_type
+</cfquery>
 	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
@@ -417,12 +420,10 @@ limitations under the License.
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 									<div class="form-row mx-0 my-2">
 										<label for="other_id" class="sr-only">Other ID</label>
-										<select class="data-entry-select" required>
 											<option value="">Other ID Type</option>
-											<option value="1">Field Number</option>
-											<option value="2">Collector Number</option>
-											<option value="3">Previous Number</option>
-										</select>
+											<cfloop query="otherIDType">
+												<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
+											</cfloop>
 										<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
 									</div>
 								</div>
