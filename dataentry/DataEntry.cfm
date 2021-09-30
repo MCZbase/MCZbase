@@ -447,7 +447,7 @@ limitations under the License.
 								<div class="form-row mx-0 my-2">
 									<label for="relations" class="sr-only">Relationship</label>
 										<select class="data-entry-select">
-											<option value="">Other ID Type</option>
+											<option value="">Curatorial Relationship Type</option>
 											<cfloop query="currRelations">
 												<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
 											</cfloop>
@@ -514,7 +514,7 @@ limitations under the License.
 									<div class="form-row my-2 mx-0">
 										<label for="relations" class="sr-only">Relationship</label>
 										<select class="data-entry-select">
-											<option value="">Other ID Type</option>
+											<option value="">Biological Relationship Type</option>
 											<cfloop query="biolRelations">
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
