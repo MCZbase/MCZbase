@@ -40,6 +40,7 @@ limitations under the License.
 	</cfdefaultcase>
 </cfswitch>
 <!---------------------------------------------------------------------------------->
+<cfset includeJQXMoreInputs="true">
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
