@@ -540,19 +540,19 @@ div.vslider-item[aria-hidden="true"]{
 								<section class="imagesLeft">
 									<cfif specimenImagesForCarousel.recordcount gt 0>
 										<div class="col-12 px-1">
-											<div class="carousel_background border rounded float-left w-100 p-2 mb-4">
+											<div class="carousel_background border rounded float-left w-100 p-2 mb-4" style="min-height: 600px">
 												<h3 class="mx-2 text-center">#specimenImgs.recordcount# Specimen Images <br><span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records) </span></h3>
 												<div class="vslider w-100 float-left bg-light" id="vslider-base">
-													<cfset i=1>
-													<cfif i eq 1>
-													<script>
-														var src = "/media/rescaleImage.cfm?media_id=#specimenImagesForCarousel['media_id'][1]#&height=600&width=800";
-														var image = new Image();
-														image.addEventListener('load', function() {
-															div.carousel_background.style.backgroundImage = 'url(' + src + ')';
-														});
-														image.src = src;
-													</script>
+													<cfset i=0>
+													<cfif i eq 0>
+														<script>
+															var src = "/media/rescaleImage.cfm?media_id=#specimenImagesForCarousel['media_id'][1]#&height=600&width=800";
+															var image = new Image();
+															image.addEventListener('load', function() {
+																div.carousel_background.style.backgroundImage = 'url(' + src + ')';
+															});
+															image.src = src;
+														</script>
 													</cfif>
 													<cfloop query="specimenImagesForCarousel">
 														<cfset alttext = specimenImagesForCarousel['alt'][i]>
@@ -563,6 +563,8 @@ div.vslider-item[aria-hidden="true"]{
 														<cfelse>
 															<cfset trimmedAltText = altTextTrunc>
 														</cfif>
+														<cfset i=1>
+														<cfif i eq 1
 														<cfset sizeType = '&height=600&width=800'>
 														<div class="w-100 bg-light float-left px-3 h-auto">
 															<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
