@@ -440,19 +440,19 @@ limitations under the License.
 										columntype: 'dropdownlist', 
 										initeditor: function (row, cellvalue, editor) { 
 											var tfList = ["true","false"]; 
-											editor.jqxDropDownList( source: tfList); 
+											editor.jqxDropDownList( { source: tfList } ); 
 										}
 									},
 									{text: 'Hidden', datafield: 'HIDDEN', width: 70, hideable: true, hidden: getColHidProp('HIDDEN', false),
 										columntype: 'dropdownlist', 
 										initeditor: function (row, cellvalue, editor) { 
 											var tfList = ["true","false"]; 
-											editor.jqxDropDownList( source: tfList); 
+											editor.jqxDropDownList( { source: tfList }); 
 										}
 									},
 									{text: 'CellsRenderer', datafield: 'CELLSRENDERER', width: 150, hideable: true, hidden: getColHidProp('CELLSRENDERER', false) },
 									{text: 'Width', datafield: 'WIDTH', width: 70, hideable: true, hidden: getColHidProp('WIDTH', false),
-										columntype: 'numberinput', initeditor: function (row, cellvalue, editor) { editor.jqxNumberInput({ decimalDigits: 0 }); }
+										columntype: 'numberinput', initeditor: function (row, cellvalue, editor) { editor.jqxNumberInput({ decimalDigits: 0 } ); }
 									},
 									{text: 'Data Type', datafield: 'DATA_TYPE', width: 100, hideable: true, hidden: getColHidProp('DATA_TYPE', false) }
 									{text: 'SQL', datafield: 'SQL_ELEMENT', width: 250, hideable: true, hidden: getColHidProp('SQL_ELEMENT', false) },
