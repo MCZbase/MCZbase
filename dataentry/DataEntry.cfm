@@ -480,12 +480,13 @@ limitations under the License.
 								<div id="customAgent1">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 m-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
 									<div class="form-row mx-0 my-2">
-										<label for="agent_id" class="sr-only">Agent</label>
+										<label for="collector_role" class="sr-only">Agent</label>
 										<select class="data-entry-select" required>
-											<option value="">Collector</option>
-											<option value="1">Preparator</option>
+											<option value="c">Collector</option>
+											<option value="p">Preparator</option>
 										</select>
-										<input type="text" class="data-entry-input"  name="agent_id" placeholder="Agent">
+										<label for="agent_name" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Name</label>
+										<input type="text" class="data-entry-input"  name="agent_name">
 									</div>
 								</div>
 							</div>
