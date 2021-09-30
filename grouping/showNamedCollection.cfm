@@ -556,7 +556,6 @@ div.vslider-item[aria-hidden="true"]{
 														<div class="w-100 bg-light float-left px-3 h-auto">
 															<cfset src=specimenImagesForCarousel['media_uri'][i]>
 															<cfset sizeType='&width=800&height=600'>
-															
 															<cfif fileExists(#src#) and i eq 1>
 																<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 																<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
@@ -754,18 +753,20 @@ div.vslider-item[aria-hidden="true"]{
 																	<cfelse>
 																		<cfset trimmedAltText = altTextTrunc>
 																	</cfif>
-																	<div class="w-100 float-left px-3 h-auto">
-																		<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
+																	<div class="w-100 bg-light float-left px-3 h-auto">
 																		<cfset src=agentImagesForCarousel['media_uri'][i]>
-																		<cfif fileExists(#src#)>
+																		<cfset sizeType='&width=800&height=600'>
+																		<cfif fileExists(#src#) and i eq 1>
+																			<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
 																			<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																				<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+																				<img src="/media/rescaleImage.cfm?media_id=#agentImagesForCarousel['media_id'][i]##sizeType#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																			</a>
-																			<p class="mt-2 small bg-light">#trimmedAltText#</p>
+																			<p class="mt-2 bg-light small">#trimmedAltText#</p>
+
 																		<cfelse>
 																			<ul class="bg-dark px-0 list-unstyled">
 																				<li>
-																					<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
+																					<h3 class="text-white mx-auto message">
 																						No image is stored
 																					</h3>
 																				</li>
@@ -820,14 +821,16 @@ div.vslider-item[aria-hidden="true"]{
 																	<cfelse>
 																		<cfset trimmedAltText = altTextTrunc>
 																	</cfif>
-																	<div class="w-100 float-left px-3 h-auto">
-																		<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
+																	<div class="w-100 bg-light float-left px-3 h-auto">
 																		<cfset src=collectingImagesForCarousel['media_uri'][i]>
-																		<cfif fileExists(#src#)>
+																		<cfset sizeType='&width=800&height=600'>
+																		<cfif fileExists(#src#) and i eq 1>
+																			<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
 																			<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																				<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
+																				<img src="/media/rescaleImage.cfm?media_id=#collectingImagesForCarousel['media_id'][i]##sizeType#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																			</a>
-																			<p class="mt-2 small bg-light">#trimmedAltText#</p>
+																			<p class="mt-2 bg-light small">#trimmedAltText#</p>
+
 																		<cfelse>
 																			<ul class="bg-dark px-0 list-unstyled">
 																				<li>
