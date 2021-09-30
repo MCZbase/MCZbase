@@ -507,7 +507,7 @@ limitations under the License.
 									<input type="text" name="made_by" class="data-entry-input"/>
 									<label for="nature_of_id" class="sr-only">Nature of ID</label>
 										<select class="data-entry-select mt-2">
-											<option value=""><i>select</i> Nature of ID</option>
+											<option value="">select Nature of ID</option>
 											<cfloop query="nature_of_id">
 												<option value="#nature_of_id.nature_of_id#">#nature_of_id.nature_of_id#</option>
 											</cfloop>
@@ -588,12 +588,12 @@ limitations under the License.
 												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
 											</cfloop>
 										</select>
-										<label for="Coord. System" class="small font-weight-light float-left mt-1 d-block">SRS or Datum</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="Datum">
-										<label for="lat_long" class="small font-weight-light float-left d-block">Latitude</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="latitude">
-										<label for="lat_long" class="small font-weight-light float-left d-block">Longitude</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="longitude">
+										<label for="Coord. System" class="small font-weight-light float-left d-block mt-1 mb-0">SRS or Datum</label>
+										<input type="text" class="data-entry-input" id="Datum">
+										<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Latitude</label>
+										<input type="text" class="data-entry-input" id="latitude">
+										<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Longitude</label>
+										<input type="text" class="data-entry-input" id="longitude">
 									</div>
 								</div>
 							</div>
@@ -607,35 +607,35 @@ limitations under the License.
 							<div id="customPart">
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
 								<div class="form-row mx-0 my-2">
-									<label for="part_name" class="small font-weight-light float-left d-block">Part Name</label>
+									<label for="part_name" class="small font-weight-light float-left d-block mt-1 mb-0">Part Name</label>
 									<input type="text" class="data-entry-input" name="part_name">
-									<label for="preserv_method" class="small font-weight-light float-left d-block">Preserve Method</label>
-									<select class="data-entry-select" required>
+									<label for="preserv_method" class="small font-weight-light float-left d-block mt-1 mb-0">Preserve Method</label>
+									<select class="data-entry-select mt-1" required>
 										<option value="">Ethanol</option>
 										<option value="1">RNALater</option>
 										<option value="2">DNA/RNA Shield</option>
 										<option value="3">Alcohol</option>
 									</select>
-									<label for="condition" class="small font-weight-light float-left d-block">Condition</label>
+									<label for="condition" class="small font-weight-light float-left d-block mt-1 mb-0">Condition</label>
 									<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
-									<label for="disposition" class="small font-weight-light float-left d-block">Disposition</label>
-										<select class="data-entry-select">
+									<label for="disposition" class="small font-weight-light float-left d-block mt-1 mb-0">Disposition</label>
+										<select class="data-entry-select mt-1">
 											<option value="">Biological Relationship Type</option>
 											<cfloop query="biolRelations">
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
 										</select>							
-									<label for="part_number" class="small font-weight-light float-left d-block">## of Parts</label>
-										<select class="data-entry-select">
+									<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">## of Parts</label>
+										<select class="data-entry-select mt-1">
 											<option value="">Biological Relationship Type</option>
 											<cfloop query="biolRelations">
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
 										</select>
 									<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
-									<label for="container_unique_id" class="small font-weight-light float-left d-block">Container</label>
+									<label for="container_unique_id" class="small font-weight-light float-left d-block mt-1 mb-0">Container</label>
 									<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
-									<label for="part_remark" class="small font-weight-light float-left d-block">Part Remark</label>
+									<label for="part_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Part Remark</label>
 									<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/></textarea>
 								</div>
 							</div>
