@@ -550,16 +550,16 @@ limitations under the License.
 										<span class="small w-100 float-left text-center">- OR - </span>
 										<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Collecting Event</h5>
 										<label for="verbatim_locality" class="small font-weight-light float-left d-block">Verbatim Locality</label>
-										<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
+										<input type="text" name="verbatim_locality" class="data-entry-input"/>
 										<label for="inputPassword3" class="small font-weight-light float-left d-block">ISO Dates</label>
 										<div class="w-100">
 										<input type="text" class="data-entry-input w-50 float-left" id="began_date" placeholder="Began Date">
 										<input type="text" class="data-entry-input w-50 float-left" id="ended_date" placeholder="Date Ended">
 										</div>
 										<label for="inputPassword3" class="small font-weight-light float-left d-block">Verbatim Date</label>
-										<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
+										<input type="text" class="data-entry-input" id="verbatim_date">
 										<label for="inputPassword3" class="small font-weight-light float-left d-block">Time</label>
-										<input type="text" class="data-entry-input" id="collecting_time" placeholder="Collecting Time">
+										<input type="text" class="data-entry-input" id="collecting_time">
 										<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block">Day of Year</label>
 										<div class="w-100">
 										<input type="text" class="data-entry-input float-left w-50" id="start_day_of_year" placeholder="Start Day of Year">
