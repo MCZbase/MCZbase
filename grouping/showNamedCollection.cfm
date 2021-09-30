@@ -253,9 +253,8 @@ div.vslider-item[aria-hidden="true"]{
 }
 
 @media screen and (max-width: 1199px) {
-	#map {
-		height: 400px;
-	}
+#map {
+	height: 400px;
 }
 @media screen and (max-width: 480px) {
 	#map {
@@ -268,6 +267,7 @@ div.vslider-item[aria-hidden="true"]{
 	}
 }
 </style>
+
 <cfset maxSpecimens = 11000>
 <cfset maxRandomSpecimenImages = 15>
 <cfset maxRandomOtherImages = 15>
@@ -351,6 +351,7 @@ div.vslider-item[aria-hidden="true"]{
 		<cfif specimenImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = 0>
 		</cfif>
+
 		<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
 				SELECT DISTINCT media.media_id, media.media_uri, 
@@ -401,6 +402,12 @@ div.vslider-item[aria-hidden="true"]{
 				ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
+		</cfquery>
+		<cfquery name="mediaSizeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaSizeType_result">
+			select label_value 
+			from media
+			left join media_labels on media.media_id = media_labels.media_id
+			where media_label = 'height'
 		</cfquery>
 		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 			SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
@@ -554,12 +561,7 @@ div.vslider-item[aria-hidden="true"]{
 														</cfif>
 														<div class="w-100 bg-light float-left px-3 h-auto">
 															<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-															<cfquery name="mediaSizeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaSizeType_result">
-																select label_value 
-																from media
-																left join media_labels on media.media_id = media_labels.media_id
-																where media_label = 'height'
-															</cfquery>
+												
 															<cfset src=specimenImagesForCarousel['media_uri'][i]>
 															<cfif mediaSizeType.label_value gt 1199>
 																<cfset sizeType='&width=800&height=1200'>
