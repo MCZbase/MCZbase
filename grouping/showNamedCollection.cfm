@@ -564,7 +564,7 @@ div.vslider-item[aria-hidden="true"]{
 															<cfset trimmedAltText = altTextTrunc>
 														</cfif>
 														<cfset i=1>
-														<cfif i eq 1
+														<cfif i eq 1>
 														<cfset sizeType = '&height=600&width=800'>
 														<div class="w-100 bg-light float-left px-3 h-auto">
 															<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
@@ -585,6 +585,7 @@ div.vslider-item[aria-hidden="true"]{
 																</ul>
 															</cfif>
 														</div>
+														</cfif>
 													<cfset i=i+1>
 													</cfloop>
 												</div>
