@@ -128,6 +128,9 @@ limitations under the License.
 <cfquery name="biolRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select biol_indiv_relationship from ctbiol_relations where rel_type = 'biological'
 </cfquery>
+<cfquery name="depthUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select depth_units from ctdepth_units
+</cfquery>
 	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
@@ -491,12 +494,12 @@ limitations under the License.
 									<label for="made_by" class="sr-only">ID Made By</label>
 									<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
 									<label for="nature_of_id" class="sr-only">Nature of ID</label>
-									<select class="data-entry-select" required>
-										<option value="">Expert ID</option>
-										<option value="1">Field ID</option>
-										<option value="2">Non-Expert ID</option>
-										<option value="3">Curatorial ID</option>
-									</select>
+										<select class="data-entry-select">
+											<option value="">Biological Relationship Type</option>
+											<cfloop query="biolRelations">
+												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+											</cfloop>
+										</select>
 									<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
 									<label for="id_remark" class="sr-only">ID Remark</label>
 									<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea" placeholder="ID Remark"/></textarea>
@@ -590,19 +593,19 @@ limitations under the License.
 									<label for="condition" class="sr-only">Condition</label>
 									<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
 									<label for="disposition" class="sr-only">Disposition</label>
-									<select class="data-entry-select" required>
-										<option value="">Being Processed</option>
-										<option value="1">Deaccessioned</option>
-										<option value="2">In Collection</option>
-										<option value="3">Missing</option>
-									</select>								
+										<select class="data-entry-select">
+											<option value="">Biological Relationship Type</option>
+											<cfloop query="biolRelations">
+												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+											</cfloop>
+										</select>							
 									<label for="part_number" class="sr-only">## of Parts</label>
-									<select class="data-entry-select" required="">
-										<option value="">Modifier</option>
-										<option value="1">ca.</option>
-										<option value="2">&gt;</option>
-										<option value="3">&lt;</option>
-									</select>
+										<select class="data-entry-select">
+											<option value="">Biological Relationship Type</option>
+											<cfloop query="biolRelations">
+												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+											</cfloop>
+										</select>
 									<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
 									<label for="container_unique_id" class="sr-only">Container</label>
 									<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
@@ -623,11 +626,11 @@ limitations under the License.
 										<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
 										<label for="part_number" class="sr-only">Attribute Value</label>
 										<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
-										<select class="data-entry-select" required="">
-											<option value="">Units</option>
-											<option value="1">Life Cycle Stage</option>
-											<option value="2">Citation</option>
-											<option value="3">Host</option>
+										<select class="data-entry-select">
+											<option value="">Biological Relationship Type</option>
+											<cfloop query="biolRelations">
+												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+											</cfloop>
 										</select>
 										<label for="date" class="sr-only">Date</label>
 										<input type="text" class="data-entry-input" name="date" placeholder="Date">
@@ -658,25 +661,20 @@ limitations under the License.
 										<label for="inputMinElev" class="sr-only">Elevation</label>
 										<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
 										<input type="text" class="data-entry-input" id="inputMaxElev" placeholder="Max Elevation">
-										<select class="data-entry-select" required>
-											<option value="">Units</option>
-											<option value="1">Feet</option>
-											<option value="2">Fathoms</option>
-											<option value="3">Yards</option>
-											<option value="4">Meters</option>
-											<option value="5">Miles</option>
-											<option value="6">Kilometers</option>
+										<select class="data-entry-select">
+											<option value="">Biological Relationship Type</option>
+											<cfloop query="biolRelations">
+												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+											</cfloop>
 										</select>
 										<label for="inputMinDepth" class="sr-only">Depth</label>
 										<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
 										<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
-										<select class="data-entry-select" required>
-											<option value="">Units</option>
-											<option value="1">Fathoms</option>
-											<option value="2">Yards</option>
-											<option value="3">Meters</option>
-											<option value="4">Miles</option>
-											<option value="5">Kilometers</option>
+										<select class="data-entry-select">
+											<option value="">Depth Units</option>
+											<cfloop query="depthUnits">
+												<option value="#depthUnits.depthUnits#">#depthUnits.depthUnits#</option>
+											</cfloop>
 										</select>
 										<label for="sovereign_nation" class="sr-only">Sovereign Nation</label>
 										<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
@@ -734,9 +732,7 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-	</div>
-
-
+		</div>
 	</div>
 
 	<!---Step by step form for each section of the Data Entry form -- Form wizard--->
