@@ -542,7 +542,7 @@ limitations under the License.
 							<div class="form-row mx-0">
 								<div id="customSciName">
 									<div class="form-row mx-0 my-2">
-										<h5 class="mb-0 font-weight-bold text-center d-block w-100"><label for="collecting_event_id" class="">Use Collecting Event ID only</label></h5>
+										<h5 class="mb-0 font-weight-bold text-center mt-0 d-block w-100"><label for="collecting_event_id" class="">Use Collecting Event ID only</label></h5>
 										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 										<span class="small w-100 float-left text-center">- OR - </span>
 										<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Collecting Event</h5>
