@@ -542,10 +542,10 @@ limitations under the License.
 							<div class="form-row mx-0">
 								<div id="customSciName">
 									<div class="form-row mx-0 my-2">
-										<label for="collecting_event_id" class="small font-weight-bold float-left d-block">Use ID only</label>
+										<label for="collecting_event_id" class="small font-weight-bold float-left d-block">Use Collecting Event ID only</label>
 										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 										<span class="small w-100 float-left">- OR - </span>
-										<span class="small font-weight-bold float-left d-block">New Collecting Event</span>
+										<span class="font-weight-bold float-left d-block">New Collecting Event</span><br>
 										<label for="verbatim_locality" class="small font-weight-bold float-left d-block">Verbatim Locality</label>
 										<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
 										<label for="inputPassword3" class="small font-weight-bold float-left d-block">ISO Dates</label>
@@ -567,11 +567,12 @@ limitations under the License.
 										<label for="locality_remark" class="small font-weight-bold float-left d-block">Collecting Remark</label>
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 										</textarea>
-										<span class="small font-weight-bold">Verbatim Georeference</span>
-										<label for="Coord. System" class="sr-only">Coordinate System</label>
+										<span class="font-weight-bold">Verbatim Georeference</span>
+										<label for="Coord. System" class="small font-weight-bold float-left d-block">Coordinate System</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="e.g., decimal degrees">
+										<label for="Coord. System" class="small font-weight-bold float-left d-block">SRS or Datum</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="Datum" placeholder="SRS or Datum">
-										<label for="lat_long" class="sr-only">Lat. and Long.</label>
+										<label for="lat_long" class="small font-weight-bold float-left d-block">Lat. and Long.</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="latitude" placeholder="Latitude">
 										<input type="text" class="data-entry-input pr-xl-0" id="longitude" placeholder="Longitude">
 									</div>
