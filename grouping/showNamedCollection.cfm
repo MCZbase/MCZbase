@@ -253,8 +253,9 @@ div.vslider-item[aria-hidden="true"]{
 }
 
 @media screen and (max-width: 1199px) {
-#map {
-	height: 400px;
+	#map {
+		height: 400px;
+	}
 }
 @media screen and (max-width: 480px) {
 	#map {
@@ -267,7 +268,6 @@ div.vslider-item[aria-hidden="true"]{
 	}
 }
 </style>
-
 <cfset maxSpecimens = 11000>
 <cfset maxRandomSpecimenImages = 15>
 <cfset maxRandomOtherImages = 15>
@@ -351,7 +351,6 @@ div.vslider-item[aria-hidden="true"]{
 		<cfif specimenImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = 0>
 		</cfif>
-
 		<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
 				SELECT DISTINCT media.media_id, media.media_uri, 
@@ -544,16 +543,6 @@ div.vslider-item[aria-hidden="true"]{
 												<h3 class="mx-2 text-center">#specimenImgs.recordcount# Specimen Images <br><span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records) </span></h3>
 												<div class="vslider w-100 float-left bg-light" id="vslider-base">
 													<cfset i=1>
-													<cfif i eq 1>
-													<script>
-														var src = "/media/rescaleImage.cfm?media_id=#specimenImagesForCarousel['media_id'][1]#&height=600&width=800";
-														var image = new Image();
-														image.addEventListener('load', function() {
-															div.carousel_background.style.backgroundImage = 'url(' + src + ')';
-														});
-														image.src = src;
-													</script>
-													</cfif>
 													<cfloop query="specimenImagesForCarousel">
 														<cfset alttext = specimenImagesForCarousel['alt'][i]>
 														<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
@@ -563,12 +552,21 @@ div.vslider-item[aria-hidden="true"]{
 														<cfelse>
 															<cfset trimmedAltText = altTextTrunc>
 														</cfif>
-														<cfset sizeType = '&height=600&width=800'>
 														<div class="w-100 bg-light float-left px-3 h-auto">
 															<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-												
-															<cfset src1=specimenImagesForCarousel['media_uri'][i]>
-															<cfif fileExists(#src1#)>
+															<cfquery name="mediaSizeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaSizeType_result">
+																select label_value 
+																from media
+																left join media_labels on media.media_id = media_labels.media_id
+																where media_label = 'height'
+															</cfquery>
+															<cfset src=specimenImagesForCarousel['media_uri'][i]>
+															<cfif mediaSizeType.label_value gt 1199>
+																<cfset sizeType='&width=800&height=1200'>
+															<cfelse>
+																<cfset sizeType='&width=800&height=600'>
+															</cfif>
+															<cfif fileExists(#src#)>
 																<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																	<img src="/media/rescaleImage.cfm?media_id=#specimenImagesForCarousel['media_id'][i]##sizeType#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																</a>
@@ -1312,7 +1310,7 @@ $(window).on('load resize', function () {
         swipenavigation: false,
         wheelnavigation: true,
         status: false,
-		height: null, // setting height to null leaves it free to be calculated (line 1348)
+		height: '100%', // setting height to null leaves it free to be calculated (line 1348)
         after: function (index, length) {
           	$input.value = index
 			
