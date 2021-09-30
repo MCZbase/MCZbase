@@ -545,24 +545,24 @@ limitations under the License.
 										<h5 class="mb-0 font-weight-bold text-center mt-0 d-block w-100"><label for="collecting_event_id" class="">Use Collecting Event ID only</label></h5>
 										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 										<span class="small w-100 float-left text-center">- OR - </span>
-										<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Collecting Event</h5>
+										<h5 class="font-weight-light text-center mb-0 d-block w-100">New Collecting Event</h5>
 										<label for="verbatim_locality" class="small font-weight-bold float-left d-block">Verbatim Locality</label>
 										<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
-										<label for="inputPassword3" class="small font-weight-bold float-left d-block">ISO Dates</label>
+										<label for="inputPassword3" class="small font-weight-light float-left d-block">ISO Dates</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="began_date" placeholder="Began Date">
 										<input type="text" class="data-entry-input pr-xl-0" id="ended_date" placeholder="Date Ended">
-										<label for="inputPassword3" class="small font-weight-bold float-left d-block">Verbatim Date and Time</label>
+										<label for="inputPassword3" class="small font-weight-light float-left d-block">Verbatim Date and Time</label>
 										<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
 										<input type="text" class="data-entry-input pr-xl-0" id="collecting_time" placeholder="Collecting Time">
 										<label for="start_end_dayOfyear" class="small font-weight-bold float-left d-block">Day of Year</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="start_day_of_year" placeholder="Start Day of Year">
 										<input type="text" class="data-entry-input pr-xl-0" id="end_day_of_year" placeholder="End Day of Year">
-										<label for="collecting_source_method" class="small font-weight-bold float-left d-block">Source &amp; Method</label>
+										<label for="collecting_source_method" class="small font-weight-light float-left d-block">Source &amp; Method</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="collecting_source" placeholder="Collecting Source">
 										<input type="text" class="data-entry-input pr-xl-0" id="collecting_method" placeholder="Collecting Method">
 										<label for="Habitat" class="small font-weight-bold float-left d-block">Habitat</label>
 										<input type="text" name="habitat_desc" class="data-entry-input" placeholder="Habitat" />
-										<label for="microhabitat" class="small font-weight-bold float-left d-block">Microhabitat</label>
+										<label for="microhabitat" class="small font-weight-light float-left d-block">Microhabitat</label>
 										<input type="text" name="habitat" class="data-entry-input" placeholder="Microhabitat" />
 										<label for="locality_remark" class="small font-weight-bold float-left d-block">Collecting Remark</label>
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
