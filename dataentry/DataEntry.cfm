@@ -125,6 +125,9 @@ limitations under the License.
 <cfquery name="currRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select biol_indiv_relationship from ctbiol_relations where rel_type = 'curatorial'
 </cfquery>
+<cfquery name="biolRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select biol_indiv_relationship from ctbiol_relations where rel_type = 'biological'
+</cfquery>
 	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
@@ -511,11 +514,10 @@ limitations under the License.
 									<div class="form-row my-2 mx-0">
 										<label for="relations" class="sr-only">Relationship</label>
 										<select class="data-entry-select">
-											<option value="">Relationship Type</option>
-											<option value="1">Same lot as</option>
-											<option value="2">Egg of</option>
-											<option value="3">Parent of</option>
-											<option value="4">In Nest</option>
+											<option value="">Other ID Type</option>
+											<cfloop query="biolRelations">
+												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+											</cfloop>
 										</select>
 										<input type="text" class="data-entry-input" id="relationship" placeholder="Record Number">
 									</div>
