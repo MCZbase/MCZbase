@@ -137,6 +137,9 @@ limitations under the License.
 <cfquery name="nature_of_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select nature_of_id from ctnature_of_id
 </cfquery>
+<cfquery name="lat_long_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select orig_lat-Long_units from ctlat_long_units
+</cfquery>
 	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
@@ -568,13 +571,18 @@ limitations under the License.
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 										</textarea>
 										<h5 class="mb-0 mt-2 font-weight-bold w-100 text-center">Verbatim Georeference</h5>
-										<label for="Coord. System" class="small font-weight-light float-left d-block">Coordinate System</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="e.g., decimal degrees">
+										<select class="data-entry-select">
+											<option value="">Coordinate System</option>
+											<cfloop query="lat_long_units">
+												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
+											</cfloop>
+										</select>
 										<label for="Coord. System" class="small font-weight-light float-left d-block">SRS or Datum</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="Datum" placeholder="SRS or Datum">
-										<label for="lat_long" class="small font-weight-light float-left d-block">Lat. and Long.</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="latitude" placeholder="Latitude">
-										<input type="text" class="data-entry-input pr-xl-0" id="longitude" placeholder="Longitude">
+										<input type="text" class="data-entry-input pr-xl-0" id="Datum">
+										<label for="lat_long" class="small font-weight-light float-left d-block">Latitude</label>
+										<input type="text" class="data-entry-input pr-xl-0" id="latitude">
+										<label for="lat_long" class="small font-weight-light float-left d-block">Longitude</label>
+										<input type="text" class="data-entry-input pr-xl-0" id="longitude">
 									</div>
 								</div>
 							</div>
