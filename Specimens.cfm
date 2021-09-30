@@ -351,14 +351,21 @@ limitations under the License.
 										<div class="form-row mx-0">
 											<div class="mt-1 col-12 p-0 my-2" id="customFields">
 												<div class="form-row mb-2">
+													<div class="col-12 col-md-1">
+														<button type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+													</div>
 													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
-															SELECT search_category, table_name, column_name, column_alias, data_type, label
+															SELECT search_category, table_name, column_name, column_alias, data_type, 
+																label, access_role, ui_function
 															FROM cf_spec_search_cols
-															<cfif oneOfUs EQ 0>
-																WHERE 
-																	search_category <> 'Accessions'
-															</cfif>
+															WHERE	
+																<cfif oneOfUs EQ 0>
+																	access_role = 'PUBLIC'
+																<cfelse>
+																	access_role IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="PUBLIC,#session.roles#" list="yes">)
+																</cfif>
+																AND access_role <> 'HIDE'
 															ORDER BY
 																search_category, label, table_name
 														</cfquery>
@@ -428,6 +435,9 @@ limitations under the License.
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
 															<div class="form-row mb-2" id="builderRow#row#">
+																<div class="col-12 col-md-1">
+																	<button type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+																</div>
 																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
@@ -512,6 +522,9 @@ limitations under the License.
 														var row = $("##builderMaxRows").val();
 														row = parseInt(row) + 1;
 														var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
+														newControls = newControls + '<div class="col-12 col-md-1">';
+														newControls = newControls + '<button type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\"Not implemented yet\");">&gt;</button>';
+														newControls = newControls + '</div>';
 														newControls = newControls + '<div class="col-12 col-md-1">';
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 														newControls= newControls + '</div>';
@@ -1125,6 +1138,9 @@ limitations under the License.
 		};
 	
 		// cell renderer to link out to specimen details page by specimen id
+		// NOTE: Since there are three grids, and the cellsrenderer api does not pass a reference to the grid, a separate
+		// cell renderer must be added for each grid,  cf_spec_res_cols_r.cellsrenderer values starting with _ are interpreted
+		// as fixed_, keyword_, builder_ cell renderers depending on the grid in which the cellsrenderer value is being applied. 
 		var fixed_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
