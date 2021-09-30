@@ -437,10 +437,18 @@ limitations under the License.
 									{text: 'Order', datafield: 'DISP_ORDER', width: 70, hideable: true, hidden: getColHidProp('DISP_ORDER', false) },
 									{text: 'Access Role', datafield: 'ACCESS_ROLE', width: 100, hideable: true, hidden: getColHidProp('ACCESS_ROLE', false) },
 									{text: 'Hideable', datafield: 'HIDEABLE', width: 80, hideable: true, hidden: getColHidProp('HIDEABLE', false),
-										columntype: 'dropdownlist', initeditor: function (row, cellvalue, editor) { editor.jqxDropDownList( source: ["true","false"]); }
+										columntype: 'dropdownlist', 
+										initeditor: function (row, cellvalue, editor) { 
+											var tfList = ["true","false"]; 
+											editor.jqxDropDownList( source: tfList); 
+										}
 									},
 									{text: 'Hidden', datafield: 'HIDDEN', width: 70, hideable: true, hidden: getColHidProp('HIDDEN', false),
-										columntype: 'dropdownlist', initeditor: function (row, cellvalue, editor) { editor.jqxDropDownList( source: ["true","false"]); }
+										columntype: 'dropdownlist', 
+										initeditor: function (row, cellvalue, editor) { 
+											var tfList = ["true","false"]; 
+											editor.jqxDropDownList( source: tfList); 
+										}
 									},
 									{text: 'CellsRenderer', datafield: 'CELLSRENDERER', width: 150, hideable: true, hidden: getColHidProp('CELLSRENDERER', false) },
 									{text: 'Width', datafield: 'WIDTH', width: 70, hideable: true, hidden: getColHidProp('WIDTH', false),
