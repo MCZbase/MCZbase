@@ -559,8 +559,8 @@ limitations under the License.
 										<input type="text" class="data-entry-input" id="collecting_time" placeholder="Collecting Time">
 										<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block">Day of Year</label>
 										<div class="w-100">
-										<input type="text" class="data-entry-input float-left" id="start_day_of_year" placeholder="Start Day of Year">
-										<input type="text" class="data-entry-input float-left" id="end_day_of_year" placeholder="End Day of Year">
+										<input type="text" class="data-entry-input float-left w-50" id="start_day_of_year" placeholder="Start Day of Year">
+										<input type="text" class="data-entry-input float-left w-50" id="end_day_of_year" placeholder="End Day of Year">
 										</div>
 										<label for="collecting_source_method" class="small font-weight-light float-left d-block">Source</label>
 										<input type="text" class="data-entry-input" id="collecting_source">
