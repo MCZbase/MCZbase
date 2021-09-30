@@ -636,13 +636,14 @@ limitations under the License.
 												<option value="#obj_disp.coll_obj_disposition#">#obj_disp.coll_obj_disposition#</option>
 											</cfloop>
 										</select>							
-									<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">## Modifier</label>
-										<select class="data-entry-select">
+									<label for="num_modifier" class="small font-weight-light float-left d-block mt-1 mb-0">## Modifier</label>
+										<select class="data-entry-select" name="num_modifier">
 											<option value="">Select Modifier </option>
 											<cfloop query="num_mod">
 												<option value="#num_mod.modifier#">#num_mod.modifier#</option>
 											</cfloop>
 										</select>
+									<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">Number of Parts</label>
 									<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
 									<label for="container_unique_id" class="small font-weight-light float-left d-block mt-1 mb-0">Container</label>
 									<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
