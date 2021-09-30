@@ -524,14 +524,15 @@ limitations under the License.
 								<div id="customBiolRelations">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 									<div class="form-row my-2 mx-0">
-										<label for="relations" class="sr-only">Relationship</label>
+										
 										<select class="data-entry-select">
 											<option value="">Biological Relationship Type</option>
 											<cfloop query="biolRelations">
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
 										</select>
-										<input type="text" class="data-entry-input" id="relationship" placeholder="Record Number">
+										<label for="relations" class="small font-weight-light float-left d-block">Relationship Value</label>
+										<input type="text" class="data-entry-input" id="relationship">
 									</div>
 								</div>
 							</div>
