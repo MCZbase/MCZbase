@@ -375,8 +375,8 @@ limitations under the License.
 								<div class="col-12">
 									<select class="data-entry-select px-0" required>
 											<option value="">Collection</option>
-											<cfloop query="error_units">
-												<option value="#error_units.lat_long_error_units#">#collection_full_name.collection#</option>
+											<cfloop query="collection_full_name">
+												<option value="#collection_full_name.collection#">#collection_full_name.collection#</option>
 											</cfloop>
 									</select>
 									<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
