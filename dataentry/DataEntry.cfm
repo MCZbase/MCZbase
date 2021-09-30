@@ -580,7 +580,7 @@ limitations under the License.
 												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
 											</cfloop>
 										</select>
-										<label for="Coord. System" class="small font-weight-light float-left d-block">SRS or Datum</label>
+										<label for="Coord. System" class="small font-weight-light float-left mt-1 d-block">SRS or Datum</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="Datum">
 										<label for="lat_long" class="small font-weight-light float-left d-block">Latitude</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="latitude">
