@@ -552,18 +552,20 @@ limitations under the License.
 										<label for="verbatim_locality" class="small font-weight-light float-left d-block">Verbatim Locality</label>
 										<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
 										<label for="inputPassword3" class="small font-weight-light float-left d-block">ISO Dates</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="began_date" placeholder="Began Date">
-										<input type="text" class="data-entry-input pr-xl-0" id="ended_date" placeholder="Date Ended">
+										<input type="text" class="data-entry-input" id="began_date" placeholder="Began Date">
+										<input type="text" class="data-entry-input" id="ended_date" placeholder="Date Ended">
 										<label for="inputPassword3" class="small font-weight-light float-left d-block">Verbatim Date and Time</label>
 										<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
-										<input type="text" class="data-entry-input pr-xl-0" id="collecting_time" placeholder="Collecting Time">
+										<input type="text" class="data-entry-input" id="collecting_time" placeholder="Collecting Time">
 										<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block">Day of Year</label>
-										<input type="text" class="data-entry-input pr-xl-0 float-left w-50" id="start_day_of_year" placeholder="Start Day of Year">
-										<input type="text" class="data-entry-input pr-xl-0 float-left w-50" id="end_day_of_year" placeholder="End Day of Year">
+										<div class="w-100">
+										<input type="text" class="data-entry-input float-left" id="start_day_of_year" placeholder="Start Day of Year">
+										<input type="text" class="data-entry-input float-left" id="end_day_of_year" placeholder="End Day of Year">
+										</div>
 										<label for="collecting_source_method" class="small font-weight-light float-left d-block">Source</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="collecting_source">
+										<input type="text" class="data-entry-input" id="collecting_source">
 										<label for="collecting_source_method" class="small font-weight-light float-left d-block">Method</label>
-										<input type="text" class="data-entry-input pr-xl-0" id="collecting_method">
+										<input type="text" class="data-entry-input" id="collecting_method">
 										<label for="Habitat" class="small font-weight-light float-left d-block">Habitat</label>
 										<input type="text" name="habitat_desc" class="data-entry-input"/>
 										<label for="microhabitat" class="small font-weight-light float-left d-block">Microhabitat</label>
