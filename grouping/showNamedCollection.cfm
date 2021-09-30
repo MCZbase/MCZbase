@@ -403,12 +403,6 @@ div.vslider-item[aria-hidden="true"]{
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
 		</cfquery>
-		<cfquery name="mediaSizeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaSizeType_result">
-			select label_value 
-			from media
-			left join media_labels on media.media_id = media_labels.media_id
-			where media_label = 'height'
-		</cfquery>
 		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 			SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
 			FROM locality
@@ -550,6 +544,16 @@ div.vslider-item[aria-hidden="true"]{
 												<h3 class="mx-2 text-center">#specimenImgs.recordcount# Specimen Images <br><span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records) </span></h3>
 												<div class="vslider w-100 float-left bg-light" id="vslider-base">
 													<cfset i=1>
+													<cfif i = 1>
+													<script>
+														var src = '<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image"><img src="/media/rescaleImage.cfm?media_id=#specimenImagesForCarousel['media_id'][i]##sizeType#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%"></a>';
+														var image = new Image();
+														image.addEventListener('load', function() {
+															body.style.backgroundImage = 'url(' + src + ')';
+														});
+														image.src = src;
+													</script>
+													</cfif>
 													<cfloop query="specimenImagesForCarousel">
 														<cfset alttext = specimenImagesForCarousel['alt'][i]>
 														<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
@@ -559,16 +563,12 @@ div.vslider-item[aria-hidden="true"]{
 														<cfelse>
 															<cfset trimmedAltText = altTextTrunc>
 														</cfif>
+														<cfset sizeType = '&height=600&width=800'>
 														<div class="w-100 bg-light float-left px-3 h-auto">
 															<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 												
-															<cfset src=specimenImagesForCarousel['media_uri'][i]>
-															<cfif mediaSizeType.label_value gt 1199>
-																<cfset sizeType='&width=800&height=1200'>
-															<cfelse>
-																<cfset sizeType='&width=800&height=600'>
-															</cfif>
-															<cfif fileExists(#src#)>
+															<cfset src1=specimenImagesForCarousel['media_uri'][i]>
+															<cfif fileExists(#src1#)>
 																<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																	<img src="/media/rescaleImage.cfm?media_id=#specimenImagesForCarousel['media_id'][i]##sizeType#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
 																</a>
