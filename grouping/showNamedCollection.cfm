@@ -544,7 +544,7 @@ div.vslider-item[aria-hidden="true"]{
 												<h3 class="mx-2 text-center">#specimenImgs.recordcount# Specimen Images <br><span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records) </span></h3>
 												<div class="vslider w-100 float-left bg-light" id="vslider-base">
 													<cfset i=1>
-													<cfif i == 1>
+													<cfif i eq 1>
 													<script>
 														var src = '<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image"><img src="/media/rescaleImage.cfm?media_id=#specimenImagesForCarousel['media_id'][1]##sizeType#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%"></a>';
 														var image = new Image();
