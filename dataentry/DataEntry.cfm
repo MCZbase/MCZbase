@@ -506,8 +506,8 @@ limitations under the License.
 									<label for="made_by" class="small font-weight-light float-left d-block mt-1 mb-0">ID Made By</label>
 									<input type="text" name="made_by" class="data-entry-input"/>
 									<label for="nature_of_id" class="sr-only">Nature of ID</label>
-										<select class="data-entry-select mt-3">
-											<option value="">select Nature of ID</option>
+										<select class="data-entry-select mt-2">
+											<option value=""><i>select</i> Nature of ID</option>
 											<cfloop query="nature_of_id">
 												<option value="#nature_of_id.nature_of_id#">#nature_of_id.nature_of_id#</option>
 											</cfloop>
