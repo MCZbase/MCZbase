@@ -567,7 +567,7 @@ limitations under the License.
 										<label for="locality_remark" class="small font-weight-bold float-left d-block">Collecting Remark</label>
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 										</textarea>
-										<h5 class="mb-0 font-weight-bold w-100 text-center">Verbatim Georeference</h5>
+										<h5 class="mb-0 mt-2 font-weight-bold w-100 text-center">Verbatim Georeference</h5>
 										<label for="Coord. System" class="small font-weight-bold float-left d-block">Coordinate System</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="e.g., decimal degrees">
 										<label for="Coord. System" class="small font-weight-bold float-left d-block">SRS or Datum</label>
