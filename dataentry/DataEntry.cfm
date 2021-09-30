@@ -138,7 +138,7 @@ limitations under the License.
 	select nature_of_id from ctnature_of_id
 </cfquery>
 <cfquery name="lat_long_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select orig_lat-Long_units from ctlat_long_units
+	select orig_lat_Long_units from ctlat_long_units
 </cfquery>
 	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
