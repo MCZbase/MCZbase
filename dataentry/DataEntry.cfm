@@ -416,8 +416,8 @@ limitations under the License.
 					<div class="portlet">
 						<div class="portlet-header">ACCESSION NUMBER</div>
 						<div class="portlet-content">
-							<label for="accn" class="sr-only">Accession Number</label>
-							<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession Number" name="accn">
+							<label for="accn" class="small font-weight-light float-left d-block mt-1 mb-0">Accession Number</label>
+							<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" name="accn">
 							<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
 						</div>
 					</div>
