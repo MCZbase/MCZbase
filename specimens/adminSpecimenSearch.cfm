@@ -40,6 +40,7 @@ limitations under the License.
 	</cfdefaultcase>
 </cfswitch>
 <!---------------------------------------------------------------------------------->
+<cfset includeJQXMoreInputs="true">
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
@@ -434,7 +435,12 @@ limitations under the License.
 									{text: 'Column Name', datafield: 'COLUMN_NAME', width: 140, hideable: true, hidden: getColHidProp('COLUMN_NAME', false) },
 									{text: 'Label', datafield: 'LABEL', width: 180, hideable: true, hidden: getColHidProp('LABEL', false) },
 									{text: 'Category', datafield: 'CATEGORY', width: 120, hideable: true, hidden: getColHidProp('CATEGORY', false) },
-									{text: 'Order', datafield: 'DISP_ORDER', width: 70, hideable: true, hidden: getColHidProp('DISP_ORDER', false) },
+									{text: 'Order', datafield: 'DISP_ORDER', width: 70, hideable: true, hidden: getColHidProp('DISP_ORDER', false), 
+										columntype: 'numberinput', 
+										initeditor: function (row, cellvalue, editor) { 
+											editor.jqxNumberInput({ decimalDigits: 0 } ); 
+										}
+									},
 									{text: 'Access Role', datafield: 'ACCESS_ROLE', width: 100, hideable: true, hidden: getColHidProp('ACCESS_ROLE', false) },
 									{text: 'Hideable', datafield: 'HIDEABLE', width: 80, hideable: true, hidden: getColHidProp('HIDEABLE', false),
 										columntype: 'dropdownlist', 
@@ -955,8 +961,19 @@ limitations under the License.
 									{text: 'Column Name', datafield: 'COLUMN_NAME', width: 150, hideable: true, hidden: getColHidProp('COLUMN_NAME', false) },
 									{text: 'Column Alias', datafield: 'COLUMN_ALIAS', width: 150, hideable: true, hidden: getColHidProp('COLUMN_ALIAS', false) },
 									{text: 'Category', datafield: 'SEARCH_CATEGORY', width: 120, hideable: true, hidden: getColHidProp('SEARCH_CATEGORY', false) },
-									{text: 'Data Type', datafield: 'DATA_TYPE', width: 80, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
-									{text: 'Data Length', datafield: 'DATA_LENGTH', width: 80, hideable: true, hidden: getColHidProp('DATA_LENGTH', false) },
+									{text: 'Data Type', datafield: 'DATA_TYPE', width: 80, hideable: true, hidden: getColHidProp('DATA_TYPE', false),
+										columntype: 'dropdownlist', 
+										initeditor: function (row, cellvalue, editor) { 
+											var typeList = ["VARCHAR2","NUMBER","DATE","CHAR","CLOB"];
+											editor.jqxDropDownList( { source: typeList }); 
+										}
+									},
+									{text: 'Data Length', datafield: 'DATA_LENGTH', width: 80, hideable: true, hidden: getColHidProp('DATA_LENGTH', false),
+										columntype: 'numberinput', 
+										initeditor: function (row, cellvalue, editor) { 
+											editor.jqxNumberInput({ decimalDigits: 0 } ); 
+										}
+									},
 									{text: 'Label', datafield: 'LABEL', width: 250, hideable: true, hidden: getColHidProp('LABEL', false) },
 									{text: 'ID', editable: false, datafield: 'ID', hideable: true, hidden: getColHidProp('ID', false), cellsrenderer: deleteCellRenderer }
 								],
