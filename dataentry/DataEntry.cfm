@@ -542,7 +542,7 @@ limitations under the License.
 							<div class="form-row mx-0">
 								<div id="customSciName">
 									<div class="form-row mx-0 my-2">
-										<h5><label for="collecting_event_id" class="font-weight-bold text-center d-block">Use Collecting Event ID only</label></h5>
+										<h5 class="mb-0"><label for="collecting_event_id" class="font-weight-bold text-center d-block w-100">Use Collecting Event ID only</label></h5>
 										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 										<span class="small w-100 float-left">- OR - </span>
 										<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Collecting Event</h5>
@@ -567,7 +567,7 @@ limitations under the License.
 										<label for="locality_remark" class="small font-weight-bold float-left d-block">Collecting Remark</label>
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 										</textarea>
-										<span class="font-weight-bold">Verbatim Georeference</span>
+										<h5 class="mb-0 font-weight-bold w-100 text-center">Verbatim Georeference</h5>
 										<label for="Coord. System" class="small font-weight-bold float-left d-block">Coordinate System</label>
 										<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="e.g., decimal degrees">
 										<label for="Coord. System" class="small font-weight-bold float-left d-block">SRS or Datum</label>
