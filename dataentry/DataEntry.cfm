@@ -444,7 +444,8 @@ limitations under the License.
 												<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
 											</cfloop>
 										</select>
-										<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
+										<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
+										<input type="text" class="data-entry-input" id="other_id" name="other_id">
 									</div>
 								</div>
 							</div>
