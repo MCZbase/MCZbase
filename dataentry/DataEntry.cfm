@@ -620,9 +620,9 @@ limitations under the License.
 								<div class="form-row mx-0 my-2">
 									<label for="part_name" class="small font-weight-light float-left d-block mt-1 mb-0">Part Name</label>
 									<input type="text" class="data-entry-input" name="part_name">
-									<label for="preserv_method" class="small font-weight-light float-left d-block mt-1 mb-0">Preserve Method</label>
+									<label for="preserv_method" class="sr-only">Preserve Method</label>
 										<select class="data-entry-select">
-											<option value="">Bio. Relationship Type</option>
+											<option value="">Select Preserve Method</option>
 											<cfloop query="spec_preserv_method">
 												<option value="#spec_preserv_method.preserve_method#">#spec_preserv_method.preserve_method#</option>
 											</cfloop>
