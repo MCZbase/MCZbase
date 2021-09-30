@@ -122,6 +122,9 @@ limitations under the License.
 <cfquery name="otherIDType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select other_id_type from ctcoll_other_id_type
 </cfquery>
+<cfquery name="currRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select biol_indiv_relationship from ctbiol_relations where rel_type = 'curatorial'
+</cfquery>
 	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
@@ -440,13 +443,12 @@ limitations under the License.
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 								<div class="form-row mx-0 my-2">
 									<label for="relations" class="sr-only">Relationship</label>
-									<select class="data-entry-select">
-										<option value="">Relationship Type</option>
-										<option value="1">Re-Cataloged as</option>
-										<option value="2">Bad Duplicate of</option>
-										<option value="3">Cloned from Record</option>
-										<option value="4">Duplicate Recataloged as</option>
-									</select>
+										<select class="data-entry-select">
+											<option value="">Other ID Type</option>
+											<cfloop query="currRelations">
+												<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
+											</cfloop>
+										</select>
 									<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
 								</div>
 								</div>
