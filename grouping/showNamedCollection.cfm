@@ -403,6 +403,27 @@ div.vslider-item[aria-hidden="true"]{
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
 		</cfquery>
+		<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
+			SELECT DISTINCT media.media_id
+			FROM
+				underscore_collection
+				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				left join cataloged_item
+					on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+					left join collecting_event 
+					on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
+					left join media_relations 
+					on collecting_event.collecting_event_id = media_relations.related_primary_key 
+				left join media on media_relations.media_id = media.media_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				AND media_relations.media_relationship = 'shows collecting_event'
+				AND media.media_type = 'image'
+				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+				AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+		</cfquery>
+		<cfif collectingCt.recordcount GT 0>
+			<cfset otherImageTypes = otherImageTypes + 1>
+		</cfif>	
 		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 			SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
 			FROM locality
@@ -784,32 +805,11 @@ div.vslider-item[aria-hidden="true"]{
 														</div>
 													</div>
 												</cfif>
-												<cfif collectingImagesForCarousel.recordcount gt 0>
-													<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
-														SELECT DISTINCT media.media_id
-														FROM
-															underscore_collection
-															left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-															left join cataloged_item
-																on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-																left join collecting_event 
-																on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
-																left join media_relations 
-																on collecting_event.collecting_event_id = media_relations.related_primary_key 
-															left join media on media_relations.media_id = media.media_id
-														WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-															AND media_relations.media_relationship = 'shows collecting_event'
-															AND media.media_type = 'image'
-															AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-															AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-													</cfquery>
-													<cfif collectingCt.recordcount GT 0>
-														<cfset otherImageTypes = otherImageTypes + 1>
-													</cfif>	
+												<cfif collectingImagesForCarousel.recordcount GT 0>
+
 													<div class="col-12 px-1 #colClass# mx-md-auto my-3">
 														<div class="carousel_background border rounded float-left w-100 p-2">
-														<h3 class="mx-2 text-center">#collectingCt.recordcount# Collecting Images
-														</h3>
+															<h3 class="mx-2 text-center">#collectingCt.recordcount# Collecting Images</h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 																<cfset i=1>
 																<cfloop query="collectingImagesForCarousel">
