@@ -80,7 +80,7 @@ limitations under the License.
 	padding-bottom: 100px;
 }
 .portlet {
-	margin: 0 1em 1em 0;
+	margin: 0 .78em .78em 0;
 	padding: 0.3em;
 }
 .portlet-header {
