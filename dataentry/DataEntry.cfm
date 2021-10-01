@@ -753,12 +753,12 @@ limitations under the License.
 											  	value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
 											</cfloop>
 										</select>
-								 		<div class="col-12 px-0">
+			<!---					 		<div class="col-12 px-0">
 											<a class="btn btn-outline-primary border-light btn-xs" style="line-height: 1.34rem;" onclick="geolocate()">GEOLOCATE</a>
                                         </div>
 										<div class="col-12 px-0">
 												<div id="geoLocateResults" ></div>
-										</div>
+										</div>--->
 										<div class="col-12 px-0">
 										<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 px-0 mb-0">Max Error</label>
 										<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-6 float-left" />
