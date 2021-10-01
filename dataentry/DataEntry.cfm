@@ -392,7 +392,7 @@ limitations under the License.
 		</div>
 	</div>
 	
-	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1211px;">
+	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1511px;">
 	
 		<div class="row mx-0 bg-blue-gray full" style="background-color:##deebec!important;">
 			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
@@ -752,14 +752,14 @@ limitations under the License.
 											</cfloop>
 										</select>
 										<div class="col-12 px-0">
-										<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 px-0 mb-0">Max Error</label>
-										<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-6 float-left" />
-										<select class="data-entry-select col-6 float-left" required>
-											<option value="">Select Error Units</option>
-											<cfloop query="error_units">
-												<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
-											</cfloop>
-										</select>
+											<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 px-0 mb-0">Max Error</label>
+											<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-6 float-left" />
+											<select class="data-entry-select col-6 float-left" required>
+												<option value="">Select Error Units</option>
+												<cfloop query="error_units">
+													<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
+												</cfloop>
+											</select>
 										</div>
 								
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Determiner</label>
