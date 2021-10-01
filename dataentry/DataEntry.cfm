@@ -654,9 +654,9 @@ limitations under the License.
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
 								<div id="customAtt">
 									<div class="form-row mx-0 my-2">
-										<label for="attribute_name" class="sr-only">Attribute Type</label>
+										<label for="attribute_name" class="small font-weight-light float-left d-block mt-1 mb-0">Attribute Type</label>
 										<input type="text" class="data-entry-input" name="attribute">
-										<label for="part_number" class="sr-only">Attribute Value</label>
+										<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">Attribute Value</label>
 										<input type="text" name="attribute value" class="data-entry-input">
 										<select class="data-entry-select">
 											<option value="">Biological Relationship Type</option>
@@ -664,13 +664,13 @@ limitations under the License.
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
 										</select>
-										<label for="date" class="sr-only">Date</label>
+										<label for="date" class="small font-weight-light float-left d-block mt-1 mb-0">Date</label>
 										<input type="text" class="data-entry-input" name="date">
-										<label for="determiner" class="sr-only">Determiner</label>
+										<label for="determiner" class="small font-weight-light float-left d-block mt-1 mb-0">Determiner</label>
 										<input type="text" class="data-entry-input" name="determiner">
-										<label for="method" class="sr-only">Method</label>
+										<label for="method" class="small font-weight-light float-left d-block mt-1 mb-0">Method</label>
 										<input type="text" class="data-entry-input" name="method">
-										<label for="attribute_remark" class="sr-only">Attribute Remark</label>
+										<label for="attribute_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Attribute Remark</label>
 										<textarea type="text" name="attribute_remark" class="data-entry-textarea"/>
 										</textarea>
 									</div>
