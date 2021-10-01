@@ -745,12 +745,20 @@ limitations under the License.
 								<div id="customSciName">
 									<div class="form-row mx-0 my-2">
 										<label for="Coord. System" class="sr-only">Coordinate System</label>
-										<select class="data-entry-select">
-											<option value="">Choose Coordinate System</option>
-											<cfloop query="lat_long_units">
-												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
+										<select name="orig_lat_long_units" title="ORIG_LAT_LONG_UNITS" id="orig_lat_long_units"
+											onChange="switchActive(this.value);dataEntry.max_error_distance.focus();">
+											<option value=""></option>
+											<cfloop query="ctunits">
+											  <option <cfif data.orig_lat_long_units is ctunits.orig_lat_long_units> selected="selected" </cfif>
+											  	value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
 											</cfloop>
 										</select>
+								 		<div class="col-12 px-0">
+											<a class="btn btn-outline-primary border-light btn-xs" style="line-height: 1.34rem;" onclick="geolocate()">GEOLOCATE</a>
+                                        </div>
+										<div class="col-12 px-0">
+												<div id="geoLocateResults" ></div>
+										</div>
 										<div class="col-12 px-0">
 										<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 px-0 mb-0">Max Error</label>
 										<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-6 float-left" />
