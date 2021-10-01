@@ -469,7 +469,7 @@ limitations under the License.
 								<div class="form-row mx-0 my-2">
 									<label for="relations" class="sr-only">Relationship</label>
 										<select class="data-entry-select mt-1">
-											<option value="">Select Curatorial Relationship Type</option>
+											<option value="">Select Curatorial Rel. Type</option>
 											<cfloop query="currRelations">
 												<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
 											</cfloop>
@@ -592,13 +592,7 @@ limitations under the License.
 										<textarea type="text" name="locality_remark" class="data-entry-textarea mt-0"/>
 										</textarea>
 										<h5 class="mb-0 mt-2 font-weight-bold w-100 text-center mb-1">Verbatim Georeference</h5>
-										<label for="Coord. System" class="sr-only">Coordinate System</label>
-										<select class="data-entry-select">
-											<option value="">Choose Coordinate System</option>
-											<cfloop query="lat_long_units">
-												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
-											</cfloop>
-										</select>
+
 										<label for="Coord. System" class="small font-weight-light float-left d-block mt-1 mb-0">SRS or Datum</label>
 										<input type="text" class="data-entry-input" id="Datum">
 										<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Latitude</label>
@@ -692,6 +686,12 @@ limitations under the License.
 							<div class="form-row mx-0">
 								<div id="customSciName">
 									<div class="form-row mx-0 my-2">
+										<h5 class="mb-0 font-weight-bold text-center mt-0 d-block w-100">
+											<label for="collecting_event_id" class="">Use Collecting Event ID only</label>
+										</h5>
+										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
+										<span class="small w-100 float-left text-center mt-2">- OR - </span>
+										<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Collecting Event</h5>
 										<label for="higher_geog" class="sr-only">Higher Geography</label>
 										<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
 										<label for="spec_locality" class="sr-only">Specific Locality</label>
@@ -733,28 +733,42 @@ limitations under the License.
 							<div class="form-row mx-0">
 								<div id="customSciName">
 									<div class="form-row mx-0 my-2">
+										<label for="Coord. System" class="sr-only">Coordinate System</label>
+										<select class="data-entry-select">
+											<option value="">Choose Coordinate System</option>
+											<cfloop query="lat_long_units">
+												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
+											</cfloop>
+										</select>
+										<div class="w-100">
 										<label for="higher_geog" class="sr-only">Max Error</label>
-										<input type="text" name="max_error_distance" class="data-entry-input" placeholder="Max Error" />
-										<select class="data-entry-select" required>
-											<option value="">Units</option>
+										<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input w-50" />
+										<select class="data-entry-select w-100" required>
+											<option value="">Select Error Units</option>
 											<cfloop query="error_units">
 												<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
 											</cfloop>
 										</select>
+										</div>
 										<label for="spec_locality" class="sr-only">GPS Accurcy</label>
 										<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
 										<label for="inputMinElev" class="sr-only">Extent</label>
 										<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
-										
+										<div class="w-100">
+										<div class="w-75">
 										<label for="inputMinDepth" class="sr-only">Depth</label>
 										<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
 										<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
+										</div>
+										<div class="w-25">
 										<select class="data-entry-select" required>
-											<option value="">Units</option>
+											<option value="">Select Depth Units</option>
 											<cfloop query="depthUnits">
 												<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
 											</cfloop>
 										</select>
+										</div>
+										</div>
 										<label for="sovereign_nation" class="sr-only">Sovereign Nation</label>
 										<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
 										<label for="higher_geog" class="sr-only">Geology Attribute</label>
