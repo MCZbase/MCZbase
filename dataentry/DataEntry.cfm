@@ -763,9 +763,9 @@ limitations under the License.
 										</div>
 										<div class="col-12 px-0">
 											<label for="" class="small font-weight-light float-left col-12 col-xl-6 d-block mt-1 mb-0">Determiner</label>
-											<input type="text" name="" class="data-entry-input" id=""/>
+											<input type="text" name="" class="data-entry-input float-left col-12 col-xl-6" id=""/>
 											<label for="" class="small font-weight-light float-left col-12 col-xl-6 d-block mt-1 mb-0">Determined Date</label>
-											<input type="text" class="data-entry-input" id="">
+											<input type="text" class="data-entry-input float-left col-12 col-xl-6" id="">
 										</div>
 											<label for="datum" class="small font-weight-light float-left d-block mt-1 mb-0">Datum</label>
 											<input type="text" name="datum" class="data-entry-input"/>
