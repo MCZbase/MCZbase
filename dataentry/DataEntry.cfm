@@ -149,7 +149,7 @@ limitations under the License.
 <cfquery name="spec_preserv_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select preserve_method from ctspecimen_preserv_method
 </cfquery>
-	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
+	<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
 		<div class="row">
@@ -389,7 +389,7 @@ limitations under the License.
 		</div>
 	</div>
 	
-	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 12aeb11px;">
+	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1211px;">
 	
 		<div class="row mx-0 bg-blue-gray full" style="background-color:##deebec!important;">
 			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
