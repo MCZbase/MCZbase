@@ -109,341 +109,291 @@ limitations under the License.
 </style>
 
 <cfoutput>
-<cfset collection_cde = 'herp'>
-<cfquery name="cterror_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+ <cfquery name="error_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		ctlat_long_error_units.lat_long_error_units
 	from
 		mczbase.ctlat_long_error_units
 	order by lat_long_error_units asc
 </cfquery>
- <cfquery name="ctcollection_full_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+ <cfquery name="collection_full_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection from ctcollections_full_names
 </cfquery>
-<cfquery name="ctotherIDType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="otherIDType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select other_id_type from ctcoll_other_id_type
 </cfquery>
-<cfquery name="ctcurrRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="currRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select biol_indiv_relationship from ctbiol_relations where rel_type = 'curatorial'
 </cfquery>
-<cfquery name="ctbiolRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="biolRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select biol_indiv_relationship from ctbiol_relations where rel_type = 'biological'
 </cfquery>
-<cfquery name="ctdepthUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="depthUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select depth_units from ctdepth_units
 </cfquery>
-<cfquery name="ctnature_of_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="nature_of_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select nature_of_id from ctnature_of_id
 </cfquery>
-<cfquery name="ctlat_long_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="nature_of_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select nature_of_id from ctnature_of_id
+</cfquery>
+<cfquery name="lat_long_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select orig_lat_Long_units from ctlat_long_units
 </cfquery>
-<cfquery name="ctPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#createtimespan(0,0,60,0)#">
-	SELECT distinct(part_name) FROM ctSpecimen_part_name
-		<cfif len(#collection_cde#) gt 0>
-			WHERE collection_cde='#collection_cde#'
-		</cfif>
-		order by part_name
-</cfquery>
-<cfquery name="ctobj_disp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="obj_disp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
-<cfquery name="ctnum_mod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="num_mod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select modifier from ctnumeric_modifiers
 </cfquery>
-<cfquery name="ctspec_preserv_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="spec_preserv_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select preserve_method from ctspecimen_preserv_method
-		<cfif len(#collection_cde#) gt 0>
-			WHERE collection_cde='#collection_cde#'
-		</cfif>
-		order by preserve_method
 </cfquery>
-<cfquery name="ctModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select modifier from ctnumeric_modifiers order by modifier desc
-</cfquery>
-<cfquery name="ctPartModifier" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#createtimespan(0,0,60,0)#">
-	SELECT distinct(part_modifier) FROM ctSpecimen_part_modifier
-	order by part_modifier
-</cfquery>
-<cfquery name="ctattType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="attType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select attribute_type from ctattribute_type
-		<cfif len(#collection_cde#) gt 0>
-			WHERE collection_cde='#collection_cde#'
-		</cfif>
-		order by attribute_type
 </cfquery>
-<cfquery name="ctAge_class" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-	select age_class from ctAge_class where collection_cde = '#collection_cde#' order by age_class
-</cfquery>
-<cfquery name="ctLength_Units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-	select length_units from ctLength_Units order by length_units
-</cfquery>
-<cfquery name="ctWeight_Units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-	select Weight_Units from ctWeight_Units order by weight_units
-</cfquery>
-<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-	select geology_attribute from ctgeology_attribute order by geology_attribute
-</cfquery>
-<cfquery name="ctCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-	select
-		attribute_type,
-		value_code_table,
-		units_code_table
-	from ctattribute_code_tables
-</cfquery>
-<cfquery name="ctSex_Cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-	SELECT distinct(sex_cde) as sex_cde FROM ctSex_Cde
-	<cfif len(collection_cde) gt 0>
-		WHERE collection_cde='#collection_cde#'
-	</cfif>
-	order by sex_cde
-</cfquery>
-<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-	select datum from ctdatum order by datum
-</cfquery>
-	
-	
-<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
-</div>
-<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
-	<div class="row">
-		<div class="col-12 justify-content-center mt-2 mx-auto">
-			<form id="regForm" action="/DataEntry.cfm">
-				<!-- One "tab" for each step in the form: -->
-				<h1 class="text-center my-2">Enter a New Record</h1>
-				<div class="tab">
-					<h2 class="fs-title text-center">Record Numbers</h2>
-					<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
-					<div class="form-group row">
-						<label for="cat_num" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Catalog Number</label>
-						<div class="col-sm-9">
-								<input placeholder="Catalog Number" class="data-entry-input validate" oninput="this.className = ''" name="cat_num">
-
+	<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
+	</div>
+	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
+		<div class="row">
+			<div class="col-12 justify-content-center mt-2 mx-auto">
+				<form id="regForm" action="/DataEntry.cfm">
+					<!-- One "tab" for each step in the form: -->
+					<h1 class="text-center my-2">Enter a New Record</h1>
+					<div class="tab">
+						<h2 class="fs-title text-center">Record Numbers</h2>
+						<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
+						<div class="form-group row">
+							<label for="cat_num" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Catalog Number</label>
+							<div class="col-sm-9">
+									<input placeholder="Catalog Number" class="data-entry-input validate" oninput="this.className = ''" name="cat_num">
+							
+							</div>
 						</div>
-					</div>
-					<div class="form-group mb-0 row">
-						<label for="other_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other ID</label>
-						<div class="col-sm-4 col-md-4">
-							<select class="form-control border" oninput="this.className = ''" mt-0 required>
-								<option value="">Other ID Type</option>
-								<option value="1">Field Number</option>
-								<option value="2">Collector Number</option>
-								<option value="3">Previous Number</option>
-							</select>
+						<div class="form-group mb-0 row">
+							<label for="other_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other ID</label>
+							<div class="col-sm-4 col-md-4">
+								<select class="form-control border" oninput="this.className = ''" mt-0 required>
+									<option value="">Other ID Type</option>
+									<option value="1">Field Number</option>
+									<option value="2">Collector Number</option>
+									<option value="3">Previous Number</option>
+								</select>
+							</div>
+							<div class="col-sm-5">
+								<input type="text" class="data-entry-input" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+							</div>
 						</div>
-						<div class="col-sm-5">
-							<input type="text" class="data-entry-input" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+						<div class="form-group row">
+							<label for="other_id" class="col-sm-3 col-form-label text-center text-md-right">Mask Record</label>
+							<div class="col-sm-9 col-md-9 text-left">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input w-auto mt-2" value="mask" type="checkbox" id="gridCheck1">
+									<label class="form-check-label w-auto mt-2" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="form-group row">
-						<label for="other_id" class="col-sm-3 col-form-label text-center text-md-right">Mask Record</label>
-						<div class="col-sm-9 col-md-9 text-left">
-							<div class="form-check form-check-inline">
-								<input class="form-check-input w-auto mt-2" value="mask" type="checkbox" id="gridCheck1">
-								<label class="form-check-label w-auto mt-2" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
+						<div class="form-group row">
+							<label for="relations" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other Records</label>
+							<div class="col-sm-4 col-md-4 text-left">
+								<select class="form-control border mt-0" required>
+									<option value="">Relationship Type</option>
+									<option value="1">Re-Cataloged as</option>
+									<option value="2">Bad Duplicate of</option>
+									<option value="3">Cloned from Record</option>
+									<option value="4">Duplicate Recataloged as</option>
+								</select>
+							</div>
+							<div class="col-sm-5">
+								<input type="text" class="data-entry-input"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
 							</div>
 						</div>
 					</div>
-					<div class="form-group row">
-						<label for="relations" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other Records</label>
-						<div class="col-sm-4 col-md-4 text-left">
-							<select class="form-control border mt-0" required>
-								<option value="">Relationship Type</option>
-								<option value="1">Re-Cataloged as</option>
-								<option value="2">Bad Duplicate of</option>
-								<option value="3">Cloned from Record</option>
-								<option value="4">Duplicate Recataloged as</option>
-							</select>
+					<div class="tab">
+						<h2 class="fs-title text-center">Collector/Preparator</h2>
+						<h3 class="fs-subtitle text-center">This is step 2</h3>
+						<div class="form-group row my-0">
+							<label for="collector1" class="col-sm-3 col-form-label mt-0">
+								<select class="form-control border mt-0 validate">
+									<option value="">Role...</option>
+									<option value="1">Collector</option>
+									<option value="2">Preparator</option>
+								</select>
+							</label>
+							<div class="col-sm-9 col-md-9 mt-1">
+								<input type="text" class="data-entry-input validate" id="collector1" placeholder="Agent Name">
+							</div>
 						</div>
-						<div class="col-sm-5">
-							<input type="text" class="data-entry-input"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
+						<div class="form-group row my-0">
+							<label for="collector2" class="col-sm-3 col-form-label mt-0">
+								<select class="form-control border mt-0">
+									<option value="">Role...</option>
+									<option value="1">Collector</option>
+									<option value="2">Preparator</option>
+								</select>
+							</label>
+							<div class="col-sm-9 col-md-9 mt-1">
+								<input type="text" class="data-entry-input" id="collector2" placeholder="Agent Name">
+							</div>
 						</div>
-					</div>
-				</div>
-				<div class="tab">
-					<h2 class="fs-title text-center">Collector/Preparator</h2>
-					<h3 class="fs-subtitle text-center">This is step 2</h3>
-					<div class="form-group row my-0">
-						<label for="collector1" class="col-sm-3 col-form-label mt-0">
-							<select class="form-control border mt-0 validate">
-								<option value="">Role...</option>
-								<option value="1">Collector</option>
-								<option value="2">Preparator</option>
-							</select>
-						</label>
-						<div class="col-sm-9 col-md-9 mt-1">
-							<input type="text" class="data-entry-input validate" id="collector1" placeholder="Agent Name">
+						<div class="form-group row my-1">
+							<label for="collector3" class="col-sm-3 col-form-label mt-0">
+								<select class="form-control border mt-0" required>
+									<option value="">Role...</option>
+									<option value="1">Collector</option>
+									<option value="2">Preparator</option>
+								</select>
+							</label>
+							<div class="col-sm-9 col-md-9 mt-1">
+								<input type="text" class="data-entry-input" id="collector3" placeholder="Agent Name">
+							</div>
 						</div>
-					</div>
-					<div class="form-group row my-0">
-						<label for="collector2" class="col-sm-3 col-form-label mt-0">
-							<select class="form-control border mt-0">
-								<option value="">Role...</option>
-								<option value="1">Collector</option>
-								<option value="2">Preparator</option>
-							</select>
-						</label>
-						<div class="col-sm-9 col-md-9 mt-1">
-							<input type="text" class="data-entry-input" id="collector2" placeholder="Agent Name">
+						<div class="form-group row my-1">
+							<label for="collector4" class="col-sm-3 col-form-label mt-0">
+								<select class="form-control border mt-0" required >
+									<option value="">Role...</option>
+									<option value="1">Collector</option>
+									<option value="2">Preparator</option>
+								</select>
+							</label>
+							<div class="col-sm-9 col-md-9 mt-1">
+								<input type="text" class="data-entry-input" id="collector4" placeholder="Agent Name">
+							</div>
 						</div>
-					</div>
-					<div class="form-group row my-1">
-						<label for="collector3" class="col-sm-3 col-form-label mt-0">
-							<select class="form-control border mt-0" required>
-								<option value="">Role...</option>
-								<option value="1">Collector</option>
-								<option value="2">Preparator</option>
-							</select>
-						</label>
-						<div class="col-sm-9 col-md-9 mt-1">
-							<input type="text" class="data-entry-input" id="collector3" placeholder="Agent Name">
-						</div>
-					</div>
-					<div class="form-group row my-1">
-						<label for="collector4" class="col-sm-3 col-form-label mt-0">
-							<select class="form-control border mt-0" required >
-								<option value="">Role...</option>
-								<option value="1">Collector</option>
-								<option value="2">Preparator</option>
-							</select>
-						</label>
-						<div class="col-sm-9 col-md-9 mt-1">
-							<input type="text" class="data-entry-input" id="collector4" placeholder="Agent Name">
+						<div class="form-group row my-1">
+							<label for="collector5" class="col-sm-3 col-form-label mt-0">
+								<select class="form-control  border mt-0">
+									<option value="">Role...</option>
+									<option value="1">Collector</option>
+									<option value="2">Preparator</option>
+								</select>
+							</label>
+							<div class="col-sm-9 col-md-9 mt-1">
+								<input type="text" class="data-entry-input" id="collector5" placeholder="Agent Name">
+							</div>
 						</div>
 					</div>
-					<div class="form-group row my-1">
-						<label for="collector5" class="col-sm-3 col-form-label mt-0">
-							<select class="form-control  border mt-0">
-								<option value="">Role...</option>
-								<option value="1">Collector</option>
-								<option value="2">Preparator</option>
-							</select>
-						</label>
-						<div class="col-sm-9 col-md-9 mt-1">
-							<input type="text" class="data-entry-input" id="collector5" placeholder="Agent Name">
+					<div class="tab">
+						<h2 class="fs-title text-center">Scientific Name</h2>
+						<h3 class="fs-subtitle text-center">This is step 3</h3>
+						<div class="form-group row">
+							<label for="scientific_name" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Scientific Name</label>
+							<div class="col-sm-9">
+								<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="made_by" class="col-sm-3 col-form-label pt-0 text-center text-md-right">ID Made By</label>
+							<div class="col-sm-9">
+								<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="nature_of_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Nature of ID</label>
+							<div class="col-sm-4">
+								<select class="form-control border" required>
+									<option value="">Expert ID</option>
+									<option value="1">Field ID</option>
+									<option value="2">Non-Expert ID</option>
+									<option value="3">Curatorial ID</option>
+								</select>
+							</div>
+							<div class="col-sm-5">
+								<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
+							</div>
+						</div>
+						<div class="form-group row my-0">
+							<label for="id_remark" class="col-sm-3 col-form-label pt-0 text-center text-md-right">ID Remark</label>
+							<div class="col-sm-9">
+								<textarea type="text" name="id_remark" class="data-entry-input" placeholder="ID remark"/>
+								</textarea>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="tab">
-					<h2 class="fs-title text-center">Scientific Name</h2>
-					<h3 class="fs-subtitle text-center">This is step 3</h3>
-					<div class="form-group row">
-						<label for="scientific_name" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Scientific Name</label>
-						<div class="col-sm-9">
-							<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
+					<div class="tab">
+						<h2 class="fs-title text-center">Locality</h2>
+						<h3 class="fs-subtitle text-center">This is step 4</h3>
+						<div class="form-group row">
+							<label for="higher_geog" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Higher Geography</label>
+							<div class="col-sm-9">
+								<input type="text" name="higher_geog" class="form-control" placeholder="Higher Geography" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="higher_geog" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Specific Locality</label>
+							<div class="col-sm-9">
+								<input type="text" name="spec_locality" class="form-control" placeholder="Specific Locality" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="inputPassword3" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Elevation</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="inputMinElev" placeholder="Min Elevation">
+							</div>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="inputMaxElev" placeholder="Max Elevation">
+							</div>
+							<div class="col-sm-2">
+								<select class="form-control border" required>
+									<option value="">Units</option>
+									<cfloop query="error_units">
+										<option value="error_units.lat_long_error_units"></option>
+									</cfloop>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="inputPassword3" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Depth</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="inputMinDepth" placeholder="Min Depth">
+							</div>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="inputMaxDepth" placeholder="Max Depth">
+							</div>
+							<div class="col-sm-2">
+								<select class="form-control border" required>
+									<option value="">Units</option>
+									<cfloop query="error_units">
+										<option value="error_units.lat_long_error_units"></option>
+									</cfloop>								
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="sovereign_nation" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Sovereign Nation</label>
+							<div class="col-sm-9">
+								<input type="text" name="sovereign_nation" class="form-control" placeholder="Sovereign Nation" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="higher_geog" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Geology Attribute</label>
+							<div class="col-sm-9 my-0">
+								<input type="text" name="geology_attribute" class="form-control" placeholder="Geology Attribute" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="habitat" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Habitat</label>
+							<div class="col-sm-9">
+								<input type="text" name="habitat" class="form-control" placeholder="Habitat" />
+							</div>
 						</div>
 					</div>
-					<div class="form-group row">
-						<label for="made_by" class="col-sm-3 col-form-label pt-0 text-center text-md-right">ID Made By</label>
-						<div class="col-sm-9">
-							<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
+					<div style="overflow:auto;" class="mt-4 mb-2">
+						<div class="text-right">
+							<button type="button" id="prevBtn" class="btn btn-sm btn-primary" onclick="nextPrev(-1)">Previous</button>
+							<button type="button" id="nextBtn" class="btn btn-sm btn-primary" onclick="nextPrev(1)">Next</button>
 						</div>
+					
 					</div>
-					<div class="form-group row">
-						<label for="nature_of_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Nature of ID</label>
-						<div class="col-sm-4">
-							<select class="form-control border" required>
-								<option value="">Expert ID</option>
-								<option value="1">Field ID</option>
-								<option value="2">Non-Expert ID</option>
-								<option value="3">Curatorial ID</option>
-							</select>
-						</div>
-						<div class="col-sm-5">
-							<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
-						</div>
-					</div>
-					<div class="form-group row my-0">
-						<label for="id_remark" class="col-sm-3 col-form-label pt-0 text-center text-md-right">ID Remark</label>
-						<div class="col-sm-9">
-							<textarea type="text" name="id_remark" class="data-entry-input" placeholder="ID remark"/>
-							</textarea>
-						</div>
-					</div>
-				</div>
-				<div class="tab">
-					<h2 class="fs-title text-center">Locality</h2>
-					<h3 class="fs-subtitle text-center">This is step 4</h3>
-					<div class="form-group row">
-						<label for="higher_geog" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Higher Geography</label>
-						<div class="col-sm-9">
-							<input type="text" name="higher_geog" class="form-control" placeholder="Higher Geography" />
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="higher_geog" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Specific Locality</label>
-						<div class="col-sm-9">
-							<input type="text" name="spec_locality" class="form-control" placeholder="Specific Locality" />
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="inputPassword3" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Elevation</label>
-						<div class="col-sm-3">
-							<input type="text" class="form-control" id="inputMinElev" placeholder="Min Elevation">
-						</div>
-						<div class="col-sm-3">
-							<input type="text" class="form-control" id="inputMaxElev" placeholder="Max Elevation">
-						</div>
-						<div class="col-sm-2">
-							<select class="form-control border" required>
-								<option value="">Units</option>
-								<cfloop query="error_units">
-									<option value="error_units.lat_long_error_units"></option>
-								</cfloop>
-							</select>
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="inputPassword3" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Depth</label>
-						<div class="col-sm-3">
-							<input type="text" class="form-control" id="inputMinDepth" placeholder="Min Depth">
-						</div>
-						<div class="col-sm-3">
-							<input type="text" class="form-control" id="inputMaxDepth" placeholder="Max Depth">
-						</div>
-						<div class="col-sm-2">
-							<select class="form-control border" required>
-								<option value="">Units</option>
-								<cfloop query="error_units">
-									<option value="error_units.lat_long_error_units"></option>
-								</cfloop>								
-							</select>
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="sovereign_nation" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Sovereign Nation</label>
-						<div class="col-sm-9">
-							<input type="text" name="sovereign_nation" class="form-control" placeholder="Sovereign Nation" />
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="higher_geog" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Geology Attribute</label>
-						<div class="col-sm-9 my-0">
-							<input type="text" name="geology_attribute" class="form-control" placeholder="Geology Attribute" />
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="habitat" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Habitat</label>
-						<div class="col-sm-9">
-							<input type="text" name="habitat" class="form-control" placeholder="Habitat" />
-						</div>
-					</div>
-				</div>
-				<div style="overflow:auto;" class="mt-4 mb-2">
-					<div class="text-right">
-						<button type="button" id="prevBtn" class="btn btn-sm btn-primary" onclick="nextPrev(-1)">Previous</button>
-						<button type="button" id="nextBtn" class="btn btn-sm btn-primary" onclick="nextPrev(1)">Next</button>
-					</div>
-
-				</div>
-				<!-- Circles which indicates the steps of the form: -->
-				<div class="my-4 text-center"> <span class="step">1</span> <span class="step">2</span> <span class="step">3</span> <span class="step">4</span> <span class="step">5</span> <span class="step">6</span> <span class="step">7</span> <span class="step">8</span> <span class="step">9</span> </div>
-			</form>
+					<!-- Circles which indicates the steps of the form: -->
+					<div class="my-4 text-center"> <span class="step">1</span> <span class="step">2</span> <span class="step">3</span> <span class="step">4</span> <span class="step">5</span> <span class="step">6</span> <span class="step">7</span> <span class="step">8</span> <span class="step">9</span> </div>
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
 	
 	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1211px;">
+	
 		<div class="row mx-0 bg-blue-gray full" style="background-color:##deebec!important;">
 			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
 			<div class="col-12 px-0 mt-0">
@@ -458,8 +408,8 @@ limitations under the License.
 								<div class="col-12">
 									<select class="data-entry-select" required>
 											<option value="">Select Collection</option>
-											<cfloop query="ctcollection_full_name">
-												<option value="#ctcollection_full_name.collection#">#collection_full_name.collection#</option>
+											<cfloop query="collection_full_name">
+												<option value="#collection_full_name.collection#">#collection_full_name.collection#</option>
 											</cfloop>
 									</select>
 									<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
@@ -502,8 +452,8 @@ limitations under the License.
 										<label for="other_id" class="sr-only">Other ID</label>
 										<select class="data-entry-select mt-1">
 											<option value="">Other ID Type</option>
-											<cfloop query="ctotherIDType">
-												<option value="#ctotherIDType.other_id_type#">#otherIDType.other_id_type#</option>
+											<cfloop query="otherIDType">
+												<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
 											</cfloop>
 										</select>
 										<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
@@ -523,8 +473,8 @@ limitations under the License.
 									<label for="relations" class="sr-only">Relationship</label>
 										<select class="data-entry-select mt-1">
 											<option value="">Select Curatorial Rel. Type</option>
-											<cfloop query="ctcurrRelations">
-												<option value="#ctcurrRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
+											<cfloop query="currRelations">
+												<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
 											</cfloop>
 										</select>
 									<label for="record number" class="small font-weight-light float-left d-block mt-1 mb-0">Related Record Number</label>
@@ -571,8 +521,8 @@ limitations under the License.
 									<label for="nature_of_id" class="small font-weight-light float-left d-block mt-1 mb-0">Nature of ID</label>
 										<select class="data-entry-select">
 											<option value="">Select Nature of ID</option>
-											<cfloop query="ctnature_of_id">
-												<option value="#ctnature_of_id.nature_of_id#">#nature_of_id.nature_of_id#</option>
+											<cfloop query="nature_of_id">
+												<option value="#nature_of_id.nature_of_id#">#nature_of_id.nature_of_id#</option>
 											</cfloop>
 										</select>
 									<label for="made_by_date" class="small font-weight-light float-left d-block mt-1 mb-0">Date of ID</label>
@@ -594,8 +544,8 @@ limitations under the License.
 										
 										<select class="data-entry-select mt-1">
 											<option value="">Select Bio. Relationship Type</option>
-											<cfloop query="ctbiolRelations">
-												<option value="#ctbiolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+											<cfloop query="biolRelations">
+												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
 										</select>
 										<label for="relations" class="small font-weight-light float-left d-block mt-1 mb-0">Relationship Value</label>
@@ -621,8 +571,8 @@ limitations under the License.
 										<input type="text" name="verbatim_locality mt-0" class="data-entry-input"/>
 										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">ISO Dates</label>
 										<div class="col-12 px-0">
-											<input type="text" class="data-entry-input col-12 col-xl-6 float-left mt-0" id="began_date" placeholder="Began Date">
-											<input type="text" class="data-entry-input col-12 col-xl-6 float-left mt-0" id="ended_date" placeholder="Date Ended">
+										<input type="text" class="data-entry-input col-12 col-xl-6 float-left mt-0" id="began_date" placeholder="Began Date">
+										<input type="text" class="data-entry-input col-12 col-xl-6 float-left mt-0" id="ended_date" placeholder="Date Ended">
 										</div>
 										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
 										<input type="text" class="data-entry-input mt-0" id="verbatim_date">
@@ -630,8 +580,8 @@ limitations under the License.
 										<input type="text" class="data-entry-input mt-0" id="collecting_time">
 										<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block mt-1 mb-0">Day of Year</label>
 										<div class="col-12 px-0">
-											<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0" id="start_day_of_year" placeholder="Start Day of Year">
-											<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0" id="end_day_of_year" placeholder="End Day of Year">
+										<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0" id="start_day_of_year" placeholder="Start Day of Year">
+										<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0" id="end_day_of_year" placeholder="End Day of Year">
 										</div>
 										<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Source</label>
 										<input type="text" class="data-entry-input mt-0" id="collecting_source">
@@ -674,8 +624,8 @@ limitations under the License.
 									<label for="preserv_method" class="small font-weight-light float-left d-block mt-1 mb-0">Preserve Method</label>
 										<select class="data-entry-select">
 											<option value="">Select Preserve Method</option>
-											<cfloop query="ctspec_preserv_method">
-												<option value="#ctspec_preserv_method.preserve_method#">#spec_preserv_method.preserve_method#</option>
+											<cfloop query="spec_preserv_method">
+												<option value="#spec_preserv_method.preserve_method#">#spec_preserv_method.preserve_method#</option>
 											</cfloop>
 										</select>
 									<label for="condition" class="small font-weight-light float-left d-block mt-1 mb-0">Condition</label>
@@ -683,15 +633,15 @@ limitations under the License.
 									<label for="disposition" class="small font-weight-light float-left d-block mt-1 mb-0">Disposition</label>
 										<select class="data-entry-select">
 											<option value="">Select Disposition</option>
-											<cfloop query="ctobj_disp">
-												<option value="#ctobj_disp.coll_obj_disposition#">#obj_disp.coll_obj_disposition#</option>
+											<cfloop query="obj_disp">
+												<option value="#obj_disp.coll_obj_disposition#">#obj_disp.coll_obj_disposition#</option>
 											</cfloop>
 										</select>							
 									<label for="num_modifier" class="small font-weight-light float-left d-block mt-1 mb-0">## Modifier</label>
 										<select class="data-entry-select" name="num_modifier">
 											<option value="">Select Modifier </option>
-											<cfloop query="ctnum_mod">
-												<option value="#ctnum_mod.modifier#">#num_mod.modifier#</option>
+											<cfloop query="num_mod">
+												<option value="#num_mod.modifier#">#num_mod.modifier#</option>
 											</cfloop>
 										</select>
 									<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">Number of Parts</label>
@@ -713,8 +663,8 @@ limitations under the License.
 									<div class="form-row mx-0 my-2">
 										<select class="data-entry-select mt-1">
 											<option value="">Select Attribute Type</option>
-											<cfloop query="ctattType">
-												<option value="#ctattType.attribute_type#">#attType.attribute_type#</option>
+											<cfloop query="attType">
+												<option value="#attType.attribute_type#">#attType.attribute_type#</option>
 											</cfloop>
 										</select>
 										<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">Attribute Value</label>
@@ -760,8 +710,8 @@ limitations under the License.
 										</div>
 										<select class="data-entry-select">
 											<option value="">Units</option>
-											<cfloop query="ctdepthUnits">
-												<option value="#ctdepthUnits.depth_units#">#depthUnits.depth_units#</option>
+											<cfloop query="depthUnits">
+												<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
 											</cfloop>
 										</select>
 										<div class="col-12 px-0">
@@ -771,8 +721,8 @@ limitations under the License.
 										</div>
 										<select class="data-entry-select">
 											<option value="">Units</option>
-											<cfloop query="ctdepthUnits">
-												<option value="#ctdepthUnits.depth_units#">#depthUnits.depth_units#</option>
+											<cfloop query="depthUnits">
+												<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
 											</cfloop>
 										</select>
 										<label for="sovereign_nation" class="small font-weight-light float-left d-block mt-1 mb-0">Sovereign Nation</label>
@@ -797,8 +747,8 @@ limitations under the License.
 										<label for="Coord. System" class="sr-only">Coordinate System</label>
 										<select class="data-entry-select">
 											<option value="">Choose Coordinate System</option>
-											<cfloop query="ctlat_long_units">
-												<option value="#ctlat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
+											<cfloop query="lat_long_units">
+												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
 											</cfloop>
 										</select>
 										<div class="col-12 px-0">
@@ -806,8 +756,8 @@ limitations under the License.
 										<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input" />
 										<select class="data-entry-select w-100" required>
 											<option value="">Select Error Units</option>
-											<cfloop query="cterror_units">
-												<option value="#cterror_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
+											<cfloop query="error_units">
+												<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
 											</cfloop>
 										</select>
 										</div>
