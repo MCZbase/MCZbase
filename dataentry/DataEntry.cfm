@@ -389,11 +389,11 @@ limitations under the License.
 		</div>
 	</div>
 	
-	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1111px;">
+	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 12aeb11px;">
 	
 		<div class="row mx-0 bg-blue-gray full" style="background-color:##deebec!important;">
 			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
-			<div class="col-12 mt-0">
+			<div class="col-12 px-0 mt-0">
 				<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
 				<div class="column">
