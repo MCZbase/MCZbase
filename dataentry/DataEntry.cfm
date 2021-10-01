@@ -702,16 +702,16 @@ limitations under the License.
 										<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
 										<input type="text" class="data-entry-input" id="inputMaxElev" placeholder="Max Elevation">
 										<select class="data-entry-select">
-											<option value="">Elevation Units</option>
-											<cfloop query="biolRelations">
-												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+											<option value="">Units</option>
+											<cfloop query="depthUnits">
+												<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
 											</cfloop>
 										</select>
 										<label for="inputMinDepth" class="small font-weight-light float-left d-block mt-1 mb-0">Depth</label>
 										<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
 										<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
 										<select class="data-entry-select">
-											<option value="">Depth Units</option>
+											<option value="">Units</option>
 											<cfloop query="depthUnits">
 												<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
 											</cfloop>
