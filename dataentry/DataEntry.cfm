@@ -109,6 +109,7 @@ limitations under the License.
 </style>
 
 <cfoutput>
+<cfset collection_cde = 'herp'>
 <cfquery name="cterror_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		ctlat_long_error_units.lat_long_error_units
