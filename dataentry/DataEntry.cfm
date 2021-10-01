@@ -761,7 +761,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 px-0">
+										<div class="col-12 px-0 mt-2">
 											<label for="" class="small font-weight-light float-left col-12 col-xl-4 d-block px-0 mt-1 mb-0">Determiner</label>
 											<input type="text" name="" class="data-entry-input float-left col-12 col-xl-8" id=""/>
 											<label for="" class="small font-weight-light float-left col-12 col-xl-4 d-block px-0 mt-1 mb-0">Determined Date</label>
