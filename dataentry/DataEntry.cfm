@@ -782,7 +782,8 @@ limitations under the License.
 											<textarea type="text" name="remarks" class="data-entry-textarea"/></textarea>
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Reference</label>
 											<input type="text" name="" class="data-entry-input"/>
-								</div>
+									</div>
+									<div class="row mx-0">
 										<div id="dec_lat_long">
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
 											<input type="text" name="" class="data-entry-input"/>
@@ -791,6 +792,8 @@ limitations under the License.
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Error Polygon</label>
 											<input type="text" name="" class="data-entry-input"/>
 										</div>
+									</div>
+									<div class="row mx-0">
 										<div id="dec_min_sec" style="display: hidden;">
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
 											<input type="text" name="" class="data-entry-input"/>
@@ -798,7 +801,8 @@ limitations under the License.
 											<input type="text" name="" class="data-entry-input"/>
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Error Polygon</label>
 											<input type="text" name="" class="data-entry-input"/>
-										</div>
+									</div>
+									<div class="row mx-0">
 										<div id="dec_deg_min" style="display: hidden;">
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
 											<input type="text" name="" class="data-entry-input"/>
@@ -807,6 +811,8 @@ limitations under the License.
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Error Polygon</label>
 											<input type="text" name="" class="data-entry-input"/>
 										</div>
+									</div>
+									<div class="row mx-0">
 										<div id="unknown" style="display: hidden;">
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
 											<input type="text" name="" class="data-entry-input"/>
@@ -815,7 +821,7 @@ limitations under the License.
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Error Polygon</label>
 											<input type="text" name="" class="data-entry-input"/>
 										</div>
-						
+									</div>
 									</div>
 								</div>
 							</div>
