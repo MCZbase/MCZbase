@@ -782,6 +782,7 @@ limitations under the License.
 											<textarea type="text" name="remarks" class="data-entry-textarea"/></textarea>
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Reference</label>
 											<input type="text" name="" class="data-entry-input"/>
+								</div>
 										<div id="dec_lat_long">
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
 											<input type="text" name="" class="data-entry-input"/>
