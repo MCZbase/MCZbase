@@ -150,7 +150,7 @@ limitations under the License.
 	select preserve_method from ctspecimen_preserv_method
 </cfquery>
 <cfquery name="attType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select attType.attribute_type from ctattribute_type
+	select attribute_type from ctattribute_type
 </cfquery>
 	<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
