@@ -698,8 +698,9 @@ limitations under the License.
 										<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
 										<label for="spec_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Specific Locality</label>
 										<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
-										<label for="inputMinElev" class="small font-weight-light float-left d-block mt-1 mb-0">Elevation</label>
+										
 										<div class="col-12 px-0">
+										<label for="inputMinElev" class="small font-weight-light float-left d-block mt-1 mb-0">Elevation</label>
 										<input type="text" class="data-entry-input col-12 col-xl-6 float-left" id="inputMinElev" placeholder="Min Elevation">
 										<input type="text" class="data-entry-input col-12 col-xl-6 float-left" id="inputMaxElev" placeholder="Max Elevation">
 										</div>
@@ -709,9 +710,11 @@ limitations under the License.
 												<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
 											</cfloop>
 										</select>
-										<label for="inputMinDepth" class="small font-weight-light float-left d-block mt-1 mb-0">Depth</label>
-										<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
-										<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
+										<div class="col-12 px-0">
+											<label for="inputMinDepth" class="small font-weight-light float-left d-block mt-1 mb-0">Depth</label>
+											<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
+											<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
+										</div>
 										<select class="data-entry-select">
 											<option value="">Units</option>
 											<cfloop query="depthUnits">
@@ -724,6 +727,12 @@ limitations under the License.
 										<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
 										<label for="habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
 										<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
+										<div class="col-12 px-0">
+											<h5>Collecting Event/Collector Number Series</h5>
+											<label for="coll_number_series" class="small font-weight-light float-left d-block mt-1 mb-0">Number Series</label>
+											<input type="text" class="data-entry-input col-12 col-xl-6" id="coll_number_series">
+											<a class="btn btn-xs py-0 btn-primary" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Add Number Series</button>
+										</div>
 										<label for="locality_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Locality Remark</label>
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/></textarea>
 									</div>
