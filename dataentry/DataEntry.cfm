@@ -761,18 +761,33 @@ limitations under the License.
 											</cfloop>
 										</select>
 										</div>
-										<label for="spec_locality" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accurcy</label>
-										<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
-										<label for="inputMinElev" class="small font-weight-light float-left d-block mt-1 mb-0">Extent</label>
-										<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
-										<label for="sovereign_nation" class="small font-weight-light float-left d-block mt-1 mb-0">Sovereign Nation</label>
-										<input type="text" name="sovereign_nation" class="data-entry-input"/>
-										<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 mb-0">Geology Attribute</label>
-										<input type="text" name="geology_attribute" class="data-entry-input"/>
-										<label for="habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
-										<input type="text" name="habitat" class="data-entry-input"/>
-										<label for="locality_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Locality Remark</label>
-										<textarea type="text" name="locality_remark" class="data-entry-textarea"/></textarea>
+										<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Determiner</label>
+										<input type="text" name="" class="data-entry-input" id=""/>
+										<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Determined Date</label>
+										<input type="text" class="data-entry-input" id="">
+										<label for="datum" class="small font-weight-light float-left d-block mt-1 mb-0">Datum</label>
+										<input type="text" name="datum" class="data-entry-input"/>
+										<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Georeference Method</label>
+										<input type="text" name="georef_method" class="data-entry-input"/>
+										<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Extent</label>
+										<input type="text" name="" class="data-entry-input"/>
+										<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
+										<input type="text" name="" class="data-entry-input"/>
+										<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Verification Status</label>
+										<input type="text" name="" class="data-entry-input"/>
+										<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
+										<input type="text" name="" class="data-entry-input"/>
+										<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Coordinate Remarks</label>
+										<textarea type="text" name="remarks" class="data-entry-textarea"/></textarea>
+										<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Reference</label>
+										<input type="text" name="" class="data-entry-input"/>
+										<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
+										<input type="text" name="" class="data-entry-input"/>
+										<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Longitude</label>
+										<input type="text" name="" class="data-entry-input"/>
+										<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Error Polygon</label>
+										<input type="text" name="" class="data-entry-input"/>
+							
 									</div>
 								</div>
 							</div>
