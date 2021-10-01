@@ -149,6 +149,9 @@ limitations under the License.
 <cfquery name="spec_preserv_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select preserve_method from ctspecimen_preserv_method
 </cfquery>
+<cfquery name="attType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select attType.attribute_type from ctattribute_type
+</cfquery>
 	<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
@@ -654,16 +657,15 @@ limitations under the License.
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
 								<div id="customAtt">
 									<div class="form-row mx-0 my-2">
-										<label for="attribute_name" class="small font-weight-light float-left d-block mt-1 mb-0">Attribute Type</label>
-										<input type="text" class="data-entry-input" name="attribute">
-										<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">Attribute Value</label>
-										<input type="text" name="attribute value" class="data-entry-input">
 										<select class="data-entry-select">
-											<option value="">Biological Relationship Type</option>
-											<cfloop query="biolRelations">
-												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+											<option value="">Select Attribute Type</option>
+											<cfloop query="attType">
+												<option value="#attType.attribute_type#">#attType.attribute_type#</option>
 											</cfloop>
 										</select>
+										<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">Attribute Value</label>
+										<input type="text" name="attribute value" class="data-entry-input">
+							
 										<label for="date" class="small font-weight-light float-left d-block mt-1 mb-0">Date</label>
 										<input type="text" class="data-entry-input" name="date">
 										<label for="determiner" class="small font-weight-light float-left d-block mt-1 mb-0">Determiner</label>
