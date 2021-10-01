@@ -594,7 +594,11 @@ limitations under the License.
 										<label for="locality_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Collecting Remark</label>
 										<textarea type="text" name="locality_remark" class="data-entry-textarea mt-0"/>
 										</textarea>
-										<h5 class="mb-0 mt-2 font-weight-bold w-100 text-center mb-1">Verbatim Georeference</h5>
+										<div class="col-12 px-0">
+											<label for="coll_number_series" class="small font-weight-light float-left w-100 d-block mt-1 mb-0">Collecting Event Number Series</label>
+											<input type="text" class="data-entry-input col-12 col-xl-6 float-left" id="coll_number_series">
+											<a class="btn btn-xs py-0 btn-primary col-12 col-xl-6 float-left" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Add ## Series</a>
+										</div>
 
 										<label for="Coord. System" class="small font-weight-light float-left d-block mt-1 mb-0">SRS or Datum</label>
 										<input type="text" class="data-entry-input" id="Datum">
@@ -727,11 +731,6 @@ limitations under the License.
 										<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
 										<label for="habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
 										<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
-										<div class="col-12 px-0">
-											<label for="coll_number_series" class="small font-weight-light float-left w-100 d-block mt-1 mb-0">Number Series</label>
-											<input type="text" class="data-entry-input col-12 col-xl-6 float-left" id="coll_number_series">
-											<a class="btn btn-xs py-0 btn-primary col-12 col-xl-6 float-left" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Add ## Series</a>
-										</div>
 										<label for="locality_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Locality Remark</label>
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/></textarea>
 									</div>
