@@ -769,7 +769,7 @@ limitations under the License.
 													<input type="text" id="citation" name="citation" class="data-entry-input" value="#citation#" >
 													<script>
 														jQuery(document).ready(function() {
-															makePublicationPicker('publication_id','publication_id');
+															makePublicationPicker('citation','publication_id');
 														});
 													</script>
 												</div>
