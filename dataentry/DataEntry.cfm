@@ -576,9 +576,9 @@ limitations under the License.
 										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Time</label>
 										<input type="text" class="data-entry-input mt-0" id="collecting_time">
 										<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block mt-1 mb-0">Day of Year</label>
-										<div class="w-100">
-										<input type="text" class="data-entry-input float-left w-50 mt-0" id="start_day_of_year" placeholder="Start Day of Year">
-										<input type="text" class="data-entry-input float-left w-50 mt-0" id="end_day_of_year" placeholder="End Day of Year">
+										<div class="col-12 px-0">
+										<input type="text" class="data-entry-input float-left col-12 col-xl-6 px-0 mt-0" id="start_day_of_year" placeholder="Start Day of Year">
+										<input type="text" class="data-entry-input float-left col-12 col-xl-6 px-0 mt-0" id="end_day_of_year" placeholder="End Day of Year">
 										</div>
 										<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Source</label>
 										<input type="text" class="data-entry-input mt-0" id="collecting_source">
