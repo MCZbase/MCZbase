@@ -751,9 +751,9 @@ limitations under the License.
 												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
 											</cfloop>
 										</select>
-										<div class="w-100">
-										<label for="higher_geog" class="sr-only">Max Error</label>
-										<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input0" />
+										<div class="col-12 px-0">
+										<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 mb-0">Max Error</label>
+										<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input" />
 										<select class="data-entry-select w-100" required>
 											<option value="">Select Error Units</option>
 											<cfloop query="error_units">
@@ -761,15 +761,14 @@ limitations under the License.
 											</cfloop>
 										</select>
 										</div>
-										<label for="spec_locality" class="sr-only">GPS Accurcy</label>
+										<label for="spec_locality" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accurcy</label>
 										<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
-										<label for="inputMinElev" class="sr-only">Extent</label>
+										<label for="inputMinElev" class="small font-weight-light float-left d-block mt-1 mb-0">Extent</label>
 										<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
-										<div class="w-100">
-										<div class="w-75">
-										<label for="inputMinDepth" class="sr-only">Depth</label>
-										<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
-										<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
+										<div class="col-12 px-0">
+										<label for="inputMinDepth" class="small font-weight-light float-left d-block mt-1 mb-0">Depth</label>
+										<input type="text" class="data-entry-input float-left col-12 col-xl-6" id="inputMinDepth" placeholder="Min Depth">
+										<input type="text" class="data-entry-input float-left col-12 col-xl-6" id="inputMaxDepth" placeholder="Max Depth">
 										</div>
 										<div class="w-25">
 										<select class="data-entry-select" required>
@@ -780,14 +779,14 @@ limitations under the License.
 										</select>
 										</div>
 										</div>
-										<label for="sovereign_nation" class="sr-only">Sovereign Nation</label>
-										<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
-										<label for="higher_geog" class="sr-only">Geology Attribute</label>
-										<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
-										<label for="habitat" class="sr-only">Habitat</label>
-										<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
-										<label for="locality_remark" class="sr-only">Locality Remark</label>
-										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/></textarea>
+										<label for="sovereign_nation" class="small font-weight-light float-left d-block mt-1 mb-0">Sovereign Nation</label>
+										<input type="text" name="sovereign_nation" class="data-entry-input"/>
+										<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 mb-0">Geology Attribute</label>
+										<input type="text" name="geology_attribute" class="data-entry-input"/>
+										<label for="habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
+										<input type="text" name="habitat" class="data-entry-input"/>
+										<label for="locality_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Locality Remark</label>
+										<textarea type="text" name="locality_remark" class="data-entry-textarea"/></textarea>
 									</div>
 								</div>
 							</div>
