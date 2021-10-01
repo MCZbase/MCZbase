@@ -597,7 +597,7 @@ limitations under the License.
 										<div class="col-12 px-0">
 											<label for="coll_number_series" class="small font-weight-light float-left w-100 d-block mt-1 mb-0">Collecting Event Number Series</label>
 											<input type="text" class="data-entry-input col-12 col-xl-8 float-left" id="coll_number_series">
-											<a style="line-height: 1.34rem;" class="btn btn-xs btn-outline-primary col-12 col-xl-4 float-left" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Add ## Series</a>
+											<a style="line-height: 1.34rem;" class="btn btn-xs btn-outline-primary border-light col-12 col-xl-4 float-left" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Add ## Series</a>
 										</div>
 
 										<label for="Coord. System" class="small font-weight-light float-left d-block mt-1 mb-0">SRS or Datum</label>
