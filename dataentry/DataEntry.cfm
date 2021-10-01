@@ -657,7 +657,7 @@ limitations under the License.
 								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
 								<div id="customAtt">
 									<div class="form-row mx-0 my-2">
-										<select class="data-entry-select">
+										<select class="data-entry-select mt-1">
 											<option value="">Select Attribute Type</option>
 											<cfloop query="attType">
 												<option value="#attType.attribute_type#">#attType.attribute_type#</option>
@@ -689,16 +689,16 @@ limitations under the License.
 								<div id="customSciName">
 									<div class="form-row mx-0 my-2">
 										<h5 class="mb-0 font-weight-bold text-center mt-0 d-block w-100">
-											<label for="collecting_event_id" class="">Use Collecting Event ID only</label>
+											<label for="collecting_event_id" class="">Use Locality ID only</label>
 										</h5>
 										<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 										<span class="small w-100 float-left text-center mt-2">- OR - </span>
-										<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Collecting Event</h5>
-										<label for="higher_geog" class="sr-only">Higher Geography</label>
+										<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Locality</h5>
+										<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 mb-0">Higher Geography</label>
 										<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
-										<label for="spec_locality" class="sr-only">Specific Locality</label>
+										<label for="spec_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Specific Locality</label>
 										<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
-										<label for="inputMinElev" class="sr-only">Elevation</label>
+										<label for="inputMinElev" class="small font-weight-light float-left d-block mt-1 mb-0">Elevation</label>
 										<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
 										<input type="text" class="data-entry-input" id="inputMaxElev" placeholder="Max Elevation">
 										<select class="data-entry-select">
@@ -707,7 +707,7 @@ limitations under the License.
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
 										</select>
-										<label for="inputMinDepth" class="sr-only">Depth</label>
+										<label for="inputMinDepth" class="small font-weight-light float-left d-block mt-1 mb-0">Depth</label>
 										<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
 										<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
 										<select class="data-entry-select">
@@ -716,13 +716,13 @@ limitations under the License.
 												<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
 											</cfloop>
 										</select>
-										<label for="sovereign_nation" class="sr-only">Sovereign Nation</label>
+										<label for="sovereign_nation" class="small font-weight-light float-left d-block mt-1 mb-0">Sovereign Nation</label>
 										<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
-										<label for="higher_geog" class="sr-only">Geology Attribute</label>
+										<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 mb-0">Geology Attribute</label>
 										<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
-										<label for="habitat" class="sr-only">Habitat</label>
+										<label for="habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
 										<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
-										<label for="locality_remark" class="sr-only">Locality Remark</label>
+										<label for="locality_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Locality Remark</label>
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/></textarea>
 									</div>
 								</div>
