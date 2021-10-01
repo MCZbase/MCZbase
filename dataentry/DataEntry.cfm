@@ -784,7 +784,7 @@ limitations under the License.
 											<input type="text" name="" class="data-entry-input"/>
 									</div>
 									<div class="row mx-0">
-										<div id="dec_lat_long">
+										<div id="dec_lat_long" class="col-12 px-0">
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
 											<input type="text" name="" class="data-entry-input"/>
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Longitude</label>
@@ -794,7 +794,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="row mx-0">
-										<div id="dec_min_sec" style="display: hidden;">
+										<div id="dec_min_sec" class="col-12 px-0" style="display: hidden;">
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
 											<input type="text" name="" class="data-entry-input"/>
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Longitude</label>
@@ -803,7 +803,7 @@ limitations under the License.
 											<input type="text" name="" class="data-entry-input"/>
 									</div>
 									<div class="row mx-0">
-										<div id="dec_deg_min" style="display: hidden;">
+										<div id="dec_deg_min" class="col-12 px-0" style="display: hidden;">
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
 											<input type="text" name="" class="data-entry-input"/>
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Longitude</label>
@@ -813,7 +813,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="row mx-0">
-										<div id="unknown" style="display: hidden;">
+										<div id="unknown" class="col-12 px-0" style="display: hidden;">
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
 											<input type="text" name="" class="data-entry-input"/>
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Longitude</label>
