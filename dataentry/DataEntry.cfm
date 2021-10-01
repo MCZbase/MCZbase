@@ -108,7 +108,7 @@ limitations under the License.
 
 </style>
 
-<cfoutput>
+<cfoutput query="dataEntry">
  <cfquery name="error_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		ctlat_long_error_units.lat_long_error_units
@@ -749,7 +749,7 @@ limitations under the License.
 											onChange="switchActive(this.value);dataEntry.max_error_distance.focus();">
 											<option value=""></option>
 											<cfloop query="ctunits">
-											  <option <cfif data.orig_lat_long_units is ctunits.orig_lat_long_units> selected="selected" </cfif>
+											  <option <cfif dataEntry.orig_lat_long_units is ctunits.orig_lat_long_units> selected="selected" </cfif>
 											  	value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
 											</cfloop>
 										</select>
