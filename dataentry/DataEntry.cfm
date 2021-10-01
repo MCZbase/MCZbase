@@ -567,9 +567,9 @@ limitations under the License.
 										<label for="verbatim_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Locality</label>
 										<input type="text" name="verbatim_locality mt-0" class="data-entry-input"/>
 										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">ISO Dates</label>
-										<div class="w-100">
-										<input type="text" class="data-entry-input w-50 float-left mt-0" id="began_date" placeholder="Began Date">
-										<input type="text" class="data-entry-input w-50 float-left mt-0" id="ended_date" placeholder="Date Ended">
+										<div class="col-12 px-0">
+										<input type="text" class="data-entry-input col-12 col-xl-6 px-0 float-left mt-0" id="began_date" placeholder="Began Date">
+										<input type="text" class="data-entry-input col-12 col-xl-6 px-0 float-left mt-0" id="ended_date" placeholder="Date Ended">
 										</div>
 										<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
 										<input type="text" class="data-entry-input mt-0" id="verbatim_date">
