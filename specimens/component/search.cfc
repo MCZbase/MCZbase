@@ -623,6 +623,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="loan_number" type="string" required="no">
 	<cfargument name="accession_number" type="string" required="no">
 	<cfargument name="deaccession_number" type="string" required="no">
+	<cfargument name="publication_id" type="string" required="no">
+	<cfargument name="citation" type="string" required="no">
 	<cfargument name="debug" type="string" required="no">
 
 	<cfset search_json = "[">
@@ -853,6 +855,17 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
 		</cfif>
+	</cfif>
+
+	<cfif isDefined("publication_id") AND len(publication_id) GT 0>
+		<cfset field = '"field": "CITATIONS_PUBLICATION_ID"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = encodeForJavaScript(publication_id)>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+		<!--- TODO: Support textual search on publication from citation variable --->
 	</cfif>
 
 	<cfset search_json = "#search_json#]">

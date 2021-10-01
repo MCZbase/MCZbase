@@ -754,10 +754,22 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="family" class="data-entry-label">Family</label>
 													<cfif not isdefined("family")><cfset family=""></cfif>
-													<input id="family" name="family" class="data-entry-input" value="#family#" >
+													<input type="text" id="family" name="family" class="data-entry-input" value="#family#" >
 													<script>
 														jQuery(document).ready(function() {
 															makeTaxonSearchAutocomplete('family','family');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="publication_id" class="data-entry-label">Citation</label>
+													<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
+													<cfif not isdefined("citation")><cfset citation=""></cfif>
+													<input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input" value="#publication_id#" >
+													<input type="text" id="citation" name="citation" class="data-entry-input" value="#citation#" >
+													<script>
+														jQuery(document).ready(function() {
+															makePublicationPicker('publication_id','publication_id');
 														});
 													</script>
 												</div>
@@ -787,6 +799,18 @@ limitations under the License.
 													<label for="scientific_name" class="data-entry-label">Scientific Name</label>
 													<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
 													<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
+													<cfif len(taxon_name_id) GT 0 and len(scientific_name) EQ 0>
+														<!--- lookup scientific name --->
+														<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupTaxon_result">
+															SELECT scientific_name as sciname
+															FROM taxonomy
+															WHERE
+																taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+														</cfquery>
+														<cfif lookupTaxon.recordcount EQ 1>
+															<cfset scientific_name = "=#lookupTaxon.sciname#">
+														</cfif>
+													</cfif>
 													<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input" value="#scientific_name#" >
 													<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#taxon_name_id#" >
 													<script>
@@ -949,12 +973,36 @@ limitations under the License.
 														<cfif not isdefined("loan_number")>
 															<cfset loan_number="">
 														</cfif>
+														<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
+															<!--- lookup loan number (for api call &loan_trans_id=) --->
+															<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupLoan_result">
+																SELECT loan_number as lnum
+																FROM loan
+																WHERE
+																	transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_trans_id#">
+															</cfquery>
+															<cfif lookupLoan.recordcount EQ 1>
+																<cfset accn_number = "=#lookupLoan.lnum#">
+															</cfif>
+														</cfif>
 														<label for="loan_number" class="data-entry-label">Loan Number</label>
 														<input type="text" name="loan_number" class="data-entry-input" id="loan_number" placeholder="yyyy-n-Col" value="#loan_number#" >
 													</div>
 													<div class="col-12 col-md-2">
 														<cfif not isdefined("accn_number")>
 															<cfset accn_number="">
+														</cfif>
+														<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
+															<!--- lookup accession number (for api call &accn_trans_id=) --->
+															<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAccn_result">
+																SELECT accn_number as accnum
+																FROM accn
+																WHERE
+																	transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_trans_id#">
+															</cfquery>
+															<cfif lookupAccn.recordcount EQ 1>
+																<cfset accn_number = "=#lookupAccn.accnum#">
+															</cfif>
 														</cfif>
 														<label for="accn_number" class="data-entry-label">Accession Number</label>
 														<input type="text" name="accn_number" class="data-entry-input" id="accn_number" placeholder="nnnnn" value="#accn_number#" >
