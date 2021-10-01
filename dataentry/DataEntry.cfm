@@ -761,7 +761,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 										</div>
-										<div>
+								
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Determiner</label>
 											<input type="text" name="" class="data-entry-input" id=""/>
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Determined Date</label>
@@ -814,7 +814,7 @@ limitations under the License.
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Error Polygon</label>
 											<input type="text" name="" class="data-entry-input"/>
 										</div>
-									</div>
+						
 									</div>
 								</div>
 							</div>
