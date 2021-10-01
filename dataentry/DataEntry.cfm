@@ -700,8 +700,8 @@ limitations under the License.
 										<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
 										<label for="inputMinElev" class="small font-weight-light float-left d-block mt-1 mb-0">Elevation</label>
 										<div class="col-12 px-0">
-										<input type="text" class="data-entry-input col-12 col-xl-6" id="inputMinElev" placeholder="Min Elevation">
-										<input type="text" class="data-entry-input col-12 col-xl-6" id="inputMaxElev" placeholder="Max Elevation">
+										<input type="text" class="data-entry-input col-12 col-xl-6 float-left" id="inputMinElev" placeholder="Min Elevation">
+										<input type="text" class="data-entry-input col-12 col-xl-6 float-left" id="inputMaxElev" placeholder="Max Elevation">
 										</div>
 										<select class="data-entry-select">
 											<option value="">Units</option>
