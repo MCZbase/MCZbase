@@ -699,8 +699,10 @@ limitations under the License.
 										<label for="spec_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Specific Locality</label>
 										<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
 										<label for="inputMinElev" class="small font-weight-light float-left d-block mt-1 mb-0">Elevation</label>
-										<input type="text" class="data-entry-input" id="inputMinElev" placeholder="Min Elevation">
-										<input type="text" class="data-entry-input" id="inputMaxElev" placeholder="Max Elevation">
+										<div class="col-12 px-0">
+										<input type="text" class="data-entry-input col-12 col-xl-6" id="inputMinElev" placeholder="Min Elevation">
+										<input type="text" class="data-entry-input col-12 col-xl-6" id="inputMaxElev" placeholder="Max Elevation">
+										</div>
 										<select class="data-entry-select">
 											<option value="">Units</option>
 											<cfloop query="depthUnits">
