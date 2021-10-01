@@ -753,7 +753,7 @@ limitations under the License.
 										</select>
 										<div class="w-100">
 										<label for="higher_geog" class="sr-only">Max Error</label>
-										<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input w-50" />
+										<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input0" />
 										<select class="data-entry-select w-100" required>
 											<option value="">Select Error Units</option>
 											<cfloop query="error_units">
