@@ -154,7 +154,7 @@ limitations under the License.
 </cfquery>
 	<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
-	<div class="container-fluid mx-4 pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
+	<div class="container-fluid px-4 pt-0 mt-0 bg-blue-gray h-100" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 justify-content-center mt-2 mx-auto">
 				<form id="regForm" action="/DataEntry.cfm">
