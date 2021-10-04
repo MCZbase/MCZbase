@@ -788,7 +788,7 @@ limitations under the License.
 											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100">Longitude</h5>
 											<div class="float-left col-12 col-md-3 px-0">
 												<label for="long_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
-												<input type="text" name="lat_deg" class="data-entry-input px-0"/>
+												<input type="text" name="lat_deg" class="data-entry-input"/>
 											</div>
 											<div class="float-left col-12 col-md-3 px-0">
 												<label for="long_min" class="small font-weight-light float-left d-block mt-1 mb-0">Minutes</label>
