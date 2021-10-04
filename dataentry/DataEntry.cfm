@@ -597,7 +597,7 @@ limitations under the License.
 										<div class="col-12 px-0">
 											<label for="coll_number_series" class="small font-weight-light float-left w-100 d-block mt-1 mb-0">Collecting Event Number Series</label>
 											<input type="text" class="data-entry-input col-12 col-xl-8 float-left" id="coll_number_series" placeholder="Existing Series">
-											<a style="line-height: 1.34rem;" class="btn btn-xs btn-outline-primary border-light col-12 col-xl-4 float-left" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Add New ## Series</a>
+											<a style="line-height: 1.34rem;" class="btn btn-xs btn-outline-primary border-light col-12 px-0 col-xl-4 float-left" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Add New Series</a>
 										</div>
 
 										<label for="Coord. System" class="small font-weight-light float-left d-block mt-1 mb-0">SRS or Datum</label>
@@ -799,12 +799,20 @@ limitations under the License.
 									</div>
 									<div class="row mx-0 deg_min_sec">
 										<div id="dec_min_sec" class="col-12 px-0" style="display: hidden;">
-											<div class="float-left col-12 col-md-3">
-											<label for="" class="small font-weight-light d-block mt-1 mb-0">Latitude Degrees</label>
-											<input type="text" name="" class="data-entry-input"/>
+											<div class="float-left col-12 col-md-4">
+												<h5 class="small font-weight-light d-block mt-1 mb-0">Latitude</h5>
+												<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
+												<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input"/>
+												<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">D
+												
+												9k</label>
+												<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input"/>
+												<label for="lat_sec" class="small font-weight-light mt-1 mb-0">Seconds</label>
+												<input type="text" name="lat_sec" class="data-entry-input float-left col-12 col-md-3 px-0"/>
 											</div>
-											<label for="" class="small font-weight-light d-block mt-1 mb-0">Minutes</label>
-											<input type="text" name="" class="data-entry-input float-left col-12 col-md-3 px-0"/>
+											<div class="float-left col-12 col-md-4">
+												<label for="" class="small font-weight-light d-block mt-1 mb-0">Minutes</label>
+												<input type="text" name="" class="data-entry-input float-left col-12 col-md-3 px-0"/>
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Seconds</label>
 											<input type="text" name="" class="data-entry-input float-left col-12 col-md-3 px-0"/>
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
