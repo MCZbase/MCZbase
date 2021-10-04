@@ -754,39 +754,6 @@ limitations under the License.
 												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
 											</cfloop>
 										</select>
-										<div class="col-12 px-0">
-											<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 px-0 mb-0">Max Error</label>
-											<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-8 col-md-7 float-left" />
-											<select class="data-entry-select col-4 col-md-5 float-left" required>
-												<option value="">Select Units</option>
-												<cfloop query="error_units">
-													<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 mt-2 border rounded p-1">
-											<label for="" class="small font-weight-light float-left col-12 text-right col-xl-4 d-block pl-0 pr-2 mt-1 mb-0">Determiner</label>
-											<input type="text" name="" class="data-entry-input mt-1 float-left col-12 col-xl-8" id=""/>
-											<label for="" class="small font-weight-light float-left text-right pr-2 col-12 col-xl-4 d-block pl-0 mt-1 mb-0">Date</label>
-											<input type="text" class="data-entry-input mt-1 float-left col-12 col-xl-8" id="">
-										</div>
-											<label for="datum" class="small font-weight-light float-left d-block mt-1 mb-0">Datum</label>
-											<input type="text" name="datum" class="data-entry-input"/>
-											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Georeference Method</label>
-											<input type="text" name="georef_method" class="data-entry-input"/>
-											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Extent</label>
-											<input type="text" name="" class="data-entry-input"/>
-											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
-											<input type="text" name="" class="data-entry-input"/>
-											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Verification Status</label>
-											<input type="text" name="" class="data-entry-input"/>
-											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
-											<input type="text" name="" class="data-entry-input"/>
-											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Coordinate Remarks</label>
-											<textarea type="text" name="remarks" class="data-entry-textarea"/></textarea>
-											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Reference</label>
-											<input type="text" name="" class="data-entry-input"/>
-									</div>
 									<div class="row mx-0 choose box">
 										<div id="dec_lat_long" class="col-12 px-0">
 											<label for="" class="small font-weight-light float-left col-12 col-xl-6 px-0 d-block mt-1 mb-0">Decimal Latitude</label>
@@ -835,6 +802,41 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+									
+										<div class="col-12 px-0">
+											<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 px-0 mb-0">Max Error</label>
+											<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-8 col-md-7 float-left" />
+											<select class="data-entry-select col-4 col-md-5 float-left" required>
+												<option value="">Select Units</option>
+												<cfloop query="error_units">
+													<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 mt-2 border rounded p-1">
+											<label for="" class="small font-weight-light float-left col-12 text-right col-xl-4 d-block pl-0 pr-2 mt-1 mb-0">Determiner</label>
+											<input type="text" name="" class="data-entry-input mt-1 float-left col-12 col-xl-8" id=""/>
+											<label for="" class="small font-weight-light float-left text-right pr-2 col-12 col-xl-4 d-block pl-0 mt-1 mb-0">Date</label>
+											<input type="text" class="data-entry-input mt-1 float-left col-12 col-xl-8" id="">
+										</div>
+											<label for="datum" class="small font-weight-light float-left d-block mt-1 mb-0">Datum</label>
+											<input type="text" name="datum" class="data-entry-input"/>
+											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Georeference Method</label>
+											<input type="text" name="georef_method" class="data-entry-input"/>
+											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Extent</label>
+											<input type="text" name="" class="data-entry-input"/>
+											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
+											<input type="text" name="" class="data-entry-input"/>
+											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Verification Status</label>
+											<input type="text" name="" class="data-entry-input"/>
+											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
+											<input type="text" name="" class="data-entry-input"/>
+											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Coordinate Remarks</label>
+											<textarea type="text" name="remarks" class="data-entry-textarea"/></textarea>
+											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Reference</label>
+											<input type="text" name="" class="data-entry-input"/>
+									</div>
+								
 							
 							
 											<label for="" class="small font-weight-light float-left col-12 col-md-3 px-0 d-block mt-1 mb-0">Longitude Degrees</label>
