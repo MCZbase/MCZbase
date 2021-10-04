@@ -381,7 +381,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="portlet">
-							<h2 class="portlet-header">ACCESSION NUMBER</h2>
+							<h2 class="portlet-header small90">ACCESSION NUMBER</h2>
 							<div class="portlet-content">
 								<label for="accn" class="small font-weight-light float-left d-block mt-1 mb-0">Accession Number</label>
 								<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" name="accn">
@@ -389,7 +389,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="portlet">
-							<div class="portlet-header">ENCUMBRANCE</div>
+							<h2 class="portlet-header small90">ENCUMBRANCE</h2>
 							<div class="portlet-content">
 								<label for="mask_record" class="float-left mt-2">Mask Record</label>
 								<input class="float-left ml-2 mt-1" value="1" type="checkbox" id="gridCheck1">
@@ -398,7 +398,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="portlet">
-							<div class="portlet-header">OTHER IDS</div>
+							<h2 class="portlet-header small90">OTHER IDS</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<div id="customOtherID">
@@ -419,7 +419,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="portlet">
-							<div class="portlet-header">CURATORIAL RELATIONSHIPS</div>
+							<h2 class="portlet-header small90">CURATORIAL RELATIONSHIPS</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<div id="customCurRelations">
@@ -442,7 +442,7 @@ limitations under the License.
 					</div>
 					<div class="column">
 						<div class="portlet">
-							<div class="portlet-header">COLLECTOR/PREPARATOR</div>
+							<h2 class="portlet-header small90">COLLECTOR/PREPARATOR</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<label for="agent_id" class="sr-only">Agent</label>
@@ -463,7 +463,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="portlet">
-							<div class="portlet-header">SCIENTIFIC NAME</div>
+							<h2 class="portlet-header small90">SCIENTIFIC NAME</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<div id="customSciName">
@@ -490,7 +490,7 @@ limitations under the License.
 						</div>
 					</div>
 						<div class="portlet">
-							<div class="portlet-header">BIOLOGICAL RELATIONSHIPS</div>
+							<h2 class="portlet-header small90">BIOLOGICAL RELATIONSHIPS</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<div id="customBiolRelations">
@@ -513,7 +513,7 @@ limitations under the License.
 					</div>
 					<div class="column">
 						<div class="portlet">
-							<div class="portlet-header">COLLECTING EVENT</div>
+							<h2 class="portlet-header small90">COLLECTING EVENT</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<div id="customSciName">
@@ -569,7 +569,7 @@ limitations under the License.
 					</div>
 					<div class="column">
 						<div class="portlet">
-							<div class="portlet-header">PARTS</div>
+							<h2 class="portlet-header small90">PARTS</h2>
 							<div class="portlet-content">
 								<div id="customPart">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
@@ -642,7 +642,7 @@ limitations under the License.
 					</div>				
 					<div class="column">
 						<div class="portlet">
-							<div class="portlet-header">LOCALITY</div>
+							<h2 class="portlet-header small90">LOCALITY</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<div id="customSciName">
