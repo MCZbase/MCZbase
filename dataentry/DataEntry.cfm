@@ -746,7 +746,7 @@ limitations under the License.
 									<div class="form-row mx-0 my-2">
 										<label for="Coord. System" class="sr-only">Coordinate System</label>
 										<select class="data-entry-select">
-											<option value="">Choose Coordinate System (DD default)</option>
+											<option value="">Coordinate System (dec. deg. default)</option>
 											<cfloop query="lat_long_units">
 												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
 											</cfloop>
