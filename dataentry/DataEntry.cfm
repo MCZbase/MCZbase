@@ -710,11 +710,11 @@ limitations under the License.
 										<!--- dec lat/long--->
 										<div class="row mx-0 choose dec_lat_long box mt-2">
 											<div id="dec_lat_long" class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
-												<div class="float-left col-12 col-md-6 px-0">
+												<div class="float-left col-12 col-xl-6 px-0">
 													<label for="dec_lat" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
 													<input type="text" name="dec_lat" class="data-entry-input"/>
 												</div>
-												<div class="float-left col-12 col-md-6 px-0">
+												<div class="float-left col-12 col-xl-6 px-0">
 													<label for="dec_long" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Longitude</label>
 													<input type="text" name="dec_long" class="data-entry-input"/>
 												</div>
