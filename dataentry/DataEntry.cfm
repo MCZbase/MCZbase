@@ -755,7 +755,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									<div class="row mx-0 choose box">
-										<div id="dec_lat_long" class="col-12 px-0">
+										<div id="dec_lat_long" class="col-12 px-0 border rounded">
 											<div class="float-left col-12 col-md-6 px-0">
 												<label for="dec_lat" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
 												<input type="text" name="dec_lat" class="data-entry-input"/>
