@@ -767,7 +767,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="row mx-0 mt-2">
-										<div id="dec_min_sec" class="col-12 px-1 pb-1 border bg-primary rounded float-left">
+										<div id="dec_min_sec" class="col-12 px-1 pb-1 border bg-light rounded float-left">
 											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Min. Sec. Latitude</h5>
 											<div class="float-left col-12 col-md-3 px-0">
 												<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
