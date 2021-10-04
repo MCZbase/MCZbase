@@ -407,7 +407,7 @@ limitations under the License.
 								<label for="collection" class="sr-only">Collection</label>
 								<div class="col-12">
 									<select class="data-entry-select" required>
-											<option value="">Select Collection</option>
+											<option value="">Collection</option>
 											<cfloop query="collection_full_name">
 												<option value="#collection_full_name.collection#">#collection_full_name.collection#</option>
 											</cfloop>
@@ -451,7 +451,7 @@ limitations under the License.
 									<div class="form-row mx-0 my-2">
 										<label for="other_id" class="sr-only">Other ID</label>
 										<select class="data-entry-select mt-1">
-											<option value="">Select Other ID Type</option>
+											<option value="">Other ID Type</option>
 											<cfloop query="otherIDType">
 												<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
 											</cfloop>
@@ -472,7 +472,7 @@ limitations under the License.
 								<div class="form-row mx-0 my-2">
 									<label for="relations" class="sr-only">Relationship</label>
 										<select class="data-entry-select mt-1">
-											<option value="">Select Curatorial Rel. Type</option>
+											<option value="">Curatorial Rel. Type</option>
 											<cfloop query="currRelations">
 												<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
 											</cfloop>
@@ -494,9 +494,9 @@ limitations under the License.
 								<div id="customAgent1">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 m-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
 									<div class="form-row mx-0 my-2">
-										<label for="collector_role" class="sr-only">Select Agent Role</label>
+										<label for="collector_role" class="sr-only">Agent Role</label>
 										<select class="data-entry-select" required>
-											<option value="">Select Agent Role</option>
+											<option value="">Agent Role</option>
 											<option value="c">Collector</option>
 											<option value="p">Preparator</option>
 										</select>
@@ -520,7 +520,7 @@ limitations under the License.
 									<input type="text" name="made_by" class="data-entry-input"/>
 									<label for="nature_of_id" class="small font-weight-light float-left d-block mt-1 mb-0">Nature of ID</label>
 										<select class="data-entry-select">
-											<option value="">Select Nature of ID</option>
+											<option value="">Nature of ID</option>
 											<cfloop query="nature_of_id">
 												<option value="#nature_of_id.nature_of_id#">#nature_of_id.nature_of_id#</option>
 											</cfloop>
@@ -543,7 +543,7 @@ limitations under the License.
 									<div class="form-row my-2 mx-0">
 										
 										<select class="data-entry-select mt-1">
-											<option value="">Select Bio. Relationship Type</option>
+											<option value="">Biological Relationship</option>
 											<cfloop query="biolRelations">
 												<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 											</cfloop>
@@ -623,7 +623,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input" name="part_name">
 									<label for="preserv_method" class="small font-weight-light float-left d-block mt-1 mb-0">Preserve Method</label>
 										<select class="data-entry-select">
-											<option value="">Select Preserve Method</option>
+											<option value="">Preserve Method</option>
 											<cfloop query="spec_preserv_method">
 												<option value="#spec_preserv_method.preserve_method#">#spec_preserv_method.preserve_method#</option>
 											</cfloop>
@@ -632,14 +632,14 @@ limitations under the License.
 									<input type="text" class="data-entry-input" name="condition">
 									<label for="disposition" class="small font-weight-light float-left d-block mt-1 mb-0">Disposition</label>
 										<select class="data-entry-select">
-											<option value="">Select Disposition</option>
+											<option value="">Disposition</option>
 											<cfloop query="obj_disp">
 												<option value="#obj_disp.coll_obj_disposition#">#obj_disp.coll_obj_disposition#</option>
 											</cfloop>
 										</select>							
 									<label for="num_modifier" class="small font-weight-light float-left d-block mt-1 mb-0">## Modifier</label>
 										<select class="data-entry-select" name="num_modifier">
-											<option value="">Select Modifier </option>
+											<option value="">Modifier </option>
 											<cfloop query="num_mod">
 												<option value="#num_mod.modifier#">#num_mod.modifier#</option>
 											</cfloop>
@@ -662,7 +662,7 @@ limitations under the License.
 								<div id="customAtt">
 									<div class="form-row mx-0 my-2">
 										<select class="data-entry-select mt-1">
-											<option value="">Select Attribute Type</option>
+											<option value="">Attribute Type</option>
 											<cfloop query="attType">
 												<option value="#attType.attribute_type#">#attType.attribute_type#</option>
 											</cfloop>
@@ -846,7 +846,7 @@ limitations under the License.
 											<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 px-0 mb-0">Max Error</label>
 											<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-8 col-md-7 float-left" />
 											<select class="data-entry-select col-4 col-md-5 float-left" required>
-												<option value="">Select Units</option>
+												<option value="">Units</option>
 												<cfloop query="error_units">
 													<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
 												</cfloop>
