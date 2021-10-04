@@ -761,10 +761,10 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 px-0 mt-2">
+										<div class="col-12 mt-2 border p-1">
 											<label for="" class="small font-weight-light float-left col-12 col-xl-4 d-block px-0 mt-1 mb-0">Determiner</label>
 											<input type="text" name="" class="data-entry-input float-left col-12 col-xl-8" id=""/>
-											<label for="" class="small font-weight-light float-left col-12 col-xl-4 d-block px-0 mt-1 mb-0">Determined Date</label>
+											<label for="" class="small font-weight-light float-left col-12 col-xl-4 d-block px-0 mt-1 mb-0">Date</label>
 											<input type="text" class="data-entry-input float-left col-12 col-xl-8" id="">
 										</div>
 											<label for="datum" class="small font-weight-light float-left d-block mt-1 mb-0">Datum</label>
@@ -786,9 +786,9 @@ limitations under the License.
 									</div>
 									<div class="row mx-0">
 										<div id="dec_lat_long" class="col-12 px-0">
-											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
+											<label for="" class="small font-weight-light float-left col-12 col-xl-6 d-block mt-1 mb-0">Decimal Latitude</label>
 											<input type="text" name="" class="data-entry-input"/>
-											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Longitude</label>
+											<label for="" class="small font-weight-light float-left d-block col-12 col-xl-6 mt-1 mb-0">Decimal Longitude</label>
 											<input type="text" name="" class="data-entry-input"/>
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Error Polygon</label>
 											<input type="text" name="" class="data-entry-input"/>
