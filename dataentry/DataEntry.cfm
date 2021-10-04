@@ -800,7 +800,7 @@ limitations under the License.
 									<div class="row mx-0 deg_min_sec">
 										<div id="dec_min_sec" class="col-12 px-0" style="display: hidden;">
 											<div class="float-left col-12 col-md-4">
-												<h5 class="small font-weight-light d-block mt-1 mb-0">Latitude</h5>
+												<h5 class="small font-weight-bold d-block mt-1 mb-0 w-100">Latitude</h5>
 												<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
 												<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input"/>
 												<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">D
