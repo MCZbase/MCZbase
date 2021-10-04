@@ -373,7 +373,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="portlet">
-							<div class="portlet-header">CATALOG NUMBER</div>
+							<h2 class="portlet-header">CATALOG NUMBER</h2>
 							<div class="portlet-content">
 								<label for="cat_num" class="sr-only">Catalog Number</label>
 								<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
@@ -381,7 +381,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="portlet">
-							<div class="portlet-header">ACCESSION NUMBER</div>
+							<h2 class="portlet-header">ACCESSION NUMBER</h2>
 							<div class="portlet-content">
 								<label for="accn" class="small font-weight-light float-left d-block mt-1 mb-0">Accession Number</label>
 								<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" name="accn">
