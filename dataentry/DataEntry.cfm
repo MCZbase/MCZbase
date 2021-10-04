@@ -808,7 +808,7 @@ limitations under the License.
 									<!--- deg dec min dir--->
 									<div class="row mx-0 mt-2 deg_decmin box" id="deg_decmin" style="display: none;">
 										<div class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
-											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Dec. Min. Latitude</h5>
+											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Decimal Min. Latitude</h5>
 											<div class="float-left col-12 col-md-4 px-0">
 												<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
 												<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input"/>
