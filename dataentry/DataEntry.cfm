@@ -755,7 +755,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									<div class="row mx-0 choose box mt-2">
-										<div id="dec_lat_long" class="col-12 border px-1 pb-1 rounded">
+										<div id="dec_lat_long" class="col-12 border bg-light px-1 pb-1 rounded">
 											<div class="float-left col-12 col-md-6 px-0">
 												<label for="dec_lat" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
 												<input type="text" name="dec_lat" class="data-entry-input"/>
@@ -767,7 +767,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="row mx-0 mt-2">
-										<div id="dec_min_sec" class="col-12 px-1 pb-1 border rounded float-left" style="display: hidden;">
+										<div id="dec_min_sec" class="col-12 px-1 pb-1 border bg-light rounded float-left" style="display: hidden;">
 											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Min. Sec. Latitude</h5>
 											<div class="float-left col-12 col-md-3 px-0">
 												<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
