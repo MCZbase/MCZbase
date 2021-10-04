@@ -767,8 +767,8 @@ limitations under the License.
 										</div>
 									</div>
 									<!--- deg/min/sec--->
-									<div class="row mx-0 mt-2">
-										<div id="dec_min_sec" class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
+									<div class="row mx-0 mt-2" id="dec_min_sec" style="display:none;">
+										<div class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
 											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Min. Sec. Latitude</h5>
 											<div class="float-left col-12 col-md-3 px-0">
 												<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
@@ -806,8 +806,8 @@ limitations under the License.
 										</div>
 									</div>
 									<!--- deg dec min dir--->
-									<div class="row mx-0 mt-2">
-										<div id="deg_decmin" class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
+									<div class="row mx-0 mt-2" id="deg_decmin" style="display: none;">
+										<div class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
 											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Dec. Min. Latitude</h5>
 											<div class="float-left col-12 col-md-4 px-0">
 												<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
@@ -837,8 +837,8 @@ limitations under the License.
 										</div>
 									</div>
 									<!--- unknown --->
-									<div class="row mx-0 choose box mt-2">
-										<div id="unknown" class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
+									<div class="row mx-0 choose box mt-2" id="unknown" style="display:none;">
+										<div class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
 										</div>
 									</div>
 										<div class="col-12 px-0">
