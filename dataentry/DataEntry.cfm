@@ -702,29 +702,28 @@ limitations under the License.
 										<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
 										<label for="spec_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Specific Locality</label>
 										<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
-										
 										<div class="col-12 px-0">
-										<label for="inputMinElev" class="small font-weight-light col-12 px-0 float-left d-block mt-1 mb-0">Elevation</label>
-										<input type="text" class="data-entry-input col-12 col-xl-6 float-left" id="inputMinElev" placeholder="Min Elevation">
-										<input type="text" class="data-entry-input col-12 col-xl-6 float-left" id="inputMaxElev" placeholder="Max Elevation">
+											<label for="inputMinElev" class="small font-weight-light col-12 px-0 float-left d-block mt-1 mb-0">Elevation</label>
+											<input type="text" class="data-entry-input col-12 col-xl-6 float-left" id="inputMinElev" placeholder="Min Elevation">
+											<input type="text" class="data-entry-input col-12 col-xl-6 float-left" id="inputMaxElev" placeholder="Max Elevation">
+											<select class="data-entry-select">
+												<option value="">Units</option>
+												<cfloop query="depthUnits">
+													<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
+												</cfloop>
+											</select>
 										</div>
-										<select class="data-entry-select">
-											<option value="">Units</option>
-											<cfloop query="depthUnits">
-												<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
-											</cfloop>
-										</select>
 										<div class="col-12 px-0">
 											<label for="inputMinDepth" class="small font-weight-light float-left col-12 px-0 d-block mt-1 mb-0">Depth</label>
-											<input type="text" class="data-entry-input col-12 col-xl-6 float-left" id="inputMinDepth" placeholder="Min Depth">
-											<input type="text" class="data-entry-input col-12 col-xl-6 float-left" id="inputMaxDepth" placeholder="Max Depth">
+											<input type="text" class="data-entry-input col-12 col-xl-4 float-left" id="inputMinDepth" placeholder="Min Depth">
+											<input type="text" class="data-entry-input col-12 col-xl-4 float-left" id="inputMaxDepth" placeholder="Max Depth">
+											<select class="data-entry-select col-12 col-xl-4">
+												<option value="">Units</option>
+												<cfloop query="depthUnits">
+													<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
+												</cfloop>
+											</select>
 										</div>
-										<select class="data-entry-select">
-											<option value="">Units</option>
-											<cfloop query="depthUnits">
-												<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
-											</cfloop>
-										</select>
 										<label for="sovereign_nation" class="small font-weight-light float-left d-block mt-1 mb-0">Sovereign Nation</label>
 										<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
 										<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 mb-0">Geology Attribute</label>
