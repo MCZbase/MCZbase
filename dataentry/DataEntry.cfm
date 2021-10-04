@@ -754,7 +754,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									<!--- dec lat/long--->
-									<div class="row mx-0 choose box mt-2">
+									<div class="row mx-0 choose dec_lat_long box mt-2">
 										<div id="dec_lat_long" class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
 											<div class="float-left col-12 col-md-6 px-0">
 												<label for="dec_lat" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
@@ -767,7 +767,7 @@ limitations under the License.
 										</div>
 									</div>
 									<!--- deg/min/sec--->
-									<div class="row mx-0 mt-2" id="dec_min_sec" style="display:none;">
+									<div class="row mx-0 mt-2 dec_min_sec box" id="dec_min_sec" style="display:none;">
 										<div class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
 											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Min. Sec. Latitude</h5>
 											<div class="float-left col-12 col-md-3 px-0">
@@ -806,7 +806,7 @@ limitations under the License.
 										</div>
 									</div>
 									<!--- deg dec min dir--->
-									<div class="row mx-0 mt-2" id="deg_decmin" style="display: none;">
+									<div class="row mx-0 mt-2 deg_decmin box" id="deg_decmin" style="display: none;">
 										<div class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
 											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Dec. Min. Latitude</h5>
 											<div class="float-left col-12 col-md-4 px-0">
@@ -837,7 +837,7 @@ limitations under the License.
 										</div>
 									</div>
 									<!--- unknown --->
-									<div class="row mx-0 choose box mt-2" id="unknown" style="display:none;">
+									<div class="row mx-0 unknown box mt-2" id="unknown" style="display:none;">
 										<div class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
 										</div>
 									</div>
@@ -874,8 +874,30 @@ limitations under the License.
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Reference</label>
 											<input type="text" name="" class="data-entry-input"/>
 									</div>
-								
-							
+<script>
+$(document).ready(function(){
+	$("select").change(function(){
+		$( "select option:selected").each(function(){
+			if($(this).attr("value")=="dec_lat_long"){
+				$(".box").hide();
+				$(".dec_lat_long").show();
+			}
+			if($(this).attr("value")=="dec_min_sec"){
+				$(".box").hide();
+				$(".dec_min_sec").show();
+			}
+			if($(this).attr("value")=="deg_decmin"){
+				$(".box").hide();
+				$(".deg_decmin").show();
+			}
+			if($(this).attr("value")=="unknown"){
+				$(".box").hide();
+				$(".unknown").show();
+			}
+		});
+	}).change();
+});	
+</script>
 							
 						
 									
