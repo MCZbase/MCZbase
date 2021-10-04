@@ -786,9 +786,9 @@ limitations under the License.
 									</div>
 									<div class="row mx-0">
 										<div id="dec_lat_long" class="col-12 px-0">
-											<label for="" class="small font-weight-light float-left col-12 col-xl-6 d-block mt-1 mb-0">Decimal Latitude</label>
+											<label for="" class="small font-weight-light float-left col-12 col-xl-6 px-0 d-block mt-1 mb-0">Decimal Latitude</label>
 											<input type="text" name="" class="data-entry-input"/>
-											<label for="" class="small font-weight-light float-left d-block col-12 col-xl-6 mt-1 mb-0">Decimal Longitude</label>
+											<label for="" class="small font-weight-light float-left d-block col-12 col-xl-6 px-0 mt-1 mb-0">Decimal Longitude</label>
 											<input type="text" name="" class="data-entry-input"/>
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Error Polygon</label>
 											<input type="text" name="" class="data-entry-input"/>
