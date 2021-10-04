@@ -750,7 +750,7 @@ limitations under the License.
 											<option value="dec_lat_long">Decimal Degrees</option>
 											<option value="dec_min_sec">Degrees Minutes Seconds</option>
 											<option value="deg_decmin">Degrees Decimal Degrees</option>
-											<option value="deg_decmin">Unknown</option>
+											<option value="unknown">Unknown</option>
 										</select>
 									</div>
 									<!--- dec lat/long--->
