@@ -787,7 +787,7 @@ limitations under the License.
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Reference</label>
 											<input type="text" name="" class="data-entry-input"/>
 									</div>
-									<div class="row mx-0">
+									<div class="row mx-0 choose box">
 										<div id="dec_lat_long" class="col-12 px-0">
 											<label for="" class="small font-weight-light float-left col-12 col-xl-6 px-0 d-block mt-1 mb-0">Decimal Latitude</label>
 											<input type="text" name="" class="data-entry-input"/>
@@ -797,16 +797,26 @@ limitations under the License.
 											<input type="text" name="" class="data-entry-input"/>
 										</div>
 									</div>
-									<div class="row mx-0">
+									<div class="row mx-0 deg_min_sec">
 										<div id="dec_min_sec" class="col-12 px-0" style="display: hidden;">
-											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
-											<input type="text" name="" class="data-entry-input"/>
-											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Longitude</label>
-											<input type="text" name="" class="data-entry-input"/>
-											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Error Polygon</label>
-											<input type="text" name="" class="data-entry-input"/>
+											<label for="" class="small font-weight-light float-left col-12 col-md-3 px-0 d-block mt-1 mb-0">Latitude Degrees</label>
+											<input type="text" name="" class="data-entry-input float-left col-12 col-md-3 px-0"/>
+											<label for="" class="small font-weight-light float-left col-12 col-md-3 px-0 d-block mt-1 mb-0">Minutes</label>
+											<input type="text" name="" class="data-entry-input float-left col-12 col-md-3 px-0"/>
+											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Seconds</label>
+											<input type="text" name="" class="data-entry-input float-left col-12 col-md-3 px-0"/>
+											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
+											<input type="text" name="" class="data-entry-input float-left col-12 col-md-3 px-0"/>
+											<label for="" class="small font-weight-light float-left col-12 col-md-3 px-0 d-block mt-1 mb-0">Longitude Degrees</label>
+											<input type="text" name="" class="data-entry-input float-left col-12 col-md-3 px-0"/>
+											<label for="" class="small font-weight-light float-left col-12 col-md-3 px-0  d-block mt-1 mb-0">Minutes</label>
+											<input type="text" name="" class="data-entry-input float-left col-12 col-md-3 px-0"/>
+											<label for="" class="small font-weight-light float-left col-12 col-md-3 px-0  d-block mt-1 mb-0">Seconds</label>
+											<input type="text" name="" class="data-entry-input float-left col-12 col-md-3 px-0"/>
+											<label for="" class="small font-weight-light float-left col-12 col-md-3 px-0 d-block mt-1 mb-0">Direction</label>
+											<input type="text" name="" class="data-entry-input float-left col-12 col-md-3 px-0"/>
 									</div>
-									<div class="row mx-0">
+									<div class="row mx-0 ">
 										<div id="dec_deg_min" class="col-12 px-0" style="display: hidden;">
 											<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
 											<input type="text" name="" class="data-entry-input"/>
