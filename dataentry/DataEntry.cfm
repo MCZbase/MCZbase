@@ -104,7 +104,7 @@ limitations under the License.
 	margin: 0 1em 1em 0;
 	height: 50px;
 }
-#regFormAll .data-entry-title{font-size: .76rem;}
+#dataEntry .data-entry-title{font-size: .76rem;}
 
 </style>
 
@@ -397,7 +397,7 @@ limitations under the License.
 		<div class="row mx-0 bg-blue-gray full" style="background-color:##deebec!important;">
 			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
 			<div class="col-12 px-0 mt-0">
-				<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
+				<form name="dataEntry" method="post" id="dataEntry" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
 				<div class="column">
 					<div class="portlet">
