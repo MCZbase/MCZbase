@@ -451,7 +451,7 @@ limitations under the License.
 									<div class="form-row mx-0 my-2">
 										<label for="other_id" class="sr-only">Other ID</label>
 										<select class="data-entry-select mt-1">
-											<option value="">Other ID Type</option>
+											<option value="">Select Other ID Type</option>
 											<cfloop query="otherIDType">
 												<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
 											</cfloop>
