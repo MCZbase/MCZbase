@@ -19,7 +19,7 @@ limitations under the License.
 -->
 <cfinclude template = "/shared/_header.cfm">
 <style>
-#mydiv, #mydiv1, #mydiv2, #mydiv3,#mydiv4, #mydiv5, #mydiv6,#mydiv7,#mydiv8,#mydiv9,#mydiv10,#mydiv11,#mydiv12,#mydiv13 {
+/*#mydiv, #mydiv1, #mydiv2, #mydiv3,#mydiv4, #mydiv5, #mydiv6,#mydiv7,#mydiv8,#mydiv9,#mydiv10,#mydiv11,#mydiv12,#mydiv13 {
 	position: absolute;
 	z-index: 9;
 }
@@ -63,7 +63,7 @@ limitations under the License.
 	cursor: move;
 	z-index: 10;
 	font-size: 
-}
+}*/
 .tilt.right {
 	transform: rotate(3deg);
 	-moz-transform: rotate(3deg);
