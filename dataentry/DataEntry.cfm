@@ -691,12 +691,12 @@ limitations under the License.
 						<div class="portlet-content">
 							<div class="form-row mx-0">
 								<div id="customSciName">
-									<div class="form-row mx-0 my-2">
+									<div class="form-row mx-0 my-0">
 										<h5 class="mb-0 font-weight-bold text-center mt-0 d-block w-100">
 											<label for="locality_id" class="">Use Locality ID only</label>
 										</h5>
 										<input type="text" name="locality_id" class="data-entry-input" placeholder="Locality ID" />
-										<span class="small w-100 float-left text-center mt-2">- OR - </span>
+										<span class="small w-100 float-left text-center mt-1">- OR - </span>
 										<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Locality</h5>
 										<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 mb-0">Higher Geography</label>
 										<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
