@@ -753,6 +753,7 @@ limitations under the License.
 												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
 											</cfloop>
 										</select>
+									<!--- dec lat/long--->
 									<div class="row mx-0 choose box mt-2">
 										<div id="dec_lat_long" class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
 											<div class="float-left col-12 col-md-6 px-0">
@@ -765,6 +766,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+									<!--- deg/min/sec--->
 									<div class="row mx-0 mt-2">
 										<div id="dec_min_sec" class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
 											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Min. Sec. Latitude</h5>
@@ -803,9 +805,10 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+									<!--- deg dec min dir--->
 									<div class="row mx-0 mt-2">
-										<div id="dec_decmin" class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
-											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Dec. Min.</h5>
+										<div id="deg_decmin" class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
+											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Dec. Min. Latitude</h5>
 											<div class="float-left col-12 col-md-4 px-0">
 												<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
 												<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input"/>
@@ -818,7 +821,7 @@ limitations under the License.
 												<label for="lat_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
 												<input type="text" name="lat_dir" class="data-entry-input"/>
 											</div>								
-											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100">Deg. Min. Sec. Longitude</h5>
+											<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100">Deg. Decimal Min. Longitude</h5>
 											<div class="float-left col-12 col-md-4 px-0">
 												<label for="long_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
 												<input type="text" name="lat_deg" class="data-entry-input"/>
@@ -833,16 +836,9 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+									<!--- unknown --->
 									<div class="row mx-0 choose box mt-2">
 										<div id="unknown" class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
-											<div class="float-left col-12 col-md-6 px-0">
-												<label for="dec_lat" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
-												<input type="text" name="dec_lat" class="data-entry-input"/>
-											</div>
-											<div class="float-left col-12 col-md-6 px-0">
-												<label for="dec_long" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Longitude</label>
-												<input type="text" name="dec_long" class="data-entry-input"/>
-											</div>
 										</div>
 									</div>
 										<div class="col-12 px-0">
