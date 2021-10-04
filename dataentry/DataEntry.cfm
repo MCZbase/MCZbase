@@ -752,7 +752,7 @@ limitations under the License.
 											<option value="deg_decmin">Degrees Decimal Degrees</option>
 											<option value="unknown">Unknown</option>
 										</select>
-									</div>
+									
 									<!--- dec lat/long--->
 									<div class="row mx-0 choose dec_lat_long box mt-2">
 										<div id="dec_lat_long" class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
@@ -841,6 +841,7 @@ limitations under the License.
 										<div class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
 										</div>
 									</div>
+									
 										<div class="col-12 px-0">
 											<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 px-0 mb-0">Max Error</label>
 											<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-8 col-md-7 float-left" />
