@@ -104,7 +104,7 @@ limitations under the License.
 	margin: 0 1em 1em 0;
 	height: 50px;
 }
-#dataEntry .data-entry-title{font-size: .76rem;}
+#d .data-entry-title{font-size: .76rem;}
 
 </style>
 
@@ -837,13 +837,7 @@ limitations under the License.
 	</div>
 
 	<!---Step by step form for each section of the Data Entry form -- Form wizard--->
-<cfset loadedMsg = replace(loadedMsg,"'","`","all")>
-<script language="javascript" type="text/javascript">
-	switchActive('#orig_lat_long_units#');
-	highlightErrors('#trim(loadedMsg)#');
-	changeMode('#pMode#');
-	pickedLocality();
-</script>
+
 <script>
 $( ".column" ).sortable({
     connectWith: ".column",
