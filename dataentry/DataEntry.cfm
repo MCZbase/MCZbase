@@ -745,14 +745,14 @@ limitations under the License.
 								<div id="customSciName">
 									<div class="form-row mx-0 my-2">
 										<label for="Coord. System" class="sr-only">Coordinate System</label>
-										<select name="orig_lat_long_units" title="ORIG_LAT_LONG_UNITS" id="orig_lat_long_units"
-											onChange="switchActive(this.value);dataEntry.max_error_distance.focus();"
-											class="data-entry-select mb-1">
-											<option value="">Coordinate System (dec. deg. default)</option>
-											<cfloop query="lat_long_units">
-												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
-											</cfloop>
+										<select name="orig_lat_long_units" title="ORIG_LAT_LONG_UNITS" id="orig_lat_long_units" class="data-entry-select">
+											<option value="choose">Choose Coordinate System</option>
+											<option value="dec_lat_long">Decimal Degrees</option>
+											<option value="dec_min_sec">Degrees Minutes Seconds</option>
+											<option value="deg_decmin">Degrees Decimal Degrees</option>
+											<option value="deg_decmin">Unknown</option>
 										</select>
+									</div>
 									<!--- dec lat/long--->
 									<div class="row mx-0 choose dec_lat_long box mt-2">
 										<div id="dec_lat_long" class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
