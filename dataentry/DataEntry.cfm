@@ -472,7 +472,7 @@ limitations under the License.
 								<div class="form-row mx-0 my-2">
 									<label for="relations" class="sr-only">Relationship</label>
 										<select class="data-entry-select mt-1">
-											<option value="">Curatorial Rel. Type</option>
+											<option value="">Curatorial Relationship Type</option>
 											<cfloop query="currRelations">
 												<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
 											</cfloop>
