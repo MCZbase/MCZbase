@@ -610,7 +610,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="portlet">
-							<div class="portlet-header">ATTRIBUTES</div>
+							<h2 class="portlet-header small90">ATTRIBUTES</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
@@ -694,7 +694,7 @@ limitations under the License.
 						</div>
 
 						<div class="portlet">
-							<div class="portlet-header">COORDINATES</div>
+							<h2 class="portlet-header small90">COORDINATES</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<div id="customSciName">
