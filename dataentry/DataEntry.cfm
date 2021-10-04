@@ -812,7 +812,7 @@ limitations under the License.
 												<label for="lat_sec" class="small font-weight-light mt-1 mb-0">Seconds</label>
 												<input type="text" name="lat_sec" class="data-entry-input"/>
 											</div>
-											<div class="float-left col-12 col-md-4 px-0">
+											<div class="float-left col-12 col-md-12 px-0">
 												<label for="lat_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
 												<input type="text" name="lat_dir" class="data-entry-input"/>
 											</div>								
