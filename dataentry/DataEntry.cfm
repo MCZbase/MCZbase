@@ -738,6 +738,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+
 					<div class="portlet">
 						<div class="portlet-header">COORDINATES</div>
 						<div class="portlet-content">
@@ -745,7 +746,9 @@ limitations under the License.
 								<div id="customSciName">
 									<div class="form-row mx-0 my-2">
 										<label for="Coord. System" class="sr-only">Coordinate System</label>
-										<select class="data-entry-select mb-1">
+										<select name="orig_lat_long_units" title="ORIG_LAT_LONG_UNITS" id="orig_lat_long_units"
+											onChange="switchActive(this.value);dataEntry.max_error_distance.focus();"
+											class="data-entry-select mb-1">
 											<option value="">Coordinate System (dec. deg. default)</option>
 											<cfloop query="lat_long_units">
 												<option value="#lat_long_units.orig_lat_long_units#">#lat_long_units.orig_lat_long_units#</option>
@@ -834,6 +837,13 @@ limitations under the License.
 	</div>
 
 	<!---Step by step form for each section of the Data Entry form -- Form wizard--->
+<cfset loadedMsg = replace(loadedMsg,"'","`","all")>
+<script language="javascript" type="text/javascript">
+	switchActive('#orig_lat_long_units#');
+	highlightErrors('#trim(loadedMsg)#');
+	changeMode('#pMode#');
+	pickedLocality();
+</script>
 <script>
 $( ".column" ).sortable({
     connectWith: ".column",
