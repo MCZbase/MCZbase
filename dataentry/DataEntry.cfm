@@ -19,51 +19,6 @@ limitations under the License.
 -->
 <cfinclude template = "/shared/_header.cfm">
 <style>
-/*#mydiv, #mydiv1, #mydiv2, #mydiv3,#mydiv4, #mydiv5, #mydiv6,#mydiv7,#mydiv8,#mydiv9,#mydiv10,#mydiv11,#mydiv12,#mydiv13 {
-	position: absolute;
-	z-index: 9;
-}
-#mydiv, #mydiv1, #mydiv2, #mydiv3 {
-	top: 42px;
-}
-#mydiv4, #mydiv5,#mydiv9 {
-	top:126px;
-}
-#mydiv6 {
-	top: 193px;
-}
-#mydiv7 {
-	top:340px;
-}
-#mydiv8 {
-	top:702px;
-}
-#mydiv10 {
-	top:398px;	
-	}
-#mydiv11, #mydiv12 {
-	top:592px;
-}
-#mydiv13 {
-	top:660px;
-}
-#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv6, #mydiv8 {
-	left: 0;
-}	
-#mydiv1,#mydiv5 {
-	left: 25%;
-}
-#mydiv2, #mydiv11, #mydiv10, #mydiv13,#mydiv9 {
-	left: 50%;
-}
-#mydiv3,#mydiv12{
-	left: 75%;
-}
-#mydivheader, #mydivheader1, #mydivheader2, #mydivheader3, #mydivheader4, #mydivheader5, #mydivheader6, #mydivheader7, #mydivheader8, #mydivheader9, #mydivheader10, #mydivheader11, #mydivheader12, #mydivheader13 {
-	cursor: move;
-	z-index: 10;
-	font-size: 
-}*/
 .tilt.right {
 	transform: rotate(3deg);
 	-moz-transform: rotate(3deg);
@@ -746,7 +701,6 @@ limitations under the License.
 										<div class="form-row mx-0 my-2">
 											<label for="Coord. System" class="sr-only">Coordinate System</label>
 											<select name="orig_lat_long_units" title="ORIG_LAT_LONG_UNITS" id="orig_lat_long_units" class="data-entry-select">
-												<option value="choose">Choose Coordinate System</option>
 												<option value="dec_lat_long">Decimal Degrees</option>
 												<option value="dec_min_sec">Degrees Minutes Seconds</option>
 												<option value="deg_decmin">Degrees Decimal Degrees</option>
