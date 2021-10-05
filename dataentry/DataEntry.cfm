@@ -19,6 +19,9 @@ limitations under the License.
 -->
 <cfinclude template = "/shared/_header.cfm">
 <style>
+	body {
+		background-color: #deebec;
+	}
 .tilt.right {
 	transform: rotate(3deg);
 	-moz-transform: rotate(3deg);
