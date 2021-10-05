@@ -174,7 +174,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="tab">
-						<h2 class="fs-title text-center"><a href="javascript:SwapDivsWithClick('multi_collector','col_collector')">COLLECTOR/PREPARATOR</a></h2>
+						<h2 class="fs-title text-center" id="multi_collector"><a href="javascript:SwapDivsWithClick('multi_collector','col_collector')">COLLECTOR/PREPARATOR</a></h2>
 						<h3 class="fs-subtitle text-center">This is step 2</h3>
 						<div class="form-group row my-0">
 							<label for="collector1" class="col-sm-3 col-form-label mt-0">
@@ -451,7 +451,7 @@ limitations under the License.
 					</div>
 					<div class="column">
 						<div class="portlet">
-							<h2 class="portlet-header small90"><a href="javascript:SwapDivsWithClick('multi_collector','col_collector')">COLLECTOR/PREPARATOR</a></h2>
+							<h2 class="portlet-header small90" id="col_collector"><a href="javascript:SwapDivsWithClick('multi_collector','col_collector')">COLLECTOR/PREPARATOR</a></h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<label for="agent_id" class="sr-only">Agent</label>
