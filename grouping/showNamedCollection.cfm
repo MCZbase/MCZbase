@@ -16,7 +16,7 @@ limitations under the License.
 <cfset pageTitle = "Named Group">
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
-	<cfelse>
+<cfelse>
 	<cfset oneOfUs = 0>
 </cfif>
 <cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
@@ -30,6 +30,9 @@ limitations under the License.
 	</cfquery>
 	<cfif getTitle.recordcount EQ 1>
 		<cfset pageTitle = getTitle.collection_name>
+	<cfelse>
+		<!--- either no such group, or user does not have access rights --->
+		<cfthrow message="Named group not recognized.">
 	</cfif>
 </cfif>
 <cfinclude template="/shared/_header.cfm">
@@ -348,9 +351,20 @@ div.vslider-item[aria-hidden="true"]{
 				) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomSpecimenImages#">
 		</cfquery>
+		<cfset imageSetMetadata = "[]">
 		<cfif specimenImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = 0>
+			<cfset imageSetMetadata = "[">
+			<cfset comma = "">
+			<cfloop query="specimenImagesForCarousel">
+				<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#alt#"}'>
+				<cfset comma = ",">
+			</cfloop>
+			<cfset imageSetMetadata = "#imageSetMetadata#]">
 		</cfif>
+		<script>
+			var imageSetMetadata = JSON.parse('#imageSetMetadata#');
+		</script>
 		<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
 				SELECT DISTINCT media.media_id, media.media_uri, 
