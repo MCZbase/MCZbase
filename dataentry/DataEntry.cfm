@@ -114,7 +114,7 @@ limitations under the License.
 	select georefmethod from ctgeorefmethod
 </cfquery>
 <cfquery name="verifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select verifications.verificationstatus from ctverificationstatus
+	select verificationstatus from ctverificationstatus
 </cfquery>
 	<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
