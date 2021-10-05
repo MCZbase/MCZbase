@@ -117,7 +117,7 @@ limitations under the License.
     }
 	.swapperBtnDiv {
 		position:absolute; 
-		top: 108px; 
+		top: 102px; 
 		left:15px;
 		z-index:3000;
 	}
