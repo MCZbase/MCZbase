@@ -116,7 +116,7 @@ limitations under the License.
 <cfquery name="verifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select verificationstatus from ctverificationstatus
 </cfquery>
-	<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
+	<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first##multi_collector','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container-fluid px-4 pt-0 mt-0 bg-blue-gray h-100" id="swapper-other" style="display:none;">
 		<div class="row">
@@ -451,7 +451,7 @@ limitations under the License.
 					</div>
 					<div class="column">
 						<div class="portlet">
-							<h2 class="portlet-header small90" id="col_collector"><a href="javascript:SwapDivsWithClick('multi_collector','col_collector')">COLLECTOR/PREPARATOR</a></h2>
+							<h2 class="portlet-header small90" id="col_collector"><a href="javascript:SwapDivsWithClick('div1##multi_collector','div2')">COLLECTOR/PREPARATOR</a></h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<label for="agent_id" class="sr-only">Agent</label>
