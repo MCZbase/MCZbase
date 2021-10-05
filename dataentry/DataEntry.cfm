@@ -174,7 +174,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="tab">
-						<h2 class="fs-title text-center"><a name="multi_collector">Collector/Preparator</a></h2>
+						<h2 class="fs-title text-center"><a href="javascript:SwapDivsWithClick('multi_collector','col_collector')">COLLECTOR/PREPARATOR</a></h2>
 						<h3 class="fs-subtitle text-center">This is step 2</h3>
 						<div class="form-group row my-0">
 							<label for="collector1" class="col-sm-3 col-form-label mt-0">
@@ -451,7 +451,7 @@ limitations under the License.
 					</div>
 					<div class="column">
 						<div class="portlet">
-							<h2 class="portlet-header small90"><a href="##mult_collector">COLLECTOR/PREPARATOR</a></h2>
+							<h2 class="portlet-header small90"><a href="javascript:SwapDivsWithClick('multi_collector','col_collector')">COLLECTOR/PREPARATOR</a></h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<label for="agent_id" class="sr-only">Agent</label>
@@ -1051,6 +1051,23 @@ function SwapDivsWithClick(div1,div2)
    {
       d1.style.display = "block";
       d2.style.display = "none";
+   }
+}
+</script> 
+	<script type="text/javascript">
+function SwapDivsWithClick(multi_collector,col_collector)
+{
+   d3 = document.getElementById(multi_collector);
+   d4 = document.getElementById(col_collector);
+   if( d4.style.display == "none" )
+   {
+      d3.style.display = "none";
+      d4.style.display = "block";
+   }
+   else
+   {
+      d3.style.display = "block";
+      d4.style.display = "none";
    }
 }
 </script> 
