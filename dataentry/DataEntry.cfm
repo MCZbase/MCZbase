@@ -820,9 +820,9 @@ limitations under the License.
 												<label for="" class="small font-weight-light float-left text-xl-right pr-2 col-12 col-xl-4 d-block pl-0 mt-1 mb-0">Date</label>
 												<input type="text" class="data-entry-input mt-1 float-left col-12 col-xl-8" id="">
 											</div>
-												<label for="datum" class="small font-weight-light float-left d-block mt-1 mb-0">Datum</label>
+												<label for="datum" class="small font-weight-light float-left d-block mt-1 mb-0">Geodetic Datum or SRS</label>
 												<select class="data-entry-select col-12 px-0 float-left" required>
-													<option value="">Geodetic Datum</option>
+													<option value="">Datum or SRS</option>
 													<cfloop query="datum">
 														<option value="#datum.datum#">#datum.datum#</option>
 													</cfloop>
