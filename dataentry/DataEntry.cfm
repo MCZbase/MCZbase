@@ -32,11 +32,11 @@ limitations under the License.
 	-moz-transform: rotate(-3deg);
 	-webkit-transform: rotate(-3deg);
 }
-.column {
+/*.column {
 	width: 20%;
 	float: left;
 	padding-bottom: 100px;
-}
+}*/
 .portlet {
 	margin: 0 .5em .5em 0;
 	padding: 0.3em;
@@ -367,7 +367,7 @@ limitations under the License.
 			<div class="col-12 px-0 mt-0">
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
-					<div class="column">
+					<div class="col-12 col-md">
 						<div class="portlet">
 							<div class="portlet-header">COLLECTION</div>
 							<div class="portlet-content">
@@ -453,7 +453,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="column">
+					<div class="col-12 col-md">
 						<div class="portlet">
 							<h2 class="portlet-header small90" id="col_collector"><a href="javascript:SwapDivsWithClick('div1##multi_collector','div2')">COLLECTOR/PREPARATOR</a></h2>
 							<div class="portlet-content">
@@ -524,7 +524,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="column">
+					<div class="col-12 col-md">
 						<div class="portlet">
 							<h2 class="portlet-header small90">COLLECTING EVENT</h2>
 							<div class="portlet-content">
@@ -653,7 +653,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>				
-					<div class="column">
+					<div class="col-12 col-md">
 						<div class="portlet">
 							<h2 class="portlet-header small90">LOCALITY</h2>
 							<div class="portlet-content">
