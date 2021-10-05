@@ -107,6 +107,9 @@ limitations under the License.
 <cfquery name="attType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select attribute_type from ctattribute_type
 </cfquery>
+<cfquery name="datum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select datum from ctdatum
+</cfquery>
 	<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container-fluid px-4 pt-0 mt-0 bg-blue-gray h-100" id="swapper-other" style="display:none;">
@@ -792,8 +795,7 @@ limitations under the License.
 										</div>
 										<!--- unknown --->
 										<div class="row mx-0 unknown box mt-2" id="unknown" style="display:none;">
-											<div class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
-											</div>
+								
 										</div>
 
 											<div class="col-12 px-0">
@@ -813,7 +815,12 @@ limitations under the License.
 												<input type="text" class="data-entry-input mt-1 float-left col-12 col-xl-8" id="">
 											</div>
 												<label for="datum" class="small font-weight-light float-left d-block mt-1 mb-0">Datum</label>
-												<input type="text" name="datum" class="data-entry-input"/>
+												<select class="data-entry-select col-4 col-md-5 float-left" required>
+													<option value="">Units</option>
+													<cfloop query="datum">
+														<option value="#datum.datum#">#datum.datum#</option>
+													</cfloop>
+												</select>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Georeference Method</label>
 												<input type="text" name="georef_method" class="data-entry-input"/>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Extent</label>
