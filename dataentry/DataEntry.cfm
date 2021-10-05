@@ -77,6 +77,12 @@ limitations under the License.
     width: 100%;
     float: left;
 }
+.swapperBtnDiv {
+	position:absolute; 
+	top: 90px; 
+	left:15px;
+	z-index:3000;
+}
 
 @media (min-width: 768px) {
     .col-sm-5ths {
