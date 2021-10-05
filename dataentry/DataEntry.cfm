@@ -113,8 +113,8 @@ limitations under the License.
 <cfquery name="georefmeth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select georefmethod from ctgeorefmethod
 </cfquery>
-<cfquery name="verification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select verification.verificationstatus from ctverificationstatus
+<cfquery name="verifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select verifications.verificationstatus from ctverificationstatus
 </cfquery>
 	<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
@@ -841,8 +841,8 @@ limitations under the License.
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Verification Status</label>
 												<select class="data-entry-select col-12 px-0 float-left" required>
 													<option value="">Status </option>
-													<cfloop query="verification">
-														<option value="#verification.verificationstatus#">#verification.verificationstatus#</option>
+													<cfloop query="verifications">
+														<option value="#verifications.verificationstatus#">#verifications.verificationstatus#</option>
 													</cfloop>
 												</select>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
