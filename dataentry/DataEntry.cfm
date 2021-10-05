@@ -558,7 +558,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-5ths column float-left">
+					<div class="col-xl-5ths column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">COLLECTING EVENT</h2>
 							<div class="portlet-content">
@@ -614,7 +614,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-5ths column float-left">
+					<div class="col-xl-5ths column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">PARTS</h2>
 							<div class="portlet-content">
@@ -687,7 +687,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>				
-					<div class="col-lg-5ths column float-left">
+					<div class="col-xl-5ths column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">LOCALITY</h2>
 							<div class="portlet-content">
