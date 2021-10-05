@@ -401,7 +401,7 @@ limitations under the License.
 			<div class="col-12 px-0 mt-0">
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
-					<div class="col-lg-5ths column float-left">
+					<div class="col-xl-5ths column float-left">
 						<div class="portlet">
 							<div class="portlet-header">COLLECTION</div>
 							<div class="portlet-content">
