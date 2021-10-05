@@ -121,7 +121,8 @@ limitations under the License.
 </cfquery>
 	<div style="position:absolute; top: 108px; left:15px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
-	<div class="container-fluid px-4 pt-0 mt-0 bg-blue-gray h-100" id="swapper-other" style="display:none;">
+<div class="container-fluid bg-blue-gray">
+	<div class="container px-4 pt-0 mt-0" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 justify-content-center mt-2 mx-auto">
 				<form id="regForm" action="/DataEntry.cfm">
@@ -359,9 +360,9 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
-	
-	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1511px;">
-		<div class="row mx-0 bg-blue-gray full" style="background-color:##deebec!important;">
+
+	<div class="container-fluid pt-1"  id="swapper-first" style="height: 1511px;">
+		<div class="row mx-0 full">
 			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
 			<div class="col-12 px-0 mt-0">
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
@@ -891,7 +892,7 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
-
+</div>
 	<!---Step by step form for each section of the Data Entry form -- Form wizard--->
 
 <script>
