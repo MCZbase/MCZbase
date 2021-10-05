@@ -815,7 +815,7 @@ limitations under the License.
 												<input type="text" class="data-entry-input mt-1 float-left col-12 col-xl-8" id="">
 											</div>
 												<label for="datum" class="small font-weight-light float-left d-block mt-1 mb-0">Datum</label>
-												<select class="data-entry-select col-4 col-md-5 float-left" required>
+												<select class="data-entry-select col-12 px-0 float-left" required>
 													<option value="">Units</option>
 													<cfloop query="datum">
 														<option value="#datum.datum#">#datum.datum#</option>
