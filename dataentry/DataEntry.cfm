@@ -88,7 +88,6 @@ limitations under the License.
     .col-sm-5ths {
         width: 20%;
         float: left;
-		padding-left: 15px;
     }
 	.swapperBtnDiv {
 		position:absolute; 
