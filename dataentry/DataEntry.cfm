@@ -896,8 +896,8 @@ limitations under the License.
 	<!---Step by step form for each section of the Data Entry form -- Form wizard--->
 
 <script>
-$( ".column" ).sortable({
-    connectWith: ".column",
+$( ".col-md" ).sortable({
+    connectWith: ".col-md",
     handle: ".portlet-header",
     cancel: ".portlet-toggle",
     start: function (event, ui) {
