@@ -63,7 +63,41 @@ limitations under the License.
 	height: 50px;
 }
 #d .data-entry-title{font-size: .76rem;}
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
 
+.col-xs-5ths {
+    width: 20%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+    .col-sm-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+}
 </style>
 
 <cfoutput>
@@ -367,7 +401,7 @@ limitations under the License.
 			<div class="col-12 px-0 mt-0">
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
-					<div class="col column float-left">
+					<div class="col-lg-5ths column float-left">
 						<div class="portlet">
 							<div class="portlet-header">COLLECTION</div>
 							<div class="portlet-content">
@@ -453,7 +487,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col column float-left">
+					<div class="col-lg-5ths column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90" id="col_collector"><a href="javascript:SwapDivsWithClick('div1##multi_collector','div2')">COLLECTOR/PREPARATOR</a></h2>
 							<div class="portlet-content">
@@ -524,7 +558,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col column float-left">
+					<div class="col-lg-5ths column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">COLLECTING EVENT</h2>
 							<div class="portlet-content">
@@ -580,7 +614,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col column float-left">
+					<div class="col-lg-5ths column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">PARTS</h2>
 							<div class="portlet-content">
@@ -653,7 +687,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>				
-					<div class="col column float-left">
+					<div class="col-lg-5ths column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">LOCALITY</h2>
 							<div class="portlet-content">
