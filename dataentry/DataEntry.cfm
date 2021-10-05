@@ -415,7 +415,7 @@ limitations under the License.
 
 	<div class="container-fluid pt-1" id="swapper-first">
 		<div class="row mx-0 full">
-			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
+			<h1 class="text-center my-2 w-100">Enter a New Record</h1>
 			<div class="col-12 px-0 mt-0">
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
