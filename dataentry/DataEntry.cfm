@@ -69,8 +69,8 @@ limitations under the License.
 .col-lg-5ths {
     position: relative;
     min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 5px;
+    padding-left: 5px;
 }
 
 .col-xs-5ths {
