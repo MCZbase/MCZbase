@@ -361,7 +361,7 @@ limitations under the License.
 		</div>
 	</div>
 
-	<div class="container-fluid pt-1"  id="swapper-first" style="height: 1511px;">
+	<div class="container-fluid pt-1"  id="swapper-first">
 		<div class="row mx-0 full">
 			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
 			<div class="col-12 px-0 mt-0">
