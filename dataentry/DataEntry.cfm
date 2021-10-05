@@ -83,6 +83,12 @@ limitations under the License.
         width: 20%;
         float: left;
     }
+	.swapperBtnDiv {
+		position:absolute; 
+		top: 108px; 
+		left:15px;
+		z-index:3000;
+	}
 }
 
 @media (min-width: 992px) {
@@ -90,6 +96,12 @@ limitations under the License.
         width: 20%;
         float: left;
     }
+	.swapperBtnDiv {
+		position:absolute; 
+		top: 108px; 
+		left:15px;
+		z-index:3000;
+	}
 }
 
 @media (min-width: 1200px) {
@@ -97,6 +109,12 @@ limitations under the License.
         width: 20%;
         float: left;
     }
+	.swapperBtnDiv {
+		position:absolute; 
+		top: 108px; 
+		left:15px;
+		z-index:3000;
+	}
 }
 </style>
 
@@ -153,7 +171,7 @@ limitations under the License.
 <cfquery name="verifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select verificationstatus from ctverificationstatus
 </cfquery>
-	<div style="position:absolute; top: 108px; left:15px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
+	<div class="swapperBtnDiv" style=""> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 <div class="container-fluid bg-blue-gray">
 	<div class="container px-4 pt-0 mt-0" id="swapper-other" style="display:none;">
@@ -395,7 +413,7 @@ limitations under the License.
 		</div>
 	</div>
 
-	<div class="container-fluid pt-1"  id="swapper-first">
+	<div class="container-fluid pt-1" id="swapper-first">
 		<div class="row mx-0 full">
 			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
 			<div class="col-12 px-0 mt-0">
