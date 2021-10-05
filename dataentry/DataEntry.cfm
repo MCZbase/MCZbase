@@ -110,6 +110,9 @@ limitations under the License.
 <cfquery name="datum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select datum from ctdatum
 </cfquery>
+<cfquery name="georefmeth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select georefmethod from ctgeorefmethod
+</cfquery>
 	<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container-fluid px-4 pt-0 mt-0 bg-blue-gray h-100" id="swapper-other" style="display:none;">
@@ -822,13 +825,23 @@ limitations under the License.
 													</cfloop>
 												</select>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Georeference Method</label>
-												<input type="text" name="georef_method" class="data-entry-input"/>
+												<select class="data-entry-select col-12 px-0 float-left" required>
+													<option value="">Method</option>
+													<cfloop query="georefmeth">
+														<option value="#georefmeth.georefmethod#">#georefmeth.georefmethod#</option>
+													</cfloop>
+												</select>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Extent</label>
 												<input type="text" name="" class="data-entry-input"/>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
 												<input type="text" name="" class="data-entry-input"/>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Verification Status</label>
-												<input type="text" name="" class="data-entry-input"/>
+												<select class="data-entry-select col-12 px-0 float-left" required>
+													<option value="">Status </option>
+													<cfloop query="verification">
+														<option value="#verification.verificationstatus#">#verification.verificationstatus#</option>
+													</cfloop>
+												</select>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
 												<input type="text" name="" class="data-entry-input"/>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Coordinate Remarks</label>
