@@ -74,7 +74,7 @@ limitations under the License.
 }
 
 .col-xs-5ths {
-    width: 20%;
+    width: 100%;
     float: left;
 }
 
@@ -93,7 +93,7 @@ limitations under the License.
 }
 
 @media (min-width: 1200px) {
-    .col-lg-5ths {
+    .col-xl-5ths {
         width: 20%;
         float: left;
     }
@@ -487,7 +487,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-5ths column float-left">
+					<div class="col-xl-5ths column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90" id="col_collector"><a href="javascript:SwapDivsWithClick('div1##multi_collector','div2')">COLLECTOR/PREPARATOR</a></h2>
 							<div class="portlet-content">
