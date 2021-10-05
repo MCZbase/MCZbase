@@ -822,7 +822,7 @@ limitations under the License.
 											</div>
 												<label for="datum" class="small font-weight-light float-left d-block mt-1 mb-0">Datum</label>
 												<select class="data-entry-select col-12 px-0 float-left" required>
-													<option value="">Units</option>
+													<option value="">Geodetic Datum</option>
 													<cfloop query="datum">
 														<option value="#datum.datum#">#datum.datum#</option>
 													</cfloop>
