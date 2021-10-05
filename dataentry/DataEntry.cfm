@@ -78,8 +78,8 @@ limitations under the License.
     float: left;
 }
 .swapperBtnDiv {
-	position:absolute; 
-	top: 90px; 
+	position:relative; 
+	top: 8px; 
 	left:15px;
 	z-index:3000;
 }
