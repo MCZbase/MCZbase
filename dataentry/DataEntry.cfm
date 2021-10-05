@@ -123,7 +123,7 @@ limitations under the License.
 			<div class="col-12 justify-content-center mt-2 mx-auto">
 				<form id="regForm" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
-					<h1 class="text-center my-2">Enter a New Record</h1>
+					<h1 class="text-center mb-2 mt-5 mt-md-2">Enter a New Record</h1>
 					<div class="tab">
 						<h2 class="fs-title text-center">Record Numbers</h2>
 						<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
