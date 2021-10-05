@@ -116,7 +116,7 @@ limitations under the License.
 <cfquery name="verifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select verificationstatus from ctverificationstatus
 </cfquery>
-	<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first##multi_collector','swapper-other')">Switch Form</a> 
+	<div style="position:absolute; top: 108px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	<div class="container-fluid px-4 pt-0 mt-0 bg-blue-gray h-100" id="swapper-other" style="display:none;">
 		<div class="row">
@@ -174,7 +174,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="tab">
-						<h2 class="fs-title text-center"><a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">COLLECTOR/PREPARATOR</a></h2>
+						<h2 class="fs-title text-center">COLLECTOR/PREPARATOR</h2>
 						<h3 class="fs-subtitle text-center">This is step 2</h3>
 						<div class="form-group row my-0">
 							<label for="collector1" class="col-sm-3 col-form-label mt-0">
