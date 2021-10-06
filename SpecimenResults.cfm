@@ -421,7 +421,10 @@ If your item needs to be sorted in a special way, then do that here. --->
 			<a href="bnhmMaps/kml.cfm">Google Earth/Maps</a>
             <cfelse></cfif>
 			<a href="SpecimenResultsHTML.cfm?#mapurl#" class="infoLink" style="display:block;">Problems viewing this page? Click for HTML version</a>
-			<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	</p>
+         <cfif isDefined("session.username") AND len(session.username) gt 0>
+				<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	
+			</cfif>
+		</p>
 <div class="topBlock" id="ssControl">
 <cfif isdefined("transaction_id") and #action# is "dispCollObj">
 	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Loan</a>
