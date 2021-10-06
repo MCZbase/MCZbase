@@ -655,7 +655,7 @@ limitations under the License.
 													<div id="dec_lat_long" class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
 														<div class="float-left col-12 col-xl-6 px-0">
 															<label for="dec_lat" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
-															<input type="text" name="dec_lat" class="data-entry-input"/>
+															<input type="text" name="dec_lat" class="data-entry-input height1p2"/>
 														</div>
 														<div class="float-left col-12 col-xl-6 px-0">
 															<label for="dec_long" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Longitude</label>
