@@ -426,10 +426,10 @@ limitations under the License.
 					<!-- One "tab" for each step in the form: -->
 					<div class="col-xl-5ths col-md-5ths col-sm-5ths column float-left">
 						<div class="portlet">
-							<div class="portlet-header"><h2 class="h4 smallcaps px-1">Specimen Identifiers</h2></div>
+							<div class="portlet-header"><h2 class="h4 smallcaps px-1">SPECIMEN IDENTIFIERS</h2></div>
 							<div class="portlet-content">
 								<div class="row">
-									<label for="collection" class="sr-only">Collection</label>
+									<label for="collection" class="small font-weight-light float-left d-block mt-1 mb-0">Collection</label>
 									<div class="col-12">
 										<div class="bg-light px-2 pb-1">
 											<select class="data-entry-select" required>
@@ -441,7 +441,7 @@ limitations under the License.
 											<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
 										</div>
 										<div class="bg-light px-2 pb-1">
-											<label for="cat_num" class="sr-only">Catalog Number</label>
+											<label for="cat_num" class="small font-weight-light float-left d-block mt-1 mb-0">Catalog Number</label>
 											<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
 											<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
 										</div>
