@@ -32,11 +32,11 @@ limitations under the License.
 	-moz-transform: rotate(-3deg);
 	-webkit-transform: rotate(-3deg);
 }
-.column {
+/*.column {
 	width: 20%;
 	float: left;
 	padding-bottom: 100px;
-}
+}*/
 .portlet {
 	margin: 0 .5em .5em 0;
 	padding: 0.3em;
@@ -63,7 +63,65 @@ limitations under the License.
 	height: 50px;
 }
 #d .data-entry-title{font-size: .76rem;}
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+    position: relative;
+    min-height: 1px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
 
+.col-xs-5ths {
+    width: 100%;
+    float: left;
+}
+.swapperBtnDiv {
+	position:relative; 
+	top: 8px; 
+	left:15px;
+	z-index:3000;
+}
+
+@media (min-width: 768px) {
+    .col-sm-5ths {
+        width: 20%;
+        float: left;
+    }
+	.swapperBtnDiv {
+		position:absolute; 
+		top: 108px; 
+		left:15px;
+		z-index:3000;
+	}
+}
+
+@media (min-width: 992px) {
+    .col-md-5ths {
+        width: 20%;
+        float: left;
+    }
+	.swapperBtnDiv {
+		position:absolute; 
+		top: 108px; 
+		left:15px;
+		z-index:3000;
+	}
+}
+
+@media (min-width: 1200px) {
+    .col-xl-5ths {
+        width: 20%;
+        float: left;
+    }
+	.swapperBtnDiv {
+		position:absolute; 
+		top: 102px; 
+		left:15px;
+		z-index:3000;
+	}
+}
 </style>
 
 <cfoutput>
@@ -119,9 +177,10 @@ limitations under the License.
 <cfquery name="verifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select verificationstatus from ctverificationstatus
 </cfquery>
-	<div style="position:absolute; top: 108px; left:15px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
+	<div class="swapperBtnDiv" style=""> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
-	<div class="container-fluid px-4 pt-0 mt-0 bg-blue-gray h-100" id="swapper-other" style="display:none;">
+<div class="container-fluid bg-blue-gray">
+	<div class="container px-4 pt-0 mt-0" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 justify-content-center mt-2 mx-auto">
 				<form id="regForm" action="/DataEntry.cfm">
@@ -359,14 +418,14 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
-	
-	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1511px;">
-		<div class="row mx-0 bg-blue-gray full" style="background-color:##deebec!important;">
-			<h1 class="text-center mt-2 w-100">Enter a New Record</h1>
-			<div class="col-12 px-0 mt-0">
+
+	<div class="container-fluid px-0 pt-1" id="swapper-first">
+		<div class="row mx-0 full">
+			<h1 class="text-center my-2 w-100">Enter a New Record</h1>
+			<div class="col-12 px-0 mt-0 pb-4">
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
-					<div class="column">
+					<div class="col-xl-5ths col-md-5ths col-sm-5ths column float-left">
 						<div class="portlet">
 							<div class="portlet-header">COLLECTION</div>
 							<div class="portlet-content">
@@ -452,7 +511,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="column">
+					<div class="col-xl-5ths col-md-5ths col-sm-5ths column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90" id="col_collector"><a href="javascript:SwapDivsWithClick('div1##multi_collector','div2')">COLLECTOR/PREPARATOR</a></h2>
 							<div class="portlet-content">
@@ -523,7 +582,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="column">
+					<div class="col-xl-5ths col-md-5ths col-sm-5ths column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">COLLECTING EVENT</h2>
 							<div class="portlet-content">
@@ -579,7 +638,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="column">
+					<div class="col-xl-5ths col-md-5ths col-sm-5ths column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">PARTS</h2>
 							<div class="portlet-content">
@@ -652,7 +711,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>				
-					<div class="column">
+					<div class="col-xl-5ths col-md-5ths col-sm-5ths column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">LOCALITY</h2>
 							<div class="portlet-content">
@@ -891,7 +950,7 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
-
+</div>
 	<!---Step by step form for each section of the Data Entry form -- Form wizard--->
 
 <script>
