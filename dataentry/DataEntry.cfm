@@ -429,7 +429,6 @@ limitations under the License.
 							<div class="portlet-header"><h2 class="h6 mb-0 smallcaps font-weight-bold px-1">SPECIMEN IDENTIFIERS</h2></div>
 							<div class="portlet-content">
 								<div class="row mx-0">
-
 									<div class="col-12 col-md-6 px-0 float-left bg-light">
 										<div class="bg-light px-2 pb-1">
 											<label for="cat_num" class="small font-weight-light float-left d-block mt-1 mb-0">Catalog Number</label>
@@ -446,7 +445,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 px-0 float-left">
 										<div id="customOtherID">
-										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 mt-2 mx-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
+										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 mt-2 mx-2" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 										<div class="form-row mx-0 mb-2">
 											<div class="col-12 col-md-6 float-left bg-light">
 												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
