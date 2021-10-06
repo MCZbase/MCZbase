@@ -420,7 +420,7 @@ limitations under the License.
 
 	<div class="container-fluid px-0 pt-1" id="swapper-first">
 		<div class="row mx-0 full">
-			<h1 class="text-center my-2 w-100">Enter a New Record</h1>
+			<h1 class="text-center my-2 w-100">Enter a New #collection# Record</h1>
 			<div class="col-12 px-0 mt-0 pb-4">
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
@@ -429,12 +429,7 @@ limitations under the License.
 							<div class="portlet-header"><h2 class="h6 mb-0 smallcaps font-weight-bold px-1">SPECIMEN IDENTIFIERS</h2></div>
 							<div class="portlet-content">
 								<div class="row mx-0">
-									<div class="col-12 px-0 float-left">
-										<label for="collection" class="sr-only">Collection Chosen on previous page</label>
-										<div class="bg-light px-2 pb-1">
-											<div class="h3 pt-2">Collection Name</div>
-										</div>
-									</div>
+
 									<div class="col-12 col-md-6 px-0 float-left bg-light">
 										<div class="bg-light px-2 pb-1">
 											<label for="cat_num" class="small font-weight-light float-left d-block mt-1 mb-0">Catalog Number</label>
