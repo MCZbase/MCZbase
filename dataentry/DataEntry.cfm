@@ -431,10 +431,10 @@ limitations under the License.
 								<div class="row">
 									
 									<div class="col-12">
-										<label for="collection" class="small font-weight-light float-left d-block mt-1 mb-0">Collection</label>
+										<label for="collection" class="sr-only">Collection Chosen on previous page</label>
 										<div class="bg-light px-2 pb-1">
 											<div class="h3">Collection Name</div>
-											<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
+											<small id="catNumHelp" class="form-text text-center text-muted">Sets attribute template</small> 
 										</div>
 										<div class="bg-light px-2 pb-1">
 											<label for="cat_num" class="small font-weight-light float-left d-block mt-1 mb-0">Catalog Number</label>
