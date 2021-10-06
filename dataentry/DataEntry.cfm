@@ -393,7 +393,7 @@ limitations under the License.
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
 					<div class="col-12 col-md-4 px-0 column float-left">
-						<div class="portlet">
+						<div class="portlet shadow">
 							<div class="portlet-header"><h2 class="h6 mb-0 smallcaps font-weight-bold px-1">SPECIMEN IDENTIFIERS</h2></div>
 							<div class="portlet-content">
 								<div class="row mx-0">
@@ -454,13 +454,13 @@ limitations under the License.
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<div id="customSciName">
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Scientific Name</a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Identification</a>
 									<div class="form-row mx-0 my-2">
-										<label for="scientific_name" class="small font-weight-light float-left d-block mt-1 mb-0">Scientific Name</label>
+										<label for="scientific_name" class="small font-weight-light float-left d-block mt-1 mb-0">Identification</label>
 										<input type="text" name="scientific_name" class="data-entry-input height1p2"/>
 										<label for="made_by" class="small font-weight-light float-left d-block mt-1 mb-0">ID Made By</label>
 										<input type="text" name="made_by" class="data-entry-input height1p2"/>
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-6 px-0">
 											<label for="nature_of_id" class="small font-weight-light float-left d-block mt-1 mb-0">Nature of ID</label>
 											<select class="data-entry-select smallselect height1p2">
 												<option value="">Nature of ID</option>
