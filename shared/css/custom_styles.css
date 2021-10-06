@@ -2077,8 +2077,11 @@ section#mediaSection.accordion {
 	background-color: rgb(199 251 255 / .35) !important;
 }
 .height1p2 {
-	height: 1.25rem!important;
-	font-size: 12px;
+	height: 1.4rem!important;
+	
+}
+.smallselect {
+	font-size: 86%;
 }
 /************end tabs -- redone for accessibility  ***************/
 
