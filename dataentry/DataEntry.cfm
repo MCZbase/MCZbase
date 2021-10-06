@@ -38,7 +38,7 @@ limitations under the License.
 	padding-bottom: 100px;
 }*/
 .portlet {
-	margin: 0 .5em .5em 0;
+	margin: 0 .25rem .25rem 0;
 	padding: 0.3em;
 }
 .portlet-header {
@@ -63,20 +63,7 @@ limitations under the License.
 	height: 50px;
 }
 #d .data-entry-title{font-size: .76rem;}
-.col-xs-5ths,
-.col-sm-5ths,
-.col-md-5ths,
-.col-lg-5ths {
-    position: relative;
-    min-height: 1px;
-    padding-right: 0px;
-    padding-left: 0px;
-}
 
-.col-xs-5ths {
-    width: 100%;
-    float: left;
-}
 .swapperBtnDiv {
 	position:relative; 
 	top: 8px; 
@@ -84,10 +71,6 @@ limitations under the License.
 }
 
 @media (min-width: 768px) {
-    .col-sm-5ths {
-        width: 20%;
-        float: left;
-    }
 	.swapperBtnDiv {
 		position:absolute; 
 		top: 108px; 
@@ -97,10 +80,7 @@ limitations under the License.
 }
 
 @media (min-width: 992px) {
-    .col-md-5ths {
-        width: 20%;
-        float: left;
-    }
+
 	.swapperBtnDiv {
 		position:absolute; 
 		top: 108px; 
@@ -110,10 +90,7 @@ limitations under the License.
 }
 
 @media (min-width: 1200px) {
-    .col-xl-5ths {
-        width: 20%;
-        float: left;
-    }
+ 
 	.swapperBtnDiv {
 		position:absolute; 
 		top: 102px; 
