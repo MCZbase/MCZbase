@@ -349,11 +349,14 @@ limitations under the License.
 		<cfswitch expression="#target_type#">
 			<cfcase value="collection_object">
 				<cfset annotatable = true>
-				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select 'MCZ:' || collection_cde || ':' || cat_num as annorecord
-					from cataloged_item
+				<cfquery name="annotated" datasource="cf_dbuser">
+					select guid as annorecord
+					from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> FLAT
 					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#target_id#">
 				</cfquery>
+				<cfif annotated.recordcount EQ 0>
+					<cfthrow message="Catalged item to annotate not found.">
+				</cfif>
 				<cfquery name="whoTo" datasource="uam_god">
 					select distinct
 						address
