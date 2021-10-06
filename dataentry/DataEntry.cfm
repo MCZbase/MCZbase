@@ -428,7 +428,7 @@ limitations under the License.
 						<div class="portlet">
 							<div class="portlet-header"><h2 class="h4 smallcaps px-1">SPECIMEN IDENTIFIERS</h2></div>
 							<div class="portlet-content">
-								<div class="row">
+								<div class="row mx-0">
 									
 									<div class="col-12 float-left">
 										<label for="collection" class="sr-only">Collection Chosen on previous page</label>
