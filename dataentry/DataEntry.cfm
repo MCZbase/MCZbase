@@ -447,6 +447,7 @@ limitations under the License.
 										<div id="customOtherID">
 										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 mt-2 mx-2" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 										<div class="form-row mx-0 mb-2">
+											
 											<div class="col-12 col-md-6 float-left bg-light">
 												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
 												<select class="data-entry-select mt-1 smallselect height1p2">
@@ -488,18 +489,18 @@ limitations under the License.
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Scientific Name</a>
 									<div class="form-row mx-0 my-2">
 										<label for="scientific_name" class="small font-weight-light float-left d-block mt-1 mb-0">Scientific Name</label>
-										<input type="text" name="scientific_name" class="data-entry-input"/>
+										<input type="text" name="scientific_name" class="data-entry-input height1p2"/>
 										<label for="made_by" class="small font-weight-light float-left d-block mt-1 mb-0">ID Made By</label>
-										<input type="text" name="made_by" class="data-entry-input"/>
+										<input type="text" name="made_by" class="data-entry-input height1p2"/>
 										<label for="nature_of_id" class="small font-weight-light float-left d-block mt-1 mb-0">Nature of ID</label>
-											<select class="data-entry-select">
+											<select class="data-entry-select smallselect height1p2">
 												<option value="">Nature of ID</option>
 												<cfloop query="nature_of_id">
 													<option value="#nature_of_id.nature_of_id#">#nature_of_id.nature_of_id#</option>
 												</cfloop>
 											</select>
 										<label for="made_by_date" class="small font-weight-light float-left d-block mt-1 mb-0">Date of ID</label>
-										<input type="text" name="made_by_date" class="data-entry-input"/>
+										<input type="text" name="made_by_date" class="data-entry-input height1p2"/>
 										<label for="id_remark" class="small font-weight-light float-left d-block mt-1 mb-0">ID Remark</label>
 										<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea"/></textarea>
 									</div>
@@ -518,13 +519,13 @@ limitations under the License.
 										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 m-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
 										<div class="form-row mx-0 my-2">
 											<label for="collector_role" class="sr-only">Agent Role</label>
-											<select class="data-entry-select" required>
+											<select class="data-entry-select smallselect height1p2" required>
 												<option value="">Agent Role</option>
 												<option value="c">Collector</option>
 												<option value="p">Preparator</option>
 											</select>
 											<label for="agent_name" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Name</label>
-											<input type="text" class="data-entry-input"  name="agent_name">
+											<input type="text" class="data-entry-input height1p2"  name="agent_name">
 										</div>
 									</div>
 								</div>
@@ -541,29 +542,29 @@ limitations under the License.
 											<span class="small w-100 float-left text-center mt-2">- OR - </span>
 											<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Collecting Event</h5>
 											<label for="verbatim_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Locality</label>
-											<input type="text" name="verbatim_locality mt-0" class="data-entry-input"/>
+											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2"/>
 											<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">ISO Dates</label>
 											<div class="col-12 px-0">
 											<input type="text" class="data-entry-input col-12 col-xl-6 float-left mt-0" id="began_date" placeholder="Began Date">
 											<input type="text" class="data-entry-input col-12 col-xl-6 float-left mt-0" id="ended_date" placeholder="Date Ended">
 											</div>
 											<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
-											<input type="text" class="data-entry-input mt-0" id="verbatim_date">
+											<input type="text" class="data-entry-input mt-0 height1p2" id="verbatim_date">
 											<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Time</label>
-											<input type="text" class="data-entry-input mt-0" id="collecting_time">
+											<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_time">
 											<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block mt-1 mb-0">Day of Year</label>
 											<div class="col-12 px-0">
-											<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0" id="start_day_of_year" placeholder="Start Day of Year">
-											<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0" id="end_day_of_year" placeholder="End Day of Year">
+											<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0 height1p2" id="start_day_of_year" placeholder="Start Day of Year">
+											<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0 height1p2" id="end_day_of_year" placeholder="End Day of Year">
 											</div>
 											<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Source</label>
-											<input type="text" class="data-entry-input mt-0" id="collecting_source">
+											<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_source">
 											<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Method</label>
-											<input type="text" class="data-entry-input mt-0" id="collecting_method">
+											<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_method">
 											<label for="Habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
-											<input type="text" name="habitat_desc" class="data-entry-input mt-0"/>
+											<input type="text" name="habitat_desc" class="data-entry-input mt-0 height1p2"/>
 											<label for="microhabitat" class="small font-weight-light float-left d-block mt-1 mb-0">Microhabitat</label>
-											<input type="text" name="habitat" class="data-entry-input mt-0"/>
+											<input type="text" name="habitat" class="data-entry-input mt-0 height1p2"/>
 											<label for="locality_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Collecting Remark</label>
 											<textarea type="text" name="locality_remark" class="data-entry-textarea mt-0"/>
 											</textarea>
@@ -574,11 +575,11 @@ limitations under the License.
 											</div>
 
 											<label for="Coord. System" class="small font-weight-light float-left d-block mt-1 mb-0">SRS or Datum</label>
-											<input type="text" class="data-entry-input" id="Datum">
+											<input type="text" class="data-entry-input height1p2" id="Datum">
 											<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Latitude</label>
-											<input type="text" class="data-entry-input" id="latitude">
+											<input type="text" class="data-entry-input height1p2" id="latitude">
 											<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Longitude</label>
-											<input type="text" class="data-entry-input" id="longitude">
+											<input type="text" class="data-entry-input height1p2" id="longitude">
 										</div>
 									</div>
 								</div>
@@ -604,7 +605,7 @@ limitations under the License.
 												<label for="inputMinElev" class="small font-weight-light col-12 px-0 float-left d-block mt-1 mb-0">Elevation</label>
 												<input type="text" class="data-entry-input col-12 col-xl-4 float-left" id="inputMinElev" placeholder="Min Elevation">
 												<input type="text" class="data-entry-input col-12 col-xl-4 float-left" id="inputMaxElev" placeholder="Max Elevation">
-												<select class="data-entry-select col-12 col-xl-4">
+												<select class="data-entry-select col-12 col-xl-4 smallselect height1p2">
 													<option value="">Units</option>
 													<cfloop query="depthUnits">
 														<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
@@ -615,7 +616,7 @@ limitations under the License.
 												<label for="inputMinDepth" class="small font-weight-light float-left col-12 px-0 d-block mt-1 mb-0">Depth</label>
 												<input type="text" class="data-entry-input col-12 col-xl-4 float-left" id="inputMinDepth" placeholder="Min Depth">
 												<input type="text" class="data-entry-input col-12 col-xl-4 float-left" id="inputMaxDepth" placeholder="Max Depth">
-												<select class="data-entry-select col-12 col-xl-4">
+												<select class="data-entry-select col-12 col-xl-4 smallselect height1p2">
 													<option value="">Units</option>
 													<cfloop query="depthUnits">
 														<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
@@ -643,7 +644,7 @@ limitations under the License.
 										<div class="bg-light border rounded px-2 pb-2"> 
 											<div class="form-row mx-0 my-2">
 												<label for="Coord. System" class="sr-only">Coordinate System</label>
-												<select name="orig_lat_long_units" title="ORIG_LAT_LONG_UNITS" id="orig_lat_long_units" class="data-entry-select">
+												<select name="orig_lat_long_units" title="ORIG_LAT_LONG_UNITS" id="orig_lat_long_units" class="data-entry-select smallselect height1p2">
 													<option value="dec_lat_long">Decimal Degrees</option>
 													<option value="dec_min_sec">Degrees Minutes Seconds</option>
 													<option value="deg_decmin">Degrees Decimal Degrees</option>
@@ -741,7 +742,7 @@ limitations under the License.
 											<div class="col-12 px-0">
 												<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 px-0 mb-0">Max Error</label>
 												<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-8 col-md-7 float-left" />
-												<select class="data-entry-select col-4 col-md-5 float-left" required>
+												<select class="data-entry-select col-4 col-md-5 float-left smallselect height1p2" required>
 													<option value="">Units</option>
 													<cfloop query="error_units">
 														<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
@@ -762,7 +763,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Georeference Method</label>
-												<select class="data-entry-select col-12 px-0 float-left" required>
+												<select class="data-entry-select col-12 px-0 float-left smallselect height1p2" required>
 													<option value="">Method</option>
 													<cfloop query="georefmeth">
 														<option value="#georefmeth.georefmethod#">#georefmeth.georefmethod#</option>
@@ -773,7 +774,7 @@ limitations under the License.
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
 												<input type="text" name="" class="data-entry-input"/>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Verification Status</label>
-												<select class="data-entry-select col-12 px-0 float-left" required>
+												<select class="data-entry-select col-12 px-0 float-left smallselect height1p2" required>
 													<option value="">Status </option>
 													<cfloop query="verifications">
 														<option value="#verifications.verificationstatus#">#verifications.verificationstatus#</option>
