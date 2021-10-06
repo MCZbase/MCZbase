@@ -32,11 +32,6 @@ limitations under the License.
 	-moz-transform: rotate(-3deg);
 	-webkit-transform: rotate(-3deg);
 }
-/*.column {
-	width: 20%;
-	float: left;
-	padding-bottom: 100px;
-}*/
 .portlet {
 	margin: 0 .25rem .25rem 0;
 	padding: 0.3em;
@@ -78,9 +73,7 @@ limitations under the License.
 		z-index:3000;
 	}
 }
-
 @media (min-width: 992px) {
-
 	.swapperBtnDiv {
 		position:absolute; 
 		top: 108px; 
@@ -88,9 +81,7 @@ limitations under the License.
 		z-index:3000;
 	}
 }
-
 @media (min-width: 1200px) {
- 
 	.swapperBtnDiv {
 		position:absolute; 
 		top: 102px; 
@@ -469,15 +460,19 @@ limitations under the License.
 										<input type="text" name="scientific_name" class="data-entry-input height1p2"/>
 										<label for="made_by" class="small font-weight-light float-left d-block mt-1 mb-0">ID Made By</label>
 										<input type="text" name="made_by" class="data-entry-input height1p2"/>
-										<label for="nature_of_id" class="small font-weight-light float-left d-block mt-1 mb-0">Nature of ID</label>
+										<div class="col-12 col-md-6">
+											<label for="nature_of_id" class="small font-weight-light float-left d-block mt-1 mb-0">Nature of ID</label>
 											<select class="data-entry-select smallselect height1p2">
 												<option value="">Nature of ID</option>
 												<cfloop query="nature_of_id">
 													<option value="#nature_of_id.nature_of_id#">#nature_of_id.nature_of_id#</option>
 												</cfloop>
 											</select>
-										<label for="made_by_date" class="small font-weight-light float-left d-block mt-1 mb-0">Date of ID</label>
-										<input type="text" name="made_by_date" class="data-entry-input height1p2"/>
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="made_by_date" class="small font-weight-light float-left d-block mt-1 mb-0">Date of ID</label>
+											<input type="text" name="made_by_date" class="data-entry-input height1p2"/>
+										</div>
 										<label for="id_remark" class="small font-weight-light float-left d-block mt-1 mb-0">ID Remark</label>
 										<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea"/></textarea>
 									</div>
