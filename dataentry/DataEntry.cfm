@@ -519,7 +519,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-5ths col-md-5ths col-sm-5ths column float-left">
+					<div class="col-12 col-md-4 column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90" id="col_collector"><a href="javascript:SwapDivsWithClick('div1##multi_collector','div2')">COLLECTOR/PREPARATOR</a></h2>
 							<div class="portlet-content">
@@ -590,7 +590,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-5ths col-md-5ths col-sm-5ths column float-left">
+					<div class="col-12 col-md-4 column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">COLLECTING EVENT</h2>
 							<div class="portlet-content">
@@ -646,7 +646,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-5ths col-md-5ths col-sm-5ths column float-left">
+					<div class="col-12 col-md-4 column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">PARTS</h2>
 							<div class="portlet-content">
@@ -719,7 +719,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>				
-					<div class="col-xl-5ths col-md-5ths col-sm-5ths column float-left">
+					<div class="col-12 col-md-4 column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">LOCALITY</h2>
 							<div class="portlet-content">
