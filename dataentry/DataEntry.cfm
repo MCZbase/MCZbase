@@ -449,19 +449,23 @@ limitations under the License.
 											<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
 										</div>
 									</div>
-									<div class="col-12 col-md-6 px-0 float-left bg-light">
+								
 									<div id="customOtherID">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 										<div class="form-row mx-0 my-2">
-											<label for="other_id" class="sr-only">Other ID</label>
-											<select class="data-entry-select mt-1">
-												<option value="">Other ID Type</option>
-												<cfloop query="otherIDType">
-													<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
-												</cfloop>
-											</select>
-											<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
-											<input type="text" class="data-entry-input" id="other_id" name="other_id">
+											<div class="col-12 col-md-6 px-0 float-left bg-light">
+												<label for="other_id" class="sr-only">Other ID</label>
+												<select class="data-entry-select mt-1">
+													<option value="">Other ID Type</option>
+													<cfloop query="otherIDType">
+														<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-6 px-0 float-left bg-light">
+												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
+												<input type="text" class="data-entry-input" id="other_id" name="other_id">
+											</div>
 										</div>
 									</div>
 									</div>
