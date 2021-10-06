@@ -81,7 +81,6 @@ limitations under the License.
 	position:relative; 
 	top: 8px; 
 	left:15px;
-	z-index:3000;
 }
 
 @media (min-width: 768px) {
@@ -119,7 +118,7 @@ limitations under the License.
 		position:absolute; 
 		top: 102px; 
 		left:15px;
-		z-index:3000;
+		z-index:100;
 	}
 }
 </style>
