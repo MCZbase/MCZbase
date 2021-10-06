@@ -483,7 +483,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					
+					<div class="col-12 col-md-4 column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">CURATORIAL RELATIONSHIPS</h2>
 							<div class="portlet-content">
