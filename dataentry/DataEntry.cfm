@@ -487,36 +487,35 @@ limitations under the License.
 							<div class="portlet-content bg-blue-gray px-4">
 								<div class="form-row mx-0">
 									<div class="col-12 px-0">
-									<label for="agent_id" class="sr-only">Agent</label>
-									<div id="customAgent1">
-										
-										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 m-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
-										<div class="form-row mx-0 my-2">
-											<div class="col-12 col-md-6 float-left">
-												<label for="collector_role" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Role</label>
-												<select class="data-entry-select smallselect height1p2" required>
-													<option value="">Agent Role</option>
-													<option value="c">Collector</option>
-													<option value="p">Preparator</option>
-												</select>
+										<div id="customAgent1">
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 m-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
+											<div class="form-row mx-0 my-2">
+												<div class="col-12 col-md-6 float-left">
+													<label for="collector_role" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Role</label>
+													<select class="data-entry-select smallselect height1p2" required>
+														<option value="">Agent Role</option>
+														<option value="c">Collector</option>
+														<option value="p">Preparator</option>
+													</select>
+												</div>
+												<div class="col-12 col-md-6 float-left">
+													<label for="agent_name" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Name</label>
+													<input type="text" class="data-entry-input height1p2"  name="agent_name">
+												</div>
 											</div>
-											<div class="col-12 col-md-6 float-left">
-												<label for="agent_name" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Name</label>
-												<input type="text" class="data-entry-input height1p2"  name="agent_name">
-											</div>
-										</div>
-										<div class="form-row mx-0 my-2">
-											<div class="col-12 col-md-6 float-left">
-								
-												<select class="data-entry-select smallselect height1p2" required>
-													<option value="">Agent Role</option>
-													<option value="c">Collector</option>
-													<option value="p">Preparator</option>
-												</select>
-											</div>
-											<div class="col-12 col-md-6 float-left">
-											
-												<input type="text" class="data-entry-input height1p2"  name="agent_name">
+											<div class="form-row mx-0 my-2">
+												<div class="col-12 col-md-6 float-left">
+
+													<select class="data-entry-select smallselect height1p2" required>
+														<option value="">Agent Role</option>
+														<option value="c">Collector</option>
+														<option value="p">Preparator</option>
+													</select>
+												</div>
+												<div class="col-12 col-md-6 float-left">
+
+													<input type="text" class="data-entry-input height1p2"  name="agent_name">
+												</div>
 											</div>
 										</div>
 									</div>
