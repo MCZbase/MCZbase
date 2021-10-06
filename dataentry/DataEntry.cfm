@@ -429,15 +429,11 @@ limitations under the License.
 							<div class="portlet-header"><h2 class="h4 smallcaps px-1">SPECIMEN IDENTIFIERS</h2></div>
 							<div class="portlet-content">
 								<div class="row">
-									<label for="collection" class="small font-weight-light float-left d-block mt-1 mb-0">Collection</label>
+									
 									<div class="col-12">
+										<label for="collection" class="small font-weight-light float-left d-block mt-1 mb-0">Collection</label>
 										<div class="bg-light px-2 pb-1">
-											<select class="data-entry-select" required>
-													<option value="">Collection</option>
-													<cfloop query="collection_full_name">
-														<option value="#collection_full_name.collection#">#collection_full_name.collection#</option>
-													</cfloop>
-											</select>
+											<div class="h3">Collection Name</div>
 											<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
 										</div>
 										<div class="bg-light px-2 pb-1">
