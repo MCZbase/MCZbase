@@ -538,7 +538,7 @@ limitations under the License.
 									<div id="customSciName">
 										<div class="form-row mx-0 mb-2">
 											<h5 class="mb-0 font-weight-bold text-center mt-0 d-block w-100"><label for="collecting_event_id" class="">Use Collecting Event ID only</label></h5>
-											<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
+											<input type="text" name="collecting_event_id" class="data-entry-input height1p2" placeholder="Collecting Event ID" />
 											<span class="small w-100 float-left text-center mt-2">- OR - </span>
 											<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Collecting Event</h5>
 											<label for="verbatim_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Locality</label>
@@ -598,13 +598,13 @@ limitations under the License.
 											<span class="small w-100 float-left text-center mt-1">- OR - </span>
 											<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Locality</h5>
 											<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 mb-0">Higher Geography</label>
-											<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
+											<input type="text" name="higher_geog" class="data-entry-input height1p2" placeholder="Higher Geography" />
 											<label for="spec_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Specific Locality</label>
-											<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
+											<input type="text" name="spec_locality" class="data-entry-input height1p2" placeholder="Specific Locality" />
 											<div class="col-12 px-0">
 												<label for="inputMinElev" class="small font-weight-light col-12 px-0 float-left d-block mt-1 mb-0">Elevation</label>
-												<input type="text" class="data-entry-input col-12 col-xl-4 float-left" id="inputMinElev" placeholder="Min Elevation">
-												<input type="text" class="data-entry-input col-12 col-xl-4 float-left" id="inputMaxElev" placeholder="Max Elevation">
+												<input type="text" class="data-entry-input col-12 col-xl-4 float-left height1p2" id="inputMinElev" placeholder="Min Elevation">
+												<input type="text" class="data-entry-input col-12 col-xl-4 float-left height1p2" id="inputMaxElev" placeholder="Max Elevation">
 												<select class="data-entry-select col-12 col-xl-4 smallselect height1p2">
 													<option value="">Units</option>
 													<cfloop query="depthUnits">
@@ -614,8 +614,8 @@ limitations under the License.
 											</div>
 											<div class="col-12 px-0">
 												<label for="inputMinDepth" class="small font-weight-light float-left col-12 px-0 d-block mt-1 mb-0">Depth</label>
-												<input type="text" class="data-entry-input col-12 col-xl-4 float-left" id="inputMinDepth" placeholder="Min Depth">
-												<input type="text" class="data-entry-input col-12 col-xl-4 float-left" id="inputMaxDepth" placeholder="Max Depth">
+												<input type="text" class="data-entry-input col-12 col-xl-4 float-left height1p2" id="inputMinDepth" placeholder="Min Depth">
+												<input type="text" class="data-entry-input col-12 col-xl-4 float-left height1p2" id="inputMaxDepth" placeholder="Max Depth">
 												<select class="data-entry-select col-12 col-xl-4 smallselect height1p2">
 													<option value="">Units</option>
 													<cfloop query="depthUnits">
@@ -624,11 +624,11 @@ limitations under the License.
 												</select>
 											</div>
 											<label for="sovereign_nation" class="small font-weight-light float-left d-block mt-1 mb-0">Sovereign Nation</label>
-											<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
+											<input type="text" name="sovereign_nation" class="data-entry-input height1p2" placeholder="Sovereign Nation" />
 											<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 mb-0">Geology Attribute</label>
-											<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
+											<input type="text" name="geology_attribute" class="data-entry-input height1p2" placeholder="Geology Attribute" />
 											<label for="habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
-											<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
+											<input type="text" name="habitat" class="data-entry-input height1p2" placeholder="Habitat" />
 											<label for="locality_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Locality Remark</label>
 											<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/></textarea>
 										</div>
@@ -659,7 +659,7 @@ limitations under the License.
 														</div>
 														<div class="float-left col-12 col-xl-6 px-0">
 															<label for="dec_long" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Longitude</label>
-															<input type="text" name="dec_long" class="data-entry-input"/>
+															<input type="text" name="dec_long" class="data-entry-input height1p2"/>
 														</div>
 													</div>
 												</div>
@@ -671,36 +671,36 @@ limitations under the License.
 													<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Min. Sec. Latitude</h5>
 													<div class="float-left col-12 col-md-3 px-0">
 														<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
-														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input"/>
+														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-3 px-0">
 														<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Minutes</label>
-														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input"/>
+														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-3 px-0">
 														<label for="lat_sec" class="small font-weight-light mt-1 mb-0">Seconds</label>
-														<input type="text" name="lat_sec" class="data-entry-input"/>
+														<input type="text" name="lat_sec" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-3 px-0">
 														<label for="lat_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
-														<input type="text" name="lat_dir" class="data-entry-input"/>
+														<input type="text" name="lat_dir" class="data-entry-input height1p2"/>
 													</div>								
 													<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100">Deg. Min. Sec. Longitude</h5>
 													<div class="float-left col-12 col-md-3 px-0">
 														<label for="long_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
-														<input type="text" name="lat_deg" class="data-entry-input"/>
+														<input type="text" name="lat_deg" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-3 px-0">
 														<label for="long_min" class="small font-weight-light float-left d-block mt-1 mb-0">Minutes</label>
-														<input type="text" name="lat_min" class="data-entry-input"/>
+														<input type="text" name="lat_min" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-3 px-0">
 														<label for="long_sec" class="small font-weight-light float-left d-block mt-1 mb-0">Seconds</label>
-														<input type="text" name="lat_sec" class="data-entry-input"/>
+														<input type="text" name="lat_sec" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-3 px-0">
 														<label for="long_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
-														<input type="text" name="long_dir" class="data-entry-input"/>
+														<input type="text" name="long_dir" class="data-entry-input height1p2"/>
 													</div>
 												</div>
 											</div>
@@ -710,28 +710,28 @@ limitations under the License.
 													<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Decimal Min. Latitude</h5>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
-														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input"/>
+														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Dec. Min.</label>
-														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input"/>
+														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="lat_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
-														<input type="text" name="lat_dir" class="data-entry-input"/>
+														<input type="text" name="lat_dir" class="data-entry-input height1p2"/>
 													</div>								
 													<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100">Deg. Decimal Min. Longitude</h5>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="long_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
-														<input type="text" name="lat_deg" class="data-entry-input"/>
+														<input type="text" name="lat_deg" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="long_min" class="small font-weight-light float-left d-block mt-1 mb-0">Dec. Min.</label>
-														<input type="text" name="lat_min" class="data-entry-input"/>
+														<input type="text" name="lat_min" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-3 px-0">
 														<label for="long_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
-														<input type="text" name="long_dir" class="data-entry-input"/>
+														<input type="text" name="long_dir" class="data-entry-input height1p2"/>
 													</div>
 												</div>
 											</div>
@@ -751,9 +751,9 @@ limitations under the License.
 											</div>
 											<div class="col-12 mt-2 border bg-light rounded p-1">
 												<label for="" class="small font-weight-light float-left col-12 text-xl-right col-xl-4 d-block pl-0 pr-2 mt-1 mb-0">Determiner</label>
-												<input type="text" name="" class="data-entry-input mt-1 float-left col-12 col-xl-8" id=""/>
+												<input type="text" name="" class="data-entry-input mt-1 float-left col-12 col-xl-8 height1p2" id=""/>
 												<label for="" class="small font-weight-light float-left text-xl-right pr-2 col-12 col-xl-4 d-block pl-0 mt-1 mb-0">Date</label>
-												<input type="text" class="data-entry-input mt-1 float-left col-12 col-xl-8" id="">
+												<input type="text" class="data-entry-input mt-1 float-left col-12 col-xl-8 height1p2" id="">
 											</div>
 												<label for="datum" class="small font-weight-light float-left d-block mt-1 mb-0">Geodetic Datum or SRS</label>
 												<select class="data-entry-select col-12 px-0 float-left" required>
@@ -770,9 +770,9 @@ limitations under the License.
 													</cfloop>
 												</select>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Extent</label>
-												<input type="text" name="" class="data-entry-input"/>
+												<input type="text" name="" class="data-entry-input height1p2"/>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
-												<input type="text" name="" class="data-entry-input"/>
+												<input type="text" name="" class="data-entry-input height1p2"/>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Verification Status</label>
 												<select class="data-entry-select col-12 px-0 float-left smallselect height1p2" required>
 													<option value="">Status </option>
@@ -781,11 +781,11 @@ limitations under the License.
 													</cfloop>
 												</select>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
-												<input type="text" name="" class="data-entry-input"/>
+												<input type="text" name="" class="data-entry-input height1p2"/>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Coordinate Remarks</label>
 												<textarea type="text" name="remarks" class="data-entry-textarea"/></textarea>
 												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Reference</label>
-												<input type="text" name="" class="data-entry-input"/>
+												<input type="text" name="" class="data-entry-input height1p2"/>
 										</div>
 	<script>
 	$(document).ready(function(){
