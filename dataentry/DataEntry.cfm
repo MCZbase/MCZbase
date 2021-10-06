@@ -433,7 +433,7 @@ limitations under the License.
 									<div class="col-12">
 										<label for="collection" class="sr-only">Collection Chosen on previous page</label>
 										<div class="bg-light px-2 pb-1">
-											<div class="h3">Collection Name</div>
+											<div class="h3 pt-2">Collection Name</div>
 											<small id="catNumHelp" class="form-text text-center text-muted">Sets attribute template</small> 
 										</div>
 										<div class="bg-light px-2 pb-1">
