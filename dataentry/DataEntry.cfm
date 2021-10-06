@@ -426,7 +426,7 @@ limitations under the License.
 					<!-- One "tab" for each step in the form: -->
 					<div class="col-12 col-md-4 px-0 column float-left">
 						<div class="portlet">
-							<div class="portlet-header"><h2 class="h4 smallcaps px-1">SPECIMEN IDENTIFIERS</h2></div>
+							<div class="portlet-header"><h2 class="h5 mb-0 smallcaps font-weight-bold px-1">SPECIMEN IDENTIFIERS</h2></div>
 							<div class="portlet-content">
 								<div class="row mx-0">
 									
