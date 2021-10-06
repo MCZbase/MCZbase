@@ -418,10 +418,10 @@ limitations under the License.
 		</div>
 	</div>
 
-	<div class="container-fluid px-0 pt-1" id="swapper-first">
-		<div class="row mx-0 full">
+	<div class="container-fluid pt-1" id="swapper-first">
+		<div class="row full">
 			<h1 class="text-center my-2 w-100">Enter a New <span class="font-weight-bold text-info">#collection#</span> Record</h1>
-			<div class="col-12 px-0 mt-0 pb-4">
+			<div class="col-12 mt-0 pb-4">
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
 					<div class="col-12 col-md-4 px-0 column float-left">
