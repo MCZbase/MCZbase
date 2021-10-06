@@ -462,7 +462,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-6 float-left bg-light">
 								<!---				<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>--->
-												<select class="data-entry-select mt-1 smallerselect height1p2">
+												<select class="data-entry-select mt-1 smallselect height1p2">
 													<option value="">Other ID Type</option>
 													<cfloop query="otherIDType">
 														<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
