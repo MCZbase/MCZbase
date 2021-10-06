@@ -424,7 +424,7 @@ limitations under the License.
 			<div class="col-12 px-0 mt-0 pb-4">
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
-					<div class="col-12 col-md-4 column float-left">
+					<div class="col-12 col-md-4 px-0 column float-left">
 						<div class="portlet">
 							<div class="portlet-header"><h2 class="h6 mb-0 smallcaps font-weight-bold px-1">SPECIMEN IDENTIFIERS</h2></div>
 							<div class="portlet-content">
@@ -483,46 +483,11 @@ limitations under the License.
 									</div>
 									</div>
 								</div>
+								
 							</div>
 						</div>
-		
 						<div class="portlet">
-							<h2 class="portlet-header small90">ENCUMBRANCE</h2>
-							<div class="portlet-content">
-								<label for="mask_record" class="float-left mt-2">Mask Record</label>
-								<input class="float-left ml-2 mt-1" value="1" type="checkbox" id="gridCheck1">
-								<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>--> 
-								<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
-							</div>
-						</div>
-					</div>
-					<div class="col-12 col-md-4 column float-left">
-						<div class="portlet">
-							<h2 class="portlet-header small90">CURATORIAL RELATIONSHIPS</h2>
-							<div class="portlet-content">
-								<div class="form-row mx-0">
-									<div id="customCurRelations">
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
-									<div class="form-row mx-0 my-2">
-										<label for="relations" class="sr-only">Relationship</label>
-											<select class="data-entry-select mt-1">
-												<option value="">Curatorial Relationship Type</option>
-												<cfloop query="currRelations">
-													<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
-												</cfloop>
-											</select>
-										<label for="record number" class="small font-weight-light float-left d-block mt-1 mb-0">Related Record Number</label>
-										<input type="text" class="data-entry-input" id="record_number">
-									</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-12 col-md-4 column float-left">
-
-						<div class="portlet">
-							<h2 class="portlet-header small90">SCIENTIFIC NAME</h2>
+							<h2 class="portlet-header small90">IDENTIFICATION</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<div id="customSciName">
@@ -548,29 +513,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-						<div class="portlet">
-							<h2 class="portlet-header small90">BIOLOGICAL RELATIONSHIPS</h2>
-							<div class="portlet-content">
-								<div class="form-row mx-0">
-									<div id="customBiolRelations">
-										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
-										<div class="form-row my-2 mx-0">
-
-											<select class="data-entry-select mt-1">
-												<option value="">Biological Relationship</option>
-												<cfloop query="biolRelations">
-													<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
-												</cfloop>
-											</select>
-											<label for="relations" class="small font-weight-light float-left d-block mt-1 mb-0">Relationship Value</label>
-											<input type="text" class="data-entry-input" id="relationship">
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
-					<div class="col-12 col-md-4 column float-left">
+					<div class="col-12 col-md-4 px-0 column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90" id="col_collector">COLLECTOR/PREPARATOR</h2>
 							<div class="portlet-content">
@@ -697,7 +641,6 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-
 						<div class="portlet">
 							<h2 class="portlet-header small90">COORDINATES</h2>
 							<div class="portlet-content">
@@ -879,7 +822,7 @@ limitations under the License.
 										</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 column float-left">
+					<div class="col-12 col-md-4 px-0 column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90">PARTS</h2>
 							<div class="portlet-content">
@@ -951,16 +894,63 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</div>				
-					<div class="col-12 col-md-4 px-0 column float-left">
+						<div class="portlet">
+							<h2 class="portlet-header small90">BIOLOGICAL RELATIONSHIPS</h2>
+							<div class="portlet-content">
+								<div class="form-row mx-0">
+									<div id="customBiolRelations">
+										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
+										<div class="form-row my-2 mx-0">
 
+											<select class="data-entry-select mt-1">
+												<option value="">Biological Relationship</option>
+												<cfloop query="biolRelations">
+													<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+												</cfloop>
+											</select>
+											<label for="relations" class="small font-weight-light float-left d-block mt-1 mb-0">Relationship Value</label>
+											<input type="text" class="data-entry-input" id="relationship">
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
+						<div class="portlet">
+							<h2 class="portlet-header small90">CURATORIAL RELATIONSHIPS</h2>
+							<div class="portlet-content">
+								<div class="form-row mx-0">
+									<div id="customCurRelations">
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
+									<div class="form-row mx-0 my-2">
+										<label for="relations" class="sr-only">Relationship</label>
+											<select class="data-entry-select mt-1">
+												<option value="">Curatorial Relationship Type</option>
+												<cfloop query="currRelations">
+													<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
+												</cfloop>
+											</select>
+										<label for="record number" class="small font-weight-light float-left d-block mt-1 mb-0">Related Record Number</label>
+										<input type="text" class="data-entry-input" id="record_number">
+									</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="portlet">
+							<h2 class="portlet-header small90">ENCUMBRANCE</h2>
+							<div class="portlet-content">
+								<label for="mask_record" class="float-left mt-2">Mask Record</label>
+								<input class="float-left ml-2 mt-1" value="1" type="checkbox" id="gridCheck1">
+								<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>--> 
+								<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
+							</div>
+						</div>
+					</div>				
 				</form>
 			</div>
 		</div>
 	</div>
+
 </div>
 	<!---Step by step form for each section of the Data Entry form -- Form wizard--->
 
