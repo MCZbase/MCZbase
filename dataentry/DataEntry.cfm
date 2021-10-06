@@ -484,7 +484,7 @@ limitations under the License.
 					<div class="col-12 col-md-4 px-0 column float-left">
 						<div class="portlet">
 							<h2 class="portlet-header small90" id="col_collector">COLLECTOR/PREPARATOR</h2>
-							<div class="portlet-content bg-blue-gray">
+							<div class="portlet-content bg-blue-gray px-4">
 								<div class="form-row mx-0">
 									<label for="agent_id" class="sr-only">Agent</label>
 									<div id="customAgent1">
@@ -508,9 +508,9 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="portlet">
+						<div class="portlet shadow-none">
 							<h2 class="portlet-header small90">COLLECTING EVENT</h2>
-							<div class="portlet-content bg-blue-gray">
+							<div class="portlet-content bg-blue-gray px-4">
 								<div class="form-row mx-0">
 									<div id="customSciName">
 										<div class="form-row mx-0 mb-2">
