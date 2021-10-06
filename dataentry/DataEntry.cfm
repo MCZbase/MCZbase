@@ -424,7 +424,6 @@ limitations under the License.
 			<div class="col-12 px-0 mt-0 pb-4">
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
-					<div class="col-12 col-md-4 px-0 column float-left">
 						<div class="portlet">
 							<div class="portlet-header"><h2 class="h6 mb-0 smallcaps font-weight-bold px-1">SPECIMEN IDENTIFIERS</h2></div>
 							<div class="portlet-content">
@@ -449,9 +448,9 @@ limitations under the License.
 											<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
 										</div>
 									</div>
-								
-									<div id="customOtherID">
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
+									<div class="col-12 px-0 float-left">
+										<div id="customOtherID">
+										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 										<div class="form-row mx-0 my-2">
 											<div class="col-12 col-md-6 px-0 float-left bg-light">
 												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
@@ -472,7 +471,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-
+		
 						<div class="portlet">
 							<h2 class="portlet-header small90">ENCUMBRANCE</h2>
 							<div class="portlet-content">
@@ -480,14 +479,6 @@ limitations under the License.
 								<input class="float-left ml-2 mt-1" value="1" type="checkbox" id="gridCheck1">
 								<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>--> 
 								<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
-							</div>
-						</div>
-						<div class="portlet">
-							<h2 class="portlet-header small90">OTHER IDS</h2>
-							<div class="portlet-content">
-								<div class="form-row mx-0">
-									
-								</div>
 							</div>
 						</div>
 						<div class="portlet">
