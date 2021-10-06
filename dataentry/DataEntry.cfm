@@ -430,7 +430,7 @@ limitations under the License.
 							<div class="portlet-content">
 								<div class="row mx-0">
 									
-									<div class="col-12 float-left">
+									<div class="col-12 px-0 float-left">
 										<label for="collection" class="sr-only">Collection Chosen on previous page</label>
 										<div class="bg-light px-2 pb-1">
 											<div class="h3 pt-2">Collection Name</div>
