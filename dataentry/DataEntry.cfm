@@ -792,8 +792,8 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-										</div>
-									</div>
+								
+									
 										<!--- deg/min/sec--->
 										<div class="row mx-0 mt-2 dec_min_sec box" id="dec_min_sec" style="display:none;">
 											<div class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
@@ -865,10 +865,8 @@ limitations under the License.
 											</div>
 										</div>
 										<!--- unknown --->
-										<div class="row mx-0 unknown box mt-2" id="unknown" style="display:none;">
-								
+										<div class="row mx-0 unknown box mt-2" id="unknown" style="display:none;"></div>
 										</div>
-
 											<div class="col-12 px-0">
 												<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 px-0 mb-0">Max Error</label>
 												<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-8 col-md-7 float-left" />
