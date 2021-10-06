@@ -454,7 +454,7 @@ limitations under the License.
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 										<div class="form-row mx-0 my-2">
 											<div class="col-12 col-md-6 px-0 float-left bg-light">
-												<label for="other_id" class="sr-only">Other ID</label>
+												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
 												<select class="data-entry-select mt-1">
 													<option value="">Other ID Type</option>
 													<cfloop query="otherIDType">
