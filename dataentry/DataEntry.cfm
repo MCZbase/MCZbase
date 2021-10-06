@@ -430,17 +430,20 @@ limitations under the License.
 							<div class="portlet-content">
 								<div class="row">
 									
-									<div class="col-12">
+									<div class="col-12 float-left">
 										<label for="collection" class="sr-only">Collection Chosen on previous page</label>
 										<div class="bg-light px-2 pb-1">
 											<div class="h3 pt-2">Collection Name</div>
-											<small id="catNumHelp" class="form-text text-center text-muted">Sets attribute template</small> 
 										</div>
+									</div>
+									<div class="col-12 col-md-6 float-left">
 										<div class="bg-light px-2 pb-1">
 											<label for="cat_num" class="small font-weight-light float-left d-block mt-1 mb-0">Catalog Number</label>
 											<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
 											<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
 										</div>
+									</div>
+									<div class="col-12 col-md-6 float-left">
 										<div class="bg-light px-2 pb-1">
 											<label for="accn" class="small font-weight-light float-left d-block mt-1 mb-0">Accession Number</label>
 											<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" name="accn">
