@@ -477,7 +477,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-6 float-left bg-light">
 								<!---				<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>--->
-												<input type="text" class="data-entry-input" id="other_id" name="other_id">
+												<input type="text" class="data-entry-input mt-1" id="other_id" name="other_id">
 											</div>
 										</div>
 									</div>
