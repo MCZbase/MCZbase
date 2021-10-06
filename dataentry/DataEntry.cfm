@@ -424,6 +424,7 @@ limitations under the License.
 			<div class="col-12 px-0 mt-0 pb-4">
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
+					<div class="col-12 col-md-4 column float-left">
 						<div class="portlet">
 							<div class="portlet-header"><h2 class="h6 mb-0 smallcaps font-weight-bold px-1">SPECIMEN IDENTIFIERS</h2></div>
 							<div class="portlet-content">
@@ -481,6 +482,8 @@ limitations under the License.
 								<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
 							</div>
 						</div>
+					</div>
+					
 						<div class="portlet">
 							<h2 class="portlet-header small90">CURATORIAL RELATIONSHIPS</h2>
 							<div class="portlet-content">
