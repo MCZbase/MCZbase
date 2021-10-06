@@ -426,7 +426,7 @@ limitations under the License.
 					<!-- One "tab" for each step in the form: -->
 					<div class="col-xl-5ths col-md-5ths col-sm-5ths column float-left">
 						<div class="portlet">
-							<div class="portlet-header"><h2 class="h4">Specimen Identifiers</h2></div>
+							<div class="portlet-header"><h2 class="h4 smallcaps px-1">Specimen Identifiers</h2></div>
 							<div class="portlet-content">
 								<div class="row">
 									<label for="collection" class="sr-only">Collection</label>
