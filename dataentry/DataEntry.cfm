@@ -769,7 +769,7 @@ limitations under the License.
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<div id="customSciName">
-										<div class="bg-light border rounded px-2 py-1"> 
+										<div class="bg-light border rounded px-2 pb-2"> 
 											<div class="form-row mx-0 my-2">
 												<label for="Coord. System" class="sr-only">Coordinate System</label>
 												<select name="orig_lat_long_units" title="ORIG_LAT_LONG_UNITS" id="orig_lat_long_units" class="data-entry-select">
