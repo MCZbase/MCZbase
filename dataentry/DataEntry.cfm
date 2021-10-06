@@ -449,36 +449,7 @@ limitations under the License.
 											<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
 										</div>
 									</div>
-								</div>
-							</div>
-						</div>
-						<div class="portlet">
-							<h2 class="portlet-header small">CATALOG NUMBER</h2>
-							<div class="portlet-content">
-								<label for="cat_num" class="sr-only">Catalog Number</label>
-								<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
-								<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
-							</div>
-						</div>
-						<div class="portlet">
-							<h2 class="portlet-header small90">ACCESSION NUMBER</h2>
-							<div class="portlet-content">
-							
-							</div>
-						</div>
-						<div class="portlet">
-							<h2 class="portlet-header small90">ENCUMBRANCE</h2>
-							<div class="portlet-content">
-								<label for="mask_record" class="float-left mt-2">Mask Record</label>
-								<input class="float-left ml-2 mt-1" value="1" type="checkbox" id="gridCheck1">
-								<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>--> 
-								<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
-							</div>
-						</div>
-						<div class="portlet">
-							<h2 class="portlet-header small90">OTHER IDS</h2>
-							<div class="portlet-content">
-								<div class="form-row mx-0">
+									<div class="col-12 col-md-6 px-0 float-left bg-light">
 									<div id="customOtherID">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 										<div class="form-row mx-0 my-2">
@@ -493,6 +464,25 @@ limitations under the License.
 											<input type="text" class="data-entry-input" id="other_id" name="other_id">
 										</div>
 									</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="portlet">
+							<h2 class="portlet-header small90">ENCUMBRANCE</h2>
+							<div class="portlet-content">
+								<label for="mask_record" class="float-left mt-2">Mask Record</label>
+								<input class="float-left ml-2 mt-1" value="1" type="checkbox" id="gridCheck1">
+								<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>--> 
+								<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
+							</div>
+						</div>
+						<div class="portlet">
+							<h2 class="portlet-header small90">OTHER IDS</h2>
+							<div class="portlet-content">
+								<div class="form-row mx-0">
+									
 								</div>
 							</div>
 						</div>
