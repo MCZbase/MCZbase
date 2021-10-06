@@ -426,18 +426,30 @@ limitations under the License.
 					<!-- One "tab" for each step in the form: -->
 					<div class="col-xl-5ths col-md-5ths col-sm-5ths column float-left">
 						<div class="portlet">
-							<div class="portlet-header">COLLECTION</div>
+							<div class="portlet-header"><h2 class="h4">Specimen Identifiers</h2></div>
 							<div class="portlet-content">
 								<div class="row">
 									<label for="collection" class="sr-only">Collection</label>
 									<div class="col-12">
-										<select class="data-entry-select" required>
-												<option value="">Collection</option>
-												<cfloop query="collection_full_name">
-													<option value="#collection_full_name.collection#">#collection_full_name.collection#</option>
-												</cfloop>
-										</select>
-										<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
+										<div class="bg-light px-2 pb-1">
+											<select class="data-entry-select" required>
+													<option value="">Collection</option>
+													<cfloop query="collection_full_name">
+														<option value="#collection_full_name.collection#">#collection_full_name.collection#</option>
+													</cfloop>
+											</select>
+											<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
+										</div>
+										<div class="bg-light px-2 pb-1">
+											<label for="cat_num" class="sr-only">Catalog Number</label>
+											<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
+											<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
+										</div>
+										<div class="bg-light px-2 pb-1">
+											<label for="accn" class="small font-weight-light float-left d-block mt-1 mb-0">Accession Number</label>
+											<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" name="accn">
+											<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -453,9 +465,7 @@ limitations under the License.
 						<div class="portlet">
 							<h2 class="portlet-header small90">ACCESSION NUMBER</h2>
 							<div class="portlet-content">
-								<label for="accn" class="small font-weight-light float-left d-block mt-1 mb-0">Accession Number</label>
-								<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" name="accn">
-								<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
+							
 							</div>
 						</div>
 						<div class="portlet">
