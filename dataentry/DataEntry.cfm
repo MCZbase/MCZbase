@@ -461,14 +461,14 @@ limitations under the License.
 										<input type="text" name="made_by" class="col-12 col-md-10 float-left data-entry-input height1p2"/>
 										<div class="col-12 col-md-6 px-0">
 											<label for="nature_of_id" class="small font-weight-light col-12 col-md-2 float-left d-block mt-1 mb-0">Nature of ID</label>
-											<select class="data-entry-select smallselect col-12 col-md-10 float-left height1p2">
+											<select class="data-entry-select smallselect col-12 col-md-10 pl-0 float-left height1p2">
 												<option value="">Nature of ID</option>
 												<cfloop query="nature_of_id">
 													<option value="#nature_of_id.nature_of_id#">#nature_of_id.nature_of_id#</option>
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-6 pr-0">
+										<div class="col-12 col-md-6 px-0">
 											<label for="made_by_date" class="small font-weight-light col-12 col-md-2 float-left d-block mt-1 mb-0">Date of ID</label>
 											<input type="text" name="made_by_date" class="col-12 col-md-10 float-left data-entry-input height1p2"/>
 										</div>
