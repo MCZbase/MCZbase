@@ -417,7 +417,7 @@ limitations under the License.
 										<div class="form-row mx-0 mb-2">
 											
 											<div class="col-12 col-md-6 float-left">
-												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
+												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID Type</label>
 												<select class="data-entry-select mt-1 smallselect height1p2">
 													<option value="">Other ID Type</option>
 													<cfloop query="otherIDType">
@@ -488,7 +488,7 @@ limitations under the License.
 									<div class="col-12 px-0">
 										<div id="customAgent1">
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 m-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
-											<div class="form-row mx-0 my-2">
+											<div class="form-row mx-0">
 												<div class="col-12 col-md-6 float-left">
 													<label for="collector_role" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Role</label>
 													<select class="data-entry-select smallselect height1p2" required>
@@ -533,8 +533,8 @@ limitations under the License.
 											<span class="small w-100 float-left text-center mt-2">- OR - </span>
 											<h5 class="font-weight-bold text-left mb-0 d-block w-100">New Collecting Event</h5>
 										
-											<label for="verbatim_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Locality</label>
-											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2"/>
+											<label for="verbatim_locality" class="small font-weight-light col-12 col-md-3 px-1 float-left d-block mt-1 mb-0">Verbatim Locality</label>
+											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2 col-12 col-md-9 px-1 float-left"/>
 											<div class="col-12 col-md-8 px-0 float-left">
 												<label for="inputPassword3" class="small font-weight-light col-12 px-0 float-left d-block mt-1 mb-0">ISO Dates</label>
 												<input type="text" class="data-entry-input col-12 col-xl-6 float-left mt-0 height1p2" id="began_date" placeholder="Began Date">
