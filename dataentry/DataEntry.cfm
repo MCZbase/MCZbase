@@ -146,7 +146,7 @@ limitations under the License.
 </cfquery>
 	<div class="swapperBtnDiv" style=""> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
-<div class="container-fluid bg-blue-gray">
+<div class="container-fluid bg-light">
 	<div class="container px-4 pt-0 mt-0" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 justify-content-center mt-2 mx-auto">
