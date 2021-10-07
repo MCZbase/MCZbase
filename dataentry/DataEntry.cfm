@@ -455,10 +455,10 @@ limitations under the License.
 									<div id="customSciName">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Identification</a>
 									<div class="form-row mx-0 my-2">
-										<label for="scientific_name" class="small col-12 col-md-5 font-weight-light float-left d-block mt-1 mb-0">Identification</label>
-										<input type="text" name="scientific_name" class="col-12 col-md-7 float-left data-entry-input height1p2"/>
-										<label for="made_by" class="small font-weight-light col-12 col-md-5 float-left d-block mt-1 mb-0">ID Made By</label>
-										<input type="text" name="made_by" class="col-12 col-md-7 float-left data-entry-input height1p2"/>
+										<label for="scientific_name" class="small col-12 col-md-4 font-weight-light float-left d-block mt-1 mb-0">Identification</label>
+										<input type="text" name="scientific_name" class="col-12 col-md-8 float-left data-entry-input height1p2"/>
+										<label for="made_by" class="small font-weight-light col-12 col-md-4 float-left d-block mt-1 mb-0">ID Made By</label>
+										<input type="text" name="made_by" class="col-12 col-md-8 float-left data-entry-input height1p2"/>
 										<div class="col-12 col-md-6 px-0">
 											<label for="nature_of_id" class="small font-weight-light col- float-left d-block mt-1 mb-0">Nature of ID</label>
 											<select class="data-entry-select smallselect height1p2">
