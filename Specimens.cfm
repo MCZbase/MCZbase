@@ -237,6 +237,40 @@ limitations under the License.
 							<!---Keyword Search/results tab panel--->
 							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#" #keywordTabShow#>
 								<section role="search" class="container-fluid">
+									<div class="col-8 m-3" style="font-size: 14.5px;"> 
+										<button class="btn btn-black help-btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+											Search Help
+										</button>
+										<div class="collapse" id="collapseExample">
+											<div class="card card-body">
+												<h2 class="headerSm">Keyword Search Operators</h2>
+												<p>These only work with the keyword search, operators for other searches are different, see: <u>Search Operators</u> on the Wiki, in particular !, $, and ~ have very different meanings elsewhere.</p>
+												<dl> 
+													<dt><span class="text-info font-weight-bold">&</span></dt>
+													<dd>&nbsp;The "and" operator, matches records where the search terms on both sides of the & are present somewhere in the record.</dd>
+													<dt><span class="text-info font-weight-bold">|</span></dt>
+													<dd>The "or" operator, matches words where at least one of the search terms is present somewhere in the record.</dd>
+													<dt><span class="text-info font-weight-bold">~</span></dt>
+													<dd>The "tilde" or "approximate" mark finds records that contain the first term but not the second (e.g., Panama ~ Canal). Results returned would include "Panama" but not "Canal".</dd>
+													<dt><span class="text-info font-weight-bold">NEAR((term,term2),distance)</span></dt>
+													<dd>The NEAR((term,term2),distance) finds words that are nearby each other (e.g. NEAR((Panama,Bay),3) finds records where Panama and Bay are within three words of each other). Examples of results: "San Miguel Id Bay of Panama" and "Bay of Panama, Dan Miguel Id".</dd>
+													<dt><span class="text-info font-weight-bold">=</span></dt>
+													<dd>The word equivalence operator, either word is interchangeable in the phrase (e.g., Taboga Island=Id). The results would return rows with "Taboga Island" or "Taboga Id".</dd>
+													<dt><span class="text-info font-weight-bold">FUZZY(term)</span> </dt>
+													<dd>This finds words that are a fuzzy match to the specified term, fuzzy matching can include variations (e.g. misspellings, typos) anywhere in the term (e.g., FUZZY(Taboga).</dd>
+													<dt><span class="text-info font-weight-bold">!</span></dt>
+													<dd>The soundex symbol "!" finds words that sound like the specified term, unlike fuzzy matching, soundex tends to find words that are similar in the first few letters and vary at the end (e.g., !Rongelap finds records that contain words which sound like Rongelap. Soundex can be good for finding alternate endings on specific epithets of taxa).</dd>
+													<dt><span class="text-info font-weight-bold">$</span></dt> 
+													<dd>The stem operator finds words with the same linguistic stem as the search term, e.g. $forest finds words with the same stem as forest such as forested or forests.</dd>
+													<dt><span class="text-info font-weight-bold">( )</span></dt>
+													<dd>Parentheses can be used to group terms for complex operations (e.g. Basiliscus & (FUZZY(Honduras) | (Panama ~ Canal)) and will return results of fuzzy match to Honduras or Panama but not Canal).</dd>
+													<dt><span class="text-info font-weight-bold">%</span></dt> 
+													<dd>The percent wildcard, matches any number of characters, e.g. %bridge matches Cambridge, bridge, and Stockbridge.</dd>
+													<dt><span class="text-info font-weight-bold">_</span> </dt><dd> The underscore wildcard, matches exactly one character and allows for any character to takes its place.</dd>
+												</dl>
+											</div>
+										</div>
+									</div>
 									<form name= "keywordSearchForm" id="keywordSearchForm">
 										<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeKeywordSearch" class="keeponclear excludeFromLink">
