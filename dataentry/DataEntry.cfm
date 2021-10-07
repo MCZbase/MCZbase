@@ -532,7 +532,7 @@ limitations under the License.
 											</h5>
 											<input type="text" name="collecting_event_id" class="data-entry-input col-5 mx-auto height1p2" placeholder="Collecting Event ID" />
 											<span class="small w-100 float-left text-center mt-2">- OR - </span>
-											<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Collecting Event</h5>
+											<h5 class="font-weight-bold text-left mb-0 d-block w-100">New Collecting Event</h5>
 										
 											<label for="verbatim_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Locality</label>
 											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2"/>
@@ -554,10 +554,16 @@ limitations under the License.
 												<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0 height1p2" id="start_day_of_year" placeholder="Start Day of Year">
 												<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0 height1p2" id="end_day_of_year" placeholder="End Day of Year">
 											</div>
-											<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Source</label>
-											<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_source">
-											<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Method</label>
-											<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_method">
+											<div class="col-12 px-0 float-left">
+												<div class="col-12 col-md-6 px-0 float-left">
+													<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Source</label>
+													<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_source">
+												</div>
+												<div class="col-12 col-md-6 px-0 float-left">
+													<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Method</label>
+													<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_method">
+												</div>
+											</div>
 											<label for="Habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
 											<input type="text" name="habitat_desc" class="data-entry-input mt-0 height1p2"/>
 											<label for="microhabitat" class="small font-weight-light float-left d-block mt-1 mb-0">Microhabitat</label>
@@ -570,11 +576,11 @@ limitations under the License.
 												<input type="text" class="data-entry-input col-12 col-xl-8 float-left height1p2" id="coll_number_series" placeholder="Existing Series">
 												<a class="btn btn-xs btn-outline-primary border-light col-12 px-0 col-xl-4 float-left height1p2" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Add New Series</a>
 											</div>
-											<label for="Coord. System" class="small font-weight-light float-left d-block mt-1 mb-0">SRS or Datum</label>
+											<label for="Coord. System" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim SRS or Datum</label>
 											<input type="text" class="data-entry-input height1p2" id="Datum">
-											<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Latitude</label>
+											<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Latitude</label>
 											<input type="text" class="data-entry-input height1p2" id="latitude">
-											<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Longitude</label>
+											<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Longitude</label>
 											<input type="text" class="data-entry-input height1p2" id="longitude">
 										</div>
 									</div>
@@ -584,7 +590,7 @@ limitations under the License.
 						</div>
 						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">LOCALITY</h2>
-							<div class="portlet-content px-3 pb-2">
+							<div class="portlet-content px-3 pb-3">
 								<div class="form-row mx-0">
 									<div id="customSciName">
 										<div class="form-row mx-0 my-0">
@@ -635,7 +641,7 @@ limitations under the License.
 						</div>
 						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">COORDINATES</h2>
-							<div class="portlet-content px-3">
+							<div class="portlet-content px-3 pb-3">
 								<div class="form-row mx-0">
 									<div id="customSciName">
 										<div class="bg-light border rounded px-2 pb-2"> 
