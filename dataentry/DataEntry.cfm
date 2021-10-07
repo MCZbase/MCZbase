@@ -526,28 +526,36 @@ limitations under the License.
 							<h2 class="portlet-header small90">COLLECTING EVENT</h2>
 							<div class="portlet-content bg-blue-gray px-4">
 								<div class="form-row mx-0">
+									<div class="col-12 px-0">
 									<div id="customSciName">
 										<div class="form-row mx-0 mb-2">
 											<h5 class="mb-0 font-weight-bold text-center mt-0 d-block w-100"><label for="collecting_event_id" class="">Use Collecting Event ID only</label></h5>
 											<input type="text" name="collecting_event_id" class="data-entry-input height1p2" placeholder="Collecting Event ID" />
 											<span class="small w-100 float-left text-center mt-2">- OR - </span>
 											<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Collecting Event</h5>
+										
 											<label for="verbatim_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Locality</label>
 											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2"/>
-											<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">ISO Dates</label>
-											<div class="col-12 px-0">
-											<input type="text" class="data-entry-input col-12 col-xl-6 float-left mt-0" id="began_date" placeholder="Began Date">
-											<input type="text" class="data-entry-input col-12 col-xl-6 float-left mt-0" id="ended_date" placeholder="Date Ended">
+											<div class="col-12 col-md-4 float-left">
+												<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">ISO Dates</label>
+												<input type="text" class="data-entry-input col-12 col-xl-6 float-left mt-0" id="began_date" placeholder="Began Date">
+												<input type="text" class="data-entry-input col-12 col-xl-6 float-left mt-0" id="ended_date" placeholder="Date Ended">
 											</div>
-											<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
-											<input type="text" class="data-entry-input mt-0 height1p2" id="verbatim_date">
+											<div class="col-12 col-md-4 float-left">
+												<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
+												<input type="text" class="data-entry-input mt-0 height1p2" id="verbatim_date">
+											</div>
+									
+										<div class="col-12 float-left">	
+												<div class="col-12 col-md-4 float-left">
 											<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Time</label>
 											<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_time">
+										</div>
+										<div class="col-12 col-md-8 float-left">
 											<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block mt-1 mb-0">Day of Year</label>
-											<div class="col-12 px-0">
 											<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0 height1p2" id="start_day_of_year" placeholder="Start Day of Year">
 											<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0 height1p2" id="end_day_of_year" placeholder="End Day of Year">
-											</div>
+										</div>
 											<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Source</label>
 											<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_source">
 											<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Method</label>
