@@ -429,7 +429,7 @@ limitations under the License.
 												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
 												<input type="text" class="data-entry-input height1p2" id="other_id" name="other_id">
 											</div>
-											<div class="col-12 col-md-6 float-left bg-light">
+											<div class="col-12 col-md-6 float-left">
 								<!---				<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>--->
 												<select class="data-entry-select mt-1 smallselect height1p2">
 													<option value="">Other ID Type</option>
