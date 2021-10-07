@@ -815,7 +815,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-4 px-0 column float-left">
-						<div class="portlet">
+						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">PARTS</h2>
 							<div class="portlet-content">
 								<div id="customPart">
@@ -856,7 +856,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="portlet">
+						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">ATTRIBUTES</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
@@ -886,7 +886,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="portlet">
+						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">BIOLOGICAL RELATIONSHIPS</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
@@ -907,7 +907,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="portlet">
+						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">CURATORIAL RELATIONSHIPS</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
@@ -928,7 +928,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="portlet">
+						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">ENCUMBRANCE</h2>
 							<div class="portlet-content">
 								<label for="mask_record" class="float-left mt-2">Mask Record</label>
