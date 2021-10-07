@@ -526,7 +526,7 @@ limitations under the License.
 								<div class="form-row mx-0">
 									<div class="col-12 px-0">
 									<div id="customSciName">
-										<div class="form-row mb-2">
+										<div class="form-row mx-0 mb-2">
 											<h5 class="mb-0 font-weight-bold text-center mt-0 d-block w-100">
 												<label for="collecting_event_id" class="">Use Collecting Event ID only</label>
 											</h5>
