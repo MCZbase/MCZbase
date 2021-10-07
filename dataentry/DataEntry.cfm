@@ -522,9 +522,9 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="portlet shadow-none">
+						<div class="portlet shadow-none bg-blue-gray m-0">
 							<h2 class="portlet-header small90">COLLECTING EVENT</h2>
-							<div class="portlet-content bg-blue-gray px-4">
+							<div class="portlet-content px-4">
 								<div class="form-row mx-0">
 									<div class="col-12 px-0">
 									<div id="customSciName">
