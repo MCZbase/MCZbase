@@ -393,7 +393,7 @@ limitations under the License.
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
 					<div class="col-12 col-md-4 px-0 column float-left">
-						<div class="portlet shadow">
+						<div class="portlet shadow-none">
 							<div class="portlet-header"><h2 class="h6 mb-0 smallcaps font-weight-bold px-1">SPECIMEN IDENTIFIERS</h2></div>
 							<div class="portlet-content">
 								<div class="row mx-0">
