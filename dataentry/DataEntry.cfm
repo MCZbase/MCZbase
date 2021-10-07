@@ -393,12 +393,12 @@ limitations under the License.
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
 					<div class="col-12 col-md-4 px-0 column float-left">
-						<div class="portlet shadow-none m-0 bg-blue-gray">
+						<div class="portlet shadow-none m-0 bg-blue-gray p-4">
 							<div class="portlet-header"><h2 class="h6 mb-0 smallcaps font-weight-bold px-1">SPECIMEN IDENTIFIERS</h2></div>
 							<div class="portlet-content">
 								<div class="row mx-0">
 									<div class="col-12 col-md-6 px-0 float-left">
-										<div class="bg-light px-2 pb-1">
+										<div class="px-2 pb-1">
 											<label for="cat_num" class="small font-weight-light float-left d-block mt-1 mb-0">Catalog Number</label>
 											<input type="text" class="data-entry-input height1p2" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
 											<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
