@@ -545,8 +545,8 @@ limitations under the License.
 												<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
 												<input type="text" class="data-entry-input mt-0 height1p2" id="verbatim_date">
 											</div>
-											<div class="col-12 col-md-4 float-left">
-												<label for="inputPassword3" class="small font-weight-light  float-left d-block mt-1 mb-0">Time</label>
+											<div class="col-12 col-md-4 pl-0 float-left">
+												<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Time</label>
 												<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_time">
 											</div>
 											<div class="col-12 col-md-8 float-left">
