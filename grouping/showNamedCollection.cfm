@@ -588,7 +588,7 @@ div.vslider-item[aria-hidden="true"]{
 												$("##specimen_detail_a").attr("href","/media/" + specimenImage.media_id);
 												$("##specimen_media_a").attr("href",specimenImage.media_uri);
 												$("##specimen_image_number").val(currentSpecimenImage);
-												$("##specimen_media_desc").val(specimenImage.alt;
+												$("##specimen_media_desc").val(specimenImage.alt);
 											}
 											function goNextSpecimen() { 
 												currentSpecimenImage = currentSpecimenImage + 1;
@@ -599,7 +599,7 @@ div.vslider-item[aria-hidden="true"]{
 												$("##specimen_detail_a").attr("href","/media/" + specimenImage.media_id);
 												$("##specimen_media_a").attr("href",specimenImage.media_uri);
 												$("##specimen_image_number").val(currentSpecimenImage);
-												$("##specimen_media_desc").val(specimenImage.alt;
+												$("##specimen_media_desc").val(specimenImage.alt);
 											}
 											function goSpecimen() { 
 												var targetSpecimenImage = currentSpecimenImage;
@@ -618,7 +618,7 @@ div.vslider-item[aria-hidden="true"]{
 												$("##specimen_detail_a").attr("href","/media/" + specimenImage.media_id);
 												$("##specimen_media_a").attr("href",specimenImage.media_uri);
 												$("##specimen_image_number").val(currentSpecimenImage);
-												$("##specimen_media_desc").val(specimenImage.alt;
+												$("##specimen_media_desc").val(specimenImage.alt);
 											}
 											$(document).ready(function () {
 												$("##previous_specimen_image").click(goPreviousSpecimen);
