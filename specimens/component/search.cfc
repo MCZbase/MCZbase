@@ -282,26 +282,22 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("searchText") AND len(searchText) GT 0>
 		<cfset field = '"field": "kewyordSearchText"'>
 		<cfset comparator = '"comparator": ""'>
+		<!--- convert operator characters from conventions used elsewhere in MCZbase to oracle CONTAINS operators --->
+		<!--- 
+		User enters >  converted to:  meaning
+			! ->  ~   NOT
+			$ ->  !   SOUNDEX
+			# ->  $   STEM
+			~ ->  ~   NOT  (no change made, but we don't document that ~ is allowed)
+		NOTE: order of replacements matters.
+		--->
+		<cfset value = replace(searchText,"!","~","all")>
+		<cfset value = replace(searchText,"$","!","all")>
+		<cfset value = replace(searchText,"#","$","all")>
+
+		<!--- escape quotes for json construction --->
 		<cfset value = replace(searchText,"\","\\","all")>
 		<cfset value = replace(searchText,'"','\"',"all")>
-		<!---
-		<cfset value = encodeForJavaScript(searchText)>
-		<cfset value = replace(value,"\x20"," ","all")>
-		<cfset value = replace(value,"\x21","!","all")>
-		<cfset value = replace(value,"\x24","$","all")>
-		<cfset value = replace(value,"\x25","%","all")>
-		<cfset value = replace(value,"\x26","&","all")>
-		<cfset value = replace(value,"\x28","(","all")>
-		<cfset value = replace(value,"\x29",")","all")>
-		<cfset value = replace(value,"\x2A","*","all")>
-		<cfset value = replace(value,"\x2D","-","all")>
-		<cfset value = replace(value,"\x3B",";","all")>
-		<cfset value = replace(value,"\x3D","=","all")>
-		<cfset value = replace(value,"\x5B","[","all")>
-		<cfset value = replace(value,"\x5D","]","all")>
-		<cfset value = replace(value,"\x7C","|","all")>
-		<cfset value = replace(value,"\x7E","~","all")>
-		--->
 		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
