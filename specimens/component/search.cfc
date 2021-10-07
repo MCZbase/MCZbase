@@ -294,7 +294,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset searchValue = searchText>
 		<cfset searchValue = replace(searchValue,"!","~","all")>
 		<cfset searchValue = replace(searchValue,"$","!","all")>
-		<cfset searchValue = replace(searchValue,"#","$","all")>
+		<cfset searchValue = replace(searchValue,"##","$","all")>
 
 		<!--- escape quotes for json construction --->
 		<cfset searchValueForJSON = searchValue>
