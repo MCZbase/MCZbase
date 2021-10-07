@@ -449,9 +449,9 @@ limitations under the License.
 								
 							</div>
 						</div>
-						<div class="portlet shadow-none">
+						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">IDENTIFICATION</h2>
-							<div class="portlet-content bg-blue-gray">
+							<div class="portlet-content px-3">
 								<div class="form-row mx-0">
 									<div id="customSciName">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Identification</a>
@@ -505,7 +505,6 @@ limitations under the License.
 											</div>
 											<div class="form-row mx-0 my-2">
 												<div class="col-12 col-md-6 float-left">
-
 													<select class="data-entry-select smallselect height1p2" required>
 														<option value="">Agent Role</option>
 														<option value="c">Collector</option>
@@ -513,7 +512,6 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-md-6 float-left">
-
 													<input type="text" class="data-entry-input height1p2"  name="agent_name">
 												</div>
 											</div>
