@@ -584,7 +584,7 @@ limitations under the License.
 						</div>
 						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">LOCALITY</h2>
-							<div class="portlet-content px-3">
+							<div class="portlet-content px-3 pb-2">
 								<div class="form-row mx-0">
 									<div id="customSciName">
 										<div class="form-row mx-0 my-0">
