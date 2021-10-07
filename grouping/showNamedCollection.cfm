@@ -333,8 +333,7 @@ div.vslider-item[aria-hidden="true"]{
 		<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 			SELECT * FROM (
 				SELECT distinct media.media_id, media.media_uri, 
-					MCZBASE.get_media_descriptor(media.media_id) as alt, 
-					MCZBASE.get_medialabel(media.media_id,'width')/(sum(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by MCZBASE.get_medialabel(media.media_id,'height'))) as Ratio
+					MCZBASE.get_media_descriptor(media.media_id) as alt,
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -347,7 +346,7 @@ div.vslider-item[aria-hidden="true"]{
 					AND media_relations.media_relationship = 'shows cataloged_item'
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-				ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
+				ORDER BY DBMS_RANDOM.RANDOM
 				) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomSpecimenImages#">
 		</cfquery>
@@ -360,15 +359,11 @@ div.vslider-item[aria-hidden="true"]{
 				<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#alt#"}'>
 				<cfset comma = ",">
 			</cfloop>
-			<cfloop query="specimenImagesForCarousel" startRow="1" endRow="1">
-				<cfset specimen_media_uri = specimenImagesForCarousel.media_uri>
-				<cfset specimen_media_id = specimenImagesForCarousel.media_id>
-				<cfset specimen_alt = specimenImagesForCarousel.alt>
-			</cfloop>
 			<cfset imageSetMetadata = "#imageSetMetadata#]">
 		</cfif>
 		<script>
-			var imageSetMetadata = JSON.parse('#imageSetMetadata#');
+			var specimenImageSetMetadata = JSON.parse('#imageSetMetadata#');
+			var currentSpecimenImage = 1;
 		</script>
 		<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
@@ -561,55 +556,75 @@ div.vslider-item[aria-hidden="true"]{
 											<div class="carousel_background border rounded float-left w-100 p-2 mb-4">
 												<h3 class="mx-2 text-center">#specimenImgs.recordcount# Specimen Images <br><span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records) </span></h3>
 												<div class="vslider w-100 float-left bg-light" id="vslider-base">
-													<cfset i=1>
-													<cfloop query="specimenImagesForCarousel">
-														<cfset alttext = specimenImagesForCarousel['alt'][i]>
-														<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-														<cfif len(alttextTrunc) gt 140>
-															<cfset trimmedAltText = left(alttextTrunc, 140)>
-															<cfset trimmedAltText &= "...">
-														<cfelse>
-															<cfset trimmedAltText = altTextTrunc>
-														</cfif>
-														<div class="w-100 bg-light float-left px-3 h-auto">
-															<a class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
-															<cfquery name="mediaSizeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaSizeType_result">
-																select label_value 
-																from media
-																left join media_labels on media.media_id = media_labels.media_id
-																where media_label = 'height'
-															</cfquery>
-															<cfset src=specimenImagesForCarousel['media_uri'][i]>
-															<cfif mediaSizeType.label_value gt 1199>
-																<cfset sizeType='&width=800&height=1200'>
-															<cfelse>
-																<cfset sizeType='&width=800&height=600'>
-															</cfif>
-															<cfif fileExists(#src#)>
-																<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																	<img src="/media/rescaleImage.cfm?media_id=#specimenImagesForCarousel['media_id'][i]##sizeType#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-																</a>
-																<p class="mt-2 bg-light small">#trimmedAltText#</p>
-															<cfelse>
-																<ul class="bg-dark px-0 list-unstyled">
-																	<li>
-																		<h3 class="text-white mx-auto message">
-																			No image is stored
-																		</h3>
-																	</li>
-																</ul>
-															</cfif>
-														</div>
-														<cfset i=i+1>
-													</cfloop>
+												<cfloop query="specimenImagesForCarousel" startRow="1" endRow="1">
+													<cfset specimen_media_uri = specimenImagesForCarousel.media_uri>
+													<cfset specimen_media_id = specimenImagesForCarousel.media_id>
+													<cfset specimen_alt = specimenImagesForCarousel.alt>
+												</cfloop>
+													<div class="w-100 bg-light float-left px-3 h-auto">
+														<a id="specimen_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#specimen_media_uri#">Media Details</a>
+														<cfset sizeType='&width=800&height=800'>
+														<a id="specimen_media_a" href="#specimen_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+															<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#specimen_media_id##sizeType#" class="mx-auto" alt="#specimen_alt#" height="100%" width="100%">
+														</a>
+														<p id="specimen_media_desc" class="mt-2 bg-light small">#specimen_alt#</p>
+													</div>
 												</div>
 												<div class="custom-nav text-center small mb-1 bg-white pt-0 pb-1">
-													<button type="button" class="border-0 btn-outline-primary rounded" id="custom-prev"> << prev </button>
-													<input type="number" id="custom-input" class="custom-input border data-entry-input d-inline border-light" placeholder="index">
-													<button type="button" class="border-0 btn-outline-primary rounded" id="custom-next"> next &nbsp; >> </button>
+													<button type="button" class="border-0 btn-outline-primary rounded" id="previous_specimen_image" > << prev </button>
+													<input type="number" id="specimen_image_number" class="custom-input border data-entry-input d-inline border-light" value="1">
+													<button type="button" class="border-0 btn-outline-primary rounded" id="next_specimen_image"> next &nbsp; >> </button>
 												</div>
 											</div>
 										</div>
+										<script>
+											function goPreviousSpecimen() { 
+												currentSpecimenImage = currentSpecimenImage - 1;
+												if (currentSpecimenImage < 1) { 
+													currentSpecimenImage = specimenInmageSetMetadata.length;
+												}
+												var specimenImage = specimenImageSetMetadata[currentSpecimenImage];
+												$("##specimen_detail_a").attr("href","/media/" + specimenImage.media_id);
+												$("##specimen_media_a").attr("href",specimenImage.media_uri);
+												$("##specimen_image_number").val(currentSpecimenImage);
+												$("##specimen_media_desc").val(specimenImage.alt;
+											}
+											function goNextSpecimen() { 
+												currentSpecimenImage = currentSpecimenImage + 1;
+												if (currentSpecimenImage > specimenImageSetMetadata.length) { 
+													currentSpecimenImage = specimenImageSetMetadata.length;
+												}
+												var specimenImage = specimenImageSetMetadata[currentSpecimenImage];
+												$("##specimen_detail_a").attr("href","/media/" + specimenImage.media_id);
+												$("##specimen_media_a").attr("href",specimenImage.media_uri);
+												$("##specimen_image_number").val(currentSpecimenImage);
+												$("##specimen_media_desc").val(specimenImage.alt;
+											}
+											function goSpecimen() { 
+												var targetSpecimenImage = currentSpecimenImage;
+												var inputval = $("##specimen_image_number").val();
+												if(Number.isInteger(inputVal)) {
+													targetSpecimenImage = inputVal;
+												}
+												if (targetSpecimenImage > specimenImageSetMetadata.length) { 
+													targetSpecimenImage = specimenImageSetMetadata.length;
+												}
+												if (targetSpecimenImage < 1) { 
+													targetSpecimenImage = 1;
+												}
+												currentSpecimenImage = targetSpecimenImage;
+												var specimenImage = specimenImageSetMetadata[currentSpecimenImage];
+												$("##specimen_detail_a").attr("href","/media/" + specimenImage.media_id);
+												$("##specimen_media_a").attr("href",specimenImage.media_uri);
+												$("##specimen_image_number").val(currentSpecimenImage);
+												$("##specimen_media_desc").val(specimenImage.alt;
+											}
+											$(document).ready(function () {
+												$("##previous_specimen_image").click(goPreviousSpecimen);
+												$("##next_specimen_image").click(goNextSpecimen);
+												$("##specimen_image_number").on("change",goSpecimen);
+											});
+										</script>
 									</cfif>	
 								</section>
 
