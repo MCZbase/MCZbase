@@ -255,7 +255,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 
 <!---   Function executeKeywordSearch backing method for specimen search 
 	@param result_id a uuid which identifies this search.
-	@param searchText search string using the CONTEXT grammar
+	@param searchText search string using the CONTEXT grammar, but with ! for not, $ for soundex, and # for wordroot.
 	@param collection_cde a list of zero or more collection_cde values to limit the search
 	@returns json for a jqxgrid or an http 500 status with an error message
 --->
@@ -282,27 +282,25 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("searchText") AND len(searchText) GT 0>
 		<cfset field = '"field": "kewyordSearchText"'>
 		<cfset comparator = '"comparator": ""'>
-		<cfset value = replace(searchText,"\","\\","all")>
-		<cfset value = replace(searchText,'"','\"',"all")>
-		<!---
-		<cfset value = encodeForJavaScript(searchText)>
-		<cfset value = replace(value,"\x20"," ","all")>
-		<cfset value = replace(value,"\x21","!","all")>
-		<cfset value = replace(value,"\x24","$","all")>
-		<cfset value = replace(value,"\x25","%","all")>
-		<cfset value = replace(value,"\x26","&","all")>
-		<cfset value = replace(value,"\x28","(","all")>
-		<cfset value = replace(value,"\x29",")","all")>
-		<cfset value = replace(value,"\x2A","*","all")>
-		<cfset value = replace(value,"\x2D","-","all")>
-		<cfset value = replace(value,"\x3B",";","all")>
-		<cfset value = replace(value,"\x3D","=","all")>
-		<cfset value = replace(value,"\x5B","[","all")>
-		<cfset value = replace(value,"\x5D","]","all")>
-		<cfset value = replace(value,"\x7C","|","all")>
-		<cfset value = replace(value,"\x7E","~","all")>
+		<!--- convert operator characters from conventions used elsewhere in MCZbase to oracle CONTAINS operators --->
+		<!--- 
+		User enters >  converted to:  meaning
+			! ->  ~   NOT
+			$ ->  !   SOUNDEX
+			# ->  $   STEM
+			~ ->  ~   NOT  (no change made, but we don't document that ~ is allowed)
+		NOTE: order of replacements matters.
 		--->
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset searchValue = searchText>
+		<cfset searchValue = replace(searchValue,"!","~","all")>
+		<cfset searchValue = replace(searchValue,"$","!","all")>
+		<cfset searchValue = replace(searchValue,"##","$","all")>
+
+		<!--- escape quotes for json construction --->
+		<cfset searchValueForJSON = searchValue>
+		<cfset searchValueForJSON = replace(searchValueForJSON,"\","\\","all")>
+		<cfset searchValueForJSON = replace(searchValueForJSON,'"','\"',"all")>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"searchValue": "#searchValueForJSON#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -320,7 +318,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfthrow message="unable to construct valid json for query">
 		</cfif>
 
-		<cfif isDefined("searchText") and len(searchText) gt 0>
+		<cfif isDefined("searchValue") and len(searchValue) gt 0>
 			<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
 				SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
 				FROM cf_spec_res_cols_r
@@ -371,7 +369,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					</cfloop>
 				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flatTableName
 					join FLAT_TEXT FT ON flatTableName.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
-				WHERE contains(ft.cat_num, <cfqueryparam value="#searchText#" CFSQLType="CF_SQL_VARCHAR">, 1) > 0
+				WHERE contains(ft.cat_num, <cfqueryparam value="#searchValue#" CFSQLType="CF_SQL_VARCHAR">, 1) > 0
 					<cfif isDefined("collection_cde") and len(collection_cde) gt 0>
 						and flatTableName.collection_cde in (<cfqueryparam value="#collection_cde#" cfsqltype="CF_SQL_VARCHAR" list="true">)
 					</cfif>
