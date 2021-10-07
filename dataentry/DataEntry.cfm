@@ -484,7 +484,7 @@ limitations under the License.
 					<div class="col-12 col-md-4 px-0 column float-left">
 						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90" id="col_collector">COLLECTOR OR PREPARATOR</h2>
-							<div class="portlet-content bg-blue-gray px-4">
+							<div class="portlet-content bg-blue-gray px-3">
 								<div class="form-row mx-0">
 									<div class="col-12 px-0">
 										<div id="customAgent1">
