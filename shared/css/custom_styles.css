@@ -2083,6 +2083,33 @@ section#mediaSection.accordion {
 .smallselect {
 	font-size: 84%!important;
 }
+#collapseExample.collapsing.width {
+	height: auto;
+	width: 0;
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	-ms-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;
+}
+button.help-btn {
+	background-color: #1b1b1b;
+	color: white;
+	float:right;
+	-webkit-backface-visibility: hidden;
+	-webkit-transform: translateX(-98%) rotate(-90deg);
+	-webkit-transform-origin: right top;
+	-moz-transform: translateX(-98%) rotate(-90deg);
+	-moz-transform-origin: right top;
+	-o-transform: translateX(-98%) rotate(-90deg);
+	-o-transform-origin: right top;
+	transform: translateX(-98%) rotate(-90deg);
+	transform-origin: right top;
+	margin-bottom: 15px;
+}
+#collapseExample h2.headerSm {
+	font-size: 1.25rem;
+}
 /************end tabs -- redone for accessibility  ***************/
 
 

@@ -388,13 +388,13 @@ limitations under the License.
 
 	<div class="container-fluid pt-1" id="swapper-first">
 		<div class="row full">
-			<h1 class="text-center my-2 w-100">Enter a New <span class="font-weight-bold text-info">#collection#</span> Record</h1>
+			<h1 class="text-center my-3 w-100">Enter a New <span class="font-weight-bold text-info">#collection#</span> Record</h1>
 			<div class="col-12 mt-0 pb-4">
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
 					<div class="col-12 col-md-4 px-0 column float-left">
-						<div class="portlet shadow-none m-0 bg-blue-gray">
-							<div class="portlet-header"><h2 class="h6 mb-0 smallcaps font-weight-bold px-1">SPECIMEN IDENTIFIERS</h2></div>
+						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
+							<h2 class="portlet-header small90">SPECIMEN IDENTIFIERS</h2>
 							<div class="portlet-content px-3">
 								<div class="row mx-0">
 									<div class="col-12 col-md-6 px-0 float-left">
@@ -417,7 +417,7 @@ limitations under the License.
 										<div class="form-row mx-0 mb-2">
 											
 											<div class="col-12 col-md-6 float-left">
-												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
+												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID Type</label>
 												<select class="data-entry-select mt-1 smallselect height1p2">
 													<option value="">Other ID Type</option>
 													<cfloop query="otherIDType">
@@ -446,35 +446,34 @@ limitations under the License.
 									</div>
 									</div>
 								</div>
-								
 							</div>
 						</div>
-						<div class="portlet shadow-none m-0 bg-blue-gray">
+						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">IDENTIFICATION</h2>
 							<div class="portlet-content px-3">
 								<div class="form-row mx-0">
 									<div id="customSciName">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Identification</a>
 									<div class="form-row mx-0 my-2">
-										<label for="scientific_name" class="small font-weight-light float-left d-block mt-1 mb-0">Identification</label>
-										<input type="text" name="scientific_name" class="data-entry-input height1p2"/>
-										<label for="made_by" class="small font-weight-light float-left d-block mt-1 mb-0">ID Made By</label>
-										<input type="text" name="made_by" class="data-entry-input height1p2"/>
-										<div class="col-12 col-md-6 px-0">
-											<label for="nature_of_id" class="small font-weight-light float-left d-block mt-1 mb-0">Nature of ID</label>
-											<select class="data-entry-select smallselect height1p2">
+										<label for="scientific_name" class="small col-12 col-md-2 font-weight-light float-left d-block mt-1 mb-0">Identification</label>
+										<input type="text" name="scientific_name" class="col-12 col-md-10 mt-1 pl-0 float-left data-entry-input height1p2"/>
+										<label for="made_by" class="small font-weight-light col-12 col-md-2 float-left d-block mt-1 mb-0">ID Made By</label>
+										<input type="text" name="made_by" class="col-12 col-md-10 mt-1 pl-0 float-left data-entry-input height1p2"/>
+										<div class="col-12 col-md-6 px-0 mt-1">
+											<label for="nature_of_id" class="small font-weight-light col-12 col-md-4 px-1 float-left d-block mt-1 mb-0">Nature of ID</label>
+											<select class="data-entry-select smallselect col-12 col-md-7 pl-0 float-left height1p2">
 												<option value="">Nature of ID</option>
 												<cfloop query="nature_of_id">
 													<option value="#nature_of_id.nature_of_id#">#nature_of_id.nature_of_id#</option>
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-6">
-											<label for="made_by_date" class="small font-weight-light float-left d-block mt-1 mb-0">Date of ID</label>
-											<input type="text" name="made_by_date" class="data-entry-input height1p2"/>
+										<div class="col-12 col-md-6 px-0 mt-1">
+											<label for="made_by_date" class="small font-weight-light col-12 col-md-3 px-1 float-left d-block mt-1 mb-0">Date of ID</label>
+											<input type="text" name="made_by_date" class="col-12 col-md-9 float-left data-entry-input height1p2"/>
 										</div>
-										<label for="id_remark" class="small font-weight-light float-left d-block mt-1 mb-0">ID Remark</label>
-										<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea"/></textarea>
+										<label for="id_remark" class="small font-weight-light col-12 col-md-2 float-left d-block mt-1 mb-0">ID Remark</label>
+										<textarea type="text" name="id_remark" rows="1" class="col-12 col-md-10 mt-1 float-left data-entry-textarea"/></textarea>
 									</div>
 								</div>
 							</div>
@@ -482,14 +481,14 @@ limitations under the License.
 					</div>
 					</div>
 					<div class="col-12 col-md-4 px-0 column float-left">
-						<div class="portlet shadow-none m-0 bg-blue-gray">
+						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
 							<h2 class="portlet-header small90" id="col_collector">COLLECTOR OR PREPARATOR</h2>
 							<div class="portlet-content bg-blue-gray px-3">
 								<div class="form-row mx-0">
 									<div class="col-12 px-0">
 										<div id="customAgent1">
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 m-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
-											<div class="form-row mx-0 my-2">
+											<div class="form-row mx-0">
 												<div class="col-12 col-md-6 float-left">
 													<label for="collector_role" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Role</label>
 													<select class="data-entry-select smallselect height1p2" required>
@@ -534,17 +533,18 @@ limitations under the License.
 											<span class="small w-100 float-left text-center mt-2">- OR - </span>
 											<h5 class="font-weight-bold text-left mb-0 d-block w-100">New Collecting Event</h5>
 										
-											<label for="verbatim_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Locality</label>
-											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2"/>
-											<div class="col-12 col-md-8 px-0 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 px-0 float-left d-block mt-1 mb-0">ISO Dates</label>
-												<input type="text" class="data-entry-input col-12 col-xl-6 float-left mt-0 height1p2" id="began_date" placeholder="Began Date">
-												<input type="text" class="data-entry-input col-12 col-xl-6 float-left mt-0 height1p2" id="ended_date" placeholder="Date Ended">
-											</div>
-											<div class="col-12 col-md-4 px-1 float-left">
+											<label for="verbatim_locality" class="small font-weight-light col-12 col-md-3 px-0 float-left d-block mt-1 mb-0">Verbatim Locality</label>
+											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2 col-12 col-md-9 px-0 float-left"/>
+												<div class="col-12 col-md-4 px-1 float-left">
 												<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
-												<input type="text" class="data-entry-input mt-0 height1p2" id="verbatim_date">
+												<input type="text" class="data-entry-input col-12 col-md-5 px-0 mt-0 height1p2" id="verbatim_date">
 											</div>
+											<div class="col-12 col-md-8 px-0 float-left">
+												<label for="inputPassword3" class="small font-weight-light col-12 col-md-3 px-0 float-left d-block mt-1 mb-0">ISO Dates</label>
+												<input type="text" class="data-entry-input col-12 col-md-4 float-left mt-0 height1p2" id="began_date" placeholder="Began Date">
+												<input type="text" class="data-entry-input col-12 col-md-4 float-left mt-0 height1p2" id="ended_date" placeholder="Date Ended">
+											</div>
+										
 											<div class="col-12 col-md-4 pl-0 float-left">
 												<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Time</label>
 												<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_time">
