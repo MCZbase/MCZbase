@@ -360,6 +360,11 @@ div.vslider-item[aria-hidden="true"]{
 				<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#alt#"}'>
 				<cfset comma = ",">
 			</cfloop>
+			<cfloop query="specimenImagesForCarousel" startRow="1" endRow="1">
+				<cfset specimen_media_uri = specimenImagesForCarousel.media_uri>
+				<cfset specimen_media_id = specimenImagesForCarousel.media_id>
+				<cfset specimen_alt = specimenImagesForCarousel.alt>
+			</cfloop>
 			<cfset imageSetMetadata = "#imageSetMetadata#]">
 		</cfif>
 		<script>
