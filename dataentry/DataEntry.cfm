@@ -438,7 +438,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-6 float-left bg-light">
+											<div class="col-12 col-md-6 float-left">
 								<!---				<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>--->
 												<input type="text" class="data-entry-input mt-1 height1p2" id="other_id" name="other_id">
 											</div>
@@ -483,7 +483,7 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 px-0 column float-left">
 						<div class="portlet shadow-none m-0 bg-blue-gray">
-							<h2 class="portlet-header small90" id="col_collector">COLLECTOR/PREPARATOR</h2>
+							<h2 class="portlet-header small90" id="col_collector">COLLECTOR OR PREPARATOR</h2>
 							<div class="portlet-content bg-blue-gray px-4">
 								<div class="form-row mx-0">
 									<div class="col-12 px-0">
@@ -582,7 +582,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="portlet">
+						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">LOCALITY</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
@@ -633,7 +633,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="portlet">
+						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">COORDINATES</h2>
 							<div class="portlet-content">
 								<div class="form-row mx-0">
