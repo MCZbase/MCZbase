@@ -522,7 +522,7 @@ limitations under the License.
 						</div>
 						<div class="portlet shadow-none bg-blue-gray m-0">
 							<h2 class="portlet-header small90">COLLECTING EVENT</h2>
-							<div class="portlet-content px-4">
+							<div class="portlet-content px-3">
 								<div class="form-row mx-0">
 									<div class="col-12 px-0">
 									<div id="customSciName">
@@ -635,7 +635,7 @@ limitations under the License.
 						</div>
 						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">COORDINATES</h2>
-							<div class="portlet-content">
+							<div class="portlet-content px-3">
 								<div class="form-row mx-0">
 									<div id="customSciName">
 										<div class="bg-light border rounded px-2 pb-2"> 
@@ -817,7 +817,7 @@ limitations under the License.
 					<div class="col-12 col-md-4 px-0 column float-left">
 						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">PARTS</h2>
-							<div class="portlet-content">
+							<div class="portlet-content px-3">
 								<div id="customPart">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
 									<div class="form-row mx-0 my-2">
