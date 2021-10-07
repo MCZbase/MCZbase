@@ -594,7 +594,7 @@ limitations under the License.
 											<input type="text" name="locality_id" class="data-entry-input col-5 mx-auto" placeholder="Locality ID" />
 											<span class="small w-100 float-left text-center mt-1">- OR - </span>
 											<h5 class="font-weight-bold text-center mb-0 d-block w-100">New Locality</h5>
-											<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 mb-0">Higher Geography</label>
+											<label for="higher_geog" class="small font-weight-light float-left d-block mt-0 mb-0">Higher Geography</label>
 											<input type="text" name="higher_geog" class="data-entry-input height1p2" placeholder="Higher Geography" />
 											<label for="spec_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Specific Locality</label>
 											<input type="text" name="spec_locality" class="data-entry-input height1p2" placeholder="Specific Locality" />
