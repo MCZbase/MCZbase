@@ -587,7 +587,7 @@ div.vslider-item[aria-hidden="true"]{
 												var specimenImage = specimenImageSetMetadata[currentSpecimenImage];
 												$("##specimen_detail_a").attr("href","/media/" + specimenImage.media_id);
 												$("##specimen_media_a").attr("href",specimenImage.media_uri);
-												$("##specimen_media_img").attr("src","/media/rescaleImage.crm?mediaid="+specimenImage.media_id+"#sizeType#");
+												$("##specimen_media_img").attr("src","/media/rescaleImage.cfm?media_id="+specimenImage.media_id+"#sizeType#");
 												$("##specimen_image_number").val(currentSpecimenImage);
 												$("##specimen_media_desc").val(specimenImage.alt);
 											}
@@ -601,7 +601,7 @@ div.vslider-item[aria-hidden="true"]{
 												console.log(specimenImage);
 												$("##specimen_detail_a").attr("href","/media/" + specimenImage.media_id);
 												$("##specimen_media_a").attr("href",specimenImage.media_uri);
-												$("##specimen_media_img").attr("src","/media/rescaleImage.crm?mediaid="+specimenImage.media_id+"#sizeType#");
+												$("##specimen_media_img").attr("src","/media/rescaleImage.cfm?media_id="+specimenImage.media_id+"#sizeType#");
 												$("##specimen_image_number").val(currentSpecimenImage);
 												$("##specimen_media_desc").val(specimenImage.alt);
 											}
@@ -621,7 +621,7 @@ div.vslider-item[aria-hidden="true"]{
 												var specimenImage = specimenImageSetMetadata[currentSpecimenImage];
 												$("##specimen_detail_a").attr("href","/media/" + specimenImage.media_id);
 												$("##specimen_media_a").attr("href",specimenImage.media_uri);
-												$("##specimen_media_img").attr("src","/media/rescaleImage.crm?mediaid="+specimenImage.media_id+"#sizeType#");
+												$("##specimen_media_img").attr("src","/media/rescaleImage.cfm?media_id="+specimenImage.media_id+"#sizeType#");
 												$("##specimen_image_number").val(currentSpecimenImage);
 												$("##specimen_media_desc").val(specimenImage.alt);
 											}
