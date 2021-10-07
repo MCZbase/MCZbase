@@ -545,17 +545,15 @@ limitations under the License.
 												<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
 												<input type="text" class="data-entry-input mt-0 height1p2" id="verbatim_date">
 											</div>
-									
-										<div class="col-12 float-left">	
-												<div class="col-12 col-md-4 float-left">
-											<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Time</label>
-											<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_time">
-										</div>
-										<div class="col-12 col-md-8 float-left">
-											<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block mt-1 mb-0">Day of Year</label>
-											<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0 height1p2" id="start_day_of_year" placeholder="Start Day of Year">
-											<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0 height1p2" id="end_day_of_year" placeholder="End Day of Year">
-										</div>
+											<div class="col-12 col-md-4 float-left">
+												<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Time</label>
+												<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_time">
+											</div>
+											<div class="col-12 col-md-8 float-left">
+												<label for="start_end_dayOfyear" class="small font-weight-light float-left d-block mt-1 mb-0">Day of Year</label>
+												<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0 height1p2" id="start_day_of_year" placeholder="Start Day of Year">
+												<input type="text" class="data-entry-input float-left col-12 col-xl-6 mt-0 height1p2" id="end_day_of_year" placeholder="End Day of Year">
+											</div>
 											<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Source</label>
 											<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_source">
 											<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Method</label>
