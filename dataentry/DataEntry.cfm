@@ -570,7 +570,6 @@ limitations under the License.
 												<input type="text" class="data-entry-input col-12 col-xl-8 float-left height1p2" id="coll_number_series" placeholder="Existing Series">
 												<a style="line-height: 1.2rem;" class="btn btn-xs btn-outline-primary border-light col-12 px-0 col-xl-4 float-left" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Add New Series</a>
 											</div>
-
 											<label for="Coord. System" class="small font-weight-light float-left d-block mt-1 mb-0">SRS or Datum</label>
 											<input type="text" class="data-entry-input height1p2" id="Datum">
 											<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Latitude</label>
@@ -579,6 +578,7 @@ limitations under the License.
 											<input type="text" class="data-entry-input height1p2" id="longitude">
 										</div>
 									</div>
+								</div>
 								</div>
 							</div>
 						</div>
