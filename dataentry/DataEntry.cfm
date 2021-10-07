@@ -393,8 +393,8 @@ limitations under the License.
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
 					<div class="col-12 col-md-4 px-0 column float-left">
-						<div class="portlet shadow-none m-0 bg-blue-gray">
-							<div class="portlet-header"><h2 class="h6 mb-0 smallcaps font-weight-bold px-1">SPECIMEN IDENTIFIERS</h2></div>
+						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
+							<h2 class="portlet-header small90">SPECIMEN IDENTIFIERS</h2>
 							<div class="portlet-content px-3">
 								<div class="row mx-0">
 									<div class="col-12 col-md-6 px-0 float-left">
@@ -446,10 +446,9 @@ limitations under the License.
 									</div>
 									</div>
 								</div>
-								
 							</div>
 						</div>
-						<div class="portlet shadow-none m-0 bg-blue-gray">
+						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">IDENTIFICATION</h2>
 							<div class="portlet-content px-3">
 								<div class="form-row mx-0">
@@ -482,7 +481,7 @@ limitations under the License.
 					</div>
 					</div>
 					<div class="col-12 col-md-4 px-0 column float-left">
-						<div class="portlet shadow-none m-0 bg-blue-gray">
+						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
 							<h2 class="portlet-header small90" id="col_collector">COLLECTOR OR PREPARATOR</h2>
 							<div class="portlet-content bg-blue-gray px-3">
 								<div class="form-row mx-0">
