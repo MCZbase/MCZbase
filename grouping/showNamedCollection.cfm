@@ -332,8 +332,9 @@ div.vslider-item[aria-hidden="true"]{
 		<!--- obtain a random set of specimen images, limited to a small number/for carousel --->
 		<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 			SELECT * FROM (
-				SELECT distinct media.media_id, media.media_uri, 
-					MCZBASE.get_media_descriptor(media.media_id) as alt,
+				SELECT distinct media.media_id, 
+					media.media_uri, 
+					MCZBASE.get_media_descriptor(media.media_id) as alt
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
