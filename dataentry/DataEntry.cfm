@@ -395,7 +395,7 @@ limitations under the License.
 					<div class="col-12 col-md-4 px-0 column float-left">
 						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<div class="portlet-header"><h2 class="h6 mb-0 smallcaps font-weight-bold px-1">SPECIMEN IDENTIFIERS</h2></div>
-							<div class="portlet-content px-4">
+							<div class="portlet-content px-3">
 								<div class="row mx-0">
 									<div class="col-12 col-md-6 px-0 float-left">
 										<div class="px-2 pb-1">
@@ -405,7 +405,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-6 px-0 float-left">
-										<div class="bg-light px-2 pb-1">
+										<div class="px-2 pb-1">
 											<label for="accn" class="small font-weight-light float-left d-block mt-1 mb-0">Accession Number</label>
 											<input type="text" class="data-entry-input height1p2" id="accn" aria-describedby="accnHelp" name="accn">
 											<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
@@ -416,7 +416,7 @@ limitations under the License.
 										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 mt-2 mx-2" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 										<div class="form-row mx-0 mb-2">
 											
-											<div class="col-12 col-md-6 float-left bg-light">
+											<div class="col-12 col-md-6 float-left">
 												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
 												<select class="data-entry-select mt-1 smallselect height1p2">
 													<option value="">Other ID Type</option>
@@ -425,7 +425,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-6 float-left bg-light">
+											<div class="col-12 col-md-6 float-left">
 												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
 												<input type="text" class="data-entry-input height1p2" id="other_id" name="other_id">
 											</div>
