@@ -469,10 +469,10 @@ div.vslider-item[aria-hidden="true"]{
 							<script type="text/javascript">
 								var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 									if (value > 1) {
-										return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
+										return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
 									}
 									else {
-										return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
+										return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
 									}
 								}
 								$(document).ready(function () {
@@ -572,7 +572,7 @@ div.vslider-item[aria-hidden="true"]{
 															<cfset trimmedAltText = altTextTrunc>
 														</cfif>
 														<div class="w-100 bg-light float-left px-3 h-auto">
-															<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
+															<a class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#specimenImagesForCarousel['media_id'][i]#">Media Details</a>
 															<cfquery name="mediaSizeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaSizeType_result">
 																select label_value 
 																from media
@@ -600,7 +600,7 @@ div.vslider-item[aria-hidden="true"]{
 																</ul>
 															</cfif>
 														</div>
-													<cfset i=i+1>
+														<cfset i=i+1>
 													</cfloop>
 												</div>
 												<div class="custom-nav text-center small mb-1 bg-white pt-0 pb-1">
@@ -619,7 +619,6 @@ div.vslider-item[aria-hidden="true"]{
 								<!---///////////////////////////////--->
 								<!---////////// BELOW //////////////--->
 								<!---///////////////////////////////--->
-								<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
 								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 									SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
@@ -635,94 +634,94 @@ div.vslider-item[aria-hidden="true"]{
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>							
 								<cfif points.recordcount gt 0>
-								<section class="heatmap mt-2 float-left w-100">
-									<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-									<script>
-										let map, heatmap;
-										function initMap() {
-											var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-											map = new google.maps.Map(document.getElementById('map'), {
-												center: Cambridge,
-												zoom: 2,
-												mapTypeControl: true,
-												mapTypeControlOptions: {
-													style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-													mapTypeIds: ["satellite", "terrain"],
-												},
-												mapTypeId: 'satellite'
-											});
-											heatmap = new google.maps.visualization.HeatmapLayer({
-												data: getPoints(),
-													map: map,
-											});
-												document
-													.getElementById("toggle-heatmap")
-													.addEventListener("click", toggleHeatmap);
-												document
-													.getElementById("change-gradient")
-													.addEventListener("click", changeGradient);
-												document
-													.getElementById("change-opacity")
-													.addEventListener("click", changeOpacity);
-												document
-													.getElementById("change-radius")
-													.addEventListener("click", changeRadius);
-										}
-										function toggleHeatmap(){
-											heatmap.setMap(heatmap.getMap() ? null : map);
-										}
-										function changeGradient() {
-											const gradient = [
-												"rgba(0, 255, 255, 0)",
-												"rgba(0, 255, 255, 1)",
-												"rgba(0, 191, 255, 1)",
-												"rgba(0, 127, 255, 1)",
-												"rgba(0, 63, 255, 1)",
-												"rgba(0, 0, 255, 1)",
-												"rgba(0, 0, 223, 1)",
-												"rgba(0, 0, 191, 1)",
-												"rgba(0, 0, 159, 1)",
-												"rgba(0, 0, 127, 1)",
-												"rgba(63, 0, 91, 1)",
-												"rgba(127, 0, 63, 1)",
-												"rgba(191, 0, 31, 1)",
-												"rgba(255, 0, 0, 1)",
-											];
-											heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-										}
-										function changeRadius() {
-											heatmap.set("radius", heatmap.get("radius") ? null : 20);
-										}
-										function changeOpacity() {
-											heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
-										}
-										function getPoints(){
-											return [
-											<cfloop query="points">
-												new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
-											</cfloop>
-											]
-										}
-									//end InitMap
-									</script>
-									
-									<div class="col-12 px-0 float-left">
-										<div class="border rounded px-1 mx-1 pb-1">
-											<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
-											<div id="map" class="w-100 rounded"></div>
-											<div id="floating-panel" class="w-100 mx-auto">
-												<button id="toggle-heatmap" class="mt-1 border-info rounded">Toggle Heatmap</button>
-												<button id="change-gradient" class="mt-1 border-info rounded">Change gradient</button>
-												<button id="change-radius" class="mt-1 border-info rounded">Change radius</button>
-												<button id="change-opacity" class="mt-1 border-info rounded">Change opacity</button>
+									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+									<section class="heatmap mt-2 float-left w-100">
+										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
+										<script>
+											let map, heatmap;
+											function initMap() {
+												var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+												map = new google.maps.Map(document.getElementById('map'), {
+													center: Cambridge,
+													zoom: 2,
+													mapTypeControl: true,
+													mapTypeControlOptions: {
+														style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+														mapTypeIds: ["satellite", "terrain"],
+													},
+													mapTypeId: 'satellite'
+												});
+												heatmap = new google.maps.visualization.HeatmapLayer({
+													data: getPoints(),
+														map: map,
+												});
+													document
+														.getElementById("toggle-heatmap")
+														.addEventListener("click", toggleHeatmap);
+													document
+														.getElementById("change-gradient")
+														.addEventListener("click", changeGradient);
+													document
+														.getElementById("change-opacity")
+														.addEventListener("click", changeOpacity);
+													document
+														.getElementById("change-radius")
+														.addEventListener("click", changeRadius);
+											}
+											function toggleHeatmap(){
+												heatmap.setMap(heatmap.getMap() ? null : map);
+											}
+											function changeGradient() {
+												const gradient = [
+													"rgba(0, 255, 255, 0)",
+													"rgba(0, 255, 255, 1)",
+													"rgba(0, 191, 255, 1)",
+													"rgba(0, 127, 255, 1)",
+													"rgba(0, 63, 255, 1)",
+													"rgba(0, 0, 255, 1)",
+													"rgba(0, 0, 223, 1)",
+													"rgba(0, 0, 191, 1)",
+													"rgba(0, 0, 159, 1)",
+													"rgba(0, 0, 127, 1)",
+													"rgba(63, 0, 91, 1)",
+													"rgba(127, 0, 63, 1)",
+													"rgba(191, 0, 31, 1)",
+													"rgba(255, 0, 0, 1)",
+												];
+												heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+											}
+											function changeRadius() {
+												heatmap.set("radius", heatmap.get("radius") ? null : 20);
+											}
+											function changeOpacity() {
+												heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
+											}
+											function getPoints(){
+												return [
+												<cfloop query="points">
+													new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+												</cfloop>
+												]
+											}
+											//end InitMap
+										</script>
+										
+										<div class="col-12 px-0 float-left">
+											<div class="border rounded px-1 mx-1 pb-1">
+												<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
+												<div id="map" class="w-100 rounded"></div>
+												<div id="floating-panel" class="w-100 mx-auto">
+													<button id="toggle-heatmap" class="mt-1 border-info rounded">Toggle Heatmap</button>
+													<button id="change-gradient" class="mt-1 border-info rounded">Change gradient</button>
+													<button id="change-radius" class="mt-1 border-info rounded">Change radius</button>
+													<button id="change-opacity" class="mt-1 border-info rounded">Change opacity</button>
+												</div>
 											</div>
 										</div>
-									</div>
-									<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-								
-
-								</section><!--- end images & heat map---> 	
-								<cfelse>
+										<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+									
+	
+									</section><!--- end images & heat map---> 	
 								</cfif>
 							<!---///////////////////////////////--->
 							<!---/// HIDE HEAT MAP FOR NOW ///// --->
@@ -781,7 +780,7 @@ div.vslider-item[aria-hidden="true"]{
 																		<cfset trimmedAltText = altTextTrunc>
 																	</cfif>
 																	<div class="w-100 float-left px-3 h-auto">
-																		<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
+																		<a class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
 																		<cfset src=agentImagesForCarousel['media_uri'][i]>
 																		<cfif fileExists(#src#)>
 																			<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
@@ -810,7 +809,7 @@ div.vslider-item[aria-hidden="true"]{
 													</div>
 												</cfif>
 												<cfif collectingImagesForCarousel.recordcount gt 0>
-													<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
+													<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">
 														SELECT DISTINCT media.media_id
 														FROM
 															underscore_collection
@@ -847,7 +846,7 @@ div.vslider-item[aria-hidden="true"]{
 																		<cfset trimmedAltText = altTextTrunc>
 																	</cfif>
 																	<div class="w-100 float-left px-3 h-auto">
-																		<a class="d-block pt-2" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
+																		<a class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
 																		<cfset src=collectingImagesForCarousel['media_uri'][i]>
 																		<cfif fileExists(#src#)>
 																			<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
@@ -898,7 +897,7 @@ div.vslider-item[aria-hidden="true"]{
 												Associated Agent
 												</h3>
 												<p class="rounded-0"> 
-													<a class="h4 px-2 py-2 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a> </p>
+													<a class="h4 px-2 py-2 d-block" target="_blank" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a> </p>
 											</div>
 										</cfif>
 									</cfif>
@@ -957,7 +956,7 @@ div.vslider-item[aria-hidden="true"]{
 															<div id="collapseTax" aria-labelledby="headingTax" data-parent="##accordionForTaxa" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="taxonQuery">
-																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
+																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
 																	</cfloop>
 																</ul>
 															</div>
@@ -967,7 +966,7 @@ div.vslider-item[aria-hidden="true"]{
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="taxonQuery">
-														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
+														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
 													</cfloop>
 												</ul>
 											</cfif>
@@ -1000,7 +999,7 @@ div.vslider-item[aria-hidden="true"]{
 															<div id="collapseMar" aria-labelledby="headingMar" data-parent="##accordionForMarine" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="marine">
-																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
+																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
 																	</cfloop>
 																</ul>
 															</div>
@@ -1010,7 +1009,7 @@ div.vslider-item[aria-hidden="true"]{
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="marine">
-														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
+														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
 													</cfloop>
 												</ul>
 											</cfif>
@@ -1058,7 +1057,7 @@ div.vslider-item[aria-hidden="true"]{
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="geogQuery">
 																		<li class="list-group-item col-12 col-md-3 float-left"> 
-																			<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
+																			<a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
 																		</li>
 																	</cfloop>
 																</ul>
@@ -1070,7 +1069,7 @@ div.vslider-item[aria-hidden="true"]{
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="geogQuery">
 														<li class="list-group-item col-12 col-md-3 float-left"> 
-															<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
+															<a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
 														</li>
 													</cfloop>
 												</ul>
@@ -1104,7 +1103,7 @@ div.vslider-item[aria-hidden="true"]{
 															<div id="collapseIS" aria-labelledby="headingIS" data-parent="##accordionForIslands" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="islandsQuery">
-																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
+																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
 																	</cfloop>
 																</ul>
 															</div>
@@ -1115,7 +1114,7 @@ div.vslider-item[aria-hidden="true"]{
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="islandsQuery">
 														<li class="list-group-item col-12 col-md-3 float-left"> 
-															<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#" target="_blank">#islandsQuery.island#</a> 
+															<a class="h4" target="_blank" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#islandsQuery.island#</a> 
 														</li>
 													</cfloop>
 												</ul>
