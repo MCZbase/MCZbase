@@ -296,8 +296,8 @@ limitations under the License.
 											</div>
 										</div>
 									</form>
-									<div class="col-12" style="font-size: 14.5px;"> 
-										<button class="btn btn-black help-btn mt-4" type="button" data-toggle="collapse" data-target="##collapseExample" aria-expanded="false" aria-controls="collapseExample">
+									<div class="col-12 px-0" style="font-size: 14.5px;"> 
+										<button class="btn btn-dark help-btn mt-4" type="button" data-toggle="collapse" data-target="##collapseExample" aria-expanded="false" aria-controls="collapseExample">
 													Search Help
 										</button>
 										<div class="collapse" id="collapseExample" style="z-index: 3000;position:absolute;margin-top: 10rem;">
