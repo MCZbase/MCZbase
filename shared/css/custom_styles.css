@@ -2118,6 +2118,11 @@ button.help-btn {
 #collapseExample h2.headerSm {
 	font-size: 1.25rem;
 }
+#collapseExample dt {
+	float:left;
+	display: inline-block;
+	min-width: 40px;
+}
 .collapseStyle {
 	z-index: 3000; 
 	position: absolute; 
