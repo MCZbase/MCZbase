@@ -240,7 +240,7 @@ limitations under the License.
 										<button class="btn btn-dark help-btn mt-0 position-absolute" style="top: -.25rem;right: -82px;" type="button" data-toggle="collapse" data-target="##collapseExample" aria-expanded="false" aria-controls="collapseExample">
 													Search Help
 										</button>
-										<div class="collapse" id="collapseExample" style="z-index: 3000;position:absolute;margin-top: 10rem;">
+										<div class="collapse" id="collapseExample" style="z-index: 3000; position: absolute; margin-top: 7rem; margin-right: -1rem;">
 											<div class="card card-body">
 												<h2 class="headerSm">Keyword Search Operators</h2>
 												<p>These only work with the keyword search, operators for other searches are different, see: <u>Search Operators</u> on the Wiki, in particular !, $, and ~ have very different meanings elsewhere.</p>
