@@ -388,9 +388,22 @@ div.vslider-item[aria-hidden="true"]{
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
 		</cfquery>
+		<cfset imageSetMetadata = "[]">
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
+			<cfset otherImageTypes = 0>
+			<cfset imageSetMetadata = "[">
+			<cfset comma = "">
+			<cfloop query="agentImagesForCarousel">
+				<cfset imagemageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#alt#"}'>
+				<cfset comma = ",">
+			</cfloop>
+			<cfset imageSetMetadata = "#imageSetMetadata#]">
 		</cfif>
+		<script>
+			var agentImageSetMetadata = JSON.parse('#imageSetMetadata#');
+			var currentAgentImage = 1;
+		</script>
 		<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 			SELECT * FROM (
 				SELECT DISTINCT media_uri, media.media_id,
@@ -553,11 +566,11 @@ div.vslider-item[aria-hidden="true"]{
 											<div class="carousel_background border rounded float-left w-100 p-2 mb-4">
 												<h3 class="mx-2 text-center">#specimenImgs.recordcount# Specimen Images <br><span class="smaller">(a small sample of total is shown&mdash;click refresh to see more images here or visit specimen records) </span></h3>
 												<div class="vslider w-100 float-left bg-light" id="vslider-base">
-												<cfloop query="specimenImagesForCarousel" startRow="1" endRow="1">
-													<cfset specimen_media_uri = specimenImagesForCarousel.media_uri>
-													<cfset specimen_media_id = specimenImagesForCarousel.media_id>
-													<cfset specimen_alt = specimenImagesForCarousel.alt>
-												</cfloop>
+													<cfloop query="specimenImagesForCarousel" startRow="1" endRow="1">
+														<cfset specimen_media_uri = specimenImagesForCarousel.media_uri>
+														<cfset specimen_media_id = specimenImagesForCarousel.media_id>
+														<cfset specimen_alt = specimenImagesForCarousel.alt>
+													</cfloop>
 													<div class="w-100 bg-light float-left px-3 h-auto">
 														<a id="specimen_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#specimen_media_uri#">Media Details</a>
 														<cfset sizeType='&width=800&height=800'>
@@ -575,6 +588,7 @@ div.vslider-item[aria-hidden="true"]{
 											</div>
 										</div>
 										<script>
+											var lastSpecimenScrollTop = 0;
 											function goPreviousSpecimen() { 
 												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
@@ -587,6 +601,15 @@ div.vslider-item[aria-hidden="true"]{
 												$("##previous_specimen_image").click(goPreviousSpecimen);
 												$("##next_specimen_image").click(goNextSpecimen);
 												$("##specimen_image_number").on("change",goSpecimen);
+												$("##specimen_media_img").scroll(function(event) {
+													event.preventDefault();
+													var y = event.scrollTop;
+													if (y>lastSpecimenScrollTop) { 
+														goNextSpecimen();
+													} else { 
+														goPreviousSpecimen();
+ 													}
+												});
 											});
 										</script>
 									</cfif>	
@@ -744,37 +767,24 @@ div.vslider-item[aria-hidden="true"]{
 															AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 															AND media.auto_host = 'mczbase.mcz.harvard.edu'
 													</cfquery>													
+													<cfloop query="agentImagesForCarousel" startRow="1" endRow="1">
+														<cfset agent_media_uri = agentImagesForCarousel.media_uri>
+														<cfset agent_media_id = agentImagesForCarousel.media_id>
+														<cfset agent_alt = agentImagesForCarousel.alt>
+													</cfloop>
 													<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
 														<div class="carousel_background border rounded float-left w-100 p-2">
 															<h3 class="mx-2 text-center">#agentCt.recordcount# Agent Images </h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
 																<cfloop query="agentImagesForCarousel">
-																	<cfset alttext = agentImagesForCarousel['alt'][i]>
-																	<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-																	<cfif len(alttextTrunc) gt 100>
-																		<cfset trimmedAltText = left(alttextTrunc, 100)>
-																		<cfset trimmedAltText &= "...">
-																	<cfelse>
-																		<cfset trimmedAltText = altTextTrunc>
-																	</cfif>
 																	<div class="w-100 float-left px-3 h-auto">
-																		<a class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#agentImagesForCarousel['media_id'][i]#">Media Details</a>
+																		<a class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#agent_media_id#">Media Details</a>
 																		<cfset src=agentImagesForCarousel['media_uri'][i]>
-																		<cfif fileExists(#src#)>
-																			<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																				<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-																			</a>
-																			<p class="mt-2 small bg-light">#trimmedAltText#</p>
-																		<cfelse>
-																			<ul class="bg-dark px-0 list-unstyled">
-																				<li>
-																					<h3 class="text-white mx-auto" style="padding-top: 25%;padding-bottom: 25%;font-size: 2rem;">
-																						No image is stored
-																					</h3>
-																				</li>
-																			</ul>
-																		</cfif>
+																		<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																			<img src="#agent_media_uri#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
+																		</a>
+																		<p class="mt-2 small bg-light">#agent_alt#</p>
 																	</div>
 																	<cfset i=i+1>
 																</cfloop>
