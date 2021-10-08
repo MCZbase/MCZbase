@@ -535,7 +535,8 @@ limitations under the License.
 										
 											<label for="verbatim_locality" class="small font-weight-light col-12 col-md-3 px-0 float-left d-block mt-1 mb-0">Verbatim Locality</label>
 											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2 col-12 col-md-9 px-0 float-left"/>
-												<div class="col-12 col-md-5 px-1 float-left">
+											
+											<div class="col-12 col-md-5 px-0 float-left">
 												<label for="inputPassword3" class="small font-weight-light col-12 col-md-5 pl-0 float-left d-block mt-1 mb-0">Verbatim Date</label>
 												<input type="text" class="data-entry-input col-12 col-md-7 pl-0 mt-0 height1p2" id="verbatim_date">
 											</div>
