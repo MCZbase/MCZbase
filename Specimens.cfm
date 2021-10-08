@@ -243,7 +243,7 @@ limitations under the License.
 										<div class="collapse collapseStyle" id="collapseKeyword">
 											<div class="card card-body pl-4 py-3 pr-3">
 												<h2 class="headerSm">Keyword Search Operators</h2>
-												<p>These only work with the keyword search, operators for other searches are different. <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>See: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators">Search_Operators</a>.</cfif></p>
+												<p>These only work with the keyword search, operators for other searches are different. <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>See: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators">Search Operators</a>.</cfif></p>
 												<dl class="mb-0"> 
 													<dt><span class="text-info font-weight-bold">&</span></dt>
 													<dd>The "and" operator, matches records where the search terms on both sides of the & are present somewhere in the record.</dd>
@@ -259,8 +259,8 @@ limitations under the License.
 													<dd>This finds words that are a fuzzy match to the specified term, fuzzy matching can include variations (e.g. misspellings, typos) anywhere in the term (e.g., FUZZY(Taboga)).</dd>
 													<dt><span class="text-info font-weight-bold">$</span></dt>
 													<dd>The soundex symbol "$" finds words that sound like the specified term, unlike fuzzy matching, soundex tends to find words that are similar in the first few letters and vary at the end (e.g., !Rongelap finds records that contain words which sound like Rongelap. Soundex can be good for finding alternate endings on specific epithets of taxa).</dd>
-													<dt><span class="text-info font-weight-bold">#</span></dt> 
-													<dd>The stem operator finds words with the same linguistic stem as the search term, e.g. #forest finds words with the same stem as forest such as forested or forests.</dd>
+													<dt><span class="text-info font-weight-bold">##</span></dt> 
+													<dd>The stem operator finds words with the same linguistic stem as the search term, e.g. ##forest finds words with the same stem as forest such as forested or forests.</dd>
 													<dt><span class="text-info font-weight-bold">( )</span></dt>
 													<dd>Parentheses can be used to group terms for complex operations (e.g. Basiliscus & (FUZZY(Honduras) | (Panama ! Canal)) and will return results of fuzzy match to Honduras or Panama but not Canal).</dd>
 													<dt><span class="text-info font-weight-bold">%</span></dt> 
