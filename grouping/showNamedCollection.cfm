@@ -597,6 +597,7 @@ div.vslider-item[aria-hidden="true"]{
 											}
 											function goSpecimen() { 
 												currentSpecimenImage = goImage(currentSpecimenImage, targetSpecimenImage, specimenImageSetetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+											}
 											$(document).ready(function () {
 												$("##previous_specimen_image").click(goPreviousSpecimen);
 												$("##next_specimen_image").click(goNextSpecimen);
@@ -613,15 +614,10 @@ div.vslider-item[aria-hidden="true"]{
 											});
 										</script>
 									</cfif>	
-								</section>
+								</section><!--- end specimen images ---> 	
 
 
-								<!---///////////////////////////////--->
-								<!---/// HIDE HEAT MAP FOR NOW ///// --->
-								<!---///////////////////////////////--->
-								<!---////////// BELOW //////////////--->
-								<!---///////////////////////////////--->
-
+								<!---  ********  Heat map ********** --->
 								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 									SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
 									FROM locality
@@ -723,13 +719,9 @@ div.vslider-item[aria-hidden="true"]{
 										<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 									
 	
-									</section><!--- end images & heat map---> 	
+									</section><!--- end heat map---> 	
 								</cfif>
-							<!---///////////////////////////////--->
-							<!---/// HIDE HEAT MAP FOR NOW ///// --->
-							<!---///////////////////////////////--->
-							<!---/////////// ABOVE /////////////--->
-							<!---///////////////////////////////--->	
+				
 								<section class="otherImages float-left w-100 mt-4">
 									<div class="other-images">
 										<!--- figure out widths of sub blocks, adapt to number of blocks --->
@@ -777,25 +769,47 @@ div.vslider-item[aria-hidden="true"]{
 															<h3 class="mx-2 text-center">#agentCt.recordcount# Agent Images </h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
-																<cfloop query="agentImagesForCarousel">
-																	<div class="w-100 float-left px-3 h-auto">
-																		<a class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#agent_media_id#">Media Details</a>
-																		<cfset src=agentImagesForCarousel['media_uri'][i]>
-																		<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																			<img src="#agent_media_uri#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
-																		</a>
-																		<p class="mt-2 small bg-light">#agent_alt#</p>
-																	</div>
-																	<cfset i=i+1>
-																</cfloop>
+																<div class="w-100 float-left px-3 h-auto">
+																	<a id="agent_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#agent_media_id#">Media Details</a>
+																	<a id="agent_media_a" href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																		<img id="agent_media_img" src="#agent_media_uri#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
+																	</a>
+																	<p id="agent_media_des" class="mt-2 small bg-light">#agent_alt#</p>
+																</div>
 															</div>
 															<div class="custom-nav text-center small bg-white mb-1 pt-0 pb-1">
-																<button type="button" class="border-0 btn-outline-primary rounded" id="custom-prev1"> << prev </button>
-																<input type="number" id="custom-input1" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
-																<button type="button" class="border-0 btn-outline-primary rounded" id="custom-next1"> next &nbsp; >> </button>
+																<button id="previous_agent_image" type="button" class="border-0 btn-outline-primary rounded"> << prev </button>
+																<input id="agent_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
+																<button id="next_agent_image" type="button" class="border-0 btn-outline-primary rounded" > next &nbsp; >> </button>
 															</div>
 														</div>
 													</div>
+													<script>
+														var lastAgentScrollTop = 0;
+														function goPreviousAgent() { 
+															currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetetadata, "agent_media_img", "agent_media_des", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+														}
+														function goNextAgent() { 
+															currentAgentImage = goNextImage(currentAgentImage, agentImageSetetadata, "agent_media_img", "agent_media_des", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+														}
+														function goAgent() { 
+															currentAgentImage = goImage(currentAgentImage, targetAgentImage, agentImageSetetadata, "agent_media_img", "agent_media_des", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
+														}
+														$(document).ready(function () {
+															$("##previous_agent_image").click(goPreviousAgent);
+															$("##next_agent_image").click(goNextAgent);
+															$("##agent_image_number").on("change",goAgent);
+															$("##agent_media_img").scroll(function(event) {
+																event.preventDefault();
+																var y = event.scrollTop;
+																if (y>lastAgentScrollTop) { 
+																	goNextAgent();
+																} else { 
+																	goPreviousAgent();
+			 													}
+															});
+														});
+													</script>
 												</cfif>
 												<cfif collectingImagesForCarousel.recordcount gt 0>
 													<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">
@@ -819,49 +833,57 @@ div.vslider-item[aria-hidden="true"]{
 													<cfif collectingCt.recordcount GT 0>
 														<cfset otherImageTypes = otherImageTypes + 1>
 													</cfif>	
+													<cfloop query="collectingImagesForCarousel" startRow="1" endRow="1">
+														<cfset collecting_media_uri = collectingImagesForCarousel.media_uri>
+														<cfset collecting_media_id = collectingImagesForCarousel.media_id>
+														<cfset collecting_alt = collectingImagesForCarousel.alt>
+													</cfloop>
 													<div class="col-12 px-1 #colClass# mx-md-auto my-3">
 														<div class="carousel_background border rounded float-left w-100 p-2">
 														<h3 class="mx-2 text-center">#collectingCt.recordcount# Collecting Images
 														</h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base2">
-																<cfset i=1>
-																<cfloop query="collectingImagesForCarousel">
-																	<cfset alttext = collectingImagesForCarousel['alt'][i]>
-																	<cfset alttextTrunc = rereplace(alttext, "[[:space:]]+", " ", "all")>
-																	<cfif len(alttextTrunc) gt 100>
-																		<cfset trimmedAltText = left(alttextTrunc, 100)>
-																		<cfset trimmedAltText &= "...">
-																	<cfelse>
-																		<cfset trimmedAltText = altTextTrunc>
-																	</cfif>
-																	<div class="w-100 float-left px-3 h-auto">
-																		<a class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#collectingImagesForCarousel['media_id'][i]#">Media Details</a>
-																		<cfset src=collectingImagesForCarousel['media_uri'][i]>
-																		<cfif fileExists(#src#)>
-																			<a href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																				<img src="#src#" class="mx-auto" alt="#trimmedAltText#" height="100%" width="100%">
-																			</a>
-																			<p class="mt-2 small bg-light">#trimmedAltText#</p>
-																		<cfelse>
-																			<ul class="bg-dark px-0 list-unstyled">
-																				<li>
-																					<h3 class="text-white mx-auto message">
-																						No image is stored
-																					</h3>
-																				</li>
-																			</ul>
-																		</cfif>
-																	</div>
-																	<cfset i=i+1>
-																</cfloop>
+																<div class="w-100 float-left px-3 h-auto">
+																	<a id="collecting_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#collecting_media_id#">Media Details</a>
+																	<a id="collecting_media_a" href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																		<img id="collecting_media_img" src="#collecting_media_uri#" class="mx-auto" alt="#collecting_alt#" height="100%" width="100%">
+																	</a>
+																	<p id="collecting_media_des" class="mt-2 small bg-light">#collecting_alt#</p>
+																</div>
 															</div>
 															<div class="custom-nav small text-center bg-white mb-1 pt-0 pb-1">
-																<button type="button" class="border-0 btn-outline-primary rounded" id="custom-prev2"> << prev </button>
-																<input type="number" id="custom-input2" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
-																<button type="button" class="border-0 btn-outline-primary rounded" id="custom-next2"> next &nbsp; >> </button>
+																<button id="previous_collecting_image" type="button" class="border-0 btn-outline-primary rounded"> << prev </button>
+																<input id="collecting_image_number" type="number" id="custom-input2" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
+																<button id="next_collecting_image" type="button" class="border-0 btn-outline-primary rounded"> next &nbsp; >> </button>
 															</div>
 														</div>
 													</div>
+													<script>
+														var lastCollectingScrollTop = 0;
+														function goPreviousCollecting() { 
+															currentCollectingImage = goPreviousImage(currentCollectingImage, collectingImageSetetadata, "collecting_media_img", "collecting_media_des", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
+														}
+														function goNextCollecting() { 
+															currentCollectingImage = goNextImage(currentCollectingImage, collectingImageSetetadata, "collecting_media_img", "collecting_media_des", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
+														}
+														function goCollecting() { 
+															currentCollectingImage = goImage(currentCollectingImage, targetCollectingImage, collectingImageSetetadata, "collecting_media_img", "collecting_media_des", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#");
+														}
+														$(document).ready(function () {
+															$("##previous_collecting_image").click(goPreviousCollecting);
+															$("##next_collecting_image").click(goNextCollecting);
+															$("##collecting_image_number").on("change",goCollecting);
+															$("##collecting_media_img").scroll(function(event) {
+																event.preventDefault();
+																var y = event.scrollTop;
+																if (y>lastCollectingScrollTop) { 
+																	goNextCollecting();
+																} else { 
+																	goPreviousCollecting();
+			 													}
+															});
+														});
+													</script>
 												</cfif>
 											</div>
 										</div>
@@ -1223,489 +1245,13 @@ div.vslider-item[aria-hidden="true"]{
 			</div>
 		</main>
 	</cfloop>
-<script>
-//  carousel fix for specimen images on small screens below.  I tried to fix this with the ratio select added to the query but that only works if there are a lot of images to choose from; for small images pools, where the most common ratio cannot be selected, this may still help.	
-$(window).on('load resize', function () {
-  var w = $(window).width();
-  $("##vslider-item")
-    .css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
-});
-	
-//  carousel for specimen images below with custom-input, vslider-base, etc.
-(function () {
-  "use strict";
-  function init() {
-    var $input = document.getElementById('custom-input')
-    var baseSlider = vanillaSlider(
-      document.getElementById('vslider-base'), {
-        autoplay: false,
-        navigation: false,
-        keyboardnavigation: false,
-        swipenavigation: false,
-        wheelnavigation: true,
-		height: '100%', // setting height to null leaves it free to be calculated (line 1348);  need max height code for $slider there;
-        status: false,
-        after: function (index, length) {
-          $input.value = index
-        }
-      }
-    )
-    window.baseSlider = baseSlider
-    // custom controls
-    $input.addEventListener('change', function (e) {
-      baseSlider.next(
-        parseInt(e.target.value)
-      )
-    }, false)
-    document.getElementById('custom-prev').addEventListener('click', function (e) {
-      baseSlider.prev()
-    }, false)
-    document.getElementById('custom-next').addEventListener('click', function (e) {
-      baseSlider.next()
-    }, false)
-  }
-  document.addEventListener('DOMContentLoaded', init, false);
-}());
-	
-	
-//  carousel for agent images below with custom-input1, vslider-base1, etc.
-(function () {
-  "use strict";
-  function init() {
-    var $input = document.getElementById('custom-input1')
-    var baseSlider = vanillaSlider(
-      document.getElementById('vslider-base1'), {
-        autoplay: false,
-        navigation: false,
-        keyboardnavigation: false,
-        swipenavigation: false,
-        wheelnavigation: true,
-		height: '100%', // setting height to null leaves it free to be calculated (line 1348)
-        status: false,
-        after: function (index, length) {
-          $input.value = index
-        }
-      }
-    )
-    window.baseSlider = baseSlider
-    // custom controls
-    $input.addEventListener('change', function (e) {
-      baseSlider.next(
-        parseInt(e.target.value)
-      )
-    }, false)
-    document.getElementById('custom-prev1').addEventListener('click', function (e) {
-      baseSlider.prev()
-    }, false)
-    document.getElementById('custom-next1').addEventListener('click', function (e) {
-      baseSlider.next()
-    }, false)
-  }
-  document.addEventListener('DOMContentLoaded', init, false);
-}());
-	
-//  carousel for collecting and locality images below with custom-input2, vslider-base2, etc. [There aren't many connected to specimen records right now so I lumped them together. It made for a better presentation.  We can change it later if we have more media relationships.]
-(function () {
-  "use strict";
-  function init() {
-    var $input = document.getElementById('custom-input2')
-    var baseSlider = vanillaSlider(
-      document.getElementById('vslider-base2'), {
-        autoplay: false,
-        navigation: false,
-        keyboardnavigation: false,
-        swipenavigation: false,
-        wheelnavigation: true,
-        status: false,
-		height: '100%', // setting height to null leaves it free to be calculated (line 1348)
-        after: function (index, length) {
-          	$input.value = index
-			
-        }
-      }
-    )
-    window.baseSlider = baseSlider
-    // custom controls
-    $input.addEventListener('change', function (e) {
-      baseSlider.next(
-        parseInt(e.target.value)
-      )
-    }, false)
-    document.getElementById('custom-prev2').addEventListener('click', function (e) {
-      baseSlider.prev()
-    }, false)
-    document.getElementById('custom-next2').addEventListener('click', function (e) {
-      baseSlider.next()
-    }, false)
-  }
-  document.addEventListener('DOMContentLoaded', init, false);
-}());
-	
-	
-//  carousel for javascript main code below	
-(function () {
-  "use strict";
-  // Polyfill for e.g. IE
-  if (typeof Object.assign != 'function') {
-    // Must be writable: true, enumerable: false, configurable: true
-    Object.defineProperty(Object, "assign", {
-      value: function assign(target, varArgs) { // .length of function is 2
-        'use strict';
-        if (target == null) { // TypeError if undefined or null
-          throw new TypeError('Cannot convert undefined or null to object');
-        }
-        var to = Object(target);
-        for (var index = 1; index < arguments.length; index++) {
-          var nextSource = arguments[index];
-          if (nextSource != null) { // Skip over if undefined or null
-            for (var nextKey in nextSource) {
-              // Avoid bugs when hasOwnProperty is shadowed
-              if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                to[nextKey] = nextSource[nextKey];
-              }
-            }
-          }
-        }
-        return to;
-      },
-      writable: true,
-      configurable: true
-    });
-  }
-  function initSwipe($e, handler) {
-    var POINTER_EVENTS = window.PointerEvent ? true : false
-    var start = {};
-    var end = {};
-    var tracking = false;
-    var thresholdTime = 500;
-    var thresholdDistance = 100;
-    function startHandler(e) {
-      tracking = true;
-      /* Hack - e.timeStamp is whack in Fx/Android */
-      start.t = new Date().getTime();
-      start.x = POINTER_EVENTS ? e.clientX : e.touches[0].clientX;
-      start.y = POINTER_EVENTS ? e.clientY : e.touches[0].clientY;
-    };
-    function moveHandler(e) {
-      if (tracking) {
-        e.preventDefault();
-        end.x = POINTER_EVENTS ? e.clientX : e.touches[0].clientX;
-        end.y = POINTER_EVENTS ? e.clientY : e.touches[0].clientY;
-      }
-    }
-    function endEvent(e) {
-      if (tracking) {
-        tracking = false;
-        var now = new Date().getTime();
-        var deltaTime = now - start.t;
-        var deltaX = end.x - start.x;
-        var deltaY = end.y - start.y;
-        // if not too slow work out what the movement was
-        if (deltaTime < thresholdTime) {
-          if ((deltaX > thresholdDistance) && (Math.abs(deltaY) < thresholdDistance)) {
-            handler('left')
-          }
-          else if ((-deltaX > thresholdDistance) && (Math.abs(deltaY) < thresholdDistance)) {
-            handler('right')
-          }
-          else if ((deltaY > thresholdDistance) && (Math.abs(deltaX) < thresholdDistance)) {
-            handler('up')
-          }
-          else if ((-deltaY > thresholdDistance) && (Math.abs(deltaX) < thresholdDistance)) {
-            handler('down')
-          }
-        }
-      }
-    }
-    if (POINTER_EVENTS) {
-      $e.addEventListener('pointerdown', startHandler, false);
-      $e.addEventListener('pointermove', moveHandler, false);
-      $e.addEventListener('pointerup', endEvent, false);
-      $e.addEventListener('pointerleave', endEvent, false);
-      $e.addEventListener('pointercancel', endEvent, false);
-    }
-    else if (window.TouchEvent) {
-      $e.addEventListener('touchstart', startHandler, false);
-      $e.addEventListener('touchmove', moveHandler, false);
-      $e.addEventListener('touchend', endEvent, false);
-    }
-  }
-  var VanillaSlider = function ($slider, options) {
-    var self = this
-    var settings = this._settings = Object.assign({
-      itemSelector: 'div',
-      prefix: 'vslider-',
-      // if null set height automatically else use height
-      // number (=px) or explicit like "3em"
-      height: null,  // setting height to null leaves it free to be calculated (line 1348)
-      rotation: true,
-      autoplay: options.rotation === false ? false : true,
-      initialTimeout: 4000,
-      timeout: 8000,
-      navigation: true,
-      keyboardnavigation: true,
-      // needs Hammer
-      swipenavigation: true,
-      swipedirection: 'h', // h or v
-      wheelnavigation: false,
-      onSwipeWheel: null,
-      status: false,
-      statusContent: function (index, length) {
-        return '•';
-      },
-      i18n: {
-        title: 'carousel for images',
-        navigation: 'carousel navigation',
-        next: 'next',
-        prev: 'previous'
-      },
-      after: function (index, length) {}
-    }, options);
-    this._$slides = $slider.querySelectorAll(settings.itemSelector)
-    this._$status
-    this._active = 0
-    this._timer = null
-
-    var MAX = this._MAX = this._$slides.length
-
-	if (typeof settings.height === 'number') {
-      settings.height = settings.height + 'px'
-    } 
-    // status
-    if (settings.status) {
-      this._$status = document.createElement('ol')
-      this._$status.classList.add(settings.prefix + 'status')
-      // not accessible as keyboard and button nav
-      this._$status.setAttribute('role', 'tablist')
-      for (var i = 0, upto = MAX; i < upto; i++) {
-        (function (index) {
-          var $i = document.createElement('li')
-          if (index === 0) {
-            $i.setAttribute('tabindex', '0')
-          }
-          $i.setAttribute('id', settings.prefix + 'tab$' + index)
-          $i.setAttribute('role', 'tab')
-          $i.setAttribute('aria-label', index)
-          $i.setAttribute('aria-controls', settings.prefix + 'tabpanel$' + index)
-          $i.classList.add(settings.prefix + 'status-item')
-          if (i === 0) {
-            $i.classList.add(settings.prefix + 'status-item-active')
-          }
-          $i.textContent = settings.statusContent(i, MAX)
-          $i.addEventListener('click', function (e) {
-            self.next(index)
-          }, false)
-          $i.addEventListener('keydown', function (e) {
-            console.log(e.keyCode)
-            if (e.keyCode === 13) {
-              self.next(index)
-            }
-          }, false)
-          self._$status.appendChild($i)
-        }(i));
-      }
-      $slider.appendChild(self._$status)
-    }
-    // NAVIGATION
-    if (settings.navigation) {
-      var _$navigation = document.createElement('div')
-      var _$prev = document.createElement('button')
-      var _$next = document.createElement('button')
-      if (!$slider.id) {
-        $slider.id = this._settings.prefix + sliderIndex + '$' + Date.now();
-      }
-      _$navigation.setAttribute('aria-label', settings.i18n.navigation)
-      _$navigation.setAttribute('aria-controls', $slider.id)
-      _$navigation.classList.add(this._settings.prefix + 'nav')
-      _$navigation.appendChild(_$prev)
-      _$navigation.appendChild(_$next)
-      _$prev.setAttribute('aria-label', settings.i18n.prev)
-      _$prev.classList.add(this._settings.prefix + 'prev')
-      _$prev.addEventListener('click', function (e) {
-        self.prev()
-      }, true)
-      _$next.setAttribute('aria-label', settings.i18n.next)
-      _$next.classList.add(this._settings.prefix + 'next')
-      _$next.addEventListener('click', function (e) {
-        self.next()
-      }, true)
-      $slider.appendChild(_$navigation)
-    }
-    if (settings.keyboardnavigation) {
-      $slider.addEventListener('keydown', function (e) {
-        var keyCode = e.keyCode
-        switch (keyCode) {
-          case 39:
-          case 40:
-            self.next()
-            break
-          case 37:
-          case 38:
-            self.prev()
-            break
-        }
-      })
-    }
-    if (settings.swipenavigation) {
-      $slider.style.touchAction = settings.swipedirection === 'h' ?
-        'pan-y' : 'pan-x';
-      initSwipe($slider, function (direction) {
-        if (settings.swipedirection === 'h') {
-          if (direction === 'left') {
-            self.prev()
-          }
-          if (direction === 'right') {
-            self.next()
-          }
-        }
-        if (settings.swipedirection === 'v') {
-          if (direction === 'up') {
-            self.prev()
-          }
-          if (direction === 'down') {
-            self.next()
-          }
-        }
-      })
-    }
-    if (settings.wheelnavigation) {
-      $slider.addEventListener('wheel', function (e) {
-        requestAnimationFrame(function () {
-          var next = e.deltaY > 0
-          self[next ? 'next' : 'prev']()
-          settings.onSwipeWheel && settings.onSwipeWheel(self._active, MAX, !next)
-        })
-        e.preventDefault()
-      }, false)
-    }
-    window.addEventListener('resize', function (e) {
-      requestAnimationFrame(function () {
-        $slider.style.height = 'auto'
-        $slider.style.height = settings.height || getComputedStyle($slider).height //this is where max height should be found or within line 1344 {} (MHK)
-      })
-    })
-    // start
-    if (MAX > 1) {
-      $slider.setAttribute('tabindex', '0')
-      $slider.setAttribute('aria-label', settings.i18n.title)
-      $slider.setAttribute('aria-live', 'polite')
-      $slider.style.height = settings.height || getComputedStyle($slider).height;
-		
-      [].forEach.call(this._$slides, function ($slide, i) {
-        $slide.setAttribute('id', settings.prefix + 'tabpanel$' + i)
-        $slide.setAttribute('role', 'tabpanel')
-        $slide.setAttribute('aria-labelledby', settings.prefix + 'tab$' + i)
-        if (i == 0) {
-          $slide.setAttribute('aria-hidden', 'false')
-        }
-        else {
-          $slide.setAttribute('aria-hidden', 'true')
-        }
-        $slide.classList.add(settings.prefix + 'item')
-      })
-      if (settings.autoplay) {
-        setTimeout(function () {
-          this._timer = setTimeout(
-            function () {
-              this.next()
-            }.bind(this),
-            settings.initialTimeout)
-        }.bind(this), 100)
-      }
-    }
-  }
-  VanillaSlider.prototype._updateStatus = function () {
-    if (this._settings.status) {
-      var activeClass = this._settings.prefix + 'status-item-active'
-      var $prevActive = this._$status.querySelector('.' + activeClass)
-      var $active = this._$status.querySelector('li:nth-child(' + (this._active + 1) + ')')
-      $prevActive.classList.remove(activeClass)
-      $active.classList.add(activeClass)
-      $prevActive.setAttribute('aria-selected', 'false')
-      $active.setAttribute('aria-selected', 'true')
-    }
-  }
-  VanillaSlider.prototype._getActive = function (back, index) {
-    clearTimeout(this._timer)
-    this._$slides[this._active].setAttribute('aria-hidden', 'true')
-    if (index !== undefined) {
-      this._active = index >= 0 && index < this._MAX ?
-        index : this._MAX - 1
-    }
-    else {
-      if (!back) {
-        this._active = (this._active === this._$slides.length - 1) ? 0 : this._active + 1
-      }
-      else {
-        this._active = (this._active === 0) ? this._$slides.length - 1 : this._active - 1
-      }
-    }
-    return this._$slides[this._active]
-  }
-  VanillaSlider.prototype._finishAction = function ($active) {
-    this._updateStatus()
-    this._settings.after(this._active, this._MAX)
-    if (this._settings.autoplay) {
-      this._timer = setTimeout(function () {
-        this.next()
-      }.bind(this),
-        this._settings.timeout)
-    }
-  }
-  VanillaSlider.prototype.prev = function (index) {
-    var prefix = this._settings.prefix
-    if (index !== undefined && index === this._active) {
-      return true
-    }
-    else if (index === undefined && !this._settings.rotation && this._active === 0) {
-      return true
-    }
-    this._$slides[this._active].classList.add(prefix + 'before')
-    var $active = this._getActive(true, index)
-    $active.setAttribute('aria-hidden', 'true')
-    $active.classList.add(prefix + 'direct')
-    $active.classList.remove(prefix + 'before')
-    getComputedStyle($active).opacity // DO IT!
-    $active.setAttribute('aria-hidden', 'false')
-    $active.classList.remove(prefix + 'direct')
-    this._finishAction()
-  }
-  VanillaSlider.prototype.next = function (index) {
-    var prefix = this._settings.prefix
-    if (index !== undefined && index === this._active) {
-      return true
-    }
-    else if (index === undefined && !this._settings.rotation && this._active === this._$slides.length - 1) {
-      return true
-    }
-    var $active = this._getActive(false, index)
-    $active.setAttribute('aria-hidden', 'true')
-    $active.classList.add(prefix + 'direct')
-    $active.classList.add(prefix + 'before')
-    getComputedStyle($active).opacity // DO IT!
-    $active.setAttribute('aria-hidden', 'false')
-    $active.classList.remove(prefix + 'direct')
-    $active.classList.remove(prefix + 'before')
-    this._finishAction()
-  }
-  // used to generate slider ID
-  var sliderIndex = 0
-  function vanillaSlider($sliders, options) {
-    var sliders = [];
-    if ($sliders instanceof Node) {
-      $sliders = [$sliders]
-    }
-    [].forEach.call($sliders, function ($slider, i) {
-      sliders.push(
-        new VanillaSlider($slider, options || {})
-      )
-      sliderIndex++;
-    })
-    return sliders.length > 1 ? sliders : sliders[0]
-  }
-  vanillaSlider.VERSION = 2.0
-  window.vanillaSlider = vanillaSlider
-}());											
-</script>
+	<script>
+	//  carousel fix for specimen images on small screens below.  I tried to fix this with the ratio select added to the query but that only works if there are a lot of images to choose from; for small images pools, where the most common ratio cannot be selected, this may still help.	
+	$(window).on('load resize', function () {
+	  var w = $(window).width();
+	  $("##vslider-item")
+   	 .css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
+	});
+	</script>
 </cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
