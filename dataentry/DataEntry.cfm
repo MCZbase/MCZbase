@@ -460,8 +460,8 @@ limitations under the License.
 										<label for="made_by" class="small font-weight-light col-12 col-xl-3 float-left d-block mt-1 mb-0">ID Made By</label>
 										<input type="text" name="made_by" class="col-12 col-xl-9 mt-1 pl-0 float-left data-entry-input height1p2"/>
 										<div class="col-12 col-md-6 px-0 mt-1">
-											<label for="nature_of_id" class="small font-weight-light col-12 col-md-4 px-1 float-left d-block mt-1 mb-0">Nature of ID</label>
-											<select class="data-entry-select smallselect col-12 col-md-7 pl-0 float-left height1p2">
+											<label for="nature_of_id" class="small font-weight-light col-12 col-xl-4 px-1 float-left d-block mt-1 mb-0">Nature of ID</label>
+											<select class="data-entry-select smallselect col-12 col-xl-7 pl-0 float-left height1p2">
 												<option value="">Nature of ID</option>
 												<cfloop query="nature_of_id">
 													<option value="#nature_of_id.nature_of_id#">#nature_of_id.nature_of_id#</option>
