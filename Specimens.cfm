@@ -243,7 +243,7 @@ limitations under the License.
 										<div class="collapse collapseStyle" id="collapseKeyword">
 											<div class="card card-body pl-4 py-3 pr-3">
 												<h2 class="headerSm">Keyword Search Operators</h2>
-												<p>These only work with the keyword search, operators for other searches are different. <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>See: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators" target="_blank">Search Operators</a>. For more examples, see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Keyword_Search" target="_blank">Keyword Search</a>.</cfif></p>
+												<p>These only work with the keyword search, operators for other searches are different<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")> (see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators" target="_blank">Search Operators</a>). For more examples, see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Keyword_Search" target="_blank">Keyword Search</a></cfif>.</p>
 												<dl class="mb-0"> 
 													<dt><span class="text-info font-weight-bold">&amp;</span></dt>
 													<dd>The "and" operator, matches records where the search terms on both sides of the &amp; are present somewhere in the record.</dd>

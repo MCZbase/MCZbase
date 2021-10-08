@@ -531,7 +531,7 @@ limitations under the License.
 											</h5>
 											<input type="text" name="collecting_event_id" class="data-entry-input col-5 mx-auto height1p2" placeholder="Collecting Event ID" />
 											<span class="small w-100 float-left text-center mt-2">- OR - </span>
-											<h5 class="font-weight-bold text-left mb-0 d-block w-100">New Collecting Event</h5>
+											<h5 class="font-weight-bold text-left mb-1 d-block w-100">New Collecting Event</h5>
 										
 											<label for="verbatim_locality" class="small font-weight-light col-12 col-md-3 px-0 float-left d-block mt-1 mb-0">Verbatim Locality</label>
 											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2 col-12 col-md-9 px-0 float-left"/>
