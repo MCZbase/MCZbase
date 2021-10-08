@@ -241,7 +241,7 @@ limitations under the License.
 													Search Help
 										</button>
 										<div class="collapse collapseStyle" id="collapseExample">
-											<div class="card card-body p-3">
+											<div class="card card-body pl-4 py-3 pr-3">
 												<h2 class="headerSm">Keyword Search Operators</h2>
 												<p>These only work with the keyword search, operators for other searches are different, see: <u>Search Operators</u> on the Wiki, in particular !, $, and ~ have very different meanings elsewhere.</p>
 												<dl class="mb-0"> 
@@ -256,7 +256,7 @@ limitations under the License.
 													<dt><span class="text-info font-weight-bold">=</span></dt>
 													<dd>The word equivalence operator, either word is interchangeable in the phrase (e.g., Taboga Island=Id). The results would return rows with "Taboga Island" or "Taboga Id".</dd>
 													<dt><span class="text-info font-weight-bold">FUZZY(term) &nbsp;&nbsp;</span> </dt>
-													<dd>This finds words that are a fuzzy match to the specified term, fuzzy matching can include variations (e.g. misspellings, typos) anywhere in the term (e.g., FUZZY(Taboga).</dd>
+													<dd>This finds words that are a fuzzy match to the specified term, fuzzy matching can include variations (e.g. misspellings, typos) anywhere in the term (e.g., FUZZY(Taboga)).</dd>
 													<dt><span class="text-info font-weight-bold">!</span></dt>
 													<dd>The soundex symbol "!" finds words that sound like the specified term, unlike fuzzy matching, soundex tends to find words that are similar in the first few letters and vary at the end (e.g., !Rongelap finds records that contain words which sound like Rongelap. Soundex can be good for finding alternate endings on specific epithets of taxa).</dd>
 													<dt><span class="text-info font-weight-bold">$</span></dt> 
