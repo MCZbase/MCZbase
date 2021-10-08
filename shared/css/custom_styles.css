@@ -1602,7 +1602,7 @@ tr.line-top:first-child {
 }
 .infoLink {
 	cursor: pointer;
-	color: #3366cc;
+	color: #3366cc!important;
 	text-decoration: underline;
 }
 .infoLink:hover {
