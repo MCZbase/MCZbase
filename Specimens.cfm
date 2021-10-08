@@ -246,16 +246,16 @@ limitations under the License.
 												<p>These only work with the keyword search, operators for other searches are different, see: <u>Search Operators</u> on the Wiki, in particular !, $, and ~ have very different meanings elsewhere.</p>
 												<dl> 
 													<dt><span class="text-info font-weight-bold">&</span></dt>
-													<dd>&nbsp;The "and" operator, matches records where the search terms on both sides of the & are present somewhere in the record.</dd>
+													<dd>The "and" operator, matches records where the search terms on both sides of the & are present somewhere in the record.</dd>
 													<dt><span class="text-info font-weight-bold">|</span></dt>
 													<dd>The "or" operator, matches words where at least one of the search terms is present somewhere in the record.</dd>
 													<dt><span class="text-info font-weight-bold">~</span></dt>
 													<dd>The "tilde" or "approximate" mark finds records that contain the first term but not the second (e.g., Panama ~ Canal). Results returned would include "Panama" but not "Canal".</dd>
-													<dt><span class="text-info font-weight-bold">NEAR((term,term2),distance)</span></dt>
+													<dt><span class="text-info font-weight-bold">NEAR((term,term2),distance) &nbsp;&nbsp;</span></dt>
 													<dd>The NEAR((term,term2),distance) finds words that are nearby each other (e.g. NEAR((Panama,Bay),3) finds records where Panama and Bay are within three words of each other). Examples of results: "San Miguel Id Bay of Panama" and "Bay of Panama, Dan Miguel Id".</dd>
 													<dt><span class="text-info font-weight-bold">=</span></dt>
 													<dd>The word equivalence operator, either word is interchangeable in the phrase (e.g., Taboga Island=Id). The results would return rows with "Taboga Island" or "Taboga Id".</dd>
-													<dt><span class="text-info font-weight-bold">FUZZY(term)</span> </dt>
+													<dt><span class="text-info font-weight-bold">FUZZY(term) &nbsp;&nbsp;</span> </dt>
 													<dd>This finds words that are a fuzzy match to the specified term, fuzzy matching can include variations (e.g. misspellings, typos) anywhere in the term (e.g., FUZZY(Taboga).</dd>
 													<dt><span class="text-info font-weight-bold">!</span></dt>
 													<dd>The soundex symbol "!" finds words that sound like the specified term, unlike fuzzy matching, soundex tends to find words that are similar in the first few letters and vary at the end (e.g., !Rongelap finds records that contain words which sound like Rongelap. Soundex can be good for finding alternate endings on specific epithets of taxa).</dd>

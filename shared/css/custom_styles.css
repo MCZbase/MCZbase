@@ -2121,7 +2121,7 @@ button.help-btn {
 #collapseExample dt {
 	float:left;
 	display: inline-block;
-	min-width: 40px;
+	min-width: 25px;
 }
 .collapseStyle {
 	z-index: 3000; 
