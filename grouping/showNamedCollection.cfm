@@ -272,8 +272,8 @@ div.vslider-item[aria-hidden="true"]{
 }
 </style>
 <cfset maxSpecimens = 11000>
-<cfset maxRandomSpecimenImages = 15>
-<cfset maxRandomOtherImages = 15>
+<cfset maxRandomSpecimenImages = 300>
+<cfset maxRandomOtherImages = 300>
 <cfset otherImageTypes = 0>
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
@@ -369,8 +369,7 @@ div.vslider-item[aria-hidden="true"]{
 		<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT * FROM (
 				SELECT DISTINCT media.media_id, media.media_uri, 
-					MCZBASE.get_media_descriptor(media.media_id) as alt, 
-					MCZBASE.get_medialabel(media.media_id,'width')/(sum(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by MCZBASE.get_medialabel(media.media_id,'height'))) as Ratio
+					MCZBASE.get_media_descriptor(media.media_id) as alt
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -385,10 +384,9 @@ div.vslider-item[aria-hidden="true"]{
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 					AND media.auto_host = 'mczbase.mcz.harvard.edu'
-				ORDER BY Ratio desc, DBMS_RANDOM.RANDOM
+				ORDER BY DBMS_RANDOM.RANDOM
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
-			<!---PUT IN SAMPLE(99) and Took off DBMS_RANDOM.RANDOM until a large number of images are related with "show agent" since it slows query down--->
 		</cfquery>
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
@@ -396,8 +394,7 @@ div.vslider-item[aria-hidden="true"]{
 		<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 			SELECT * FROM (
 				SELECT DISTINCT media_uri, media.media_id,
-					MCZBASE.get_media_descriptor(media.media_id) as alt, 
-					MCZBASE.get_medialabel(media.media_id,'width')/(sum(MCZBASE.get_medialabel(media.media_id,'width')) over (partition by MCZBASE.get_medialabel(media.media_id,'height'))) as Ratio	
+					MCZBASE.get_media_descriptor(media.media_id) as alt
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -413,24 +410,23 @@ div.vslider-item[aria-hidden="true"]{
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 					AND media.auto_host = 'mczbase.mcz.harvard.edu'
-				ORDER BY Ratio asc, DBMS_RANDOM.RANDOM
+				ORDER BY DBMS_RANDOM.RANDOM
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
 		</cfquery>
 		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
-			SELECT Distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
+			SELECT distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
 			FROM locality
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-				on flat.locality_id = locality.locality_id
-				left join lat_long
-				on lat_long.locality_id = flat.locality_id
-				left join underscore_relation
-				on underscore_relation.collection_object_id = flat.collection_object_id
-				left join underscore_collection
-				on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+					on flat.locality_id = locality.locality_id
+				left join lat_long on lat_long.locality_id = flat.locality_id
+				left join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
+				left join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+			WHERE 
+				underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				and flat.guid IS NOT NULL
 				and lat_long.dec_lat is not null
+				and lat_long.accepted_lat_long_fg = 1
 		</cfquery>
 		
 		<cfif collectingImagesForCarousel.recordcount GT 0>
@@ -580,51 +576,13 @@ div.vslider-item[aria-hidden="true"]{
 										</div>
 										<script>
 											function goPreviousSpecimen() { 
-												currentSpecimenImage = currentSpecimenImage - 1;
-												if (currentSpecimenImage < 1) { 
-													currentSpecimenImage = specimenInmageSetMetadata.length;
-												}
-												var specimenImage = specimenImageSetMetadata[currentSpecimenImage];
-												$("##specimen_detail_a").attr("href","/media/" + specimenImage.media_id);
-												$("##specimen_media_a").attr("href",specimenImage.media_uri);
-												$("##specimen_media_img").attr("src","/media/rescaleImage.cfm?media_id="+specimenImage.media_id+"#sizeType#");
-												$("##specimen_image_number").val(currentSpecimenImage);
-												$("##specimen_media_desc").val(specimenImage.alt);
+												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											function goNextSpecimen() { 
-												currentSpecimenImage = currentSpecimenImage + 1;
-												if (currentSpecimenImage > specimenImageSetMetadata.length) { 
-													currentSpecimenImage = specimenImageSetMetadata.length;
-												}
-												console.log(currentSpecimenImage);
-												var specimenImage = specimenImageSetMetadata[currentSpecimenImage];
-												console.log(specimenImage);
-												$("##specimen_detail_a").attr("href","/media/" + specimenImage.media_id);
-												$("##specimen_media_a").attr("href",specimenImage.media_uri);
-												$("##specimen_media_img").attr("src","/media/rescaleImage.cfm?media_id="+specimenImage.media_id+"#sizeType#");
-												$("##specimen_image_number").val(currentSpecimenImage);
-												$("##specimen_media_desc").val(specimenImage.alt);
+												currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											function goSpecimen() { 
-												var targetSpecimenImage = currentSpecimenImage;
-												var inputval = $("##specimen_image_number").val();
-												if(Number.isInteger(inputVal)) {
-													targetSpecimenImage = inputVal;
-												}
-												if (targetSpecimenImage > specimenImageSetMetadata.length) { 
-													targetSpecimenImage = specimenImageSetMetadata.length;
-												}
-												if (targetSpecimenImage < 1) { 
-													targetSpecimenImage = 1;
-												}
-												currentSpecimenImage = targetSpecimenImage;
-												var specimenImage = specimenImageSetMetadata[currentSpecimenImage];
-												$("##specimen_detail_a").attr("href","/media/" + specimenImage.media_id);
-												$("##specimen_media_a").attr("href",specimenImage.media_uri);
-												$("##specimen_media_img").attr("src","/media/rescaleImage.cfm?media_id="+specimenImage.media_id+"#sizeType#");
-												$("##specimen_image_number").val(currentSpecimenImage);
-												$("##specimen_media_desc").val(specimenImage.alt);
-											}
+												currentSpecimenImage = goImage(currentSpecimenImage, targetSpecimenImage, specimenImageSetetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											$(document).ready(function () {
 												$("##previous_specimen_image").click(goPreviousSpecimen);
 												$("##next_specimen_image").click(goNextSpecimen);
