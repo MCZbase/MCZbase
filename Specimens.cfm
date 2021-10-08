@@ -1284,6 +1284,7 @@ limitations under the License.
 				$("##result_id_keywordSearch").val(uuid);
 		
 				$("##overlay").show();
+				$("##collapseExample").collapse("hide");  // hide the help text if it is visible.
 		
 				$("##keywordsearchResultsGrid").replaceWith('<div id="keywordsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$("##keywordresultCount").html("");
