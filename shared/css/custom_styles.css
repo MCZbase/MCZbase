@@ -1602,7 +1602,7 @@ tr.line-top:first-child {
 }
 .infoLink {
 	cursor: pointer;
-	color: #3366cc;
+	color: #3366cc!important;
 	text-decoration: underline;
 }
 .infoLink:hover {
@@ -2083,7 +2083,7 @@ section#mediaSection.accordion {
 .smallselect {
 	font-size: 84%!important;
 }
-#collapseExample.collapsing.width {
+#collapseKeyword.collapsing.width {
 	height: auto;
 	width: 0;
 	-webkit-transition: all 1s ease;
@@ -2107,21 +2107,21 @@ button.help-btn {
 	transform-origin: right top;
 	margin-bottom: 15px;
 	top: -.25rem;
-	right: -82px;
-	z-index: 3000; 
+	right: -79px;
+	z-index:1; 
 	padding-top:.15rem;
 	padding-bottom: .15rem; 
 	font-size: 13.5px;
 	margin-top:0;
 	position: absolute;
 }
-#collapseExample h2.headerSm {
+#collapseKeyword h2.headerSm {
 	font-size: 1.25rem;
 }
-#collapseExample dt {
+#collapseKeyword dt {
 	float:left;
 	display: inline-block;
-	min-width: 25px;
+	min-width: 25px!important;
 }
 .collapseStyle {
 	z-index: 3000; 

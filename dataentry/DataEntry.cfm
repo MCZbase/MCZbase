@@ -535,12 +535,13 @@ limitations under the License.
 										
 											<label for="verbatim_locality" class="small font-weight-light col-12 col-md-3 px-0 float-left d-block mt-1 mb-0">Verbatim Locality</label>
 											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2 col-12 col-md-9 px-0 float-left"/>
-												<div class="col-12 col-md-4 px-1 float-left">
-												<label for="inputPassword3" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Date</label>
-												<input type="text" class="data-entry-input col-12 col-md-5 px-0 mt-0 height1p2" id="verbatim_date">
+											
+											<div class="col-12 col-md-5 px-0 mt-1 float-left">
+												<label for="inputPassword3" class="small font-weight-light col-12 col-md-5 pl-0 float-left d-block mt-1 mb-0">Verbatim Date</label>
+												<input type="text" class="data-entry-input col-12 col-md-7 pl-0 mt-0 height1p2" id="verbatim_date">
 											</div>
-											<div class="col-12 col-md-8 px-0 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 col-md-3 px-0 float-left d-block mt-1 mb-0">ISO Dates</label>
+											<div class="col-12 col-md-7 pr-0 mt-1 float-left">
+												<label for="inputPassword3" class="small font-weight-light col-12 col-md-4 float-left d-block mt-1 mb-0 text-right">ISO Dates</label>
 												<input type="text" class="data-entry-input col-12 col-md-4 float-left mt-0 height1p2" id="began_date" placeholder="Began Date">
 												<input type="text" class="data-entry-input col-12 col-md-4 float-left mt-0 height1p2" id="ended_date" placeholder="Date Ended">
 											</div>
@@ -574,7 +575,9 @@ limitations under the License.
 											<div class="col-12 px-0">
 												<label for="coll_number_series" class="small font-weight-light float-left w-100 d-block mt-1 mb-0">Collecting Event Number Series</label>
 												<input type="text" class="data-entry-input col-12 col-xl-8 float-left height1p2" id="coll_number_series" placeholder="Existing Series">
-												<a class="btn btn-xs btn-outline-primary border col-12 px-0 col-xl-4 float-left height1p2" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Add New Series</a>
+												<div class="col-12 col-xl-4 border-transparent float-left ">
+													<a class="infoLink height1p2" href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add New Series</a>
+												</div>
 											</div>
 											<label for="Coord. System" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim SRS or Datum</label>
 											<input type="text" class="data-entry-input height1p2" id="Datum">
