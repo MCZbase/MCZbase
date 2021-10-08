@@ -236,7 +236,7 @@ limitations under the License.
 						<div class="tab-content">
 							<!---Keyword Search/results tab panel--->
 							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#" #keywordTabShow#>
-									<div class="col-12 px-0" style="font-size: 14.5px;"> 
+									<div class="col-6 float-right px-0" style="font-size: 15px;"> 
 										<button class="btn btn-dark help-btn mt-0 position-absolute" style="top: -.25rem;right: -82px;" type="button" data-toggle="collapse" data-target="##collapseExample" aria-expanded="false" aria-controls="collapseExample">
 													Search Help
 										</button>
