@@ -236,11 +236,11 @@ limitations under the License.
 						<div class="tab-content">
 							<!---Keyword Search/results tab panel--->
 							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#" #keywordTabShow#>
-									<div class="col-6 float-right px-0" style="font-size: 15px;"> 
-										<button class="btn btn-xs btn-dark help-btn mt-0 position-absolute" style="top: -.25rem;right: -82px;z-index: 3000; padding-top:.15rem;padding-bottom: .15rem; font-size: 13.5px;" type="button" data-toggle="collapse" data-target="##collapseExample" aria-expanded="false" aria-controls="collapseExample">
+									<div class="col-7 float-right px-0" style="font-size: 15px;"> 
+										<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseExample" aria-expanded="false" aria-controls="collapseExample">
 													Search Help
 										</button>
-										<div class="collapse" id="collapseExample" style="z-index: 3000; position: absolute; margin-top: 5.7rem; margin-right: -1rem;">
+										<div class="collapse collapseStyle" id="collapseExample">
 											<div class="card card-body p-4">
 												<h2 class="headerSm">Keyword Search Operators</h2>
 												<p>These only work with the keyword search, operators for other searches are different, see: <u>Search Operators</u> on the Wiki, in particular !, $, and ~ have very different meanings elsewhere.</p>

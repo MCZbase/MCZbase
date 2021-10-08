@@ -2106,9 +2106,23 @@ button.help-btn {
 	transform: translateX(-98%) rotate(-90deg);
 	transform-origin: right top;
 	margin-bottom: 15px;
+	top: -.25rem;
+	right: -82px;
+	z-index: 3000; 
+	padding-top:.15rem;
+	padding-bottom: .15rem; 
+	font-size: 13.5px;
+	margin-top:0;
+	position: absolute;
 }
 #collapseExample h2.headerSm {
 	font-size: 1.25rem;
+}
+.collapseStyle {
+	z-index: 3000; 
+	position: absolute; 
+	margin-top: 5.9rem; 
+	margin-right: -1rem;
 }
 /************end tabs -- redone for accessibility  ***************/
 
