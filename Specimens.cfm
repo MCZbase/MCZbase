@@ -237,7 +237,7 @@ limitations under the License.
 							<!---Keyword Search/results tab panel--->
 							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#" #keywordTabShow#>
 									<div class="col-6 float-right px-0" style="font-size: 15px;"> 
-										<button class="btn btn-dark help-btn mt-0 position-absolute" style="top: -.25rem;right: -82px;z-index: 3000" type="button" data-toggle="collapse" data-target="##collapseExample" aria-expanded="false" aria-controls="collapseExample">
+										<button class="btn btn-dark help-btn mt-0 position-absolute" style="top: -.25rem;right: -92px;z-index: 3000; padding-top:.15rem;padding-bottom: .15rem;" type="button" data-toggle="collapse" data-target="##collapseExample" aria-expanded="false" aria-controls="collapseExample">
 													Search Help
 										</button>
 										<div class="collapse" id="collapseExample" style="z-index: 3000; position: absolute; margin-top: 7rem; margin-right: -1rem;">
