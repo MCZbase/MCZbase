@@ -492,14 +492,14 @@ limitations under the License.
 												<div class="col-12 col-md-6 float-left">
 													<label for="collector_role" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Role</label>
 													<select class="data-entry-select smallselect height1p2" required>
-														<option value="">Agent Role</option>
-														<option value="c">Collector</option>
+												
+														<option value="c" required>Collector</option>
 														<option value="p">Preparator</option>
 													</select>
 												</div>
 												<div class="col-12 col-md-6 float-left">
 													<label for="agent_name" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Name</label>
-													<input type="text" class="data-entry-input height1p2"  name="agent_name">
+													<input type="text" class="data-entry-input height1p2" required  name="agent_name">
 												</div>
 											</div>
 											<div class="form-row mx-0 my-2">
