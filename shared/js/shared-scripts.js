@@ -1289,3 +1289,59 @@ function getColHidProp(columnName, defaultValue) {
 		return defaultValue
 	}
 }
+
+function goPreviousImage(counter, imageArray, media_img, media_des, detail_a, media_a, image_counter, sizeparams) { 
+	currentCounter = counter;
+	currentCounter = currentCounter - 1;
+	if (currentCounter < 1) { 
+		currentCounter = imageMetadataArray.length;
+	}
+	var currentImageMetadataRecord = imageMetadataArray[currentCounter];
+	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
+	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
+	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
+	$("#"+media_img).attr("alt",currentImageMetadataRecord.media_des);
+	$("#"+image_counter).val(currentCounter);
+	$("#"+media_des).val(currentImageMetadataRecord.alt);
+	return currentCounter;
+}
+function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter,sizeparams) { 
+	currentCounter = counter;
+	currentCounter = currentCounter + 1;
+	if (currentCounter > imageMetadataArray.length) { 
+		currentCounter = imageMetadataArray.length;
+	}
+	console.log(currentCounter);
+	var currentImageMetadataRecord = imageMetadataArray[currentCounter];
+	console.log(currentImageMetadataRecord);
+	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
+	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
+	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
+	$("#"+media_img).attr("alt",currentImageMetadataRecord.media_des);
+	$("#"+image_counter).val(currentCounter);
+	$("#"+media_des).val(currentImageMetadataRecord.alt);
+	return currentCounter;
+}
+function goImageByNumber(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter,sizeparams) { 
+	currentCounter = counter;
+	var targetCounterValue = currentCounter;
+	var inputval = $("#"+image_counter).val();
+	if(Number.isInteger(inputVal)) {
+		targetCounterValue = inputVal;
+	}
+	if (targetCounterValue > imageMetadataArray.length) { 
+		targetCounterValue = imageMetadataArray.length;
+	}
+	if (targetCounterValue < 1) { 
+		targetCounterValue = 1;
+	}
+	currentCounter = targetCounterValue;
+	var currentImageMetadataRecord = imageMetadataArray[currentCounter];
+	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
+	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
+	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
+	$("#"+media_img).attr("alt",currentImageMetadataRecord.media_des);
+	$("#"+image_counter).val(currentCounter);
+	$("#"+media_des).val(currentImageMetadataRecord.alt);
+	return currentCounter;
+}
