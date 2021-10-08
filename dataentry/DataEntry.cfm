@@ -546,11 +546,11 @@ limitations under the License.
 												<input type="text" class="data-entry-input col-12 col-md-4 float-left mt-0 height1p2" id="ended_date" placeholder="Date Ended">
 											</div>
 										
-											<div class="col-12 col-md-4 pl-0 float-left">
+											<div class="col-12 col-md-4 pl-0 mt-1 float-left">
 												<label for="inputPassword3" class="small font-weight-light col-12 col-md-4 px-0 float-left d-block mt-1 mb-0">Time</label>
 												<input type="text" class="data-entry-input mt-0 height1p2 col-12 col-md-8" id="collecting_time">
 											</div>
-											<div class="col-12 col-md-8 float-left">
+											<div class="col-12 col-md-8 float-left mt-1">
 												<label for="start_end_dayOfyear" class="small font-weight-light col-12 col-md-3 float-left d-block mt-1 mb-0">Day of Year</label>
 												<input type="text" class="data-entry-input float-left col-12 col-md-4 mt-0 height1p2" id="start_day_of_year" placeholder="Start Day of Year">
 												<input type="text" class="data-entry-input float-left col-12 col-md-4 mt-0 height1p2" id="end_day_of_year" placeholder="End Day of Year">
