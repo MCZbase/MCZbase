@@ -242,8 +242,13 @@ limitations under the License.
 										</button>
 										<div class="collapse collapseStyle" id="collapseKeyword">
 											<div class="card card-body pl-4 py-3 pr-3">
+												<h2 class="headerSm">Keyword Search Help</h2>
+												<p>This help applies only the keyword search, behavior and operators for other searches are different<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")> (see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators" target="_blank">Search Operators</a>). For more examples, see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Keyword_Search" target="_blank">Keyword Search</a></cfif>.</p>
+												<dl class="mb-0"> 
+													<dt><span class="text-info font-weight-bold">&nbsp;</span></dt>
+													<dd>When words are separated by spaces they form a phrase and it is this phrase which is searched for, not the individual words.  For example <em>Panama Bay</em> searches for those two words found adjacent to each other (ignoring punctuation and capitalization). Use operators such as <em>Panama &amp; Bay</em> or <em>NEAR((Panama,Bay),3)</em>, described below, to find a broader scope of records. </dd>
+												</dl>
 												<h2 class="headerSm">Keyword Search Operators</h2>
-												<p>These only work with the keyword search, operators for other searches are different<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")> (see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators" target="_blank">Search Operators</a>). For more examples, see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Keyword_Search" target="_blank">Keyword Search</a></cfif>.</p>
 												<dl class="mb-0"> 
 													<dt><span class="text-info font-weight-bold">&amp;</span></dt>
 													<dd>The "and" operator, matches records where the search terms on both sides of the &amp; are present somewhere in the record.</dd>
