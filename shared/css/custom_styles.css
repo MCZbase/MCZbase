@@ -2108,7 +2108,7 @@ button.help-btn {
 	margin-bottom: 15px;
 	top: -.25rem;
 	right: -79px;
-	z-index: 3000; 
+	z-index:1; 
 	padding-top:.15rem;
 	padding-bottom: .15rem; 
 	font-size: 13.5px;
