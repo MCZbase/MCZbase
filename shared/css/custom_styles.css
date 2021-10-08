@@ -2097,13 +2097,13 @@ button.help-btn {
 	color: white;
 	float:right;
 	-webkit-backface-visibility: hidden;
-	-webkit-transform: translateX(-98%) rotate(-90deg);
+	-webkit-transform: translateX(-98%) rotate(90deg);
 	-webkit-transform-origin: right top;
-	-moz-transform: translateX(-98%) rotate(-90deg);
+	-moz-transform: translateX(-98%) rotate(90deg);
 	-moz-transform-origin: right top;
-	-o-transform: translateX(-98%) rotate(-90deg);
+	-o-transform: translateX(-98%) rotate(90deg);
 	-o-transform-origin: right top;
-	transform: translateX(-98%) rotate(-90deg);
+	transform: translateX(-98%) rotate(90deg);
 	transform-origin: right top;
 	margin-bottom: 15px;
 	top: -.25rem;
