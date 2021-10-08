@@ -237,10 +237,10 @@ limitations under the License.
 							<!---Keyword Search/results tab panel--->
 							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#" #keywordTabShow#>
 									<div class="col-9 float-right px-0"> 
-										<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseExample" aria-expanded="false" aria-controls="collapseExample">
+										<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseKeyword" aria-expanded="false" aria-controls="collapseKeyword">
 													Search Help
 										</button>
-										<div class="collapse collapseStyle" id="collapseExample">
+										<div class="collapse collapseStyle" id="collapseKeyword">
 											<div class="card card-body pl-4 py-3 pr-3">
 												<h2 class="headerSm">Keyword Search Operators</h2>
 												<p>These only work with the keyword search, operators for other searches are different, see: <u>Search Operators</u> on the Wiki, in particular !, $, and ~ have very different meanings elsewhere.</p>
@@ -1284,7 +1284,7 @@ limitations under the License.
 				$("##result_id_keywordSearch").val(uuid);
 		
 				$("##overlay").show();
-				$("##collapseExample").collapse("hide");  // hide the help text if it is visible.
+				$("##collapseKeyword").collapse("hide");  // hide the help text if it is visible.
 		
 				$("##keywordsearchResultsGrid").replaceWith('<div id="keywordsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$("##keywordresultCount").html("");
