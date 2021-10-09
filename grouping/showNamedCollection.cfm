@@ -743,7 +743,7 @@ div.vslider-item[aria-hidden="true"]{
 										<!--- figure out widths of sub blocks, adapt to number of blocks --->
 										<cfswitch expression="#otherImageTypes#">
 											<cfcase value="1">
-												<cfset colClass = "col-xl-8 mx-auto float-none">
+												<cfset colClass = "col-xl-12 mx-auto float-none">
 											</cfcase>
 											<cfcase value="2">
 												<cfset colClass = "col-md-6 mx-auto float-left">
@@ -788,7 +788,7 @@ div.vslider-item[aria-hidden="true"]{
 																<div class="w-100 float-left px-3 h-auto">
 																	<a id="agent_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#agent_media_id#">Media Details</a>
 																	<a id="agent_media_a" href="#agent_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																		<img id="agent_media_img" src="#agent_media_uri#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
+																		<img id="agent_media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
 																	</a>
 																	<p id="agent_media_des" class="mt-2 small bg-light">#agent_alt#</p>
 																</div>
@@ -862,7 +862,7 @@ div.vslider-item[aria-hidden="true"]{
 																<div class="w-100 float-left px-3 h-auto">
 																	<a id="collecting_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#collecting_media_id#">Media Details</a>
 																	<a id="collecting_media_a" href="#collecting_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
-																		<img id="collecting_media_img" src="#collecting_media_uri#" class="mx-auto" alt="#collecting_alt#" height="100%" width="100%">
+																		<img id="collecting_media_img" src="/media/rescaleImage.cfm?media_id=#collecting_media_id##sizeType#" class="mx-auto" alt="#collecting_alt#" height="100%" width="100%">
 																	</a>
 																	<p id="collecting_media_des" class="mt-2 small bg-light">#collecting_alt#</p>
 																</div>
