@@ -1309,7 +1309,7 @@ function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a
 	currentCounter = counter;
 	currentCounter = currentCounter + 1;
 	if (currentCounter > imageMetadataArray.length) { 
-		currentCounter = imageMetadataArray.length;
+		currentCounter = 1;
 	}
 	console.log(currentCounter);
 	var currentImageMetadataRecord = imageMetadataArray[currentCounter];
