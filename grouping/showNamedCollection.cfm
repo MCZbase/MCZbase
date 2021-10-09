@@ -391,11 +391,10 @@ div.vslider-item[aria-hidden="true"]{
 		<cfset imageSetMetadata = "[]">
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
-			<cfset otherImageTypes = 0>
 			<cfset imageSetMetadata = "[">
 			<cfset comma = "">
 			<cfloop query="agentImagesForCarousel">
-				<cfset imagemageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#alt#"}'>
+				<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#alt#"}'>
 				<cfset comma = ",">
 			</cfloop>
 			<cfset imageSetMetadata = "#imageSetMetadata#]">
@@ -427,6 +426,22 @@ div.vslider-item[aria-hidden="true"]{
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
 		</cfquery>
+		<cfset imageSetMetadata = "[]">
+		<cfif collectingImagesForCarousel.recordcount GT 0>
+			<cfset otherImageTypes = otherImageTypes + 1>
+			<cfset imageSetMetadata = "[">
+			<cfset comma = "">
+			<cfloop query="collectingImagesForCarousel">
+				<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#alt#"}'>
+				<cfset comma = ",">
+			</cfloop>
+			<cfset imageSetMetadata = "#imageSetMetadata#]">
+		</cfif>
+		<script>
+			var collectingImageSetMetadata = JSON.parse('#imageSetMetadata#');
+			var currentCollectingImage = 1;
+		</script>
+
 		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 			SELECT distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
 			FROM locality
@@ -441,10 +456,6 @@ div.vslider-item[aria-hidden="true"]{
 				and lat_long.dec_lat is not null
 				and lat_long.accepted_lat_long_fg = 1
 		</cfquery>
-		
-		<cfif collectingImagesForCarousel.recordcount GT 0>
-			<cfset otherImageTypes = otherImageTypes + 1>
-		</cfif>
 
 		<main class="py-3" id="content">
 			<div class="row mx-0">
@@ -789,13 +800,13 @@ div.vslider-item[aria-hidden="true"]{
 													<script>
 														var lastAgentScrollTop = 0;
 														function goPreviousAgent() { 
-															currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetetadata, "agent_media_img", "agent_media_des", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+															currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_des", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
 														}
 														function goNextAgent() { 
-															currentAgentImage = goNextImage(currentAgentImage, agentImageSetetadata, "agent_media_img", "agent_media_des", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+															currentAgentImage = goNextImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_des", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
 														}
 														function goAgent() { 
-															currentAgentImage = goImage(currentAgentImage, targetAgentImage, agentImageSetetadata, "agent_media_img", "agent_media_des", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
+															currentAgentImage = goImage(currentAgentImage, targetAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_des", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
 														}
 														$(document).ready(function () {
 															$("##previous_agent_image").click(goPreviousAgent);
@@ -863,13 +874,13 @@ div.vslider-item[aria-hidden="true"]{
 													<script>
 														var lastCollectingScrollTop = 0;
 														function goPreviousCollecting() { 
-															currentCollectingImage = goPreviousImage(currentCollectingImage, collectingImageSetetadata, "collecting_media_img", "collecting_media_des", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
+															currentCollectingImage = goPreviousImage(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_des", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
 														}
 														function goNextCollecting() { 
-															currentCollectingImage = goNextImage(currentCollectingImage, collectingImageSetetadata, "collecting_media_img", "collecting_media_des", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
+															currentCollectingImage = goNextImage(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_des", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
 														}
 														function goCollecting() { 
-															currentCollectingImage = goImage(currentCollectingImage, targetCollectingImage, collectingImageSetetadata, "collecting_media_img", "collecting_media_des", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#");
+															currentCollectingImage = goImage(currentCollectingImage, targetCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_des", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#");
 														}
 														$(document).ready(function () {
 															$("##previous_collecting_image").click(goPreviousCollecting);
