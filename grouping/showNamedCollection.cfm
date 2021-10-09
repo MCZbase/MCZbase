@@ -357,7 +357,7 @@ div.vslider-item[aria-hidden="true"]{
 			<cfset imageSetMetadata = "[">
 			<cfset comma = "">
 			<cfloop query="specimenImagesForCarousel">
-				<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all");
+				<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 				<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#altEscaped#"}'>
 				<cfset comma = ",">
 			</cfloop>
@@ -395,7 +395,7 @@ div.vslider-item[aria-hidden="true"]{
 			<cfset imageSetMetadata = "[">
 			<cfset comma = "">
 			<cfloop query="agentImagesForCarousel">
-				<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all");
+				<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 				<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#altEscaped#"}'>
 				<cfset comma = ",">
 			</cfloop>
@@ -434,7 +434,7 @@ div.vslider-item[aria-hidden="true"]{
 			<cfset imageSetMetadata = "[">
 			<cfset comma = "">
 			<cfloop query="collectingImagesForCarousel">
-				<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all");
+				<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 				<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#altEscaped#"}'>
 				<cfset comma = ",">
 			</cfloop>
