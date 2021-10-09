@@ -792,7 +792,7 @@ div.vslider-item[aria-hidden="true"]{
 															</div>
 															<div class="custom-nav text-center small bg-white mb-1 pt-0 pb-1">
 																<button id="previous_agent_image" type="button" class="border-0 btn-outline-primary rounded"> << prev </button>
-																<input id="agent_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
+																<input id="agent_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
 																<button id="next_agent_image" type="button" class="border-0 btn-outline-primary rounded" > next &nbsp; >> </button>
 															</div>
 														</div>
@@ -866,7 +866,7 @@ div.vslider-item[aria-hidden="true"]{
 															</div>
 															<div class="custom-nav small text-center bg-white mb-1 pt-0 pb-1">
 																<button id="previous_collecting_image" type="button" class="border-0 btn-outline-primary rounded"> << prev </button>
-																<input id="collecting_image_number" type="number" id="custom-input2" class="custom-input data-entry-input d-inline border border-light" placeholder="index">
+																<input id="collecting_image_number" type="number" id="custom-input2" class="custom-input data-entry-input d-inline border border-light" value="1">
 																<button id="next_collecting_image" type="button" class="border-0 btn-outline-primary rounded"> next &nbsp; >> </button>
 															</div>
 														</div>
