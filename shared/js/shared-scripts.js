@@ -1290,13 +1290,26 @@ function getColHidProp(columnName, defaultValue) {
 	}
 }
 
+/** 
+ Switch a set of image controls to display the previous image in a set.
+ @param counter one based position within array of images represented by imageMetadataArray
+ @param imageMetadataArray an array of media medtadata objects containing media_id, media_uri, media_des
+ @param media_img id of the img element in the page into which the image is to be placed, not including # selector
+ @param media_des id of the element in the page containing the description of the image, not including # selector
+ @param detail_a id of the anchor tag in the page that is the link to a media details page, not including # selector
+ @param media_a id of the anchor tag in the page that is the link to the media object, not including # selector
+ @param image_counter id of the control showing the counter value, not including # selector
+ @param sizeparams specification for size of image in the form &height={y}&width={x}
+ @return the new value for counter.
+*/ 
 function goPreviousImage(counter, imageArray, media_img, media_des, detail_a, media_a, image_counter, sizeparams) { 
 	currentCounter = counter;
 	currentCounter = currentCounter - 1;
 	if (currentCounter < 1) { 
 		currentCounter = imageMetadataArray.length;
 	}
-	var currentImageMetadataRecord = imageMetadataArray[currentCounter];
+	// array is zero based, counter is one based (so display of zeroth element in array is 1 for first image)
+	var currentImageMetadataRecord = imageMetadataArray[currentCounter - 1];
 	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
 	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
 	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
@@ -1305,6 +1318,18 @@ function goPreviousImage(counter, imageArray, media_img, media_des, detail_a, me
 	$("#"+media_des).val(currentImageMetadataRecord.alt);
 	return currentCounter;
 }
+/** 
+ Switch a set of image controls to display the next image in a set.
+ @param counter one based position within array of images represented by imageMetadataArray
+ @param imageMetadataArray an array of media medtadata objects containing media_id, media_uri, media_des
+ @param media_img id of the img element in the page into which the image is to be placed, not including # selector
+ @param media_des id of the element in the page containing the description of the image, not including # selector
+ @param detail_a id of the anchor tag in the page that is the link to a media details page, not including # selector
+ @param media_a id of the anchor tag in the page that is the link to the media object, not including # selector
+ @param image_counter id of the control showing the counter value, not including # selector
+ @param sizeparams specification for size of image in the form &height={y}&width={x}
+ @return the new value for counter.
+*/ 
 function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter,sizeparams) { 
 	currentCounter = counter;
 	currentCounter = currentCounter + 1;
@@ -1312,7 +1337,8 @@ function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a
 		currentCounter = 1;
 	}
 	console.log(currentCounter);
-	var currentImageMetadataRecord = imageMetadataArray[currentCounter];
+	// array is zero based, counter is one based (so display of zeroth element in array is 1 for first image)
+	var currentImageMetadataRecord = imageMetadataArray[currentCounter - 1];
 	console.log(currentImageMetadataRecord);
 	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
 	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
@@ -1322,6 +1348,19 @@ function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a
 	$("#"+media_des).val(currentImageMetadataRecord.alt);
 	return currentCounter;
 }
+/** 
+ Switch a set of image controls to display a specified image in a set, if a valid position is specfied in the value
+ of image_counter, then that image is moved to, otherwise the image remains at the current counter value.
+ @param counter one based current position within array of images represented by imageMetadataArray
+ @param imageMetadataArray an array of media medtadata objects containing media_id, media_uri, media_des
+ @param media_img id of the img element in the page into which the image is to be placed, not including # selector
+ @param media_des id of the element in the page containing the description of the image, not including # selector
+ @param detail_a id of the anchor tag in the page that is the link to a media details page, not including # selector
+ @param media_a id of the anchor tag in the page that is the link to the media object, not including # selector
+ @param image_counter id of the control showing the counter value, not including # selector
+ @param sizeparams specification for size of image in the form &height={y}&width={x}
+ @return the new value for counter.
+*/ 
 function goImageByNumber(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter,sizeparams) { 
 	currentCounter = counter;
 	var targetCounterValue = currentCounter;
@@ -1336,7 +1375,8 @@ function goImageByNumber(counter, imageMetadataArray, media_img, media_des, deta
 		targetCounterValue = 1;
 	}
 	currentCounter = targetCounterValue;
-	var currentImageMetadataRecord = imageMetadataArray[currentCounter];
+	// array is zero based, counter is one based (so display of zeroth element in array is 1 for first image)
+	var currentImageMetadataRecord = imageMetadataArray[currentCounter - 1];
 	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
 	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
 	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
