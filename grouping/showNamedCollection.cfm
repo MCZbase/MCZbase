@@ -450,6 +450,7 @@ div.vslider-item[aria-hidden="true"]{
 			<div class="row mx-0">
 				<article class="col-12">
 					<section class="feature">
+						<!---  heading section with description of named group --->
 						<div class="row mx-0">
 							<div class="col-12 px-1 border-dark mt-4">
 								<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name#
@@ -470,95 +471,96 @@ div.vslider-item[aria-hidden="true"]{
 						</div>
 					</section>
 					<section class="spec-table row mx-0">
-					<!--- Grid Related code is in section above (fills into id = "jqxgrid" div) along with search handlers --->
-							<script type="text/javascript">
-								var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-									if (value > 1) {
-										return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
-									}
-									else {
-										return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
-									}
+						<!--- Specimen grid (code loads grid into id = "specimenjqxgrid" div) along with search handlers --->
+						<script type="text/javascript">
+							var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								if (value > 1) {
+									return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
 								}
-								$(document).ready(function () {
-									var source =
-									{
-										datatype: "json",
-										datafields:
-										[
-											{ name: 'guid', type: 'string' },
-											{ name: 'scientific_name', type: 'string' },
-											{ name: 'verbatim_date', type: 'string' },
-											{ name: 'higher_geog', type: 'string' },
-											{ name: 'spec_locality', type: 'string' },
-											{ name: 'othercatalognumbers', type: 'string' },
-											{ name: 'full_taxon_name', type: 'string' }
-										],
-										url: '/grouping/component/search.cfc?method=getSpecimensInGroup&smallerfieldlist=true&underscore_collection_id=#underscore_collection_id#',
-										timeout: 30000,  // units not specified, miliseconds? 
-										loadError: function(jqXHR, textStatus, error) { 
-											handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
-										}
-									};
-									var dataAdapter = new $.jqx.dataAdapter(source);
-									// initialize jqxGrid
-									$("##jqxgrid").jqxGrid(
-									{
-										width: '100%',
-										autoheight: 'true',
-										source: dataAdapter,
-										filterable: true,
-										showfilterrow: true,
-										sortable: true,
-										pageable: true,
-										editable: false,
-										pagesize: '5',
-										pagesizeoptions: ['5','10','15','20','50','100'],
-										columnsresize: false,
-										autoshowfiltericon: false,
-										autoshowcolumnsmenubutton: false,
-										altrows: true,
-										showtoolbar: false,
-										enabletooltips: true,
-										selectionmode: 'multiplecelladvanced',
-										pageable: true,
-										columns: [
-											{ text: 'GUID', datafield: 'guid', width:'180',cellsalign: 'left',cellsrenderer: cellsrenderer },
-											{ text: 'Scientific Name', datafield: 'scientific_name', width:'250' },
-											{ text: 'Date Collected', datafield: 'verbatim_date', width:'150'},
-											{ text: 'Higher Geography', datafield: 'higher_geog', width:'350'},
-											{ text: 'Locality', datafield: 'spec_locality',width:'350' },
-											{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'350' },
-											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
-										]
-									});
-										var now = new Date();
-										var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-										var filename = 'NamedGroup_results_' + nowstring + '.csv';
-										$('##btnContainer').html('<button id="namedgroupcsvbutton" class="btn-xs btn-secondary px-3 py-1 m-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'jqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
-										});
-							</script>
-							<div class="col-12 my-2">
-								<h2 class="float-left">Specimen Records 
-									<span class="small">
-										<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">#specimens.recordcount#</a>
-									</span>
-								</h2>
-								<div id="btnContainer" class="ml-3 float-left"></div>
-							</div>
-							<div class="container-fluid">
-								<div class="row">
-									<div class="col-12 px-1 mb-3">
-										<div class="row mt-0 mx-0"> 
-											<div id="jqxgrid"></div>
-										</div>
+								else {
+									return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
+								}
+							}
+							$(document).ready(function () {
+								var source =
+								{
+									datatype: "json",
+									datafields:
+									[
+										{ name: 'guid', type: 'string' },
+										{ name: 'scientific_name', type: 'string' },
+										{ name: 'verbatim_date', type: 'string' },
+										{ name: 'higher_geog', type: 'string' },
+										{ name: 'spec_locality', type: 'string' },
+										{ name: 'othercatalognumbers', type: 'string' },
+										{ name: 'full_taxon_name', type: 'string' }
+									],
+									url: '/grouping/component/search.cfc?method=getSpecimensInGroup&smallerfieldlist=true&underscore_collection_id=#underscore_collection_id#',
+									timeout: 30000,  // units not specified, miliseconds? 
+									loadError: function(jqXHR, textStatus, error) { 
+										handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
+									}
+								};
+								var dataAdapter = new $.jqx.dataAdapter(source);
+								// initialize jqxGrid
+								$("##specimenjqxgrid").jqxGrid(
+								{
+									width: '100%',
+									autoheight: 'true',
+									source: dataAdapter,
+									filterable: true,
+									showfilterrow: true,
+									sortable: true,
+									pageable: true,
+									editable: false,
+									pagesize: '5',
+									pagesizeoptions: ['5','10','15','20','50','100'],
+									columnsresize: false,
+									autoshowfiltericon: false,
+									autoshowcolumnsmenubutton: false,
+									altrows: true,
+									showtoolbar: false,
+									enabletooltips: true,
+									selectionmode: 'multiplecelladvanced',
+									pageable: true,
+									columns: [
+										{ text: 'GUID', datafield: 'guid', width:'180',cellsalign: 'left',cellsrenderer: cellsrenderer },
+										{ text: 'Scientific Name', datafield: 'scientific_name', width:'250' },
+										{ text: 'Date Collected', datafield: 'verbatim_date', width:'150'},
+										{ text: 'Higher Geography', datafield: 'higher_geog', width:'350'},
+										{ text: 'Locality', datafield: 'spec_locality',width:'350' },
+										{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'350' },
+										{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
+									]
+								});
+								var now = new Date();
+								var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+								var filename = 'NamedGroup_results_' + nowstring + '.csv';
+								$('##btnContainer').html('<button id="namedgroupcsvbutton" class="btn-xs btn-secondary px-3 py-1 m-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'specimenjqxgrid\', \''+filename+'\'); " >Export to CSV</button>');
+							});
+						</script>
+						<div class="col-12 my-2">
+							<h2 class="float-left">Specimen Records 
+								<span class="small">
+									<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">#specimens.recordcount#</a>
+								</span>
+							</h2>
+							<div id="btnContainer" class="ml-3 float-left"></div>
+						</div>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12 px-1 mb-3">
+									<div class="row mt-0 mx-0"> 
+										<div id="specimenjqxgrid"></div>
 									</div>
 								</div>
 							</div>
-					<!---end specimen grid---> 
+						</div>
+						<!---end specimen grid---> 
 					</section>
 					<div class="row mx-0">
 						<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0 OR points.recordcount gt 0>
+<!--- TODO: Cleanup indentation and nesting from here, move heatmap to outside this block, otherwise is only shown if there are images  --->
 						<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">	
 								<section class="imagesLeft">
 									<cfif specimenImagesForCarousel.recordcount gt 0>
@@ -771,7 +773,7 @@ div.vslider-item[aria-hidden="true"]{
 																<cfset i=1>
 																<div class="w-100 float-left px-3 h-auto">
 																	<a id="agent_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#agent_media_id#">Media Details</a>
-																	<a id="agent_media_a" href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																	<a id="agent_media_a" href="#agent_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="agent_media_img" src="#agent_media_uri#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
 																	</a>
 																	<p id="agent_media_des" class="mt-2 small bg-light">#agent_alt#</p>
@@ -845,7 +847,7 @@ div.vslider-item[aria-hidden="true"]{
 															<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 																<div class="w-100 float-left px-3 h-auto">
 																	<a id="collecting_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#collecting_media_id#">Media Details</a>
-																	<a id="collecting_media_a" href="#media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
+																	<a id="collecting_media_a" href="#collecting_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="collecting_media_img" src="#collecting_media_uri#" class="mx-auto" alt="#collecting_alt#" height="100%" width="100%">
 																	</a>
 																	<p id="collecting_media_des" class="mt-2 small bg-light">#collecting_alt#</p>
