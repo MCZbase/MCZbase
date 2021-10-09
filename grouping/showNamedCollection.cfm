@@ -592,13 +592,13 @@ div.vslider-item[aria-hidden="true"]{
 										<script>
 											var lastSpecimenScrollTop = 0;
 											function goPreviousSpecimen() { 
-												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											function goNextSpecimen() { 
-												currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+												currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											function goSpecimen() { 
-												currentSpecimenImage = goImage(currentSpecimenImage, targetSpecimenImage, specimenImageSetetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+												currentSpecimenImage = goImage(currentSpecimenImage, targetSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											$(document).ready(function () {
 												$("##previous_specimen_image").click(goPreviousSpecimen);
