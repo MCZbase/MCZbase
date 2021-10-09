@@ -1302,12 +1302,13 @@ function getColHidProp(columnName, defaultValue) {
  @param sizeparams specification for size of image in the form &height={y}&width={x}
  @return the new value for counter.
 */ 
-function goPreviousImage(counter, imageArray, media_img, media_des, detail_a, media_a, image_counter, sizeparams) { 
+function goPreviousImage(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter, sizeparams) { 
 	currentCounter = counter;
 	currentCounter = currentCounter - 1;
 	if (currentCounter < 1) { 
 		currentCounter = imageMetadataArray.length;
 	}
+	console.log(currentCounter);
 	// array is zero based, counter is one based (so display of zeroth element in array is 1 for first image)
 	var currentImageMetadataRecord = imageMetadataArray[currentCounter - 1];
 	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
