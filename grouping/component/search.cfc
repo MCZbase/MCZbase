@@ -340,7 +340,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 				<cfset comma = "">
 				<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 					<cfset colval = "#search[col][currentRow]#">
-					<cfset colval = replace(colval,'"','""',"all"):
+					<cfset colval = replace(colval,'"','""',"all")>
 					<cfset retval = '#retval##comma#"#colval#"'>
 					<cfset comma = ",">
 				</cfloop>
