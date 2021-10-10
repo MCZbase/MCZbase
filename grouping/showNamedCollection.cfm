@@ -502,7 +502,7 @@ div.vslider-item[aria-hidden="true"]{
 									timeout: 30000,  // units not specified, miliseconds? 
 									loadError: function(jqXHR, textStatus, error) { 
 										handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
-									}.
+									},
 									beforeprocessing: function (data) {
 										source.totalrecords = data[0].TotalRows;
 									},
