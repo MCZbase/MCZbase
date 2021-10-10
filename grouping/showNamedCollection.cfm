@@ -504,7 +504,7 @@ div.vslider-item[aria-hidden="true"]{
 										handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
 									},
 									beforeprocessing: function (data) {
-										source.totalrecords = data[0].TotalRows;
+										source.totalrecords = #specimens.recordcount#;
 									},
 									sort: function () {
 										$("##specimenjqxgrid").jqxGrid('updatebounddata');
