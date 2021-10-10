@@ -196,7 +196,12 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 <cffunction name="getSpecimensInGroup" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="smallerfieldlist" type="string" required="no">
+	<cfargument name="recordstartindex" type="number" required="no">
+	<cfargument name="recordendindex" type="number" required="no">
+	<cfargument name="pagesize" type="number" required="no">
+	<cfargument name="pagenum" type="number" required="no">
 
+	<cfif NOT isdefined(pagesize)><cfset pagesize=0></cfif>
 	<!--- 
 	fields in the showNamedGroup grid
 		{ name: 'guid', type: 'string' },
@@ -209,6 +214,9 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	--->
 	<cftry>
 		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+			<cfif pagesize GT 0 >
+				SELECT * FROM (
+			</cfif>
 			SELECT DISTINCT 
 				flat.guid, 
 				flat.scientific_name, 
@@ -228,12 +236,20 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					flat.phylum, flat.phylclass, flat.phylorder, flat.family,
 					underscore_relation.underscore_relation_id
 				</cfif>
+				<cfif pagesize GT 0 >
+					row_number() OVER (ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc) rownumber
+				</cfif>
 			FROM
 				underscore_relation 
 				INNER JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
+			<cfif pagesize GT 0 >
+				)
+				WHERE rownumber between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val="#recordstartindex#">
+					and <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val="#recordendindex#">
+			</cfif>
 		</cfquery>
 		<cfset i = 1>
 		<cfset data = ArrayNew(1)>
