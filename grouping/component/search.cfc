@@ -237,6 +237,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					underscore_relation.underscore_relation_id
 				</cfif>
 				<cfif pagesize GT 0 >
+					,
 					row_number() OVER (ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc) rownumber
 				</cfif>
 			FROM
