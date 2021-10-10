@@ -351,9 +351,10 @@ div.vslider-item[aria-hidden="true"]{
 			var specimenImageSetMetadata = JSON.parse('#imageSetMetadata#');
 			var currentSpecimenImage = 1;
 		</script>
-		<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
+		<cfquery name="agentImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result">
 			SELECT DISTINCT media.media_id, media.media_uri, 
-				MCZBASE.get_media_descriptor(media.media_id) as alt
+				MCZBASE.get_media_descriptor(media.media_id) as alt,
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -369,8 +370,11 @@ div.vslider-item[aria-hidden="true"]{
 				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 				AND media.auto_host = 'mczbase.mcz.harvard.edu'
 				AND flat.guid IS NOT NULL
-				AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 		</cfquery>
+		<cfquery name="agentImagesForCarousel" dbtype="query">
+			SELECT * 
+			FROM agentImagesForCarousel_raw 
+			WHERE encumb < 1
 		<cfset imageSetMetadata = "[]">
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
@@ -387,9 +391,10 @@ div.vslider-item[aria-hidden="true"]{
 			var agentImageSetMetadata = JSON.parse('#imageSetMetadata#');
 			var currentAgentImage = 1;
 		</script>
-		<cfquery name="collectingImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
+		<cfquery name="collectingImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">  
 			SELECT DISTINCT media_uri, media.media_id,
-				MCZBASE.get_media_descriptor(media.media_id) as alt
+				MCZBASE.get_media_descriptor(media.media_id) as alt,
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -398,15 +403,18 @@ div.vslider-item[aria-hidden="true"]{
 				left join collecting_event 
 					on flat.collecting_event_id = collecting_event.collecting_event_id 
 				left join media_relations 
-					on media_relations.collecting_event_id = collectinge_event.related_primary_key 
+					on collecting_event.collecting_event_id = media_relations.related_primary_key 
 				left join media on media_relations.media_id = media.media_id 
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				AND (media_relations.media_relationship = 'shows collecting_event' or media_relations.media_relationship = 'locality')
 				AND media.media_type = 'image'
 				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 				AND media.auto_host = 'mczbase.mcz.harvard.edu'
-				AND MCZBASE.is_media_encumbered(media.media_id) < 1
 		</cfquery>
+		<cfquery name="collectingImagesForCarousel" dbtype="query">
+			SELECT * 
+			FROM collectingImagesForCarousel_raw 
+			WHERE encumb < 1
 		<cfset imageSetMetadata = "[]">
 		<cfif collectingImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
