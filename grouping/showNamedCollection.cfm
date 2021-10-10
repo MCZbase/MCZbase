@@ -507,7 +507,7 @@ div.vslider-item[aria-hidden="true"]{
 										source.totalrecords = data[0].TotalRows;
 									},
 									sort: function () {
-										$("#jqxgrid").jqxGrid('updatebounddata');
+										$("##specimenjqxgrid").jqxGrid('updatebounddata');
 									}
 								};
 								var dataAdapter = new $.jqx.dataAdapter(source);
