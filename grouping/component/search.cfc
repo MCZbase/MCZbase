@@ -338,7 +338,8 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	   <cfabort>
 	</cfcatch>
 	</cftry>
-	<cfreturn #retval#>
+	<cfheader name="Content-Type" value="text/csv">
+<cfoutput>#retval#</cfoutput>
 </cffunction>
 
 </cfcomponent>
