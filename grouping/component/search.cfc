@@ -247,8 +247,8 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
 			<cfif pagesize GT 0 >
 				)
-				WHERE rownumber between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val="#recordstartindex#">
-					and <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val="#recordendindex#">
+				WHERE rownumber between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recordstartindex#">
+					and <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recordendindex#">
 			</cfif>
 		</cfquery>
 		<cfset i = 1>
