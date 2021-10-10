@@ -196,10 +196,10 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 <cffunction name="getSpecimensInGroup" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="smallerfieldlist" type="string" required="no">
-	<cfargument name="recordstartindex" type="number" required="no">
-	<cfargument name="recordendindex" type="number" required="no">
-	<cfargument name="pagesize" type="number" required="no">
-	<cfargument name="pagenum" type="number" required="no">
+	<cfargument name="recordstartindex" type="string" required="no">
+	<cfargument name="recordendindex" type="string" required="no">
+	<cfargument name="pagesize" type="string" required="no">
+	<cfargument name="pagenum" type="string" required="no">
 
 	<cfif NOT isdefined(pagesize)><cfset pagesize=0></cfif>
 	<!--- 
