@@ -502,6 +502,12 @@ div.vslider-item[aria-hidden="true"]{
 									timeout: 30000,  // units not specified, miliseconds? 
 									loadError: function(jqXHR, textStatus, error) { 
 										handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
+									}.
+									beforeprocessing: function (data) {
+										source.totalrecords = data[0].TotalRows;
+									},
+									sort: function () {
+										$("#jqxgrid").jqxGrid('updatebounddata');
 									}
 								};
 								var dataAdapter = new $.jqx.dataAdapter(source);
@@ -515,6 +521,7 @@ div.vslider-item[aria-hidden="true"]{
 									showfilterrow: true,
 									sortable: true,
 									pageable: true,
+									virtualmode: true,
 									editable: false,
 									pagesize: '5',
 									pagesizeoptions: ['5','10','15','20','50','100'],
@@ -534,7 +541,10 @@ div.vslider-item[aria-hidden="true"]{
 										{ text: 'Locality', datafield: 'spec_locality',width:'350' },
 										{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'350' },
 										{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
-									]
+									],
+									rendergridrows: function () {
+										return dataAdapter.records;
+									}
 								});
 								var now = new Date();
 								var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
