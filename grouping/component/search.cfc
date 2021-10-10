@@ -313,7 +313,6 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 				INNER JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-			ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
 		</cfquery>
 		<cfset retval = "">
 		<cfset comma = "">
