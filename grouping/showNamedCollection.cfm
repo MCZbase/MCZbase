@@ -316,8 +316,8 @@ div.vslider-item[aria-hidden="true"]{
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				left join cataloged_item
-					on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+					on underscore_relation.collection_object_id = flat.collection_object_id
 				left join media_relations
 					on media_relations.related_primary_key = underscore_relation.collection_object_id
 				left join media on media_relations.media_id = media.media_id
@@ -325,6 +325,8 @@ div.vslider-item[aria-hidden="true"]{
 				AND media_relations.media_relationship = 'shows cataloged_item'
 				AND media.media_type = 'image'
 				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+				AND flat.guid is not null
+				AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 		</cfquery>
 		<cfif specimenImgs.recordcount GT 0>
 			<cfset otherimagetypes = 0>
@@ -338,8 +340,8 @@ div.vslider-item[aria-hidden="true"]{
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-					left join cataloged_item
-						on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+						on underscore_relation.collection_object_id = flat.collection_object_id
 					left join media_relations
 						on media_relations.related_primary_key = underscore_relation.collection_object_id
 					left join media on media_relations.media_id = media.media_id							
@@ -347,6 +349,8 @@ div.vslider-item[aria-hidden="true"]{
 					AND media_relations.media_relationship = 'shows cataloged_item'
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+					AND flat.guid is not null
+					AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 				ORDER BY DBMS_RANDOM.RANDOM
 				) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomSpecimenImages#">
@@ -374,8 +378,8 @@ div.vslider-item[aria-hidden="true"]{
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-					left join cataloged_item 
-						on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+						on underscore_relation.collection_object_id = flat.collection_object_id
 					left join collector on underscore_relation.collection_object_id = collector.collection_object_id
 					left join media_relations on collector.agent_id = media_relations.related_primary_key
 					left join media on media_relations.media_id = media.media_id
@@ -385,6 +389,8 @@ div.vslider-item[aria-hidden="true"]{
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 					AND media.auto_host = 'mczbase.mcz.harvard.edu'
+					AND flat.guid IS NOT NULL
+					AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 				ORDER BY DBMS_RANDOM.RANDOM
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
@@ -412,10 +418,10 @@ div.vslider-item[aria-hidden="true"]{
 				FROM
 					underscore_collection
 					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-					left join cataloged_item 
-						on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+						on underscore_relation.collection_object_id = flat.collection_object_id
 					left join collecting_event 
-						on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
+						on collecting_event.collecting_event_id = flat.collecting_event_id 
 					left join media_relations 
 						on collecting_event.collecting_event_id = media_relations.related_primary_key 
 					left join media on media_relations.media_id = media.media_id 
@@ -424,6 +430,8 @@ div.vslider-item[aria-hidden="true"]{
 					AND media.media_type = 'image'
 					AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 					AND media.auto_host = 'mczbase.mcz.harvard.edu'
+					AND flat.guid IS NOT NULL
+					AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 				ORDER BY DBMS_RANDOM.RANDOM
 			) 
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxRandomOtherImages#">
