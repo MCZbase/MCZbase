@@ -311,10 +311,11 @@ div.vslider-item[aria-hidden="true"]{
 			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxSpecimens#">
 		</cfquery>
 		<cfset otherimagetypes = 0>
-		<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
+		<cfquery name="specimenImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result">
 			SELECT distinct media.media_id, 
 				media.media_uri, 
-				MCZBASE.get_media_descriptor(media.media_id) as alt
+				MCZBASE.get_media_descriptor(media.media_id) as alt,
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -328,7 +329,11 @@ div.vslider-item[aria-hidden="true"]{
 				AND media.media_type = 'image'
 				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 				AND flat.guid is not null
-				AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+		</cfquery>
+		<cfquery name="specimenImagesForCarousel">
+			SELECT * 
+			FROM specimenImagesForCarousel_raw 
+			WHERE encumb < 1
 		</cfquery>
 		<cfset imageSetMetadata = "[]">
 		<cfif specimenImagesForCarousel.recordcount GT 0>
