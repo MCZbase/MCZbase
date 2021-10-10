@@ -276,7 +276,6 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="smallerfieldlist" type="string" required="no">
 
-	<cfif NOT isdefined("pagesize")><cfset pagesize=0></cfif>
 	<!--- 
 	fields in the showNamedGroup grid
 		{ name: 'guid', type: 'string' },
@@ -290,9 +289,6 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfset retval = "">
 	<cftry>
 		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-			<cfif pagesize GT 0 >
-				SELECT * FROM (
-			</cfif>
 			SELECT DISTINCT 
 				flat.guid, 
 				flat.scientific_name, 
@@ -312,41 +308,30 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					flat.phylum, flat.phylclass, flat.phylorder, flat.family,
 					underscore_relation.underscore_relation_id
 				</cfif>
-				<cfif pagesize GT 0 >
-					,
-					row_number() OVER (ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc) rownumber
-				</cfif>
 			FROM
 				underscore_relation 
 				INNER JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
-			<cfif pagesize GT 0 >
-				)
-				WHERE rownumber between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recordstartindex#">
-					and <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recordendindex#">
-			</cfif>
 		</cfquery>
-		<cfif isdefined("deliver_as") AND deliver_as IS 'csv'>
-			<cfset retval = "">
+		<cfset retval = "">
+		<cfset comma = "">
+		<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+			<cfset retval = '#retval##comma#"#col#"'>
+			<cfset comma = ",">
+		</cfloop>
+		<cfset retval = '#retval#\n'>
+		<cfloop query="search">
 			<cfset comma = "">
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-				<cfset retval = '#retval##comma#"#col#"'>
+				<cfset colval = "#search[col][currentRow]#">
+				<cfset colval = replace(colval,'"','""',"all")>
+				<cfset retval = '#retval##comma#"#colval#"'>
 				<cfset comma = ",">
 			</cfloop>
 			<cfset retval = '#retval#\n'>
-			<cfloop query="search">
-				<cfset comma = "">
-				<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-					<cfset colval = "#search[col][currentRow]#">
-					<cfset colval = replace(colval,'"','""',"all")>
-					<cfset retval = '#retval##comma#"#colval#"'>
-					<cfset comma = ",">
-				</cfloop>
-				<cfset retval = '#retval#\n'>
-			</cfloop>
-		</cfif>
+		</cfloop>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
