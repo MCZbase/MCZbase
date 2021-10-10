@@ -201,7 +201,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfargument name="pagesize" type="string" required="no">
 	<cfargument name="pagenum" type="string" required="no">
 
-	<cfif NOT isdefined(pagesize)><cfset pagesize=0></cfif>
+	<cfif NOT isdefined("pagesize")><cfset pagesize=0></cfif>
 	<!--- 
 	fields in the showNamedGroup grid
 		{ name: 'guid', type: 'string' },
