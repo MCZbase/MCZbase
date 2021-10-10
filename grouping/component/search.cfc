@@ -320,7 +320,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			<cfset retval = '#retval##comma#"#col#"'>
 			<cfset comma = ",">
 		</cfloop>
-		<cfset retval = '#retval#\n'>
+		<cfset retval = '#retval##chr(10)#'>
 		<cfloop query="search">
 			<cfset comma = "">
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
@@ -329,7 +329,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 				<cfset retval = '#retval##comma#"#colval#"'>
 				<cfset comma = ",">
 			</cfloop>
-			<cfset retval = '#retval#\n'>
+			<cfset retval = '#retval##chr(10)#'>
 		</cfloop>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
