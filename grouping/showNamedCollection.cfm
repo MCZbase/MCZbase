@@ -330,7 +330,7 @@ div.vslider-item[aria-hidden="true"]{
 				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 				AND flat.guid is not null
 		</cfquery>
-		<cfquery name="specimenImagesForCarousel">
+		<cfquery name="specimenImagesForCarousel" dbtype="query">
 			SELECT * 
 			FROM specimenImagesForCarousel_raw 
 			WHERE encumb < 1
