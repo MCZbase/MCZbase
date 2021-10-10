@@ -208,7 +208,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 		{ name: 'full_taxon_name', type: 'string' }
 	--->
 	<cftry>
-		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" >
+		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 			SELECT DISTINCT 
 				flat.guid, 
 				flat.scientific_name, 
