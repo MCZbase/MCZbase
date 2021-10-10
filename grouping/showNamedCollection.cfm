@@ -375,6 +375,7 @@ div.vslider-item[aria-hidden="true"]{
 			SELECT * 
 			FROM agentImagesForCarousel_raw 
 			WHERE encumb < 1
+		</cfquery>
 		<cfset imageSetMetadata = "[]">
 		<cfif agentImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
@@ -415,6 +416,7 @@ div.vslider-item[aria-hidden="true"]{
 			SELECT * 
 			FROM collectingImagesForCarousel_raw 
 			WHERE encumb < 1
+		</cfquery>
 		<cfset imageSetMetadata = "[]">
 		<cfif collectingImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = otherImageTypes + 1>
