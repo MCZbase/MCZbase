@@ -575,14 +575,16 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
-/** given a query, return a serialization of that query as csv, with a header line.
+<!--- 
+ ** given a query, return a serialization of that query as csv, with a header line.
  * @param queryToConvert the query to serialize as csv 
  * @return a string containing a csv serialization of the provided query 
- **/
+ **
+--->
 <cffunction name="queryToCSV" returntype="string" output="false" access="public">
 	<cfargument name="queryToConvert" type="query" required="true">
 		
-	<cfset columnNames = listToArray(lCase(arguments.query.columnlist)) >
+	<cfset columnNames = listToArray(lCase(queryToConvert.columnlist)) >
 	<cfset columnCount = ArrayLen(columnNames) >
 
 	<cfset newLine =(chr(13) & chr(10)) >
