@@ -540,7 +540,7 @@ div.vslider-item[aria-hidden="true"]{
 										{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
 										{ text: 'Locality', datafield: 'spec_locality',width:'350', filtertype: 'input' },
 										{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'250', filtertype: 'input' },
-										{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350', filtertype; 'input' }
+										{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350', filtertype: 'input' }
 									],
 									rendergridrows: function () {
 										return dataAdapter.records;
