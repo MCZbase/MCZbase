@@ -508,6 +508,9 @@ div.vslider-item[aria-hidden="true"]{
 									},
 									sort: function () {
 										$("##specimenjqxgrid").jqxGrid('updatebounddata');
+									},
+									filter: function () {
+										$("##specimenjqxgrid").jqxGrid('updatebounddata');
 									}
 								};
 								var dataAdapter = new $.jqx.dataAdapter(source);
