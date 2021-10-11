@@ -271,11 +271,133 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				<cfif isdefined("filterscount") AND filterscount GT 0>
 					<cfloop index="i" from='0' to='#filterscount#'>
-						<cfif isdefined("filterdatafield"&i) AND isdefined("filtervalue"&i)>
+						<cfif isdefined("filterdatafield"&i) AND (isdefined("filtervalue"&i) OR isdefined("filtercondition"&i))>
 							<cfif evaluate("filterdatafield"&i) EQ "scientific_name">
-								AND scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND scientific_name IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND scientific_name IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
 							<cfelseif evaluate("filterdatafield"&i) EQ "verbatim_date">
-								AND verbatim_date like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND verbatim_date IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND verbatim_date IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(verbatim_date) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND verbatim_date like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(verbatim_date) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
+							<cfelseif evaluate("filterdatafield"&i) EQ "guid">
+								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND guid IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND guid IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(guid) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(guid) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
+							<cfelseif evaluate("filterdatafield"&i) EQ "spec_locality">
+								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND spec_locality IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND spec_locality IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(spec_locality) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(spec_locality) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
+							<cfelseif evaluate("filterdatafield"&i) EQ "higher_geog">
+								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND higher_geog IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND higher_geog IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(higher_geog) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(higher_geog) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
+							<cfelseif evaluate("filterdatafield"&i) EQ "othercatalognumbers">
+								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND othercatalognumbers IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND othercatalognumbers IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(othercatalognumbers) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND othercatalognumbers like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(othercatalognumbers) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
+							<cfelseif evaluate("filterdatafield"&i) EQ "full_taxon_name">
+								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND full_taxon_name IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND full_taxon_name IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(full_taxon_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND full_taxon_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(full_taxon_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
 							</cfif>
 						</cfif>
 					</cfloop>
