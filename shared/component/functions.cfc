@@ -602,10 +602,11 @@ limitations under the License.
 	<cfloop query="queryToConvert">
 		<cfset row=[]>
 		<cfloop index="k" from="1" to="#columnCount#" step="1">
-			<cfset row[k] = replace(queryToConvert[columnNames[k]][i],'"','""','all') >
+			<cfset row[k] = '"' & replace(queryToConvert[columnNames[k]][i],'"','""','all') & '"' >
 		</cfloop>
 		<cfset outputBuffer.append( JavaCast('string',(ArrayToList(row,",")))) >
 		<cfset outputBuffer.append(newLine) >
+		<cfset j=j+1>
 	</cfloop>
 	<cfreturn outputBuffer.toString() >
 </cffunction>
