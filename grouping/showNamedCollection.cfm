@@ -605,6 +605,7 @@ div.vslider-item[aria-hidden="true"]{
 										<script>
 											var lastSpecimenScrollTop = 0;
 											function goPreviousSpecimen() { 
+												$('##specimen_media_img').prop('src','/shared/images/indicator_for_load.gif');
 												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											function goNextSpecimen() { 
