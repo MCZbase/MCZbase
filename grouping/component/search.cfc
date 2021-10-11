@@ -202,6 +202,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfargument name="pagenum" type="string" required="no">
 	<cfargument name="sortdatafield" type="string" required="no">
 	<cfargument name="sortorder" type="string" required="no">
+	<cfargument name="filterscount" type="string" required="no">
 
 	<cfif NOT isdefined("pagesize")><cfset pagesize=0></cfif>
 	<cfif NOT isdefined("sortdatafield")><cfset sortdatafield=""></cfif>
@@ -268,6 +269,15 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 				INNER JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				<cfif isdefined("filterscount") AND filterscount GT 0>
+					<cfloop index="i" from='0' to='#filterscount#'>
+						<cfif evaluate("filterdatafield"&i) EQ "scientific_name">
+							AND scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtercondition'&i)#%">
+						<cfelseif evaluate("filterdatafield"&i) EQ "verbatim_date">
+							AND verbatim_date like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtercondition'&i)#%">
+						</cfif>
+					</cfloop>
+				</cfif>
 			<cfif lcase(sortdatafield) EQ "guid">
 				ORDER BY flat.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
 					to_number(regexp_substr(flat.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
