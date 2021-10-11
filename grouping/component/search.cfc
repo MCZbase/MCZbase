@@ -271,10 +271,12 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				<cfif isdefined("filterscount") AND filterscount GT 0>
 					<cfloop index="i" from='0' to='#filterscount#'>
-						<cfif evaluate("filterdatafield"&i) EQ "scientific_name">
-							AND scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtercondition'&i)#%">
-						<cfelseif evaluate("filterdatafield"&i) EQ "verbatim_date">
-							AND verbatim_date like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtercondition'&i)#%">
+						<cfif isdefined("filterdatafield"&i) AND isdefined("filtervalue"&i)>
+							<cfif evaluate("filterdatafield"&i) EQ "scientific_name">
+								AND scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+							<cfelseif evaluate("filterdatafield"&i) EQ "verbatim_date">
+								AND verbatim_date like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+							</cfif>
 						</cfif>
 					</cfloop>
 				</cfif>
