@@ -200,8 +200,12 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfargument name="recordendindex" type="string" required="no">
 	<cfargument name="pagesize" type="string" required="no">
 	<cfargument name="pagenum" type="string" required="no">
+	<cfargument name="sortdatafield" type="string" required="no">
+	<cfargument name="sortorder" type="string" required="no">
 
 	<cfif NOT isdefined("pagesize")><cfset pagesize=0></cfif>
+	<cfif NOT isdefined("sortdatafield")><cfset sortdatafield=""></cfif>
+	<cfif NOT isdefined("sortorder")><cfset sortorder="asc"></cfif>
 	<!--- 
 	fields in the showNamedGroup grid
 		{ name: 'guid', type: 'string' },
@@ -233,8 +237,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					mczbase.get_pretty_date(flat.verbatim_date,flat.began_date,flat.ended_date,1,0) as date_collected,
 					flat.country, flat.state_prov, flat.continent_ocean, flat.county,
 					flat.island, flat.island_group,
-					flat.phylum, flat.phylclass, flat.phylorder, flat.family,
-					underscore_relation.underscore_relation_id
+					flat.phylum, flat.phylclass, flat.phylorder, flat.family
 				</cfif>
 				<cfif pagesize GT 0 >
 					,
@@ -245,7 +248,25 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 				INNER JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-			ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
+			<cfif lcase(sortdatafield) EQ "guid">
+				ORDER BY flat.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+					to_number(regexp_substr(flat.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+					flat.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfif lcase(sortdatafield) EQ "scientific_name">
+				ORDER BY scientific_name <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfif lcase(sortdatafield) EQ "verbatim_date">
+				ORDER BY verbatim_date <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfif lcase(sortdatafield) EQ "higher_geog">
+				ORDER BY higher_geog <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfif lcase(sortdatafield) EQ "spec_locality">
+				ORDER BY spec_locality <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfif lcase(sortdatafield) EQ "othercatalognumbers">
+				ORDER BY othercatalognumbers <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfif lcase(sortdatafield) EQ "full_taxon_name">
+				ORDER BY full_taxon_name <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfelse>
+				ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
+			</cfif>
 			<cfif pagesize GT 0 >
 				)
 				WHERE rownumber between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recordstartindex#">
