@@ -273,7 +273,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					<cfloop index="i" from='0' to='#filterscount#'>
 						<cfif isdefined("filterdatafield"&i) AND (isdefined("filtervalue"&i) OR isdefined("filtercondition"&i))>
 							<cfif evaluate("filterdatafield"&i) EQ "scientific_name">
-								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
 									<cfcase value="empty">
 										AND scientific_name IS NULL
 									</cfcase>
@@ -291,7 +291,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 									</cfcase>
 								</cfswitch>
 							<cfelseif evaluate("filterdatafield"&i) EQ "verbatim_date">
-								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
 									<cfcase value="empty">
 										AND verbatim_date IS NULL
 									</cfcase>
@@ -309,7 +309,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 									</cfcase>
 								</cfswitch>
 							<cfelseif evaluate("filterdatafield"&i) EQ "guid">
-								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
 									<cfcase value="empty">
 										AND guid IS NULL
 									</cfcase>
@@ -327,7 +327,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 									</cfcase>
 								</cfswitch>
 							<cfelseif evaluate("filterdatafield"&i) EQ "spec_locality">
-								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
 									<cfcase value="empty">
 										AND spec_locality IS NULL
 									</cfcase>
@@ -345,7 +345,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 									</cfcase>
 								</cfswitch>
 							<cfelseif evaluate("filterdatafield"&i) EQ "higher_geog">
-								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
 									<cfcase value="empty">
 										AND higher_geog IS NULL
 									</cfcase>
@@ -363,7 +363,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 									</cfcase>
 								</cfswitch>
 							<cfelseif evaluate("filterdatafield"&i) EQ "othercatalognumbers">
-								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
 									<cfcase value="empty">
 										AND othercatalognumbers IS NULL
 									</cfcase>
@@ -381,7 +381,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 									</cfcase>
 								</cfswitch>
 							<cfelseif evaluate("filterdatafield"&i) EQ "full_taxon_name">
-								<cfswitch experssion="#lcase(evaluate('filtercondition'&i))#">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
 									<cfcase value="empty">
 										AND full_taxon_name IS NULL
 									</cfcase>
