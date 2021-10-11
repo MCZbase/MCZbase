@@ -534,13 +534,13 @@ div.vslider-item[aria-hidden="true"]{
 									selectionmode: 'multiplecelladvanced',
 									pageable: true,
 									columns: [
-										{ text: 'GUID', datafield: 'guid', width:'180',cellsalign: 'left',cellsrenderer: cellsrenderer },
-										{ text: 'Scientific Name', datafield: 'scientific_name', width:'250' },
-										{ text: 'Date Collected', datafield: 'verbatim_date', width:'150'},
-										{ text: 'Higher Geography', datafield: 'higher_geog', width:'350'},
-										{ text: 'Locality', datafield: 'spec_locality',width:'350' },
-										{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'350' },
-										{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
+										{ text: 'GUID', datafield: 'guid', width:'180', filtertype: 'input', cellsalign: 'left',cellsrenderer: cellsrenderer },
+										{ text: 'Scientific Name', datafield: 'scientific_name', width:'250', filtertype: 'input' },
+										{ text: 'Date Collected', datafield: 'verbatim_date', width:'150', filtertype: 'input' },
+										{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
+										{ text: 'Locality', datafield: 'spec_locality',width:'350', filtertype: 'input' },
+										{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'250', filtertype: 'input' },
+										{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350', filtertype; 'input' }
 									],
 									rendergridrows: function () {
 										return dataAdapter.records;
