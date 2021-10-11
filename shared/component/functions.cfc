@@ -596,7 +596,7 @@ limitations under the License.
 	<cfset outputBuffer.Append(JavaCast("string",( ArrayToList(header,",") & newLine)))>
 
 	<!--- loop through query and append rows to buffer --->
-	<cfset j = 0;>
+	<cfset j=0>
 	<cfloop query="queryToConvert">
 		<cfset row=[]>
 		<cfloop index="k" from="1" to="#columnCount#" step="1">
