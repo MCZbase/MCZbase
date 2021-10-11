@@ -433,6 +433,9 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+				<cfif i EQ 1>
+					<cfset row["recordcount"] = "#search.recordcount#">
+				</cfif>
 			</cfloop>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>

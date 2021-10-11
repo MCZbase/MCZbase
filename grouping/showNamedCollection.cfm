@@ -505,6 +505,9 @@ div.vslider-item[aria-hidden="true"]{
 									},
 									beforeprocessing: function (data) {
 										source.totalrecords = #specimens.recordcount#;
+										if (data != null && data.length > 0) {
+											source.totalrecords = data[0].recordcount;
+										}
 									},
 									sort: function () {
 										$("##specimenjqxgrid").jqxGrid('updatebounddata','sort');
