@@ -1307,7 +1307,7 @@ function goPreviousImage(counter, imageMetadataArray, media_img, media_des, deta
 	var timeout = 300;
 	var start = new Date().getTime();
 	while(true) {
-  		if($('#'+media_img).complete new Date().getTime()-start>timeOut) {
+  		if($('#'+media_img).complete || new Date().getTime()-start>timeout) {
     		break;
 		}
 	}
@@ -1344,7 +1344,7 @@ function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a
 	var timeout = 300;
 	var start = new Date().getTime();
 	while(true) {
-  		if($('#'+media_img).complete new Date().getTime()-start>timeOut) {
+  		if($('#'+media_img).complete || new Date().getTime()-start>timeout) {
     		break;
 		}
 	}
@@ -1383,7 +1383,7 @@ function goImageByNumber(counter, imageMetadataArray, media_img, media_des, deta
 	var timeout = 300;
 	var start = new Date().getTime();
 	while(true) {
-  		if($('#'+media_img).complete new Date().getTime()-start>timeOut) {
+  		if($('#'+media_img).complete || new Date().getTime()-start>timeout) {
     		break;
 		}
 	}
