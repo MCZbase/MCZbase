@@ -1304,6 +1304,13 @@ function getColHidProp(columnName, defaultValue) {
 */ 
 function goPreviousImage(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter, sizeparams) { 
 	$('#'+media_img).attr('src','/shared/images/indicator_for_load.gif');
+	var timeout = 300;
+	var start = new Date().getTime();
+	while(true) {
+  		if($('#'+media_img).complete new Date().getTime()-start>timeOut) {
+    		break;
+		}
+	}
 	currentCounter = counter;
 	currentCounter = currentCounter - 1;
 	if (currentCounter < 1) { 
@@ -1334,6 +1341,13 @@ function goPreviousImage(counter, imageMetadataArray, media_img, media_des, deta
 */ 
 function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter,sizeparams) { 
 	$('#'+media_img).attr('src','/shared/images/indicator_for_load.gif');
+	var timeout = 300;
+	var start = new Date().getTime();
+	while(true) {
+  		if($('#'+media_img).complete new Date().getTime()-start>timeOut) {
+    		break;
+		}
+	}
 	currentCounter = counter;
 	currentCounter = currentCounter + 1;
 	if (currentCounter > imageMetadataArray.length) { 
@@ -1366,6 +1380,13 @@ function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a
 */ 
 function goImageByNumber(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter,sizeparams) { 
 	$('#'+media_img).attr('src','/shared/images/indicator_for_load.gif');
+	var timeout = 300;
+	var start = new Date().getTime();
+	while(true) {
+  		if($('#'+media_img).complete new Date().getTime()-start>timeOut) {
+    		break;
+		}
+	}
 	currentCounter = counter;
 	var targetCounterValue = currentCounter;
 	var inputval = $("#"+image_counter).val();
