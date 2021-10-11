@@ -593,7 +593,7 @@ limitations under the License.
 	<!--- header line --->
 	<cfset header=[]>
 	<cfloop index="i" from="1" to="#columnCount#" step="1">
-		<cfset header[i] = """#columnNames[i]#""" >
+		<cfset header[i] = """#ucase(columnNames[i])#""" >
 	</cfloop>
 	<cfset outputBuffer.Append(JavaCast("string",( ArrayToList(header,",") & newLine)))>
 
