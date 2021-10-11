@@ -507,10 +507,10 @@ div.vslider-item[aria-hidden="true"]{
 										source.totalrecords = #specimens.recordcount#;
 									},
 									sort: function () {
-										$("##specimenjqxgrid").jqxGrid('updatebounddata');
+										$("##specimenjqxgrid").jqxGrid('updatebounddata','sort');
 									},
 									filter: function () {
-										$("##specimenjqxgrid").jqxGrid('updatebounddata');
+										$("##specimenjqxgrid").jqxGrid('updatebounddata','filter');
 									}
 								};
 								var dataAdapter = new $.jqx.dataAdapter(source);
@@ -545,8 +545,8 @@ div.vslider-item[aria-hidden="true"]{
 										{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'250', filtertype: 'input' },
 										{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350', filtertype: 'input' }
 									],
-									rendergridrows: function () {
-										return dataAdapter.records;
+									rendergridrows: function (obj) {
+										return obj.data;
 									}
 								});
 								var now = new Date();
