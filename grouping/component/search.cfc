@@ -252,17 +252,17 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 				ORDER BY flat.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
 					to_number(regexp_substr(flat.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
 					flat.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
-			<cfif lcase(sortdatafield) EQ "scientific_name">
+			<cfelseif lcase(sortdatafield) EQ "scientific_name">
 				ORDER BY scientific_name <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
-			<cfif lcase(sortdatafield) EQ "verbatim_date">
+			<cfelseif lcase(sortdatafield) EQ "verbatim_date">
 				ORDER BY verbatim_date <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
-			<cfif lcase(sortdatafield) EQ "higher_geog">
+			<cfelseif lcase(sortdatafield) EQ "higher_geog">
 				ORDER BY higher_geog <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
-			<cfif lcase(sortdatafield) EQ "spec_locality">
+			<cfelseif lcase(sortdatafield) EQ "spec_locality">
 				ORDER BY spec_locality <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
-			<cfif lcase(sortdatafield) EQ "othercatalognumbers">
+			<cfelseif lcase(sortdatafield) EQ "othercatalognumbers">
 				ORDER BY othercatalognumbers <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
-			<cfif lcase(sortdatafield) EQ "full_taxon_name">
+			<cfelseif lcase(sortdatafield) EQ "full_taxon_name">
 				ORDER BY full_taxon_name <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 			<cfelse>
 				ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
