@@ -1303,6 +1303,7 @@ function getColHidProp(columnName, defaultValue) {
  @return the new value for counter.
 */ 
 function goPreviousImage(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter, sizeparams) { 
+	$('#'+media_img).attr('src','/shared/images/indicator_for_load.gif');
 	currentCounter = counter;
 	currentCounter = currentCounter - 1;
 	if (currentCounter < 1) { 
@@ -1332,6 +1333,7 @@ function goPreviousImage(counter, imageMetadataArray, media_img, media_des, deta
  @return the new value for counter.
 */ 
 function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter,sizeparams) { 
+	$('#'+media_img).attr('src','/shared/images/indicator_for_load.gif');
 	currentCounter = counter;
 	currentCounter = currentCounter + 1;
 	if (currentCounter > imageMetadataArray.length) { 
@@ -1363,6 +1365,7 @@ function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a
  @return the new value for counter.
 */ 
 function goImageByNumber(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter,sizeparams) { 
+	$('#'+media_img).attr('src','/shared/images/indicator_for_load.gif');
 	currentCounter = counter;
 	var targetCounterValue = currentCounter;
 	var inputval = $("#"+image_counter).val();
