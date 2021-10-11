@@ -18,7 +18,6 @@ limitations under the License.
 --->
 <cfcomponent>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true">
-<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---   Function getCollections  --->
 <cffunction name="getCollections" access="remote" returntype="any" returnformat="json">
