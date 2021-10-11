@@ -314,23 +314,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					on underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 		</cfquery>
-		<cfset retval = "">
-		<cfset comma = "">
-		<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-			<cfset retval = '#retval##comma#"#col#"'>
-			<cfset comma = ",">
-		</cfloop>
-		<cfset retval = '#retval##chr(10)#'>
-		<cfloop query="search">
-			<cfset comma = "">
-			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
-				<cfset colval = "#search[col][currentRow]#">
-				<cfset colval = replace(colval,'"','""',"all")>
-				<cfset retval = '#retval##comma#"#colval#"'>
-				<cfset comma = ",">
-			</cfloop>
-			<cfset retval = '#retval##chr(10)#'>
-		</cfloop>
+		<cfset retval = queryToCSV(search)>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">

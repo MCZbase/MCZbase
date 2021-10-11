@@ -575,4 +575,37 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
+/** given a query, return a serialization of that query as csv, with a header line.
+ * @param queryToConvert the query to serialize as csv 
+ * @return a string containing a csv serialization of the provided query 
+ **/
+<cffunction name="queryToCSV" returntype="string" output="false" access="public">
+	<cfargument name="queryToConvert" type="query" required="true">
+		
+	<cfset columnNames = listToArray(lCase(arguments.query.columnlist)) >
+	<cfset columnCount = ArrayLen(columnNames) >
+
+	<cfset newLine =(chr(13) & chr(10)) >
+	<cfset outputbuffer = CreateObject('java','java.lang.StringBuffer').Init() >
+
+	<!--- header line --->
+	<cfset header=[]>
+	<cfloop index="i" from="1" to="#columnCount#" step="1">
+		<cfset header[i] = """#columnNames[i]#""" >
+	</cfloop>
+	<cfset outputBuffer.Append(JavaCast("string",( ArrayToList(header,",") & newLine)))>
+
+	<!--- loop through query and append rows to buffer --->
+	<cfset j = 0;>
+	<cfloop query="queryToConvert">
+		<cfset row=[]>
+		<cfloop index="k" from="1" to="#columnCount#" step="1">
+			<cfset row[k] = replace(queryToConvert[columnNames[k]][i],'"','""','all') >
+		</cfloop>
+		<cfset outputBuffer.append( JavaCast('string',(ArrayToList(thisRow,",")))) >
+		<cfset outputBuffer.append(newLine) >
+	</cfloop>
+	<cfreturn outputBuffer.toString() >
+</cffunction>
+
 </cfcomponent>
