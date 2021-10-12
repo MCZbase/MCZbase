@@ -649,9 +649,11 @@ limitations under the License.
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 													<!--- TODO: Move to top of search results bar, available after running search --->
 													<!--- TODO: Add handler to carry out this action --->
+													<!--- 
 													<button type="button" class="btn btn-xs btn-primary col-12 col-md-auto px-md-3 mx-0 my-1" id="save-account" aria-label="save this search">
 														Save to My Account <i class="fa fa-user-cog"></i>
 													</button>
+													--->
 												</cfif>
 											</div>
 										</div>
