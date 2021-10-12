@@ -595,7 +595,7 @@ div.vslider-item[aria-hidden="true"]{
 														<cfset specimen_alt = specimenImagesForCarousel.alt>
 													</cfloop>
 													<div class="w-100 bg-light float-left px-3 h-auto">
-														<a id="specimen_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#specimen_media_uri#">Media Details</a>
+														<a id="specimen_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#specimen_media_id#">Media Details</a>
 														<cfset sizeType='&width=800&height=800'>
 														<a id="specimen_media_a" href="#specimen_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 															<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#specimen_media_id##sizeType#" class="mx-auto" alt="#specimen_alt#" height="100%" width="100%">
