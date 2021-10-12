@@ -654,29 +654,121 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
 	</cfif>
+	<cfset has0 = false>
+	<cfset has1 = false>
 	<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
-		<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
-			<cfset field = '"field": "display_value"'>
-			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number#",separator="#separator#",nestDepth="#nest#")>
-			<cfset separator = ",">
-			<cfset join='"join":"and",'>
-		 	<cfset nest = nest + 1>
-		<cfelse>
-			<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, nest, "and")>
-			<cfset search_json = "#search_json##separator##clause#">
-			<cfset separator = ",">
-			<cfset join='"join":"and",'>
-		 	<cfset nest = nest + 1>
-		</cfif>
+		<cfset has0 = true>
 	</cfif>
 	<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
-		<cfset field = '"field": "other_id_type"'>
-		<cfset comparator = '"comparator": "IN"'>
-		<cfset value = encodeForJavaScript(other_id_type)>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
-		<cfset separator = ",">
-		<cfset join='"join":"and",'>
+		<cfset has0 = true>
+	</cfif>
+	<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0>
+		<cfset has1 = true>
+	</cfif>
+	<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
+		<cfset has1 = true>
+	</cfif>
+	<cfif has0 AND has1>
+		<!--- create nested or clause has (other_id_number of type) or (has other_id_number_1 of type_1) --->
+		<cfset innernest = 1>
+		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
+			<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
+				<cfset field = '"field": "display_value"'>
+				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number#",separator="#separator#",nestDepth="#nest#.#innernest#")>
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset innernest = innernest + 1>
+			<cfelse>
+				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, "#nest#.#innernest#", "and")>
+				<cfset search_json = "#search_json##separator##clause#">
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset innernest = innernest + 1>
+			</cfif>
+		</cfif>
+		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
+			<cfset field = '"field": "other_id_type"'>
+			<cfset comparator = '"comparator": "IN"'>
+			<cfset value = encodeForJavaScript(other_id_type)>
+			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset innernest = innernest + 1>
+		</cfif>
+		<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0>
+			<cfif left(other_id_number_1,1) is "=" OR left(other_id_number_1,1) is "!">
+				<cfset field = '"field": "display_value"'>
+				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number_1#",separator="#separator#",nestDepth="#nest#.#innernest#")>
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset innernest = innernest + 1>
+			<cfelse>
+				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number_1, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, "#nest#.#innernest#", "and")>
+				<cfset search_json = "#search_json##separator##clause#">
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset innernest = innernest + 1>
+			</cfif>
+		</cfif>
+		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
+			<cfset field = '"field": "other_id_type_1"'>
+			<cfset comparator = '"comparator": "IN"'>
+			<cfset value = encodeForJavaScript(other_id_type_1)>
+			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset innernest = innernest + 1>
+		</cfif>
 		<cfset nest = nest + 1>
+	<cfelse>
+		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
+			<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
+				<cfset field = '"field": "display_value"'>
+				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number#",separator="#separator#",nestDepth="#nest#")>
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset nest = nest + 1>
+			<cfelse>
+				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, nest, "and")>
+				<cfset search_json = "#search_json##separator##clause#">
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset nest = nest + 1>
+			</cfif>
+		</cfif>
+		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
+			<cfset field = '"field": "other_id_type"'>
+			<cfset comparator = '"comparator": "IN"'>
+			<cfset value = encodeForJavaScript(other_id_type)>
+			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
+		<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0>
+			<cfif left(other_id_number_1,1) is "=" OR left(other_id_number_1,1) is "!">
+				<cfset field = '"field": "display_value"'>
+				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number_1#",separator="#separator#",nestDepth="#nest#")>
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset nest = nest + 1>
+			<cfelse>
+				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number_1, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, nest, "and")>
+				<cfset search_json = "#search_json##separator##clause#">
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset nest = nest + 1>
+			</cfif>
+		</cfif>
+		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
+			<cfset field = '"field": "other_id_type_1"'>
+			<cfset comparator = '"comparator": "IN"'>
+			<cfset value = encodeForJavaScript(other_id_type_1)>
+			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
 	</cfif>
 	<cfif isDefined("part_name") AND len(part_name) GT 0>
 		<cfset field = '"field": "part_name"'>
