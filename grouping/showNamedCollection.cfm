@@ -578,11 +578,13 @@ div.vslider-item[aria-hidden="true"]{
 						<!---end specimen grid---> 
 					</section>
 					<div class="row mx-0">
-						<cfif specimenImagesForCarousel.recordcount gt 0 or agentImagesForCarousel.recordcount gt 0 OR points.recordcount gt 0>
-<!--- TODO: Cleanup indentation and nesting from here, move heatmap to outside this block, otherwise is only shown if there are images  --->
-						<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">	
-								<section class="imagesLeft">
-									<cfif specimenImagesForCarousel.recordcount gt 0>
+
+						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR points.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>
+							<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">	
+							
+								<!--- specimen images --->
+								<cfif specimenImagesForCarousel.recordcount gt 0>
+									<section class="imagesLeft">
 										<div class="col-12 px-1">
 											<div class="carousel_background border rounded float-left w-100 p-2 mb-4">
 												<h3 class="mx-2 text-center">#specimenImagesForCarousel.recordcount# Specimen Images</h3>
@@ -634,11 +636,11 @@ div.vslider-item[aria-hidden="true"]{
 												});
 											});
 										</script>
-									</cfif>	
-								</section><!--- end specimen images ---> 	
+									</section><!--- end specimen images ---> 	
+								</cfif>	
 
 
-								<!---  ********  Heat map ********** --->
+								<!---  occurrence map --->
 								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 									SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
 									FROM locality
@@ -738,8 +740,6 @@ div.vslider-item[aria-hidden="true"]{
 											</div>
 										</div>
 										<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-									
-	
 									</section><!--- end heat map---> 	
 								</cfif>
 				
@@ -911,10 +911,11 @@ div.vslider-item[aria-hidden="true"]{
 									</div>
 								</section>
 							</div>	
-						</cfif>
+						</cfif><!--- end of has images or has coordinates for map --->
+
 						<section class="overview-links col mt-4 float-left">
 							<div class=""> 
-						<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
+								<!--- This is either a full width or half width col, depending on presence/absence of has any kind of image col --->
 								<div class="mb-2 pb-3 border-bottom-black">
 									<h2 class="px-2">Overview</h2>
 									<cfif len(getNamedGroup.description) GT 0 >
@@ -1192,16 +1193,16 @@ div.vslider-item[aria-hidden="true"]{
 													</div>
 												</div>
 											<cfelse>
-													<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
-														<cfloop query="collectors">
-															<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
-														</cfloop>
-													</ul>
+												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+													<cfloop query="collectors">
+														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
+													</cfloop>
+												</ul>
 											</cfif>
 										</div>
 									</cfif>
-							
 						
+<!---- TODO: Cleanup indentation from here --->
 									<div class="col-12 px-0">
 									<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
 										SELECT
