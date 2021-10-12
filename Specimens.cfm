@@ -704,7 +704,7 @@ limitations under the License.
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
 											<div class="form-row mb-2">
-												<div class="col-12 col-md-3">
+												<div class="col-12 col-md-2">
 													<label for="fixedCollection" class="data-entry-label">Collection</label>
 													<div name="collection" id="fixedCollection" class="w-100"></div>
 													<cfif not isdefined("collection")><cfset collection=""></cfif>
@@ -731,12 +731,12 @@ limitations under the License.
 														});
 													</script> 
 												</div>
-												<div class="col-12 col-md-3">
+												<div class="col-12 col-md-2">
 													<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 													<label for="catalogNum" class="data-entry-label">Catalog Number</label>
 													<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="1,1-4,A-1,R1-4" value="#cat_num#">
 												</div>
-												<div class="col-12 col-md-3">
+												<div class="col-12 col-md-2">
 													<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 													<label for="otherID" class="data-entry-label">Other ID Type</label>
 													<div name="other_id_type" id="other_id_type" class="w-100"></div>
@@ -763,10 +763,42 @@ limitations under the License.
 														});
 													</script> 
 												</div>
-												<div class="col-12 col-md-3">
+												<div class="col-12 col-md-2">
 													<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 													<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
 													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#other_id_number#">
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
+													<label for="otherID" class="data-entry-label">Other ID Type</label>
+													<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
+													<cfset otheridtype_array = ListToArray(other_id_type_1)>
+													<script>
+														function setOtherIdTypeValues() {
+															$('##other_id_type_1').jqxComboBox('clearSelection');
+															<cfloop query="ctother_id_type">
+																<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type_1)>
+																	$("##other_id_type_1").jqxComboBox("selectItem","#ctother_id_type.other_id_type_1#");
+																</cfif>
+															</cfloop>
+														};
+														$(document).ready(function () {
+															var otheridtypesource = [
+																<cfset comma="">
+																<cfloop query="ctother_id_type">
+																	#comma#{name:"#ctother_id_type.other_id_type_1#",meta:"#ctother_id_type.other_id_type_1# (#ct_other_id_type_1.ct#)"}
+																	<cfset comma=",">
+																</cfloop>
+															];
+															$("##fixedCollection").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
+															setOtherIdTypeValues();
+														});
+													</script> 
+												</div>
+												<div class="col-12 col-md-3">
+													<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
+													<label for="other_id_number_1" class="data-entry-label">Other ID Numbers</label>
+													<input type="text" class="data-entry-input" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#other_id_number_1#">
 												</div>
 											</div>
 											<div class="form-row mb-2">
