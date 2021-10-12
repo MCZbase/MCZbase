@@ -874,10 +874,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	</cfif>
 
 
-	<cfif isDefined("determiner_id") AND len(collector_agent_id) GT 0>
+	<cfif isDefined("determiner_id") AND len(determiner_id) GT 0>
 		<cfset field = '"field": "IDENTIFICATION_AGENT_ID"'>
 		<cfset comparator = '"comparator": "="'>
-		<cfset value = encodeForJavaScript(collector_agent_id)>
+		<cfset value = encodeForJavaScript(determiner_id)>
 		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
@@ -892,10 +892,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfif>
 	</cfif>
 
-	<cfif isDefined("nature_of_id") AND len(publication_id) GT 0>
+	<cfif isDefined("nature_of_id") AND len(nature_of_id) GT 0>
 		<cfset field = '"field": "NATURE_OF_ID"'>
 		<cfset comparator = '"comparator": "="'>
-		<cfset value = encodeForJavaScript(publication_id)>
+		<cfset value = encodeForJavaScript(nature_of_id)>
 		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
@@ -909,7 +909,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfabort>
 	</cfif>
 	<cfif NOT IsJSON(search_json)>
-		<cfthrow message="unable to construct valid json for query">
+		<cfthrow message="Unable to construct valid json for query.">
+	</cfif>
+	<cfif search_json IS "[]">
+		<cfthrow message="You must enter some search criteria.">
 	</cfif>
 
 	<cftry>
