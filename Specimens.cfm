@@ -912,7 +912,6 @@ limitations under the License.
 															<option value="=#ctnature_of_id.nature_of_id#" #selected#>#ctnature_of_id.nature_of_id# (#ctnature_of_id.ct#)</option>
 														</cfloop>
 													</select>
-													<input id="nature_of_id" name="nature_of_id" class="data-entry-input" value="#nature_of_id#" >
 												</div>
 											</div>
 											<div class="form-row mb-2">
