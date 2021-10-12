@@ -273,7 +273,7 @@ limitations under the License.
 								</cfif>				
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<a class="dropdown-item" href="/Specimens.cfm">Specimens (new)</a>
-									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens By Category</a>
+									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 								</cfif>
 								<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
 								<a class="dropdown-item" href="/media/findMedia.cfm">Media</a>
