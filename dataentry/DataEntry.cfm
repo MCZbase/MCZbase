@@ -557,12 +557,12 @@ limitations under the License.
 											</div>
 											<div class="col-12 px-0 float-left">
 												<div class="col-12 col-md-6 px-0 float-left">
-													<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Source</label>
-													<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_source">
+													<label for="collecting_source_method" class="small col-12 col-md-3 font-weight-light float-left d-block mt-1 mb-0">Source</label>
+													<input type="text" class="data-entry-input float-left col-12 col-md-7 mt-0 height1p2" id="collecting_source">
 												</div>
 												<div class="col-12 col-md-6 px-0 float-left">
-													<label for="collecting_source_method" class="small font-weight-light float-left d-block mt-1 mb-0">Method</label>
-													<input type="text" class="data-entry-input mt-0 height1p2" id="collecting_method">
+													<label for="collecting_source_method" class="small col-12 col-md-3 font-weight-light float-left d-block mt-1 mb-0">Method</label>
+													<input type="text" class="data-entry-input col-12 col-md-7 float-left mt-0 height1p2" id="collecting_method">
 												</div>
 											</div>
 											<label for="Habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
