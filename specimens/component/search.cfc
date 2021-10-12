@@ -883,9 +883,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
 	<cfelse>
-		<cfif isDefined("determiner") AND len(collector) GT 0>
+		<cfif isDefined("determiner") AND len(determiner) GT 0>
 			<cfset field = '"field": "IDENTIFICATIONS_AGENT_NAME"'>
-			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#collector#",separator="#separator#",nestDepth="#nest#")>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#determiner#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
@@ -894,7 +894,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 
 	<cfif isDefined("nature_of_id") AND len(nature_of_id) GT 0>
 		<cfset field = '"field": "NATURE_OF_ID"'>
-		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#collector#",separator="#separator#",nestDepth="#nest#")>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#nature_of_id#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
