@@ -627,6 +627,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="deaccession_number" type="string" required="no">
 	<cfargument name="publication_id" type="string" required="no">
 	<cfargument name="citation" type="string" required="no">
+	<cfargument name="nature_of_id" type="string" required="no">
+	<cfargument name="determiner" type="string" required="no">
+	<cfargument name="determiner_id" type="string" required="no">
 	<cfargument name="debug" type="string" required="no">
 
 	<cfset search_json = "[">
@@ -868,6 +871,35 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
 		<!--- TODO: Support textual search on publication from citation variable --->
+	</cfif>
+
+
+	<cfif isDefined("determiner_id") AND len(collector_agent_id) GT 0>
+		<cfset field = '"field": "IDENTIFICATION_AGENT_ID"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = encodeForJavaScript(collector_agent_id)>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	<cfelse>
+		<cfif isDefined("determiner") AND len(collector) GT 0>
+			<cfset field = '"field": "IDENTIFICATIONS_AGENT_NAME"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#collector#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
+	</cfif>
+
+	<cfif isDefined("nature_of_id") AND len(publication_id) GT 0>
+		<cfset field = '"field": "NATURE_OF_ID"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = encodeForJavaScript(publication_id)>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
 	</cfif>
 
 	<cfset search_json = "#search_json#]">

@@ -136,6 +136,9 @@ limitations under the License.
 	GROUP BY ct.other_id_type 
 	ORDER BY ct.other_id_type
 </cfquery>
+<cfquery name="ctnature_of_id" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
+	select nature_of_id from ctnature_of_id order by nature_of_id
+</cfquery>
 
 <cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
@@ -760,7 +763,7 @@ limitations under the License.
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-2">
 													<cfif not isdefined("full_taxon_name")><cfset full_taxon_name=""></cfif>
-													<label for="taxa" class="data-entry-label">Any Taxonomy</label>
+													<label for="taxa" class="data-entry-label">Any Taxonomic Element</label>
 													<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy" value="#full_taxon_name#">
 												</div>
 												<div class="col-12 col-md-2">
@@ -818,7 +821,7 @@ limitations under the License.
 											</div>
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-2">
-													<label for="type_status" class="data-entry-label">Type Status</label>
+													<label for="type_status" class="data-entry-label">Type Status/Citation</label>
 													<cfif not isdefined("type_status")><cfset type_status=""></cfif>
 													<input type="text" class="data-entry-input" id="type_status" name="type_status" value="#type_status#">
 													<script>
@@ -871,11 +874,49 @@ limitations under the License.
 														});
 													</script>
 												</div>
+												<div class="col-12 col-md-2">
+													<label for="determiner" class="data-entry-label">Determiner</label>
+													<cfif not isdefined("determiner")><cfset determiner=""></cfif>
+													<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
+													<!--- lookup agent name --->
+													<cfif len(determiner) EQ 0 AND len(determiner_id EQ 0>
+														<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupDeterminer_result">
+															SELECT agent_name
+															FROM preferred_agent_name
+															WHERE
+																agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determiner_id#">
+														</cfquery>
+														<cfif lookupDeterminer.recordcount EQ 1>
+															<cfset determiner = "=#lookupDeterminer.agent_name#">
+														</cfif>
+													<input type="hidden" id="determiner_id" name="determiner_id" class="data-entry-input" value="#determiner_id#" >
+													<input type="text" id="determiner" name="determiner" class="data-entry-input" value="#determiner#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeConstrainedAgentPicker('determiner', 'determiner_id', 'determiner');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="nature_of_id" class="data-entry-label">Nature Of Id</label>
+													<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
+													<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select col-sm-12 pl-2">
+														<option value=""></option>
+														<cfset nid = nature_of_id>
+														<cfloop query="ctnature_of_id">
+															<cfif nid EQ "=#ctnature_of_id.nature_of_id#"><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
+															<option value="=#ctnature_of_id.nature_of_id#" #selected#>#ctnature_of_id.nature_of_id# (#ctnature_of_id.ct#)</option>
+														</cfloop>
+													</select>
+													<input id="nature_of_id" name="nature_of_id" class="data-entry-input" value="#nature_of_id#" >
+												</div>
+											</div>
+											<div class="form-row mb-2">
 											</div>
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-2">
 													<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
-													<label for="higher_geog" class="data-entry-label">Any Geography</label>
+													<label for="higher_geog" class="data-entry-label">Any Geographic Element</label>
 													<input type="text" class="data-entry-input" name="higher_geog" id="higher_geog" value="#higher_geog#">
 												</div>
 												<div class="col-12 col-md-2">
