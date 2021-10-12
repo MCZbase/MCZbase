@@ -739,14 +739,29 @@ limitations under the License.
 												<div class="col-12 col-md-3">
 													<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 													<label for="otherID" class="data-entry-label">Other ID Type</label>
-													<select title="other identifing number type" name="other_id_type" id="other_id_type" class="data-entry-select col-sm-12 pl-2">
-														<option value=""></option>
-														<cfset oidtype = other_id_type>
-														<cfloop query="ctother_id_type">
-															<cfif oidtype EQ "=#ctother_id_type.other_id_type#"><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
-															<option value="=#ctother_id_type.other_id_type#" #selected#>#ctother_id_type.other_id_type# (#ctother_id_type.ct#)</option>
-														</cfloop>
-													</select>
+													<div name="other_id_type" id="other_id_type" class="w-100"></div>
+													<cfset otheridtype_array = ListToArray(other_id_type)>
+													<script>
+														function setOtherIdTypeValues() {
+															$('##other_id_type').jqxComboBox('clearSelection');
+															<cfloop query="ctother_id_type">
+																<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
+																	$("##other_id_type").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
+																</cfif>
+															</cfloop>
+														};
+														$(document).ready(function () {
+															var otheridtypesource = [
+																<cfset comma="">
+																<cfloop query="ctother_id_type">
+																	#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ct_other_id_type.ct#)"}
+																	<cfset comma=",">
+																</cfloop>
+															];
+															$("##fixedCollection").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
+															setOtherIdTypeValues();
+														});
+													</script> 
 												</div>
 												<div class="col-12 col-md-3">
 													<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
