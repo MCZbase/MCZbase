@@ -889,6 +889,7 @@ limitations under the License.
 														<cfif lookupDeterminer.recordcount EQ 1>
 															<cfset determiner = "=#lookupDeterminer.agent_name#">
 														</cfif>
+													</cfif>
 													<input type="hidden" id="determiner_id" name="determiner_id" class="data-entry-input" value="#determiner_id#" >
 													<input type="text" id="determiner" name="determiner" class="data-entry-input" value="#determiner#" >
 													<script>
