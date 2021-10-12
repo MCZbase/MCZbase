@@ -137,7 +137,10 @@ limitations under the License.
 	ORDER BY ct.other_id_type
 </cfquery>
 <cfquery name="ctnature_of_id" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
-	select nature_of_id from ctnature_of_id order by nature_of_id
+	SELECT nature_of_id, count(*) as ct 
+	FROM IDENTIFICATION
+	GROUP BY nature_of_id
+ 	ORDER BY nature_of_id
 </cfquery>
 
 <cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
