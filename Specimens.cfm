@@ -321,7 +321,7 @@ limitations under the License.
 													<input id="searchText" type="text" class="data-entry-input py-1" name="searchText" placeholder="Search term" aria-label="search text" value="#searchText#">
 												</div>
 												<div class="col-12 col-xl-2">
-													<cfif findNoCase('redesign',gitBranch) GT 0>
+													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<label class="data-entry-label" for="debug">Debug</label>
 														<select title="debug" name="debug" id="dbug" class="data-entry-select">
 															<option value=""></option>
@@ -1034,7 +1034,7 @@ limitations under the License.
 													<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#verbatim_date#">
 												</div>
 												<div class="col-12 col-md-2">
-													<cfif findNoCase('redesign',gitBranch) GT 0>
+													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<label class="data-entry-label" for="debug">Debug</label>
 														<select title="debug" name="debug" id="dbug" class="data-entry-select">
 															<option value=""></option>
