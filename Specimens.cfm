@@ -407,7 +407,6 @@ limitations under the License.
 										<cfif not isDefined("builderMaxRows") or len(builderMaxRows) eq 0>
 											<cfset builderMaxRows = 1>
 										</cfif>
-										<cfset addButtonShown = false>
 										<input type="hidden" id="builderMaxRows" name="builderMaxRows" value="#builderMaxRows#">
 										<input id="result_id_builderSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeBuilderSearch" class="keeponclear excludeFromLink">
@@ -416,10 +415,7 @@ limitations under the License.
 											<div class="mt-1 col-12 p-0 my-2" id="customFields">
 												<div class="form-row mb-2">
 													<div class="col-12 col-md-1 pt-3">
-														<cfif builderMaxRows EQ 1>
-															<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
-															<cfset addButtonShown = true>
-														</cfif>
+														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 													<div class="col-12 col-md-1">
 														<label for="nestbutton" class="data-entry-label">Nest</label>
