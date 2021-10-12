@@ -415,6 +415,12 @@ limitations under the License.
 										<div class="form-row mx-0">
 											<div class="mt-1 col-12 p-0 my-2" id="customFields">
 												<div class="form-row mb-2">
+													<div class="col-12 col-md-1 pt-3">
+														<cfif builderMaxRows EQ 1>
+															<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+															<cfset addButtonShown = true>
+														</cfif>
+													</div>
 													<div class="col-12 col-md-1">
 														<label for="nestbutton" class="data-entry-label">Nest</label>
 														<button id="nestbutton" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
@@ -483,7 +489,12 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-4">
+													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+														<cfset searchcol="col-md-5">
+													<cfelse>
+														<cfset searchcol="col-md-1">
+													</cfif>
+													<div class="col-12 #searchcol#">
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<!--- TODO: Add javascript to modify inputs depending on selected field. --->
@@ -492,27 +503,24 @@ limitations under the License.
 														<input type="hidden" name="searchId1" id="searchId1" value="#searchId1#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
-													<div class="col-12 col-md-1">
-														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+														<div class="col-12 col-md-1">
 															<label class="data-entry-label" for="debug">Debug</label>
 															<select title="debug" name="debug" id="dbug" class="data-entry-select">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
 															</select>
-														</cfif>
-													</div>
-													<div class="col-12 col-md-2 pt-3">
-														<cfif builderMaxRows EQ 1>
-															<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
-															<cfset addButtonShown = true>
-														</cfif>
-													</div>
+														</div>
+													</cfif>
 												</div>
 												<cfif builderMaxRows GT 1>
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
 															<div class="form-row mb-2" id="builderRow#row#">
+																<div class="col-12 col-md-1">
+																	&nbsp;
+																</div>
 																<div class="col-12 col-md-1">
 																	<button type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
 																</div>
@@ -561,7 +569,7 @@ limitations under the License.
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-4">
+																<div class="col-12 col-md-6">
 																	<cfif isDefined("searchText#row#")><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
 																	<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
 																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#sval#">
@@ -569,23 +577,6 @@ limitations under the License.
 																</div>
 																<div class="col-12 col-md-1">
 																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
-																</div>
-																<div class="col-12 col-md-2">
-																	<cfif row EQ builderMaxRows>
-																		<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
-																		<cfset addButtonShown = true>
-																	</cfif>
-																</div>
-															</div>
-														</cfif>
-														<cfif NOT addButtonShown>
-															<div class="form-row mb-2">
-																<div class="col-12 col-md-9">
-																</div>
-																<div class="col-12 col-md-2">
-																	<cfif row EQ builderMaxRows>
-																		<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
-																	</cfif>
 																</div>
 															</div>
 														</cfif>
@@ -600,6 +591,8 @@ limitations under the License.
 														var row = $("##builderMaxRows").val();
 														row = parseInt(row) + 1;
 														var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
+														newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
+														newControls = newControls + '</div>';
 														newControls = newControls + '<div class="col-12 col-md-1">';
 														newControls = newControls + '<button type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
 														newControls = newControls + '</div>';
@@ -628,7 +621,7 @@ limitations under the License.
 														</cfif>
 														newControls = newControls + '</select>';
 														newControls= newControls + '</div>';
-														newControls= newControls + '<div class="col-12 col-md-4">';
+														newControls= newControls + '<div class="col-12 col-md-5">';
 														newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
 														newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 														newControls= newControls + '</div>';
