@@ -879,7 +879,7 @@ limitations under the License.
 													<cfif not isdefined("determiner")><cfset determiner=""></cfif>
 													<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
 													<!--- lookup agent name --->
-													<cfif len(determiner) EQ 0 AND len(determiner_id) EQ 0>
+													<cfif len(determiner) EQ 0 AND len(determiner_id) GT 0>
 														<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupDeterminer_result">
 															SELECT agent_name
 															FROM preferred_agent_name
