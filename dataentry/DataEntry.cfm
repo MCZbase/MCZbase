@@ -883,9 +883,9 @@ limitations under the License.
 											</select>
 											<label for="part_number" class="small font-weight-light col-12 col-xl-2 px-0 float-left pr-2 text-right d-block mt-2 mb-0"> Value</label>
 											<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-4 mt-1 height1p2">
-												<label for="determiner" class="small font-weight-light col-12 col-xl-2 px-1 text-right float-left d-block mt-2 mb-0">Determiner</label>
+												<label for="determiner" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-2 mb-0">Determiner</label>
 											<input type="text" class="data-entry-input col-12 col-xl-4 float-left mt-1 height1p2" name="determiner">
-											<label for="date" class="small font-weight-light float-left d-block col-12 col-xl-2 px-0 mt-2 mb-0">Date</label>
+											<label for="date" class="small font-weight-light float-left d-block col-12 text-right col-xl-2 px-0 mt-2 mb-0">Date</label>
 											<input type="text" class="data-entry-input col-12 col-xl-4 mt-1 float-left height1p2" name="date">
 											<label for="method" class="small font-weight-light float-left col-12 col-xl-2 d-block px-0 mt-2 mb-0">Method</label>
 											<input type="text" class="data-entry-input col-12 col-xl-4 mt-1 height1p2 float-left" name="method">
