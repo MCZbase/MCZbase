@@ -924,7 +924,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						</div>
+						
 						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">CURATORIAL RELATIONSHIPS</h2>
 							<div class="portlet-content">
