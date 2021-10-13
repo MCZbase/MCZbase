@@ -840,9 +840,9 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 px-0">
-										<label for="condition" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">Condition</label>
-										<input type="text" class="data-entry-input col-12 mt-1 col-xl-4 float-left height1p2" name="condition">
-										<label for="disposition" class="small font-weight-light float-left d-block col-12 col-xl-2 px-1 mt-1 mb-0">Disposition</label>
+											<label for="condition" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">Condition</label>
+											<input type="text" class="data-entry-input col-12 mt-1 col-xl-4 float-left height1p2" name="condition">
+											<label for="disposition" class="small font-weight-light float-left d-block col-12 col-xl-2 px-1 text-right mt-1 mb-0">Disposition</label>
 											<select class="data-entry-select smallselect height1p2 float-left col-12 col-xl-4">
 												<option value="">Disposition</option>
 												<cfloop query="obj_disp">
@@ -850,17 +850,19 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<label for="num_modifier" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">## Modifier</label>
-											<select class="data-entry-select smallselect height1p2" name="num_modifier">
+										<div class="col-12 px-0">
+											<label for="num_modifier" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">## Modifier</label>
+											<select class="data-entry-select smallselect col-12 col-xl-2 height1p2" name="num_modifier">
 												<option value="">Modifier </option>
 												<cfloop query="num_mod">
 													<option value="#num_mod.modifier#">#num_mod.modifier#</option>
 												</cfloop>
 											</select>
-										<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">Number of Parts</label>
-										<input type="text" name="part_number" class="data-entry-input height1p2 mt-1 float-left">
-										<label for="container_unique_id" class="small font-weight-light float-left d-block mt-1 mb-0">Container Unique ID</label>
-										<input type="text" class="data-entry-input float-left col-12 col-xl-3 mt-1" name="container_unique_id">
+											<label for="part_number" class="small font-weight-light col-12 col-xl-2 float-left d-block mt-1 mb-0">Number of Parts</label>
+											<input type="text" name="part_number" class="data-entry-input col-12 col-xl-2 height1p2 mt-1 float-left">
+											<label for="container_unique_id" class="small font-weight-light float-left col-12 col-xl-2 d-block mt-1 mb-0">Container Unique ID</label>
+											<input type="text" class="data-entry-input float-left col-12 col-xl-4 mt-1" name="container_unique_id">
+										</div>
 										<label for="part_remark" class="small font-weight-light float-left col-12 col-xl-3 d-block mt-1 mb-0">Part Remark</label>
 										<textarea type="text" name="part_remark" class="data-entry-textarea mt-1"/></textarea>
 									</div>
