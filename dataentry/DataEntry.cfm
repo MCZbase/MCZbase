@@ -890,8 +890,8 @@ limitations under the License.
 											<label for="method" class="small font-weight-light float-left col-12 col-xl-2 d-block px-0 mt-2 mb-0">Method</label>
 											<input type="text" class="data-entry-input col-12 col-xl-4 mt-1 height1p2 float-left" name="method">
 											<div class="col-12 px-0">
-											<label for="attribute_remark" class="small font-weight-light float-left col-12 col-xl-3 d-block px-0 mt-2 mb-0">Attribute Remark</label>
-											<textarea type="text" name="attribute_remark" class="data-entry-textarea float-left col-12 col-xl-9"/>
+											<label for="attribute_remark" class="small font-weight-light float-left col-12 col-xl-2 d-block px-0 mt-2 mb-0">Attribute Remark</label>
+											<textarea type="text" name="attribute_remark" class="data-entry-textarea float-left col-12 col-xl-10"/>
 											</textarea>
 										</div>
 										</div>
