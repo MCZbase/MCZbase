@@ -880,17 +880,17 @@ limitations under the License.
 													<option value="#attType.attribute_type#">#attType.attribute_type#</option>
 												</cfloop>
 											</select>
-											<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">Attribute Value</label>
+											<label for="part_number" class="small font-weight-light float-left d-block mt-2 mb-0">Attribute Value</label>
 											<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-3">
 
-											<label for="date" class="small font-weight-light float-left d-block px-0 mt-1 mb-0">Date</label>
+											<label for="date" class="small font-weight-light float-left d-block px-0 mt-2 mb-0">Date</label>
 											<input type="text" class="data-entry-input col-12 col-xl-3 mt-1 float-left" name="date">
-											<label for="determiner" class="small font-weight-light float-left d-block mt-1 mb-0">Determiner</label>
-											<input type="text" class="data-entry-input" name="determiner">
-											<label for="method" class="small font-weight-light float-left d-block mt-1 mb-0">Method</label>
-											<input type="text" class="data-entry-input col-12 col-xl-3 mt-1 float-left" name="method">
-											<label for="attribute_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Attribute Remark</label>
-											<textarea type="text" name="attribute_remark" class="data-entry-textarea"/>
+											<label for="determiner" class="small font-weight-light float-left d-block mt-2 mb-0">Determiner</label>
+											<input type="text" class="data-entry-input float-left" name="determiner">
+											<label for="method" class="small font-weight-light float-left d-block mt-2 mb-0">Method</label>
+											<input type="text" class="data-entry-input col-12 col-xl-3 mt-1 height1p2 float-left" name="method">
+											<label for="attribute_remark" class="small font-weight-light float-left d-block px-0 mt-2 mb-0">Attribute Remark</label>
+											<textarea type="text" name="attribute_remark" class="data-entry-textarea float-left"/>
 											</textarea>
 										</div>
 									</div>
