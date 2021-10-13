@@ -451,6 +451,17 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfreturn #search_json#>
 </cffunction>
 
+<cffunction name="escapeQuotesForJSON">
+	<cfargument name="value" type="string" required="yes">
+
+	<!--- escape quotes for json construction --->
+	<cfset replacement = value>
+	<cfset replacement = replace(replacement,"\","\\","all")>
+	<cfset replacement = replace(replacement,'"','\"',"all")>
+	<cfreturn #replacement#>
+</cffunction>
+
+
 <!--- Function executeBuilderSearch backing method for specimen search via the search builder
 	@param result_id a uuid which identifies this search.
 	@param debug if given a value, dump the json that would be sent to build_query instead of
@@ -689,7 +700,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
 			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
-			<cfset value = encodeForJavaScript(other_id_type)>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type#)>
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
@@ -713,7 +724,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
 			<cfset field = '"field": "other_id_type_1"'>
 			<cfset comparator = '"comparator": "IN"'>
-			<cfset value = encodeForJavaScript(other_id_type_1)>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
@@ -739,7 +750,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
 			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
-			<cfset value = encodeForJavaScript(other_id_type)>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type#")>
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
@@ -763,7 +774,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
 			<cfset field = '"field": "other_id_type_1"'>
 			<cfset comparator = '"comparator": "IN"'>
-			<cfset value = encodeForJavaScript(other_id_type_1)>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
