@@ -49,6 +49,28 @@
 		}
 	});
 </script>
+<cfif not isdefined("Session.gitBranch")>
+<!--- determine which git branch is currently checked out --->
+<!--- TODO: Move to initSession --->
+<cftry>
+	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+<cfcatch>
+	<cfset gitBranch = "unknown">
+</cfcatch>
+</cftry>
+<cfset Session.gitBranch = gitBranch>
+<!---	
+	Test for redesign checkout is required for continued integration, as the production menu
+	must point to files present on production while the redesign menu points at their replacements in redesign
+--->
+<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+	<!--- checkout is redesign, redesign2, or similar --->
+	<cfset targetMenu = "redesign">
+<cfelse>
+	<!--- checkout is master, integration, test, and other non-redesign branches --->
+	<cfset targetMenu = "production">
+</cfif>
 <cfoutput>
 	<meta name="keywords" content="#session.meta_keywords#">
 	<LINK REL="SHORTCUT ICON" HREF="/images/favicon.ico">
@@ -86,7 +108,8 @@
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+								<!--- TODO: To rollout, change to coldfusion_user --->
+								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops")) >
 									<a class="dropdown-item" target="_top" href="/Specimens.cfm">Specimens (new)</a>
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 								</cfif>
