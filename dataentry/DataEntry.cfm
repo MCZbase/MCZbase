@@ -905,9 +905,9 @@ limitations under the License.
 								<div id="customBiolRelations">
 									<div class="form-row mx-0">
 										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
-										<div class="form-row my-2 mx-0">
+										<div class="form-row my-2">
 											<div class="col-12 col-xl-6 float-left">
-												<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0">Relationship Type</label>
+												<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-0">Relationship Type</label>
 												<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
 													<option value="">Biological Relationship</option>
 													<cfloop query="biolRelations">
@@ -916,7 +916,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12 col-xl-6 float-left">
-											<label for="relations" class="small font-weight-light float-left  col-12 d-block mt-1 mb-0">Relationship Value</label>
+											<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-0">Relationship Value</label>
 											<input type="text" class="data-entry-input float-left col-12 height1p2" id="relationship">
 											</div>
 										</div>
