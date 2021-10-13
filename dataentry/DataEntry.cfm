@@ -860,10 +860,11 @@ limitations under the License.
 											</select>
 											<label for="part_number" class="small font-weight-light col-12 px-1 col-xl-2 float-left d-block mt-1 mb-0">## of Parts</label>
 											<input type="text" name="part_number" class="data-entry-input col-12 col-xl-1 height1p2 mt-1 float-left">
-										
+											<label for="container_unique_id" class="small font-weight-light float-left col-12 col-xl-2 px-0 d-block mt-2 mb-0">Container Unique ID</label>
+											<input type="text" class="data-entry-input float-left col-12 col-xl-3 mt-1 height1p2" name="container_unique_id">
 										</div>
-											<label for="container_unique_id" class="small font-weight-light float-left col-12 col-xl-3 px-0 d-block mt-2 mb-0">Container Unique ID</label>
-											<input type="text" class="data-entry-input float-left col-12 col-xl-4 mt-1 height1p2" name="container_unique_id">
+										
+											
 										<label for="part_remark" class="small font-weight-light float-left col-12 col-xl-3 d-block mt-1 mb-0">Part Remark</label>
 										<textarea type="text" name="part_remark" class="data-entry-textarea mt-1 col-12 col-xl-9 float-left"/></textarea>
 									</div>
