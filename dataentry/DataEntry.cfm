@@ -533,56 +533,56 @@ limitations under the License.
 											<span class="small w-100 float-left text-center mt-2">- OR - </span>
 											<h5 class="font-weight-bold text-left mb-1 d-block w-100">New Collecting Event</h5>
 										
-											<label for="verbatim_locality" class="small font-weight-light col-12 col-md-2 px-0 float-left d-block mt-1 mb-0">Verbatim Locality</label>
-											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2 col-12 col-md-10 px-0 float-left"/>
+											<label for="verbatim_locality" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">Verbatim Locality</label>
+											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2 col-12 col-xl-10 px-0 float-left"/>
 											
-											<div class="col-12 col-md-5 px-0 mt-1 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 col-md-5 pl-0 float-left d-block mt-1 mb-0">Verbatim Date</label>
-												<input type="text" class="data-entry-input col-12 col-md-7 pl-0 mt-0 height1p2" id="verbatim_date">
+											<div class="col-12 col-xl-5 px-0 mt-1 float-left">
+												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-5 pl-0 float-left d-block mt-1 mb-0">Verbatim Date</label>
+												<input type="text" class="data-entry-input col-12 col-xl-7 pl-0 mt-0 height1p2" id="verbatim_date">
 											</div>
-											<div class="col-12 col-md-7 pr-0 mt-1 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 col-md-4 float-left d-block mt-1 mb-0 text-right">ISO Dates</label>
-												<input type="text" class="data-entry-input col-12 col-md-4 float-left mt-0 height1p2" id="began_date" placeholder="Began Date">
-												<input type="text" class="data-entry-input col-12 col-md-4 float-left mt-0 height1p2" id="ended_date" placeholder="Date Ended">
+											<div class="col-12 col-xl-7 pr-0 mt-1 float-left">
+												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-4 float-left d-block mt-1 mb-0 text-right">ISO Dates</label>
+												<input type="text" class="data-entry-input col-12 col-xl-4 float-left mt-0 height1p2" id="began_date" placeholder="Began Date">
+												<input type="text" class="data-entry-input col-12 col-xl-4 float-left mt-0 height1p2" id="ended_date" placeholder="Date Ended">
 											</div>
 										
-											<div class="col-12 col-md-4 pl-0 mt-1 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 col-md-3 px-0 float-left d-block mt-1 mb-0">Time</label>
-												<input type="text" class="data-entry-input mt-0 height1p2 col-12 col-md-8" id="collecting_time">
+											<div class="col-12 col-xl-4 pl-0 mt-1 float-left">
+												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Time</label>
+												<input type="text" class="data-entry-input mt-0 height1p2 col-12 col-xl-8" id="collecting_time">
 											</div>
 											<div class="col-12 col-md-8 float-left pr-0 mt-1">
-												<label for="start_end_dayOfyear" class="small font-weight-light col-12 col-md-2 px-0 float-left d-block mt-1 mb-0">Day of Year</label>
-												<input type="text" class="data-entry-input float-left col-12 col-md-5 mt-0 height1p2" id="start_day_of_year" placeholder="Start Day of Year">
-												<input type="text" class="data-entry-input float-left col-12 col-md-5 mt-0 height1p2" id="end_day_of_year" placeholder="End Day of Year">
+												<label for="start_end_dayOfyear" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">Day of Year</label>
+												<input type="text" class="data-entry-input float-left col-12 col-xl-5 mt-0 height1p2" id="start_day_of_year" placeholder="Start Day of Year">
+												<input type="text" class="data-entry-input float-left col-12 col-xl-5 mt-0 height1p2" id="end_day_of_year" placeholder="End Day of Year">
 											</div>
 											<div class="col-12 col-md-6 px-0 float-left mt-1">
-												<label for="collecting_source_method" class="small col-12 col-md-3 px-0 font-weight-light float-left d-block mt-1 mb-0">Source</label>
-												<input type="text" class="data-entry-input float-left px-0 col-12 col-md-9 mt-0 height1p2" id="collecting_source">
+												<label for="collecting_source_method" class="small col-12 col-xl-3 px-0 font-weight-light float-left d-block mt-1 mb-0">Source</label>
+												<input type="text" class="data-entry-input float-left px-0 col-12 col-xl-9 mt-0 height1p2" id="collecting_source">
 											</div>
 											<div class="col-12 col-md-6 px-0 mt-1 float-left">
-												<label for="collecting_source_method" class="small col-12 col-md-3 font-weight-light float-left d-block mt-1 mb-0">Method</label>
-												<input type="text" class="data-entry-input col-12 col-md-9 px-0 float-left mt-0 height1p2" id="collecting_method">
+												<label for="collecting_source_method" class="small col-12 col-xl-3 font-weight-light float-left d-block mt-1 mb-0">Method</label>
+												<input type="text" class="data-entry-input col-12 col-xl-9 px-0 float-left mt-0 height1p2" id="collecting_method">
 											</div>
-											<label for="Habitat" class="small font-weight-light col-12 col-md-2 float-left px-0 d-block mt-1 mb-0">Habitat</label>
-											<input type="text" name="habitat_desc" class="data-entry-input mt-1 col-12 col-md-10 float-left px-0 height1p2"/>
-											<label for="microhabitat" class="small font-weight-light mt-1 col-12 col-md-2 px-0 float-left d-block mt-1 mb-0">Microhabitat</label>
-											<input type="text" name="habitat" class="data-entry-input mt-1 col-12 col-md-10 mt-1 px-0 height1p2"/>
-											<label for="locality_remark" class="small font-weight-light col-12 px-0 col-md-2 float-left d-block mt-1 mb-0">Collecting Remark</label>
-											<textarea type="text" name="locality_remark" class="data-entry-textarea col-12 col-md-10 mt-1 px-0"/>
+											<label for="Habitat" class="small font-weight-light col-12 col-xl-2 float-left px-0 d-block mt-1 mb-0">Habitat</label>
+											<input type="text" name="habitat_desc" class="data-entry-input mt-1 col-12 col-xl-10 float-left px-0 height1p2"/>
+											<label for="microhabitat" class="small font-weight-light mt-1 col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">Microhabitat</label>
+											<input type="text" name="habitat" class="data-entry-input mt-1 col-12 col-xl-10 mt-1 px-0 height1p2"/>
+											<label for="locality_remark" class="small font-weight-light col-12 px-0 col-xl-2 float-left d-block mt-1 mb-0">Collecting Remark</label>
+											<textarea type="text" name="locality_remark" class="data-entry-textarea col-12 col-xl-10 mt-1 px-0"/>
 											</textarea>
 											<div class="col-12 px-0">
-												<label for="coll_number_series" class="small font-weight-light col-12 col-md-4 px-0 float-left w-100 d-block mt-1 mb-0">Collecting Event Number Series</label>
-												<input type="text" class="data-entry-input col-12 mt-1 col-md-5 float-left height1p2" id="coll_number_series" placeholder="Existing Series">
-												<div class="col-12 col-md-3 mt-1 border-transparent float-left ">
+												<label for="coll_number_series" class="small font-weight-light col-12 col-xl-4 px-0 float-left w-100 d-block mt-1 mb-0">Collecting Event Number Series</label>
+												<input type="text" class="data-entry-input col-12 mt-1 col-xl-5 float-left height1p2" id="coll_number_series" placeholder="Existing Series">
+												<div class="col-12 col-xl-3 mt-1 border-transparent float-left ">
 													<a class="infoLink height1p2" href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add New Series</a>
 												</div>
 											</div>
-											<label for="Coord. System" class="small font-weight-light col-12 col-md-3 px-0 float-left d-block mt-1 mb-0">Verbatim SRS or Datum</label>
-											<input type="text" class="data-entry-input height1p2 col-12 col-md-9 float-left mt-1 px-0" id="Datum">
-											<label for="lat_long" class="small font-weight-light col-12 col-md-3 float-left float-left d-block mt-1 mb-0">Verbatim Latitude</label>
-											<input type="text" class="data-entry-input col-12 col-md-9 px-0 mt-1 height1p2" id="latitude">
-											<label for="lat_long" class="small font-weight-light col-12 col-md-3 px-0 float-left d-block mt-1 mb-0">Verbatim Longitude</label>
-											<input type="text" class="data-entry-input col-12 col-md-9 float-left px-0 mt-1 height1p2" id="longitude">
+											<label for="Coord. System" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Verbatim SRS or Datum</label>
+											<input type="text" class="data-entry-input height1p2 col-12 col-xl-9 float-left mt-1 px-0" id="Datum">
+											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 float-left float-left d-block mt-1 mb-0">Verbatim Latitude</label>
+											<input type="text" class="data-entry-input col-12 col-xl-9 px-0 mt-1 height1p2" id="latitude">
+											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Verbatim Longitude</label>
+											<input type="text" class="data-entry-input col-12 col-xl-9 float-left px-0 mt-1 height1p2" id="longitude">
 										</div>
 									</div>
 								</div>
