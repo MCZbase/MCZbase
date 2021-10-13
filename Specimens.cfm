@@ -758,7 +758,7 @@ limitations under the License.
 																	<cfset comma=",">
 																</cfloop>
 															];
-															$("##fixedCollection").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
+															$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
 															setOtherIdTypeValues();
 														});
 													</script> 
@@ -790,7 +790,7 @@ limitations under the License.
 																	<cfset comma=",">
 																</cfloop>
 															];
-															$("##fixedCollection").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
+															$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
 															setOtherIdTypeValues();
 														});
 													</script> 
