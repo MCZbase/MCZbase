@@ -87,7 +87,7 @@
 							<div>
 								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
 								<!--- TODO: To rollout, change to coldfusion_user --->
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
+								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops")) >
 									<a class="dropdown-item" target="_top" href="/Specimens.cfm">Specimens (new)</a>
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 								</cfif>
