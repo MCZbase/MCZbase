@@ -271,7 +271,8 @@ limitations under the License.
 								<cfelse>
 									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a>
 								</cfif>				
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								<!--- TODO: Rollout by opening up to coldfusion_user --->
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
 									<a class="dropdown-item" href="/Specimens.cfm">Specimens (new)</a>
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 								</cfif>
