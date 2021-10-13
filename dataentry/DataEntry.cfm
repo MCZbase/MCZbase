@@ -565,9 +565,9 @@ limitations under the License.
 											</div>
 											<label for="Habitat" class="small font-weight-light col-12 col-md-2 float-left px-0 d-block mt-1 mb-0">Habitat</label>
 											<input type="text" name="habitat_desc" class="data-entry-input mt-1 col-12 col-md-10 float-left px-0 height1p2"/>
-											<label for="microhabitat" class="small font-weight-light mt-1 col-12 col-md-2 float-left d-block mt-1 mb-0">Microhabitat</label>
-											<input type="text" name="habitat" class="data-entry-input mt-1 col-12 col-md-2 mt-1 height1p2"/>
-											<label for="locality_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Collecting Remark</label>
+											<label for="microhabitat" class="small font-weight-light mt-1 col-12 col-md-2 px-0 float-left d-block mt-1 mb-0">Microhabitat</label>
+											<input type="text" name="habitat" class="data-entry-input mt-1 col-12 col-md-10 mt-1 px-0 height1p2"/>
+											<label for="locality_remark" class="small font-weight-light col-12 px-0 float-left d-block mt-1 mb-0">Collecting Remark</label>
 											<textarea type="text" name="locality_remark" class="data-entry-textarea mt-0"/>
 											</textarea>
 											<div class="col-12 px-0">
