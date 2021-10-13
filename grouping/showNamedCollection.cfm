@@ -633,6 +633,7 @@ div.vslider-item[aria-hidden="true"]{
 													} else { 
 														goPreviousSpecimen();
  													}
+													lastSpecimenScrollTop = y; 
 												});
 											});
 										</script>
@@ -828,6 +829,7 @@ div.vslider-item[aria-hidden="true"]{
 																} else { 
 																	goPreviousAgent();
 			 													}
+																lastAgentScrollTop = y; 
 															});
 														});
 													</script>
@@ -902,6 +904,7 @@ div.vslider-item[aria-hidden="true"]{
 																} else { 
 																	goPreviousCollecting();
 			 													}
+																lastCollectingScrollTop = y; 
 															});
 														});
 													</script>
