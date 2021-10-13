@@ -774,7 +774,7 @@ limitations under the License.
 													<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
 													<cfset otheridtype_array = ListToArray(other_id_type_1)>
 													<script>
-														function setOtherIdTypeValues() {
+														function setOtherIdType_1_Values() {
 															$('##other_id_type_1').jqxComboBox('clearSelection');
 															<cfloop query="ctother_id_type">
 																<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
@@ -791,7 +791,7 @@ limitations under the License.
 																</cfloop>
 															];
 															$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
-															setOtherIdTypeValues();
+															setOtherIdType_1_Values();
 														});
 													</script> 
 												</div>
