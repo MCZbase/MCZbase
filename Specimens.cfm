@@ -795,7 +795,7 @@ limitations under the License.
 														});
 													</script> 
 												</div>
-												<div class="col-12 col-md-3">
+												<div class="col-12 col-md-2">
 													<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
 													<label for="other_id_number_1" class="data-entry-label">Other ID Numbers</label>
 													<input type="text" class="data-entry-input" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#other_id_number_1#">
