@@ -630,11 +630,11 @@ limitations under the License.
 											<label for="sovereign_nation" class="small col-12 col-xl-3 px-0 font-weight-light float-left d-block mt-1 mb-0">Sovereign Nation</label>
 											<input type="text" name="sovereign_nation" class="data-entry-input col-12 col-xl-9 mt-1 height1p2" placeholder="Sovereign Nation" />
 											<label for="higher_geog" class="small font-weight-light float-left col-12 col-xl-3 px-0 d-block mt-1 mb-0">Geology Attribute</label>
-											<input type="text" name="geology_attribute" class="data-entry-input col-12 col-xl-9 height1p2" placeholder="Geology Attribute" />
+											<input type="text" name="geology_attribute" class="data-entry-input col-12 mt-1 col-xl-9 height1p2" placeholder="Geology Attribute" />
 											<label for="habitat" class="small font-weight-light float-left col-12 col-xl-3 px-0 d-block mt-1 mb-0">Habitat</label>
-											<input type="text" name="habitat" class="data-entry-input col-12 col-xl-9 height1p2" placeholder="Habitat" />
+											<input type="text" name="habitat" class="data-entry-input col-12 col-xl-9 mt-1 height1p2" placeholder="Habitat" />
 											<label for="locality_remark" class="small font-weight-light float-left col-12 col-xl-3 d-block mt-1 mb-0">Locality Remark</label>
-											<textarea type="text" name="locality_remark" class="data-entry-textarea col-12 col-xl-9" placeholder="Locality Remark"/></textarea>
+											<textarea type="text" name="locality_remark" class="data-entry-textarea mt-1 col-12 col-xl-9" placeholder="Locality Remark"/></textarea>
 										</div>
 									</div>
 								</div>
