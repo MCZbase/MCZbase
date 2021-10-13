@@ -837,8 +837,10 @@ limitations under the License.
 													<option value="#spec_preserv_method.preserve_method#">#spec_preserv_method.preserve_method#</option>
 												</cfloop>
 											</select>
-										<label for="condition" class="small font-weight-light float-left d-block mt-1 mb-0">Condition</label>
-										<input type="text" class="data-entry-input" name="condition">
+										<div class="">
+										<label for="condition" class="small font-weight-light col-12 col-xl-2 float-left d-block mt-1 mb-0">Condition</label>
+										<input type="text" class="data-entry-input float-left height1p2" name="condition">
+										</div>
 										<label for="disposition" class="small font-weight-light float-left d-block mt-1 mb-0">Disposition</label>
 											<select class="data-entry-select smallselect">
 												<option value="">Disposition</option>
@@ -854,11 +856,11 @@ limitations under the License.
 												</cfloop>
 											</select>
 										<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">Number of Parts</label>
-										<input type="text" name="part_number" class="data-entry-input">
+										<input type="text" name="part_number" class="data-entry-input height1p2 mt-1 float-left">
 										<label for="container_unique_id" class="small font-weight-light float-left d-block mt-1 mb-0">Container Unique ID</label>
-										<input type="text" class="data-entry-input" name="container_unique_id">
-										<label for="part_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Part Remark</label>
-										<textarea type="text" name="part_remark" class="data-entry-textarea"/></textarea>
+										<input type="text" class="data-entry-input float-left col-12 col-xl-3 mt-1" name="container_unique_id">
+										<label for="part_remark" class="small font-weight-light float-left col-12 col-xl-3 d-block mt-1 mb-0">Part Remark</label>
+										<textarea type="text" name="part_remark" class="data-entry-textarea mt-1"/></textarea>
 									</div>
 								</div>
 							</div>
