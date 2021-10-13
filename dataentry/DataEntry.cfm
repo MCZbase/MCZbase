@@ -831,7 +831,7 @@ limitations under the License.
 										<div class="col-12 px-0">
 											<label for="part_name" class="small font-weight-light float-left col-12 col-xl-2 px-0 d-block mt-1 mb-0">Part Name</label>
 											<input type="text" class="data-entry-input col-12 col-xl-4 mt-1 height1p2 float-left" name="part_name">
-											<label for="preserv_method" class="small font-weight-light col-12 col-xl-2 text-right pr-2 float-left d-block mt-1 mb-0">Preserve Method</label>
+											<label for="preserv_method" class="small font-weight-light col-12 col-xl-2 text-right px-1 float-left d-block mt-1 mb-0">Preserve Method</label>
 											<select class="data-entry-select smallselect col-12 float-left col-xl-4 mt-1 height1p2">
 												<option value="">Preserve Method</option>
 												<cfloop query="spec_preserv_method">
