@@ -493,7 +493,7 @@ limitations under the License.
 													<label for="collector_role" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Role</label>
 													<select class="data-entry-select smallselect height1p2" required>
 												
-														<option value="c" required>Collector</option>
+														<option value="c" class="required">Collector</option>
 														<option value="p">Preparator</option>
 													</select>
 												</div>
