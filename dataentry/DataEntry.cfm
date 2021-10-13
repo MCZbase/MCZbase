@@ -828,10 +828,10 @@ limitations under the License.
 								<div id="customPart">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
 									<div class="form-row mx-0 my-2">
-										<label for="part_name" class="small font-weight-light float-left d-block mt-1 mb-0">Part Name</label>
-										<input type="text" class="data-entry-input" name="part_name">
-										<label for="preserv_method" class="small font-weight-light float-left d-block mt-1 mb-0">Preserve Method</label>
-											<select class="data-entry-select">
+										<label for="part_name" class="small font-weight-light float-left col-12 col-xl-3 px-0  d-block mt-1 mb-0">Part Name</label>
+										<input type="text" class="data-entry-input col-12 col-xl-3 mt-1" name="part_name">
+										<label for="preserv_method" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Preserve Method</label>
+											<select class="data-entry-select smallselect height1p2">
 												<option value="">Preserve Method</option>
 												<cfloop query="spec_preserv_method">
 													<option value="#spec_preserv_method.preserve_method#">#spec_preserv_method.preserve_method#</option>
@@ -840,14 +840,14 @@ limitations under the License.
 										<label for="condition" class="small font-weight-light float-left d-block mt-1 mb-0">Condition</label>
 										<input type="text" class="data-entry-input" name="condition">
 										<label for="disposition" class="small font-weight-light float-left d-block mt-1 mb-0">Disposition</label>
-											<select class="data-entry-select">
+											<select class="data-entry-select smallselect">
 												<option value="">Disposition</option>
 												<cfloop query="obj_disp">
 													<option value="#obj_disp.coll_obj_disposition#">#obj_disp.coll_obj_disposition#</option>
 												</cfloop>
 											</select>							
-										<label for="num_modifier" class="small font-weight-light float-left d-block mt-1 mb-0">## Modifier</label>
-											<select class="data-entry-select" name="num_modifier">
+										<label for="num_modifier" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">## Modifier</label>
+											<select class="data-entry-select smallselect height1p2" name="num_modifier">
 												<option value="">Modifier </option>
 												<cfloop query="num_mod">
 													<option value="#num_mod.modifier#">#num_mod.modifier#</option>
@@ -870,21 +870,21 @@ limitations under the License.
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
 									<div id="customAtt">
 										<div class="form-row mx-0 my-2">
-											<select class="data-entry-select mt-1">
+											<select class="data-entry-select mt-1 height1p2 smallselect">
 												<option value="">Attribute Type</option>
 												<cfloop query="attType">
 													<option value="#attType.attribute_type#">#attType.attribute_type#</option>
 												</cfloop>
 											</select>
 											<label for="part_number" class="small font-weight-light float-left d-block mt-1 mb-0">Attribute Value</label>
-											<input type="text" name="attribute value" class="data-entry-input">
+											<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-3">
 
-											<label for="date" class="small font-weight-light float-left d-block mt-1 mb-0">Date</label>
-											<input type="text" class="data-entry-input" name="date">
+											<label for="date" class="small font-weight-light float-left d-block px-0 mt-1 mb-0">Date</label>
+											<input type="text" class="data-entry-input col-12 col-xl-3 mt-1 float-left" name="date">
 											<label for="determiner" class="small font-weight-light float-left d-block mt-1 mb-0">Determiner</label>
 											<input type="text" class="data-entry-input" name="determiner">
 											<label for="method" class="small font-weight-light float-left d-block mt-1 mb-0">Method</label>
-											<input type="text" class="data-entry-input" name="method">
+											<input type="text" class="data-entry-input col-12 col-xl-3 mt-1 float-left" name="method">
 											<label for="attribute_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Attribute Remark</label>
 											<textarea type="text" name="attribute_remark" class="data-entry-textarea"/>
 											</textarea>
