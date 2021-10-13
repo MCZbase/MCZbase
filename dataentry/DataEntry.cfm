@@ -577,8 +577,8 @@ limitations under the License.
 													<a class="infoLink height1p2" href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add New Series</a>
 												</div>
 											</div>
-											<label for="Coord. System" class="small font-weight-light col-12 col-md-2 px-0 float-left d-block mt-1 mb-0">Verbatim SRS or Datum</label>
-											<input type="text" class="data-entry-input height1p2 col-12 col-md-10 float-left mt-1 px-0" id="Datum">
+											<label for="Coord. System" class="small font-weight-light col-12 col-md-3 px-0 float-left d-block mt-1 mb-0">Verbatim SRS or Datum</label>
+											<input type="text" class="data-entry-input height1p2 col-12 col-md-9 float-left mt-1 px-0" id="Datum">
 											<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Latitude</label>
 											<input type="text" class="data-entry-input height1p2" id="latitude">
 											<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Longitude</label>
