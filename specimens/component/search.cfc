@@ -709,7 +709,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset nest = nest + 1>
 		<cfset innernest = 1>
 		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
-			<cfset field = '"field": "other_id_type_1"'>
+			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
 			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
@@ -774,7 +774,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			</cfif>
 		</cfif>
 		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
-			<cfset field = '"field": "other_id_type_1"'>
+			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
 			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
