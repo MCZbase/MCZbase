@@ -604,11 +604,11 @@ limitations under the License.
 											<label for="higher_geog" class="small font-weight-light col-12 col-xl-3 float-left px-0 d-block mt-1 mb-0">Higher Geography</label>
 											<input type="text" name="higher_geog" class="data-entry-input float-left col-12 col-xl-9 height1p2" placeholder="Higher Geography" />
 											<label for="spec_locality" class="small font-weight-light float-left d-block col-12 col-xl-3 px-0 mt-1 mb-0">Specific Locality</label>
-											<input type="text" name="spec_locality" class="data-entry-input col-12 col-xl-9 height1p2" placeholder="Specific Locality" />
+											<input type="text" name="spec_locality" class="data-entry-input mt-1 col-12 col-xl-9 height1p2" placeholder="Specific Locality" />
 											<div class="col-12 px-0">
-												<label for="inputMinElev" class="small font-weight-light col-12 px-0 float-left d-block mt-1 mb-0">Elevation</label>
-												<input type="text" class="data-entry-input col-12 col-xl-4 float-left height1p2" id="inputMinElev" placeholder="Min Elevation">
-												<input type="text" class="data-entry-input col-12 col-xl-4 float-left height1p2" id="inputMaxElev" placeholder="Max Elevation">
+												<label for="inputMinElev" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Elevation</label>
+												<input type="text" class="data-entry-input col-12 col-xl-4 mt-1 float-left height1p2" id="inputMinElev" placeholder="Min Elevation">
+												<input type="text" class="data-entry-input col-12 col-xl-4 mt-1 float-left height1p2" id="inputMaxElev" placeholder="Max Elevation">
 												<select class="data-entry-select col-12 col-xl-4 smallselect height1p2">
 													<option value="">Units</option>
 													<cfloop query="depthUnits">
