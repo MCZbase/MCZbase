@@ -572,8 +572,8 @@ limitations under the License.
 											</textarea>
 											<div class="col-12 px-0">
 												<label for="coll_number_series" class="small font-weight-light col-12 col-md-4 px-0 float-left w-100 d-block mt-1 mb-0">Collecting Event Number Series</label>
-												<input type="text" class="data-entry-input col-12 col-md-4 float-left height1p2" id="coll_number_series" placeholder="Existing Series">
-												<div class="col-12 col-md-4  px-0 border-transparent float-left ">
+												<input type="text" class="data-entry-input col-12 col-md-5 float-left height1p2" id="coll_number_series" placeholder="Existing Series">
+												<div class="col-12 col-md-3 border-transparent float-left ">
 													<a class="infoLink height1p2" href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add New Series</a>
 												</div>
 											</div>
