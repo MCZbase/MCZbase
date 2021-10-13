@@ -502,7 +502,7 @@ limitations under the License.
 													<input type="text" class="data-entry-input height1p2" required  name="agent_name">
 												</div>
 											</div>
-											<div class="form-row mx-0 my-2">
+											<div class="form-row mx-0 mt-1">
 												<div class="col-12 col-xl-6 float-left">
 													<select class="data-entry-select smallselect height1p2" required>
 														<option value="">Agent Role</option>
