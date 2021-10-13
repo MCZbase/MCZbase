@@ -485,7 +485,7 @@ limitations under the License.
 							<h2 class="portlet-header small90" id="col_collector">COLLECTOR OR PREPARATOR</h2>
 							<div class="portlet-content bg-blue-gray px-0 px-xl-3">
 								<div class="form-row mx-0">
-									<div class="col-12">
+									<div class="col-12 mb-2">
 										<div id="customAgent1">
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 mx-2 my-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
 											<div class="form-row mx-0">
