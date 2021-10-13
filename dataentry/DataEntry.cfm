@@ -746,7 +746,7 @@ limitations under the License.
 											<div class="col-12 px-0">
 												<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 col-xl-3 px-0 mb-0">Max Error</label>
 												<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-8 col-xl-6 mt-1 float-left height1p2" />
-												<select class="data-entry-select col-4 col-md-3 float-left smallselect height1p2" required>
+												<select class="data-entry-select col-4 col-md-3 float-left mt-1 smallselect height1p2" required>
 													<option value="">Units</option>
 													<cfloop query="error_units">
 														<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
@@ -760,14 +760,14 @@ limitations under the License.
 												<input type="text" class="data-entry-input mt-1 float-left col-12 col-xl-8 height1p2" id="">
 											</div>
 												<label for="datum" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Geodetic Datum or SRS</label>
-												<select class="data-entry-select col-12 px-0 float-left col-xl-9 mt-1" required>
+												<select class="data-entry-select col-12 px-0 small float-left col-xl-9 mt-1" required>
 													<option value="">Datum or SRS</option>
 													<cfloop query="datum">
 														<option value="#datum.datum#">#datum.datum#</option>
 													</cfloop>
 												</select>
-												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Georeference Method</label>
-												<select class="data-entry-select col-12 col-xl-9 mt-1 float-left smallselect height1p2" required>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Georeference Method</label>
+												<select class="data-entry-select col-12 col-xl-9 mt-1 float-left small select height1p2" required>
 													<option value="">Method</option>
 													<cfloop query="georefmeth">
 														<option value="#georefmeth.georefmethod#">#georefmeth.georefmethod#</option>
