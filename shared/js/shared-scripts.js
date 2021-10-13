@@ -1318,7 +1318,7 @@ function goPreviousImage(counter, imageMetadataArray, media_img, media_des, deta
 	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
 	$("#"+media_img).attr("alt",currentImageMetadataRecord.media_des);
 	$("#"+image_counter).val(currentCounter);
-	$("#"+media_des).val(currentImageMetadataRecord.alt);
+	$("#"+media_des).html(currentImageMetadataRecord.alt);
 	return currentCounter;
 }
 /** 
@@ -1350,7 +1350,7 @@ function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a
 	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
 	$("#"+media_img).attr("alt",currentImageMetadataRecord.media_des);
 	$("#"+image_counter).val(currentCounter);
-	$("#"+media_des).val(currentImageMetadataRecord.alt);
+	$("#"+media_des).html(currentImageMetadataRecord.alt);
 	return currentCounter;
 }
 /** 
@@ -1389,6 +1389,6 @@ function goImageByNumber(counter, imageMetadataArray, media_img, media_des, deta
 	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
 	$("#"+media_img).attr("alt",currentImageMetadataRecord.media_des);
 	$("#"+image_counter).val(currentCounter);
-	$("#"+media_des).val(currentImageMetadataRecord.alt);
+	$("#"+media_des).html(currentImageMetadataRecord.alt);
 	return currentCounter;
 }
