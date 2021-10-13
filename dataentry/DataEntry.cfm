@@ -853,7 +853,7 @@ limitations under the License.
 										<div class="col-12 px-0">
 											<label for="num_modifier" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">## Modifier</label>
 											<select class="data-entry-select smallselect col-12 col-xl-2 mt-1 height1p2" name="num_modifier">
-												<option value="">Modifier </option>
+												<option value="">=</option>
 												<cfloop query="num_mod">
 													<option value="#num_mod.modifier#">#num_mod.modifier#</option>
 												</cfloop>
