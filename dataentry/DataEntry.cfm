@@ -555,15 +555,13 @@ limitations under the License.
 												<input type="text" class="data-entry-input float-left col-12 col-md-5 mt-0 height1p2" id="start_day_of_year" placeholder="Start Day of Year">
 												<input type="text" class="data-entry-input float-left col-12 col-md-5 mt-0 height1p2" id="end_day_of_year" placeholder="End Day of Year">
 											</div>
-											<div class="col-12 px-0 float-left">
-												<div class="col-12 col-md-6 px-0 float-left">
-													<label for="collecting_source_method" class="small col-12 col-md-3 px-0 font-weight-light float-left d-block mt-1 mb-0">Source</label>
-													<input type="text" class="data-entry-input float-left col-12 col-md-9 mt-0 height1p2" id="collecting_source">
-												</div>
-												<div class="col-12 col-md-6 px-0 float-left">
-													<label for="collecting_source_method" class="small col-12 col-md-3 font-weight-light float-left d-block mt-1 mb-0">Method</label>
-													<input type="text" class="data-entry-input col-12 col-md-7 float-left mt-0 height1p2" id="collecting_method">
-												</div>
+											<div class="col-12 col-md-6 px-0 float-left mt-1">
+												<label for="collecting_source_method" class="small col-12 col-md-3 px-0 font-weight-light float-left d-block mt-1 mb-0">Source</label>
+												<input type="text" class="data-entry-input float-left px-0 col-12 col-md-9 mt-0 height1p2" id="collecting_source">
+											</div>
+											<div class="col-12 col-md-6 px-0 mt-1 float-left">
+												<label for="collecting_source_method" class="small col-12 col-md-9 font-weight-light float-left d-block mt-1 mb-0">Method</label>
+												<input type="text" class="data-entry-input col-12 col-md-9 px-0 float-left mt-0 height1p2" id="collecting_method">
 											</div>
 											<label for="Habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
 											<input type="text" name="habitat_desc" class="data-entry-input mt-0 height1p2"/>
