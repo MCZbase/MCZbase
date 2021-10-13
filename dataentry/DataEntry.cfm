@@ -617,10 +617,10 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12 px-0">
-												<label for="inputMinDepth" class="small font-weight-light float-left col-12 px-0 d-block mt-1 mb-0">Depth</label>
-												<input type="text" class="data-entry-input col-12 col-xl-4 float-left height1p2" id="inputMinDepth" placeholder="Min Depth">
-												<input type="text" class="data-entry-input col-12 col-xl-4 float-left height1p2" id="inputMaxDepth" placeholder="Max Depth">
-												<select class="data-entry-select col-12 col-xl-4 smallselect height1p2">
+												<label for="inputMinDepth" class="small font-weight-light float-left col-12 col-xl-3 px-0 d-block mt-1 mb-0">Depth</label>
+												<input type="text" class="data-entry-input col-12 col-xl-3 mt-1 float-left height1p2" id="inputMinDepth" placeholder="Min Depth">
+												<input type="text" class="data-entry-input col-12 col-xl-3 mt-1 float-left height1p2" id="inputMaxDepth" placeholder="Max Depth">
+												<select class="data-entry-select col-12 col-xl-3 mt-1 smallselect height1p2">
 													<option value="">Units</option>
 													<cfloop query="depthUnits">
 														<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
