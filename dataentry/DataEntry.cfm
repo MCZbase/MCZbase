@@ -560,7 +560,7 @@ limitations under the License.
 												<input type="text" class="data-entry-input float-left px-0 col-12 col-md-9 mt-0 height1p2" id="collecting_source">
 											</div>
 											<div class="col-12 col-md-6 px-0 mt-1 float-left">
-												<label for="collecting_source_method" class="small col-12 col-md-9 font-weight-light float-left d-block mt-1 mb-0">Method</label>
+												<label for="collecting_source_method" class="small col-12 col-md-3 font-weight-light float-left d-block mt-1 mb-0">Method</label>
 												<input type="text" class="data-entry-input col-12 col-md-9 px-0 float-left mt-0 height1p2" id="collecting_method">
 											</div>
 											<label for="Habitat" class="small font-weight-light float-left d-block mt-1 mb-0">Habitat</label>
