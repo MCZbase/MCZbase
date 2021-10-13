@@ -908,7 +908,7 @@ limitations under the License.
 										<div class="form-row my-2 mx-0">
 											<div class="col-12 col-xl-6 float-left">
 												<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0">Relationship Type</label>
-												<select class="data-entry-select col-12 col-xl-12 float-left mt-0 height1p2">
+												<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
 													<option value="">Biological Relationship</option>
 													<cfloop query="biolRelations">
 														<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
