@@ -564,7 +564,7 @@ limitations under the License.
 												<input type="text" class="data-entry-input col-12 col-md-9 px-0 float-left mt-0 height1p2" id="collecting_method">
 											</div>
 											<label for="Habitat" class="small font-weight-light col-12 col-md-2 float-left px-0 d-block mt-1 mb-0">Habitat</label>
-											<input type="text" name="habitat_desc" class="data-entry-input col-12 col-md-10 float-left px-0 mt-0 height1p2"/>
+											<input type="text" name="habitat_desc" class="data-entry-input mt-1 col-12 col-md-10 float-left px-0 height1p2"/>
 											<label for="microhabitat" class="small font-weight-light float-left d-block mt-1 mb-0">Microhabitat</label>
 											<input type="text" name="habitat" class="data-entry-input mt-0 height1p2"/>
 											<label for="locality_remark" class="small font-weight-light float-left d-block mt-1 mb-0">Collecting Remark</label>
