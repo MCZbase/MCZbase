@@ -777,7 +777,7 @@ limitations under the License.
 														function setOtherIdTypeValues() {
 															$('##other_id_type_1').jqxComboBox('clearSelection');
 															<cfloop query="ctother_id_type">
-																<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type_1)>
+																<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
 																	$("##other_id_type_1").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
 																</cfif>
 															</cfloop>
