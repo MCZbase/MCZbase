@@ -534,11 +534,11 @@ limitations under the License.
 											<h5 class="font-weight-bold text-left mb-1 d-block w-100">New Collecting Event</h5>
 										
 											<label for="verbatim_locality" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">Verbatim Locality</label>
-											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2 col-12 col-xl-10 px-0 float-left"/>
+											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2 col-12 col-xl-10 float-left"/>
 											
 											<div class="col-12 col-xl-5 px-0 mt-1 float-left">
 												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-5 pl-0 float-left d-block mt-1 mb-0">Verbatim Date</label>
-												<input type="text" class="data-entry-input col-12 col-xl-7 pl-0 mt-0 height1p2" id="verbatim_date">
+												<input type="text" class="data-entry-input col-12 col-xl-7 mt-0 height1p2" id="verbatim_date">
 											</div>
 											<div class="col-12 col-xl-7 pr-0 mt-1 float-left">
 												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-4 float-left d-block mt-1 mb-0 text-right">ISO Dates</label>
@@ -557,18 +557,18 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-6 px-0 float-left mt-1">
 												<label for="collecting_source_method" class="small col-12 col-xl-3 px-0 font-weight-light float-left d-block mt-1 mb-0">Source</label>
-												<input type="text" class="data-entry-input float-left px-0 col-12 col-xl-9 mt-0 height1p2" id="collecting_source">
+												<input type="text" class="data-entry-input float-left col-12 col-xl-9 mt-0 height1p2" id="collecting_source">
 											</div>
 											<div class="col-12 col-md-6 px-0 mt-1 float-left">
 												<label for="collecting_source_method" class="small col-12 col-xl-3 font-weight-light float-left d-block mt-1 mb-0">Method</label>
-												<input type="text" class="data-entry-input col-12 col-xl-9 px-0 float-left mt-0 height1p2" id="collecting_method">
+												<input type="text" class="data-entry-input col-12 col-xl-9 float-left mt-0 height1p2" id="collecting_method">
 											</div>
 											<label for="Habitat" class="small font-weight-light col-12 col-xl-2 float-left px-0 d-block mt-1 mb-0">Habitat</label>
-											<input type="text" name="habitat_desc" class="data-entry-input mt-1 col-12 col-xl-10 float-left px-0 height1p2"/>
+											<input type="text" name="habitat_desc" class="data-entry-input mt-1 col-12 col-xl-10 float-left height1p2"/>
 											<label for="microhabitat" class="small font-weight-light mt-1 col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">Microhabitat</label>
-											<input type="text" name="habitat" class="data-entry-input mt-1 col-12 col-xl-10 mt-1 px-0 height1p2"/>
+											<input type="text" name="habitat" class="data-entry-input mt-1 col-12 col-xl-10 mt-1 height1p2"/>
 											<label for="locality_remark" class="small font-weight-light col-12 px-0 col-xl-2 float-left d-block mt-1 mb-0">Collecting Remark</label>
-											<textarea type="text" name="locality_remark" class="data-entry-textarea col-12 col-xl-10 mt-1 px-0"/>
+											<textarea type="text" name="locality_remark" class="data-entry-textarea col-12 col-xl-10 mt-1"/>
 											</textarea>
 											<div class="col-12 px-0">
 												<label for="coll_number_series" class="small font-weight-light col-12 col-xl-4 px-0 float-left w-100 d-block mt-1 mb-0">Collecting Event Number Series</label>
@@ -578,11 +578,11 @@ limitations under the License.
 												</div>
 											</div>
 											<label for="Coord. System" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Verbatim SRS or Datum</label>
-											<input type="text" class="data-entry-input height1p2 col-12 col-xl-9 float-left mt-1 px-0" id="Datum">
+											<input type="text" class="data-entry-input height1p2 col-12 col-xl-9 float-left mt-1" id="Datum">
 											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 float-left float-left d-block mt-1 mb-0">Verbatim Latitude</label>
-											<input type="text" class="data-entry-input col-12 col-xl-9 px-0 mt-1 height1p2" id="latitude">
+											<input type="text" class="data-entry-input col-12 col-xl-9 mt-1 height1p2" id="latitude">
 											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Verbatim Longitude</label>
-											<input type="text" class="data-entry-input col-12 col-xl-9 float-left px-0 mt-1 height1p2" id="longitude">
+											<input type="text" class="data-entry-input col-12 col-xl-9 float-left mt-1 height1p2" id="longitude">
 										</div>
 									</div>
 								</div>
@@ -598,11 +598,11 @@ limitations under the License.
 											<h5 class="mb-0 font-weight-bold text-center mt-0 d-block w-100">
 												<label for="locality_id" class="">Use Locality ID only</label>
 											</h5>
-											<input type="text" name="locality_id" class="data-entry-input col-5 mb-0 mx-auto height1p2" placeholder="Locality ID" />
+											<input type="text" name="locality_id" class="data-entry-input col-4 mb-0 mx-auto height1p2" placeholder="Locality ID" />
 											<span class="small w-100 float-left text-center mt-0">- OR - </span>
 											<h5 class="font-weight-bold text-left mb-0 d-block w-100">New Locality</h5>
 											<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 mb-0">Higher Geography</label>
-											<input type="text" name="higher_geog" class="data-entry-input height1p2" placeholder="Higher Geography" />
+											<input type="text" name="higher_geog" class="data-entry-input float-left col-12 col-xl-10 height1p2" placeholder="Higher Geography" />
 											<label for="spec_locality" class="small font-weight-light float-left d-block mt-1 mb-0">Specific Locality</label>
 											<input type="text" name="spec_locality" class="data-entry-input height1p2" placeholder="Specific Locality" />
 											<div class="col-12 px-0">
