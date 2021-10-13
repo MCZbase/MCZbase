@@ -613,13 +613,13 @@ div.vslider-item[aria-hidden="true"]{
 										<script>
 											var lastSpecimenScrollTop = 0;
 											function goPreviousSpecimen() { 
-												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											function goNextSpecimen() { 
-												currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+												currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											function goSpecimen() { 
-												currentSpecimenImage = goImage(currentSpecimenImage, targetSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_des", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+												currentSpecimenImage = goImage(currentSpecimenImage, targetSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											$(document).ready(function () {
 												$("##previous_specimen_image").click(goPreviousSpecimen);
@@ -796,7 +796,7 @@ div.vslider-item[aria-hidden="true"]{
 																	<a id="agent_media_a" href="#agent_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="agent_media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
 																	</a>
-																	<p id="agent_media_des" class="mt-2 small bg-light">#agent_alt#</p>
+																	<p id="agent_media_desc" class="mt-2 small bg-light">#agent_alt#</p>
 																</div>
 															</div>
 															<div class="custom-nav text-center small bg-white mb-1 pt-0 pb-1">
@@ -809,13 +809,13 @@ div.vslider-item[aria-hidden="true"]{
 													<script>
 														var lastAgentScrollTop = 0;
 														function goPreviousAgent() { 
-															currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_des", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+															currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
 														}
 														function goNextAgent() { 
-															currentAgentImage = goNextImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_des", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+															currentAgentImage = goNextImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
 														}
 														function goAgent() { 
-															currentAgentImage = goImage(currentAgentImage, targetAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_des", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
+															currentAgentImage = goImage(currentAgentImage, targetAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
 														}
 														$(document).ready(function () {
 															$("##previous_agent_image").click(goPreviousAgent);
@@ -871,7 +871,7 @@ div.vslider-item[aria-hidden="true"]{
 																	<a id="collecting_media_a" href="#collecting_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="collecting_media_img" src="/media/rescaleImage.cfm?media_id=#collecting_media_id##sizeType#" class="mx-auto" alt="#collecting_alt#" height="100%" width="100%">
 																	</a>
-																	<p id="collecting_media_des" class="mt-2 small bg-light">#collecting_alt#</p>
+																	<p id="collecting_media_desc" class="mt-2 small bg-light">#collecting_alt#</p>
 																</div>
 															</div>
 															<div class="custom-nav small text-center bg-white mb-1 pt-0 pb-1">
@@ -884,13 +884,13 @@ div.vslider-item[aria-hidden="true"]{
 													<script>
 														var lastCollectingScrollTop = 0;
 														function goPreviousCollecting() { 
-															currentCollectingImage = goPreviousImage(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_des", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
+															currentCollectingImage = goPreviousImage(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
 														}
 														function goNextCollecting() { 
-															currentCollectingImage = goNextImage(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_des", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
+															currentCollectingImage = goNextImage(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
 														}
 														function goCollecting() { 
-															currentCollectingImage = goImage(currentCollectingImage, targetCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_des", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#");
+															currentCollectingImage = goImage(currentCollectingImage, targetCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#");
 														}
 														$(document).ready(function () {
 															$("##previous_collecting_image").click(goPreviousCollecting);
