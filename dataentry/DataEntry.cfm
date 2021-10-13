@@ -907,13 +907,13 @@ limitations under the License.
 										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 										<div class="form-row my-2 mx-0">
 
-											<select class="data-entry-select mt-1">
+											<select class="data-entry-select col-12 col-xl-6 float-left mt-1">
 												<option value="">Biological Relationship</option>
 												<cfloop query="biolRelations">
 													<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
 												</cfloop>
 											</select>
-											<label for="relations" class="small font-weight-light float-left d-block mt-1 mb-0">Relationship Value</label>
+											<label for="relations" class="small font-weight-light float-left float-left col-12 col-xl-6 d-block mt-1 mb-0">Relationship Value</label>
 											<input type="text" class="data-entry-input" id="relationship">
 										</div>
 									</div>
