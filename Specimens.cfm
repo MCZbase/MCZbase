@@ -778,7 +778,7 @@ limitations under the License.
 															$('##other_id_type_1').jqxComboBox('clearSelection');
 															<cfloop query="ctother_id_type">
 																<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type_1)>
-																	$("##other_id_type_1").jqxComboBox("selectItem","#ctother_id_type.other_id_type_1#");
+																	$("##other_id_type_1").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
 																</cfif>
 															</cfloop>
 														};
@@ -786,7 +786,7 @@ limitations under the License.
 															var otheridtypesource = [
 																<cfset comma="">
 																<cfloop query="ctother_id_type">
-																	#comma#{name:"#ctother_id_type.other_id_type_1#",meta:"#ctother_id_type.other_id_type_1# (#ctother_id_type.ct#)"}
+																	#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
 																	<cfset comma=",">
 																</cfloop>
 															];
