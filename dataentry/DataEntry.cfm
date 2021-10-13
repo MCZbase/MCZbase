@@ -579,7 +579,7 @@ limitations under the License.
 											</div>
 											<label for="Coord. System" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Verbatim SRS or Datum</label>
 											<input type="text" class="data-entry-input height1p2 col-12 col-xl-9 float-left mt-1" id="Datum">
-											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 float-left float-left d-block mt-1 mb-0">Verbatim Latitude</label>
+											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 float-left px-0 float-left d-block mt-1 mb-0">Verbatim Latitude</label>
 											<input type="text" class="data-entry-input col-12 col-xl-9 mt-1 height1p2" id="latitude">
 											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Verbatim Longitude</label>
 											<input type="text" class="data-entry-input col-12 col-xl-9 float-left mt-1 height1p2" id="longitude">
@@ -631,8 +631,6 @@ limitations under the License.
 											<input type="text" name="sovereign_nation" class="data-entry-input col-12 col-xl-9 mt-1 height1p2" placeholder="Sovereign Nation" />
 											<label for="higher_geog" class="small font-weight-light float-left col-12 col-xl-3 px-0 d-block mt-1 mb-0">Geology Attribute</label>
 											<input type="text" name="geology_attribute" class="data-entry-input col-12 mt-1 col-xl-9 height1p2" placeholder="Geology Attribute" />
-											<label for="habitat" class="small font-weight-light float-left col-12 col-xl-3 px-0 d-block mt-1 mb-0">Habitat</label>
-											<input type="text" name="habitat" class="data-entry-input col-12 col-xl-9 mt-1 height1p2" placeholder="Habitat" />
 											<label for="locality_remark" class="small font-weight-light float-left col-12 px-0 col-xl-3 d-block mt-1 mb-0">Locality Remark</label>
 											<textarea type="text" name="locality_remark" class="data-entry-textarea mt-1 col-12 col-xl-9" placeholder="Locality Remark"/></textarea>
 										</div>
