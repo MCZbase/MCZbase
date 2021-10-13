@@ -754,7 +754,7 @@ limitations under the License.
 															var otheridtypesource = [
 																<cfset comma="">
 																<cfloop query="ctother_id_type">
-																	#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ct_other_id_type.ct#)"}
+																	#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
 																	<cfset comma=",">
 																</cfloop>
 															];
@@ -786,7 +786,7 @@ limitations under the License.
 															var otheridtypesource = [
 																<cfset comma="">
 																<cfloop query="ctother_id_type">
-																	#comma#{name:"#ctother_id_type.other_id_type_1#",meta:"#ctother_id_type.other_id_type_1# (#ct_other_id_type_1.ct#)"}
+																	#comma#{name:"#ctother_id_type.other_id_type_1#",meta:"#ctother_id_type.other_id_type_1# (#ctother_id_type.ct#)"}
 																	<cfset comma=",">
 																</cfloop>
 															];
