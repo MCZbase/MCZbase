@@ -682,6 +682,15 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif has0 AND has1>
 		<!--- create nested or clause has (other_id_number of type) or (has other_id_number_1 of type_1) --->
 		<cfset innernest = 1>
+		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
+			<cfset field = '"field": "other_id_type"'>
+			<cfset comparator = '"comparator": "IN"'>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type#")>
+			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset innernest = innernest + 1>
+		</cfif>
 		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
 			<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
 				<cfset field = '"field": "display_value"'>
@@ -697,10 +706,11 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			 	<cfset innernest = innernest + 1>
 			</cfif>
 		</cfif>
-		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
-			<cfset field = '"field": "other_id_type"'>
+		<cfset nest = nest + 1>
+		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
+			<cfset field = '"field": "other_id_type_1"'>
 			<cfset comparator = '"comparator": "IN"'>
-			<cfset value = escapeQuotesForJSON(value="#other_id_type#")>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
@@ -720,15 +730,6 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfset join='"join":"and",'>
 			 	<cfset innernest = innernest + 1>
 			</cfif>
-		</cfif>
-		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
-			<cfset field = '"field": "other_id_type_1"'>
-			<cfset comparator = '"comparator": "IN"'>
-			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
-			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
-			<cfset separator = ",">
-			<cfset join='"join":"and",'>
-			<cfset innernest = innernest + 1>
 		</cfif>
 		<cfset nest = nest + 1>
 	<cfelse>
