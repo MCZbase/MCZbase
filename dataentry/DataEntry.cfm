@@ -838,11 +838,11 @@ limitations under the License.
 												</cfloop>
 											</select>
 										<div class="">
-										<label for="condition" class="small font-weight-light col-12 col-xl-2 float-left d-block mt-1 mb-0">Condition</label>
+										<label for="condition" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">Condition</label>
 										<input type="text" class="data-entry-input float-left height1p2" name="condition">
 										</div>
-										<label for="disposition" class="small font-weight-light float-left d-block mt-1 mb-0">Disposition</label>
-											<select class="data-entry-select smallselect">
+										<label for="disposition" class="small font-weight-light float-left d-block col-12 col-xl-4 mt-1 mb-0">Disposition</label>
+											<select class="data-entry-select smallselect height1p2 float-left col-12 col-xl-4">
 												<option value="">Disposition</option>
 												<cfloop query="obj_disp">
 													<option value="#obj_disp.coll_obj_disposition#">#obj_disp.coll_obj_disposition#</option>
