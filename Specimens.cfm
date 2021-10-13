@@ -805,8 +805,8 @@ limitations under the License.
 														<input type="text" class="data-entry-input" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#other_id_number_1#">
 													</div>
 													<div class="col-12 col-md-6">
-														<label for="other_id_controls_note" class="data-entry-label">Note: </label>
-														<p id="other_id_controls_note">Second set of other id type/other id number fields for testing, may not work as expected.</p>
+														<label for="other_id_controls_note" class="data-entry-label">Note (fields to left): </label>
+														<p id="other_id_controls_note">Second set of other id type/other id number fields is for testing, may not work as expected.</p>
 													</div>
 												</div>
 											</cfif>
