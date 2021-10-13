@@ -828,10 +828,10 @@ limitations under the License.
 								<div id="customPart">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
 									<div class="form-row mx-0 my-2">
-										<label for="part_name" class="small font-weight-light float-left col-12 col-xl-3 px-0  d-block mt-1 mb-0">Part Name</label>
+										<label for="part_name" class="small font-weight-light float-left col-12 col-xl-2 px-0  d-block mt-1 mb-0">Part Name</label>
 										<input type="text" class="data-entry-input col-12 col-xl-3 mt-1" name="part_name">
-										<label for="preserv_method" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Preserve Method</label>
-											<select class="data-entry-select smallselect height1p2">
+										<label for="preserv_method" class="small font-weight-light col-12 col-xl-4 px-0 float-left d-block mt-1 mb-0">Preserve Method</label>
+											<select class="data-entry-select smallselect col-12 float-left col-xl-3 mt-1height1p2">
 												<option value="">Preserve Method</option>
 												<cfloop query="spec_preserv_method">
 													<option value="#spec_preserv_method.preserve_method#">#spec_preserv_method.preserve_method#</option>
