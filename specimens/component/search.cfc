@@ -703,7 +703,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
 			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
-			<cfset value = valueToQuotedList(value="#other_id_type#")>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type#")>
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
@@ -729,7 +729,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
 			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
-			<cfset value = valueToQuotedList(value="#other_id_type_1#")>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
@@ -770,7 +770,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
 			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
-			<cfset value = valueToQuotedList(value="#other_id_type#")>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type#")>
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
@@ -794,7 +794,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
 			<cfset field = '"field": "other_id_type"'>
 			<cfset comparator = '"comparator": "IN"'>
-			<cfset value = valueToQuotedList(value="#other_id_type_1#")>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
