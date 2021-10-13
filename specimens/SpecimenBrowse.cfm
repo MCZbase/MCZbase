@@ -19,7 +19,7 @@ limitations under the License.
 -->
 <cfinclude template = "/shared/_header.cfm">
 
-<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	SELECT count(flat.collection_object_id) ct, underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
 	FROM UNDERSCORE_COLLECTION
 	LEFT JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -32,7 +32,7 @@ limitations under the License.
 		underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
 	ORDER BY underscore_collection.collection_name
 </cfquery>
-<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	select count(*) ct, country 
 	from 
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
@@ -40,14 +40,14 @@ limitations under the License.
 	group by country
 	order by country
 </cfquery>
-<cfquery name="notcountries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="notcountries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, continent_ocean
 	from
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 	where country is null
 	group by continent_ocean
 </cfquery>
-<cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, phylum 
 	from 
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
@@ -55,7 +55,7 @@ limitations under the License.
 	group by phylum
 	order by phylum
 </cfquery>
-<cfquery name="notphyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="notphyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, kingdom, phylorder 
 	from 
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
@@ -63,7 +63,7 @@ limitations under the License.
 	group by kingdom, phylorder
 	order by phylorder
 </cfquery>
-<cfquery name="notkingdoms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="notkingdoms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, scientific_name
 	from 
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
@@ -71,25 +71,25 @@ limitations under the License.
 	group by scientific_name
 	order by scientific_name
 </cfquery> 
-<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	SELECT collection, collection_id, toptypestatus, count(*) as ct
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 	WHERE
-		topytypestatuskind = 'Primary'
+		toptypestatuskind = 'Primary'
 	GROUP BY
 		collection, collection_id, toptypestatus
 </cfquery>
 
+<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+	<cfset specimenSearch="/Specimens.cfm?execute=true&action=fixedSearch">
+<cfelse>
+	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
+</cfif>
 <cfoutput>
 	<main class="container">
 		<div class="row">
 			<div class="col-4">
-				<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-					<cfset specimenSearch="/Specimens.cfm?execute=true">
-				<cfelse>
-					<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
-				</cfif>
 				<h1 class="h2">Primary Types</h1>
 				<ul>
 					<cfloop query="primaryTypes">
@@ -113,19 +113,14 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="row">
-			<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-				<cfset specimenSearch="/Specimens.cfm?execute=true">
-			<cfelse>
-				<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
-			</cfif>
 			<div class="col-12 col-md-6">
 				<h1 class="h2">Browse by higher geography</h1>
 				<ul>
 					<cfloop query="countries">
-						<li><a href="#specimenSearch#country=#country#">#country#</a> (#ct#)</li>
+						<li><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
 					</cfloop>
 					<cfloop query="notcountries">
-						<li><a href="#specimenSearch#country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
+						<li><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
 					</cfloop>
 				</ul>
 			</div>
@@ -133,13 +128,13 @@ limitations under the License.
 				<h1 class="h2">Browse by higher taxonomy</h1>
 				<ul>
 					<cfloop query="phyla">
-						<li><a href="#specimenSearch#phylum=#phylum#">#phylum#</a> (#ct#)</li>
+						<li><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
 					</cfloop>
 					<cfloop query="notphyla">
-						<li><a href="#specimenSearch#phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
+						<li><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
 					</cfloop>
 					<cfloop query="notkingdoms">
-						<li><a href="#specimenSearch#phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
+						<li><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
 					</cfloop>
 				</ul>
 			</div>

@@ -22,6 +22,7 @@ input.goodPick, select.goodPick, textarea.goodPick {
 	line-height: 1.02;
 	font-weight: 450;
 }
+
 .small90 {
 	font-size: 89%
 }
@@ -34,6 +35,9 @@ input.goodPick, select.goodPick, textarea.goodPick {
 a {
 	cursor: pointer;
 }
+.blueFocus a:focus {
+	box-shadow: 0 0 0 0.15rem rgb(0 123 255/25%);
+} 
 /** Styling of external links out, shared with production **/
 .external:after {
 	text-decoration: none !important;
@@ -355,6 +359,7 @@ button:focus, input:focus, select:focus, button.focus, input.focus, select.focus
 	box-shadow: 0 0 0 0.12rem rgba(38, 143, 255, 0.5);
 	outline: 0;
 	border: 1px dotted #ccc;
+	box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
 }
 span.data-entry-addon {
 	cursor: pointer;
@@ -868,6 +873,7 @@ a#showLeftPush.hiddenclass {
 	display: inline-block;
 	opacity: 0.85;
 	color: #333;
+	padding: 3px;
 }
 #regForm .step.active {
 	opacity: 1;
@@ -1596,7 +1602,7 @@ tr.line-top:first-child {
 }
 .infoLink {
 	cursor: pointer;
-	color: #3366cc;
+	color: #3366cc!important;
 	text-decoration: underline;
 }
 .infoLink:hover {
@@ -1677,7 +1683,7 @@ tr.line-top:first-child {
 .smaller {
 	font-size: .7em !important;
 }
-.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before {
+/*.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	float: left !important;
@@ -1691,7 +1697,8 @@ tr.line-top:first-child {
 	padding-right: 5px;
 	float: left !important;
 	cursor: pointer;
-}
+}*/
+
 .card-header h1 button.collapsed span:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
@@ -1731,7 +1738,6 @@ tr.line-top:first-child {
 	float: left !important;
 	cursor: pointer;
 }
-
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
 }
@@ -1835,7 +1841,7 @@ input#readMore_check_id {
 	color: black;
 	background-color: #f5f5f5;
 	border-top: 3px solid white;
-	border-bottom: 1px solid #f5f5f5;
+	border-bottom: 2px solid #f5f5f5;
 	cursor: pointer;
 	box-shadow: none;
 	border-right: 1px solid #96ECED;
@@ -1855,6 +1861,13 @@ input#readMore_check_id {
 	cursor: pointer;
 	border-right: 1px solid #deebec;
 	border-left: 1px solid #deebec;
+}
+.tab-content div[aria-hidden='true'] {
+	display: none;
+	outline: 0;
+}
+.tab-content div[aria-hidden='false'] {
+	display: block;
 }
 button[tabindex="-1"]:focus {
 	outline: 0 !important;
@@ -1878,12 +1891,68 @@ button[tabindex="-1"]:focus {
 	border: 2px inset rgba(255, 193, 7, .2)!important;
 	box-shadow: none;
 }
-.tab-content div[aria-hidden='true'] {
-	display: none;
-	outline: 0;
+.card-header h1 button.collapsed span:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	float: left !important;
+	content: "\f067";
+	cursor: pointer;
 }
-.tab-content div[aria-hidden='false'] {
+.card-header h1 button span:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	content: "\f068";
+	padding-right: 5px;
+	float: left !important;
+}
+.card-header h2 button, .card-header h3 button {
+	font-weight:500;
+}
+.card-header h2 button[aria-expanded="false"]:before, .card-header h3 button[aria-expanded="false"]:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 600;
+	font-size: smaller;
+	float: left !important;
+	content: "\f067";
+	content: "\f0fe";/*plus*/
+	padding-top: 2px;
+	cursor: pointer;
+	padding-right: 6px;
+}
+.card-header h2 button[aria-expanded="true"]:before, .card-header h3 button[aria-expanded="true"]:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 600;
+	font-size: smaller;
+	content: "\f068";
+	content: "\f146";/*minus*/
+	padding-right: 6px;
+	padding-top: 2px;
+	float: left !important;
+	cursor: pointer;
+}
+.accordion .card-header h3 button:focus {
+	border: 2px inset rgba(255, 193, 7, .2)!important;
+	box-shadow: none;
+}
+.card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
+	text-decoration: none;
+}
+a.anchorFocus {
+	outline: 0;
+	box-shadow: 0 0 0 0 transparent;
+	margin: .25rem .75rem;
 	display: block;
+	position: absolute;
+	z-index: 3;
+	top: 0;
+	right: 0;
+}
+a.anchorFocus:focus {
+	border: 2px inset rgba(0, 123,255, .25)!important;
+	border: 2px inset rgba(255, 193, 7, .2)!important;
+	outline: 0;
+	box-shadow: 0 0 0 0 transparent;
+	margin: .18rem .67rem;
 }
 div[aria-hidden='true'] {
 	display: none;
@@ -1910,6 +1979,9 @@ a.btn-outline-primary:hover, a.btn-outline-primary:not(:disabled):not(.disabled)
 	color: white !important;
 	padding-bottom: .05rem;
 	font-size: .785rem;
+}
+.btn-outline-primary:focus {
+	box-shadow: 0 0 0 0.2rem rgb(0 123 255 /25%);
 }
 a.btn-danger {
 	background-color: white;
@@ -2004,7 +2076,62 @@ section#mediaSection.accordion {
 .bg-teal {
 	background-color: rgb(199 251 255 / .35) !important;
 }
+.height1p2 {
+	height: 1.4rem!important;
+	
+}
+.smallselect {
+	font-size: 84%!important;
+}
+#collapseKeyword.collapsing.width {
+	height: auto;
+	width: 0;
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	-ms-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;
+}
+button.help-btn {
+	background-color: #1b1b1b;
+	color: white;
+	float:right;
+	-webkit-backface-visibility: hidden;
+	-webkit-transform: translateX(-98%) rotate(-90deg);
+	-webkit-transform-origin: right top;
+	-moz-transform: translateX(-98%) rotate(-90deg);
+	-moz-transform-origin: right top;
+	-o-transform: translateX(-98%) rotate(-90deg);
+	-o-transform-origin: right top;
+	transform: translateX(-98%) rotate(-90deg);
+	transform-origin: right top;
+	margin-bottom: 15px;
+	top: -.25rem;
+	right: -79px;
+	z-index:1; 
+	padding-top:.15rem;
+	padding-bottom: .15rem; 
+	font-size: 13.5px;
+	margin-top:0;
+	position: absolute;
+}
+#collapseKeyword h2.headerSm {
+	font-size: 1.25rem;
+}
+#collapseKeyword dt {
+	float:left;
+	display: inline-block;
+	min-width: 25px!important;
+}
+.collapseStyle {
+	z-index: 3000; 
+	position: absolute; 
+	margin-top: 6.13rem; 
+	margin-right: -1rem;
+}
 /************end tabs -- redone for accessibility  ***************/
+
+
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/

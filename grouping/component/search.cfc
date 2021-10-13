@@ -17,7 +17,7 @@ limitations under the License.
 
 --->
 <cfcomponent>
-<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/shared/component/functions.cfc" runOnce="true">
 
 <!---   Function getCollections  --->
 <cffunction name="getCollections" access="remote" returntype="any" returnformat="json">
@@ -196,7 +196,17 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 <cffunction name="getSpecimensInGroup" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="smallerfieldlist" type="string" required="no">
+	<cfargument name="recordstartindex" type="string" required="no">
+	<cfargument name="recordendindex" type="string" required="no">
+	<cfargument name="pagesize" type="string" required="no">
+	<cfargument name="pagenum" type="string" required="no">
+	<cfargument name="sortdatafield" type="string" required="no">
+	<cfargument name="sortorder" type="string" required="no">
+	<cfargument name="filterscount" type="string" required="no">
 
+	<cfif NOT isdefined("pagesize")><cfset pagesize=0></cfif>
+	<cfif NOT isdefined("sortdatafield")><cfset sortdatafield=""></cfif>
+	<cfif NOT isdefined("sortorder")><cfset sortorder="asc"></cfif>
 	<!--- 
 	fields in the showNamedGroup grid
 		{ name: 'guid', type: 'string' },
@@ -209,6 +219,9 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	--->
 	<cftry>
 		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" >
+			<cfif pagesize GT 0 >
+				SELECT * FROM (
+			</cfif>
 			SELECT DISTINCT 
 				flat.guid, 
 				flat.scientific_name, 
@@ -225,16 +238,194 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					mczbase.get_pretty_date(flat.verbatim_date,flat.began_date,flat.ended_date,1,0) as date_collected,
 					flat.country, flat.state_prov, flat.continent_ocean, flat.county,
 					flat.island, flat.island_group,
-					flat.phylum, flat.phylclass, flat.phylorder, flat.family,
-					underscore_relation.underscore_relation_id
+					flat.phylum, flat.phylclass, flat.phylorder, flat.family
+				</cfif>
+				<cfif pagesize GT 0 >
+					,
+					row_number() OVER (
+						<cfif lcase(sortdatafield) EQ "guid">
+							ORDER BY flat.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+								to_number(regexp_substr(flat.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+								flat.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+						<cfelseif lcase(sortdatafield) EQ "scientific_name">
+							ORDER BY scientific_name <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+						<cfelseif lcase(sortdatafield) EQ "verbatim_date">
+							ORDER BY verbatim_date <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+						<cfelseif lcase(sortdatafield) EQ "higher_geog">
+							ORDER BY higher_geog <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+						<cfelseif lcase(sortdatafield) EQ "spec_locality">
+							ORDER BY spec_locality <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+						<cfelseif lcase(sortdatafield) EQ "othercatalognumbers">
+							ORDER BY othercatalognumbers <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+						<cfelseif lcase(sortdatafield) EQ "full_taxon_name">
+							ORDER BY full_taxon_name <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+						<cfelse>
+							ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
+						</cfif>
+					) rownumber
 				</cfif>
 			FROM
 				underscore_relation 
-				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+				INNER JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				and flat.guid is not null
-			ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
+				<cfif isdefined("filterscount") AND filterscount GT 0>
+					<cfloop index="i" from='0' to='#filterscount#'>
+						<cfif isdefined("filterdatafield"&i) AND (isdefined("filtervalue"&i) OR isdefined("filtercondition"&i))>
+							<cfif evaluate("filterdatafield"&i) EQ "scientific_name">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND scientific_name IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND scientific_name IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
+							<cfelseif evaluate("filterdatafield"&i) EQ "verbatim_date">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND verbatim_date IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND verbatim_date IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(verbatim_date) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND verbatim_date like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(verbatim_date) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
+							<cfelseif evaluate("filterdatafield"&i) EQ "guid">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND guid IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND guid IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(guid) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(guid) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
+							<cfelseif evaluate("filterdatafield"&i) EQ "spec_locality">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND spec_locality IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND spec_locality IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(spec_locality) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(spec_locality) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
+							<cfelseif evaluate("filterdatafield"&i) EQ "higher_geog">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND higher_geog IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND higher_geog IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(higher_geog) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(higher_geog) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
+							<cfelseif evaluate("filterdatafield"&i) EQ "othercatalognumbers">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND othercatalognumbers IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND othercatalognumbers IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(othercatalognumbers) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND othercatalognumbers like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(othercatalognumbers) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
+							<cfelseif evaluate("filterdatafield"&i) EQ "full_taxon_name">
+								<cfswitch expression="#lcase(evaluate('filtercondition'&i))#">
+									<cfcase value="empty">
+										AND full_taxon_name IS NULL
+									</cfcase>
+									<cfcase value="not_empty">
+										AND full_taxon_name IS NOT NULL
+									</cfcase>
+									<cfcase value="contains">
+										AND upper(full_taxon_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+									<cfcase value="contains_case_sensitive">
+										AND full_taxon_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#evaluate('filtervalue'&i)#%">
+									</cfcase>
+									<cfcase value="does_not_contain">
+										AND NOT upper(full_taxon_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(evaluate('filtervalue'&i))#%">
+									</cfcase>
+								</cfswitch>
+							</cfif>
+						</cfif>
+					</cfloop>
+				</cfif>
+			<cfif lcase(sortdatafield) EQ "guid">
+				ORDER BY flat.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+					to_number(regexp_substr(flat.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+					flat.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfelseif lcase(sortdatafield) EQ "scientific_name">
+				ORDER BY scientific_name <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfelseif lcase(sortdatafield) EQ "verbatim_date">
+				ORDER BY verbatim_date <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfelseif lcase(sortdatafield) EQ "higher_geog">
+				ORDER BY higher_geog <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfelseif lcase(sortdatafield) EQ "spec_locality">
+				ORDER BY spec_locality <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfelseif lcase(sortdatafield) EQ "othercatalognumbers">
+				ORDER BY othercatalognumbers <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfelseif lcase(sortdatafield) EQ "full_taxon_name">
+				ORDER BY full_taxon_name <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfelse>
+				ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
+			</cfif>
+			<cfif pagesize GT 0 >
+				)
+				WHERE rownumber between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recordstartindex#">
+					and <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recordendindex#">
+			</cfif>
 		</cfquery>
 		<cfset i = 1>
 		<cfset data = ArrayNew(1)>
@@ -242,6 +433,9 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+				<cfif i EQ 1>
+					<cfset row["recordcount"] = "#search.recordcount#">
+				</cfif>
 			</cfloop>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
@@ -254,6 +448,52 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<cffunction name="getSpecimensInGroupCSV" access="remote" returntype="any" returnformat="plain">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="smallerfieldlist" type="string" required="no">
+
+	<cfset retval = "">
+	<cftry>
+		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+			SELECT DISTINCT 
+				flat.guid, 
+				flat.scientific_name, 
+				flat.verbatim_date, 
+				flat.higher_geog, 
+				flat.spec_locality,
+				flat.othercatalognumbers, 
+				flat.full_taxon_name
+				<cfif NOT isDefined("smallerfieldlist") OR len(smallerfieldlist) GT 0>
+					,
+					flat.collectors,
+					flat.author_text,
+					flat.collection_cde, 
+					mczbase.get_pretty_date(flat.verbatim_date,flat.began_date,flat.ended_date,1,0) as date_collected,
+					flat.country, flat.state_prov, flat.continent_ocean, flat.county,
+					flat.island, flat.island_group,
+					flat.phylum, 
+					flat.phylclass, 
+					flat.phylorder, 
+					flat.family
+				</cfif>
+			FROM
+				underscore_relation 
+				INNER JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+					on underscore_relation.collection_object_id = flat.collection_object_id
+			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+		</cfquery>
+		<cfset retval = queryToCSV(search)>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+	   <cfabort>
+	</cfcatch>
+	</cftry>
+	<cfheader name="Content-Type" value="text/csv">
+<cfoutput>#retval#</cfoutput>
 </cffunction>
 
 </cfcomponent>

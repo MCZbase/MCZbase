@@ -100,9 +100,14 @@ limitations under the License.
 	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxtooltip.js"></script>
 	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxcheckbox.js"></script>
 </cfif>
+<cfif isdefined("includeJQXMoreInputs") AND includeJQXMoreInputs IS 'true'>
+	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxnumberinput.js"></script>
+</cfif>
+
 
 <script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		<script type="text/javascript" src="/specimens/js/specimens.js"></script> 
 	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script> 
 	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
 </cfif>
@@ -111,6 +116,7 @@ limitations under the License.
 <!--- TODO: Replace with jqx multiselect instead of using additional library --->
 <script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script> 
 <script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>
+	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
 		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script> 
@@ -129,7 +135,7 @@ limitations under the License.
 <cfif CGI.script_name IS "/Specimens.cfm" OR CGI.script_name IS "/Transactions.cfm">
 	<script type="text/javascript" src="/shared/js/tabs.js"></script>
 </cfif>
-<cfif CGI.script_name CONTAINS "/taxonomy/" OR CGI.script_name IS "/Taxa.cfm">
+<cfif CGI.script_name CONTAINS "/taxonomy/" OR CGI.script_name IS "/Taxa.cfm" OR CGI.script_name is "/Specimens.cfm">
 	<script type="text/javascript" src="/taxonomy/js/taxonomy.js"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/agents/">
@@ -260,13 +266,11 @@ limitations under the License.
 						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 							<li> 	
-								<cfif targetMenu EQ "production">
-									<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens</a> <!--- old --->
-								<cfelse>
-									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a>
-								</cfif>				
-								<cfif targetMenu EQ "redesign">
-									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens By Category</a>
+								<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens</a> <!--- old --->
+								<!--- TODO: Rollout by opening up to coldfusion_user --->
+								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops")) >
+									<a class="dropdown-item" href="/Specimens.cfm">Specimens (new)</a>
+									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 								</cfif>
 								<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
 								<a class="dropdown-item" href="/media/findMedia.cfm">Media</a>
@@ -631,6 +635,8 @@ limitations under the License.
 											</cfif>
 									
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=search">Manage Specimen Search Fields</a>
+											<a class="dropdown-item" href="/specimens/adminSpecimenSearch.cfm?action=results">Manage Specimen Results Columns</a>
 											<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>

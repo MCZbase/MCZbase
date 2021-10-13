@@ -378,7 +378,8 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 
 /** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
  *  autocomplete agent picker, with a limitation on which agents are shown to agents relevant to the context,
- *  Not intended for use to pick agents for transaction roles where agent flags may apply
+ *  Not intended for use to pick agents for transaction roles where agent flags may apply, also not intended
+ *  for use in searches where a substring may apply, as fields are all cleared on edit not on list.
  *  
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
@@ -463,7 +464,8 @@ function makeConstrainedRichAgentPicker(nameControl, idControl, iconControl, lin
 };
 
 /** Make a paired hidden agent_id and text agent_name control into an autocomplete agent picker, intended for use
- *  with agent controls on searches, to limit selections to relevant agent names.
+ *  with agent controls on searches, to limit selections to relevant agent names, but to allow a text value not on
+ *  the list without an id value, as in a name substring.
  *
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
@@ -581,7 +583,39 @@ function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex)
 	for (i = 1; i < columns.length; i++) {
 		var text = columns[i].text;
 		var datafield = columns[i].datafield;
-		var content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+	}
+	content = content + "</ul></div>";
+	$("#" + rowDetailsTargetId + rowIndex).html(content);
+	$("#"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
+		{ 
+			autoOpen: true, 
+			buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("#" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+			width: dialogWidth,
+			title: 'Record Details'		
+		}
+	);
+	// Workaround, expansion sits below row in zindex.
+	var maxZIndex = getMaxZIndex();
+	$("#"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+};
+/** function createRowDetailsDialogNoBlanks works as createRowDetailsDialog, but leaves out fields 
+  for which there is no value in the specified rowIndex.
+
+  @see createRowDetailsDialog
+*/
+function createRowDetailsDialogNoBlanks(gridId, rowDetailsTargetId, datarecord,rowIndex) {
+	var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
+	var columns = $('#' + gridId).jqxGrid('columns').records;
+	var gridWidth = $('#' + gridId).width();
+	var dialogWidth = Math.round(gridWidth/2);
+	if (dialogWidth < 150) { dialogWidth = 150; }
+	for (i = 1; i < columns.length; i++) {
+		var text = columns[i].text;
+		var datafield = columns[i].datafield;
+		if (datarecord[datafield]) { 
+			content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+		}
 	}
 	content = content + "</ul></div>";
 	$("#" + rowDetailsTargetId + rowIndex).html(content);
@@ -763,6 +797,35 @@ function makePublicationAutocompleteMeta(valueControl, idControl) {
 	};
 };
 
+/** Make a text name control into an autocomplete type status picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makeTypeStatusSearchAutocomplete(valueControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/publications/component/search.cfc",
+				data: { term: request.term, method: 'getTypeStatusSearchAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+						message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		minLength: 3
+	});
+};
+
 /** Make a paired hidden id and text name control into an autocomplete project picker.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
@@ -812,16 +875,8 @@ function makeCatalogedItemAutocompleteMeta(valueControl, idControl) {
 				data: { term: request.term, method: 'getCatalogedItemAutocompleteMeta' },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : function (jqXHR, status, error) {
-					var message = "";
-					if (error == 'timeout') { 
-						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
-					} else { 
-						message = jqXHR.responseText;
-					}
-					messageDialog('Error:' + message ,'Error: ' + error);
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up cataloged items");
 				}
 			})
 		},
@@ -848,16 +903,8 @@ function makeLocalityAutocompleteMeta(valueControl, idControl) {
 				data: { term: request.term, method: 'getLocalityAutocompleteMeta' },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : function (jqXHR, status, error) {
-					var message = "";
-					if (error == 'timeout') { 
-						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
-					} else { 
-						message = jqXHR.responseText;
-					}
-					messageDialog('Error:' + message ,'Error: ' + error);
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up localities for a locality picker");
 				}
 			})
 		},
@@ -884,16 +931,8 @@ function makeCollectingEventAutocompleteMeta(valueControl, idControl) {
 				data: { term: request.term, method: 'getCollectingEventAutocompleteMeta' },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : function (jqXHR, status, error) {
-					var message = "";
-					if (error == 'timeout') { 
-						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
-					} else { 
-						message = jqXHR.responseText;
-					}
-					messageDialog('Error:' + message ,'Error: ' + error);
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up collecting events for a collecting event picker");
 				}
 			})
 		},
@@ -907,7 +946,65 @@ function makeCollectingEventAutocompleteMeta(valueControl, idControl) {
 	};
 };
 
+/** Make a text control into an autocomplete part name  picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makePartNameAutocompleteMeta(valueControl ) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/specimens/component/search.cfc",
+				data: { term: request.term, method: 'getPartNameAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up part names for a part name picker");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+valueControl).val("=" + result.item.value);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
+/** Make a text control into an autocomplete preserve method picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makePreserveMethodAutocompleteMeta(valueControl ) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/specimens/component/search.cfc",
+				data: { term: request.term, method: 'getPreserveMethodAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up part names for a preserve method picker");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+valueControl).val("=" + result.item.value);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
 /** Make a paired hidden id and text name control into an autocomplete scientific name picker
+ *  intended for use on searches, to allow selection of scientific names, but to allow a text value not on
+ *  the list without an id value, as in a name substring.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected collection_object_id (without a leading # selector).
@@ -935,6 +1032,12 @@ function makeScientificNameAutocompleteMeta(valueControl, idControl) {
 		},
 		select: function (event, result) {
 			$('#'+idControl).val(result.item.id);
+		},
+		change: function (event, ui) {
+			// clear the id control if the action wasn't a selection of an item on the list
+			if(!ui.item){ 
+				$('#'+idControl).val("");
+			}
 		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
@@ -1185,4 +1288,107 @@ function getColHidProp(columnName, defaultValue) {
 	} else {
 		return defaultValue
 	}
+}
+
+/** 
+ Switch a set of image controls to display the previous image in a set.
+ @param counter one based position within array of images represented by imageMetadataArray
+ @param imageMetadataArray an array of media medtadata objects containing media_id, media_uri, media_des
+ @param media_img id of the img element in the page into which the image is to be placed, not including # selector
+ @param media_des id of the element in the page containing the description of the image, not including # selector
+ @param detail_a id of the anchor tag in the page that is the link to a media details page, not including # selector
+ @param media_a id of the anchor tag in the page that is the link to the media object, not including # selector
+ @param image_counter id of the control showing the counter value, not including # selector
+ @param sizeparams specification for size of image in the form &height={y}&width={x}
+ @return the new value for counter.
+*/ 
+function goPreviousImage(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter, sizeparams) { 
+	$('#'+media_img).attr('src','/shared/images/indicator_for_load.gif');
+	console.log( $('#'+media_img).attr('src'));
+	currentCounter = counter;
+	currentCounter = currentCounter - 1;
+	if (currentCounter < 1) { 
+		currentCounter = imageMetadataArray.length;
+	}
+	console.log(currentCounter);
+	// array is zero based, counter is one based (so display of zeroth element in array is 1 for first image)
+	var currentImageMetadataRecord = imageMetadataArray[currentCounter - 1];
+	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
+	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
+	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
+	$("#"+media_img).attr("alt",currentImageMetadataRecord.alt);
+	$("#"+image_counter).val(currentCounter);
+	$("#"+media_des).html(currentImageMetadataRecord.alt);
+	return currentCounter;
+}
+/** 
+ Switch a set of image controls to display the next image in a set.
+ @param counter one based position within array of images represented by imageMetadataArray
+ @param imageMetadataArray an array of media medtadata objects containing media_id, media_uri, media_des
+ @param media_img id of the img element in the page into which the image is to be placed, not including # selector
+ @param media_des id of the element in the page containing the description of the image, not including # selector
+ @param detail_a id of the anchor tag in the page that is the link to a media details page, not including # selector
+ @param media_a id of the anchor tag in the page that is the link to the media object, not including # selector
+ @param image_counter id of the control showing the counter value, not including # selector
+ @param sizeparams specification for size of image in the form &height={y}&width={x}
+ @return the new value for counter.
+*/ 
+function goNextImage(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter,sizeparams) { 
+	$('#'+media_img).attr('src','/shared/images/indicator_for_load.gif');
+	console.log( $('#'+media_img).attr('src'));
+	currentCounter = counter;
+	currentCounter = currentCounter + 1;
+	if (currentCounter > imageMetadataArray.length) { 
+		currentCounter = 1;
+	}
+	console.log(currentCounter);
+	// array is zero based, counter is one based (so display of zeroth element in array is 1 for first image)
+	var currentImageMetadataRecord = imageMetadataArray[currentCounter - 1];
+	console.log(currentImageMetadataRecord);
+	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
+	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
+	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
+	$("#"+media_img).attr("alt",currentImageMetadataRecord.alt);
+	$("#"+image_counter).val(currentCounter);
+	$("#"+media_des).html(currentImageMetadataRecord.alt);
+	return currentCounter;
+}
+/** 
+ Switch a set of image controls to display a specified image in a set, if a valid position is specfied in the value
+ of image_counter, then that image is moved to, otherwise the image remains at the current counter value.
+ @param counter one based current position within array of images represented by imageMetadataArray
+ @param imageMetadataArray an array of media medtadata objects containing media_id, media_uri, media_des
+ @param media_img id of the img element in the page into which the image is to be placed, not including # selector
+ @param media_des id of the element in the page containing the description of the image, not including # selector
+ @param detail_a id of the anchor tag in the page that is the link to a media details page, not including # selector
+ @param media_a id of the anchor tag in the page that is the link to the media object, not including # selector
+ @param image_counter id of the control showing the counter value, not including # selector
+ @param sizeparams specification for size of image in the form &height={y}&width={x}
+ @return the new value for counter.
+*/ 
+function goImageByNumber(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter,sizeparams) { 
+	$('#'+media_img).attr('src','/shared/images/indicator_for_load.gif');
+	console.log( $('#'+media_img).attr('src'));
+	currentCounter = counter;
+	var targetCounterValue = currentCounter;
+	var inputval = $("#"+image_counter).val();
+	if(Number.isInteger(inputVal)) {
+		targetCounterValue = inputVal;
+	}
+	if (targetCounterValue > imageMetadataArray.length) { 
+		targetCounterValue = imageMetadataArray.length;
+	}
+	if (targetCounterValue < 1) { 
+		targetCounterValue = 1;
+	}
+	currentCounter = targetCounterValue;
+	// array is zero based, counter is one based (so display of zeroth element in array is 1 for first image)
+	var currentImageMetadataRecord = imageMetadataArray[currentCounter - 1];
+	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
+	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
+	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
+	$("#"+media_img).attr("alt",currentImageMetadataRecord.alt);
+	$("#"+image_counter).val(currentCounter);
+	$("#"+media_des).html(currentImageMetadataRecord.alt);
+	return currentCounter;
 }
