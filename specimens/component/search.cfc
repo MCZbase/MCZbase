@@ -707,6 +707,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			</cfif>
 		</cfif>
 		<cfset nest = nest + 1>
+		<cfset innernest = 1>
 		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
 			<cfset field = '"field": "other_id_type_1"'>
 			<cfset comparator = '"comparator": "IN"'>
