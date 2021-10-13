@@ -579,10 +579,10 @@ limitations under the License.
 											</div>
 											<label for="Coord. System" class="small font-weight-light col-12 col-md-3 px-0 float-left d-block mt-1 mb-0">Verbatim SRS or Datum</label>
 											<input type="text" class="data-entry-input height1p2 col-12 col-md-9 float-left mt-1 px-0" id="Datum">
-											<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Latitude</label>
-											<input type="text" class="data-entry-input height1p2" id="latitude">
-											<label for="lat_long" class="small font-weight-light float-left d-block mt-1 mb-0">Verbatim Longitude</label>
-											<input type="text" class="data-entry-input height1p2" id="longitude">
+											<label for="lat_long" class="small font-weight-light col-12 col-md-3 float-left float-left d-block mt-1 mb-0">Verbatim Latitude</label>
+											<input type="text" class="data-entry-input col-12 col-md-9 px-0 mt-1 height1p2" id="latitude">
+											<label for="lat_long" class="small font-weight-light col-12 col-md-3 px-0 float-left d-block mt-1 mb-0">Verbatim Longitude</label>
+											<input type="text" class="data-entry-input col-12 col-md-9 float-left px-0 mt-1 height1p2" id="longitude">
 										</div>
 									</div>
 								</div>
