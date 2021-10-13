@@ -767,7 +767,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Georeference Method</label>
-												<select class="data-entry-select col-12 col-xl-9 mt-1 float-left small select height1p2" required>
+												<select class="data-entry-select col-12 col-xl-9 mt-1 float-left small height1p2" required>
 													<option value="">Method</option>
 													<cfloop query="georefmeth">
 														<option value="#georefmeth.georefmethod#">#georefmeth.georefmethod#</option>
