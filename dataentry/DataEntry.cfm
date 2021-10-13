@@ -904,6 +904,7 @@ limitations under the License.
 							<div class="portlet-content">
 								<div class="form-row mx-0">
 									<div id="customBiolRelations">
+										<div class="col-12">
 										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 										<div class="form-row my-2 mx-0">
 											<div class="col-12 col-6 px-1 float-left">
@@ -920,6 +921,7 @@ limitations under the License.
 											<input type="text" class="data-entry-input col-12 height1p2" id="relationship">
 											</div>
 										</div>
+									</div>
 									</div>
 								</div>
 							</div>
