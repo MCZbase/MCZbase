@@ -804,7 +804,7 @@ limitations under the License.
 														<label for="other_id_number_1" class="data-entry-label">Other ID Numbers</label>
 														<input type="text" class="data-entry-input" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#other_id_number_1#">
 													</div>
-													<div class="col-12 col-md-3">
+													<div class="col-12 col-md-6">
 														<p>Second set of other id type/other id number fields for testing, may not work as expected.</p>
 													</div>
 												</div>
