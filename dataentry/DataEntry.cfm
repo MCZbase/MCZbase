@@ -744,9 +744,9 @@ limitations under the License.
 										</div>
 									</div>
 											<div class="col-12 px-0">
-												<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 px-0 mb-0">Max Error</label>
-												<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-8 col-md-7 float-left height1p2" />
-												<select class="data-entry-select col-4 col-md-5 float-left smallselect height1p2" required>
+												<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 col-xl-3 px-0 mb-0">Max Error</label>
+												<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-8 col-xl-6 mt-1 float-left height1p2" />
+												<select class="data-entry-select col-4 col-md-3 float-left smallselect height1p2" required>
 													<option value="">Units</option>
 													<cfloop query="error_units">
 														<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
@@ -759,8 +759,8 @@ limitations under the License.
 												<label for="" class="small font-weight-light float-left text-xl-right pr-2 col-12 col-xl-4 d-block pl-0 mt-1 mb-0">Date</label>
 												<input type="text" class="data-entry-input mt-1 float-left col-12 col-xl-8 height1p2" id="">
 											</div>
-												<label for="datum" class="small font-weight-light float-left d-block mt-1 mb-0">Geodetic Datum or SRS</label>
-												<select class="data-entry-select col-12 px-0 float-left" required>
+												<label for="datum" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Geodetic Datum or SRS</label>
+												<select class="data-entry-select col-12 px-0 float-left col-xl-9 mt-1" required>
 													<option value="">Datum or SRS</option>
 													<cfloop query="datum">
 														<option value="#datum.datum#">#datum.datum#</option>
