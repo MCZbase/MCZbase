@@ -601,10 +601,10 @@ limitations under the License.
 											<input type="text" name="locality_id" class="data-entry-input col-4 mb-0 mx-auto height1p2" placeholder="Locality ID" />
 											<span class="small w-100 float-left text-center mt-0">- OR - </span>
 											<h5 class="font-weight-bold text-left mb-0 d-block w-100">New Locality</h5>
-											<label for="higher_geog" class="small font-weight-light col-12 col-xl-2 float-left d-block mt-1 mb-0">Higher Geography</label>
-											<input type="text" name="higher_geog" class="data-entry-input float-left col-12 col-xl-10 height1p2" placeholder="Higher Geography" />
-											<label for="spec_locality" class="small font-weight-light float-left d-block col-12 col-xl-2 px-0 mt-1 mb-0">Specific Locality</label>
-											<input type="text" name="spec_locality" class="data-entry-input col-12 col-xl-10 height1p2" placeholder="Specific Locality" />
+											<label for="higher_geog" class="small font-weight-light col-12 col-xl-3 float-left px-0 d-block mt-1 mb-0">Higher Geography</label>
+											<input type="text" name="higher_geog" class="data-entry-input float-left col-12 col-xl-9 height1p2" placeholder="Higher Geography" />
+											<label for="spec_locality" class="small font-weight-light float-left d-block col-12 col-xl-3 px-0 mt-1 mb-0">Specific Locality</label>
+											<input type="text" name="spec_locality" class="data-entry-input col-12 col-xl-9 height1p2" placeholder="Specific Locality" />
 											<div class="col-12 px-0">
 												<label for="inputMinElev" class="small font-weight-light col-12 px-0 float-left d-block mt-1 mb-0">Elevation</label>
 												<input type="text" class="data-entry-input col-12 col-xl-4 float-left height1p2" id="inputMinElev" placeholder="Min Elevation">
