@@ -829,7 +829,7 @@ limitations under the License.
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
 									<div class="form-row mx-0 my-2">
 										<div class="col-12 px-0">
-											<label for="part_name" class="small font-weight-light float-left col-12 col-xl-2 px-0 d-block mt-1 mb-0">Part Name</label>
+											<label for="part_name" class="small font-weight-light float-left col-12 col-xl-2 px-0 d-block mt-2 mb-0">Part Name</label>
 											<input type="text" class="data-entry-input col-12 col-xl-4 mt-1 height1p2 float-left" name="part_name">
 											<label for="preserv_method" class="small font-weight-light col-12 col-xl-2 text-right px-1 float-left d-block mt-2 mb-0">Preserve Method</label>
 											<select class="data-entry-select smallselect col-12 float-left col-xl-4 mt-1 height1p2">
@@ -840,7 +840,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 px-0">
-											<label for="condition" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">Condition</label>
+											<label for="condition" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-2 mb-0">Condition</label>
 											<input type="text" class="data-entry-input col-12 mt-1 col-xl-4 float-left height1p2" name="condition">
 											<label for="disposition" class="small font-weight-light float-left d-block col-12 col-xl-2 px-1 text-right mt-2 mb-0">Disposition</label>
 											<select class="data-entry-select smallselect height1p2 mt-1 float-left col-12 col-xl-4">
