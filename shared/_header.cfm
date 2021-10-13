@@ -100,6 +100,10 @@ limitations under the License.
 	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxtooltip.js"></script>
 	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxcheckbox.js"></script>
 </cfif>
+<cfif isdefined("includeJQXMoreInputs") AND includeJQXMoreInputs IS 'true'>
+	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxnumberinput.js"></script>
+</cfif>
+
 
 <script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -262,14 +266,11 @@ limitations under the License.
 						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 							<li> 	
-								<cfif targetMenu EQ "production">
-									<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens</a> <!--- old --->
-								<cfelse>
-									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a>
-								</cfif>				
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens</a> <!--- old --->
+								<!--- TODO: Rollout by opening up to coldfusion_user --->
+								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops")) >
 									<a class="dropdown-item" href="/Specimens.cfm">Specimens (new)</a>
-									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens By Category</a>
+									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 								</cfif>
 								<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
 								<a class="dropdown-item" href="/media/findMedia.cfm">Media</a>

@@ -35,6 +35,8 @@ limitations under the License.
 	<cfargument name="hidden" type="string" required="no">
 	<cfargument name="column_name" type="string" required="no">
 	<cfargument name="label" type="string" required="no">
+	<cfargument name="sql_element" type="string" required="no">
+	<cfargument name="access_role" type="string" required="no">
 
 	<cftry>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
@@ -111,6 +113,40 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfif>
+				<cfif isdefined("sql_element") AND len(sql_element) GT 0>
+					<cfif left(sql_element,1) is "=">
+						AND upper(sql_element) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sql_element,len(sql_element)-1))#">
+					<cfelseif left(sql_element,1) is "~">
+						AND utl_match.jaro_winkler(sql_element, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(sql_element,len(sql_element)-1)#">) >= 0.90
+					<cfelseif left(sql_element,1) is "!~">
+						AND utl_match.jaro_winkler(sql_element, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(sql_element,len(sql_element)-1)#">) < 0.90
+					<cfelseif left(sql_element,1) is "!">
+						AND upper(sql_element) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sql_element,len(sql_element)-1))#">
+					<cfelse>
+						<cfif find(',',sql_element) GT 0>
+							AND upper(sql_element) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(sql_element)#" list="yes"> )
+						<cfelse>
+							AND upper(sql_element) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(sql_element)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("access_role") AND len(access_role) GT 0>
+					<cfif left(access_role,1) is "=">
+						AND upper(access_role) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(access_role,len(access_role)-1))#">
+					<cfelseif left(access_role,1) is "~">
+						AND utl_match.jaro_winkler(access_role, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(access_role,len(access_role)-1)#">) >= 0.90
+					<cfelseif left(access_role,1) is "!~">
+						AND utl_match.jaro_winkler(access_role, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(access_role,len(access_role)-1)#">) < 0.90
+					<cfelseif left(access_role,1) is "!">
+						AND upper(access_role) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(access_role,len(access_role)-1))#">
+					<cfelse>
+						<cfif find(',',access_role) GT 0>
+							AND upper(access_role) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(access_role)#" list="yes"> )
+						<cfelse>
+							AND upper(access_role) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(access_role)#%">
+						</cfif>
+					</cfif>
+				</cfif>
 			ORDER BY CATEGORY, COLUMN_NAME
 		</cfquery>
 
@@ -151,11 +187,13 @@ limitations under the License.
 	<cfargument name="table_name" type="string" required="no">
 	<cfargument name="column_name" type="string" required="no">
 	<cfargument name="label" type="string" required="no">
+	<cfargument name="access_role" type="string" required="no">
+	<cfargument name="ui_function" type="string" required="no">
 
 	<cftry>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT ID, TABLE_NAME, TABLE_ALIAS, COLUMN_NAME, COLUMN_ALIAS, SEARCH_CATEGORY,
-				 DATA_TYPE, DATA_LENGTH, LABEL  
+				 DATA_TYPE, DATA_LENGTH, LABEL, ACCESS_ROLE, UI_FUNCTION
 			FROM cf_spec_search_cols
 			WHERE 
 				ID is not null
@@ -227,6 +265,44 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfif>
+				<cfif isdefined("access_role") AND len(access_role) GT 0>
+					<cfif left(access_role,1) is "=">
+						AND upper(access_role) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(access_role,len(access_role)-1))#">
+					<cfelseif left(access_role,1) is "~">
+						AND utl_match.jaro_winkler(access_role, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(access_role,len(access_role)-1)#">) >= 0.90
+					<cfelseif left(access_role,1) is "!~">
+						AND utl_match.jaro_winkler(access_role, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(access_role,len(access_role)-1)#">) < 0.90
+					<cfelseif left(access_role,1) is "!">
+						AND upper(access_role) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(access_role,len(access_role)-1))#">
+					<cfelse>
+						<cfif find(',',access_role) GT 0>
+							AND upper(access_role) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(access_role)#" list="yes"> )
+						<cfelse>
+							AND upper(access_role) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(access_role)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("ui_function") AND len(ui_function) GT 0>
+					<cfif left(ui_function,1) is "=">
+						AND upper(ui_function) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ui_function,len(ui_function)-1))#">
+					<cfelseif ui_function IS "NULL">
+						AND ui_function IS NULL
+					<cfelseif ui_function IS "NOT NULL">
+						AND ui_function IS NOT NULL
+					<cfelseif left(ui_function,1) is "~">
+						AND utl_match.jaro_winkler(ui_function, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(ui_function,len(ui_function)-1)#">) >= 0.90
+					<cfelseif left(ui_function,1) is "!~">
+						AND utl_match.jaro_winkler(ui_function, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(ui_function,len(ui_function)-1)#">) < 0.90
+					<cfelseif left(ui_function,1) is "!">
+						AND upper(ui_function) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ui_function,len(ui_function)-1))#">
+					<cfelse>
+						<cfif find(',',ui_function) GT 0>
+							AND upper(ui_function) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(ui_function)#" list="yes"> )
+						<cfelse>
+							AND upper(ui_function) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(ui_function)#%">
+						</cfif>
+					</cfif>
+				</cfif>
 			ORDER BY SEARCH_CATEGORY, COLUMN_NAME
 		</cfquery>
 
@@ -280,6 +356,8 @@ limitations under the License.
 						DATA_TYPE,
 						DATA_LENGTH,
 						LABEL,
+						ACCESS_ROLE,
+						UI_FUNCTION
 					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_NAME#">, 
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_ALIAS#">, 
@@ -287,8 +365,10 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_ALIAS#">, 
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SEARCH_CATEGORY#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">, 
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_LENGTH#">, 
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DATA_LENGTH#">, 
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">  
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCESS_ROLE#">  
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#UI_FUNCTION#">  
 					)
 				</cfquery>
 			<cfif doUpdate_result.recordcount NEQ 1>
@@ -327,6 +407,8 @@ limitations under the License.
 	<cfargument name="DATA_TYPE" type="string" required="yes">
 	<cfargument name="DATA_LENGTH" type="string" required="yes">
 	<cfargument name="LABEL" type="string" required="yes">
+	<cfargument name="ACCESS_ROLE" type="string" required="yes">
+	<cfargument name="UI_FUNCTION" type="string" required="yes">
 
 	<cftransaction>
 		<cftry>
@@ -345,8 +427,10 @@ limitations under the License.
 					COLUMN_ALIAS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLUMN_ALIAS#">, 
 					SEARCH_CATEGORY = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SEARCH_CATEGORY#">,
 					DATA_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">, 
-					DATA_LENGTH = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_LENGTH#">, 
-					LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">  
+					DATA_LENGTH = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DATA_LENGTH#">, 
+					LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">,
+					ACCESS_ROLE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCESS_ROLE#">,
+					UI_FUNCTION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#UI_FUNCTION#">
 				WHERE
 					ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ID#">
 			</cfquery>
@@ -564,7 +648,7 @@ limitations under the License.
 				<cfset theResult=queryNew("status, message")>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-				<cfset t = QuerySetCell(theResult, "message", "cf_spec_search_cols row deleted.", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "cf_spec_res_cols row deleted.", 1)>
 			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>

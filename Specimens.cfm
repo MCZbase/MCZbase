@@ -136,6 +136,12 @@ limitations under the License.
 	GROUP BY ct.other_id_type 
 	ORDER BY ct.other_id_type
 </cfquery>
+<cfquery name="ctnature_of_id" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
+	SELECT nature_of_id, count(*) as ct 
+	FROM IDENTIFICATION
+	GROUP BY nature_of_id
+ 	ORDER BY nature_of_id
+</cfquery>
 
 <cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
@@ -231,12 +237,52 @@ limitations under the License.
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#" id="1" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="2" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" id="3" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Custom Fixed Search</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" id="3" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Fixed Search</button>
 						</div>
 						<div class="tab-content">
 							<!---Keyword Search/results tab panel--->
 							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#" #keywordTabShow#>
+									<div class="col-9 float-right px-0"> 
+										<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseKeyword" aria-expanded="false" aria-controls="collapseKeyword">
+													Search Help
+										</button>
+										<div class="collapse collapseStyle" id="collapseKeyword">
+											<div class="card card-body pl-4 py-3 pr-3">
+												<h2 class="headerSm">Keyword Search Help</h2>
+												<p>This help applies only the keyword search, behavior and operators for other searches are different<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")> (see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators" target="_blank">Search Operators</a>). For more examples, see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Keyword_Search" target="_blank">Keyword Search</a></cfif>.</p>
+												<dl class="mb-0"> 
+													<dt><span class="text-info font-weight-bold">&nbsp;</span></dt>
+													<dd>When words are separated by spaces they form a phrase and it is this phrase which is searched for, not the individual words.  For example <em>Panama Bay</em> searches for those two words found adjacent to each other (ignoring punctuation and capitalization). Use operators such as <em>Panama &amp; Bay</em> or <em>NEAR((Panama,Bay),3)</em>, described below, to find a broader scope of records. </dd>
+												</dl>
+												<h2 class="headerSm">Keyword Search Operators</h2>
+												<dl class="mb-0"> 
+													<dt><span class="text-info font-weight-bold">&amp;</span></dt>
+													<dd>The "and" operator, matches records where the search terms on both sides of the &amp; are present somewhere in the record.</dd>
+													<dt><span class="text-info font-weight-bold">|</span></dt>
+													<dd>The "or" operator, matches words where at least one of the search terms is present somewhere in the record.</dd>
+													<dt><span class="text-info font-weight-bold">!</span></dt>
+													<dd>The exclamation mark finds records that contain the first term but not the second (e.g., Panama ! Canal). Results returned would include "Panama" but not "Canal".</dd>
+													<dt><span class="text-info font-weight-bold">NEAR((term,term2),distance) &nbsp;&nbsp;</span></dt>
+													<dd>The NEAR((term,term2),distance) finds words that are nearby each other (e.g. NEAR((Panama,Bay),3) finds records where Panama and Bay are within three words of each other). Example of results: "San Miguel Id Bay of Panama" and "Bay of Panama, Dan Miguel Id".</dd>
+													<dt><span class="text-info font-weight-bold">=</span></dt>
+													<dd>The word equivalence operator, either word is interchangeable in the phrase (e.g., Taboga Island=Id). The results would return rows with "Taboga Island" or "Taboga Id".</dd>
+													<dt><span class="text-info font-weight-bold">FUZZY(term) &nbsp;&nbsp;</span> </dt>
+													<dd>This finds words that are a fuzzy match to the specified term, fuzzy matching can include variations (e.g. misspellings, typos) anywhere in the term (e.g., FUZZY(Taboga)).</dd>
+													<dt><span class="text-info font-weight-bold">$</span></dt>
+													<dd>The soundex symbol "$" finds words that sound like the specified term, unlike fuzzy matching, soundex tends to find words that are similar in the first few letters and vary at the end (e.g., $Rongelap finds records that contain words which sound like Rongelap. Soundex can be good for finding alternate endings on specific epithets of taxa).</dd>
+													<dt><span class="text-info font-weight-bold">##</span></dt> 
+													<dd>The stem operator finds words with the same linguistic stem as the search term, e.g. ##forest finds words with the same stem as forest such as forested or forests.</dd>
+													<dt><span class="text-info font-weight-bold">( )</span></dt>
+													<dd>Parentheses can be used to group terms for complex operations (e.g. Basiliscus &amp; (FUZZY(Honduras) | (Panama ! Canal)) will return results with a fuzzy match to Honduras, or Panama but not Canal).</dd>
+													<dt><span class="text-info font-weight-bold">%</span></dt> 
+													<dd>The percent wildcard, matches any number of characters, e.g. %bridge matches Cambridge, bridge, and Stockbridge.</dd>
+													<dt><span class="text-info font-weight-bold">_</span> </dt><dd> The underscore wildcard, matches exactly one character and allows for any character to takes its place.</dd>
+												</dl>
+											</div>
+										</div>
+									</div>
 								<section role="search" class="container-fluid">
+								
 									<form name= "keywordSearchForm" id="keywordSearchForm">
 										<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeKeywordSearch" class="keeponclear excludeFromLink">
@@ -275,7 +321,7 @@ limitations under the License.
 													<input id="searchText" type="text" class="data-entry-input py-1" name="searchText" placeholder="Search term" aria-label="search text" value="#searchText#">
 												</div>
 												<div class="col-12 col-xl-2">
-													<cfif findNoCase('redesign',gitBranch) GT 0>
+													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<label class="data-entry-label" for="debug">Debug</label>
 														<select title="debug" name="debug" id="dbug" class="data-entry-select">
 															<option value=""></option>
@@ -295,6 +341,8 @@ limitations under the License.
 											</div>
 										</div>
 									</form>
+								
+
 								</section>
 								<!--- results for keyword search --->
 								<section class="container-fluid">
@@ -340,10 +388,25 @@ limitations under the License.
 							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="0" class="mx-0 #builderTabActive#"  #builderTabShow#>
 								<section role="search" class="container-fluid">
 									<form id="builderSearchForm">
+										<script>
+											// bind autocomplete to text input/hidden input, and other actions on field selection
+											function handleFieldSelection(fieldSelect,rowNumber) { 
+												var selection = $('##'+fieldSelect).val();
+												console.log(columnMetadata);
+												for (var i=0; i<columnMetadata.length; i++) {
+													if(selection==columnMetadata[i].column) { 
+														console.log(columnMetadata[i].ui_function);
+														if (columnMetadata[i].ui_function) {
+															var invokeBinding = Function(columnMetadata[i].ui_function+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
+															invokeBinding(); 
+														}
+													}
+												}
+											}
+										</script>
 										<cfif not isDefined("builderMaxRows") or len(builderMaxRows) eq 0>
 											<cfset builderMaxRows = 1>
 										</cfif>
-										<cfset addButtonShown = false>
 										<input type="hidden" id="builderMaxRows" name="builderMaxRows" value="#builderMaxRows#">
 										<input id="result_id_builderSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeBuilderSearch" class="keeponclear excludeFromLink">
@@ -351,18 +414,39 @@ limitations under the License.
 										<div class="form-row mx-0">
 											<div class="mt-1 col-12 p-0 my-2" id="customFields">
 												<div class="form-row mb-2">
+													<div class="col-12 col-md-1 pt-3">
+														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+													</div>
+													<div class="col-12 col-md-1">
+														<label for="nestbutton" class="data-entry-label">Nest</label>
+														<button id="nestbutton" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+													</div>
 													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
-															SELECT search_category, table_name, column_name, column_alias, data_type, label
+															SELECT search_category, table_name, column_name, column_alias, data_type, 
+																label, access_role, ui_function
 															FROM cf_spec_search_cols
-															<cfif oneOfUs EQ 0>
-																WHERE 
-																	search_category <> 'Accessions'
-															</cfif>
+															WHERE	
+																<cfif oneOfUs EQ 0>
+																	access_role = 'PUBLIC'
+																<cfelse>
+																	access_role IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="PUBLIC,#session.roles#" list="yes">)
+																</cfif>
+																AND access_role <> 'HIDE'
 															ORDER BY
 																search_category, label, table_name
 														</cfquery>
-														<label for="field" class="data-entry-label">Search Field</label>
+														<cfset columnMetadata = "[">
+														<cfset comma = "">
+														<cfloop query="fields">
+															<cfset columnMetadata = '#columnMetadata##comma#{"column":"#fields.table_name#:#fields.column_name#","data_type":"#fields.data_type#","ui_function":"#fields.ui_function#"}'>
+															<cfset comma = ",">
+														</cfloop>
+														<cfset columnMetadata = "#columnMetadata#]">
+														<script>
+															var columnMetadata = JSON.parse('#columnMetadata#');
+														</script>
+														<label for="field1" class="data-entry-label">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
 														<select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
 															<cfif len(field1) EQ 0>
@@ -393,12 +477,20 @@ limitations under the License.
 																	autoComplete: true,
 																	searchMode: 'containsignorecase',
 																	width: '100%',
-																	dropDownHeight: 400
+																	dropDownHeight: 400,
+																});
+																$('##field1').on("select", function(event) { 
+																	handleFieldSelection('field1',1);
 																});
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-4">
+													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+														<cfset searchcol="col-md-5">
+													<cfelse>
+														<cfset searchcol="col-md-1">
+													</cfif>
+													<div class="col-12 #searchcol#">
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<!--- TODO: Add javascript to modify inputs depending on selected field. --->
@@ -407,27 +499,27 @@ limitations under the License.
 														<input type="hidden" name="searchId1" id="searchId1" value="#searchId1#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
-													<div class="col-12 col-md-2">
-														<cfif findNoCase('redesign',gitBranch) GT 0>
+													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+														<div class="col-12 col-md-1">
 															<label class="data-entry-label" for="debug">Debug</label>
 															<select title="debug" name="debug" id="dbug" class="data-entry-select">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
 															</select>
-														</cfif>
-													</div>
-													<div class="col-12 col-md-2 pt-3">
-														<cfif builderMaxRows EQ 1>
-															<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
-															<cfset addButtonShown = true>
-														</cfif>
-													</div>
+														</div>
+													</cfif>
 												</div>
 												<cfif builderMaxRows GT 1>
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
 															<div class="form-row mb-2" id="builderRow#row#">
+																<div class="col-12 col-md-1">
+																	&nbsp;
+																</div>
+																<div class="col-12 col-md-1">
+																	<button type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+																</div>
 																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
@@ -473,7 +565,7 @@ limitations under the License.
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-4">
+																<div class="col-12 col-md-5">
 																	<cfif isDefined("searchText#row#")><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
 																	<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
 																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#sval#">
@@ -481,23 +573,6 @@ limitations under the License.
 																</div>
 																<div class="col-12 col-md-1">
 																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
-																</div>
-																<div class="col-12 col-md-2">
-																	<cfif row EQ builderMaxRows>
-																		<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
-																		<cfset addButtonShown = true>
-																	</cfif>
-																</div>
-															</div>
-														</cfif>
-														<cfif NOT addButtonShown>
-															<div class="form-row mb-2">
-																<div class="col-12 col-md-9">
-																</div>
-																<div class="col-12 col-md-2">
-																	<cfif row EQ builderMaxRows>
-																		<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
-																	</cfif>
 																</div>
 															</div>
 														</cfif>
@@ -512,6 +587,11 @@ limitations under the License.
 														var row = $("##builderMaxRows").val();
 														row = parseInt(row) + 1;
 														var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
+														newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
+														newControls = newControls + '</div>';
+														newControls = newControls + '<div class="col-12 col-md-1">';
+														newControls = newControls + '<button type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
+														newControls = newControls + '</div>';
 														newControls = newControls + '<div class="col-12 col-md-1">';
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 														newControls= newControls + '</div>';
@@ -537,7 +617,7 @@ limitations under the License.
 														</cfif>
 														newControls = newControls + '</select>';
 														newControls= newControls + '</div>';
-														newControls= newControls + '<div class="col-12 col-md-4">';
+														newControls= newControls + '<div class="col-12 col-md-5">';
 														newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
 														newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 														newControls= newControls + '</div>';
@@ -565,9 +645,11 @@ limitations under the License.
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 													<!--- TODO: Move to top of search results bar, available after running search --->
 													<!--- TODO: Add handler to carry out this action --->
+													<!--- 
 													<button type="button" class="btn btn-xs btn-primary col-12 col-md-auto px-md-3 mx-0 my-1" id="save-account" aria-label="save this search">
 														Save to My Account <i class="fa fa-user-cog"></i>
 													</button>
+													--->
 												</cfif>
 											</div>
 										</div>
@@ -657,14 +739,29 @@ limitations under the License.
 												<div class="col-12 col-md-3">
 													<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 													<label for="otherID" class="data-entry-label">Other ID Type</label>
-													<select title="other identifing number type" name="other_id_type" id="other_id_type" class="data-entry-select col-sm-12 pl-2">
-														<option value=""></option>
-														<cfset oidtype = other_id_type>
-														<cfloop query="ctother_id_type">
-															<cfif oidtype EQ "=#ctother_id_type.other_id_type#"><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
-															<option value="=#ctother_id_type.other_id_type#" #selected#>#ctother_id_type.other_id_type# (#ctother_id_type.ct#)</option>
-														</cfloop>
-													</select>
+													<div name="other_id_type" id="other_id_type" class="w-100"></div>
+													<cfset otheridtype_array = ListToArray(other_id_type)>
+													<script>
+														function setOtherIdTypeValues() {
+															$('##other_id_type').jqxComboBox('clearSelection');
+															<cfloop query="ctother_id_type">
+																<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
+																	$("##other_id_type").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
+																</cfif>
+															</cfloop>
+														};
+														$(document).ready(function () {
+															var otheridtypesource = [
+																<cfset comma="">
+																<cfloop query="ctother_id_type">
+																	#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
+																	<cfset comma=",">
+																</cfloop>
+															];
+															$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
+															setOtherIdTypeValues();
+														});
+													</script> 
 												</div>
 												<div class="col-12 col-md-3">
 													<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
@@ -672,10 +769,51 @@ limitations under the License.
 													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#other_id_number#">
 												</div>
 											</div>
+											<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"collops") ) >
+												<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
+												<div class="form-row mb-2">
+													<div class="col-12 col-md-3">
+														<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
+														<label for="otherID" class="data-entry-label">Other ID Type</label>
+														<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
+														<cfset otheridtype_array = ListToArray(other_id_type_1)>
+														<script>
+															function setOtherIdType_1_Values() {
+																$('##other_id_type_1').jqxComboBox('clearSelection');
+																<cfloop query="ctother_id_type">
+																	<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
+																		$("##other_id_type_1").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
+																	</cfif>
+																</cfloop>
+															};
+															$(document).ready(function () {
+																var otheridtypesource = [
+																	<cfset comma="">
+																	<cfloop query="ctother_id_type">
+																		#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
+																		<cfset comma=",">
+																	</cfloop>
+																];
+																$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
+																setOtherIdType_1_Values();
+															});
+														</script> 
+													</div>
+													<div class="col-12 col-md-3">
+														<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
+														<label for="other_id_number_1" class="data-entry-label">Other ID Numbers</label>
+														<input type="text" class="data-entry-input" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#other_id_number_1#">
+													</div>
+													<div class="col-12 col-md-6">
+														<label for="other_id_controls_note" class="data-entry-label">Note (fields to left): </label>
+														<p id="other_id_controls_note">Second set of other id type/other id number fields is for testing, may not work as expected.</p>
+													</div>
+												</div>
+											</cfif>
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-2">
 													<cfif not isdefined("full_taxon_name")><cfset full_taxon_name=""></cfif>
-													<label for="taxa" class="data-entry-label">Any Taxonomy</label>
+													<label for="taxa" class="data-entry-label">Any Taxonomic Element</label>
 													<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy" value="#full_taxon_name#">
 												</div>
 												<div class="col-12 col-md-2">
@@ -711,17 +849,29 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="family" class="data-entry-label">Family</label>
 													<cfif not isdefined("family")><cfset family=""></cfif>
-													<input id="family" name="family" class="data-entry-input" value="#family#" >
+													<input type="text" id="family" name="family" class="data-entry-input" value="#family#" >
 													<script>
 														jQuery(document).ready(function() {
 															makeTaxonSearchAutocomplete('family','family');
 														});
 													</script>
 												</div>
+												<div class="col-12 col-md-2">
+													<label for="publication_id" class="data-entry-label">Citation</label>
+													<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
+													<cfif not isdefined("citation")><cfset citation=""></cfif>
+													<input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input" value="#publication_id#" >
+													<input type="text" id="citation" name="citation" class="data-entry-input" value="#citation#" >
+													<script>
+														jQuery(document).ready(function() {
+															makePublicationPicker('citation','publication_id');
+														});
+													</script>
+												</div>
 											</div>
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-2">
-													<label for="type_status" class="data-entry-label">Type Status</label>
+													<label for="type_status" class="data-entry-label">Type Status/Citation</label>
 													<cfif not isdefined("type_status")><cfset type_status=""></cfif>
 													<input type="text" class="data-entry-input" id="type_status" name="type_status" value="#type_status#">
 													<script>
@@ -744,6 +894,18 @@ limitations under the License.
 													<label for="scientific_name" class="data-entry-label">Scientific Name</label>
 													<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
 													<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
+													<cfif len(taxon_name_id) GT 0 and len(scientific_name) EQ 0>
+														<!--- lookup scientific name --->
+														<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupTaxon_result">
+															SELECT scientific_name as sciname
+															FROM taxonomy
+															WHERE
+																taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+														</cfquery>
+														<cfif lookupTaxon.recordcount EQ 1>
+															<cfset scientific_name = "=#lookupTaxon.sciname#">
+														</cfif>
+													</cfif>
 													<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input" value="#scientific_name#" >
 													<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#taxon_name_id#" >
 													<script>
@@ -762,11 +924,49 @@ limitations under the License.
 														});
 													</script>
 												</div>
+												<div class="col-12 col-md-2">
+													<label for="determiner" class="data-entry-label">Determiner</label>
+													<cfif not isdefined("determiner")><cfset determiner=""></cfif>
+													<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
+													<!--- lookup agent name --->
+													<cfif len(determiner) EQ 0 AND len(determiner_id) GT 0>
+														<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupDeterminer_result">
+															SELECT agent_name
+															FROM preferred_agent_name
+															WHERE
+																agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determiner_id#">
+														</cfquery>
+														<cfif lookupDeterminer.recordcount EQ 1>
+															<cfset determiner = "=#lookupDeterminer.agent_name#">
+														</cfif>
+													</cfif>
+													<input type="hidden" id="determiner_id" name="determiner_id" class="data-entry-input" value="#determiner_id#" >
+													<input type="text" id="determiner" name="determiner" class="data-entry-input" value="#determiner#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeConstrainedAgentPicker('determiner', 'determiner_id', 'determiner');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="nature_of_id" class="data-entry-label">Nature Of Id</label>
+													<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
+													<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select col-sm-12 pl-2">
+														<option value=""></option>
+														<cfset nid = nature_of_id>
+														<cfloop query="ctnature_of_id">
+															<cfif nid EQ "=#ctnature_of_id.nature_of_id#"><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
+															<option value="=#ctnature_of_id.nature_of_id#" #selected#>#ctnature_of_id.nature_of_id# (#ctnature_of_id.ct#)</option>
+														</cfloop>
+													</select>
+												</div>
+											</div>
+											<div class="form-row mb-2">
 											</div>
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-2">
 													<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
-													<label for="higher_geog" class="data-entry-label">Any Geography</label>
+													<label for="higher_geog" class="data-entry-label">Any Geographic Element</label>
 													<input type="text" class="data-entry-input" name="higher_geog" id="higher_geog" value="#higher_geog#">
 												</div>
 												<div class="col-12 col-md-2">
@@ -890,7 +1090,7 @@ limitations under the License.
 													<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#verbatim_date#">
 												</div>
 												<div class="col-12 col-md-2">
-													<cfif findNoCase('redesign',gitBranch) GT 0>
+													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<label class="data-entry-label" for="debug">Debug</label>
 														<select title="debug" name="debug" id="dbug" class="data-entry-select">
 															<option value=""></option>
@@ -906,12 +1106,36 @@ limitations under the License.
 														<cfif not isdefined("loan_number")>
 															<cfset loan_number="">
 														</cfif>
+														<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
+															<!--- lookup loan number (for api call &loan_trans_id=) --->
+															<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupLoan_result">
+																SELECT loan_number as lnum
+																FROM loan
+																WHERE
+																	transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_trans_id#">
+															</cfquery>
+															<cfif lookupLoan.recordcount EQ 1>
+																<cfset accn_number = "=#lookupLoan.lnum#">
+															</cfif>
+														</cfif>
 														<label for="loan_number" class="data-entry-label">Loan Number</label>
 														<input type="text" name="loan_number" class="data-entry-input" id="loan_number" placeholder="yyyy-n-Col" value="#loan_number#" >
 													</div>
 													<div class="col-12 col-md-2">
 														<cfif not isdefined("accn_number")>
 															<cfset accn_number="">
+														</cfif>
+														<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
+															<!--- lookup accession number (for api call &accn_trans_id=) --->
+															<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAccn_result">
+																SELECT accn_number as accnum
+																FROM accn
+																WHERE
+																	transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_trans_id#">
+															</cfquery>
+															<cfif lookupAccn.recordcount EQ 1>
+																<cfset accn_number = "=#lookupAccn.accnum#">
+															</cfif>
 														</cfif>
 														<label for="accn_number" class="data-entry-label">Accession Number</label>
 														<input type="text" name="accn_number" class="data-entry-input" id="accn_number" placeholder="nnnnn" value="#accn_number#" >
@@ -981,9 +1205,13 @@ limitations under the License.
 				</div>
 			</div>
 		</main>
+		<!--- 
 		<section>
-	<div class="col-12 col-md-6 mx-auto mb-3 pb-3"><p class="blockquote small text-center">Collection records at the Museum of Comparative Zoology may contain language that reflect historical place or taxon names in its original form that are no longer acceptable or appropriate in an inclusive environment. While the MCZ is  preserving data in their original form in order to retain authenticity and facilitate research, we do not condone this language and are committed to address the problem of racial and other derogatory language present in our database.</p></div>
+			<div class="col-12 col-md-6 mx-auto mb-3 pb-3">
+				<p class="blockquote small text-center">Collection records at the Museum of Comparative Zoology may contain language that reflect historical place or taxon names in its original form that are no longer acceptable or appropriate in an inclusive environment. While the MCZ is  preserving data in their original form in order to retain authenticity and facilitate research, we do not condone this language and are committed to address the problem of racial and other derogatory language present in our database.</p>
+			</div>
 		</section>
+		--->
 		<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); border-color: transparent; opacity: 0.99; display: none; z-index: 2;">
 			<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -5em; opacity: 1;">
 				<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
@@ -1125,6 +1353,9 @@ limitations under the License.
 		};
 	
 		// cell renderer to link out to specimen details page by specimen id
+		// NOTE: Since there are three grids, and the cellsrenderer api does not pass a reference to the grid, a separate
+		// cell renderer must be added for each grid,  cf_spec_res_cols_r.cellsrenderer values starting with _ are interpreted
+		// as fixed_, keyword_, builder_ cell renderers depending on the grid in which the cellsrenderer value is being applied. 
 		var fixed_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
@@ -1133,7 +1364,7 @@ limitations under the License.
 			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
 		};
-		var buidler_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var builder_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
 		};
@@ -1153,6 +1384,7 @@ limitations under the License.
 				$("##result_id_keywordSearch").val(uuid);
 		
 				$("##overlay").show();
+				$("##collapseKeyword").collapse("hide");  // hide the help text if it is visible.
 		
 				$("##keywordsearchResultsGrid").replaceWith('<div id="keywordsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$("##keywordresultCount").html("");
@@ -1181,7 +1413,7 @@ limitations under the License.
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##keywordSearchForm").serialize(),
-					timeout: 30000,  // units not specified, miliseconds?
+					timeout: 60000,  // units not specified, miliseconds?
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
@@ -1203,7 +1435,7 @@ limitations under the License.
 					width: '100%',
 					autoheight: 'true',
 					source: dataAdapter,
-					filterable: true,
+					filterable: false,  // turned off, will be difficult to support with server side paging of resultset
 					sortable: true,
 					pageable: true,
 					editable: false,
@@ -1318,7 +1550,7 @@ limitations under the License.
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##builderSearchForm").serialize(),
-					timeout: 30000,  // units not specified, miliseconds?
+					timeout: 60000,  // units not specified, miliseconds?
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
@@ -1340,7 +1572,7 @@ limitations under the License.
 					width: '100%',
 					autoheight: 'true',
 					source: dataAdapter,
-					filterable: true,
+					filterable: false,
 					sortable: true,
 					pageable: true,
 					editable: false,
@@ -1478,7 +1710,7 @@ limitations under the License.
 					width: '100%',
 					autoheight: 'true',
 					source: dataAdapter,
-					filterable: true,
+					filterable: false,
 					sortable: true,
 					pageable: true,
 					editable: false,

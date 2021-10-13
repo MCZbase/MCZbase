@@ -255,7 +255,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 
 <!---   Function executeKeywordSearch backing method for specimen search 
 	@param result_id a uuid which identifies this search.
-	@param searchText search string using the CONTEXT grammar
+	@param searchText search string using the CONTEXT grammar, but with ! for not, $ for soundex, and # for wordroot.
 	@param collection_cde a list of zero or more collection_cde values to limit the search
 	@returns json for a jqxgrid or an http 500 status with an error message
 --->
@@ -282,11 +282,25 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("searchText") AND len(searchText) GT 0>
 		<cfset field = '"field": "kewyordSearchText"'>
 		<cfset comparator = '"comparator": ""'>
-		<cfset value = encodeForJavaScript(searchText)>
-		<cfset value = replace(value,"\x20"," ","all")>
-		<cfset value = replace(value,"\x5B","[","all")>
-		<cfset value = replace(value,"\x5D","]","all")>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<!--- convert operator characters from conventions used elsewhere in MCZbase to oracle CONTAINS operators --->
+		<!--- 
+		User enters >  converted to:  meaning
+			! ->  ~   NOT
+			$ ->  !   SOUNDEX
+			# ->  $   STEM
+			~ ->  ~   NOT  (no change made, but we don't document that ~ is allowed)
+		NOTE: order of replacements matters.
+		--->
+		<cfset searchValue = searchText>
+		<cfset searchValue = replace(searchValue,"!","~","all")>
+		<cfset searchValue = replace(searchValue,"$","!","all")>
+		<cfset searchValue = replace(searchValue,"##","$","all")>
+
+		<!--- escape quotes for json construction --->
+		<cfset searchValueForJSON = searchValue>
+		<cfset searchValueForJSON = replace(searchValueForJSON,"\","\\","all")>
+		<cfset searchValueForJSON = replace(searchValueForJSON,'"','\"',"all")>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"searchValue": "#searchValueForJSON#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -304,7 +318,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfthrow message="unable to construct valid json for query">
 		</cfif>
 
-		<cfif isDefined("searchText") and len(searchText) gt 0>
+		<cfif isDefined("searchValue") and len(searchValue) gt 0>
 			<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
 				SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
 				FROM cf_spec_res_cols_r
@@ -333,7 +347,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfset comma = "">
 					<cfloop query="getFieldMetadata">
 						<cfif len(sql_element) GT 0> 
-							,#replace(sql_element,"''","'","all")# #column_name#
+							#comma##replace(sql_element,"''","'","all")# #column_name#
 							<cfset comma = ",">
 						</cfif>
 					</cfloop>
@@ -349,17 +363,17 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfset comma = "">
 					<cfloop query="getFieldMetadata">
 						<cfif len(sql_element) GT 0> 
-							,#replace(sql_element,"''","'","all")# #column_name#
+							#comma##replace(sql_element,"''","'","all")# #column_name#
 							<cfset comma = ",">
 						</cfif>
 					</cfloop>
 				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flatTableName
 					join FLAT_TEXT FT ON flatTableName.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
-				WHERE contains(ft.cat_num, <cfqueryparam value="#searchText#" CFSQLType="CF_SQL_VARCHAR">, 1) > 0
+				WHERE contains(ft.cat_num, <cfqueryparam value="#searchValue#" CFSQLType="CF_SQL_VARCHAR">, 1) > 0
 					<cfif isDefined("collection_cde") and len(collection_cde) gt 0>
 						and flatTableName.collection_cde in (<cfqueryparam value="#collection_cde#" cfsqltype="CF_SQL_VARCHAR" list="true">)
 					</cfif>
-					and rownum < 1000
+					and rownum < 2001
 			</cfquery>
 		<cfelse>
 			<cfthrow message="No search terms provided.">
@@ -437,6 +451,35 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfreturn #search_json#>
 </cffunction>
 
+<!--- 
+  ** given a value, return that value with " and \ escaped
+  * as \" and \\ respectively suitable for inclusion in JSON
+  * @param value the value to escape characters in 
+  * @return value with " and \ characters escaped 
+--->
+<cffunction name="escapeQuotesForJSON">
+	<cfargument name="value" type="string" required="yes">
+	<!--- escape quotes for json construction --->
+	<cfset replacement = value>
+	<cfset replacement = replace(replacement,"\","\\","all")>
+	<cfset replacement = replace(replacement,'"','\"',"all")>
+	<cfreturn #replacement#>
+</cffunction>
+
+<!--- 
+  ** given a comma separated list of strings return that list 
+  * with the strings enclosed in single quotes.
+--->
+<cffunction name="valueToQuotedList">
+	<cfargument name="value" type="string" required="yes">
+	<cfset retval = []>
+	<cfset itemArray = ListToArray(value,",") >
+	<cfloop index="i" from="1" to="#ArrayLen(itemArray)#">
+		<cfset arrayAppend(retval, "'" & escapeQuotesForJson(value="#itemArray[i]#") & "'")>
+	</cfloop>	
+	<cfreturn #ArrayToList(retval)#>
+</cffunction>
+
 <!--- Function executeBuilderSearch backing method for specimen search via the search builder
 	@param result_id a uuid which identifies this search.
 	@param debug if given a value, dump the json that would be sent to build_query instead of
@@ -454,7 +497,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	</cfif>
 
 	<cfquery name="searchFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchFields_result">
-		SELECT search_category, table_name, column_name, column_alias, data_type, label
+		SELECT search_category, table_name, column_name, column_alias, data_type
 		FROM cf_spec_search_cols
 		ORDER BY
 		search_category, table_name, label
@@ -483,6 +526,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			</cfif>
 			<cfset matched = false>
 			<cfset nest = 1>
+			<cfif isDefined("searchId") AND len(searchId) GT 0>
+				<!--- if a searchId{n} value was provided, use it instead of searchText{n} to support autocomplete field pairs --->
+				<cfset searchText = searchId>
+			</cfif>
 			<cfloop query="searchFields">
 				<cfset tableField = "#searchFields.table_name#:#searchFields.column_name#">
 				<cfif fieldProvided EQ tableField AND len(searchText) GT 0>
@@ -539,12 +586,12 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfset comma = "">
 				<cfloop query="getFieldMetadata">
 					<cfif len(sql_element) GT 0> 
-						,#replace(sql_element,"''","'","all")# #column_name#
+						#comma##replace(sql_element,"''","'","all")# #column_name#
 						<cfset comma = ",">
 					</cfif>
 				</cfloop>
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-				left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 			WHERE
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
@@ -591,6 +638,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="phylorder" type="string" required="no">
 	<cfargument name="phylclass" type="string" required="no">
 	<cfargument name="phylum" type="string" required="no">
+	<cfargument name="kingdom" type="string" required="no">
 	<cfargument name="author_text" type="string" required="no">
 	<cfargument name="scientific_name" type="string" required="no">
 	<cfargument name="taxon_name_id" type="string" required="no">
@@ -606,6 +654,11 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="loan_number" type="string" required="no">
 	<cfargument name="accession_number" type="string" required="no">
 	<cfargument name="deaccession_number" type="string" required="no">
+	<cfargument name="publication_id" type="string" required="no">
+	<cfargument name="citation" type="string" required="no">
+	<cfargument name="nature_of_id" type="string" required="no">
+	<cfargument name="determiner" type="string" required="no">
+	<cfargument name="determiner_id" type="string" required="no">
 	<cfargument name="debug" type="string" required="no">
 
 	<cfset search_json = "[">
@@ -630,27 +683,123 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
 	</cfif>
+	<cfset has0 = false>
+	<cfset has1 = false>
 	<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
-		<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
-			<cfset field = '"field": "display_value"'>
-			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number#",separator="#separator#",nestDepth="#nest#")>
-			<cfset separator = ",">
-			<cfset join='"join":"and",'>
-		 	<cfset nest = nest + 1>
-		<cfelse>
-			<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, nest, "and")>
-			<cfset search_json = "#search_json##separator##clause#">
-			<cfset separator = ",">
-			<cfset join='"join":"and",'>
-		 	<cfset nest = nest + 1>
-		</cfif>
+		<cfset has0 = true>
 	</cfif>
 	<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
-		<cfset field = '"field": "other_id_type"'>
-		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_type#",separator="#separator#",nestDepth="#nest#")>
-		<cfset separator = ",">
-		<cfset join='"join":"and",'>
+		<cfset has0 = true>
+	</cfif>
+	<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0>
+		<cfset has1 = true>
+	</cfif>
+	<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
+		<cfset has1 = true>
+	</cfif>
+	<cfif has0 AND has1>
+		<!--- create nested or clause has (other_id_number of type) or (has other_id_number_1 of type_1) --->
+		<cfset innernest = 1>
+		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
+			<cfset field = '"field": "other_id_type"'>
+			<cfset comparator = '"comparator": "IN"'>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type#")>
+			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset innernest = innernest + 1>
+		</cfif>
+		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
+			<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
+				<cfset field = '"field": "display_value"'>
+				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number#",separator="#separator#",nestDepth="#nest#.#innernest#")>
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset innernest = innernest + 1>
+			<cfelse>
+				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, "#nest#.#innernest#", "and")>
+				<cfset search_json = "#search_json##separator##clause#">
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset innernest = innernest + 1>
+			</cfif>
+		</cfif>
 		<cfset nest = nest + 1>
+		<cfset innernest = 1>
+		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
+			<cfset field = '"field": "other_id_type"'>
+			<cfset comparator = '"comparator": "IN"'>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
+			<cfset search_json = '#search_json##separator#{"nest":"#nest#.#innernest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset innernest = innernest + 1>
+		</cfif>
+		<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0>
+			<cfif left(other_id_number_1,1) is "=" OR left(other_id_number_1,1) is "!">
+				<cfset field = '"field": "display_value"'>
+				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number_1#",separator="#separator#",nestDepth="#nest#.#innernest#")>
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset innernest = innernest + 1>
+			<cfelse>
+				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number_1, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, "#nest#.#innernest#", "and")>
+				<cfset search_json = "#search_json##separator##clause#">
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset innernest = innernest + 1>
+			</cfif>
+		</cfif>
+		<cfset nest = nest + 1>
+	<cfelse>
+		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
+			<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
+				<cfset field = '"field": "display_value"'>
+				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number#",separator="#separator#",nestDepth="#nest#")>
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset nest = nest + 1>
+			<cfelse>
+				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, nest, "and")>
+				<cfset search_json = "#search_json##separator##clause#">
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset nest = nest + 1>
+			</cfif>
+		</cfif>
+		<cfif isDefined("other_id_type") AND len(other_id_type) GT 0>
+			<cfset field = '"field": "other_id_type"'>
+			<cfset comparator = '"comparator": "IN"'>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type#")>
+			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
+		<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0>
+			<cfif left(other_id_number_1,1) is "=" OR left(other_id_number_1,1) is "!">
+				<cfset field = '"field": "display_value"'>
+				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number_1#",separator="#separator#",nestDepth="#nest#")>
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset nest = nest + 1>
+			<cfelse>
+				<cfset clause = ScriptPrefixedNumberListToJSON(other_id_number_1, "OTHER_ID_NUMBER", "OTHER_ID_PREFIX", false, nest, "and")>
+				<cfset search_json = "#search_json##separator##clause#">
+				<cfset separator = ",">
+				<cfset join='"join":"and",'>
+			 	<cfset nest = nest + 1>
+			</cfif>
+		</cfif>
+		<cfif isDefined("other_id_type_1") AND len(other_id_type_1) GT 0>
+			<cfset field = '"field": "other_id_type"'>
+			<cfset comparator = '"comparator": "IN"'>
+			<cfset value = escapeQuotesForJSON(value="#other_id_type_1#")>
+			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
 	</cfif>
 	<cfif isDefined("part_name") AND len(part_name) GT 0>
 		<cfset field = '"field": "part_name"'>
@@ -734,6 +883,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif isDefined("phylum") AND len(phylum) GT 0>
 			<cfset field = '"field": "phylum"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#phylum#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
+		<cfif isDefined("kingdom") AND len(kingdom) GT 0>
+			<cfset field = '"field": "kingdom"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#kingdom#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
@@ -831,6 +987,44 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfif>
 	</cfif>
 
+	<cfif isDefined("publication_id") AND len(publication_id) GT 0>
+		<cfset field = '"field": "CITATIONS_PUBLICATION_ID"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = encodeForJavaScript(publication_id)>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+		<!--- TODO: Support textual search on publication from citation variable --->
+	</cfif>
+
+
+	<cfif isDefined("determiner_id") AND len(determiner_id) GT 0>
+		<cfset field = '"field": "IDENTIFICATIONS_AGENT_ID"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = encodeForJavaScript(determiner_id)>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	<cfelse>
+		<cfif isDefined("determiner") AND len(determiner) GT 0>
+			<cfset field = '"field": "IDENTIFICATIONS_AGENT_NAME"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#determiner#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
+	</cfif>
+
+	<cfif isDefined("nature_of_id") AND len(nature_of_id) GT 0>
+		<cfset field = '"field": "NATURE_OF_ID"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#nature_of_id#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+
 	<cfset search_json = "#search_json#]">
 	<cfif isdefined("debug") AND len(debug) GT 0>
 		<cfdump var="#search_json#">
@@ -838,7 +1032,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfabort>
 	</cfif>
 	<cfif NOT IsJSON(search_json)>
-		<cfthrow message="unable to construct valid json for query">
+		<cfthrow message="Unable to construct valid json for query.">
+	</cfif>
+	<cfif search_json IS "[]">
+		<cfthrow message="You must enter some search criteria.">
 	</cfif>
 
 	<cftry>
@@ -875,7 +1072,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					</cfif>
 				</cfloop>
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-				left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 			WHERE
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
@@ -1326,6 +1523,8 @@ Function getSpecResColsAutocomplete.  Search for distinct values of fields in cf
 					data_type as fld
 				<cfelseif field EQ "hidden">
 					hidden as fld
+				<cfelseif field EQ "access_role">
+					access_role as fld
 				</cfif>
 			FROM 
 				cf_spec_res_cols_r
@@ -1342,6 +1541,8 @@ Function getSpecResColsAutocomplete.  Search for distinct values of fields in cf
 					upper(data_type)
 				<cfelseif field EQ "hidden">
 					upper(hidden)
+				<cfelseif field EQ "access_role">
+					upper(access_role)
 				</cfif>
 				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			GROUP BY
@@ -1357,6 +1558,8 @@ Function getSpecResColsAutocomplete.  Search for distinct values of fields in cf
 					data_type
 				<cfelseif field EQ "hidden">
 					hidden
+				<cfelseif field EQ "access_role">
+					access_role
 				</cfif>
 			ORDER BY 
 				<cfif field EQ "category">
@@ -1371,6 +1574,8 @@ Function getSpecResColsAutocomplete.  Search for distinct values of fields in cf
 					data_type
 				<cfelseif field EQ "hidden">
 					hidden
+				<cfelseif field EQ "access_role">
+					access_role
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
@@ -1428,6 +1633,12 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					column_alias as fld
 				<cfelseif field EQ "data_type">
 					data_type as fld
+				<cfelseif field EQ "access_role">
+					access_role as fld
+				<cfelseif field EQ "label">
+					label as fld
+				<cfelseif field EQ "ui_function">
+					ui_function as fld
 				</cfif>
 			FROM 
 				cf_spec_search_cols
@@ -1446,6 +1657,12 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					upper(column_alias)
 				<cfelseif field EQ "data_type">
 					upper(data_type)
+				<cfelseif field EQ "access_role">
+					upper(access_role)
+				<cfelseif field EQ "label">
+					upper(label)
+				<cfelseif field EQ "ui_function">
+					upper(ui_function)
 				</cfif>
 				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			GROUP BY
@@ -1463,6 +1680,12 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					column_alias
 				<cfelseif field EQ "data_type">
 					data_type
+				<cfelseif field EQ "access_role">
+					access_role
+				<cfelseif field EQ "label">
+					label 
+				<cfelseif field EQ "ui_function">
+					ui_function 
 				</cfif>
 			ORDER BY 
 				<cfif field EQ "search_category">
@@ -1479,6 +1702,12 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					column_alias
 				<cfelseif field EQ "data_type">
 					data_type
+				<cfelseif field EQ "access_role">
+					access_role
+				<cfelseif field EQ "label">
+					label 
+				<cfelseif field EQ "ui_function">
+					ui_function 
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>

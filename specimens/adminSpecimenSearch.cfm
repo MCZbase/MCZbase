@@ -40,6 +40,7 @@ limitations under the License.
 	</cfdefaultcase>
 </cfswitch>
 <!---------------------------------------------------------------------------------->
+<cfset includeJQXMoreInputs="true">
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
@@ -83,26 +84,9 @@ limitations under the License.
 									<form name="searchForm" id="searchForm">
 										<input type="hidden" name="method" value="getcf_spec_res_cols" class="keeponclear">
 										<div class="form-row mt-1 mb-2">
-											<div class="col-md-3">
-												<label for="column_name" class="data-entry-label" id="column_name_label">Column Name</label>
-												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#column_name#" aria-labelledby="column_name_label" >
-												<script>
-													jQuery(document).ready(function() {
-														makeSpecResColsAutocomplete('column_name','column_name');
-													});
-												</script>
-											</div>
-											<div class="col-md-3">
-												<label for="label" class="data-entry-label" id="label_label">Label</label>
-												<input type="text" id="label" name="label" class="data-entry-input" value="#label#" aria-labelledby="label_label" >
-												<script>
-													jQuery(document).ready(function() {
-														makeSpecResColsAutocomplete('label','label');
-													});
-												</script>
-											</div>
-											<div class="col-md-3">
-												<label for="category" class="data-entry-label" id="category_label">Category</label>
+											<div class="col-md-2">
+												<cfif NOT isDefined("category")><cfset category=""></cfif>
+												<label for="category" class="data-entry-label" id="category_label">Category (= ! ~ !~ ,)</label>
 												<input type="text" id="category" name="category" class="data-entry-input" value="#category#" aria-labelledby="category_label" >
 												<script>
 													jQuery(document).ready(function() {
@@ -110,12 +94,53 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-md-3">
-												<label for="hiddenctl" class="data-entry-label" id="hidden_label">Hidden</label>
+											<div class="col-md-2">
+												<cfif NOT isDefined("column_name")><cfset column_name=""></cfif>
+												<label for="column_name" class="data-entry-label" id="column_name_label">Column Name (= ! ~ !~ ,)</label>
+												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#column_name#" aria-labelledby="column_name_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecResColsAutocomplete('column_name','column_name');
+													});
+												</script>
+											</div>
+											<div class="col-md-2">
+												<cfif NOT isDefined("label")><cfset label=""></cfif>
+												<label for="label" class="data-entry-label" id="label_label">Label (= ! ~ !~ ,)</label>
+												<input type="text" id="label" name="label" class="data-entry-input" value="#label#" aria-labelledby="label_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecResColsAutocomplete('label','label');
+													});
+												</script>
+											</div>
+											<div class="col-md-2">
+												<cfif NOT isDefined("hidden")><cfset hidden=""></cfif>
+												<label for="hiddenctl" class="data-entry-label" id="hidden_label">Hidden (= ! ~ !~ ,)</label>
 												<input type="text" id="hiddenctl" name="hidden" class="data-entry-input" value="#hidden#" aria-labelledby="hidden_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecResColsAutocomplete('hiddenctl','hidden');
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("access_role")><cfset access_role=""></cfif>
+												<label for="access_role" class="data-entry-label" id="label_access_role">Access Role (= ! ~ !~ ,)</label>
+												<input type="text" id="access_role" name="access_role" class="data-entry-input" value="#access_role#" aria-labelledby="label_access_role" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecResColsAutocomplete('access_role','access_role');
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("sql_element")><cfset sql_element=""></cfif>
+												<label for="sql_element" class="data-entry-label" id="label_sql_element">SQL (= ! ~ !~ ,)</label>
+												<input type="text" id="sql_element" name="sql_element" class="data-entry-input" value="#sql_element#" aria-labelledby="label_sql_element" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecResColsAutocomplete('sql_element','sql_element');
 													});
 												</script>
 											</div>
@@ -125,7 +150,6 @@ limitations under the License.
 												<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for Specimen Search Fields">Search<span class="fa fa-search pl-1"></span></button>
 												<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/specimens/adminSpecimenSearch.cfm?action=results';" >New Search</button>
-												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/specimens/adminSpecimenSearch.cfm?action=search';" >Manage Search Fields</button>
 											</div>
 										</div>
 									</form>
@@ -393,7 +417,7 @@ limitations under the License.
 								url: '/specimens/component/admin.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+									handleFail(jqXHR,textStatus,error, "Error performing search for cf_spec_res_cols rows: "); 
 								},
 								async: true
 							};
@@ -434,12 +458,34 @@ limitations under the License.
 									{text: 'Column Name', datafield: 'COLUMN_NAME', width: 140, hideable: true, hidden: getColHidProp('COLUMN_NAME', false) },
 									{text: 'Label', datafield: 'LABEL', width: 180, hideable: true, hidden: getColHidProp('LABEL', false) },
 									{text: 'Category', datafield: 'CATEGORY', width: 120, hideable: true, hidden: getColHidProp('CATEGORY', false) },
-									{text: 'Order', datafield: 'DISP_ORDER', width: 70, hideable: true, hidden: getColHidProp('DISP_ORDER', false) },
+									{text: 'Order', datafield: 'DISP_ORDER', width: 70, hideable: true, hidden: getColHidProp('DISP_ORDER', false), 
+										columntype: 'numberinput', 
+										initeditor: function (row, cellvalue, editor) { 
+											editor.jqxNumberInput({ decimalDigits: 0 } ); 
+										}
+									},
 									{text: 'Access Role', datafield: 'ACCESS_ROLE', width: 100, hideable: true, hidden: getColHidProp('ACCESS_ROLE', false) },
-									{text: 'Hideable', datafield: 'HIDEABLE', width: 80, hideable: true, hidden: getColHidProp('HIDEABLE', false) },
-									{text: 'Hidden', datafield: 'HIDDEN', width: 70, hideable: true, hidden: getColHidProp('HIDDEN', false) },
+									{text: 'Hideable', datafield: 'HIDEABLE', width: 80, hideable: true, hidden: getColHidProp('HIDEABLE', false),
+										columntype: 'dropdownlist', 
+										initeditor: function (row, cellvalue, editor) { 
+											var tfList = ["true","false"]; 
+											editor.jqxDropDownList( { source: tfList } ); 
+										}
+									},
+									{text: 'Hidden', datafield: 'HIDDEN', width: 70, hideable: true, hidden: getColHidProp('HIDDEN', false),
+										columntype: 'dropdownlist', 
+										initeditor: function (row, cellvalue, editor) { 
+											var tfList = ["true","false"]; 
+											editor.jqxDropDownList( { source: tfList }); 
+										}
+									},
 									{text: 'CellsRenderer', datafield: 'CELLSRENDERER', width: 150, hideable: true, hidden: getColHidProp('CELLSRENDERER', false) },
-									{text: 'Width', datafield: 'WIDTH', width: 70, hideable: true, hidden: getColHidProp('WIDTH', false) },
+									{text: 'Width', datafield: 'WIDTH', width: 70, hideable: true, hidden: getColHidProp('WIDTH', false),
+										columntype: 'numberinput', 
+										initeditor: function (row, cellvalue, editor) { 
+											editor.jqxNumberInput({ decimalDigits: 0 } ); 
+										}
+									},
 									{text: 'Data Type', datafield: 'DATA_TYPE', width: 100, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
 									{text: 'SQL', datafield: 'SQL_ELEMENT', width: 250, hideable: true, hidden: getColHidProp('SQL_ELEMENT', false) },
 									{text: 'ID', datafield: 'CF_SPEC_RES_COLS_ID', editable: false, hideable: true, hidden: getColHidProp('CF_SPEC_RES_COLS_ID', false), cellsrenderer: deleteCellRenderer }
@@ -502,13 +548,16 @@ limitations under the License.
 							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's' + items);
 						}
 						// set maximum page size
-						if (rowcount > 100) { 
-							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
-						} else if (rowcount > 50) { 
-							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
-						} else { 
-							$('##' + gridId).jqxGrid({ pageable: false });
-						}
+						// commenting out dynamic page size set, for some reason it causes browser to go into a 15 second+ javascript delay 
+ 						// for just this grid when all rows are selected, so using pagable fales, for just this grid... 
+						$('##' + gridId).jqxGrid({ pageable: false });
+						//if (rowcount > 100) { 
+						//	$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
+						//} else if (rowcount > 50) { 
+						//	$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
+						//} else { 
+						//	$('##' + gridId).jqxGrid({ pageable: false });
+						//}
 						// add a control to show/hide columns
 						var columns = $('##' + gridId).jqxGrid('columns').records;
 						var columnListSource = [];
@@ -604,26 +653,9 @@ limitations under the License.
 									<form name="searchForm" id="searchForm">
 										<input type="hidden" name="method" value="getcf_spec_search_cols" class="keeponclear">
 										<div class="form-row mt-1 mb-2">
-											<div class="col-md-3">
-												<label for="table_name" class="data-entry-label" id="table_name_label">Table Name</label>
-												<input type="text" id="table_name" name="table_name" class="data-entry-input" value="#table_name#" aria-labelledby="table_name_label" >
-												<script>
-													jQuery(document).ready(function() {
-														makeSpecSearchColsAutocomplete('table_name','table_name');
-													});
-												</script>
-											</div>
-											<div class="col-md-3">
-												<label for="column_name" class="data-entry-label" id="column_name_label">Column Name</label>
-												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#column_name#" aria-labelledby="column_name_label" >
-												<script>
-													jQuery(document).ready(function() {
-														makeSpecSearchColsAutocomplete('column_name','column_name');
-													});
-												</script>
-											</div>
-											<div class="col-md-3">
-												<label for="search_category" class="data-entry-label" id="search_category_label">Search Category</label>
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("search_category")><cfset search_category=""></cfif>
+												<label for="search_category" class="data-entry-label" id="search_category_label">Search Category (= ! ~ !~ ,)</label>
 												<input type="text" id="search_category" name="search_category" class="data-entry-input" value="#search_category#" aria-labelledby="search_category_label" >
 												<script>
 													jQuery(document).ready(function() {
@@ -631,12 +663,53 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-md-3">
-												<label for="label" class="data-entry-label" id="label_label">Label</label>
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("table_name")><cfset table_name=""></cfif>
+												<label for="table_name" class="data-entry-label" id="table_name_label">Table Name (= ! ~ !~ ,)</label>
+												<input type="text" id="table_name" name="table_name" class="data-entry-input" value="#table_name#" aria-labelledby="table_name_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchColsAutocomplete('table_name','table_name');
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("column_name")><cfset column_name=""></cfif>
+												<label for="column_name" class="data-entry-label" id="column_name_label">Column Name (= ! ~ !~ ,)</label>
+												<input type="text" id="column_name" name="column_name" class="data-entry-input" value="#column_name#" aria-labelledby="column_name_label" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchColsAutocomplete('column_name','column_name');
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("label")><cfset label=""></cfif>
+												<label for="label" class="data-entry-label" id="label_label">Label (= ! ~ !~ ,)</label>
 												<input type="text" id="label" name="label" class="data-entry-input" value="#label#" aria-labelledby="label_label" >
 												<script>
 													jQuery(document).ready(function() {
 														makeSpecSearchColsAutocomplete('label','label');
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("access_role")><cfset access_role=""></cfif>
+												<label for="access_role" class="data-entry-label" id="label_access_role">Access Role (= ! ~ !~ ,)</label>
+												<input type="text" id="access_role" name="access_role" class="data-entry-input" value="#access_role#" aria-labelledby="label_access_role" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchColsAutocomplete('access_role','access_role');
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("ui_function")><cfset ui_function=""></cfif>
+												<label for="ui_function" class="data-entry-label" id="label_ui_function">UI Function (NOT NULL = ! ~ !~ , NULL)</label>
+												<input type="text" id="ui_function" name="ui_function" class="data-entry-input" value="#ui_function#" aria-labelledby="label_ui_function" >
+												<script>
+													jQuery(document).ready(function() {
+														makeSpecSearchColsAutocomplete('ui_function','ui_function');
 													});
 												</script>
 											</div>
@@ -646,7 +719,6 @@ limitations under the License.
 												<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for Specimen Search Fields">Search<span class="fa fa-search pl-1"></span></button>
 												<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/specimens/adminSpecimenSearch.cfm?action=search';" >New Search</button>
-												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/specimens/adminSpecimenSearch.cfm?action=results';" >Manage Results Columns</button>
 											</div>
 										</div>
 									</form>
@@ -721,13 +793,41 @@ limitations under the License.
 														<option value="CLOB">CLOB</option>
 													</select>
 												</div>
-												<div class="col-12 col-md-2 px-1 mt-1">
+												<div class="col-12 col-md-3 px-1 mt-1">
 													<label for="in_data_length" class="data-entry-label">Data Length</label>
 													<input type="number" class="data-entry-input reqdClr" name="data_length" id="in_data_length" required pattern="[0-9]+" >
 												</div>
-												<div class="col-12 col-md-4 px-1 mt-1">
+												<div class="col-12 col-md-3 px-1 mt-1">
+													<label for="in_access_role" class="data-entry-label">Access Role (to see in builder)</label>
+													<select class="data-entry-select reqdClr mb-1" name="access_role" id="in_access_role" required >
+														<option value="PUBLIC" selected>PUBLIC</option>
+														<option value="COLDFUSION_USER">COLDFUSION_USER</option>
+														<option value="DATA_ENTRY">DATA_ENTRY</option>
+														<option value="MANAGE_TRANSACTIONS">MANAGE_TRANSACTIONS</option>
+														<option value="MANAGE_SPECIMENS">MANAGE_SPECIMENS</option>
+														<option value="MANAGE_CONTAINER">MANAGE_CONTAINER</option>
+														<option value="MANAGE_TRANSACTIONS">MANAGE_TRANSACTIONS</option>
+														<option value="GLOBAL_ADMIN">GLOBAL_ADMIN</option>
+														<option value="MANAGE_AGENTS">MANAGE_AGENTS</option>
+														<option value="MANAGE_MEDIA">MANAGE_MEDIA</option>
+														<option value="MANAGE_COLLECTION">MANAGE_COLLECTION</option>
+														<option value="MANAGE_TAXONOMY">MANAGE_TAXONOMY</option>
+														<option value="MANAGE_CODETABLES">MANAGE_CODETABLES</option>
+														<option value="MANAGE_LOCALITY">MANAGE_LOCALITY</option>
+														<option value="MANAGE_PUBLICATIONS">MANAGE_PUBLICATIONS</option>
+														<option value="MANAGE_AGENT_RANKING">MANAGE_AGENT_RANKING</option>
+														<option value="HIDE">HIDE (column is not queried or shown)</option>
+													</select>
+												</div>
+											</div>
+											<div class="row mx-0">
+												<div class="col-12 col-md-6 px-1 mt-1">
 													<label for="in_label" class="data-entry-label">Label</label>
 													<input type="text" class="data-entry-input reqdClr" name="label" id="in_label" required >
+												</div>
+												<div class="col-12 col-md-6 px-1 mt-1">
+													<label for="in_ui_function" class="data-entry-label">UI Function (e.g. makeScientificNameAutocompleteMeta)</label>
+													<input type="text" class="data-entry-input" name="ui_function" id="in_ui_function">
 												</div>
 											</div>
 											<div class="row mx-0">
@@ -861,7 +961,9 @@ limitations under the License.
 									{ name: 'SEARCH_CATEGORY', type: 'string' },
 									{ name: 'DATA_TYPE', type: 'string' },
 									{ name: 'DATA_LENGTH', type: 'string' },
-									{ name: 'LABEL', type: 'string' }
+									{ name: 'LABEL', type: 'string' },
+									{ name: 'ACCESS_ROLE', type: 'string' },
+									{ name: 'UI_FUNCTION', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
 									var data = "method=updatecf_spec_search_cols";
@@ -874,6 +976,8 @@ limitations under the License.
 									data = data + "&data_type=" + rowdata.DATA_TYPE;
 									data = data + "&data_length=" + rowdata.DATA_LENGTH;
 									data = data + "&label=" + rowdata.LABEL;
+									data = data + "&access_role=" + rowdata.ACCESS_ROLE;
+									data = data + "&ui_function=" + rowdata.UI_FUNCTION;
 									$.ajax({
 										dataType: 'json',
 										url: '/specimens/component/admin.cfc',
@@ -892,7 +996,7 @@ limitations under the License.
 								url: '/specimens/component/admin.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+									handleFail(jqXHR,textStatus,error, "Error performing search for cf_spec_search_cols rows: "); 
 								},
 								async: true
 							};
@@ -935,9 +1039,28 @@ limitations under the License.
 									{text: 'Column Name', datafield: 'COLUMN_NAME', width: 150, hideable: true, hidden: getColHidProp('COLUMN_NAME', false) },
 									{text: 'Column Alias', datafield: 'COLUMN_ALIAS', width: 150, hideable: true, hidden: getColHidProp('COLUMN_ALIAS', false) },
 									{text: 'Category', datafield: 'SEARCH_CATEGORY', width: 120, hideable: true, hidden: getColHidProp('SEARCH_CATEGORY', false) },
-									{text: 'Data Type', datafield: 'DATA_TYPE', width: 80, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
-									{text: 'Data Length', datafield: 'DATA_LENGTH', width: 80, hideable: true, hidden: getColHidProp('DATA_LENGTH', false) },
+									{text: 'Data Type', datafield: 'DATA_TYPE', width: 80, hideable: true, hidden: getColHidProp('DATA_TYPE', false),
+										columntype: 'dropdownlist', 
+										initeditor: function (row, cellvalue, editor) { 
+											var typeList = ["VARCHAR2","NUMBER","DATE","CHAR","CLOB"];
+											editor.jqxDropDownList( { source: typeList }); 
+										}
+									},
+									{text: 'Data Length', datafield: 'DATA_LENGTH', width: 80, hideable: true, hidden: getColHidProp('DATA_LENGTH', false),
+										columntype: 'numberinput', 
+										initeditor: function (row, cellvalue, editor) { 
+											editor.jqxNumberInput({ decimalDigits: 0 } ); 
+										}
+									},
 									{text: 'Label', datafield: 'LABEL', width: 250, hideable: true, hidden: getColHidProp('LABEL', false) },
+									{text: 'Access Role', datafield: 'ACCESS_ROLE', width: 100, hideable: true, hidden: getColHidProp('ACCESS_ROLE', false),
+										columntype: 'dropdownlist', 
+										initeditor: function (row, cellvalue, editor) { 
+											var typeList = ["PUBLIC","COLDFUISON_USER","MANAGE_TRANSACTIONS","DATA_ENTRY","GLOBAL_ADMIN","MANAGE_AGENTS","MANAGE_MEDIA","MANAGE_COLLECTION","MANAGE_TAXONOMY","MANAGE_CODETABLES","MANAGE_LOCALITY","MANAGE_PUBLICATIONS","MANAGE_AGENT_RANKING","MANAGE_SPECIMENS","MANAGE_CONTAINER","HIDE"];
+											editor.jqxDropDownList( { source: typeList }); 
+										}
+									},
+									{text: 'UI Function', datafield: 'UI_FUNCTION', width: 100, hideable: true, hidden: getColHidProp('UI_FUNCTION', false) },
 									{text: 'ID', editable: false, datafield: 'ID', hideable: true, hidden: getColHidProp('ID', false), cellsrenderer: deleteCellRenderer }
 								],
 								rowdetails: true,

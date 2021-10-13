@@ -22,6 +22,7 @@ input.goodPick, select.goodPick, textarea.goodPick {
 	line-height: 1.02;
 	font-weight: 450;
 }
+
 .small90 {
 	font-size: 89%
 }
@@ -872,6 +873,7 @@ a#showLeftPush.hiddenclass {
 	display: inline-block;
 	opacity: 0.85;
 	color: #333;
+	padding: 3px;
 }
 #regForm .step.active {
 	opacity: 1;
@@ -1600,7 +1602,7 @@ tr.line-top:first-child {
 }
 .infoLink {
 	cursor: pointer;
-	color: #3366cc;
+	color: #3366cc!important;
 	text-decoration: underline;
 }
 .infoLink:hover {
@@ -2073,6 +2075,59 @@ section#mediaSection.accordion {
 }
 .bg-teal {
 	background-color: rgb(199 251 255 / .35) !important;
+}
+.height1p2 {
+	height: 1.4rem!important;
+	
+}
+.smallselect {
+	font-size: 84%!important;
+}
+#collapseKeyword.collapsing.width {
+	height: auto;
+	width: 0;
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	-ms-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;
+}
+button.help-btn {
+	background-color: #1b1b1b;
+	color: white;
+	float:right;
+	-webkit-backface-visibility: hidden;
+	-webkit-transform: translateX(-98%) rotate(-90deg);
+	-webkit-transform-origin: right top;
+	-moz-transform: translateX(-98%) rotate(-90deg);
+	-moz-transform-origin: right top;
+	-o-transform: translateX(-98%) rotate(-90deg);
+	-o-transform-origin: right top;
+	transform: translateX(-98%) rotate(-90deg);
+	transform-origin: right top;
+	margin-bottom: 15px;
+	top: -.25rem;
+	right: -79px;
+	z-index:1; 
+	padding-top:.15rem;
+	padding-bottom: .15rem; 
+	font-size: 13.5px;
+	margin-top:0;
+	position: absolute;
+}
+#collapseKeyword h2.headerSm {
+	font-size: 1.25rem;
+}
+#collapseKeyword dt {
+	float:left;
+	display: inline-block;
+	min-width: 25px!important;
+}
+.collapseStyle {
+	z-index: 3000; 
+	position: absolute; 
+	margin-top: 6.13rem; 
+	margin-right: -1rem;
 }
 /************end tabs -- redone for accessibility  ***************/
 
