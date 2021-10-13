@@ -901,10 +901,9 @@ limitations under the License.
 						</div>
 						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">BIOLOGICAL RELATIONSHIPS</h2>
-							<div class="portlet-content">
-								<div class="form-row mx-0">
-									<div id="customBiolRelations">
-							
+							<div class="portlet-content px-3">
+								<div id="customBiolRelations">
+									<div class="form-row mx-0">
 										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 										<div class="form-row my-2 mx-0">
 											<div class="col-12 col-6 float-left">
@@ -921,7 +920,6 @@ limitations under the License.
 											<input type="text" class="data-entry-input col-12 height1p2" id="relationship">
 											</div>
 										</div>
-									
 									</div>
 								</div>
 							</div>
