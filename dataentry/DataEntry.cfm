@@ -459,7 +459,7 @@ limitations under the License.
 										<input type="text" name="scientific_name" class="col-12 col-xl-10 mt-1 px-0 float-left data-entry-input height1p2"/>
 										<label for="made_by" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">ID Made By</label>
 										<input type="text" name="made_by" class="col-12 col-xl-10 mt-1 px-0 float-left data-entry-input height1p2"/>
-										<div class="col-12 col-md-6 px-0 mt-1">
+										<div class="col-12 col-md-7 px-0 mt-1">
 											<label for="nature_of_id" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">Nature of ID</label>
 											<select class="data-entry-select smallselect col-12 col-xl-10 px-0 float-left height1p2">
 												<option value="">Nature of ID</option>
@@ -468,7 +468,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-6 px-0 mt-1">
+										<div class="col-12 col-md-5 px-0 mt-1">
 											<label for="made_by_date" class="small font-weight-light col-12 col-xl-3 px-1 float-left d-block mt-1 mb-0">Date</label>
 											<input type="text" name="made_by_date" class="col-12 col-xl-9 float-left data-entry-input height1p2"/>
 										</div>
