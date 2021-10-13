@@ -532,16 +532,16 @@ limitations under the License.
 											<input type="text" name="collecting_event_id" class="data-entry-input col-4 mx-auto height1p2" placeholder="Collecting Event ID" />
 											<span class="small w-100 float-left text-center mt-1">- OR - </span>
 											<h5 class="font-weight-bold text-left mb-1 d-block w-100">New Collecting Event</h5>
-											<label for="verbatim_locality" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mb-0">Verbatim Locality</label>
-											<input type="text" name="verbatim_locality mt-0" class="data-entry-input height1p2 col-12 col-xl-10 float-left"/>
+											<label for="verbatim_locality" class="small font-weight-light col-12 col-xl-2 mt-1 px-0 float-left d-block mb-0">Verbatim Locality</label>
+											<input type="text" name="verbatim_locality" class="data-entry-input mt-1 height1p2 col-12 col-xl-10 float-left"/>
 											<div class="col-12 col-xl-5 px-0 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-5 pl-0 float-left d-block mb-0">Verbatim Date</label>
-												<input type="text" class="data-entry-input col-12 col-xl-7 height1p2" id="verbatim_date">
+												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-5 pl-0 mt-1 float-left d-block mb-0">Verbatim Date</label>
+												<input type="text" class="data-entry-input col-12 col-xl-7 mt-1 height1p2" id="verbatim_date">
 											</div>
-											<div class="col-12 col-xl-7 pr-0 mt-1 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-4 float-left d-block mt-2 mb-0 text-right">ISO Dates</label>
-												<input type="text" class="data-entry-input col-12 col-xl-4 float-left mt-0 height1p2" id="began_date" placeholder="Began Date">
-												<input type="text" class="data-entry-input col-12 col-xl-4 float-left mt-0 height1p2" id="ended_date" placeholder="Date Ended">
+											<div class="col-12 col-xl-7 pr-0 float-left">
+												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-4 float-left d-block mt-1 mb-0 text-right">ISO Dates</label>
+												<input type="text" class="data-entry-input col-12 col-xl-4 float-left mt-1 height1p2" id="began_date" placeholder="Began Date">
+												<input type="text" class="data-entry-input col-12 col-xl-4 float-left mt-1 height1p2" id="ended_date" placeholder="Date Ended">
 											</div>
 										
 											<div class="col-12 col-xl-4 pl-0 mt-1 float-left">
