@@ -959,12 +959,13 @@ limitations under the License.
 						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">ENCUMBRANCE</h2>
 							<div class="portlet-content">
-								<div class="col-12 col-xl-6 mx-auto">
-									<div class="text-center">
-									<label for="mask_record" class="float-left mt-2">Mask Record</label>
-									<input class="float-left ml-2 mt-1" value="1" type="checkbox" id="gridCheck1">
-									<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>--> 
-									<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
+								<div class="col-12">
+									<div class="text-center border mx-auto col-5 px-0 overflow-hidden">
+										<div class="col-7 mx-auto">
+											<label for="mask_record" class="float-left mt-2">Mask Record</label>
+											<input class="float-left ml-2 mt-1" value="1" type="checkbox" id="gridCheck1">
+										</div>
+										<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
 									</div>
 								</div>
 							</div>
