@@ -963,10 +963,11 @@ limitations under the License.
 							<h2 class="portlet-header small90">ENCUMBRANCE</h2>
 							<div class="portlet-content px-3">
 								<div class="row col-12 px-0">
-									<div class="col-12 col-xl-6 float-left">
+									<div class="col-12 col-xl-5 float-left">
 										<label for="encumbrance_id" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Enter an Encumbrance ID</label>
 										<input  type="text" class="data-entry-input float-left col-12 height1p2" value="">
 									</div>
+									<div class="col-1">- OR -</div>
 									<div class="text-center border pb-1 mx-auto col-5 px-0 mb-2 overflow-hidden">
 										<div class="col-7 mx-auto">
 											<label for="mask_record" class="float-left mt-2">Mask Record</label>
