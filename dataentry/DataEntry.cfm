@@ -742,10 +742,10 @@ limitations under the License.
 											<div class="row mx-0 unknown box mt-2" id="unknown" style="display:none;"></div>
 										</div>
 									</div>
-											<div class="col-12 px-0">
-												<label for="higher_geog" class="small font-weight-light float-left d-block mt-1 col-12 col-xl-2 px-0 mb-0">Max Error</label>
-												<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-12 col-xl-10 mt-1 float-left height1p2" />
-												<select class="data-entry-select col-4 col-md-3 float-left mt-1  smallselect height1p2" required>
+											<div class="col-12 px-0 mt-1">
+												<label for="higher_geog" class="small font-weight-light float-left d-block mt-2 col-12 col-xl-2 px-0 mb-0">Max Error</label>
+												<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-12 col-xl-7 mt-1 float-left height1p2" />
+												<select class="data-entry-select col-12 col-xl-3 float-left mt-1  smallselect height1p2" required>
 													<option value="">Units</option>
 													<cfloop query="error_units">
 														<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
