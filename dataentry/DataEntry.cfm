@@ -493,7 +493,7 @@ limitations under the License.
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 mx-2 my-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
 											<div class="form-row mx-0">
 												<div class="col-12 col-xl-6 float-left">
-													<label for="collector_role" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Role</label>
+													<label for="collector_role" class="small font-weight-light float-left d-block mt-1 mb-0 px-1">Agent Role</label>
 													<select class="data-entry-select smallselect height1p2" required>
 												
 														<option value="c" class="required">Collector</option>
@@ -501,7 +501,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-xl-6 float-left">
-													<label for="agent_name" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Name</label>
+													<label for="agent_name" class="small font-weight-light float-left d-block px-1 mt-1 mb-0">Agent Name</label>
 													<input type="text" class="data-entry-input height1p2" required  name="agent_name">
 												</div>
 											</div>
