@@ -643,7 +643,7 @@ limitations under the License.
 							<h2 class="portlet-header small90">COORDINATES</h2>
 							<div class="portlet-content px-3 pb-3">
 								<div class="form-row mx-0">
-									<div id="customSciName">
+									<div id="pickCoordinates">
 										<div class="bg-light border rounded px-2 pb-2"> 
 											<div class="form-row mx-0 my-2">
 												<label for="Coord. System" class="sr-only">Coordinate System</label>
@@ -967,7 +967,7 @@ limitations under the License.
 										<label for="encumbrance_id" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Enter an Encumbrance ID</label>
 										<input  type="text" class="data-entry-input float-left col-12 height1p2" value="">
 									</div>
-									<div class="col-1 small px-0 mt-4">- OR -</div>
+									<div class="col-12 col-xl-1 small px-0 mt-4">- OR -</div>
 									<div class="text-center border pb-1 mx-auto col-5 px-0 mb-2 overflow-hidden">
 										<div class="col-7 mx-auto">
 											<label for="mask_record" class="float-left mt-2">Mask Record</label>
