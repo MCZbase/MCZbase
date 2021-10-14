@@ -767,12 +767,12 @@ limitations under the License.
 														<option value="#georefmeth.georefmethod#">#georefmeth.georefmethod#</option>
 													</cfloop>
 												</select>
-												<label for="" class="small font-weight-light  col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Extent</label>
+												<label for="" class="small font-weight-light  col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Extent</label>
 												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
-												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">GPS Accuracy</label>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">GPS Accuracy</label>
 												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
 
-												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">GPS Accuracy</label>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">GPS Accuracy</label>
 												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
 												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Reference</label>
 												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
