@@ -961,7 +961,7 @@ limitations under the License.
 							<div class="portlet-content px-3">
 								<div class="row col-12 px-0">
 									<div class="col-12 col-xl-6 float-left">
-										<label for="encumbrance_id" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-0">Enter an Encumbrance ID</label>
+										<label for="encumbrance_id" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Enter an Encumbrance ID</label>
 										<input  type="text" class="data-entry-input float-left col-12 height1p2" value="">
 									</div>
 									<div class="text-center border mx-auto col-5 px-0 mb-2 overflow-hidden">
