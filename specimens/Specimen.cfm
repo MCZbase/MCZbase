@@ -92,6 +92,9 @@ limitations under the License.
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
 <cfset pageTitle = "MCZbase Specimen Details #guid#">
 <cfinclude template="/shared/_header.cfm">
+<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
+	<cfthrow message="Not for production use yet.">
+</cfif>
 
 <!--- (3) Look up summary and type information on the specimen and display the summary/type bar for the record --->
 <cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

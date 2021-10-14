@@ -1,6 +1,6 @@
 <cfset pageTitle = "Data Entry">
-<!-- 
-Affiliates.cfm
+<!---
+DataEntry.cfm
 
 Copyright 2019 President and Fellows of Harvard College
 
@@ -16,8 +16,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
--->
+--->
 <cfinclude template = "/shared/_header.cfm">
+<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
+	<cfthrow message="Not for production use yet.">
+</cfif>
 <style>
 	body {
 		background-color: #deebec;
