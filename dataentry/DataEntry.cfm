@@ -960,7 +960,7 @@ limitations under the License.
 							<h2 class="portlet-header small90">ENCUMBRANCE</h2>
 							<div class="portlet-content">
 								<div class="col-12">
-									<div class="text-center border mx-auto col-5 px-0 overflow-hidden">
+									<div class="text-center border mx-auto col-5 px-0 mb-2 overflow-hidden">
 										<div class="col-7 mx-auto">
 											<label for="mask_record" class="float-left mt-2">Mask Record</label>
 											<input class="float-left ml-2 mt-1" value="1" type="checkbox" id="gridCheck1">
