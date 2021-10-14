@@ -754,7 +754,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 mt-2 border bg-transparent rounded p-1">
 												<label for="" class="small font-weight-light float-left col-12 text-xl-right col-xl-2 d-block pl-0 pr-2 mt-1 mb-0">Determiner</label>
-												<input type="text" name="" class="data-entry-input mt-1 float-left col-12 col-xl-2  height1p2" id=""/>
+												<input type="text" name="" class="data-entry-input mt-1 float-left col-12 col-xl-5 height1p2" id=""/>
 												<label for="" class="small font-weight-light float-left text-xl-right pr-2 col-12 col-xl-2 d-block pl-0 mt-1 mb-0">Date</label>
 												<input type="text" class="data-entry-input mt-1 float-left col-12 col-xl-3 height1p2" id="">
 											</div>
