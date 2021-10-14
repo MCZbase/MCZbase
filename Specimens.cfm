@@ -392,9 +392,15 @@ limitations under the License.
 											// bind autocomplete to text input/hidden input, and other actions on field selection
 											function handleFieldSelection(fieldSelect,rowNumber) { 
 												var selection = $('##'+fieldSelect).val();
-												console.log(columnMetadata);
+												console.log(selection);
 												for (var i=0; i<columnMetadata.length; i++) {
-													if(selection==columnMetadata[i].column) { 
+													if(selection==columnMetadata[i].column) {
+														// remove any existing binding.
+														$('##searchId'+rowNumber).val("");
+														try { 
+															$('##searchText'+rownumber).autocomplete("destroy");
+														} catch {}
+														$('##searchText'+rowNumber).val("");
 														console.log(columnMetadata[i].ui_function);
 														if (columnMetadata[i].ui_function) {
 															var invokeBinding = Function(columnMetadata[i].ui_function+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
@@ -439,7 +445,7 @@ limitations under the License.
 														<cfset columnMetadata = "[">
 														<cfset comma = "">
 														<cfloop query="fields">
-															<cfset columnMetadata = '#columnMetadata##comma#{"column":"#fields.table_name#:#fields.column_name#","data_type":"#fields.data_type#","ui_function":"#fields.ui_function#"}'>
+															<cfset columnMetadata = '#columnMetadata##comma#{"column":"#fields.table_name#:#fields.column_alias#","data_type":"#fields.data_type#","ui_function":"#fields.ui_function#"}'>
 															<cfset comma = ",">
 														</cfloop>
 														<cfset columnMetadata = "#columnMetadata#]">
@@ -464,8 +470,8 @@ limitations under the License.
 																	<cfset optgroupOpen = true>
 																	<cfset category = fields.search_category>
 																</cfif>
-																<cfif field1 EQ "#fields.table_name#:#fields.column_name#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																<option value="#fields.table_name#:#fields.column_name#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#)</option>
+																<cfif field1 EQ "#fields.table_name#:#fields.column_alias#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																<option value="#fields.table_name#:#fields.column_alias#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#)</option>
 															</cfloop>
 															<cfif optgroupOpen>
 																</optgroup>
@@ -547,8 +553,8 @@ limitations under the License.
 																				<cfset optgroupOpen = true>
 																				<cfset category = fields.search_category>
 																			</cfif>
-																			<cfif Evaluate("field#row#") EQ "#fields.table_name#:#fields.column_name#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																			<option value="#fields.table_name#:#fields.column_name#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#)</option>
+																			<cfif Evaluate("field#row#") EQ "#fields.table_name#:#fields.column_alias#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																			<option value="#fields.table_name#:#fields.column_alias#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#)</option>
 																		</cfloop>
 																		<cfif optgroupOpen>
 																			</optgroup>
@@ -562,6 +568,9 @@ limitations under the License.
 																				width: '100%',
 																				dropDownHeight: 400
 																			});
+																		});
+																		$('##field#row#').on("select", function(event) { 
+																			handleFieldSelection('field#row#',#row#);
 																		});
 																	</script>
 																</div>
@@ -610,7 +619,7 @@ limitations under the License.
 																<cfset optgroupOpen = true>
 																<cfset category = fields.search_category>
 															</cfif>
-															newControls = newControls + '<option value="#fields.table_name#:#fields.column_name#">#fields.label# (#fields.search_category#:#fields.table_name#)</option>';
+															newControls = newControls + '<option value="#fields.table_name#:#fields.column_alias#">#fields.label# (#fields.search_category#:#fields.table_name#)</option>';
 														</cfloop>
 														<cfif optgroupOpen>
 															newControls = newControls + '</optgroup>';
@@ -632,6 +641,9 @@ limitations under the License.
 															searchMode: 'containsignorecase',
 															width: '100%',
 															dropDownHeight: 400
+														});
+														$('##field'+row).on("select", function(event) { 
+															handleFieldSelection('field'+row,row);
 														});
 													});
 												});
