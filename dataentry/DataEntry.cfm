@@ -767,17 +767,17 @@ limitations under the License.
 														<option value="#georefmeth.georefmethod#">#georefmeth.georefmethod#</option>
 													</cfloop>
 												</select>
-												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Extent</label>
-												<input type="text" name="" class="data-entry-input height1p2"/>
-												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
-												<input type="text" name="" class="data-entry-input height1p2"/>
+												<label for="" class="small font-weight-light  col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Extent</label>
+												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">GPS Accuracy</label>
+												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
 
-												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
-												<input type="text" name="" class="data-entry-input height1p2"/>
-												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Coordinate Remarks</label>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">GPS Accuracy</label>
+												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Coordinate Remarks</label>
 												<textarea type="text" name="remarks" class="data-entry-textarea"/></textarea>
-												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Reference</label>
-												<input type="text" name="" class="data-entry-input height1p2"/>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Reference</label>
+												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
 											<div class="col-12 mt-2 border bg-transparent rounded p-1 mb-1">
 												<label for="" class="small font-weight-light float-left col-12 text-xl-right col-xl-2 d-block pl-0 pr-2 mt-1 mb-0">Determiner</label>
 												<input type="text" name="" class="data-entry-input mt-1 float-left col-12 col-xl-5 height1p2" id=""/>
