@@ -441,7 +441,11 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset value="#ucase(right(value,len(value)-1))#">
 			<cfset comparator = '"comparator": "not like"'>
 		<cfelse>
-			<cfset comparator = '"comparator": "like"'>
+			<cfif REFind("([A-Za-z]+,[A-Za-z]+)+",value) GT 0>
+				<cfset comparator = '"comparator": "IN"'>
+			<cfelse>
+				<cfset comparator = '"comparator": "like"'>
+			</cfif>
 			<cfset value = encodeForJavaScript(value)>
 			<cfset value = replace(value,"\x20"," ","all")>
 			<cfset value = replace(value,"\x5B","[","all")>
