@@ -906,45 +906,52 @@ limitations under the License.
 							<h2 class="portlet-header small90">BIOLOGICAL RELATIONSHIPS</h2>
 							<div class="portlet-content px-3">
 								<div id="customBiolRelations">
-									<div class="form-row mx-0">
-										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
-										<div class="form-row my-2">
-											<div class="col-12 col-xl-6 float-left">
-												<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Relationship Type</label>
-												<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
-													<option value="">Biological Relationship</option>
-													<cfloop query="biolRelations">
-														<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="col-12 col-xl-6 float-left">
-											<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-0">Relationship Value</label>
-											<input type="text" class="data-entry-input float-left col-12 height1p2" id="relationship">
+									<div class="row">
+										<div class="col-12">
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
+											<div class="form-row my-2">
+												<div class="col-12 col-xl-6 float-left">
+													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Relationship Type</label>
+													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
+														<option value="">Biological Relationship</option>
+														<cfloop query="biolRelations">
+															<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-xl-6 float-left">
+													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-0">Relationship Value</label>
+													<input type="text" class="data-entry-input float-left col-12 height1p2" id="relationship">
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						
 						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">CURATORIAL RELATIONSHIPS</h2>
-							<div class="portlet-content">
-								<div class="form-row mx-0">
-									<div id="customCurRelations">
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
-									<div class="form-row mx-0 my-2">
-										<label for="relations" class="sr-only">Relationship</label>
-											<select class="data-entry-select mt-1">
-												<option value="">Curatorial Relationship Type</option>
-												<cfloop query="currRelations">
-													<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
-												</cfloop>
-											</select>
-										<label for="record number" class="small font-weight-light float-left d-block mt-1 mb-0">Related Record Number</label>
-										<input type="text" class="data-entry-input" id="record_number">
-									</div>
+							<div class="portlet-content px-3">
+								<div id="customBiolRelations">
+									<div class="row">
+										<div class="col-12">
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
+											<div class="form-row my-2">
+												<div class="col-12 col-xl-6 float-left">
+													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Relationship Type</label>
+													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
+														<option value="">Curatorial Relationship</option>
+														<cfloop query="currRelations">
+															<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-xl-6 float-left">
+													<label for="record number" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-0">Related Record Number</label>
+													<input type="text" class="data-entry-input float-left col-12 height1p2" id="relationship">
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
