@@ -203,10 +203,20 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfargument name="sortdatafield" type="string" required="no">
 	<cfargument name="sortorder" type="string" required="no">
 	<cfargument name="filterscount" type="string" required="no">
+	<cfargument name="returnallrecords" type="string" required="no">
 
 	<cfif NOT isdefined("pagesize")><cfset pagesize=0></cfif>
 	<cfif NOT isdefined("sortdatafield")><cfset sortdatafield=""></cfif>
 	<cfif NOT isdefined("sortorder")><cfset sortorder="asc"></cfif>
+	<cfif NOT isdefined("returnallrecords")><cfset returnallrecords=""></cfif>
+	<cfif returnallrecords EQ "true">
+		<!--- turn off all server side filtering/paging --->
+		<cfset pagesize=0>
+		<cfset pagenum="">
+		<cfset sortdatafield="">
+		<cfset sortorder="asc">
+		<cfset filterscount="0">
+	</cfif>
 	<!--- 
 	fields in the showNamedGroup grid
 		{ name: 'guid', type: 'string' },
