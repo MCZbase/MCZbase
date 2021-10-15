@@ -399,8 +399,8 @@ limitations under the License.
 						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">SPECIMEN IDENTIFIERS</h2>
 							<div class="portlet-content px-3">
-								<div class="row mx-0">
-									<div class="col-12 col-md-6 px-0 float-left">
+								<div class="row">
+									<div class="col-12 col-md-6 float-left">
 										<div class="px-2 pb-1">
 											<label for="cat_num" class="small font-weight-light float-left d-block mt-1 mb-0">Catalog Number</label>
 											<input type="text" class="data-entry-input height1p2" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
@@ -414,9 +414,9 @@ limitations under the License.
 											<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
 										</div>
 									</div>
-									<div class="col-12 px-0 float-left">
+									<div class="col-12">
 										<div id="customOtherID">
-										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 mt-2 mx-2" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
+										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 mt-2 mx-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 										<div class="form-row mx-0 mb-2">
 											
 											<div class="col-12 col-md-6 float-left">
