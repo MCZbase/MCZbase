@@ -400,55 +400,58 @@ limitations under the License.
 							<h2 class="portlet-header small90">SPECIMEN IDENTIFIERS</h2>
 							<div class="portlet-content px-3">
 								<div class="row">
-									<div class="col-12 col-xl-6 float-left">
+									<div class="col-12 mb-2">
 										<div class="form-row">
-											<label for="cat_num" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Catalog Number</label>
-											<input type="text" class="data-entry-input height1p2" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
-											<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
+											<div class="col-12 col-xl-6 float-left">
+												<label for="cat_num" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Catalog Number</label>
+												<input type="text" class="data-entry-input height1p2" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
+												<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
+											</div>
 										</div>
 									</div>
-									<div class="col-12 col-xl-6 float-left">
+									<div class="col-12 mb-2">
 										<div class="form-row">
-											<label for="accn" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Accession Number</label>
-											<input type="text" class="data-entry-input height1p2" id="accn" aria-describedby="accnHelp" name="accn">
-											<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
+											<div class="col-12 col-xl-6 float-left">
+												<label for="accn" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Accession Number</label>
+												<input type="text" class="data-entry-input height1p2" id="accn" aria-describedby="accnHelp" name="accn">
+												<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
+											</div>
 										</div>
 									</div>
 								</div>
-									<div id="customOtherID">
-										<div class="row">
-											<div class="col-12 mb-2">
-												<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 mt-2 mx-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
-												<div class="form-row">
-													<div class="col-12 col-xl-6 float-left">
-														<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID Type</label>
-														<select class="data-entry-select mt-1 smallselect height1p2">
-															<option value="">Other ID Type</option>
-															<cfloop query="otherIDType">
-																<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
-															</cfloop>
-														</select>
-													</div>
-													<div class="col-12 col-xl-6 float-left">
-														<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
-														<input type="text" class="data-entry-input height1p2" id="other_id" name="other_id">
-													</div>
-													<div class="col-12 col-xl-6 float-left">
-														<select class="data-entry-select mt-1 smallselect height1p2">
-															<option value="">Other ID Type</option>
-															<cfloop query="otherIDType">
-																<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
-															</cfloop>
-														</select>
-													</div>
-													<div class="col-12 col-xl-6 float-left">
-														<input type="text" class="data-entry-input mt-1 height1p2" id="other_id" name="other_id">
-													</div>
+								<div id="customOtherID">
+									<div class="row">
+										<div class="col-12 mb-2">
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 mt-2 mx-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
+											<div class="form-row">
+												<div class="col-12 col-xl-6 float-left">
+													<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID Type</label>
+													<select class="data-entry-select mt-1 smallselect height1p2">
+														<option value="">Other ID Type</option>
+														<cfloop query="otherIDType">
+															<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-xl-6 float-left">
+													<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
+													<input type="text" class="data-entry-input height1p2" id="other_id" name="other_id">
+												</div>
+												<div class="col-12 col-xl-6 float-left">
+													<select class="data-entry-select mt-1 smallselect height1p2">
+														<option value="">Other ID Type</option>
+														<cfloop query="otherIDType">
+															<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-xl-6 float-left">
+													<input type="text" class="data-entry-input mt-1 height1p2" id="other_id" name="other_id">
 												</div>
 											</div>
 										</div>
 									</div>
-							
+								</div>
 							</div>
 						</div>
 						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
