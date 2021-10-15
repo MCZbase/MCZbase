@@ -393,13 +393,14 @@ limitations under the License.
 											function handleFieldSelection(fieldSelect,rowNumber) { 
 												var selection = $('##'+fieldSelect).val();
 												console.log(selection);
+												console.log(rowNumber);
+												// remove any existing binding.
+												$('##searchId'+rowNumber).val("");
+												try { 
+													$('##searchText'+rownumber).autocomplete("destroy");
+												} catch {}
 												for (var i=0; i<columnMetadata.length; i++) {
 													if(selection==columnMetadata[i].column) {
-														// remove any existing binding.
-														$('##searchId'+rowNumber).val("");
-														try { 
-															$('##searchText'+rownumber).autocomplete("destroy");
-														} catch {}
 														$('##searchText'+rowNumber).val("");
 														console.log(columnMetadata[i].ui_function);
 														if (columnMetadata[i].ui_function) {
@@ -643,7 +644,7 @@ limitations under the License.
 															dropDownHeight: 400
 														});
 														var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")";
-														$('##field'+row).on("select", function(event) { 
+														$('##field'+row).on("change", function(event) { 
 															var handleSelect = new Function(handleSelectString);
 															handleSelect();
 														});
