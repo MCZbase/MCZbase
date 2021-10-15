@@ -75,48 +75,53 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	}
 
 	// find prefixes in atoms
-
-	prefix = "";
-	numericClause = "";
-	wherebit = "";
-	comma = "";
-	leadingJoin = "and";
-	comma = "";
-	for (i=1; i LTE ArrayLen(lparts); i=i+1) {
-		// Prefix is at least one letter optionally followed by a dash separator.
-		// Need to use [A-Z]+ here to prevent match on dash inside bare numeric range.
-		prefixSt = REFind("^[A-Za-z]+\-{0,1}",lparts[i],0,true);
-		if (prefixSt.pos[1] EQ 0 ) {
-			prefix = "";
-		} else {
-			prefix = Mid(lparts[i],prefixSt.pos[1],prefixSt.len[1]);
-		}
-		numericSt = REFind("[0-9]+\-*[0-9]*",lparts[i],0,true);
-		if (numericSt.pos[1] EQ 0 ) {
-			numeric = "";
-		} else {
-			numeric = Mid(lparts[i],numericSt.pos[1],numericSt.len[1]);
-		}
-		if (embeddedSeparator EQ true) {
-			// If the prefix isn't blank and doesn't end with the separator, add it.
-			if ((prefix NEQ "") AND (Find("-",prefix) EQ 0)) {
-				prefix = prefix & "-";
+	if (REFind("^[0-9,]+$",listOfNumbers)>0) {
+		// list consists of only number or comma separated numbers, no ranges or prefixes, skip splitting into atoms
+		numericClause = ScriptNumberListToJSON(listOfNumbers, integerFieldname, nestDepth, leadingJoin);
+		wherebit = numericClause;
+	} else { 
+		prefix = "";
+		numericClause = "";
+		wherebit = "";
+		comma = "";
+		leadingJoin = "and";
+		comma = "";
+		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
+			// Prefix is at least one letter optionally followed by a dash separator.
+			// Need to use [A-Z]+ here to prevent match on dash inside bare numeric range.
+			prefixSt = REFind("^[A-Za-z]+\-{0,1}",lparts[i],0,true);
+			if (prefixSt.pos[1] EQ 0 ) {
+				prefix = "";
+			} else {
+				prefix = Mid(lparts[i],prefixSt.pos[1],prefixSt.len[1]);
 			}
-		} else {
-			//remove any trailing dash
-			prefix = REReplace(prefix,"\-$","");
-		}
-
-		if (numeric NEQ "") {
-			numericClause = ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
-			wherebit = wherebit & comma & numericClause;
-			comma = ",";
-			leadingJoin = "or";
-		}
-		if (prefix NEQ "") {
-			wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & prefixFieldname &'","comparator": "=","value": "#prefix#"}';
-			comma = ",";
-			leadingJoin = "or";
+			numericSt = REFind("[0-9]+\-*[0-9]*",lparts[i],0,true);
+			if (numericSt.pos[1] EQ 0 ) {
+				numeric = "";
+			} else {
+				numeric = Mid(lparts[i],numericSt.pos[1],numericSt.len[1]);
+			}
+			if (embeddedSeparator EQ true) {
+				// If the prefix isn't blank and doesn't end with the separator, add it.
+				if ((prefix NEQ "") AND (Find("-",prefix) EQ 0)) {
+					prefix = prefix & "-";
+				}
+			} else {
+				//remove any trailing dash
+				prefix = REReplace(prefix,"\-$","");
+			}
+	
+			if (numeric NEQ "") {
+				numericClause = ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
+				wherebit = wherebit & comma & numericClause;
+				comma = ",";
+				leadingJoin = "or";
+			}
+			if (prefix NEQ "") {
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & prefixFieldname &'","comparator": "=","value": "#prefix#"}';
+				comma = ",";
+				leadingJoin = "or";
+			}
 		}
 	}
 	result = wherebit;
@@ -178,7 +183,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 		} else if (ArrayLen(REMatch("^[0-9,]+$",listOfNumbers))>0) {
 			// Just a list of numbers without ranges, translates directly to IN
 			if (listOfNumbers!=",") {
-				result = '{"nest":"#nestDepth#","join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJavaScript(listOfNumbers)#"}';
+				result = '{"nest":"#nestDepth#.1","join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJavaScript(listOfNumbers)#"}';
 			} else {
 				// just a comma with no numbers, return empty string
 				result = "";
@@ -192,7 +197,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 					// for each part, check to see if part is a range
 					// if part is a range, return "OR (fieldname >= minimum AND fieldname <= maximum)"
 					// if part is a single number, return "OR fieldname IN ( number )"
-					wherePart = ScriptNumberListPartToJSON(lparts[i], fieldname, nestDepth, "or");
+					wherePart = ScriptNumberListPartToJSON(lparts[i], fieldname, nestDepth + "." + i, "or");
 					// allow for the case of two or more sequential commas.
 					comma = "";
 					if (result NEQ "") { 
@@ -228,7 +233,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	// if so return "AND fieldname IN ( number )"
 	if (ArrayLen(REMatch("^[0-9]+$",atom))>0) {
 		//  Just a single number, exact match.
-		result = '{"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJavaScript(atom)#"}';
+		result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJavaScript(atom)#"}';
 	} else {
 		if (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",atom))>0) {
 			// Just a single range, two clauses, between start and end of range.
@@ -242,8 +247,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			if (ucase(fieldname) IS "CAT_NUM") { 
 				fieldname = "CAT_NUM_INTEGER";
 			}
-			result = '{"join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJavaScript(lowPart)#"';
-			result = result & '},{"join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJavaScript(highPart)#"}';
+			result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJavaScript(lowPart)#"';
+			result = result & '},{"nest":"#nestDepth#.2","join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJavaScript(highPart)#"}';
 		} else {
 			// Error state.  Not a single number, list, or range.
 			// Likely to result from two sequential commas, so return an empty string.
