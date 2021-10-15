@@ -544,7 +544,7 @@ limitations under the License.
 												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-5 pl-0 mt-2 float-left d-block mb-0">Verbatim Date</label>
 												<input type="text" class="data-entry-input col-12 col-xl-7 mt-1 height1p2" id="verbatim_date">
 											</div>
-											<div class="col-12 col-xl-7 pr-0 float-left">
+											<div class="col-12 col-xl-7 px-0 pr-xl-0 float-left">
 												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-4 float-left d-block mt-2 mb-0 text-left text-right-xl">ISO Dates</label>
 												<input type="text" class="data-entry-input col-6 col-xl-4 float-left mt-1 height1p2" id="began_date" placeholder="Began Date">
 												<input type="text" class="data-entry-input col-6 col-xl-4 float-left mt-1 height1p2" id="ended_date" placeholder="Date Ended">
@@ -554,7 +554,7 @@ limitations under the License.
 												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Time</label>
 												<input type="text" class="data-entry-input mt-0 height1p2 col-12 mt-1 col-xl-8" id="collecting_time">
 											</div>
-											<div class="col-12 col-xl-8 float-left pr-xl-0">
+											<div class="col-12 col-xl-8 float-left px-0 pr-xl-0">
 												<label for="start_end_dayOfyear" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-2 mb-0">Day of Year</label>
 												<input type="text" class="data-entry-input float-left col-6 col-xl-5 mt-1 height1p2" id="start_day_of_year" placeholder="Start Day of Year">
 												<input type="text" class="data-entry-input float-left col-6 col-xl-5 mt-1 height1p2" id="end_day_of_year" placeholder="End Day of Year">
