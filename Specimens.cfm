@@ -410,6 +410,22 @@ limitations under the License.
 													}
 												}
 											}
+											// bind autocomplete to text input/hidden input, but don't clear existing values, used on intial page load.
+											function handleFieldSetup(fieldSelect,rowNumber) { 
+												var selection = $('##'+fieldSelect).val();
+												console.log(selection);
+												console.log(rowNumber);
+												for (var i=0; i<columnMetadata.length; i++) {
+													if(selection==columnMetadata[i].column) {
+														$('##searchText'+rowNumber).val("");
+														console.log(columnMetadata[i].ui_function);
+														if (columnMetadata[i].ui_function) {
+															var invokeBinding = Function(columnMetadata[i].ui_function+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
+															invokeBinding(); 
+														}
+													}
+												}
+											}
 										</script>
 										<cfif not isDefined("builderMaxRows") or len(builderMaxRows) eq 0>
 											<cfset builderMaxRows = 1>
@@ -489,6 +505,7 @@ limitations under the License.
 																$('##field1').on("select", function(event) { 
 																	handleFieldSelection('field1',1);
 																});
+																handleFieldSetup('field1',1);
 															});
 														</script>
 													</div>
@@ -569,6 +586,8 @@ limitations under the License.
 																				width: '100%',
 																				dropDownHeight: 400
 																			});
+																			// bind an autocomplete, if one applies.
+																			handleFieldSetup('field#row#',#row#);
 																		});
 																		$('##field#row#').on("select", function(event) { 
 																			handleFieldSelection('field#row#',#row#);
