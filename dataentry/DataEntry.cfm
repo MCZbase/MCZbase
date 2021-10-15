@@ -605,12 +605,12 @@ limitations under the License.
 											<input type="text" name="locality_id" class="data-entry-input col-6 col-xl-4 mb-0 mx-auto height1p2" placeholder="Locality ID" />
 											<span class="small w-100 float-left text-center mt-0">- OR - </span>
 											<h5 class="font-weight-bold text-left mb-0 d-block w-100">New Locality</h5>
-											<label for="higher_geog" class="small font-weight-light col-12 col-xl-3 float-left px-0 d-block mt-2 mb-0">Higher Geography</label>
+											<label for="higher_geog" class="small font-weight-light col-12 col-xl-3 float-left px-0 d-block mt-1 mt-xl-2 mb-0">Higher Geography</label>
 											<input type="text" name="higher_geog" class="data-entry-input float-left  mt-0 mt-xl-1 col-12 col-xl-9 height1p2" placeholder="Higher Geography" />
-											<label for="spec_locality" class="small font-weight-light float-left d-block col-12 col-xl-3 px-0 mt-0 mt-xl-1 mb-0">Specific Locality</label>
+											<label for="spec_locality" class="small font-weight-light float-left d-block col-12 col-xl-3 px-0 mt-1 mt-xl-2 mt-xl-1 mb-0">Specific Locality</label>
 											<input type="text" name="spec_locality" class="data-entry-input mt-0 mt-xl-1 col-12 col-xl-9 height1p2" placeholder="Specific Locality" />
 											<div class="col-12 px-0">
-												<label for="inputMinElev" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Elevation</label>
+												<label for="inputMinElev" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mt-xl-2 mb-0">Elevation</label>
 												<input type="text" class="data-entry-input col-12 col-xl-3 mt-0 mt-xl-1 float-left height1p2" id="inputMinElev" placeholder="Min Elevation">
 												<input type="text" class="data-entry-input col-12 col-xl-3 mt-0 mt-xl-1 float-left height1p2" id="inputMaxElev" placeholder="Max Elevation">
 												<select class="data-entry-select col-12 col-xl-3 mt-0 mt-xl-1 smallselect height1p2">
@@ -621,22 +621,22 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12 px-0">
-												<label for="inputMinDepth" class="small font-weight-light float-left col-12 col-xl-3 px-0 d-block mt-2 mb-0">Depth</label>
-												<input type="text" class="data-entry-input col-12 col-xl-3 mt-1 float-left height1p2" id="inputMinDepth" placeholder="Min Depth">
-												<input type="text" class="data-entry-input col-12 col-xl-3 mt-1 float-left height1p2" id="inputMaxDepth" placeholder="Max Depth">
-												<select class="data-entry-select col-12 col-xl-3 mt-1 smallselect height1p2">
+												<label for="inputMinDepth" class="small font-weight-light float-left col-12 col-xl-3 px-0 d-block mt-1 mt-xl-2 mb-0">Depth</label>
+												<input type="text" class="data-entry-input col-12 col-xl-3 mt-0 mt-xl-1 float-left height1p2" id="inputMinDepth" placeholder="Min Depth">
+												<input type="text" class="data-entry-input col-12 col-xl-3 mt-0 mt-xl-1 float-left height1p2" id="inputMaxDepth" placeholder="Max Depth">
+												<select class="data-entry-select col-12 col-xl-3 mt-0 mt-xl-1 smallselect height1p2">
 													<option value="">Units</option>
 													<cfloop query="depthUnits">
 														<option value="#depthUnits.depth_units#">#depthUnits.depth_units#</option>
 													</cfloop>
 												</select>
 											</div>
-											<label for="sovereign_nation" class="small col-12 col-xl-3 px-0 font-weight-light float-left d-block mt-2 mb-0">Sovereign Nation</label>
-											<input type="text" name="sovereign_nation" class="data-entry-input col-12 col-xl-9 mt-1 height1p2" placeholder="Sovereign Nation" />
-											<label for="higher_geog" class="small font-weight-light float-left col-12 col-xl-3 px-0 d-block mt-2 mb-0">Geology Attribute</label>
-											<input type="text" name="geology_attribute" class="data-entry-input col-12 mt-1 col-xl-9 height1p2" placeholder="Geology Attribute" />
-											<label for="locality_remark" class="small font-weight-light float-left col-12 px-0 col-xl-3 d-block mt-2 mb-0">Locality Remark</label>
-											<textarea type="text" name="locality_remark" class="data-entry-textarea mt-1 col-12 col-xl-9" placeholder="Locality Remark"/></textarea>
+											<label for="sovereign_nation" class="small col-12 col-xl-3 px-0 font-weight-light float-left d-block mt-1 mt-xl-2 mb-0">Sovereign Nation</label>
+											<input type="text" name="sovereign_nation" class="data-entry-input col-12 col-xl-9 mt-0 mt-xl-1 height1p2" placeholder="Sovereign Nation" />
+											<label for="higher_geog" class="small font-weight-light float-left col-12 col-xl-3 px-0 d-block mt-1 mt-xl-2 mb-0">Geology Attribute</label>
+											<input type="text" name="geology_attribute" class="data-entry-input col-12 mt-0 mt-xl-1 col-xl-9 height1p2" placeholder="Geology Attribute" />
+											<label for="locality_remark" class="small font-weight-light float-left col-12 px-0 col-xl-3 d-block mt-1 mt-xl-2 mb-0">Locality Remark</label>
+											<textarea type="text" name="locality_remark" class="data-entry-textarea mt-0 mt-xl-1 col-12 col-xl-9" placeholder="Locality Remark"/></textarea>
 										</div>
 									</div>
 								</div>
@@ -835,9 +835,9 @@ limitations under the License.
 									<div class="form-row mx-0 my-2">
 										<div class="col-12 px-0">
 											<label for="part_name" class="small font-weight-light float-left col-12 col-xl-2 px-0 d-block mt-2 mb-0">Part Name</label>
-											<input type="text" class="data-entry-input col-12 col-xl-4 mt-1 height1p2 float-left" name="part_name">
+											<input type="text" class="data-entry-input col-12 col-xl-4 mt-0 mt-xl-1 height1p2 float-left" name="part_name">
 											<label for="preserv_method" class="small font-weight-light col-12 col-xl-2 text-right px-1 float-left d-block mt-2 mb-0">Preserve Method</label>
-											<select class="data-entry-select smallselect col-12 float-left col-xl-4 mt-1 height1p2">
+											<select class="data-entry-select smallselect col-12 float-left col-xl-4 mt-0 mt-xl-1 height1p2">
 												<option value="">Preserve Method</option>
 												<cfloop query="spec_preserv_method">
 													<option value="#spec_preserv_method.preserve_method#">#spec_preserv_method.preserve_method#</option>
@@ -846,9 +846,9 @@ limitations under the License.
 										</div>
 										<div class="col-12 px-0">
 											<label for="condition" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-2 mb-0">Condition</label>
-											<input type="text" class="data-entry-input col-12 mt-1 col-xl-4 float-left height1p2" name="condition">
+											<input type="text" class="data-entry-input col-12 mt-0 mt-xl-1 col-xl-4 float-left height1p2" name="condition">
 											<label for="disposition" class="small font-weight-light float-left d-block col-12 col-xl-2 px-1 text-right mt-2 mb-0">Disposition</label>
-											<select class="data-entry-select smallselect height1p2 mt-1 float-left col-12 col-xl-4">
+											<select class="data-entry-select smallselect height1p2 mt-0 mt-xl-1 float-left col-12 col-xl-4">
 												<option value="">Disposition</option>
 												<cfloop query="obj_disp">
 													<option value="#obj_disp.coll_obj_disposition#">#obj_disp.coll_obj_disposition#</option>
@@ -857,16 +857,16 @@ limitations under the License.
 										</div>
 										<div class="col-12 px-0 float-left">
 											<label for="num_modifier" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-2 mb-0">## Modifier</label>
-											<select class="data-entry-select smallselect col-12 float-left col-xl-1 mt-1 height1p2" name="num_modifier">
+											<select class="data-entry-select smallselect col-12 float-left col-xl-1 mt-0 mt-xl-1 height1p2" name="num_modifier">
 												<option value="">=</option>
 												<cfloop query="num_mod">
 													<option value="#num_mod.modifier#">#num_mod.modifier#</option>
 												</cfloop>
 											</select>
 											<label for="part_number" class="small font-weight-light col-12 px-1 col-xl-2 float-left text-right d-block mt-2 mb-0">## of Parts</label>
-											<input type="text" name="part_number" class="data-entry-input col-12 col-xl-1 height1p2 mt-1 float-left">
+											<input type="text" name="part_number" class="data-entry-input col-12 col-xl-1 height1p2 mt-0 mt-xl-1 float-left">
 											<label for="container_unique_id" class="small font-weight-light float-left col-12 col-xl-2 text-right px-1 d-block mt-2 mb-0">Container ID</label>
-											<input type="text" class="data-entry-input float-left col-12 col-xl-4 mt-1 height1p2" name="container_unique_id">
+											<input type="text" class="data-entry-input float-left col-12 col-xl-4 mt-0 mt-xl-1 height1p2" name="container_unique_id">
 										</div>
 										
 											
