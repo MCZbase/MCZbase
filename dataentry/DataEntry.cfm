@@ -576,16 +576,16 @@ limitations under the License.
 											</textarea>
 											<div class="col-12 px-0">
 												<label for="coll_number_series" class="small font-weight-light col-12 col-xl-4 px-1 px-xl-0 float-left w-100 d-block mt-2 mb-0">Collecting Event Number Series</label>
-												<input type="text" class="data-entry-input col-12 mt-1 col-xl-5 float-left height1p2" id="coll_number_series" placeholder="Existing Series">
+												<input type="text" class="data-entry-input col-12 mt-0 mt-xl-1 col-xl-5 float-left height1p2" id="coll_number_series" placeholder="Existing Series">
 												<div class="col-12 col-xl-3 mt-1 px-1 px-xl-2 border-transparent float-left ">
-													<a class="infoLink height1p2" href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add New Series</a>
+													<a class="infoLink height1p2 " href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add New Series</a>
 												</div>
 											</div>
-											<label for="Coord. System" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Verbatim SRS or Datum</label>
+											<label for="Coord. System" class="small font-weight-light col-12 col-xl-3 px-1 px-xl-0 float-left d-block mt-2 mb-0">Verbatim SRS or Datum</label>
 											<input type="text" class="data-entry-input height1p2 col-12 col-xl-9 float-left mt-0 mt-xl-1" id="Datum">
-											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 float-left px-0 float-left d-block mt-2 mb-0">Verbatim Latitude</label>
+											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 float-left px-1 px-xl-0 float-left d-block mt-2 mb-0">Verbatim Latitude</label>
 											<input type="text" class="data-entry-input col-12 col-xl-9 mt-0 mt-xl-1 height1p2" id="latitude">
-											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Verbatim Longitude</label>
+											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 px-1 px-xl-0 float-left d-block mt-2 mb-0">Verbatim Longitude</label>
 											<input type="text" class="data-entry-input col-12 col-xl-9 float-left mt-0 mt-xl-1 height1p2" id="longitude">
 										</div>
 									</div>
