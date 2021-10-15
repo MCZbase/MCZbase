@@ -474,7 +474,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-6 px-0 mt-0">
 											<label for="made_by_date" class="small font-weight-light col-12 col-xl-3 px-1 px-xl-3 float-left text-left text-right-xl d-block mt-1 mb-0">Date</label>
-											<input type="text" name="made_by_date" class="col-12 col-xl-9 pl-2 pr-5 float-left data-entry-input height1p2"/>
+											<input type="text" name="made_by_date" class="col-12 mt-xl-1 col-xl-9 pl-2 pr-5 float-left data-entry-input height1p2"/>
 										</div>
 										<label for="id_remark" class="small font-weight-light col-12 col-xl-2 px-1 float-left d-block mt-1 mb-0">ID Remark</label>
 										<textarea type="text" name="id_remark" rows="1" class="col-12 col-xl-10 px-0 mt-xl-1 float-left data-entry-textarea"/></textarea>
