@@ -508,7 +508,7 @@ limitations under the License.
 											</div>
 											<div class="form-row mt-1">
 												<div class="col-12 col-xl-6 float-left">
-													<label for="collector_role" class="small font-weight-light float-left d-none-xl px-1 mt-1 mb-0">Agent Role</label>
+													<label for="collector_role" class="small font-weight-light float-left  d-xl-none px-1 mt-1 mb-0">Agent Role</label>
 													<select class="data-entry-select smallselect mt-xl-1 height1p2" required>
 														<option value="">Agent Role</option>
 														<option value="c">Collector</option>
