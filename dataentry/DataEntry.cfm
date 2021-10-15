@@ -538,40 +538,40 @@ limitations under the License.
 											<input type="text" name="collecting_event_id" class="data-entry-input col-6 col-xl-4 mx-auto height1p2" placeholder="Collecting Event ID" />
 											<span class="small w-100 float-left text-center mt-1">- OR - </span>
 											<h5 class="font-weight-bold text-left mb-1 d-block w-100">New Collecting Event</h5>
-											<label for="verbatim_locality" class="small font-weight-light col-12 col-xl-2 mt-2 px-0 float-left d-block mb-0">Verbatim Locality</label>
+											<label for="verbatim_locality" class="small font-weight-light col-12 col-xl-2 mt-2 px-1 float-left d-block mb-0">Verbatim Locality</label>
 											<input type="text" name="verbatim_locality" class="data-entry-input mt-1 height1p2 col-12 col-xl-10 float-left"/>
 											<div class="col-12 col-xl-5 px-0 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-5 pl-0 mt-2 float-left d-block mb-0">Verbatim Date</label>
+												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-5 px-1 pl-xl-0 mt-2 float-left d-block mb-0">Verbatim Date</label>
 												<input type="text" class="data-entry-input col-12 col-xl-7 mt-1 height1p2" id="verbatim_date">
 											</div>
 											<div class="col-12 col-xl-7 px-0 pr-xl-0 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-4 float-left d-block mt-2 mb-0 text-left text-right-xl">ISO Dates</label>
+												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-4 px-1 float-left d-block mt-2 mb-0 text-left text-right-xl">ISO Dates</label>
 												<input type="text" class="data-entry-input col-6 col-xl-4 float-left mt-1 height1p2" id="began_date" placeholder="Began Date">
 												<input type="text" class="data-entry-input col-6 col-xl-4 float-left mt-1 height1p2" id="ended_date" placeholder="Date Ended">
 											</div>
 										
 											<div class="col-12 col-xl-4 pl-0 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Time</label>
+												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-3 px-1 float-left d-block mt-2 mb-0">Time</label>
 												<input type="text" class="data-entry-input mt-0 height1p2 col-12 mt-1 col-xl-8" id="collecting_time">
 											</div>
 											<div class="col-12 col-xl-8 float-left px-0 pr-xl-0">
-												<label for="start_end_dayOfyear" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-2 mb-0">Day of Year</label>
+												<label for="start_end_dayOfyear" class="small font-weight-light col-12 col-xl-2 px-1 float-left d-block mt-2 mb-0">Day of Year</label>
 												<input type="text" class="data-entry-input float-left col-6 col-xl-5 mt-1 height1p2" id="start_day_of_year" placeholder="Start Day of Year">
 												<input type="text" class="data-entry-input float-left col-6 col-xl-5 mt-1 height1p2" id="end_day_of_year" placeholder="End Day of Year">
 											</div>
 											<div class="col-12 col-md-6 px-0 float-left">
-												<label for="collecting_source_method" class="small col-12 col-xl-3 px-0 font-weight-light float-left d-block mt-2 mb-0">Source</label>
+												<label for="collecting_source_method" class="small col-12 col-xl-3 px-1 font-weight-light float-left d-block mt-2 mb-0">Source</label>
 												<input type="text" class="data-entry-input float-left col-12 col-xl-9 mt-1 height1p2" id="collecting_source">
 											</div>
 											<div class="col-12 col-md-6 px-0 float-left">
-												<label for="collecting_source_method" class="small col-12 col-xl-3 font-weight-light float-left d-block mt-2 mb-0">Method</label>
+												<label for="collecting_source_method" class="small col-12 col-xl-3 px-1 font-weight-light float-left d-block mt-2 mb-0">Method</label>
 												<input type="text" class="data-entry-input col-12 col-xl-9 float-left mt-1 height1p2" id="collecting_method">
 											</div>
-											<label for="Habitat" class="small font-weight-light col-12 col-xl-2 float-left px-0 d-block mt-2 mb-0">Habitat</label>
+											<label for="Habitat" class="small font-weight-light col-12 col-xl-2 float-left px-1 d-block mt-2 mb-0">Habitat</label>
 											<input type="text" name="habitat_desc" class="data-entry-input mt-1 col-12 col-xl-10 float-left height1p2"/>
-											<label for="microhabitat" class="small font-weight-light mt-1 col-12 col-xl-2 px-0 float-left d-block mt-2 mb-0">Microhabitat</label>
+											<label for="microhabitat" class="small font-weight-light mt-1 col-12 col-xl-2 px-1 float-left d-block mt-2 mb-0">Microhabitat</label>
 											<input type="text" name="habitat" class="data-entry-input mt-1 col-12 col-xl-10 mt-1 height1p2"/>
-											<label for="locality_remark" class="small font-weight-light col-12 px-0 col-xl-2 float-left d-block mt-2 mb-0">Collecting Remark</label>
+											<label for="locality_remark" class="small font-weight-light col-12 px-1 col-xl-2 float-left d-block mt-2 mb-0">Collecting Remark</label>
 											<textarea type="text" name="locality_remark" class="data-entry-textarea col-12 col-xl-10 mt-1"/>
 											</textarea>
 											<div class="col-12 px-0">
