@@ -589,7 +589,7 @@ limitations under the License.
 																			handleFieldSetup('field#row#',#row#);
 																		});
 																		$('##field#row#').on("select", function(event) { 
-																			handleFieldSelection('field#row#','#row#');
+																			handleFieldSelection('field#row#',#row#);
 																		});
 																	</script>
 																</div>
