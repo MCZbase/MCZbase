@@ -621,7 +621,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12 px-0">
-												<label for="inputMinDepth" class="small font-weight-light float-left col-12 col-xl-3 px-0 d-block mt-1 mt-xl-2 mb-0">Depth</label>
+												<label for="inputMinDepth" class="small font-weight-light float-left col-12 col-xl-3 px-1 d-block mt-1 mt-xl-2 mb-0">Depth</label>
 												<input type="text" class="data-entry-input col-12 col-xl-3 mt-0 mt-xl-1 float-left height1p2" id="inputMinDepth" placeholder="Min Depth">
 												<input type="text" class="data-entry-input col-12 col-xl-3 mt-0 mt-xl-1 float-left height1p2" id="inputMaxDepth" placeholder="Max Depth">
 												<select class="data-entry-select col-12 col-xl-3 mt-0 mt-xl-1 smallselect height1p2">
