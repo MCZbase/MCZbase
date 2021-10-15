@@ -912,7 +912,7 @@ limitations under the License.
 									<div class="row">
 										<div class="col-12">
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
-											<div class="form-row my-2">
+											<div class="form-row mt-1 mb-2">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Relationship Type</label>
 													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
@@ -939,7 +939,7 @@ limitations under the License.
 									<div class="row">
 										<div class="col-12">
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
-											<div class="form-row my-2">
+											<div class="form-row mt-1 mb-2">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Relationship Type</label>
 													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
