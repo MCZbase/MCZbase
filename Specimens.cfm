@@ -642,10 +642,10 @@ limitations under the License.
 															width: '100%',
 															dropDownHeight: 400
 														});
-														var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")"
+														var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")";
 														$('##field'+row).on("select", function(event) { 
-															var handleSelect = Function(handleSelectString);
-															handleSelect;
+															var handleSelect = new Function(handleSelectString);
+															handleSelect();
 														});
 													});
 												});
