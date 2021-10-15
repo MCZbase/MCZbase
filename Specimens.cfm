@@ -592,7 +592,6 @@ limitations under the License.
 																				console.log("Select on #row#");
 																				handleFieldSelection('field#row#',#row#);
 																			});
-																			console.log($('##field#row#'));
 																		});
 																	</script>
 																</div>
