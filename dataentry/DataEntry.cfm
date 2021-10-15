@@ -561,18 +561,18 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-6 px-0 float-left">
 												<label for="collecting_source_method" class="small col-12 col-xl-3 px-1 px-xl-0 font-weight-light float-left d-block mt-2 mb-0">Source</label>
-												<input type="text" class="data-entry-input float-left col-12 col-xl-9 mt-1 height1p2" id="collecting_source">
+												<input type="text" class="data-entry-input float-left col-12 col-xl-9 mt-0 mt-xl-1 height1p2" id="collecting_source">
 											</div>
 											<div class="col-12 col-md-6 px-0 float-left">
 												<label for="collecting_source_method" class="small col-12 col-xl-3 px-1 px-xl-2 font-weight-light text-xl-right float-left d-block mt-2 mb-0">Method</label>
-												<input type="text" class="data-entry-input col-12 col-xl-9 float-left  mt-0 mt-xl-1 height1p2" id="collecting_method">
+												<input type="text" class="data-entry-input col-12 col-xl-9 float-left mt-0 mt-xl-1 height1p2" id="collecting_method">
 											</div>
 											<label for="Habitat" class="small font-weight-light col-12 col-xl-2 float-left  px-1 px-xl-0 d-block mt-0 mt-xl-1 mb-0">Habitat (Collecting Event)</label>
-											<input type="text" name="habitat_desc" class="data-entry-input mt-1 col-12 col-xl-10 float-left height1p2"/>
+											<input type="text" name="habitat_desc" class="data-entry-input mt-0 mt-xl-1 col-12 col-xl-10 float-left height1p2"/>
 											<label for="microhabitat" class="small font-weight-light mt-1 col-12 col-xl-2 px-1 px-xl-0 float-left d-block mt-2 mb-0">Habitat (Specimen)</label>
-											<input type="text" name="habitat" class="data-entry-input  mt-0 mt-xl-1 col-12 col-xl-10 mt-1 height1p2"/>
-											<label for="locality_remark" class="small font-weight-light col-12  px-1 px-xl-0 col-xl-2 float-left d-block mt-2 mb-0">Collecting Remark</label>
-											<textarea type="text" name="locality_remark" class="data-entry-textarea col-12 col-xl-10  mt-0 mt-xl-1"/>
+											<input type="text" name="habitat" class="data-entry-input mt-0 mt-xl-1 col-12 col-xl-10 mt-1 height1p2"/>
+											<label for="locality_remark" class="small font-weight-light col-12 px-1 px-xl-0 col-xl-2 float-left d-block mt-2 mb-0">Collecting Remark</label>
+											<textarea type="text" name="locality_remark" class="data-entry-textarea col-12 col-xl-10 mt-0 mt-xl-1"/>
 											</textarea>
 											<div class="col-12 px-0">
 												<label for="coll_number_series" class="small font-weight-light col-12 col-xl-4 px-1 px-xl-0 float-left w-100 d-block mt-2 mb-0">Collecting Event Number Series</label>
