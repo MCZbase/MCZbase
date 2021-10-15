@@ -602,15 +602,15 @@ limitations under the License.
 											<h5 class="mb-0 font-weight-bold text-center mt-0 d-block w-100">
 												<label for="locality_id" class="">Use Locality ID only</label>
 											</h5>
-											<input type="text" name="locality_id" class="data-entry-input col-6 col-xl-4 mb-0 mx-auto height1p2" placeholder="Locality ID" />
+											<input type="text" name="locality_id" class="data-entry-input col-8 col-xl-4 mb-0 mx-auto height1p2" placeholder="Locality ID" />
 											<span class="small w-100 float-left text-center mt-0">- OR - </span>
 											<h5 class="font-weight-bold text-left mb-0 d-block w-100">New Locality</h5>
-											<label for="higher_geog" class="small font-weight-light col-12 col-xl-3 float-left px-0 d-block mt-1 mt-xl-2 mb-0">Higher Geography</label>
-											<input type="text" name="higher_geog" class="data-entry-input float-left  mt-0 mt-xl-1 col-12 col-xl-9 height1p2" placeholder="Higher Geography" />
-											<label for="spec_locality" class="small font-weight-light float-left d-block col-12 col-xl-3 px-0 mt-1 mt-xl-2 mt-xl-1 mb-0">Specific Locality</label>
+											<label for="higher_geog" class="small font-weight-light col-12 col-xl-3 float-left px-1 d-block mt-1 mt-xl-2 mb-0">Higher Geography</label>
+											<input type="text" name="higher_geog" class="data-entry-input float-left mt-0 mt-xl-1 col-12 col-xl-9 height1p2" placeholder="Higher Geography" />
+											<label for="spec_locality" class="small font-weight-light float-left d-block col-12 col-xl-3 px-1 mt-1 mt-xl-2 mt-xl-1 mb-0">Specific Locality</label>
 											<input type="text" name="spec_locality" class="data-entry-input mt-0 mt-xl-1 col-12 col-xl-9 height1p2" placeholder="Specific Locality" />
 											<div class="col-12 px-0">
-												<label for="inputMinElev" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mt-xl-2 mb-0">Elevation</label>
+												<label for="inputMinElev" class="small font-weight-light col-12 col-xl-3 px-1 float-left d-block mt-1 mt-xl-2 mb-0">Elevation</label>
 												<input type="text" class="data-entry-input col-12 col-xl-3 mt-0 mt-xl-1 float-left height1p2" id="inputMinElev" placeholder="Min Elevation">
 												<input type="text" class="data-entry-input col-12 col-xl-3 mt-0 mt-xl-1 float-left height1p2" id="inputMaxElev" placeholder="Max Elevation">
 												<select class="data-entry-select col-12 col-xl-3 mt-0 mt-xl-1 smallselect height1p2">
@@ -631,11 +631,11 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<label for="sovereign_nation" class="small col-12 col-xl-3 px-0 font-weight-light float-left d-block mt-1 mt-xl-2 mb-0">Sovereign Nation</label>
+											<label for="sovereign_nation" class="small col-12 col-xl-3 px-1 font-weight-light float-left d-block mt-1 mt-xl-2 mb-0">Sovereign Nation</label>
 											<input type="text" name="sovereign_nation" class="data-entry-input col-12 col-xl-9 mt-0 mt-xl-1 height1p2" placeholder="Sovereign Nation" />
-											<label for="higher_geog" class="small font-weight-light float-left col-12 col-xl-3 px-0 d-block mt-1 mt-xl-2 mb-0">Geology Attribute</label>
+											<label for="higher_geog" class="small font-weight-light float-left col-12 col-xl-3 px-1 d-block mt-1 mt-xl-2 mb-0">Geology Attribute</label>
 											<input type="text" name="geology_attribute" class="data-entry-input col-12 mt-0 mt-xl-1 col-xl-9 height1p2" placeholder="Geology Attribute" />
-											<label for="locality_remark" class="small font-weight-light float-left col-12 px-0 col-xl-3 d-block mt-1 mt-xl-2 mb-0">Locality Remark</label>
+											<label for="locality_remark" class="small font-weight-light float-left col-12 px-1 col-xl-3 d-block mt-1 mt-xl-2 mt-xl-2 mb-0">Locality Remark</label>
 											<textarea type="text" name="locality_remark" class="data-entry-textarea mt-0 mt-xl-1 col-12 col-xl-9" placeholder="Locality Remark"/></textarea>
 										</div>
 									</div>
