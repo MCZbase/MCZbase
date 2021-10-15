@@ -486,12 +486,12 @@ limitations under the License.
 					<div class="col-12 col-md-4 px-0 column float-left">
 						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
 							<h2 class="portlet-header small90" id="col_collector">COLLECTOR OR PREPARATOR</h2>
-							<div class="portlet-content bg-blue-gray px-0 px-xl-3">
-								<div class="form-row mx-0">
-									<div class="col-12 mb-2">
-										<div id="customAgent1">
+							<div class="portlet-content px-3">
+								<div id="customAgent1">
+									<div class="row">
+										<div class="col-12 mb-2">
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 mx-2 my-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
-											<div class="form-row mx-0">
+											<div class="form-row">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="collector_role" class="small font-weight-light float-left d-block mt-1 mb-0 px-1">Agent Role</label>
 													<select class="data-entry-select smallselect height1p2" required>
