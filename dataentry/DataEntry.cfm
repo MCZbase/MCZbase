@@ -407,10 +407,6 @@ limitations under the License.
 												<input type="text" class="data-entry-input height1p2" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
 												<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
 											</div>
-										</div>
-									</div>
-									<div class="col-12 mb-2 float-left">
-										<div class="form-row">
 											<div class="col-12 col-xl-6 float-left">
 												<label for="accn" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Accession Number</label>
 												<input type="text" class="data-entry-input height1p2" id="accn" aria-describedby="accnHelp" name="accn">
