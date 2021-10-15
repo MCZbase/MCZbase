@@ -459,12 +459,12 @@ limitations under the License.
 									<div id="customSciName">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Identification</a>
 									<div class="form-row mx-0 my-2">
-										<label for="scientific_name" class="small col-12 col-xl-2 font-weight-light px-0 float-left d-block mt-1 mb-0">Identification</label>
-										<input type="text" name="scientific_name" class="col-12 col-xl-10 mt-1 px-0 float-left data-entry-input height1p2"/>
-										<label for="made_by" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">ID Made By</label>
-										<input type="text" name="made_by" class="col-12 col-xl-10 mt-1 px-0 float-left data-entry-input height1p2"/>
+										<label for="scientific_name" class="small col-12 col-xl-2 font-weight-light px-1 float-left d-block mt-1 mb-0">Identification</label>
+										<input type="text" name="scientific_name" class="col-12 col-xl-10 mt-xl-1 px-0 float-left data-entry-input height1p2"/>
+										<label for="made_by" class="small font-weight-light col-12 col-xl-2 float-left d-block mt-1 px-1 mb-0">ID Made By</label>
+										<input type="text" name="made_by" class="col-12 col-xl-10 mt-xl-1 px-0 float-left data-entry-input height1p2"/>
 										<div class="col-12 col-md-6 px-0 mt-1">
-											<label for="nature_of_id" class="small font-weight-light col-12 col-xl-4 px-0 float-left d-block mt-1 mb-0">Nature of ID</label>
+											<label for="nature_of_id" class="small font-weight-light col-12 col-xl-4 float-left d-block mt-1 px-1 mb-0">Nature of ID</label>
 											<select class="data-entry-select smallselect col-12 col-xl-8 px-0 float-left height1p2">
 												<option value="">Nature of ID</option>
 												<cfloop query="nature_of_id">
@@ -473,7 +473,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-6 px-0 mt-1">
-											<label for="made_by_date" class="small font-weight-light col-12 col-xl-3 px-3 float-left text-right d-block mt-1 mb-0">Date</label>
+											<label for="made_by_date" class="small font-weight-light col-12 col-xl-3 px-xl-3 float-left text-left text-right-xl d-block mt-1 mb-0">Date</label>
 											<input type="text" name="made_by_date" class="col-12 col-xl-9 pl-2 pr-5 float-left data-entry-input height1p2"/>
 										</div>
 										<label for="id_remark" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">ID Remark</label>
