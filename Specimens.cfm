@@ -588,8 +588,10 @@ limitations under the License.
 																			// bind an autocomplete, if one applies.
 																			handleFieldSetup('field#row#',#row#);
 																		});
+																		var handleSelectString = "handleFieldSelection('field"+#row#+"',"+#row#+")";
 																		$('##field#row#').on("select", function(event) { 
-																			handleFieldSelection('field#row#',#row#);
+																			var handleSelect = new Function(handleSelectString);
+																			handleSelect();
 																		});
 																	</script>
 																</div>
