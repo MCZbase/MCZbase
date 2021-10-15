@@ -394,13 +394,13 @@ limitations under the License.
 												var selection = $('##'+fieldSelect).val();
 												console.log(selection);
 												console.log(rowNumber);
-												// remove any existing binding.
-												$('##searchId'+rowNumber).val("");
-												try { 
-													$('##searchText'+rownumber).autocomplete("destroy");
-												} catch {}
 												for (var i=0; i<columnMetadata.length; i++) {
 													if(selection==columnMetadata[i].column) {
+														// remove any existing binding.
+														$('##searchId'+rowNumber).val("");
+														try { 
+															$('##searchText'+rowNumber).autocomplete("destroy");
+														} catch {}
 														$('##searchText'+rowNumber).val("");
 														console.log(columnMetadata[i].ui_function);
 														if (columnMetadata[i].ui_function) {
