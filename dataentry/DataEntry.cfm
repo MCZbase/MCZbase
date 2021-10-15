@@ -399,54 +399,55 @@ limitations under the License.
 						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">SPECIMEN IDENTIFIERS</h2>
 							<div class="portlet-content px-3">
-								<div class="row mx-0">
-									<div class="col-12 col-md-6 px-0 float-left">
-										<div class="px-2 pb-1">
-											<label for="cat_num" class="small font-weight-light float-left d-block mt-1 mb-0">Catalog Number</label>
-											<input type="text" class="data-entry-input height1p2" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
-											<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
-										</div>
-									</div>
-									<div class="col-12 col-md-6 px-0 float-left">
-										<div class="px-2 pb-1">
-											<label for="accn" class="small font-weight-light float-left d-block mt-1 mb-0">Accession Number</label>
-											<input type="text" class="data-entry-input height1p2" id="accn" aria-describedby="accnHelp" name="accn">
-											<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
-										</div>
-									</div>
-									<div class="col-12 px-0 float-left">
-										<div id="customOtherID">
-										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 mt-2 mx-2" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
-										<div class="form-row mx-0 mb-2">
-											
-											<div class="col-12 col-md-6 float-left">
-												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID Type</label>
-												<select class="data-entry-select mt-1 smallselect height1p2">
-													<option value="">Other ID Type</option>
-													<cfloop query="otherIDType">
-														<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
-													</cfloop>
-												</select>
+								<div class="row">
+									<div class="col-12 mb-2 float-left">
+										<div class="form-row">
+											<div class="col-12 col-xl-6 float-left">
+												<label for="cat_num" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Catalog Number</label>
+												<input type="text" class="data-entry-input height1p2" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
+												<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
 											</div>
-											<div class="col-12 col-md-6 float-left">
-												<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
-												<input type="text" class="data-entry-input height1p2" id="other_id" name="other_id">
-											</div>
-											<div class="col-12 col-md-6 float-left">
-								<!---				<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>--->
-												<select class="data-entry-select mt-1 smallselect height1p2">
-													<option value="">Other ID Type</option>
-													<cfloop query="otherIDType">
-														<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="col-12 col-md-6 float-left">
-								<!---				<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>--->
-												<input type="text" class="data-entry-input mt-1 height1p2" id="other_id" name="other_id">
+											<div class="col-12 col-xl-6 float-left">
+												<label for="accn" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Accession Number</label>
+												<input type="text" class="data-entry-input height1p2" id="accn" aria-describedby="accnHelp" name="accn">
+												<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
 											</div>
 										</div>
 									</div>
+								</div>
+								<div id="customOtherID">
+									<div class="row">
+										<div class="col-12 mb-2">
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 mt-2 mx-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
+											<div class="form-row">
+												<div class="col-12 col-xl-6 float-left">
+													<label for="other_id" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Other ID Type</label>
+													<select class="data-entry-select mt-xl-1 smallselect height1p2">
+														<option value="">Other ID Type</option>
+														<cfloop query="otherIDType">
+															<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-xl-6 float-left">
+													<label for="other_id" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Other ID (alphanumberic)</label>
+													<input type="text" class="data-entry-input height1p2 mt-xl-1" id="other_id" name="other_id">
+												</div>
+												<div class="col-12 col-xl-6 float-left">
+													<label for="other_id" class="small font-weight-light float-left d-xl-none mt-1 px-1 mb-0">Other ID Type</label>
+													<select class="data-entry-select mt-xl-1 smallselect height1p2">
+														<option value="">Other ID Type</option>
+														<cfloop query="otherIDType">
+															<option value="#otherIDType.other_id_type#">#otherIDType.other_id_type#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-xl-6 float-left">
+													<label for="other_id" class="small font-weight-light float-left mt-1 d-xl-none px-1 mb-0">Other ID (alphanumeric)</label>
+													<input type="text" class="data-entry-input mt-xl-1 height1p2" id="other_id" name="other_id">
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -458,12 +459,12 @@ limitations under the License.
 									<div id="customSciName">
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Identification</a>
 									<div class="form-row mx-0 my-2">
-										<label for="scientific_name" class="small col-12 col-xl-2 font-weight-light px-0 float-left d-block mt-1 mb-0">Identification</label>
-										<input type="text" name="scientific_name" class="col-12 col-xl-10 mt-1 px-0 float-left data-entry-input height1p2"/>
-										<label for="made_by" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">ID Made By</label>
-										<input type="text" name="made_by" class="col-12 col-xl-10 mt-1 px-0 float-left data-entry-input height1p2"/>
-										<div class="col-12 col-md-6 px-0 mt-1">
-											<label for="nature_of_id" class="small font-weight-light col-12 col-xl-4 px-0 float-left d-block mt-1 mb-0">Nature of ID</label>
+										<label for="scientific_name" class="small col-12 col-xl-2 font-weight-light px-1 float-left d-block mt-1 mb-0">Identification</label>
+										<input type="text" name="scientific_name" class="col-12 col-xl-10 mt-xl-1 px-0 float-left data-entry-input height1p2"/>
+										<label for="made_by" class="small font-weight-light col-12 col-xl-2 float-left d-block mt-1 px-1 mb-0">ID Made By</label>
+										<input type="text" name="made_by" class="col-12 col-xl-10 mt-xl-1 px-0 float-left data-entry-input height1p2"/>
+										<div class="col-12 col-md-6 px-0 mt-0">
+											<label for="nature_of_id" class="small font-weight-light col-12 col-xl-4 float-left d-block mt-1 px-1 mb-0">Nature of ID</label>
 											<select class="data-entry-select smallselect col-12 col-xl-8 px-0 float-left height1p2">
 												<option value="">Nature of ID</option>
 												<cfloop query="nature_of_id">
@@ -471,12 +472,12 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-6 px-0 mt-1">
-											<label for="made_by_date" class="small font-weight-light col-12 col-xl-3 px-3 float-left text-right d-block mt-1 mb-0">Date</label>
+										<div class="col-12 col-md-6 px-0 mt-0">
+											<label for="made_by_date" class="small font-weight-light col-12 col-xl-3 px-1 px-xl-3 float-left text-left text-right-xl d-block mt-1 mb-0">Date</label>
 											<input type="text" name="made_by_date" class="col-12 col-xl-9 pl-2 pr-5 float-left data-entry-input height1p2"/>
 										</div>
-										<label for="id_remark" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">ID Remark</label>
-										<textarea type="text" name="id_remark" rows="1" class="col-12 col-xl-10 px-0 mt-1 float-left data-entry-textarea"/></textarea>
+										<label for="id_remark" class="small font-weight-light col-12 col-xl-2 px-1 float-left d-block mt-1 mb-0">ID Remark</label>
+										<textarea type="text" name="id_remark" rows="1" class="col-12 col-xl-10 px-0 mt-xl-1 float-left data-entry-textarea"/></textarea>
 									</div>
 								</div>
 							</div>
@@ -486,12 +487,12 @@ limitations under the License.
 					<div class="col-12 col-md-4 px-0 column float-left">
 						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
 							<h2 class="portlet-header small90" id="col_collector">COLLECTOR OR PREPARATOR</h2>
-							<div class="portlet-content bg-blue-gray px-0 px-xl-3">
-								<div class="form-row mx-0">
-									<div class="col-12 mb-2">
-										<div id="customAgent1">
-											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 mx-2 my-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
-											<div class="form-row mx-0">
+							<div class="portlet-content px-3">
+								<div id="customAgent1">
+									<div class="row">
+										<div class="col-12 mb-2">
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 mx-0 my-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
+											<div class="form-row">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="collector_role" class="small font-weight-light float-left d-block mt-1 mb-0 px-1">Agent Role</label>
 													<select class="data-entry-select smallselect height1p2" required>
@@ -505,7 +506,7 @@ limitations under the License.
 													<input type="text" class="data-entry-input height1p2" required  name="agent_name">
 												</div>
 											</div>
-											<div class="form-row mx-0 mt-1">
+											<div class="form-row mt-1">
 												<div class="col-12 col-xl-6 float-left">
 													<select class="data-entry-select smallselect height1p2" required>
 														<option value="">Agent Role</option>
@@ -535,44 +536,44 @@ limitations under the License.
 											<input type="text" name="collecting_event_id" class="data-entry-input col-4 mx-auto height1p2" placeholder="Collecting Event ID" />
 											<span class="small w-100 float-left text-center mt-1">- OR - </span>
 											<h5 class="font-weight-bold text-left mb-1 d-block w-100">New Collecting Event</h5>
-											<label for="verbatim_locality" class="small font-weight-light col-12 col-xl-2 mt-1 px-0 float-left d-block mb-0">Verbatim Locality</label>
+											<label for="verbatim_locality" class="small font-weight-light col-12 col-xl-2 mt-2 px-0 float-left d-block mb-0">Verbatim Locality</label>
 											<input type="text" name="verbatim_locality" class="data-entry-input mt-1 height1p2 col-12 col-xl-10 float-left"/>
 											<div class="col-12 col-xl-5 px-0 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-5 pl-0 mt-1 float-left d-block mb-0">Verbatim Date</label>
+												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-5 pl-0 mt-2 float-left d-block mb-0">Verbatim Date</label>
 												<input type="text" class="data-entry-input col-12 col-xl-7 mt-1 height1p2" id="verbatim_date">
 											</div>
 											<div class="col-12 col-xl-7 pr-0 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-4 float-left d-block mt-1 mb-0 text-right">ISO Dates</label>
+												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-4 float-left d-block mt-2 mb-0 text-right">ISO Dates</label>
 												<input type="text" class="data-entry-input col-12 col-xl-4 float-left mt-1 height1p2" id="began_date" placeholder="Began Date">
 												<input type="text" class="data-entry-input col-12 col-xl-4 float-left mt-1 height1p2" id="ended_date" placeholder="Date Ended">
 											</div>
 										
 											<div class="col-12 col-xl-4 pl-0 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Time</label>
+												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Time</label>
 												<input type="text" class="data-entry-input mt-0 height1p2 col-12 mt-1 col-xl-8" id="collecting_time">
 											</div>
 											<div class="col-12 col-md-8 float-left pr-0">
-												<label for="start_end_dayOfyear" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">Day of Year</label>
+												<label for="start_end_dayOfyear" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-2 mb-0">Day of Year</label>
 												<input type="text" class="data-entry-input float-left col-12 col-xl-5 mt-1 height1p2" id="start_day_of_year" placeholder="Start Day of Year">
 												<input type="text" class="data-entry-input float-left col-12 col-xl-5 mt-1 height1p2" id="end_day_of_year" placeholder="End Day of Year">
 											</div>
 											<div class="col-12 col-md-6 px-0 float-left">
-												<label for="collecting_source_method" class="small col-12 col-xl-3 px-0 font-weight-light float-left d-block mt-1 mb-0">Source</label>
+												<label for="collecting_source_method" class="small col-12 col-xl-3 px-0 font-weight-light float-left d-block mt-2 mb-0">Source</label>
 												<input type="text" class="data-entry-input float-left col-12 col-xl-9 mt-1 height1p2" id="collecting_source">
 											</div>
 											<div class="col-12 col-md-6 px-0 float-left">
-												<label for="collecting_source_method" class="small col-12 col-xl-3 font-weight-light float-left d-block mt-1 mb-0">Method</label>
+												<label for="collecting_source_method" class="small col-12 col-xl-3 font-weight-light float-left d-block mt-2 mb-0">Method</label>
 												<input type="text" class="data-entry-input col-12 col-xl-9 float-left mt-1 height1p2" id="collecting_method">
 											</div>
-											<label for="Habitat" class="small font-weight-light col-12 col-xl-2 float-left px-0 d-block mt-1 mb-0">Habitat</label>
+											<label for="Habitat" class="small font-weight-light col-12 col-xl-2 float-left px-0 d-block mt-2 mb-0">Habitat</label>
 											<input type="text" name="habitat_desc" class="data-entry-input mt-1 col-12 col-xl-10 float-left height1p2"/>
-											<label for="microhabitat" class="small font-weight-light mt-1 col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">Microhabitat</label>
+											<label for="microhabitat" class="small font-weight-light mt-1 col-12 col-xl-2 px-0 float-left d-block mt-2 mb-0">Microhabitat</label>
 											<input type="text" name="habitat" class="data-entry-input mt-1 col-12 col-xl-10 mt-1 height1p2"/>
-											<label for="locality_remark" class="small font-weight-light col-12 px-0 col-xl-2 float-left d-block mt-1 mb-0">Collecting Remark</label>
+											<label for="locality_remark" class="small font-weight-light col-12 px-0 col-xl-2 float-left d-block mt-2 mb-0">Collecting Remark</label>
 											<textarea type="text" name="locality_remark" class="data-entry-textarea col-12 col-xl-10 mt-1"/>
 											</textarea>
 											<div class="col-12 px-0">
-												<label for="coll_number_series" class="small font-weight-light col-12 col-xl-4 px-0 float-left w-100 d-block mt-1 mb-0">Collecting Event Number Series</label>
+												<label for="coll_number_series" class="small font-weight-light col-12 col-xl-4 px-0 float-left w-100 d-block mt-2 mb-0">Collecting Event Number Series</label>
 												<input type="text" class="data-entry-input col-12 mt-1 col-xl-5 float-left height1p2" id="coll_number_series" placeholder="Existing Series">
 												<div class="col-12 col-xl-3 mt-1 border-transparent float-left ">
 													<a class="infoLink height1p2" href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add New Series</a>
@@ -580,9 +581,9 @@ limitations under the License.
 											</div>
 											<label for="Coord. System" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Verbatim SRS or Datum</label>
 											<input type="text" class="data-entry-input height1p2 col-12 col-xl-9 float-left mt-1" id="Datum">
-											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 float-left px-0 float-left d-block mt-1 mb-0">Verbatim Latitude</label>
+											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 float-left px-0 float-left d-block mt-2 mb-0">Verbatim Latitude</label>
 											<input type="text" class="data-entry-input col-12 col-xl-9 mt-1 height1p2" id="latitude">
-											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-1 mb-0">Verbatim Longitude</label>
+											<label for="lat_long" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Verbatim Longitude</label>
 											<input type="text" class="data-entry-input col-12 col-xl-9 float-left mt-1 height1p2" id="longitude">
 										</div>
 									</div>
@@ -912,7 +913,7 @@ limitations under the License.
 									<div class="row">
 										<div class="col-12">
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
-											<div class="form-row my-2">
+											<div class="form-row mt-1 mb-2">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Relationship Type</label>
 													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
@@ -939,7 +940,7 @@ limitations under the License.
 									<div class="row">
 										<div class="col-12">
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
-											<div class="form-row my-2">
+											<div class="form-row mt-1 mb-2">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Relationship Type</label>
 													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
