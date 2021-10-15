@@ -430,7 +430,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-xl-6 float-left">
-													<label for="other_id" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Other ID</label>
+													<label for="other_id" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Other ID (alphanumberic)</label>
 													<input type="text" class="data-entry-input height1p2" id="other_id" name="other_id">
 												</div>
 												<div class="col-12 col-xl-6 float-left">
@@ -443,7 +443,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-xl-6 float-left">
-													<label for="other_id" class="small font-weight-light float-left mt-1 d-xl-none px-1 mb-0">Other ID</label>
+													<label for="other_id" class="small font-weight-light float-left mt-1 d-xl-none px-1 mb-0">Other ID (alphanumeric)</label>
 													<input type="text" class="data-entry-input mt-1 height1p2" id="other_id" name="other_id">
 												</div>
 											</div>
