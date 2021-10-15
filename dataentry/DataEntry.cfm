@@ -443,7 +443,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-xl-6 float-left">
-													<label for="other_id" class="small font-weight-light float-left mt-1 d-xl-none px-1 mb-0">Other ID (alphanumeric)</label>
+													<label for="other_id" class="small font-weight-light float-left mt-xl-1 d-xl-none px-1 mb-0">Other ID (alphanumeric)</label>
 													<input type="text" class="data-entry-input mt-xl-1 height1p2" id="other_id" name="other_id">
 												</div>
 											</div>
