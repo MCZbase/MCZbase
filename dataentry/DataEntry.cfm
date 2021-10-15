@@ -400,7 +400,7 @@ limitations under the License.
 							<h2 class="portlet-header small90">SPECIMEN IDENTIFIERS</h2>
 							<div class="portlet-content px-3">
 								<div class="row">
-									<div class="col-12 mb-2">
+									<div class="col-12 mb-2 float-left">
 										<div class="form-row">
 											<div class="col-12 col-xl-6 float-left">
 												<label for="cat_num" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Catalog Number</label>
@@ -409,7 +409,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									<div class="col-12 mb-2">
+									<div class="col-12 mb-2 float-left">
 										<div class="form-row">
 											<div class="col-12 col-xl-6 float-left">
 												<label for="accn" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Accession Number</label>
