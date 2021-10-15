@@ -587,8 +587,10 @@ limitations under the License.
 																			});
 																			// bind an autocomplete, if one applies.
 																			handleFieldSetup('field#row#',#row#);
+																			console.log("Setup #row#");
 																		});
 																		$('##field#row#').on("select", function(event) { 
+																			console.log("Select on #row#");
 																			handleFieldSelection('field#row#',#row#);
 																		});
 																	</script>
