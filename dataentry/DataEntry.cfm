@@ -421,7 +421,7 @@ limitations under the License.
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 mt-2 mx-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 											<div class="form-row">
 												<div class="col-12 col-xl-6 float-left">
-													<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID Type</label>
+													<label for="other_id" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Other ID Type</label>
 													<select class="data-entry-select mt-1 smallselect height1p2">
 														<option value="">Other ID Type</option>
 														<cfloop query="otherIDType">
@@ -430,7 +430,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-xl-6 float-left">
-													<label for="other_id" class="small font-weight-light float-left d-block mt-1 mb-0">Other ID</label>
+													<label for="other_id" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Other ID</label>
 													<input type="text" class="data-entry-input height1p2" id="other_id" name="other_id">
 												</div>
 												<div class="col-12 col-xl-6 float-left">
