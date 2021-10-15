@@ -248,7 +248,8 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					mczbase.get_pretty_date(flat.verbatim_date,flat.began_date,flat.ended_date,1,0) as date_collected,
 					flat.country, flat.state_prov, flat.continent_ocean, flat.county,
 					flat.island, flat.island_group,
-					flat.phylum, flat.phylclass, flat.phylorder, flat.family
+					flat.phylum, flat.phylclass, flat.phylorder, flat.family,
+					underscore_relation.underscore_relation_id -- needed for remove cell renderer on edit page
 				</cfif>
 				<cfif pagesize GT 0 >
 					,
