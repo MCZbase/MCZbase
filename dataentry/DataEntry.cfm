@@ -516,7 +516,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-xl-6 float-left">
-													<label for="agent_name" class="small font-weight-light float-left d-xl-none px-1 mt-1 mb-0">Agent Name</label>
+													<label for="agent_name" class="small font-weight-light float-left d-xl-none px-1 mt-1 mt-xl-0 mb-0">Agent Name</label>
 													<input type="text" class="data-entry-input mt-xl-1 height1p2"  name="agent_name">
 												</div>
 											</div>
