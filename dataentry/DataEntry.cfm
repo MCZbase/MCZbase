@@ -493,7 +493,7 @@ limitations under the License.
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 mx-2 my-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
 											<div class="form-row mx-0">
 												<div class="col-12 col-xl-6 float-left">
-													<label for="collector_role" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Role</label>
+													<label for="collector_role" class="small font-weight-light float-left d-block mt-1 mb-0 px-1">Agent Role</label>
 													<select class="data-entry-select smallselect height1p2" required>
 												
 														<option value="c" class="required">Collector</option>
@@ -501,7 +501,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-xl-6 float-left">
-													<label for="agent_name" class="small font-weight-light float-left d-block mt-1 mb-0">Agent Name</label>
+													<label for="agent_name" class="small font-weight-light float-left d-block px-1 mt-1 mb-0">Agent Name</label>
 													<input type="text" class="data-entry-input height1p2" required  name="agent_name">
 												</div>
 											</div>
@@ -643,7 +643,7 @@ limitations under the License.
 							<h2 class="portlet-header small90">COORDINATES</h2>
 							<div class="portlet-content px-3 pb-3">
 								<div class="form-row mx-0">
-									<div id="customSciName">
+									<div id="pickCoordinates">
 										<div class="bg-light border rounded px-2 pb-2"> 
 											<div class="form-row mx-0 my-2">
 												<label for="Coord. System" class="sr-only">Coordinate System</label>
@@ -752,12 +752,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 mt-2 border bg-transparent rounded p-1 mb-1">
-												<label for="" class="small font-weight-light float-left col-12 text-xl-right col-xl-2 d-block pl-0 pr-2 mt-1 mb-0">Determiner</label>
-												<input type="text" name="" class="data-entry-input mt-1 float-left col-12 col-xl-5 height1p2" id=""/>
-												<label for="" class="small font-weight-light float-left text-xl-right pr-2 col-12 col-xl-2 d-block pl-0 mt-1 mb-0">Date</label>
-												<input type="text" class="data-entry-input mt-1 float-left col-12 col-xl-3 height1p2" id="">
-											</div>
+										
 												<label for="datum" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Geodetic Datum or SRS</label>
 												<select class="data-entry-select col-12 float-left col-xl-9 mt-1  smallselect height1p2" required>
 													<option value="">Datum or SRS</option>
@@ -772,23 +767,31 @@ limitations under the License.
 														<option value="#georefmeth.georefmethod#">#georefmeth.georefmethod#</option>
 													</cfloop>
 												</select>
-												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Extent</label>
-												<input type="text" name="" class="data-entry-input height1p2"/>
-												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
-												<input type="text" name="" class="data-entry-input height1p2"/>
-												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Verification Status</label>
-												<select class="data-entry-select col-12 px-0 float-left smallselect height1p2" required>
+												<label for="" class="small font-weight-light  col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Extent</label>
+												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">GPS Accuracy</label>
+												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
+
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">GPS Accuracy</label>
+												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Reference</label>
+												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Coordinate Remarks</label>
+												<textarea type="text" name="remarks" class="data-entry-textarea col-12 col-xl-9 mt-1 float-left"/></textarea>
+												
+											<div class="col-12 mt-2 border bg-transparent rounded p-1 mb-1">
+												<label for="" class="small font-weight-light float-left col-12 text-xl-right col-xl-2 d-block pl-0 pr-2 mt-1 mb-0">Determiner</label>
+												<input type="text" name="" class="data-entry-input mt-1 float-left col-12 col-xl-5 height1p2" id=""/>
+												<label for="" class="small font-weight-light float-left text-xl-right pr-2 col-12 col-xl-2 d-block pl-0 mt-1 mb-0">Date</label>
+												<input type="text" class="data-entry-input mt-1 float-left col-12 col-xl-3 height1p2" id="">
+											</div>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Verification Status</label>
+												<select class="data-entry-select col-12 col-xl-9 mt-1 float-left  smallselect height1p2" required>
 													<option value="">Status </option>
 													<cfloop query="verifications">
 														<option value="#verifications.verificationstatus#">#verifications.verificationstatus#</option>
 													</cfloop>
 												</select>
-												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">GPS Accuracy</label>
-												<input type="text" name="" class="data-entry-input height1p2"/>
-												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Coordinate Remarks</label>
-												<textarea type="text" name="remarks" class="data-entry-textarea"/></textarea>
-												<label for="" class="small font-weight-light float-left d-block mt-1 mb-0">Reference</label>
-												<input type="text" name="" class="data-entry-input height1p2"/>
 										</div>
 	<script>
 	$(document).ready(function(){
@@ -906,56 +909,73 @@ limitations under the License.
 							<h2 class="portlet-header small90">BIOLOGICAL RELATIONSHIPS</h2>
 							<div class="portlet-content px-3">
 								<div id="customBiolRelations">
-									<div class="form-row mx-0">
-										<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
-										<div class="form-row my-2">
-											<div class="col-12 col-xl-6 float-left">
-												<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-0">Relationship Type</label>
-												<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
-													<option value="">Biological Relationship</option>
-													<cfloop query="biolRelations">
-														<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="col-12 col-xl-6 float-left">
-											<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-0">Relationship Value</label>
-											<input type="text" class="data-entry-input float-left col-12 height1p2" id="relationship">
+									<div class="row">
+										<div class="col-12">
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
+											<div class="form-row my-2">
+												<div class="col-12 col-xl-6 float-left">
+													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Relationship Type</label>
+													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
+														<option value="">Biological Relationship</option>
+														<cfloop query="biolRelations">
+															<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-xl-6 float-left">
+													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-0">Relationship Value</label>
+													<input type="text" class="data-entry-input float-left col-12 height1p2" id="relationship">
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						
 						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">CURATORIAL RELATIONSHIPS</h2>
-							<div class="portlet-content">
-								<div class="form-row mx-0">
-									<div id="customCurRelations">
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
-									<div class="form-row mx-0 my-2">
-										<label for="relations" class="sr-only">Relationship</label>
-											<select class="data-entry-select mt-1">
-												<option value="">Curatorial Relationship Type</option>
-												<cfloop query="currRelations">
-													<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
-												</cfloop>
-											</select>
-										<label for="record number" class="small font-weight-light float-left d-block mt-1 mb-0">Related Record Number</label>
-										<input type="text" class="data-entry-input" id="record_number">
-									</div>
+							<div class="portlet-content px-3">
+								<div id="customBiolRelations">
+									<div class="row">
+										<div class="col-12">
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
+											<div class="form-row my-2">
+												<div class="col-12 col-xl-6 float-left">
+													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Relationship Type</label>
+													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
+														<option value="">Curatorial Relationship</option>
+														<cfloop query="currRelations">
+															<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 col-xl-6 float-left">
+													<label for="record number" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-0">Related Record Number</label>
+													<input type="text" class="data-entry-input float-left col-12 height1p2" id="relationship">
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="portlet shadow-none m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">ENCUMBRANCE</h2>
-							<div class="portlet-content">
-								<label for="mask_record" class="float-left mt-2">Mask Record</label>
-								<input class="float-left ml-2 mt-1" value="1" type="checkbox" id="gridCheck1">
-								<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>--> 
-								<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
+							<div class="portlet-content px-3">
+								<div class="row col-12 px-0">
+									<div class="col-12 col-xl-5 float-left">
+										<label for="encumbrance_id" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Enter an Encumbrance ID</label>
+										<input  type="text" class="data-entry-input float-left col-12 height1p2" value="">
+									</div>
+									<div class="col-12 col-xl-1 small px-0 mt-4">- OR -</div>
+									<div class="text-center border pb-1 mx-auto col-5 px-0 mb-2 overflow-hidden">
+										<div class="col-7 mx-auto">
+											<label for="mask_record" class="float-left mt-2">Mask Record</label>
+											<input class="float-left ml-2 mt-1" value="1" type="checkbox" id="gridCheck1">
+										</div>
+										<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>				
