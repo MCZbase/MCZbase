@@ -448,7 +448,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-								</div>
+							
 							</div>
 						</div>
 						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
