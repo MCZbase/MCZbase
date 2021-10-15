@@ -473,7 +473,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-6 px-0 mt-1">
-											<label for="made_by_date" class="small font-weight-light col-12 col-xl-3 px-xl-3 float-left text-left text-right-xl d-block mt-1 mb-0">Date</label>
+											<label for="made_by_date" class="small font-weight-light col-12 col-xl-3 px-0 px-xl-3 float-left text-left text-right-xl d-block mt-1 mb-0">Date</label>
 											<input type="text" name="made_by_date" class="col-12 col-xl-9 pl-2 pr-5 float-left data-entry-input height1p2"/>
 										</div>
 										<label for="id_remark" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mb-0">ID Remark</label>
