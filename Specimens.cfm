@@ -417,7 +417,6 @@ limitations under the License.
 												console.log(rowNumber);
 												for (var i=0; i<columnMetadata.length; i++) {
 													if(selection==columnMetadata[i].column) {
-														$('##searchText'+rowNumber).val("");
 														console.log(columnMetadata[i].ui_function);
 														if (columnMetadata[i].ui_function) {
 															var invokeBinding = Function(columnMetadata[i].ui_function+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
