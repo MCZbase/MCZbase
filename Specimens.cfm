@@ -643,7 +643,8 @@ limitations under the License.
 															dropDownHeight: 400
 														});
 														$('##field'+row).on("select", function(event) { 
-															handleFieldSelection('field'+row,row);
+															var handleSelect = Function("handleFieldSelection('field"+row+"',"+row+")");
+															handleSelect;
 														});
 													});
 												});
