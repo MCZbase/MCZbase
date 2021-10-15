@@ -434,6 +434,7 @@ limitations under the License.
 													<input type="text" class="data-entry-input height1p2" id="other_id" name="other_id">
 												</div>
 												<div class="col-12 col-xl-6 float-left">
+													<label for="other_id" class="small font-weight-light float-left d-xl-none mt-1 px-1 mb-0">Other ID Type</label>
 													<select class="data-entry-select mt-1 smallselect height1p2">
 														<option value="">Other ID Type</option>
 														<cfloop query="otherIDType">
@@ -442,6 +443,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-xl-6 float-left">
+													<label for="other_id" class="small font-weight-light float-left mt-1 d-xl-none px-1 mb-0">Other ID</label>
 													<input type="text" class="data-entry-input mt-1 height1p2" id="other_id" name="other_id">
 												</div>
 											</div>
