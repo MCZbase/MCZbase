@@ -178,7 +178,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 		} else if (ArrayLen(REMatch("^[0-9,]+$",listOfNumbers))>0) {
 			// Just a list of numbers without ranges, translates directly to IN
 			if (listOfNumbers!=",") {
-				result = '{"nest":"#nestDepth#","join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJavaScript(listOfNumbers)#"}';
+				result = '{"nest":"#nestDepth#.1","join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJavaScript(listOfNumbers)#"}';
 			} else {
 				// just a comma with no numbers, return empty string
 				result = "";
@@ -192,7 +192,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 					// for each part, check to see if part is a range
 					// if part is a range, return "OR (fieldname >= minimum AND fieldname <= maximum)"
 					// if part is a single number, return "OR fieldname IN ( number )"
-					wherePart = ScriptNumberListPartToJSON(lparts[i], fieldname, nestDepth, "or");
+					wherePart = ScriptNumberListPartToJSON(lparts[i], fieldname, nestDepth + "." + i, "or");
 					// allow for the case of two or more sequential commas.
 					comma = "";
 					if (result NEQ "") { 
