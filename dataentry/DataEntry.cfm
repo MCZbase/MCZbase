@@ -535,7 +535,7 @@ limitations under the License.
 											<h5 class="mb-0 font-weight-bold text-center mt-0 d-block w-100">
 												<label for="collecting_event_id" class="">Use Collecting Event ID only</label>
 											</h5>
-											<input type="text" name="collecting_event_id" class="data-entry-input col-4 mx-auto height1p2" placeholder="Collecting Event ID" />
+											<input type="text" name="collecting_event_id" class="data-entry-input col-6 col-xl-4 mx-auto height1p2" placeholder="Collecting Event ID" />
 											<span class="small w-100 float-left text-center mt-1">- OR - </span>
 											<h5 class="font-weight-bold text-left mb-1 d-block w-100">New Collecting Event</h5>
 											<label for="verbatim_locality" class="small font-weight-light col-12 col-xl-2 mt-2 px-0 float-left d-block mb-0">Verbatim Locality</label>
@@ -602,7 +602,7 @@ limitations under the License.
 											<h5 class="mb-0 font-weight-bold text-center mt-0 d-block w-100">
 												<label for="locality_id" class="">Use Locality ID only</label>
 											</h5>
-											<input type="text" name="locality_id" class="data-entry-input col-4 mb-0 mx-auto height1p2" placeholder="Locality ID" />
+											<input type="text" name="locality_id" class="data-entry-input col-6 col-xl-4 mb-0 mx-auto height1p2" placeholder="Locality ID" />
 											<span class="small w-100 float-left text-center mt-0">- OR - </span>
 											<h5 class="font-weight-bold text-left mb-0 d-block w-100">New Locality</h5>
 											<label for="higher_geog" class="small font-weight-light col-12 col-xl-3 float-left px-0 d-block mt-2 mb-0">Higher Geography</label>
