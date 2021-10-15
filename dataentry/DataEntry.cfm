@@ -564,7 +564,7 @@ limitations under the License.
 												<input type="text" class="data-entry-input float-left col-12 col-xl-9 mt-0 mt-xl-1 height1p2" id="collecting_source">
 											</div>
 											<div class="col-12 col-md-6 px-0 float-left">
-												<label for="collecting_source_method" class="small col-12 col-xl-3 px-1 px-xl-2 font-weight-light mt-1 mt-xl-2 text-xl-right float-left d-block mt-2 mb-0">Method</label>
+												<label for="collecting_source_method" class="small col-12 col-xl-3 px-1 px-xl-2 font-weight-light mt-1 mt-xl-2 text-xl-right float-left d-block mb-0">Method</label>
 												<input type="text" class="data-entry-input col-12 col-xl-9 float-left mt-0 mt-xl-1 height1p2" id="collecting_method">
 											</div>
 											<label for="Habitat" class="small font-weight-light col-12 col-xl-2 float-left px-1 px-xl-0 d-block mt-1 mt-xl-2 mb-0">Habitat (Collecting Event)</label>
