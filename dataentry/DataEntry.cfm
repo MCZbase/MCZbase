@@ -834,7 +834,7 @@ limitations under the License.
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
 									<div class="form-row mx-0 my-2">
 										<div class="col-12 px-0">
-											<label for="part_name" class="small font-weight-light float-left col-12 col-xl-2 px-0 d-block mt-2 mb-0">Part Name</label>
+											<label for="part_name" class="small font-weight-light float-left col-12 col-xl-2 px-0 d-block mt-1 mt-xl-2 mb-0">Part Name</label>
 											<input type="text" class="data-entry-input col-12 col-xl-4 mt-0 mt-xl-1 height1p2 float-left" name="part_name">
 											<label for="preserv_method" class="small font-weight-light col-12 col-xl-2 text-right px-1 float-left d-block mt-2 mb-0">Preserve Method</label>
 											<select class="data-entry-select smallselect col-12 float-left col-xl-4 mt-0 mt-xl-1 height1p2">
@@ -845,9 +845,9 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 px-0">
-											<label for="condition" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-2 mb-0">Condition</label>
+											<label for="condition" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mt-xl-2 mb-0">Condition</label>
 											<input type="text" class="data-entry-input col-12 mt-0 mt-xl-1 col-xl-4 float-left height1p2" name="condition">
-											<label for="disposition" class="small font-weight-light float-left d-block col-12 col-xl-2 px-1 text-right mt-2 mb-0">Disposition</label>
+											<label for="disposition" class="small font-weight-light float-left d-block col-12 col-xl-2 px-1 text-right mt-1 mt-xl-2 mb-0">Disposition</label>
 											<select class="data-entry-select smallselect height1p2 mt-0 mt-xl-1 float-left col-12 col-xl-4">
 												<option value="">Disposition</option>
 												<cfloop query="obj_disp">
@@ -856,22 +856,22 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 px-0 float-left">
-											<label for="num_modifier" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-2 mb-0">## Modifier</label>
+											<label for="num_modifier" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mt-xl-2 mb-0">## Modifier</label>
 											<select class="data-entry-select smallselect col-12 float-left col-xl-1 mt-0 mt-xl-1 height1p2" name="num_modifier">
 												<option value="">=</option>
 												<cfloop query="num_mod">
 													<option value="#num_mod.modifier#">#num_mod.modifier#</option>
 												</cfloop>
 											</select>
-											<label for="part_number" class="small font-weight-light col-12 px-1 col-xl-2 float-left text-right d-block mt-2 mb-0">## of Parts</label>
+											<label for="part_number" class="small font-weight-light col-12 px-1 col-xl-2 float-left text-right d-block mt-1 mt-xl-2  mb-0">## of Parts</label>
 											<input type="text" name="part_number" class="data-entry-input col-12 col-xl-1 height1p2 mt-0 mt-xl-1 float-left">
-											<label for="container_unique_id" class="small font-weight-light float-left col-12 col-xl-2 text-right px-1 d-block mt-2 mb-0">Container ID</label>
+											<label for="container_unique_id" class="small font-weight-light float-left col-12 col-xl-2 text-right px-1 d-block mt-1 mt-xl-2 mb-0">Container ID</label>
 											<input type="text" class="data-entry-input float-left col-12 col-xl-4 mt-0 mt-xl-1 height1p2" name="container_unique_id">
 										</div>
 										
 											
-										<label for="part_remark" class="small font-weight-light float-left col-12 col-xl-2 d-block mt-2 px-0 mb-0">Part Remark</label>
-										<textarea type="text" name="part_remark" class="data-entry-textarea mt-1 col-12 col-xl-10 float-left"/></textarea>
+										<label for="part_remark" class="small font-weight-light float-left col-12 col-xl-2 d-block mt-1 mt-xl-2 px-1 mb-0">Part Remark</label>
+										<textarea type="text" name="part_remark" class="data-entry-textarea mt-0 mt-xl-1 col-12 col-xl-10 float-left"/></textarea>
 									</div>
 								</div>
 							</div>
@@ -883,24 +883,24 @@ limitations under the License.
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
 									<div id="customAtt">
 										<div class="form-row mx-0 my-2">
-											<label for="attribute_type" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-2 mb-0">Attribute Type</label>
-											<select class="data-entry-select mt-1 col-12 col-xl-4 height1p2 smallselect">
+											<label for="attribute_type" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mt-xl-2 mb-0">Attribute Type</label>
+											<select class="data-entry-select mt-0 mt-xl-1 col-12 col-xl-4 height1p2 smallselect">
 												<option value="">Attribute Type</option>
 												<cfloop query="attType">
 													<option value="#attType.attribute_type#">#attType.attribute_type#</option>
 												</cfloop>
 											</select>
-											<label for="part_number" class="small font-weight-light col-12 col-xl-2 px-0 float-left pr-2 text-right d-block mt-2 mb-0"> Value</label>
-											<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-4 mt-1 height1p2">
-												<label for="determiner" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-2 mb-0">Determiner</label>
-											<input type="text" class="data-entry-input col-12 col-xl-4 float-left mt-1 height1p2" name="determiner">
-											<label for="date" class="small font-weight-light float-left d-block col-12 text-right col-xl-2 pr-2 mt-2 mb-0">Date</label>
-											<input type="text" class="data-entry-input col-12 col-xl-4 mt-1 float-left height1p2" name="date">
-											<label for="method" class="small font-weight-light float-left col-12 col-xl-2 d-block px-0 mt-2 mb-0">Method</label>
-											<input type="text" class="data-entry-input col-12 col-xl-4 mt-1 height1p2 float-left" name="method">
+											<label for="part_number" class="small font-weight-light col-12 col-xl-2 px-0 float-left pr-2 text-right d-block mt-1 mt-xl-2 mb-0"> Value</label>
+											<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-4 mt-0 mt-xl-1 height1p2">
+												<label for="determiner" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mt-xl-2 mb-0">Determiner</label>
+											<input type="text" class="data-entry-input col-12 col-xl-4 float-left mt-0 mt-xl-1 height1p2" name="determiner">
+											<label for="date" class="small font-weight-light float-left d-block col-12 text-right col-xl-2 pr-2 mt-1 mt-xl-2 mb-0">Date</label>
+											<input type="text" class="data-entry-input col-12 col-xl-4 mt-0 mt-xl-1 float-left height1p2" name="date">
+											<label for="method" class="small font-weight-light float-left col-12 col-xl-2 d-block px-0 mt-1 mt-xl-2 mb-0">Method</label>
+											<input type="text" class="data-entry-input col-12 col-xl-4 mt-0 mt-xl-1 height1p2 float-left" name="method">
 											<div class="col-12 px-0">
-											<label for="attribute_remark" class="small font-weight-light float-left col-12 col-xl-2 px-0 d-block mt-2 mb-0">Attribute Remark</label>
-											<textarea type="text" name="attribute_remark" class="data-entry-textarea float-left col-12 mt-1 col-xl-10"/>
+											<label for="attribute_remark" class="small font-weight-light float-left col-12 col-xl-2 px-0 d-block mt-1 mt-xl-2 mb-0">Attribute Remark</label>
+											<textarea type="text" name="attribute_remark" class="data-entry-textarea float-left col-12 mt-0 mt-xl-1 col-xl-10"/>
 											</textarea>
 										</div>
 										</div>
@@ -917,8 +917,8 @@ limitations under the License.
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 											<div class="form-row mt-1 mb-2">
 												<div class="col-12 col-xl-6 float-left">
-													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Relationship Type</label>
-													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
+													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-2 mb-0 px-1">Relationship Type</label>
+													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 mt-xl-1 height1p2">
 														<option value="">Biological Relationship</option>
 														<cfloop query="biolRelations">
 															<option value="#biolRelations.biol_indiv_relationship#">#biolRelations.biol_indiv_relationship#</option>
@@ -926,8 +926,8 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-xl-6 float-left">
-													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-0">Relationship Value</label>
-													<input type="text" class="data-entry-input float-left col-12 height1p2" id="relationship">
+													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Relationship Value</label>
+													<input type="text" class="data-entry-input float-left mt-0 mt-xl-1 col-12 height1p2" id="relationship">
 												</div>
 											</div>
 										</div>
@@ -944,8 +944,8 @@ limitations under the License.
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 											<div class="form-row mt-1 mb-2">
 												<div class="col-12 col-xl-6 float-left">
-													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Relationship Type</label>
-													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 height1p2">
+													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-2 mb-0 px-1">Relationship Type</label>
+													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 mt-xl-1 height1p2">
 														<option value="">Curatorial Relationship</option>
 														<cfloop query="currRelations">
 															<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
@@ -953,8 +953,8 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-xl-6 float-left">
-													<label for="record number" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-0">Related Record Number</label>
-													<input type="text" class="data-entry-input float-left col-12 height1p2" id="relationship">
+													<label for="record number" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-2 mb-0 px-1">Related Record Number</label>
+													<input type="text" class="data-entry-input float-left mt-0 mt-xl-1 col-12 height1p2" id="relationship">
 												</div>
 											</div>
 										</div>
