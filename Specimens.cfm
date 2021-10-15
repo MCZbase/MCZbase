@@ -393,14 +393,30 @@ limitations under the License.
 											function handleFieldSelection(fieldSelect,rowNumber) { 
 												var selection = $('##'+fieldSelect).val();
 												console.log(selection);
+												console.log(rowNumber);
 												for (var i=0; i<columnMetadata.length; i++) {
 													if(selection==columnMetadata[i].column) {
 														// remove any existing binding.
 														$('##searchId'+rowNumber).val("");
 														try { 
-															$('##searchText'+rownumber).autocomplete("destroy");
+															$('##searchText'+rowNumber).autocomplete("destroy");
 														} catch {}
 														$('##searchText'+rowNumber).val("");
+														console.log(columnMetadata[i].ui_function);
+														if (columnMetadata[i].ui_function) {
+															var invokeBinding = Function(columnMetadata[i].ui_function+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
+															invokeBinding(); 
+														}
+													}
+												}
+											}
+											// bind autocomplete to text input/hidden input, but don't clear existing values, used on intial page load.
+											function handleFieldSetup(fieldSelect,rowNumber) { 
+												var selection = $('##'+fieldSelect).val();
+												console.log(selection);
+												console.log(rowNumber);
+												for (var i=0; i<columnMetadata.length; i++) {
+													if(selection==columnMetadata[i].column) {
 														console.log(columnMetadata[i].ui_function);
 														if (columnMetadata[i].ui_function) {
 															var invokeBinding = Function(columnMetadata[i].ui_function+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
@@ -488,6 +504,7 @@ limitations under the License.
 																$('##field1').on("select", function(event) { 
 																	handleFieldSelection('field1',1);
 																});
+																handleFieldSetup('field1',1);
 															});
 														</script>
 													</div>
@@ -568,9 +585,13 @@ limitations under the License.
 																				width: '100%',
 																				dropDownHeight: 400
 																			});
-																		});
-																		$('##field#row#').on("select", function(event) { 
-																			handleFieldSelection('field#row#',#row#);
+																			// bind an autocomplete, if one applies.
+																			handleFieldSetup('field#row#',#row#);
+																			console.log("Setup #row#");
+																			$('##field#row#').on("select", function(event) { 
+																				console.log("Select on #row#");
+																				handleFieldSelection('field#row#',#row#);
+																			});
 																		});
 																	</script>
 																</div>
@@ -642,8 +663,10 @@ limitations under the License.
 															width: '100%',
 															dropDownHeight: 400
 														});
-														$('##field'+row).on("select", function(event) { 
-															handleFieldSelection('field'+row,row);
+														var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")";
+														$('##field'+row).on("change", function(event) { 
+															var handleSelect = new Function(handleSelectString);
+															handleSelect();
 														});
 													});
 												});
