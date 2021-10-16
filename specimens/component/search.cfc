@@ -1741,4 +1741,60 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- 
+  ** given a result_id return the data set for that result_id from the current user's 
+  * user_search_table joined with session.flatTableName as a csv serialization.
+  * @param result_id the uuid that identifies the search to return as csv
+  * @return a csv serialization with a content type text/csv http header or a http error status.
+  ** --->
+<cffunction name="getSpecimensAsCSV" access="remote" returntype="any" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+
+	<cfset retval = "">
+	<cftry>
+		<cfset username = session.dbuser>
+		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
+			SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
+			FROM cf_spec_res_cols_r
+			WHERE access_role = 'PUBLIC'
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					OR access_role = 'COLDFUSION_USER'
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+					OR access_role = 'MANAGE_TRANSACTIONS'
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
+					OR access_role = 'DATA_ENTRY'
+				</cfif>
+			ORDER by category, disp_order
+		</cfquery>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				<cfset comma = "">
+				<cfloop query="getFieldMetadata">
+					<cfif len(sql_element) GT 0> 
+						#comma##replace(sql_element,"''","'","all")# #column_name#
+						<cfset comma = ",">
+					</cfif>
+				</cfloop>
+			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+			WHERE
+				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
+
+		<cfset retval = queryToCSV(search)>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+
+	<cfheader name="Content-Type" value="text/csv">
+<cfoutput>#retval#</cfoutput>
+</cffunction>
+
 </cfcomponent>
