@@ -17,6 +17,7 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cf_rolecheck>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true">
 
 <!---   Function getCollections  --->

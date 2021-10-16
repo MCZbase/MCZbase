@@ -18,7 +18,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cf_rolecheck>
-<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/shared/component/functions.cfc" runOnce="true">
 
 <!--- functions to assist in parsing catalog number ranges --->
 <cfscript>
