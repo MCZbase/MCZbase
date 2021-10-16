@@ -1854,7 +1854,7 @@ limitations under the License.
 				$('.jqx-header-widget').css({'z-index': maxZIndex + 1 });
 				var now = new Date();
 				var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-				var filename = searchType + '_results_' + nowstring + '.csv';
+				var filename = searchType.replace(/ /g,'_') + '_results_' + nowstring + '.csv';
 				// display the number of rows found
 				var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
@@ -2013,7 +2013,7 @@ limitations under the License.
 					$('##'+whichGrid+'resultDownloadButtonContainer').html('<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\''+whichGrid+'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 				} else { 
 					var result_uuid = $('##result_id_' +  whichGrid + 'Search').val(); 
-					$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensCSV&result_id='+ result_uuid + '" >Export to CSV</a>');
+					$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensCSV&result_id='+ result_uuid + '" download="'+filename+'" >Export to CSV</a>');
 				}
 			}
 	
