@@ -557,7 +557,7 @@ div.vslider-item[aria-hidden="true"]{
 								var namestring = "#pageTitle#";
 								namestring = namestring.replace(/[^A-Za-z]/g,'');
 								var filename = 'MCZbase_' + namestring + '_' + nowstring + '.csv';
-								$('##btnContainer').html('<a id="namedgroupcsvbutton" class="btn btn-xs btn-secondary px-3 py-1 m-0" aria-label="Export results to csv" href="/grouping/component/search.cfc?method=getSpecimensInGroupCSV&smallerfieldlist=true&underscore_collection_id=#underscore_collection_id#" download="" >Export to CSV</a>');
+								$('##btnContainer').html('<a id="namedgroupcsvbutton" class="btn btn-xs btn-secondary px-3 py-1 m-0" aria-label="Export results to csv" href="/grouping/component/search.cfc?method=getSpecimensInGroupCSV&smallerfieldlist=true&underscore_collection_id=#underscore_collection_id#" download="'+filename+'" >Export to CSV</a>');
 							});
 						</script>
 						<div class="col-12 my-2">
