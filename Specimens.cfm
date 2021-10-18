@@ -417,7 +417,7 @@ limitations under the License.
 															// makeAutocomplete(searchId:,searchText:,param) -> makeAutocomplete(searchId{n},searchText{n}:,param)
 															var params = functionToBind.match(/\(.*\)/);
 															var functionBit = functionToBind.substring(0,functionToBind.indexOf("("));
-															params = params.substring(1,params.length-1);
+															params = params[0].substring(1,params.length-1);
 															var paramsArray = params.split(',');
 															var paramsReady = "";
 															var comma = "";
