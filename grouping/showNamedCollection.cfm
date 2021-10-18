@@ -600,7 +600,7 @@ div.vslider-item[aria-hidden="true"]{
 														<a id="specimen_media_a" href="#specimen_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 															<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#specimen_media_id##sizeType#" class="mx-auto" alt="#specimen_alt#" height="100%" width="100%">
 														</a>
-														<p id="specimen_media_desc" class="mt-2 bg-light small">#specimen_alt#</p>
+														<p id="specimen_media_desc" class="mt-2 bg-light small" style="height: 2rem;">#specimen_alt#</p>
 													</div>
 												</div>
 												<div class="custom-nav text-center small mb-1 bg-white pt-0 pb-1">
