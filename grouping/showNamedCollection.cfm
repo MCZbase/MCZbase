@@ -637,26 +637,12 @@ div.vslider-item[aria-hidden="true"]{
 												});
 											});
 											
-											document.addEventListener('wheel',function (event){
-											//only vertical scroll
-												if (event.deltaY > 0)
-												{
-												event.preventDefault();
-												smoothScroll(document.documentElement,100,1000)
-												}
-											})
-											function smoothScroll (domElement,pixel,delay)
-											{
-												const intervalToRepeat = 25;
-												const step = (intervalToRepeat * pixel) / delay;
-												if ( step < pixel)
-												{
-													domElement.scrollTop += step;
-													setTimeout(function (){
-													smoothScroll(domElement,pixel - step,delay)
-													},intervalToRepeat);
-												}
-											}
+											var container = document.getElementById('vslider-base');
+											var lastY = 0;
+											container.onscroll = function () {
+											  doSomethingCool(container.scrollTop - lastY);
+											  lastY = container.scrollTop;
+											};
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
