@@ -654,6 +654,29 @@ div.vslider-item[aria-hidden="true"]{
 												});
 											});
 							
+											// jQuery Next or First / Prev or Last plugin
+
+$.fn.nextOrFirst = function(selector){
+    var next = this.next(selector);
+    return (next.length) ? next : this.prevAll(selector).last();
+};
+
+$.fn.prevOrLast = function(selector){
+    var prev = this.prev(selector);
+    return (prev.length) ? prev : this.nextAll(selector).last();
+};
+
+// Scroll Functions
+
+function scrollSection(parent, dir) {
+	var active = "active",
+  		div = parent.find("."+active);
+  if (dir == "prev") {
+    div.removeClass(active).prevOrLast().addClass(active);
+  } else {
+    div.removeClass(active).nextOrFirst().addClass(active);
+  }
+}
 
 											// Bind Scroll function to mouse wheel event
 
