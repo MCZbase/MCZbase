@@ -415,9 +415,9 @@ limitations under the License.
 															invokeBinding(); 
 														} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
 															// makeAutocomplete(searchId:,searchText:,param) -> makeAutocomplete(searchId{n},searchText{n}:,param)
-															var params = functionToBind.match(/\(.*\)/);
+															var paramsBit = functionToBind.match(/\(.*\)/);
 															var functionBit = functionToBind.substring(0,functionToBind.indexOf("("));
-															params = params[0].substring(1,params.length-1);
+															var params = paramsBit[0].substring(1,paramsBit[0].length-1);
 															var paramsArray = params.split(',');
 															var paramsReady = "";
 															var comma = "";
@@ -454,9 +454,9 @@ limitations under the License.
 																invokeBinding(); 
 															} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
 																// makeAutocomplete(searchId:,searchText:,param) -> makeAutocomplete(searchId{n},searchText{n}:,param)
-																var params = functionToBind.match(/\(.*\)/);
+																var paramsBit = functionToBind.match(/\(.*\)/);
 																var functionBit = functionToBind.substring(0,functionToBind.indexOf("("));
-																params = params[0].substring(1,params.length-1);
+																var params = paramsBit[0].substring(1,paramsBit[0].length-1);
 																var paramsArray = params.split(',');
 																var paramsReady = "";
 																var comma = "";
