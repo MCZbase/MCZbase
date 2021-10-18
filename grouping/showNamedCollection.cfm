@@ -646,11 +646,18 @@ div.vslider-item[aria-hidden="true"]{
  													}
 													lastSpecimenScrollTop = y; 
 												});
-											});
+											});		
+											    if (currentSpecimenImage) {
+											  $slider.addEventListener('wheel', function (e) {
+												requestAnimationFrame(function () {
+												  var next = e.deltaY > 0
 
-											// Bind Scroll function to mouse wheel event
-
-								
+												  self[next ? 'next' : 'prev']()
+												  settings.onSwipeWheel && settings.onSwipeWheel(self._active, MAX, !next)
+												})
+												e.preventDefault()
+											  }, false)
+											}
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
