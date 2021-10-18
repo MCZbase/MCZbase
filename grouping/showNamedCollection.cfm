@@ -578,7 +578,138 @@ div.vslider-item[aria-hidden="true"]{
 						<!---end specimen grid---> 
 					</section>
 					<div class="row mx-0">
+<style>/* vanillaSlider.VERSION = 2.2 */
+.vslider {
+  position: relative;
+  overflow: hidden;
+}
 
+.vslider > * {
+  display: block;
+  position: relative;
+}
+
+.vslider > * + * {
+  display: none;
+  position: absolute;
+}
+
+.vslider-item {
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  /* -ms-touch-action: none;
+  touch-action: none; */
+  transition: z-index 0s,
+  opacity .8s ease-in-out,
+  transform .4s ease-in-out;
+  z-index: 20;
+  opacity: 0;
+  transform: translateX(-10%);
+}
+
+.vslider-item[aria-hidden='false'] {
+  /* hack for Edge 16?! */
+  transition: z-index 0s,
+  opacity .8s ease-in-out,
+  transform .4s ease-in-out;
+  z-index: 30;
+  opacity: 1.0;
+  transform: translateX(0);
+}
+
+.vslider-before {
+  z-index: 10;
+  opacity: 0;
+  transform: translateX(10%);
+}
+
+.vslider-direct {
+  transition: none;
+}
+
+.vslider-status {
+  display: block;
+  list-style: none;
+  z-index: 110;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+.vslider-status-item {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.5em;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  color: #000;
+  background: #000;
+  border: 0.1em solid #fff;
+  border-radius: 100%;
+  margin: 0 0.5em;
+  transition: 0.3s;
+  opacity: 0.3;
+}
+
+.vslider-status-item:hover,
+.vslider-status-item:focus,
+.vslider-status-item[aria-selected='true'] {
+  opacity: 0.6;
+}
+
+.vslider-nav {
+  display: block;
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.vslider-prev,
+.vslider-next {
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  line-height: 1;
+  font-size: 1em;
+  border: none;
+  color: currentColor;
+  background: none;
+  opacity: 0.6;
+}
+
+.vslider-prev:hover,
+.vslider-prev:focus,
+.vslider-next:hover,
+.vslider-next:focus {
+  opacity: 1;
+}
+
+.vslider-next {
+  left: auto;
+  right: 0;
+}
+
+.vslider-prev:after {
+  content: '<';
+}
+
+.vslider-next:after {
+  content: '>';
+}</style>
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR points.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>
 							<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">	
 		
