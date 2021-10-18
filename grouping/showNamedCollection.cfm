@@ -636,7 +636,7 @@ div.vslider-item[aria-hidden="true"]{
 												$("##previous_specimen_image").click(goPreviousSpecimen);
 												$("##next_specimen_image").click(goNextSpecimen);
 												$("##specimen_image_number").on("change",goSpecimen);
-												$("##specimen_media_img").scroll(function(event) {
+												$("##vslider-base").scroll(function(event) {
 													event.preventDefault();
 													var y = event.scrollTop;
 													if (y>lastSpecimenScrollTop) { 
@@ -650,12 +650,6 @@ div.vslider-item[aria-hidden="true"]{
 
 											// Bind Scroll function to mouse wheel event
 
-										$(document).on('scroll', '##vslider-base.inner', function(e) { 
-											   if( e.which == 2 ) {
-												  e.preventDefault();
-												  alert("middle button"); 
-											   }
-											});
 								
 										</script>
 									</section><!--- end specimen images ---> 	
