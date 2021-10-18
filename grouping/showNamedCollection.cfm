@@ -589,12 +589,7 @@ div.vslider-item[aria-hidden="true"]{
 								overflow: hidden; 
 							}
 
-							section {
-								height: 0%;
-								box-sizing: border-box;
-								transition: 0.5s;
-								overflow: hidden; 
-							}
+		
 							##vslider-base section.active { 
 								height: 100%; 
 							}
