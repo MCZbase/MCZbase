@@ -650,7 +650,7 @@ div.vslider-item[aria-hidden="true"]{
 
 											// Bind Scroll function to mouse wheel event
 
-										$(document).on('click', '##vslider-base.inner', function(e) { 
+										$(document).on('scroll', '##vslider-base.inner', function(e) { 
 											   if( e.which == 2 ) {
 												  e.preventDefault();
 												  alert("middle button"); 
