@@ -403,8 +403,19 @@ limitations under the License.
 														} catch {}
 														$('##searchText'+rowNumber).val("");
 														console.log(columnMetadata[i].ui_function);
-														if (columnMetadata[i].ui_function) {
-															var invokeBinding = Function(columnMetadata[i].ui_function+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
+														var functionToBind = columnMetadata[i].ui_function;
+														if (functionToBind.search(/^[A-Za-z]+$/)>-1) 
+															//  makeAutocomplete(text,id)
+															var invokeBinding = Function(functionToBind+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
+															invokeBinding(); 
+														} else if (functionToBind.search(/^[A-Za-z]+\(\)$/)>-1) {
+															// makeAutocomplete(text)
+															var functionName = functionToBind.substring(0,functionToBind.length-2); // remove trailing ()
+															var invokeBinding = Function(functionName+"('searchText"+ rowNumber+"')");
+															invokeBinding(); 
+														} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
+															// makeAutocomplete(searchId:,searchText:,param)
+															var invokeBinding = Function(functionToBind.replace(":",rowNumber);
 															invokeBinding(); 
 														}
 													}
@@ -419,8 +430,21 @@ limitations under the License.
 													if(selection==columnMetadata[i].column) {
 														console.log(columnMetadata[i].ui_function);
 														if (columnMetadata[i].ui_function) {
-															var invokeBinding = Function(columnMetadata[i].ui_function+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
-															invokeBinding(); 
+															var functionToBind = columnMetadata[i].ui_function;
+															if (functionToBind.search(/^[A-Za-z]+$/)>-1) 
+																//  makeAutocomplete(text,id)
+																var invokeBinding = Function(functionToBind+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
+																invokeBinding(); 
+															} else if (functionToBind.search(/^[A-Za-z]+\(\)$/)>-1) {
+																// makeAutocomplete(text)
+																var functionName = functionToBind.substring(0,functionToBind.length-2); // remove trailing ()
+																var invokeBinding = Function(functionName+"('searchText"+ rowNumber+"')");
+																invokeBinding(); 
+															} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
+																// makeAutocomplete(searchId:,searchText:,param)
+																var invokeBinding = Function(functionToBind.replace(":",rowNumber);
+																invokeBinding(); 
+															}
 														}
 													}
 												}
