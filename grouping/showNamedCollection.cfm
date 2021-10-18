@@ -590,7 +590,7 @@ div.vslider-item[aria-hidden="true"]{
 							}
 
 		
-							##vslider-base div.active { 
+							##vslider-base.active { 
 								height: 100%; 
 							}
 
