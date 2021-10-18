@@ -600,7 +600,7 @@ div.vslider-item[aria-hidden="true"]{
 														<a id="specimen_media_a" href="#specimen_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 															<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#specimen_media_id##sizeType#" class="mx-auto" alt="#specimen_alt#" height="100%" width="100%">
 														</a>
-														<p id="specimen_media_desc" class="mt-2 bg-light small" style="height: 2rem;">#specimen_alt#</p>
+														<p id="specimen_media_desc" class="mt-2 bg-light small">#specimen_alt#</p>
 													</div>
 												</div>
 												<div class="custom-nav text-center small mb-1 bg-white pt-0 pb-1">
@@ -626,7 +626,6 @@ div.vslider-item[aria-hidden="true"]{
 												$("##next_specimen_image").click(goNextSpecimen);
 												$("##specimen_image_number").on("change",goSpecimen);
 												$("##specimen_media_img").wheel(function(event) {
-													
 													event.preventDefault();
 													var y = event.scrollTop;
 													if (y>lastSpecimenScrollTop) { 
@@ -635,9 +634,28 @@ div.vslider-item[aria-hidden="true"]{
 														goPreviousSpecimen();
  													}
 													lastSpecimenScrollTop = y; 
-													
-
-
+												});
+											});
+									//		document.addEventListener('wheel',function (event){
+//											//only vertical scroll
+//												if (event.deltaY > 0)
+//												{
+//												event.preventDefault();
+//												smoothScroll(document.documentElement,100,1000)
+//												}
+//											})
+//											function smoothScroll (domElement,pixel,delay)
+//											{
+//												const intervalToRepeat = 25;
+//												const step = (intervalToRepeat * pixel) / delay;
+//												if ( step < pixel)
+//												{
+//													domElement.scrollTop += step;
+//													setTimeout(function (){
+//													smoothScroll(domElement,pixel - step,delay)
+//													},intervalToRepeat);
+//												}
+//											}
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
