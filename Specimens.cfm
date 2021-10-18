@@ -422,7 +422,7 @@ limitations under the License.
 															var paramsReady = "";
 															var comma = "";
 															for (var par in paramsArray) { 
-																paramsReady = comma + "'"+par.replace(":",rowNumber)+"'";
+																paramsReady = paramsReady + comma + "'"+paramsArray[par].replace(":",rowNumber)+"'";
 																var comma = ",";
 															}
 															functionToBind = functionBit + "(" + paramsReady + ")";
@@ -461,7 +461,7 @@ limitations under the License.
 																var paramsReady = "";
 																var comma = "";
 																for (var par in paramsArray) { 
-																	paramsReady = comma + "'"+par.replace(":",rowNumber)+"'";
+																	paramsReady = paramsReady + comma + "'"+paramsArray[par].replace(":",rowNumber)+"'";
 																	var comma = ",";
 																}
 																functionToBind = functionBit + "(" + paramsReady + ")";
