@@ -578,7 +578,14 @@ div.vslider-item[aria-hidden="true"]{
 						<!---end specimen grid---> 
 					</section>
 					<div class="row mx-0">
-
+<style>
+	##vslider-base {
+		height: 100%;
+		overflow:hidden;
+	}
+	
+	##vslider-base .inner {height: 800px;}
+</style>
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR points.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>
 							<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">	
 		
@@ -596,7 +603,7 @@ div.vslider-item[aria-hidden="true"]{
 														<cfset specimen_alt = specimenImagesForCarousel.alt>
 													</cfloop>
 													
-													<div class="w-100 bg-light float-left px-3 h-auto">
+													<div class="inner w-100 bg-light float-left px-3 h-auto">
 														<a id="specimen_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#specimen_media_id#">Media Details</a>
 														<cfset sizeType='&width=800&height=800'>
 														<a id="specimen_media_a" href="#specimen_media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
@@ -629,7 +636,7 @@ div.vslider-item[aria-hidden="true"]{
 												$("##previous_specimen_image").click(goPreviousSpecimen);
 												$("##next_specimen_image").click(goNextSpecimen);
 												$("##specimen_image_number").on("change",goSpecimen);
-												$("##specimen_media_img").wheel(function(event) {
+												$("##specimen_media_img").scroll(function(event) {
 													event.preventDefault();
 													var y = event.scrollTop;
 													if (y>lastSpecimenScrollTop) { 
@@ -641,17 +648,13 @@ div.vslider-item[aria-hidden="true"]{
 												});
 											});
 
-
-
-
 											// Bind Scroll function to mouse wheel event
 
-											$('##vslider-base').on('mousewheel wheel', function(e){
-											  if (e.originalEvent.wheelDelta /120 > 0) { // scroll up event
-												scrollSection($(this), "##previous_specimen_image");
-											  } else { // scroll down event
-												scrollSection($(this));
-											  }
+										$(document).on('click', '##vslider-base.inner', function(e) { 
+											   if( e.which == 2 ) {
+												  e.preventDefault();
+												  alert("middle button"); 
+											   }
 											});
 								
 										</script>
