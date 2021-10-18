@@ -581,20 +581,7 @@ div.vslider-item[aria-hidden="true"]{
 
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR points.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>
 							<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">	
-						<style>
-							##vslider-base {
-								margin: 0; 
-								padding: 0;
-								height: 100%; 
-								overflow: hidden; 
-							}
-
 		
-							##vslider-base.active { 
-								height: 100%; 
-							}
-
-						</style>	
 								<!--- specimen images --->
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<section class="imagesLeft">
@@ -654,37 +641,16 @@ div.vslider-item[aria-hidden="true"]{
 												});
 											});
 							
-											// jQuery Next or First / Prev or Last plugin
 
-$.fn.nextOrFirst = function(selector){
-    var next = this.next(selector);
-    return (next.length) ? next : this.prevAll(selector).last();
-};
 
-$.fn.prevOrLast = function(selector){
-    var prev = this.prev(selector);
-    return (prev.length) ? prev : this.nextAll(selector).last();
-};
-
-// Scroll Functions
-
-function scrollSection(parent, dir) {
-	var active = "active",
-  		div = parent.find("."+active);
-  if (dir == "prev") {
-    div.removeClass(active).prevOrLast().addClass(active);
-  } else {
-    div.removeClass(active).nextOrFirst().addClass(active);
-  }
-}
 
 											// Bind Scroll function to mouse wheel event
 
 											$('##vslider-base').on('mousewheel wheel', function(e){
 											  if (e.originalEvent.wheelDelta /120 > 0) { // scroll up event
-												scrollSection($(this), "prev");
+												scrollSection($('##specimen_media_img'), "prev");
 											  } else { // scroll down event
-												scrollSection($(this));
+												scrollSection($('##specimen_media_img'));
 											  }
 											});
 								
