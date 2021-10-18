@@ -415,7 +415,7 @@ limitations under the License.
 															invokeBinding(); 
 														} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
 															// makeAutocomplete(searchId:,searchText:,param)
-															var invokeBinding = Function(functionToBind.replace(":",rowNumber);
+															var invokeBinding = Function(functionToBind.replace(":",rowNumber));
 															invokeBinding(); 
 														}
 													}
@@ -442,7 +442,7 @@ limitations under the License.
 																invokeBinding(); 
 															} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
 																// makeAutocomplete(searchId:,searchText:,param)
-																var invokeBinding = Function(functionToBind.replace(":",rowNumber);
+																var invokeBinding = Function(functionToBind.replace(":",rowNumber));
 																invokeBinding(); 
 															}
 														}
