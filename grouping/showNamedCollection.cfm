@@ -578,14 +578,6 @@ div.vslider-item[aria-hidden="true"]{
 						<!---end specimen grid---> 
 					</section>
 					<div class="row mx-0">
-<style>
-	##vslider-base {
-		height: 100%;
-		overflow:hidden;
-	}
-	
-	##vslider-base .inner {height: 800px;}
-</style>
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR points.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>
 							<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">	
 		
@@ -636,7 +628,7 @@ div.vslider-item[aria-hidden="true"]{
 												$("##previous_specimen_image").click(goPreviousSpecimen);
 												$("##next_specimen_image").click(goNextSpecimen);
 												$("##specimen_image_number").on("change",goSpecimen);
-												$("##vslider-base").scroll(function(event) {
+												$("##specimen_media_img").scroll(function(event) {
 													event.preventDefault();
 													var y = event.scrollTop;
 													if (y>lastSpecimenScrollTop) { 
@@ -646,18 +638,8 @@ div.vslider-item[aria-hidden="true"]{
  													}
 													lastSpecimenScrollTop = y; 
 												});
-											});		
-											    if (currentSpecimenImage) {
-											  $slider.addEventListener('wheel', function (e) {
-												requestAnimationFrame(function () {
-												  var next = e.deltaY > 0
+											});
 
-												  self[next ? 'next' : 'prev']()
-												  settings.onSwipeWheel && settings.onSwipeWheel(self._active, MAX, !next)
-												})
-												e.preventDefault()
-											  }, false)
-											}
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
