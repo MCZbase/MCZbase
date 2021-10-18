@@ -554,10 +554,8 @@ div.vslider-item[aria-hidden="true"]{
 								});
 								var now = new Date();
 								var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-								var namestring = "#pageTitle#";
-								namestring = namestring.replace(/[^A-Za-z]/g,'');
-								var filename = 'MCZbase_' + namestring + '_' + nowstring + '.csv';
-								$('##btnContainer').html('<a id="namedgroupcsvbutton" class="btn btn-xs btn-secondary px-3 py-1 m-0" aria-label="Export results to csv" href="/grouping/component/search.cfc?method=getSpecimensInGroupCSV&smallerfieldlist=true&underscore_collection_id=#underscore_collection_id#" download="'+filename+'" >Export to CSV</a>');
+								var filename = 'NamedGroup_results_' + nowstring + '.csv';
+								$('##btnContainer').html('<a id="namedgroupcsvbutton" class="btn btn-xs btn-secondary px-3 py-1 m-0" aria-label="Export results to csv" href="/grouping/component/search.cfc?method=getSpecimensInGroupCSV&smallerfieldlist=true&underscore_collection_id=#underscore_collection_id#" >Export to CSV</a>');
 							});
 						</script>
 						<div class="col-12 my-2">
@@ -627,7 +625,7 @@ div.vslider-item[aria-hidden="true"]{
 												$("##previous_specimen_image").click(goPreviousSpecimen);
 												$("##next_specimen_image").click(goNextSpecimen);
 												$("##specimen_image_number").on("change",goSpecimen);
-												$("##specimen_media_img").scroll(function(event) {
+												$("##specimen_media_img").wheel(function(event) {
 													event.preventDefault();
 													var y = event.scrollTop;
 													if (y>lastSpecimenScrollTop) { 
@@ -638,6 +636,26 @@ div.vslider-item[aria-hidden="true"]{
 													lastSpecimenScrollTop = y; 
 												});
 											});
+									//		document.addEventListener('wheel',function (event){
+//											//only vertical scroll
+//												if (event.deltaY > 0)
+//												{
+//												event.preventDefault();
+//												smoothScroll(document.documentElement,100,1000)
+//												}
+//											})
+//											function smoothScroll (domElement,pixel,delay)
+//											{
+//												const intervalToRepeat = 25;
+//												const step = (intervalToRepeat * pixel) / delay;
+//												if ( step < pixel)
+//												{
+//													domElement.scrollTop += step;
+//													setTimeout(function (){
+//													smoothScroll(domElement,pixel - step,delay)
+//													},intervalToRepeat);
+//												}
+//											}
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
