@@ -581,7 +581,25 @@ div.vslider-item[aria-hidden="true"]{
 
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR points.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>
 							<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">	
-							
+						<style>
+							##vslider-base {
+								margin: 0; 
+								padding: 0;
+								height: 100%; 
+								overflow: hidden; 
+							}
+
+							section {
+								height: 0%;
+								box-sizing: border-box;
+								transition: 0.5s;
+								overflow: hidden; 
+							}
+							##vslider-base section.active { 
+								height: 100%; 
+							}
+
+						</style>	
 								<!--- specimen images --->
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<section class="imagesLeft">
@@ -589,11 +607,13 @@ div.vslider-item[aria-hidden="true"]{
 											<div class="carousel_background border rounded float-left w-100 p-2 mb-4">
 												<h3 class="mx-2 text-center">#specimenImagesForCarousel.recordcount# Specimen Images</h3>
 												<div class="vslider w-100 float-left bg-light" id="vslider-base">
+													<section>
 													<cfloop query="specimenImagesForCarousel" startRow="1" endRow="1">
 														<cfset specimen_media_uri = specimenImagesForCarousel.media_uri>
 														<cfset specimen_media_id = specimenImagesForCarousel.media_id>
 														<cfset specimen_alt = specimenImagesForCarousel.alt>
 													</cfloop>
+													
 													<div class="w-100 bg-light float-left px-3 h-auto">
 														<a id="specimen_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#specimen_media_id#">Media Details</a>
 														<cfset sizeType='&width=800&height=800'>
@@ -602,12 +622,14 @@ div.vslider-item[aria-hidden="true"]{
 														</a>
 														<p id="specimen_media_desc" class="mt-2 bg-light small" style="height: 2rem;">#specimen_alt#</p>
 													</div>
+													</section>
 												</div>
 												<div class="custom-nav text-center small mb-1 bg-white pt-0 pb-1">
 													<button type="button" class="border-0 btn-outline-primary rounded" id="previous_specimen_image" > << prev </button>
 													<input type="number" id="specimen_image_number" class="custom-input border data-entry-input d-inline border-light" value="1">
 													<button type="button" class="border-0 btn-outline-primary rounded" id="next_specimen_image"> next &nbsp; >> </button>
 												</div>
+										
 											</div>
 										</div>
 										<script>
@@ -636,13 +658,40 @@ div.vslider-item[aria-hidden="true"]{
 													lastSpecimenScrollTop = y; 
 												});
 											});
-											
-											var container = document.getElementById('vslider-base');
-											var lastY = 0;
-											container.onscroll = function () {
-											  doSomethingCool(container.scrollTop - lastY);
-											  lastY = container.scrollTop;
+																	// jQuery Next or First / Prev or Last plugin
+
+											$.fn.nextOrFirst = function(selector){
+												var next = this.next(selector);
+												return (next.length) ? next : this.prevAll(selector).last();
 											};
+
+											$.fn.prevOrLast = function(selector){
+												var prev = this.prev(selector);
+												return (prev.length) ? prev : this.nextAll(selector).last();
+											};
+
+											// Scroll Functions
+
+											function scrollSection(parent, dir) {
+												var active = "active",
+													section = parent.find("."+active);
+											  if (dir == "prev") {
+												section.removeClass(active).prevOrLast().addClass(active);
+											  } else {
+												section.removeClass(active).nextOrFirst().addClass(active);
+											  }
+											}
+
+											// Bind Scroll function to mouse wheel event
+
+											$('##vslider-base').on('mousewheel wheel', function(e){
+											  if (e.originalEvent.wheelDelta /120 > 0) { // scroll up event
+												scrollSection($(this), "prev");
+											  } else { // scroll down event
+												scrollSection($(this));
+											  }
+											});
+								
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
