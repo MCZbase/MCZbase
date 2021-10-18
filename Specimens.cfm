@@ -415,17 +415,17 @@ limitations under the License.
 															invokeBinding(); 
 														} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
 															// makeAutocomplete(searchId:,searchText:,param) -> makeAutocomplete(searchId{n},searchText{n}:,param)
-															var parameters = functionToBind.match(/\(.*\)/);
+															var params = functionToBind.match(/\(.*\)/);
 															var functionBit = functionToBind.substring(0,functionToBind.indexOf("("));
-															parameters = parameters.substring(1,parameters.length-1);
-															var parametersArray = parameters.split(',');
-															var parametersReady = "";
+															params = params.substring(1,params.length-1);
+															var paramsArray = params.split(',');
+															var paramsReady = "";
 															var comma = "";
-															for (var par in parametersArray) { 
-																parametersReady = comma + "'"+par.replace(":",rowNumber)+"'";
+															for (var par in paramsArray) { 
+																paramsReady = comma + "'"+par.replace(":",rowNumber)+"'";
 																var comma = ",";
 															}
-															functionToBind = functionBit + "(" + parametersReady + ")";
+															functionToBind = functionBit + "(" + paramsReady + ")";
 															var invokeBinding = Function(functionToBind);
 															invokeBinding(); 
 														}
@@ -453,17 +453,17 @@ limitations under the License.
 																invokeBinding(); 
 															} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
 																// makeAutocomplete(searchId:,searchText:,param) -> makeAutocomplete(searchId{n},searchText{n}:,param)
-																var parameters = functionToBind.match(/\(.*\)/);
+																var params = functionToBind.match(/\(.*\)/);
 																var functionBit = functionToBind.substring(0,functionToBind.indexOf("("));
-																parameters = parameters.substring(1,parameters.length-1);
-																var parametersArray = parameters.split(',');
-																var parametersReady = "";
+																params = params[0].substring(1,params.length-1);
+																var paramsArray = params.split(',');
+																var paramsReady = "";
 																var comma = "";
-																for (var par in parametersArray) { 
-																	parametersReady = comma + "'"+par.replace(":",rowNumber)+"'";
+																for (var par in paramsArray) { 
+																	paramsReady = comma + "'"+par.replace(":",rowNumber)+"'";
 																	var comma = ",";
 																}
-																functionToBind = functionBit + "(" + parametersReady + ")";
+																functionToBind = functionBit + "(" + paramsReady + ")";
 																var invokeBinding = Function(functionToBind);
 																invokeBinding(); 
 															}
