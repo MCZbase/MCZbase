@@ -416,7 +416,7 @@ limitations under the License.
 														} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
 															// makeAutocomplete(searchId:,searchText:,param) -> makeAutocomplete(searchId{n},searchText{n}:,param)
 															var parameters = functionToBind.match(/\(.*\)/);
-															var function = functionToBind.substring(0,functionToBind.search(/\(/));
+															var function = functionToBind.substring(0,functionToBind.indexOf("("));
 															parameters = parameters.substring(1,parameters.length-1);
 															var parametersArray = parameters.split(',');
 															var parametersReady = "";
@@ -454,7 +454,7 @@ limitations under the License.
 															} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
 																// makeAutocomplete(searchId:,searchText:,param) -> makeAutocomplete(searchId{n},searchText{n}:,param)
 																var parameters = functionToBind.match(/\(.*\)/);
-																var function = functionToBind.substring(0,functionToBind.search(/\(/));
+																var function = functionToBind.substring(0,functionToBind.indexOf("("));
 																parameters = parameters.substring(1,parameters.length-1);
 																var parametersArray = parameters.split(',');
 																var parametersReady = "";
