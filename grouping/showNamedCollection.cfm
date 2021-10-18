@@ -650,9 +650,9 @@ div.vslider-item[aria-hidden="true"]{
   width: 1em;
   height: 1em;
   line-height: 1;
-  color: #000;
-  background: #000;
-  border: 0.1em solid #fff;
+  color: ##000;
+  background: ##000;
+  border: 0.1em solid ##fff;
   border-radius: 100%;
   margin: 0 0.5em;
   transition: 0.3s;
