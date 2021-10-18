@@ -405,17 +405,28 @@ limitations under the License.
 														console.log(columnMetadata[i].ui_function);
 														var functionToBind = columnMetadata[i].ui_function;
 														if (functionToBind.search(/^[A-Za-z]+$/)>-1) {
-															//  makeAutocomplete(text,id)
+															//  makeAutocomplete ->  makeAutocomplete(searchText{n},searchId{n})
 															var invokeBinding = Function(functionToBind+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
 															invokeBinding(); 
 														} else if (functionToBind.search(/^[A-Za-z]+\(\)$/)>-1) {
-															// makeAutocomplete(text)
+															// makeAutocomplete(text) -> makeAutocomplete(searchText{n})
 															var functionName = functionToBind.substring(0,functionToBind.length-2); // remove trailing ()
 															var invokeBinding = Function(functionName+"('searchText"+ rowNumber+"')");
 															invokeBinding(); 
 														} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
-															// makeAutocomplete(searchId:,searchText:,param)
-															var invokeBinding = Function(functionToBind.replace(":",rowNumber));
+															// makeAutocomplete(searchId:,searchText:,param) -> makeAutocomplete(searchId{n},searchText{n}:,param)
+															var parameters = functionToBind.match(/\(.*\)/);
+															var function = functionToBind.substring(0,functionToBind,search(/\(/));
+															parameters = parameters.substring(1,parameters.length-1);
+															var parametersArray = parameters.split(',');
+															var parametersReady = "";
+															var comma = "";
+															for (var par in parametersArray) { 
+																parametersReady = comma + "'"+par.replace(":",rowNumber)+"'";
+																var comma = ",";
+															}
+															functionToBind = function + "(" + parametersReady + ")";
+															var invokeBinding = Function(functionToBind);
 															invokeBinding(); 
 														}
 													}
@@ -441,8 +452,19 @@ limitations under the License.
 																var invokeBinding = Function(functionName+"('searchText"+ rowNumber+"')");
 																invokeBinding(); 
 															} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
-																// makeAutocomplete(searchId:,searchText:,param)
-																var invokeBinding = Function(functionToBind.replace(":",rowNumber));
+																// makeAutocomplete(searchId:,searchText:,param) -> makeAutocomplete(searchId{n},searchText{n}:,param)
+																var parameters = functionToBind.match(/\(.*\)/);
+																var function = functionToBind.substring(0,functionToBind,search(/\(/));
+																parameters = parameters.substring(1,parameters.length-1);
+																var parametersArray = parameters.split(',');
+																var parametersReady = "";
+																var comma = "";
+																for (var par in parametersArray) { 
+																	parametersReady = comma + "'"+par.replace(":",rowNumber)+"'";
+																	var comma = ",";
+																}
+																functionToBind = function + "(" + parametersReady + ")";
+																var invokeBinding = Function(functionToBind);
 																invokeBinding(); 
 															}
 														}
