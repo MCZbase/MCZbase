@@ -604,9 +604,9 @@ div.vslider-item[aria-hidden="true"]{
 													</div>
 												</div>
 												<div class="custom-nav text-center small mb-1 bg-white pt-0 pb-1">
-													<button type="button" class="border-0 btn-outline-primary rounded custom-prev" id="previous_specimen_image" > << prev </button>
+													<button type="button" class="border-0 btn-outline-primary rounded" id="previous_specimen_image" > << prev </button>
 													<input type="number" id="specimen_image_number" class="custom-input border data-entry-input d-inline border-light" value="1">
-													<button type="button" class="border-0 btn-outline-primary rounded custom-next" id="next_specimen_image"> next &nbsp; >> </button>
+													<button type="button" class="border-0 btn-outline-primary rounded" id="next_specimen_image"> next &nbsp; >> </button>
 												</div>
 											</div>
 										</div>
@@ -666,10 +666,10 @@ div.vslider-item[aria-hidden="true"]{
         parseInt(e.target.value)
       )
     }, false)
-    document.getElementById('custom-prev').addEventListener('click', function (e) {
+    document.getElementById('previous_specimen_image').addEventListener('click', function (e) {
       baseSlider.prev()
     }, false)
-    document.getElementById('custom-next').addEventListener('click', function (e) {
+    document.getElementById('next_specimen_image').addEventListener('click', function (e) {
       baseSlider.next()
     }, false)
 
