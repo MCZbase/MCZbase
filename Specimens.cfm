@@ -404,7 +404,7 @@ limitations under the License.
 														$('##searchText'+rowNumber).val("");
 														console.log(columnMetadata[i].ui_function);
 														var functionToBind = columnMetadata[i].ui_function;
-														if (functionToBind.search(/^[A-Za-z]+$/)>-1) 
+														if (functionToBind.search(/^[A-Za-z]+$/)>-1) {
 															//  makeAutocomplete(text,id)
 															var invokeBinding = Function(functionToBind+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
 															invokeBinding(); 
@@ -431,7 +431,7 @@ limitations under the License.
 														console.log(columnMetadata[i].ui_function);
 														if (columnMetadata[i].ui_function) {
 															var functionToBind = columnMetadata[i].ui_function;
-															if (functionToBind.search(/^[A-Za-z]+$/)>-1) 
+															if (functionToBind.search(/^[A-Za-z]+$/)>-1) {
 																//  makeAutocomplete(text,id)
 																var invokeBinding = Function(functionToBind+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
 																invokeBinding(); 
