@@ -658,21 +658,7 @@ div.vslider-item[aria-hidden="true"]{
 													lastSpecimenScrollTop = y; 
 												});
 											});
-																	// jQuery Next or First / Prev or Last plugin
-
-
-
-											// Scroll Functions
-
-											function scrollSection(parent, dir) {
-												var active = "active",
-													div = parent.find("."+active);
-											  if (dir == "prev") {
-												div.removeClass(active).prevOrLast().addClass(active);
-											  } else {
-												div.removeClass(active).nextOrFirst().addClass(active);
-											  }
-											}
+							
 
 											// Bind Scroll function to mouse wheel event
 
