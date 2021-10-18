@@ -426,6 +426,7 @@ limitations under the License.
 																var comma = ",";
 															}
 															functionToBind = functionBit + "(" + paramsReady + ")";
+															console.log(functionToBind);
 															var invokeBinding = Function(functionToBind);
 															invokeBinding(); 
 														}
@@ -464,6 +465,7 @@ limitations under the License.
 																	var comma = ",";
 																}
 																functionToBind = functionBit + "(" + paramsReady + ")";
+																console.log(functionToBind);
 																var invokeBinding = Function(functionToBind);
 																invokeBinding(); 
 															}
