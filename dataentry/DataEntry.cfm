@@ -883,19 +883,21 @@ limitations under the License.
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
 									<div id="customAtt">
 										<div class="form-row mx-0 my-2">
-											<label for="attribute_type" class="small font-weight-light col-12 col-xl-2 px-1 float-left d-block mt-1 mt-xl-2 mb-0">Attribute Type</label>
-											<select class="data-entry-select mt-0 mt-xl-1 col-12 col-xl-4 height1p2 smallselect">
+											<label for="attribute_type" class="small font-weight-light col-12 col-xl-3 px-1 float-left d-block mt-1 mt-xl-2 mb-0">Attribute Type</label>
+											<select class="data-entry-select mt-0 mt-xl-1 col-12 col-xl-9 height1p2 smallselect">
 												<option value="">Attribute Type</option>
 												<cfloop query="attType">
 													<option value="#attType.attribute_type#">#attType.attribute_type#</option>
 												</cfloop>
 											</select>
-											<label for="part_number" class="small font-weight-light col-12 col-xl-2 px-1 float-left pr-2 text-left text-xl-right d-block mt-1 mt-xl-2 mb-0"> Value</label>
-											<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-4 mt-0 mt-xl-1 height1p2">
-											<label for="determiner" class="small font-weight-light col-12 col-xl-2 px-1 float-left d-block mt-1 mt-xl-2 mb-0">Determiner</label>
-											<input type="text" class="data-entry-input col-12 col-xl-4 float-left mt-0 mt-xl-1 height1p2" name="determiner">
-											<label for="date" class="small font-weight-light float-left d-block col-12 text-xl-right text-left col-xl-2 pr-2 mt-1 mt-xl-2 mb-0">Date</label>
-											<input type="text" class="data-entry-input col-12 col-xl-4 mt-0 mt-xl-1 float-left height1p2" name="date">
+											<label for="part_number" class="small font-weight-light col-12 col-xl-3 px-1 float-left px-1 text-left text-xl-right d-block mt-1 mt-xl-2 mb-0"> Value</label>
+											<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-9 mt-0 mt-xl-1 height1p2">
+										<div class="col-12 mt-2 border bg-transparent rounded p-1 mb-1">
+												<label for="" class="small font-weight-light float-left col-12 text-xl-right col-xl-2 d-block pl-0 pr-2 mt-1 mb-0">Determiner</label>
+												<input type="text" name="" class="data-entry-input mt-0 mt-xl-1 float-left col-12 col-xl-5 height1p2" id=""/>
+												<label for="" class="small font-weight-light float-left text-xl-right pr-2 col-12 col-xl-2 d-block pl-0 mt-1 mb-0">Date</label>
+												<input type="text" class="data-entry-input float-left col-12 col-xl-3 mt-0 mt-xl-1 height1p2" id="">
+											</div>
 											<label for="method" class="small font-weight-light float-left col-12 col-xl-2 d-block px-1 mt-1 mt-xl-2 mb-0">Method</label>
 											<input type="text" class="data-entry-input col-12 col-xl-4 mt-0 mt-xl-1 height1p2 float-left" name="method">
 											<div class="col-12 px-0">
