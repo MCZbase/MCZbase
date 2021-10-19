@@ -491,7 +491,7 @@ limitations under the License.
 								<div id="customAgent1">
 									<div class="row">
 										<div class="col-12 mb-2">
-											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 mx-0 mt-0 mt-xl-0 mb-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 mx-0 mt-0 mt-xl-0 mb-1 d-block" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
 											<div class="form-row">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="collector_role" class="small font-weight-light float-left d-block mt-2 mt-xl-0 mb-0 px-1">Agent Role</label>
