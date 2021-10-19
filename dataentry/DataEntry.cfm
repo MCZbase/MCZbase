@@ -419,7 +419,7 @@ limitations under the License.
 									<div class="row">
 										<div class="col-12 mb-2">
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 mt-2 mx-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
-											<div class="form-row">
+											<div class="form-row mt-xl-1">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="other_id" class="small font-weight-light float-left d-block mt-2 mt-xl-1 px-1 mb-0">Other ID Type</label>
 													<select class="data-entry-select mt-0 mt-xl-1 smallselect height1p2">
@@ -429,7 +429,7 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12 col-xl-6 float-left">
+												<div class="col-12 col-xl-6 float-left mt-xl-1">
 													<label for="other_id" class="small font-weight-light float-left d-block mt-1 mt-xl-1 px-1 mb-0">Other ID (alphanumberic)</label>
 													<input type="text" class="data-entry-input height1p2 mt-0 mt-xl-1" id="other_id" name="other_id">
 												</div>
