@@ -892,14 +892,15 @@ limitations under the License.
 											</select>
 											<label for="part_number" class="small font-weight-light col-12 col-xl-3 px-1 float-left px-1 text-left text-xl-right d-block mt-1 mt-xl-2 mb-0"> Value</label>
 											<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-9 mt-0 mt-xl-1 height1p2">
+											<label for="method" class="small font-weight-light float-left col-12 col-xl-3 d-block px-1 mt-1 mt-xl-2 mb-0">Method</label>
+											<input type="text" class="data-entry-input col-12 col-xl-9 mt-0 mt-xl-1 height1p2 float-left" name="method">
 										<div class="col-12 mt-2 border bg-transparent rounded p-1 mb-1">
 												<label for="" class="small font-weight-light float-left col-12 text-xl-right col-xl-2 d-block pl-0 pr-2 mt-1 mb-0">Determiner</label>
 												<input type="text" name="" class="data-entry-input mt-0 mt-xl-1 float-left col-12 col-xl-5 height1p2" id=""/>
 												<label for="" class="small font-weight-light float-left text-xl-right pr-2 col-12 col-xl-2 d-block pl-0 mt-1 mb-0">Date</label>
 												<input type="text" class="data-entry-input float-left col-12 col-xl-3 mt-0 mt-xl-1 height1p2" id="">
 											</div>
-											<label for="method" class="small font-weight-light float-left col-12 col-xl-2 d-block px-1 mt-1 mt-xl-2 mb-0">Method</label>
-											<input type="text" class="data-entry-input col-12 col-xl-4 mt-0 mt-xl-1 height1p2 float-left" name="method">
+								
 											<div class="col-12 px-0">
 											<label for="attribute_remark" class="small font-weight-light float-left col-12 col-xl-3 px-1 d-block mt-1 mt-xl-2 mb-0">Attribute Remark</label>
 											<textarea type="text" name="attribute_remark" class="data-entry-textarea float-left col-12 mt-0 mt-xl-1 col-xl-9"/>
