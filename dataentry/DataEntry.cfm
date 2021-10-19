@@ -917,7 +917,7 @@ limitations under the License.
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 											<div class="form-row mt-1 mb-2">
 												<div class="col-12 col-xl-6 float-left">
-													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-2 mb-0 px-1">Relationship Type</label>
+													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-1 mb-0 px-1">Relationship Type</label>
 													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 mt-xl-0 height1p2">
 														<option value="">Biological Relationship</option>
 														<cfloop query="biolRelations">
@@ -944,7 +944,7 @@ limitations under the License.
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 											<div class="form-row mt-1 mb-2">
 												<div class="col-12 col-xl-6 float-left">
-													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-2 mb-0 px-1">Relationship Type</label>
+													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-1 mb-0 px-1">Relationship Type</label>
 													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 mt-xl-0 height1p2">
 														<option value="">Curatorial Relationship</option>
 														<cfloop query="currRelations">
@@ -953,7 +953,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-12 col-xl-6 float-left">
-													<label for="record number" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-2 mb-0 px-1">Related Record Number</label>
+													<label for="record number" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-1 mb-0 px-1">Related Record Number</label>
 													<input type="text" class="data-entry-input float-left mt-0 mt-xl-0 col-12 height1p2" id="relationship">
 												</div>
 											</div>
