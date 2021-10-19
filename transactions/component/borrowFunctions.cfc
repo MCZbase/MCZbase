@@ -262,7 +262,7 @@ limitations under the License.
 			<cfset i = i + 1>
 		</cfloop>
 		<cfset retval = QueryNew("transaction_id,borrow_item_id,catalog_number,sci_name,no_of_spec,spec_prep,type_status,country_of_origin,object_remarks","BigInt,BigInt,VarChar,VarChar,VarChar,VarChar,VarChar,VarChar,VarChar",data)>
-		<cfreturn #serializeJSON(data=retval,queryFormat="struct")#>
+		<cfreturn #serializeJSON(data="#retval#",queryFormat="struct")#>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
