@@ -834,15 +834,15 @@ limitations under the License.
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
 									<div class="form-row mx-0 my-2">
 										<div class="col-12 px-0">
-											<label for="part_name" class="small font-weight-light float-left col-12 col-xl-2 px-0 d-block mt-1 mt-xl-2 mb-0">Part Name</label>
+											<label for="part_name" class="small font-weight-light float-left col-12 col-xl-2 px-1 d-block mt-1 mt-xl-2 mb-0">Part Name</label>
 											<input type="text" class="data-entry-input col-12 col-xl-4 mt-0 mt-xl-1 height1p2 float-left" name="part_name">
 											<label for="container_unique_id" class="small font-weight-light col-12 col-xl-2 text-left text-xl-right px-1 float-left d-block mt-2 mb-0">Container ID</label>
 											<input type="text" class="data-entry-input float-left col-12 col-xl-4 mt-0 mt-xl-1 height1p2" name="container_unique_id">
 										</div>
 										<div class="col-12 px-0">
-											<label for="condition" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mt-xl-2 mb-0">Condition</label>
+											<label for="condition" class="small font-weight-light col-12 col-xl-2 px-1 float-left d-block mt-1 mt-xl-2 mb-0">Condition</label>
 											<input type="text" class="data-entry-input col-12 mt-0 mt-xl-1 col-xl-4 float-left height1p2" name="condition">
-											<label for="disposition" class="small font-weight-light float-left d-block col-12 col-xl-2 px-1 text-right mt-1 mt-xl-2 mb-0">Disposition</label>
+											<label for="disposition" class="small font-weight-light float-left d-block col-12 col-xl-2 px-1 text-xl-right text-left mt-1 mt-xl-2 mb-0">Disposition</label>
 											<select class="data-entry-select smallselect height1p2 mt-0 mt-xl-1 float-left col-12 col-xl-4">
 												<option value="">Disposition</option>
 												<cfloop query="obj_disp">
@@ -851,18 +851,18 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 px-0 float-left">
-											<label for="num_modifier" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mt-xl-2 mb-0">## Modifier</label>
+											<label for="num_modifier" class="small font-weight-light col-12 col-xl-2 px-1 float-left d-block mt-1 mt-xl-2 mb-0">## Modifier</label>
 											<select class="data-entry-select smallselect col-12 float-left col-xl-2 mt-0 mt-xl-1 height1p2" name="num_modifier">
 												<option value="">=</option>
 												<cfloop query="num_mod">
 													<option value="#num_mod.modifier#">#num_mod.modifier#</option>
 												</cfloop>
 											</select>
-											<label for="part_number" class="small font-weight-light col-12 px-1 col-xl-2 float-left text-right d-block mt-1 mt-xl-2  mb-0">## of Parts</label>
+											<label for="part_number" class="small font-weight-light col-12 px-1 col-xl-2 float-left text-left text-xl-right d-block mt-1 mt-xl-2  mb-0">## of Parts</label>
 											<input type="text" name="part_number" class="data-entry-input col-12 col-xl-2 height1p2 mt-0 mt-xl-1 float-left">
 										</div>
 										<div class="col-12 px-0">
-											<label for="preserv_method" class="small font-weight-light float-left col-12 col-xl-2 text-left px-1 d-block mt-1 mt-xl-2 mb-0">Preservation</label>
+											<label for="preserv_method" class="small font-weight-light float-left col-12 col-xl-2 text-xl-right text-left px-1 d-block mt-1 mt-xl-2 mb-0">Preservation</label>
 											<select class="data-entry-select smallselect col-12 float-left col-xl-6 mt-0 mt-xl-1 height1p2">
 												<option value=""></option>
 												<cfloop query="spec_preserv_method">
@@ -890,7 +890,7 @@ limitations under the License.
 													<option value="#attType.attribute_type#">#attType.attribute_type#</option>
 												</cfloop>
 											</select>
-											<label for="part_number" class="small font-weight-light col-12 col-xl-2 px-0 float-left pr-2 text-right d-block mt-1 mt-xl-2 mb-0"> Value</label>
+											<label for="part_number" class="small font-weight-light col-12 col-xl-2 px-0 float-left pr-2 text-left text-xl-right d-block mt-1 mt-xl-2 mb-0"> Value</label>
 											<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-4 mt-0 mt-xl-1 height1p2">
 												<label for="determiner" class="small font-weight-light col-12 col-xl-2 px-0 float-left d-block mt-1 mt-xl-2 mb-0">Determiner</label>
 											<input type="text" class="data-entry-input col-12 col-xl-4 float-left mt-0 mt-xl-1 height1p2" name="determiner">
