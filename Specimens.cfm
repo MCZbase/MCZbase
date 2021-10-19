@@ -1554,8 +1554,8 @@ limitations under the License.
 								<cfset filtertype = "">
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
-								<!--- leave off the width on the last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<!--- last column, no trailing comma --->
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width:#width#,hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
 								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
@@ -1691,8 +1691,8 @@ limitations under the License.
 								<cfset filtertype = "">
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
-								<!--- leave off the width on the last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<!--- last column, no trailing comma --->
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width:#width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
 								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
@@ -1829,8 +1829,8 @@ limitations under the License.
 								<cfset filtertype = "">
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
-								<!--- leave off the width on the last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<!--- last column, no trailing comma --->
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
 								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
