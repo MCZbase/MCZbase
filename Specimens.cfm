@@ -488,9 +488,21 @@ limitations under the License.
 														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 													<div class="col-12 col-md-1">
-														<label for="nestbutton" class="data-entry-label">Nest</label>
-														<button id="nestbutton" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+														<label for="nestButton" class="data-entry-label">Nest</label>
+														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+														<cfif not isDefined("nestdepth1")><cfset nestdepth1="0"></cfif>
+														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
+													<script>
+														function indent(nestbutton,nestinput,row) {
+															if (row==$('##builderMaxRows').val()) { 
+																// add a row, close ) on that row
+															}
+															var currentnestdepth = $('##'+nestinput).val();
+															$('##'+nestinput).val(currentnestdepth+1);
+															$('##'+nestbutton).val("(");
+														}
+													</script>
 													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
 															SELECT search_category, table_name, column_name, column_alias, data_type, 
@@ -589,7 +601,7 @@ limitations under the License.
 																	&nbsp;
 																</div>
 																<div class="col-12 col-md-1">
-																	<button type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
 																</div>
 																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
@@ -668,7 +680,7 @@ limitations under the License.
 														newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
 														newControls = newControls + '</div>';
 														newControls = newControls + '<div class="col-12 col-md-1">';
-														newControls = newControls + '<button type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
+														newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
 														newControls = newControls + '</div>';
 														newControls = newControls + '<div class="col-12 col-md-1">';
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
