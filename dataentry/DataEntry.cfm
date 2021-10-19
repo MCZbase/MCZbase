@@ -720,24 +720,24 @@ limitations under the License.
 													</div>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Dec. Min.</label>
-														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
+														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input mt-0 mt-xl-1 height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="lat_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
-														<input type="text" name="lat_dir" class="data-entry-input height1p2"/>
+														<input type="text" name="lat_dir" class="data-entry-input mt-0 mt-xl-1 height1p2"/>
 													</div>								
 													<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100">Deg. Decimal Min. Longitude</h5>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="long_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
-														<input type="text" name="lat_deg" class="data-entry-input height1p2"/>
+														<input type="text" name="lat_deg" class="data-entry-input mt-0 mt-xl-1 height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="long_min" class="small font-weight-light float-left d-block mt-1 mb-0">Dec. Min.</label>
-														<input type="text" name="lat_min" class="data-entry-input height1p2"/>
+														<input type="text" name="lat_min" class="data-entry-input mt-0 mt-xl-1 height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="long_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
-														<input type="text" name="long_dir" class="data-entry-input height1p2"/>
+														<input type="text" name="long_dir" class="data-entry-input mt-0 mt-xl-1 height1p2"/>
 													</div>
 												</div>
 											</div>
@@ -748,7 +748,7 @@ limitations under the License.
 											<div class="col-12 px-0 mt-1">
 												<label for="higher_geog" class="small font-weight-light float-left d-block mt-2 col-12 col-xl-2 px-0 mb-0">Max Error</label>
 												<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-12 col-xl-7 mt-1 float-left height1p2" />
-												<select class="data-entry-select col-12 col-xl-3 float-left mt-1  smallselect height1p2" required>
+												<select class="data-entry-select col-12 col-xl-3 float-left mt-0 mt-xl-1 smallselect height1p2" required>
 													<option value="">Units</option>
 													<cfloop query="error_units">
 														<option value="#error_units.lat_long_error_units#">#error_units.lat_long_error_units#</option>
@@ -757,39 +757,39 @@ limitations under the License.
 											</div>
 										
 												<label for="datum" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Geodetic Datum or SRS</label>
-												<select class="data-entry-select col-12 float-left col-xl-9 mt-1  smallselect height1p2" required>
+												<select class="data-entry-select col-12 float-left col-xl-9 mt-0 mt-xl-1 smallselect height1p2" required>
 													<option value="">Datum or SRS</option>
 													<cfloop query="datum">
 														<option value="#datum.datum#">#datum.datum#</option>
 													</cfloop>
 												</select>
 												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Georeference Method</label>
-												<select class="data-entry-select col-12 col-xl-9 mt-1 float-left  smallselect height1p2" required>
+												<select class="data-entry-select col-12 col-xl-9 mt-0 mt-xl-1 float-left smallselect height1p2" required>
 													<option value="">Method</option>
 													<cfloop query="georefmeth">
 														<option value="#georefmeth.georefmethod#">#georefmeth.georefmethod#</option>
 													</cfloop>
 												</select>
 												<label for="" class="small font-weight-light  col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Extent</label>
-												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
+												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-0 mt-xl-1 float-left height1p2"/>
 												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">GPS Accuracy</label>
-												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
+												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-0 mt-xl-1 float-left height1p2"/>
 
 												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">GPS Accuracy</label>
-												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
+												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-0 mt-xl-1 float-left height1p2"/>
 												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Reference</label>
-												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-1 float-left height1p2"/>
+												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-0 mt-xl-1 float-left height1p2"/>
 												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Coordinate Remarks</label>
-												<textarea type="text" name="remarks" class="data-entry-textarea col-12 col-xl-9 mt-1 float-left"/></textarea>
+												<textarea type="text" name="remarks" class="data-entry-textarea col-12 col-xl-9 mt-0 mt-xl-1 float-left"/></textarea>
 												
 											<div class="col-12 mt-2 border bg-transparent rounded p-1 mb-1">
 												<label for="" class="small font-weight-light float-left col-12 text-xl-right col-xl-2 d-block pl-0 pr-2 mt-1 mb-0">Determiner</label>
-												<input type="text" name="" class="data-entry-input mt-1 float-left col-12 col-xl-5 height1p2" id=""/>
+												<input type="text" name="" class="data-entry-input mt-0 mt-xl-1 float-left col-12 col-xl-5 height1p2" id=""/>
 												<label for="" class="small font-weight-light float-left text-xl-right pr-2 col-12 col-xl-2 d-block pl-0 mt-1 mb-0">Date</label>
-												<input type="text" class="data-entry-input mt-1 float-left col-12 col-xl-3 height1p2" id="">
+												<input type="text" class="data-entry-input float-left col-12 col-xl-3 mt-0 mt-xl-1 height1p2" id="">
 											</div>
 												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Verification Status</label>
-												<select class="data-entry-select col-12 col-xl-9 mt-1 float-left  smallselect height1p2" required>
+												<select class="data-entry-select col-12 col-xl-9 mt-0 mt-xl-1 float-left  smallselect height1p2" required>
 													<option value="">Status </option>
 													<cfloop query="verifications">
 														<option value="#verifications.verificationstatus#">#verifications.verificationstatus#</option>
