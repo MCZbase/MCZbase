@@ -746,7 +746,7 @@ limitations under the License.
 										</div>
 									</div>
 											<div class="col-12 px-0 mt-1">
-												<label for="higher_geog" class="small font-weight-light float-left d-block mt-2 col-12 col-xl-2 px-0 mb-0">Max Error</label>
+												<label for="higher_geog" class="small font-weight-light float-left d-block mt-2 col-12 col-xl-2 px-1 mb-0">Max Error</label>
 												<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-12 col-xl-7 mt-0 mt-xl-1 float-left height1p2" />
 												<select class="data-entry-select col-12 col-xl-3 float-left mt-0 mt-xl-1 smallselect height1p2" required>
 													<option value="">Units</option>
@@ -756,30 +756,30 @@ limitations under the License.
 												</select>
 											</div>
 										
-												<label for="datum" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Geodetic Datum or SRS</label>
+												<label for="datum" class="small font-weight-light col-12 col-xl-3 px-1 float-left d-block mt-2 mb-0">Geodetic Datum or SRS</label>
 												<select class="data-entry-select col-12 float-left col-xl-9 mt-0 mt-xl-1 smallselect height1p2" required>
 													<option value="">Datum or SRS</option>
 													<cfloop query="datum">
 														<option value="#datum.datum#">#datum.datum#</option>
 													</cfloop>
 												</select>
-												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Georeference Method</label>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-1 float-left d-block mt-2 mb-0">Georeference Method</label>
 												<select class="data-entry-select col-12 col-xl-9 mt-0 mt-xl-1 float-left smallselect height1p2" required>
 													<option value="">Method</option>
 													<cfloop query="georefmeth">
 														<option value="#georefmeth.georefmethod#">#georefmeth.georefmethod#</option>
 													</cfloop>
 												</select>
-												<label for="" class="small font-weight-light  col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Extent</label>
+												<label for="" class="small font-weight-light  col-12 col-xl-3 px-1 float-left d-block mt-2 mb-0">Extent</label>
 												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-0 mt-xl-1 float-left height1p2"/>
-												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">GPS Accuracy</label>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-1 float-left d-block mt-2 mb-0">GPS Accuracy</label>
 												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-0 mt-xl-1 float-left height1p2"/>
 
-												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">GPS Accuracy</label>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-1 float-left d-block mt-2 mb-0">GPS Accuracy</label>
 												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-0 mt-xl-1 float-left height1p2"/>
-												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Reference</label>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-1 float-left d-block mt-2 mb-0">Reference</label>
 												<input type="text" name="" class="data-entry-input col-12 col-xl-9 mt-0 mt-xl-1 float-left height1p2"/>
-												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Coordinate Remarks</label>
+												<label for="" class="small font-weight-light col-12 col-xl-3 px-1 float-left d-block mt-2 mb-0">Coordinate Remarks</label>
 												<textarea type="text" name="remarks" class="data-entry-textarea col-12 col-xl-9 mt-0 mt-xl-1 float-left"/></textarea>
 												
 											<div class="col-12 mt-2 border bg-transparent rounded p-1 mb-1">
