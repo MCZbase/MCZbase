@@ -836,7 +836,7 @@ limitations under the License.
 										<div class="col-12 px-0">
 											<label for="part_name" class="small font-weight-light float-left col-12 col-xl-2 px-0 d-block mt-1 mt-xl-2 mb-0">Part Name</label>
 											<input type="text" class="data-entry-input col-12 col-xl-4 mt-0 mt-xl-1 height1p2 float-left" name="part_name">
-											<label for="container_unique_id" class="small font-weight-light col-12 col-xl-2 text-right px-1 float-left d-block mt-2 mb-0">Container ID</label>
+											<label for="container_unique_id" class="small font-weight-light col-12 col-xl-2 text-left text-xl-right px-1 float-left d-block mt-2 mb-0">Container ID</label>
 											<input type="text" class="data-entry-input float-left col-12 col-xl-4 mt-0 mt-xl-1 height1p2" name="container_unique_id">
 										</div>
 										<div class="col-12 px-0">
