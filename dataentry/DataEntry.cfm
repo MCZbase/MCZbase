@@ -545,7 +545,7 @@ limitations under the License.
 												<input type="text" class="data-entry-input col-12 col-xl-7 mt-xl-1 height1p2" id="verbatim_date">
 											</div>
 											<div class="col-12 col-xl-7 px-0 pr-xl-0 float-left">
-												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-4 px-1 float-left d-block mt-1 mt-xl-2 mb-0 text-left text-right-xl">ISO Dates</label>
+												<label for="inputPassword3" class="small font-weight-light col-12 col-xl-4 px-1 float-left d-block mt-1 mt-xl-2 mb-0 text-left text-xl-right">ISO Dates</label>
 												<input type="text" class="data-entry-input col-6 col-xl-4 float-left mt-0 mt-xl-1 height1p2" id="began_date" placeholder="Began Date">
 												<input type="text" class="data-entry-input col-6 col-xl-4 float-left mt-0 mt-xl-1 height1p2" id="ended_date" placeholder="Date Ended">
 											</div>
