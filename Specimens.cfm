@@ -403,8 +403,31 @@ limitations under the License.
 														} catch {}
 														$('##searchText'+rowNumber).val("");
 														console.log(columnMetadata[i].ui_function);
-														if (columnMetadata[i].ui_function) {
-															var invokeBinding = Function(columnMetadata[i].ui_function+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
+														var functionToBind = columnMetadata[i].ui_function;
+														if (functionToBind.search(/^[A-Za-z]+$/)>-1) {
+															//  makeAutocomplete ->  makeAutocomplete(searchText{n},searchId{n})
+															var invokeBinding = Function(functionToBind+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
+															invokeBinding(); 
+														} else if (functionToBind.search(/^[A-Za-z]+\(\)$/)>-1) {
+															// makeAutocomplete(text) -> makeAutocomplete(searchText{n})
+															var functionName = functionToBind.substring(0,functionToBind.length-2); // remove trailing ()
+															var invokeBinding = Function(functionName+"('searchText"+ rowNumber+"')");
+															invokeBinding(); 
+														} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
+															// makeAutocomplete(searchId:,searchText:,param) -> makeAutocomplete(searchId{n},searchText{n}:,param)
+															var paramsBit = functionToBind.match(/\(.*\)/);
+															var functionBit = functionToBind.substring(0,functionToBind.indexOf("("));
+															var params = paramsBit[0].substring(1,paramsBit[0].length-1);
+															var paramsArray = params.split(',');
+															var paramsReady = "";
+															var comma = "";
+															for (var par in paramsArray) { 
+																paramsReady = paramsReady + comma + "'"+paramsArray[par].replace(":",rowNumber)+"'";
+																var comma = ",";
+															}
+															functionToBind = functionBit + "(" + paramsReady + ")";
+															console.log(functionToBind);
+															var invokeBinding = Function(functionToBind);
 															invokeBinding(); 
 														}
 													}
@@ -419,8 +442,33 @@ limitations under the License.
 													if(selection==columnMetadata[i].column) {
 														console.log(columnMetadata[i].ui_function);
 														if (columnMetadata[i].ui_function) {
-															var invokeBinding = Function(columnMetadata[i].ui_function+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
-															invokeBinding(); 
+															var functionToBind = columnMetadata[i].ui_function;
+															if (functionToBind.search(/^[A-Za-z]+$/)>-1) {
+																//  makeAutocomplete(text,id)
+																var invokeBinding = Function(functionToBind+"('searchText"+ rowNumber+"','searchId"+ rowNumber+"')");
+																invokeBinding(); 
+															} else if (functionToBind.search(/^[A-Za-z]+\(\)$/)>-1) {
+																// makeAutocomplete(text)
+																var functionName = functionToBind.substring(0,functionToBind.length-2); // remove trailing ()
+																var invokeBinding = Function(functionName+"('searchText"+ rowNumber+"')");
+																invokeBinding(); 
+															} else if (functionToBind.search(/^[A-Za-z]+\(.*:.*\)$/)>-1) {
+																// makeAutocomplete(searchId:,searchText:,param) -> makeAutocomplete(searchId{n},searchText{n}:,param)
+																var paramsBit = functionToBind.match(/\(.*\)/);
+																var functionBit = functionToBind.substring(0,functionToBind.indexOf("("));
+																var params = paramsBit[0].substring(1,paramsBit[0].length-1);
+																var paramsArray = params.split(',');
+																var paramsReady = "";
+																var comma = "";
+																for (var par in paramsArray) { 
+																	paramsReady = paramsReady + comma + "'"+paramsArray[par].replace(":",rowNumber)+"'";
+																	var comma = ",";
+																}
+																functionToBind = functionBit + "(" + paramsReady + ")";
+																console.log(functionToBind);
+																var invokeBinding = Function(functionToBind);
+																invokeBinding(); 
+															}
 														}
 													}
 												}

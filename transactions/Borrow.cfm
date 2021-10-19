@@ -1108,7 +1108,7 @@ limitations under the License.
 					var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						var result = "";
-						var itemid = rowData['borrow_item_id'];
+						var itemid = rowData['BORROW_ITEM_ID'];
 						if (itemid) {
 							result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="deleteBorrowItem" type="button" value="Delete" onclick="deleteBorrowItem(' + itemid+ ');" class="btn btn-xs btn-danger">Delete</a></span>';
 						} else { 
@@ -1121,27 +1121,27 @@ limitations under the License.
 						datatype: "json",
 						datafields:
 							[
-							{ name: 'transaction_id', type: 'string' },
-							{ name: 'borrow_item_id', type: 'string' },
-							{ name: 'catalog_number', type: 'string' },
-							{ name: 'sci_name', type: 'string' },
-							{ name: 'no_of_spec', type: 'string' },
-							{ name: 'spec_prep', type: 'string' },
-							{ name: 'type_status', type: 'string' },
-							{ name: 'country_of_origin', type: 'string' },
+							{ name: 'TRANSACTION_ID', type: 'string' },
+							{ name: 'BORROW_ITEM_ID', type: 'string' },
+							{ name: 'CATALOG_NUMBER', type: 'string' },
+							{ name: 'SCI_NAME', type: 'string' },
+							{ name: 'NO_OF_SPEC', type: 'string' },
+							{ name: 'SPEC_PREP', type: 'string' },
+							{ name: 'TYPE_STATUS', type: 'string' },
+							{ name: 'COUNTRY_OF_ORIGIN', type: 'string' },
 							{ name: 'object_remarks', type: 'string' }
 							],
 						updaterow: function (rowid, rowdata, commit) {
 							var data = "method=updateBorrowItem";
-							data = data + "&transaction_id=" + rowdata.transaction_id;
-							data = data + "&borrow_item_id=" + rowdata.borrow_item_id;
-							data = data + "&catalog_number=" + rowdata.catalog_number;
-							data = data + "&sci_name=" + rowdata.sci_name;
-							data = data + "&no_of_spec=" + rowdata.no_of_spec;
-							data = data + "&type_status=" + rowdata.type_status;
-							data = data + "&spec_prep=" + rowdata.spec_prep;
-							data = data + "&country_of_origin=" + rowdata.country_of_origin;
-							data = data + "&object_remarks=" + rowdata.object_remarks;
+							data = data + "&transaction_id=" + rowdata.TRANSACTION_ID;
+							data = data + "&borrow_item_id=" + rowdata.BORROW_ITEM_ID;
+							data = data + "&catalog_number=" + rowdata.CATALOG_NUMBER;
+							data = data + "&sci_name=" + rowdata.SCI_NAME;
+							data = data + "&no_of_spec=" + rowdata.NO_OF_SPEC;
+							data = data + "&type_status=" + rowdata.TYPE_STATUS;
+							data = data + "&spec_prep=" + rowdata.SPEC_PREP;
+							data = data + "&country_of_origin=" + rowdata.COUNTRY_OF_ORIGIN;
+							data = data + "&object_remarks=" + rowdata.OBJECT_REMARKS;
 							$.ajax({
 								dataType: 'json',
 								url: '/transactions/component/borrowFunctions.cfc',
@@ -1156,7 +1156,7 @@ limitations under the License.
 							});
 						},
 						root: 'borrowItemRecord',
-						id: 'borrow_item_id',
+						id: 'BORROW_ITEM_ID',
 						url: '/transactions/component/borrowFunctions.cfc?method=getBorrowItemsData&transaction_id=#transaction_id#',
 						timeout: 30000, // units not specified, miliseconds? 
 						loadError: function(jqXHR, textStatus, error) { 
@@ -1206,15 +1206,15 @@ limitations under the License.
 								$("##searchResultsGrid").jqxGrid('selectrow', 0);
 							},
 							columns: [
-								{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true, editable: false },
-								{text: 'borrowItemID', datafield: 'borrow_item_id', width: 80, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
-								{text: 'Catalog Number', datafield: 'catalog_number', width:170, hideable: true, hidden: false },
-								{text: 'Scientific Name', datafield: 'sci_name', width:200, hideable: true, hidden: false },
-								{text: 'No. of Specimens', datafield: 'no_of_spec', width:130, hideable: true, hidden: false },
-								{text: 'Parts/Prep', datafield: 'spec_prep', width:210, hideable: true, hidden: false },
-								{text: 'Type Status', datafield: 'type_status', width:180, hideable: true, hidden: false },
-								{text: 'Country of Origin', datafield: 'country_of_origin', width:200, hideable: true, hidden: false },
-								{text: 'Remarks', datafield: 'object_remarks', hideable: true, hidden: false }
+								{text: 'transactionID', datafield: 'TRANSACTION_ID', width: 50, hideable: true, hidden: true, editable: false },
+								{text: 'borrowItemID', datafield: 'BORROW_ITEM_ID', width: 80, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
+								{text: 'Catalog Number', datafield: 'CATALOG_NUMBER', width:170, hideable: true, hidden: false },
+								{text: 'Scientific Name', datafield: 'SCI_NAME', width:200, hideable: true, hidden: false },
+								{text: 'No. of Specimens', datafield: 'NO_OF_SPEC', width:130, hideable: true, hidden: false },
+								{text: 'Parts/Prep', datafield: 'SPEC_PREP', width:210, hideable: true, hidden: false },
+								{text: 'Type Status', datafield: 'TYPE_STATUS', width:180, hideable: true, hidden: false },
+								{text: 'Country of Origin', datafield: 'COUNTRY_OF_ORIGIN', width:200, hideable: true, hidden: false },
+								{text: 'Remarks', datafield: 'OBJECT_REMARKS', hideable: true, hidden: false }
 							],
 							rowdetails: true,
 							rowdetailstemplate: {
