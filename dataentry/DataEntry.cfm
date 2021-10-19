@@ -555,9 +555,9 @@ limitations under the License.
 												<input type="text" class="data-entry-input height1p2 col-12 mt-0 mt-xl-1 col-xl-8" id="collecting_time">
 											</div>
 											<div class="col-12 col-xl-8 float-left px-0 pr-xl-0">
-												<label for="start_end_dayOfyear" class="small font-weight-light col-12 col-xl-2 px-1 px-xl-0 float-left d-block mt-1 mt-xl-2 mb-0">Day of Year</label>
-												<input type="text" class="data-entry-input float-left col-6 col-xl-5 mt-0 mt-xl-1 height1p2" id="start_day_of_year" placeholder="Start Day of Year">
-												<input type="text" class="data-entry-input float-left col-6 col-xl-5 mt-0 mt-xl-1 height1p2" id="end_day_of_year" placeholder="End Day of Year">
+												<label for="start_end_dayOfyear" class="small font-weight-light col-12 col-xl-3 px-1 px-xl-0 float-left d-block mt-1 mt-xl-2 mb-0">Day of Year</label>
+												<input type="text" class="data-entry-input float-left col-6 col-xl-4 mt-0 mt-xl-1 height1p2" id="start_day_of_year" placeholder="Start Day">
+												<input type="text" class="data-entry-input float-left col-6 col-xl-4 mt-0 mt-xl-1 height1p2" id="end_day_of_year" placeholder="End Day">
 											</div>
 											<div class="col-12 col-md-6 px-0 float-left">
 												<label for="collecting_source_method" class="small col-12 col-xl-3 px-1 px-xl-0 font-weight-light float-left d-block mt-1 mt-xl-2 mb-0">Source</label>
@@ -890,7 +890,7 @@ limitations under the License.
 													<option value="#attType.attribute_type#">#attType.attribute_type#</option>
 												</cfloop>
 											</select>
-											<label for="part_number" class="small font-weight-light col-12 col-xl-2 px-1 float-left px-1 text-left text-xl-right d-block mt-1 mt-xl-2 mb-0"> Value</label>
+											<label for="part_number" class="small font-weight-light col-12 col-xl-2 px-1 float-left px-1 text-left d-block mt-1 mt-xl-2 mb-0"> Value</label>
 											<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-10 mt-0 mt-xl-1 height1p2">
 											<label for="method" class="small font-weight-light float-left col-12 col-xl-2 d-block px-1 mt-1 mt-xl-2 mb-0">Method</label>
 											<input type="text" class="data-entry-input col-12 col-xl-10 mt-0 mt-xl-1 height1p2 float-left" name="method">
