@@ -747,7 +747,7 @@ limitations under the License.
 									</div>
 											<div class="col-12 px-0 mt-1">
 												<label for="higher_geog" class="small font-weight-light float-left d-block mt-2 col-12 col-xl-2 px-0 mb-0">Max Error</label>
-												<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-12 col-xl-7 mt-1 float-left height1p2" />
+												<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input col-12 col-xl-7 mt-0 mt-xl-1 float-left height1p2" />
 												<select class="data-entry-select col-12 col-xl-3 float-left mt-0 mt-xl-1 smallselect height1p2" required>
 													<option value="">Units</option>
 													<cfloop query="error_units">
