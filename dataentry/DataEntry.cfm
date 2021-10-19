@@ -945,7 +945,7 @@ limitations under the License.
 											<div class="form-row mt-1 mb-2">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-2 mb-0 px-1">Relationship Type</label>
-													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 mt-xl-1 height1p2">
+													<select class="data-entry-select col-12 col-xl-12 smallselect float-left mt-0 mt-xl-0 height1p2">
 														<option value="">Curatorial Relationship</option>
 														<cfloop query="currRelations">
 															<option value="#currRelations.biol_indiv_relationship#">#currRelations.biol_indiv_relationship#</option>
@@ -954,7 +954,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-xl-6 float-left">
 													<label for="record number" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-2 mb-0 px-1">Related Record Number</label>
-													<input type="text" class="data-entry-input float-left mt-0 mt-xl-1 col-12 height1p2" id="relationship">
+													<input type="text" class="data-entry-input float-left mt-0 mt-xl-0 col-12 height1p2" id="relationship">
 												</div>
 											</div>
 										</div>
