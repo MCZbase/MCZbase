@@ -186,6 +186,8 @@ limitations under the License.
 								<div class="form-check form-check-inline">
 									<input class="form-check-input w-auto mt-2" value="mask" type="checkbox" id="gridCheck1">
 									<label class="form-check-label w-auto mt-2" for="gridCheck1"> Mask Record (Generic Encumbrance)</label>
+									<div class="col-xl-1">OR</div>
+									<input type="text" class="data-entry-input" name="mask_record" placeholder="Encumbrance ID">
 								</div>
 							</div>
 						</div>
