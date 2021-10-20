@@ -678,7 +678,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 												</select>
 												<!--- dec lat/long--->
 												<div class="row mx-0 choose dec_lat_long w-100 float-left box mt-2">
-													<div id="dec_lat_long" class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
+													<div id="dec_lat_long" class="col-12 border px-1 pb-1 rounded" style="background-color: oldlace">
 														<div class="float-left col-12 col-xl-6 px-0 px-xl-1">
 															<label for="dec_lat" class="small font-weight-light float-left px-1 d-block mt-1 mb-0">Decimal Latitude</label>
 															<input type="text" name="dec_lat" class="data-entry-input height1p2 mt-0 mt-xl-1 "/>
@@ -693,7 +693,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 
 											<!--- deg/min/sec--->
 											<div class="row mx-0 mt-2 pb-1 dec_min_sec box" id="dec_min_sec" style="display:none;">
-												<div class="col-12 px-1 py-2 border rounded float-left" style="background-color: aliceblue">
+												<div class="col-12 px-1 py-2 border rounded float-left" style="background-color:oldlace">
 													<div class="float-left col-12 col-md-3 px-1">
 														<label for="lat_deg" class="small font-weight-light float-left px-1 d-block mb-0">Degrees Latitude</label>
 														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
@@ -799,7 +799,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 												<label for="" class="small font-weight-light col-12 col-xl-3 px-1 float-left d-block mt-2 mb-0">Coordinate Remarks</label>
 												<textarea type="text" name="remarks" class="data-entry-textarea col-12 col-xl-9 mt-0 mt-xl-1 float-left"/></textarea>
 												
-											<div class="col-12 mt-2 border bg-transparent rounded p-1 mb-1">
+											<div class="col-12 mt-2 border bg-light rounded p-1 mb-1">
 												<label for="" class="small font-weight-light float-left col-12 mt-xl-2 text-xl-right col-xl-2 d-block pl-0 pr-2 mt-1 mb-0">Determiner</label>
 												<input type="text" name="" class="data-entry-input mt-0 mb-1 mt-xl-1 float-left col-12 col-xl-5 height1p2" id=""/>
 												<label for="" class="small font-weight-light float-left mt-xl-2 text-xl-right pr-2 col-12 col-xl-2 d-block pl-0 mt-1 mb-0">Date</label>
