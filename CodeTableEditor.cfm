@@ -1338,7 +1338,7 @@
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctbiol_relations
 			where
-				BIOL_INDIV_RELATIONSHIP='#origData#'
+				BIOL_INDIV_RELATIONSHIP=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1445,7 +1445,7 @@
 			update ctbiol_relations set 
 				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#biol_indiv_relationship#" />,
 				INVERSE_RELATION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />,
-				REL_TYPE= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rel_type#" />
+				REL_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rel_type#" />
 			where
 				BIOL_INDIV_RELATIONSHIP= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
@@ -1596,7 +1596,7 @@
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rel_type#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rel_type#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
