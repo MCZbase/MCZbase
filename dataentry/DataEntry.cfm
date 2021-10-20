@@ -376,7 +376,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div style="overflow:auto;" class="mt-4 mb-2">
+					<div style="overflow:auto;" class="mt-4 mb-2 col-12">
 						<div class="text-right">
 							<button type="button" id="prevBtn" class="btn btn-sm btn-primary" onclick="nextPrev(-1)">Previous</button>
 							<button type="button" id="nextBtn" class="btn btn-sm btn-primary" onclick="nextPrev(1)">Next</button>
