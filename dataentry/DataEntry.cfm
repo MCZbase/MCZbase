@@ -390,7 +390,7 @@ limitations under the License.
 			</div>
 		</div>
 
-	<div class="row mt-5">
+	<div class="row my-5">
 		<div class="col-12">
 			<div class="">Envision that you suspect that the tumor suppressor gene, p21 is transcriptionally downregulated in skin cancer cells you have obtained, compared to non-cancerous skin cells. In a paragraph, describe the steps of RT-qPCR that you would conduct in order to test your hypothesis. Ensure you mention control primers.
 We will conduct RT-qPCR in order to test our hypothesis that the tumor suppressor gene, p21 is transcriptionally downregulated in the cancerous skin cell samples compared to the non-cancerous samples. First, we will harvest total RNA from the cancerous and non-cancerous skin cell samples. Then, we will perform reverse transcription with random hexamers (or oligo-dT, either can be used for this example) to convert the total RNA to cDNA. Then, we will conduct qPCR with primers designed to amplify p21 and β-actin as control (or another housekeeping gene, such as GAPDH). We will compare p21 transcript levels normalized to β-actin between the cancerous and non-cancerous samples. We expect that p21 will be downregulated in the cancerous samples.
