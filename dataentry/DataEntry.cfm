@@ -393,7 +393,7 @@ limitations under the License.
 	<div class="row my-5">
 		<div class="col-12 py-5">
 				<div id="divRss"></div>
-					 </div>
+					 
 				<script>
 					$( document ).ready(function(){
 						jQuery.getFeed({
