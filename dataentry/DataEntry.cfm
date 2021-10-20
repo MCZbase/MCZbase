@@ -392,35 +392,6 @@ limitations under the License.
 <script type="text/javascript" src="/lib/misc/jquery.jfeed.js"></script>
 	<div class="row my-5">
 		<div class="col-12 py-5">
-				<div id="divRss"></div>
-					 
-				<script>
-					$( document ).ready(function(){
-						jQuery.getFeed({
-							url: 'https://code.mcz.harvard.edu/feed/',
-							success: function(feed) {
-								//var header = feed.title;
-								var header = 'MCZ Biodiversity Informatics Project Support';
-								header = header.replace("[en]", "");
-				
-								jQuery('##divRss').empty();
-								var html ='<div class="shell"><h2 class="h3 py-2 px-2 text-center">' + header + '<a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&hideminor=1&days=30"><span class="d-block"><small>- Link to Recent Wiki Changes - </small></span> </a></h2>';
-								for(var i = 0; i < feed.items.length && i < 5; i++) {
-									var item = feed.items[i];
-									item.updated = new Date(item.updated);
-									html += '<div class="feedAtom">';
-									html += '<div class="updatedAtom">' + item.updated.toDateString() + '</div>';
-									html += '<div class="authorAtom" style="z-index:11;">by ' + item.author + '</div>';
-									html += '<h3 class="h4 my-1"><a class="pt-1" href="' + item.link + '">' + item.title + '</a></h3>';
-									html += '<div class="descriptionAtom">' + item.description +'</div>';
-									html += '</div>';
-								} 
-								html += '</div>';
-								jQuery('##divRss').append(html);
-							}
-						});
-					});
-				</script>
 			<h1 class="h4 mt-3">Cataloged Item</h1>
 			<div>Envision that you suspect that the tumor suppressor gene, p21 is transcriptionally downregulated in skin cancer cells you have obtained, compared to non-cancerous skin cells. In a paragraph, describe the steps of RT-qPCR that you would conduct in order to test your hypothesis. Ensure you mention control primers.
 We will conduct RT-qPCR in order to test our hypothesis that the tumor suppressor gene, p21 is transcriptionally downregulated in the cancerous skin cell samples compared to the non-cancerous samples.</div>
