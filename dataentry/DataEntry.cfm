@@ -169,7 +169,7 @@ limitations under the License.
 						<div class="form-group mb-0 row">
 							<label for="other_id" class="col-sm-3 col-form-label pt-0 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
 							<div class="col-sm-4 col-md-4">
-								<select class="form-control data-entry-select smallselect col-12 float-left" oninput="this.className = ''" required>
+								<select class="form-control data-entry-select smallselect col-12 float-left required" oninput="this.className = ''">
 									<option value="">Other ID Type</option>
 									<option value="1">Field Number</option>
 									<option value="2">Collector Number</option>
