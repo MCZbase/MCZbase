@@ -389,7 +389,7 @@ limitations under the License.
 				</form>
 			</div>
 		</div>
-<script type="text/javascript" src="/lib/misc/jquery.jfeed.js"></script>
+
 	<div class="row my-5">
 		<div class="col-12 py-5">
 			<h1 class="h4 mt-3">Cataloged Item</h1>
