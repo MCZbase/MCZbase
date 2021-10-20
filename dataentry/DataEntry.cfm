@@ -911,7 +911,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 											<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-10 mt-0 mt-xl-1 height1p2">
 											<label for="method" class="small font-weight-light float-left col-12 col-xl-2 d-block px-1 mt-1 mt-xl-2 mb-0">Method</label>
 											<input type="text" class="data-entry-input col-12 col-xl-10 mt-0 mt-xl-1 height1p2 float-left" name="method">
-										<div class="col-12 mt-2 border bg-transparent rounded p-1 mb-1">
+										<div class="col-12 mt-2 border bg-light rounded p-1 mb-1">
 												<label for="" class="small font-weight-light float-left col-12 text-xl-right col-xl-2 d-block pl-0 pr-2 mt-xl-2 mt-1 mb-0">Determiner</label>
 												<input type="text" name="" class="data-entry-input mt-0 mb-1 mt-xl-1 float-left col-12 col-xl-5 height1p2" id=""/>
 												<label for="" class="small font-weight-light float-left text-xl-right pr-2 col-12 col-xl-2 d-block pl-0 mt-1 mt-xl-2 mb-0">Date</label>
@@ -934,7 +934,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 								<div id="customBiolRelations">
 									<div class="row">
 										<div class="col-12">
-											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light bg-light addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 											<div class="form-row mt-1 mb-2">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-1 mb-0 px-1">Relationship Type</label>
