@@ -389,6 +389,7 @@ limitations under the License.
 				</form>
 			</div>
 		</div>
+	</div>
 	<div class="container-fluid">
 	<div class="row bg-blue-gray">
 		<div class="col-12">
@@ -398,7 +399,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 		
 
 	</div>
-	</div></div>
+	</div>
 
 	<div class="container-fluid pt-1" id="swapper-first">
 		<div class="row full">
