@@ -979,7 +979,7 @@ limitations under the License.
 										<div class="col-9 col-xl-7 px-xl-2 mx-auto px-1">
 											<div class="text-center">
 											<label for="mask_record" class="float-left text-left mt-2">Mask Record</label>
-											<input class="float-left ml-2 mt-1 mb-0" value="1" type="checkbox" id="gridCheck1">
+											<input class="float-left ml-2 mt-xl-0 mt-1 mb-0" value="1" type="checkbox" id="gridCheck1">
 											</div>
 											<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
 										</div>
