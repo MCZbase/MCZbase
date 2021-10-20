@@ -152,7 +152,7 @@ limitations under the License.
 <div class="container-fluid bg-light">
 	<div class="container px-4 pt-0 mt-0" id="swapper-other" style="display:none;">
 		<div class="row">
-			<div class="col-12 col-xl-9 justify-content-center mt-2 mx-auto">
+			<div class="col-12 col-xl-8 justify-content-center mt-2 mx-auto">
 				<form id="regForm" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
 					<h1 class="text-center mb-2 mt-5 mt-md-2">Enter a New Record</h1>
@@ -160,14 +160,14 @@ limitations under the License.
 						<h2 class="fs-title text-center">Record Numbers</h2>
 						<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
 						<div class="form-group row">
-							<label for="cat_num" class="col-sm-3 col-form-label pt-0 mt-0 mt-xl-1 text-center text-md-right">Catalog Number</label>
+							<label for="cat_num" class="col-sm-3 col-form-label pt-0 mt-0 mt-xl-1 pr-xl-4 text-center text-md-right">Catalog Number</label>
 							<div class="col-sm-9">
 									<input placeholder="Catalog Number" class="data-entry-input validate" oninput="this.className = ''" name="cat_num">
 							
 							</div>
 						</div>
 						<div class="form-group mb-0 row">
-							<label for="other_id" class="col-sm-3 col-form-label pt-0 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
+							<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
 							<div class="col-sm-4 col-md-4">
 								<select class="form-control data-entry-select smallselect col-12 float-left required">
 									<option value="">Other ID Type</option>
@@ -181,7 +181,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="other_id" class="col-sm-3 col-form-label mt-0 mt-xl-1 text-center text-md-right">Mask Record</label>
+							<label for="other_id" class="col-sm-3 col-form-label mt-0 pr-xl-4 mt-xl-1 text-center text-md-right">Mask Record</label>
 							<div class="col-sm-9 col-md-9 text-left">
 								<div class="form-check form-check-inline">
 									<input class="form-check-input w-auto mt-2" value="mask" type="checkbox" id="gridCheck1">
@@ -190,7 +190,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="relations" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other Records</label>
+							<label for="relations" class="col-sm-3 col-form-label pr-xl-4 pt-0 text-center text-md-right">Other Records</label>
 							<div class="col-sm-4 col-md-4 text-left">
 								<select class="form-control border mt-0" required>
 									<option value="">Relationship Type</option>
