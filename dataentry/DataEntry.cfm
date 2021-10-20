@@ -167,7 +167,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group mb-0 row">
-							<label for="other_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other ID</label>
+							<label for="other_id" class="col-sm-3 col-form-label pt-0 mt-0 mt-xl-2 text-center text-md-right">Other ID</label>
 							<div class="col-sm-4 col-md-4">
 								<select class="form-control data-entry-select smallselect col-12 float-left " oninput="this.className = ''" mt-0 required>
 									<option value="">Other ID Type</option>
@@ -181,7 +181,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="other_id" class="col-sm-3 col-form-label text-center text-md-right">Mask Record</label>
+							<label for="other_id" class="col-sm-3 col-form-label mt-0 mt-xl-2 text-center text-md-right">Mask Record</label>
 							<div class="col-sm-9 col-md-9 text-left">
 								<div class="form-check form-check-inline">
 									<input class="form-check-input w-auto mt-2" value="mask" type="checkbox" id="gridCheck1">
