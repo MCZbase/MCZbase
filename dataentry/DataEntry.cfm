@@ -971,11 +971,11 @@ limitations under the License.
 								<div class="row col-12 px-0">
 									<div class="col-12 col-xl-6 float-left">
 										<label for="encumbrance_id" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Enter an Encumbrance ID</label>
-										<input  type="text" class="data-entry-input float-left col-12 height1p2" value="">
-										<p class="small pt-2">- OR -</p>
+										<input  type="text" class="data-entry-input mb-2 float-left col-12 height1p2" value="">
+										<p class="small">- OR -</p>
 									</div>
 									<div class="text-center float-left border pb-1 mx-3 col-12 col-xl-5 px-xl-0 mb-2 overflow-hidden">
-										<div class="col-8 mx-auto px-1">
+										<div class="col-9 mx-auto px-1">
 											<label for="mask_record" class="float-left text-left mt-2">Mask Record</label>
 											<input class="float-left ml-2 mt-1 mb-0" value="1" type="checkbox" id="gridCheck1">
 										</div>
