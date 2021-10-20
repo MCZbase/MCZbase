@@ -478,8 +478,6 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 							<h2 class="portlet-header small90">IDENTIFICATION</h2>
 							<div class="portlet-content px-3">
 								<div class="form-row mx-0">
-									<div id="customSciName">
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Identification</a>
 									<div class="form-row mx-0 my-2">
 										<label for="scientific_name" class="small col-12 col-xl-2 font-weight-light px-1 float-left d-block mt-1 mb-0">Identification</label>
 										<input type="text" name="scientific_name" class="col-12 col-xl-10 mt-xl-1 px-0 float-left data-entry-input height1p2"/>
@@ -504,7 +502,6 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 								</div>
 							</div>
 						</div>
-					</div>
 					</div>
 					<div class="col-12 col-md-4 px-0 column float-left">
 						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
