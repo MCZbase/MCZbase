@@ -742,24 +742,24 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 													</div>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Dec. Min.</label>
-														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input mt-0 mt-xl-1 height1p2"/>
+														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="lat_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
-														<input type="text" name="lat_dir" class="data-entry-input mt-0 mt-xl-1 height1p2"/>
+														<input type="text" name="lat_dir" class="data-entry-input height1p2"/>
 													</div>								
 													<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100">Deg. Decimal Min. Longitude</h5>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="long_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
-														<input type="text" name="lat_deg" class="data-entry-input mt-0 mt-xl-1 height1p2"/>
+														<input type="text" name="lat_deg" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="long_min" class="small font-weight-light float-left d-block mt-1 mb-0">Dec. Min.</label>
-														<input type="text" name="lat_min" class="data-entry-input mt-0 mt-xl-1 height1p2"/>
+														<input type="text" name="lat_min" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-4 px-0">
 														<label for="long_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
-														<input type="text" name="long_dir" class="data-entry-input mt-0 mt-xl-1 height1p2"/>
+														<input type="text" name="long_dir" class="data-entry-input eight1p2"/>
 													</div>
 												</div>
 											</div>
