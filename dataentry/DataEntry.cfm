@@ -696,7 +696,6 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 											<!--- deg/min/sec--->
 											<div class="row mx-0 mt-2 dec_min_sec box" id="dec_min_sec" style="display:none;">
 												<div class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
-									
 													<div class="float-left col-12 col-md-3 px-1">
 														<label for="lat_deg" class="small font-weight-light d-block mb-0">Degrees Latitude</label>
 														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
@@ -713,7 +712,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 														<label for="lat_dir" class="small font-weight-light float-left d-block mb-0">Direction</label>
 														<input type="text" name="lat_dir" class="data-entry-input height1p2"/>
 													</div>								
-										
+												<div class="form-row">
 													<div class="float-left col-12 col-md-3 px-1">
 														<label for="long_deg" class="small font-weight-light d-block mb-0">Degrees Longitude</label>
 														<input type="text" name="lat_deg" class="data-entry-input height1p2"/>
@@ -735,31 +734,33 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 											<!--- deg dec min dir--->
 											<div class="row mx-0 mt-2 deg_decmin box" id="deg_decmin" style="display: none;">
 												<div class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
-													<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Decimal Min. Latitude</h5>
-													<div class="float-left col-12 col-md-4 px-1">
-														<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
-														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
+													<div class="form-row mx-0">
+														<div class="float-left col-12 col-md-4 px-1">
+															<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees Latitude</label>
+															<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
+														</div>
+														<div class="float-left col-12 col-md-4 px-1">
+															<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Dec. Min.</label>
+															<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
+														</div>
+														<div class="float-left col-12 col-md-4 px-1">
+															<label for="lat_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
+															<input type="text" name="lat_dir" class="data-entry-input height1p2"/>
+														</div>								
 													</div>
-													<div class="float-left col-12 col-md-4 px-1">
-														<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Dec. Min.</label>
-														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
-													</div>
-													<div class="float-left col-12 col-md-4 px-1">
-														<label for="lat_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
-														<input type="text" name="lat_dir" class="data-entry-input height1p2"/>
-													</div>								
-													<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100">Deg. Decimal Min. Longitude</h5>
-													<div class="float-left col-12 col-md-4 px-1">
-														<label for="long_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees</label>
-														<input type="text" name="lat_deg" class="data-entry-input height1p2"/>
-													</div>
-													<div class="float-left col-12 col-md-4 px-1">
-														<label for="long_min" class="small font-weight-light float-left d-block mt-1 mb-0">Dec. Min.</label>
-														<input type="text" name="lat_min" class="data-entry-input height1p2"/>
-													</div>
-													<div class="float-left col-12 col-md-4 px-1">
-														<label for="long_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
-														<input type="text" name="long_dir" class="data-entry-input height1p2"/>
+													<div class="form-row mx-0">
+														<div class="float-left col-12 col-md-4 px-1">
+															<label for="long_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees Longitude</label>
+															<input type="text" name="lat_deg" class="data-entry-input height1p2"/>
+														</div>
+														<div class="float-left col-12 col-md-4 px-1">
+															<label for="long_min" class="small font-weight-light float-left d-block mt-1 mb-0">Dec. Min.</label>
+															<input type="text" name="lat_min" class="data-entry-input height1p2"/>
+														</div>
+														<div class="float-left col-12 col-md-4 px-1">
+															<label for="long_dir" class="small font-weight-light float-left d-block mt-1 mb-0">Direction</label>
+															<input type="text" name="long_dir" class="data-entry-input height1p2"/>
+														</div>
 													</div>
 												</div>
 											</div>
