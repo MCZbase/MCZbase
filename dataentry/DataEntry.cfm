@@ -190,7 +190,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="relations" class="col-sm-3 col-form-label pr-xl-4 pt-0 text-center text-md-right">Other Records</label>
+							<label for="relations" class="col-sm-3 col-form-label pr-xl-4 pt-0 mt-0 mt-xl-1 text-center text-md-right">Other Records</label>
 							<div class="col-sm-4 col-md-4 text-left">
 								<select class="form-control border mt-0" required>
 									<option value="">Relationship Type</option>
