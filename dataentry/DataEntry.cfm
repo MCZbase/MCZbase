@@ -192,7 +192,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-9 text-left">
 								<div class="form-check col-12 form-check-inline">
-									<label class="form-check-label col-5 mt-2" for="gridCheck1">Encumbrance ID</label>
+									<label class="form-check-label col-5 mt-2" for="mask_record">Encumbrance ID</label>
 									<input type="text" class="data-entry-input px-2 col-5 mt-2 mt-xl-3" name="mask_record" placeholder="">
 							</div>
 						</div>
