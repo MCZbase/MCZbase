@@ -731,8 +731,8 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 												</div>
 											</div>
 											<!--- deg dec min dir--->
-											<div class="row mx-0 mt-2 deg_decmin box" id="deg_decmin" style="display: none;">
-												<div class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
+											<div class="row mx-0 pb-1 mt-2 deg_decmin box" id="deg_decmin" style="display: none;">
+												<div class="col-12 px-1 pb-2 border rounded float-left" style="background-color: aliceblue">
 													<div class="float-left col-12 col-md-4 px-1">
 														<label for="lat_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees Latitude</label>
 														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
