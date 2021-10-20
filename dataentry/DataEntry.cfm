@@ -152,7 +152,7 @@ limitations under the License.
 <div class="container-fluid bg-light">
 	<div class="container px-4 pt-0 mt-0" id="swapper-other" style="display:none;">
 		<div class="row">
-			<div class="col-12 justify-content-center mt-2 mx-auto">
+			<div class="col-12 col-xl-9 justify-content-center mt-2 mx-auto">
 				<form id="regForm" action="/DataEntry.cfm">
 					<!-- One "tab" for each step in the form: -->
 					<h1 class="text-center mb-2 mt-5 mt-md-2">Enter a New Record</h1>
@@ -169,7 +169,7 @@ limitations under the License.
 						<div class="form-group mb-0 row">
 							<label for="other_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other ID</label>
 							<div class="col-sm-4 col-md-4">
-								<select class="form-control border" oninput="this.className = ''" mt-0 required>
+								<select class="data-entry-select smallselect col-12 float-left col-xl-6 mt-0 mt-xl-1 height1p2" oninput="this.className = ''" mt-0 required>
 									<option value="">Other ID Type</option>
 									<option value="1">Field Number</option>
 									<option value="2">Collector Number</option>
