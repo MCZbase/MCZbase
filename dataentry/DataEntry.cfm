@@ -974,7 +974,7 @@ limitations under the License.
 										<input  type="text" class="data-entry-input mb-2 height1p2" value="">
 										
 									</div>
-									<p class="col-12 col-xl-1 small float-right">- OR -</p>
+									<p class="col-12 col-xl-1 small float-right"> OR </p>
 									<div class="text-center float-left border pb-1 mx-3 col-12 col-xl-5 px-xl-0 mb-2 overflow-hidden">
 										<div class="col-9 mx-auto px-1">
 											<label for="mask_record" class="float-left text-left mt-2">Mask Record</label>
