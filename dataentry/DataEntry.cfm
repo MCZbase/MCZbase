@@ -977,7 +977,7 @@ limitations under the License.
 									<p class="col-12 col-xl-1 mt-0 mt-xl-4 small float-right"> OR </p>
 									<div class="text-center float-left border pb-1 mx-3 col-12 col-xl-5 px-xl-0 mb-2 overflow-hidden">
 										<div class="col-9 col-xl-7 px-xl-2 mx-auto px-1">
-											<div class="text-center">
+											<div class="text-center mx-auto" style="width:82px;">
 											<label for="mask_record" class="float-left text-left mt-2">Mask Record</label>
 											<input class="float-left ml-2 mt-1 mb-0" value="1" type="checkbox" id="gridCheck1">
 											</div>
