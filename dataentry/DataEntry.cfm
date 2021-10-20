@@ -192,11 +192,8 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-9 text-left">
 								<div class="form-check col-12 form-check-inline">
-									<input class="form-check-input w-auto mx-1 mt-2" value="mask" type="checkbox" id="gridCheck1">
 									<label class="form-check-label col-5 mt-2" for="gridCheck1">Encumbrance ID</label>
-									<div class="col-1 pl-0 mt-3">OR</div>
 									<input type="text" class="data-entry-input px-2 col-5 mt-2 mt-xl-3" name="mask_record" placeholder="">
-								</div>
 							</div>
 						</div>
 						<div class="form-group row mr-xl-0">
