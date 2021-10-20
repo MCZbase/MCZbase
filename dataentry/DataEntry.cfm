@@ -749,7 +749,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 													</div>								
 
 													<div class="float-left col-12 col-md-4 px-1">
-														<label for="long_deg" class="small font-weight-light d-block mt-1 mb-0">Degrees Longitude</label>
+														<label for="long_deg" class="small font-weight-light float-left d-block mt-1 mb-0">Degrees Longitude</label>
 														<input type="text" name="lat_deg" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-4 px-1">
