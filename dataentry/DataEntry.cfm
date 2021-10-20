@@ -150,7 +150,7 @@ limitations under the License.
 	<div class="swapperBtnDiv" style="margin: 0 2rem;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 <div class="container-fluid bg-light">
-	<div class="container px-4 pt-0 mt-0" id="swapper-other" style="display:none;">
+	<div class="container pt-0 mt-0" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 col-xl-8 justify-content-center mt-2 mx-auto">
 				<form id="regForm" action="/DataEntry.cfm">
