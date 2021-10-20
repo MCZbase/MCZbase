@@ -440,7 +440,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 								</form>
 								<div id="customOtherID">
 									<div class="row">
-										<div class="col-12 mb-2">
+										<div class="col-12 mb-2 mt-3">
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light addOtherID py-0 mt-2 mx-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 											<div class="form-row mt-xl-1">
 												<div class="col-12 col-xl-6 float-left">
@@ -897,7 +897,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 							<h2 class="portlet-header small90">ATTRIBUTES</h2>
 							<div class="portlet-content px-3">
 								<div class="form-row mx-0">
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light addAtt m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
 									<div id="customAtt">
 										<div class="form-row mx-0 my-2">
 											<label for="attribute_type" class="small font-weight-light col-12 col-xl-2 px-1 float-left d-block mt-1 mt-xl-2 mb-0">Type</label>
@@ -934,7 +934,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 								<div id="customBiolRelations">
 									<div class="row">
 										<div class="col-12">
-											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light bg-light addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 											<div class="form-row mt-1 mb-2">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-1 mb-0 px-1">Relationship Type</label>
