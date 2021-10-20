@@ -184,10 +184,10 @@ limitations under the License.
 							<label for="other_id" class="col-sm-3 col-form-label mt-0 pr-xl-4 mt-xl-1 text-center text-md-right">Mask Record</label>
 							<div class="col-sm-9 col-md-9 text-left">
 								<div class="form-check form-check-inline">
-									<input class="form-check-input w-auto mt-2" value="mask" type="checkbox" id="gridCheck1">
-									<label class="form-check-label col-3 mt-2" for="gridCheck1"> Mask Record (Generic)</label>
-									<div class="col-xl-1">OR</div>
-									<input type="text" class="data-entry-input px-2" name="mask_record" placeholder="Encumbrance ID">
+									<input class="form-check-input w-auto mx-1 mt-2" value="mask" type="checkbox" id="gridCheck1">
+									<label class="form-check-label col-6 mt-2" for="gridCheck1"> Mask Record (Generic)</label>
+									<div class="col-xl-2 mt-3">OR</div>
+									<input type="text" class="data-entry-input px-2 col-5 mt-xl-3" name="mask_record" placeholder="Encumbrance ID">
 								</div>
 							</div>
 						</div>
