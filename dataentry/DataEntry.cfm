@@ -391,7 +391,7 @@ limitations under the License.
 		</div>
 
 	<div class="row my-5">
-		<div class="col-12 py-5">
+		<div class="col-12 form-row py-5">
 			<div class="col-4">
 			<h1 class="h4 mt-3">Cataloged Item</h1>
 			Envision that you suspect that the tumor suppressor gene, p21 is transcriptionally downregulated in skin cancer cells you have obtained, compared to non-cancerous skin cells. In a paragraph, describe the steps of RT-qPCR that you would conduct in order to test your hypothesis. Ensure you mention control primers.
