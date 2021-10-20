@@ -864,7 +864,7 @@ limitations under the License.
 													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#other_id_number#">
 												</div>
 											</div>
-											<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"collops") ) >
+											<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND (listfindnocase(session.roles,"collops") OR listfindnocase(session.roles,"beta_tester") ) ) >
 												<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
 												<div class="form-row mb-2">
 													<div class="col-12 col-md-3">
