@@ -969,18 +969,17 @@ limitations under the License.
 							<h2 class="portlet-header small90">ENCUMBRANCE</h2>
 							<div class="portlet-content px-3">
 								<div class="row col-12 px-0">
-									<div class="col-12 float-left">
+									<div class="col-12 col-xl-5 float-left">
 										<label for="encumbrance_id" class="small font-weight-light float-left col-12 d-block mt-1 mb-0 px-1">Enter an Encumbrance ID</label>
 										<input  type="text" class="data-entry-input float-left col-12 height1p2" value="">
 									</div>
-									<div class="col-12 mx-auto text-center small px-xl-0 mt-1 mt-xl-4">- OR -</div>
-									<div class="col-12 mb-2 overflow-hidden">
-										<div class="col-12 border mt-2 mx-auto px-3 overflow-hidden">
-											<label for="mask_record" class="float-left text-left text-xl-center mt-2">Mask Record</label>
-											<input class="float-right ml-2 mt-1 mb-0 float-xl-left" value="1" type="checkbox" id="gridCheck1">
-											<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
+									<div class="col-12 col-xl-1 mx-auto text-center small px-xl-0 mt-1 mt-xl-4">- OR -</div>
+									<div class="text-center border pb-1 mx-3 col-12 col-xl-5 px-xl-0 mb-2 overflow-hidden">
+										<div class="col-8 mx-auto px-1">
+											<label for="mask_record" class="float-left text-left mt-2">Mask Record</label>
+											<input class="float-left ml-2 mt-1 mb-0" value="1" type="checkbox" id="gridCheck1">
 										</div>
-									
+										<small id="accnHelp" class="form-text float-left w-100 text-center text-muted">Puts it in a generic encumbrance.</small>
 									</div>
 								</div>
 							</div>
