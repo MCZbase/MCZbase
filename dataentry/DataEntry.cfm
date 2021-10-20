@@ -669,7 +669,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 							<div class="portlet-content px-3 pb-3">
 								<div class="form-row mx-0">
 									<div id="pickCoordinates">
-										<div class="bg-light border rounded px-2 pb-1"> 
+										<div class="bg-light border rounded px-2 pb-0"> 
 											<div class="form-row mx-0 my-2">
 												<label for="Coord. System" class="sr-only">Coordinate System</label>
 												<select name="orig_lat_long_units" title="ORIG_LAT_LONG_UNITS" id="orig_lat_long_units" class="data-entry-select mt-0 mt-xl-1  smallselect height1p2">
