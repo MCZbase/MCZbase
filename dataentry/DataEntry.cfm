@@ -679,7 +679,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 													<option value="unknown">Unknown</option>
 												</select>
 												<!--- dec lat/long--->
-												<div class="row mx-0 choose dec_lat_long box mt-2">
+												<div class="row mx-0 choose dec_lat_long w-100 float-left box mt-2">
 													<div id="dec_lat_long" class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
 														<div class="float-left col-12 col-xl-6 px-0 px-xl-1">
 															<label for="dec_lat" class="small font-weight-light float-left px-1 d-block mt-1 mb-0">Decimal Latitude</label>
