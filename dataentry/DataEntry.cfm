@@ -697,37 +697,37 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 											<div class="row mx-0 mt-2 dec_min_sec box" id="dec_min_sec" style="display:none;">
 												<div class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
 													<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Min. Sec. Latitude</h5>
-													<div class="float-left col-12 col-md-3 px-0">
+													<div class="float-left col-12 col-md-3 px-1">
 														<label for="lat_deg" class="small font-weight-light d-block mt-1 mt-xl-2 mb-0">Degrees</label>
 														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input  mt-0 mt-xl-1 height1p2"/>
 													</div>
-													<div class="float-left col-12 col-md-3 px-0">
-														<label for="lat_deg" class="small font-weight-light d-block mt-1 mt-xl-2 mb-0">Minutes</label>
+													<div class="float-left col-12 col-md-3 px-1">
+														<label for="lat_deg" class="small font-weight-light d-block mb-0">Minutes</label>
 														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input  mt-0 mt-xl-1 height1p2"/>
 													</div>
-													<div class="float-left col-12 col-md-3 px-0">
-														<label for="lat_sec" class="small font-weight-light mt-1 mt-xl-2 mb-0">Seconds</label>
+													<div class="float-left col-12 col-md-3 px-1">
+														<label for="lat_sec" class="small font-weight-light mb-0">Seconds</label>
 														<input type="text" name="lat_sec" class="data-entry-input mt-0 mt-xl-1  height1p2"/>
 													</div>
-													<div class="float-left col-12 col-md-3 px-0">
-														<label for="lat_dir" class="small font-weight-light float-left d-block mt-1 mt-xl-2 mb-0">Direction</label>
+													<div class="float-left col-12 col-md-2 px-1">
+														<label for="lat_dir" class="small font-weight-light float-left d-block mb-0">Direction</label>
 														<input type="text" name="lat_dir" class="data-entry-input height1p2"/>
 													</div>								
 													<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100">Deg. Min. Sec. Longitude</h5>
-													<div class="float-left col-12 col-md-3 px-0">
-														<label for="long_deg" class="small font-weight-light d-block mt-1 mt-xl-2 mb-0">Degrees</label>
+													<div class="float-left col-12 col-md-3 px-1">
+														<label for="long_deg" class="small font-weight-light d-block mb-0">Degrees</label>
 														<input type="text" name="lat_deg" class="data-entry-input height1p2"/>
 													</div>
-													<div class="float-left col-12 col-md-3 px-0">
-														<label for="long_min" class="small font-weight-light float-left d-block mt-1 mt-xl-2 mb-0">Minutes</label>
+													<div class="float-left col-12 col-md-3 px-1">
+														<label for="long_min" class="small font-weight-light float-left d-block mb-0">Minutes</label>
 														<input type="text" name="lat_min" class="data-entry-input  mt-0 mt-xl-1 height1p2"/>
 													</div>
-													<div class="float-left col-12 col-md-3 px-0">
-														<label for="long_sec" class="small font-weight-light float-left d-block mt-1 mt-xl-2 mb-0">Seconds</label>
+													<div class="float-left col-12 col-md-3 px-1">
+														<label for="long_sec" class="small font-weight-light float-left d-block mb-0">Seconds</label>
 														<input type="text" name="lat_sec" class="data-entry-input  mt-0 mt-xl-1 height1p2"/>
 													</div>
-													<div class="float-left col-12 col-md-3 px-0">
-														<label for="long_dir" class="small font-weight-light float-left d-block mt-1 mt-xl-2 mb-0">Direction</label>
+													<div class="float-left col-12 col-md-2 px-1">
+														<label for="long_dir" class="small font-weight-light float-left d-block mb-0">Direction</label>
 														<input type="text" name="long_dir" class="data-entry-input  mt-0 mt-xl-1 height1p2"/>
 													</div>
 												</div>
