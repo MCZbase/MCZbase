@@ -421,7 +421,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 						<div class="portlet shadow-none rounded-0 m-0 bg-blue-gray">
 							<h2 class="portlet-header small90">SPECIMEN IDENTIFIERS</h2>
 							<div class="portlet-content px-3">
-								<div class="row">
+								<form class="row">
 									<div class="col-12 mb-2 float-left">
 										<div class="form-row">
 											<div class="col-12 col-xl-6 float-left">
@@ -436,11 +436,12 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 											</div>
 										</div>
 									</div>
-								</div>
+									<button class="identifiers_submit">Create Record</button>
+								</form>
 								<div id="customOtherID">
 									<div class="row">
 										<div class="col-12 mb-2">
-											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID py-0 mt-2 mx-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light addOtherID py-0 mt-2 mx-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 											<div class="form-row mt-xl-1">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="other_id" class="small font-weight-light float-left d-block mt-2 mt-xl-1 px-1 mb-0">Other ID Type</label>
@@ -510,7 +511,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 								<div id="customAgent1">
 									<div class="row">
 										<div class="col-12 mb-2">
-											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary py-0 addAgent1 mx-0 mt-0 mt-xl-0 mb-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light py-0 addAgent1 mx-0 mt-0 mt-xl-0 mb-0" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i> Add Agent</a> 
 											<div class="form-row mt-xl-1">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="collector_role" class="small font-weight-light float-left d-block mt-2 mt-xl-0 mb-0 px-1">Agent Role</label>
@@ -847,7 +848,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 							<h2 class="portlet-header small90">PARTS</h2>
 							<div class="portlet-content px-3">
 								<div id="customPart">
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light addPart py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Part</a>
 									<div class="form-row mx-0 my-2">
 										<div class="col-12 px-0">
 											<label for="part_name" class="small font-weight-light float-left col-12 col-xl-2 px-1 d-block mt-1 mt-xl-2 mb-0">Part Name</label>
@@ -933,7 +934,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 								<div id="customBiolRelations">
 									<div class="row">
 										<div class="col-12">
-											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 											<div class="form-row mt-1 mb-2">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-1 mb-0 px-1">Relationship Type</label>
@@ -960,7 +961,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 								<div id="customBiolRelations">
 									<div class="row">
 										<div class="col-12">
-											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
+											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light addBiolRelations py-0 m-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Relationship</a>
 											<div class="form-row mt-1 mb-2">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="relations" class="small font-weight-light float-left col-12 d-block mt-1 mt-xl-1 mb-0 px-1">Relationship Type</label>
