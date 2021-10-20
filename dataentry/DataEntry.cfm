@@ -395,7 +395,7 @@ limitations under the License.
 We will conduct RT-qPCR in order to test our hypothesis that the tumor suppressor gene, p21 is transcriptionally downregulated in the cancerous skin cell samples compared to the non-cancerous samples. First, we will harvest total RNA from the cancerous and non-cancerous skin cell samples. Then, we will perform reverse transcription with random hexamers (or oligo-dT, either can be used for this example) to convert the total RNA to cDNA. Then, we will conduct qPCR with primers designed to amplify p21 and β-actin as control (or another housekeeping gene, such as GAPDH). We will compare p21 transcript levels normalized to β-actin between the cancerous and non-cancerous samples. We expect that p21 will be downregulated in the cancerous samples.</div>
 		</div>	
 		
-		</div>
+
 	</div>
 	</div>
 
