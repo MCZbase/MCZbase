@@ -150,7 +150,7 @@ limitations under the License.
 	<div class="swapperBtnDiv" style="margin: 0 2rem;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 <div class="container-fluid bg-light">
-	<div class="container pt-0 mt-0" id="swapper-other" style="display:none;">
+	<div class="container px-4 pt-0 mt-0" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 col-xl-8 justify-content-center mt-2 mx-auto">
 				<form id="regForm" action="/DataEntry.cfm">
@@ -182,18 +182,13 @@ limitations under the License.
 						</div>
 						<div class="form-group row mr-xl-0">
 							<label for="other_id" class="col-sm-3 col-form-label mt-0 pr-xl-4 mt-2 mt-xl-1 text-center text-md-right">Mask Record</label>
-							<div class="col-12 col-md-9 text-left">
+							<div class="col-sm-9 col-md-9 text-left">
 								<div class="form-check col-12 form-check-inline">
 									<input class="form-check-input w-auto mx-1 mt-2" value="mask" type="checkbox" id="gridCheck1">
 									<label class="form-check-label col-5 mt-2" for="gridCheck1"> Mask Record (Generic)</label>
 									<div class="col-1 pl-0 mt-3">OR</div>
 									<input type="text" class="data-entry-input px-2 col-5 mt-2 mt-xl-3" name="mask_record" placeholder="Encumbrance ID">
 								</div>
-							</div>
-							<div class="col-12 col-md-9 text-left">
-								<div class="form-check col-12 form-check-inline">
-									<label class="form-check-label col-5 mt-2" for="mask_record">Encumbrance ID</label>
-									<input type="text" class="data-entry-input px-2 col-5 mt-2 mt-xl-3" name="mask_record" placeholder="">
 							</div>
 						</div>
 						<div class="form-group row mr-xl-0">
