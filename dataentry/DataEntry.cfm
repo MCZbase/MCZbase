@@ -682,11 +682,11 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 												<div class="row mx-0 choose dec_lat_long box mt-2">
 													<div id="dec_lat_long" class="col-12 border px-1 pb-1 rounded" style="background-color: aliceblue">
 														<div class="float-left col-12 col-xl-6 px-0 px-xl-1">
-															<label for="dec_lat" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Latitude</label>
+															<label for="dec_lat" class="small font-weight-light float-left px-1 d-block mt-1 mb-0">Decimal Latitude</label>
 															<input type="text" name="dec_lat" class="data-entry-input height1p2 mt-0 mt-xl-1 "/>
 														</div>
 														<div class="float-left col-12 col-xl-6 px-0 pb-xl-1 px-xl-1">
-															<label for="dec_long" class="small font-weight-light float-left d-block mt-1 mb-0">Decimal Longitude</label>
+															<label for="dec_long" class="small font-weight-light float-left px-1 d-block mt-1 mb-0">Decimal Longitude</label>
 															<input type="text" name="dec_long" class="data-entry-input height1p2 mt-0 mt-xl-1 "/>
 														</div>
 													</div>
@@ -696,9 +696,9 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 											<!--- deg/min/sec--->
 											<div class="row mx-0 mt-2 dec_min_sec box" id="dec_min_sec" style="display:none;">
 												<div class="col-12 px-1 pb-1 border rounded float-left" style="background-color: aliceblue">
-													<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100"> Deg. Min. Sec. Latitude</h5>
+									
 													<div class="float-left col-12 col-md-3 px-1">
-														<label for="lat_deg" class="small font-weight-light d-block mb-0">Degrees</label>
+														<label for="lat_deg" class="small font-weight-light d-block mb-0">Degrees Latitude</label>
 														<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-3 px-1">
@@ -713,9 +713,9 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 														<label for="lat_dir" class="small font-weight-light float-left d-block mb-0">Direction</label>
 														<input type="text" name="lat_dir" class="data-entry-input height1p2"/>
 													</div>								
-													<h5 class="small font-weight-bold d-block mt-2 float-left mb-0 w-100">Deg. Min. Sec. Longitude</h5>
+										
 													<div class="float-left col-12 col-md-3 px-1">
-														<label for="long_deg" class="small font-weight-light d-block mb-0">Degrees</label>
+														<label for="long_deg" class="small font-weight-light d-block mb-0">Degrees Longitude</label>
 														<input type="text" name="lat_deg" class="data-entry-input height1p2"/>
 													</div>
 													<div class="float-left col-12 col-md-3 px-1">
