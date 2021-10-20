@@ -603,7 +603,7 @@ limitations under the License.
 												<label for="locality_id" class="">Use Locality ID only</label>
 											</h5>
 											<input type="text" name="locality_id" class="data-entry-input col-8 col-xl-4 mb-0 mx-auto height1p2" placeholder="Locality ID" />
-											<span class="small w-100 float-left text-center mt-0">- OR - </span>
+											<span class="small w-100 float-left text-center mt-1">- OR - </span>
 											<h5 class="font-weight-bold text-left mb-0 d-block w-100">New Locality</h5>
 											<label for="higher_geog" class="small font-weight-light col-12 col-xl-3 float-left px-1 d-block mt-1 mt-xl-2 mb-0">Higher Geography</label>
 											<input type="text" name="higher_geog" class="data-entry-input float-left mt-0 mt-xl-1 col-12 col-xl-9 height1p2" placeholder="Higher Geography" />
