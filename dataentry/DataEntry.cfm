@@ -436,7 +436,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 											</div>
 										</div>
 									</div>
-									<button class="identifiers_submit">Create Record</button>
+									<button class="btn btn-primary btn-xs identifiers_submit">Create Record</button>
 								</form>
 								<div id="customOtherID">
 									<div class="row">
