@@ -234,7 +234,7 @@
               <option value="1">Hidden</option>
           </cfif>
       </select>
-		<div style="background-color: AliceBlue;"><strong>Alternative text for vision impared users:</strong> #media.alttag#</div>
+		<div style="background-color: AliceBlue;"><strong>Alternative text for vision impaired users:</strong> #media.alttag#</div>
       <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
       <div id="relationships" class="graydot">
         <cfset i=1>

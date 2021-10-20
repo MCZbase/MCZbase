@@ -26,7 +26,8 @@ limitations under the License.
 </cfcatch>
 </cftry>
 <cfif findNoCase('redesign',gitBranch) EQ 0>
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<!--- cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user") --->
+	<cfif isdefined("session.roles") AND ( listfindnocase(session.roles,"collops") OR listfindnocase(session.roles,"beta_tester") )>
 		<!--- logged in users now able to see redesigned specimen search on production --->
 	<cfelse>
 		<cfscript>
@@ -488,9 +489,21 @@ limitations under the License.
 														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 													<div class="col-12 col-md-1">
-														<label for="nestbutton" class="data-entry-label">Nest</label>
-														<button id="nestbutton" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+														<label for="nestButton" class="data-entry-label">Nest</label>
+														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+														<cfif not isDefined("nestdepth1")><cfset nestdepth1="0"></cfif>
+														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
+													<script>
+														function indent(nestbutton,nestinput,row) {
+															if (row==$('##builderMaxRows').val()) { 
+																// add a row, close ) on that row
+															}
+															var currentnestdepth = $('##'+nestinput).val();
+															$('##'+nestinput).val(currentnestdepth+1);
+															$('##'+nestbutton).val("(");
+														}
+													</script>
 													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
 															SELECT search_category, table_name, column_name, column_alias, data_type, 
@@ -589,7 +602,7 @@ limitations under the License.
 																	&nbsp;
 																</div>
 																<div class="col-12 col-md-1">
-																	<button type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
 																</div>
 																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
@@ -668,7 +681,7 @@ limitations under the License.
 														newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
 														newControls = newControls + '</div>';
 														newControls = newControls + '<div class="col-12 col-md-1">';
-														newControls = newControls + '<button type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
+														newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
 														newControls = newControls + '</div>';
 														newControls = newControls + '<div class="col-12 col-md-1">';
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
@@ -852,7 +865,7 @@ limitations under the License.
 													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#other_id_number#">
 												</div>
 											</div>
-											<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"collops") ) >
+											<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 												<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
 												<div class="form-row mb-2">
 													<div class="col-12 col-md-3">
@@ -1554,8 +1567,8 @@ limitations under the License.
 								<cfset filtertype = "">
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
-								<!--- leave off the width on the last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<!--- last column, no trailing comma --->
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width:#width#,hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
 								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
@@ -1691,8 +1704,8 @@ limitations under the License.
 								<cfset filtertype = "">
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
-								<!--- leave off the width on the last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<!--- last column, no trailing comma --->
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width:#width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
 								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
@@ -1829,8 +1842,8 @@ limitations under the License.
 								<cfset filtertype = "">
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
-								<!--- leave off the width on the last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<!--- last column, no trailing comma --->
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
 								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>

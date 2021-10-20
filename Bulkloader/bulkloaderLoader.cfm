@@ -257,7 +257,7 @@ command_output = exec_cmd('#sqlldrScript#');
 		Bad records are <a href="/Bulkloader/bulkData.bad" target="_blank">here</a>.
 	</p>
 	<p>
-		Your data, as they were recieved by this application, are <a href="/Bulkloader/bulk_data_upload.txt" target="_blank">here</a>.
+		Your data, as they were received by this application, are <a href="/Bulkloader/bulk_data_upload.txt" target="_blank">here</a>.
 	</p>
 	<p>
 		The generated control file is <a href="/Bulkloader/bulkData.ctl" target="_blank">here</a>.
@@ -425,7 +425,7 @@ command_output = exec_cmd('#sqlldrScript#');
 	If there are problems, click <a href="/Bulkloader/bulkData.bad" target="_blank">here</a>
 	to see bad records. You'll have to begin the process over.
 	<p>
-		Your data, as they were recieved by this application, are <a href="/Bulkloader/bulk_data_upload.txt" target="_blank">here</a>.
+		Your data, as they were received by this application, are <a href="/Bulkloader/bulk_data_upload.txt" target="_blank">here</a>.
 	</p>
 	<p>
 		The generated control file is <a href="/Bulkloader/bulkData.ctl" target="_blank">here</a>.
