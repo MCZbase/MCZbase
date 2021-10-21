@@ -560,12 +560,20 @@ limitations under the License.
 																	autoComplete: true,
 																	searchMode: 'containsignorecase',
 																	width: '100%',
-																	dropDownHeight: 400,
+																	dropDownHeight: 400
 																});
+																// bind an autocomplete, if one applies
+																handleFieldSetup('field1',1);
+																console.log("field1 setup");
 																$('##field1').on("select", function(event) { 
 																	handleFieldSelection('field1',1);
 																});
-																handleFieldSetup('field1',1);
+																var selectedIndex = $('##field1').jqxComboBox('getSelectedIndex');
+																if (selectedIndex<1) {
+																	// hack, if intial field1 selection is 0 (-1 is no selection), first on select event doesn't fire.  
+																	// forcing clearSelection so that first action on field1 will triggers select event.
+																	$('##field1').jqxComboBox('clearSelection');
+																}
 															});
 														</script>
 													</div>
