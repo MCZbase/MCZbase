@@ -568,6 +568,12 @@ limitations under the License.
 																$('##field1').on("select", function(event) { 
 																	handleFieldSelection('field1',1);
 																});
+																var selectedIndex = $('##field1').jqxComboBox('getSelectedIndex');
+																if (selectedIndex==-1) {
+																	$('##field1').jqxComboBox('selectIndex',1);
+																	$('##field1').jqxComboBox('selectIndex',2);
+																	$('##field1').jqxComboBox('selectIndex',0);
+																}
 															});
 														</script>
 													</div>
