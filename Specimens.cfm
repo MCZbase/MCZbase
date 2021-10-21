@@ -570,9 +570,9 @@ limitations under the License.
 																});
 																var selectedIndex = $('##field1').jqxComboBox('getSelectedIndex');
 																if (selectedIndex<1) {
-																	// hack, if intial field1 selection is empty, first on select event doesn't fire.  
-																	// forcing a selection of a field
-																	$('##field1').jqxComboBox('selectItem','CATALOGED_ITEM:CAT_NUM');
+																	// hack, if intial field1 selection is 0 (-1 is no selection), first on select event doesn't fire.  
+																	// forcing clearSelection so that first action on field1 will triggers select event.
+																	$('##field1').jqxComboBox('clearSelection');
 																}
 															});
 														</script>
