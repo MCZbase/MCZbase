@@ -569,10 +569,10 @@ limitations under the License.
 																	handleFieldSelection('field1',1);
 																});
 																var selectedIndex = $('##field1').jqxComboBox('getSelectedIndex');
-																if (selectedIndex==-1) {
-																	$('##field1').jqxComboBox('selectIndex',1);
-																	$('##field1').jqxComboBox('selectIndex',2);
-																	$('##field1').jqxComboBox('selectIndex',0);
+																if (selectedIndex<1) {
+																	// hack, if intial field1 selection is empty, first on select event doesn't fire.  
+																	// forcing a selection of a field
+																	$('##field1').jqxComboBox('selectItem','CATALOGED_ITEM:CAT_NUM');
 																}
 															});
 														</script>
