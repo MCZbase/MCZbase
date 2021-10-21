@@ -562,10 +562,12 @@ limitations under the License.
 																	width: '100%',
 																	dropDownHeight: 400
 																});
+																// bind an autocomplete, if one applies
+																handleFieldSetup('field1',1);
+																console.log("field1 setup");
 																$('##field1').on("select", function(event) { 
 																	handleFieldSelection('field1',1);
 																});
-																handleFieldSetup('field1',1);
 															});
 														</script>
 													</div>
