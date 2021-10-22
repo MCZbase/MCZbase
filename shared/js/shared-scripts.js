@@ -1205,7 +1205,7 @@ function makeCollectionPicker(nameControl,idControl) {
 /** Make a text input control into an autocomplete collection_cde picker.
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  */
-function makeCollectionPicker(nameControl) {
+function makeCollectionCdePicker(nameControl) {
    $('#'+nameControl).autocomplete({
       source: function (request, response) {
          $.ajax({
