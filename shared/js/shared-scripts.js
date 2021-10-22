@@ -1228,7 +1228,7 @@ function makeCollectionCdePicker(nameControl) {
          })
       },
       minLength: 1
-	};
+	});
 };
 
 /** function getColumnVisibilities obtain the current set of hidden properties for a search results grid
