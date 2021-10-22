@@ -1170,8 +1170,8 @@ function makeCollectionPicker(nameControl,idControl) {
    $('#'+nameControl).autocomplete({
       source: function (request, response) {
          $.ajax({
-            url: "/grouping/component/search.cfc",
-            data: { term: request.term, method: 'getNamedCollectionAutocomplete' },
+            url: "/collections/component/search.cfc",
+            data: { term: request.term, method: 'getCollectionAutocomplete' },
             dataType: 'json',
             success : function (data) { response(data); },
             error : function (jqXHR, textStatus, error) {
