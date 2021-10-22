@@ -1201,6 +1201,36 @@ function makeCollectionPicker(nameControl,idControl) {
 	};
 };
 
+
+/** Make a text input control into an autocomplete collection_cde picker.
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makeCollectionPicker(nameControl) {
+   $('#'+nameControl).autocomplete({
+      source: function (request, response) {
+         $.ajax({
+            url: "/collections/component/search.cfc",
+            data: { term: request.term, method: 'getCollectionCdeAutocomplete' },
+            dataType: 'json',
+            success : function (data) { response(data); },
+            error : function (jqXHR, textStatus, error) {
+               var message = "";
+               if (error == 'timeout') {
+                  message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+               } else {
+                  message = jqXHR.responseText;
+               }
+					console.log(error);
+               messageDialog('Error:' + message ,'Error: ' + error);
+            }
+         })
+      },
+      minLength: 1
+	};
+};
+
 /** function getColumnVisibilities obtain the current set of hidden properties for a search results grid
  in the form of an object containing key value pairs where the key is the datafield name for the column
  and the value is the value of the hidden column property for that column.
