@@ -28,7 +28,7 @@ limitations under the License.
         		<a href="/info/bugs.cfm" aria-label="bug_report_link" target="_blank">Feedback&#8202;/&#8202;Report Errors</a>
 			</div>
         	<div class="col-sm-12 col-md-4 col-lg-4 text-center">
-        		<a href="/Collections/index.cfm" aria-label="data_providers">Data Providers</a> 
+        		<a href="/collections/index.cfm" aria-label="data_providers">Data Providers</a> 
         	</div>
 		</div>
 

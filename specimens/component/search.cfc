@@ -535,9 +535,19 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			</cfif>
 			<cfset matched = false>
 			<cfset nest = 1>
+			<!--- Handle the hidden searchId fields, if present --->
 			<cfif isDefined("searchId") AND len(searchId) GT 0>
 				<!--- if a searchId{n} value was provided, use it instead of searchText{n} to support autocomplete field pairs --->
-				<cfset searchText = searchId>
+				<cfif isDefined("searchText") AND left(searchText,1) EQ "!">
+					<!--- carry forward of a ! operator in the text to cause comparator to be set to <> instead of LIKE --->
+					<cfset searchText = "!#searchId#">
+				<!---cfif isDefined("searchId") AND contains(searchId,",") GT 0>
+					TODO: Add support for lists from multi-selects 
+				--->
+				<cfelse> 
+					<!--- prepend an = to cause comparator to be set to = instead of LIKE for performance --->
+					<cfset searchText = "=#searchId#">
+				</cfif>
 			</cfif>
 			<cfloop query="searchFields">
 				<cfset tableField = "#searchFields.table_name#:#searchFields.column_alias#">
