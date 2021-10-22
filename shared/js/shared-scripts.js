@@ -1229,7 +1229,7 @@ function makeCollectionCdePicker(nameControl) {
       },
 		select: function (event, result) {
 			event.preventDefault();
-			$('#'+fieldId).val("=" + result.item.value);
+			$('#'+nameControl).val("=" + result.item.value);
 		},
       minLength: 1
 	});
