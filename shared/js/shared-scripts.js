@@ -1158,6 +1158,49 @@ function makeGeogSearchAutocomplete(fieldId, targetRank) {
 	};
 };
 
+
+/** Make a paired hidden collection_id and text collection_id control into an autocomplete collection picker
+ *     the collection_id control is optional, and can be left off on a search form that can take a free text
+ *     search term, collection names are a short list, so this autocomplete will start with a single character
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the optional id for a hidden input that is to hold the selected id (without a leading # selector),
+ *    use null if there is no control to hold the selected collection_id.
+ */
+function makeCollectionPicker(nameControl,idControl) {
+   $('#'+nameControl).autocomplete({
+      source: function (request, response) {
+         $.ajax({
+            url: "/grouping/component/search.cfc",
+            data: { term: request.term, method: 'getNamedCollectionAutocomplete' },
+            dataType: 'json',
+            success : function (data) { response(data); },
+            error : function (jqXHR, textStatus, error) {
+               var message = "";
+               if (error == 'timeout') {
+                  message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+               } else {
+                  message = jqXHR.responseText;
+               }
+					console.log(error);
+               messageDialog('Error:' + message ,'Error: ' + error);
+            }
+         })
+      },
+      select: function (event, result) {
+			if (idControl) { 
+				// if idControl is non null, non-empty, non-false
+				$('#'+idControl).val(result.item.id);
+			}
+      },
+      minLength: 1
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// this overrides the renderItem to display meta "collection name (count)" instead of just the value in the picklist.
+		return $("<li>").append("<span>" + item.value + " (" + item.meta + ")</span>").appendTo(ul);
+	};
+};
+
 /** function getColumnVisibilities obtain the current set of hidden properties for a search results grid
  in the form of an object containing key value pairs where the key is the datafield name for the column
  and the value is the value of the hidden column property for that column.
