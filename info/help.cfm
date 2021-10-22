@@ -80,7 +80,7 @@ big boxes.
 					<li>A hyphen-separated range of integers (1-6)</li>
 	</ul>
 	<p>
-		See <a href="/Collections/index.cfm" target="_parent">Data Providers</a> for more information about data providers and their catalog numbers.
+		See <a href="/collections/index.cfm" target="_parent">Collections</a> for more information about the MCZ collections and their holdings.
 	</p>
 </cfif>
 <!----------------------------------------------------------------------------------------------------->

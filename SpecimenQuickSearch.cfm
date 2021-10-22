@@ -38,7 +38,7 @@
 			</cfif>
 		</td>
 		<td style="padding-left:2em;padding-right:2em;">
-			<span class="infolink"> <a href="/Collections/index.cfm" target="_blank">Holdings Details</a> </span>
+			<span class="infolink"> <a href="/collections/index.cfm" target="_blank">Holdings Details</a> </span>
 		</td>
 		<cfif #hasCanned.recordcount# gt 0>
 			<td style="padding-left:2em;padding-right:2em;">
