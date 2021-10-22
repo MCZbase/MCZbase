@@ -45,7 +45,7 @@
 			</cfif>
 		</td>
 		<td>
-			<span class="infolink"> <a href="/Collections/index.cfm" target="_blank">Holdings Details</a> </span>
+			<span class="infolink"> <a href="/collections/index.cfm" target="_blank">Holdings Details</a> </span>
 			<span class="infolink" onClick="getHelp('search_help');">
 				Search Tips
 			</span>

@@ -1,6 +1,6 @@
 <cfset pageTitle = "MCZbase Holdings">
 <!--
-/Collections/index.cfm
+/collections/index.cfm
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2021 President and Fellows of Harvard College
