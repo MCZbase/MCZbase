@@ -50,7 +50,6 @@ Function getCollectionAutocomplete.  Search for collection by name with a substr
 			ORDER BY
 				collection.collection
 		</cfquery>
-		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
