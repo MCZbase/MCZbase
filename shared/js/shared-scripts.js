@@ -839,16 +839,8 @@ function makeProjectAutocompleteMeta(valueControl, idControl) {
 				data: { term: request.term, method: 'getProjectAutocompleteMeta' },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : function (jqXHR, status, error) {
-					var message = "";
-					if (error == 'timeout') { 
-						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
-					} else { 
-						message = jqXHR.responseText;
-					}
-					messageDialog('Error:' + message ,'Error: ' + error);
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a project autocomplete");
 				}
 			})
 		},
@@ -1017,16 +1009,8 @@ function makeScientificNameAutocompleteMeta(valueControl, idControl) {
 				data: { term: request.term, method: 'getScientificNameAutocomplete' },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : function (jqXHR, status, error) {
-					var message = "";
-					if (error == 'timeout') { 
-						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
-					} else { 
-						message = jqXHR.responseText;
-					}
-					messageDialog('Error:' + message ,'Error: ' + error);
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a scientific name autocomplete");
 				}
 			})
 		},
@@ -1174,18 +1158,9 @@ function makeCollectionPicker(nameControl,idControl) {
             data: { term: request.term, method: 'getCollectionAutocomplete' },
             dataType: 'json',
             success : function (data) { response(data); },
-            error : function (jqXHR, textStatus, error) {
-               var message = "";
-               if (error == 'timeout') {
-                  message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
-               } else {
-                  message = jqXHR.responseText;
-               }
-					console.log(error);
-               messageDialog('Error:' + message ,'Error: ' + error);
-            }
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a collection search autocomplete");
+				}
          })
       },
       select: function (event, result) {
@@ -1213,18 +1188,9 @@ function makeCollectionCdePicker(nameControl) {
             data: { term: request.term, method: 'getCollectionCdeAutocomplete' },
             dataType: 'json',
             success : function (data) { response(data); },
-            error : function (jqXHR, textStatus, error) {
-               var message = "";
-               if (error == 'timeout') {
-                  message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
-               } else {
-                  message = jqXHR.responseText;
-               }
-					console.log(error);
-               messageDialog('Error:' + message ,'Error: ' + error);
-            }
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a collection code search autocomplete");
+				}
          })
       },
 		select: function (event, result) {
@@ -1234,6 +1200,32 @@ function makeCollectionCdePicker(nameControl) {
       minLength: 1
 	});
 };
+
+/** Make a text input control into an autocomplete media label (the types, not the label values) picker
+ *
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makeMediaLabelTypePicker(nameControl) {
+   $('#'+nameControl).autocomplete({
+      source: function (request, response) {
+         $.ajax({
+            url: "/media/component/search.cfc",
+            data: { term: request.term, method: 'getMediaLabelTypeAutocomplete' },
+            dataType: 'json',
+            success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a media label search autocomplete");
+				}
+         })
+      },
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+nameControl).val("=" + result.item.value);
+		},
+      minLength: 1
+	});
+};
+
 
 /** function getColumnVisibilities obtain the current set of hidden properties for a search results grid
  in the form of an object containing key value pairs where the key is the datafield name for the column
