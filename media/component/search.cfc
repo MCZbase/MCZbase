@@ -841,7 +841,7 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfset row["value"] = "#search.label_value#" >
+			<cfset row["value"] = "#search.media_label#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
