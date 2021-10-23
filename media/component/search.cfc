@@ -833,7 +833,7 @@ limitations under the License.
 			FROM
 				media_labels
 			WHERE 
-				upper(media_label) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#"> 
+				upper(media_label) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%"> 
 			ORDER BY
 				media_label
 		</cfquery>
