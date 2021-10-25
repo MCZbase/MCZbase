@@ -107,7 +107,7 @@ limitations under the License.
 
 <script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<script type="text/javascript" src="/specimens/js/specimens.js"></script> 
+	<script type="text/javascript" src="/specimens/js/specimens.js"></script> 
 	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script> 
 	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
 </cfif>
@@ -134,6 +134,9 @@ limitations under the License.
 </cfif>
 <cfif CGI.script_name IS "/Specimens.cfm" OR CGI.script_name IS "/Transactions.cfm">
 	<script type="text/javascript" src="/shared/js/tabs.js"></script>
+</cfif>
+<cfif CGI.script_name IS "/Specimens.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>
+	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/taxonomy/" OR CGI.script_name IS "/Taxa.cfm" OR CGI.script_name is "/Specimens.cfm">
 	<script type="text/javascript" src="/taxonomy/js/taxonomy.js"></script>
