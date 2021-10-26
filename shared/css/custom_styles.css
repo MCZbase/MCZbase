@@ -356,7 +356,6 @@ button#showRelatedDataBtn.btn-xs {
 BELOW: Main button (bootstrap override)
 ************************/
 button:focus, input:focus, select:focus, button.focus, input.focus, select.focus {
-	box-shadow: 0 0 0 0.12rem rgba(38, 143, 255, 0.5);
 	outline: 0;
 	border: 1px dotted #ccc;
 	box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
