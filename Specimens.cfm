@@ -1477,6 +1477,22 @@ limitations under the License.
 		var linkGuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a></span>';
 		};
+		// cell renderer to display yes or blank for a 1/0 flag field.
+		var yesBlankFlagRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var displayValue = "";
+			if (value==1) {
+            displayValue = "Yes";
+			}
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
+		};
+		// cell renderer to display yes or no for a 1/0 flag field.
+		var yesNoFlagRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var displayValue = "No";
+			if (value==1) {
+            displayValue = "Yes";
+			}
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
+		};
 	
 	
 		/* End Setup jqxgrids for search ****************************************************************************************/
