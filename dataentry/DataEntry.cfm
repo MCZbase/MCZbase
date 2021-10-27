@@ -94,9 +94,7 @@ limitations under the License.
 }
 </style>
 <script>
-	//Start of code
 
-<script type="text/javascript">
 var ExternalURL = "code.mcz.harvard.edu/wiki/index.php/Main_Page"; // This address must not contain any leading “http://”
 var ContentLocationInDOM = ""; // If you’re trying to get sub-content from the page, specify the “CSS style” jQuery syntax here, otherwise set this to “null”
 
