@@ -385,7 +385,7 @@ limitations under the License.
 											</cfif>
 										</cfloop>
 										<div class="col-6 col-md-4 px-0 float-left">
-											<label for="agentguid"class="data-entry-label">GUID for Agent</label>
+											<label for="agentguid"class="data-entry-label">GUID for Agent&nbsp;<i class="fas fas-info fa-info-circle" onclick="getMCZDocs('Add_Agent_GUID_from_ORCID')" aria-label="help link"></i></label>
 											<select name="agentguid_guid_type" id="agentguid_guid_type" size="1" class="data-entry-select">
 												<cfif searchtext EQ "">
 													<option value=""></option>
