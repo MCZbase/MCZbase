@@ -93,7 +93,39 @@ limitations under the License.
 	}
 }
 </style>
+<script>
+	//Start of code
 
+<script type="text/javascript">
+var ExternalURL = "code.mcz.harvard.edu/wiki/index.php/Main_Page"; // This address must not contain any leading “http://”
+var ContentLocationInDOM = ""; // If you’re trying to get sub-content from the page, specify the “CSS style” jQuery syntax here, otherwise set this to “null”
+
+$(document).ready(loadContent);
+function loadContent()
+	{
+	var QueryURL = "http://anyorigin.com/get?url=" + ExternalURL + "&callback=?";
+	$.getJSON(QueryURL, function(data){
+		if (data && data != null && typeof data == "object" && data.contents && data.contents != null && typeof data.contents == "string")
+		{
+			data = data.contents.replace(/<script[^>]*>[sS]*?</script>/gi, ");
+			if (data.length > 0)
+			{
+			if (ContentLocationInDOM && ContentLocationInDOM != null && ContentLocationInDOM != "null")
+				{
+					$('#queryResultContainer').html($(ContentLocationInDOM, data));
+				}
+				else
+				{
+					$('#queryResultContainer').html(data);
+				}
+			}
+		}
+	});
+}
+</script>
+<div id=”queryResultContainer”/>
+
+</script>
 <cfoutput>
  <cfquery name="error_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
