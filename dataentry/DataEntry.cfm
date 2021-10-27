@@ -123,9 +123,8 @@ function loadContent()
 	});
 }
 </script>
-<div id=”queryResultContainer”/>
 
-</script>
+
 <cfoutput>
  <cfquery name="error_units" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
@@ -445,6 +444,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 
 	<div class="container-fluid pt-1" id="swapper-first">
 		<div class="row full">
+			<div id="queryResultContainer"/></div>
 			<h1 class="text-center my-3 w-100">Enter a New <span class="font-weight-bold text-info">#collection#</span> Record</h1>
 			<div class="col-12 mt-0 pb-4">
 				<form name="dataEntry" method="post" id="regFormAll" onsubmit="return cleanup(); return noEnter();" class="w-100" action="/DataEntry.cfm">
