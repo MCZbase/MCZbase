@@ -1932,7 +1932,7 @@ limitations under the License.
 		var columnSections = new Map();   // category and array of list rows
 		<cfloop query="getFieldMetadata">
 			columnCategoryPlacements.set("#getFieldMetadata.column_name#","#getFieldMetadata.category#");
-			if (columnCategories.has("#getFieldMetadata.category#") { 
+			if (columnCategories.has("#getFieldMetadata.category#")) { 
 				columnCategories.set("#getFieldMetadata.category#", columnCategories.get("#getFieldMetadata.category#") + 1);
 			} else {
 				columnCategories.set("#getFieldMetadata.category#",1);
