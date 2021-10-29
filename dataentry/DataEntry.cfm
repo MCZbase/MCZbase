@@ -177,16 +177,18 @@ limitations under the License.
 						</div>
 						<div class="form-group mb-2 row mr-xl-0">
 							<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
-							<div class="col-sm-4 col-md-4">
-								<select class="form-control data-entry-select smallselect col-12 float-left required">
-									<option value="">Other ID Type</option>
-									<option value="1">Field Number</option>
-									<option value="2">Collector Number</option>
-									<option value="3">Previous Number</option>
-								</select>
-							</div>
-							<div class="col-sm-5">
-								<input type="text" class="data-entry-input height1p8" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+							<div class="col-12">
+								<div class="col-sm-4 col-md-4">
+									<select class="form-control data-entry-select smallselect col-12 float-left required">
+										<option value="">Other ID Type</option>
+										<option value="1">Field Number</option>
+										<option value="2">Collector Number</option>
+										<option value="3">Previous Number</option>
+									</select>
+								</div>
+								<div class="col-sm-5">
+									<input type="text" class="data-entry-input height1p8" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+								</div>
 							</div>
 						</div>
 <!---						<div class="form-group row mr-xl-0">
