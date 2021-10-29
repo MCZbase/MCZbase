@@ -1931,7 +1931,7 @@ limitations under the License.
 		var columnCategories = new Map();   // category and count 
 		var columnSections = new Map();   // category and array of list rows
 		<cfloop query="getFieldMetadata">
-			columnCategoryPlacements.set("#getFieldMetdata.column_name#","#getFieldMetadata.category#");
+			columnCategoryPlacements.set("#getFieldMetadata.column_name#","#getFieldMetadata.category#");
 			if (columnCategories.has("#getFieldMetadata.category#") { 
 				columnCategories.set("#getFieldMetadata.category#", columnCategories.get("#getFieldMetadata.category#") + 1);
 			} else {
