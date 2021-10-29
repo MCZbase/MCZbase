@@ -222,7 +222,7 @@ limitations under the License.
 						<div class="col-10 mx-auto">
 							<div class="form-group offset-2 row my-0">
 								<label for="collector1" class="col-sm-3 col-form-label mt-0">
-									<select class="form-control border mt-0 validate">
+									<select class="form-control border mt-0 validate height1p8">
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
@@ -377,8 +377,8 @@ limitations under the License.
 					</div>
 					<div style="overflow:auto;" class="mt-2 mb-2 col-10">
 						<div class="text-right">
-							<button type="button" id="prevBtn" class="btn btn-sm btn-primary height1p8" onclick="nextPrev(-1)">Previous</button>
-							<button type="button" id="nextBtn" class="btn btn-sm btn-primary height1p8" onclick="nextPrev(1)">Next</button>
+							<button type="button" id="prevBtn" class="btn btn-xs btn-primary height1p8" onclick="nextPrev(-1)">Previous</button>
+							<button type="button" id="nextBtn" class="btn btn-xs btn-primary height1p8" onclick="nextPrev(1)">Next</button>
 						</div>
 					</div>
 					<!-- Circles which indicates the steps of the form: -->
