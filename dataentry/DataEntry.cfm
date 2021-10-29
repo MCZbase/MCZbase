@@ -760,7 +760,6 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-										
 												<label for="datum" class="small font-weight-light col-12 col-xl-3 px-1 float-left d-block mt-2 mb-0">Geodetic Datum or SRS</label>
 												<select class="data-entry-select col-12 float-left col-xl-9 mt-0 mt-xl-1 smallselect height1p2" required>
 													<option value="">Datum or SRS</option>
@@ -801,35 +800,31 @@ limitations under the License.
 													</cfloop>
 												</select>
 										</div>
-	<script>
-	$(document).ready(function(){
-		$("select").change(function(){
-			$( "select option:selected").each(function(){
-				if($(this).attr("value")=="dec_lat_long"){
-					$(".box").hide();
-					$(".dec_lat_long").show();
-				}
-				if($(this).attr("value")=="dec_min_sec"){
-					$(".box").hide();
-					$(".dec_min_sec").show();
-				}
-				if($(this).attr("value")=="deg_decmin"){
-					$(".box").hide();
-					$(".deg_decmin").show();
-				}
-				if($(this).attr("value")=="unknown"){
-					$(".box").hide();
-					$(".unknown").show();
-				}
-			});
-		}).change();
-	});	
-	</script>
-
-
-
-
-										</div>
+								<script>
+								$(document).ready(function(){
+									$("select").change(function(){
+										$( "select option:selected").each(function(){
+											if($(this).attr("value")=="dec_lat_long"){
+												$(".box").hide();
+												$(".dec_lat_long").show();
+											}
+											if($(this).attr("value")=="dec_min_sec"){
+												$(".box").hide();
+												$(".dec_min_sec").show();
+											}
+											if($(this).attr("value")=="deg_decmin"){
+												$(".box").hide();
+												$(".deg_decmin").show();
+											}
+											if($(this).attr("value")=="unknown"){
+												$(".box").hide();
+												$(".unknown").show();
+											}
+										});
+									}).change();
+								});	
+								</script>
+							</div>
 						</div>
 					</div>
 					<div class="col-12 col-md-4 px-0 column float-left">
@@ -1223,6 +1218,13 @@ function nextPrev(n) {
   // Otherwise, display the correct tab:
   showTab(currentTab);
 }
+		
+$(function(){
+    $("#regForm").click(function(){
+        $(".tab").formwizard("show","identifications");
+        return false;
+    });
+});
 
 function validateForm() {
   // This function deals with validation of the form fields
