@@ -220,7 +220,7 @@ limitations under the License.
 						<h2 class="fs-title text-center">COLLECTOR/PREPARATOR</h2>
 						<h3 class="fs-subtitle text-center">This is step 2</h3>
 						<div class="col-12">
-							<div class="form-group row my-0">
+							<div class="form-group offset-1 row my-0">
 								<label for="collector1" class="col-sm-2 col-form-label mt-0">
 									<select class="form-control border mt-0 validate">
 										<option value="">Role...</option>
@@ -232,7 +232,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input validate" id="collector1" placeholder="Agent Name">
 								</div>
 							</div>
-							<div class="form-group row my-0">
+							<div class="form-group offset-1 row my-0">
 								<label for="collector2" class="col-sm-2 col-form-label mt-0">
 									<select class="form-control border mt-0">
 										<option value="">Role...</option>
@@ -244,7 +244,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="collector2" placeholder="Agent Name">
 								</div>
 							</div>
-							<div class="form-group row my-1">
+							<div class="form-group offset-1 row my-1">
 								<label for="collector3" class="col-sm-2 col-form-label mt-0">
 									<select class="form-control border mt-0" required>
 										<option value="">Role...</option>
@@ -256,7 +256,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="collector3" placeholder="Agent Name">
 								</div>
 							</div>
-							<div class="form-group row mt-1">
+							<div class="form-group offset-1 row mt-1">
 								<label for="collector4" class="col-sm-2 col-form-label mt-0">
 									<select class="form-control border mt-0" required >
 										<option value="">Role...</option>
@@ -268,7 +268,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="collector4" placeholder="Agent Name">
 								</div>
 							</div>
-							<div class="form-group row mt-1">
+							<div class="form-group offset-1 row mt-1">
 								<label for="collector5" class="col-sm-2 col-form-label mt-0">
 									<select class="form-control  border mt-0">
 										<option value="">Role...</option>
