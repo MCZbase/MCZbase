@@ -162,16 +162,16 @@ limitations under the License.
 						<h2 class="fs-title text-center">Record Numbers</h2>
 						<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
 						<div class="col-12">
-							<div class="form-group offset-1 row mr-xl-0">
+							<div class="form-group offset-1 mb-2 row mr-xl-0">
 								<label for="cat_num" class="col-sm-3 col-form-label pt-0 mt-0 mt-xl-1 pr-xl-4 text-center text-md-right">Catalog Number</label>
 								<div class="col-sm-6">
-									<input placeholder="Catalog Number" class="data-entry-input validate" oninput="this.className = ''" name="cat_num">
+									<input placeholder="Catalog Number" class="data-entry-input validate height1p8" oninput="this.className = ''" name="cat_num">
 								</div>
 							</div>
-							<div class="form-group offset-1 row mr-xl-0">
+							<div class="form-group mb-2 offset-1 row mr-xl-0">
 								<label for="accn" class="col-sm-3 col-form-label pt-0 mt-0 mt-xl-1 pr-xl-4 text-center text-md-right">Accession</label>
 								<div class="col-sm-6">
-									<input placeholder="Accession Number" class="data-entry-input validate" oninput="this.className = ''" name="accn">
+									<input placeholder="Accession Number" class="data-entry-input validate height1p8" oninput="this.className = ''" name="accn">
 								</div>
 							</div>
 						</div>
@@ -273,16 +273,16 @@ limitations under the License.
 					<div class="tab" id="identifications" name="identifications">
 						<h2 class="fs-title text-center">Identifications</h2>
 						<h3 class="fs-subtitle text-center">This is step 3</h3>
-						<div class="form-group row">
+						<div class="form-group mb-2 row">
 							<label for="scientific_name" class="col-sm-2 col-form-label pt-1 text-center text-md-right">Scientific Name</label>
 							<div class="col-sm-9">
-								<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
+								<input type="text" name="scientific_name" class="data-entry-input height1p8" placeholder="Scientific Name" />
 							</div>
 						</div>
-						<div class="form-group row">
+						<div class="form-group mb-2 row">
 							<label for="made_by" class="col-sm-2 col-form-label pt-0 text-center text-md-right">ID Made By</label>
 							<div class="col-sm-9">
-								<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
+								<input type="text" name="made_by" class="data-entry-input height1p8" placeholder="Identifier's Name" />
 							</div>
 						</div>
 						<div class="form-group row">
