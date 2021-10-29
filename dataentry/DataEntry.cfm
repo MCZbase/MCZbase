@@ -159,8 +159,7 @@ limitations under the License.
 					<!-- One "tab" for each step in the form: -->
 					<h1 class="text-center mb-2 mt-5 mt-md-2">Enter a New Record</h1>
 					<div class="tab">
-						<h2 class="fs-title text-center">Record Numbers</h2>
-						<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
+						<h2 class="fs-title text-center">Identifiers</h2>
 						<div class="col-12">
 							<div class="form-group offset-1 mb-2 row mr-xl-0">
 								<label for="cat_num" class="col-sm-3 col-form-label pt-0 mt-0 mt-xl-1 pr-xl-4 text-center text-md-right">Catalog Number</label>
@@ -274,7 +273,6 @@ limitations under the License.
 					</div>
 					<div class="tab" id="identifications" name="identifications">
 						<h2 class="fs-title text-center">Identifications</h2>
-						<h3 class="fs-subtitle text-center">This is step 3</h3>
 						<div class="form-group mb-2 row">
 							<label for="scientific_name" class="col-sm-2 col-form-label pt-1 text-center text-md-right">Scientific Name</label>
 							<div class="col-sm-9">
@@ -311,7 +309,6 @@ limitations under the License.
 					</div>
 					<div class="tab">
 						<h2 class="fs-title text-center">Locality</h2>
-						<h3 class="fs-subtitle text-center">This is step 4</h3>
 						<div class="form-group row">
 							<label for="higher_geog" class="col-sm-2 col-form-label pt-1 text-center text-md-right">Higher Geography</label>
 							<div class="col-sm-9">
