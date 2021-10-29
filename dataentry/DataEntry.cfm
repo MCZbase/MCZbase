@@ -378,14 +378,14 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div style="overflow:auto;" class="mt-4 mb-2 col-12">
+					<div style="overflow:auto;" class="mt-4 mb-2 col-11">
 						<div class="text-right">
 							<button type="button" id="prevBtn" class="btn btn-sm btn-primary" onclick="nextPrev(-1)">Previous</button>
 							<button type="button" id="nextBtn" class="btn btn-sm btn-primary" onclick="nextPrev(1)">Next</button>
 						</div>
 					</div>
 					<!-- Circles which indicates the steps of the form: -->
-					<div class="my-4 text-center"> 
+					<div class="my-4 col-12 col-xl-10 text-center"> 
 						<span class="step">Identifiers</span> <span class="step">Identifications</span> <span class="step">Agents</span> <span class="step">Coll. Event</span> <span class="step">Locality</span> <span class="step">Coordinates</span> <span class="step">Parts</span> <span class="step">Attributes</span> <span class="step">Bio.&nbsp;Relations</span> <span class="step">Curatorial</span> <span class="step">Encumbrance</span>
 					</div>
 				</form>
