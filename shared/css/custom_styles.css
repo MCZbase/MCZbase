@@ -864,7 +864,7 @@ a#showLeftPush.hiddenclass {
 /* Make circles that indicate the steps of the form: */
 #regForm .step {
 	height: 26px;
-	width: 110px;
+	width: 115px;
 	margin: 0 2px;
 	background-color: #bbbbbb;
 	border: none;
