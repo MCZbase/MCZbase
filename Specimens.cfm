@@ -1927,14 +1927,16 @@ limitations under the License.
 			</cfif>
 		}); /* End document.ready */
 	
-		var columnCategoryPlacements = new Map();
-		var columnCategories = new Map();
+		var columnCategoryPlacements = new Map(); // fieldname and category placement
+		var columnCategories = new Map();   // category and count 
+		var columnSections = new Map();   // category and array of list rows
 		<cfloop query="getFieldMetadata">
 			columnCategoryPlacements.set("#getFieldMetdata.column_name#","#getFieldMetadata.category#");
 			if (columnCategories.has("#getFieldMetadata.category#") { 
 				columnCategories.set("#getFieldMetadata.category#", columnCategories.get("#getFieldMetadata.category#") + 1);
 			} else {
 				columnCategories.set("#getFieldMetadata.category#",1);
+				columnSections.set("#getFieldMetadata.category#",new Array());
 			}
 		</cfloop>
 
@@ -1968,8 +1970,26 @@ limitations under the License.
 			} else {
 				$('##' + gridId).jqxGrid({ pageable: false });
 			}
-			// add a control to show/hide columns
+			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
+			var columnCount = columns.length;
+			for (i = 1; i < columnCount; i++) {
+				var text = columns[i].text;
+				var datafield = columns[i].datafield;
+				var hideable = columns[i].hideable;
+				var hidden = columns[i].hidden;
+				var show = ! hidden;
+				if (hideable == true) {
+					var listRow = { label: text, value: datafield, checked: show };
+					var inCategory = columnCategoryPlacements.get(datafield);
+					columnSections.get(inCategory).push(listRow);
+					// TODO: Add as list box to section of form.
+
+				}
+			}
+			console.log(columnSections);
+
+			// add a control to show/hide columns
 			var halfcolumns = Math.round(columns.length/2);
 			var quartercolumns = Math.round(columns.length/4);
 			var columnListSource = [];
