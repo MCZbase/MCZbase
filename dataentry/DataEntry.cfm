@@ -175,11 +175,11 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="form-group mb-2 row mr-xl-0">
+						<div class="form-group mb-2 offset-1 row mr-xl-0">
 							<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
 							<div class="col-9">
-								<div class="col-sm-4 col-md-4">
-									<select class="form-control data-entry-select smallselect col-12 float-left required">
+								<div class="col-sm-4 ">
+									<select class="form-control data-entry-select smallselect height1p8 float-left required">
 										<option value="">Other ID Type</option>
 										<option value="1">Field Number</option>
 										<option value="2">Collector Number</option>
