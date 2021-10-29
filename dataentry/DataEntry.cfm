@@ -203,7 +203,7 @@ limitations under the License.
 									</select>
 								</label>
 								<div class="col-sm-7 mt-1">
-									<input type="text" class="data-entry-input px-0 validate height1p8" id="collector1" placeholder="Agent Name">
+									<input type="text" class="data-entry-input validate height1p8" id="collector1" placeholder="Agent Name">
 								</div>
 							</div>
 							<div class="form-group offset-2 row my-0">
@@ -215,7 +215,7 @@ limitations under the License.
 									</select>
 								</label>
 								<div class="col-sm-7 mt-1">
-									<input type="text" class="data-entry-input px-0 height1p8" id="collector2" placeholder="Agent Name">
+									<input type="text" class="data-entry-input height1p8" id="collector2" placeholder="Agent Name">
 								</div>
 							</div>
 							<div class="form-group offset-2 row my-0">
@@ -227,7 +227,7 @@ limitations under the License.
 									</select>
 								</label>
 								<div class="col-sm-7 mt-1">
-									<input type="text" class="data-entry-input px-0 height1p8" id="collector3" placeholder="Agent Name">
+									<input type="text" class="data-entry-input height1p8" id="collector3" placeholder="Agent Name">
 								</div>
 							</div>
 							<div class="form-group mb-2 offset-2 row mt-0">
@@ -239,7 +239,7 @@ limitations under the License.
 									</select>
 								</label>
 								<div class="col-sm-7 mt-1">
-									<input type="text" class="data-entry-input px-0 height1p8" id="collector4" placeholder="Agent Name">
+									<input type="text" class="data-entry-input height1p8" id="collector4" placeholder="Agent Name">
 								</div>
 							</div>
 						</div>
