@@ -232,7 +232,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input validate" id="collector1" placeholder="Agent Name">
 								</div>
 							</div>
-							<div class="form-group offset-1 row my-0">
+							<div class="form-group offset-2 row my-0">
 								<label for="collector2" class="col-sm-2 col-form-label mt-0">
 									<select class="form-control border mt-0">
 										<option value="">Role...</option>
@@ -244,7 +244,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="collector2" placeholder="Agent Name">
 								</div>
 							</div>
-							<div class="form-group offset-1 row my-1">
+							<div class="form-group offset-2 row my-0">
 								<label for="collector3" class="col-sm-2 col-form-label mt-0">
 									<select class="form-control border mt-0" required>
 										<option value="">Role...</option>
@@ -256,7 +256,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="collector3" placeholder="Agent Name">
 								</div>
 							</div>
-							<div class="form-group offset-1 row mt-1">
+							<div class="form-group offset-2 row mt-0">
 								<label for="collector4" class="col-sm-2 col-form-label mt-0">
 									<select class="form-control border mt-0" required >
 										<option value="">Role...</option>
@@ -268,9 +268,9 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="collector4" placeholder="Agent Name">
 								</div>
 							</div>
-							<div class="form-group offset-1 row mt-1">
+							<div class="form-group offset-2 row mt-1">
 								<label for="collector5" class="col-sm-2 col-form-label mt-0">
-									<select class="form-control  border mt-0">
+									<select class="form-control border mt-0">
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
