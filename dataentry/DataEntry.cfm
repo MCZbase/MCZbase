@@ -177,7 +177,7 @@ limitations under the License.
 						</div>
 						<div class="form-group mb-2 row mr-xl-0">
 							<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
-							<div class="col-12">
+							<div class="col-9">
 								<div class="col-sm-4 col-md-4">
 									<select class="form-control data-entry-select smallselect col-12 float-left required">
 										<option value="">Other ID Type</option>
