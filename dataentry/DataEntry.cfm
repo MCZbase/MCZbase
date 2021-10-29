@@ -375,10 +375,10 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div style="overflow:auto;" class="mt-4 mb-2 col-10">
+					<div style="overflow:auto;" class="mt-2 mb-2 col-10">
 						<div class="text-right">
-							<button type="button" id="prevBtn" class="btn btn-sm btn-primary" onclick="nextPrev(-1)">Previous</button>
-							<button type="button" id="nextBtn" class="btn btn-sm btn-primary" onclick="nextPrev(1)">Next</button>
+							<button type="button" id="prevBtn" class="btn btn-sm btn-primary height1p8" onclick="nextPrev(-1)">Previous</button>
+							<button type="button" id="nextBtn" class="btn btn-sm btn-primary height1p8" onclick="nextPrev(1)">Next</button>
 						</div>
 					</div>
 					<!-- Circles which indicates the steps of the form: -->
