@@ -401,10 +401,10 @@ limitations under the License.
 
 	<div class="row my-5">
 		<div class="col-12 py-5">
-			<div class="col-6">
+			<div class="col-6 float-left">
 				<iframe src="https://code.mcz.harvard.edu/wiki/index.php/Catalog_Tab" width="100%" height="300"></iframe>
 			</div>
-			<div class="col-6">
+			<div class="col-6 float-left">
 				<iframe src="https://code.mcz.harvard.edu/wiki/index.php/Catalog_Tab" width="100%" height="300"></iframe>
 			</div>
 		</div>
