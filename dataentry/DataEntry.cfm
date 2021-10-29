@@ -219,8 +219,8 @@ limitations under the License.
 					<div class="tab">
 						<h2 class="fs-title text-center">COLLECTOR/PREPARATOR</h2>
 						<h3 class="fs-subtitle text-center">This is step 2</h3>
-						<div class="col-12">
-							<div class="form-group offset-1 row my-0">
+						<div class="col-10 mx-auto">
+							<div class="form-group offset-2 row my-0">
 								<label for="collector1" class="col-sm-2 col-form-label mt-0">
 									<select class="form-control border mt-0 validate">
 										<option value="">Role...</option>
