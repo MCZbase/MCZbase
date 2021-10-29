@@ -840,6 +840,7 @@ a#showLeftPush.hiddenclass {
 	font-weight: 400;
 	line-height: 1.6rem;
 	padding-right: .5rem;
+	padding-left: .5rem;
 	color: #495057;
 	background-color: #fff;
 	background-clip: padding-box;
