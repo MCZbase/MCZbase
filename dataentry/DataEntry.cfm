@@ -162,14 +162,14 @@ limitations under the License.
 						<h2 class="fs-title text-center">Record Numbers</h2>
 						<h3 class="fs-subtitle text-center mb-4">This is step 1</h3>
 						<div class="form-group row mr-xl-0">
-							<label for="cat_num" class="col-sm-3 col-form-label pt-0 mt-0 mt-xl-1 pr-xl-4 text-center text-md-right">Catalog Number</label>
+							<label for="cat_num" class="col-sm-2 col-form-label pt-0 mt-0 mt-xl-1 pr-xl-4 text-center text-md-right">Catalog Number</label>
 							<div class="col-sm-9">
 									<input placeholder="Catalog Number" class="data-entry-input validate" oninput="this.className = ''" name="cat_num">
 							
 							</div>
 						</div>
 						<div class="form-group mb-0 row mr-xl-0">
-							<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
+							<label for="other_id" class="col-sm-2 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
 							<div class="col-sm-4 col-md-4">
 								<select class="form-control data-entry-select smallselect col-12 float-left required">
 									<option value="">Other ID Type</option>
@@ -183,7 +183,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row mr-xl-0">
-							<label for="other_id" class="col-sm-3 col-form-label mt-0 pr-xl-4 mt-2 mt-xl-1 text-center text-md-right">Mask Record</label>
+							<label for="other_id" class="col-sm-2 col-form-label mt-0 pr-xl-4 mt-2 mt-xl-1 text-center text-md-right">Mask Record</label>
 							<div class="col-sm-9 col-md-9 text-left">
 								<div class="form-check col-12 form-check-inline">
 									<input class="form-check-input w-auto mx-1 mt-2" value="mask" type="checkbox" id="gridCheck1">
@@ -194,7 +194,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row mr-xl-0">
-							<label for="relations" class="col-sm-3 col-form-label pr-xl-4 pt-0 mt-0 mt-xl-1 text-center text-md-right">Other Records</label>
+							<label for="relations" class="col-sm-2 col-form-label pr-xl-4 pt-0 mt-0 mt-xl-1 text-center text-md-right">Other Records</label>
 							<div class="col-sm-4 col-md-4 text-left">
 								<select class="form-control border mt-0" required>
 									<option value="">Relationship Type</option>
@@ -213,7 +213,7 @@ limitations under the License.
 						<h2 class="fs-title text-center">COLLECTOR/PREPARATOR</h2>
 						<h3 class="fs-subtitle text-center">This is step 2</h3>
 						<div class="form-group row my-0">
-							<label for="collector1" class="col-sm-3 col-form-label mt-0">
+							<label for="collector1" class="col-sm-2 col-form-label mt-0">
 								<select class="form-control border mt-0 validate">
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
@@ -225,7 +225,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row my-0">
-							<label for="collector2" class="col-sm-3 col-form-label mt-0">
+							<label for="collector2" class="col-sm-2 col-form-label mt-0">
 								<select class="form-control border mt-0">
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
@@ -237,7 +237,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row my-1">
-							<label for="collector3" class="col-sm-3 col-form-label mt-0">
+							<label for="collector3" class="col-sm-2 col-form-label mt-0">
 								<select class="form-control border mt-0" required>
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
@@ -249,7 +249,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row mt-1">
-							<label for="collector4" class="col-sm-3 col-form-label mt-0">
+							<label for="collector4" class="col-sm-2 col-form-label mt-0">
 								<select class="form-control border mt-0" required >
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
@@ -261,7 +261,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row mt-1">
-							<label for="collector5" class="col-sm-3 col-form-label mt-0">
+							<label for="collector5" class="col-sm-2 col-form-label mt-0">
 								<select class="form-control  border mt-0">
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
@@ -277,19 +277,19 @@ limitations under the License.
 						<h2 class="fs-title text-center">Scientific Name</h2>
 						<h3 class="fs-subtitle text-center">This is step 3</h3>
 						<div class="form-group row">
-							<label for="scientific_name" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Scientific Name</label>
+							<label for="scientific_name" class="col-sm-2 col-form-label pt-0 text-center text-md-right">Scientific Name</label>
 							<div class="col-sm-9">
 								<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="made_by" class="col-sm-3 col-form-label pt-0 text-center text-md-right">ID Made By</label>
+							<label for="made_by" class="col-sm-2 col-form-label pt-0 text-center text-md-right">ID Made By</label>
 							<div class="col-sm-9">
 								<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="nature_of_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Nature of ID</label>
+							<label for="nature_of_id" class="col-sm-2 col-form-label pt-0 text-center text-md-right">Nature of ID</label>
 							<div class="col-sm-4">
 								<select class="form-control border" required>
 									<option value="">Expert ID</option>
@@ -303,7 +303,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row my-0">
-							<label for="id_remark" class="col-sm-3 col-form-label pt-0 text-center text-md-right">ID Remark</label>
+							<label for="id_remark" class="col-sm-2 col-form-label pt-0 text-center text-md-right">ID Remark</label>
 							<div class="col-sm-9">
 								<textarea type="text" name="id_remark" class="data-entry-input" placeholder="ID remark"/>
 								</textarea>
@@ -314,19 +314,19 @@ limitations under the License.
 						<h2 class="fs-title text-center">Locality</h2>
 						<h3 class="fs-subtitle text-center">This is step 4</h3>
 						<div class="form-group row">
-							<label for="higher_geog" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Higher Geography</label>
+							<label for="higher_geog" class="col-sm-2 col-form-label pt-0 text-center text-md-right">Higher Geography</label>
 							<div class="col-sm-9">
 								<input type="text" name="higher_geog" class="form-control" placeholder="Higher Geography" />
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="higher_geog" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Specific Locality</label>
+							<label for="higher_geog" class="col-sm-2 col-form-label pt-0 text-center text-md-right">Specific Locality</label>
 							<div class="col-sm-9">
 								<input type="text" name="spec_locality" class="form-control" placeholder="Specific Locality" />
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="inputPassword3" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Elevation</label>
+							<label for="inputPassword3" class="col-sm-2 col-form-label pt-0 text-center text-md-right">Elevation</label>
 							<div class="col-sm-3">
 								<input type="text" class="form-control" id="inputMinElev" placeholder="Min Elevation">
 							</div>
