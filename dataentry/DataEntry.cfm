@@ -270,8 +270,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="tab">
-						<h2 class="fs-title text-center">Scientific Name</h2>
+					<div class="tab" id="identifications">
+						<h2 class="fs-title text-center">Identifications</h2>
 						<h3 class="fs-subtitle text-center">This is step 3</h3>
 						<div class="form-group row">
 							<label for="scientific_name" class="col-sm-2 col-form-label pt-0 text-center text-md-right">Scientific Name</label>
