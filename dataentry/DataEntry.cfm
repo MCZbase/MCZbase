@@ -1220,10 +1220,10 @@ function nextPrev(n) {
 }
 		
 $(function(){
-    $("##regForm").click(function(){
-        $("##identifications").formwizard("show","identifications");
-        return false;
-    });
+	$("##regForm").click(function(){
+		$("x").formwizard("show","identifications");
+		return false;
+	});
 });
 
 function validateForm() {
