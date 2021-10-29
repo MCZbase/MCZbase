@@ -229,7 +229,7 @@ limitations under the License.
 									</select>
 								</label>
 								<div class="col-sm-7 mt-1">
-									<input type="text" class="data-entry-input validate" id="collector1" placeholder="Agent Name">
+									<input type="text" class="data-entry-input validate height1p8" id="collector1" placeholder="Agent Name">
 								</div>
 							</div>
 							<div class="form-group offset-2 row my-0">
@@ -253,19 +253,19 @@ limitations under the License.
 									</select>
 								</label>
 								<div class="col-sm-7 mt-1">
-									<input type="text" class="data-entry-input" id="collector3" placeholder="Agent Name">
+									<input type="text" class="data-entry-input height1p8" id="collector3" placeholder="Agent Name">
 								</div>
 							</div>
 							<div class="form-group offset-2 row mt-0">
 								<label for="collector4" class="col-sm-3 col-form-label mt-0">
-									<select class="form-control border mt-0" required >
+									<select class="form-control smallselect border mt-0" required >
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
 									</select>
 								</label>
 								<div class="col-sm-7 mt-1">
-									<input type="text" class="data-entry-input" id="collector4" placeholder="Agent Name">
+									<input type="text" class="data-entry-input height1p8" id="collector4" placeholder="Agent Name">
 								</div>
 							</div>
 						</div>
@@ -287,7 +287,7 @@ limitations under the License.
 						<div class="form-group row">
 							<label for="nature_of_id" class="col-sm-2 col-form-label pt-0 text-center text-md-right">Nature of ID</label>
 							<div class="col-sm-4">
-								<select class="form-control border" required>
+								<select class="form-control smallselect border" required>
 									<option value="">Expert ID</option>
 									<option value="1">Field ID</option>
 									<option value="2">Non-Expert ID</option>
@@ -295,7 +295,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-sm-5">
-								<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
+								<input type="text" name="made_by_date" class="data-entry-input height1p8" placeholder="Date of ID" />
 							</div>
 						</div>
 						<div class="form-group row my-0">
@@ -311,22 +311,22 @@ limitations under the License.
 						<div class="form-group row">
 							<label for="higher_geog" class="col-sm-2 col-form-label pt-1 text-center text-md-right">Higher Geography</label>
 							<div class="col-sm-9">
-								<input type="text" name="higher_geog" class="form-control" placeholder="Higher Geography" />
+								<input type="text" name="higher_geog" class="form-control height1p8" placeholder="Higher Geography" />
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="higher_geog" class="col-sm-2 col-form-label pt-1 text-center text-md-right">Specific Locality</label>
 							<div class="col-sm-9">
-								<input type="text" name="spec_locality" class="form-control" placeholder="Specific Locality" />
+								<input type="text" name="spec_locality" class="form-control height1p8" placeholder="Specific Locality" />
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="inputPassword3" class="col-sm-2 col-form-label pt-1 text-center text-md-right">Elevation</label>
 							<div class="col-sm-3">
-								<input type="text" class="form-control" id="inputMinElev" placeholder="Min Elevation">
+								<input type="text" class="form-control height1p8" id="inputMinElev" placeholder="Min Elevation">
 							</div>
 							<div class="col-sm-3">
-								<input type="text" class="form-control" id="inputMaxElev" placeholder="Max Elevation">
+								<input type="text" class="form-control height1p8" id="inputMaxElev" placeholder="Max Elevation">
 							</div>
 							<div class="col-sm-2">
 								<select class="form-control border" required>
@@ -346,7 +346,7 @@ limitations under the License.
 								<input type="text" class="form-control height1p8" id="inputMaxDepth" placeholder="Max Depth">
 							</div>
 							<div class="col-sm-2">
-								<select class="form-control border height1p8" required>
+								<select class="form-control smallselect border height1p8" required>
 									<option value="">Units</option>
 									<cfloop query="error_units">
 										<option value="error_units.lat_long_error_units"></option>
