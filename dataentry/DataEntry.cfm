@@ -175,8 +175,8 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-<!---						<div class="form-group mb-0 row mr-xl-0">
-							<label for="other_id" class="col-sm-2 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
+						<div class="form-group mb-2 row mr-xl-0">
+							<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
 							<div class="col-sm-4 col-md-4">
 								<select class="form-control data-entry-select smallselect col-12 float-left required">
 									<option value="">Other ID Type</option>
@@ -186,9 +186,9 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-sm-5">
-								<input type="text" class="data-entry-input" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+								<input type="text" class="data-entry-input height1p8" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 							</div>
-						</div>--->
+						</div>
 <!---						<div class="form-group row mr-xl-0">
 							<label for="other_id" class="col-sm-2 col-form-label mt-0 pr-xl-4 mt-2 mt-xl-2 text-center text-md-right">Mask Record</label>
 							<div class="col-sm-9 col-md-9 text-left">
