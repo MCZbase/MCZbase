@@ -268,18 +268,6 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="collector4" placeholder="Agent Name">
 								</div>
 							</div>
-							<div class="form-group offset-2 row mt-1">
-								<label for="collector5" class="col-sm-2 col-form-label mt-0">
-									<select class="form-control border mt-0">
-										<option value="">Role...</option>
-										<option value="1">Collector</option>
-										<option value="2">Preparator</option>
-									</select>
-								</label>
-								<div class="col-sm-6 mt-1">
-									<input type="text" class="data-entry-input" id="collector5" placeholder="Agent Name">
-								</div>
-							</div>
 						</div>
 					</div>
 					<div class="tab">
