@@ -1939,6 +1939,7 @@ limitations under the License.
 				columnSections.set("#getFieldMetadata.category#",new Array());
 			}
 		</cfloop>
+		var columnMetadataLoaded = false;
 
 		function gridLoaded(gridId, searchType, whichGrid) {
 			if (Object.keys(window.columnHiddenSettings).length == 0) {
@@ -1973,19 +1974,22 @@ limitations under the License.
 			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
 			var columnCount = columns.length;
-			for (i = 1; i < columnCount; i++) {
-				var text = columns[i].text;
-				var datafield = columns[i].datafield;
-				var hideable = columns[i].hideable;
-				var hidden = columns[i].hidden;
-				var show = ! hidden;
-				if (hideable == true) {
-					var listRow = { label: text, value: datafield, checked: show };
-					var inCategory = columnCategoryPlacements.get(datafield);
-					columnSections.get(inCategory).push(listRow);
-					// TODO: Add as list box to section of form.
-
+			if (!columnMetadataLoaded) { 
+				for (i = 1; i < columnCount; i++) {
+					var text = columns[i].text;
+					var datafield = columns[i].datafield;
+					var hideable = columns[i].hideable;
+					var hidden = columns[i].hidden;
+					var show = ! hidden;
+					if (hideable == true) {
+						var listRow = { label: text, value: datafield, checked: show };
+						var inCategory = columnCategoryPlacements.get(datafield);
+						columnSections.get(inCategory).push(listRow);
+						// TODO: Add as list box to section of form.
+	
+					}
 				}
+				columnMetadataLoaded = true;
 			}
 			console.log(columnSections);
 
