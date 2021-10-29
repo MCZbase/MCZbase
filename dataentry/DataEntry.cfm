@@ -428,12 +428,12 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 									<div class="col-12 mb-2 float-left">
 										<div class="form-row">
 											<div class="col-12 col-xl-6 float-left">
-												<label for="cat_num" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Catalog Number</label>
+												<label for="cat_num" class="small font-weight-light float-left d-block mt-1 px-1 mb-0 text-right pr-2">Catalog Number</label>
 												<input type="text" class="data-entry-input height1p2" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
 												<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
 											</div>
 											<div class="col-12 col-xl-6 float-left">
-												<label for="accn" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Accession Number</label>
+												<label for="accn" class="small font-weight-light float-left d-block mt-1 px-1 mb-0 text-right pr-2">Accession Number</label>
 												<input type="text" class="data-entry-input height1p2" id="accn" aria-describedby="accnHelp" name="accn">
 												<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
 											</div>
@@ -447,7 +447,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light addOtherID py-0 mt-2 mx-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 											<div class="form-row mt-xl-1">
 												<div class="col-12 col-xl-6 float-left">
-													<label for="other_id" class="small font-weight-light float-left d-block mt-2 mt-xl-1 px-1 mb-0">Other ID Type</label>
+													<label for="other_id" class="small font-weight-light float-left d-block mt-2 mt-xl-1 px-1 mb-0 text-right pr-2">Other ID Type</label>
 													<select class="data-entry-select mt-0 mt-xl-1 smallselect height1p2">
 														<option value="">Other ID Type</option>
 														<cfloop query="otherIDType">
