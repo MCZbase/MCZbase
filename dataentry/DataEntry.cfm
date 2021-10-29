@@ -173,26 +173,23 @@ limitations under the License.
 									<input placeholder="Accession Number" class="data-entry-input validate height1p8" oninput="this.className = ''" name="accn">
 								</div>
 							</div>
-						
-
-						<div class="form-group mb-2 offset-1 row">
-							<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
-							<div class="col-sm-6 px-0">
-								<div class="col-sm-4 px-1 float-left">
-									<select class="form-control-sm bg-white data-entry-select smallselect height1p8 float-left required">
-										<option value="">Other ID Type</option>
-										<option value="1">Field Number</option>
-										<option value="2">Collector Number</option>
-										<option value="3">Previous Number</option>
-									</select>
-								</div>
-								<div class="col-sm-7 px-3 float-left">
-									<input type="text" class="data-entry-input height1p8" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+							<div class="form-group mb-2 offset-1 mr-xl-0 row">
+								<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
+								<div class="col-sm-6 px-0">
+									<div class="col-sm-4 float-left">
+										<select class="form-control-sm bg-white data-entry-select smallselect height1p8 float-left required">
+											<option value="">Other ID Type</option>
+											<option value="1">Field Number</option>
+											<option value="2">Collector Number</option>
+											<option value="3">Previous Number</option>
+										</select>
+									</div>
+									<div class="col-sm-7 float-left">
+										<input type="text" class="data-entry-input height1p8" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-
 					</div>
 					<div class="tab">
 						<h2 class="fs-title text-center">COLLECTOR/PREPARATOR</h2>
