@@ -195,9 +195,9 @@ limitations under the License.
 					<div class="tab">
 						<h2 class="fs-title text-center">COLLECTOR/PREPARATOR</h2>
 						<div class="col-10 mx-auto">
-							<div class="form-group offset-2 row my-0">
-								<label for="collector1" class="col-sm-3 col-form-label mt-0">
-									<select class="form-control border mt-0 validate height1p8">
+							<div class="form-group offset-2 py-0 row my-0">
+								<label for="collector1" class="col-sm-3 col-form-label pt-1 mt-0">
+									<select class="form-control-small px-2 border mt-0 validate height1p8">
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
@@ -209,7 +209,7 @@ limitations under the License.
 							</div>
 							<div class="form-group offset-2 row my-0">
 								<label for="collector2" class="col-sm-3 col-form-label mt-0">
-									<select class="form-control-sm bg-white smallselect border mt-0">
+									<select class="form-control-sm bg-white smallselect height1p8 border mt-0">
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
@@ -221,7 +221,7 @@ limitations under the License.
 							</div>
 							<div class="form-group offset-2 row my-0">
 								<label for="collector3" class="col-sm-3 col-form-label mt-0">
-									<select class="form-control border mt-0" required>
+									<select class="form-control-sm bg-white smallselect height1p8 border mt-0" required>
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
@@ -233,7 +233,7 @@ limitations under the License.
 							</div>
 							<div class="form-group mb-2 offset-2 row mt-0">
 								<label for="collector4" class="col-sm-3 col-form-label mt-0">
-									<select class="form-control smallselect border mt-0" required >
+									<select class="form-control-sm bg-white smallselect height1p8 border mt-0" required >
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
