@@ -1221,7 +1221,7 @@ function nextPrev(n) {
 		
 $(function(){
     $("##regForm").click(function(){
-        $(".tab").formwizard("show","identifications");
+        $("##identifications").formwizard("show","identifications");
         return false;
     });
 });
