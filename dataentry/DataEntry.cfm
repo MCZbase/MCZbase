@@ -164,13 +164,13 @@ limitations under the License.
 						<div class="col-12">
 							<div class="form-group offset-1 row mr-xl-0">
 								<label for="cat_num" class="col-sm-3 col-form-label pt-0 mt-0 mt-xl-1 pr-xl-4 text-center text-md-right">Catalog Number</label>
-								<div class="col-sm-7">
+								<div class="col-sm-6">
 									<input placeholder="Catalog Number" class="data-entry-input validate" oninput="this.className = ''" name="cat_num">
 								</div>
 							</div>
 							<div class="form-group offset-1 row mr-xl-0">
 								<label for="accn" class="col-sm-3 col-form-label pt-0 mt-0 mt-xl-1 pr-xl-4 text-center text-md-right">Accession</label>
-								<div class="col-sm-7">
+								<div class="col-sm-6">
 									<input placeholder="Accession Number" class="data-entry-input validate" oninput="this.className = ''" name="accn">
 								</div>
 							</div>
