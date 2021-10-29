@@ -221,7 +221,7 @@ limitations under the License.
 						<h3 class="fs-subtitle text-center">This is step 2</h3>
 						<div class="col-10 mx-auto">
 							<div class="form-group offset-2 row my-0">
-								<label for="collector1" class="col-sm-2 col-form-label mt-0">
+								<label for="collector1" class="col-sm-3 col-form-label mt-0">
 									<select class="form-control border mt-0 validate">
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
@@ -233,7 +233,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-group offset-2 row my-0">
-								<label for="collector2" class="col-sm-2 col-form-label mt-0">
+								<label for="collector2" class="col-sm-3 col-form-label mt-0">
 									<select class="form-control border mt-0">
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
@@ -245,7 +245,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-group offset-2 row my-0">
-								<label for="collector3" class="col-sm-2 col-form-label mt-0">
+								<label for="collector3" class="col-sm-3 col-form-label mt-0">
 									<select class="form-control border mt-0" required>
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
@@ -257,7 +257,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-group offset-2 row mt-0">
-								<label for="collector4" class="col-sm-2 col-form-label mt-0">
+								<label for="collector4" class="col-sm-3 col-form-label mt-0">
 									<select class="form-control border mt-0" required >
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
