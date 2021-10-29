@@ -340,7 +340,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="inputPassword3" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Depth</label>
+							<label for="inputPassword3" class="col-sm-2 col-form-label pt-0 text-center text-md-right">Depth</label>
 							<div class="col-sm-3">
 								<input type="text" class="form-control" id="inputMinDepth" placeholder="Min Depth">
 							</div>
@@ -352,24 +352,24 @@ limitations under the License.
 									<option value="">Units</option>
 									<cfloop query="error_units">
 										<option value="error_units.lat_long_error_units"></option>
-									</cfloop>								
+									</cfloop>
 								</select>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="sovereign_nation" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Sovereign Nation</label>
+							<label for="sovereign_nation" class="col-sm-2 col-form-label pt-0 text-center text-md-right">Sovereign Nation</label>
 							<div class="col-sm-9">
 								<input type="text" name="sovereign_nation" class="form-control" placeholder="Sovereign Nation" />
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="higher_geog" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Geology Attribute</label>
+							<label for="higher_geog" class="col-sm-2 col-form-label pt-0 text-center text-md-right">Geology Attribute</label>
 							<div class="col-sm-9 my-0">
 								<input type="text" name="geology_attribute" class="form-control" placeholder="Geology Attribute" />
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="habitat" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Habitat</label>
+							<label for="habitat" class="col-sm-2 col-form-label pt-0 text-center text-md-right">Habitat</label>
 							<div class="col-sm-9">
 								<input type="text" name="habitat" class="form-control" placeholder="Habitat" />
 							</div>
@@ -383,7 +383,7 @@ limitations under the License.
 					</div>
 					<!-- Circles which indicates the steps of the form: -->
 					<div class="my-4 col-12 col-xl-10 offset-xl-1 text-center"> 
-						<span class="step">Identifiers</span> <span class="step"><a href="##identifications">Identifications</a></span> <span class="step">Agents</span> <span class="step">Coll. Event</span> <span class="step">Locality</span> <span class="step">Coordinates</span> <span class="step">Parts</span> <span class="step">Attributes</span> <span class="step">Bio.&nbsp;Relations</span> <span class="step">Curatorial</span> <span class="step">Encumbrance</span>
+						<span class="step">Identifiers</span> <a href="##identifications"><span class="step">Identifications</span></a> <span class="step">Agents</span> <span class="step">Coll. Event</span> <span class="step">Locality</span> <span class="step">Coordinates</span> <span class="step">Parts</span> <span class="step">Attributes</span> <span class="step">Bio.&nbsp;Relations</span> <span class="step">Curatorial</span> <span class="step">Encumbrance</span>
 					</div>
 				</form>
 			</div>
@@ -1186,24 +1186,24 @@ function SwapDivsWithClick(multi_collector,col_collector)
 	<script>
 	var currentTab = 0; // Current tab is set to be the first tab (0)
 	showTab(currentTab); // Display the current tab
-function showTab(n) {
-  // This function will display the specified tab of the form ...
-  	var x = document.getElementsByClassName("tab");
-  	x[n].style.display = "block";
-  // ... and fix the Previous/Next buttons:
-  if (n == 0) {
-    document.getElementById("prevBtn").style.display = "none";
-  } else {
-    document.getElementById("prevBtn").style.display = "inline";
-  }
-  if (n == (x.length - 1)) {
-    document.getElementById("nextBtn").innerHTML = "Submit";
-  } else {
-    document.getElementById("nextBtn").innerHTML = "Next";
-  } 
-  // ... and run a function that displays the correct step indicator:
-  fixStepIndicator(n)
-}
+	function showTab(n) {
+	  // This function will display the specified tab of the form ...
+		var x = document.getElementsByClassName("tab");
+		x[n].style.display = "block";
+	  // ... and fix the Previous/Next buttons:
+	  if (n == 0) {
+		document.getElementById("prevBtn").style.display = "none";
+	  } else {
+		document.getElementById("prevBtn").style.display = "inline";
+	  }
+	  if (n == (x.length - 1)) {
+		document.getElementById("nextBtn").innerHTML = "Submit";
+	  } else {
+		document.getElementById("nextBtn").innerHTML = "Next";
+	  } 
+	  // ... and run a function that displays the correct step indicator:
+	  fixStepIndicator(n)
+	}
 	
 function nextPrev(n) {
   // This function will figure out which tab to display
