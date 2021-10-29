@@ -164,11 +164,16 @@ limitations under the License.
 						<div class="form-group row mr-xl-0">
 							<label for="cat_num" class="col-sm-2 col-form-label pt-0 mt-0 mt-xl-1 pr-xl-4 text-center text-md-right">Catalog Number</label>
 							<div class="col-sm-9">
-									<input placeholder="Catalog Number" class="data-entry-input validate" oninput="this.className = ''" name="cat_num">
-							
+								<input placeholder="Catalog Number" class="data-entry-input validate" oninput="this.className = ''" name="cat_num">
 							</div>
 						</div>
-						<div class="form-group mb-0 row mr-xl-0">
+						<div class="form-group row mr-xl-0">
+							<label for="accn" class="col-sm-2 col-form-label pt-0 mt-0 mt-xl-1 pr-xl-4 text-center text-md-right">Accession</label>
+							<div class="col-sm-9">
+								<input placeholder="Accession Number" class="data-entry-input validate" oninput="this.className = ''" name="accn">
+							</div>
+						</div>
+<!---						<div class="form-group mb-0 row mr-xl-0">
 							<label for="other_id" class="col-sm-2 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
 							<div class="col-sm-4 col-md-4">
 								<select class="form-control data-entry-select smallselect col-12 float-left required">
@@ -181,8 +186,8 @@ limitations under the License.
 							<div class="col-sm-5">
 								<input type="text" class="data-entry-input" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 							</div>
-						</div>
-						<div class="form-group row mr-xl-0">
+						</div>--->
+<!---						<div class="form-group row mr-xl-0">
 							<label for="other_id" class="col-sm-2 col-form-label mt-0 pr-xl-4 mt-2 mt-xl-2 text-center text-md-right">Mask Record</label>
 							<div class="col-sm-9 col-md-9 text-left">
 								<div class="form-check col-12 form-check-inline">
@@ -192,8 +197,8 @@ limitations under the License.
 									<input type="text" class="data-entry-input px-2 col-5 mt-2 mt-xl-3" name="mask_record" placeholder="Encumbrance ID">
 								</div>
 							</div>
-						</div>
-						<div class="form-group row mr-xl-0">
+						</div>--->
+<!---						<div class="form-group row mr-xl-0">
 							<label for="relations" class="col-sm-2 col-form-label pr-xl-4 pt-0 mt-0 mt-xl-1 text-center text-md-right">Other Records</label>
 							<div class="col-sm-4 col-md-4 text-left">
 								<select class="form-control border mt-0" required>
@@ -207,7 +212,7 @@ limitations under the License.
 							<div class="col-sm-5">
 								<input type="text" class="data-entry-input"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
 							</div>
-						</div>
+						</div>--->
 					</div>
 					<div class="tab">
 						<h2 class="fs-title text-center">COLLECTOR/PREPARATOR</h2>
@@ -428,12 +433,12 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 									<div class="col-12 mb-2 float-left">
 										<div class="form-row">
 											<div class="col-12 col-xl-6 float-left">
-												<label for="cat_num" class="small font-weight-light float-left d-block mt-1 px-1 mb-0 text-right pr-2">Catalog Number</label>
+												<label for="cat_num" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Catalog Number</label>
 												<input type="text" class="data-entry-input height1p2" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
 												<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection</small>
 											</div>
 											<div class="col-12 col-xl-6 float-left">
-												<label for="accn" class="small font-weight-light float-left d-block mt-1 px-1 mb-0 text-right pr-2">Accession Number</label>
+												<label for="accn" class="small font-weight-light float-left d-block mt-1 px-1 mb-0">Accession Number</label>
 												<input type="text" class="data-entry-input height1p2" id="accn" aria-describedby="accnHelp" name="accn">
 												<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database</small>
 											</div>
@@ -447,7 +452,7 @@ We will conduct RT-qPCR in order to test our hypothesis that the tumor suppresso
 											<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light addOtherID py-0 mt-2 mx-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Other ID</a>
 											<div class="form-row mt-xl-1">
 												<div class="col-12 col-xl-6 float-left">
-													<label for="other_id" class="small font-weight-light float-left d-block mt-2 mt-xl-1 px-1 mb-0 text-right pr-2">Other ID Type</label>
+													<label for="other_id" class="small font-weight-light float-left d-block mt-2 mt-xl-1 px-1 mb-0">Other ID Type</label>
 													<select class="data-entry-select mt-0 mt-xl-1 smallselect height1p2">
 														<option value="">Other ID Type</option>
 														<cfloop query="otherIDType">
