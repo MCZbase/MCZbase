@@ -355,7 +355,7 @@ limitations under the License.
 													<span class="d-block px-3 p-2" id="keywordresultCount"></span> <span id="keywordresultLink" class="d-block p-2"></span>
 													<div id="keywordcolumnPickDialog">
 														<div class="container-fluid">
-															<div class="row">
+															<div class="row" id="keywordColumnPick_row" >
 																<div class="col-12 col-md-3">
 																	<div id="keywordcolumnPick" class="px-1"></div>
 																</div>
@@ -769,7 +769,7 @@ limitations under the License.
 													<span class="d-block px-3 p-2" id="builderresultCount"></span> <span id="builderresultLink" class="d-block p-2"></span>
 													<div id="buildercolumnPickDialog">
 														<div class="container-fluid">
-															<div class="row">
+															<div class="row" id="builderColumnPick_row" >
 																<div class="col-12 col-md-3">
 																	<div id="buildercolumnPick" class="px-1"></div>
 																</div>
@@ -1274,7 +1274,7 @@ limitations under the License.
 													<span class="d-block px-3 p-2" id="fixedresultCount"></span> <span id="fixedresultLink" class="d-block p-2"></span>
 													<div id="fixedcolumnPickDialog">
 														<div class="container-fluid">
-															<div class="row">
+															<div class="row" id="fixedColumnPick_row" >
 																<div class="col-12 col-md-3">
 																	<div id="fixedcolumnPick" class="px-1"></div>
 																</div>
@@ -1992,8 +1992,32 @@ limitations under the License.
 				columnMetadataLoaded = true;
 			}
 			console.log(columnSections);
+			$("##"+whichGrid+"columnPick_row").html();
+			$("##"+whichGrid+"columnPick_row").addClass('accordion');
+			for (let [key, value] of columnCategories) { 
+				$(document.createElement('div',{
+    				id: whichGrid + "_" + key + "_accord",
+    				class: "card mb-2 bg-light",
+    				title: key
+				}).appendTo("##"+whichGrid+"columnPickRow");
+				$(document.createElement('div',{
+    				id: whichGrid + "_" + key + "_accord_head",
+    				class: "card-header"
+				}).appendTo("##"+whichGrid+""+ key +"_accord");
+				$("##"+whichGrid+""+ key +"_accord_head").html('<h2 class="h4 my-0">'+key+'</h2>');
+				$(document.createElement('div',{
+    				id: whichGrid + "_" + key + "_accord_body",
+    				class: "card-body pb-1"
+				}).appendTo("##"+whichGrid+""+ key +"_accord");
+				$(document.createElement('div',{
+    				id: whichGrid + "_" + key + "_accord_list",
+    				class: "card-body pb-1"
+				}).appendTo("##"+whichGrid+""+ key +"_accord_body");
+				$("##"+whichGrid+"_"+key+"_accord_list").jqxListBox({ source: value, autoHeight: true, width: '260px', checkboxes: true });
+			}
 
 			// add a control to show/hide columns
+/*
 			var halfcolumns = Math.round(columns.length/2);
 			var quartercolumns = Math.round(columns.length/4);
 			var columnListSource = [];
@@ -2087,6 +2111,7 @@ limitations under the License.
 				}
 				$("##" + gridId).jqxGrid('endupdate');
 			});
+*/
 			$("##"+whichGrid+"columnPickDialog").dialog({
 				height: 'auto',
 				width: 'auto',
