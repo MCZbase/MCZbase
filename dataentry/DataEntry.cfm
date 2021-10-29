@@ -386,7 +386,7 @@ limitations under the License.
 					</div>
 					<!-- Circles which indicates the steps of the form: -->
 					<div class="my-4 text-center"> 
-						<span class="step">Identifiers</span> <span class="step">Identification</span> <span class="step">Agents</span> <span class="step">Collecting Event</span> <span class="step">Locality</span> <span class="step">Coordinates</span> <span class="step">Parts</span> <span class="step">Attributes</span> <span class="step">Biological Relationships</span> <span class="step">Curatorial Relationships</span> <span class="step">Encumbrance</span>
+						<span class="step">Identifiers</span> <span class="step">Identifications</span> <span class="step">Agents</span> <span class="step">Coll. Event</span> <span class="step">Locality</span> <span class="step">Coordinates</span> <span class="step">Parts</span> <span class="step">Attributes</span> <span class="step">Bio. Relationships</span> <span class="step">Cur. Relationships</span> <span class="step">Encumbrance</span>
 					</div>
 				</form>
 			</div>
