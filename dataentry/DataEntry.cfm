@@ -183,7 +183,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row mr-xl-0">
-							<label for="other_id" class="col-sm-2 col-form-label mt-0 pr-xl-4 mt-2 mt-xl-1 text-center text-md-right">Mask Record</label>
+							<label for="other_id" class="col-sm-2 col-form-label mt-0 pr-xl-4 mt-2 mt-xl-2 text-center text-md-right">Mask Record</label>
 							<div class="col-sm-9 col-md-9 text-left">
 								<div class="form-check col-12 form-check-inline">
 									<input class="form-check-input w-auto mx-1 mt-2" value="mask" type="checkbox" id="gridCheck1">
