@@ -402,7 +402,7 @@ limitations under the License.
 		</div>
 
 	<div class="row my-5">
-		<div class="col-12 py-5">
+		<div class="col-12 pt-2 pb-5">
 			<div class="col-9 mx-auto">
 				<iframe src="https://code.mcz.harvard.edu/wiki/index.php/Enter_Data" width="100%" height="500"></iframe>
 			</div>
