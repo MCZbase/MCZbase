@@ -174,10 +174,10 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="form-group mb-2 offset-1 row mr-xl-0">
+						<div class="form-group mb-2 offset-1 row">
 							<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
 							<div class="col-sm-6 px-0">
-								<div class="col-sm-4 px-0 float-left">
+								<div class="col-sm-4 px-1 float-left">
 									<select class="form-control-sm bg-white data-entry-select smallselect height1p8 float-left required">
 										<option value="">Other ID Type</option>
 										<option value="1">Field Number</option>
@@ -185,37 +185,12 @@ limitations under the License.
 										<option value="3">Previous Number</option>
 									</select>
 								</div>
-								<div class="col-sm-8 px-0 float-left">
+								<div class="col-sm-7 px-3 float-left">
 									<input type="text" class="data-entry-input height1p8" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 								</div>
 							</div>
 						</div>
-<!---						<div class="form-group row mr-xl-0">
-							<label for="other_id" class="col-sm-2 col-form-label mt-0 pr-xl-4 mt-2 mt-xl-2 text-center text-md-right">Mask Record</label>
-							<div class="col-sm-9 col-md-9 text-left">
-								<div class="form-check col-12 form-check-inline">
-									<input class="form-check-input w-auto mx-1 mt-2" value="mask" type="checkbox" id="gridCheck1">
-									<label class="form-check-label col-5 mt-2" for="gridCheck1"> Mask Record (Generic)</label>
-									<div class="col-1 pl-0 mt-3">OR</div>
-									<input type="text" class="data-entry-input px-2 col-5 mt-2 mt-xl-3" name="mask_record" placeholder="Encumbrance ID">
-								</div>
-							</div>
-						</div>--->
-<!---						<div class="form-group row mr-xl-0">
-							<label for="relations" class="col-sm-2 col-form-label pr-xl-4 pt-0 mt-0 mt-xl-1 text-center text-md-right">Other Records</label>
-							<div class="col-sm-4 col-md-4 text-left">
-								<select class="form-control border mt-0" required>
-									<option value="">Relationship Type</option>
-									<option value="1">Re-Cataloged as</option>
-									<option value="2">Bad Duplicate of</option>
-									<option value="3">Cloned from Record</option>
-									<option value="4">Duplicate Recataloged as</option>
-								</select>
-							</div>
-							<div class="col-sm-5">
-								<input type="text" class="data-entry-input"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
-							</div>
-						</div>--->
+
 					</div>
 					<div class="tab">
 						<h2 class="fs-title text-center">COLLECTOR/PREPARATOR</h2>
@@ -270,6 +245,32 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+					<!---						<div class="form-group row mr-xl-0">
+							<label for="other_id" class="col-sm-2 col-form-label mt-0 pr-xl-4 mt-2 mt-xl-2 text-center text-md-right">Mask Record</label>
+							<div class="col-sm-9 col-md-9 text-left">
+								<div class="form-check col-12 form-check-inline">
+									<input class="form-check-input w-auto mx-1 mt-2" value="mask" type="checkbox" id="gridCheck1">
+									<label class="form-check-label col-5 mt-2" for="gridCheck1"> Mask Record (Generic)</label>
+									<div class="col-1 pl-0 mt-3">OR</div>
+									<input type="text" class="data-entry-input px-2 col-5 mt-2 mt-xl-3" name="mask_record" placeholder="Encumbrance ID">
+								</div>
+							</div>
+						</div>--->
+<!---						<div class="form-group row mr-xl-0">
+							<label for="relations" class="col-sm-2 col-form-label pr-xl-4 pt-0 mt-0 mt-xl-1 text-center text-md-right">Other Records</label>
+							<div class="col-sm-4 col-md-4 text-left">
+								<select class="form-control border mt-0" required>
+									<option value="">Relationship Type</option>
+									<option value="1">Re-Cataloged as</option>
+									<option value="2">Bad Duplicate of</option>
+									<option value="3">Cloned from Record</option>
+									<option value="4">Duplicate Recataloged as</option>
+								</select>
+							</div>
+							<div class="col-sm-5">
+								<input type="text" class="data-entry-input"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
+							</div>
+						</div>--->
 					<div class="tab" id="identifications" name="identifications">
 						<h2 class="fs-title text-center">Identifications</h2>
 						<div class="form-group mb-2 row">
