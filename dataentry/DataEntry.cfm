@@ -197,7 +197,7 @@ limitations under the License.
 						<div class="col-10 mx-auto">
 							<div class="form-group offset-2 py-0 row my-0">
 								<label for="collector1" class="col-sm-3 col-form-label pt-1 mt-0">
-									<select class="form-control-small px-2 border mt-0 validate height1p8">
+									<select class="form-control-sm smallselect border mt-0 validate height1p8">
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
