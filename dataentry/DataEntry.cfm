@@ -219,7 +219,6 @@ limitations under the License.
 					</div>
 					<div class="tab">
 						<h2 class="fs-title text-center">COLLECTOR/PREPARATOR</h2>
-						<h3 class="fs-subtitle text-center">This is step 2</h3>
 						<div class="col-10 mx-auto">
 							<div class="form-group offset-2 row my-0">
 								<label for="collector1" class="col-sm-3 col-form-label mt-0">
@@ -235,14 +234,14 @@ limitations under the License.
 							</div>
 							<div class="form-group offset-2 row my-0">
 								<label for="collector2" class="col-sm-3 col-form-label mt-0">
-									<select class="form-control border mt-0">
+									<select class="form-control smallselect border mt-0">
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
 									</select>
 								</label>
 								<div class="col-sm-7 mt-1">
-									<input type="text" class="data-entry-input" id="collector2" placeholder="Agent Name">
+									<input type="text" class="data-entry-input height1p8" id="collector2" placeholder="Agent Name">
 								</div>
 							</div>
 							<div class="form-group offset-2 row my-0">
