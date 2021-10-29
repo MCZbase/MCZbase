@@ -1220,7 +1220,7 @@ function nextPrev(n) {
 }
 		
 $(function(){
-    $("#regForm").click(function(){
+    $("##regForm").click(function(){
         $(".tab").formwizard("show","identifications");
         return false;
     });
