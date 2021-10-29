@@ -864,14 +864,14 @@ a#showLeftPush.hiddenclass {
 /* Make circles that indicate the steps of the form: */
 #regForm .step {
 	height: 26px;
-	width: 118px;
+	width: 116px;
 	margin: 0 2px;
 	background-color: #bbbbbb;
 	border: none;
 	border-radius: 50%;
 	display: inline-block;
 	opacity: 0.85;
-	color: #333;
+	color: #1b1b1b;
 	padding: 3px;
 }
 #regForm .step.active {
