@@ -2077,7 +2077,9 @@ section#mediaSection.accordion {
 }
 .height1p2 {
 	height: 1.4rem!important;
-	
+}
+.height1p8 {
+	height: 1.8rem!important;
 }
 .smallselect {
 	font-size: 84%!important;
