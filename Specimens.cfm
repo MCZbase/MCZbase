@@ -1995,24 +1995,24 @@ limitations under the License.
 			$("##"+whichGrid+"columnPick_row").html("");
 			$("##"+whichGrid+"columnPick_row").addClass('accordion');
 			for (let [key, value] of columnCategories) { 
-				$(document.createElement('div',{
+				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord",
     				class: "card mb-2 bg-light",
     				title: key
-				})).appendTo("##"+whichGrid+"columnPick_row");
-				$(document.createElement('div',{
+				}).appendTo("##"+whichGrid+"columnPick_row");
+				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord_head",
     				class: "card-header"
-				})).appendTo("##"+whichGrid+"_"+ key +"_accord");
+				}).appendTo("##"+whichGrid+"_"+ key +"_accord");
 				$("##"+whichGrid+"_"+ key +"_accord_head").html('<h2 class="h4 my-0">'+key+'</h2>');
-				$(document.createElement('div',{
+				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord_body",
     				class: "card-body pb-1"
-				})).appendTo("##"+whichGrid+"_"+ key +"_accord");
-				$(document.createElement('div',{
+				}).appendTo("##"+whichGrid+"_"+ key +"_accord");
+				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord_list",
     				class: ""
-				})).appendTo("##"+whichGrid+"_"+ key +"_accord_body");
+				}).appendTo("##"+whichGrid+"_"+ key +"_accord_body");
 				$("##"+whichGrid+"_"+key+"_accord_list").jqxListBox({ source: value, autoHeight: true, width: '260px', checkboxes: true });
 			}
 
