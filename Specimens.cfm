@@ -2003,8 +2003,8 @@ limitations under the License.
 				$(document.createElement('div',{
     				id: whichGrid + "_" + key + "_accord_head",
     				class: "card-header"
-				})).appendTo("##"+whichGrid+""+ key +"_accord");
-				$("##"+whichGrid+""+ key +"_accord_head").html('<h2 class="h4 my-0">'+key+'</h2>');
+				})).appendTo("##"+whichGrid+"_"+ key +"_accord");
+				$("##"+whichGrid+"_"+ key +"_accord_head").html('<h2 class="h4 my-0">'+key+'</h2>');
 				$(document.createElement('div',{
     				id: whichGrid + "_" + key + "_accord_body",
     				class: "card-body pb-1"
@@ -2012,7 +2012,7 @@ limitations under the License.
 				$(document.createElement('div',{
     				id: whichGrid + "_" + key + "_accord_list",
     				class: ""
-				})).appendTo("##"+whichGrid+""+ key +"_accord_body");
+				})).appendTo("##"+whichGrid+"_"+ key +"_accord_body");
 				$("##"+whichGrid+"_"+key+"_accord_list").jqxListBox({ source: value, autoHeight: true, width: '260px', checkboxes: true });
 			}
 
