@@ -1985,8 +1985,6 @@ limitations under the License.
 						var listRow = { label: text, value: datafield, checked: show };
 						var inCategory = columnCategoryPlacements.get(datafield);
 						columnSections.get(inCategory).push(listRow);
-						// TODO: Add as list box to section of form.
-	
 					}
 				}
 				columnMetadataLoaded = true;
@@ -1995,6 +1993,7 @@ limitations under the License.
 			$("##"+whichGrid+"columnPick_row").html("");
 			$("##"+whichGrid+"columnPick_row").addClass('accordion');
 			for (let [key, value] of columnCategories) { 
+				// TODO: use value (number of fields in category) to subdivide long categories.
 				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord",
     				class: "card mb-2 bg-light",
@@ -2013,7 +2012,7 @@ limitations under the License.
     				id: whichGrid + "_" + key + "_accord_list",
     				class: ""
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord_body");
-				$("##"+whichGrid+"_"+key+"_accord_list").jqxListBox({ source: value, autoHeight: true, width: '260px', checkboxes: true });
+				$("##"+whichGrid+"_"+key+"_accord_list").jqxListBox({ source: columnSections.get(key), autoHeight: true, width: '260px', checkboxes: true });
 			}
 
 			// add a control to show/hide columns
