@@ -1992,14 +1992,14 @@ limitations under the License.
 				columnMetadataLoaded = true;
 			}
 			console.log(columnSections);
-			$("##"+whichGrid+"columnPick_row").html();
+			$("##"+whichGrid+"columnPick_row").html("");
 			$("##"+whichGrid+"columnPick_row").addClass('accordion');
 			for (let [key, value] of columnCategories) { 
 				$(document.createElement('div',{
     				id: whichGrid + "_" + key + "_accord",
     				class: "card mb-2 bg-light",
     				title: key
-				})).appendTo("##"+whichGrid+"columnPickRow");
+				})).appendTo("##"+whichGrid+"columnPick_row");
 				$(document.createElement('div',{
     				id: whichGrid + "_" + key + "_accord_head",
     				class: "card-header"
@@ -2008,10 +2008,10 @@ limitations under the License.
 				$(document.createElement('div',{
     				id: whichGrid + "_" + key + "_accord_body",
     				class: "card-body pb-1"
-				})).appendTo("##"+whichGrid+""+ key +"_accord");
+				})).appendTo("##"+whichGrid+"_"+ key +"_accord");
 				$(document.createElement('div',{
     				id: whichGrid + "_" + key + "_accord_list",
-    				class: "card-body pb-1"
+    				class: ""
 				})).appendTo("##"+whichGrid+""+ key +"_accord_body");
 				$("##"+whichGrid+"_"+key+"_accord_list").jqxListBox({ source: value, autoHeight: true, width: '260px', checkboxes: true });
 			}
