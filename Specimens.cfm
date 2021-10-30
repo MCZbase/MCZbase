@@ -1999,20 +1999,20 @@ limitations under the License.
     				id: whichGrid + "_" + key + "_accord",
     				class: "card mb-2 bg-light",
     				title: key
-				}).appendTo("##"+whichGrid+"columnPickRow");
+				})).appendTo("##"+whichGrid+"columnPickRow");
 				$(document.createElement('div',{
     				id: whichGrid + "_" + key + "_accord_head",
     				class: "card-header"
-				}).appendTo("##"+whichGrid+""+ key +"_accord");
+				})).appendTo("##"+whichGrid+""+ key +"_accord");
 				$("##"+whichGrid+""+ key +"_accord_head").html('<h2 class="h4 my-0">'+key+'</h2>');
 				$(document.createElement('div',{
     				id: whichGrid + "_" + key + "_accord_body",
     				class: "card-body pb-1"
-				}).appendTo("##"+whichGrid+""+ key +"_accord");
+				})).appendTo("##"+whichGrid+""+ key +"_accord");
 				$(document.createElement('div',{
     				id: whichGrid + "_" + key + "_accord_list",
     				class: "card-body pb-1"
-				}).appendTo("##"+whichGrid+""+ key +"_accord_body");
+				})).appendTo("##"+whichGrid+""+ key +"_accord_body");
 				$("##"+whichGrid+"_"+key+"_accord_list").jqxListBox({ source: value, autoHeight: true, width: '260px', checkboxes: true });
 			}
 
