@@ -2013,6 +2013,15 @@ limitations under the License.
     				class: ""
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord_body");
 				$("##"+whichGrid+"_"+key+"_accord_list").jqxListBox({ source: columnSections.get(key), autoHeight: true, width: '260px', checkboxes: true });
+				$("##"+whichGrid+"_"+key+"_accord_list").on('checkChange', function (event) {
+					$("##" + gridId).jqxGrid('beginupdate');
+					if (event.args.checked) {
+						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+					} else {
+						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+					}
+					$("##" + gridId).jqxGrid('endupdate');
+				});
 			}
 
 			// add a control to show/hide columns
