@@ -173,7 +173,7 @@ limitations under the License.
 									<input placeholder="Accession Number" class="data-entry-input validate height1p8" oninput="this.className = ''" name="accn">
 								</div>
 							</div>
-							<div class="form-group mb-2 offset-1 mr-xl-0 row">
+							<div class="form-group mb-1 offset-1 mr-xl-0 row">
 								<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
 								<div class="col-12 col-sm-6 px-0">
 									<div class="col-12 col-sm-4 px-0 float-left">
