@@ -2013,11 +2013,15 @@ limitations under the License.
 					bodyClass = "";
 					ariaExpanded = "false";
 				}
-				$('<h2/>',{
+				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord_head",
     				class: "card-header accordion-header"
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord");
-				$("##"+whichGrid+"_"+ key +"_accord_head").html('<button class="accordion-button" type="button" data-toggle="collapse" data-target="##'+whichGrid+'_'+key+'_accord_body" aria-expanded="'+ariaExpanded+'" aria-controls="##'+whichGrid+'_'+key+'_accord_body">'+key+'</button>');
+				$('<h2/>',{
+    				id: whichGrid + "_" + key + "_accord_head_h2",
+    				class: "h4 my-0"
+				}).appendTo("##"+whichGrid+"_"+ key +"_accord_head");
+				$("##"+whichGrid+"_"+ key +"_accord_head_h2").html('<button class="accordion-button" type="button" data-toggle="collapse" data-target="##'+whichGrid+'_'+key+'_accord_body" aria-expanded="'+ariaExpanded+'" aria-controls="##'+whichGrid+'_'+key+'_accord_body">'+key+'</button>');
 				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord_body",
     				class: "card-body accordion-collapse collapse " + bodyClass 
