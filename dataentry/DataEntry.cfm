@@ -173,6 +173,7 @@ limitations under the License.
 									<input placeholder="Accession Number" class="data-entry-input validate height1p8" oninput="this.className = ''" name="accn">
 								</div>
 							</div>
+							<button type="submit" class="btn-xs btn-primary height1p8">Create Record</button>
 							<div class="form-group mb-1 offset-1 mr-xl-0 row">
 								<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
 								<div class="col-12 col-sm-6 px-0">
@@ -237,8 +238,8 @@ limitations under the License.
 					</div>
 					<div class="tab">
 						<h2 class="fs-title text-center">COLLECTOR/PREPARATOR</h2>
-						<div class="col-10 mx-auto">
-							<div class="form-group offset-2 py-0 row my-1">
+						<div role="group" aria-labelledby="collector_preparator" class="col-10 mx-auto">
+							<div id="collector_1" class="form-group offset-2 py-0 row my-1">
 								<label for="collector1" class="col-12 px-1 col-sm-3 pt-0 mt-0">
 									<select class="form-control-sm bg-white smallselect border mt-0 validate height1p8">
 										<option value="">Role...</option>
