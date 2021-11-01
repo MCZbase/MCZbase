@@ -240,7 +240,7 @@ limitations under the License.
 					</div>
 					<div class="tab">
 						<h2 class="fs-title text-center">COLLECTOR/PREPARATOR</h2>
-						<div role="group" aria-labelledby="collector_preparator" class="col-10 mx-auto">
+						<div role="group" aria-labelledby="collector_preparator" class="col-10 mb-2mx-auto">
 							<div id="collector_1" class="form-group offset-2 py-0 row my-1">
 								<label for="collector1" class="col-12 px-1 col-sm-3 pt-0 mt-0">
 									<select class="form-control-sm bg-white smallselect border mt-0 validate height1p8">
