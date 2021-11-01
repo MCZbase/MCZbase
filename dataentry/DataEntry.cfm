@@ -246,7 +246,7 @@ limitations under the License.
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-12 col-sm-7 px-1 mt-1">
+								<div class="col-12 col-sm-7 px-1 mt-0">
 									<input type="text" class="data-entry-input validate height1p8" id="collector1" placeholder="Agent Name">
 								</div>
 							</div>
@@ -258,7 +258,7 @@ limitations under the License.
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-12 px-1 col-sm-7 mt-1">
+								<div class="col-12 px-1 col-sm-7 mt-0">
 									<input type="text" class="data-entry-input height1p8" id="collector2" placeholder="Agent Name">
 								</div>
 							</div>
@@ -270,7 +270,7 @@ limitations under the License.
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-12 col-sm-7 px-1 mt-1">
+								<div class="col-12 col-sm-7 px-1 mt-0">
 									<input type="text" class="data-entry-input height1p8" id="collector3" placeholder="Agent Name">
 								</div>
 							</div>
@@ -282,7 +282,7 @@ limitations under the License.
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-12 px-1 col-sm-7 mt-1">
+								<div class="col-12 px-1 col-sm-7 mt-0">
 									<input type="text" class="data-entry-input height1p8" id="collector4" placeholder="Agent Name">
 								</div>
 							</div>
