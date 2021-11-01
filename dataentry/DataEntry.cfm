@@ -424,7 +424,7 @@ limitations under the License.
 						<button type="button" id="nextBtn" class="btn btn-xs px-5 btn-primary height1p8 float-right" onclick="nextPrev(1)">Next</button>
 					</div>
 					<!-- Circles which indicates the steps of the form: -->
-					<div class="my-4 col-12 col-xl-10 offset-xl-1 text-center"> 
+					<div class="my-4 col-12 col-xl-10 float-left offset-xl-1 text-center"> 
 						<span class="step small">Identifiers</span> <span class="step small">Identifications</span> <span class="step small">Agents</span> <span class="step small">Coll. Event</span> <span class="step small">Locality</span> <span class="step small">Coordinates</span> <span class="step small">Parts</span> <span class="step small">Attributes</span> <span class="step small">Bio.&nbsp;Relations</span> <span class="step small">Curatorial</span> <span class="step small">Encumbrance</span>
 					</div>
 				</form>
