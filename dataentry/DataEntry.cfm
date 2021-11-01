@@ -195,7 +195,7 @@ limitations under the License.
 											<option value="3">Previous Number</option>
 										</select>
 									</div>
-									<div class="col-12 col-sm-8 px-0 float-left">
+									<div class="col-12 col-sm-8 px-0 mt-1 float-left">
 										<input type="text" class="data-entry-input height1p8" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 									</div>
 									<div class="col-12 col-sm-4 px-0 mt-1 float-left">
@@ -206,7 +206,7 @@ limitations under the License.
 											<option value="3">Previous Number</option>
 										</select>
 									</div>
-									<div class="col-12 col-sm-8 px-0 float-left">
+									<div class="col-12 col-sm-8 px-0 mt-1 float-left">
 										<input type="text" class="data-entry-input height1p8" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 									</div>
 									<div class="col-12 col-sm-4 px-0 mt-1 float-left">
@@ -217,7 +217,7 @@ limitations under the License.
 											<option value="3">Previous Number</option>
 										</select>
 									</div>
-									<div class="col-12 col-sm-8 px-0 float-left">
+									<div class="col-12 col-sm-8 px-0 mt-1 float-left">
 										<input type="text" class="data-entry-input height1p8" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 									</div>
 									<div class="col-12 col-sm-4 px-0 mt-1 float-left">
@@ -228,7 +228,7 @@ limitations under the License.
 											<option value="3">Previous Number</option>
 										</select>
 									</div>
-									<div class="col-12 col-sm-8 px-0 float-left">
+									<div class="col-12 col-sm-8 px-0 mt-1 float-left">
 										<input type="text" class="data-entry-input height1p8" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 									</div>
 									<div class="col-12 col-sm-4 px-0 mt-1 float-left">
