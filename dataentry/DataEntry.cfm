@@ -321,13 +321,13 @@ limitations under the License.
 						<h2 class="fs-title text-center">Identifications</h2>
 						<div role="group" class="col-12 col-md-10" aria-labelledby="identifier">
 							<div class="form-group mb-2 row">
-								<label for="scientific_name" class="col-sm-2 col-form-label pt-1 text-center text-md-right">Scientific Name</label>
+								<label for="scientific_name" class="col-sm-3 col-form-label pt-1 text-center text-md-right">Scientific Name</label>
 								<div class="col-12 col-sm-9">
 									<input type="text" name="scientific_name" class="data-entry-input height1p8" placeholder="Scientific Name" />
 								</div>
 							</div>
 							<div class="form-group mb-3 row">
-								<label for="made_by" class="col-sm-2 col-form-label pt-0 text-center text-md-right">ID Made By</label>
+								<label for="made_by" class="col-12 col-sm-3 col-form-label pt-0 text-center text-md-right">ID Made By</label>
 								<div class="col-12 col-sm-9">
 									<input type="text" name="made_by" class="data-entry-input height1p8" placeholder="Identifier's Name" />
 								</div>
