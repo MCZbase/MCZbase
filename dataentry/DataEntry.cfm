@@ -319,37 +319,39 @@ limitations under the License.
 						</div>--->
 					<div class="tab" id="identifications" name="identifications">
 						<h2 class="fs-title text-center">Identifications</h2>
-						<div class="form-group mb-2 row">
-							<label for="scientific_name" class="col-sm-2 col-form-label pt-1 text-center text-md-right">Scientific Name</label>
-							<div class="col-sm-9">
-								<input type="text" name="scientific_name" class="data-entry-input height1p8" placeholder="Scientific Name" />
+						<div role="group" class="col-12" aria-labelledby="identifier">
+							<div class="form-group mb-2 row">
+								<label for="scientific_name" class="col-sm-2 col-form-label pt-1 text-center text-md-right">Scientific Name</label>
+								<div class="col-sm-9">
+									<input type="text" name="scientific_name" class="data-entry-input height1p8" placeholder="Scientific Name" />
+								</div>
 							</div>
-						</div>
-						<div class="form-group mb-2 row">
-							<label for="made_by" class="col-sm-2 col-form-label pt-0 text-center text-md-right">ID Made By</label>
-							<div class="col-sm-9">
-								<input type="text" name="made_by" class="data-entry-input height1p8" placeholder="Identifier's Name" />
+							<div class="form-group mb-2 row">
+								<label for="made_by" class="col-sm-2 col-form-label pt-0 text-center text-md-right">ID Made By</label>
+								<div class="col-sm-9">
+									<input type="text" name="made_by" class="data-entry-input height1p8" placeholder="Identifier's Name" />
+								</div>
 							</div>
-						</div>
-						<div class="form-group row mb-2">
-							<label for="nature_of_id" class="col-sm-2 col-form-label pt-0 text-center text-md-right">Nature of ID</label>
-							<div class="col-sm-4">
-								<select class="form-control-sm bg-white height1p8 smallselect border" required>
-									<option value="">Expert ID</option>
-									<option value="1">Field ID</option>
-									<option value="2">Non-Expert ID</option>
-									<option value="3">Curatorial ID</option>
-								</select>
+							<div class="form-group row mb-2">
+								<label for="nature_of_id" class="col-sm-2 col-form-label pt-0 text-center text-md-right">Nature of ID</label>
+								<div class="col-sm-4">
+									<select class="form-control-sm bg-white height1p8 smallselect border" required>
+										<option value="">Expert ID</option>
+										<option value="1">Field ID</option>
+										<option value="2">Non-Expert ID</option>
+										<option value="3">Curatorial ID</option>
+									</select>
+								</div>
+								<div class="col-sm-5">
+									<input type="text" name="made_by_date" class="data-entry-input height1p8" placeholder="Date of ID" />
+								</div>
 							</div>
-							<div class="col-sm-5">
-								<input type="text" name="made_by_date" class="data-entry-input height1p8" placeholder="Date of ID" />
-							</div>
-						</div>
-						<div class="form-group row mb-2">
-							<label for="id_remark" class="col-sm-2 col-form-label pt-0 text-center text-md-right">ID Remark</label>
-							<div class="col-sm-9">
-								<textarea type="text" name="id_remark" class="data-entry-input" placeholder="ID remark"/>
-								</textarea>
+							<div class="form-group row mb-2">
+								<label for="id_remark" class="col-sm-2 col-form-label pt-0 text-center text-md-right">ID Remark</label>
+								<div class="col-sm-9">
+									<textarea type="text" name="id_remark" class="data-entry-input" placeholder="ID remark"/>
+									</textarea>
+								</div>
 							</div>
 						</div>
 					</div>
