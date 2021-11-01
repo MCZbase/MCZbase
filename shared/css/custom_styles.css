@@ -875,6 +875,7 @@ a#showLeftPush.hiddenclass {
 	opacity: 0.95;
 	color: #1b1b1b;
 	padding: 3px;
+	letter-spacing: .02rem;
 }
 #regForm .step.active {
 	opacity: 1;
@@ -887,6 +888,7 @@ a#showLeftPush.hiddenclass {
 	background-color: #80ADCC;
 	background-color: #d3ebd8;
 	border: 1px solid green;
+	letter-spacing: .02rem;
 }
 /*************************************/
 /*****BELOW:  User Profile Page styles  RSS feed
