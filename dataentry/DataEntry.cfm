@@ -177,7 +177,7 @@ limitations under the License.
 								<button type="submit" class="btn-xs btn-primary height1p8">Create Record</button>
 							</div>
 							<div class="form-group mb-1 offset-1 mr-xl-0 row py-3">
-								<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
+								<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other IDs</label>
 								<div class="col-12 col-sm-6 px-0">
 									<div class="col-12 col-sm-4 px-0 float-left">
 										<select class="form-control-sm bg-white data-entry-select smallselect height1p8 float-left required">
@@ -435,7 +435,7 @@ limitations under the License.
 
 	<div class="row my-3">
 		<div class="col-12 pt-2 pb-5">
-			<div class="col-9 mx-auto">
+			<div class="col-11 mx-auto">
 				<iframe src="https://code.mcz.harvard.edu/wiki/index.php/Enter_Data" width="100%" height="500"></iframe>
 			</div>
 		</div>
