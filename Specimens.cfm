@@ -1992,13 +1992,26 @@ limitations under the License.
 			console.log(columnSections);
 			$("##"+whichGrid+"columnPick_row").html("");
 			$("##"+whichGrid+"columnPick_row").addClass('accordion');
+			var firstAccord = true;
 			for (let [key, value] of columnCategories) { 
 				// TODO: use value (number of fields in category) to subdivide long categories.
+				$('<div/>',{
+    				id: whichGrid + "_" + key + "_col",
+    				class: "col-12"
+				}).appendTo("##"+whichGrid+"columnPick_row");
 				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord",
     				class: "card mb-2 bg-light",
     				title: key
-				}).appendTo("##"+whichGrid+"columnPick_row");
+				}).appendTo("##"+whichGrid+"columnPick_col");
+				if (firstAccord) { 
+					headClass = "";
+					bodyClass = "show";
+					firstAccord = false;
+				} else { 
+					headClass = "";
+					bodyClass = "";
+				}
 				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord_head",
     				class: "card-header"
@@ -2006,7 +2019,7 @@ limitations under the License.
 				$("##"+whichGrid+"_"+ key +"_accord_head").html('<h2 class="h4 my-0">'+key+'</h2>');
 				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord_body",
-    				class: "card-body pb-1"
+    				class: "card-body pb-1 colapse " + bodyClass 
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord");
 				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord_list",
