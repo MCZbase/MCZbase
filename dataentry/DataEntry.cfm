@@ -239,14 +239,14 @@ limitations under the License.
 						<h2 class="fs-title text-center">COLLECTOR/PREPARATOR</h2>
 						<div class="col-10 mx-auto">
 							<div class="form-group offset-2 py-0 row my-0">
-								<label for="collector1" class="col-12 px-1 col-sm-3 col-form-label pt-1 mt-0">
+								<label for="collector1" class="col-12 px-1 col-sm-3 col-form-label pt-0 mt-0">
 									<select class="form-control-sm bg-white smallselect border mt-0 validate height1p8">
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-12 col-sm-7 px-1 mt-1">
+								<div class="col-12 col-sm-7 px-1 mt-0">
 									<input type="text" class="data-entry-input validate height1p8" id="collector1" placeholder="Agent Name">
 								</div>
 							</div>
@@ -258,7 +258,7 @@ limitations under the License.
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-12 px-1 col-sm-7 mt-1">
+								<div class="col-12 px-1 col-sm-7 mt-0">
 									<input type="text" class="data-entry-input height1p8" id="collector2" placeholder="Agent Name">
 								</div>
 							</div>
@@ -270,7 +270,7 @@ limitations under the License.
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-12 col-sm-7 px-1 mt-1">
+								<div class="col-12 col-sm-7 px-1 mt-0">
 									<input type="text" class="data-entry-input height1p8" id="collector3" placeholder="Agent Name">
 								</div>
 							</div>
@@ -282,7 +282,7 @@ limitations under the License.
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-12 px-1 col-sm-7 mt-1">
+								<div class="col-12 px-1 col-sm-7 mt-0">
 									<input type="text" class="data-entry-input height1p8" id="collector4" placeholder="Agent Name">
 								</div>
 							</div>
