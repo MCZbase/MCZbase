@@ -2017,7 +2017,7 @@ limitations under the License.
     				id: whichGrid + "_" + key + "_accord_head",
     				class: "card-header accordion-header"
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord");
-				$("##"+whichGrid+"_"+ key +"_accord_head").html('<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="##'+whichGrid+'_'+key+'_accord_body" aria-expanded="'+ariaExpanded+'" aria-controls="##'+whichGrid+'_'+key+'_accord_body">'+key+'</button>');
+				$("##"+whichGrid+"_"+ key +"_accord_head").html('<button class="accordion-button" type="button" data-toggle="collapse" data-target="##'+whichGrid+'_'+key+'_accord_body" aria-expanded="'+ariaExpanded+'" aria-controls="##'+whichGrid+'_'+key+'_accord_body">'+key+'</button>');
 				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord_body",
     				class: "card-body accordion-collapse collapse " + bodyClass 
