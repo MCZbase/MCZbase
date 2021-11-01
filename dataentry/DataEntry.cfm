@@ -246,43 +246,43 @@ limitations under the License.
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-12 col-sm-7 px-1 mt-0">
+								<div class="col-12 col-sm-7 px-1 mt-1">
 									<input type="text" class="data-entry-input validate height1p8" id="collector1" placeholder="Agent Name">
 								</div>
 							</div>
 							<div class="form-group offset-2 row my-0">
-								<label for="collector2" class="col-12 col-sm-3 px-1 col-form-label mt-0">
+								<label for="collector2" class="col-12 col-sm-3 px-1 mt-0">
 									<select class="form-control-sm bg-white smallselect height1p8 border mt-0">
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-12 px-1 col-sm-7 mt-0">
+								<div class="col-12 px-1 col-sm-7 mt-1">
 									<input type="text" class="data-entry-input height1p8" id="collector2" placeholder="Agent Name">
 								</div>
 							</div>
 							<div class="form-group offset-2 row my-0">
-								<label for="collector3" class="col-12 px-1 col-sm-3 col-form-label mt-0">
+								<label for="collector3" class="col-12 px-1 col-sm-3 mt-0">
 									<select class="form-control-sm bg-white smallselect height1p8 border mt-0" required>
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-12 col-sm-7 px-1 mt-0">
+								<div class="col-12 col-sm-7 px-1 mt-1">
 									<input type="text" class="data-entry-input height1p8" id="collector3" placeholder="Agent Name">
 								</div>
 							</div>
 							<div class="form-group mb-2 offset-2 row mt-0">
-								<label for="collector4" class="col-sm-3 col-12 px-1 col-form-label mt-0">
+								<label for="collector4" class="col-sm-3 col-12 px-1 mt-0">
 									<select class="form-control-sm bg-white smallselect height1p8 border mt-0" required >
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-12 px-1 col-sm-7 mt-0">
+								<div class="col-12 px-1 col-sm-7 mt-1">
 									<input type="text" class="data-entry-input height1p8" id="collector4" placeholder="Agent Name">
 								</div>
 							</div>

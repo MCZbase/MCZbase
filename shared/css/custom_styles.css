@@ -880,6 +880,7 @@ a#showLeftPush.hiddenclass {
 	opacity: 1;
 	background-color: #3E6F7D;
 	color: white;
+	letter-spacing: .02rem;
 }
 /* Mark the steps that are finished and valid: */
 #regForm .step.finish {
