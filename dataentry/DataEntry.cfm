@@ -321,19 +321,19 @@ limitations under the License.
 						<h2 class="fs-title text-center">Identifications</h2>
 						<div role="group" class="col-12 ml-md-2 col-md-10 mb-3" aria-labelledby="identifier">
 							<div class="form-group mb-2 row">
-								<label for="scientific_name" class="col-sm-3 col-form-label pt-1 text-center text-md-right">Scientific Name</label>
+								<label for="scientific_name" class="col-sm-3 pt-1 text-center text-md-right">Scientific Name</label>
 								<div class="col-12 col-sm-9">
 									<input type="text" name="scientific_name" class="data-entry-input height1p8" placeholder="Scientific Name" />
 								</div>
 							</div>
 							<div class="form-group mb-3 row">
-								<label for="made_by" class="col-12 col-sm-3 col-form-label pt-0 text-center text-md-right">ID Made By</label>
+								<label for="made_by" class="col-12 col-sm-3 pt-0 text-center text-md-right">ID Made By</label>
 								<div class="col-12 col-sm-9">
 									<input type="text" name="made_by" class="data-entry-input height1p8" placeholder="Identifier's Name" />
 								</div>
 							</div>
 							<div class="form-group row mb-2">
-								<label for="nature_of_id" class="col-12 col-sm-3 col-form-label pt-0 text-center text-md-right">Nature of ID</label>
+								<label for="nature_of_id" class="col-12 col-sm-3 pt-0 text-center text-md-right">Nature of ID</label>
 								<div class="col-12 col-sm-4">
 									<select class="form-control-sm bg-white height1p8 smallselect border" required>
 										<option value="">Expert ID</option>
@@ -347,7 +347,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-group row mb-2">
-								<label for="id_remark" class="col-12 col-sm-3 col-form-label pt-0 text-center text-md-right">ID Remark</label>
+								<label for="id_remark" class="col-12 col-sm-3 pt-0 text-center text-md-right">ID Remark</label>
 								<div class="col-12 col-sm-9">
 									<textarea type="text" name="id_remark" class="data-entry-input" placeholder="ID remark"/>
 									</textarea>
