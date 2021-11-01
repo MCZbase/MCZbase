@@ -176,7 +176,7 @@ limitations under the License.
 							<div class="mt-2 mb-2 col-5 mx-auto text-center">
 								<button type="submit" class="btn-xs btn-primary height1p8">Create Record</button>
 							</div>
-							<div class="form-group mb-1 offset-1 mr-xl-0 row">
+							<div class="form-group mb-1 offset-1 mr-xl-0 row border disable">
 								<label for="other_id" class="col-sm-3 col-form-label pt-0 pr-xl-4 mt-0 mt-xl-1 text-center text-md-right">Other ID</label>
 								<div class="col-12 col-sm-6 px-0">
 									<div class="col-12 col-sm-4 px-0 float-left">
