@@ -277,7 +277,7 @@ limitations under the License.
 									<input type="text" class="data-entry-input height1p8" id="collector3" placeholder="Agent Name">
 								</div>
 							</div>
-							<div class="form-group mb-2 offset-2 row mb-1">
+							<div class="form-group mb-3 offset-2 row mb-1">
 								<label for="collector4" class="col-sm-3 col-12 px-1 mt-0">
 									<select class="form-control-sm bg-white smallselect height1p8 border mt-0" required >
 										<option value="">Role...</option>
@@ -421,7 +421,6 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="mt-2 mb-2 col-5 mx-auto text-center">
-						
 						<button type="button" id="prevBtn" class="btn btn-xs px-4 btn-primary height1p8 float-left" onclick="nextPrev(-1)">&nbsp; &nbsp;Previous&nbsp; &nbsp;</button>
 						<button type="button" id="nextBtn" class="btn btn-xs px-5 btn-primary height1p8 float-right" onclick="nextPrev(1)">Next</button>
 					</div>
