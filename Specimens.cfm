@@ -1992,13 +1992,13 @@ limitations under the License.
 			console.log(columnSections);
 			$("##"+whichGrid+"columnPick_row").html("");
 			$("##"+whichGrid+"columnPick_row").addClass('accordion');
+			$('<div/>',{
+    			id: whichGrid +"columnPick_col",
+    			class: "col-12"
+			}).appendTo("##"+whichGrid+"columnPick_row");
 			var firstAccord = true;
 			for (let [key, value] of columnCategories) { 
 				// TODO: use value (number of fields in category) to subdivide long categories.
-				$('<div/>',{
-    				id: whichGrid + "_" + key + "_col",
-    				class: "col-12"
-				}).appendTo("##"+whichGrid+"columnPick_row");
 				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord",
     				class: "card mb-2 bg-light",
