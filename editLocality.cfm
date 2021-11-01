@@ -395,6 +395,7 @@
 		where
 			geology_attributes.geo_att_determiner_id = preferred_agent_name.agent_id (+) and
 			geology_attributes.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		Order by geology_attributes
 	</cfquery>
 	<cfquery name="whatSpecs" datasource="uam_god">
   		SELECT
