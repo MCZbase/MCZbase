@@ -239,43 +239,43 @@ limitations under the License.
 						<h2 class="fs-title text-center">COLLECTOR/PREPARATOR</h2>
 						<div class="col-10 mx-auto">
 							<div class="form-group offset-2 py-0 row my-0">
-								<label for="collector1" class="col-sm-3 col-form-label pt-1 mt-0">
+								<label for="collector1" class="col-12 px-1 col-sm-3 col-form-label pt-1 mt-0">
 									<select class="form-control-sm bg-white smallselect border mt-0 validate height1p8">
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-sm-7 mt-1">
+								<div class="col-12 col-sm-7 px-1 mt-1">
 									<input type="text" class="data-entry-input validate height1p8" id="collector1" placeholder="Agent Name">
 								</div>
 							</div>
 							<div class="form-group offset-2 row my-0">
-								<label for="collector2" class="col-sm-3 col-form-label mt-0">
+								<label for="collector2" class="col-12 col-sm-3 px-1 col-form-label mt-0">
 									<select class="form-control-sm bg-white smallselect height1p8 border mt-0">
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-sm-7 mt-1">
+								<div class="col-12 px-1 col-sm-7 mt-1">
 									<input type="text" class="data-entry-input height1p8" id="collector2" placeholder="Agent Name">
 								</div>
 							</div>
 							<div class="form-group offset-2 row my-0">
-								<label for="collector3" class="col-sm-3 col-form-label mt-0">
+								<label for="collector3" class="col-12 px-1 col-sm-3 col-form-label mt-0">
 									<select class="form-control-sm bg-white smallselect height1p8 border mt-0" required>
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
 										<option value="2">Preparator</option>
 									</select>
 								</label>
-								<div class="col-sm-7 mt-1">
+								<div class="col-12 col-sm-7 px-1 mt-1">
 									<input type="text" class="data-entry-input height1p8" id="collector3" placeholder="Agent Name">
 								</div>
 							</div>
 							<div class="form-group mb-2 offset-2 row mt-0">
-								<label for="collector4" class="col-sm-3 col-form-label mt-0">
+								<label for="collector4" class="col-sm-3 col-12 px-1 col-form-label mt-0">
 									<select class="form-control-sm bg-white smallselect height1p8 border mt-0" required >
 										<option value="">Role...</option>
 										<option value="1">Collector</option>
@@ -418,8 +418,8 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="mt-2 mb-2 col-6 mx-auto text-center">
-						<button type="button" id="prevBtn" class="btn btn-xs px-5 btn-primary height1p8" onclick="nextPrev(-1)">Previous</button>
-						<button type="button" id="nextBtn" class="btn btn-xs px-5 btn-primary height1p8" onclick="nextPrev(1)">&nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;</button>
+						<button type="button" id="prevBtn" class="btn btn-xs px-4 btn-primary height1p8" onclick="nextPrev(-1)">&nbsp;Previous&nbsp;</button>
+						<button type="button" id="nextBtn" class="btn btn-xs px-5 btn-primary height1p8" onclick="nextPrev(1)">Next</button>
 					</div>
 					<!-- Circles which indicates the steps of the form: -->
 					<div class="my-4 col-12 col-xl-10 offset-xl-1 text-center"> 
