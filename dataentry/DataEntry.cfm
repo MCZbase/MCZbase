@@ -187,8 +187,6 @@ limitations under the License.
 									<div class="col-12 col-sm-8 px-0 float-left">
 										<input type="text" class="data-entry-input height1p8" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 									</div>
-								</div>
-								<div class="col-12 col-sm-6 px-0">
 									<div class="col-12 col-sm-4 px-0 float-left">
 										<select class="form-control-sm bg-white data-entry-select smallselect height1p8 float-left required">
 											<option value="">Other ID Type</option>
