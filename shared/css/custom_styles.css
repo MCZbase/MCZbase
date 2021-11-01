@@ -885,6 +885,7 @@ a#showLeftPush.hiddenclass {
 /* Mark the steps that are finished and valid: */
 #regForm .step.finish {
 	background-color: #80ADCC;
+	background-color: #d3ebd8;
 	border: 1px solid green;
 }
 /*************************************/
