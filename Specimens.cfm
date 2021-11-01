@@ -1996,6 +1996,8 @@ limitations under the License.
     			class: "col-12 mb-2 accordion"
 			}).appendTo("##"+whichGrid+"columnPick_row");
 			var firstAccord = true;
+			var bodyClass="";
+			var ariaExpanded="";
 			for (let [key, value] of columnCategories) { 
 				// TODO: use value (number of fields in category) to subdivide long categories.
 				$('<div/>',{
@@ -2004,18 +2006,18 @@ limitations under the License.
     				title: key
 				}).appendTo("##"+whichGrid+"columnPick_col");
 				if (firstAccord) { 
-					headClass = "";
 					bodyClass = "show";
+					ariaExpanded = "true";
 					firstAccord = false;
 				} else { 
-					headClass = "";
 					bodyClass = "";
+					ariaExpanded = "false";
 				}
-				$('<div/>',{
+				$('<h2/>',{
     				id: whichGrid + "_" + key + "_accord_head",
     				class: "card-header accordion-header"
 				}).appendTo("##"+whichGrid+"_"+ key +"_accord");
-				$("##"+whichGrid+"_"+ key +"_accord_head").html('<h2 class="h4 my-0">'+key+'</h2>');
+				$("##"+whichGrid+"_"+ key +"_accord_head").html('<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="##'+whichGrid+'_'+key+'_accord_body" aria-expanded="'+ariaExpanded+'" aria-controls="##'+whichGrid+'_'+key+'_accord_body">'+key+'</button>');
 				$('<div/>',{
     				id: whichGrid + "_" + key + "_accord_body",
     				class: "card-body accordion-collapse collapse " + bodyClass 
