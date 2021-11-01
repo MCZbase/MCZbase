@@ -355,7 +355,7 @@ limitations under the License.
 													<span class="d-block px-3 p-2" id="keywordresultCount"></span> <span id="keywordresultLink" class="d-block p-2"></span>
 													<div id="keywordcolumnPickDialog">
 														<div class="container-fluid">
-															<div class="row">
+															<div class="row" id="keywordcolumnPick_row" >
 																<div class="col-12 col-md-3">
 																	<div id="keywordcolumnPick" class="px-1"></div>
 																</div>
@@ -769,7 +769,7 @@ limitations under the License.
 													<span class="d-block px-3 p-2" id="builderresultCount"></span> <span id="builderresultLink" class="d-block p-2"></span>
 													<div id="buildercolumnPickDialog">
 														<div class="container-fluid">
-															<div class="row">
+															<div class="row" id="buildercolumnPick_row" >
 																<div class="col-12 col-md-3">
 																	<div id="buildercolumnPick" class="px-1"></div>
 																</div>
@@ -1274,7 +1274,7 @@ limitations under the License.
 													<span class="d-block px-3 p-2" id="fixedresultCount"></span> <span id="fixedresultLink" class="d-block p-2"></span>
 													<div id="fixedcolumnPickDialog">
 														<div class="container-fluid">
-															<div class="row">
+															<div class="row" id="fixedcolumnPick_row" >
 																<div class="col-12 col-md-3">
 																	<div id="fixedcolumnPick" class="px-1"></div>
 																</div>
@@ -1927,16 +1927,19 @@ limitations under the License.
 			</cfif>
 		}); /* End document.ready */
 	
-		var columnCategoryPlacements = new Map();
-		var columnCategories = new Map();
+		var columnCategoryPlacements = new Map(); // fieldname and category placement
+		var columnCategories = new Map();   // category and count 
+		var columnSections = new Map();   // category and array of list rows
 		<cfloop query="getFieldMetadata">
-			columnCategoryPlacements.set("#getFieldMetdata.column_name#","#getFieldMetadata.category#");
-			if (columnCategories.has("#getFieldMetadata.category#") { 
+			columnCategoryPlacements.set("#getFieldMetadata.column_name#","#getFieldMetadata.category#");
+			if (columnCategories.has("#getFieldMetadata.category#")) { 
 				columnCategories.set("#getFieldMetadata.category#", columnCategories.get("#getFieldMetadata.category#") + 1);
 			} else {
 				columnCategories.set("#getFieldMetadata.category#",1);
+				columnSections.set("#getFieldMetadata.category#",new Array());
 			}
 		</cfloop>
+		var columnMetadataLoaded = false;
 
 		function gridLoaded(gridId, searchType, whichGrid) {
 			if (Object.keys(window.columnHiddenSettings).length == 0) {
@@ -1968,8 +1971,79 @@ limitations under the License.
 			} else {
 				$('##' + gridId).jqxGrid({ pageable: false });
 			}
-			// add a control to show/hide columns
+			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
+			var columnCount = columns.length;
+			if (!columnMetadataLoaded) { 
+				for (i = 1; i < columnCount; i++) {
+					var text = columns[i].text;
+					var datafield = columns[i].datafield;
+					var hideable = columns[i].hideable;
+					var hidden = columns[i].hidden;
+					var show = ! hidden;
+					if (hideable == true) {
+						var listRow = { label: text, value: datafield, checked: show };
+						var inCategory = columnCategoryPlacements.get(datafield);
+						columnSections.get(inCategory).push(listRow);
+					}
+				}
+				columnMetadataLoaded = true;
+			}
+			console.log(columnSections);
+			$("##"+whichGrid+"columnPick_row").html("");
+			$('<div/>',{
+    			id: whichGrid +"columnPick_col",
+    			class: "col-12 mb-2 accordion"
+			}).appendTo("##"+whichGrid+"columnPick_row");
+			var firstAccord = true;
+			var bodyClass="";
+			var ariaExpanded="";
+			for (let [key, value] of columnCategories) { 
+				// TODO: use value (number of fields in category) to subdivide long categories.
+				$('<div/>',{
+    				id: whichGrid + "_" + key + "_accord",
+    				class: "card bg-light accordion-item",
+    				title: key
+				}).appendTo("##"+whichGrid+"columnPick_col");
+				if (firstAccord) { 
+					bodyClass = "show";
+					ariaExpanded = "true";
+					firstAccord = false;
+				} else { 
+					bodyClass = "";
+					ariaExpanded = "false";
+				}
+				$('<div/>',{
+    				id: whichGrid + "_" + key + "_accord_head",
+    				class: "card-header accordion-header"
+				}).appendTo("##"+whichGrid+"_"+ key +"_accord");
+				$('<h2/>',{
+    				id: whichGrid + "_" + key + "_accord_head_h2",
+    				class: "h4 my-0"
+				}).appendTo("##"+whichGrid+"_"+ key +"_accord_head");
+				$("##"+whichGrid+"_"+ key +"_accord_head_h2").html('<button class="accordion-button headerLnk text-left w-100" data-toggle="collapse" data-target="##'+whichGrid+'_'+key+'_accord_body" aria-expanded="'+ariaExpanded+'" aria-controls="##'+whichGrid+'_'+key+'_accord_body">'+key+'</button>');
+				$('<div/>',{
+    				id: whichGrid + "_" + key + "_accord_body",
+    				class: "card-body accordion-collapse collapse " + bodyClass 
+				}).appendTo("##"+whichGrid+"_"+ key +"_accord");
+				$('<div/>',{
+    				id: whichGrid + "_" + key + "_accord_list",
+    				class: ""
+				}).appendTo("##"+whichGrid+"_"+ key +"_accord_body");
+				$("##"+whichGrid+"_"+key+"_accord_list").jqxListBox({ source: columnSections.get(key), autoHeight: true, width: '260px', checkboxes: true });
+				$("##"+whichGrid+"_"+key+"_accord_list").on('checkChange', function (event) {
+					$("##" + gridId).jqxGrid('beginupdate');
+					if (event.args.checked) {
+						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+					} else {
+						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+					}
+					$("##" + gridId).jqxGrid('endupdate');
+				});
+			}
+
+			// add a control to show/hide columns
+/*
 			var halfcolumns = Math.round(columns.length/2);
 			var quartercolumns = Math.round(columns.length/4);
 			var columnListSource = [];
@@ -2063,6 +2137,7 @@ limitations under the License.
 				}
 				$("##" + gridId).jqxGrid('endupdate');
 			});
+*/
 			$("##"+whichGrid+"columnPickDialog").dialog({
 				height: 'auto',
 				width: 'auto',
