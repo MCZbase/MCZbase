@@ -161,13 +161,13 @@ limitations under the License.
 					<div class="tab">
 						<h2 class="fs-title text-center">Identifiers</h2>
 						<div class="col-12">
-							<div class="form-group offset-1 mb-2 row mr-xl-0">
+							<div class="form-group offset-1 mb-1 row mr-xl-0">
 								<label for="cat_num" class="col-sm-3 col-form-label pt-0 mt-0 pr-xl-4 text-center text-md-right">Catalog Number</label>
 								<div class="col-12 col-sm-6 px-0">
 									<input placeholder="Catalog Number" class="data-entry-input validate height1p8" oninput="this.className = ''" name="cat_num">
 								</div>
 							</div>
-							<div class="form-group mb-2 offset-1 row mr-xl-0">
+							<div class="form-group mb-1 offset-1 row mr-xl-0">
 								<label for="accn" class="col-sm-3 col-form-label pt-0 mt-0 pr-xl-4 text-center text-md-right">Accession</label>
 								<div class="col-12 col-sm-6 px-0">
 									<input placeholder="Accession Number" class="data-entry-input validate height1p8" oninput="this.className = ''" name="accn">
