@@ -319,7 +319,7 @@ limitations under the License.
 						</div>--->
 					<div class="tab" id="identifications" name="identifications">
 						<h2 class="fs-title text-center">Identifications</h2>
-						<div role="group" class="col-12 col-md-10" aria-labelledby="identifier">
+						<div role="group" class="col-12 ml-md-2 col-md-10 mb-3" aria-labelledby="identifier">
 							<div class="form-group mb-2 row">
 								<label for="scientific_name" class="col-sm-3 col-form-label pt-1 text-center text-md-right">Scientific Name</label>
 								<div class="col-12 col-sm-9">
