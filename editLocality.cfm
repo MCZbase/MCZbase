@@ -395,6 +395,22 @@
 		where
 			geology_attributes.geo_att_determiner_id = preferred_agent_name.agent_id (+) and
 			geology_attributes.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		order by 
+			decode(geology_attribute,
+				'Lithology',1,
+				'Group',10,
+				'Formation',11,
+				'Member',12,
+				'Horizon',13,
+				'Bed',14,
+				'Eonothem/Eon',20,
+				'Erathem/Era',21,
+				'Period/System',22,
+				'Epoch/Series',23,
+				'Sub-Epoch', 24,
+				'Age/Stage', 25,
+				'Zone',26,
+				50)
 	</cfquery>
 	<cfquery name="whatSpecs" datasource="uam_god">
   		SELECT
