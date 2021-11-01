@@ -160,7 +160,7 @@ limitations under the License.
 					<h1 class="text-center mb-2 mt-5 mt-md-2">Enter a New Record</h1>
 					<div class="tab">
 						<h2 class="fs-title text-center">Identifiers</h2>
-						<div class="col-12">
+						<div role="group" class="col-12" aria-labelledby="identifier">
 							<div class="form-group offset-1 mb-1 row mr-xl-0">
 								<label for="cat_num" class="col-sm-3 col-form-label pt-0 mt-0 pr-xl-4 text-center text-md-right">Catalog Number</label>
 								<div class="col-12 col-sm-6 px-0">
