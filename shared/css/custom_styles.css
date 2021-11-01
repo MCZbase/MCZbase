@@ -872,7 +872,7 @@ a#showLeftPush.hiddenclass {
 	border: none;
 	border-radius: 50%;
 	display: inline-block;
-	opacity: 0.85;
+	opacity: 0.95;
 	color: #1b1b1b;
 	padding: 3px;
 }
@@ -884,6 +884,7 @@ a#showLeftPush.hiddenclass {
 /* Mark the steps that are finished and valid: */
 #regForm .step.finish {
 	background-color: #80ADCC;
+	border: 1px solid green;
 }
 /*************************************/
 /*****BELOW:  User Profile Page styles  RSS feed
