@@ -395,7 +395,22 @@
 		where
 			geology_attributes.geo_att_determiner_id = preferred_agent_name.agent_id (+) and
 			geology_attributes.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-		Order by geology_attributes.geology_attribute
+		order by 
+			decode(geology_attribute,
+				'Lithology',1,
+				'Group',10,
+				'Formation',11,
+				'Member',12,
+				'Horizon',13,
+				'Bed',14,
+				'Eonothem/Eon',20,
+				'Erathem/Era',21,
+				'Period/System',22,
+				'Epoch/Series',23,
+				'Sub-Epoch', 24,
+				'Age/Stage', 25,
+				'Zone',26,
+				50)
 	</cfquery>
 	<cfquery name="whatSpecs" datasource="uam_god">
   		SELECT
@@ -450,7 +465,23 @@
         select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS order by ORIG_LAT_LONG_UNITS
      </cfquery>
 	<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select geology_attribute from ctgeology_attribute order by geology_attribute
+		SELECT geology_attribute from ctgeology_attribute 
+		ORDER BY 
+			decode(geology_attribute,
+				'Lithology',1,
+				'Group',10,
+				'Formation',11,
+				'Member',12,
+				'Horizon',13,
+				'Bed',14,
+				'Eonothem/Eon',20,
+				'Erathem/Era',21,
+				'Period/System',22,
+				'Epoch/Series',23,
+				'Sub-Epoch', 24,
+				'Age/Stage', 25,
+				'Zone',26,
+				50)
      </cfquery>
     <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	    select sovereign_nation from ctsovereign_nation order by sovereign_nation
