@@ -27,7 +27,7 @@ limitations under the License.
 </cftry>
 <cfif findNoCase('redesign',gitBranch) EQ 0>
 	<!--- cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user") --->
-	<cfif isdefined("session.roles") AND ( listfindnocase(session.roles,"collops") OR listfindnocase(session.roles,"beta_tester") )>
+	<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 		<!--- logged in users now able to see redesigned specimen search on production --->
 	<cfelse>
 		<cfscript>

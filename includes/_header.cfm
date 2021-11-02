@@ -110,7 +110,7 @@
 							<div>
 								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
 								<!--- TODO: To rollout, change to coldfusion_user --->
-								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND (listfindnocase(session.roles,"collops") OR listfindnocase(session.roles,"beta_tester") ) ) >
+								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
 									<a class="dropdown-item" target="_top" href="/Specimens.cfm">Specimens (new)</a>
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 								</cfif>
