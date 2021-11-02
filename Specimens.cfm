@@ -350,7 +350,7 @@ limitations under the License.
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-5">
-												<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+												<div class="row mt-1 mb-0 pb-2 px-md-0 jqx-widget-header border px-2">
 													<h1 class="h4">Results: </h1>
 													<span class="d-block px-3 p-2" id="keywordresultCount"></span> <span id="keywordresultLink" class="d-block p-2"></span>
 													<div id="keywordcolumnPickDialog">
@@ -764,7 +764,7 @@ limitations under the License.
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-5">
-												<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+												<div class="row mt-1 mb-0 pb-2 jqx-widget-header border px-2">
 													<h1 class="h4">Results: </h1>
 													<span class="d-block px-3 p-2" id="builderresultCount"></span> <span id="builderresultLink" class="d-block p-2"></span>
 													<div id="buildercolumnPickDialog">
@@ -2167,7 +2167,7 @@ limitations under the License.
 				}
 			});
 			$("##"+whichGrid+"columnPickDialogButton").html(
-				`<button id="columnPickDialogOpener" onclick=" $('##`+whichGrid+`columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
+				`<button id="columnPickDialogOpener" onclick=" $('##`+whichGrid+`columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary  mr-1" >Select Columns</button>
 				<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-1 my-2" >Pin GUID Column</button>
 				`
 			);
@@ -2180,10 +2180,10 @@ limitations under the License.
 			$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 			$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 			if (whichGrid=='keyword') { 
-				$('##'+whichGrid+'resultDownloadButtonContainer').html('<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\''+whichGrid+'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##'+whichGrid+'resultDownloadButtonContainer').html('<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 mx-sm-2 mt-0 mt-sm-2 mb-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\''+whichGrid+'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			} else { 
 				var result_uuid = $('##result_id_' + whichGrid + 'Search').val(); 
-				$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
+				$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 mx-sm-2 mt-0 mt-sm-2 mb-0" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
 			}
 		}
 
