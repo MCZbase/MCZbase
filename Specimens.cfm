@@ -27,7 +27,7 @@ limitations under the License.
 </cftry>
 <cfif findNoCase('redesign',gitBranch) EQ 0>
 	<!--- cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user") --->
-	<cfif isdefined("session.roles") AND ( listfindnocase(session.roles,"collops") OR listfindnocase(session.roles,"beta_tester") )>
+	<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 		<!--- logged in users now able to see redesigned specimen search on production --->
 	<cfelse>
 		<cfscript>
@@ -744,7 +744,7 @@ limitations under the License.
 										<div class="form-row mb-3">
 											<div class="col-12">
 												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-1" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
-												<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values">Reset</button>
+												<button type="reset" class="btn btn-xs btn-outline-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values" disabled>Reset</button>
 												<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 													<!--- TODO: Move to top of search results bar, available after running search --->
