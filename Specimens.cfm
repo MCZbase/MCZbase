@@ -1274,7 +1274,7 @@ limitations under the License.
 													<span class="d-block px-3 p-2" id="fixedresultCount"></span> <span id="fixedresultLink" class="d-block p-2"></span>
 													<div id="fixedcolumnPickDialog">
 														<div class="container-fluid">
-															<div class="row" id="fixedcolumnPick_row" >
+															<div class="row" id="fixedcolumnPick_row" style="width: 308px;">
 																<div class="col-12 col-md-3">
 																	<div id="fixedcolumnPick" class="px-1"></div>
 																</div>
