@@ -146,7 +146,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 	var result = "";
 	var orBit = "";
 	var wherePart = "";
-	// <!--- '{"join":"and","field": "cat_num","comparator": "IN","value": "#encodeForJavaScript(value)#"}'  --->
+	// <!--- '{"join":"and","field": "cat_num","comparator": "IN","value": "#encodeForJSON(value)#"}'  --->
 
 	// Prepare list for parsing
 	listOfNumbers = trim(listOfNumbers);
@@ -164,7 +164,7 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 
 	if (ArrayLen(REMatch("^[0-9]+$",listOfNumbers))>0) {
 		//  Just a single number, exact match.
-		result = '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJavaScript(listOfNumbers)#"}';
+		result = '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(listOfNumbers)#"}';
 	} else {
 		if (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",listOfNumbers))>0) {
 			// Just a single range, two clauses, between start and end of range.
@@ -178,12 +178,12 @@ function ScriptNumberListToJSON(listOfNumbers, fieldname, nestDepth, leadingJoin
 			if (ucase(fieldname) IS "CAT_NUM") { 
 				fieldname = "CAT_NUM_INTEGER";
 			}
-			result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJavaScript(lowPart)#"';
-			result = result & '},{"nest":"#nestDepth#.2","join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJavaScript(highPart)#"}';
+			result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
+			result = result & '},{"nest":"#nestDepth#.2","join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
 		} else if (ArrayLen(REMatch("^[0-9,]+$",listOfNumbers))>0) {
 			// Just a list of numbers without ranges, translates directly to IN
 			if (listOfNumbers!=",") {
-				result = '{"nest":"#nestDepth#.1","join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJavaScript(listOfNumbers)#"}';
+				result = '{"nest":"#nestDepth#.1","join":"and","field": "' & fieldname &'","comparator": "IN","value": "#encodeForJSON(listOfNumbers)#"}';
 			} else {
 				// just a comma with no numbers, return empty string
 				result = "";
@@ -233,7 +233,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	// if so return "AND fieldname IN ( number )"
 	if (ArrayLen(REMatch("^[0-9]+$",atom))>0) {
 		//  Just a single number, exact match.
-		result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJavaScript(atom)#"}';
+		result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": "=","value": "#encodeForJSON(atom)#"}';
 	} else {
 		if (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",atom))>0) {
 			// Just a single range, two clauses, between start and end of range.
@@ -247,8 +247,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			if (ucase(fieldname) IS "CAT_NUM") { 
 				fieldname = "CAT_NUM_INTEGER";
 			}
-			result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJavaScript(lowPart)#"';
-			result = result & '},{"nest":"#nestDepth#.2","join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJavaScript(highPart)#"}';
+			result = '{"nest":"#nestDepth#.1","join":"' & leadingJoin & '","field": "' & fieldname &'","comparator": ">=","value": "#encodeForJSON(lowPart)#"';
+			result = result & '},{"nest":"#nestDepth#.2","join":"and","field": "' & fieldname &'","comparator": "<=","value": "#encodeForJSON(highPart)#"}';
 		} else {
 			// Error state.  Not a single number, list, or range.
 			// Likely to result from two sequential commas, so return an empty string.
@@ -278,7 +278,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("collection_cde") AND len(collection_cde) GT 0>
 		<cfset field = '"field": "collection_cde"'>
 		<cfset comparator = '"comparator": "IN"'>
-		<cfset value = encodeForJavaScript(collection_cde)>
+		<cfset value = encodeForJSON(collection_cde)>
 		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
@@ -407,6 +407,15 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="encodeForJSON">
+	<cfargument name="value" type="string" required="yes">
+
+	<cfset value = replace(value,'\','\\',"all")>
+	<cfset value = replace(value,'"','\"',"all")>
+	
+	<cfreturn value>
+</cffunction>
+
 <cffunction name="constructJsonForField">
 	<cfargument name="join" type="string" required="yes">
 	<cfargument name="field" type="string" required="yes">
@@ -451,10 +460,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfelse>
 				<cfset comparator = '"comparator": "like"'>
 			</cfif>
-			<cfset value = encodeForJavaScript(value)>
-			<cfset value = replace(value,"\x20"," ","all")>
-			<cfset value = replace(value,"\x5B","[","all")>
-			<cfset value = replace(value,"\x5D","]","all")>
+			<cfset value = replace(value,'\','\\',"all")>
+			<cfset value = replace(value,'"','\"',"all")>
 		</cfif>
 		<cfset search_json = '#search_json##separator#{"nest":"#nestDepth#",#join##field#,#comparator#,"value": "#value#"}'>
 	<cfreturn #search_json#>
@@ -689,7 +696,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("collection") AND len(collection) GT 0>
 		<cfset field = '"field": "collection_cde"'>
 		<cfset comparator = '"comparator": "IN"'>
-		<cfset value = encodeForJavaScript(collection)>
+		<cfset value = encodeForJSON(collection)>
 		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
@@ -844,7 +851,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("taxon_name_id") AND len(taxon_name_id) GT 0>
 		<cfset field = '"field": "IDENTIFICATIONS_TAXON_NAME_ID"'>
 		<cfset comparator = '"comparator": "="'>
-		<cfset value = encodeForJavaScript(taxon_name_id)>
+		<cfset value = encodeForJSON(taxon_name_id)>
 		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
@@ -991,7 +998,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("collector_agent_id") AND len(collector_agent_id) GT 0>
 		<cfset field = '"field": "COLLECTORS_AGENT_ID"'>
 		<cfset comparator = '"comparator": "="'>
-		<cfset value = encodeForJavaScript(collector_agent_id)>
+		<cfset value = encodeForJSON(collector_agent_id)>
 		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
@@ -1009,7 +1016,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("publication_id") AND len(publication_id) GT 0>
 		<cfset field = '"field": "CITATIONS_PUBLICATION_ID"'>
 		<cfset comparator = '"comparator": "="'>
-		<cfset value = encodeForJavaScript(publication_id)>
+		<cfset value = encodeForJSON(publication_id)>
 		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
@@ -1021,7 +1028,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("determiner_id") AND len(determiner_id) GT 0>
 		<cfset field = '"field": "IDENTIFICATIONS_AGENT_ID"'>
 		<cfset comparator = '"comparator": "="'>
-		<cfset value = encodeForJavaScript(determiner_id)>
+		<cfset value = encodeForJSON(determiner_id)>
 		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
