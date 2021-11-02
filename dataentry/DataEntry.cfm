@@ -436,7 +436,7 @@ limitations under the License.
 
 	<div class="row my-3">
 		<div class="col-12 pt-2 pb-5">
-			<div class="col-11 mx-auto">
+			<div class="col-12 mx-auto">
 				<iframe src="https://code.mcz.harvard.edu/wiki/index.php/Enter_Data" width="100%" height="500"></iframe>
 			</div>
 		</div>
