@@ -764,7 +764,7 @@ limitations under the License.
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-5">
-												<div class="row mt-1 mb-0 pb-2 jqx-widget-header border px-2">
+												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4">Results: </h1>
 													<span class="d-block px-3 p-2" id="builderresultCount"></span> <span id="builderresultLink" class="d-block p-2"></span>
 													<div id="buildercolumnPickDialog">
@@ -1269,7 +1269,7 @@ limitations under the License.
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-5">
-												<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4">Results: </h1>
 													<span class="d-block px-3 p-2" id="fixedresultCount"></span> <span id="fixedresultLink" class="d-block p-2"></span>
 													<div id="fixedcolumnPickDialog">
