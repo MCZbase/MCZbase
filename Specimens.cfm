@@ -355,7 +355,7 @@ limitations under the License.
 													<span class="d-block px-3 p-2" id="keywordresultCount"></span> <span id="keywordresultLink" class="d-block p-2"></span>
 													<div id="keywordcolumnPickDialog">
 														<div class="container-fluid">
-															<div class="row" id="keywordcolumnPick_row"  style="width: 308px;">
+															<div class="row pick-column-width" id="keywordcolumnPick_row">
 																<div class="col-12 col-md-3">
 																	<div id="keywordcolumnPick" class="px-1"></div>
 																</div>

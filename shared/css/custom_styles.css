@@ -2060,6 +2060,9 @@ th {
 	page-break-inside: avoid;
 	break-inside: avoid;
 }
+.pick-column-width {
+	width: 308px;
+}
 section#mediaSection.accordion {
 	-webkit-column-break-inside: auto;
 	page-break-inside: auto;
