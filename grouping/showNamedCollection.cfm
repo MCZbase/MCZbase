@@ -699,7 +699,7 @@ div.vslider-item[aria-hidden="true"]{
 											$(document).ready(function () {
 												$("##previous_specimen_image").click(goPreviousSpecimen);
 												$("##next_specimen_image").click(goNextSpecimen);
-												$("##specimen_image_number").on("change",goSpecimen);
+												//$("##specimen_image_number").on("change",goSpecimen);
 												$("##specimen_media_img").scroll(function(event) {
 													event.preventDefault();
 													var y = event.scrollTop;
