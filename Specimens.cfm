@@ -1560,7 +1560,7 @@ limitations under the License.
 					pageable: true,
 					editable: false,
 					pagesize: '50',
-					pagesizeoptions: ['5','50','100'], // reset in gridLoaded
+					pagesizeoptions: ['5','10','25','50','100'], // reset in gridLoaded
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
@@ -1698,7 +1698,7 @@ limitations under the License.
 					pageable: true,
 					editable: false,
 					pagesize: '50',
-					pagesizeoptions: ['5','50','100'], // reset in gridLoaded
+					pagesizeoptions: ['5','10','25','50','100'], // reset in gridLoaded
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
@@ -1837,7 +1837,7 @@ limitations under the License.
 					pageable: true,
 					editable: false,
 					pagesize: '50',
-					pagesizeoptions: ['5','50','100'], // reset in gridLoaded
+					pagesizeoptions: ['5','10','25','50','100'], // reset in gridLoaded
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
@@ -1966,11 +1966,14 @@ limitations under the License.
 			}
 			// set maximum page size
 			if (rowcount > 100) {
-				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
+				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', '100', rowcount],pagesize: 50});
 				$('##' + gridId).jqxGrid({ pagesize: 50});
 			} else if (rowcount > 50) {
-				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize: 50});
+				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', rowcount],pagesize: 50});
 				$('##' + gridId).jqxGrid({ pagesize: 50});
+			} else if (rowcount > 25) {
+				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25', rowcount],pagesize: 25});
+				$('##' + gridId).jqxGrid({ pagesize: 25});
 			} else {
 				$('##' + gridId).jqxGrid({ pageable: false });
 			}
