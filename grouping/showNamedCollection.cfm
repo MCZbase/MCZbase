@@ -613,33 +613,100 @@ div.vslider-item[aria-hidden="true"]{
 											</div>
 										</div>
 										<script>
-											var lastSpecimenScrollTop = 0;
 											var $input = document.getElementById('specimen_image_number');
+											function initSwipe($e, handler) {
+												var POINTER_EVENTS = window.PointerEvent ? true : false
+												var start = {};
+												var end = {};
+												var tracking = false;
+												var thresholdTime = 500;
+												var thresholdDistance = 100;
+												function startHandler(e) {
+													tracking = true;
+													start.t = new Date().getTime();
+													start.x = POINTER_EVENTS ? e.clientX : e.touches[0].clientX;
+													start.y = POINTER_EVENTS ? e.clientY : e.touches[0].clientY;
+												};
+												function moveHandler(e) {
+													if (tracking) {
+													e.preventDefault();
+													end.x = POINTER_EVENTS ? e.clientX : e.touches[0].clientX;
+													end.y = POINTER_EVENTS ? e.clientY : e.touches[0].clientY;
+													}
+												}
+												function endEvent(e) {
+													if (tracking) {
+													tracking = false;
+													var now = new Date().getTime();
+													var deltaTime = now - start.t;
+													var deltaX = end.x - start.x;
+													var deltaY = end.y - start.y;
+												
+														if (deltaTime < thresholdTime) {
+															if ((deltaX > thresholdDistance) && (Math.abs(deltaY) < thresholdDistance)) {
+															handler('left')
+														}
+														else if ((-deltaX > thresholdDistance) && (Math.abs(deltaY) < thresholdDistance)) {
+															handler('right')
+														}
+														else if ((deltaY > thresholdDistance) && (Math.abs(deltaX) < thresholdDistance)) {
+															handler('up')
+														}
+														else if ((-deltaY > thresholdDistance) && (Math.abs(deltaX) < thresholdDistance)) {
+															handler('down')
+														}
+													}
+												}
+												}
+												if (POINTER_EVENTS) {
+												  $e.addEventListener('pointerdown', startHandler, false);
+												  $e.addEventListener('pointermove', moveHandler, false);
+												  $e.addEventListener('pointerup', endEvent, false);
+												  $e.addEventListener('pointerleave', endEvent, false);
+												  $e.addEventListener('pointercancel', endEvent, false);
+												}
+												else if (window.TouchEvent) {
+												  $e.addEventListener('touchstart', startHandler, false);
+												  $e.addEventListener('touchmove', moveHandler, false);
+												  $e.addEventListener('touchend', endEvent, false);
+												}
+											  }
+											var lastSpecimenScrollTop = 0;
 											function goPreviousSpecimen() { 
 												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											function goNextSpecimen() { 
 												currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
+											$input.addEventListener('change', function (e) {
+													goNextSpecimen(
+														parseInt(e.target.value)
+													)
+												}, false)
+												document.getElementById('previous_specimen_image').addEventListener('click', function (e) {
+													goPreviousSpecimen()
+												}, false)
+												document.getElementById('next_specimen_image').addEventListener('click', function (e) {
+													goNextSpecimen()
+												}, false)
 											function goSpecimen() { 
 												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
-											$(document).ready(function () {
-												$("##previous_specimen_image").click(goPreviousSpecimen);
-												$("##next_specimen_image").click(goNextSpecimen);
-												$("##specimen_image_number").on("change",goSpecimen);
-												$("##specimen_media_img").scroll(function(event) {
-													event.preventDefault();
-													var y = event.scrollTop;
-													if (y>lastSpecimenScrollTop) { 
-														goNextSpecimen();
-													} else { 
-														goPreviousSpecimen();
- 													}
-													lastSpecimenScrollTop = y; 
-												});
-											});
-
+//											$(document).ready(function () {
+//												$("##previous_specimen_image").click(goPreviousSpecimen);
+//												$("##next_specimen_image").click(goNextSpecimen);
+//												$("##specimen_image_number").on("change",goNextSpecimen);
+//												$("##specimen_media_img").scroll(function(event) {
+//													event.preventDefault();
+//													var y = event.scrollTop;
+//													if (y>lastSpecimenScrollTop) { 
+//														goNextSpecimen();
+//													} else { 
+//														goPreviousSpecimen();
+// 													}
+//													lastSpecimenScrollTop = y; 
+//												});
+//											});
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
