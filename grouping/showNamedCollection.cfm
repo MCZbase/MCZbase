@@ -610,7 +610,6 @@ div.vslider-item[aria-hidden="true"]{
 													<input type="number" id="specimen_image_number" class="custom-input border data-entry-input d-inline border-light" value="1">
 													<button type="button" class="border-0 btn-outline-primary rounded" id="next_specimen_image"> next &nbsp; >> </button>
 												</div>
-										
 											</div>
 										</div>
 										<script>
