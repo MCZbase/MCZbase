@@ -622,7 +622,6 @@ div.vslider-item[aria-hidden="true"]{
 											}
 											function goSpecimen() { 
 												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
-																	function goImageByNumber(counter, imageMetadataArray, media_img, media_des, detail_a, media_a, image_counter,sizeparams) { 
 											}
 											$(document).ready(function () {
 												$("##previous_specimen_image").click(goPreviousSpecimen);
