@@ -583,7 +583,7 @@ div.vslider-item[aria-hidden="true"]{
 
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR points.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>
 							<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">	
-							
+
 								<!--- specimen images --->
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<section class="imagesLeft">
