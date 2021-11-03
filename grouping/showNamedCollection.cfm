@@ -580,9 +580,10 @@ div.vslider-item[aria-hidden="true"]{
 						<!---end specimen grid---> 
 					</section>
 					<div class="row mx-0">
+
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR points.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>
 							<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">	
-		
+
 								<!--- specimen images --->
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<section class="imagesLeft">
@@ -590,13 +591,11 @@ div.vslider-item[aria-hidden="true"]{
 											<div class="carousel_background border rounded float-left w-100 p-2 mb-4">
 												<h3 class="mx-2 text-center">#specimenImagesForCarousel.recordcount# Specimen Images</h3>
 												<div class="vslider w-100 float-left bg-light" id="vslider-base">
-											
 													<cfloop query="specimenImagesForCarousel" startRow="1" endRow="1">
 														<cfset specimen_media_uri = specimenImagesForCarousel.media_uri>
 														<cfset specimen_media_id = specimenImagesForCarousel.media_id>
 														<cfset specimen_alt = specimenImagesForCarousel.alt>
 													</cfloop>
-													
 													<div class="inner w-100 bg-light float-left px-3 h-auto">
 														<a id="specimen_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#specimen_media_id#">Media Details</a>
 														<cfset sizeType='&width=800&height=800'>
@@ -605,7 +604,6 @@ div.vslider-item[aria-hidden="true"]{
 														</a>
 														<p id="specimen_media_desc" class="mt-2 bg-light small" style="height: 2rem;">#specimen_alt#</p>
 													</div>
-										
 												</div>
 												<div class="custom-nav text-center small mb-1 bg-white pt-0 pb-1">
 													<button type="button" class="border-0 btn-outline-primary rounded" id="previous_specimen_image" > << prev </button>
