@@ -621,7 +621,7 @@ div.vslider-item[aria-hidden="true"]{
 												currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											function goSpecimen() { 
-												currentSpecimenImage = goImage(currentSpecimenImage, targetSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											$(document).ready(function () {
 												$("##previous_specimen_image").click(goPreviousSpecimen);
@@ -818,7 +818,7 @@ div.vslider-item[aria-hidden="true"]{
 															currentAgentImage = goNextImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
 														}
 														function goAgent() { 
-															currentAgentImage = goImage(currentAgentImage, targetAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
+															currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
 														}
 														$(document).ready(function () {
 															$("##previous_agent_image").click(goPreviousAgent);
@@ -893,7 +893,7 @@ div.vslider-item[aria-hidden="true"]{
 															currentCollectingImage = goNextImage(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
 														}
 														function goCollecting() { 
-															currentCollectingImage = goImage(currentCollectingImage, targetCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#");
+															currentCollectingImage = goImageByNumber(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#");
 														}
 														$(document).ready(function () {
 															$("##previous_collecting_image").click(goPreviousCollecting);
