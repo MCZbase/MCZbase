@@ -1440,7 +1440,7 @@ function goImageByNumber(counter, imageMetadataArray, media_img, media_des, deta
 	console.log( $('#'+media_img).attr('src'));
 	currentCounter = counter;
 	var targetCounterValue = currentCounter;
-	var inputval = $("#"+image_counter).val();
+	var inputVal = $("#"+image_counter).val();
 	if(Number.isInteger(inputVal)) {
 		targetCounterValue = inputVal;
 	}
