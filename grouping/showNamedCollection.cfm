@@ -642,11 +642,8 @@ div.vslider-item[aria-hidden="true"]{
 												});
 											}
 											var imgSlider = function () {
-											var self = this
-											var settings = this._settings = Object.assign({
-												
 												after: function (index, length){}
-											});
+											};
 												function init() {
 												window.defaultSliders = imgSlider(
 													document.querySelectorAll('.vslider-base')
