@@ -614,7 +614,7 @@ div.vslider-item[aria-hidden="true"]{
 										</div>
 										<script>
 									
-										(function(){
+											(function(){
 											"use strict";
 											// Polyfill for e.g. IE
 											if (typeof Object.assign != 'function') {
@@ -642,66 +642,6 @@ div.vslider-item[aria-hidden="true"]{
 													writable: true,
 													configurable: true
 												});
-											}
-									
-										//	function initSwipe($e, handler) {
-//												var POINTER_EVENTS = window.PointerEvent ? true : false
-//												var start = {};
-//												var end = {};
-//												var tracking = false;
-//												var thresholdTime = 500;
-//												var thresholdDistance = 100;
-//												function startHandler(e) {
-//													tracking = true;
-//													start.t = new Date().getTime();
-//													start.x = POINTER_EVENTS ? e.clientX : e.touches[0].clientX;
-//													start.y = POINTER_EVENTS ? e.clientY : e.touches[0].clientY;
-//												};
-//												function moveHandler(e) {
-//													if (tracking) {
-//														e.preventDefault();
-//														end.x = POINTER_EVENTS ? e.clientX : e.touches[0].clientX;
-//														end.y = POINTER_EVENTS ? e.clientY : e.touches[0].clientY;
-//													}
-//												}
-//												function endEvent(e) {
-//													if (tracking) {
-//														tracking = false;
-//														var now = new Date().getTime();
-//														var deltaTime = now - start.t;
-//														var deltaX = end.x - start.x;
-//														var deltaY = end.y - start.y;
-//														if (deltaTime < thresholdTime) {
-//															if ((deltaX > thresholdDistance) && (Math.abs(deltaY) < thresholdDistance)) {
-//																handler('left')
-//															}
-//															else if ((-deltaX > thresholdDistance) && (Math.abs(deltaY) < thresholdDistance)) {
-//																handler('right')
-//															}
-//															else if ((deltaY > thresholdDistance) && (Math.abs(deltaX) < thresholdDistance)) {
-//																handler('up')
-//															}
-//															else if ((-deltaY > thresholdDistance) && (Math.abs(deltaX) < thresholdDistance)) {
-//																handler('down')
-//															}
-//														}
-//													}
-//												}
-												//if (POINTER_EVENTS) {
-//													$e.addEventListener('pointerdown', startHandler, false);
-//													$e.addEventListener('pointermove', moveHandler, false);
-//													$e.addEventListener('pointerup', endEvent, false);
-//													$e.addEventListener('pointerleave', endEvent, false);
-//													$e.addEventListener('pointercancel', endEvent, false);
-//												}
-//												else if (window.TouchEvent) {
-//													$e.addEventListener('touchstart', startHandler, false);
-//													$e.addEventListener('touchmove', moveHandler, false);
-//													$e.addEventListener('touchend', endEvent, false);
-//												}
-											}
-											
-									
 											}());
 											var imgSlider = function () {
 											var self = this
