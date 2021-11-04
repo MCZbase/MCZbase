@@ -647,10 +647,7 @@ div.vslider-item[aria-hidden="true"]{
 													});
 												}
 											}
-											$input = document.getElementById('specimen_image_number');
-											after: function (index, length) {
-												$input.value = index
-											}
+									
 											function initSwipe($e, handler) {
 												var POINTER_EVENTS = window.PointerEvent ? true : false
 												var start = {};
@@ -708,27 +705,39 @@ div.vslider-item[aria-hidden="true"]{
 												  $e.addEventListener('touchend', endEvent, false);
 												}
 											  }
-											var lastSpecimenScrollTop = 0;
-											function goPreviousSpecimen() { 
-												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
-											}
-											function goNextSpecimen() { 
-												currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
-											}
-											$input.addEventListener('change', function (e) {
-													goNextSpecimen(
-														parseInt(e.target.value)
-													)
-												}, false)
-												document.getElementById('previous_specimen_image').addEventListener('click', function (e) {
-													goPreviousSpecimen()
-												}, false)
-												document.getElementById('next_specimen_image').addEventListener('click', function (e) {
-													goNextSpecimen()
-												}, false)
-											function goSpecimen() { 
-												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
-											}
+											function init() {
+												window.defaultSliders = imgSlider(
+													document.querySelectorAll('.vslider-base')
+												)
+												console.log('window.defaultSliders:', window.defaultSliders)
+												$input = document.getElementById('specimen_image_number');
+												var baseSlider = imgSlider(
+													after: function (index, length) {
+														$input.value = index
+													}
+												)
+												window.baseSlider = baseSlider
+												var lastSpecimenScrollTop = 0;
+												function goPreviousSpecimen() { 
+													currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+												}
+												function goNextSpecimen() { 
+													currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+												}
+												$input.addEventListener('change', function (e) {
+														goNextSpecimen(
+															parseInt(e.target.value)
+														)
+													}, false)
+													document.getElementById('previous_specimen_image').addEventListener('click', function (e) {
+														goPreviousSpecimen()
+													}, false)
+													document.getElementById('next_specimen_image').addEventListener('click', function (e) {
+														goNextSpecimen()
+													}, false)
+												function goSpecimen() { 
+													currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+												}
 //											$(document).ready(function () {
 //												$("##previous_specimen_image").click(goPreviousSpecimen);
 //												$("##next_specimen_image").click(goNextSpecimen);
@@ -744,6 +753,8 @@ div.vslider-item[aria-hidden="true"]{
 //													lastSpecimenScrollTop = y; 
 //												});
 //											});
+											document.addEventListener('DOMContentLoaded', init, false);
+											}());
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
