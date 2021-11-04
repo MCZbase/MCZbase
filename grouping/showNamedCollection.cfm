@@ -615,7 +615,8 @@ div.vslider-item[aria-hidden="true"]{
 										<script>
 											var $input = document.getElementById('specimen_image_number');
 											var $prev = document.getElementById('previous_specimen_image');
-											var $next = document.getElementById('next_specimen_image')
+											var $next = document.getElementById('next_specimen_image');
+											var $scroller = document.getElementById('specimen_media_img');
 											var lastSpecimenScrollTop = 0;
 											function goPreviousSpecimen() { 
 												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
@@ -627,21 +628,20 @@ div.vslider-item[aria-hidden="true"]{
 												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											$(document).ready(function () {
-											$input.addEventListener('change', function (e) {
-												goSpecimen()
-											}, false)
-											$prev.addEventListener('click', function (e) {
-												goPreviousSpecimen()
-											}, false)
-											$next.addEventListener('click', function (e) {
-												goNextSpecimen()
-											}, false)
+//											$input.addEventListener('change', function (e) {
+//												goSpecimen()
+//											}, false)
+//											$prev.addEventListener('click', function (e) {
+//												goPreviousSpecimen()
+//											}, false)
+//											$next.addEventListener('click', function (e) {
+//												goNextSpecimen()
+//											}, false)
 
-										
-											//	$("##previous_specimen_image").click(goPreviousSpecimen);
-									//			$("##next_specimen_image").click(goNextSpecimen);
-												//$("##specimen_image_number").on("change",goSpecimen);
-												$("##specimen_media_img").scroll(function(event) {
+												$prev.click(goPreviousSpecimen);
+												$next.click(goNextSpecimen);
+												$input.on("change",goSpecimen);
+												$scroller.scroll(function(event) {
 													event.preventDefault();
 													var y = event.scrollTop;
 													if (y>lastSpecimenScrollTop) { 
