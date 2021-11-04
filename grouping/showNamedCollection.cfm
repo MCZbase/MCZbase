@@ -614,7 +614,7 @@ div.vslider-item[aria-hidden="true"]{
 										</div>
 										<script>
 									
-										function thisPlayer() {
+										(function () {
 											"use strict";
 											// Polyfill for e.g. IE
 											if (typeof Object.assign != 'function') {
@@ -705,10 +705,13 @@ div.vslider-item[aria-hidden="true"]{
 													document.querySelectorAll('.vslider-base')
 												)
 												console.log('window.defaultSliders:', window.defaultSliders)
+												
 												$input = document.getElementById('specimen_image_number');
 												var baseSlider = imgSlider(
-													after: function (index, length) {
-														$input.value = index
+													document.getElementById('vslider-base'),{
+														after: function (index, length) {
+															$input.value = index
+														}
 													}
 												)
 												window.baseSlider = baseSlider
@@ -750,7 +753,7 @@ div.vslider-item[aria-hidden="true"]{
 //											});
 											
 											document.addEventListener('DOMContentLoaded', init, false);
-											}();
+											}());
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
