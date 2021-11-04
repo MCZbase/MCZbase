@@ -614,7 +614,7 @@ div.vslider-item[aria-hidden="true"]{
 										</div>
 										<script>
 									
-										function () {
+										function thisPlayer() {
 											"use strict";
 											// Polyfill for e.g. IE
 											if (typeof Object.assign != 'function') {
