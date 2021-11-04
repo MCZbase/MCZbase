@@ -614,7 +614,7 @@ div.vslider-item[aria-hidden="true"]{
 										</div>
 										<script>
 									
-										function player() {
+										(function(){
 											"use strict";
 											// Polyfill for e.g. IE
 											if (typeof Object.assign != 'function') {
@@ -700,6 +700,9 @@ div.vslider-item[aria-hidden="true"]{
 													$e.addEventListener('touchend', endEvent, false);
 												}
 											}
+											
+												document.addEventListener('DOMContentLoaded', init, false);
+											}());
 											function init() {
 												window.defaultSliders = imgSlider(
 													document.querySelectorAll('.vslider-base')
@@ -752,8 +755,7 @@ div.vslider-item[aria-hidden="true"]{
 //												});
 //											});
 											
-											document.addEventListener('DOMContentLoaded', init, false);
-											}();
+										
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
