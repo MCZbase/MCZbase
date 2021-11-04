@@ -614,38 +614,34 @@ div.vslider-item[aria-hidden="true"]{
 										</div>
 										<script>
 									
-											(function () {
-												"use strict";
-												// Polyfill for e.g. IE
-												if (typeof Object.assign != 'function') {
-													// Must be writable: true, enumerable: false, configurable: true
-													Object.defineProperty(Object, "assign", {
-														value: function assign(target, varArgs) { // .length of function is 2
-															'use strict';
-															if (target == null) { // TypeError if undefined or null
-																throw new TypeError('Cannot convert undefined or null to object');
-															}
-
-															var to = Object(target);
-
-															for (var index = 1; index < arguments.length; index++) {
-																var nextSource = arguments[index];
-
-																if (nextSource != null) { // Skip over if undefined or null
-																	for (var nextKey in nextSource) {
-																		// Avoid bugs when hasOwnProperty is shadowed
-																		if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-																			to[nextKey] = nextSource[nextKey];
-																		}
-																	}
+										(function () {
+											"use strict";
+											// Polyfill for e.g. IE
+											if (typeof Object.assign != 'function') {
+												// Must be writable: true, enumerable: false, configurable: true
+												Object.defineProperty(Object, "assign", {
+												value: function assign(target, varArgs) { // .length of function is 2
+													'use strict';
+													if (target == null) { // TypeError if undefined or null
+														throw new TypeError('Cannot convert undefined or null to object');
+													}
+													var to = Object(target);
+													for (var index = 1; index < arguments.length; index++) {
+														var nextSource = arguments[index];
+														if (nextSource != null) { // Skip over if undefined or null
+															for (var nextKey in nextSource) {
+																// Avoid bugs when hasOwnProperty is shadowed
+																if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+																	to[nextKey] = nextSource[nextKey];
 																}
 															}
-															return to;
-														},
-														writable: true,
-														configurable: true
-													});
-												}
+														}
+													}
+													return to;
+													},
+													writable: true,
+													configurable: true
+												});
 											}
 									
 											function initSwipe($e, handler) {
@@ -663,48 +659,47 @@ div.vslider-item[aria-hidden="true"]{
 												};
 												function moveHandler(e) {
 													if (tracking) {
-													e.preventDefault();
-													end.x = POINTER_EVENTS ? e.clientX : e.touches[0].clientX;
-													end.y = POINTER_EVENTS ? e.clientY : e.touches[0].clientY;
+														e.preventDefault();
+														end.x = POINTER_EVENTS ? e.clientX : e.touches[0].clientX;
+														end.y = POINTER_EVENTS ? e.clientY : e.touches[0].clientY;
 													}
 												}
 												function endEvent(e) {
 													if (tracking) {
-													tracking = false;
-													var now = new Date().getTime();
-													var deltaTime = now - start.t;
-													var deltaX = end.x - start.x;
-													var deltaY = end.y - start.y;
-												
+														tracking = false;
+														var now = new Date().getTime();
+														var deltaTime = now - start.t;
+														var deltaX = end.x - start.x;
+														var deltaY = end.y - start.y;
 														if (deltaTime < thresholdTime) {
 															if ((deltaX > thresholdDistance) && (Math.abs(deltaY) < thresholdDistance)) {
-															handler('left')
-														}
-														else if ((-deltaX > thresholdDistance) && (Math.abs(deltaY) < thresholdDistance)) {
-															handler('right')
-														}
-														else if ((deltaY > thresholdDistance) && (Math.abs(deltaX) < thresholdDistance)) {
-															handler('up')
-														}
-														else if ((-deltaY > thresholdDistance) && (Math.abs(deltaX) < thresholdDistance)) {
-															handler('down')
+																handler('left')
+															}
+															else if ((-deltaX > thresholdDistance) && (Math.abs(deltaY) < thresholdDistance)) {
+																handler('right')
+															}
+															else if ((deltaY > thresholdDistance) && (Math.abs(deltaX) < thresholdDistance)) {
+																handler('up')
+															}
+															else if ((-deltaY > thresholdDistance) && (Math.abs(deltaX) < thresholdDistance)) {
+																handler('down')
+															}
 														}
 													}
 												}
-												}
 												if (POINTER_EVENTS) {
-												  $e.addEventListener('pointerdown', startHandler, false);
-												  $e.addEventListener('pointermove', moveHandler, false);
-												  $e.addEventListener('pointerup', endEvent, false);
-												  $e.addEventListener('pointerleave', endEvent, false);
-												  $e.addEventListener('pointercancel', endEvent, false);
+													$e.addEventListener('pointerdown', startHandler, false);
+													$e.addEventListener('pointermove', moveHandler, false);
+													$e.addEventListener('pointerup', endEvent, false);
+													$e.addEventListener('pointerleave', endEvent, false);
+													$e.addEventListener('pointercancel', endEvent, false);
 												}
 												else if (window.TouchEvent) {
-												  $e.addEventListener('touchstart', startHandler, false);
-												  $e.addEventListener('touchmove', moveHandler, false);
-												  $e.addEventListener('touchend', endEvent, false);
+													$e.addEventListener('touchstart', startHandler, false);
+													$e.addEventListener('touchmove', moveHandler, false);
+													$e.addEventListener('touchend', endEvent, false);
 												}
-											  }
+											}
 											function init() {
 												window.defaultSliders = imgSlider(
 													document.querySelectorAll('.vslider-base')
