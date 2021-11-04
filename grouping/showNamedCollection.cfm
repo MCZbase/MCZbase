@@ -641,7 +641,7 @@ div.vslider-item[aria-hidden="true"]{
 													configurable: true
 												});
 											}
-											let imgSlider, defaultSliders;
+											let defaultSliders, imgSlider;
 											function init() {
 												window.defaultSliders = imgSlider(
 													document.querySelectorAll('.vslider-base')
