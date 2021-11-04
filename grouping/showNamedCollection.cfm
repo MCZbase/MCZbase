@@ -640,7 +640,7 @@ div.vslider-item[aria-hidden="true"]{
 													writable: true,
 													configurable: true
 												});
-									
+											}
 											var imgSlider = function () {
 											var self = this
 											var settings = this._settings = Object.assign({
