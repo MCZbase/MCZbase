@@ -366,8 +366,8 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SEARCH_CATEGORY#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATA_TYPE#">, 
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DATA_LENGTH#">, 
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">  
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCESS_ROLE#">  
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCESS_ROLE#">,  
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#UI_FUNCTION#">  
 					)
 				</cfquery>
