@@ -586,6 +586,7 @@ div.vslider-item[aria-hidden="true"]{
 
 								<!--- specimen images --->
 								<cfif specimenImagesForCarousel.recordcount gt 0>
+									<div class="hidden" id="max_img_count">#specimenImagesForCarousel.recordcount#</div>
 									<section class="imagesLeft">
 										<div class="col-12 px-1">
 											<div class="carousel_background border rounded float-left w-100 p-2 mb-4">
@@ -617,6 +618,7 @@ div.vslider-item[aria-hidden="true"]{
 											var $prev = document.getElementById('previous_specimen_image');
 											var $next = document.getElementById('next_specimen_image');
 											var $scroller = document.getElementById('specimen_media_img');
+											var $maxImages = document.getElementById('max_img_count').innerHTML;
 											var lastSpecimenScrollTop = 0;
 											function goPreviousSpecimen() { 
 												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
@@ -637,14 +639,14 @@ div.vslider-item[aria-hidden="true"]{
 											$next.addEventListener('click', function (e) {
 												goNextSpecimen()
 											}, false)
-
+											
 //												$prev.click(goPreviousSpecimen);
 //												$next.click(goNextSpecimen);
 //												$input.on("change",goSpecimen);
 												$("##specimen_media_img").scroll(function(event) {
 													event.preventDefault();
 													var y = event.scrollTop;
-													if (y>lastSpecimenScrollTop) { 
+													if (y> $maxImages) { 
 														goNextSpecimen();
 													} else { 
 														goPreviousSpecimen();
