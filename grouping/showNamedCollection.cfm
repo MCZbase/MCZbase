@@ -642,7 +642,7 @@ div.vslider-item[aria-hidden="true"]{
 												});
 											}
 											var imgSlider = function () {
-												after: function (index, length){}
+												after: function inp (index, length){}
 											};
 												function init() {
 												window.defaultSliders = imgSlider(
