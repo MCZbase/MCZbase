@@ -694,8 +694,7 @@ div.vslider-item[aria-hidden="true"]{
 //													lastSpecimenScrollTop = y; 
 //												});
 //											});
-											document.addEventListener('DOMContentLoaded', init, false);
-											}
+									
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
