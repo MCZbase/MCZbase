@@ -621,7 +621,7 @@ div.vslider-item[aria-hidden="true"]{
 											function goNextSpecimen() { 
 												currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
-												input.getElementById('specimen_image_number').addEventListener('change', function (e) {
+												$input.addEventListener('change', function (e) {
 													goSpecimen()
 												}, false)
 												document.getElementById('previous_specimen_image').addEventListener('click', function (e) {
