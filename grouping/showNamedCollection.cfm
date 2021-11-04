@@ -614,7 +614,7 @@ div.vslider-item[aria-hidden="true"]{
 										</div>
 										<script>
 									
-										(function () {
+										function () {
 											"use strict";
 											// Polyfill for e.g. IE
 											if (typeof Object.assign != 'function') {
@@ -748,8 +748,9 @@ div.vslider-item[aria-hidden="true"]{
 //													lastSpecimenScrollTop = y; 
 //												});
 //											});
+											
 											document.addEventListener('DOMContentLoaded', init, false);
-											}());
+											}();
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
