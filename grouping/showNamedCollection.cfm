@@ -639,7 +639,6 @@ div.vslider-item[aria-hidden="true"]{
 												}, false)
 												
 												$("##specimen_media_img").scrollTop(function (event) {
-													event.preventDefault();
 													var ys = event.scrollTop;
 													if (ys > $nextSpec) { 
 														currentSpecimenImage = 0;
@@ -842,7 +841,6 @@ div.vslider-item[aria-hidden="true"]{
 																goNextAgent()
 															}, false)
 															$("##agent_media_img").scrollTop(function (event) {
-																event.preventDefault();
 																var ya = event.scrollTop;
 																if (ya > $nextAgent) { 
 																	currentAgentImage = 0;
@@ -924,7 +922,6 @@ div.vslider-item[aria-hidden="true"]{
 																goNextCollecting()
 															}, false)
 															$("##collecting_media_img").scrollTop(function (event) {
-																event.preventDefault();
 																var yc = event.scrollTop;
 																if (yc > $nextCollecting) { 
 																	currentCollectingImage = 0;
