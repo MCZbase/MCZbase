@@ -640,16 +640,22 @@ div.vslider-item[aria-hidden="true"]{
 													goNextSpecimen()
 												}, false)
 												
-												$("##specimen_media_img").spinner(function(event) {
+												$("##specimen_media_img").scrollTop(function(event) {
 													event.preventDefault();
-													var y = event.spinner;
-														if (y > 153) { 
-															y = 0; 
+													var y = event.scrollTop;
+														if (y > $next) { 
+															currentSpecimenImage = 0;
 														} else { 
 															goPreviousSpecimen();
 														}
 													
 												});
+												window.onscroll = function() {myFunction()};
+													function myFunction() {
+														if (document.body.scrollTop > 350 || document.documentElement.scrollTop > 350) {
+															document.getElementById("myImg").className = "slideUp";
+														}
+}
 											});
 											
 										</script>
