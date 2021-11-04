@@ -646,12 +646,12 @@ div.vslider-item[aria-hidden="true"]{
 												$("##specimen_media_img").scroll(function(event) {
 													event.preventDefault();
 													var y = event.scrollTop;
-													if (y> $maxImages) { 
+													if (y > $maxImages) { 
 														goNextSpecimen();
 													} else { 
 														goPreviousSpecimen();
  													}
-													lastSpecimenScrollTop = y; 
+													lastSpecimenScrollTop = 0; 
 												});
 											});
 										</script>
