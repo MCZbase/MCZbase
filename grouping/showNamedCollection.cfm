@@ -914,7 +914,6 @@ div.vslider-item[aria-hidden="true"]{
 															currentCollectingImage = goImageByNumber(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_set_a", "collecting_media_a", "collecting_image_number","#sizeType#");
 														}
 														$(document).ready(function () {
-															e.preventDefault();
 															$inputCollecting.addEventListener('change', function (e) {
 																goCollecting()
 															}, false)
