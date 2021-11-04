@@ -614,11 +614,10 @@ div.vslider-item[aria-hidden="true"]{
 											</div>
 										</div>
 										<script>
-											var $input = document.getElementById('specimen_image_number');
-											var $prev = document.getElementById('previous_specimen_image');
-											var $next = document.getElementById('next_specimen_image');
-											var $scroller = document.getElementById('specimen_media_img');
-											var lastSpecimenScrollTop = 0;
+											var $inputSpec = document.getElementById('specimen_image_number');
+											var $prevSpec = document.getElementById('previous_specimen_image');
+											var $nextSpec = document.getElementById('next_specimen_image');
+											var $scrollerSpec = document.getElementById('specimen_media_img');
 											function goPreviousSpecimen() { 
 												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
@@ -629,20 +628,20 @@ div.vslider-item[aria-hidden="true"]{
 												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											$(document).ready(function () {
-												$input.addEventListener('change', function (e) {
+												$inputSpec.addEventListener('change', function (e) {
 													goSpecimen()
 												}, false)
-												$prev.addEventListener('click', function (e) {
+												$prevSpec.addEventListener('click', function (e) {
 													goPreviousSpecimen()
 												}, false)
-												$next.addEventListener('click', function (e) {
+												$nextSpec.addEventListener('click', function (e) {
 													goNextSpecimen()
 												}, false)
 												
 												$("##specimen_media_img").scrollTop(function (event) {
 													event.preventDefault();
-													var y = event.scrollTop;
-													if (y > $next) { 
+													var ys = event.scrollTop;
+													if (ys > $nextSpec) { 
 														currentSpecimenImage = 0;
 													} else { 
 														goPreviousSpecimen();
@@ -823,7 +822,6 @@ div.vslider-item[aria-hidden="true"]{
 														var $inputAgent = document.getElementById('agent_image_number');
 														var $prevAgent = document.getElementById('previous_agent_image');
 														var $nextAgent = document.getElementById('next_agent_image');
-														var $scrollerAgent = document.getElementById('agent_media_img');
 														function goPreviousAgent() { 
 															currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
 														}
@@ -844,7 +842,7 @@ div.vslider-item[aria-hidden="true"]{
 																goNextAgent()
 															}, false)
 															$("##agent_media_img").scrollTop(function (event) {
-																//event.preventDefault();
+																event.preventDefault();
 																var ya = event.scrollTop;
 																if (ya > $nextAgent) { 
 																	currentAgentImage = 0;
@@ -906,7 +904,6 @@ div.vslider-item[aria-hidden="true"]{
 														var $inputCollecting = document.getElementById('collecting_image_number');
 														var $prevCollecting = document.getElementById('previous_collecting_image');
 														var $nextCollecting = document.getElementById('next_collecting_image');
-														var $scrollerCollecting = document.getElementById('collecting_media_img');
 														function goPreviousCollecting() { 
 															currentCollectingImage = goPreviousImage(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
 														}
@@ -916,29 +913,14 @@ div.vslider-item[aria-hidden="true"]{
 														function goCollecting() { 
 															currentCollectingImage = goImageByNumber(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#");
 														}
-//														$(document).ready(function () {
-//															$("##previous_collecting_image").click(goPreviousCollecting);
-//															$("##next_collecting_image").click(goNextCollecting);
-//															$("##collecting_image_number").on("change",goCollecting);
-//															$("##collecting_media_img").scroll(function(event) {
-//																event.preventDefault();
-//																var y = event.scrollTop;
-//																if (y>lastCollectingScrollTop) { 
-//																	goNextCollecting();
-//																} else { 
-//																	goPreviousCollecting();
-//			 													}
-//																lastCollectingScrollTop = y; 
-//															});
-//														});
 														$(document).ready(function () {
-															$input.addEventListener('change', function (e) {
+															$inputCollecting.addEventListener('change', function (e) {
 																goCollecting()
 															}, false)
-															$prev.addEventListener('click', function (e) {
+															$prevCollecting.addEventListener('click', function (e) {
 																goPreviousCollecting()
 															}, false)
-															$next.addEventListener('click', function (e) {
+															$nextCollecting.addEventListener('click', function (e) {
 																goNextCollecting()
 															}, false)
 															$("##collecting_media_img").scrollTop(function (event) {
