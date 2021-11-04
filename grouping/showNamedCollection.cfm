@@ -598,7 +598,8 @@ div.vslider-item[aria-hidden="true"]{
 														<cfset specimen_alt = specimenImagesForCarousel.alt>
 													</cfloop>
 													<div class="inner w-100 bg-light float-left px-3 h-auto">
-														<a id="specimen_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#specimen_media_id#">Media Details</a>
+														<!---The href is determined by shared-scripts.js goImageByNumber function though a placeholder is here--->
+														<a id="specimen_detail_a" class="d-block pt-2" target="_blank" href="/media/#specimen_media_id#">Media Details</a>
 														<cfset sizeType='&width=800&height=800'>
 														<a id="specimen_media_a" href="#specimen_media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 															<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#specimen_media_id##sizeType#" class="mx-auto" alt="#specimen_alt#" height="100%" width="100%">
@@ -804,7 +805,8 @@ div.vslider-item[aria-hidden="true"]{
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
 																<div class="w-100 float-left px-3 h-auto">
-																	<a id="agent_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#agent_media_id#">Media Details</a>
+																	<!---The href is determined by shared-scripts.js goImageByNumber function though a placeholder is here--->
+																	<a id="agent_detail_a" class="d-block pt-2" target="_blank" href="/media/#agent_media_id#">Media Details</a>
 																	<a id="agent_media_a" href="#agent_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="agent_media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
 																	</a>
@@ -886,7 +888,8 @@ div.vslider-item[aria-hidden="true"]{
 														</h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 																<div class="w-100 float-left px-3 h-auto">
-																	<a id="collecting_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#collecting_media_id#">Media Details</a>
+																	<!---The href is determined by shared-scripts.js goImageByNumber function though a placeholder is here--->
+																	<a id="collecting_detail_a" class="d-block pt-2" target="_blank" href="/media/#collecting_media_id#">Media Details</a>
 																	<a id="collecting_media_a" href="#collecting_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="collecting_media_img" src="/media/rescaleImage.cfm?media_id=#collecting_media_id##sizeType#" class="mx-auto" alt="#collecting_alt#" height="100%" width="100%">
 																	</a>
