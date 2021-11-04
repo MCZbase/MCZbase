@@ -1056,7 +1056,7 @@ limitations under the License.
 									{text: 'Access Role', datafield: 'ACCESS_ROLE', width: 100, hideable: true, hidden: getColHidProp('ACCESS_ROLE', false),
 										columntype: 'dropdownlist', 
 										initeditor: function (row, cellvalue, editor) { 
-											var typeList = ["PUBLIC","COLDFUISON_USER","MANAGE_TRANSACTIONS","DATA_ENTRY","GLOBAL_ADMIN","MANAGE_AGENTS","MANAGE_MEDIA","MANAGE_COLLECTION","MANAGE_TAXONOMY","MANAGE_CODETABLES","MANAGE_LOCALITY","MANAGE_PUBLICATIONS","MANAGE_AGENT_RANKING","MANAGE_SPECIMENS","MANAGE_CONTAINER","HIDE"];
+											var typeList = ["PUBLIC","COLDFUSION_USER","MANAGE_TRANSACTIONS","DATA_ENTRY","GLOBAL_ADMIN","MANAGE_AGENTS","MANAGE_MEDIA","MANAGE_COLLECTION","MANAGE_TAXONOMY","MANAGE_CODETABLES","MANAGE_LOCALITY","MANAGE_PUBLICATIONS","MANAGE_AGENT_RANKING","MANAGE_SPECIMENS","MANAGE_CONTAINER","HIDE"];
 											editor.jqxDropDownList( { source: typeList }); 
 										}
 									},
