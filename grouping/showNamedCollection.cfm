@@ -843,9 +843,8 @@ div.vslider-item[aria-hidden="true"]{
 															$next.addEventListener('click', function (e) {
 																goNextAgent()
 															}, false)
-
 															$("##agent_media_img").scrollTop(function (event) {
-																event.preventDefault();
+																//event.preventDefault();
 																var ya = event.scrollTop;
 																if (ya > $nextAgent) { 
 																	currentAgentImage = 0;
@@ -917,21 +916,21 @@ div.vslider-item[aria-hidden="true"]{
 														function goCollecting() { 
 															currentCollectingImage = goImageByNumber(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#");
 														}
-														$(document).ready(function () {
-															$("##previous_collecting_image").click(goPreviousCollecting);
-															$("##next_collecting_image").click(goNextCollecting);
-															$("##collecting_image_number").on("change",goCollecting);
-															$("##collecting_media_img").scroll(function(event) {
-																event.preventDefault();
-																var y = event.scrollTop;
-																if (y>lastCollectingScrollTop) { 
-																	goNextCollecting();
-																} else { 
-																	goPreviousCollecting();
-			 													}
-																lastCollectingScrollTop = y; 
-															});
-														});
+//														$(document).ready(function () {
+//															$("##previous_collecting_image").click(goPreviousCollecting);
+//															$("##next_collecting_image").click(goNextCollecting);
+//															$("##collecting_image_number").on("change",goCollecting);
+//															$("##collecting_media_img").scroll(function(event) {
+//																event.preventDefault();
+//																var y = event.scrollTop;
+//																if (y>lastCollectingScrollTop) { 
+//																	goNextCollecting();
+//																} else { 
+//																	goPreviousCollecting();
+//			 													}
+//																lastCollectingScrollTop = y; 
+//															});
+//														});
 														$(document).ready(function () {
 															$input.addEventListener('change', function (e) {
 																goCollecting()
@@ -944,8 +943,8 @@ div.vslider-item[aria-hidden="true"]{
 															}, false)
 															$("##collecting_media_img").scrollTop(function (event) {
 																event.preventDefault();
-																var ya = event.scrollTop;
-																if (ya > $nextCollecting) { 
+																var yc = event.scrollTop;
+																if (yc > $nextCollecting) { 
 																	currentCollectingImage = 0;
 																} else { 
 																	goPreviousCollecting();
