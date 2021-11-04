@@ -639,9 +639,10 @@ div.vslider-item[aria-hidden="true"]{
 												$next.addEventListener('click', function (e) {
 													goNextSpecimen()
 												}, false)
-												$("##specimen_media_img").scroll(function(event) {
+												
+												$("##specimen_media_img").spinner(function(event) {
 													event.preventDefault();
-													var y = event.scrollTop;
+													var y = event.spinner;
 														if (y > 153) { 
 															y = 0; 
 														} else { 
