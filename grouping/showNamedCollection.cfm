@@ -630,30 +630,27 @@ div.vslider-item[aria-hidden="true"]{
 												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											$(document).ready(function () {
-											$input.addEventListener('change', function (e) {
-												goSpecimen()
-											}, false)
-											$prev.addEventListener('click', function (e) {
-												goPreviousSpecimen()
-											}, false)
-											$next.addEventListener('click', function (e) {
-												goNextSpecimen()
-											}, false)
-											
-//												$prev.click(goPreviousSpecimen);
-//												$next.click(goNextSpecimen);
-//												$input.on("change",goSpecimen);
+												$input.addEventListener('change', function (e) {
+													goSpecimen()
+												}, false)
+												$prev.addEventListener('click', function (e) {
+													goPreviousSpecimen()
+												}, false)
+												$next.addEventListener('click', function (e) {
+													goNextSpecimen()
+												}, false)
 												$("##specimen_media_img").scroll(function(event) {
 													event.preventDefault();
 													var y = event.scrollTop;
-													if (y > $maxImages) { 
-														goNextSpecimen();
-													} else { 
-														goPreviousSpecimen();
- 													}
+														if (y > $maxImages) { 
+															goNextSpecimen();
+														} else { 
+															goPreviousSpecimen();
+														}
 													lastSpecimenScrollTop = 0; 
 												});
 											});
+											
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
