@@ -614,9 +614,7 @@ div.vslider-item[aria-hidden="true"]{
 										</div>
 										<script>
 									
-											(function(){
-											"use strict";
-											// Polyfill for e.g. IE
+								
 											if (typeof Object.assign != 'function') {
 												// Must be writable: true, enumerable: false, configurable: true
 												Object.defineProperty(Object, "assign", {
@@ -642,7 +640,7 @@ div.vslider-item[aria-hidden="true"]{
 													writable: true,
 													configurable: true
 												});
-											}());
+									
 											var imgSlider = function () {
 											var self = this
 											var settings = this._settings = Object.assign({
