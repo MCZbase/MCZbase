@@ -642,8 +642,8 @@ div.vslider-item[aria-hidden="true"]{
 												$("##specimen_media_img").scroll(function(event) {
 													event.preventDefault();
 													var y = event.scrollTop;
-														if (y > $maxImages) { 
-															y = 1; 
+														if (y > 153) { 
+															y = 0; 
 														} else { 
 															goPreviousSpecimen();
 														}
