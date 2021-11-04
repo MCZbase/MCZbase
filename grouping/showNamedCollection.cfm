@@ -613,90 +613,43 @@ div.vslider-item[aria-hidden="true"]{
 											</div>
 										</div>
 										<script>
-									
-								
-											if (typeof Object.assign != 'function') {
-												// Must be writable: true, enumerable: false, configurable: true
-												Object.defineProperty(Object, "assign", {
-												value: function assign(target, varArgs) { // .length of function is 2
-													'use strict';
-													if (target == null) { // TypeError if undefined or null
-														throw new TypeError('Cannot convert undefined or null to object');
-													}
-													var to = Object(target);
-													for (var index = 1; index < arguments.length; index++) {
-														var nextSource = arguments[index];
-														if (nextSource != null) { // Skip over if undefined or null
-															for (var nextKey in nextSource) {
-																// Avoid bugs when hasOwnProperty is shadowed
-																if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-																	to[nextKey] = nextSource[nextKey];
-																}
-															}
-														}
-													}
-													return to;
-													},
-													writable: true,
-													configurable: true
+											var $input = document.getElementById('specimen_image_number');
+											var lastSpecimenScrollTop = 0;
+											function goPreviousSpecimen() { 
+												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+											}
+											function goNextSpecimen() { 
+												currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+											}
+											$input.addEventListener('change', function (e) {
+													goNextSpecimen(
+														parseInt(e.target.value)
+													)
+												}, false)
+												document.getElementById('previous_specimen_image').addEventListener('click', function (e) {
+													goPreviousSpecimen()
+												}, false)
+												document.getElementById('next_specimen_image').addEventListener('click', function (e) {
+													goNextSpecimen()
+												}, false)
+											function goSpecimen() { 
+												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+											}
+											$(document).ready(function () {
+												$("##previous_specimen_image").click(goPreviousSpecimen);
+												$("##next_specimen_image").click(goNextSpecimen);
+												$("##specimen_image_number").on("change",goNextSpecimen);
+												$("##specimen_media_img").scroll(function(event) {
+													event.preventDefault();
+													var y = event.scrollTop;
+													if (y>lastSpecimenScrollTop) { 
+														goNextSpecimen();
+													} else { 
+														goPreviousSpecimen();
+ 													}
+													lastSpecimenScrollTop = y; 
 												});
-											}
-											let defaultSliders, imgSlider;
-											function init() {
-												window.defaultSliders = imgSlider(
-													document.querySelectorAll('.vslider-base')
-												)
-												console.log('window.defaultSliders:', window.defaultSliders)
-												
-												$input = document.getElementById('specimen_image_number');
-												var baseSlider = imgSlider(
-													document.getElementById('vslider-base'),{
-														after: function (index, length) {
-															$input.value = index
-														}
-													}
-												)
-												window.baseSlider = baseSlider
-												var lastSpecimenScrollTop = 0;
-												function goPreviousSpecimen() { 
-													currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
-												}
-												function goNextSpecimen() { 
-													currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
-												}
-												function goSpec() { 
-													$input.addEventListener('change', function (e) {
-														goNextSpecimen(
-															parseInt(e.target.value)
-														)
-													}, false)
-													document.getElementById('previous_specimen_image').addEventListener('click', function (e) {
-														goPreviousSpecimen()
-													}, false)
-													document.getElementById('next_specimen_image').addEventListener('click', function (e) {
-														goNextSpecimen()
-													}, false)
-													function goSpecimen() { 
-														currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
-													}
-												}
-											}
-//											$(document).ready(function () {
-//												$("##previous_specimen_image").click(goPreviousSpecimen);
-//												$("##next_specimen_image").click(goNextSpecimen);
-//												$("##specimen_image_number").on("change",goNextSpecimen);
-//												$("##specimen_media_img").scroll(function(event) {
-//													event.preventDefault();
-//													var y = event.scrollTop;
-//													if (y>lastSpecimenScrollTop) { 
-//														goNextSpecimen();
-//													} else { 
-//														goPreviousSpecimen();
-// 													}
-//													lastSpecimenScrollTop = y; 
-//												});
-//											});
-									
+											});
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
