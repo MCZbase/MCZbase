@@ -598,7 +598,7 @@ div.vslider-item[aria-hidden="true"]{
 														<cfset specimen_alt = specimenImagesForCarousel.alt>
 													</cfloop>
 													<div class="inner w-100 bg-light float-left px-3 h-auto">
-														<a id="specimen_set_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#specimen_media_id#">Media Details</a>
+														<a id="specimen_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#specimen_media_id#">Media Details</a>
 														<cfset sizeType='&width=800&height=800'>
 														<a id="specimen_media_a" href="#specimen_media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 															<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#specimen_media_id##sizeType#" class="mx-auto" alt="#specimen_alt#" height="100%" width="100%">
@@ -619,13 +619,13 @@ div.vslider-item[aria-hidden="true"]{
 											var $nextSpec = document.getElementById('next_specimen_image');
 											var $scrollerSpec = document.getElementById('specimen_media_img');
 											function goPreviousSpecimen() { 
-												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_set_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
+												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											function goNextSpecimen() { 
-												currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_set_a", "specimen_image_number","#sizeType#"); 
+												currentSpecimenImage = goNextImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											function goSpecimen() { 
-												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_set_a","specimen_media_a", "specimen_image_number","#sizeType#"); 
+												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											$(document).ready(function () {
 												$inputSpec.addEventListener('change', function (e) {
@@ -804,7 +804,7 @@ div.vslider-item[aria-hidden="true"]{
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
 																<div class="w-100 float-left px-3 h-auto">
-																	<a id="agent_set_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#agent_media_id#">Media Details</a>
+																	<a id="agent_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#agent_media_id#">Media Details</a>
 																	<a id="agent_media_a" href="#agent_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="agent_media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
 																	</a>
@@ -823,13 +823,13 @@ div.vslider-item[aria-hidden="true"]{
 														var $prevAgent = document.getElementById('previous_agent_image');
 														var $nextAgent = document.getElementById('next_agent_image');
 														function goPreviousAgent() { 
-															currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_set_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+															currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
 														}
 														function goNextAgent() { 
-															currentAgentImage = goNextImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_set_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+															currentAgentImage = goNextImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
 														}
 														function goAgent() { 
-															currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_set_a", "agent_media_a", "agent_image_number","#sizeType#");
+															currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
 														}
 														$(document).ready(function () {
 															$inputAgent.addEventListener('change', function (e) {
@@ -886,7 +886,7 @@ div.vslider-item[aria-hidden="true"]{
 														</h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 																<div class="w-100 float-left px-3 h-auto">
-																	<a id="collecting_set_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#collecting_media_id#">Media Details</a>
+																	<a id="collecting_detail_a" class="d-block pt-2" target="_blank" href="/MediaSet.cfm?media_id=#collecting_media_id#">Media Details</a>
 																	<a id="collecting_media_a" href="#collecting_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="collecting_media_img" src="/media/rescaleImage.cfm?media_id=#collecting_media_id##sizeType#" class="mx-auto" alt="#collecting_alt#" height="100%" width="100%">
 																	</a>
@@ -905,13 +905,13 @@ div.vslider-item[aria-hidden="true"]{
 														var $prevCollecting = document.getElementById('previous_collecting_image');
 														var $nextCollecting = document.getElementById('next_collecting_image');
 														function goPreviousCollecting() { 
-															currentCollectingImage = goPreviousImage(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_set_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
+															currentCollectingImage = goPreviousImage(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
 														}
 														function goNextCollecting() { 
-															currentCollectingImage = goNextImage(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_set_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
+															currentCollectingImage = goNextImage(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
 														}
 														function goCollecting() { 
-															currentCollectingImage = goImageByNumber(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_set_a", "collecting_media_a", "collecting_image_number","#sizeType#");
+															currentCollectingImage = goImageByNumber(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#");
 														}
 														$(document).ready(function () {
 															$inputCollecting.addEventListener('change', function (e) {
@@ -923,8 +923,9 @@ div.vslider-item[aria-hidden="true"]{
 															$nextCollecting.addEventListener('click', function (e) {
 																goNextCollecting()
 															}, false)
-															$("##collecting_media_img").scrollTop(function (e) {
-																var yc = e.scrollTop;
+															$("##collecting_media_img").scrollTop(function (event) {
+																event.preventDefault();
+																var yc = event.scrollTop;
 																if (yc > $nextCollecting) { 
 																	currentCollectingImage = 0;
 																} else { 

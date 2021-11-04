@@ -1453,8 +1453,8 @@ function goImageByNumber(counter, imageMetadataArray, media_img, media_des, deta
 	currentCounter = targetCounterValue;
 	// array is zero based, counter is one based (so display of zeroth element in array is 1 for first image)
 	var currentImageMetadataRecord = imageMetadataArray[currentCounter - 1];
-	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
-	$("#"+set_a).attr("href","/MediaSet.cfm?media_id=" + currentImageMetadataRecord.media_id);
+	//$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
+	$("#"+detail_a).attr("href","/MediaSet.cfm?media_id=" + currentImageMetadataRecord.media_id);
 	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
 	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
 	$("#"+media_img).attr("alt",currentImageMetadataRecord.alt);
