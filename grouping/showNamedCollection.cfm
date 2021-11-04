@@ -643,7 +643,7 @@ div.vslider-item[aria-hidden="true"]{
 													event.preventDefault();
 													var y = event.scrollTop;
 														if (y > $maxImages) { 
-															lastSpecimenScrollTop = 0; 
+															y = 1; 
 														} else { 
 															goPreviousSpecimen();
 														}
