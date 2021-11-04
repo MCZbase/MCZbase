@@ -942,7 +942,6 @@ div.vslider-item[aria-hidden="true"]{
 															$next.addEventListener('click', function (e) {
 																goNextCollecting()
 															}, false)
-
 															$("##collecting_media_img").scrollTop(function (event) {
 																event.preventDefault();
 																var ya = event.scrollTop;
