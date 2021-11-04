@@ -634,8 +634,8 @@ div.vslider-item[aria-hidden="true"]{
 												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											$(document).ready(function () {
-												$("##previous_specimen_image").click(goPreviousSpecimen);
-												$("##next_specimen_image").click(goNextSpecimen);
+											//	$("##previous_specimen_image").click(goPreviousSpecimen);
+									//			$("##next_specimen_image").click(goNextSpecimen);
 												$("##specimen_image_number").on("change",goSpecimen);
 												$("##specimen_media_img").scroll(function(event) {
 													event.preventDefault();
