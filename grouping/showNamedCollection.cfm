@@ -647,7 +647,7 @@ div.vslider-item[aria-hidden="true"]{
 													});
 												}
 											}
-											var $input = document.getElementById('specimen_image_number');
+											$input = document.getElementById('specimen_image_number');
 											after: function (index, length) {
 												$input.value = index
 											}
