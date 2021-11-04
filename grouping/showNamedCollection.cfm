@@ -762,7 +762,7 @@ div.vslider-item[aria-hidden="true"]{
 //												});
 //											});
 											
-										
+											}
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
