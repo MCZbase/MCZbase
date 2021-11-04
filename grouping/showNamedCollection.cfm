@@ -821,10 +821,9 @@ div.vslider-item[aria-hidden="true"]{
 													</div>
 													<script>
 														var $inputAgent = document.getElementById('agent_image_number');
-														var $prevAagent = document.getElementById('previous_agent_image');
+														var $prevAgent = document.getElementById('previous_agent_image');
 														var $nextAgent = document.getElementById('next_agent_image');
 														var $scrollerAgent = document.getElementById('agent_media_img');
-														//var lastAgentScrollTop = 0;
 														function goPreviousAgent() { 
 															currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
 														}
@@ -834,21 +833,6 @@ div.vslider-item[aria-hidden="true"]{
 														function goAgent() { 
 															currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
 														}
-//														$(document).ready(function () {
-//															$("##previous_agent_image").click(goPreviousAgent);
-//															$("##next_agent_image").click(goNextAgent);
-//															$("##agent_image_number").on("change",goAgent);
-//															$("##agent_media_img").scrollTop(function(event) {
-//																event.preventDefault();
-//																var y = event.scrollTop;
-//																if (y>lastAgentScrollTop) { 
-//																	goNextAgent();
-//																} else { 
-//																	goPreviousAgent();
-//			 													}
-//																lastAgentScrollTop = y; 
-//															});
-//														});
 														$(document).ready(function () {
 															$input.addEventListener('change', function (e) {
 																goAgent()
@@ -862,8 +846,8 @@ div.vslider-item[aria-hidden="true"]{
 
 															$("##agent_media_img").scrollTop(function (event) {
 																event.preventDefault();
-																var y = event.scrollTop;
-																if (y > $nextAgent) { 
+																var ya = event.scrollTop;
+																if (ya > $nextAgent) { 
 																	currentAgentImage = 0;
 																} else { 
 																	goPreviousAgent();
@@ -920,7 +904,10 @@ div.vslider-item[aria-hidden="true"]{
 														</div>
 													</div>
 													<script>
-														var lastCollectingScrollTop = 0;
+														var $inputCollecting = document.getElementById('collecting_image_number');
+														var $prevCollecting = document.getElementById('previous_collecting_image');
+														var $nextCollecting = document.getElementById('next_collecting_image');
+														var $scrollerCollecting = document.getElementById('collecting_media_img');
 														function goPreviousCollecting() { 
 															currentCollectingImage = goPreviousImage(currentCollectingImage, collectingImageSetMetadata, "collecting_media_img", "collecting_media_desc", "collecting_detail_a", "collecting_media_a", "collecting_image_number","#sizeType#"); 
 														}
@@ -943,6 +930,27 @@ div.vslider-item[aria-hidden="true"]{
 																	goPreviousCollecting();
 			 													}
 																lastCollectingScrollTop = y; 
+															});
+														});
+														$(document).ready(function () {
+															$input.addEventListener('change', function (e) {
+																goCollecting()
+															}, false)
+															$prev.addEventListener('click', function (e) {
+																goPreviousCollecting()
+															}, false)
+															$next.addEventListener('click', function (e) {
+																goNextCollecting()
+															}, false)
+
+															$("##collecting_media_img").scrollTop(function (event) {
+																event.preventDefault();
+																var ya = event.scrollTop;
+																if (ya > $nextCollecting) { 
+																	currentCollectingImage = 0;
+																} else { 
+																	goPreviousCollecting();
+																}
 															});
 														});
 													</script>
