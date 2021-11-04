@@ -643,11 +643,11 @@ div.vslider-item[aria-hidden="true"]{
 													event.preventDefault();
 													var y = event.scrollTop;
 														if (y > $maxImages) { 
-															goNextSpecimen();
+															lastSpecimenScrollTop = 0; 
 														} else { 
 															goPreviousSpecimen();
 														}
-													lastSpecimenScrollTop = 0; 
+													
 												});
 											});
 											
