@@ -642,12 +642,11 @@ div.vslider-item[aria-hidden="true"]{
 												$("##specimen_media_img").scrollTop(function (event) {
 													event.preventDefault();
 													var y = event.scrollTop;
-														if (y > $next) { 
-															currentSpecimenImage = 0;
-														} else { 
-															goPreviousSpecimen();
-														}
-													
+													if (y > $next) { 
+														currentSpecimenImage = 0;
+													} else { 
+														goPreviousSpecimen();
+													}
 												});
 											});
 										</script>
@@ -821,7 +820,11 @@ div.vslider-item[aria-hidden="true"]{
 														</div>
 													</div>
 													<script>
-														var lastAgentScrollTop = 0;
+														var $inputAgent = document.getElementById('agent_image_number');
+														var $prevAagent = document.getElementById('previous_agent_image');
+														var $nextAgent = document.getElementById('next_agent_image');
+														var $scrollerAgent = document.getElementById('agent_media_img');
+														//var lastAgentScrollTop = 0;
 														function goPreviousAgent() { 
 															currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
 														}
@@ -831,19 +834,40 @@ div.vslider-item[aria-hidden="true"]{
 														function goAgent() { 
 															currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
 														}
+//														$(document).ready(function () {
+//															$("##previous_agent_image").click(goPreviousAgent);
+//															$("##next_agent_image").click(goNextAgent);
+//															$("##agent_image_number").on("change",goAgent);
+//															$("##agent_media_img").scrollTop(function(event) {
+//																event.preventDefault();
+//																var y = event.scrollTop;
+//																if (y>lastAgentScrollTop) { 
+//																	goNextAgent();
+//																} else { 
+//																	goPreviousAgent();
+//			 													}
+//																lastAgentScrollTop = y; 
+//															});
+//														});
 														$(document).ready(function () {
-															$("##previous_agent_image").click(goPreviousAgent);
-															$("##next_agent_image").click(goNextAgent);
-															$("##agent_image_number").on("change",goAgent);
-															$("##agent_media_img").scrollTop(function(event) {
+															$input.addEventListener('change', function (e) {
+																goAgent()
+															}, false)
+															$prev.addEventListener('click', function (e) {
+																goPreviousAgent()
+															}, false)
+															$next.addEventListener('click', function (e) {
+																goNextAgent()
+															}, false)
+
+															$("##agent_media_img").scrollTop(function (event) {
 																event.preventDefault();
 																var y = event.scrollTop;
-																if (y>lastAgentScrollTop) { 
-																	goNextAgent();
+																if (y > $nextAgent) { 
+																	currentAgentImage = 0;
 																} else { 
 																	goPreviousAgent();
-			 													}
-																lastAgentScrollTop = y; 
+																}
 															});
 														});
 													</script>
