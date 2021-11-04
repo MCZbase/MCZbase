@@ -834,13 +834,13 @@ div.vslider-item[aria-hidden="true"]{
 															currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
 														}
 														$(document).ready(function () {
-															$input.addEventListener('change', function (e) {
+															$inputAgent.addEventListener('change', function (e) {
 																goAgent()
 															}, false)
-															$prev.addEventListener('click', function (e) {
+															$prevAgent.addEventListener('click', function (e) {
 																goPreviousAgent()
 															}, false)
-															$next.addEventListener('click', function (e) {
+															$nextAgent.addEventListener('click', function (e) {
 																goNextAgent()
 															}, false)
 															$("##agent_media_img").scrollTop(function (event) {
