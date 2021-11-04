@@ -618,7 +618,6 @@ div.vslider-item[aria-hidden="true"]{
 											var $prev = document.getElementById('previous_specimen_image');
 											var $next = document.getElementById('next_specimen_image');
 											var $scroller = document.getElementById('specimen_media_img');
-											var $maxImages = document.getElementById('max_img_count').innerHTML;
 											var lastSpecimenScrollTop = 0;
 											function goPreviousSpecimen() { 
 												currentSpecimenImage = goPreviousImage(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
@@ -640,7 +639,7 @@ div.vslider-item[aria-hidden="true"]{
 													goNextSpecimen()
 												}, false)
 												
-												$("##specimen_media_img").scrollTop(function(event) {
+												$("##specimen_media_img").scrollTop(function (event) {
 													event.preventDefault();
 													var y = event.scrollTop;
 														if (y > $next) { 
@@ -651,7 +650,6 @@ div.vslider-item[aria-hidden="true"]{
 													
 												});
 											});
-											
 										</script>
 									</section><!--- end specimen images ---> 	
 								</cfif>	
@@ -837,7 +835,7 @@ div.vslider-item[aria-hidden="true"]{
 															$("##previous_agent_image").click(goPreviousAgent);
 															$("##next_agent_image").click(goNextAgent);
 															$("##agent_image_number").on("change",goAgent);
-															$("##agent_media_img").scroll(function(event) {
+															$("##agent_media_img").scrollTop(function(event) {
 																event.preventDefault();
 																var y = event.scrollTop;
 																if (y>lastAgentScrollTop) { 
