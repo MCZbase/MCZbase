@@ -701,7 +701,7 @@ div.vslider-item[aria-hidden="true"]{
 												}
 											}
 											
-												document.addEventListener('DOMContentLoaded', init, false);
+									
 											}());
 											var imgSlider = function () {
 											var self = this
@@ -761,7 +761,7 @@ div.vslider-item[aria-hidden="true"]{
 //													lastSpecimenScrollTop = y; 
 //												});
 //											});
-											
+											document.addEventListener('DOMContentLoaded', init, false);
 											}
 										</script>
 									</section><!--- end specimen images ---> 	
