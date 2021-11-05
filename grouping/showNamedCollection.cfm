@@ -158,6 +158,15 @@ div.vslider-item[aria-hidden="true"]{
 
 	}
 }
+@media screen and (max-width: 1024px){
+	.caption-lg {
+		overflow-y: scroll;
+		height: 4rem;
+		padding-left: 3px;
+		padding-right: 8px;
+
+	}
+}
 @media screen and (max-width: 480px) {
 	#map {
 		height: 350px;
