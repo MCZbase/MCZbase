@@ -169,7 +169,7 @@ div.vslider-item[aria-hidden="true"]{
 		height: 600px;
 	}
 	.caption-lg {
-		overflow-y: visible;
+		overflow-y: scroll;
 		height: 4rem;
 	}
 	.caption-sm {
@@ -183,6 +183,10 @@ div.vslider-item[aria-hidden="true"]{
 	.caption-sm {
 		overflow-y: visible;
 		height: 5.5rem;
+	}
+	.caption-lg {
+		overflow-y: visible;
+		height: 4rem;
 	}
 }
 </style>
