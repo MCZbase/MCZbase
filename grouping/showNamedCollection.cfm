@@ -173,6 +173,10 @@ div.vslider-item[aria-hidden="true"]{
 		overflow-y: visible;
 		height: 4rem;
 	}
+	.caption-sm {
+		overflow-y: visible;
+		height: 4rem;
+	}
 }
 </style>
 <cfset maxSpecimens = 11000>
