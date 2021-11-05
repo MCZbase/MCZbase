@@ -174,8 +174,14 @@ div.vslider-item[aria-hidden="true"]{
 		height: 4rem;
 	}
 	.caption-sm {
-		overflow-y: visible;
+		overflow-y: scroll;
 		height: 5rem;
+	}
+}
+@media screen and (min-width: 1300px) {
+	.caption-sm {
+		overflow-y: visible;
+		height: 5.5rem;
 	}
 }
 </style>
