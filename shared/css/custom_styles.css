@@ -2600,10 +2600,10 @@ and also iPads specifically.
 @media screen and (min-width: 1500px) {
 	.caption-sm {
 		overflow-y: visible;
-		height: 5.5rem;
+		height: 6rem;
 	}
 	.caption-lg {
 		overflow-y: visible;
-		height: 4rem;
+		height: 3.75rem;
 	}
 }
