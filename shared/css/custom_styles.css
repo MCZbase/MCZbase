@@ -2556,6 +2556,17 @@ and also iPads specifically.
 		height: 350px;
 	}
 }
+
+@media screen and (min-width: 1500px) {
+	.caption-sm {
+		overflow-y: visible;
+		height: 5.5rem;
+	}
+	.caption-lg {
+		overflow-y: visible;
+		height: 4rem;
+	}
+}
 @media screen and (min-width: 1200px) {
 	#map {
 		height: 600px;
@@ -2569,16 +2580,6 @@ and also iPads specifically.
 		height: 5rem;
 		padding-left: 3px;
 		padding-right: 8px;
-	}
-}
-@media screen and (min-width: 1500px) {
-	.caption-sm {
-		overflow-y: visible;
-		height: 5.5rem;
-	}
-	.caption-lg {
-		overflow-y: visible;
-		height: 4rem;
 	}
 }
 @media screen and (max-width: 768px){
