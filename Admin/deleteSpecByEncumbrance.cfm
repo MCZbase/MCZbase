@@ -15,7 +15,8 @@
 				encumbrance.made_date as encumbered_date,
 				expiration_date,
 				expiration_event,
-				remarks
+				remarks,
+				MCZBASE.is_has_media_for_relation(cataloged_item.collection_object_id,'% cataloged_item') has_media
 				from 
 					cataloged_item
 					inner join collection on (cataloged_item.collection_id = collection.collection_id) 
@@ -27,14 +28,14 @@
 						(encumbrance.encumbering_agent_id = made_encumbrance_name.agent_id)
 				where
 					identification.accepted_id_fg=1
-					and encumbrance.encumbrance_id=#encumbrance_id#
-				
+					and encumbrance.encumbrance_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">
 		</cfquery>
 		<table border>
 			<tr>
 				<td>Cataloged Item</td>
 				<td>Scientific Name</td>
 				<td>Encumbrance</td>
+				<td>Related Media</td>
 			</tr>
 			<cfloop query="specs">
 				<tr>
@@ -44,6 +45,9 @@
 					</td>
 					<td>#scientific_name#</td>
 					<td>#encumbrance# (#encumbrance_action#) by #encumberer# made #dateformat(encumbered_date,"yyyy-mm-dd")#, expires #dateformat(expiration_date,"yyyy-mm-dd")# #expiration_event# #remarks#</td>
+					<td>
+						<cfif specs.has_media GT 0><strong>Yes</strong> (must remove first)<cfelse>No</cfif>
+					</td>
 				</tr>
 			</cfloop>
 		</table>
@@ -52,9 +56,11 @@
 			<br />
 			You are not removing encumbrances.
 			<br />
-			You can really mess up here!
+			<strong>You can really mess up here!</strong>
 			<br />Forever and forever.
 			<br />You have been warned.
+			<br />
+			<br />Note: If any records have related media, you must remove those relationships prior to deleting those records.
 			<br />
 			If you are really sure about this, push the button.
 			<br />Otherwise, <a href="/SpecimenSearch.cfm">go somewhere safe</a>
