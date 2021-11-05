@@ -155,8 +155,7 @@ div.vslider-item[aria-hidden="true"]{
 	.caption-sm {
 		overflow-y: visible;
 		height: auto;
-		padding-left: 3px;
-		padding-right: 8px;
+
 	}
 }
 @media screen and (max-width: 480px) {
@@ -176,9 +175,11 @@ div.vslider-item[aria-hidden="true"]{
 	.caption-sm {
 		overflow-y: scroll;
 		height: 5rem;
+		padding-left: 3px;
+		padding-right: 8px;
 	}
 }
-@media screen and (min-width: 1270px) {
+@media screen and (min-width: 1500px) {
 	.caption-sm {
 		overflow-y: visible;
 		height: 5.5rem;
