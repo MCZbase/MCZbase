@@ -51,19 +51,7 @@ limitations under the License.
 	}
 }
 @media screen and (max-width: 1024px){
-	.caption-lg {
-		overflow-y: scroll;
-		height: 4.75rem;
-		padding-left: 3px;
-		padding-right: 8px;
 
-	}
-	.caption-sm {
-		overflow-y: scroll;
-		height: 7rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
 }
 @media screen and (max-width: 991px){
 	.caption-sm {
