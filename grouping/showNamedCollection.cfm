@@ -168,7 +168,7 @@ div.vslider-item[aria-hidden="true"]{
 	}
 	.caption-sm {
 		overflow-y: scroll;
-		height: 6rem;
+		height: 7rem;
 		padding-left: 3px;
 		padding-right: 8px;
 	}
