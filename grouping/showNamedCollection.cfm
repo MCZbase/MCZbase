@@ -39,17 +39,7 @@ limitations under the License.
 <style>
 
 
-@media screen and (max-width: 1199px) {
-	#map {
-		height: 400px;
-	}
-	.caption-sm {
-		overflow-y: scroll;
-		height: 6rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
+
 @media screen and (max-width: 1024px){
 
 }
