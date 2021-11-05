@@ -132,17 +132,7 @@ div.vslider-item[aria-hidden="true"]{
 	border-radius: 10px;
 }
 
-@media screen and (max-width: 1199px) {
-	#map {
-		height: 400px;
-	}
-	.caption-sm {
-		overflow-y: scroll;
-		height: 6rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
+
 @media screen and (max-width: 480px) {
 	#map {
 		height: 350px;
@@ -162,6 +152,17 @@ div.vslider-item[aria-hidden="true"]{
 		padding-left: 3px;
 		padding-right: 8px;
 	}
+@media screen and (max-width: 1199px) {
+	#map {
+		height: 400px;
+	}
+	.caption-sm {
+		overflow-y: scroll;
+		height: 6rem;
+		padding-left: 3px;
+		padding-right: 8px;
+	}
+}
 @media screen and (min-width: 1200px) {
 	#map {
 		height: 600px;
