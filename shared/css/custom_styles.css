@@ -562,9 +562,9 @@ BELOW: SPECIMEN DETAIL STYLES
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a51c30', endColorstr='#0a6d0019', GradientType=0); /* IE6-9 */
 	border: 1px solid #aaa;
 }
-.card-columns .card {
+/*.card-columns .card {
 	margin-bottom: 0;
-}
+}*/
 .card-body {
 	-ms-flex: 1 1 auto;
 	flex: 1 1 auto;
@@ -648,11 +648,11 @@ body.modal-open {
 /***********************************************/
 /* BELOW: filter and column slider menu styles */
 /***********************************************/
-#cbp-spmenu-s2 {
+/*#cbp-spmenu-s2 {
 	z-index: 600;
-}
+}*/
 /* #showRightPush black label "Filters" tab that moves the filter for what is in the columns*/
-section a#showRightPush {
+/*section a#showRightPush {
 	width: 30px;
 	margin-left: -30px;
 	writing-mode: vertical-rl;
@@ -669,9 +669,9 @@ section a#showRightPush {
 	-webkit-transition: all 0.3s ease;
 	-moz-transition: all 0.3s ease;
 	transition: all 0.3s ease;
-}
+}*/
 /* #showLeftPush black label "Columns" tab that moves the filter for displaying the columns*/
-section a#showLeftPush {
+/*section a#showLeftPush {
 	width: 32px;
 	margin-right: -30px;
 	writing-mode: vertical-rl;
@@ -774,7 +774,7 @@ section a#showLeftPush {
 	border: 1px solid #ccc;
 	border-right: none;
 	transition: all 0.3s ease;
-}
+}*/
 #clearfilter {
 	margin-left: 1rem;
 	margin-top: 1rem;
@@ -2017,7 +2017,7 @@ th {
 	height: 223px;
 	width: auto;
 }
-.containFlex1 {
+/*.containFlex1 {
 	column-gap: 10px;
 	flex-wrap: wrap;
 	max-width: 100%;
@@ -2040,7 +2040,7 @@ th {
 	flex-wrap: wrap;
 	max-width: 100%;
 	column-count: 4;
-}
+}*/
 .accordion {
 	-webkit-column-break-inside: avoid;
 	page-break-inside: avoid;
@@ -2229,13 +2229,13 @@ div.vslider-item[aria-hidden="true"]{
 /* Device styles below ***********/
 /*********************************/
 @media only screen and (min-width: 1380px) {
-	.cbp-spmenu-push-toleft {
+/*	.cbp-spmenu-push-toleft {
 		width: 81%;
 		left: 19%;
 		-webkit-transition: all 0.3s ease;
 		-moz-transition: all 0.3s ease;
 		transition: all 0.3s ease;
-	}
+	}*/
 	.w-350 {
 		width: 100%;
 	}
@@ -2260,12 +2260,12 @@ and also iPads specifically.
 	h1 {
 		margin-bottom: 0;
 	}
-	.containFlex2 {
+/*	.containFlex2 {
 		column-count: 1;
 	}
 	.containFlex4 {
 		column-count: 2;
-	}
+	}*/
 }
 @media (min-width:1060px) and (max-width: 1459px) {
 	form#regForm.tab {
@@ -2349,7 +2349,7 @@ and also iPads specifically.
 		content: '⇡';
 	}
 }
-@media screen and (min-width: 68.5333333em) { /*  sizes greater than old iPad  78=  */
+/*@media screen and (min-width: 68.5333333em) {
 	.card-columns {
 		-webkit-column-count: 2;
 		-moz-column-count: 2;
@@ -2371,18 +2371,18 @@ and also iPads specifically.
 		column-span: all;
 		margin-left: 4px;
 	}
-}
+}*/
 @media screen and (max-width: 55.1875em) {
-	.cbp-spmenu-horizontal {
+/*	.cbp-spmenu-horizontal {
 		font-size: 75%;
 		height: 90px;
-	}
-	.containFlex2 {
+	}*/
+/*	.containFlex2 {
 		column-count: 1;
 	}
 	.containFlex4 {
 		column-count: 1;
-	}
+	}*/
 }
 @media screen and (max-height: 26.375em) {
 	.cbp-spmenu-vertical {
@@ -2408,7 +2408,7 @@ and also iPads specifically.
 	}
 }
 @media(min-width:576px) {
-	.card-columns {
+/*	.card-columns {
 		-webkit-column-count: 2;
 		-moz-column-count: 2;
 		column-count: 2;
@@ -2428,7 +2428,7 @@ and also iPads specifically.
 		orphans: 1;
 		column-span: all;
 		margin-left: 4px;
-	}
+	}*/
 	.card-body h5 {
 		margin-top: -0.25rem;
 	}
@@ -2456,9 +2456,9 @@ and also iPads specifically.
 	}
 }
 @media(max-width:1024px) {
-	.card-columns {
+/*	.card-columns {
 		column-count: 2;
-	}
+	}*/
 	.card-body h5 {
 		margin-top: -0.5rem;
 	}
@@ -2483,9 +2483,9 @@ and also iPads specifically.
 	}
 }*/
 @media(max-width:1023px) {
-	.card-columns {
+/*	.card-columns {
 		column-count: 1;
-	}
+	}*/
 	.card-body h5 {
 		margin-top: -0.5rem;
 	}
@@ -2517,9 +2517,9 @@ and also iPads specifically.
 		padding-bottom: 0;
 		line-height: 1;
 	}
-	.card-columns {
+/*	.card-columns {
 		column-count: 1;
-	}
+	}*/
 }
 @media(max-width:414px) {
 	a.btn-sm {
