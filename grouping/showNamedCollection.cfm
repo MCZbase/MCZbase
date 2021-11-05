@@ -261,6 +261,8 @@ div.vslider-item[aria-hidden="true"]{
 	.caption {
 		overflow-y: scroll;
 		height: 2.75rem;
+		padding-left: 3px;
+		padding-right: 3px;
 	}
 }
 @media screen and (max-width: 480px) {
