@@ -2551,7 +2551,7 @@ and also iPads specifically.
 		padding-right: 8px;
 	}
 }
-@media screen and (max-width: 1024px){
+@media screen and (min-width: 1024px){
 	.caption-lg {
 		overflow-y: scroll;
 		height: 4.75rem;
