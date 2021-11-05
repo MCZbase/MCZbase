@@ -37,20 +37,6 @@ limitations under the License.
 </cfif>
 <cfinclude template="/shared/_header.cfm">
 <style>
-
-
-
-@media screen and (max-width: 1024px){
-
-}
-@media screen and (max-width: 991px){
-	.caption-sm {
-		overflow-y: scroll;
-		height: 5.75rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
 @media screen and (max-width: 768px){
 	.caption-sm {
 		overflow-y: visible;
