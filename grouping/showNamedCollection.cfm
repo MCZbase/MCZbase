@@ -73,7 +73,6 @@ limitations under the License.
 .vslider > * {
 	display: block;
 	position: relative;
-	
 }
 .vslider > * + * {
 	display: none;
@@ -105,15 +104,15 @@ div.vslider-item[aria-hidden='false'] {
 div.vslider-item[aria-hidden="true"]{
 	display:block;
 }
-.vslider-before {
+/*.vslider-before {
 	z-index: 10;
 	opacity: 0;
 	transform: translateX(0%);
-}
-.vslider-direct {
+}*/
+/*.vslider-direct {
 	transition: none;
-}
-.vslider-status {
+}*/
+/*.vslider-status {
 	display: block;
 	list-style: none;
 	z-index: 110;
@@ -124,8 +123,8 @@ div.vslider-item[aria-hidden="true"]{
 	text-align: center;
 	padding: 0;
 	margin: 0;
-}
-.vslider-status-item {
+}*/
+/*.vslider-status-item {
 	cursor: pointer;
 	display: inline-block;
 	font-size: 0.5em;
@@ -139,13 +138,13 @@ div.vslider-item[aria-hidden="true"]{
 	margin: 0 0.5em;
 	transition: 0.3s;
 	opacity: 0.3;
-}
-.vslider-status-item:hover,
+}*/
+/*.vslider-status-item:hover,
 .vslider-status-item:focus,
 .vslider-status-item[aria-selected='true'] {
 	opacity: 0.6;
-}
-.vslider-nav {
+}*/
+/*.vslider-nav {
 	display: block;
 	z-index: 100;
 	position: absolute;
@@ -153,8 +152,8 @@ div.vslider-item[aria-hidden="true"]{
 	bottom: 0;
 	left: 0;
 	right: 0;
-}
-.vslider-prev,
+}*/
+/*.vslider-prev,
 .vslider-next {
 	cursor: pointer;
 	display: block;
@@ -170,14 +169,14 @@ div.vslider-item[aria-hidden="true"]{
 	background: blue;
 	opacity: 0.6;
 	opacity: 0.3;
-}
-.vslider-prev:hover,
+}*/
+/*.vslider-prev:hover,
 .vslider-prev:focus,
 .vslider-next:hover,
 .vslider-next:focus {
 	opacity: 1;
-}
-.vslider-next {
+}*/
+/*.vslider-next {
 	left: auto;
 	right: 0;
 }
@@ -186,7 +185,7 @@ div.vslider-item[aria-hidden="true"]{
 }
 .vslider-next:after {
 	content: '>';
-}
+}*/
 /* some basic style */
 .vslider {
 	color: #191717;
@@ -196,7 +195,7 @@ div.vslider-item[aria-hidden="true"]{
 	margin-bottom: .75rem;
 }
 /* custom status and navigation */
-.vslider-customstatus .vslider-status > li {
+/*.vslider-customstatus .vslider-status > li {
 	color: #fff;
 	padding: 0.25em;
 	border-radius: 0.25em;
@@ -208,19 +207,19 @@ div.vslider-item[aria-hidden="true"]{
 	height: 0;
 	border-top: 0.5em solid transparent;
 	border-bottom: 0.5em solid transparent;
-}
-.vslider-customstatus .vslider-prev {
+}*/
+/*.vslider-customstatus .vslider-prev {
 	border-right: 1em solid #000;
 }
 .vslider-customstatus .vslider-next {
 	border-left: 1em solid #000;
-}
+}*/
 .custom-input {
 	text-align: center;
 	width:53px; 
 }
 /* custom animation */
-.vslider-trans {
+/*.vslider-trans {
 	min-height: 50vh;
 	background-color: transparent;
 }
@@ -237,7 +236,7 @@ div.vslider-item[aria-hidden="true"]{
 }
 .vslider-trans .vslider-before  {
 	transform: rotateY(-90deg);
-}
+}*/
 .message { 
 	padding-top: 25%;
 	padding-bottom: 25%;
@@ -810,7 +809,7 @@ div.vslider-item[aria-hidden="true"]{
 																	<a id="agent_media_a" href="#agent_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="agent_media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
 																	</a>
-																	<p id="agent_media_desc" class="mt-2 small bg-light" style="height: 5.5rem;">#agent_alt#</p>
+																	<p id="agent_media_desc" class="mt-2 small bg-light" style="height: 5.5rem;overflow-y:scroll;">#agent_alt#</p>
 																</div>
 															</div>
 															<div class="custom-nav text-center small bg-white mb-1 pt-0 pb-1">
@@ -893,12 +892,12 @@ div.vslider-item[aria-hidden="true"]{
 																	<a id="collecting_media_a" href="#collecting_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="collecting_media_img" src="/media/rescaleImage.cfm?media_id=#collecting_media_id##sizeType#" class="mx-auto" alt="#collecting_alt#" height="100%" width="100%">
 																	</a>
-																	<p id="collecting_media_desc" class="mt-2 small bg-light" style="height: 5.5rem;">#collecting_alt#</p>
+																	<p id="collecting_media_desc" class="mt-2 small bg-light" style="height: 5.5rem;overflow-y:scroll;">#collecting_alt#</p>
 																</div>
 															</div>
 															<div class="custom-nav small text-center bg-white mb-1 pt-0 pb-1">
 																<button id="previous_collecting_image" type="button" class="border-0 btn-outline-primary rounded"> << prev </button>
-																<input id="collecting_image_number" type="number" id="custom-input2" class="custom-input data-entry-input d-inline border border-light" value="1">
+																<input id="collecting_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
 																<button id="next_collecting_image" type="button" class="border-0 btn-outline-primary rounded"> next &nbsp; >> </button>
 															</div>
 														</div>
