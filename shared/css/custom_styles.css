@@ -2454,6 +2454,17 @@ and also iPads specifically.
 		max-width: 1600px;
 	}
 }
+@media screen and (max-width: 1199px) {
+	#map {
+		height: 400px;
+	}
+	.caption-sm {
+		overflow-y: scroll;
+		height: 6rem;
+		padding-left: 3px;
+		padding-right: 8px;
+	}
+}
 @media(max-width:1024px) {
 	.card-columns {
 		column-count: 2;
