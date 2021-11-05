@@ -2440,7 +2440,7 @@ and also iPads specifically.
 		width: 300px;
 	}
 }
-@media (min-width: 1200px) {
+@media(min-width: 1200px) {
 	.container-xl {
 		max-width: 1600px;
 	}
@@ -2530,7 +2530,6 @@ and also iPads specifically.
 		height: 5rem;
 	}
 }
-
 @media screen and (max-width: 1199px) {
 	#map {
 		height: 400px;
@@ -2548,7 +2547,6 @@ and also iPads specifically.
 		height: 4.75rem;
 		padding-left: 3px;
 		padding-right: 8px;
-
 	}
 	.caption-sm {
 		overflow-y: scroll;
@@ -2565,13 +2563,7 @@ and also iPads specifically.
 		padding-right: 8px;
 	}
 }
-@media screen and (max-width: 768px){
-	.caption-sm {
-		overflow-y: visible;
-		height: auto;
 
-	}
-}
 @media screen and (max-width: 480px) {
 	#map {
 		height: 350px;
@@ -2600,5 +2592,12 @@ and also iPads specifically.
 	.caption-lg {
 		overflow-y: visible;
 		height: 4rem;
+	}
+}
+@media screen and (max-width: 768px){
+	.caption-sm {
+		overflow-y: visible;
+		height: auto;
+
 	}
 }
