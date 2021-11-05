@@ -2529,6 +2529,10 @@ and also iPads specifically.
 	.MediaAccordionShow {
 		display: block;
 	}
+	.caption-sm {
+		overflow-y: visible;
+		height: auto;
+	}
 }
 @media(max-width:576px) {
 	.count {
