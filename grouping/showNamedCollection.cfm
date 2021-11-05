@@ -37,30 +37,108 @@ limitations under the License.
 </cfif>
 <cfinclude template="/shared/_header.cfm">
 <style>
+/*.current {
+	width: 300px;
+	height: 300px; 
+	border: .5rem solid #fff;;
+	background-color: #f8f9fa;
+}
+#map {
+	height: 100%;
+	width: 100%;
+}
+#floating-panel {
+	text-align: center;
+	font-family: "Roboto", "sans-serif";
+	border-radius: 5px;
+	padding: 0 0 3px 0;
+	position: relative;
+	line-height: 20px;
+	float:left;
+	width: auto;
+	margin: 0 auto;
+	z-index: 5;
+}
+#map button {
+	border: 1px solid transparent;
+	outline: 1px solid transparent;
+}
+#map button:focus {
+	outline: 2px solid rgb(0 123 255 / 75%);
+}
+.vslider {
+	position: relative;
+	width: 100%;
+}
+.vslider > * {
+	display: block;
+	position: relative;
+}
+.vslider > * + * {
+	display: none;
+	position: absolute;
+}
+.vslider-item {
+	display: block;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	bottom: 0;
+	-ms-touch-action: none;
+	touch-action: none;
+	transition: z-index 0s,
+	opacity .8s ease-in-out,
+	transform .4s ease-in-out;
+	z-index: 20;
+	opacity: 0;
+	transform: translateX(-10%);
+	resize: vertical;
+	overflow:auto;
+	font-size: 1rem;
+}
+div.vslider-item[aria-hidden='false'] {
+	z-index: 30;
+	opacity: 1.0;
+	transform: translateX(0);
+}
+div.vslider-item[aria-hidden="true"]{
+	display:block;
+}
+.vslider {
+	color: #191717;
+	background-color: #fff;
+	font-weight: 600;
+	text-align: center;
+	margin-bottom: .75rem;
+}
+.custom-input {
+	text-align: center;
+	width:53px; 
+}
+.message { 
+	padding-top: 25%;
+	padding-bottom: 25%;
+	font-size: 2rem;
+}
+.vslider::-webkit-scrollbar, .vslider-item::-webkit-scrollbar {
+	width: 10px;
+}
+.vslider::-webkit-scrollbar-track, .vslider-item::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+	background: aliceblue;
+}
+.vslider::-webkit-scrollbar-thumb, .vslider-item::-webkit-scrollbar-thumb {
+	background-color: lightgrey;
+	border-radius: 10px;
+}
 
-
-/*@media screen and (max-width: 1199px) {
+@media screen and (max-width: 1199px) {
 	#map {
 		height: 400px;
 	}
 	.caption-sm {
 		overflow-y: scroll;
 		height: 6rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
-@media screen and (max-width: 1024px){
-	.caption-lg {
-		overflow-y: scroll;
-		height: 4.75rem;
-		padding-left: 3px;
-		padding-right: 8px;
-
-	}
-	.caption-sm {
-		overflow-y: scroll;
-		height: 7rem;
 		padding-left: 3px;
 		padding-right: 8px;
 	}
@@ -80,11 +158,28 @@ limitations under the License.
 
 	}
 }
+@media screen and (max-width: 1024px){
+	.caption-lg {
+		overflow-y: scroll;
+		height: 4.75rem;
+		padding-left: 3px;
+		padding-right: 8px;
+
+	}
+	.caption-sm {
+		overflow-y: scroll;
+		height: 7rem;
+		padding-left: 3px;
+		padding-right: 8px;
+	}
+}
+}
 @media screen and (max-width: 480px) {
 	#map {
 		height: 350px;
 	}
 }
+
 @media screen and (min-width: 1200px) {
 	#map {
 		height: 600px;
