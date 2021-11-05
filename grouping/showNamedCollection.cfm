@@ -274,6 +274,8 @@ div.vslider-item[aria-hidden="true"]{
 	.caption-sm {
 		overflow-y: scroll;
 		height: 5.75rem;
+		padding-left: 3px;
+		padding-right: 8px;
 	}
 @media screen and (min-width: 1200px) {
 	#map {
