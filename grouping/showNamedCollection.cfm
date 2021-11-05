@@ -270,6 +270,10 @@ div.vslider-item[aria-hidden="true"]{
 		height: 350px;
 	}
 }
+@media screen and (min-width: 768px){
+	.caption {
+		overflow-y: scroll;
+	}
 @media screen and (min-width: 1200px) {
 	#map {
 		height: 600px;
