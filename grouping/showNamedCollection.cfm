@@ -283,7 +283,7 @@ div.vslider-item[aria-hidden="true"]{
 	}
 	.caption-lg {
 		overflow-y: visible;
-		height: 3.5rem;
+		height: 4rem;
 	}
 }
 </style>
