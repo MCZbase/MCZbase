@@ -258,6 +258,10 @@ div.vslider-item[aria-hidden="true"]{
 	#map {
 		height: 400px;
 	}
+	.caption {
+		overflow-y: scroll;
+		height: 2.75rem;
+	}
 }
 @media screen and (max-width: 480px) {
 	#map {
@@ -267,6 +271,10 @@ div.vslider-item[aria-hidden="true"]{
 @media screen and (min-width: 1200px) {
 	#map {
 		height: 600px;
+	}
+	.caption {
+		overflow-y: visible;
+		height: 3.5rem;
 	}
 }
 </style>
