@@ -166,6 +166,13 @@ div.vslider-item[aria-hidden="true"]{
 		padding-right: 8px;
 
 	}
+	.caption-sm {
+		overflow-y: scroll;
+		height: 6rem;
+		padding-left: 3px;
+		padding-right: 8px;
+	}
+}
 }
 @media screen and (max-width: 480px) {
 	#map {
