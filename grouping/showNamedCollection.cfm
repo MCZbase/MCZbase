@@ -38,6 +38,48 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <style>
 
+
+/*@media screen and (max-width: 1199px) {
+	#map {
+		height: 400px;
+	}
+	.caption-sm {
+		overflow-y: scroll;
+		height: 6rem;
+		padding-left: 3px;
+		padding-right: 8px;
+	}
+}
+@media screen and (max-width: 1024px){
+	.caption-lg {
+		overflow-y: scroll;
+		height: 4.75rem;
+		padding-left: 3px;
+		padding-right: 8px;
+
+	}
+	.caption-sm {
+		overflow-y: scroll;
+		height: 7rem;
+		padding-left: 3px;
+		padding-right: 8px;
+	}
+}
+@media screen and (max-width: 991px){
+	.caption-sm {
+		overflow-y: scroll;
+		height: 5.75rem;
+		padding-left: 3px;
+		padding-right: 8px;
+	}
+}
+@media screen and (max-width: 768px){
+	.caption-sm {
+		overflow-y: visible;
+		height: auto;
+
+	}
+}
 @media screen and (max-width: 480px) {
 	#map {
 		height: 350px;
@@ -67,7 +109,7 @@ limitations under the License.
 		overflow-y: visible;
 		height: 4rem;
 	}
-}
+}*/
 </style>
 <cfset maxSpecimens = 11000>
 <cfset maxRandomSpecimenImages = 300>
