@@ -2530,56 +2530,11 @@ and also iPads specifically.
 		height: 5rem;
 	}
 }
-@media screen and (max-width: 1199px) {
-	#map {
-		height: 400px;
-	}
-	.caption-sm {
-		overflow-y: scroll;
-		height: 6rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
 
-@media screen and (max-width: 991px){
-	.caption-sm {
-		overflow-y: scroll;
-		height: 5.75rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
 
 @media screen and (max-width: 480px) {
 	#map {
 		height: 350px;
-	}
-}
-
-@media screen and (min-width: 1500px) {
-	.caption-sm {
-		overflow-y: visible;
-		height: 5.5rem;
-	}
-	.caption-lg {
-		overflow-y: visible;
-		height: 4rem;
-	}
-}
-@media screen and (min-width: 1200px) {
-	#map {
-		height: 600px;
-	}
-	.caption-lg {
-		overflow-y: scroll;
-		height: 4rem;
-	}
-	.caption-sm {
-		overflow-y: scroll;
-		height: 5rem;
-		padding-left: 3px;
-		padding-right: 8px;
 	}
 }
 @media screen and (max-width: 768px){
@@ -2587,6 +2542,14 @@ and also iPads specifically.
 		overflow-y: visible;
 		height: auto;
 
+	}
+}
+@media screen and (max-width: 991px){
+	.caption-sm {
+		overflow-y: scroll;
+		height: 5.75rem;
+		padding-left: 3px;
+		padding-right: 8px;
 	}
 }
 @media screen and (max-width: 1024px){
@@ -2601,5 +2564,41 @@ and also iPads specifically.
 		height: 7rem;
 		padding-left: 3px;
 		padding-right: 8px;
+	}
+}
+@media screen and (max-width: 1199px) {
+	#map {
+		height: 400px;
+	}
+	.caption-sm {
+		overflow-y: scroll;
+		height: 6rem;
+		padding-left: 3px;
+		padding-right: 8px;
+	}
+}
+@media screen and (max-width: 1200px) {
+	#map {
+		height: 600px;
+	}
+	.caption-lg {
+		overflow-y: scroll;
+		height: 4rem;
+	}
+	.caption-sm {
+		overflow-y: scroll;
+		height: 5rem;
+		padding-left: 3px;
+		padding-right: 8px;
+	}
+}
+@media screen and (min-width: 1500px) {
+	.caption-sm {
+		overflow-y: visible;
+		height: 5.5rem;
+	}
+	.caption-lg {
+		overflow-y: visible;
+		height: 4rem;
 	}
 }
