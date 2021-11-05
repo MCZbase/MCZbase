@@ -273,6 +273,7 @@ div.vslider-item[aria-hidden="true"]{
 @media screen and (min-width: 768px){
 	.caption {
 		overflow-y: scroll;
+		height: 3.75rem;
 	}
 @media screen and (min-width: 1200px) {
 	#map {
