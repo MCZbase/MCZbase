@@ -543,9 +543,9 @@ div.vslider-item[aria-hidden="true"]{
 													</div>
 												</div>
 												<div class="custom-nav text-center small mb-1 bg-white pt-0 pb-1">
-													<button type="button" class="border-0 btn-outline-primary rounded" id="previous_specimen_image" > << prev </button>
+													<button type="button" class="border-0 btn-outline-primary rounded" id="previous_specimen_image" >&lt;&nbsp;prev </button>
 													<input type="number" id="specimen_image_number" class="custom-input border data-entry-input d-inline border-light" value="1">
-													<button type="button" class="border-0 btn-outline-primary rounded" id="next_specimen_image"> next &nbsp; >> </button>
+													<button type="button" class="border-0 btn-outline-primary rounded" id="next_specimen_image"> next&nbsp;&gt;</button>
 												</div>
 											</div>
 										</div>
@@ -749,9 +749,9 @@ div.vslider-item[aria-hidden="true"]{
 																</div>
 															</div>
 															<div class="custom-nav text-center small bg-white mb-1 pt-0 pb-1">
-																<button id="previous_agent_image" type="button" class="border-0 btn-outline-primary rounded"><<&nbsp;prev </button>
+																<button id="previous_agent_image" type="button" class="border-0 btn-outline-primary rounded">&lt;&nbsp;prev </button>
 																<input id="agent_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
-																<button id="next_agent_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;>></button>
+																<button id="next_agent_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&lt;</button>
 															</div>
 														</div>
 													</div>
@@ -832,9 +832,9 @@ div.vslider-item[aria-hidden="true"]{
 																</div>
 															</div>
 															<div class="custom-nav small text-center bg-white mb-1 pt-0 pb-1">
-																<button id="previous_collecting_image" type="button" class="border-0 btn-outline-primary rounded"> << prev </button>
+																<button id="previous_collecting_image" type="button" class="border-0 btn-outline-primary rounded"><&nbsp;prev </button>
 																<input id="collecting_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
-																<button id="next_collecting_image" type="button" class="border-0 btn-outline-primary rounded"> next &nbsp; >> </button>
+																<button id="next_collecting_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&gt;</button>
 															</div>
 														</div>
 													</div>
