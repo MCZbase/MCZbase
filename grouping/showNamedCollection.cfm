@@ -613,7 +613,7 @@ div.vslider-item[aria-hidden="true"]{
 														<a id="specimen_media_a" href="#specimen_media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 															<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#specimen_media_id##sizeType#" class="mx-auto" alt="#specimen_alt#" height="100%" width="100%">
 														</a>
-														<p id="specimen_media_desc" class="mt-2 bg-light small" style="height: 2rem;">#specimen_alt#</p>
+														<p id="specimen_media_desc" class="mt-2 bg-light small caption">#specimen_alt#</p>
 													</div>
 												</div>
 												<div class="custom-nav text-center small mb-1 bg-white pt-0 pb-1">
@@ -819,7 +819,7 @@ div.vslider-item[aria-hidden="true"]{
 																	<a id="agent_media_a" href="#agent_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="agent_media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
 																	</a>
-																	<p id="agent_media_desc" class="mt-2 small bg-light" style="height: 5.5rem;overflow-y:scroll;">#agent_alt#</p>
+																	<p id="agent_media_desc" class="mt-2 small bg-light caption">#agent_alt#</p>
 																</div>
 															</div>
 															<div class="custom-nav text-center small bg-white mb-1 pt-0 pb-1">
@@ -902,7 +902,7 @@ div.vslider-item[aria-hidden="true"]{
 																	<a id="collecting_media_a" href="#collecting_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="collecting_media_img" src="/media/rescaleImage.cfm?media_id=#collecting_media_id##sizeType#" class="mx-auto" alt="#collecting_alt#" height="100%" width="100%">
 																	</a>
-																	<p id="collecting_media_desc" class="mt-2 small bg-light" style="height: 5.5rem;overflow-y:scroll;">#collecting_alt#</p>
+																	<p id="collecting_media_desc" class="mt-2 small bg-light caption">#collecting_alt#</p>
 																</div>
 															</div>
 															<div class="custom-nav small text-center bg-white mb-1 pt-0 pb-1">
