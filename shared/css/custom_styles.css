@@ -2543,18 +2543,7 @@ and also iPads specifically.
 		height: auto;
 	}
 }
-@media screen and (max-width: 991px){
-	.caption-lg {
-		overflow-y: scroll;
-		height: 5rem;
-	}
-	.caption-sm {
-		overflow-y: scroll;
-		height: 5.75rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
+
 @media screen and (max-width: 1024px){
 	.caption-lg {
 		overflow-y: scroll;
@@ -2565,6 +2554,18 @@ and also iPads specifically.
 	.caption-sm {
 		overflow-y: scroll;
 		height: 7rem;
+		padding-left: 3px;
+		padding-right: 8px;
+	}
+}
+@media screen and (max-width: 991px){
+	.caption-lg {
+		overflow-y: scroll;
+		height: 5rem;
+	}
+	.caption-sm {
+		overflow-y: scroll;
+		height: 5.75rem;
 		padding-left: 3px;
 		padding-right: 8px;
 	}
