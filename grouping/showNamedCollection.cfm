@@ -132,13 +132,10 @@ div.vslider-item[aria-hidden="true"]{
 	border-radius: 10px;
 }
 
-
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 1199px) {
 	#map {
-		height: 350px;
+		height: 400px;
 	}
-}
-@media screen and (max-width: 768px){
 	.caption-sm {
 		overflow-y: scroll;
 		height: 6rem;
@@ -154,10 +151,7 @@ div.vslider-item[aria-hidden="true"]{
 		padding-right: 8px;
 	}
 }
-@media screen and (max-width: 1199px) {
-	#map {
-		height: 400px;
-	}
+@media screen and (max-width: 768px){
 	.caption-sm {
 		overflow-y: scroll;
 		height: 6rem;
@@ -165,6 +159,12 @@ div.vslider-item[aria-hidden="true"]{
 		padding-right: 8px;
 	}
 }
+@media screen and (max-width: 480px) {
+	#map {
+		height: 350px;
+	}
+}
+
 @media screen and (min-width: 1200px) {
 	#map {
 		height: 600px;
