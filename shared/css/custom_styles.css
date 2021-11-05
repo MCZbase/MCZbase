@@ -2467,7 +2467,7 @@ and also iPads specifically.
 		text-align: right;
 	}
 }
-@media screen and (min-width:576px) {
+/*@media screen and (min-width:576px) {
 	.card-columns {
 		-webkit-column-count: 2;
 		-moz-column-count: 2;
@@ -2481,7 +2481,7 @@ and also iPads specifically.
 		margin-right: 0px;
 		margin-left: 4px;
 	}
-}
+}*/
 @media(max-width:1023px) {
 	.card-columns {
 		column-count: 1;
@@ -2530,9 +2530,7 @@ and also iPads specifically.
 		height: 5rem;
 	}
 }
-
-
-
+/* styles below are media queries for the named groups page*/
 @media screen and (max-width: 1199px) {
 	#map {
 		height: 400px;
@@ -2558,7 +2556,6 @@ and also iPads specifically.
 		padding-right: 8px;
 	}
 }
-
 @media screen and (max-width: 991px){
 	.caption-lg {
 		overflow-y: scroll;
@@ -2607,3 +2604,4 @@ and also iPads specifically.
 		height: 3.75rem;
 	}
 }
+/* styles above are media queries for named groups page*/
