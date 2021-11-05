@@ -175,7 +175,7 @@ div.vslider-item[aria-hidden="true"]{
 	}
 	.caption-sm {
 		overflow-y: visible;
-		height: 4rem;
+		height: 5rem;
 	}
 }
 </style>
