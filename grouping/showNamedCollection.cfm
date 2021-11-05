@@ -260,7 +260,7 @@ div.vslider-item[aria-hidden="true"]{
 	}
 	.caption-sm {
 		overflow-y: scroll;
-		height: 2.75rem;
+		height: 5.75rem;
 		padding-left: 3px;
 		padding-right: 3px;
 	}
@@ -273,7 +273,7 @@ div.vslider-item[aria-hidden="true"]{
 @media screen and (min-width: 768px){
 	.caption-sm {
 		overflow-y: scroll;
-		height: 3.75rem;
+		height: 5.75rem;
 	}
 @media screen and (min-width: 1200px) {
 	#map {
