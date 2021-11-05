@@ -2471,6 +2471,13 @@ and also iPads specifically.
 		padding-right: 8px;
 	}
 }
+@media screen and (max-width: 768px){
+	.caption-sm {
+		overflow-y: visible;
+		height: auto;
+
+	}
+}
 @media(max-width:1024px) {
 	.card-columns {
 		column-count: 2;
@@ -2528,10 +2535,6 @@ and also iPads specifically.
 	}
 	.MediaAccordionShow {
 		display: block;
-	}
-	.caption-sm {
-		overflow-y: visible;
-		height: auto;
 	}
 }
 @media(max-width:576px) {
