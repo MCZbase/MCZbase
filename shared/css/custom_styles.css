@@ -2544,6 +2544,10 @@ and also iPads specifically.
 	}
 }
 @media screen and (max-width: 991px){
+	.caption-lg {
+		overflow-y: scroll;
+		height: 5rem;
+	}
 	.caption-sm {
 		overflow-y: scroll;
 		height: 5.75rem;
@@ -2551,7 +2555,7 @@ and also iPads specifically.
 		padding-right: 8px;
 	}
 }
-@media screen and (min-width: 1024px){
+@media screen and (max-width: 1024px){
 	.caption-lg {
 		overflow-y: scroll;
 		height: 4.75rem;
