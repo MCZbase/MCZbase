@@ -37,13 +37,7 @@ limitations under the License.
 </cfif>
 <cfinclude template="/shared/_header.cfm">
 <style>
-@media screen and (max-width: 768px){
-	.caption-sm {
-		overflow-y: visible;
-		height: auto;
 
-	}
-}
 @media screen and (max-width: 480px) {
 	#map {
 		height: 350px;
