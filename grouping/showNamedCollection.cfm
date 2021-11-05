@@ -138,12 +138,6 @@ div.vslider-item[aria-hidden="true"]{
 	}
 	.caption-sm {
 		overflow-y: scroll;
-		height: 5.75rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-	.caption-sm {
-		overflow-y: scroll;
 		height: 6rem;
 		padding-left: 3px;
 		padding-right: 8px;
@@ -154,14 +148,14 @@ div.vslider-item[aria-hidden="true"]{
 		height: 350px;
 	}
 }
-@media screen and (min-width: 768px){
+@media screen and (max-width: 768px){
 	.caption-sm {
 		overflow-y: scroll;
 		height: 6rem;
 		padding-left: 3px;
 		padding-right: 8px;
 	}
-@media screen and (min-width: 991px){
+@media screen and (max-width: 991px){
 	.caption-sm {
 		overflow-y: visible;
 		height: 5.75rem;
