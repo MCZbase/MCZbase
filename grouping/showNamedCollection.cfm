@@ -736,7 +736,7 @@ div.vslider-item[aria-hidden="true"]{
 													</cfloop>
 													<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
 														<div class="carousel_background border rounded float-left w-100 p-2">
-															<h3 class="mx-2 text-center">#agentCt.recordcount# Agent Images </h3>
+															<h3 class="h4 mx-2 text-center">#agentCt.recordcount# Agent Images </h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
 																<div class="w-100 float-left px-3 h-auto">
@@ -819,7 +819,7 @@ div.vslider-item[aria-hidden="true"]{
 													</cfloop>
 													<div class="col-12 px-1 #colClass# mx-md-auto my-3">
 														<div class="carousel_background border rounded float-left w-100 p-2">
-														<h3 class="mx-2 text-center">#collectingCt.recordcount# Collecting Images
+														<h3 class="h4 mx-2 text-center">#collectingCt.recordcount# Collecting Images
 														</h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 																<div class="w-100 float-left px-3 h-auto">
