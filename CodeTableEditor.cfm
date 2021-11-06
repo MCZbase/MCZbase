@@ -735,7 +735,7 @@
 						<!---  Need to pass current value as it is the PK for the code table --->
 						<input type="hidden" name="origData" value="#geology_attribute#">
 						<td>
-							<input type="text" name="type_status" value="#geology_attribute#">
+							<input type="text" name="geology_attribute" value="#geology_attribute#">
 						</td>
 						<td>
 							<cfif type EQ "lithologic"> 
