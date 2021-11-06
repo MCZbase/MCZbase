@@ -17,12 +17,17 @@
   <cfquery name="checkmedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
 		   MCZBASE.GET_MAXHEIGHTMEDIASET(media_id) maxheightinset,
-		   media.media_type
+		   media.media_type, 
+			media.mime_type
     from MEDIA where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-</cfquery>
+	</cfquery>
   <cfloop query="checkmedia" endrow="1">
     <cfif not checkmedia.media_type eq "image">
-      <!--- Redirect --->
+      <!--- Redirect, not an image --->
+      <cflocation url='/media/#media_id#' addToken="no">
+    </cfif>
+    <cfif not (checkmedia.mime_type EQ "image/png" OR checkmedia.mime_type EQ "image/jpeg") >
+      <!--- Redirect, this is not a displable image file--->
       <cflocation url='/media/#media_id#' addToken="no">
     </cfif>
     <cfif not len(checkmedia.height) >
@@ -140,7 +145,7 @@
 	</cfquery> 
 	<cfset altText = alt.media_descriptor>
 	<cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-		select 'MCZ:'||collection_cde||':'||cat_num as relatedGuid 
+		select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid 
 		from media_relations
 			left join cataloged_item on related_primary_key = collection_object_id
 		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -228,7 +233,7 @@
       <cfoutput> </cfoutput> </cfoutput>
     <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	 select * from (
-	   select collection_object_id as pk, guid,
+	   select distinct collection_object_id as pk, guid,
             typestatus, SCIENTIFIC_NAME name,
 decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
 			trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
@@ -241,7 +246,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#m.media_id#"> 
 			and ( media_relationship = 'shows cataloged_item')
 	   union
-	   select agent.agent_id as pk, '' as guid,
+	   select distinct agent.agent_id as pk, '' as guid,
 	        '' as typestatus, agent_name as name,
 	        agent_remarks as geography,
 	        '' as geology,
@@ -294,7 +299,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
       </cfoutput>
       <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
       <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select media.media_id, preview_uri, media.media_uri,
+		select distinct media.media_id, preview_uri, media.media_uri,
                get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 			   media.mime_type, media.media_type,
 			   CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,

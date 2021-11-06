@@ -124,7 +124,7 @@
 	select georefMethod from ctgeorefmethod order by georefMethod
 </cfquery>
 <cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
-	select geology_attribute from ctgeology_attribute order by geology_attribute
+	select geology_attribute from ctgeology_attribute order by ordinal
 </cfquery>
 <cfquery name="ctsovereign_nation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select ctsovereign_nation.sovereign_nation, count(locality_id) as ct from ctsovereign_nation
