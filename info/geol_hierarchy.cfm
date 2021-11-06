@@ -72,7 +72,7 @@
 			LEFT JOIN ctgeology_attributes on attribute = geology_attribute
 			start with parent_id is null
 			CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
-			ORDER SIBLINGS BY ordinal
+			ORDER SIBLINGS BY ordinal, attribute_value
 	</cfquery>
 	<cfquery name="terms"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select geology_attribute_hierarchy_id,
