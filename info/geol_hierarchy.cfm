@@ -19,7 +19,7 @@
 	<select name="attribute" id="attribute">
 		<cfloop query="ctgeology_attribute">
 			<cfif c.attribute EQ ctgeology_attribute.geology_attribute><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
-			<option value="#ctgeology_attribute.geology_attribute#" #selected# >#ctgeology_attribute.geology_attribute (ctgeology_attribute.type)#</option>
+			<option value="#ctgeology_attribute.geology_attribute#" #selected# >#ctgeology_attribute.geology_attribute# (#ctgeology_attribute.type#)</option>
 		</cfloop>
 	</select>
 	<label for="newTerm">Value ("Prince Creek")</label>
@@ -102,7 +102,7 @@
 					<label for="attribute">Attribute ("Formation")</label>
 					<select name="attribute" id="attribute">
 						<cfloop query="ctgeology_attribute">
-							<option value="#ctgeology_attribute.geology_attribute#" >#ctgeology_attribute.geology_attribute (ctgeology_attribute.type)#</option>
+							<option value="#ctgeology_attribute.geology_attribute#" >#ctgeology_attribute.geology_attribute# (#ctgeology_attribute.type#)</option>
 						</cfloop>
 					</select>
 					<label for="attribute_value">Value ("Prince Creek")</label>
