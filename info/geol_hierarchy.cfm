@@ -69,7 +69,7 @@
 			attribute_value || ' (' || attribute || ')' attribute
 		FROM
 			geology_attribute_hierarchy
-			LEFT JOIN ctgeology_attributes on attribute = geology_attributed
+			LEFT JOIN ctgeology_attributes on attribute = geology_attribute
 			start with parent_id is null
 			CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
 			ORDER SIBLINGS BY ordinal
