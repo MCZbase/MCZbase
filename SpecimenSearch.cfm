@@ -580,7 +580,7 @@
 				 select distinct(Water_Feature) from geog_auth_rec order by Water_Feature
 			 </cfquery>
        <cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-       	select attribute from geology_attribute_hierarchy group by attribute order by attribute
+       	select attribute from geology_attribute_hierarchy group by attribute order by ordinal
        </cfquery>
        <cfquery name="ctgeology_attribute_val"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
        	select attribute_value from geology_attribute_hierarchy group by attribute_value order by attribute_value

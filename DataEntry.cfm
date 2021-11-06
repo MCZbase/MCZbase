@@ -310,7 +310,7 @@ Some Totally Random String Data .....
 			order by attribute_type
 		</cfquery>
 		<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-			select geology_attribute from ctgeology_attribute order by geology_attribute
+			select geology_attribute from ctgeology_attribute order by ordinal
 		</cfquery>
 		<cfquery name="ctCodes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			select

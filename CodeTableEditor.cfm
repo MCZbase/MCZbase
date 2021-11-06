@@ -13,7 +13,7 @@
 		where 
 			table_name like 'CT%'
 		UNION 
-			select 'CTGEOLOGY_ATTRIBUTE' table_name from dual
+			select 'CTGEOLOGY_ATTRIBUTE_HEIRARCHY' table_name from dual
 		 order by table_name
 	</cfquery>
 	<cfloop query="getCTName">
@@ -24,7 +24,7 @@
 	<p>
 		<a href="/CodeTableEditor.cfm">Back to table list</a>
 	</p>
-	<cfif tbl is "CTGEOLOGY_ATTRIBUTE"><!---------------------------------------------------->
+	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HEIRARCHY"><!---------------------------------------------------->
 		<cflocation url="/info/geol_hierarchy.cfm" addtoken="false">
 	<cfelseif tbl is "ctspecimen_part_name"><!---------------------------------------------------->
 		<cflocation url="/Admin/ctspecimen_part_name.cfm" addtoken="false">
@@ -652,6 +652,112 @@
 								<option value="Secondary" #scopesecselected# >Secondary</option>
 								<option value="Voucher" #scopevouselected# >Voucher (non-type)</option>
 								<option value="Voucher Not" #scopenvouselected#>Not Voucher (non-type)</option>
+							</select>
+						</td>
+						<td>
+							<input type="text" name="ordinal" value="#ordinal#">
+						</td>
+						<td>
+							<input type="description" name="description" value="#stripQuotes(description)#">
+						</td>
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
+	<cfelseif tbl is "ctgeology_attributes"><!---------------------------------------------------->
+		<!---  geology attributes code table includes fields for typing and sort order, thus needs custom form  --->
+		<!--- note, ctgeology_attribute (singluar), is view with sort by ordinal on table ctgeology_attributes (plural) --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select geology_attribute, type, ordinal, description from ctgeology_attributes order by ordinal
+		</cfquery>
+		<h2>Geological attribute types, and their categories.  Categories are lithologic, for rock type terms (probably just the single term lithology), lithostratigraphic for rock unit names, and geochronologic/chronostratigraphic for time and rock/time related terms)</h2>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<th>Geology Attribute</th>
+					<th>Category</th>
+					<th>Sort Order</th>
+					<th>Description</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<select name="type">
+							<option value="lithologic">Lithologic</option>
+							<option value="lithostratigraphic">Lithostratigraphic</option>
+							<option value="chronostratigraphic">Geochronologic/Chronstratigraphic</option>
+                     <!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
+						</select>
+					</td>
+					<td>
+						<input type="text" name="ordinal">
+					</td>
+					<td>
+						<input type="text" name="description">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<tr>
+				<th>Geological Attribute</th>
+				<th>Category</th>
+				<th>Sort Order</th>
+				<th>Description</th>
+			</tr>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#geology_attribute#">
+						<td>
+							<input type="text" name="type_status" value="#geology_attribute#">
+						</td>
+						<td>
+							<option value="lithologic">Lithologic</option>
+							<option value="lithostratigraphic">Lithostratigraphic</option>
+							<option value="chronostratigraphic">Geochronologic/Chronstratigraphic</option>
+							<cfif category EQ "lithologic"> 
+								<cfset scopelithselected = "selected='selected'">
+								<cfset scopestratselected = "">
+								<cfset scopechronselected = "">
+							<cfelseif category EQ "lithostratigraphic"> 
+								<cfset scopelithselected = "">
+								<cfset scopestratselected = "selected='selected'">
+								<cfset scopechronselected = "">
+							<cfelse> 
+								<cfset scopelithselected = "">
+								<cfset scopestratselected = "">
+								<cfset scopechronselected = "selected='selected'">
+							</cfif>
+							<select name="category">
+								<option value="lithologic" #scopelithselected# >Lithologic</option>
+								<option value="lithostratigraphic" #scopestratselected# >Lithostratigraphic</option>
+								<option value="chronostratigraphic" #scopechronselected# >Geochronologic/Chronostratigraphic</option>
 							</select>
 						</td>
 						<td>
@@ -1340,6 +1446,18 @@
 			where
 				BIOL_INDIV_RELATIONSHIP=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
+	<cfelseif tbl is "ctcitation_type_status">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctcitation_type_status
+			where
+				type_status=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
+		</cfquery>
+	<cfelseif tbl is "ctgeology_attributes">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctgeology_attributes
+			where
+				geology_attribute=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
+		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctcoll_other_id_type
@@ -1458,6 +1576,16 @@
 				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			where
 				TYPE_STATUS= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctgeology_attributes">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			UPDATE ctgeology_attributes SET 
+				geology_attribute= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geology_attribute#" />,
+				TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#" />,
+				ORDINAL= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />,
+				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
+			WHERE
+				geology_attribute= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1597,6 +1725,34 @@
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_relation#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rel_type#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "ctcitation_type_status">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO ctcitation_type_status (
+				type_status,
+				category,
+				ordinal,
+				description
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#category#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "ctgeology_attributes">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO ctgeology_attributes (
+				geology_attribute,
+				type,
+				ordinal,
+				description
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
