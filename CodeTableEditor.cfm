@@ -738,9 +738,6 @@
 							<input type="text" name="type_status" value="#geology_attribute#">
 						</td>
 						<td>
-							<option value="lithologic">Lithologic</option>
-							<option value="lithostratigraphic">Lithostratigraphic</option>
-							<option value="chronostratigraphic">Geochronologic/Chronstratigraphic</option>
 							<cfif type EQ "lithologic"> 
 								<cfset scopelithselected = "selected='selected'">
 								<cfset scopestratselected = "">
