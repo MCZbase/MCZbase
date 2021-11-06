@@ -741,11 +741,11 @@
 							<option value="lithologic">Lithologic</option>
 							<option value="lithostratigraphic">Lithostratigraphic</option>
 							<option value="chronostratigraphic">Geochronologic/Chronstratigraphic</option>
-							<cfif category EQ "lithologic"> 
+							<cfif type EQ "lithologic"> 
 								<cfset scopelithselected = "selected='selected'">
 								<cfset scopestratselected = "">
 								<cfset scopechronselected = "">
-							<cfelseif category EQ "lithostratigraphic"> 
+							<cfelseif type EQ "lithostratigraphic"> 
 								<cfset scopelithselected = "">
 								<cfset scopestratselected = "selected='selected'">
 								<cfset scopechronselected = "">
@@ -754,7 +754,7 @@
 								<cfset scopestratselected = "">
 								<cfset scopechronselected = "selected='selected'">
 							</cfif>
-							<select name="category">
+							<select name="type">
 								<option value="lithologic" #scopelithselected# >Lithologic</option>
 								<option value="lithostratigraphic" #scopestratselected# >Lithostratigraphic</option>
 								<option value="chronostratigraphic" #scopechronselected# >Geochronologic/Chronostratigraphic</option>
