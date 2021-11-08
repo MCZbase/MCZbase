@@ -2536,7 +2536,7 @@ and also iPads specifically.
 	}
 }
 /* styles below are media queries for the named groups page*/
-@media screen and (min-width: 1369px) {
+@media screen and (min-width: 1501px) {
 	#map {
 		height: 600px;
 	}
@@ -2549,7 +2549,7 @@ and also iPads specifically.
 		height: 4rem;
 	}
 }
-@media screen and (max-width: 1368px) {
+@media screen and (max-width: 1500px) {
 	#map {
 		height: 600px;
 	}
