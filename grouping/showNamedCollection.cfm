@@ -535,11 +535,11 @@ limitations under the License.
 											</cfcase>
 											<cfcase value="3">
 												<cfset colClass = "col-md-12 col-xl-4 float-left">
-												<cfset captionClass = "caption-xs">
+												<cfset captionClass = "caption-sm">
 											</cfcase>
 											<cfdefaultcase>
 												<cfset colClass = "col-md-12 col-xl-4 float-left">
-												<cfset captionClass = "caption-xs">
+												<cfset captionClass = "caption-sm">
 											</cfdefaultcase>
 										</cfswitch>
 										<div class="row bottom px-3"><!---for all three other image blocks--->
