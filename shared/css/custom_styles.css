@@ -2552,11 +2552,11 @@ and also iPads specifically.
 	}
 	.caption-lg {
 		overflow-y: scroll;
-		height: 4rem;
+		height: 5rem;
 	}
 	.caption-sm {
 		overflow-y: scroll;
-		height: 5rem;
+		height: 6rem;
 		padding-left: 3px;
 		padding-right: 8px;
 	}
@@ -2570,6 +2570,10 @@ and also iPads specifically.
 		height: 6rem;
 		padding-left: 3px;
 		padding-right: 8px;
+	}
+	.caption-lg {
+		overflow-y: visible;
+		height: 5rem;
 	}
 }
 @media screen and (max-width: 1024px){
