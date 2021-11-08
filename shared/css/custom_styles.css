@@ -2537,6 +2537,9 @@ and also iPads specifically.
 }
 /* styles below are media queries for the named groups page*/
 @media screen and (min-width: 1368px) {
+	#map {
+		height: 600px;
+	}
 	.caption-sm {
 		overflow-y: visible;
 		height: 4rem;
