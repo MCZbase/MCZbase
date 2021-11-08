@@ -36,176 +36,6 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfinclude template="/shared/_header.cfm">
-<style>
-/*.current {
-	width: 300px;
-	height: 300px; 
-	border: .5rem solid #fff;;
-	background-color: #f8f9fa;
-}
-#map {
-	height: 100%;
-	width: 100%;
-}
-#floating-panel {
-	text-align: center;
-	font-family: "Roboto", "sans-serif";
-	border-radius: 5px;
-	padding: 0 0 3px 0;
-	position: relative;
-	line-height: 20px;
-	float:left;
-	width: auto;
-	margin: 0 auto;
-	z-index: 5;
-}
-#map button {
-	border: 1px solid transparent;
-	outline: 1px solid transparent;
-}
-#map button:focus {
-	outline: 2px solid rgb(0 123 255 / 75%);
-}
-.vslider {
-	position: relative;
-	width: 100%;
-}
-.vslider > * {
-	display: block;
-	position: relative;
-}
-.vslider > * + * {
-	display: none;
-	position: absolute;
-}
-.vslider-item {
-	display: block;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	bottom: 0;
-	-ms-touch-action: none;
-	touch-action: none;
-	transition: z-index 0s,
-	opacity .8s ease-in-out,
-	transform .4s ease-in-out;
-	z-index: 20;
-	opacity: 0;
-	transform: translateX(-10%);
-	resize: vertical;
-	overflow:auto;
-	font-size: 1rem;
-}
-div.vslider-item[aria-hidden='false'] {
-	z-index: 30;
-	opacity: 1.0;
-	transform: translateX(0);
-}
-div.vslider-item[aria-hidden="true"]{
-	display:block;
-}
-.vslider {
-	color: #191717;
-	background-color: #fff;
-	font-weight: 600;
-	text-align: center;
-	margin-bottom: .75rem;
-}
-.custom-input {
-	text-align: center;
-	width:53px; 
-}
-.message { 
-	padding-top: 25%;
-	padding-bottom: 25%;
-	font-size: 2rem;
-}
-.vslider::-webkit-scrollbar, .vslider-item::-webkit-scrollbar {
-	width: 10px;
-}
-.vslider::-webkit-scrollbar-track, .vslider-item::-webkit-scrollbar-track {
-	-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
-	background: aliceblue;
-}
-.vslider::-webkit-scrollbar-thumb, .vslider-item::-webkit-scrollbar-thumb {
-	background-color: lightgrey;
-	border-radius: 10px;
-}
-
-@media screen and (max-width: 1199px) {
-	#map {
-		height: 400px;
-	}
-	.caption-sm {
-		overflow-y: scroll;
-		height: 6rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
-@media screen and (max-width: 991px){
-	.caption-sm {
-		overflow-y: scroll;
-		height: 5.75rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
-@media screen and (max-width: 768px){
-	.caption-sm {
-		overflow-y: visible;
-		height: auto;
-
-	}
-}
-@media screen and (max-width: 1024px){
-	.caption-lg {
-		overflow-y: scroll;
-		height: 4.75rem;
-		padding-left: 3px;
-		padding-right: 8px;
-
-	}
-	.caption-sm {
-		overflow-y: scroll;
-		height: 7rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
-}
-@media screen and (max-width: 480px) {
-	#map {
-		height: 350px;
-	}
-}
-
-@media screen and (min-width: 1200px) {
-	#map {
-		height: 600px;
-	}
-	.caption-lg {
-		overflow-y: scroll;
-		height: 4rem;
-	}
-	.caption-sm {
-		overflow-y: scroll;
-		height: 5rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
-@media screen and (min-width: 1500px) {
-	.caption-sm {
-		overflow-y: visible;
-		height: 5.5rem;
-	}
-	.caption-lg {
-		overflow-y: visible;
-		height: 4rem;
-	}
-}*/
-</style>
 <cfset maxSpecimens = 11000>
 <cfset maxRandomSpecimenImages = 300>
 <cfset maxRandomOtherImages = 300>
@@ -588,7 +418,6 @@ div.vslider-item[aria-hidden="true"]{
 									</section><!--- end specimen images ---> 	
 								</cfif>	
 
-
 								<!---  occurrence map --->
 								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 									SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
@@ -700,7 +529,7 @@ div.vslider-item[aria-hidden="true"]{
 												<cfset colClass = "col-xl-12 mx-auto float-none">
 											</cfcase>
 											<cfcase value="2">
-												<cfset colClass = "col-md-6 mx-auto float-left">
+												<cfset colClass = "col-md-12 col-lg-6 mx-auto float-left">
 											</cfcase>
 											<cfcase value="3">
 												<cfset colClass = "col-md-12 col-xl-4 float-left">
@@ -956,7 +785,7 @@ div.vslider-item[aria-hidden="true"]{
 															<div id="collapseTax" aria-labelledby="headingTax" data-parent="##accordionForTaxa" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="taxonQuery">
-																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
 																	</cfloop>
 																</ul>
 															</div>
@@ -999,7 +828,7 @@ div.vslider-item[aria-hidden="true"]{
 															<div id="collapseMar" aria-labelledby="headingMar" data-parent="##accordionForMarine" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="marine">
-																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
 																	</cfloop>
 																</ul>
 															</div>
@@ -1009,7 +838,7 @@ div.vslider-item[aria-hidden="true"]{
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="marine">
-														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
 													</cfloop>
 												</ul>
 											</cfif>
@@ -1056,7 +885,7 @@ div.vslider-item[aria-hidden="true"]{
 															<div id="collapseGeog" aria-labelledby="headingGeog" data-parent="##accordionForGeog" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="geogQuery">
-																		<li class="list-group-item col-12 col-md-3 float-left"> 
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
 																			<a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
 																		</li>
 																	</cfloop>
@@ -1068,7 +897,7 @@ div.vslider-item[aria-hidden="true"]{
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="geogQuery">
-														<li class="list-group-item col-12 col-md-3 float-left"> 
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
 															<a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
 														</li>
 													</cfloop>
@@ -1103,7 +932,7 @@ div.vslider-item[aria-hidden="true"]{
 															<div id="collapseIS" aria-labelledby="headingIS" data-parent="##accordionForIslands" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="islandsQuery">
-																		<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
 																	</cfloop>
 																</ul>
 															</div>
@@ -1113,7 +942,7 @@ div.vslider-item[aria-hidden="true"]{
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="islandsQuery">
-														<li class="list-group-item col-12 col-md-3 float-left"> 
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
 															<a class="h4" target="_blank" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#islandsQuery.island#</a> 
 														</li>
 													</cfloop>
@@ -1152,7 +981,7 @@ div.vslider-item[aria-hidden="true"]{
 															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="collectors">
-																	<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name# Collectors</a> </li>
+																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name# Collectors</a> </li>
 																</cfloop>
 																</ul>
 															</div>
@@ -1162,69 +991,67 @@ div.vslider-item[aria-hidden="true"]{
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="collectors">
-														<li class="list-group-item col-12 col-md-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
 													</cfloop>
 												</ul>
 											</cfif>
 										</div>
 									</cfif>
-						
-<!---- TODO: Cleanup indentation from here --->
 									<div class="col-12 px-0">
-									<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
-										SELECT
-											distinct 
-											formatted_publication.formatted_publication, 
-											formatted_publication.publication_id
-										FROM
-											underscore_collection
-											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-											left join cataloged_item on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-											left join citation on citation.collection_object_id = cataloged_item.collection_object_id
-											left join taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
-											left join formatted_publication on formatted_publication.publication_id =citation.publication_id
-										WHERE
-											format_style='long' and
-											underscore_collection.underscore_collection_id = <cfqueryparam value="#underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL">
-											and formatted_publication not like '%Author not listed%'
-										ORDER BY
-											formatted_publication
-									</cfquery>
-									<cfif citations.recordcount GT 0>
-										<div class="col-12 pb-3">
-											<h3 class="border-bottom pb-1 border-dark px-2">Citations</h3>
-											<cfif citations.recordcount gt 50>
-												<div class="accordion col-12 px-0 mb-3" id="accordionForCitations">
-													<div class="card mb-2 bg-light">
-														<div class="card-header py-0" id="headingCitations">
-															<h3 class="h4 my-0">
-																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseCitations">
-																#citations.recordcount# Citations
-																</button>
-															</h3>
-														</div>
-														<div class="card-body pl-2 pr-0 py-0">
-															<div id="collapseCitations" aria-labelledby="headingCitations" class="collapse show" data-parent="##accordionForCitations">
-																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
-																<cfloop query="citations">
-																	<li class="list-group-item col-12 col-md-12 float-left py-2"> 
-																		<a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.formatted_publication#</a>
-																	</li>
-																</cfloop>
-																</ul>
+										<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
+											SELECT
+												distinct 
+												formatted_publication.formatted_publication, 
+												formatted_publication.publication_id
+											FROM
+												underscore_collection
+												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+												left join cataloged_item on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+												left join citation on citation.collection_object_id = cataloged_item.collection_object_id
+												left join taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
+												left join formatted_publication on formatted_publication.publication_id =citation.publication_id
+											WHERE
+												format_style='long' and
+												underscore_collection.underscore_collection_id = <cfqueryparam value="#underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL">
+												and formatted_publication not like '%Author not listed%'
+											ORDER BY
+												formatted_publication
+										</cfquery>
+										<cfif citations.recordcount GT 0>
+											<div class="col-12 pb-3">
+												<h3 class="border-bottom pb-1 border-dark px-2">Citations</h3>
+												<cfif citations.recordcount gt 50>
+													<div class="accordion col-12 px-0 mb-3" id="accordionForCitations">
+														<div class="card mb-2 bg-light">
+															<div class="card-header py-0" id="headingCitations">
+																<h3 class="h4 my-0">
+																	<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseCitations">
+																	#citations.recordcount# Citations
+																	</button>
+																</h3>
+															</div>
+															<div class="card-body pl-2 pr-0 py-0">
+																<div id="collapseCitations" aria-labelledby="headingCitations" class="collapse show" data-parent="##accordionForCitations">
+																	<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+																	<cfloop query="citations">
+																		<li class="list-group-item col-12 col-md-12 float-left py-2"> 
+																			<a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.formatted_publication#</a>
+																		</li>
+																	</cfloop>
+																	</ul>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-											<cfelse>
-												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
-													<cfloop query="citations">
-														<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.formatted_publication#, </a> </li>
-													</cfloop>
-												</ul>
-											</cfif>
-										</div>
-									</cfif>
+												<cfelse>
+													<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+														<cfloop query="citations">
+															<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.formatted_publication#, </a> </li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</cfif>
 									</div>
 								</div>
 							</div>
@@ -1237,9 +1064,9 @@ div.vslider-item[aria-hidden="true"]{
 	<script>
 	//  carousel fix for specimen images on small screens below.  I tried to fix this with the ratio select added to the query but that only works if there are a lot of images to choose from; for small images pools, where the most common ratio cannot be selected, this may still help.	
 	$(window).on('load resize', function () {
-	  var w = $(window).width();
-	  $("##vslider-item")
-   	 .css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
+		var w = $(window).width();
+		$("##vslider-item")
+			.css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
 	});
 	</script>
 </cfoutput>
