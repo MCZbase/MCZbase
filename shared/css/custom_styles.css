@@ -1024,7 +1024,7 @@ ul.list-unstyled li.list-group-item:last-child {
 }*/
 ul > li.list-group-item:nth-last-of-type(-n+1) {
 	border-bottom: none;
-	padding-bottom: 2px;
+	padding-bottom: .5rem;
 }
 .jqx-widget-header {
 	background-color: #deebec !important;
