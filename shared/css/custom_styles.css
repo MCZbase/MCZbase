@@ -211,7 +211,7 @@ p {
 	margin-top: 0;
 	font-size: .95rem;
 }
-p:focus {
+/*p:focus {
 	box-shadow: 0 0 0 0;
 }
 div:focus, div > span:focus {
@@ -219,7 +219,7 @@ div:focus, div > span:focus {
 }
 div:focus, div > span:focus {
 	box-shadow: 0 0 0 0;
-}
+}*/
 .info {
 	position: absolute;
 	left: -9000px;
