@@ -756,7 +756,7 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-3 px-1 mt-1">
-													<label for="in_table_alias" class="data-entry-label">Table Alias</label>
+													<label for="in_table_alias" class="data-entry-label">Table Alias (in build_query_dbms_sql joins)</label>
 													<input type="text" class="data-entry-input reqdClr" name="table_alias" id="in_table_alias" required >
 													<script>
 														jQuery(document).ready(function() {
@@ -775,7 +775,7 @@ limitations under the License.
 											</div>
 											<div class="row mx-0">
 												<div class="col-12 col-md-3 px-1 mt-1">
-													<label for="in_search_category" class="data-entry-label">Search Category</label>
+													<label for="in_search_category" class="data-entry-label">Search Category (picks build_query_dbms_sql joins)</label>
 													<input type="text" class="data-entry-input reqdClr" name="search_category" id="in_search_category" required >
 													<script>
 														jQuery(document).ready(function() {
