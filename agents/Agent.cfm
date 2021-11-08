@@ -215,7 +215,7 @@ limitations under the License.
 											AND agent_name_type <> 'preferred'
 									</cfquery>
 									<div class="card-body py-2 bg-teal">
-										<div class="pb-2">
+										<div class="pb-2 bg-white">
 											<ul class="list-group">
 												<!--- person name --->
 												<cfif getAgent.agent_type EQ "person">
