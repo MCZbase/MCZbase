@@ -2536,16 +2536,44 @@ and also iPads specifically.
 	}
 }
 /* styles below are media queries for the named groups page*/
-@media screen and (min-width: 1325px) {
+@media screen and (min-width: 1369px) {
 	#map {
 		height: 600px;
 	}
 	.caption-sm {
 		overflow-y: visible;
-		height: 7rem;
+		height: 5rem;
 	}
 	.caption-lg {
 		overflow-y: visible;
+		height: 4rem;
+	}
+}
+@media screen and (max-width: 1368px) {
+	#map {
+		height: 600px;
+	}
+	.caption-lg {
+		overflow-y: scroll;
+		height: 5rem;
+	}
+	.caption-sm {
+		overflow-y: scroll;
+		height: 6rem;
+		padding-left: 3px;
+		padding-right: 8px;
+	}
+}
+@media screen and (min-width: 1325px) {
+	#map {
+		height: 600px;
+	}
+	.caption-sm {
+		overflow-y: scroll;
+		height: 7rem;
+	}
+	.caption-lg {
+		overflow-y: scroll;
 		height: 4.5rem;
 	}
 }
