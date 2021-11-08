@@ -2540,14 +2540,15 @@ and also iPads specifically.
 	#map {
 		height: 600px;
 	}
-	.caption-sm {
-		overflow-y: visible;
-		height: 5rem;
-	}
 	.caption-lg {
 		overflow-y: visible;
 		height: 4rem;
 	}
+	.caption-sm {
+		overflow-y: visible;
+		height: 5rem;
+	}
+
 }
 @media screen and (max-width: 1500px) {
 	#map {
@@ -2568,14 +2569,15 @@ and also iPads specifically.
 	#map {
 		height: 600px;
 	}
-	.caption-sm {
-		overflow-y: auto;
-		height: 8.5rem;
-	}
 	.caption-lg {
 		overflow-y: auto;
-		height: 3.5rem;
+		height: 5.5rem;
 	}
+	.caption-sm {
+		overflow-y: auto;
+		height: 6.5rem;
+	}
+
 }
 @media screen and (max-width: 1324px) {
 	#map {
@@ -2583,11 +2585,11 @@ and also iPads specifically.
 	}
 	.caption-lg {
 		overflow-y: auto;
-		height: 5rem;
+		height: 5.75rem;
 	}
 	.caption-sm {
 		overflow-y: auto;
-		height: 6rem;
+		height: 6.75rem;
 		padding-left: 3px;
 		padding-right: 8px;
 	}
@@ -2596,24 +2598,23 @@ and also iPads specifically.
 	#map {
 		height: 400px;
 	}
-	.caption-sm {
-		height: 6rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
 	.caption-lg {
 		height: 5rem;
+	}
+	.caption-sm {
+		height: 6.75rem;
+		padding-left: 3px;
+		padding-right: 8px;
 	}
 }
 @media screen and (max-width: 1024px){
 	.caption-lg {
 
-		height: 4.75rem;
+		height: 5.75rem;
 		padding-left: 3px;
 		padding-right: 8px;
 	}
 	.caption-sm {
-	
 		height: 7rem;
 		padding-left: 3px;
 		padding-right: 8px;
@@ -2622,11 +2623,11 @@ and also iPads specifically.
 @media screen and (max-width: 991px){
 	.caption-lg {
 		overflow-y: auto;
-		height: 5rem;
+		height: 5.75rem;
 	}
 	.caption-sm {
 		overflow-y: auto;
-		height: 5.75rem;
+		height: 7.25rem;
 		padding-left: 3px;
 		padding-right: 8px;
 	}
