@@ -466,22 +466,7 @@
      </cfquery>
 	<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT geology_attribute from ctgeology_attribute 
-		ORDER BY 
-			decode(geology_attribute,
-				'Lithology',1,
-				'Group',10,
-				'Formation',11,
-				'Member',12,
-				'Horizon',13,
-				'Bed',14,
-				'Eonothem/Eon',20,
-				'Erathem/Era',21,
-				'Period/System',22,
-				'Epoch/Series',23,
-				'Sub-Epoch', 24,
-				'Age/Stage', 25,
-				'Zone',26,
-				50)
+		ORDER BY ordinal
      </cfquery>
     <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	    select sovereign_nation from ctsovereign_nation order by sovereign_nation
