@@ -1635,6 +1635,7 @@ tr.line-top:first-child {
  * Need to fix this .
 */
 /****TO DO:  Need to find a way to display/hide column headers when it is an ID or other header that doesn't explain contents ***/
+
 /*#columntablesearchResultsGrid .jqx-widget-header:nth-child(3) {
 	color: transparent !important;
 }*/
@@ -2607,31 +2608,6 @@ and also iPads specifically.
 		padding-right: 8px;
 	}
 }
-/*@media screen and (max-width: 1024px){
-	.caption-lg {
-
-		height: 5.75rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-	.caption-sm {
-		height: 7rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
-@media screen and (max-width: 991px){
-	.caption-lg {
-		overflow-y: auto;
-		height: 5.75rem;
-	}
-	.caption-sm {
-		overflow-y: auto;
-		height: 7.25rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}*/
 @media screen and (max-width: 768px){
 	.caption-sm {
 		overflow-y: visible;
@@ -2643,8 +2619,4 @@ and also iPads specifically.
 		height: 350px;
 	}
 }
-
-
-
-
 /* styles above are media queries for named groups page*/

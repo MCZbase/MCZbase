@@ -8,7 +8,10 @@
 	border: 1px solid rgb(44 91 144 /50%);*/
 	/*padding: .12rem;*/
 	border-color: #ced4da;
-	outline: 0;
+	button:focus + span {
+	outline: 1px auto Highlight;
+	outline: 1px auto -webkit-focus-ring-color;
+}
 	box-shadow: 0 0 0 0.15rem rgb(0 123 255 / 25%);
 }
 .navbar-nav input:focus {
