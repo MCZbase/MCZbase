@@ -2536,6 +2536,31 @@ and also iPads specifically.
 	}
 }
 /* styles below are media queries for the named groups page*/
+@media screen and (min-width: 1550px) {
+	.caption-sm {
+		overflow-y: visible;
+		height: 4rem;
+	}
+	.caption-lg {
+		overflow-y: visible;
+		height: 3.75rem;
+	}
+}
+@media screen and (max-width: 1549px) {
+	#map {
+		height: 600px;
+	}
+	.caption-lg {
+		overflow-y: scroll;
+		height: 4rem;
+	}
+	.caption-sm {
+		overflow-y: scroll;
+		height: 5rem;
+		padding-left: 3px;
+		padding-right: 8px;
+	}
+}
 @media screen and (max-width: 1199px) {
 	#map {
 		height: 400px;
@@ -2584,41 +2609,8 @@ and also iPads specifically.
 		height: 350px;
 	}
 }
-@media screen and (min-width: 1800px) {
-	.caption-sm {
-		overflow-y: visible;
-		height: 6rem;
-	}
-	.caption-lg {
-		overflow-y: visible;
-		height: 3.75rem;
-	}
-}
-@media screen and (min-width: 1200px) {
-	#map {
-		height: 600px;
-	}
-	.caption-lg {
-		overflow-y: scroll;
-		height: 4rem;
-	}
-	.caption-sm {
-		overflow-y: scroll;
-		height: 5rem;
-		padding-left: 3px;
-		padding-right: 8px;
-	}
-}
-@media screen and (min-width: 1800px) {
-	.caption-sm {
-		overflow-y: visible;
-		height: 6rem;
-	}
-	.caption-lg {
-		overflow-y: visible;
-		height: 3.75rem;
-		line-height: auto;
-	}
-}
+
+
+
 
 /* styles above are media queries for named groups page*/
