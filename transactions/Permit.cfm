@@ -319,13 +319,13 @@ limitations under the License.
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, status, error) { 
 									$("##overlay").hide();
-					            var message = "";      
+								var message = "";      
 									if (error == 'timeout') { 
-					               message = ' Server took too long to respond.';
-					            } else { 
-					               message = jqXHR.responseText;
-					            }
-					            messageDialog('Error:' + message ,'Error: ' + error.substring(0,50));
+									message = ' Server took too long to respond.';
+								} else { 
+								message = jqXHR.responseText;
+								}
+								messageDialog('Error:' + message ,'Error: ' + error.substring(0,50));
 								},
 								async: true
 							};
@@ -521,16 +521,16 @@ limitations under the License.
 					Create New Permissions &amp; Rights Document 
 					<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i>
 				</h1>
-    			<p class="ml-3" target="0">
+				<p class="ml-3" target="0">
 					Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
-      			material transfer agreements, collecting permits, salvage permits, etc.)
+					material transfer agreements, collecting permits, salvage permits, etc.)
 				</p>
 				<section class="col-12 border rounded mb-5 bg-white pt-3" id="newPermitFormSection" class="row" aria-labeledby="newPermitFormSectionLabel" >
 					<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="create">
-        							<cfif isdefined("headless") and headless EQ 'true'>
-	    								<input type="hidden" name="headless" value="true">
-       							</cfif>
+								<cfif isdefined("headless") and headless EQ 'true'>
+									<input type="hidden" name="headless" value="true">
+								</cfif>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
 								<span>
@@ -1514,13 +1514,13 @@ limitations under the License.
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, status, error) { 
 									$("##overlay").hide();
-					            var message = "";      
+									var message = "";      
 									if (error == 'timeout') { 
-					               message = ' Server took too long to respond.';
-					            } else { 
-					               message = jqXHR.responseText;
-					            }
-					            messageDialog('Error:' + message ,'Error: ' + error.substring(0,50));
+										message = ' Server took too long to respond.';
+									} else { 
+										message = jqXHR.responseText;
+									}
+									messageDialog('Error:' + message ,'Error: ' + error.substring(0,50));
 								},
 								async: true
 							};
