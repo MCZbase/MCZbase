@@ -1289,159 +1289,159 @@ limitations under the License.
 				
 				<section class="container-fluid">
 					<h1 class="h4 mt-3 font-weight-normal">Use Report for Permissions &amp; Rights Document</h1>
-				<cfloop query="permitInfo">
-					<div class="form-row">
-						<div class="col-12">
-							<h2 class="h3 mb-0">#permit_Type# #permit_num# #permit_title#</h2>
-						</div>
-						<div class="col-12 mb-2">
+					<cfloop query="permitInfo">
+						<div class="form-row">
+							<div class="col-12">
+								<h2 class="h3 mb-0">#permit_Type# #permit_num# #permit_title#</h2>
+							</div>
+							<div class="col-12 mb-2">
 							Issued: #issued_date# | Expires: #exp_Date# | Renewed: #renewed_Date# | Issued By: #issuedByAgent# | Issued To: #issuedToAgent# | Remarks: #permit_remarks#
-						</div>
-						<div class="col-12">
-							<button type="button" class="btn btn-xs btn-primary" id="displayReportButton" >Display Detailed Report</button>
-							<a class="btn btn-xs btn-secondary ml-2" href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">Edit This Permissions &amp; Rights Document</a>
-							<a class="btn btn-xs btn-secondary ml-2" href="/Reports/permit.cfm?permit_id=#permit_id#">(Old) Permit Use Report</a>
+							</div>
+							<div class="col-12">
+								<button type="button" class="btn btn-xs btn-primary" id="displayReportButton" >Display Detailed Report</button>
+								<a class="btn btn-xs btn-secondary ml-2" href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">Edit This Permissions &amp; Rights Document</a>
+								<a class="btn btn-xs btn-secondary ml-2" href="/Reports/permit.cfm?permit_id=#permit_id#">(Old) Permit Use Report</a>
 							</div>
 						</div>
 					</cfloop>
 					<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
-						locality.sovereign_nation,
-						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
-						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
-						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-						left join collection on trans.collection_id = collection.collection_id
-						left join accn on trans.transaction_id = accn.transaction_id
-						left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
-						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
-						left join locality on flat.locality_id = locality.locality_id
-						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-						where trans.transaction_type = 'accn'
-							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-					union
-					select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
-						locality.sovereign_nation,
-						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
-						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
-						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
-						left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
-						left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
-						left join trans on shipment.transaction_id = trans.transaction_id
-						left join collection on trans.collection_id = collection.collection_id
-						left join accn on trans.transaction_id = accn.transaction_id
-						left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
-						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
-						left join locality on flat.locality_id = locality.locality_id
-						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-						where trans.transaction_type = 'accn'
-							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-					union
-					select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
-						locality.sovereign_nation,
-						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
-						TO_DATE(null) as shipped_date, ' ' as toinstitution, ' ' as frominstitution, flat.parts,
-						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-						left join collection on trans.collection_id = collection.collection_id
-						left join loan on trans.transaction_id = loan.transaction_id
-						left join loan_item on loan.transaction_id = loan_item.transaction_id
-						left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-						left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
-						left join locality on flat.locality_id = locality.locality_id
-						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-						where trans.transaction_type = 'loan'
-							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-					union
-					select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
-						locality.sovereign_nation,
-						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
-						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
-						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
-						left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
-						left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
-						left join trans on shipment.transaction_id = trans.transaction_id
-						left join collection on trans.collection_id = collection.collection_id
-						left join loan on trans.transaction_id = loan.transaction_id
-						left join loan_item on loan.transaction_id = loan_item.transaction_id
-						left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-						left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
-						left join locality on flat.locality_id = locality.locality_id
-						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-						where trans.transaction_type = 'loan'
-							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-					union
-					select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/transactions/Deaccession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
-						locality.sovereign_nation,
-						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
-						TO_DATE(null) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
-						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-						left join collection on trans.collection_id = collection.collection_id
-						left join deaccession on trans.transaction_id = deaccession.transaction_id
-						left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
-						left join flat on deacc_item.collection_object_id = flat.collection_object_id
-						left join locality on flat.locality_id = locality.locality_id
-						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-						where trans.transaction_type = 'deaccession'
-							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-					union
-					select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/transactions/Deaccession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
-						locality.sovereign_nation,
-						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
-						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
-						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
-						left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
-						left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
-						left join trans on shipment.transaction_id = trans.transaction_id
-						left join collection on trans.collection_id = collection.collection_id
-						left join deaccession on trans.transaction_id = deaccession.transaction_id
-						left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
-						left join flat on deacc_item.collection_object_id = flat.collection_object_id
-						left join locality on flat.locality_id = locality.locality_id
-						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-						where trans.transaction_type = 'deaccession'
-							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-					union
-					select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/transactions/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
-						borrow_item.country_of_origin as sovereign_nation,
-						borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
-						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, '' as frominstitution, borrow_item.spec_prep as parts,
-						' ' as common_name
-					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-						left join collection on trans.collection_id = collection.collection_id
-						left join borrow on trans.transaction_id = borrow.transaction_id
-						left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
-						where trans.transaction_type = 'borrow'
-							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-					union
-					select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/transactions/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
-						borrow_item.country_of_origin as sovereign_nation,
-						borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
-						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, borrow_item.spec_prep as parts,
-						' ' as common_name
-					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
-						left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
-						left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
-						left join trans on shipment.transaction_id = trans.transaction_id
-						left join collection on trans.collection_id = collection.collection_id
-						left join borrow on trans.transaction_id = borrow.transaction_id
-						left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
-						where trans.transaction_type = 'borrow'
-							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-				</cfquery>
-					</div>
+						select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+							locality.sovereign_nation,
+							flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+							TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
+							decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+						from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join accn on trans.transaction_id = accn.transaction_id
+							left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+							left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+							left join locality on flat.locality_id = locality.locality_id
+							left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+							where trans.transaction_type = 'accn'
+								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+							locality.sovereign_nation,
+							flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+							shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
+							decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+						from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+							left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+							left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
+							left join trans on shipment.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join accn on trans.transaction_id = accn.transaction_id
+							left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+							left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+							left join locality on flat.locality_id = locality.locality_id
+							left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+							where trans.transaction_type = 'accn'
+								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
+							locality.sovereign_nation,
+							flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+							TO_DATE(null) as shipped_date, ' ' as toinstitution, ' ' as frominstitution, flat.parts,
+							decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+						from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join loan on trans.transaction_id = loan.transaction_id
+							left join loan_item on loan.transaction_id = loan_item.transaction_id
+							left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+							left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
+							left join locality on flat.locality_id = locality.locality_id
+							left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+							where trans.transaction_type = 'loan'
+								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
+							locality.sovereign_nation,
+							flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+							shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
+							decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+						from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+							left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+							left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
+							left join trans on shipment.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join loan on trans.transaction_id = loan.transaction_id
+							left join loan_item on loan.transaction_id = loan_item.transaction_id
+							left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+							left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
+							left join locality on flat.locality_id = locality.locality_id
+							left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+							where trans.transaction_type = 'loan'
+								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('/transactions/Deaccession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+							locality.sovereign_nation,
+							flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+							TO_DATE(null) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
+							decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+						from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join deaccession on trans.transaction_id = deaccession.transaction_id
+							left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+							left join flat on deacc_item.collection_object_id = flat.collection_object_id
+							left join locality on flat.locality_id = locality.locality_id
+							left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+							where trans.transaction_type = 'deaccession'
+								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('/transactions/Deaccession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+							locality.sovereign_nation,
+							flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+							shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
+							decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+						from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+							left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+							left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
+							left join trans on shipment.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join deaccession on trans.transaction_id = deaccession.transaction_id
+							left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+							left join flat on deacc_item.collection_object_id = flat.collection_object_id
+							left join locality on flat.locality_id = locality.locality_id
+							left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+							where trans.transaction_type = 'deaccession'
+								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('/transactions/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+							borrow_item.country_of_origin as sovereign_nation,
+							borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
+							TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, '' as frominstitution, borrow_item.spec_prep as parts,
+							' ' as common_name
+						from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join borrow on trans.transaction_id = borrow.transaction_id
+							left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
+							where trans.transaction_type = 'borrow'
+								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('/transactions/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+							borrow_item.country_of_origin as sovereign_nation,
+							borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
+							shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, borrow_item.spec_prep as parts,
+							' ' as common_name
+						from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+							left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+							left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
+							left join trans on shipment.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join borrow on trans.transaction_id = borrow.transaction_id
+							left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
+							where trans.transaction_type = 'borrow'
+								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					</cfquery>
+					<!---</div>---><!---IS this an extra div?--->
 				</section>	
 
 				<!--- Results table as a jqxGrid. --->
@@ -1462,7 +1462,7 @@ limitations under the License.
 								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 								<div id="enableselection"></div>
 							</div>
-							</section>
+							<!---</section>---><!---Is this an extra section end?--->
 						</div>
 					</div>
 				</section>
@@ -1471,13 +1471,13 @@ limitations under the License.
 						/* Setup jqxgrid for Search */
 						$('##displayReportButton').bind('click', function(evt){
 							evt.preventDefault();
-					
+
 							$("##overlay").show();
-					
+
 							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 							$('##resultCount').html('');
 							$('##resultLink').html('');
-					
+
 							var search =
 							{
 								datatype: "json",
@@ -1524,19 +1524,19 @@ limitations under the License.
 								},
 								async: true
 							};
-					
+
 							var dataAdapter = new $.jqx.dataAdapter(search);
 							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 								var details = $($(parentElement).children()[0]);
 								details.html("<div id='rowDetailsTarget" + index + "'></div>");
-					
+
 								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 								// Workaround, expansion sits below row in zindex.
 								var maxZIndex = getMaxZIndex();
 								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 							}
-					
+
 							$("##searchResultsGrid").jqxGrid({
 								width: '100%',
 								autoheight: 'true',
@@ -1604,13 +1604,13 @@ limitations under the License.
 							});
 						});
 						/* End Setup jqxgrid for number series Search ******************************/
-		
+
 						// If requested in uri, execute search immediately.
 						<cfif isdefined("execute")>
 							$('##searchForm').submit();
 						</cfif>
 					}); /* End document.ready */
-	
+
 					function gridLoaded(gridId, searchType) { 
 						$("##overlay").hide();
 						var now = new Date();
@@ -1684,119 +1684,118 @@ limitations under the License.
 						$('##resultDownloadButtonContainer').html('<button id="permitcsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-3 mx-lg-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 					}
 				</script>
-
 				<section class="container-fluid">
 					<div id="permitsusedin" class="row">
 						<div class="col-12">
-						<h3 class="h4">This Permissions &amp; Rights Document Used for/Linked to:</h3>
+							<h3 class="h4">This Permissions &amp; Rights Document Used for/Linked to:</h3>
 							<table class="table table-responsive border table-striped table-sm">
-							<thead class="thead-light">
-							<tr>
-								<th>Transaction</th>
-								<th>Type</th>
-								<th>Date</th>
-								<th>Ship&nbsp;Date</th>
-								<th>Collection</th>
-								<th>Sovereign&nbsp;Nation</th>
-								<th>Country</th>
-								<th>State/Province</th>
-								<th>County</th>
-								<th>Scientific&nbsp;Name</th>
-								<th>Common&nbsp;Name</th>
-								<th>Preparations</th>
-								<th>Catalog&nbsp;Number</th>
-								<th>From&nbsp;Institution</th>
-								<th>To&nbsp;Institution</th>
-							</tr>
-						</thead>
-							<tbody>
-						<cfloop query="permituse">
-							<tr>
-								<td><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a></td>
-								<td>#ontype# #ttype#</td>
-								<td>#dateformat(trans_date,'yyyy-mm-dd')#</td>
-								<td>#dateformat(shipped_date,'yyyy-mm-dd')#</td>
-								<td>#guid_prefix#</td>
-								<td>#sovereign_nation#</td>
-								<td>#country#</td>
-								<td>#state_prov#</td>
-								<td>#county#</td>
-								<td>#scientific_name#</td>
-								<td>#common_name#</td>
-								<td>#parts#</td>
-								<td>#guid#</td>
-								<td>#frominstitution#</td>
-								<td>#toinstitution#</td>
-							</tr>
-						</cfloop>
-						</tbody>
+								<thead class="thead-light">
+									<tr>
+										<th>Transaction</th>
+										<th>Type</th>
+										<th>Date</th>
+										<th>Ship&nbsp;Date</th>
+										<th>Collection</th>
+										<th>Sovereign&nbsp;Nation</th>
+										<th>Country</th>
+										<th>State/Province</th>
+										<th>County</th>
+										<th>Scientific&nbsp;Name</th>
+										<th>Common&nbsp;Name</th>
+										<th>Preparations</th>
+										<th>Catalog&nbsp;Number</th>
+										<th>From&nbsp;Institution</th>
+										<th>To&nbsp;Institution</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="permituse">
+										<tr>
+											<td><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a></td>
+											<td>#ontype# #ttype#</td>
+											<td>#dateformat(trans_date,'yyyy-mm-dd')#</td>
+											<td>#dateformat(shipped_date,'yyyy-mm-dd')#</td>
+											<td>#guid_prefix#</td>
+											<td>#sovereign_nation#</td>
+											<td>#country#</td>
+											<td>#state_prov#</td>
+											<td>#county#</td>
+											<td>#scientific_name#</td>
+											<td>#common_name#</td>
+											<td>#parts#</td>
+											<td>#guid#</td>
+											<td>#frominstitution#</td>
+											<td>#toinstitution#</td>
+										</tr>
+									</cfloop>
+								</tbody>
 							</table>
 						</div>
 					</div>
 				</section>
 				<section class="container-fluid">
-				<cfquery name="permitsalvagereport" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select
-						count(cataloged_item.collection_object_id) as cat_count,
-						sum(coll_object.lot_count) as spec_count,
-						collection.guid_prefix,
-						flat.country, flat.state_prov, flat.scientific_name, flat.county,
-						mczbase.get_part_prep(specimen_part.collection_object_id) as parts,
-						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-						left join collection on trans.collection_id = collection.collection_id
-						left join accn on trans.transaction_id = accn.transaction_id
-						left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
-						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
-						left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
-						left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
-						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-					where trans.transaction_type = 'accn'
-						and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-					group by collection.guid_prefix, country, state_prov, flat.scientific_name, flat.county,
-						mczbase.get_part_prep(specimen_part.collection_object_id),
-						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id))
-				</cfquery>
-				<div id="permitaccessionsummary" class="row pb-3">
-					<div class="col-12">
-						<h3 class="h5">Accession Summary (Salvage Permit Reporting)</h3>
+					<cfquery name="permitsalvagereport" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select
+							count(cataloged_item.collection_object_id) as cat_count,
+							sum(coll_object.lot_count) as spec_count,
+							collection.guid_prefix,
+							flat.country, flat.state_prov, flat.scientific_name, flat.county,
+							mczbase.get_part_prep(specimen_part.collection_object_id) as parts,
+							decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+						from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join accn on trans.transaction_id = accn.transaction_id
+							left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+							left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+							left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+							left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+						where trans.transaction_type = 'accn'
+							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						group by collection.guid_prefix, country, state_prov, flat.scientific_name, flat.county,
+							mczbase.get_part_prep(specimen_part.collection_object_id),
+							decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id))
+					</cfquery>
+					<div id="permitaccessionsummary" class="row pb-3">
+						<div class="col-12">
+							<h3 class="h5">Accession Summary (Salvage Permit Reporting)</h3>
+						</div>
+						<div class="col-12">
+							<cfif permitsalvagereport.RecordCount eq 0>
+								<strong>No accessions for this Permissions &amp; Rights Document</strong>
+							<cfelse>
+								<table class="table d-table table-responsive border">
+									<thead class="thead-light">
+										<tr>
+											<th>Specimen&nbsp;Count</th>
+											<th>Collection</th>
+											<th>Country</th>
+											<th>State</th>
+											<th>County</th>
+											<th>Scientific&nbsp;Name</th>
+											<th>Common&nbsp;Name</th>
+											<th>Parts</th>
+										</tr>
+									</thead>
+									<tbody>
+									<cfloop query="permitsalvagereport">
+										<tr>
+											<td>#spec_count#</td>
+											<td>#guid_prefix#</td>
+											<td>#country#</td>
+											<td>#state_prov#</td>
+											<td>#county#</td>
+											<td>#scientific_name#</td>
+											<td>#common_name#</td>
+											<td>#parts#</td>
+										</tr>
+									</cfloop>
+									</tbody>
+								</table>
+							</cfif>
+						</div>
 					</div>
-					<div class="col-12">
-						<cfif permitsalvagereport.RecordCount eq 0>
-							<strong>No accessions for this Permissions &amp; Rights Document</strong>
-	 					<cfelse>
-							<table class="table d-table table-responsive border">
-								<thead class="thead-light">
-									<tr>
-										<th>Specimen&nbsp;Count</th>
-										<th>Collection</th>
-										<th>Country</th>
-										<th>State</th>
-										<th>County</th>
-										<th>Scientific&nbsp;Name</th>
-										<th>Common&nbsp;Name</th>
-										<th>Parts</th>
-									</tr>
-								</thead>
-								<tbody>
-								<cfloop query="permitsalvagereport">
-									<tr>
-										<td>#spec_count#</td>
-										<td>#guid_prefix#</td>
-										<td>#country#</td>
-										<td>#state_prov#</td>
-										<td>#county#</td>
-										<td>#scientific_name#</td>
-										<td>#common_name#</td>
-										<td>#parts#</td>
-									</tr>
-								</cfloop>
-								</tbody>
-							</table>
-						</cfif>
-					</div>
-				</div>
-					</section>
+				</section>
 			</main>
 		</cfoutput>
 	</cfcase>
