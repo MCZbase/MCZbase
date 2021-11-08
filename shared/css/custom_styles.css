@@ -1018,8 +1018,12 @@ ul.list-unstyled li.list-group-item:last-child {
 	margin-bottom: 0;
 	border-radius: 0;
 }
-ul > li.list-group-item:nth-last-of-type(-n+2) {
+ul > li.list-group-item:nth-last-of-type(-n+2) {/*Not sure if this is a mistake or is used somewhere.*/
 	border-bottom: none;
+}
+ul > li.list-group-item:nth-last-of-type(1) {
+	border-bottom: none;
+	padding-bottom: 2px;
 }
 .jqx-widget-header {
 	background-color: #deebec !important;

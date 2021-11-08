@@ -214,29 +214,27 @@ limitations under the License.
 										WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											AND agent_name_type <> 'preferred'
 									</cfquery>
-									<div class="card-body py-2 bg-teal">
-										<div class="pb-2 bg-white">
-											<ul class="list-group">
-												<!--- person name --->
-												<cfif getAgent.agent_type EQ "person">
-													<li class="list-group-item" >#getAgent.prefix# #getAgent.first_name# #getAgent.middle_name# #getAgent.last_name# #getAgent.suffix#</li>
-												</cfif>
-												<!--- preferred name --->
-												<cfloop query="preferredNames">
-													<li class="list-group-item" >#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
-												</cfloop>
-												<cfloop query="notPrefNames">
-													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+									<div class="card-body py-2 bg-teal">	
+										<ul class="list-group">
+											<!--- person name --->
+											<cfif getAgent.agent_type EQ "person">
+												<li class="list-group-item" >#getAgent.prefix# #getAgent.first_name# #getAgent.middle_name# #getAgent.last_name# #getAgent.suffix#</li>
+											</cfif>
+											<!--- preferred name --->
+											<cfloop query="preferredNames">
+												<li class="list-group-item" >#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
+											</cfloop>
+											<cfloop query="notPrefNames">
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+													<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
+												<cfelse>
+													<!--- don't display login name to non-admin users --->
+													<cfif notPrefNames.agent_name_type NEQ "login">
 														<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
-													<cfelse>
-														<!--- don't display login name to non-admin users --->
-														<cfif notPrefNames.agent_name_type NEQ "login">
-															<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
-														</cfif>
 													</cfif>
-												</cfloop>
-											</ul>
-										</div>
+												</cfif>
+											</cfloop>
+										</ul>
 									</div>
 								</div>
 							</section>
@@ -1830,7 +1828,7 @@ limitations under the License.
 													<cfset i = 1>
 													<cfloop query="publicationAuthor">
 														<cfif citation_count EQ 1><cfset citplural =""><cfelse><cfset citplural="s"></cfif>
-														<li class="border list-group-item d-flex justify-content-between align-items-center mt-1 pb-2">
+														<li class="border list-group-item d-flex justify-content-between align-items-center mt-1">
 															<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
 															<cfif citation_count eq 0>
 																<cfelse>
