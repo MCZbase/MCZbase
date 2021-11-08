@@ -1,8 +1,8 @@
 /** This file contains Various local style customizations for the header and footer **/
 /************************/
-:focus:not(:focus-visible) {
+/*:focus:not(:focus-visible) {
 	outline: 0;
-}
+}*/
 :focus {
 /*	outline: 1px dotted rgb(44 91 144 / 62%);
 	border: 1px solid rgb(44 91 144 /50%);*/
