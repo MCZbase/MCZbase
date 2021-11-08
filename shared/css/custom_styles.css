@@ -2574,7 +2574,7 @@ and also iPads specifically.
 	}
 	.caption-lg {
 		overflow-y: auto;
-		height: 4.5rem;
+		height: 3.5rem;
 	}
 }
 @media screen and (max-width: 1324px) {
