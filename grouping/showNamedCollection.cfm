@@ -781,7 +781,7 @@ limitations under the License.
 																</button>
 															</h3>
 														</div>
-														<div class="card-body pl-2 pr-0 py-0">
+														<div class="card-body bg-white py-0">
 															<div id="collapseTax" aria-labelledby="headingTax" data-parent="##accordionForTaxa" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="taxonQuery">
@@ -824,7 +824,7 @@ limitations under the License.
 																</button>
 															</h3>
 														</div>
-														<div class="card-body pl-2 pr-0 py-0">
+														<div class="card-body bg-white py-0">
 															<div id="collapseMar" aria-labelledby="headingMar" data-parent="##accordionForMarine" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="marine">
@@ -881,7 +881,7 @@ limitations under the License.
 																</button>
 															</h3>
 														</div>
-														<div class="card-body pl-2 pr-0 py-0">
+														<div class="card-body bg-white py-0">
 															<div id="collapseGeog" aria-labelledby="headingGeog" data-parent="##accordionForGeog" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="geogQuery">
@@ -928,7 +928,7 @@ limitations under the License.
 																</button>
 															</h3>
 														</div>
-														<div class="card-body pl-2 pr-0 py-0">
+														<div class="card-body bg-white py-0">
 															<div id="collapseIS" aria-labelledby="headingIS" data-parent="##accordionForIslands" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="islandsQuery">
@@ -977,7 +977,7 @@ limitations under the License.
 																</button>
 															</h3>
 														</div>
-														<div class="card-body pl-2 pr-0 py-0">
+														<div class="card-body bg-white py-0">
 															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="collectors">
@@ -1030,7 +1030,7 @@ limitations under the License.
 																	</button>
 																</h3>
 															</div>
-															<div class="card-body pl-2 pr-0 py-0">
+															<div class="card-body bg-white py-0">
 																<div id="collapseCitations" aria-labelledby="headingCitations" class="collapse show" data-parent="##accordionForCitations">
 																	<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="citations">
