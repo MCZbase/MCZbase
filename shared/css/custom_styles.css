@@ -2609,5 +2609,16 @@ and also iPads specifically.
 		padding-right: 8px;
 	}
 }
+@media screen and (min-width: 1800px) {
+	.caption-sm {
+		overflow-y: visible;
+		height: 6rem;
+	}
+	.caption-lg {
+		overflow-y: visible;
+		height: 3.75rem;
+		line-height: auto;
+	}
+}
 
 /* styles above are media queries for named groups page*/
