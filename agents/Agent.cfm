@@ -214,7 +214,7 @@ limitations under the License.
 										WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											AND agent_name_type <> 'preferred'
 									</cfquery>
-									<div class="card-body py-1 pb-2 bg-teal">
+									<div class="card-body py-2 bg-teal">
 										<ul class="list-group">
 											<!--- person name --->
 											<cfif getAgent.agent_type EQ "person">
