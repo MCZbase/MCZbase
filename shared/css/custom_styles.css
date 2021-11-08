@@ -2584,6 +2584,16 @@ and also iPads specifically.
 		height: 350px;
 	}
 }
+@media screen and (min-width: 1800px) {
+	.caption-sm {
+		overflow-y: visible;
+		height: 6rem;
+	}
+	.caption-lg {
+		overflow-y: visible;
+		height: 3.75rem;
+	}
+}
 @media screen and (min-width: 1200px) {
 	#map {
 		height: 600px;
@@ -2599,14 +2609,5 @@ and also iPads specifically.
 		padding-right: 8px;
 	}
 }
-@media screen and (min-width: 1800px) {
-	.caption-sm {
-		overflow-y: visible;
-		height: 6rem;
-	}
-	.caption-lg {
-		overflow-y: visible;
-		height: 3.75rem;
-	}
-}
+
 /* styles above are media queries for named groups page*/
