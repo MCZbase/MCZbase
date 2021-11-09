@@ -378,7 +378,7 @@
 					<table cellpadding="0" cellspacing="0" width="100%">
 						<tr><td>
 								<label for="newParentBarcode">Move To Unique Identifier (Parent)</label>
-								<input type="text" name="newParentBarcode" id="newParentBarcode" />
+								<input type="text" name="newParentBarcode" id="newParentBarcode" style="width:383px"/>
 							</td>
                         </tr>
                         <tr>
