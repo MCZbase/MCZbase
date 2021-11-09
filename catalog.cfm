@@ -550,7 +550,7 @@
 				<td><span class="d11a">Count Modifier</span></td>
 				<td><span class="d11a">##</span></td>
 				<td><span class="d11a">Container</span></td>
-				<td><span class="d11a">Print</span></td>
+				<td><span class="d11a">Print Flag</span></td>
 				<td><span class="d11a">Remark</span></td>
 				<td>&nbsp;</td>
 			</tr>
@@ -626,6 +626,7 @@
 							<option  value=""></option>
 							<option <cfif #print_fg# is 1> selected </cfif> value="1">Box</option>
 							<option <cfif #print_fg# is 2> selected </cfif> value="2">Vial</option>
+							<option <cfif #print_fg# is 3> selected </cfif> value="3">Thermal</option>
 						</select>
 					</td>
 					<td>

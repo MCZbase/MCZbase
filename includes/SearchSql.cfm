@@ -235,7 +235,7 @@
 				)" >
 </cfif>
 <cfif isdefined("print_fg") AND len(print_fg) gt 0>
-	<!---- get data for printing labels ---->
+	<!---- get flag that can be used for collecting specimens for printing labels ---->
 	<cfset basQual = "#basQual#  AND cataloged_item.collection_object_id IN (
 		SELECT
 			derived_from_cat_item

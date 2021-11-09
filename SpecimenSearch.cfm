@@ -1440,6 +1440,7 @@
          				<option value=""></option>
          				<option value="1">Box</option>
          				<option value="2">Vial</option>
+							<option value="3">thermal</option>
          			</select>
          		</td>
          	</tr>
