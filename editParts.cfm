@@ -152,7 +152,7 @@
 								</div>
 					</td>
 					<td style="width: 50px;">
-						<label for="print_fg#i#">Container Label<br>Type</label>
+						<label for="print_fg#i#">Print Flag</label>
 						<select name="print_fg#i#" id="print_fg#i#" style="width: 50px;">
 							<option <cfif getParts.print_fg is 0>selected="selected" </cfif>value="0"></option>
 							<option <cfif getParts.print_fg is 1>selected="selected" </cfif>value="1">dry</option>
