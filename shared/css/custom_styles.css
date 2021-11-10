@@ -1009,6 +1009,7 @@ div#users-contain table td, div#users-contain table th {
 }
 .list-group-item {
 	border: none;
+	background-color: transparent;
 }
 ul.list-unstyled li.list-group-item {
 	margin-bottom: 0;
