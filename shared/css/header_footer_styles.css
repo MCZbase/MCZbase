@@ -14,9 +14,9 @@
 	outline-color: transparent!important;
 	box-shadow:none;
 }
-.jqx-combox-content:focus {
-	outline-color: rgba(0,123,255,.38);
-	box-shadow: none;
+#dropdownlistWrapperkeywordCollection:focus {
+	outline:green;
+	box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
 }
 .navbar-nav input:focus {
 	box-shadow:none;
