@@ -1404,7 +1404,7 @@ input::placeholder {
 	background-color: #fff;
 	border-color: #ced4da;
 	outline: 0;
-	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+	box-shadow: 0 0 0 0.19rem rgba(0, 123, 255, .23);
 }
 select.data-entry-select {
 	display: block;
