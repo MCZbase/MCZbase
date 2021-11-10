@@ -749,7 +749,7 @@ limitations under the License.
 							</cfif>
 							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 105,  hideable: true, hidden: getColHidProp('SPECIMEN_COUNT', false), cellsrenderer: specimenCellRenderer },
 							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: getColHidProp('FULL_TAXON_NAME', true) },
-							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM', width:60, hideable: true, hidden: getColHidProp('VALID_CATALOG_TERM', false), cellsrenderer: validCellRenderer },
+							{ text: 'Allowed Data Entry', datafield: 'VALID_CATALOG_TERM', width:60, hideable: true, hidden: getColHidProp('VALID_CATALOG_TERM', false), cellsrenderer: validCellRenderer },
 							{ text: 'Common Name(s)', datafield: 'COMMON_NAMES', width:100, hideable: true, hidden: getColHidProp('COMMON_NAMES', true) },
 							{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: getColHidProp('KINGDOM', true) },
 							{ text: 'Phylum', datafield: 'PHYLUM', width:90, hideable: true, hidden: getColHidProp('PHULUM', false) },

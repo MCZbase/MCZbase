@@ -302,7 +302,7 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-sm-3">
-							<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
+							<label for="valid_catalog_term_fg"><span>Allowed for Data Entry</span></label>
 							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr data-entry-select" required>
 								<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 								<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
@@ -1130,7 +1130,7 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-sm-3">
-							<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
+							<label for="valid_catalog_term_fg"><span>Allowed for Data Entry</span></label>
 							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr data-entry-select" required>
 								<option <cfif getClonedFromTaxon.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 								<option <cfif getClonedFromTaxon.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
