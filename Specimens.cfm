@@ -1519,6 +1519,8 @@ limitations under the License.
 						<cfloop query="getFieldMetadata">
 							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
 								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							<cfelseif data_type EQ 'NUMBER' >
+								#separator#{name: '#ucase(column_name)#', type: 'number' }
 							<cfelse>
 								#separator#{name: '#ucase(column_name)#', type: 'string' }
 							</cfif>
@@ -1657,6 +1659,8 @@ limitations under the License.
 						<cfloop query="getFieldMetadata">
 							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
 								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							<cfelseif data_type EQ 'NUMBER' >
+								#separator#{name: '#ucase(column_name)#', type: 'number' }
 							<cfelse>
 								#separator#{name: '#ucase(column_name)#', type: 'string' }
 							</cfif>
@@ -1796,6 +1800,8 @@ limitations under the License.
 						<cfloop query="getFieldMetadata">
 							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
 								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							<cfelseif data_type EQ 'NUMBER' >
+								#separator#{name: '#ucase(column_name)#', type: 'number' }
 							<cfelse>
 								#separator#{name: '#ucase(column_name)#', type: 'string' }
 							</cfif>
