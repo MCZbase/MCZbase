@@ -6,6 +6,7 @@
 :focus {
 	outline: 1px auto Highlight;
 	outline: 1px auto -webkit-focus-ring-color;
+	outline: none;
 	outline-color: rgba(0,123,255,.38);
 	box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
 }
