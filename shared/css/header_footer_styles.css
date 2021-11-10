@@ -1,15 +1,19 @@
 /** This file contains Various local style customizations for the header and footer **/
 /************************/
 :focus {
-	outline: 1px auto Highlight;
-	outline: 1px auto -webkit-focus-ring-color;
-	outline-color: rgba(0,123,255,.38);
+/*	outline: 1px auto Highlight;
+	outline: 1px auto -webkit-focus-ring-color;*/
+	outline: 1px auto rgba(0,123,255,.38);
+/*	outline-color: rgba(0,123,255,.38);*/
+	outline: none;
 	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 20%);
+	box-shadow: none;
 }
 .jqx-combobox-content-focus, .jqx-combo-state-focus, .btn-dark:focus {
-	outline: 1px auto Highlight;
+/*	outline: 1px auto Highlight;
 	outline: 1px auto -webkit-focus-ring-color;
-	outline-color: rgba(0,123,255,.38);
+	outline-color: rgba(0,123,255,.38);*/
+	outline: 1px auto rgba(0,123,255,.38);
 	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 20%);
 }
 .unfocus:focus, .jqx-fill-state-focus {  

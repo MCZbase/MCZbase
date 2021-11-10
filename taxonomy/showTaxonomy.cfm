@@ -390,13 +390,13 @@
 				
 				<div class="pb-2">
 					<cfif one.VALID_CATALOG_TERM_FG is 1>
-						<h1 class="h2 mt-3" tabindex="0">#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal small">#one.taxon_status#</span></h1>
+						<h1 class="h2 mt-3">#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal small">#one.taxon_status#</span></h1>
 						<cfif len(one.AUTHOR_TEXT) gt 0>
 							<span class="sm-caps font-weight-normal small90"><cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#"></span>
 						</cfif>
 					<cfelseif #one.VALID_CATALOG_TERM_FG# is 0>
-						<h1 class="h2 mt-3" tabindex="0">#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal small90">#one.taxon_status#</span></h1>
-						<span class="text-danger h3" tabindex="0">This name is not allowed for current identifications/data entry in MCZbase. </span>
+						<h1 class="h2 mt-3">#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal small90">#one.taxon_status#</span></h1>
+						<span class="text-danger h3">This name is not allowed for current identifications/data entry in MCZbase. </span>
 					</cfif>
 				</div>
 			
