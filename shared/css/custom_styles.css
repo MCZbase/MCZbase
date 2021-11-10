@@ -346,7 +346,8 @@ BELOW: Main button (bootstrap override)
 button:focus, input:focus, select:focus, button.focus, input.focus, select.focus {
 	outline: 0;
 	border: 1px dotted #ccc;
-	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 22%);
+	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 40%);
+	border-radius: .2rem;
 }
 span.data-entry-addon {
 	cursor: pointer;
