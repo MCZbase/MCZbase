@@ -9,7 +9,7 @@
 	outline-color: rgba(0,123,255,.38);
 	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 20%);
 }
-.jqx-combobox-content-focus, .jqx-fill-state-focus {
+.jqx-combobox-content-focus, .jqx-fill-state-focus, .btn-dark:focus {
 	outline: 1px auto Highlight;
 	outline: 1px auto -webkit-focus-ring-color;
 	outline-color: rgba(0,123,255,.38);
