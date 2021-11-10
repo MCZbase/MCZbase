@@ -1018,6 +1018,7 @@ ul.list-unstyled li.list-group-item {
 ul.list-unstyled li.list-group-item:last-child {
 	margin-bottom: 0;
 	border-radius: 0;
+	border-bottom: 1px solid #ccc;
 }
 /*Not sure if this is a mistake or is used somewhere. This would be the last 2 of parent and nested groups*/
 /*ul > li.list-group-item:nth-last-of-type(-n+2) {
