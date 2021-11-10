@@ -646,6 +646,12 @@ body.modal-open {
 	padding: 0 !important;
 	overflow-y: scroll !important;
 }
+.jqxlistbox2.jqx-listbox {
+	margin-left: 6px
+}
+.list-group-item {
+	background-color: transparent;
+}
 /***********************************************/
 /* BELOW: filter and column slider menu styles */
 /***********************************************/
@@ -725,9 +731,7 @@ body.modal-open {
 	z-index: 50000;
 	background-color: white;
 }
-.jqxlistbox2.jqx-listbox {
-	margin-left: 6px
-}
+
 .cbp-spmenu-right {
 	right: -298px;
 }
@@ -751,9 +755,7 @@ body.modal-open {
 	background: #DEEBEC;
 	margin-top: -392px;
 }
-.list-group-item {
-	background-color: transparent;
-}
+
 .cbp-spmenu-left {
 	right: -214px;
 }
@@ -2382,7 +2384,7 @@ and also iPads specifically.
 		margin-left: 4px;
 	}
 }*/
-@media screen and (max-width: 55.1875em) {
+/*@media screen and (max-width: 55.1875em) {*/
 /*	.cbp-spmenu-horizontal {
 		font-size: 75%;
 		height: 90px;
@@ -2393,8 +2395,8 @@ and also iPads specifically.
 	.containFlex4 {
 		column-count: 1;
 	}*/
-}
-@media screen and (max-height: 26.375em) {
+/*}*/
+/*@media screen and (max-height: 26.375em) {
 	.cbp-spmenu-vertical {
 		font-size: 90%;
 		width: 190px;
@@ -2402,7 +2404,7 @@ and also iPads specifically.
 	.cbp-spmenu-right {
 		right: -190px;
 	}
-}
+}*/
 @media(min-width:768px) {
 	.footer-col-4-md {
 		margin: 0 auto;
@@ -2465,18 +2467,7 @@ and also iPads specifically.
 		max-width: 1600px;
 	}
 }
-@media(max-width:1024px) {
-/*	.card-columns {
-		column-count: 2;
-	}*/
-	.card-body h5 {
-		margin-top: -0.5rem;
-	}
-	.font-dot-8 {
-		font-size: 0.8rem;
-		text-align: right;
-	}
-}
+
 /*@media screen and (min-width:576px) {
 	.card-columns {
 		-webkit-column-count: 2;
@@ -2492,54 +2483,7 @@ and also iPads specifically.
 		margin-left: 4px;
 	}
 }*/
-@media(max-width:1023px) {
-/*	.card-columns {
-		column-count: 1;
-	}*/
-	.card-body h5 {
-		margin-top: -0.5rem;
-	}
-	.font-dot-8 {
-		font-size: 0.8rem;
-		text-align: right;
-	}
-}
-@media(max-width:767px) {
-	.MediaAccordionHide {
-		display: none;
-	}
-	.MediaAccordionShow {
-		display: block;
-	}
-}
-@media(max-width:576px) {
-	.count {
-		display: block;
-		line-height: 1rem;
-	}
-	.align-left-center {
-		text-align: center;
-	}
-	.align-right-center {
-		text-align: center;
-	}
-	.col-form-label {
-		padding-bottom: 0;
-		line-height: 1;
-	}
-/*	.card-columns {
-		column-count: 1;
-	}*/
-}
-@media(max-width:414px) {
-	a.btn-sm {
-		height: calc(1.5rem + .5rem + 1px);
-	}
-	#searchbuilder-search.btn-sm, #save-account.btn-sm, #save-fixed-search.btn-sm {
-		font-size: .78rem;
-		height: 5rem;
-	}
-}
+
 /* styles below are media queries for the named groups page*/
 @media screen and (min-width: 1501px) {
 	#map {
@@ -2612,15 +2556,75 @@ and also iPads specifically.
 		padding-right: 8px;
 	}
 }
-@media screen and (max-width: 768px){
+@media screen and (max-width: 1024px) {
+/*	.card-columns {
+		column-count: 2;
+	}*/
+	.card-body h5 {
+		margin-top: -0.5rem;
+	}
+	.font-dot-8 {
+		font-size: 0.8rem;
+		text-align: right;
+	}
+}
+@media screen and (max-width: 1023px) {
+/*	.card-columns {
+		column-count: 1;
+	}*/
+	.card-body h5 {
+		margin-top: -0.5rem;
+	}
+	.font-dot-8 {
+		font-size: 0.8rem;
+		text-align: right;
+	}
+}
+@media screen and (max-width: 768px) {
 	.caption-sm {
 		overflow-y: visible;
 		height: auto;
 	}
 }
+@media screen and (max-width: 767px) {
+	.MediaAccordionHide {
+		display: none;
+	}
+	.MediaAccordionShow {
+		display: block;
+	}
+}
+@media screen and (max-width: 576px) {
+	.count {
+		display: block;
+		line-height: 1rem;
+	}
+	.align-left-center {
+		text-align: center;
+	}
+	.align-right-center {
+		text-align: center;
+	}
+	.col-form-label {
+		padding-bottom: 0;
+		line-height: 1;
+	}
+/*	.card-columns {
+		column-count: 1;
+	}*/
+}
 @media screen and (max-width: 480px) {
 	#map {
 		height: 350px;
+	}
+}
+@media screen and (max-width: 414px) {
+	a.btn-sm {
+		height: calc(1.5rem + .5rem + 1px);
+	}
+	#searchbuilder-search.btn-sm, #save-account.btn-sm, #save-fixed-search.btn-sm {
+		font-size: .78rem;
+		height: 5rem;
 	}
 }
 /* styles above are media queries for named groups page*/
