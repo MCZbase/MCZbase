@@ -7,16 +7,12 @@
 	outline: 1px auto Highlight;
 	outline: 1px auto -webkit-focus-ring-color;
 	outline-color: rgba(0,123,255,.38);
-	box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 20%);
 }
 .unfocus:focus {
 	outline: none;
 	outline-color: transparent!important;
 	box-shadow:none;
-}
-#dropdownlistWrapperkeywordCollection:focus {
-	outline:green;
-	box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
 }
 .navbar-nav input:focus {
 	box-shadow:none;
