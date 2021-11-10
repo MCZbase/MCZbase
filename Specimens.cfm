@@ -242,7 +242,7 @@ limitations under the License.
 						</div>
 						<div class="tab-content">
 							<!---Keyword Search/results tab panel--->
-							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#" #keywordTabShow#>
+							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
 									<div class="col-9 float-right px-0"> 
 										<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseKeyword" aria-expanded="false" aria-controls="collapseKeyword">
 													Search Help
@@ -342,8 +342,6 @@ limitations under the License.
 											</div>
 										</div>
 									</form>
-								
-
 								</section>
 								<!--- results for keyword search --->
 								<section class="container-fluid">
