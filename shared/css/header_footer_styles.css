@@ -14,6 +14,10 @@
 	outline-color: transparent!important;
 	box-shadow:none;
 }
+.jqx-combox-content:focus {
+	outline-color: rgba(0,123,255,.38);
+	box-shadow: none;
+}
 .navbar-nav input:focus {
 	box-shadow:none;
 }
