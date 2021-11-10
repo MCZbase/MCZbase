@@ -13,7 +13,7 @@
 .jqx-combobox-content-focus, .jqx-fill-state-focus {
 	border: none;
 	outline:none;
-	box-shadow:none;
+	box-shadow: 0 0 0 0.18rem buttonface;
 }
 .unfocus:focus {
 	outline: none;
