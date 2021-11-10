@@ -109,7 +109,7 @@ limitations under the License.
 									<cfelse>
 										<cfset guidLink = agentguid >
 									</cfif>
-									<li class="list-group-item px-0 pt-0 pb-2">
+									<li class="list-group-item border-bottom-0 px-0 pt-0 pb-2">
 										<a href="#guidLink#">#agentguid#</a>
 									</li>
 								</cfif>
