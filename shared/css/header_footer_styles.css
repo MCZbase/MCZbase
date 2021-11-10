@@ -1,8 +1,5 @@
 /** This file contains Various local style customizations for the header and footer **/
 /************************/
-/*:focus:not(:focus-visible) {
-	outline: 0;
-}*/
 :focus {
 	outline: 1px auto Highlight;
 	outline: 1px auto -webkit-focus-ring-color;
@@ -50,7 +47,7 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	font-size: .875rem;   /* makes the navbar text slightly smaller than default */
 }
 .navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
-    color: rgba(0,0,0,1)!important;  /* this makes the dropdown header darker then the rest of headers when a page within it is selected */
+	color: rgba(0,0,0,1)!important;  /* this makes the dropdown header darker then the rest of headers when a page within it is selected */
 	box-shadow:none;     /* this takes away the default focus & focus style from above */
 	border: none;      /* this takes away the default focus & focus style from above */
 }
@@ -69,11 +66,11 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 }
 /* End navigation menu styles */
 .logout {
-    padding: 0 .25rem;
-    font-size: .85rem;
-    position: relative;
-    font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-    letter-spacing: .02em;
+	padding: 0 .25rem;
+	font-size: .85rem;
+	position: relative;
+	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	letter-spacing: .02em;
 }
 .user {
 	font-size: .9rem;
@@ -292,22 +289,24 @@ input#Password {
 	width: 75px;
 }
 .dropdown:hover .dropdown-menu {/* Needed for dropdown menu to work with hover */
-    display: block;
-    margin-top: 0; 
-    }
+	display: block;
+	margin-top: 0; 
+}
 .dropdown:hover > .dropdown-menu .dropdown > .dropdown-toggle:active { /* needed to eliminate click for dropdown opening */
 	pointer-events:none;
 }
-.nav-link {display:block;}
+.nav-link {
+	display:block;
+}
 
 .navbar-toggler {
 	padding: .12rem .75rem;
-    font-size: 1.2rem;
-    line-height: 1;
-    background-color: transparent;
-    border: 1px solid transparent;
-    border-radius: .25rem;
-    margin: .12rem 0;
+	font-size: 1.2rem;
+	line-height: 1;
+	background-color: transparent;
+	border: 1px solid transparent;
+	border-radius: .25rem;
+	margin: .12rem 0;
 }
 @media (min-width: 992px)and (max-width: 1200px){
 	.logout {
@@ -320,7 +319,7 @@ input#Password {
 		top: 4px;
 	}
 }
-@media (max-width:991px) {
+@media screen and (max-width:991px) {
 	ul {
 		display: block;
 		list-style-type: none;
@@ -350,8 +349,7 @@ input#Password {
 		width: 100px;
 	}
 	.nav-tabs .nav-link, .navbar-nav .nav-link {
-	display: block;
-/*	padding: .5em 1em;*/
+		display: block;
 	}	
 }
 
@@ -361,7 +359,7 @@ input#Password {
 		text-align: center;
 	}
 }
-@media(min-width:768px) {
+@media screen and (min-width:768px) {
 	.footer-col-4-md {
 		margin: 0 auto;
 	}
@@ -404,7 +402,7 @@ input#Password {
 		margin-right: .75rem;
 	}
 }
-@media(min-width:576px) {
+@media screen and (min-width:576px) {
 	.mcz {
 		font-size: 1.5rem;
 		opacity: .9;
@@ -415,14 +413,12 @@ input#Password {
 		padding-top: 1rem;
 		text-align: left;
 	}
-	.mcz_logo_krono 
-	{
-    display: block;
-    margin-right: .75em;
+	.mcz_logo_krono {
+		display: block;
+		margin-right: .75em;
+	}
 }
-	
-}
-@media(max-width:1024px) {
+@media screen and (max-width:1024px) {
 
 	.mczbase a {
 		color: white;
@@ -437,19 +433,19 @@ input#Password {
 		letter-spacing: .02rem;
 	}*/
 }
-@media(max-width:575px) {
+@media screen and (max-width:575px) {
 	.file-os-file-medium {
 		max-width: 350px;
 	}
 	/* Small device login/logout */
 	nav.navbar{
 		padding: 0 1rem;
-    	font-size: .9rem;		
+		font-size: .9rem;		
 	}
 	.navbar-toggler {
-    	padding: .25rem .75rem;
-    	font-size: 1.25rem;
-    	border-radius: .25rem;
+		padding: .25rem .75rem;
+		font-size: 1.25rem;
+		border-radius: .25rem;
 	}
 	.logout {
 		padding: .12rem .45rem;
@@ -475,15 +471,15 @@ input#Password {
 		display:none
 	}
 }
-@media(max-width:414px) {
+@media screen and (max-width:414px) {
 	nav.navbar {
 		padding: 0 1rem;
-    	font-size: .9rem;
+		font-size: .9rem;
 	}
 	.navbar-toggler {
-	padding: .25rem .5rem;
-    font-size: .875rem;
-    border-radius: .2rem;
+		padding: .25rem .5rem;
+		font-size: .875rem;
+		border-radius: .2rem;
 	}
 	.form-login {
 		right:.7rem;
@@ -499,15 +495,15 @@ input#Password {
 		width: 76px!important;
 	}
 }
-@media(max-width:375px) {
+@media screen and (max-width:375px) {
 	nav.navbar{
 		padding: 0 .75rem;
-    	font-size: .9rem;
+		font-size: .9rem;
 	}
 	.navbar-toggler {
-  		padding: .25rem .5rem;
-    	font-size: .875rem;
-    	border-radius: .2rem;
+		padding: .25rem .5rem;
+		font-size: .875rem;
+		border-radius: .2rem;
 	}
 	.form-login {right:.7rem;}
 	.login-form {
@@ -521,15 +517,15 @@ input#Password {
 		width: 75px!important;
 	}
 }
-@media(max-width:280px) {
+@media screen and (max-width:280px) {
 	nav.navbar{
 		padding: 0 .5rem;
-    	font-size: .9rem;
+		font-size: .9rem;
 	}
 /*	.navbar-toggler {
-    	padding: .1rem .5rem;
-    	font-size: 1rem;
-    	border-radius: .25rem;
+		padding: .1rem .5rem;
+		font-size: 1rem;
+		border-radius: .25rem;
 	}*/
 	.login-form {
 		width: 229px;
@@ -547,7 +543,7 @@ input#Password {
 		top: 2px;
 	}*/
 /*	.navbar-toggler-icon {
-    	width: 1em;
-    	height: 1.5em;
+		width: 1em;
+		height: 1.5em;
 	}*/
 }
