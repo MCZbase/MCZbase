@@ -4,17 +4,13 @@
 	outline: 0;
 }*/
 :focus {
-	border-color: #ced4da;
 	outline: 1px auto Highlight;
 	outline: 1px auto -webkit-focus-ring-color;
 	outline-color: rgba(0,123,255,.38);
-	box-shadow: 0 0 0 0.15rem rgb(0 123 255 / 25%);
 }
 .unfocus:focus {
-	border-color: transparent;
-	outline: 1px auto tranparent;
-	outline-color: transparent;
-	box-shadow: 0 0 0 0.15rem transparent;
+	outline: 1px auto tranparent!important;
+	outline-color: transparent!important;
 }
 .navbar-nav input:focus {
 	box-shadow:none;

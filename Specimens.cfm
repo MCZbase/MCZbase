@@ -384,7 +384,7 @@ limitations under the License.
 							</div><!--- end keyword search/results panel --->
 	
 								<!---Query Builder tab panel--->
-							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="0" class="mx-0 #builderTabActive#"  #builderTabShow#>
+							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="0" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<section role="search" class="container-fluid">
 									<form id="builderSearchForm">
 										<script>
@@ -798,7 +798,7 @@ limitations under the License.
 							</div><!--- end search builder tab --->
 	
 							<!---Fixed Search tab panel--->
-							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #fixedTabActive#"  #fixedTabShow#>
+							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
 								<section role="search" class="container-fluid">
 									<form id="fixedSearchForm">
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
