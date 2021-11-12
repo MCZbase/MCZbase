@@ -563,6 +563,17 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfif fieldProvided EQ tableField AND len(searchText) GT 0>
 					<cfset matched = true>
 					<cfset field = '"field": "#searchFields.column_alias#"'>
+					<cfif searchFields.data_type IS 'DATE'>
+						<cfif refind("^[0-9]{4}/[0-9]{2}/[0-9]{2}$",searchText) EQ 1>
+							<cfset searchText = "=#searchText#>
+						</cfif>
+						<cfif refind("^>[0-9]{4}/[0-9]{2}/[0-9]{2}$",searchText) EQ 1>
+							<cfset searchText = ">=#searchText#>
+						</cfif>
+						<cfif refind("^<[0-9]{4}/[0-9]{2}/[0-9]{2}$",searchText) EQ 1>
+							<cfset searchText = "<=#searchText#>
+						</cfif>
+					</cfif>
 					<!--- Warning: only searchText may be passed directly from the user here, join and field must be known good values ---> 
 					<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
 					<cfset separator = ",">
