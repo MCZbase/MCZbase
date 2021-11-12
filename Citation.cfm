@@ -61,7 +61,7 @@
 
 <!------------------------------------------------------------------------------->
 <cfif action is "nothing">
-     <div style="width: 73em; margin: 0 auto; padding: 2em 0 5em 0;">
+     <div style="width: 90%; margin: 0 auto; padding: 2em 0 5em 0;">
 <cfset title="Manage Citations">
 <cfoutput>
 
