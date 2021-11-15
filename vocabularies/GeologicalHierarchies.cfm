@@ -51,7 +51,7 @@ limitations under the License.
 							geology_attribute_hierarchy.ATTRIBUTE ,
 							ATTRIBUTE_VALUE ,
 							USABLE_VALUE_FG ,
-							DESCRIPTION,
+							geology_attribute_hierarchy.DESCRIPTION,
 							ctgeology_attribute.type
 						FROM geology_attribute_hierarchy 
 							left join ctgeology_attribute on geology_attribute_hierarchy.attribute = ctgeology_attribute.geology_attribute
