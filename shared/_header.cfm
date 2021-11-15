@@ -204,6 +204,65 @@ limitations under the License.
 		<div class="row">
 			<div class="col-12 pb-2">
 				<h1 class="h2 text-center text-danger">MCZbase requires Javascript to function.</h1>
+				<nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##theNav" aria-controls="theNav" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="theNav">
+						<ul class="navbar-nav ml-auto nav-fill">
+							<li class="nav-item px-4 active">
+								<a href="/" class="nav-link">Home</a>
+							</li>
+							<li class="nav-item px-4 dropdown">
+								<a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Test Menu link</a>
+								<div class="dropdown-menu show" aria-labelledby="aboutDropdown">
+									<div class="d-md-flex align-items-start justify-content-start">
+										<div>
+											<div class="dropdown-header">Test Menu Header</div>
+											<a class="dropdown-item" href="/Specimens.cfm">Specimen Search</a>
+											<a class="dropdown-item" href="/media/findMedia.cfm">Media</a>
+											<a class="dropdown-item" href="/dataentry/DataEntry.cfm?collection=Herpetology">Data Entry</a>
+										</div>
+									<div>
+										<div class="dropdown-header">Curation</div>
+										<a class="dropdown-item" href="/grouping/showNamedCollection.cfm">Named Group</a>
+										<a class="dropdown-item" href="/Transactions.cfm?action=findAll">Search Transactions</a>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="nav-item px-4 dropdown">
+								<a class="nav-link dropdown-toggle" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
+								<div class="dropdown-menu" aria-labelledby="servicesDropdown">
+									<a class="dropdown-item" href="/services">What</a>
+									<a class="dropdown-item" href="/how">How</a>
+									<div class="dropdown-divider"></div>
+									<div class="d-md-flex align-items-start justify-content-start">
+										<div>
+											<div class="dropdown-header">Development Test</div>
+											<a class="dropdown-item" href="/bespoke-software">A</a>
+											<a class="dropdown-item" href="/apps">B</a>
+											<a class="dropdown-item" href="/websites">C</a>
+										</div>
+										<div>
+											<div class="dropdown-header">Test Title</div>
+											<a class="dropdown-item" href="/project-rescue">Test1</a>
+											<a class="dropdown-item" href="/source-code">Test2</a>
+											<a class="dropdown-item" href="/support-maintenance">Test3</a>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="nav-item px-4 ">
+								<a href="/contact" class="nav-link">Contact</a>
+							</li>
+							<li class="nav-item px-4 ">
+								<a href="/blog" class="nav-link">Blog</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+		
 				<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
 					<ul class="navbar-nav mx-auto">
 						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>

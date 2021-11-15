@@ -152,69 +152,7 @@ limitations under the License.
 	<div class="swapperBtnDiv" style="margin: 0 2rem;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> 
 	</div>
 	
-<nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##wNav" aria-controls="wNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
 
-          <a href="/" class="navbar-brand">
-            <img src="" height="45" alt="logo">
-          </a>
-
-          <div class="collapse navbar-collapse" id="wNav">
-            <ul class="navbar-nav ml-auto nav-fill">
-              <li class="nav-item px-4 active">
-                <a href="/" class="nav-link">Home</a>
-              </li>
-              <li class="nav-item px-4 dropdown show">
-                <a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">About</a>
-                <div class="dropdown-menu show" aria-labelledby="aboutDropdown">
-                  <div class="d-md-flex align-items-start justify-content-start">
-                    <div>
-                      <div class="dropdown-header">Company</div>
-                      <a class="dropdown-item" href="/about##overview">Overview</a>
-                      <a class="dropdown-item" href="/about##technology">Technology stack</a>
-                      <a class="dropdown-item" href="/about##green">Green</a>
-                    </div>
-                    <div>
-                      <div class="dropdown-header">Technology</div>
-                      <a class="dropdown-item" href="/##info">Laravel</a>
-                      <a class="dropdown-item" href="/websites##CC">Statamic</a>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="nav-item px-4 dropdown">
-                <a class="nav-link dropdown-toggle" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
-                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
-                  <a class="dropdown-item" href="/services">What we do</a>
-                  <a class="dropdown-item" href="/how">How we fit your needs</a>
-                  <div class="dropdown-divider"></div>
-                  <div class="d-md-flex align-items-start justify-content-start">
-                    <div>
-                      <div class="dropdown-header">Development</div>
-                      <a class="dropdown-item" href="/bespoke-software">Bespoke software</a>
-                      <a class="dropdown-item" href="/bespoke-software##bespoke_mobile_apps">Mobile apps</a>
-                      <a class="dropdown-item" href="/websites">Websites</a>
-                    </div>
-                    <div>
-                      <div class="dropdown-header">Professional Services</div>
-                      <a class="dropdown-item" href="/project-rescue">Project rescue</a>
-                      <a class="dropdown-item" href="/source-code">Source code recovery</a>
-                      <a class="dropdown-item" href="/support-maintenance">Application support &amp; maintenance</a>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="nav-item px-4 ">
-                <a href="/contact" class="nav-link">Contact</a>
-              </li>
-              <li class="nav-item px-4 ">
-                <a href="/blog" class="nav-link">Blog</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
 	
 <div class="container-fluid bg-light">
 	<div class="container px-4 pt-0 mt-0" id="swapper-other" style="display:none;">
