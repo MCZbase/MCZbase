@@ -204,6 +204,63 @@ limitations under the License.
 		<div class="row">
 			<div class="col-12 pb-2">
 				<h1 class="h2 text-center text-danger">MCZbase requires Javascript to function.</h1>
+				
+		
+				<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+					<ul class="navbar-nav mx-auto">
+						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
+						<li class="nav-item"><a class="nav-link mr-2" href="/BrowseHTML.cfm">Browse Data</a></li>
+						<li class="nav-item"><a class="nav-link mr-2" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
+						<cfif isdefined("session.username") and len(#session.username#) gt 0>
+							<a href="/login.cfm?action=signOut" class="btn btn-outline-success py-0 px-2" aria-label="logout">Log out #session.username#
+							<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
+								<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
+							</cfif>
+							</a>
+							<cfelse>
+							<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
+								<input type="hidden" name="action" value="signIn">
+								<div class="login-form" id="header_login_form_div">
+									<label for="username" class="sr-only"> Username:</label>
+									<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
+									<label for="password" class="mr-1 sr-only"> Password:</label>
+									<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
+									<input type="submit" value="Log In" id="login" class="btn-primary loginButtons" aria-label="click to login">
+								</div>
+							</form>
+						</cfif>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	</noscript>
+	<div class="container-fluid bg-light px-0" style="display: none;" id="mainMenuContainer">
+		<!--- display turned on with javascript below ---> 
+		<!---	
+			Test for redesign checkout is required for continued integration, as the production menu
+			must point to files present on production while the redesign menu points at their replacements in redesign
+		--->
+		<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+			<!--- checkout is redesign, redesign2, or similar --->
+			<cfset targetMenu = "redesign">
+		<cfelse>
+			<!--- checkout is master, integration, test, and other non-redesign branches --->
+			<cfset targetMenu = "production">
+		</cfif>
+		<script>
+			// Keyboard shortcut for Search
+			document.addEventListener ("keydown", function (evt) {
+				if (evt.altKey && evt.key === "m") {  
+					evt.preventDefault();
+					evt.stopPropagation();
+					$('##searchDropdown').click();	
+					$('##specimenMenuItem').focus();	
+					return false;
+				}
+			});
+
+		</script>
 				<nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##theNav" aria-controls="theNav" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
@@ -262,63 +319,6 @@ limitations under the License.
 						</ul>
 					</div>
 				</nav>
-		
-				<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
-					<ul class="navbar-nav mx-auto">
-						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
-						<li class="nav-item"><a class="nav-link mr-2" href="/BrowseHTML.cfm">Browse Data</a></li>
-						<li class="nav-item"><a class="nav-link mr-2" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
-						<cfif isdefined("session.username") and len(#session.username#) gt 0>
-							<a href="/login.cfm?action=signOut" class="btn btn-outline-success py-0 px-2" aria-label="logout">Log out #session.username#
-							<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
-								<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
-							</cfif>
-							</a>
-							<cfelse>
-							<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
-								<input type="hidden" name="action" value="signIn">
-								<div class="login-form" id="header_login_form_div">
-									<label for="username" class="sr-only"> Username:</label>
-									<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
-									<label for="password" class="mr-1 sr-only"> Password:</label>
-									<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
-									<input type="submit" value="Log In" id="login" class="btn-primary loginButtons" aria-label="click to login">
-								</div>
-							</form>
-						</cfif>
-					</ul>
-				</nav>
-			</div>
-		</div>
-	</div>
-	</noscript>
-	<div class="container-fluid bg-light px-0" style="display: none;" id="mainMenuContainer">
-		<!--- display turned on with javascript below ---> 
-		<!---	
-			Test for redesign checkout is required for continued integration, as the production menu
-			must point to files present on production while the redesign menu points at their replacements in redesign
-		--->
-		<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-			<!--- checkout is redesign, redesign2, or similar --->
-			<cfset targetMenu = "redesign">
-		<cfelse>
-			<!--- checkout is master, integration, test, and other non-redesign branches --->
-			<cfset targetMenu = "production">
-		</cfif>
-		<script>
-			// Keyboard shortcut for Search
-			document.addEventListener ("keydown", function (evt) {
-				if (evt.altKey && evt.key === "m") {  
-					evt.preventDefault();
-					evt.stopPropagation();
-					$('##searchDropdown').click();	
-					$('##specimenMenuItem').focus();	
-					return false;
-				}
-			});
-
-		</script>
-
 		<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="navbar_toplevel_div">
