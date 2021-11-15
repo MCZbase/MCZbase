@@ -514,42 +514,42 @@ limitations under the License.
 											<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 																					
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/moveContainer.cfm">Move Container</a> 
+												<a class="dropdown-item bg-light" href="/moveContainer.cfm">Move Container</a> 
 											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Move Container</a> 
+												<a class="dropdown-item bg-light stillNeedToDo" href="">Move Container</a> 
 											</cfif>
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/batchScan.cfm">Batch Scan</a>
+												<a class="dropdown-item bg-light" href="/batchScan.cfm">Batch Scan</a>
 											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Batch Scan</a>
+												<a class="dropdown-item bg-light stillNeedToDo" href="">Batch Scan</a>
 											</cfif>	
 								
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/labels2containers.cfm">Label > Container</a> 
+												<a class="dropdown-item bg-light" href="/labels2containers.cfm">Label > Container</a> 
 											<cfelse>
-												<a class="dropdown-item  stillNeedToDo" href="">Label > Container</a> 
+												<a class="dropdown-item bg-light stillNeedToDo" href="">Label > Container</a> 
 											</cfif>
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/part2container.cfm">Put Parts in Containers</a> 
+												<a class="dropdown-item bg-light" href="/part2container.cfm">Put Parts in Containers</a> 
 											<cfelse>
 												<a class="dropdown-item stillNeedToDo" href="">Put Parts in Containers</a> 
 											</cfif>
 								
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/part2container.cfm">Clear Part Flags</a> 
+												<a class="dropdown-item bg-light" href="/part2container.cfm">Clear Part Flags</a> 
 											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Clear Part Flags</a> 
+												<a class="dropdown-item bg-light stillNeedToDo" href="">Clear Part Flags</a> 
 											</cfif>
 												
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/LoadBarcodes.cfm">Upload Scan File</a> 
+												<a class="dropdown-item bg-light" href="/LoadBarcodes.cfm">Upload Scan File</a> 
 											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Upload Scan File</a> 
+												<a class="dropdown-item bg-light stillNeedToDo" href="">Upload Scan File</a> 
 											</cfif>
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm">Bulk Edit Container</a> 
+												<a class="dropdown-item bg-light" href="/tools/BulkloadContEditParent.cfm">Bulk Edit Container</a> 
 											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Bulk Edit Container</a> 
+												<a class="dropdown-item bg-light stillNeedToDo" href="">Bulk Edit Container</a> 
 											</cfif>
 										</div>
 									</cfif>
@@ -565,21 +565,21 @@ limitations under the License.
 									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>							
-										<a class="dropdown-item" href="/Transactions.cfm?action=findAll">All Transactions</a>
-										<a class="dropdown-item" href="/Transactions.cfm?action=findAccessions">Accessions</a>
-										<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
-										<a class="dropdown-item" href="/Transactions.cfm?action=findBorrows">Borrows</a> 
-										<a class="dropdown-item" href="/Transactions.cfm?action=findDeaccessions">Deacessions</a> 
-										<a class="dropdown-item" href="/transactions/Permit.cfm">Permissions &amp; Rights</a> 
+										<a class="dropdown-item bg-light" href="/Transactions.cfm?action=findAll">All Transactions</a>
+										<a class="dropdown-item bg-light" href="/Transactions.cfm?action=findAccessions">Accessions</a>
+										<a class="dropdown-item bg-light" href="/Transactions.cfm?action=findLoans">Loans</a> 
+										<a class="dropdown-item bg-light" href="/Transactions.cfm?action=findBorrows">Borrows</a> 
+										<a class="dropdown-item bg-light" href="/Transactions.cfm?action=findDeaccessions">Deacessions</a> 
+										<a class="dropdown-item bg-light" href="/transactions/Permit.cfm">Permissions &amp; Rights</a> 
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-										<a class="dropdown-item" href="/transactions/Accession.cfm?action=new">Accession</a> 
-										<a class="dropdown-item" href="/transactions/Loan.cfm?action=newLoan">Loan</a> 
-										<a class="dropdown-item" href="/transactions/Borrow.cfm?action=new">Borrow</a> 
-										<a class="dropdown-item" href="/transactions/Deaccession.cfm?action=new">Deaccession</a> 
-										<a class="dropdown-item" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a> 
+										<a class="dropdown-item bg-light" href="/transactions/Accession.cfm?action=new">Accession</a> 
+										<a class="dropdown-item bg-light" href="/transactions/Loan.cfm?action=newLoan">Loan</a> 
+										<a class="dropdown-item bg-light" href="/transactions/Borrow.cfm?action=new">Borrow</a> 
+										<a class="dropdown-item bg-light" href="/transactions/Deaccession.cfm?action=new">Deaccession</a> 
+										<a class="dropdown-item bg-light" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a> 
 									</div>
 									</cfif>
 									</li>
@@ -590,14 +590,14 @@ limitations under the License.
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">			
 									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Reports & Statistics</div>
-										<a class="dropdown-item" href="/reporting/Reports.cfm">List of Reports</a>
-										<a class="dropdown-item" href="/info/queryStats.cfm">Query Statistics</a>
+										<div class="h5 dropdown-header px-4 text-danger">Reports &amp; Statistics</div>
+										<a class="dropdown-item bg-light" href="/reporting/Reports.cfm">List of Reports</a>
+										<a class="dropdown-item bg-light" href="/info/queryStats.cfm">Query Statistics</a>
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
-										<a class="dropdown-item" target="_blank" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF</a>
-										<a class="dropdown-item" target="_blank" href="https://portal.idigbio.org/portal/search?rq={%22recordset%22:%22271a9ce9-c6d3-4b63-a722-cb0adc48863f%22}">View MCZ data in iDigBio</a>
+										<a class="dropdown-item bg-light" target="_blank" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF</a>
+										<a class="dropdown-item bg-light" target="_blank" href="https://portal.idigbio.org/portal/search?rq={%22recordset%22:%22271a9ce9-c6d3-4b63-a722-cb0adc48863f%22}">View MCZ data in iDigBio</a>
 									</div>
 								</li>
 							</ul>
