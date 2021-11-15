@@ -271,7 +271,7 @@ limitations under the License.
 								<a href="/" class="nav-link">Home</a>
 							</li>
 							<li class="nav-item px-4 dropdown">
-								<a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Test Menu link</a>
+								<a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Test Menu link</a>
 								<div class="dropdown-menu" aria-labelledby="aboutDropdown">
 									<div class="d-md-flex align-items-start justify-content-start">
 										<div>
