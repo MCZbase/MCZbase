@@ -476,15 +476,15 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-										<a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Group</a>
+										<a class="dropdown-item bg-light" href="/grouping/NamedCollection.cfm">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
+												<a class="dropdown-item bg-light" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Browse Storage Locations</a>
 											</cfif>
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/findContainer.cfm">Find Storage Location/Container</a> 
+												<a class="dropdown-item bg-light" href="/findContainer.cfm">Find Storage Location/Container</a> 
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Find Storage Location/Container</a>
 											</cfif>
@@ -493,15 +493,15 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create</div>
-										<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Group</a>
+										<a class="dropdown-item bg-light" href="/grouping/NamedCollection.cfm?action=new">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 											<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/editContainer.cfm?action=newContainer">Storage Location/Create Container</a> 
+											<a class="dropdown-item bg-light" href="/editContainer.cfm?action=newContainer">Storage Location/Create Container</a> 
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Storage Location/Create Container</a>
 											</cfif>
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/CreateContainersForBarcodes.cfm">Create Container Series</a>
+												<a class="dropdown-item bg-light" href="/CreateContainersForBarcodes.cfm">Create Container Series</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Create Container Series</a>
 											</cfif>
