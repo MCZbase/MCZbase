@@ -167,19 +167,19 @@ limitations under the License.
                 <a href="/" class="nav-link">Home</a>
               </li>
               <li class="nav-item px-4 dropdown show">
-                <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">About</a>
+                <a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">About</a>
                 <div class="dropdown-menu show" aria-labelledby="aboutDropdown">
                   <div class="d-md-flex align-items-start justify-content-start">
                     <div>
                       <div class="dropdown-header">Company</div>
-                      <a class="dropdown-item" href="/about#overview">Overview</a>
-                      <a class="dropdown-item" href="/about#technology">Technology stack</a>
-                      <a class="dropdown-item" href="/about#green">Green</a>
+                      <a class="dropdown-item" href="/about##overview">Overview</a>
+                      <a class="dropdown-item" href="/about##technology">Technology stack</a>
+                      <a class="dropdown-item" href="/about##green">Green</a>
                     </div>
                     <div>
                       <div class="dropdown-header">Technology</div>
-                      <a class="dropdown-item" href="/#laravel_info">Laravel</a>
-                      <a class="dropdown-item" href="/websites#statamic">Statamic</a>
+                      <a class="dropdown-item" href="/##info">Laravel</a>
+                      <a class="dropdown-item" href="/websites##CC">Statamic</a>
                     </div>
                   </div>
                 </div>
@@ -194,7 +194,7 @@ limitations under the License.
                     <div>
                       <div class="dropdown-header">Development</div>
                       <a class="dropdown-item" href="/bespoke-software">Bespoke software</a>
-                      <a class="dropdown-item" href="/bespoke-software#bespoke_mobile_apps">Mobile apps</a>
+                      <a class="dropdown-item" href="/bespoke-software##bespoke_mobile_apps">Mobile apps</a>
                       <a class="dropdown-item" href="/websites">Websites</a>
                     </div>
                     <div>
@@ -213,10 +213,6 @@ limitations under the License.
                 <a href="/blog" class="nav-link">Blog</a>
               </li>
             </ul>
-            <div class="d-flex flex-column navbar-text">
-              <a class="text-green" href="tel:+441252950650">01252 950 650</a>
-              <a href="mailto:enquiries@welcm.uk" class="text-green">enquiries@welcm.uk</a>
-            </div>
           </div>
         </nav>
 	
