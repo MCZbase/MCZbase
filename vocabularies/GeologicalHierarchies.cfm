@@ -154,7 +154,7 @@ limitations under the License.
 				      FROM
 				         geology_attribute_hierarchy
 				         LEFT JOIN ctgeology_attributes on attribute = geology_attribute
-				         START WITH geology_attribute_hierarchy.geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="c.geology_attribute_hierarchy_id">
+				         START WITH geology_attribute_hierarchy.geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.geology_attribute_hierarchy_id#">
        					CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
     						ORDER SIBLINGS BY ordinal, attribute_value
 					</cfquery>
