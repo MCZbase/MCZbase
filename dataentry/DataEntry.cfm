@@ -153,15 +153,15 @@ limitations under the License.
 	</div>
 	
 <nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#welcmNav" aria-controls="welcmNav" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##wNav" aria-controls="wNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
           <a href="/" class="navbar-brand">
-            <img src="/images/welcm-software-logo-transparent-full.png" height="45" alt="Welcm Logo">
+            <img src="" height="45" alt="logo">
           </a>
 
-          <div class="collapse navbar-collapse" id="welcmNav">
+          <div class="collapse navbar-collapse" id="wNav">
             <ul class="navbar-nav ml-auto nav-fill">
               <li class="nav-item px-4 active">
                 <a href="/" class="nav-link">Home</a>
