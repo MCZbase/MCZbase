@@ -177,7 +177,7 @@ limitations under the License.
 							<span <cfif children.usable_value_fg is 0>style="color:red"</cfif>>#children.attribute#</span>
 							<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#children.geology_attribute_hierarchy_id#">more</a>
 						</li>
-						<cfif cData.currentRow IS cData.recordCount>
+						<cfif children.currentRow IS children.recordCount>
 							#repeatString("</ul>",listLen(levelList,","))#
 				   	</cfif>
 					</cfloop>
