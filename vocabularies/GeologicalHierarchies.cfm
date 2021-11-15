@@ -42,147 +42,146 @@ limitations under the License.
 	<cfcase value="edit">
 		<main class=”container py-3” id=”content” >
 			<cfoutput>
-				<section class=”row border rounded my-2”>
+				<div class="row border rounded bg-light mt-2 mb-4 px-2 pt-2 pb-4 pb-sm-2">
+					<section class=”col-12”>
 	  
-					<cfquery name="c"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT 
-							GEOLOGY_ATTRIBUTE_HIERARCHY_ID ,
-							PARENT_ID ,
-							geology_attribute_hierarchy.ATTRIBUTE ,
-							ATTRIBUTE_VALUE ,
-							USABLE_VALUE_FG ,
-							geology_attribute_hierarchy.DESCRIPTION,
-							ctgeology_attribute.type
-						FROM geology_attribute_hierarchy 
-							left join ctgeology_attribute on geology_attribute_hierarchy.attribute = ctgeology_attribute.geology_attribute
-						WHERE
-							geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
-					</cfquery>
+						<cfquery name="c"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT 
+								GEOLOGY_ATTRIBUTE_HIERARCHY_ID ,
+								PARENT_ID ,
+								geology_attribute_hierarchy.ATTRIBUTE ,
+								ATTRIBUTE_VALUE ,
+								USABLE_VALUE_FG ,
+								geology_attribute_hierarchy.DESCRIPTION,
+								ctgeology_attribute.type
+							FROM geology_attribute_hierarchy 
+								left join ctgeology_attribute on geology_attribute_hierarchy.attribute = ctgeology_attribute.geology_attribute
+							WHERE
+								geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+						</cfquery>
+						<cfquery name="use"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="use_result">
+							SELECT count(*) ct
+							FROM geology_attributes
+								WHERE 
+									geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#c.attribute#">
+									AND
+									geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#c.attribute_value#">
+						</cfquery>
 
-					<h1 class=”h2”>Edit #c.attribute#:#c.attribute_value# (#c.type#)</h1>
+						<h2 class=”h2”>Edit #c.attribute#:#c.attribute_value# (#c.type#)</h2>
+						<div class="h3">Attribute for #use.ct# Localities.</div>
 
-					<cfquery name="use"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="use_result">
-						SELECT count(*) ct
-						FROM geology_attributes
-							WHERE 
-								geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#c.attribute#">
-								AND
-								geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#c.attribute_value#">
-					</cfquery>
+						<form name="ins" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
+							<input type="hidden" name="action" value="saveEdit">
+							<input type="hidden" name="geology_attribute_hierarchy_id" value="#geology_attribute_hierarchy_id#">
+							<div class="form-row mb-2">
+								<div class="col-12 col-sm-12 col-xl-4">
+									<label for="attribute" class="data-entry-label">Attribute</label>
+									<select name="attribute" id="attribute" class="data-entry-select">
+										<cfloop query="ctgeology_attribute">
+											<cfif c.attribute EQ ctgeology_attribute.geology_attribute><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
+											<option value="#ctgeology_attribute.geology_attribute#" #selected# >#ctgeology_attribute.geology_attribute# (#ctgeology_attribute.type#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-sm-6 col-xl-4">
+									<label for="newTerm">Value</label>
+									<input type="text" name="attribute_value" id="newTerm" value="#c.attribute_value#" class="data-entry-input reqdClr">
+								</div>
+								<div class="col-12 col-sm-6 col-xl-4">
+									<label for="usable_value_fg" class="data-entry-label">Allowed for Data Entry?</label>
+									<cfset uvf=c.usable_value_fg>
+									<select name="usable_value_fg" id="usable_value_fg" class="data-entry-select">
+										<option <cfif #uvf# is 0>selected="selected" </cfif>value="0">no</option>
+										<option <cfif #uvf# is 1>selected="selected" </cfif>value="1">yes</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-row mb-2">
+								<div class="col-12">
+									<label for="description" class="data-entry-label">Description</label>
+									<input class="data-entry-input" type="text" name="description" id="description" value="#c.description#">
+								</div>
+							</div>
+							<div class="form-row mb-2">
+								<div class="col-12 col-xl-6">
+									<input type="submit" value="Save Edits" class="btn btn-primary btn-xs">
+								</div>
+								<div class="col-12 col-xl-6">
+									<cfif use.ct EQ 0>
+										<input type="button" value="Delete" class="btn btn-xs btn-warn"
+	   									onclick="document.location='/vocabularies/GeologicalHierarchies.cfm?action=delete&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#';">
+									</cfif>
+								</div>
+							</div>
+						</form>
+					</section>
+					<section class=”row border rounded my-2”>
+						<cfquery name="parents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
+					      SELECT
+				   	      level,
+				      	   geology_attribute_hierarchy_id,
+				         	parent_id,
+					         usable_value_fg,
+					         attribute_value || ' (' || attribute || ')' attribute,
+								SYS_CONNECT_BY_PATH(attribute_value, '|') as path
+					      FROM
+					         geology_attribute_hierarchy
+				   	      LEFT JOIN ctgeology_attributes on attribute = geology_attribute
+							WHERE
+								geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+					      START WITH parent_id IS NULL
+      	 				CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+						</cfquery>
+						<cfloop query="parents">
+							<div class="col-12">
+								<h3 class="h4">Parent Nodes</h3>
+								<div>#parents.path#</div>
+							</div>
+						</cfloop>
 
-					<form name="ins" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
-						<input type="hidden" name="action" value="saveEdit">
-						<input type="hidden" name="geology_attribute_hierarchy_id" value="#geology_attribute_hierarchy_id#">
-
-						<label for="attribute">Attribute ("Formation")</label>
-						<select name="attribute" id="attribute">
-							<cfloop query="ctgeology_attribute">
-								<cfif c.attribute EQ ctgeology_attribute.geology_attribute><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
-								<option value="#ctgeology_attribute.geology_attribute#" #selected# >#ctgeology_attribute.geology_attribute# (#ctgeology_attribute.type#)</option>
+						<cfquery name="children"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="children_result">
+				      	SELECT
+				   	      level,
+					         geology_attribute_hierarchy_id,
+					         parent_id,
+					         usable_value_fg,
+					         attribute_value || ' (' || attribute || ')' attribute
+					      FROM
+				      	   geology_attribute_hierarchy
+				   	      LEFT JOIN ctgeology_attributes on attribute = geology_attribute
+					         START WITH geology_attribute_hierarchy.geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.geology_attribute_hierarchy_id#">
+       						CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+    							ORDER SIBLINGS BY ordinal, attribute_value
+						</cfquery>
+						<div class="col-12">
+							<h3 class="h4">Child Nodes</h3>
+							<cfset levelList = "">
+							<cfloop query="children">
+								<cfif listLast(levelList,",") IS NOT children.level>
+							    	<cfset levelListIndex = listFind(levelList,children.level,",")>
+						      	<cfif levelListIndex IS NOT 0>
+						        		<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
+					         		<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
+				         	   		<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
+         							</cfloop>
+						   	     	#repeatString("</ul>",numberOfLevelsToRemove)#
+			   	   			<cfelse>
+      					  			<cfset levelList = listAppend(levelList,children.level)>
+      	   						<ul>
+   	   						</cfif>
+	  							</cfif>
+								<li>
+									<span <cfif children.usable_value_fg is 0>style="color:red"</cfif>>#children.attribute#</span>
+									<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#children.geology_attribute_hierarchy_id#">more</a>
+								</li>
+								<cfif children.currentRow IS children.recordCount>
+									#repeatString("</ul>",listLen(levelList,","))#
+						   	</cfif>
 							</cfloop>
-						</select>
-
-						<label for="newTerm">Value ("Prince Creek")</label>
-						<input type="text" name="attribute_value" id="newTerm" value="#c.attribute_value#">
-
-						<label for="usable_value_fg">Attribute valid for Data Entry?</label>
-						<cfset uvf=c.usable_value_fg>
-						<select name="usable_value_fg" id="usable_value_fg">
-							<option <cfif #uvf# is 0>selected="selected" </cfif>value="0">no</option>
-							<option <cfif #uvf# is 1>selected="selected" </cfif>value="1">yes</option>
-						</select>
-
-						<label for="description">Description</label>
-						<input type="text" name="description" id="description" value="#c.description#" size="60">
-
-						<div class="h3">Attribute for #use.ct# Localities</div>
-
-						<br>
-						<input type="submit" 
-							value="Save Edits" 
-							class="savBtn"
-		   				onmouseover="this.className='savBtn btnhov'" 
-					   	onmouseout="this.className='savBtn'">
-
-						<cfif use.ct EQ 0>
-							<br>
-							<input type="button" 
-								value="Delete" 
-								class="delBtn"
-		   					onmouseover="this.className='delBtn btnhov'" 
-						   	onmouseout="this.className='delBtn'"
-	   						onclick="document.location='/vocabularies/GeologicalHierarchies.cfm?action=delete&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#';">
-						</cfif>
-
-						<br>
-						<input type="button" 
-							value="Nevermind..." 
-							class="qutBtn"
-		   				onmouseover="this.className='qutBtn btnhov'" 
-					   	onmouseout="this.className='qutBtn'"
-	   					onclick="document.location='/vocabularies/GeologicalHierarchies.cfm?action=list';">
-
-					</form>
-				</section>
-				<section class=”row border rounded my-2”>
-					<cfquery name="parents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
-				      SELECT
-				         level,
-				         geology_attribute_hierarchy_id,
-				         parent_id,
-				         usable_value_fg,
-				         attribute_value || ' (' || attribute || ')' attribute,
-							SYS_CONNECT_BY_PATH(attribute_value, '|') as path
-				      FROM
-				         geology_attribute_hierarchy
-				         LEFT JOIN ctgeology_attributes on attribute = geology_attribute
-						WHERE
-							geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
-				      START WITH parent_id IS NULL
-       				CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
-					</cfquery>
-					<cfloop query="parents">
-						<div>#parents.path#</div>
-					</cfloop>
-					<cfquery name="children"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="children_result">
-				      SELECT
-				         level,
-				         geology_attribute_hierarchy_id,
-				         parent_id,
-				         usable_value_fg,
-				         attribute_value || ' (' || attribute || ')' attribute
-				      FROM
-				         geology_attribute_hierarchy
-				         LEFT JOIN ctgeology_attributes on attribute = geology_attribute
-				         START WITH geology_attribute_hierarchy.geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.geology_attribute_hierarchy_id#">
-       					CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
-    						ORDER SIBLINGS BY ordinal, attribute_value
-					</cfquery>
-					<cfset levelList = "">
-					<cfloop query="children">
-						<cfif listLast(levelList,",") IS NOT children.level>
-					    	<cfset levelListIndex = listFind(levelList,children.level,",")>
-				      	<cfif levelListIndex IS NOT 0>
-					        	<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
-				         	<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
-				            	<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
-         					</cfloop>
-					        	#repeatString("</ul>",numberOfLevelsToRemove)#
-			      		<cfelse>
-      			  			<cfset levelList = listAppend(levelList,children.level)>
-         					<ul>
-      					</cfif>
-  						</cfif>
-						<li>
-							<span <cfif children.usable_value_fg is 0>style="color:red"</cfif>>#children.attribute#</span>
-							<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#children.geology_attribute_hierarchy_id#">more</a>
-						</li>
-						<cfif children.currentRow IS children.recordCount>
-							#repeatString("</ul>",listLen(levelList,","))#
-				   	</cfif>
-					</cfloop>
-				</section>
-
+						</div>
+					</section>
+				</div>
 			</cfoutput>
 		</mail>
 	</cfcase>
