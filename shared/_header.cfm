@@ -249,16 +249,16 @@ limitations under the License.
 			<cfset targetMenu = "production">
 		</cfif>
 		<script>
-//			// Keyboard shortcut for Search
-//			document.addEventListener ("keydown", function (evt) {
-//				if (evt.altKey && evt.key === "m") {  
-//					evt.preventDefault();
-//					evt.stopPropagation();
-//					$('##searchDropdown').click();	
-//					$('##specimenMenuItem').focus();	
-//					return false;
-//				}
-//			});
+			// Keyboard shortcut for Search
+			document.addEventListener ("keydown", function (evt) {
+				if (evt.altKey && evt.key === "m") {  
+					evt.preventDefault();
+					evt.stopPropagation();
+					$('##searchDropdown').click();	
+					$('##specimenMenuItem').focus();	
+					return false;
+				}
+			});
 		</script>
 	
 		<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
