@@ -40,10 +40,10 @@ limitations under the License.
 
 <cfswitch expression="#action#">
 	<cfcase value="edit">
-		<main class=”container py-3” id=”content” >
+		<main class="container py-3" id="content" >
 			<cfoutput>
-				<div class="row border rounded bg-light mt-2 mb-4 px-2 pt-2 pb-4 pb-sm-2">
-					<section class=”col-12”>
+				<div class="row mx-0 border rounded my-2 pt-2">
+					<section class="col-12" title="Edit Geological Atribute">
 	  
 						<cfquery name="c"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
@@ -68,7 +68,7 @@ limitations under the License.
 									geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#c.attribute_value#">
 						</cfquery>
 
-						<h2 class=”h2”>Edit #c.attribute#:#c.attribute_value# (#c.type#)</h2>
+						<h2 class="h2">Edit #c.attribute#:#c.attribute_value# (#c.type#)</h2>
 						<div class="h3">Attribute for #use.ct# Localities.</div>
 
 						<form name="ins" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
@@ -116,7 +116,7 @@ limitations under the License.
 							</div>
 						</form>
 					</section>
-					<section class=”row border rounded my-2”>
+					<section class="row border rounded my-2">
 						<cfquery name="parents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
 					      SELECT
 				   	      level,
