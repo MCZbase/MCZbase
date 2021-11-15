@@ -48,13 +48,13 @@ limitations under the License.
 						SELECT 
 							GEOLOGY_ATTRIBUTE_HIERARCHY_ID ,
 							PARENT_ID ,
-							geology_attribute_heirarchy.ATTRIBUTE ,
+							geology_attribute_hierarchy.ATTRIBUTE ,
 							ATTRIBUTE_VALUE ,
 							USABLE_VALUE_FG ,
 							DESCRIPTION,
 							ctgeology_attribute.type
 						FROM geology_attribute_hierarchy 
-							left join ctgeology_attribute on geology_attribute_heirarchy.attribute = ctgeology_attribute.geology_attribute
+							left join ctgeology_attribute on geology_attribute_hierarchy.attribute = ctgeology_attribute.geology_attribute
 						WHERE
 							geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
 					</cfquery>
