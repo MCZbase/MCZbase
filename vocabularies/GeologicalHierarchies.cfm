@@ -116,7 +116,7 @@ limitations under the License.
 							</div>
 						</form>
 					</section>
-					<section class="col-12 border rounded my-2">
+					<section class="col-12 border rounded my-2 mx-2">
 						<div class="row">
 							<cfquery name="parents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
 						      SELECT
@@ -156,7 +156,7 @@ limitations under the License.
 	    							ORDER SIBLINGS BY ordinal, attribute_value
 							</cfquery>
 							<div class="col-12">
-								<h3 class="h4">This Node and it's children</h3>
+								<h3 class="h4">Child Nodes</h3>
 								<cfset levelList = "">
 								<cfloop query="children">
 									<cfif listLast(levelList,",") IS NOT children.level>
