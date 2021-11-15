@@ -116,69 +116,71 @@ limitations under the License.
 							</div>
 						</form>
 					</section>
-					<section class="row border rounded my-2">
-						<cfquery name="parents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
-					      SELECT
-				   	      level,
-				      	   geology_attribute_hierarchy_id,
-				         	parent_id,
-					         usable_value_fg,
-					         attribute_value || ' (' || attribute || ')' attribute,
-								SYS_CONNECT_BY_PATH(attribute_value, '|') as path
-					      FROM
-					         geology_attribute_hierarchy
-				   	      LEFT JOIN ctgeology_attributes on attribute = geology_attribute
-							WHERE
-								geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
-					      START WITH parent_id IS NULL
-      	 				CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
-						</cfquery>
-						<cfloop query="parents">
-							<div class="col-12">
-								<h3 class="h4">Parent Nodes</h3>
-								<div>#parents.path#</div>
-							</div>
-						</cfloop>
-
-						<cfquery name="children"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="children_result">
-				      	SELECT
-				   	      level,
-					         geology_attribute_hierarchy_id,
-					         parent_id,
-					         usable_value_fg,
-					         attribute_value || ' (' || attribute || ')' attribute
-					      FROM
-				      	   geology_attribute_hierarchy
-				   	      LEFT JOIN ctgeology_attributes on attribute = geology_attribute
-					         START WITH geology_attribute_hierarchy.geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.geology_attribute_hierarchy_id#">
-       						CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
-    							ORDER SIBLINGS BY ordinal, attribute_value
-						</cfquery>
-						<div class="col-12">
-							<h3 class="h4">Child Nodes</h3>
-							<cfset levelList = "">
-							<cfloop query="children">
-								<cfif listLast(levelList,",") IS NOT children.level>
-							    	<cfset levelListIndex = listFind(levelList,children.level,",")>
-						      	<cfif levelListIndex IS NOT 0>
-						        		<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
-					         		<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
-				         	   		<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
-         							</cfloop>
-						   	     	#repeatString("</ul>",numberOfLevelsToRemove)#
-			   	   			<cfelse>
-      					  			<cfset levelList = listAppend(levelList,children.level)>
-      	   						<ul>
-   	   						</cfif>
-	  							</cfif>
-								<li>
-									<span <cfif children.usable_value_fg is 0>style="color:red"</cfif>>#children.attribute#</span>
-									<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#children.geology_attribute_hierarchy_id#">more</a>
-								</li>
-								<cfif children.currentRow IS children.recordCount>
-									#repeatString("</ul>",listLen(levelList,","))#
-						   	</cfif>
+					<section class="col-12 border rounded my-2">
+						<div class="row">
+							<cfquery name="parents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
+						      SELECT
+					   	      level,
+					      	   geology_attribute_hierarchy_id,
+					         	parent_id,
+						         usable_value_fg,
+						         attribute_value || ' (' || attribute || ')' attribute,
+									SYS_CONNECT_BY_PATH(attribute_value, '|') as path
+						      FROM
+						         geology_attribute_hierarchy
+					   	      LEFT JOIN ctgeology_attributes on attribute = geology_attribute
+								WHERE
+									geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+						      START WITH parent_id IS NULL
+	      	 				CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+							</cfquery>
+							<cfloop query="parents">
+								<div class="col-12">
+									<h3 class="h4">Path from root to this node.</h3>
+									<div>#parents.path#</div>
+								</div>
 							</cfloop>
+	
+							<cfquery name="children"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="children_result">
+					      	SELECT
+					   	      level,
+						         geology_attribute_hierarchy_id,
+						         parent_id,
+						         usable_value_fg,
+						         attribute_value || ' (' || attribute || ')' attribute
+						      FROM
+					      	   geology_attribute_hierarchy
+					   	      LEFT JOIN ctgeology_attributes on attribute = geology_attribute
+						         START WITH geology_attribute_hierarchy.geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.geology_attribute_hierarchy_id#">
+	       						CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+	    							ORDER SIBLINGS BY ordinal, attribute_value
+							</cfquery>
+							<div class="col-12">
+								<h3 class="h4">This Node and it's children</h3>
+								<cfset levelList = "">
+								<cfloop query="children">
+									<cfif listLast(levelList,",") IS NOT children.level>
+								    	<cfset levelListIndex = listFind(levelList,children.level,",")>
+							      	<cfif levelListIndex IS NOT 0>
+							        		<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
+						         		<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
+					         	   		<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
+	         							</cfloop>
+							   	     	#repeatString("</ul>",numberOfLevelsToRemove)#
+				   	   			<cfelse>
+	      					  			<cfset levelList = listAppend(levelList,children.level)>
+	      	   						<ul>
+	   	   						</cfif>
+		  							</cfif>
+									<li>
+										<span <cfif children.usable_value_fg is 0>style="color:red"</cfif>>#children.attribute#</span>
+										<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#children.geology_attribute_hierarchy_id#">more</a>
+									</li>
+									<cfif children.currentRow IS children.recordCount>
+										#repeatString("</ul>",listLen(levelList,","))#
+							   	</cfif>
+								</cfloop>
+							</div>
 						</div>
 					</section>
 				</div>
