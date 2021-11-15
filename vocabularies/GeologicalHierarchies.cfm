@@ -27,7 +27,7 @@ limitations under the License.
 	ORDER BY ordinal
 </cfquery>
 
-<cfif NOT isDefined("action") OR length(action) EQ 0>
+<cfif NOT isDefined("action") OR len(action) EQ 0>
 	<cfset action = "overview">
 	<main class=”container py-3” id=”content” >
 		<section class=”row border rounded my-2”>
