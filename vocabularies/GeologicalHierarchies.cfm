@@ -111,7 +111,7 @@ limitations under the License.
 								class="delBtn"
 		   					onmouseover="this.className='delBtn btnhov'" 
 						   	onmouseout="this.className='delBtn'"
-	   						onclick="document.location='geol_hierarchy.cfm?action=delete&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#';">
+	   						onclick="document.location='/vocabularies/GeologicalHierarchies.cfm?action=delete&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#';">
 						</cfif>
 
 						<br>
@@ -227,7 +227,7 @@ limitations under the License.
 			<table class="newRec">
 				<tr><td>
 				New Term:
-				<form name="ins" method="post" action="geol_hierarchy.cfm">
+				<form name="ins" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
 					<input type="hidden" name="action" value="newTerm">
 					<label for="attribute">Attribute ("Formation")</label>
 					<select name="attribute" id="attribute">
@@ -253,7 +253,7 @@ limitations under the License.
 		</table>
 
 Create Hierarchies:
-<form name="rel" method="post" action="geol_hierarchy.cfm">
+<form name="rel" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
 	<input type="hidden" name="action" value="newReln">
 	<label for="newTerm">Parent Term</label>
 	<select name="parent">
@@ -296,7 +296,7 @@ Create Hierarchies:
   	</cfif>
 	<li><span <cfif usable_value_fg is 0>style="color:red"</cfif>
 	>#attribute#</span>
-	<a class="infoLink" href="geol_hierarchy.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">more</a>
+	<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">more</a>
 	</li>
 	<cfif cData.currentRow IS cData.recordCount>
 		#repeatString("</ul>",listLen(levelList,","))#
