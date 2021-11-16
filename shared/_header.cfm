@@ -849,7 +849,8 @@ limitations under the License.
  * @param string $menu the current menu HTML
  * @return string the modified menu HTML
  */
-function initMenu() {
+funct
+ion initMenu() {
   $('nav ul').hide();
   /*$('#nav ul:first').show();*/
   $('nav li a').click(
@@ -861,7 +862,7 @@ function initMenu() {
         return true;
         }
       if((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
-        $('#nav ul:visible').slideUp('normal');
+        $('nav ul:visible').slideUp('normal');
         checkElement.slideDown('normal');
           
         // Here I add the "active" class to this "li"
