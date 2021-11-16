@@ -836,7 +836,7 @@ limitations under the License.
 	//makes selected dropdown option have different background --##deebec
 	$('ul.navbar-nav a').filter(function() { return this.href == url; }).addClass('active');
 	
-	prevents double click behavior on menu
+	//prevents double click/bubbling behavior on menu
 	$('.dropdown-toggle').click(function(e) {
 	e.preventDefault();
 	e.stopPropagation();
