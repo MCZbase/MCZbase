@@ -828,21 +828,53 @@ limitations under the License.
 	</script> 
 </header>
 <script type="text/javascript">
-	/** add active class when selected--makes the link of the menu bar item different color when active */
-	var url = window.location;
+//	/** add active class when selected--makes the link of the menu bar item different color when active */
+//	var url = window.location;
+//	
+//	//makes selected menu header have darker text
+//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
+//	//makes selected dropdown option have different background --##deebec
+//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).addClass('active');
+//	
+//	prevents double click behavior on menu
+//	$('.dropdown-toggle').click(function(e) {
+//	e.preventDefault();
+//	e.stopPropagation();
+//
+//	return false;
+//	});
 	
-	//makes selected menu header have darker text
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
-	//makes selected dropdown option have different background --##deebec
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).addClass('active');
-	
-	prevents double click behavior on menu
-	$('.dropdown-toggle').click(function(e) {
-	e.preventDefault();
-	e.stopPropagation();
+	/**
+ * Remove the href from empty links `<a href="#">` in the nav menus
+ * @param string $menu the current menu HTML
+ * @return string the modified menu HTML
+ */
+function initMenu() {
+  $('#nav ul').hide();
+  /*$('#nav ul:first').show();*/
+  $('nav li a').click(
+    function() {
+      // Here I removed the "active" class from all siblings "li"
+      $(this).parent().siblings().removeClass("active");
+      var checkElement = $(this).next();
+      if((checkElement.is('ul')) && (checkElement.is(':visible'))) {
+        return true;
+        }
+      if((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
+        $('#nav ul:visible').slideUp('normal');
+        checkElement.slideDown('normal');
+          
+        // Here I add the "active" class to this "li"
+        $(this).parent().addClass("active");
+        return true;
+        }
+      }
+    );
+  }
+$(document).ready(function() {initMenu();});
 
-	return false;
-	});
+
+
 </script>
 <cf_rolecheck>
 </cfoutput>
