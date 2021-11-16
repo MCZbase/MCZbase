@@ -847,13 +847,7 @@ limitations under the License.
 	
 	
 
-    $( ".mr-auto .nav-item" ).filter(function(event) {
-       return this.href == url;).parentsUntil(".navbar > .navbar-nav").addClass('active');
-        $( ".mr-auto .nav-item" ).each( function() {
-            $( this ).removeClass( "active" );
-        });
-        clickedItem.addClass( "active" );
-    });
+$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 </script>
 <cf_rolecheck>
 </cfoutput>
