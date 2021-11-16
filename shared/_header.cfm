@@ -845,9 +845,8 @@ limitations under the License.
 //	});
 $(document).ready(function() {
 	
-    $( ".mr-auto .nav-item" ).bind( "click", function(event) {
-        event.preventDefault();
-		 window.location.href = $('li a').attr('href');
+    $( ".mr-auto .nav-item" ).on( "click", function(event) {
+		window.location.href = $('li a').attr('href');
         var clickedItem = $( this );
         $( ".mr-auto .nav-item" ).each( function() {
             $( this ).removeClass( "active" );
