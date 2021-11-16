@@ -844,9 +844,9 @@ limitations under the License.
 //	return false;
 //	});
 	$(document).ready(function() {
-    $( ".navbar-nav .nav-link" ).bind( "click", function(event) {
+    $( ".nav-link" ).bind( "click", function(event) {
         var clickedItem = $( this );
-        $( ".navbar-nav .nav-link" ).each( function() {
+        $( ".nav-link" ).each( function() {
             $( this ).removeClass( "active" );
         });
         clickedItem.addClass( "active" );
