@@ -273,7 +273,7 @@ limitations under the License.
 								<a class="dropdown-item bg-light" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens</a> <!--- old --->
 								<!--- TODO: Rollout by opening up to coldfusion_user --->
 								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
-									<a class="dropdown-item bg-light" href="/Specimens.cfm">Specimens (new)</a>
+									<a class="dropdown-item bg-light active" href="/Specimens.cfm">Specimens (new)</a>
 									<a class="dropdown-item bg-light" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 								</cfif>
 								<a class="dropdown-item bg-light" href="/Taxa.cfm">Taxonomy</a>
@@ -828,12 +828,22 @@ limitations under the License.
 	</script> 
 </header>
 <script type="text/javascript">
-$('a[data-toggle="dropdown"]').on('shown.bs.dropdown', function (e) {
-  e.target // newly activated tab
-  e.relatedTarget // previous active tab
-})
-</script>
+	/** add active class when selected--makes the link of the menu bar item different color when active */
+	var url = window.location;
+	
+	//makes selected menu header have darker text
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
+	//makes selected dropdown option have different background --##deebec
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).addClass('active');
+	
+	prevents double click behavior on menu
+	$('.dropdown-toggle').click(function(e) {
+	e.preventDefault();
+	e.stopPropagation();
 
+	return false;
+	});
+</script>
 <cf_rolecheck>
 </cfoutput>
 <cfset HEADER_DELIVERED=true>
