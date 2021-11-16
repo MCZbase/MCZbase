@@ -65,6 +65,7 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	display: block;
 	padding: .25rem 1rem;
 	color: rgba(0,0,0,.7)!important;
+	border-bottom: 1px solid buttonface;
 }
 /* End navigation menu styles */
 .logout {
