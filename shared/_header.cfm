@@ -850,7 +850,7 @@ limitations under the License.
  * @return string the modified menu HTML
  */
 function initMenu() {
-  $('#nav ul').hide();
+  $('nav ul').hide();
   /*$('#nav ul:first').show();*/
   $('nav li a').click(
     function() {
