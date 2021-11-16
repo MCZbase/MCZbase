@@ -844,10 +844,10 @@ limitations under the License.
 	//return false;
 //	});
 	
-	
-	
-
-$('.navbar-nav .active>.nav-link a').filter(function() { return this.href == url; }).parentsUntil(".navbar-nav .active>.nav-link").addClass('active');
+$('.navbar-nav .nav-link').click(function(){
+    $('.navbar-nav .nav-link').removeClass('active');
+    $(this).addClass('active');
+})
 </script>
 <cf_rolecheck>
 </cfoutput>
