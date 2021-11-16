@@ -828,7 +828,7 @@ limitations under the License.
 	</script> 
 </header>
 <script type="text/javascript">
-$(".nav-link").parents('li').toggleClass("active");
+$('.dropdown-menu li a[href$="' + $(location).attr('pathname') + '"]').parents('li.dropdown').addClass('active');
 </script>
 
 <cf_rolecheck>
