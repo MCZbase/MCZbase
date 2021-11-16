@@ -846,15 +846,14 @@ limitations under the License.
 	
 	
 	
-$(document).ready(function() {
-    $( ".mr-auto .nav-item" ).bind( "click", function(event) {
-       return this.href == url;
+
+    $( ".mr-auto .nav-item" ).filter(function(event) {
+       return this.href == url;).parentsUntil(".navbar > .navbar-nav").addClass('active');
         $( ".mr-auto .nav-item" ).each( function() {
             $( this ).removeClass( "active" );
         });
         clickedItem.addClass( "active" );
     });
-});
 </script>
 <cf_rolecheck>
 </cfoutput>
