@@ -845,13 +845,13 @@ limitations under the License.
 //	});
 $(document).ready(function() {
 	
-    $( "##main_nav .mr-auto .nav-link" ).addEventListener( "click", function(event) {
+    $( "##main_nav .mr-auto .nav-link" ).on( "click", function(event) {
         event.preventDefault();
 		event.stopPropagation();
 		window.location.href = $('a').attr('href');
 
         var clickedItem = $( this );
-        $( ".mr-auto .nav-link" ).each( function() {
+        $( "##main_nav .mr-auto .nav-link" ).each( function() {
             $( this ).removeClass( "active" );
         });
         clickedItem.addClass( "active" );
