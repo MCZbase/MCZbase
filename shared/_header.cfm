@@ -273,7 +273,7 @@ limitations under the License.
 								<a class="dropdown-item bg-light" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens</a> <!--- old --->
 								<!--- TODO: Rollout by opening up to coldfusion_user --->
 								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
-									<a class="dropdown-item bg-light active" href="/Specimens.cfm">Specimens (new)</a>
+									<a class="dropdown-item bg-light" href="/Specimens.cfm">Specimens (new)</a>
 									<a class="dropdown-item bg-light" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 								</cfif>
 								<a class="dropdown-item bg-light" href="/Taxa.cfm">Taxonomy</a>
