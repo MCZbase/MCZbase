@@ -851,7 +851,7 @@ limitations under the License.
  */
 function initMenu() {
   $('nav ul').hide();
-  /*$('#nav ul:first').show();*/
+
   $('nav li a').click(
     function() {
       // Here I removed the "active" class from all siblings "li"
