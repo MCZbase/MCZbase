@@ -49,13 +49,13 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	box-shadow:none;     /* this takes away the default focus & focus style from above */
 	border: none;      /* this takes away the default focus & focus style from above */
 }
-.dropdown-item.active, .dropdown-item:active {  /* when the menu option is clicked this styling is activated */
+.navbar-light .dropdown-item.active, .dropdown-item:active {  /* when the menu option is clicked this styling is activated */
 	background-color:#deebec ;
 	color: black;
 }
 .navbar-nav .active>.nav-link {
 	color: green;
-	border-bottom: green;
+	border-bottom: 1px solid green;
 }
 .navbar-toggler-icon {
 	width: 1.15rem;   /* responsive menu toggle styling -- makes it smaller since our navbar is smaller */
