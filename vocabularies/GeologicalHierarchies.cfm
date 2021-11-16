@@ -33,20 +33,22 @@ limitations under the License.
 		FROM ctgeology_attribute
 	</cfquery>
 	<cfset action = "overview">
-	<main class=”container py-3” id=”content” >
-		<section class=”row border rounded my-2”>
-			<h1 class=”h2”>Manage Geological Controlled Vocabularies</h1>
-			<ul>
-				<li><a href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage attribute types and categories</a></li>
-				<cfloop query="types">
-					<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a></li>
-				</cfloop>
-				<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a></li>
-				<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a></li>
-				<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a></li>
-			</ul>
-		</section>
-	</main>
+	<cfoutput>
+		<main class=”container py-3” id=”content” >
+			<section class=”row border rounded my-2”>
+				<h1 class=”h2”>Manage Geological Controlled Vocabularies</h1>
+				<ul>
+					<li><a href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage attribute types and categories</a></li>
+					<cfloop query="types">
+						<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a></li>
+					</cfloop>
+					<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a></li>
+					<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a></li>
+					<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a></li>
+				</ul>
+			</section>
+		</main>
+	</cfoutput>
 </cfif>
 
 <cfswitch expression="#action#">
