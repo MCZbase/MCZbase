@@ -847,7 +847,7 @@ $(document).ready(function() {
 	
     $( ".mr-auto .nav-item" ).on( "click", function(event) {
         event.preventDefault();
-		window.location.href = $('a.bg-light').attr('href');
+		window.location.href = $('a').attr('href');
         var clickedItem = $( this );
         $( ".mr-auto .nav-item" ).each( function() {
             $( this ).removeClass( "active" );
