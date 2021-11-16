@@ -317,7 +317,7 @@ limitations under the License.
 				LEFT JOIN ctgeology_attributes on attribute = geology_attribute
 			<cfif NOT type IS "all">
 			WHERE
-				ctgeology_attributes.type = <cfqueryparam cfsqlttype="CF_SQL_VARCHAR" value="#type#">
+				ctgeology_attributes.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
 			</cfif>  
 			START WITH parent_id is null
 			CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
