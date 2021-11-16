@@ -838,7 +838,7 @@ limitations under the License.
 	
 	//prevents double click behavior on menu
 	//$('.dropdown-toggle').click(function(e) {
-	//e.preventDefault();
+	e.preventDefault();
 	//e.stopPropagation();
 
 	//return false;
