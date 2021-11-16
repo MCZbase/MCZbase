@@ -847,7 +847,7 @@ limitations under the License.
 	
 	
 
-$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
+$('.navbar-nav .active>.nav-link a').filter(function() { return this.href == url; }).parentsUntil(".navbar-nav .active>.nav-link").addClass('active');
 </script>
 <cf_rolecheck>
 </cfoutput>
