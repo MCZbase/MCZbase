@@ -845,19 +845,17 @@ limitations under the License.
 //	});
 $(document).ready(function() {
 	
-    $( ".mr-auto .nav-item" ).on( "click", function(event) {
-        event.preventDefault();
-		event.stopPropagation();
-		window.location.href = $('a').attr('href');
-
-        var clickedItem = $( this );
-        $( ".mr-auto .nav-item" ).each( function() {
-            $( this ).removeClass( "active" );
-        });
-        clickedItem.addClass( "active" );
-    });
-});
-
+$(function(){
+    $('a').each(function() {
+    if ($(this).prop('href') == window.location.href) {
+        if ($(this).attr('class') == 'dropdown'){
+            $(this).closest('.nav-item').children('a').addClass('current');
+        }
+        else{
+            $(this).addClass('current');
+        }
+    }
+}
 </script>
 <cf_rolecheck>
 </cfoutput>
