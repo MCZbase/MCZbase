@@ -849,10 +849,10 @@ $(function(){
     $('a').each(function() {
     if ($(this).prop('href') == window.location.href) {
         if ($(this).attr('class') == 'dropdown'){
-            $(this).closest('.nav-item').children('a').addClass('current');
+            $(this).closest('.nav-item').children('a').addClass('active');
         }
         else{
-            $(this).addClass('current');
+            $(this).addClass('active');
         }
     }
 }
