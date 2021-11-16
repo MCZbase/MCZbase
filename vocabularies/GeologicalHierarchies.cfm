@@ -28,12 +28,23 @@ limitations under the License.
 </cfquery>
 
 <cfif NOT isDefined("action") OR len(action) EQ 0>
+	<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
+		SELECT distinct type 
+		FROM ctgeology_attribute
+	</cfquery>
 	<cfset action = "overview">
 	<main class=”container py-3” id=”content” >
 		<section class=”row border rounded my-2”>
 			<h1 class=”h2”>Manage Geological Controlled Vocabularies</h1>
-
-			<a href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All</a>
+			<ul>
+				<li><a href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage attribute types and categories</a></li>
+				<cfloop query="types">
+					<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a></li>
+				</cfloop>
+				<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a></li>
+				<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a></li>
+				<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a></li>
+			</ul>
 		</section>
 	</main>
 </cfif>
@@ -189,8 +200,111 @@ limitations under the License.
 	</cfcase>
 
 	<!---------------------------------------->
-	<cfcase value="list">
+	<cfcase value="addTerm">
+		<main class="container py-3" id="content" >
+			<cfoutput>
+				<div class="row mx-0 border rounded my-2 pt-2">
+					<section class="col-12" title="Edit Geological Atribute">
+						<h2 class="h3">Geological Attributes (code table)</h2>
+						<div>
+							<p>This form serves dual purpose as the code table editor for geology attributes and a way to store hierarchical relationships among attributes.</p>
+							<ul>
+								<li>Create any attributes that you need.</li>
+								<li>Select "no" for "Attribute valid for Data Entry" for those that should only be used for searching legacy data values, but not allowed for new values.</li>
+								<li>Note that Attribute and Value are required. Value is used in building hierarchies for searching.</li>
+								<li>Create hierarchies by selecting a child and parent term. </li>
+								<li> Click "More" to edit or delete an attribute. You cannot delete attributes with children.</li>
+							</ul>
+						</div>
+					</section>
+					<section class="col-12" title="Add Geological Atribute">
+						<h2 class="h3">Add New Geological Attribute Value:</h2>
+						<form name="ins" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
+							<input type="hidden" name="action" value="newTerm">
+							<div class="form-row mb-2">
+								<div class="col-12 col-sm-12 col-xl-4">
+									<label for="attribute" class="data-entry-label">Attribute ("Formation")</label>
+									<select name="attribute" id="attribute" class="data-entry-select reqdClr">
+										<cfloop query="ctgeology_attribute">
+											<option value="#ctgeology_attribute.geology_attribute#" >#ctgeology_attribute.geology_attribute# (#ctgeology_attribute.type#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-sm-12 col-xl-4">
+									<label for="attribute_value" class="data-entry-label">Value ("Prince Creek")</label>
+									<input type="text" name="attribute_value" id="attribute_value" class="data-entry-input">
+								</div>
+								<div class="col-12 col-sm-12 col-xl-4">
+									<label for="usable_value_fg" class="data-entry-label">Attribute valid for Data Entry?</label>
+									<select name="usable_value_fg" id="usable_value_fg" class="data-entry-select">
+										<option value="0">no</option>
+										<option value="1">yes</option>
+									</select>
+								</div>
+								<div class="col-12">
+									<label for="description" class="data-entry-label">Description</label>
+									<input type="text" name="description" id="description" class="data-entry-input">
+								</div>
+								<div class="col-12">
+									<input type="submit" value="Insert Term" class="btn btn-xs btn-primary">
+								</div>
+							</div>
+						</form>
+					</section>
+				</div>
+			</cfoutput>
+		</main>
+	</cfcase>
 
+	<!---------------------------------------->
+	<cfcase value="organize">
+		<cfquery name="terms"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select geology_attribute_hierarchy_id,
+				attribute_value || ' (' || attribute || ')' attribute
+			from geology_attribute_hierarchy
+				order by attribute
+		</cfquery>
+		<main class="container py-3" id="content" >
+			<cfoutput>
+				<div class="row mx-0 border rounded my-2 pt-2">
+					<section class="col-12" title="Edit Geological Atribute">
+						<h2 class="h3>Link terms into Hierarchies</h2>
+						<form name="rel" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
+							<input type="hidden" name="action" value="newReln">
+							<div class="form-row mb-2">
+								<div class="col-12 col-md-6 col-xl-6">
+									<label for="parent" class="data-entry-label">Parent Term</label>
+									<select name="parent" class="data-entry-select reqdClr" id="parent" required>
+										<option value="">NULL</option>
+										<cfloop query="terms">
+											<option value="#geology_attribute_hierarchy_id#">#attribute#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-6 col-xl-6">
+									<label for="child">Child Term</label>
+									<select name="child" id="child" class="data-entry-select reqdClr">
+										<cfloop query="terms">
+											<option value="#geology_attribute_hierarchy_id#">#attribute#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12">
+									<input type="submit" value="Create Relationship" class="btn btn-xs btn-primary">
+								</div>
+							</div>
+						</form>
+					</section>
+				</div>
+			</cfoutput>
+		</main>
+	</cfcase>
+
+	<!---------------------------------------->
+	<cfcase value="list">
+		<cfif NOT isDefined("type") OR len(type) EQ 0>
+			<cfset type = "all">
+		</cfif>
 		<cfquery name="cData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT  
 				level,
@@ -201,111 +315,47 @@ limitations under the License.
 			FROM
 				geology_attribute_hierarchy
 				LEFT JOIN ctgeology_attributes on attribute = geology_attribute
-				START WITH parent_id is null
-				CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
-				ORDER SIBLINGS BY ordinal, attribute_value
+			<cfif NOT type IS "all">
+			WHERE
+				ctgeology_attributes.type = <cfqueryparam cfsqlttype="CF_SQL_VARCHAR" value="#type#">
+			</cfif>  
+			START WITH parent_id is null
+			CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+			ORDER SIBLINGS BY ordinal, attribute_value
 		</cfquery>
-		<cfquery name="terms"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select geology_attribute_hierarchy_id,
-				attribute_value || ' (' || attribute || ')' attribute
-			from geology_attribute_hierarchy
-				order by attribute
-		</cfquery>
-
-	<div class="geol_hier">
-		<h2 class="wikilink">Geology Attributes (code table)</h2>
-		<div style="border:1px dotted gray;font-size:smaller;padding: 20px;">
-			<p>This form serves dual purpose as the code table editor for geology attributes and a way to store hierarchical relationships among attributes.</p>
-			<ul>
-				<li>Create any attributes that you need.</li>
-				<li>Select "no" for "Attribute valid for Data Entry" for those that should only be used for searching legacy data values, but not allowed for new values.</li>
-				<li>Note that Attribute and Value are required. Value is used in building hierarchies for searching.</li>
-				<li>Create hierarchies by selecting a child and parent term. </li>
-				<li> Click "More" to edit or delete an attribute. You cannot delete attributes with children.</li>
-			</ul>
-		</div>
-		<cfoutput>
-			<table class="newRec">
-				<tr><td>
-				New Term:
-				<form name="ins" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
-					<input type="hidden" name="action" value="newTerm">
-					<label for="attribute">Attribute ("Formation")</label>
-					<select name="attribute" id="attribute">
-						<cfloop query="ctgeology_attribute">
-							<option value="#ctgeology_attribute.geology_attribute#" >#ctgeology_attribute.geology_attribute# (#ctgeology_attribute.type#)</option>
+		<main class="container py-3" id="content" >
+			<cfoutput>
+				<div class="row mx-0 border rounded my-2 pt-2">
+					<section class="col-12" title="Edit Geological Atribute">
+						<h2 class="h3">Geological Attributes</h2> 
+						<div>Values in red are not available for data entry but may be used in searches</div>
+						<cfset levelList = "">
+						<cfloop query="cData">
+							<cfif listLast(levelList,",") IS NOT level>
+						    	<cfset levelListIndex = listFind(levelList,cData.level,",")>
+						      	<cfif levelListIndex IS NOT 0>
+						        	<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
+						         	<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
+						            	<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
+						         	</cfloop>
+						        	#repeatString("</ul>",numberOfLevelsToRemove)#
+						      	<cfelse>
+						        	<cfset levelList = listAppend(levelList,cData.level)>
+						         	<ul>
+						      	</cfif>
+						  	</cfif>
+							<li><span <cfif usable_value_fg is 0>style="color:red"</cfif>
+							>#attribute#</span>
+							<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">more</a>
+							</li>
+							<cfif cData.currentRow IS cData.recordCount>
+								#repeatString("</ul>",listLen(levelList,","))#
+						   	</cfif>
 						</cfloop>
-					</select>
-					<label for="attribute_value">Value ("Prince Creek")</label>
-					<input type="text" name="attribute_value" id="attribute_value">
-					<label for="usable_value_fg">Attribute valid for Data Entry?</label>
-					<select name="usable_value_fg" id="usable_value_fg">
-						<option value="0">no</option>
-						<option value="1">yes</option>
-					</select>
-					<label for="description">Description</label>
-					<input type="text" name="description" id="description" size="60">
-					<br>
-					<input type="submit" value="Insert Term" class="insBtn"
-						onmouseover="this.className='insBtn btnhov'" 
-						onmouseout="this.className='insBtn'">	
-			</form>
-			</td></tr>
-		</table>
-
-Create Hierarchies:
-<form name="rel" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
-	<input type="hidden" name="action" value="newReln">
-	<label for="newTerm">Parent Term</label>
-	<select name="parent">
-		<option value="">NULL</option>
-		<cfloop query="terms">
-			<option value="#geology_attribute_hierarchy_id#">#attribute#</option>
-		</cfloop>
-	</select>
-	<label for="newTerm">Child Term</label>
-	<select name="child">
-		<cfloop query="terms">
-			<option value="#geology_attribute_hierarchy_id#">#attribute#</option>
-		</cfloop>
-	</select>
-	<br>
-	<input type="submit" 
-		value="Create Relationship" 
-		class="savBtn"
-           style="margin-top:.5em;"
-	   	onmouseover="this.className='savBtn btnhov'"
-	   	onmouseout="this.className='savBtn'">
-</form>
-
-
-<br>Current Data (values in red are NOT code table values but may still be used in searches):
-<cfset levelList = "">
-<cfloop query="cData">
-	<cfif listLast(levelList,",") IS NOT level>
-    	<cfset levelListIndex = listFind(levelList,cData.level,",")>
-      	<cfif levelListIndex IS NOT 0>
-        	<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
-         	<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
-            	<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
-         	</cfloop>
-        	#repeatString("</ul>",numberOfLevelsToRemove)#
-      	<cfelse>
-        	<cfset levelList = listAppend(levelList,cData.level)>
-         	<ul>
-      	</cfif>
-  	</cfif>
-	<li><span <cfif usable_value_fg is 0>style="color:red"</cfif>
-	>#attribute#</span>
-	<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">more</a>
-	</li>
-	<cfif cData.currentRow IS cData.recordCount>
-		#repeatString("</ul>",listLen(levelList,","))#
-   	</cfif>
-</cfloop>
-</cfoutput>
-    </div>
-
+					</section>
+				</div>
+			</cfoutput>
+		</main>
 	</cfcase>
 
 	<!---------------------------------------------------->
