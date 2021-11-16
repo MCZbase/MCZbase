@@ -849,8 +849,7 @@ limitations under the License.
  * @param string $menu the current menu HTML
  * @return string the modified menu HTML
  */
-funct
-ion initMenu() {
+function initMenu() {
   $('nav ul').hide();
   /*$('#nav ul:first').show();*/
   $('nav li a').click(
