@@ -828,7 +828,7 @@ limitations under the License.
 	</script> 
 </header>
 <script type="text/javascript">
-$("li.active").parents('li').toggleClass("active");
+$(".nav-link").parents('li').toggleClass("active");
 </script>
 
 <cf_rolecheck>
