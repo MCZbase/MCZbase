@@ -847,7 +847,7 @@ $(document).ready(function() {
 	
     $( ".mr-auto .nav-link" ).on( "click", function(event) {
 		window.location.href = $('a').attr('href');
-		event.preventDefault();
+	//	        event.preventDefault();
 		event.stopPropagation();
         var clickedItem = $( this );
         $( ".mr-auto .nav-link" ).each( function() {
