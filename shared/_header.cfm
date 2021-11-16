@@ -848,31 +848,7 @@ limitations under the License.
  * Remove the href from empty links `<a href="#">` in the nav menus
  * @param string $menu the current menu HTML
  * @return string the modified menu HTML
- */
-function initMenu() {
-  $('nav ul').hide();
-
-  $('nav li a').click(
-    function() {
-      // Here I removed the "active" class from all siblings "li"
-      $(this).parent().siblings().removeClass("active");
-      var checkElement = $(this).next();
-      if((checkElement.is('ul')) && (checkElement.is(':visible'))) {
-        return true;
-        }
-      if((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
-        $('nav ul:visible').slideUp('normal');
-        checkElement.slideDown('normal');
-          
-        // Here I add the "active" class to this "li"
-        $(this).parent().addClass("active");
-        return true;
-        }
-      }
-    );
-  }
-$(document).ready(function() {initMenu();});
-
+**/
 
 
 </script>
