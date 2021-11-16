@@ -844,11 +844,6 @@ limitations under the License.
 //	return false;
 //	});
 	
-	/**
- * Remove the href from empty links `<a href="#">` in the nav menus
- * @param string $menu the current menu HTML
- * @return string the modified menu HTML
-**/
 
 
 </script>
