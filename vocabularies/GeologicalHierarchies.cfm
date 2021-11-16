@@ -270,7 +270,7 @@ limitations under the License.
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
 					<section class="col-12" title="Edit Geological Atribute">
-						<h2 class="h3>Link terms into Hierarchies</h2>
+						<h2 class="h3">Link terms into Hierarchies</h2>
 						<form name="rel" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
 							<input type="hidden" name="action" value="newReln">
 							<div class="form-row mb-2">
