@@ -829,12 +829,12 @@ limitations under the License.
 </header>
 <script type="text/javascript">
 	/** add active class when selected--makes the link of the menu bar item different color when active */
-	//var url = window.location;
+	var url = window.location;
 	
 //	//makes selected menu header have darker text
-//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 //	//makes selected dropdown option have different background --##deebec
-//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).addClass('active');
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).addClass('active');
 	
 	//prevents double click behavior on menu
 	//$('.dropdown-toggle').click(function(e) {
@@ -844,10 +844,10 @@ limitations under the License.
 	//return false;
 //	});
 	
-$('.navbar-nav .nav-link').click(function(){
-    $('.navbar-nav .nav-link').removeClass('active');
-    $(this).addClass('active');
-})
+//$('.navbar-nav .nav-link').click(function(){
+//    $('.navbar-nav .nav-link').removeClass('active');
+//    $(this).addClass('active');
+//})
 </script>
 <cf_rolecheck>
 </cfoutput>
