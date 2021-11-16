@@ -844,10 +844,10 @@ limitations under the License.
 //	return false;
 //	});
 	$(document).ready(function() {
-    $( ".mr-auto .nav-item" ).bind( "click", function(event) {
+    $( ".nav-item .nav-link" ).bind( "click", function(event) {
         return this.href == url; 
         var clickedItem = $( this );
-        $( ".mr-auto .nav-item" ).each( function() {
+        $( ".nav-item .nav-link" ).each( function() {
             $( this ).removeClass( "active" );
         });
         clickedItem.addClass( "active" );
