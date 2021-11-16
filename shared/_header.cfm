@@ -832,9 +832,12 @@ limitations under the License.
 	var url = window.location;
 	
 //	//makes selected menu header have darker text
-	$('.nav-link').filter(function() { return this.href == url; }).parentsUntil(".navbar > .nav-item").addClass('active');
+	$('.nav-link').filter(function() { return this.href == url; }).parentsUntil(".navbar > .nav-item").removeClass('active');
 //	//makes selected dropdown option have different background --##deebec
 	//$('.nav-link').filter(function() { return this.href == url; }).addClass('active');
+	$('.navbar-nav .nav-link').click(function(){
+	    $('.navbar-nav .nav-item').addClass('active');
+	}
 	
 	//prevents double click behavior on menu
 	$('.dropdown-toggle').click(function(e) {
@@ -843,10 +846,6 @@ limitations under the License.
 	return false;
 	});
 	
-$('.navbar-nav .nav-link').click(function(){
-    $('.navbar-nav .nav-link').removeClass('active');
-    $(this).addClass('active');
-})
 </script>
 <cf_rolecheck>
 </cfoutput>
