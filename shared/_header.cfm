@@ -828,19 +828,9 @@ limitations under the License.
 	</script> 
 </header>
 <script type="text/javascript">
-	/** add active class when selected--makes the link of the menu bar item different color when active */
-	var url = window.location;
-	
-//	//makes selected menu header have darker text
-	$('.nav-link').filter(function() { 
-		$('.navbar-nav .nav-item').addClass('active');
-		return this.href == url; 
-	}).parentsUntil(".navbar > .nav-item").removeClass('active');
-//	//makes selected dropdown option have different background --##deebec
-	//$('.nav-link').filter(function() { return this.href == url; }).addClass('active');
-	
-	
+$("li.active").parents('li').toggleClass("active");
 </script>
+
 <cf_rolecheck>
 </cfoutput>
 <cfset HEADER_DELIVERED=true>
