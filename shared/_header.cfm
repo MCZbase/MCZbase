@@ -832,19 +832,13 @@ limitations under the License.
 	var url = window.location;
 	
 //	//makes selected menu header have darker text
-	$('.nav-link').filter(function() { return this.href == url; }).parentsUntil(".navbar > .nav-item").removeClass('active');
+	$('.nav-link').filter(function() { 
+		$('.navbar-nav .nav-item').addClass('active');
+		return this.href == url; 
+	}).parentsUntil(".navbar > .nav-item").removeClass('active');
 //	//makes selected dropdown option have different background --##deebec
 	//$('.nav-link').filter(function() { return this.href == url; }).addClass('active');
-	$('.navbar-nav .nav-link').click(function(){
-	    $('.navbar-nav .nav-item').addClass('active');
-	}
 	
-	//prevents double click behavior on menu
-	$('.dropdown-toggle').click(function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-	return false;
-	});
 	
 </script>
 <cf_rolecheck>
