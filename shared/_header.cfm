@@ -846,7 +846,8 @@ limitations under the License.
 $(document).ready(function() {
 	
     $( ".mr-auto .nav-item" ).on( "click", function(event) {
-		window.location.href = $('li a').attr('href');
+        event.preventDefault();
+		window.location.href = $('a.bg-light').attr('href');
         var clickedItem = $( this );
         $( ".mr-auto .nav-item" ).each( function() {
             $( this ).removeClass( "active" );
