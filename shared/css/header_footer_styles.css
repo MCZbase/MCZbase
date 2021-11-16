@@ -53,7 +53,7 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	background-color:#deebec ;
 	color: black;
 }
-.navbar-nav>.nav-link .active {
+.navbar-nav>.nav-item.active {
 	color: green;
 	border-bottom: 1px solid green;
 }
