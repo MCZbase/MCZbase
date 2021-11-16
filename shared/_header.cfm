@@ -837,17 +837,16 @@ limitations under the License.
 	$('.nav-link').filter(function() { return this.href == url; }).addClass('active');
 	
 	//prevents double click behavior on menu
-	//$('.dropdown-toggle').click(function(e) {
-	e.preventDefault();
-	//e.stopPropagation();
-
-	//return false;
-//	});
+	$('.dropdown-toggle').click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+	return false;
+	});
 	
-//$('.navbar-nav .nav-link').click(function(){
-//    $('.navbar-nav .nav-link').removeClass('active');
-//    $(this).addClass('active');
-//})
+$('.navbar-nav .nav-link').click(function(){
+    $('.navbar-nav .nav-link').removeClass('active');
+    $(this).addClass('active');
+})
 </script>
 <cf_rolecheck>
 </cfoutput>
