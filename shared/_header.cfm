@@ -848,7 +848,7 @@ $(document).ready(function() {
 $(function(){
     $('a').each(function() {
     if ($(this).prop('href') == window.location.href) {
-        if ($(this).attr('class') == 'navbar-nav'){
+        if ($(this).attr('class') == 'nav-link'){
             $(this).closest('.nav-item').children('a').addClass('active');
         }
         else{
