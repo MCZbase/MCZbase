@@ -847,12 +847,8 @@ $(document).ready(function() {
 	
     $( ".mr-auto .nav-item" ).on( "click", function(event) {
         event.preventDefault();
-		if (
-     (!elem[type] || (jQuery.nodeName(elem, 'a') && type == "click")) && 
-       elem["on"+type] && 
-       elem["on"+type].apply( elem, data ) === false
-   )
-     event.result = false;
+		window.location.href = $('a').attr('href');
+		event.stopPropagation();
         var clickedItem = $( this );
         $( ".mr-auto .nav-item" ).each( function() {
             $( this ).removeClass( "active" );
