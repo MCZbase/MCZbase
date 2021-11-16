@@ -53,6 +53,10 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	background-color:#deebec ;
 	color: black;
 }
+.navbar-nav .active>.nav-link {
+	color: green;
+	border-bottom: green;
+}
 .navbar-toggler-icon {
 	width: 1.15rem;   /* responsive menu toggle styling -- makes it smaller since our navbar is smaller */
 	height: 1.15rem;
