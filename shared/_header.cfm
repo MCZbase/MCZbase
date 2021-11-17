@@ -832,7 +832,7 @@ limitations under the License.
 	var url = window.location;
 	
 	//makes selected menu header have darker text
-	$('ul.navbar-nav li.dropdown a').filter(function() { return this.href == url; }).parent('.nav-item').addClass('active');
+	$('ul.navbar-nav li.dropdown a').filter(function() { return this.href == url; }).parent('.nav-link').addClass('active');
 	//makes selected dropdown option have different background --##deebec
 	//$('ul.navbar-nav li a').filter(function() { return this.href == url; }).addClass('active');
 	
