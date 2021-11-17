@@ -151,7 +151,7 @@ Function getNumSeriesList.  Search for collector number series returning json su
 					<cfthrow message="Unable to insert. A geological attribute of type=[#encodeForHTML(attribute)#] and value=[#encodeForHTML(attribute_value)#] already exists.">
 				</cfif>
 			</cfloop>
-			<cfquery name="addGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGeog-result">
+			<cfquery name="addGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGeog_result">
 				insert into geology_attribute_hierarchy 
 					(attribute,
 					attribute_value,
