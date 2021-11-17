@@ -124,11 +124,12 @@ Function getNumSeriesList.  Search for collector number series returning json su
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-/**  Geological attribute management functions **/
+<!--- *****  Geological attribute management functions *****  --->
 
-/** addGeologicalAttribute add a record to the geology_attribute_heirarchy table providing a 
- * controlled vocabulary for geological attributes.
- */
+<!--- 
+Function addGeologicalAttribute add a record to the geology_attribute_heirarchy table providing a controlled 
+	vocabulary for geological attributes.
+--->
 <cffunction name="addGeologicalAttribute" access="remote" returntype="any" returnformat="json">
 	<cfargument name="attribute" type="string" required="yes">
 	<cfargument name="attribute_value" type="string" required="yes">
