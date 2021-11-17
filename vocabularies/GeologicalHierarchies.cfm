@@ -206,19 +206,6 @@ limitations under the License.
 		<main class="container py-3" id="content" >
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
-					<section class="col-12" title="Edit Geological Atribute">
-						<h2 class="h3">Geological Attributes (code table)</h2>
-						<div>
-							<p>This form serves dual purpose as the code table editor for geology attributes and a way to store hierarchical relationships among attributes.</p>
-							<ul>
-								<li>Create any attributes that you need.</li>
-								<li>Select "no" for "Attribute valid for Data Entry" for those that should only be used for searching legacy data values, but not allowed for new values.</li>
-								<li>Note that Attribute and Value are required. Value is used in building hierarchies for searching.</li>
-								<li>Create hierarchies by selecting a child and parent term. </li>
-								<li> Click "More" to edit or delete an attribute. You cannot delete attributes with children.</li>
-							</ul>
-						</div>
-					</section>
 					<section class="col-12" title="Add Geological Atribute">
 						<h2 class="h3">Add New Geological Attribute Value:</h2>
 						<form name="insertGeolAttrForm" id="insertGeolAttrForm" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
@@ -248,9 +235,6 @@ limitations under the License.
 									<input type="text" name="description" id="description" class="data-entry-input">
 								</div>
 								<div class="col-12">
-									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-										onClick="if (checkFormValidity($('##insertGeolAttrForm')[0])) { saveNew();  } " 
-										id="submitButton" >
 									<input type="submit" value="Insert Term" class="btn btn-xs btn-primary">
 									<div id="addFeedbackDiv"></div>
 								</div>
@@ -261,8 +245,16 @@ limitations under the License.
 								// TODO: implement
 							}
 							function saveNew(){ 
-								addGeologicalAttribute($("##attribute").val(), $("##attribute_value").val(), usable_value_fg, description, "addFeedbackDiv", reload);
+								addGeologicalAttribute($("##attribute").val(), $("##attribute_value").val(), $("##usable_value_fg").val(), $("##description").val(), "addFeedbackDiv", reload);
 							}
+							$(document).ready(function(){
+								$("##insertGeolAttrForm").submit(function(event) {
+									event.preventDefault();
+									if (checkFormValidity($('##insertGeolAttrForm')[0])) { 
+										saveNew();  
+									}
+								});
+							});
 						</script>
 					</section>
 				</div>
