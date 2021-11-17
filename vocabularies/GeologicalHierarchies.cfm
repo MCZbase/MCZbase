@@ -198,7 +198,7 @@ limitations under the License.
 					</section>
 				</div>
 			</cfoutput>
-		</mail>
+		</main>
 	</cfcase>
 
 	<!---------------------------------------->
@@ -221,7 +221,7 @@ limitations under the License.
 					</section>
 					<section class="col-12" title="Add Geological Atribute">
 						<h2 class="h3">Add New Geological Attribute Value:</h2>
-						<form name="ins" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
+						<form name="insertGeolAttrForm" id="insertGeolAttrForm" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
 							<input type="hidden" name="action" value="newTerm">
 							<div class="form-row mb-2">
 								<div class="col-12 col-sm-12 col-xl-4">
@@ -248,10 +248,22 @@ limitations under the License.
 									<input type="text" name="description" id="description" class="data-entry-input">
 								</div>
 								<div class="col-12">
+									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
+										onClick="if (checkFormValidity($('##insertGeolAttrForm')[0])) { saveNew();  } " 
+										id="submitButton" >
 									<input type="submit" value="Insert Term" class="btn btn-xs btn-primary">
+									<div id="addFeedbackDiv"></div>
 								</div>
 							</div>
 						</form>
+						<script>
+							function reload() { 
+								// TODO: implement
+							}
+							function saveNew(){ 
+								addGeologicalAttribute($("##attribute").val(), $("##attribute_value").val(), usable_value_fg, description, "addFeedbackDiv", reload);
+							}
+						</script>
 					</section>
 				</div>
 			</cfoutput>
@@ -390,6 +402,7 @@ limitations under the License.
 
 	<!---------------------------------------------------->
 	<cfcase value="newTerm">
+		<!--- TODO: Moved to component --->
 		<cfoutput>
 			<cfquery name="changeGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				insert into geology_attribute_hierarchy 
@@ -409,6 +422,7 @@ limitations under the License.
 
 	<!---------------------------------------------------->
 	<cfcase value="newReln">
+		<!--- TODO: Moved to component --->
 		<cfoutput>
 			<cfquery name="changeGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE geology_attribute_hierarchy 
