@@ -20,6 +20,8 @@ function addGeologicalAttribute(attribute, attribute_value, usable_value_fg, des
 			attribute_value: attribute_value, 
 			usable_value_fg: usable_value_fg, 
 			description: description, 
+			returnformat : "json",
+			queryformat : "struct",
 			method: 'addGeologicalAttribute' 
 		},
 		dataType: 'json',
