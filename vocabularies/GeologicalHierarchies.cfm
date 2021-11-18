@@ -152,7 +152,7 @@ limitations under the License.
 									<div class="col-12">
 										<h3 class="h4">Path from root to this node.</h3>
 										<cfset parentage = Right(parents.path,len(parents.path)-1)>
-										<cfset parentage = Left(parentage,REFind('|[^|]*$',parentage))>
+										<cfset parentage = Left(parentage,REFind("\|[^\|]+$",parentage))>
 										<cfset parentageArray = ListToArray(parentage,'|')>
 										<ul>
 											<cfloop array="#parentageArray#" index="pitem">
@@ -191,27 +191,33 @@ limitations under the License.
 								<cfelse>
 									<h3 class="h4">Child Nodes</h3>
 									<cfset levelList = "">
+									<cfset firstNode = true>
 									<cfloop query="children">
-										<cfif listLast(levelList,",") IS NOT children.level>
-									    	<cfset levelListIndex = listFind(levelList,children.level,",")>
-								      	<cfif levelListIndex IS NOT 0>
-								        		<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
-							         		<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
-						         	   		<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
-		         							</cfloop>
-								   	     	#repeatString("</ul>",numberOfLevelsToRemove)#
-					   	   			<cfelse>
-		      					  			<cfset levelList = listAppend(levelList,children.level)>
-		      	   						<ul>
-		   	   						</cfif>
-			  							</cfif>
-										<li>
-											<span <cfif children.usable_value_fg is 0>style="color:red"</cfif>>#children.attribute#</span>
-											<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#children.geology_attribute_hierarchy_id#">more</a>
-										</li>
-										<cfif children.currentRow IS children.recordCount>
-											#repeatString("</ul>",listLen(levelList,","))#
-								   	</cfif>
+										<cfif firstNode>
+											<!--- skip the first node, it is the present node --->
+											<cfset firstNode = false>
+										<cfelse>
+											<cfif listLast(levelList,",") IS NOT children.level>
+										    	<cfset levelListIndex = listFind(levelList,children.level,",")>
+									      	<cfif levelListIndex IS NOT 0>
+									        		<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
+								         		<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
+							         	   		<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
+			         							</cfloop>
+									   	     	#repeatString("</ul>",numberOfLevelsToRemove)#
+						   	   			<cfelse>
+			      					  			<cfset levelList = listAppend(levelList,children.level)>
+			      	   						<ul>
+			   	   						</cfif>
+				  							</cfif>
+											<li>
+												<span <cfif children.usable_value_fg is 0>style="color:red"</cfif>>#children.attribute#</span>
+												<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#children.geology_attribute_hierarchy_id#">more</a>
+											</li>
+											<cfif children.currentRow IS children.recordCount>
+												#repeatString("</ul>",listLen(levelList,","))#
+									   	</cfif>
+										</cfif>
 									</cfloop>
 								</cfif>
 							</div>
