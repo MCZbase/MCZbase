@@ -151,7 +151,14 @@ limitations under the License.
 								<cfloop query="parents">
 									<div class="col-12">
 										<h3 class="h4">Path from root to this node.</h3>
-										<div>#parents.path#</div>
+										<cfset parentage = Right(parents.path,len(parents.path)-1)>
+										<cfset parentage = Left(parentage,REFind('|[^|]*$',parentage))>
+										<cfset parentageArray = ListToArray(parentage,'|')>
+										<ul>
+											<cfloop array="#parentageArray#" index="pitem">
+												<li>#pitem#</li>
+											</cfloop>
+										</ul>
 									</div>
 								</cfloop>
 							<cfelse>
@@ -159,6 +166,10 @@ limitations under the License.
 									<h3 class="h4">#c.attribute_value# (#c.attribute#) is a root node with no parent.</h3>
 								</div>
 							</cfif>
+
+							<div class="col-12">
+								<h3 class="h4">#c.attribute_value# (#c.attribute#) This Node</h3>
+							</div>
 	
 							<cfquery name="children"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="children_result">
 					      	SELECT
