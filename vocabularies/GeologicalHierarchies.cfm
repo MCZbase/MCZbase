@@ -361,7 +361,7 @@ limitations under the License.
 							<cfset class="">
 							<cfif usable_value_fg is 0><cfset class="text-danger"></cfif>
 							<li>
-								<span class="">
+								<span class="#class#">
 									#attribute_value# (#attribute#)
 								</span>
 								<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">more</a>
