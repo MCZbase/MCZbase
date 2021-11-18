@@ -187,14 +187,22 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 <cffunction name="unlinkChildGeologicalAttribute" access="remote" returntype="any" returnformat="json">
 	<cfargument name="child" type="string" required="yes">
 
+	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="removeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="removeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeLink_result">
 				UPDATE geology_attribute_hierarchy 
 				SET parent_id = NULL 
 				WHERE 
 					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child#">
 			</cfquery>
+			<cfif removeLink_result.recordcount eq 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Unlinked child from parent.", 1)>
+			<cfelse>
+				<cfthrow message="Error removing a parent:child relationship.">
+			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
@@ -205,13 +213,14 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 		</cfcatch>
 		</cftry>
 	</cftransaction>
-	<cfreturn #serializeJSON(data)#>
+	<cfreturn #theResult#>
 </cffunction>
 
 <cffunction name="linkGeologicalAttributes" access="remote" returntype="any" returnformat="json">
 	<cfargument name="child" type="string" required="yes">
 	<cfargument name="parent" type="string" required="yes">
 
+	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
 			<cfif parent EQ child>
@@ -259,12 +268,27 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 				</cfif>
 			</cfloop>
 
-			<cfquery name="changeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="changeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="changeLink_result">
 				UPDATE geology_attribute_hierarchy 
 				SET parent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent#">
 				WHERE 
 					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child#">
 			</cfquery>
+			<cfif changeLink_result.recordcount eq 1>
+				<cfquery name="getNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNames_result">
+					SELECT p.attribute patt, p.attribute_value pattval, c.attribute catt, c.attribute_value cattval
+					FROM
+						geology_attribute_hierarchy c
+						left join geology_attribute_hierarchy p on c.parent_id = p.geology_attribute_hierarchy_id
+					WHERE 
+						c.geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child#">
+				</cfquery>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Updated parent:child relationship #getNames.pattval#(#getNames.patt#):#getNames.cattval#(#getNames.catt#).", 1)>
+			<cfelse>
+				<cfthrow message="Error updating a parent:child relationship.">
+			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
@@ -275,7 +299,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 		</cfcatch>
 		</cftry>
 	</cftransaction>
-	<cfreturn #serializeJSON(data)#>
+	<cfreturn #theResult#>
 </cffunction>
 
 </cfcomponent>

@@ -137,8 +137,54 @@ limitations under the License.
 							</div>
 						</form>
 					</section>
+					<cfquery name="candidateParents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT 
+							GEOLOGY_ATTRIBUTE_HIERARCHY_ID,
+							geology_attribute_hierarchy.ATTRIBUTE,
+							ATTRIBUTE_VALUE
+						FROM geology_attribute_hierarchy 
+							left join ctgeology_attribute on geology_attribute_hierarchy.attribute = ctgeology_attribute.geology_attribute
+						WHERE
+							ctgeology_attribute.type = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.type#"> and
+							USABLE_VALUE_FG = 1 and
+							geology_attribute_hierarchy_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#"> and
+							parent_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+						ORDER BY ordinal, attribute_value
+					</cfquery>
 					<section class="col-12 border rounded my-2 mx-2">
 						<div class="row">
+							<div class="col-12">
+								<h3 class="h4">Hierarchical Relationships of #c.attribute_value# (#c.attribute#)</h3>
+							</div>
+							<div class="col-12 col-md-8">
+								<label for="changeParentage" class="data-entry-label">Change parent of #c.attribute_value# (#c.attribute#) to:</label>
+								<select id="changeParentage" name="changeParentage" class="data-entry-select">
+									<option value="NULL">Unlink from Parent</option>
+									<cfloop query="candidateparents">
+										<option value="#candidateParents.geology_attribute_hierarchy_id#">#candidateParents.attribute_value# (#candidateParents.attribute#)</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-4">
+								<button id="changeParentageButton" value="Save" class="btn btn-secondary btn-xs">Save</button>
+								<div id="changeParentageFeedback"></div>
+							</div>
+							<script>
+								function reloadHierarchy() { 
+									// TODO: Implement
+								};
+								function changeParentage() { 
+									var newParent = $('select[name=changeParentage] option').filter(':selected').val();
+									if (newParent) { 
+										changeGeologicalAttributeLink(newParent, #geology_attribute_heirarchy_id#, "changeParentageFeedback", reloadHierarchy);
+									} else { 
+										messageDialog("Error: No value selected.");
+									}
+								};
+								$(document).ready(function(){
+									$("##changeParentageButton").on('click',changeParentage);
+								});
+							</script>
 							<cfif len(c.parent_id) GT 0> 
 								<cfquery name="parents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
 							      SELECT
