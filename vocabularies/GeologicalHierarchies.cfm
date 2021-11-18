@@ -341,7 +341,7 @@ limitations under the License.
 								SELECT count(locality_id) ct
 								FROM geology_attributes
 								WHERE
-									geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cData.attribute#">
+									geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cData.attribute#"> and
 									geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cData.attribute_value#">
 							</cfquery>
 							<cfset localityCount = locCount.ct>
