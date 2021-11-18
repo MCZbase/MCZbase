@@ -1,7 +1,7 @@
 <!---
 vocabularies/component/functions.cfc
 
-Copyright 2020 President and Fellows of Harvard College
+Copyright 2020-2021 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!--- function saveNumSeries 
 Update an existing collecting event number series record.
@@ -60,21 +62,9 @@ Update an existing collecting event number series record.
 		<cfset row["id"] = "#coll_event_num_series_id#">
 		<cfset data[1] = row>
 	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing saveNumSeries: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfheader statusCode="500" statusText="#message#">
-		<cfoutput>
-			<div class="container">
-				<div class="row">
-					<div class="alert alert-danger" role="alert">
-						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2>Internal Server Error.</h2>
-						<p>#message#</p>
-						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-					</div>
-				</div>
-			</div>
-		</cfoutput>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
 	</cftry>
@@ -125,26 +115,167 @@ Function getNumSeriesList.  Search for collector number series returning json su
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing getNumSeriesList: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-			</cfoutput>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- *****  Geological attribute management functions *****  --->
+
+<!--- 
+Function addGeologicalAttribute add a record to the geology_attribute_heirarchy table providing a controlled 
+	vocabulary for geological attributes.
+--->
+<cffunction name="addGeologicalAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="attribute" type="string" required="yes">
+	<cfargument name="attribute_value" type="string" required="yes">
+	<cfargument name="usable_value_fg" type="string" required="yes">
+	<cfargument name="description" type="string" required="yes">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT count(*) ct 
+				FROM geology_attribute_hierarchy
+				WHERE
+					attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">
+					AND
+					attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">
+			</cfquery>
+			<cfloop query="check">
+				<cfif check.ct NEQ 0>
+					<cfthrow message="Unable to insert. A geological attribute of type=[#encodeForHTML(attribute)#] and value=[#encodeForHTML(attribute_value)#] already exists.">
+				</cfif>
+			</cfloop>
+			<cfquery name="addGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGeog_result">
+				insert into geology_attribute_hierarchy 
+					(attribute,
+					attribute_value,
+					usable_value_fg,
+					description) 
+				values
+					(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#usable_value_fg#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">)
+			</cfquery>
+			<cfif addGeog_result.recordcount eq 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Added #encodeForHTML(attribute)#:#encodeForHTML(attribute_value)#", 1)>
+			<cfelse>
+				<cfthrow message="Error adding a geological attribute value.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
+<cffunction name="unlinkChildGeologicalAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="child" type="string" required="yes">
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="removeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE geology_attribute_hierarchy 
+				SET parent_id = NULL 
+				WHERE 
+					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child#">
+			</cfquery>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<cffunction name="linkGeologicalAttributes" access="remote" returntype="any" returnformat="json">
+	<cfargument name="child" type="string" required="yes">
+	<cfargument name="parent" type="string" required="yes">
+
+	<cftransaction>
+		<cftry>
+			<cfif parent EQ child>
+				<cfthrow message="Unable to link a node to itself.">
+			</cfif>
+			<!--- Check to make sure that the parent and child attributes are of the same type --->
+			<cfquery name="checkLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT count(distinct type) ct FROM (
+					SELECT type
+					FROM
+						geology_attribute_hierarchy p
+						left join ctgeology_attribute pct on p.attribute = pct.geology_attribute
+					WHERE
+						geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent#">
+					UNION
+					SELECT type
+					FROM
+						geology_attribute_hierarchy c
+						left join ctgeology_attribute cct on c.attribute = cct.geology_attribute
+					WHERE
+						geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child#">
+				)
+			</cfquery>
+			<cfloop query="checkLink">
+				<cfif checkLink.ct NEQ 1>
+					<cfthrow message="Unable to link. The Parent and Child attributes must be of the same type (e.g. a lithologic attribute can't be a parent of a chronostratigraphic attribute).">
+				</cfif>
+			</cfloop>
+			<cfquery name="checkCycle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT count(*) ct FROM (
+					SELECT
+						geology_attribute_hierarchy_id,
+					FROM
+						geology_attribute_hierarchy
+					START WITH geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child#">
+		       	CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+	   	 		ORDER SIBLINGS BY ordinal, attribute_value
+				)
+				WHERE
+					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent#">
+			</cfquery>
+			<cfloop query="checkCycle">
+				<cfif checkCycle.ct GT 0 >
+					<cfthrow message="Unable to link, the new relationship would be cyclial, creating a map instead of a tree.  The child node can't point to a parent which is nested beneath it in the tree.">
+				</cfif>
+			</cfloop>
+
+			<cfquery name="changeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE geology_attribute_hierarchy 
+				SET parent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent#">
+				WHERE 
+					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child#">
+			</cfquery>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 </cfcomponent>

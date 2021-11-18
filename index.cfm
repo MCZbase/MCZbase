@@ -6,6 +6,7 @@
 	<cfset gitBranch = "unknown">
 </cfcatch>
 </cftry>
+<!--- TODO: Make new search default for logged in users.  --->
 <cfif findNoCase('redesign',gitBranch) EQ 0>
 	<cfscript>
 		getPageContext().forward("/SpecimenSearch.cfm");
