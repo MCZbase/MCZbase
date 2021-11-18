@@ -359,7 +359,7 @@ limitations under the License.
 						      	</cfif>
 						  	</cfif>
 							<cfset class="">
-							<cfif usable_value_fg is 0><cfset class="text-danger"</cfif>
+							<cfif usable_value_fg is 0><cfset class="text-danger"></cfif>
 							<li>
 								<span class="">
 									#attribute_value# (#attribute#)
