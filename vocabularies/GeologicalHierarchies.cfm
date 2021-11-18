@@ -83,6 +83,10 @@ limitations under the License.
 
 						<h2 class="h2">Edit #c.attribute#:#c.attribute_value# (#c.type#)</h2>
 						<div class="h3">Attribute for #use.ct# Localities.</div>
+						<cfset disabled = "">
+						<cfif use.ct GT 0>
+							<cfset disabled = "disabled">
+						</cfif>
 
 						<form name="ins" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
 							<input type="hidden" name="action" value="saveEdit">
@@ -90,7 +94,7 @@ limitations under the License.
 							<div class="form-row mb-2">
 								<div class="col-12 col-sm-12 col-xl-4">
 									<label for="attribute" class="data-entry-label">Attribute</label>
-									<select name="attribute" id="attribute" class="data-entry-select">
+									<select name="attribute" id="attribute" class="data-entry-select reqdClr" #disabled#>
 										<cfloop query="ctgeology_attribute">
 											<cfif c.attribute EQ ctgeology_attribute.geology_attribute><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
 											<option value="#ctgeology_attribute.geology_attribute#" #selected# >#ctgeology_attribute.geology_attribute# (#ctgeology_attribute.type#)</option>
@@ -99,12 +103,12 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-sm-6 col-xl-4">
 									<label for="newTerm">Value</label>
-									<input type="text" name="attribute_value" id="newTerm" value="#c.attribute_value#" class="data-entry-input reqdClr">
+									<input type="text" name="attribute_value" id="newTerm" value="#c.attribute_value#" class="data-entry-input reqdClr" #disabled#>
 								</div>
 								<div class="col-12 col-sm-6 col-xl-4">
 									<label for="usable_value_fg" class="data-entry-label">Allowed for Data Entry?</label>
 									<cfset uvf=c.usable_value_fg>
-									<select name="usable_value_fg" id="usable_value_fg" class="data-entry-select">
+									<select name="usable_value_fg" id="usable_value_fg" class="data-entry-select reqdClr">
 										<option <cfif #uvf# is 0>selected="selected" </cfif>value="0">no</option>
 										<option <cfif #uvf# is 1>selected="selected" </cfif>value="1">yes</option>
 									</select>
@@ -247,11 +251,11 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-sm-12 col-xl-4">
 									<label for="attribute_value" class="data-entry-label">Value ("Prince Creek")</label>
-									<input type="text" name="attribute_value" id="attribute_value" class="data-entry-input">
+									<input type="text" name="attribute_value" id="attribute_value" class="data-entry-input reqdClr" required>
 								</div>
 								<div class="col-12 col-sm-12 col-xl-4">
 									<label for="usable_value_fg" class="data-entry-label">Attribute valid for Data Entry?</label>
-									<select name="usable_value_fg" id="usable_value_fg" class="data-entry-select">
+									<select name="usable_value_fg" id="usable_value_fg" class="data-entry-select reqdClr">
 										<option value="0">no</option>
 										<option value="1">yes</option>
 									</select>
