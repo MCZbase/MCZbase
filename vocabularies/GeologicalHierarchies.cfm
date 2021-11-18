@@ -92,8 +92,8 @@ limitations under the License.
 							<input type="hidden" name="action" value="saveEdit">
 							<input type="hidden" name="geology_attribute_hierarchy_id" value="#geology_attribute_hierarchy_id#">
 							<cfif use.ct GT 0>
-								<input type="hidden" name="attribute" value="#attribute#">
-								<input type="hidden" name="attribute_value" value="#attribute_value#">
+								<input type="hidden" name="attribute" value="#c.attribute#">
+								<input type="hidden" name="attribute_value" value="#c.attribute_value#">
 							</cfif>
 							<div class="form-row mb-2">
 								<div class="col-12 col-sm-12 col-xl-4">
