@@ -103,7 +103,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-sm-6 col-xl-4">
 									<label for="newTerm">Value</label>
-									<input type="text" name="attribute_value" id="newTerm" value="#c.attribute_value#" class="data-entry-input reqdClr" #disabled#>
+									<input type="text" name="attribute_value" id="newTerm" value="#c.attribute_value#" class="data-entry-input reqdClr" #disabled# required>
 								</div>
 								<div class="col-12 col-sm-6 col-xl-4">
 									<label for="usable_value_fg" class="data-entry-label">Allowed for Data Entry?</label>
