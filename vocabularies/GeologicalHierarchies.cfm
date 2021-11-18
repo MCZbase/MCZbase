@@ -122,7 +122,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-xl-6">
 									<cfif use.ct EQ 0>
-										<input type="button" value="Delete" class="btn btn-xs btn-warn"
+										<input type="button" value="Delete" class="btn btn-xs btn-danger"
 	   									onclick="document.location='/vocabularies/GeologicalHierarchies.cfm?action=delete&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#';">
 									</cfif>
 								</div>
