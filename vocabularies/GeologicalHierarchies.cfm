@@ -208,8 +208,7 @@ limitations under the License.
 				<div class="row mx-0 border rounded my-2 pt-2">
 					<section class="col-12" title="Add Geological Atribute">
 						<h2 class="h3">Add New Geological Attribute Value:</h2>
-						<form name="insertGeolAttrForm" id="insertGeolAttrForm" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
-							<input type="hidden" name="action" value="newTerm">
+						<form name="insertGeolAttrForm" id="insertGeolAttrForm" >
 							<div class="form-row mb-2">
 								<div class="col-12 col-sm-12 col-xl-4">
 									<label for="attribute" class="data-entry-label">Attribute ("Formation")</label>
@@ -317,7 +316,8 @@ limitations under the License.
 				geology_attribute_hierarchy_id,
 				parent_id,
 				usable_value_fg,
-				attribute_value || ' (' || attribute || ')' attribute
+				attribute_value,
+				attribute
 			FROM
 				geology_attribute_hierarchy
 				LEFT JOIN ctgeology_attributes on attribute = geology_attribute
@@ -337,6 +337,14 @@ limitations under the License.
 						<div>Values in red are not available for data entry but may be used in searches</div>
 						<cfset levelList = "">
 						<cfloop query="cData">
+							<cfquery name="locCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT count(locality_id) ct
+								FROM geology_attributes
+								WHERE
+									geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cData.attribute#">
+									geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cData.attribute_value#">
+							</cfquery>
+							<cfset localityCount = locCount.ct>
 							<cfif listLast(levelList,",") IS NOT level>
 						    	<cfset levelListIndex = listFind(levelList,cData.level,",")>
 						      	<cfif levelListIndex IS NOT 0>
@@ -350,9 +358,14 @@ limitations under the License.
 						         	<ul>
 						      	</cfif>
 						  	</cfif>
-							<li><span <cfif usable_value_fg is 0>style="color:red"</cfif>
-							>#attribute#</span>
-							<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">more</a>
+							<cfset class="">
+							<cfif usable_value_fg is 0><cfset class="text-danger"</cfif>
+							<li>
+								<span class="">
+									#attribute_value# (#attribute#)
+								</span>
+								<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">more</a>
+								Used in #localityCount# Localities
 							</li>
 							<cfif cData.currentRow IS cData.recordCount>
 								#repeatString("</ul>",listLen(levelList,","))#
@@ -387,26 +400,6 @@ limitations under the License.
 					description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
 				WHERE
 					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
-			</cfquery>
-			<cflocation url="/vocabularies/GeologicalHierarchies.cfm?action=list" addtoken="false">
-		</cfoutput>
-	</cfcase>
-
-	<!---------------------------------------------------->
-	<cfcase value="newTerm">
-		<!--- TODO: Moved to component --->
-		<cfoutput>
-			<cfquery name="changeGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into geology_attribute_hierarchy 
-					(attribute,
-					attribute_value,
-					usable_value_fg,
-					description) 
-				values
-					(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#usable_value_fg#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">)
 			</cfquery>
 			<cflocation url="/vocabularies/GeologicalHierarchies.cfm?action=list" addtoken="false">
 		</cfoutput>
