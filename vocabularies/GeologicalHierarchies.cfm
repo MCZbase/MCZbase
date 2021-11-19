@@ -176,7 +176,7 @@ limitations under the License.
 								function changeParentage() { 
 									var newParent = $('select[name=changeParentage] option').filter(':selected').val();
 									if (newParent) { 
-										changeGeologicalAttributeLink(newParent, #geology_attribute_heirarchy_id#, "changeParentageFeedback", reloadHierarchy);
+										changeGeologicalAttributeLink(newParent, #geology_attribute_hierarchy_id#, "changeParentageFeedback", reloadHierarchy);
 									} else { 
 										messageDialog("Error: No value selected.");
 									}
