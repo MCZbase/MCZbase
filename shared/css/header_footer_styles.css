@@ -362,6 +362,11 @@ input#Password {
 		text-align: center;
 	}
 }
+@media (min-width:1200px) {
+	.navbar-expand-xl .navbar-nav .dropdown-menu {
+		top:26px;
+	}
+}
 @media screen and (min-width:768px) {
 	.footer-col-4-md {
 		margin: 0 auto;
