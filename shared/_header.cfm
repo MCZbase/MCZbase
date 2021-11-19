@@ -846,7 +846,7 @@ limitations under the License.
 //
 //	return false;
 //	});
-$('##main-nav > ul.navbar-nav li').click(function(e) {
+$('##navbar_toplevel_div > ul.navbar-nav li').click(function(e) {
     $('.navbar-nav li.active').removeClass('active');
     var $this = $(this);
     if (!$this.hasClass('active')) {
