@@ -355,7 +355,8 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 					geology_attribute_hierarchy_id,
 					parent_id,
 					usable_value_fg,
-					attribute_value || ' (' || attribute || ')' attribute
+					attribute_value,
+					attribute
 				FROM
 					geology_attribute_hierarchy
 					LEFT JOIN ctgeology_attributes on attribute = geology_attribute
