@@ -359,19 +359,19 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 				FROM
 					geology_attribute_hierarchy
 					LEFT JOIN ctgeology_attributes on attribute = geology_attribute
-				START WITH geology_attribute_hierarchy.geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.geology_attribute_hierarchy_id#">
+				START WITH geology_attribute_hierarchy.geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
 				CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
 				ORDER SIBLINGS BY ordinal, attribute_value
 			</cfquery>
 			<cfif children.recordcount EQ 1>
-				<li><h3 class="h4">#c.attribute_value# (#c.attribute#)</h3></li>
+				<li><h3 class="h4">#children.attribute_value# (#children.attribute#)</h3></li>
 			<cfelse>
 				<cfset levelList = "">
 				<cfset firstNode = true>
 				<cfloop query="children">
 					<cfif firstNode>
 						<ul>
-							<li><h3 class="h4">#c.attribute_value# (#c.attribute#)</h3></li>
+							<li><h3 class="h4">#children.attribute_value# (#children.attribute#)</h3></li>
 							<cfset firstNode = false>
 					<cfelse>
 						<cfif listLast(levelList,",") IS NOT children.level>
