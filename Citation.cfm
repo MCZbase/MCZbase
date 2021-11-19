@@ -207,8 +207,8 @@
 				<th>Cited As</th>
 				<th>Current ID</th>
 				<th>Citation Type</th>
-				<th>Page ##</th>
-				<th>Remarks</th>
+				<th style="padding: 0 1rem;">Page ##</th>
+				<th style="padding: 0 1rem; min-width: 300px;">Remarks</th>
 			</tr>
 		</thead>
 		<tbody>
