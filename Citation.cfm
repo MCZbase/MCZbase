@@ -259,11 +259,11 @@
 							</tr>
 						</table>
 					</td>
-					<td style="padding:0 1rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
-					<td nowrap="nowrap">#customID#</td>
-					<td nowrap><i>#getCited.citSciName#</i>&nbsp;</td>
-					<td nowrap><i>#getCited.scientific_name#</i>&nbsp;</td>
-					<td nowrap>#getCited.type_status#&nbsp;</td>
+					<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
+		<!---			<td nowrap="nowrap">#customID#</td>--->
+					<td style="padding: 0 .5rem;"><i>#getCited.citSciName#</i>&nbsp;</td>
+					<td style="padding: 0 .5rem;"><i>#getCited.scientific_name#</i>&nbsp;</td>
+					<td style="padding: 0 .5rem;">#getCited.type_status#&nbsp;</td>
 					<td>
 						<cfif len(#getCited.citation_page_uri#) gt 0>
 							<cfset citpage = trim(getCited.occurs_page_number)>
