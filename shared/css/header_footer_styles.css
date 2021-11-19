@@ -54,8 +54,8 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	color: white;
 }
 .navbar-nav>.nav-item.active {
-	color: green;
-	border-bottom: 1px solid green;
+	color: #3e6f7d;
+	border-bottom: 1px solid #3e6f7d;
 }
 .navbar-toggler-icon {
 	width: 1.15rem;   /* responsive menu toggle styling -- makes it smaller since our navbar is smaller */
