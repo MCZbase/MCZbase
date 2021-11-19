@@ -196,7 +196,8 @@ limitations under the License.
 						         	parent_id,
 							         usable_value_fg,
 							         attribute_value || ' (' || attribute || ')' attribute,
-										SYS_CONNECT_BY_PATH(attribute_value, '|') as path
+										SYS_CONNECT_BY_PATH(attribute_value, '|') as path,
+										SYS_CONNECT_BY_PATH(geology_attribute_hierarchy_id, '|') as path_ids
 							      FROM
 							         geology_attribute_hierarchy
 						   	      LEFT JOIN ctgeology_attributes on attribute = geology_attribute

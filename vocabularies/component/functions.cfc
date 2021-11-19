@@ -302,4 +302,110 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 	<cfreturn #theResult#>
 </cffunction>
 
+<cffunction name="getNodeInGeologyTreeHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="geology_attribute_hierarchy_id" type="string" required="yes">
+
+	<cfthread name="listNodeInGeoTreeThread" />
+		<cfoutput>
+			<!--- lookup path from root to specified node --->
+			<cfquery name="parents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
+				SELECT
+					level,
+					geology_attribute_hierarchy_id,
+					parent_id,
+					usable_value_fg,
+					attribute_value || ' (' || attribute || ')' attribute,
+					SYS_CONNECT_BY_PATH(attribute_value, '|') as path,
+					SYS_CONNECT_BY_PATH(geology_attribute_hierarchy_id, '|') as path_ids
+				FROM
+					geology_attribute_hierarchy
+					LEFT JOIN ctgeology_attributes on attribute = geology_attribute
+				WHERE
+					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+				START WITH parent_id IS NULL
+				CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+			</cfquery>
+			<cfset parentnesting = 0>
+			<cfloop query="parents">
+				<cfset parentage = Right(parents.path_ids,len(parents.path_ids)-1)>
+				<cfset parentage = Left(parentage,REFind("\|[^\|]+$",parentage))>
+				<cfset parentageArray = ListToArray(parentage,'|')>
+				<ul>
+					<cfset parentnesting = parentnesting + 1>
+					<cfloop array="#parentageArray#" index="pitem">
+						<cfquery name="parent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
+							SELECT
+								geology_attribute_hierarchy_id,
+								usable_value_fg,
+								attribute_value || ' (' || attribute || ')' attribute
+							FROM
+								geology_attribute_hierarchy
+							WHERE
+								geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pitem#">
+						</cfquery>
+						<li>
+							<span <cfif parent.usable_value_fg is 0>style="color:red"</cfif>>#parent.attribute#</span>
+							<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#parent.geology_attribute_hierarchy_id#">edit</a>
+						</li>
+					</cfloop>
+			</cfloop>
+			<cfquery name="children" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="children_result">
+				SELECT
+					level,
+					geology_attribute_hierarchy_id,
+					parent_id,
+					usable_value_fg,
+					attribute_value || ' (' || attribute || ')' attribute
+				FROM
+					geology_attribute_hierarchy
+					LEFT JOIN ctgeology_attributes on attribute = geology_attribute
+				START WITH geology_attribute_hierarchy.geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.geology_attribute_hierarchy_id#">
+				CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+				ORDER SIBLINGS BY ordinal, attribute_value
+			</cfquery>
+			<cfif children.recordcount EQ 1>
+				<li><h3 class="h4">#c.attribute_value# (#c.attribute#)</h3></li>
+			<cfelse>
+				<cfset levelList = "">
+				<cfset firstNode = true>
+				<cfloop query="children">
+					<cfif firstNode>
+						<ul>
+							<li><h3 class="h4">#c.attribute_value# (#c.attribute#)</h3></li>
+							<cfset firstNode = false>
+					<cfelse>
+						<cfif listLast(levelList,",") IS NOT children.level>
+							<cfset levelListIndex = listFind(levelList,children.level,",")>
+							<cfif levelListIndex IS NOT 0>
+								<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
+								<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
+									<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
+								</cfloop>
+								#repeatString("</ul>",numberOfLevelsToRemove)#
+							<cfelse>
+								<cfset levelList = listAppend(levelList,children.level)>
+								<ul>
+							</cfif>
+						</cfif>
+						<li>
+							<span <cfif children.usable_value_fg is 0>style="color:red"</cfif>>#children.attribute#</span>
+							<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#children.geology_attribute_hierarchy_id#">edit</a>
+						</li>
+						<cfif children.currentRow IS children.recordCount>
+							#repeatString("</ul>",listLen(levelList,","))#
+						</cfif>
+					</cfif>
+				</cfloop>
+			</cfif>
+			</ul><!--- for first node of children = current node --->
+			<cfloop from="1" to="#paerentnesting#" index="i">
+				<!--- for parentage of current node to root --->
+				</ul>
+			</cfloop>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="listNodeInGeoTreeThread" />
+	<cfreturn listNodeInGeoTreeThread.output>
+</cffunction>
+
 </cfcomponent>
