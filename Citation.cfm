@@ -211,9 +211,10 @@
 		<td nowrap>Page ##</td>
 		<td>Remarks</td>
 	</tr>
-	<tr>
+	
 		<cfset i=1>
 		<cfloop query="getCited">
+			<tr>
 			<td nowrap>
 				<table>
 					<tr>
@@ -273,7 +274,9 @@
 				</cfif>
 			</td>
 			<td nowrap>#stripQuotes(getCited.citation_remarks)#&nbsp;</td>
+		</tr>
 		<cfset i=#i#+1>
+			
 		</cfloop>
 	</tr>
 </table>
