@@ -199,7 +199,7 @@
 		</table>
 	</form>
 	<table class="pubtable" border="0" style="border: none;font-size: 15px;margin-top:1.5rem;">
-		<thead style="background-color: #beecea;padding: 11px;line-height: 1.5rem;">
+		<thead style="background-color: ##beecea;padding: 11px;line-height: 1.5rem;">
 			<tr>
 				<th>&nbsp;</th>
 				<th>Cat Num</th>
