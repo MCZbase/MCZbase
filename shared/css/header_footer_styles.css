@@ -311,6 +311,9 @@ input#Password {
 	border-radius: .25rem;
 	margin: .12rem 0;
 }
+.dropdown-menu {
+	padding: 0.25rem 0;
+}
 @media (min-width: 992px)and (max-width: 1200px){
 	.logout {
 		padding: 0 .45rem;
