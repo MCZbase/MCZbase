@@ -330,9 +330,9 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 				<cfset parentage = Right(parents.path_ids,len(parents.path_ids)-1)>
 				<cfset parentage = Left(parentage,REFind("\|[^\|]+$",parentage))>
 				<cfset parentageArray = ListToArray(parentage,'|')>
-				<ul>
-					<cfset parentnesting = parentnesting + 1>
-					<cfloop array="#parentageArray#" index="pitem">
+				<cfloop array="#parentageArray#" index="pitem">
+					<ul>
+						<cfset parentnesting = parentnesting + 1>
 						<cfquery name="parent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
 							SELECT
 								geology_attribute_hierarchy_id,
