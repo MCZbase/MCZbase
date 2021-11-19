@@ -846,14 +846,18 @@ limitations under the License.
 //
 //	return false;
 //	});
-$('ul.navbar-nav > ul.dropdown-menu li a').click(function(e) {
-    var $this = $(this);
-    $this.parent().siblings().removeClass('active').end().addClass('active');
-    e.preventDefault();
-
-
-
+$(document).ready(function() {
+    $('.navbar-nav a[href*=".cfm"]').each(function() {
+        if (String(location).includes($(this).attr('href'))) {
+            $('a.nav-link.active').removeAttr('aria-current');
+            $('a.nav-link.active').removeClass('active');
+            $(this).addClass('active');
+            $(this).attr('aria-current', 'page');
+            document.title = $(this).text().trim();
+        }
+    });
 });
+
 </script>
 <cf_rolecheck>
 </cfoutput>
