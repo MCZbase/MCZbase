@@ -846,15 +846,14 @@ limitations under the License.
 //
 //	return false;
 //	});
-$('##navbar_toplevel_div > ul.navbar-nav li').click(function(e) {
-
-    $('.navbar-nav li.active').removeClass('active');
+$('ul.navbar-nav > ul.dropdown-menu li a').click(function(e) {
     var $this = $(this);
-    if (!$this.hasClass('active')) {
-        $this.addClass('active');
-		return this.href == url;
-    }
+    $this.parent().siblings().removeClass('active').end().addClass('active');
     e.preventDefault();
+
+    // Load the page content in to element
+    // with id #content using ajax (There are other ways)
+    $('##content').load($this.href());
 });
 </script>
 <cf_rolecheck>
