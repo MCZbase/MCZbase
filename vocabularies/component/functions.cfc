@@ -252,7 +252,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 			<cfquery name="checkCycle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT count(*) ct FROM (
 					SELECT
-						geology_attribute_hierarchy_id,
+						geology_attribute_hierarchy_id
 					FROM
 						geology_attribute_hierarchy
 					START WITH geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child#">
