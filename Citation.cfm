@@ -208,7 +208,8 @@
 				Cited As
 				</th>
 				<th>Current ID</th>
-				<th nowrap>Citation Type</th>
+				<th nowrap>>Page ##</th>
+				<th>RCitation Type</th>
 					<th nowrap>Page ##</th>
 				<th>Remarks</th>
 			</tr>
