@@ -210,6 +210,8 @@
 		<td nowrap>Citation Type</td>
 		<td nowrap>Page ##</td>
 		<td>Remarks</td>
+	</tr>
+	<tr>
 		<cfset i=1>
 		<cfloop query="getCited">
 			<td nowrap>
