@@ -847,17 +847,17 @@ limitations under the License.
 //	return false;
 //	});
 $(document).ready(function() {
-    $('.navbar-nav a[href*=".cfm"]').each(function() {
-        if (String(location).includes($(this).attr('href'))) {
+	$('.navbar-nav a[href*=".cfm"]').each(function() {
+		if (String(location).includes($(this).attr('href'))) {
       //      $('a.nav-link.active').removeAttr('aria-current');
 			$('ul.navbar-nav li.active').removeClass('active');
-            $('a.nav-link.active').removeClass('active');
-            $(this).addClass('active');
+			$('a.nav-link.active').removeClass('active');
 			$(this).parentsUntil('ul.navbar-nav li.active').addClass('active');
+			$(this).addClass('active');
         //    $(this).attr('aria-current', 'page');
-            document.title = $(this).text().trim();
-        }
-    });
+			document.title = $(this).text().trim();
+		}
+	});
 });
 
 </script>
