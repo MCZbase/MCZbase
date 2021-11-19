@@ -53,6 +53,8 @@ limitations under the License.
 
 <cfswitch expression="#action#">
 	<cfcase value="edit">
+		<!--- Include the template that contains functions used to load portions of this page --->
+		<cfinclude template="/vocabularies/component/functions.cfc" runOnce="true">
 		<main class="container py-3" id="content" >
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
