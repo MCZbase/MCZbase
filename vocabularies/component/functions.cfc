@@ -257,7 +257,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 						geology_attribute_hierarchy
 					START WITH geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child#">
 		       	CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
-	   	 		ORDER SIBLINGS BY ordinal, attribute_value
+	   	 		ORDER SIBLINGS BY attribute_value
 				)
 				WHERE
 					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent#">
