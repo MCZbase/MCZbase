@@ -305,7 +305,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 <cffunction name="getNodeInGeologyTreeHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="geology_attribute_hierarchy_id" type="string" required="yes">
 
-	<cfthread name="listNodeInGeoTreeThread" />
+	<cfthread name="listNodeInGeoTreeThread">
 		<cfoutput>
 			<!--- lookup path from root to specified node --->
 			<cfquery name="parents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
