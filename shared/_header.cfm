@@ -832,21 +832,28 @@ limitations under the License.
 </header>
 <script type="text/javascript">
 	/** add active class when selected--makes the link of the menu bar item different color when active */
-	var url = window.location;
-	
-	//makes selected menu header have darker text
-	$('a.dropdown-item').filter(function() { return this.href == url; }).parentsUntil('li.nav-item>a.nav-link').addClass('active');
-	//makes selected dropdown option have different background --##deebec
-	//$('ul.navbar-nav li a').filter(function() { return this.href == url; }).addClass('active');
-	
-	//prevents double click/bubbling behavior on menu
-	$('.dropdown-toggle').click(function(e) {
-	e.preventDefault();
-	e.stopPropagation();
+//	var url = window.location;
+//	
+//	//makes selected menu header have darker text
+//	$('a.dropdown-item').filter(function() { return this.href == url; }).parentsUntil('li.nav-item>a.nav-link').addClass('active');
+//	//makes selected dropdown option have different background --##deebec
+//	//$('ul.navbar-nav li a').filter(function() { return this.href == url; }).addClass('active');
+//	
+//	//prevents double click/bubbling behavior on menu
+//	$('.dropdown-toggle').click(function(e) {
+//	e.preventDefault();
+//	e.stopPropagation();
+//
+//	return false;
+//	});
+var a_elements = sender.parentNode.parentNode.parentNode.getElementsByTagName("a");
 
-	return false;
-	});
-
+for (var i = 0, len = a_elements.length; i < len; i++ ) {
+    a_elements[ i ].style.color = 'blue';
+    a_elements[ i ].style.backgroundColor = 'red';
+}
+sender.style.color = '#FFFFFF';
+sender.style.backgroundColor = '#000000';
 </script>
 <cf_rolecheck>
 </cfoutput>
