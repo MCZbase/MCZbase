@@ -853,7 +853,7 @@ $('ul.navbar-nav > ul.dropdown-menu li a').click(function(e) {
 
     // Load the page content in to element
     // with id #content using ajax (There are other ways)
-    $('##content').load($this.href());
+
 });
 </script>
 <cf_rolecheck>
