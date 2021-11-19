@@ -259,7 +259,7 @@
 							</tr>
 						</table>
 					</td>
-					<td><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
+					<td style="padding:0 1rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
 					<td nowrap="nowrap">#customID#</td>
 					<td nowrap><i>#getCited.citSciName#</i>&nbsp;</td>
 					<td nowrap><i>#getCited.scientific_name#</i>&nbsp;</td>
