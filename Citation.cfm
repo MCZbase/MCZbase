@@ -203,7 +203,7 @@
 			<tr>
 				<th>&nbsp;</th>
 				<th>Cat Num</th>
-				<th>#session.CustomOtherIdentifier#</th>
+			<!---	<th>#session.CustomOtherIdentifier#</th>--->
 				<th>Cited As</th>
 				<th>Current ID</th>
 				<th>Citation Type</th>
