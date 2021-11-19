@@ -831,7 +831,7 @@ limitations under the License.
 	</script> 
 </header>
 <script type="text/javascript">
-	/** add active class when selected--makes the link of the menu bar item different color when active */
+//	/** add active class when selected--makes the link of the menu bar item different color when active */
 //	var url = window.location;
 //	
 //	//makes selected menu header have darker text
@@ -846,18 +846,14 @@ limitations under the License.
 //
 //	return false;
 //	});
-function processUL(ul) {
-    if (!ul.childNodes || ul.childNodes.length == 0) return;
-
-    // Iterate LIs
-    for (var itemi=0;itemi<ul.childNodes.length;itemi++) {
-        var item = ul.childNodes[itemi];
-        if (item.nodeName == "li") {
-            // Iterate things in this LI in the case that you need it put your code here to get the a element and change the color and background
-            .....
-        }
+$('##main-nav > ul.navbar-nav li').click(function(e) {
+    $('.navbar-nav li.active').removeClass('active');
+    var $this = $(this);
+    if (!$this.hasClass('active')) {
+        $this.addClass('active');
     }
-}
+    e.preventDefault();
+});
 </script>
 <cf_rolecheck>
 </cfoutput>
