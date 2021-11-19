@@ -846,7 +846,7 @@ limitations under the License.
 //
 //	return false;
 //	});
-var a_elements = sender.parentNode.parentNode.parentNode.getElementsByTagName("a");
+var a_elements = sender.parentNode.parentNode.getElementsByTagName("a");
 
 for (var i = 0, len = a_elements.length; i < len; i++ ) {
     a_elements[ i ].style.color = 'blue';
