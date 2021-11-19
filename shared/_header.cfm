@@ -846,14 +846,18 @@ limitations under the License.
 //
 //	return false;
 //	});
-var a_elements = sender.parentNode.parentNode.getElementsByTagName("a");
+function processUL(ul) {
+    if (!ul.childNodes || ul.childNodes.length == 0) return;
 
-for (var i = 0, len = a_elements.length; i < len; i++ ) {
-    a_elements[ i ].style.color = 'blue';
-    a_elements[ i ].style.backgroundColor = 'red';
+    // Iterate LIs
+    for (var itemi=0;itemi<ul.childNodes.length;itemi++) {
+        var item = ul.childNodes[itemi];
+        if (item.nodeName == "li") {
+            // Iterate things in this LI in the case that you need it put your code here to get the a element and change the color and background
+            .....
+        }
+    }
 }
-sender.style.color = 'white';
-sender.style.backgroundColor = 'yellow';
 </script>
 <cf_rolecheck>
 </cfoutput>
