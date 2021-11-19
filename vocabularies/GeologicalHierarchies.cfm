@@ -145,7 +145,7 @@ limitations under the License.
 						FROM geology_attribute_hierarchy 
 							left join ctgeology_attribute on geology_attribute_hierarchy.attribute = ctgeology_attribute.geology_attribute
 						WHERE
-							ctgeology_attribute.type = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.type#"> and
+							ctgeology_attribute.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#c.type#"> and
 							USABLE_VALUE_FG = 1 and
 							geology_attribute_hierarchy_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#"> and
 							parent_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
