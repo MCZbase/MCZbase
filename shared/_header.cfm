@@ -847,11 +847,12 @@ limitations under the License.
 //	return false;
 //	});
 $('##navbar_toplevel_div > ul.navbar-nav li').click(function(e) {
-	return this.href == url;
+
     $('.navbar-nav li.active').removeClass('active');
     var $this = $(this);
     if (!$this.hasClass('active')) {
         $this.addClass('active');
+		return this.href == url;
     }
     e.preventDefault();
 });
