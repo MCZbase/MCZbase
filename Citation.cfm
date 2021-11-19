@@ -203,7 +203,7 @@
 			<tr>
 				<th>&nbsp;</th>
 				<th>Cat Num</th>
-				<cfif len(getCited.CustomID) GT 0><th>#session.CustomOtherIdentifier#</th></cfif>
+				<cfif len(#getCited.CustomID#) GT 0><th>#session.CustomOtherIdentifier#</th></cfif>
 				<th>Cited As</th>
 				<th>Current ID</th>
 				<th>Citation Type</th>
@@ -260,7 +260,7 @@
 						</table>
 					</td>
 					<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
-					<cfif len(getCited.CustomID) GT 0><td nowrap="nowrap">#customID#</td></cfif>
+					<cfif len(#getCited.CustomID#) GT 0><td nowrap="nowrap">#customID#</td></cfif>
 					<td style="padding: 0 .5rem;"><i>#getCited.citSciName#</i>&nbsp;</td>
 					<td style="padding: 0 .5rem;"><i>#getCited.scientific_name#</i>&nbsp;</td>
 					<td style="padding: 0 .5rem;">#getCited.type_status#&nbsp;</td>
