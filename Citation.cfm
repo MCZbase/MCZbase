@@ -202,14 +202,12 @@
 		<thead>
 			<tr>
 				<th>&nbsp;</th>
-				<th nowrap>Cat Num</th>
-				<th nowrap>#session.CustomOtherIdentifier#</th>
-				<th nowrap>
-				Cited As
-				</th>
+				<th>Cat Num</th>
+				<th>#session.CustomOtherIdentifier#</th>
+				<th>Cited As</th>
 				<th>Current ID</th>
-				<th nowrap>Citation Type</th>
-					<th nowrap>Page ##</th>
+				<th>Citation Type</th>
+				<th>Page ##</th>
 				<th>Remarks</th>
 			</tr>
 		</thead>
