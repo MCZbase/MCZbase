@@ -50,8 +50,8 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	border: none;      /* this takes away the default focus & focus style from above */
 }
 .navbar-light .dropdown-item.active, .dropdown-item:active {  /* when the menu option is clicked this styling is activated */
-	background-color:#deebec ;
-	color: black;
+	background-color:green ;
+	color: white;
 }
 .navbar-nav>.nav-item.active {
 	color: green;
