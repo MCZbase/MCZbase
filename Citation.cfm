@@ -100,7 +100,10 @@
 	ORDER BY
 		occurs_page_number,citSciName,cat_num
 </cfquery>
-
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select collection_id,collection from collection
+	order by collection
+</cfquery>
 	<h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
 	<cfif len(getCited.doi) GT 0>
 	doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
@@ -272,10 +275,7 @@
 		</cfloop>
 	</tr>
 </table>
-<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select collection_id,collection from collection
-	order by collection
-</cfquery>
+
 
 </cfoutput>
 	</div>
