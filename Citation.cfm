@@ -61,7 +61,7 @@
 
 <!------------------------------------------------------------------------------->
 <cfif action is "nothing">
-     <div style="width: 73em; margin: 0 auto; padding: 2em 0 5em 0;">
+     <div style="width: 99%; margin: 0 auto; padding: 2em 0 5em 0;">
 <cfset title="Manage Citations">
 <cfoutput>
 
@@ -198,7 +198,7 @@
 		</tr>
 	</table>
 </form>
-<table class="pubtable" border="0" style="border: none;font-size: 15px;">
+<table class="pubtable" border="0" style="border: none;font-size: 15px;margin-top:1.5rem;">
 	<tr>
 		<td>&nbsp;</td>
 		<td nowrap>Cat Num</td>
