@@ -148,7 +148,10 @@ limitations under the License.
 							ctgeology_attribute.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#c.type#"> and
 							USABLE_VALUE_FG = 1 and
 							geology_attribute_hierarchy_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#"> and
-							parent_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+							(
+								parent_id is NULL or
+								parent_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+							)
 						ORDER BY ordinal, attribute_value
 					</cfquery>
 					<section class="col-12 border rounded my-2 mx-2">
