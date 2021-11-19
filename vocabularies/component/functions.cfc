@@ -389,7 +389,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 							</cfif>
 						</cfif>
 						<li>
-							<span <cfif children.usable_value_fg is 0>style="color:red"</cfif>>#children.attribute#</span>
+							<span <cfif children.usable_value_fg is 0>style="color:red"</cfif>>#children.attribute_value# (#children.attribute#)</span>
 							<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#children.geology_attribute_hierarchy_id#">edit</a>
 						</li>
 						<cfif children.currentRow IS children.recordCount>
@@ -399,7 +399,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 				</cfloop>
 			</cfif>
 			</ul><!--- for first node of children = current node --->
-			<cfloop from="1" to="#paerentnesting#" index="i">
+			<cfloop from="1" to="#parentnesting#" index="i">
 				<!--- for parentage of current node to root --->
 				</ul>
 			</cfloop>
