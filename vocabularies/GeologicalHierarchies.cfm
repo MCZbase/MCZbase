@@ -190,7 +190,7 @@ limitations under the License.
 									$("##changeParentageButton").on('click',changeParentage);
 								});
 							</script>
-							<div class="col-12 col-md-4" id="localTreeDiv">
+							<div class="col-12" id="localTreeDiv">
 								<cfset localTreeBlock = getNodeInGeologyTreeHtml('#geology_attribute_hierarchy_id#')>
 								#localTreeBlock#
 							</div> 
