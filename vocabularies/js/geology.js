@@ -129,3 +129,20 @@ function changeGeologicalAttributeLink(parent, child, feedback, callback) {
 		});
 	}
 };
+
+function refreshGeologyTreeForNode(geology_attribute_hierarchy_id,targetDiv) { 
+	$.ajax({
+		url: "/vocabularies/component/functions.cfc",
+		data: { 
+			geology_attribute_hierarchy_id: geology_attribute_hierarchy_id,
+			method: 'getNodeInGeologyTreeHtml'
+		},
+		dataType: 'html',
+		success : function (result) { 
+			$('#'+targetDiv).html(result)
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error, "Error looking up tree for geological attribute: "); 
+		}
+	});
+};
