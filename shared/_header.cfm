@@ -851,8 +851,7 @@ $('ul.navbar-nav > ul.dropdown-menu li a').click(function(e) {
     $this.parent().siblings().removeClass('active').end().addClass('active');
     e.preventDefault();
 
-    // Load the page content in to element
-    // with id #content using ajax (There are other ways)
+
 
 });
 </script>
