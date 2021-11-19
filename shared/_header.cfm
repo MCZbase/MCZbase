@@ -852,8 +852,8 @@ for (var i = 0, len = a_elements.length; i < len; i++ ) {
     a_elements[ i ].style.color = 'blue';
     a_elements[ i ].style.backgroundColor = 'red';
 }
-sender.style.color = '#FFFFFF';
-sender.style.backgroundColor = '#000000';
+sender.style.color = 'white';
+sender.style.backgroundColor = 'yellow';
 </script>
 <cf_rolecheck>
 </cfoutput>
