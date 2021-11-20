@@ -157,7 +157,7 @@ limitations under the License.
 						ORDER BY ordinal, attribute_value
 					</cfquery>
 					<section class="col-12">
-						<div class="row border rounded my-2">
+						<div class="row border rounded my-2 mx-1">
 							<div class="col-12">
 								<h3 class="h4">Hierarchical Relationships of #c.attribute_value# (#c.attribute#)</h3>
 							</div>
@@ -172,7 +172,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-4">
 								<label for="changeParentageButton" class="data-entry-label"></label>
-								<button id="changeParentageButton" value="Save" class="btn btn-secondary btn-xs">Save</button>
+								<button id="changeParentageButton" value="Save" class="btn btn-secondary btn-xs data-entry-button" >Save</button>
 								<div id="changeParentageFeedback"></div>
 							</div>
 							<script>
