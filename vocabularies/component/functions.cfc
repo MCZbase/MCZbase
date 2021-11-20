@@ -371,7 +371,9 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 				ORDER SIBLINGS BY ordinal, attribute_value
 			</cfquery>
 			<cfif children.recordcount EQ 1>
-				<li><h3 class="h4">#children.attribute_value# (#children.attribute#)</h3></li>
+				<ul>
+					<cfset parentnesting = parentnesting + 1>
+					<li><h3 class="h4">#children.attribute_value# (#children.attribute#)</h3></li>
 			<cfelse>
 				<cfset levelList = "">
 				<cfset firstNode = true>
