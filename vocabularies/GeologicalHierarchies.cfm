@@ -156,8 +156,8 @@ limitations under the License.
 							)
 						ORDER BY ordinal, attribute_value
 					</cfquery>
-					<section class="col-12 border rounded my-2 mx-2">
-						<div class="row">
+					<section class="col-12">
+						<div class="row border rounded my-2 mx-2">
 							<div class="col-12">
 								<h3 class="h4">Hierarchical Relationships of #c.attribute_value# (#c.attribute#)</h3>
 							</div>
