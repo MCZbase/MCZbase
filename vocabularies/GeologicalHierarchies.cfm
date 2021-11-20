@@ -128,12 +128,10 @@ limitations under the License.
 							</div>
 							<div class="form-row mb-2">
 								<div class="col-12 col-xl-6">
-									<label for="saveUpdatesButton" class="data-entry-label"></label>
 									<input type="submit" id="saveUpdatesButton"  value="Save Edits" class="btn btn-primary btn-xs">
 								</div>
 								<div class="col-12 col-xl-6">
 									<cfif use.ct EQ 0>
-										<label for="deleteButton" class="data-entry-label"></label>
 										<input type="button" value="Delete" id="deleteButton" class="btn btn-xs btn-danger"
 	   									onclick="document.location='/vocabularies/GeologicalHierarchies.cfm?action=delete&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#';">
 									</cfif>
@@ -173,6 +171,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-4">
+								<label for="changeParentageButton" class="data-entry-label"></label>
 								<button id="changeParentageButton" value="Save" class="btn btn-secondary btn-xs">Save</button>
 								<div id="changeParentageFeedback"></div>
 							</div>
