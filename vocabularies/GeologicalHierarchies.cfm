@@ -53,6 +53,8 @@ limitations under the License.
 
 <cfswitch expression="#action#">
 	<cfcase value="edit">
+		<!--- Include the template that contains functions used to load portions of this page --->
+		<cfinclude template="/vocabularies/component/functions.cfc" runOnce="true">
 		<main class="container py-3" id="content" >
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
@@ -126,109 +128,73 @@ limitations under the License.
 							</div>
 							<div class="form-row mb-2">
 								<div class="col-12 col-xl-6">
-									<input type="submit" value="Save Edits" class="btn btn-primary btn-xs">
+									<input type="submit" id="saveUpdatesButton"  value="Save Edits" class="btn btn-primary btn-xs">
 								</div>
 								<div class="col-12 col-xl-6">
 									<cfif use.ct EQ 0>
-										<input type="button" value="Delete" class="btn btn-xs btn-danger"
+										<input type="button" value="Delete" id="deleteButton" class="btn btn-xs btn-danger"
 	   									onclick="document.location='/vocabularies/GeologicalHierarchies.cfm?action=delete&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#';">
 									</cfif>
 								</div>
 							</div>
 						</form>
 					</section>
-					<section class="col-12 border rounded my-2 mx-2">
-						<div class="row">
-							<cfif len(c.parent_id) GT 0> 
-								<cfquery name="parents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
-							      SELECT
-						   	      level,
-						      	   geology_attribute_hierarchy_id,
-						         	parent_id,
-							         usable_value_fg,
-							         attribute_value || ' (' || attribute || ')' attribute,
-										SYS_CONNECT_BY_PATH(attribute_value, '|') as path
-							      FROM
-							         geology_attribute_hierarchy
-						   	      LEFT JOIN ctgeology_attributes on attribute = geology_attribute
-									WHERE
-										geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
-							      START WITH parent_id IS NULL
-		      	 				CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
-								</cfquery>
-								<cfloop query="parents">
-									<div class="col-12">
-										<h3 class="h4">Path from root to this node.</h3>
-										<cfset parentage = Right(parents.path,len(parents.path)-1)>
-										<cfset parentage = Left(parentage,REFind("\|[^\|]+$",parentage))>
-										<cfset parentageArray = ListToArray(parentage,'|')>
-										<ul>
-											<cfloop array="#parentageArray#" index="pitem">
-												<li>#pitem#</li>
-											</cfloop>
-										</ul>
-									</div>
-								</cfloop>
-							<cfelse>
-								<div class="col-12">
-									<h3 class="h4">#c.attribute_value# (#c.attribute#) is a root node with no parent.</h3>
-								</div>
-							</cfif>
-
+					<cfquery name="candidateParents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT 
+							GEOLOGY_ATTRIBUTE_HIERARCHY_ID,
+							geology_attribute_hierarchy.ATTRIBUTE,
+							ATTRIBUTE_VALUE
+						FROM geology_attribute_hierarchy 
+							left join ctgeology_attribute on geology_attribute_hierarchy.attribute = ctgeology_attribute.geology_attribute
+						WHERE
+							ctgeology_attribute.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#c.type#"> and
+							USABLE_VALUE_FG = 1 and
+							geology_attribute_hierarchy_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#"> and
+							(
+								parent_id is NULL or
+								parent_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+							)
+						ORDER BY ordinal, attribute_value
+					</cfquery>
+					<section class="col-12">
+						<div class="row border rounded my-2 mx-1">
 							<div class="col-12">
-								<h3 class="h4">#c.attribute_value# (#c.attribute#) This Node</h3>
+								<h3 class="h4">Hierarchical Relationships of #c.attribute_value# (#c.attribute#)</h3>
 							</div>
-	
-							<cfquery name="children"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="children_result">
-					      	SELECT
-					   	      level,
-						         geology_attribute_hierarchy_id,
-						         parent_id,
-						         usable_value_fg,
-						         attribute_value || ' (' || attribute || ')' attribute
-						      FROM
-					      	   geology_attribute_hierarchy
-					   	      LEFT JOIN ctgeology_attributes on attribute = geology_attribute
-						         START WITH geology_attribute_hierarchy.geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.geology_attribute_hierarchy_id#">
-	       						CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
-	    							ORDER SIBLINGS BY ordinal, attribute_value
-							</cfquery>
-							<div class="col-12">
-								<cfif children.recordcount EQ 1>
-									<h3 class="h4">#c.attribute_value# (#c.attribute#) is a leaf node with no children.</h3>
-								<cfelse>
-									<h3 class="h4">Child Nodes</h3>
-									<cfset levelList = "">
-									<cfset firstNode = true>
-									<cfloop query="children">
-										<cfif firstNode>
-											<!--- skip the first node, it is the present node --->
-											<cfset firstNode = false>
-										<cfelse>
-											<cfif listLast(levelList,",") IS NOT children.level>
-										    	<cfset levelListIndex = listFind(levelList,children.level,",")>
-									      	<cfif levelListIndex IS NOT 0>
-									        		<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
-								         		<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
-							         	   		<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
-			         							</cfloop>
-									   	     	#repeatString("</ul>",numberOfLevelsToRemove)#
-						   	   			<cfelse>
-			      					  			<cfset levelList = listAppend(levelList,children.level)>
-			      	   						<ul>
-			   	   						</cfif>
-				  							</cfif>
-											<li>
-												<span <cfif children.usable_value_fg is 0>style="color:red"</cfif>>#children.attribute#</span>
-												<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#children.geology_attribute_hierarchy_id#">more</a>
-											</li>
-											<cfif children.currentRow IS children.recordCount>
-												#repeatString("</ul>",listLen(levelList,","))#
-									   	</cfif>
-										</cfif>
+							<div class="col-12 col-md-8">
+								<label for="changeParentage" class="data-entry-label">Change parent of #c.attribute_value# (#c.attribute#) to:</label>
+								<select id="changeParentage" name="changeParentage" class="data-entry-select">
+									<option value="NULL">Unlink from Parent</option>
+									<cfloop query="candidateparents">
+										<option value="#candidateParents.geology_attribute_hierarchy_id#">#candidateParents.attribute_value# (#candidateParents.attribute#)</option>
 									</cfloop>
-								</cfif>
+								</select>
 							</div>
+							<div class="col-12 col-md-4">
+								<label for="changeParentageButton" class="data-entry-label">&nbsp;</label>
+								<button id="changeParentageButton" value="Save" class="btn btn-secondary btn-xs data-entry-button" >Save</button>
+								<div id="changeParentageFeedback"></div>
+							</div>
+							<script>
+								function reloadHierarchy() { 
+									refreshGeologyTreeForNode(#geology_attribute_hierarchy_id#,"localTreeDiv")
+								};
+								function changeParentage() { 
+									var newParent = $('select[name=changeParentage] option').filter(':selected').val();
+									if (newParent) { 
+										changeGeologicalAttributeLink(newParent, #geology_attribute_hierarchy_id#, "changeParentageFeedback", reloadHierarchy);
+									} else { 
+										messageDialog("Error: No value selected.");
+									}
+								};
+								$(document).ready(function(){
+									$("##changeParentageButton").on('click',changeParentage);
+								});
+							</script>
+							<div class="col-12" id="localTreeDiv">
+								<cfset localTreeBlock = getNodeInGeologyTreeHtml('#geology_attribute_hierarchy_id#')>
+								#localTreeBlock#
+							</div> 
 						</div>
 					</section>
 				</div>
