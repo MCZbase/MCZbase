@@ -171,7 +171,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="changeParentageButton" class="data-entry-label"></label>
+								<label for="changeParentageButton" class="data-entry-label">&nbsp;</label>
 								<button id="changeParentageButton" value="Save" class="btn btn-secondary btn-xs data-entry-button" >Save</button>
 								<div id="changeParentageFeedback"></div>
 							</div>
