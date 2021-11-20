@@ -327,27 +327,33 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 			</cfquery>
 			<cfset parentnesting = 0>
 			<cfloop query="parents">
+				<!--- Remove the leading | connect by path separator ---> 
 				<cfset parentage = Right(parents.path_ids,len(parents.path_ids)-1)>
-				<cfset parentage = Left(parentage,REFind("\|[^\|]+$",parentage))>
-				<cfset parentageArray = ListToArray(parentage,'|')>
-				<cfloop array="#parentageArray#" index="pitem">
-					<ul>
-						<cfset parentnesting = parentnesting + 1>
-						<cfquery name="parent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
-							SELECT
-								geology_attribute_hierarchy_id,
-								usable_value_fg,
-								attribute_value || ' (' || attribute || ')' attribute
-							FROM
-								geology_attribute_hierarchy
-							WHERE
-								geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pitem#">
-						</cfquery>
-						<li>
-							<span <cfif parent.usable_value_fg is 0>style="color:red"</cfif>>#parent.attribute#</span>
-							<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#parent.geology_attribute_hierarchy_id#">edit</a>
-						</li>
+				<cfif REFind("\|[^\|]+$",parentage) EQ 0>
+					<!--- No parents, we'll pick up the current node from the children query --->
+				<cfelse>
+					<!--- Strip off the current node, we'll get that from the children query --->
+					<cfset parentage = Left(parentage,REFind("\|[^\|]+$",parentage))>
+					<cfset parentageArray = ListToArray(parentage,'|')>
+					<cfloop array="#parentageArray#" index="pitem">
+						<ul>
+							<cfset parentnesting = parentnesting + 1>
+							<cfquery name="parent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
+								SELECT
+									geology_attribute_hierarchy_id,
+									usable_value_fg,
+									attribute_value || ' (' || attribute || ')' attribute
+								FROM
+									geology_attribute_hierarchy
+								WHERE
+									geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pitem#">
+							</cfquery>
+							<li>
+								<span <cfif parent.usable_value_fg is 0>style="color:red"</cfif>>#parent.attribute#</span>
+								<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#parent.geology_attribute_hierarchy_id#">edit</a>
+							</li>
 					</cfloop>
+				</cfif>
 			</cfloop>
 			<cfquery name="children" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="children_result">
 				SELECT
