@@ -1459,7 +1459,8 @@ Some Totally Random String Data .....
 									 value="#other_id_type#">#other_id_type#</option>
 								</cfloop>
 							</select>
-							<input type="text" value="#related_to_number#" name="related_to_number" id="related_to_number" size="10" />
+							<input type="text" value="#related_to_number#" name="related_to_number" id="related_to_number" size="15" />
+							<input type="text" value="#BIOL_INDIV_RELATION_REMARKS#" name="BIOL_INDIV_RELATION_REMARKS" id="BIOL_INDIV_RELATION_REMARKS" size="20" />
 						</td>
 					</tr>
 				</table><!------ random admin stuff ---------->
