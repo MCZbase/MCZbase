@@ -1450,7 +1450,7 @@ Some Totally Random String Data .....
 								</cfloop>
 							</select>
 							<cfset thisRELATED_TO_NUM_TYPE = RELATED_TO_NUM_TYPE>
-							<select name="related_to_num_type" size="1" id="related_to_num_type" style="width:110px">
+							<select name="related_to_num_type" size="1" id="related_to_num_type" style="width:125px">
 								<option value=""></option>
 								<option <cfif thisRELATED_TO_NUM_TYPE is "catalog number">selected="selected"</cfif> value="catalog number">catalog number (UAM:Mamm:123 format)</option>
 								<cfloop query="ctOtherIdType">
@@ -1460,7 +1460,7 @@ Some Totally Random String Data .....
 								</cfloop>
 							</select>
 							<input type="text" value="#related_to_number#" name="related_to_number" id="related_to_number" size="15" />
-							<input type="text" value="#BIOL_INDIV_RELATION_REMARKS#" name="BIOL_INDIV_RELATION_REMARKS" id="BIOL_INDIV_RELATION_REMARKS" size="20" />
+							<input type="text" value="#BIOL_INDIV_RELATION_REMARKS#" name="BIOL_INDIV_RELATION_REMARKS" id="BIOL_INDIV_RELATION_REMARKS" size="33" />
 						</td>
 					</tr>
 				</table><!------ random admin stuff ---------->
