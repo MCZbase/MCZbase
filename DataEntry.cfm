@@ -1450,7 +1450,7 @@ Some Totally Random String Data .....
 								</cfloop>
 							</select>
 							<cfset thisRELATED_TO_NUM_TYPE = RELATED_TO_NUM_TYPE>
-							<select name="related_to_num_type" size="1" id="related_to_num_type" style="width:80px">
+							<select name="related_to_num_type" size="1" id="related_to_num_type" style="width:110px">
 								<option value=""></option>
 								<option <cfif thisRELATED_TO_NUM_TYPE is "catalog number">selected="selected"</cfif> value="catalog number">catalog number (UAM:Mamm:123 format)</option>
 								<cfloop query="ctOtherIdType">
