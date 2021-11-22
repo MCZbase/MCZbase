@@ -196,21 +196,23 @@ limitations under the License.
 							<div class="col-12" id="localTreeDiv">
 								<cfset localTreeBlock = getNodeInGeologyTreeHtml('#geology_attribute_hierarchy_id#')>
 								#localTreeBlock#
-							</div> 
-							<div class="col-12 col-md-8">
-								<label for="addChild" class="data-entry-label">Add a child of #c.attribute_value# (#c.attribute#)</label>
-								<select id="addChild" name="addChild" class="data-entry-select">
-									<option value=""></option>
-									<cfloop query="candidateChildren">
-										<option value="#candidateChildren.geology_attribute_hierarchy_id#">#candidateChildren.attribute_value# (#candidateChildren.attribute#)</option>
-									</cfloop>
-								</select>
 							</div>
-							<div class="col-12 col-md-4">
-								<label for="addChildButton" class="data-entry-label">&nbsp;</label>
-								<button id="addChildButton" value="Add" class="btn btn-secondary btn-xs data-entry-button">Add</button>
-								<div id="addChildFeedback"></div>
-							</div>
+							<cfif candidateChildren.recordcount GT 0> 
+								<div class="col-12 col-md-8">
+									<label for="addChild" class="data-entry-label">Add a child of #c.attribute_value# (#c.attribute#)</label>
+									<select id="addChild" name="addChild" class="data-entry-select">
+										<option value=""></option>
+										<cfloop query="candidateChildren">
+											<option value="#candidateChildren.geology_attribute_hierarchy_id#">#candidateChildren.attribute_value# (#candidateChildren.attribute#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-4">
+									<label for="addChildButton" class="data-entry-label">&nbsp;</label>
+									<button id="addChildButton" value="Add" class="btn btn-secondary btn-xs data-entry-button">Add</button>
+									<div id="addChildFeedback"></div>
+								</div>
+							</cfif>
 							<script>
 								function reloadHierarchy() { 
 									refreshGeologyTreeForNode(#geology_attribute_hierarchy_id#,"localTreeDiv")
