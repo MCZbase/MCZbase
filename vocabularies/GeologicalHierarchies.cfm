@@ -68,7 +68,8 @@ limitations under the License.
 								ATTRIBUTE_VALUE ,
 								USABLE_VALUE_FG ,
 								geology_attribute_hierarchy.DESCRIPTION,
-								ctgeology_attribute.type
+								ctgeology_attribute.type,
+								ctgeology_attribute.ordinal
 							FROM geology_attribute_hierarchy 
 								left join ctgeology_attribute on geology_attribute_hierarchy.attribute = ctgeology_attribute.geology_attribute
 							WHERE
@@ -156,6 +157,23 @@ limitations under the License.
 							)
 						ORDER BY ordinal, attribute_value
 					</cfquery>
+					<cfquery name="candidateChildren"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT 
+							GEOLOGY_ATTRIBUTE_HIERARCHY_ID,
+							geology_attribute_hierarchy.ATTRIBUTE,
+							ATTRIBUTE_VALUE
+						FROM geology_attribute_hierarchy 
+							left join ctgeology_attribute on geology_attribute_hierarchy.attribute = ctgeology_attribute.geology_attribute
+						WHERE
+							ctgeology_attribute.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#c.type#"> and
+							ctgeology_attribute.ordinal > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="c.ordinal"> and 
+							geology_attribute_hierarchy_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#"> and
+							(
+								parent_id is NULL or
+								parent_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+							)
+						ORDER BY ordinal, attribute_value
+					</cfquery>
 					<section class="col-12">
 						<div class="row border rounded my-2 mx-1">
 							<div class="col-12">
@@ -175,6 +193,24 @@ limitations under the License.
 								<button id="changeParentageButton" value="Save" class="btn btn-secondary btn-xs data-entry-button" >Save</button>
 								<div id="changeParentageFeedback"></div>
 							</div>
+							<div class="col-12" id="localTreeDiv">
+								<cfset localTreeBlock = getNodeInGeologyTreeHtml('#geology_attribute_hierarchy_id#')>
+								#localTreeBlock#
+							</div> 
+							<div class="col-12 col-md-8">
+								<label for="addChild" class="data-entry-label">Add a child of #c.attribute_value# (#c.attribute#)</label>
+								<select id="addChild" name="addChild" class="data-entry-select">
+									<option value=""></option>
+									<cfloop query="candidateChildren">
+										<option value="#candidateChildren.geology_attribute_hierarchy_id#">#candidateChildren.attribute_value# (#candidateChildren.attribute#)</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-4">
+								<label for="addChildButton" class="data-entry-label">&nbsp;</label>
+								<button id="addChildButton" value="Add" class="btn btn-secondary btn-xs data-entry-button">Add</button>
+								<div id="addChildFeedback"></div>
+							</div>
 							<script>
 								function reloadHierarchy() { 
 									refreshGeologyTreeForNode(#geology_attribute_hierarchy_id#,"localTreeDiv")
@@ -187,14 +223,19 @@ limitations under the License.
 										messageDialog("Error: No value selected.");
 									}
 								};
+								function addChild() { 
+									var newChild = $('select[name=addChild] option').filter(':selected').val();
+									if (newChild) { 
+										changeGeologicalAttributeLink(#geology_attribute_hierarchy_id#,newChild, "addChildFeedback", reloadHierarchy);
+									} else { 
+										messageDialog("Error: No value selected.");
+									}
+								};
 								$(document).ready(function(){
 									$("##changeParentageButton").on('click',changeParentage);
+									$("##addChildButton").on('click',addChild);
 								});
 							</script>
-							<div class="col-12" id="localTreeDiv">
-								<cfset localTreeBlock = getNodeInGeologyTreeHtml('#geology_attribute_hierarchy_id#')>
-								#localTreeBlock#
-							</div> 
 						</div>
 					</section>
 				</div>
