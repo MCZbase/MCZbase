@@ -184,6 +184,12 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 	<cfreturn #theResult#>
 </cffunction>
 
+<!--- ** unlinkChildGeologicalAttribute unlink a node in the geological attribute hierarchy 
+  * from a tree into which it is placed by setting its parent_id to null, this does not alter
+  * the relationship of children of the node to be unlinked, they remain as children of the unlinked node.
+  * @param child the geology_attribute_hierarchy_id of the node that is to be unlinked.
+  * @return json containing status=1 and message on success, http 500 response on an error.
+--->
 <cffunction name="unlinkChildGeologicalAttribute" access="remote" returntype="any" returnformat="json">
 	<cfargument name="child" type="string" required="yes">
 
@@ -216,6 +222,101 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 	<cfreturn #theResult#>
 </cffunction>
 
+<!--- ** mergeGeologicalAttributes merge one node in the geological hierarchy tree into another, 
+  * updating all related geology_attribute values to reflect the attribute/attribute value of the 
+  * merge target, this will also move child nodes of the nodeToMerge to be child nodes of mergeTarget.
+  * @param nodeToMerge the geology_attribute_hierarchy_id of the node that is to be merged into the mergeTarget
+  * @param mergeTarget the geology_attribute_hierarchy_id of the node into which nodeToMerge is to be merged
+  * @return json containing status=1 and message on success, http 500 response on an error.
+--->
+<cffunction name="mergeGeologicalAttributes" access="remote" returntype="any" returnformat="json">
+	<cfargument name="nodeToMerge" type="string" required="yes">
+	<cfargument name="mergeTarget" type="string" required="yes">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<!--- confirm that both nodes exist --->
+			<cfquery name="toMerge" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="toMergeLink_result">
+				SELECT
+					attribute_value, attribute, usable_value_fg
+				FROM 
+					geology_attribute_hierarchy
+				WHERE 
+					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nodeToMerge#">
+			</cfquery>
+			<cfif toMerge.recordcount NEQ 1>
+				<cfthrow message="Node to merge not found.">
+			</cfif>
+			<cfquery name="mergeInto" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mergeIntoLink_result">
+				SELECT
+					attribute_value, attribute, usable_value_fg
+				FROM 
+					geology_attribute_hierarchy
+				WHERE 
+					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mergeTarget#">
+			</cfquery>
+			<cfif mergeInto.recordcount NEQ 1>
+				<cfthrow message="Node to merge into not found.">
+			</cfif>
+			<cfif toMerge.usable_value_fg EQ 1 AND mergeInto.usable_value_fg EQ 0>
+				<cfthrow message="A node which is valid for data entry can not be merged into a node which is not valid for data entry.">
+			</cfif>
+			<!--- unlink the node to be removed from its parent --->
+			<cfquery name="removeLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeLink_result">
+				UPDATE geology_attribute_hierarchy 
+				SET parent_id = NULL 
+				WHERE 
+					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nodeToMerge#">
+			</cfquery>
+			<!--- move any child nodes of the node to be merged to be children of the merge target --->
+			<cfquery name="updateLinks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateLinks_result">
+				UPDATE geology_attribute_hierarchy 
+				SET parent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mergeTarget#">
+				WHERE 
+					parent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nodeToMerge#">
+			</cfquery>
+			<!--- move all geology_attributes to the merge target --->
+			<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
+				UPDATE geology_attributes
+				SET
+					geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mergeInto.attribute#">,
+					geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mergeInto.attribute_value#">,
+					geo_att_remark = trim(geo_att_remark || ' Previous value:' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mergeInto.attribute_value#">)
+				WHERE
+					geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#toMerge.attribute#"> AND
+					geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#toMerge.attribute_value#">
+			</cfquery>
+			<!--- merge complete, remove the merged node from the tree --->
+			<cfquery name="removeNode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeNode_result">
+				DELETE FROM geology_attribute_hierarchy 
+				WHERE 
+					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nodeToMerge#">
+			</cfquery>
+			<cfif removeNode.recordcount NEQ 1>
+				<cfthrow message="Error removing node.">
+			</cfif>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Merged #toMerge.attribute_value# into #mergeInto.attribute_value#", 1)>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
+<!--- ** linkGeologicalAttribute link two nodes in the geological hierarchy tree into a parent-child relationship.
+  * @param child the geology_attribute_hierarchy_id of the node that is to be the child
+  * @param parent the geology_attribute_hierarchy_id of the node that is to be the parent
+  * @return json containing status=1 and message on success, http 500 response on an error.
+--->
 <cffunction name="linkGeologicalAttributes" access="remote" returntype="any" returnformat="json">
 	<cfargument name="child" type="string" required="yes">
 	<cfargument name="parent" type="string" required="yes">
@@ -302,6 +403,13 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 	<cfreturn #theResult#>
 </cffunction>
 
+<!--- ** getNodeInGeologyTreeHtml obtain an html representation of the location of a node within its tree, including 
+  * the path from the node to root, the specified node highlighted, and all nodes that are children of the specified
+  * node. 
+  * @param geology_attribute_hierarchy_id the surrogate numeric primary key value of the node to return tree placement
+  *   information about
+  * @returns html representation of the tree as nested unordered lists.
+--->
 <cffunction name="getNodeInGeologyTreeHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="geology_attribute_hierarchy_id" type="string" required="yes">
 

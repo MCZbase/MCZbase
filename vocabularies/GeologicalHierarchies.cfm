@@ -59,7 +59,7 @@ limitations under the License.
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
 					<section class="col-12" title="Edit Geological Atribute">
-	  
+	  					<!--- Lookup the current node --->
 						<cfquery name="c"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
 								GEOLOGY_ATTRIBUTE_HIERARCHY_ID ,
@@ -84,7 +84,8 @@ limitations under the License.
 									geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#c.attribute_value#">
 						</cfquery>
 
-						<h2 class="h2">Edit #c.attribute#:#c.attribute_value# (#c.type#)</h2>
+						<cfif c.usable_value_fg EQ 1><cfset uflag="*"><cfelse><cfset uflag=""></cfif>
+						<h2 class="h2">Edit #c.attribute#:#c.attribute_value# (#c.type#) #cflag#</h2>
 						<div class="h3">Attribute for #use.ct# Localities.</div>
 						<cfset disabled = "">
 						<cfif use.ct GT 0>
@@ -144,7 +145,8 @@ limitations under the License.
 						SELECT 
 							GEOLOGY_ATTRIBUTE_HIERARCHY_ID,
 							geology_attribute_hierarchy.ATTRIBUTE,
-							ATTRIBUTE_VALUE
+							ATTRIBUTE_VALUE,
+							usable_value_fg
 						FROM geology_attribute_hierarchy 
 							left join ctgeology_attribute on geology_attribute_hierarchy.attribute = ctgeology_attribute.geology_attribute
 						WHERE
@@ -161,7 +163,8 @@ limitations under the License.
 						SELECT 
 							GEOLOGY_ATTRIBUTE_HIERARCHY_ID,
 							geology_attribute_hierarchy.ATTRIBUTE,
-							ATTRIBUTE_VALUE
+							ATTRIBUTE_VALUE,
+							usable_value_fg
 						FROM geology_attribute_hierarchy 
 							left join ctgeology_attribute on geology_attribute_hierarchy.attribute = ctgeology_attribute.geology_attribute
 						WHERE
@@ -184,7 +187,8 @@ limitations under the License.
 								<select id="changeParentage" name="changeParentage" class="data-entry-select">
 									<option value="NULL">Unlink from Parent</option>
 									<cfloop query="candidateparents">
-										<option value="#candidateParents.geology_attribute_hierarchy_id#">#candidateParents.attribute_value# (#candidateParents.attribute#)</option>
+										<cfif candidateparents.usable_value_fg EQ 1><cfset uflag="*"><cfelse><cfset uflag=""></cfif>
+										<option value="#candidateParents.geology_attribute_hierarchy_id#">#candidateParents.attribute_value# (#candidateParents.attribute#) #uflag#</option>
 									</cfloop>
 								</select>
 							</div>
@@ -203,7 +207,8 @@ limitations under the License.
 									<select id="addChild" name="addChild" class="data-entry-select">
 										<option value=""></option>
 										<cfloop query="candidateChildren">
-											<option value="#candidateChildren.geology_attribute_hierarchy_id#">#candidateChildren.attribute_value# (#candidateChildren.attribute#)</option>
+											<cfif candidateChildren.usable_value_fg EQ 1><cfset uflag="*"><cfelse><cfset uflag=""></cfif>
+											<option value="#candidateChildren.geology_attribute_hierarchy_id#">#candidateChildren.attribute_value# (#candidateChildren.attribute#) #uflag#</option>
 										</cfloop>
 									</select>
 								</div>
@@ -236,6 +241,70 @@ limitations under the License.
 								$(document).ready(function(){
 									$("##changeParentageButton").on('click',changeParentage);
 									$("##addChildButton").on('click',addChild);
+								});
+							</script>
+						</div>
+					</section>
+					<section class="col-12">
+						<cfquery name="mergeCandidates"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT 
+								GEOLOGY_ATTRIBUTE_HIERARCHY_ID,
+								geology_attribute_hierarchy.ATTRIBUTE,
+								ATTRIBUTE_VALUE,
+								usable_value_fg
+							FROM geology_attribute_hierarchy 
+								left join ctgeology_attribute on geology_attribute_hierarchy.attribute = ctgeology_attribute.geology_attribute
+							WHERE
+								ctgeology_attribute.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#c.type#"> and
+								<cfif c.usable_value_fg EQ 0>
+									USABLE_VALUE_FG = 0 and
+								</cfif>
+								geology_attribute_hierarchy_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#"> and
+								ctgeology_attribute.ordinal = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.ordinal#">
+							ORDER BY ordinal, attribute_value
+						</cfquery>
+						<div class="row border rounded my-2 mx-1">
+							<div class="col-12">
+								<h3 class="h4">Merge other nodes into #c.attribute#:#c.attribute_value# </h3>
+								<p>Merging nodes will update the geological attributes of all localities that use the selected attribute and value to use #c.attribute#:#c.attribute_value# instead.</p>
+							</div>
+							<cfif candidateChildren.recordcount GT 0> 
+								<div class="col-12 col-md-8">
+									<label for="nodeToMerge" class="data-entry-label">Merge selected value into: #c.attribute_value# (#c.attribute#)</label>
+									<select id="nodeToMerge" name="nodeToMerge" class="data-entry-select">
+										<option value=""></option>
+										<cfloop query="mergeCandidates">
+											<cfif mergeCandidates.usable_value_fg EQ 1><cfset uflag="*"><cfelse><cfset uflag=""></cfif>
+											<option value="#mergeCandidates.geology_attribute_hierarchy_id#">#mergeCandidates.candidates.attribute_value# (#mergeCandidates.attribute#) #uflag#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-4">
+									<label for="mergeButton" class="data-entry-label">&nbsp;</label>
+									<button id="mergeButton" value="Add" class="btn btn-secondary btn-xs data-entry-button">Merge</button>
+									<div id="mergeFeedback"></div>
+								</div>
+							<cfelse>
+								<div class="col-12">
+									<p>
+										No Nodes are candidates to merge with this node.  
+										<cfif c.usable_value_fg EQ 0>
+											Note that nodes approved for data entry can't be merged with nodes which are not.  If there are nodes approved for data entry that you wish to merge with this node, change this node to valid for data entry and reload this page. 
+										</cfif>
+									</p>
+								</div>
+							</cfif>
+							<script>
+								function mergeNode() { 
+									var nodeToMerge = $('select[name=nodeToMerge] option').filter(':selected').val();
+									if (nodeToMerge) { 
+										mergeGeologicalAttributes(nodeToMerge, #geology_attribute_hierarchy_id#, "mergeFeedback", reloadHierarchy);
+									} else { 
+										messageDialog("Error: No value selected.");
+									}
+								};
+								$(document).ready(function(){
+									$("##mergeButton").on('click',mergeNode);
 								});
 							</script>
 						</div>

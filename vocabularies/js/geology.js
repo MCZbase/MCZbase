@@ -49,6 +49,53 @@ function addGeologicalAttribute(attribute, attribute_value, usable_value_fg, des
 	});
 };
 
+/** Merge one geological attribute value into another, updating existing geological attributes as well
+ * as the geological attribute hierarchy.
+ *  @param nodeToMerge the geological_attribute_hierarchy_id for the node to be merged.
+ *  @param mergeTarge the geological_attribute_hierarchy_id for the node into which nodeToMerge is to be merged.
+ *  @param feedback the id of an element in the DOM into which to place feedback without a leading # selector.
+ *  @param callback a callback function to invoke on successfull insert
+ */
+function mergeGeologicalAttributes(nodeToMerge, mergeTarget, feedback, callback) { 
+	$('#'+feedback).html('Saving....');
+	$('#'+feedback).addClass('text-warning');
+	$('#'+feedback).removeClass('text-success');
+	$('#'+feedback).removeClass('text-danger');
+	$.ajax({
+		url: "/vocabularies/component/functions.cfc",
+		data: { 
+			nodeToMerge: nodeToMerge,
+			mergeTarget: mergeTarget, 
+			returnformat : "json",
+			queryformat : "struct",
+			method: 'mergeGeologicalAttributes' 
+		},
+		dataType: 'json',
+		success : function (result) { 
+			$('#'+feedback).html(result[0].MESSAGE);
+			$('#'+feedback).addClass('text-success');
+			$('#'+feedback).removeClass('text-danger');
+			$('#'+feedback).removeClass('text-warning');
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
+				$('#'+feedback).addClass('text-danger');
+				$('#'+feedback).removeClass('text-success');
+				$('#'+feedback).removeClass('text-danger');
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			$('#'+feedback).addClass('text-danger');
+			$('#'+feedback).removeClass('text-success');
+			$('#'+feedback).removeClass('text-danger');
+			handleFail(jqXHR,textStatus,error, "Error merging geological attribute: "); 
+		}
+	});
+};
+
+
 /** functionChangeGeologicalAttributeLink change the parentage for a specified child node
  * in the geological attribute tree.
  * @param parent the id of the parent node in geology_attribute_hierarchy, if value is 'NULL', removes the 
