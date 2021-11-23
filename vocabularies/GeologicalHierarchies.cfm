@@ -85,7 +85,7 @@ limitations under the License.
 						</cfquery>
 
 						<cfif c.usable_value_fg EQ 1><cfset uflag="*"><cfelse><cfset uflag=""></cfif>
-						<h2 class="h2">Edit #c.attribute#:#c.attribute_value# (#c.type#) #cflag#</h2>
+						<h2 class="h2">Edit #c.attribute#:#c.attribute_value# (#c.type#) #uflag#</h2>
 						<div class="h3">Attribute for #use.ct# Localities.</div>
 						<cfset disabled = "">
 						<cfif use.ct GT 0>
@@ -268,7 +268,7 @@ limitations under the License.
 								<h3 class="h4">Merge other nodes into #c.attribute#:#c.attribute_value# </h3>
 								<p>Merging nodes will update the geological attributes of all localities that use the selected attribute and value to use #c.attribute#:#c.attribute_value# instead.</p>
 							</div>
-							<cfif candidateChildren.recordcount GT 0> 
+							<cfif mergeCandidates.recordcount GT 0> 
 								<div class="col-12 col-md-8">
 									<label for="nodeToMerge" class="data-entry-label">Merge selected value into: #c.attribute_value# (#c.attribute#)</label>
 									<select id="nodeToMerge" name="nodeToMerge" class="data-entry-select">
