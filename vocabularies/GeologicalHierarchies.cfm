@@ -300,7 +300,7 @@ limitations under the License.
 								};
 								function confirmMerge() { 
 									var toMerge = $('select[name=nodeToMerge] option').filter(':selected').text();
-									confirmDialog('Update all localities replacing all instances of ' + toMerge +' with #c.attribute#:#c.attribute_value# #uflag#?','Confirm Merge Nodes', mergeNode );
+									confirmDialog('Update all localities replacing all instances of ' + toMerge +' with #c.attribute_value# (#c.attribute#) #uflag#?','Confirm Merge Nodes', mergeNode );
 								};
 								$(document).ready(function(){
 									$("##mergeButton").on('click',confirmMerge);
