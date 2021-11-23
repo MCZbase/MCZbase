@@ -414,7 +414,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 			<nav class="navbar navbar-expand-md navbar-light">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a class="nav-link" href="/CodTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage attribute types and categories</a>
+						<a class="nav-link" href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage attribute types and categories</a>
 					</li>
 					<cfloop query="types">
 						<li class="nav-item">
