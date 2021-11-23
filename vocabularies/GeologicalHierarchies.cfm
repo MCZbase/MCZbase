@@ -172,7 +172,7 @@ limitations under the License.
 						ORDER BY ordinal, attribute_value
 					</cfquery>
 					<section class="col-12">
-						<div class="row border rounded my-2 mx-1">
+						<div class="row border rounded my-2 mx-1 py-1">
 							<div class="col-12">
 								<h3 class="h4">Hierarchical Relationships of #c.attribute_value# (#c.attribute#)</h3>
 							</div>
@@ -257,7 +257,7 @@ limitations under the License.
 								ctgeology_attribute.ordinal = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.ordinal#">
 							ORDER BY ordinal, attribute_value
 						</cfquery>
-						<div class="row border rounded my-2 mx-1">
+						<div class="row border rounded my-2 mx-1 py-1">
 							<div class="col-12">
 								<h3 class="h4">Merge other nodes into #c.attribute#:#c.attribute_value# </h3>
 								<p>Merging nodes will update the geological attributes of all localities that use the selected attribute and value to use #c.attribute#:#c.attribute_value# instead.</p>
@@ -275,7 +275,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-4">
 									<label for="mergeButton" class="data-entry-label">&nbsp;</label>
-									<button id="mergeButton" value="Add" class="btn btn-secondary btn-xs data-entry-button">Merge</button>
+									<button id="mergeButton" value="Add" class="btn btn-danger btn-xs data-entry-button">Merge</button>
 									<div id="mergeFeedback"></div>
 								</div>
 							<cfelse>
@@ -288,6 +288,7 @@ limitations under the License.
 									</p>
 								</div>
 							</cfif>
+							<cfif c.usable_value_fg EQ 1><cfset uflag="*"><cfelse><cfset uflag=""></cfif>
 							<script>
 								function mergeNode() { 
 									var nodeToMerge = $('select[name=nodeToMerge] option').filter(':selected').val();
@@ -297,8 +298,12 @@ limitations under the License.
 										messageDialog("Error: No value selected.");
 									}
 								};
+								function confirmMerge() { 
+									var toMerge = $('select[name=nodeToMerge] option').filter(':selected').text();
+									confirmDialog('Update all localities replacing all instances of ' + toMerge +' with #c.attribute#:#c.attribute_value# #uflag#?','Confirm Merge Nodes', mergeNode );
+								};
 								$(document).ready(function(){
-									$("##mergeButton").on('click',mergeNode);
+									$("##mergeButton").on('click',confirmMerge);
 								});
 							</script>
 						</div>
