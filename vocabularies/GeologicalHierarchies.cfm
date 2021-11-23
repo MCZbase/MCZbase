@@ -70,6 +70,9 @@ limitations under the License.
 							WHERE
 								geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
 						</cfquery>
+						<cfif c.recordcount EQ 0>
+							<cfthrow message="No such geological attribute found.  The attribute may have been merged or deleted.">
+						</cfif>
 						<cfquery name="use"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="use_result">
 							SELECT count(locality_id) ct
 							FROM geology_attributes
