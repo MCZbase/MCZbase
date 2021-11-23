@@ -99,7 +99,6 @@ limitations under the License.
 						</cfif>
 
 						<form name="ins" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
-							<input type="hidden" name="action" value="saveEdit">
 							<input type="hidden" name="geology_attribute_hierarchy_id" value="#geology_attribute_hierarchy_id#">
 							<cfif use.ct GT 0>
 								<input type="hidden" name="attribute" value="#c.attribute#">
@@ -489,7 +488,7 @@ limitations under the License.
 								<span class="#class#">
 									#attribute_value# (#attribute#)
 								</span>
-								<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">more</a>
+								<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">edit</a>
 								Used in #localityCount# Localities
 							</li>
 							<cfif cData.currentRow IS cData.recordCount>
@@ -508,22 +507,6 @@ limitations under the License.
 			<cfquery name="killGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				DELETE FROM geology_attribute_hierarchy 
 				WHERE 
-					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
-			</cfquery>
-			<cflocation url="/vocabularies/GeologicalHierarchies.cfm?action=list" addtoken="false">
-		</cfoutput>
-	</cfcase>
-
-	<!---------------------------------------------------->
-	<cfcase value="saveEdit">
-		<cfoutput>
-			<cfquery name="changeGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE geology_attribute_hierarchy SET
-					attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,
-					attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
-					usable_value_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#usable_value_fg#">,
-					description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
-				WHERE
 					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
 			</cfquery>
 			<cflocation url="/vocabularies/GeologicalHierarchies.cfm?action=list" addtoken="false">
