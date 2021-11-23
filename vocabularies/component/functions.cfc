@@ -411,24 +411,24 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 			FROM ctgeology_attribute
 		</cfquery>
 		<cfoutput>
-			<nav class="navbar navbar-light">
+			<nav class="navbar navbar-expand-md navbar-light">
 				<ul class="navbar-nav">
-					<li class="navbar-item">
-						<a class="navbar-link" href="/CodTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage attribute types and categories</a>
+					<li class="nav-item">
+						<a class="nav-link" href="/CodTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage attribute types and categories</a>
 					</li>
 					<cfloop query="types">
-						<li class="navbar-item">
-							<a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a>
+						<li class="nav-item">
+							<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a>
 						</li>
 					</cfloop>
-					<li class="navbar-item">
-						<a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a>
+					<li class="nav-item">
+						<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a>
 					</li>
-					<li class="navbar-item">
-						<a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a>
+					<li class="nav-item">
+						<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a>
 					</li>
-					<li class="navbar-item">
-						<a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a>
+					<li class="nav-item">
+						<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a>
 					</li>
 				</ul>
 			</nav>
