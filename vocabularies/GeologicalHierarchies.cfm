@@ -275,7 +275,7 @@ limitations under the License.
 										<option value=""></option>
 										<cfloop query="mergeCandidates">
 											<cfif mergeCandidates.usable_value_fg EQ 1><cfset uflag="*"><cfelse><cfset uflag=""></cfif>
-											<option value="#mergeCandidates.geology_attribute_hierarchy_id#">#mergeCandidates.candidates.attribute_value# (#mergeCandidates.attribute#) #uflag#</option>
+											<option value="#mergeCandidates.geology_attribute_hierarchy_id#">#mergeCandidates.attribute_value# (#mergeCandidates.attribute#) #uflag#</option>
 										</cfloop>
 									</select>
 								</div>
