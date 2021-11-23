@@ -41,17 +41,6 @@ limitations under the License.
 				<h1 class=”h2”>Manage Geological Controlled Vocabularies</h1>
 				<cfset navBlock = getGeologyNavigationHtml()>
 				#navBlock#
-				<nav class="navbar navbar-light">
-					<ul class="navbar-nav">
-						<li class="navbar-item"><a class="navbar-link" href="/CodTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage attribute types and categories</a></li>
-						<cfloop query="types">
-							<li class="navbar-item"><a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a></li>
-						</cfloop>
-						<li class="navbar-item"><a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a></li>
-						<li class="navbar-item"><a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a></li>
-						<li class="navbar-item"><a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a></li>
-					</ul>
-				</nav>
 			</section>
 		</main>
 	</cfoutput>
