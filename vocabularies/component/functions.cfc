@@ -293,7 +293,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 				WHERE 
 					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nodeToMerge#">
 			</cfquery>
-			<cfif removeNode.recordcount NEQ 1>
+			<cfif removeNode_result.recordcount NEQ 1>
 				<cfthrow message="Error removing node.">
 			</cfif>
 			<cfset t = queryaddrow(theResult,1)>
