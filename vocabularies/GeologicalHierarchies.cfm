@@ -20,6 +20,8 @@ limitations under the License.
 --->
 <cfset pageTitle = "Manage Geological Controlled Vocabularies">
 <cfinclude template="/shared/_header.cfm">
+<!--- Include the template that contains functions used to load portions of this page --->
+<cfinclude template="/vocabularies/component/functions.cfc" runOnce="true">
 
 <cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT geology_attribute, type, description 
@@ -37,15 +39,19 @@ limitations under the License.
 		<main class=”container py-3” id=”content” >
 			<section class=”row border rounded my-2”>
 				<h1 class=”h2”>Manage Geological Controlled Vocabularies</h1>
-				<ul>
-					<li><a href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage attribute types and categories</a></li>
-					<cfloop query="types">
-						<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a></li>
-					</cfloop>
-					<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a></li>
-					<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a></li>
-					<li><a href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a></li>
-				</ul>
+				<cfset navBlock = getGeologyNavgationHtml()>
+				#navBlock#
+				<nav class="navbar navbar-light">
+					<ul class="navbar-nav">
+						<li class="navbar-item"><a class="navbar-link" href="/CodTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage attribute types and categories</a></li>
+						<cfloop query="types">
+							<li class="navbar-item"><a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a></li>
+						</cfloop>
+						<li class="navbar-item"><a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a></li>
+						<li class="navbar-item"><a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a></li>
+						<li class="navbar-item"><a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a></li>
+					</ul>
+				</nav>
 			</section>
 		</main>
 	</cfoutput>
@@ -53,11 +59,11 @@ limitations under the License.
 
 <cfswitch expression="#action#">
 	<cfcase value="edit">
-		<!--- Include the template that contains functions used to load portions of this page --->
-		<cfinclude template="/vocabularies/component/functions.cfc" runOnce="true">
 		<main class="container py-3" id="content" >
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
+					<cfset navBlock = getGeologyNavgationHtml()>
+					#navBlock#
 					<section class="col-12" title="Edit Geological Atribute">
 	  					<!--- Lookup the current node --->
 						<cfquery name="c"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -319,6 +325,8 @@ limitations under the License.
 		<main class="container py-3" id="content" >
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
+					<cfset navBlock = getGeologyNavgationHtml()>
+					#navBlock#
 					<section class="col-12" title="Add Geological Atribute">
 						<h2 class="h3">Add New Geological Attribute Value:</h2>
 						<form name="insertGeolAttrForm" id="insertGeolAttrForm" >
@@ -385,6 +393,8 @@ limitations under the License.
 		<main class="container py-3" id="content" >
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
+					<cfset navBlock = getGeologyNavgationHtml()>
+					#navBlock#
 					<section class="col-12" title="Edit Geological Atribute">
 						<h2 class="h3">Link terms into Hierarchies</h2>
 						<form name="rel" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
@@ -445,6 +455,8 @@ limitations under the License.
 		<main class="container py-3" id="content" >
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
+					<cfset navBlock = getGeologyNavgationHtml()>
+					#navBlock#
 					<section class="col-12" title="Edit Geological Atribute">
 						<h2 class="h3">Geological Attributes</h2> 
 						<div>Values in red are not available for data entry but may be used in searches</div>

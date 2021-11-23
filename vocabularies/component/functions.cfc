@@ -403,6 +403,41 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 	<cfreturn #theResult#>
 </cffunction>
 
+<!--- Obtain html for a geological tree navigation control. --->
+<cffunction name="getGeologyNavigationHtml" returntype="string" access="remote" returnformat="plain">
+	<cfthread name="geoNavThread">
+		<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
+			SELECT distinct type 
+			FROM ctgeology_attribute
+		</cfquery>
+		<cfoutput>
+			<nav class="navbar navbar-light">
+				<ul class="navbar-nav">
+					<li class="navbar-item">
+						<a class="navbar-link" href="/CodTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage attribute types and categories</a>
+					</li>
+					<cfloop query="types">
+						<li class="navbar-item">
+							<a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a>
+						</li>
+					</cfloop>
+					<li class="navbar-item">
+						<a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a>
+					</li>
+					<li class="navbar-item">
+						<a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a>
+					</li>
+					<li class="navbar-item">
+						<a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a>
+					</li>
+				</ul>
+			</nav>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="geoNavThread" />
+	<cfreturn geoNavThread.output>
+</cffunction>
+
 <!--- ** getNodeInGeologyTreeHtml obtain an html representation of the location of a node within its tree, including 
   * the path from the node to root, the specified node highlighted, and all nodes that are children of the specified
   * node. 
