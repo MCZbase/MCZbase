@@ -132,7 +132,7 @@ limitations under the License.
 								<div class="col-12 col-xl-6">
 									<cfif use.ct EQ 0>
 										<input type="button" value="Delete" id="deleteButton" class="btn btn-xs btn-danger"
-	   									onclick="document.location='/vocabularies/GeologicalHierarchies.cfm?action=delete&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#';">
+											onclick="document.location='/vocabularies/GeologicalHierarchies.cfm?action=delete&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#';">
 									</cfif>
 								</div>
 							</div>
@@ -467,18 +467,18 @@ limitations under the License.
 							</cfquery>
 							<cfset localityCount = locCount.ct>
 							<cfif listLast(levelList,",") IS NOT level>
-						    	<cfset levelListIndex = listFind(levelList,cData.level,",")>
-						      	<cfif levelListIndex IS NOT 0>
-						        	<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
-						         	<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
-						            	<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
-						         	</cfloop>
-						        	#repeatString("</ul>",numberOfLevelsToRemove)#
-						      	<cfelse>
-						        	<cfset levelList = listAppend(levelList,cData.level)>
-						         	<ul>
-						      	</cfif>
-						  	</cfif>
+								<cfset levelListIndex = listFind(levelList,cData.level,",")>
+								<cfif levelListIndex IS NOT 0>
+									<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
+									<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
+										<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
+									</cfloop>
+									#repeatString("</ul>",numberOfLevelsToRemove)#
+								<cfelse>
+									<cfset levelList = listAppend(levelList,cData.level)>
+									<ul>
+								</cfif>
+							</cfif>
 							<cfset class="">
 							<cfif usable_value_fg is 0><cfset class="text-danger"></cfif>
 							<li>
@@ -490,7 +490,7 @@ limitations under the License.
 							</li>
 							<cfif cData.currentRow IS cData.recordCount>
 								#repeatString("</ul>",listLen(levelList,","))#
-						   	</cfif>
+							</cfif>
 						</cfloop>
 					</section>
 				</div>
