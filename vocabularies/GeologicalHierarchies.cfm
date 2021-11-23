@@ -36,22 +36,11 @@ limitations under the License.
 	</cfquery>
 	<cfset action = "overview">
 	<cfoutput>
-		<main class=”container py-3” id=”content” >
-			<section class=”row border rounded my-2”>
-				<h1 class=”h2”>Manage Geological Controlled Vocabularies</h1>
+		<main class="container py-3" id="content" >
+			<section class="row border rounded my-2">
+				<h1 class="h2">Manage Geological Controlled Vocabularies</h1>
 				<cfset navBlock = getGeologyNavigationHtml()>
 				#navBlock#
-				<nav class="navbar navbar-light">
-					<ul class="navbar-nav">
-						<li class="navbar-item"><a class="navbar-link" href="/CodTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage attribute types and categories</a></li>
-						<cfloop query="types">
-							<li class="navbar-item"><a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a></li>
-						</cfloop>
-						<li class="navbar-item"><a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a></li>
-						<li class="navbar-item"><a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a></li>
-						<li class="navbar-item"><a class="navbar-link" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a></li>
-					</ul>
-				</nav>
 			</section>
 		</main>
 	</cfoutput>
@@ -81,6 +70,9 @@ limitations under the License.
 							WHERE
 								geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
 						</cfquery>
+						<cfif c.recordcount EQ 0>
+							<cfthrow message="No such geological attribute found.  The attribute may have been merged or deleted.">
+						</cfif>
 						<cfquery name="use"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="use_result">
 							SELECT count(locality_id) ct
 							FROM geology_attributes
@@ -99,7 +91,6 @@ limitations under the License.
 						</cfif>
 
 						<form name="ins" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
-							<input type="hidden" name="action" value="saveEdit">
 							<input type="hidden" name="geology_attribute_hierarchy_id" value="#geology_attribute_hierarchy_id#">
 							<cfif use.ct GT 0>
 								<input type="hidden" name="attribute" value="#c.attribute#">
@@ -184,7 +175,7 @@ limitations under the License.
 						ORDER BY ordinal, attribute_value
 					</cfquery>
 					<section class="col-12">
-						<div class="row border rounded my-2 mx-1">
+						<div class="row border rounded my-2 mx-1 py-1">
 							<div class="col-12">
 								<h3 class="h4">Hierarchical Relationships of #c.attribute_value# (#c.attribute#)</h3>
 							</div>
@@ -269,7 +260,7 @@ limitations under the License.
 								ctgeology_attribute.ordinal = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.ordinal#">
 							ORDER BY ordinal, attribute_value
 						</cfquery>
-						<div class="row border rounded my-2 mx-1">
+						<div class="row border rounded my-2 mx-1 py-1">
 							<div class="col-12">
 								<h3 class="h4">Merge other nodes into #c.attribute#:#c.attribute_value# </h3>
 								<p>Merging nodes will update the geological attributes of all localities that use the selected attribute and value to use #c.attribute#:#c.attribute_value# instead.</p>
@@ -287,7 +278,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-4">
 									<label for="mergeButton" class="data-entry-label">&nbsp;</label>
-									<button id="mergeButton" value="Add" class="btn btn-secondary btn-xs data-entry-button">Merge</button>
+									<button id="mergeButton" value="Add" class="btn btn-danger btn-xs data-entry-button">Merge</button>
 									<div id="mergeFeedback"></div>
 								</div>
 							<cfelse>
@@ -300,6 +291,7 @@ limitations under the License.
 									</p>
 								</div>
 							</cfif>
+							<cfif c.usable_value_fg EQ 1><cfset uflag="*"><cfelse><cfset uflag=""></cfif>
 							<script>
 								function mergeNode() { 
 									var nodeToMerge = $('select[name=nodeToMerge] option').filter(':selected').val();
@@ -309,8 +301,12 @@ limitations under the License.
 										messageDialog("Error: No value selected.");
 									}
 								};
+								function confirmMerge() { 
+									var toMerge = $('select[name=nodeToMerge] option').filter(':selected').text();
+									confirmDialog('Update all localities replacing all instances of ' + toMerge +' with #c.attribute_value# (#c.attribute#) #uflag#?','Confirm Merge Nodes', mergeNode );
+								};
 								$(document).ready(function(){
-									$("##mergeButton").on('click',mergeNode);
+									$("##mergeButton").on('click',confirmMerge);
 								});
 							</script>
 						</div>
@@ -489,7 +485,7 @@ limitations under the License.
 								<span class="#class#">
 									#attribute_value# (#attribute#)
 								</span>
-								<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">more</a>
+								<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">edit</a>
 								Used in #localityCount# Localities
 							</li>
 							<cfif cData.currentRow IS cData.recordCount>
@@ -508,22 +504,6 @@ limitations under the License.
 			<cfquery name="killGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				DELETE FROM geology_attribute_hierarchy 
 				WHERE 
-					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
-			</cfquery>
-			<cflocation url="/vocabularies/GeologicalHierarchies.cfm?action=list" addtoken="false">
-		</cfoutput>
-	</cfcase>
-
-	<!---------------------------------------------------->
-	<cfcase value="saveEdit">
-		<cfoutput>
-			<cfquery name="changeGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE geology_attribute_hierarchy SET
-					attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,
-					attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
-					usable_value_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#usable_value_fg#">,
-					description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
-				WHERE
 					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
 			</cfquery>
 			<cflocation url="/vocabularies/GeologicalHierarchies.cfm?action=list" addtoken="false">

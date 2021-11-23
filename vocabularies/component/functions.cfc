@@ -413,9 +413,6 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 		<cfoutput>
 			<nav class="navbar navbar-expand-md navbar-light">
 				<ul class="navbar-nav">
-					<li class="nav-item">
-						<a class="nav-link" href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage attribute types and categories</a>
-					</li>
 					<cfloop query="types">
 						<li class="nav-item">
 							<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a>
@@ -429,6 +426,9 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage types and categories</a>
 					</li>
 				</ul>
 			</nav>
