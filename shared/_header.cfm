@@ -621,19 +621,15 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Code Table Editor</a>
 											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/info/geol_hierarchy.cfm">Geology Attributes Hierarchy</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Geology Attributes Hierarchy</a>
-											</cfif>
-										<!--- TODO: Need another role for report management  --->
+											<a class="dropdown-item" href="/vocabularies/GeologicalHierarchies.cfm">Geology Attributes Hierarchies</a>
+											<!--- TODO: Need another role for report management  --->
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Reports/reporter.cfm">Label/Report Management</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Label/Report Management</a>
 											</cfif>
 									
-										<!--- TODO: are the rest of these DBA or another role?  --->
+											<!--- TODO: are the rest of these DBA or another role?  --->
 									
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/tools/downloadData.cfm">Download Tables</a>
