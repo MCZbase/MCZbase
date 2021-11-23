@@ -39,7 +39,7 @@ limitations under the License.
 		<main class=”container py-3” id=”content” >
 			<section class=”row border rounded my-2”>
 				<h1 class=”h2”>Manage Geological Controlled Vocabularies</h1>
-				<cfset navBlock = getGeologyNavgationHtml()>
+				<cfset navBlock = getGeologyNavigationHtml()>
 				#navBlock#
 				<nav class="navbar navbar-light">
 					<ul class="navbar-nav">
@@ -62,7 +62,7 @@ limitations under the License.
 		<main class="container py-3" id="content" >
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
-					<cfset navBlock = getGeologyNavgationHtml()>
+					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
 					<section class="col-12" title="Edit Geological Atribute">
 	  					<!--- Lookup the current node --->
@@ -325,7 +325,7 @@ limitations under the License.
 		<main class="container py-3" id="content" >
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
-					<cfset navBlock = getGeologyNavgationHtml()>
+					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
 					<section class="col-12" title="Add Geological Atribute">
 						<h2 class="h3">Add New Geological Attribute Value:</h2>
@@ -393,7 +393,7 @@ limitations under the License.
 		<main class="container py-3" id="content" >
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
-					<cfset navBlock = getGeologyNavgationHtml()>
+					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
 					<section class="col-12" title="Edit Geological Atribute">
 						<h2 class="h3">Link terms into Hierarchies</h2>
@@ -455,7 +455,7 @@ limitations under the License.
 		<main class="container py-3" id="content" >
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
-					<cfset navBlock = getGeologyNavgationHtml()>
+					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
 					<section class="col-12" title="Edit Geological Atribute">
 						<h2 class="h3">Geological Attributes</h2> 
