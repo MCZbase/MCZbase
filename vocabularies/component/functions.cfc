@@ -282,7 +282,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 				SET
 					geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mergeInto.attribute#">,
 					geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mergeInto.attribute_value#">,
-					geo_att_remark = trim(geo_att_remark || ' Previous value:' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mergeInto.attribute_value#">)
+					geo_att_remark = trim(geo_att_remark || ' Previous value:' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#toMerge.attribute_value#">)
 				WHERE
 					geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#toMerge.attribute#"> AND
 					geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#toMerge.attribute_value#">
