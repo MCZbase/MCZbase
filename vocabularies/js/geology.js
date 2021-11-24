@@ -109,6 +109,8 @@ function mergeGeologicalAttributes(nodeToMerge, mergeTarget, feedback, callback)
  * @param callback a callback function to invoke on successfull insert
  */
 function changeGeologicalAttributeLink(parent, child, feedback, callback) { 
+	console.log(parent);
+	console.log(child);
 	$('#'+feedback).html('Saving....');
 	$('#'+feedback).addClass('text-warning');
 	$('#'+feedback).removeClass('text-success');
@@ -144,7 +146,7 @@ function changeGeologicalAttributeLink(parent, child, feedback, callback) {
 				$('#'+feedback).addClass('text-danger');
 				$('#'+feedback).removeClass('text-success');
 				$('#'+feedback).removeClass('text-warning');
-				handleFail(jqXHR,textStatus,error, "Error linking geological attributes: "); 
+				handleFail(jqXHR,textStatus,error, "Error unlinking geological attribute from parent: "); 
 			}
 		});
    } else { 
