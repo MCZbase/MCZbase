@@ -379,7 +379,7 @@ limitations under the License.
 				<div class="row mx-0 border rounded my-2 pt-2 px-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
-					<section class="accordion" id="editSection"> 
+					<section class="accordion col-12 w-100" id="editSection"> 
 						<div class="card mb-2 bg-light">
 							<div class="card-header">
 								<h2 class="h4 my-0">
@@ -389,7 +389,7 @@ limitations under the License.
 								</h2>
 							</div>
 							<div id="editCardBodyWrap" class="collapse" aria-labelledby="publicationHeader" data-parent="##editSection">
-								<div class="card-body py-1 mb-1">
+								<div class="card-body py-1 mb-1 row">
 									<cfset formBlock = getAddGeologyAttributeHtml(type="#type#")>
 									#formBlock#
 									<cfset organizeBlock = getGeologyMakeTreeHtml(type="#type#")>
