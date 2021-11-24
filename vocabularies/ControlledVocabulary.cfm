@@ -23,7 +23,13 @@
 			</cfif>
 			<cfloop query="getCTName">
 				<cfquery name="getCTRows" datasource="uam_god">
-					select count(*) as ct from #getCtName.table_name#
+					select count(*) as ct 
+					FROM 
+						<cfif getCtName.table_name EQ "CTGEOLOGY_ATTRIBUTE_HEIRARCHY">
+							GEOLOGY_ATTRIBUTE_HEIRARCHY
+						<cfelse>
+							#getCtName.table_name#
+						</cfif>
 				</cfquery>
 				<cfif getCTRows.ct GT 0>
 					<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
