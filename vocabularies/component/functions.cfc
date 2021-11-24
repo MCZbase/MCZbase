@@ -545,6 +545,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 							<label for="parent" class="data-entry-label">Parent Term</label>
 							<select name="parent" class="data-entry-select reqdClr" id="parent" required>
 								<option value=""></option>
+								<option value="NULL">Unlink from Parent</option>
 								<cfloop query="terms">
 									<option value="#geology_attribute_hierarchy_id#">#attribute_value# (#attribute#) #uflag#</option>
 								</cfloop>
