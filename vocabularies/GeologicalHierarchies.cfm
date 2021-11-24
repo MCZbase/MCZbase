@@ -352,64 +352,18 @@ limitations under the License.
 
 	<!---------------------------------------->
 	<cfcase value="organize">
-		<cfquery name="terms"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select geology_attribute_hierarchy_id,
-				attribute_value,
-				attribute,
-				decode(usable_value_fg,1,'*','') uflag
-			from geology_attribute_hierarchy
-				order by attribute
-		</cfquery>
 		<main class="container py-3" id="content" >
 			<cfoutput>
 				<div class="row mx-0 border rounded my-2 pt-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
-					<section class="col-12" title="Edit Geological Atribute">
-						<h2 class="h3">Link terms into Hierarchies</h2>
-						<form name="rel" id="newRelationshipForm" onsubmit="return noenter(event);">
-							<div class="form-row mb-2">
-								<div class="col-12 col-md-6 col-xl-6">
-									<label for="parent" class="data-entry-label">Parent Term</label>
-									<select name="parent" class="data-entry-select reqdClr" id="parent" required>
-										<option value="">NULL</option>
-										<cfloop query="terms">
-											<option value="#geology_attribute_hierarchy_id#">#attribute_value# (#attribute#) #uflag#</option>
-										</cfloop>
-									</select>
-								</div>
-								<div class="col-12 col-md-6 col-xl-6">
-									<label for="child">Child Term</label>
-									<select name="child" id="child" class="data-entry-select reqdClr" required>
-										<cfloop query="terms">
-											<option value="#geology_attribute_hierarchy_id#">#attribute_value# (#attribute#) #uflag#</option>
-										</cfloop>
-									</select>
-								</div>
-								<div class="col-12">
-									<button id="addRelationshipButton" value="Create Relationship" class="btn btn-xs btn-primary">Create Relationship</button>
-									<div id="addRelationshipFeedback"></div>
-								</div>
-							</div>
-						</form>
-							<script>
-								function reloadHierarchy() { 
-									// TODO: Implement
-								};
-								function addRelationship() { 
-									var newParent = $('select[name=parent] option').filter(':selected').val();
-									var newChild = $('select[name=child] option').filter(':selected').val();
-									if (newChild && newParent) { 
-										changeGeologicalAttributeLink(newParent,newChild, "addRelationshipFeedback", reloadHierarchy);
-									} else { 
-										messageDialog("Error: No value selected.");
-									}
-								};
-								$(document).ready(function(){
-									$("##addRelationshipButton").on('click',addRelationship);
-								});
-							</script>
-					</section>
+					<cfset organizeBlock = getGeologyMakeTreeHtml()>
+					#organizeBlock#
+					<script>
+						function reload() {
+							// no action, required callback for getGeologyMakeTreeHtml.
+						};
+					</script>
 				</div>
 			</cfoutput>
 		</main>
@@ -425,8 +379,25 @@ limitations under the License.
 				<div class="row mx-0 border rounded my-2 pt-2 px-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
-					<cfset formBlock = getAddGeologyAttributeHtml(type="#type#")>
-					#formBlock#
+					<section class="accordion" id="editSection"> 
+						<div class="card mb-2 bg-light">
+							<div class="card-header">
+								<h2 class="h4 my-0">
+									<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##editCardBodyWrap" aria-expanded="false" aria-controls="editCardBodyWrap">
+											Edit Hierarchy
+									</button>
+								</h2>
+							</div>
+							<div id="editCardBodyWrap" class="collapse" aria-labelledby="publicationHeader" data-parent="##editSection">
+								<div class="card-body py-1 mb-1">
+									<cfset formBlock = getAddGeologyAttributeHtml(type="#type#")>
+									#formBlock#
+									<cfset organizeBlock = getGeologyMakeTreeHtml(type="#type#")>
+									#organizeBlock#
+								</div>
+							</div>
+						</div>
+					</section>
 					<script>
 						function reload() {
 							$.ajax({
