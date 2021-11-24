@@ -184,6 +184,87 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 	<cfreturn #theResult#>
 </cffunction>
 
+<!--- 
+Function updateGeologicalAttribute update a record in the geology_attribute_heirarchy table providing a controlled 
+	vocabulary for geological attributes.
+--->
+<cffunction name="updateGeologicalAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="geology_attribute_hierarchy_id" type="string" required="yes">
+	<cfargument name="attribute" type="string" required="no">
+	<cfargument name="attribute_value" type="string" required="no">
+	<cfargument name="usable_value_fg" type="string" required="yes">
+	<cfargument name="description" type="string" required="yes">
+
+	<cfif not isDefined("attribute")><cfset attribute=""></cfif>
+	<cfif not isDefined("attribute_value")><cfset attribute_value=""></cfif>
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfif len(attribute) GT 0 AND len(attribute_value) EQ 0>
+				<cfthrow message = "Unable to update.  If an attribute is provided, attribute value must also be provided">
+			</cfif>
+			<cfif len(attribute) EQ 0 AND len(attribute_value) GT 0>
+				<cfthrow message = "Unable to update.  If an attribute value is provided, attribute must also be provided">
+			</cfif>
+			<cfif len(attribute) GT 0>
+				<!--- Prevent duplication of an existing attribute --->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT count(*) ct 
+					FROM geology_attribute_hierarchy
+					WHERE
+						attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">
+						AND
+						attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">
+						AND
+						geology_attribute_hierarchy_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+				</cfquery>
+				<cfloop query="check">
+					<cfif check.ct NEQ 0>
+						<cfthrow message="Unable to insert. A geological attribute of type=[#encodeForHTML(attribute)#] and value=[#encodeForHTML(attribute_value)#] already exists.">
+					</cfif>
+				</cfloop>
+			</cfif>
+			<cfquery name="updateGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateGeog_result">
+				UPDATE geology_attribute_hierarchy 
+				SET
+					<cfif len(attribute) GT 0>
+						attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,
+					</cfif>
+					<cfif len(attribute_value) GT 0>
+						attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
+					</cfif>
+					usable_value_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#usable_value_fg#">,
+					description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
+				WHERE
+					geology_attribute_hierarchy_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+			</cfquery>
+			<cfif updateGeog_result.recordcount eq 1>
+				<cfquery name="reportGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="reportGeog_result">
+					SELECT attribute, attribute_value 
+					FROM 
+						geology_attribute_hierarchy
+					WHERE
+						geology_attribute_hierarchy_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+				</cfquery>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Updated #encodeForHTML(reportGeog.attribute)#:#encodeForHTML(reportGeog.attribute_value)#", 1)>
+			<cfelse>
+				<cfthrow message="Error adding a geological attribute value.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
 <!--- ** unlinkChildGeologicalAttribute unlink a node in the geological attribute hierarchy 
   * from a tree into which it is placed by setting its parent_id to null, this does not alter
   * the relationship of children of the node to be unlinked, they remain as children of the unlinked node.

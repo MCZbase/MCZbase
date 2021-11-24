@@ -50,6 +50,58 @@ function addGeologicalAttribute(attribute, attribute_value, usable_value_fg, des
 		}
 	});
 };
+/** Update a geological attribute value.
+ *  @param geology_attribute_hierarchy_id the geology_attribute_hierarchy_id of the record to update.
+ *  @param attribute the attribute for which to add a value
+ *  @param attribute_value the value to add
+ *  @param usable_value_fg is this value accepted for data entry
+ *  @param description a description of the attribute value
+ *  @param feedback the id of an element in the DOM into which to place feedback without a leading # selector.
+ *  @param callback a callback function to invoke on successfull insert
+ */
+function updateGeologicalAttribute(geology_attribute_hierarchy_id, attribute, attribute_value, usable_value_fg, description, feedback, callback) { 
+	$('#'+feedback).html('Saving....');
+	$('#'+feedback).addClass('text-warning');
+	$('#'+feedback).removeClass('text-success');
+	$('#'+feedback).removeClass('text-danger');
+	$.ajax({
+		url: "/vocabularies/component/functions.cfc",
+		data: { 
+			geology_attribute_hierarchy_id: geology_attribute_hierarchy_id,
+			attribute: attribute, 
+			attribute_value: attribute_value, 
+			usable_value_fg: usable_value_fg, 
+			description: description, 
+			returnformat : "json",
+			queryformat : "struct",
+			method: 'updateGeologicalAttribute'
+		},
+		dataType: 'json',
+		success : function (result) { 
+			$('#'+feedback).html(result[0].MESSAGE);
+			$('#'+feedback).addClass('text-success');
+			$('#'+feedback).removeClass('text-danger');
+			$('#'+feedback).removeClass('text-warning');
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
+				$('#'+feedback).html('Error');
+				$('#'+feedback).addClass('text-danger');
+				$('#'+feedback).removeClass('text-success');
+				$('#'+feedback).removeClass('text-warning');
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			$('#'+feedback).html('Error');
+			$('#'+feedback).addClass('text-danger');
+			$('#'+feedback).removeClass('text-success');
+			$('#'+feedback).removeClass('text-warning');
+			handleFail(jqXHR,textStatus,error, "Error updating geological attribute: "); 
+		}
+	});
+};
 
 /** Merge one geological attribute value into another, updating existing geological attributes as well
  * as the geological attribute hierarchy.

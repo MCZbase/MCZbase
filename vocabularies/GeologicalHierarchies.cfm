@@ -113,8 +113,8 @@ limitations under the License.
 							</cfif>
 							<div class="form-row mb-2">
 								<div class="col-12 col-sm-12 col-xl-4">
-									<label for="attribute" class="data-entry-label">Attribute</label>
-									<select name="attribute" id="attribute" class="data-entry-select reqdClr" #disabled#>
+									<label for="attribute#disabled#" class="data-entry-label">Attribute</label>
+									<select name="attribute#disabled#" id="attribute#disabled#" class="data-entry-select reqdClr" #disabled#>
 										<cfloop query="ctgeology_attribute">
 											<cfif c.attribute EQ ctgeology_attribute.geology_attribute><cfset selected="selected='selected'"><cfelse><cfset selected=""></cfif>
 											<option value="#ctgeology_attribute.geology_attribute#" #selected# >#ctgeology_attribute.geology_attribute# (#ctgeology_attribute.type#)</option>
@@ -122,8 +122,8 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col-12 col-sm-6 col-xl-4">
-									<label for="newTerm">Value</label>
-									<input type="text" name="attribute_value" id="newTerm" value="#c.attribute_value#" class="data-entry-input reqdClr" #disabled# required>
+									<label for="attribute_value#disabled#">Value</label>
+									<input type="text" name="attribute_value#disabled#" id="attribute_value#disabled#" value="#c.attribute_value#" class="data-entry-input reqdClr" #disabled# required>
 								</div>
 								<div class="col-12 col-sm-6 col-xl-4">
 									<label for="usable_value_fg" class="data-entry-label">Allowed for Data Entry?</label>
@@ -143,6 +143,7 @@ limitations under the License.
 							<div class="form-row mb-2">
 								<div class="col-12 col-xl-6">
 									<input type="submit" id="saveUpdatesButton"  value="Save Edits" class="btn btn-primary btn-xs">
+									<div id="updateFeedbackDiv"></div>
 								</div>
 								<div class="col-12 col-xl-6">
 									<cfif use.ct EQ 0>
@@ -152,6 +153,19 @@ limitations under the License.
 								</div>
 							</div>
 						</form>
+						<script>
+							function updateRecord(){ 
+								updateGeologicalAttribute(#geology_attribute_hierarchy_id#,m $("##attribute").val(), $("##attribute_value").val(), $("##usable_value_fg").val(), $("##description").val(), "addFeedbackDiv", reloadHierarchy);
+							}
+							$(document).ready(function(){
+								$("##editAttrValForm").submit(function(event) {
+									event.preventDefault();
+									if (checkFormValidity($('##insertGeolAttrForm')[0])) { 
+										updateRecord();  
+									}
+								});
+							});
+						</script>
 					</section>
 					<cfquery name="candidateParents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT 
