@@ -527,7 +527,8 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 				parent_id,
 				usable_value_fg,
 				attribute_value,
-				attribute
+				attribute,
+				geology_attribute_hierarchy.description
 			FROM
 				geology_attribute_hierarchy
 				LEFT JOIN ctgeology_attribute on attribute = geology_attribute
@@ -572,12 +573,13 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 				<cfset class="">
 				<cfif usable_value_fg is 0><cfset class="text-danger"></cfif>
 				<li>
-					<span class="#class#">
+					<span class="font-weight-bold #class#">
 						#attribute_value# (#attribute#)
 						<cfif usable_value_fg IS 1>*</cfif>
 					</span>
-					<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">edit</a>
+					<a class="text-primary" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">edit</a>
 					Used in #localityCount# Localities
+					<span class="font-italic">#description#</span>
 				</li>
 				<cfif cData.currentRow IS cData.recordCount>
 					#repeatString("</ul>",listLen(levelList,","))#
