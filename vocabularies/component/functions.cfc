@@ -561,7 +561,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 							</select>
 						</div>
 						<div class="col-12">
-							<button id="addRelationshipButton" value="Create Relationship" class="btn btn-xs btn-primary">Create Relationship</button>
+							<input type="submit" id="addRelationshipButton" value="Create Relationship" class="btn btn-xs btn-primary">
 							<div id="addRelationshipFeedback"></div>
 						</div>
 					</div>
@@ -570,6 +570,8 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 					function addRelationship() { 
 						var newParent = $('select[name=parent] option').filter(':selected').val();
 						var newChild = $('select[name=child] option').filter(':selected').val();
+						console.log(newParent);
+						console.log(newChild);
 						if (newChild && newParent) { 
 							changeGeologicalAttributeLink(newParent,newChild, "addRelationshipFeedback", reload);
 						} else { 
@@ -577,7 +579,12 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 						}
 					};
 					$(document).ready(function(){
-						$("##addRelationshipButton").on('click',addRelationship);
+						$("##newRelationshipForm").on('submit',function(event){
+							event.preventDefault();
+							if (checkFormValidity($('##newRelationshipForm')[0])) { 
+						 		addRelationship
+							};
+						});
 					});
 				</script>
 			</section>
