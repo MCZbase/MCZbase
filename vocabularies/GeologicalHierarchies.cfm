@@ -407,7 +407,7 @@ limitations under the License.
 									<cfset formBlock = getAddGeologyAttributeHtml(type="#type#")>
 									#formBlock#
 									<cfset organizeBlock = getGeologyMakeTreeHtml(type="#type#")>
-									<div id="organizeDiv">
+									<div id="organizeDiv" class="w-100">
 									#organizeBlock#
 									</div>
 								</div>
