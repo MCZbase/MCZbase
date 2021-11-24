@@ -50,7 +50,7 @@ limitations under the License.
 					#navBlock#
 				</section>
 				<section class="row border rounded my-2 mt-1">
-					<div class="col-12">
+					<div class="col-12 pt-2">
 						<ul>
 							<cfloop query="types">
 								<li>#types.type# encompasses #types.attrib_ct# attribute values.</li>
