@@ -54,7 +54,7 @@ limitations under the License.
 						<ul>
 							<cfloop query="types">
 								<li>#types.type# encompasses #types.attrib_ct# attribute values.</li>
-							<cfloop>
+							</cfloop>
 						</ul>
 					</div>
 				</section>
