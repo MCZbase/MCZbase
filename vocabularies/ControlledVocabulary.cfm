@@ -14,7 +14,7 @@
 						WHERE
 							table_name like 'CT%'
 						UNION 
-							select 'CTGEOLOGY_ATTRIBUTE_HEIRARCHY' table_name from dual
+							select 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name from dual
 						ORDER BY table_name
 					</cfquery>
 				<ul>
@@ -25,8 +25,8 @@
 				<cfquery name="getCTRows" datasource="uam_god">
 					select count(*) as ct 
 					FROM 
-						<cfif getCtName.table_name EQ "CTGEOLOGY_ATTRIBUTE_HEIRARCHY">
-							GEOLOGY_ATTRIBUTE_HEIRARCHY
+						<cfif getCtName.table_name EQ "CTGEOLOGY_ATTRIBUTE_HIERARCHY">
+							GEOLOGY_ATTRIBUTE_HIERARCHY
 						<cfelse>
 							#getCtName.table_name#
 						</cfif>
@@ -41,7 +41,7 @@
 		</div>
 	</div>
 <cfelse>
-	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HEIRARCHY"><!---------------------------------------------------->
+	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
 		<cflocation url="/vocabularies/showGeologicalHierarchies.cfm" addtoken="false">
 	</cfif>
 	<cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
