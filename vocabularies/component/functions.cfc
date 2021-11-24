@@ -236,7 +236,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 					usable_value_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#usable_value_fg#">,
 					description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
 				WHERE
-					geology_attribute_hierarchy_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
 			</cfquery>
 			<cfif updateGeog_result.recordcount eq 1>
 				<cfquery name="reportGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="reportGeog_result">
