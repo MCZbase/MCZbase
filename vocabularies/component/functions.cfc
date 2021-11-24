@@ -405,7 +405,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 
 
 <!--- Obtain html for adding a geological attribute, includes javascript that will invoke a javascript 
-  * function named reload() if such exists on the page.
+  * function named reload() which must exist on the page.
   * @return a block of html with an add form and supporting javascript.
 --->
 <cffunction name="getAddGeologyAttributeHtml" returntype="string" access="remote" returnformat="plain">

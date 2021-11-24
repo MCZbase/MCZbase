@@ -341,6 +341,11 @@ limitations under the License.
 					<cfset formBlock = getAddGeologyAttributeHtml ()>
 					#formBlock#
 				</div>
+				<script>
+					function reload() {
+						// no action 
+					};
+				</script>
 			</cfoutput>
 		</main>
 	</cfcase>
@@ -441,6 +446,11 @@ limitations under the License.
 					#navBlock#
 					<cfset formBlock = getAddGeologyAttributeHtml(type)>
 					#formBlock#
+					<script>
+						function reload() {
+							// TODO: Move list to backing method, implement ajax reload.
+						};
+					</script>
 					<section class="col-12" title="Geological Atribute">
 						<h2 class="h3">Geological Attributes</h2> 
 						<div>Values in red are not available for data entry but may be used in searches</div>
