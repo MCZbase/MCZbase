@@ -479,6 +479,7 @@ limitations under the License.
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfthrow message = "Delete Failed. #error_message#">
 			</cfcatch>
+			</cftry>
 			</cftransaction>
 			<cfset typebit ="">
 			<cfif isDefined("type") AND len(type) GT 0>
