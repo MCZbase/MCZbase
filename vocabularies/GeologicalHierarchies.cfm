@@ -442,11 +442,42 @@ limitations under the License.
 	<!---------------------------------------------------->
 	<cfcase value="delete">
 		<cfoutput>
-			<cfquery name="killGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				DELETE FROM geology_attribute_hierarchy 
-				WHERE 
-					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
-			</cfquery>
+			<cfif not isDefined("geology_attribute_hierarchy_id") OR len(geology_attribute_hierarchy_id) EQ 0>
+				<cfthrow message = "Error: No record specified to delete.">
+			</cfif>
+			<cftransaction>
+			<cftry>
+				<cfquery name="findParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT parent_id 
+					FROM geology_attribute_hierarchy 
+					WHERE 
+						geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#"> and
+						parent_id IS NOT NULL
+				</cfquery>
+				<cfif findParent.recordcount EQ 1>
+					<cfquery name="relinkChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE geology_attribute_hierarchy
+						SET parent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#findParent.parent_id#">
+						where parent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+					</cfquery>
+				<cfelse>
+					<cfquery name="unlinkChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE geology_attribute_hierarchy
+						SET parent_id = NULL
+						where parent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+					</cfquery>
+				</cfif>
+				<cfquery name="killGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					DELETE FROM geology_attribute_hierarchy 
+					WHERE 
+						geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+				</cfquery>
+				<cftransaction action="commit">
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfthrow message = "Delete Failed.">
+			</cfcatch>
+			</cftransaction>
 			<cflocation url="/vocabularies/GeologicalHierarchies.cfm?action=list" addtoken="false">
 		</cfoutput>
 	</cfcase>
