@@ -407,7 +407,9 @@ limitations under the License.
 									<cfset formBlock = getAddGeologyAttributeHtml(type="#type#")>
 									#formBlock#
 									<cfset organizeBlock = getGeologyMakeTreeHtml(type="#type#")>
+									<div id="organizeDiv">
 									#organizeBlock#
+									</div>
 								</div>
 							</div>
 						</div>
@@ -426,6 +428,20 @@ limitations under the License.
 								},
 								error: function (jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error, "Error looking up tree of geological attributes: "); 
+								}
+							});
+							$.ajax({
+								url: "/vocabularies/component/functions.cfc",
+								data: { 
+									type: '#type#',
+									method: 'getGeologyMakeTreeHtml'
+								},
+								dataType: 'html',
+								success : function (result) { 
+									$("##organizeDiv").html(result)
+								},
+								error: function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error, "Error looking up tree editor for geological attributes: "); 
 								}
 							});
 						};
