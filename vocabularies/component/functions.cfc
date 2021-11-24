@@ -417,7 +417,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 			FROM ctgeology_attribute
 			<cfif isdefined("type") AND len(type) GT 0 AND type NEQ 'all'>
 				WHERE 
-					ctgeology_attributes.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
+					ctgeology_attribute.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
 			</cfif>
 			ORDER BY ordinal
 		</cfquery>

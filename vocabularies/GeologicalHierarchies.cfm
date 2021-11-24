@@ -38,7 +38,7 @@ limitations under the License.
 		<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
 			SELECT count(distinct geology_attribute_hierarchy_id) attrib_ct, 
 				type 
-			FROM ctgeology_attributes ct 
+			FROM ctgeology_attribute ct 
 			left join geology_attribute_hierarchy ah on ct.geology_attribute = ah.attribute 
 			GROUP BY type
 		</cfquery>
@@ -430,10 +430,10 @@ limitations under the License.
 				attribute
 			FROM
 				geology_attribute_hierarchy
-				LEFT JOIN ctgeology_attributes on attribute = geology_attribute
+				LEFT JOIN ctgeology_attribute on attribute = geology_attribute
 			<cfif NOT type IS "all">
 			WHERE
-				ctgeology_attributes.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
+				ctgeology_attribute.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
 			</cfif>  
 			START WITH parent_id is null
 			CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
@@ -444,7 +444,7 @@ limitations under the License.
 				<div class="row mx-0 border rounded my-2 pt-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
-					<cfset formBlock = getAddGeologyAttributeHtml(type)>
+					<cfset formBlock = getAddGeologyAttributeHtml(type="#type#")>
 					#formBlock#
 					<script>
 						function reload() {
