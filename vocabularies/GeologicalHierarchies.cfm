@@ -30,23 +30,38 @@ limitations under the License.
 </cfquery>
 
 <cfif NOT isDefined("action") OR len(action) EQ 0>
-	<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
-		SELECT distinct type 
-		FROM ctgeology_attribute
-	</cfquery>
 	<cfset action = "overview">
-	<cfoutput>
-		<main class="container py-3" id="content" >
-			<section class="row border rounded my-2">
-				<h1 class="h2">Manage Geological Controlled Vocabularies</h1>
-				<cfset navBlock = getGeologyNavigationHtml()>
-				#navBlock#
-			</section>
-		</main>
-	</cfoutput>
 </cfif>
 
 <cfswitch expression="#action#">
+	<cfcase value="overview">
+		<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
+			SELECT count(distinct geologic_attributed_hierarchy_id) attrib_ct,
+				type 
+			FROM ctgeology_attribute ct
+				left join geologic_attribute_hierarchy ah on ct.geology_attribtue = ah.attribute
+			group by type  
+		</cfquery>
+		<cfoutput>
+			<main class="container py-3" id="content" >
+				<section class="row border rounded my-2">
+					<h1 class="h2">Manage Geological Controlled Vocabularies</h1>
+					<cfset navBlock = getGeologyNavigationHtml()>
+					#navBlock#
+				</section>
+				<section class="row border rounded my-2">
+					<div class="col-12">
+						<ul>
+							<cfloop query="types">
+								<li>#types.type# encompasses #types.attrib_ct# attribute values.</li>
+							<cfloop>
+						</ul>
+					</div>
+				</section>
+			</main>
+		</cfoutput>
+	</cfcase>
+
 	<cfcase value="edit">
 		<main class="container py-3" id="content" >
 			<cfoutput>
@@ -90,7 +105,7 @@ limitations under the License.
 							<cfset disabled = "disabled">
 						</cfif>
 
-						<form name="ins" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
+						<form name="ins" id="editAttValForm" onsubmit="return noenter();">
 							<input type="hidden" name="geology_attribute_hierarchy_id" value="#geology_attribute_hierarchy_id#">
 							<cfif use.ct GT 0>
 								<input type="hidden" name="attribute" value="#c.attribute#">
@@ -325,7 +340,7 @@ limitations under the License.
 					#navBlock#
 					<section class="col-12" title="Add Geological Atribute">
 						<h2 class="h3">Add New Geological Attribute Value:</h2>
-						<form name="insertGeolAttrForm" id="insertGeolAttrForm" >
+						<form name="insertGeolAttrForm" id="insertGeolAttrForm" onsubmit="return noenter();" >
 							<div class="form-row mb-2">
 								<div class="col-12 col-sm-12 col-xl-4">
 									<label for="attribute" class="data-entry-label">Attribute ("Formation")</label>
@@ -382,7 +397,9 @@ limitations under the License.
 	<cfcase value="organize">
 		<cfquery name="terms"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select geology_attribute_hierarchy_id,
-				attribute_value || ' (' || attribute || ')' attribute
+				attribute_value,
+				attribute,
+				decode(usable_value_fg,1,'*','') uflag
 			from geology_attribute_hierarchy
 				order by attribute
 		</cfquery>
@@ -393,31 +410,48 @@ limitations under the License.
 					#navBlock#
 					<section class="col-12" title="Edit Geological Atribute">
 						<h2 class="h3">Link terms into Hierarchies</h2>
-						<form name="rel" method="post" action="/vocabularies/GeologicalHierarchies.cfm">
-							<input type="hidden" name="action" value="newReln">
+						<form name="rel" id="newRelationshipForm" onsubmit="return noenter();">
 							<div class="form-row mb-2">
 								<div class="col-12 col-md-6 col-xl-6">
 									<label for="parent" class="data-entry-label">Parent Term</label>
 									<select name="parent" class="data-entry-select reqdClr" id="parent" required>
 										<option value="">NULL</option>
 										<cfloop query="terms">
-											<option value="#geology_attribute_hierarchy_id#">#attribute#</option>
+											<option value="#geology_attribute_hierarchy_id#">#attribute_value# (#attribute#) #uflag#</option>
 										</cfloop>
 									</select>
 								</div>
 								<div class="col-12 col-md-6 col-xl-6">
 									<label for="child">Child Term</label>
-									<select name="child" id="child" class="data-entry-select reqdClr">
+									<select name="child" id="child" class="data-entry-select reqdClr" required>
 										<cfloop query="terms">
-											<option value="#geology_attribute_hierarchy_id#">#attribute#</option>
+											<option value="#geology_attribute_hierarchy_id#">#attribute_value# (#attribute#) #uflag#</option>
 										</cfloop>
 									</select>
 								</div>
 								<div class="col-12">
-									<input type="submit" value="Create Relationship" class="btn btn-xs btn-primary">
+									<button id="addRelationshipButton" value="Create Relationship" class="btn btn-xs btn-primary">
+									<div id="addRelationshipFeedback"></div>
 								</div>
 							</div>
 						</form>
+							<script>
+								function reloadHierarchy() { 
+									// TODO: Implement
+								};
+								function addRelationship() { 
+									var newParent = $('select[name=parent] option').filter(':selected').val();
+									var newChild = $('select[name=child] option').filter(':selected').val();
+									if (newChild && newParent) { 
+										changeGeologicalAttributeLink(newParent,newChild, "addRelationshipFeedback", reloadHierarchy);
+									} else { 
+										messageDialog("Error: No value selected.");
+									}
+								};
+								$(document).ready(function(){
+									$("##addRelationshipButton").on('click',addRelationship);
+								});
+							</script>
 					</section>
 				</div>
 			</cfoutput>
@@ -505,20 +539,6 @@ limitations under the License.
 				DELETE FROM geology_attribute_hierarchy 
 				WHERE 
 					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
-			</cfquery>
-			<cflocation url="/vocabularies/GeologicalHierarchies.cfm?action=list" addtoken="false">
-		</cfoutput>
-	</cfcase>
-
-	<!---------------------------------------------------->
-	<cfcase value="newReln">
-		<!--- TODO: Moved to component --->
-		<cfoutput>
-			<cfquery name="changeGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE geology_attribute_hierarchy 
-				SET parent_id=<cfif parent is "">NULL<cfelse><cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent#"></cfif> 
-				WHERE 
-					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child#">
 			</cfquery>
 			<cflocation url="/vocabularies/GeologicalHierarchies.cfm?action=list" addtoken="false">
 		</cfoutput>
