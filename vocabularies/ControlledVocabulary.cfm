@@ -41,7 +41,7 @@
 		</div>
 	</div>
 <cfelse>
-	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
+	<cfif table is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
 		<cflocation url="/vocabularies/showGeologicalHierarchies.cfm" addtoken="false">
 	</cfif>
 	<cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
