@@ -272,8 +272,6 @@ limitations under the License.
 						</div>
 					</section>
 					<section class="col-12">
-						<!--- probably set this to false when initial cleanup is done, or remove the test with this parameter ---> 
-						<cfset enableCrossRankMerges=true>
 						<cfquery name="mergeCandidates"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
 								GEOLOGY_ATTRIBUTE_HIERARCHY_ID,
@@ -289,10 +287,11 @@ limitations under the License.
 									USABLE_VALUE_FG = 0 and
 								</cfif>
 								geology_attribute_hierarchy_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#"> 
-								<cfif enableCrossRankMerges EQ false>
-									and
+								and (
 									ctgeology_attribute.ordinal = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.ordinal#">
-								</cfif>
+									OR
+									usable_value_fg = 0
+								)
 							ORDER BY ordinal, attribute_value
 						</cfquery>
 						<div class="row border rounded my-2 mx-1 py-1">
