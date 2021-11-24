@@ -35,15 +35,17 @@ function addGeologicalAttribute(attribute, attribute_value, usable_value_fg, des
 			}
 			if (result[0].STATUS!=1) {
 				alert(result[0].MESSAGE);
+				$('#'+feedback).html('Error');
 				$('#'+feedback).addClass('text-danger');
 				$('#'+feedback).removeClass('text-success');
-				$('#'+feedback).removeClass('text-danger');
+				$('#'+feedback).removeClass('text-warning');
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
+			$('#'+feedback).html('Error');
 			$('#'+feedback).addClass('text-danger');
 			$('#'+feedback).removeClass('text-success');
-			$('#'+feedback).removeClass('text-danger');
+			$('#'+feedback).removeClass('text-warning');
 			handleFail(jqXHR,textStatus,error, "Error adding geological attribute: "); 
 		}
 	});
@@ -81,15 +83,17 @@ function mergeGeologicalAttributes(nodeToMerge, mergeTarget, feedback, callback)
 			}
 			if (result[0].STATUS!=1) {
 				alert(result[0].MESSAGE);
+				$('#'+feedback).html('Error');
 				$('#'+feedback).addClass('text-danger');
 				$('#'+feedback).removeClass('text-success');
-				$('#'+feedback).removeClass('text-danger');
+				$('#'+feedback).removeClass('text-warning');
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
+			$('#'+feedback).html('Error');
 			$('#'+feedback).addClass('text-danger');
 			$('#'+feedback).removeClass('text-success');
-			$('#'+feedback).removeClass('text-danger');
+			$('#'+feedback).removeClass('text-warning');
 			handleFail(jqXHR,textStatus,error, "Error merging geological attribute: "); 
 		}
 	});
@@ -105,6 +109,8 @@ function mergeGeologicalAttributes(nodeToMerge, mergeTarget, feedback, callback)
  * @param callback a callback function to invoke on successfull insert
  */
 function changeGeologicalAttributeLink(parent, child, feedback, callback) { 
+	console.log(parent);
+	console.log(child);
 	$('#'+feedback).html('Saving....');
 	$('#'+feedback).addClass('text-warning');
 	$('#'+feedback).removeClass('text-success');
@@ -129,16 +135,18 @@ function changeGeologicalAttributeLink(parent, child, feedback, callback) {
 				}
 				if (result[0].STATUS!=1) {
 					alert(result[0].MESSAGE);
+					$('#'+feedback).html('Error');
 					$('#'+feedback).addClass('text-danger');
 					$('#'+feedback).removeClass('text-success');
-					$('#'+feedback).removeClass('text-danger');
+					$('#'+feedback).removeClass('text-warning');
 				}
 			},
 			error: function (jqXHR, textStatus, error) {
+				$('#'+feedback).html('Error');
 				$('#'+feedback).addClass('text-danger');
 				$('#'+feedback).removeClass('text-success');
-				$('#'+feedback).removeClass('text-danger');
-				handleFail(jqXHR,textStatus,error, "Error linking geological attributes: "); 
+				$('#'+feedback).removeClass('text-warning');
+				handleFail(jqXHR,textStatus,error, "Error unlinking geological attribute from parent: "); 
 			}
 		});
    } else { 
@@ -162,15 +170,17 @@ function changeGeologicalAttributeLink(parent, child, feedback, callback) {
 				}
 				if (result[0].STATUS!=1) {
 					alert(result[0].MESSAGE);
+					$('#'+feedback).html('Error');
 					$('#'+feedback).addClass('text-danger');
 					$('#'+feedback).removeClass('text-success');
-					$('#'+feedback).removeClass('text-danger');
+					$('#'+feedback).removeClass('text-warning');
 				}
 			},
 			error: function (jqXHR, textStatus, error) {
+				$('#'+feedback).html('Error');
 				$('#'+feedback).addClass('text-danger');
 				$('#'+feedback).removeClass('text-success');
-				$('#'+feedback).removeClass('text-danger');
+				$('#'+feedback).removeClass('text-warning');
 				handleFail(jqXHR,textStatus,error, "Error linking geological attributes: "); 
 			}
 		});

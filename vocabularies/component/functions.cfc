@@ -403,6 +403,79 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 	<cfreturn #theResult#>
 </cffunction>
 
+
+<!--- Obtain html for adding a geological attribute, includes javascript that will invoke a javascript 
+  * function named reload() which must exist on the page.
+  * @return a block of html with an add form and supporting javascript.
+--->
+<cffunction name="getAddGeologyAttributeHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="type" type="string" required="no">
+
+	<cfthread name="geoAddThread">
+		<cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT geology_attribute, type, description 
+			FROM ctgeology_attribute
+			<cfif isdefined("type") AND len(type) GT 0 AND type NEQ 'all'>
+				WHERE 
+					ctgeology_attribute.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
+			</cfif>
+			ORDER BY ordinal
+		</cfquery>
+		<cfoutput>
+			<section class="col-12 border rounded" title="Add Geological Atribute">
+				<h2 class="h3">Add New Geological Attribute Value:</h2>
+				<form name="insertGeolAttrForm" id="insertGeolAttrForm" onsubmit="return noenter(event);" >
+					<div class="form-row mb-2">
+						<div class="col-12 col-sm-12 col-xl-4">
+							<label for="attribute" class="data-entry-label">Attribute ("Formation")</label>
+							<select name="attribute" id="attribute" class="data-entry-select reqdClr">
+								<cfloop query="ctgeology_attribute">
+									<option value="#ctgeology_attribute.geology_attribute#" >#ctgeology_attribute.geology_attribute# (#ctgeology_attribute.type#)</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-sm-12 col-xl-4">
+							<label for="attribute_value" class="data-entry-label">Value ("Prince Creek")</label>
+							<input type="text" name="attribute_value" id="attribute_value" class="data-entry-input reqdClr" required>
+						</div>
+						<div class="col-12 col-sm-12 col-xl-4">
+							<label for="usable_value_fg" class="data-entry-label">Attribute valid for Data Entry?</label>
+							<select name="usable_value_fg" id="usable_value_fg" class="data-entry-select reqdClr">
+								<option value="0">no</option>
+								<option value="1">yes</option>
+							</select>
+						</div>
+						<div class="col-12">
+							<label for="description" class="data-entry-label">Description</label>
+							<input type="text" name="description" id="description" class="data-entry-input">
+						</div>
+						<div class="col-12">
+							<input type="submit" value="Insert Term" class="btn btn-xs btn-primary">
+							<div id="addFeedbackDiv"></div>
+						</div>
+					</div>
+				</form>
+				<script>
+					function saveNew(){ 
+						addGeologicalAttribute($("##attribute").val(), $("##attribute_value").val(), $("##usable_value_fg").val(), $("##description").val(), "addFeedbackDiv", reload);
+					}
+					$(document).ready(function(){
+						$("##insertGeolAttrForm").submit(function(event) {
+							event.preventDefault();
+							if (checkFormValidity($('##insertGeolAttrForm')[0])) { 
+								saveNew();  
+							}
+						});
+					});
+				</script>
+			</section>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="geoAddThread" />
+	<cfreturn geoAddThread.output>
+</cffunction>
+
+
 <!--- Obtain html for a geological tree navigation control. --->
 <cffunction name="getGeologyNavigationHtml" returntype="string" access="remote" returnformat="plain">
 	<cfthread name="geoNavThread">
@@ -436,6 +509,166 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 	</cfthread>
 	<cfthread action="join" name="geoNavThread" />
 	<cfreturn geoNavThread.output>
+</cffunction>
+
+<!--- ** Obtain html for controls to link geological tree nodes in parent-child relationships. 
+ * assumes the existence of a javascript reload() function which is invoked on save of a new relationship.
+ * @param type if present, restricts which types of nodes are listed as available to merge.
+ * @return html with a form for adding relationships between pairs of nodes.
+--->
+<cffunction name="getGeologyMakeTreeHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="type" type="string" required="no">
+
+	<cfthread name="geoOrganizeThread">
+		<cfif NOT isDefined("type") OR len(type) EQ 0>
+			<cfset type = "all">
+		</cfif>
+		<cfquery name="terms"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select geology_attribute_hierarchy_id,
+				attribute_value,
+				attribute,
+				decode(usable_value_fg,1,'*','') uflag
+			FROM geology_attribute_hierarchy
+				LEFT JOIN ctgeology_attribute on attribute = geology_attribute
+			<cfif NOT type IS "all">
+				WHERE
+					ctgeology_attribute.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
+			</cfif>  
+			ORDER BY ordinal, attribute, attribute_value
+		</cfquery>
+		<cfoutput>
+			<section class="col-12" title="Relate Geological Atributes">
+				<h2 class="h3">Link terms into Hierarchies</h2>
+				<form name="rel" id="newRelationshipForm" onsubmit="return noenter(event);">
+					<div class="form-row mb-2">
+						<div class="col-12 col-md-6 col-xl-6">
+							<label for="parent" class="data-entry-label">Parent Term</label>
+							<select name="parent" class="data-entry-select reqdClr" id="parent" required>
+								<option value=""></option>
+								<option value="NULL">Unlink from Parent</option>
+								<cfloop query="terms">
+									<option value="#geology_attribute_hierarchy_id#">#attribute_value# (#attribute#) #uflag#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-6 col-xl-6">
+							<label for="child">Child Term</label>
+							<select name="child" id="child" class="data-entry-select reqdClr" required>
+								<option value=""></option>
+								<cfloop query="terms">
+									<option value="#geology_attribute_hierarchy_id#">#attribute_value# (#attribute#) #uflag#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12">
+							<input type="submit" id="addRelationshipButton" value="Create Relationship" class="btn btn-xs btn-primary">
+							<div id="addRelationshipFeedback"></div>
+						</div>
+					</div>
+				</form>
+				<script>
+					function addRelationship() { 
+						var newParent = $('select[name=parent] option').filter(':selected').val();
+						var newChild = $('select[name=child] option').filter(':selected').val();
+						if (newChild && newParent) { 
+							changeGeologicalAttributeLink(newParent,newChild, "addRelationshipFeedback", reload);
+						} else { 
+							messageDialog("Error: No value selected.");
+						}
+					};
+					$(document).ready(function(){
+						$("##newRelationshipForm").on('submit',function(event){
+							event.preventDefault();
+							if (checkFormValidity($('##newRelationshipForm')[0])) { 
+						 		addRelationship();
+							};
+						});
+					});
+				</script>
+			</section>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="geoOrganizeThread" />
+	<cfreturn geoOrganizeThread.output>
+</cffunction>
+
+<!--- Obtain html for a geological tree navigation control. --->
+<cffunction name="getGeologyAttributeTreeHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="type" type="string" required="no">
+
+	<cfthread name="geoTreeThread">
+		<cfif NOT isDefined("type") OR len(type) EQ 0>
+			<cfset type = "all">
+		</cfif>
+		<cfquery name="cData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT  
+				level,
+				geology_attribute_hierarchy_id,
+				parent_id,
+				usable_value_fg,
+				attribute_value,
+				attribute,
+				geology_attribute_hierarchy.description
+			FROM
+				geology_attribute_hierarchy
+				LEFT JOIN ctgeology_attribute on attribute = geology_attribute
+			<cfif NOT type IS "all">
+			WHERE
+				ctgeology_attribute.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
+			</cfif>  
+			START WITH parent_id is null
+			CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+			ORDER SIBLINGS BY ordinal, attribute_value
+		</cfquery>
+		<cfoutput>
+			<cfset typetext = "">
+			<cfif type NEQ "all">
+				<cfset typetext = ": #encodeForHtml(type)#">
+			</cfif>
+			<h2 class="h3">Geological Attributes#typetext#</h2> 
+			<div>Values in red are not available for data entry but may be used in searches</div>
+			<cfset levelList = "">
+			<cfloop query="cData">
+				<cfquery name="locCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT count(locality_id) ct
+					FROM geology_attributes
+					WHERE
+						geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cData.attribute#"> and
+						geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cData.attribute_value#">
+				</cfquery>
+				<cfset localityCount = locCount.ct>
+				<cfif listLast(levelList,",") IS NOT level>
+					<cfset levelListIndex = listFind(levelList,cData.level,",")>
+					<cfif levelListIndex IS NOT 0>
+						<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
+						<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
+							<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
+						</cfloop>
+						#repeatString("</ul>",numberOfLevelsToRemove)#
+					<cfelse>
+						<cfset levelList = listAppend(levelList,cData.level)>
+						<ul>
+					</cfif>
+				</cfif>
+				<cfset class="">
+				<cfif usable_value_fg is 0><cfset class="text-danger"></cfif>
+				<li>
+					<span class="font-weight-bold #class#">
+						#attribute_value# (#attribute#)
+						<cfif usable_value_fg IS 1>*</cfif>
+					</span>
+					<a class="text-primary" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">edit</a>
+					Used in #localityCount# Localities
+					<span class="font-italic">#description#</span>
+				</li>
+				<cfif cData.currentRow IS cData.recordCount>
+					#repeatString("</ul>",listLen(levelList,","))#
+				</cfif>
+			</cfloop>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="geoTreeThread" />
+	<cfreturn geoTreeThread.output>
 </cffunction>
 
 <!--- ** getNodeInGeologyTreeHtml obtain an html representation of the location of a node within its tree, including 

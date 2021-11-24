@@ -5,36 +5,47 @@
 	<div class="container my-3">
 		<div class="row">
 			<div class="col-12">
-	   			<h2>MCZbase controlled vocabulary tables</h2>
-   				<cfquery name="getCTName" datasource="uam_god">
-      	select
-         	distinct(table_name) table_name
-	      from
-   	      sys.user_tables
-      	where
-	         table_name like 'CT%'
-   	    order by table_name
-	   </cfquery>
+				<h2>MCZbase controlled vocabulary tables</h2>
+					<cfquery name="getCTName" datasource="uam_god">
+						SELECT
+							distinct(table_name) table_name
+						FROM
+							sys.user_tables
+						WHERE
+							table_name like 'CT%'
+						UNION 
+							select 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name from dual
+						ORDER BY table_name
+					</cfquery>
 				<ul>
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 				<li><a href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a></li>
 			</cfif>
-		   <cfloop query="getCTName">
-   			<cfquery name="getCTRows" datasource="uam_god">
-					select count(*) as ct from #getCtName.table_name#
+			<cfloop query="getCTName">
+				<cfquery name="getCTRows" datasource="uam_god">
+					select count(*) as ct 
+					FROM 
+						<cfif getCtName.table_name EQ "CTGEOLOGY_ATTRIBUTE_HIERARCHY">
+							GEOLOGY_ATTRIBUTE_HIERARCHY
+						<cfelse>
+							#getCtName.table_name#
+						</cfif>
 				</cfquery>
 				<cfif getCTRows.ct GT 0>
 					<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
-   	   		<li><a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#">#name#</a> (#getCTRows.ct# values)</li>
+					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#">#name#</a> (#getCTRows.ct# values)</li>
 				</cfif>
-		   </cfloop>
+			</cfloop>
 		</ul>
 			</div>
 		</div>
 	</div>
 <cfelse>
+	<cfif table is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
+		<cflocation url="/vocabularies/showGeologicalHierarchies.cfm" addtoken="false">
+	</cfif>
 	<cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
-   	<cfthrow message="This page can only be used for viewing the controled vocabularies in code tables.">
+		<cfthrow message="This page can only be used for viewing the controled vocabularies in code tables.">
 	</cfif>
 
 	<cfset tableName = right(table,len(table)-2)>

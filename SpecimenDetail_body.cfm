@@ -1278,7 +1278,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 								</cfquery>
 								<cfloop query="sPart">
 									<tr>
-										<td class="inside_sub"><span>#part_name# subsample</span></td>
+										<td class="inside_sub" style="min-width:150px;"><span>#part_name# subsample</span></td>
 										<td class="inside_sub">#part_condition#</td>
 										<td class="inside_sub">#part_disposition#
 											<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>

@@ -13,7 +13,7 @@
 		where 
 			table_name like 'CT%'
 		UNION 
-			select 'CTGEOLOGY_ATTRIBUTE_HEIRARCHY' table_name from dual
+			select 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name from dual
 		 order by table_name
 	</cfquery>
 	<cfloop query="getCTName">
@@ -24,8 +24,8 @@
 	<p>
 		<a href="/CodeTableEditor.cfm">Back to table list</a>
 	</p>
-	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HEIRARCHY"><!---------------------------------------------------->
-		<cflocation url="/info/geol_hierarchy.cfm" addtoken="false">
+	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
+		<cflocation url="/vocabularies/GeologicalHierarchies.cfm" addtoken="false">
 	<cfelseif tbl is "ctspecimen_part_name"><!---------------------------------------------------->
 		<cflocation url="/Admin/ctspecimen_part_name.cfm" addtoken="false">
 	<cfelseif tbl is "ctspec_part_att_att"><!---------------------------------------------------->
