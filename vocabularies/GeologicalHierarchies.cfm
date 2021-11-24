@@ -155,7 +155,7 @@ limitations under the License.
 						</form>
 						<script>
 							function updateRecord(){ 
-								updateGeologicalAttribute(#geology_attribute_hierarchy_id#, $("##attribute").val(), $("##attribute_value").val(), $("##usable_value_fg").val(), $("##description").val(), "addFeedbackDiv", reloadHierarchy);
+								updateGeologicalAttribute(#geology_attribute_hierarchy_id#, $("##attribute").val(), $("##attribute_value").val(), $("##usable_value_fg").val(), $("##description").val(), "updateFeedbackDiv", reloadHierarchy);
 							}
 							$(document).ready(function(){
 								$("##editAttrValForm").submit(function(event) {
