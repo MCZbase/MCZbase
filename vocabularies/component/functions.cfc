@@ -403,6 +403,79 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 	<cfreturn #theResult#>
 </cffunction>
 
+
+<!--- Obtain html for adding a geological attribute, includes javascript that will invoke a javascript 
+  * function named reload() if such exists on the page.
+  * @return a block of html with an add form and supporting javascript.
+--->
+<cffunction name="getAddGeologyAttributeHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="type" type="string" required="no">
+
+	<cfthread name="geoAddThread">
+		<cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT geology_attribute, type, description 
+			FROM ctgeology_attribute
+			<cfif isdefined("type") AND len(type) GT 0 AND type NEQ 'all'>
+				WHERE 
+					ctgeology_attributes.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
+			</cfif>
+			ORDER BY ordinal
+		</cfquery>
+		<cfoutput>
+			<section class="col-12" title="Add Geological Atribute">
+				<h2 class="h3">Add New Geological Attribute Value:</h2>
+				<form name="insertGeolAttrForm" id="insertGeolAttrForm" onsubmit="return noenter();" >
+					<div class="form-row mb-2">
+						<div class="col-12 col-sm-12 col-xl-4">
+							<label for="attribute" class="data-entry-label">Attribute ("Formation")</label>
+							<select name="attribute" id="attribute" class="data-entry-select reqdClr">
+								<cfloop query="ctgeology_attribute">
+									<option value="#ctgeology_attribute.geology_attribute#" >#ctgeology_attribute.geology_attribute# (#ctgeology_attribute.type#)</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-sm-12 col-xl-4">
+							<label for="attribute_value" class="data-entry-label">Value ("Prince Creek")</label>
+							<input type="text" name="attribute_value" id="attribute_value" class="data-entry-input reqdClr" required>
+						</div>
+						<div class="col-12 col-sm-12 col-xl-4">
+							<label for="usable_value_fg" class="data-entry-label">Attribute valid for Data Entry?</label>
+							<select name="usable_value_fg" id="usable_value_fg" class="data-entry-select reqdClr">
+								<option value="0">no</option>
+								<option value="1">yes</option>
+							</select>
+						</div>
+						<div class="col-12">
+							<label for="description" class="data-entry-label">Description</label>
+							<input type="text" name="description" id="description" class="data-entry-input">
+						</div>
+						<div class="col-12">
+							<input type="submit" value="Insert Term" class="btn btn-xs btn-primary">
+							<div id="addFeedbackDiv"></div>
+						</div>
+					</div>
+				</form>
+				<script>
+					function saveNew(){ 
+						addGeologicalAttribute($("##attribute").val(), $("##attribute_value").val(), $("##usable_value_fg").val(), $("##description").val(), "addFeedbackDiv", reload);
+					}
+					$(document).ready(function(){
+						$("##insertGeolAttrForm").submit(function(event) {
+							event.preventDefault();
+							if (checkFormValidity($('##insertGeolAttrForm')[0])) { 
+								saveNew();  
+							}
+						});
+					});
+				</script>
+			</section>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="geoAddThread" />
+	<cfreturn geoAddThread.output>
+</cffunction>
+
+
 <!--- Obtain html for a geological tree navigation control. --->
 <cffunction name="getGeologyNavigationHtml" returntype="string" access="remote" returnformat="plain">
 	<cfthread name="geoNavThread">

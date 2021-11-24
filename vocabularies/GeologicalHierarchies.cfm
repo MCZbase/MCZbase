@@ -338,56 +338,8 @@ limitations under the License.
 				<div class="row mx-0 border rounded my-2 pt-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
-					<section class="col-12" title="Add Geological Atribute">
-						<h2 class="h3">Add New Geological Attribute Value:</h2>
-						<form name="insertGeolAttrForm" id="insertGeolAttrForm" onsubmit="return noenter();" >
-							<div class="form-row mb-2">
-								<div class="col-12 col-sm-12 col-xl-4">
-									<label for="attribute" class="data-entry-label">Attribute ("Formation")</label>
-									<select name="attribute" id="attribute" class="data-entry-select reqdClr">
-										<cfloop query="ctgeology_attribute">
-											<option value="#ctgeology_attribute.geology_attribute#" >#ctgeology_attribute.geology_attribute# (#ctgeology_attribute.type#)</option>
-										</cfloop>
-									</select>
-								</div>
-								<div class="col-12 col-sm-12 col-xl-4">
-									<label for="attribute_value" class="data-entry-label">Value ("Prince Creek")</label>
-									<input type="text" name="attribute_value" id="attribute_value" class="data-entry-input reqdClr" required>
-								</div>
-								<div class="col-12 col-sm-12 col-xl-4">
-									<label for="usable_value_fg" class="data-entry-label">Attribute valid for Data Entry?</label>
-									<select name="usable_value_fg" id="usable_value_fg" class="data-entry-select reqdClr">
-										<option value="0">no</option>
-										<option value="1">yes</option>
-									</select>
-								</div>
-								<div class="col-12">
-									<label for="description" class="data-entry-label">Description</label>
-									<input type="text" name="description" id="description" class="data-entry-input">
-								</div>
-								<div class="col-12">
-									<input type="submit" value="Insert Term" class="btn btn-xs btn-primary">
-									<div id="addFeedbackDiv"></div>
-								</div>
-							</div>
-						</form>
-						<script>
-							function reload() { 
-								// TODO: implement
-							}
-							function saveNew(){ 
-								addGeologicalAttribute($("##attribute").val(), $("##attribute_value").val(), $("##usable_value_fg").val(), $("##description").val(), "addFeedbackDiv", reload);
-							}
-							$(document).ready(function(){
-								$("##insertGeolAttrForm").submit(function(event) {
-									event.preventDefault();
-									if (checkFormValidity($('##insertGeolAttrForm')[0])) { 
-										saveNew();  
-									}
-								});
-							});
-						</script>
-					</section>
+					<cfset formBlock = getAddGeologyAttributeHtml ()>
+					#formBlock#
 				</div>
 			</cfoutput>
 		</main>
@@ -487,7 +439,9 @@ limitations under the License.
 				<div class="row mx-0 border rounded my-2 pt-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
-					<section class="col-12" title="Edit Geological Atribute">
+					<cfset formBlock = getAddGeologyAttributeHtml(type)>
+					#formBlock#
+					<section class="col-12" title="Geological Atribute">
 						<h2 class="h3">Geological Attributes</h2> 
 						<div>Values in red are not available for data entry but may be used in searches</div>
 						<cfset levelList = "">
@@ -518,6 +472,7 @@ limitations under the License.
 							<li>
 								<span class="#class#">
 									#attribute_value# (#attribute#)
+									<cfif usable_value_fg IS 1>*</cfif>
 								</span>
 								<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">edit</a>
 								Used in #localityCount# Localities
