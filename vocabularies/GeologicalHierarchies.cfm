@@ -36,11 +36,11 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="overview">
 		<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
-			SELECT count(distinct geologic_attribute_hierarchy_id) attrib_ct,
+			SELECT count(distinct geology_attribute_hierarchy_id) attrib_ct, 
 				type 
-			FROM ctgeology_attribute ct
-				left join geologic_attribute_hierarchy ah on ct.geology_attribtue = ah.attribute
-			group by type  
+			FROM ctgeology_attributes ct 
+			left join geology_attribute_hierarchy ah on ct.geology_attribute = ah.attribute 
+			GROUP BY type
 		</cfquery>
 		<cfoutput>
 			<main class="container py-3" id="content" >
