@@ -511,6 +511,80 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 	<cfreturn geoNavThread.output>
 </cffunction>
 
+
+<!--- Obtain html for a geological tree navigation control. --->
+<cffunction name="getGeologyAttributeTreeHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="type" type="string" required="no">
+
+	<cfthread name="geoTreeThread">
+		<cfif NOT isDefined("type") OR len(type) EQ 0>
+			<cfset type = "all">
+		</cfif>
+		<cfquery name="cData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT  
+				level,
+				geology_attribute_hierarchy_id,
+				parent_id,
+				usable_value_fg,
+				attribute_value,
+				attribute
+			FROM
+				geology_attribute_hierarchy
+				LEFT JOIN ctgeology_attribute on attribute = geology_attribute
+			<cfif NOT type IS "all">
+			WHERE
+				ctgeology_attribute.type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
+			</cfif>  
+			START WITH parent_id is null
+			CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+			ORDER SIBLINGS BY ordinal, attribute_value
+		</cfquery>
+		<cfoutput>
+			<h2 class="h3">Geological Attributes</h2> 
+			<div>Values in red are not available for data entry but may be used in searches</div>
+			<cfset levelList = "">
+			<cfloop query="cData">
+				<cfquery name="locCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT count(locality_id) ct
+					FROM geology_attributes
+					WHERE
+						geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cData.attribute#"> and
+						geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cData.attribute_value#">
+				</cfquery>
+				<cfset localityCount = locCount.ct>
+				<cfif listLast(levelList,",") IS NOT level>
+					<cfset levelListIndex = listFind(levelList,cData.level,",")>
+					<cfif levelListIndex IS NOT 0>
+						<cfset numberOfLevelsToRemove = listLen(levelList,",") - levelListIndex>
+						<cfloop from="1" to="#numberOfLevelsToRemove#" index="i">
+							<cfset levelList = listDeleteAt(levelList,listLen(levelList,","))>
+						</cfloop>
+						#repeatString("</ul>",numberOfLevelsToRemove)#
+					<cfelse>
+						<cfset levelList = listAppend(levelList,cData.level)>
+						<ul>
+					</cfif>
+				</cfif>
+				<cfset class="">
+				<cfif usable_value_fg is 0><cfset class="text-danger"></cfif>
+				<li>
+					<span class="#class#">
+						#attribute_value# (#attribute#)
+						<cfif usable_value_fg IS 1>*</cfif>
+					</span>
+					<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#">edit</a>
+					Used in #localityCount# Localities
+				</li>
+				<cfif cData.currentRow IS cData.recordCount>
+					#repeatString("</ul>",listLen(levelList,","))#
+				</cfif>
+			</cfloop>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="geoTreeThread" />
+	<cfreturn geoTreeThread.output>
+</cffunction>
+
 <!--- ** getNodeInGeologyTreeHtml obtain an html representation of the location of a node within its tree, including 
   * the path from the node to root, the specified node highlighted, and all nodes that are children of the specified
   * node. 
