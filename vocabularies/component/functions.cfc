@@ -244,7 +244,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 					FROM 
 						geology_attribute_hierarchy
 					WHERE
-						geology_attribute_hierarchy_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+						geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
 				</cfquery>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
