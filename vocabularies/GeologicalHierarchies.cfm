@@ -432,7 +432,7 @@ limitations under the License.
 							$.ajax({
 								url: "/vocabularies/component/functions.cfc",
 								data: { 
-									type: '#type#'
+									type: '#type#',
 									method: 'getGeologyAttributeTreeHtml'
 								},
 								dataType: 'html',
