@@ -69,6 +69,7 @@ limitations under the License.
 					</li>
 				</ul>
 			</nav>
+			<cfset typetext = "">
 			<cfif type NEQ "all">
 				<cfset typetext = ": #encodeForHtml(type)#">
 			</cfif>
