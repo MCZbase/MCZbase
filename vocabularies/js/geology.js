@@ -35,12 +35,14 @@ function addGeologicalAttribute(attribute, attribute_value, usable_value_fg, des
 			}
 			if (result[0].STATUS!=1) {
 				alert(result[0].MESSAGE);
+				$('#'+feedback).html('Error');
 				$('#'+feedback).addClass('text-danger');
 				$('#'+feedback).removeClass('text-success');
 				$('#'+feedback).removeClass('text-danger');
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
+			$('#'+feedback).html('Error');
 			$('#'+feedback).addClass('text-danger');
 			$('#'+feedback).removeClass('text-success');
 			$('#'+feedback).removeClass('text-danger');
@@ -81,12 +83,14 @@ function mergeGeologicalAttributes(nodeToMerge, mergeTarget, feedback, callback)
 			}
 			if (result[0].STATUS!=1) {
 				alert(result[0].MESSAGE);
+				$('#'+feedback).html('Error');
 				$('#'+feedback).addClass('text-danger');
 				$('#'+feedback).removeClass('text-success');
 				$('#'+feedback).removeClass('text-danger');
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
+			$('#'+feedback).html('Error');
 			$('#'+feedback).addClass('text-danger');
 			$('#'+feedback).removeClass('text-success');
 			$('#'+feedback).removeClass('text-danger');
@@ -129,12 +133,14 @@ function changeGeologicalAttributeLink(parent, child, feedback, callback) {
 				}
 				if (result[0].STATUS!=1) {
 					alert(result[0].MESSAGE);
+					$('#'+feedback).html('Error');
 					$('#'+feedback).addClass('text-danger');
 					$('#'+feedback).removeClass('text-success');
 					$('#'+feedback).removeClass('text-danger');
 				}
 			},
 			error: function (jqXHR, textStatus, error) {
+				$('#'+feedback).html('Error');
 				$('#'+feedback).addClass('text-danger');
 				$('#'+feedback).removeClass('text-success');
 				$('#'+feedback).removeClass('text-danger');
@@ -162,12 +168,14 @@ function changeGeologicalAttributeLink(parent, child, feedback, callback) {
 				}
 				if (result[0].STATUS!=1) {
 					alert(result[0].MESSAGE);
+					$('#'+feedback).html('Error');
 					$('#'+feedback).addClass('text-danger');
 					$('#'+feedback).removeClass('text-success');
 					$('#'+feedback).removeClass('text-danger');
 				}
 			},
 			error: function (jqXHR, textStatus, error) {
+				$('#'+feedback).html('Error');
 				$('#'+feedback).addClass('text-danger');
 				$('#'+feedback).removeClass('text-success');
 				$('#'+feedback).removeClass('text-danger');
