@@ -2584,6 +2584,15 @@ td#SDCellRight {
 .detailElements {
 	font-size: 1em;
 }
+td.inside_sub {
+	font-size: 0.76rem;
+	padding: 0 2px 0 0.5rem;
+}
+td.inside_sub:first-child {
+	display:list-item;
+	list-style-type: circle;
+	list-style-position: inside;
+}
 .mediaPager {
     font-size: 13px;
     width: 400px;
