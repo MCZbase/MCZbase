@@ -72,7 +72,7 @@ limitations under the License.
 			<cfif type NEQ "all">
 				<cfset typetext = ": #encodeForHtml(type)#">
 			</cfif>
-			<section class="col-12" title="Geological Atribute#tpetext#">
+			<section class="col-12" title="Geological Atribute#typetext#">
 				<h2 class="h3">Geological Attributes#typetext#</h2> 
 				<div>Values in red are not available for data entry but may be used in searches</div>
 				<cfset levelList = "">
