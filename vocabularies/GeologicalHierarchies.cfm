@@ -387,7 +387,7 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col-12">
-									<button id="addRelationshipButton" value="Create Relationship" class="btn btn-xs btn-primary">
+									<button id="addRelationshipButton" value="Create Relationship" class="btn btn-xs btn-primary">Create Relationship</button>
 									<div id="addRelationshipFeedback"></div>
 								</div>
 							</div>
