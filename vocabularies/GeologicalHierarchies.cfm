@@ -49,7 +49,7 @@ limitations under the License.
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
 				</section>
-				<section class="row border rounded my-2">
+				<section class="row border rounded my-2 mt-1">
 					<div class="col-12">
 						<ul>
 							<cfloop query="types">
