@@ -570,8 +570,6 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 					function addRelationship() { 
 						var newParent = $('select[name=parent] option').filter(':selected').val();
 						var newChild = $('select[name=child] option').filter(':selected').val();
-						console.log(newParent);
-						console.log(newChild);
 						if (newChild && newParent) { 
 							changeGeologicalAttributeLink(newParent,newChild, "addRelationshipFeedback", reload);
 						} else { 
@@ -582,7 +580,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 						$("##newRelationshipForm").on('submit',function(event){
 							event.preventDefault();
 							if (checkFormValidity($('##newRelationshipForm')[0])) { 
-						 		addRelationship
+						 		addRelationship();
 							};
 						});
 					});
