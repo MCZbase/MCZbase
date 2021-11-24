@@ -69,8 +69,11 @@ limitations under the License.
 					</li>
 				</ul>
 			</nav>
-			<section class="col-12" title="Geological Atribute">
-				<h2 class="h3">Geological Attributes</h2> 
+			<cfif type NEQ "all">
+				<cfset typetext = ": #encodeForHtml(type)#">
+			</cfif>
+			<section class="col-12" title="Geological Atribute#tpetext#">
+				<h2 class="h3">Geological Attributes#typetext#</h2> 
 				<div>Values in red are not available for data entry but may be used in searches</div>
 				<cfset levelList = "">
 				<cfloop query="cData">

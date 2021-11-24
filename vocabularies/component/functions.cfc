@@ -540,7 +540,10 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 			ORDER SIBLINGS BY ordinal, attribute_value
 		</cfquery>
 		<cfoutput>
-			<h2 class="h3">Geological Attributes</h2> 
+			<cfif type NEQ "all">
+				<cfset typetext = ": #encodeForHtml(type)#">
+			</cfif>
+			<h2 class="h3">Geological Attributes#typetext#</h2> 
 			<div>Values in red are not available for data entry but may be used in searches</div>
 			<cfset levelList = "">
 			<cfloop query="cData">
