@@ -441,7 +441,7 @@ limitations under the License.
 		</cfquery>
 		<main class="container py-3" id="content" >
 			<cfoutput>
-				<div class="row mx-0 border rounded my-2 pt-2">
+				<div class="row mx-0 border rounded my-2 pt-2 px-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
 					<cfset formBlock = getAddGeologyAttributeHtml(type="#type#")>
