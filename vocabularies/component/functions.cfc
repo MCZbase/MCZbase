@@ -424,7 +424,7 @@ Function addGeologicalAttribute add a record to the geology_attribute_heirarchy 
 		<cfoutput>
 			<section class="col-12" title="Add Geological Atribute">
 				<h2 class="h3">Add New Geological Attribute Value:</h2>
-				<form name="insertGeolAttrForm" id="insertGeolAttrForm" onsubmit="return noenter();" >
+				<form name="insertGeolAttrForm" id="insertGeolAttrForm" onsubmit="return noenter(event);" >
 					<div class="form-row mb-2">
 						<div class="col-12 col-sm-12 col-xl-4">
 							<label for="attribute" class="data-entry-label">Attribute ("Formation")</label>

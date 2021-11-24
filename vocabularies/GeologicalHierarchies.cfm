@@ -105,7 +105,7 @@ limitations under the License.
 							<cfset disabled = "disabled">
 						</cfif>
 
-						<form name="ins" id="editAttValForm" onsubmit="return noenter();">
+						<form name="ins" id="editAttValForm" onsubmit="return noenter(event);">
 							<input type="hidden" name="geology_attribute_hierarchy_id" value="#geology_attribute_hierarchy_id#">
 							<cfif use.ct GT 0>
 								<input type="hidden" name="attribute" value="#c.attribute#">
@@ -362,7 +362,7 @@ limitations under the License.
 					#navBlock#
 					<section class="col-12" title="Edit Geological Atribute">
 						<h2 class="h3">Link terms into Hierarchies</h2>
-						<form name="rel" id="newRelationshipForm" onsubmit="return noenter();">
+						<form name="rel" id="newRelationshipForm" onsubmit="return noenter(event);">
 							<div class="form-row mb-2">
 								<div class="col-12 col-md-6 col-xl-6">
 									<label for="parent" class="data-entry-label">Parent Term</label>
