@@ -483,7 +483,7 @@ limitations under the License.
 			</cftransaction>
 			<cfset typebit ="">
 			<cfif isDefined("type") AND len(type) GT 0>
-				<cfset typebit ="#encodeForUrl(type)#">
+				<cfset typebit ="&type=#encodeForUrl(type)#">
 			</cfif>
 			<cflocation url="/vocabularies/GeologicalHierarchies.cfm?action=list#typebit#" addtoken="false">
 		</cfoutput>
