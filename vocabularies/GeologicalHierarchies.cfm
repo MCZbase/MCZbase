@@ -160,7 +160,7 @@ limitations under the License.
 							$(document).ready(function(){
 								$("##editAttrValForm").submit(function(event) {
 									event.preventDefault();
-									if (checkFormValidity($('##insertGeolAttrForm')[0])) { 
+									if (checkFormValidity($('##editAttrValForm')[0])) { 
 										updateRecord();  
 									}
 								});
