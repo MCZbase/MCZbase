@@ -148,7 +148,7 @@ limitations under the License.
 								<div class="col-12 col-xl-6">
 									<cfif use.ct EQ 0>
 										<input type="button" value="Delete" id="deleteButton" class="btn btn-xs btn-danger"
-											onclick="document.location='/vocabularies/GeologicalHierarchies.cfm?action=delete&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#';">
+											onclick="document.location='/vocabularies/GeologicalHierarchies.cfm?action=delete&geology_attribute_hierarchy_id=#geology_attribute_hierarchy_id#&type=#c.type#';">
 									</cfif>
 								</div>
 							</div>
@@ -441,6 +441,7 @@ limitations under the License.
 
 	<!---------------------------------------------------->
 	<cfcase value="delete">
+		<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 		<cfoutput>
 			<cfif not isDefined("geology_attribute_hierarchy_id") OR len(geology_attribute_hierarchy_id) EQ 0>
 				<cfthrow message = "Error: No record specified to delete.">
@@ -475,10 +476,15 @@ limitations under the License.
 				<cftransaction action="commit">
 			<cfcatch>
 				<cftransaction action="rollback">
-				<cfthrow message = "Delete Failed.">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfthrow message = "Delete Failed. #error_message#">
 			</cfcatch>
 			</cftransaction>
-			<cflocation url="/vocabularies/GeologicalHierarchies.cfm?action=list" addtoken="false">
+			<cfset typebit ="">
+			<cfif isDefined("type") AND len(type) GT 0>
+				<cfset typebit ="#encodeForUrl(type)#">
+			</cfif>
+			<cflocation url="/vocabularies/GeologicalHierarchies.cfm?action=list#typebit#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 
