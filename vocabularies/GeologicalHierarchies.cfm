@@ -105,7 +105,7 @@ limitations under the License.
 							<cfset disabled = "disabled">
 						</cfif>
 
-						<form name="ins" id="editAttValForm" onsubmit="return noenter(event);">
+						<form name="ins" id="editAttrValForm" onsubmit="return noenter(event);">
 							<input type="hidden" name="geology_attribute_hierarchy_id" value="#geology_attribute_hierarchy_id#">
 							<cfif use.ct GT 0>
 								<input type="hidden" name="attribute" value="#c.attribute#">
