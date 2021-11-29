@@ -764,54 +764,35 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 
 	<cfthread name="listNodeInGeoTreeThread">
 		<cfoutput>
-			<!--- lookup path from root to specified node --->
+			<!--- lookup path from root to specified node, leaving out the specified node --->
 			<cfquery name="parents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
-				SELECT
-					level,
-					geology_attribute_hierarchy_id,
-					parent_id,
-					usable_value_fg,
-					attribute_value || ' (' || attribute || ')' attribute,
-					SYS_CONNECT_BY_PATH(attribute_value, '|') as path,
-					SYS_CONNECT_BY_PATH(geology_attribute_hierarchy_id, '|') as path_ids
-				FROM
-					geology_attribute_hierarchy
-					LEFT JOIN ctgeology_attributes on attribute = geology_attribute
-				WHERE
-					geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
-				START WITH parent_id IS NULL
-				CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+				SELECT * FROM (
+					SELECT 
+						level as parentagelevel,
+						connect_by_root attribute as attribute,
+						connect_by_root attribute_value as attribute_value,
+						connect_by_root geology_attribute_hierarchy_id as geology_attribute_hierarchy_id,
+						connect_by_root PARENT_ID as parent_id,
+						connect_by_root USABLE_VALUE_FG as USABLE_VALUE_FG,
+						connect_by_root DESCRIPTION as description
+					FROM geology_attribute_hierarchy 
+					WHERE
+						geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+					CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+					ORDER BY level desc
+				) WHERE parentagelevel > 1
 			</cfquery>
 			<cfset parentnesting = 0>
 			<cfloop query="parents">
-				<!--- Remove the leading | connect by path separator ---> 
-				<cfset parentage = Right(parents.path_ids,len(parents.path_ids)-1)>
-				<cfif REFind("\|[^\|]+$",parentage) EQ 0>
-					<!--- No parents, we'll pick up the current node from the children query --->
-				<cfelse>
-					<!--- Strip off the current node, we'll get that from the children query --->
-					<cfset parentage = Left(parentage,REFind("\|[^\|]+$",parentage))>
-					<cfset parentageArray = ListToArray(parentage,'|')>
-					<cfloop array="#parentageArray#" index="pitem">
-						<ul>
-							<cfset parentnesting = parentnesting + 1>
-							<cfquery name="parent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
-								SELECT
-									geology_attribute_hierarchy_id,
-									usable_value_fg,
-									attribute_value || ' (' || attribute || ')' attribute
-								FROM
-									geology_attribute_hierarchy
-								WHERE
-									geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pitem#">
-							</cfquery>
-							<li>
-								<span <cfif parent.usable_value_fg is 0>style="color:red"</cfif>>#parent.attribute#</span>
-								<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#parent.geology_attribute_hierarchy_id#">edit</a>
-							</li>
-					</cfloop>
-				</cfif>
+				<!--- parentage down to, but not including the current node, we'll get that from the children query --->
+				<ul>
+					<cfset parentnesting = parentnesting + 1>
+					<li>
+						<span <cfif parents.usable_value_fg is 0>style="color:red"</cfif>>#parents.attribute#</span>
+						<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#parents.geology_attribute_hierarchy_id#">edit</a>
+					</li>
 			</cfloop>
+			<!--- look up the tree from the current node down to all included leaves, including the current node --->
 			<cfquery name="children" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="children_result">
 				SELECT
 					level,
