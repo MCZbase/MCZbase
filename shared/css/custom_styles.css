@@ -1016,23 +1016,21 @@ div#users-contain table td, div#users-contain table th {
 }
 
 
-ul.list-unstyled li.list-group-item:last-child {
+
+ul.sd li.list-group-item {
+	margin-bottom: 0;
+	border-bottom: 1px solid #ccc;
+}
+ul.sd li.list-group-item:nth-last-of-type(2) {
+	border-bottom: none;
+	background-color:transparent;
+}
+ul.sd li.list-group-item:last-child {
 	margin-bottom: 0;
 	border-radius: 0;
 	border-bottom: 1px solid transparent;
 }
-/*Not sure if this is a mistake or is used somewhere. This would be the last 2 of parent and nested groups*/
-/*ul > li.list-group-item:nth-last-of-type(-n+2) {
-	border-bottom: none;
-}*/
-ul > li.list-group-item:nth-last-of-type(n+1) {
-	border-bottom: none;
-	background-color:transparent;
-}
-ul.list-unstyled li.list-group-item {
-	margin-bottom: 0;
-	border-bottom: 1px solid #ccc;
-}
+
 .jqx-widget-header {
 	background-color: #deebec !important;
 	/*	padding: .15em 0;*/

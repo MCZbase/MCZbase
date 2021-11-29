@@ -1788,7 +1788,7 @@ limitations under the License.
 		</cfquery>
 			</div>
 			<div class="col-7 px-0 float-left">
-				<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
+				<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
 					<cfif len(getLoc.continent_ocean) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Continent or Ocean:</em></li>
 						<li class="list-group-item col-7 px-0">#getLoc.continent_ocean#</li>
@@ -1829,7 +1829,7 @@ limitations under the License.
 				</ul>
 			</div>
 			<div class="col-12 float-left px-0">
-				<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
+				<ul class="sd list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
 					<cfif len(getLoc.spec_locality) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality:</h5></li>
 						<li class="list-group-item col-7 px-0 last">#getLoc.spec_locality#</li>
