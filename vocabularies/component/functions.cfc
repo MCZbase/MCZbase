@@ -788,7 +788,13 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 				<ul>
 					<cfset parentnesting = parentnesting + 1>
 					<li>
-						<span <cfif parents.usable_value_fg is 0>style="color:red"</cfif>>#parents.attribute#</span>
+						<cfset nodeclass = "">
+						<cfset marker = "">
+						<cfif parents.usable_value_fg is 0>
+							<cfset nodeclass="text-danger">
+							<cfset marker="*">
+						</cfif>
+						<span class="#nodeclass#">#parents.attribute_value# (#parents.attribute#)#marker#</span>
 						<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#parents.geology_attribute_hierarchy_id#">edit</a>
 					</li>
 			</cfloop>
@@ -811,14 +817,26 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 			<cfif children.recordcount EQ 1>
 				<ul>
 					<cfset parentnesting = parentnesting + 1>
-					<li><h3 class="h4">#children.attribute_value# (#children.attribute#)</h3></li>
+					<cfset nodeclass = "">
+					<cfset marker = "">
+					<cfif children.usable_value_fg is 0>
+						<cfset nodeclass="text-danger">
+						<cfset marker="*">
+					</cfif>
+					<li><h3 class="h4 #nodeclass#">#children.attribute_value# (#children.attribute#)#marker#</h3></li>
 			<cfelse>
 				<cfset levelList = "">
 				<cfset firstNode = true>
 				<cfloop query="children">
 					<cfif firstNode>
 						<ul>
-							<li><h3 class="h4">#children.attribute_value# (#children.attribute#)</h3></li>
+							<cfset nodeclass = "">
+							<cfset marker = "">
+							<cfif children.usable_value_fg is 0>
+								<cfset nodeclass="text-danger">
+								<cfset marker="*">
+							</cfif>
+							<li><h3 class="h4 #nodeclass#">#children.attribute_value# (#children.attribute#)#marker#</h3></li>
 							<cfset firstNode = false>
 					<cfelse>
 						<cfif listLast(levelList,",") IS NOT children.level>
@@ -835,7 +853,13 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 							</cfif>
 						</cfif>
 						<li>
-							<span <cfif children.usable_value_fg is 0>style="color:red"</cfif>>#children.attribute_value# (#children.attribute#)</span>
+							<cfset nodeclass = "">
+							<cfset marker = "">
+							<cfif children.usable_value_fg is 0>
+								<cfset nodeclass="text-danger">
+								<cfset marker="*">
+							</cfif>
+							<span class="#nodeclass#">#children.attribute_value# (#children.attribute#)</span>#marker#
 							<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#children.geology_attribute_hierarchy_id#">edit</a>
 						</li>
 						<cfif children.currentRow IS children.recordCount>

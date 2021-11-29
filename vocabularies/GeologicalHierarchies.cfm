@@ -98,7 +98,7 @@ limitations under the License.
 						</cfquery>
 
 						<cfif c.usable_value_fg EQ 1><cfset uflag="*"><cfelse><cfset uflag=""></cfif>
-						<h2 class="h2">Edit #c.attribute#:#c.attribute_value# (#c.type#) #uflag#</h2>
+						<h2 class="h2">Edit #c.type# term #c.attribute_value# (#c.attribute#) #uflag#</h2>
 						<div class="h3">Attribute for #use.ct# Localities.</div>
 						<cfset disabled = "">
 						<cfif use.ct GT 0>
