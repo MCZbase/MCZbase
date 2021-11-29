@@ -1014,10 +1014,8 @@ div#users-contain table td, div#users-contain table th {
 	border: none;
 	background-color: transparent;
 }
-ul.list-unstyled li.list-group-item {
-	margin-bottom: 0;
-	border-bottom: 1px solid #ccc;
-}
+
+
 ul.list-unstyled li.list-group-item:last-child {
 	margin-bottom: 0;
 	border-radius: 0;
@@ -1029,8 +1027,11 @@ ul.list-unstyled li.list-group-item:last-child {
 }*/
 ul > li.list-group-item:nth-last-of-type(n+1) {
 	border-bottom: none;
-/*	padding-bottom: .5rem;*/
 	background-color:transparent;
+}
+ul.list-unstyled li.list-group-item {
+	margin-bottom: 0;
+	border-bottom: 1px solid #ccc;
 }
 .jqx-widget-header {
 	background-color: #deebec !important;
