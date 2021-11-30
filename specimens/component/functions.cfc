@@ -1583,17 +1583,17 @@ limitations under the License.
 															</cfif>
 															<cfset k=1>
 															<cfloop query="getImages">
-																<div class="col-4 float-left p-2">
+																<div class="col-6 float-left p-2">
 																	<div class="border overflow-hidden px-2">
-																		<div class="col-5 p-2 float-left">
+																		<div class="col-6 p-2 float-left">
 																				<a href="/media/#getImages.media_id#" target="_blank" class="text-left small d-block">Media ID: #getImages.media_id#</a>
 																				<img src="#puri#" alt="#altText#" class="" width="150"> <br>
-																			<span class="small">#media_type#(#mime_type#)
+																			<span class="small">#media_type# (#mime_type#)
 																			(<a href="/MediaSet.cfm?media_id=#getImages.media_id#" class="" target="_blank" style="">view</a>)
 																			(<a href="#auto_host#/#auto_path#/#auto_filename#" class="">full</a>)
 																			</span>
 																		</div>
-																		<div class="col-7 p-2 float-left">
+																		<div class="col-6 p-2 float-left">
 																		<cfset j = 1>
 																			<cfloop query="labels">
 																				<cfset d=media_label>
