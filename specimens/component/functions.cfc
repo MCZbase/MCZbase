@@ -1587,7 +1587,7 @@ limitations under the License.
 																	<div class="border overflow-hidden px-2">
 																		<div class="col-5 p-2 float-left">
 																				<a href="/media/#getImages.media_id#" target="_blank" class="text-left small d-block">Media ID: #getImages.media_id#</a>
-																				<img src="#puri#" alt="#altText#" class="" width="93"> <br>
+																				<img src="#puri#" alt="#altText#" class="" width="150"> <br>
 																			<span class="small">#media_type#(#mime_type#)
 																			(<a href="/MediaSet.cfm?media_id=#getImages.media_id#"  class="d-inline-block" target="_blank" style="min-height: 10px;">view</a>)
 																			(<a href="#auto_host#/#auto_path#/#auto_filename#" class="d-inline-block">full</a>)
