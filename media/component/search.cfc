@@ -1057,9 +1057,10 @@ limitations under the License.
 							<a href="#specimen_media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 								<img id="specimen_media_img" src="#displayImage#" class="mx-auto" alt="#alt#" height="100%" width="100%">
 							</a>
+							<p class="mt-2 bg-light small caption-lg">#media_type# (#mime_type#)</p>
 							<p class="mt-2 bg-light small caption-lg">#subject##description##aspect#</p>
 							<p class="mt-2 bg-light small caption-lg">#owner#</p>
-							<p class=""><a href="#licence_uri#">#licence_display#</a></p>
+							<p class="mt-2 bg-light small caption-lg"><a href="#licence_uri#">#licence_display#</a></p>
 						</div>
 					</cfloop>
 				</cfif>
