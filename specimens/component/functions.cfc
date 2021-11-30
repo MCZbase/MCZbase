@@ -1583,10 +1583,13 @@ limitations under the License.
 																<div class="col-4 float-left p-2">
 																	<div class="border overflow-hidden px-2">
 																		<div class="col-5 p-2 float-left">
-																			<a href="/MediaSet.cfm?media_id=#getImages.media_id#"  class="text-center d-block" target="_blank" style="min-height: 10px;">Media Details
+																			
+																				
+																				<a href="/media/#getImages.media_id#" target="_blank" class="text-center d-block">Media ID: #getImages.media_id#</a>
 																				<img src="#puri#" alt="#altText#" class="" width="93"> 
-																			</a>
-																			<a href="/media/#getImages.media_id#" target="_blank" class="text-center d-block">Media Record</a>
+																				(<a href="/MediaSet.cfm?media_id=#getImages.media_id#"  class="text-center d-block" target="_blank" style="min-height: 10px;">view</a>)
+																			(<a href="#auto_host#/#auto_path#/#auto_filename#" class="d-inline-block">full</a>)
+																			
 																		</div>
 																		<div class="col-7 p-2 float-left">
 																		<cfset j = 1>
