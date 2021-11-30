@@ -1525,6 +1525,9 @@ limitations under the License.
 															<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT distinct
 																	media.media_id,
+																	media.auto_host,
+																	media.auto_path,
+																	media.auto_filename,
 																	media.media_uri,
 																	media.preview_uri as preview_uri,
 																	media.mime_type as mime_type,
