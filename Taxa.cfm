@@ -45,7 +45,8 @@ limitations under the License.
 	FROM taxon_habitat
 	GROUP BY taxon_habitat
 	ORDER BY taxon_habitat
-	UNION
+</cfquery>
+<cfquery name="cttaxon_habitat_null" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT count(distinct taxon_name_id) ct, 'NOT NULL' taxon_habitat
 	FROM taxon_habitat
 	UNION
@@ -85,6 +86,11 @@ limitations under the License.
 	<cfset in_nomenclatural_code="">
 <cfelse>
 	<cfset in_nomenclatural_code="#nomenclatural_code#">
+</cfif>
+<cfif NOT isDefined("taxon_habitat")>
+	<cfset in_taxon_habitat="">
+<cfelse>
+	<cfset in_taxon_habitat="#taxon_habitat#">
 </cfif>
 <cfif NOT isDefined("source_authority")>
 	<cfset in_source_authority="">
@@ -347,9 +353,13 @@ limitations under the License.
 											<label for="taxon_habitat" class="data-entry-label align-left-center">Habitat</label>
 											<select name="taxon_habitat" class="data-entry-select" id="taxon_habitat">
 												<option></option>
+												<cfloop query="cttaxon_habitat_null">
+													<cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
+												</cfloop>
 												<cfloop query="cttaxon_habitat">
 													<cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#taxon_habitat#" #selected#>#taxon_habitat#</option>
+													<option value="#taxon_habitat#" #selected#>#taxon_habitat# (#ct#)</option>
 												</cfloop>
 											</select>
 										</div>

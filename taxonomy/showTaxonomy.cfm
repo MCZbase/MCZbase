@@ -463,7 +463,7 @@
 						<cfloop query="habitat">
 							#sep# #taxon_habitat#
 							<cfset sep = ",">
-						<cfloop>
+						</cfloop>
 						habitats.
 					</h2>
 					
