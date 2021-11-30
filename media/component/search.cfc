@@ -977,4 +977,38 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="size" type="string" required="no">
+
+	<cfthread name="mediaWidgetThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
+					SELECT media_id, preview_uri, media_uri, mime_type
+					FROM media
+					WHERE 
+						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				</cfquery>
+				<cfif media.recordcount EQ 1>
+					<cfloop query="media">
+						<div class="media_widget">	
+							<a href="#media_uri#">#media_id#</a>
+						</div>
+					</cfloop>
+				</cfif>
+			<cfcatch>
+				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="mediaWidgetThread" />
+	<cfreturn mediaWidgetThread.output>
+</cffunction>
+
 </cfcomponent>
