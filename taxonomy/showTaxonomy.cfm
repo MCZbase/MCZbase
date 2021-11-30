@@ -365,7 +365,7 @@
 		SELECT taxon_habitat 
 		FROM taxon_habitat
 		WHERE
-			taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+			taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 	</cfquery>
 
 	<!--- obtain information to create resolvable guid links if present --->	
