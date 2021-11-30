@@ -361,6 +361,12 @@
 		from ctguid_type 
 		where guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.taxonid_guid_type#">
 	</cfquery>
+	<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="habitat_result">
+		SELECT taxon_habitat 
+		FROM taxon_habitat
+		WHERE
+			taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+	</cfquery>
 
 	<!--- obtain information to create resolvable guid links if present --->	
 	<cfset taxonidlink = "">
@@ -449,6 +455,18 @@
 				</cfif>
 				<cfif len(one.taxon_remarks) GT 0>
 					<p>Remarks: #one.taxon_remarks#</p>
+				</cfif>
+				<cfif habitat.recordcount GT 0>
+					<cfset sep = "">
+					<h2 class="h4">
+						Occurs in 
+						<cfloop query="habitat">
+							#sep# #taxon_habitat#
+							<cfset sep = ",">
+						</cfloop>
+						habitats.
+					</h2>
+					
 				</cfif>
 				<h2 class="h4">Common Name(s):</h2>
 				<ul>
