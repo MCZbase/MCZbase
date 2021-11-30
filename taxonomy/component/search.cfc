@@ -56,6 +56,7 @@ limitations under the License.
 	<cfargument name="we_have_some" type="string" required="no"><!--- 1 or empty string, thus type string --->
 	<cfargument name="valid_catalog_term_fg" type="string" required="no"><!--- 1 or empty string, thus type string --->
 	<cfargument name="relationship" type="string" required="no">
+	<cfargument name="taxon_habitat" type="string" required="no">
 
 	<!--- clear values that are just an empty operator without a search term --->
 	<cfif isdefined("scientific_name") AND scientific_name IS "="><cfset scientific_name=""></cfif>
@@ -143,6 +144,9 @@ limitations under the License.
 			 from taxonomy
 				<cfif isdefined("common_name") AND len(common_name) gt 0>
 					left join common_name on taxonomy.taxon_name_id = common_name.taxon_name_id
+				</cfif>
+				<cfif isdefined("taxon_habitat") AND len(taxon_habitat) gt 0>
+					left join taxon_habitat on taxonomy.taxon_name_id = taxon_habitat.taxon_name_id
 				</cfif>
 				left join identification_taxonomy on taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
 				left join #session.flatTableName# on identification_taxonomy.identification_id = #session.flatTableName#.identification_id
@@ -618,6 +622,19 @@ limitations under the License.
 						AND upper(taxonomy.taxon_remarks) is not null
 					<cfelse>
 						AND upper(taxonomy.taxon_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(taxon_remarks)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("taxon_habitat") AND len(taxon_habitat) gt 0>
+					<cfif left(taxon_habitat,1) is "=">
+						AND upper(taxon_habitat.taxon_habitat) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(taxon_habitat,len(taxon_habitat)-1))#">
+					<cfelseif left(taxon_habitat,1) is "!">
+						AND upper(taxon_habitat.taxon_habitat) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(taxon_habitat,len(taxon_habitat)-1))#">
+					<cfelseif taxon_habitat is "NULL">
+						AND taxon_habitat.taxon_name_id IS NULL
+					<cfelseif taxon_habitat is "NOT NULL">
+						AND taxon_habitat.taxon_habitat_id IS NOT NULL
+					<cfelse>
+						AND upper(taxon_habitat.taxon_habitat) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(taxon_habitat)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("taxon_status") AND len(taxon_status) gt 0>

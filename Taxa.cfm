@@ -40,6 +40,19 @@ limitations under the License.
 	group by cttaxon_relation.taxon_relationship
 	order by taxon_relationship
 </cfquery>
+<cfquery name="cttaxon_habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT count(taxon_name_id) ct, taxon_habitat
+	FROM taxon_habitat
+	GROUP BY taxon_habitat
+	ORDER BY taxon_habitat
+	UNION
+	SELECT count(distinct taxon_name_id) ct, 'NOT NULL' taxon_habitat
+	FROM taxon_habitat
+	UNION
+	SELECT count(distinct taxon_name_id) ct, 'NULL' taxon_habitat
+	FROM taxonomy 
+	WHERE taxon_name_id not in (select taxon_name_id from taxon_habitat)
+</cfquery>
 <!--- set default search field values if not passed in --->
 <cfif NOT isDefined("valid_catalog_term_fg")><cfset valid_catalog_term_fg=""></cfif>
 <cfif NOT isDefined("we_have_some")><cfset we_have_some=""></cfif>
@@ -320,13 +333,23 @@ limitations under the License.
 										</div>
 										<div class="col-md-2">&nbsp;
 										</div>
-										<div class="col-md-4">
+										<div class="col-md-2">
 											<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
 											<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
 												<option></option>
 												<cfloop query="ctnomenclatural_code">
 													<cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 													<option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-md-2">
+											<label for="taxon_habitat" class="data-entry-label align-left-center">Habitat</label>
+											<select name="taxon_habitat" class="data-entry-select" id="taxon_habitat">
+												<option></option>
+												<cfloop query="cttaxon_habitat">
+													<cfif in_taxon_habitat EQ taxon_habitat><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<option value="#taxon_habitat#" #selected#>#taxon_habitat#</option>
 												</cfloop>
 											</select>
 										</div>
