@@ -250,7 +250,7 @@ limitations under the License.
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="##" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditImagesDialog(#collection_object_id#,'imagesDialog','#guid#',reloadImages)">
-												Edit
+												Add/Remove
 											</a>
 										</cfif>
 									</h3>
