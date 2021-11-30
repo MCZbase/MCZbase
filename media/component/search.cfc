@@ -980,20 +980,86 @@ limitations under the License.
 <cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no">
+	<cfargument name="displayAs" type="string" required="no">
+
+	<cfif not isDefined("size") OR len(size) EQ 0>
+		<cfset size=600>
+	</cfif>
+	<cfif not isDefined("displayAs") OR len(displayAs) EQ 0>
+		<cfset displayAs="full">
+	</cfif>
 
 	<cfthread name="mediaWidgetThread">
 		<cfoutput>
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
-					SELECT media_id, preview_uri, media_uri, mime_type
-					FROM media
+					SELECT media_id, 
+						preview_uri, media_uri, 
+						mime_type, media_type,
+						auto_extension as extension,
+						auto_host as host,
+						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as licence_display, 
+						MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
+						MCZBASE.get_media_credit(media.media_id) as credit,
+						MCZBASE.get_media_owner(media.media_id) as owner,
+						MCZBASE.get_media_creator(media.media_id) as creator,
+						MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
+						MCZBASE.get_medialabel(media.media_id,'description') as description,
+						MCZBASE.get_medialabel(media.media_id,'made date') as made_date,
+						MCZBASE.get_medialabel(media.media_id,'subject') as subject,
+						MCZBASE.get_medialabel(media.media_id,'height') as height,
+						MCZBASE.get_medialabel(media.media_id,'width') as width,
+						MCZBASE.get_media_descriptor(media.media_id) as alt
+					FROM 
+						media
+						left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
 					WHERE 
 						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				</cfquery>
 				<cfif media.recordcount EQ 1>
 					<cfloop query="media">
+						<cfset isDisplayable = false>
+						<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
+							<cfset isDisplayable = false>
+						</cfif>
+						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
+						<cfif isDisplable>
+							<cfif displayAs EQ "thumb">
+								<cfset displayImage = preview_uri>
+							<cfelse>
+								<cfif host="mczbase.mcz.harvard.edu">
+									<cfset sizeType='&width=#size#&height=#size#'>
+									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#specimen_media_id##sizeType#">
+								<cfelse>
+									<cfset displayImage = media_uri>
+								</cfif>
+							</cfif>
+						<cfelse>
+							<!--- pick placeholder --->
+							<cfif media_type is "image">
+								<cfset displayImage = "/shared/images/noThumbnailImage.png">
+							<cfelseif media_type is "audio">
+								<cfset displayImage =  "/shared/images/noThumbnailAudio.png">
+							<cfelseif media_type "audio">
+								<cfset displayImage =  "/shared/images/noThumbnailVideo.png">
+							<cfelseif media_type is "text">
+								<cfset displayImage =  "/shared/images/noThumbDoc.png">
+							<cfelseif media_type is "3D model">
+								<cfset displayImage =  "/shared/images/3dmodel.png">
+							<cfelse>
+								<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
+							</cfif>
+						</cfif>
 						<div class="media_widget">	
-							<a href="#media_uri#">#media_id#</a>
+							<a class="" target="_blank" href="/media/#media_id#">#media_id#</a>
+							<a href="#specimen_media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
+								<img id="specimen_media_img" src="#displayImage#" class="mx-auto" alt="#alt#" height="100%" width="100%">
+							</a>
+							<p class="mt-2 bg-light small caption-lg">#subject##description##aspect#</p>
+							<p class="mt-2 bg-light small caption-lg">#owner#</p>
+							<p class=""><a href="#licence_uri#">#licence_display#</a></p>
 						</div>
 					</cfloop>
 				</cfif>
