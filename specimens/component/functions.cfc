@@ -1591,7 +1591,7 @@ limitations under the License.
 																			<div class="small text-center">#media_type# (#mime_type#)
 																				<span class="text-center d-block">
 																				(<a href="/MediaSet.cfm?media_id=#getImages.media_id#" class="" target="_blank" style="">viewer</a>)
-																				(<a href="#auto_host#/#auto_path#/#auto_filename#" class="">full</a>)</span>
+																				(<a href="#auto_host##auto_path##auto_filename#" class="">full</a>)</span>
 																			</div>
 																		</div>
 																		<div class="col-8 px-0 w-100 pt-4 pb-2 float-left">
