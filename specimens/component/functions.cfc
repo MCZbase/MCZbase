@@ -1590,11 +1590,11 @@ limitations under the License.
 																			<a href="#auto_host#/#auto_path#/#auto_filename#" class=""><img src="#puri#" alt="#altText#" class="" width="100"></a><br>
 																			<div class="small text-center">#media_type# (#mime_type#)
 																				<span class="text-center d-block">
-																				(<a href="/MediaSet.cfm?media_id=#getImages.media_id#" class="" target="_blank" style="">view</a>)
+																				(<a href="/MediaSet.cfm?media_id=#getImages.media_id#" class="" target="_blank" style="">viewer</a>)
 																				(<a href="#auto_host#/#auto_path#/#auto_filename#" class="">full</a>)</span>
 																			</div>
 																		</div>
-																		<div class="col-8 px-2 pt-4 pb-2 float-left">
+																		<div class="col-8 px-0 w-100 pt-4 pb-2 float-left">
 																		<cfset j = 1>
 																			<cfloop query="labels">
 																				<cfset d=media_label>
