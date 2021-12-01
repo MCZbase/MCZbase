@@ -982,7 +982,7 @@ limitations under the License.
 	<cfargument name="size" type="string" required="no">
 	<cfargument name="displayAs" type="string" required="no">
 
-	<cfif NOT isDefined("size"))>
+	<cfif NOT isDefined("size")>
 		<cfset size=600>
 	<cfelse>
 		<cfif len(size) EQ 0>
