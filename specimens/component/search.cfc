@@ -564,6 +564,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfset matched = true>
 					<cfset field = '"field": "#searchFields.column_alias#"'>
 					<cfif searchFields.data_type IS 'DATE'>
+						<cfset isoformatter = createObject("java","java.text.SimpleDateFormat")>
+						<cfset isoformatter.init("yyyy-MM-dd")>
 						<cfif refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",searchText) EQ 1>
 							<cfset searchText = "=#searchText#" >
 						</cfif>
@@ -578,6 +580,19 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 						</cfif>
 						<cfif refind("^[0-9]{4}$",searchText) EQ 1>
 							<cfset searchText = "=#searchText#" >
+						</cfif>
+						<cfif refind("^[0-9]{4}/[0-9]{4}$",searchText) EQ 1>
+							<cfset yearbits = ListToArray(searchText,'/')>
+							<cfset searchText = "=#yearbits[1]#-01-01/#yearbits[2]#-12-31" >
+						</cfif>
+						<cfif refind("^[0-9]{4}-[0-9]{2}$",searchText) EQ 1>
+							<cfset endDay = DaysInMonth(isoformatter.parse("#searchText#-01"))>
+							<cfset searchText = "=#searchText#-01/#searchText#-#endDay#" >
+						</cfif>
+						<cfif refind("^[0-9]{4}-[0-9]{2}/[0-9]{4}-[0-9]{2}$",searchText) EQ 1>
+							<cfset datebits = ListToArray(searchText,'/')>
+							<cfset endDay2 = DaysInMonth(isoformatter.parse("#datebits[2]#-01"))>
+							<cfset searchText = "=#datebits[1]#-01/#datebits[2]#-#endDay2#" >
 						</cfif>
 					</cfif>
 					<!--- Warning: only searchText may be passed directly from the user here, join and field must be known good values ---> 
