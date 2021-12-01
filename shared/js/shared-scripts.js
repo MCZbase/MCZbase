@@ -590,11 +590,12 @@ function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex)
 	$("#"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
 		{ 
 			autoOpen: true, 
-			buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("#" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+			buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); } } ],
 			width: dialogWidth,
 			title: 'Record Details'		
 		}
 	);
+	$("#"+ gridId +"RowDetailsDialog" + rowIndex ).on("dialogClose", function(event,ui) { $("#" + gridId).jqxGrid('hiderowdetails',rowIndex); });
 	// Workaround, expansion sits below row in zindex.
 	var maxZIndex = getMaxZIndex();
 	$("#"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
