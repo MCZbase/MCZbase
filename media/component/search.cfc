@@ -1024,10 +1024,12 @@ limitations under the License.
 							<cfset isDisplayable = true>
 						</cfif>
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
+						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
 							<cfif #l_displayAs# EQ "thumb">
 								<cfset displayImage = preview_uri>
 								<cfset l_size = "100">
+								<cfset hw = 'width="100%"'>
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
 									<cfset sizeType='&width=#l_size#&height=#l_size#'>
@@ -1052,9 +1054,9 @@ limitations under the License.
 								<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
 							</cfif>
 						</cfif>
-						<div class="media_widget" style="width: #l_size#;">	
+						<div class="media_widget" style="width: #l_size#px;">	
 							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
-								<img src="#displayImage#" class="mx-auto" alt="#alt#" height="100%" width="100%">
+								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 							</a>
 							<p class="mt-2 bg-light small caption-lg">
 								(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
