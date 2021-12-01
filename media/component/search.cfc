@@ -982,14 +982,22 @@ limitations under the License.
 	<cfargument name="size" type="string" required="no">
 	<cfargument name="displayAs" type="string" required="no">
 
-	<cfif (NOT isDefined("size")) OR len(size) IS 0>
+	<cfif NOT isDefined("size"))>
 		<cfset size=600>
-	</cfif>
-	<cfif (NOT isDefined("displayAs")) OR len(displayAs) IS 0>
-		<cfset displayAs="full">
+	<cfelse>
+		<cfif len(size) EQ 0>
+			<cfset size=600>
+		</cfif>
+		<cfif size EQ 0>
+			<cfset size=600>
+		</cfif>
 	</cfif>
 	<cfif NOT isDefined("displayAs")>
 		<cfset displayAs="full">
+	<cfelse>
+		<cfif displayAs NEQ "thumb">
+			<cfset displayAs="full">
+		</cfif>
 	</cfif>
 
 	<cfthread name="mediaWidgetThread">
