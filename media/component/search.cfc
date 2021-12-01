@@ -999,7 +999,7 @@ limitations under the License.
 						auto_extension as extension,
 						auto_host as host,
 						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as licence_display, 
+						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
 						MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
 						MCZBASE.get_media_credit(media.media_id) as credit,
 						MCZBASE.get_media_owner(media.media_id) as owner,
@@ -1060,7 +1060,7 @@ limitations under the License.
 							<p class="mt-2 bg-light small caption-lg">#media_type# (#mime_type#)</p>
 							<p class="mt-2 bg-light small caption-lg">#subject##description##aspect#</p>
 							<p class="mt-2 bg-light small caption-lg">#owner#</p>
-							<p class="mt-2 bg-light small caption-lg"><a href="#licence_uri#">#licence_display#</a></p>
+							<p class="mt-2 bg-light small caption-lg"><a href="#license_uri#">#license_display#</a></p>
 						</div>
 					</cfloop>
 				</cfif>
