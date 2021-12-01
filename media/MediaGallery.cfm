@@ -1,5 +1,5 @@
 <cfset pageTitle = "Search Taxonomy">
-
+<cfinclude template="/media/component/shared.cfc" runOnce="true">
 	
 	
 	
