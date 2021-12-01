@@ -1031,7 +1031,7 @@ limitations under the License.
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
 									<cfset sizeType='&width=#size#&height=#size#'>
-									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#specimen_media_id##sizeType#">
+									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
 								<cfelse>
 									<cfset displayImage = media_uri>
 								</cfif>
@@ -1054,8 +1054,8 @@ limitations under the License.
 						</cfif>
 						<div class="media_widget">	
 							<a class="" target="_blank" href="/media/#media_id#">#media_id#</a>
-							<a href="#specimen_media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
-								<img id="specimen_media_img" src="#displayImage#" class="mx-auto" alt="#alt#" height="100%" width="100%">
+							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
+								<img src="#displayImage#" class="mx-auto" alt="#alt#" height="100%" width="100%">
 							</a>
 							<p class="mt-2 bg-light small caption-lg">#media_type# (#mime_type#)</p>
 							<p class="mt-2 bg-light small caption-lg">#subject##description##aspect#</p>
