@@ -979,26 +979,8 @@ limitations under the License.
 
 <cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfargument name="size" type="string" required="no">
-	<cfargument name="displayAs" type="string" required="no">
-
-	<cfif NOT isDefined("size")>
-		<cfset size=600>
-	<cfelse>
-		<cfif len(size) EQ 0>
-			<cfset size=600>
-		</cfif>
-		<cfif size EQ 0>
-			<cfset size=600>
-		</cfif>
-	</cfif>
-	<cfif NOT isDefined("displayAs")>
-		<cfset displayAs="full">
-	<cfelse>
-		<cfif displayAs NEQ "thumb">
-			<cfset displayAs="full">
-		</cfif>
-	</cfif>
+	<cfargument name="size" type="string" required="no" default="600">
+	<cfargument name="displayAs" type="string" required="no" default="full">
 
 	<cfthread name="mediaWidgetThread">
 		<cfoutput>
