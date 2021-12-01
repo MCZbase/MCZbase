@@ -585,13 +585,12 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 						</cfif>
 						<cfif refind("^[0-9]{4}-[0-9]{2}$",searchText) EQ 1>
 							<cfset endDay = DaysInMonth(LSParseDateTime("#searchText#-01","en","yyyy-mm-dd"))>
-							<cfset searchText = "=#searchText#-#endDay#" >
+							<cfset searchText = "=#searchText#-01/#searchText#-#endDay#" >
 						</cfif>
 						<cfif refind("^[0-9]{4}-[0-9]{2}/[0-9]{4}-[0-9]{2}$",searchText) EQ 1>
 							<cfset datebits = ListToArray(searchText,'/')>
-							<cfset endDay1 = DaysInMonth(LSParseDateTime("#datebits[1]#-01","en","yyyy-mm-dd"))>
 							<cfset endDay2 = DaysInMonth(LSParseDateTime("#datebits[2]#-01","en","yyyy-mm-dd"))>
-							<cfset searchText = "=#datebits[1]#-#endDay1#/#datebits[2]#-#endDay2#" >
+							<cfset searchText = "=#datebits[1]#-01/#datebits[2]#-#endDay2#" >
 						</cfif>
 					</cfif>
 					<!--- Warning: only searchText may be passed directly from the user here, join and field must be known good values ---> 
