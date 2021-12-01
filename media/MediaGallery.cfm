@@ -1,6 +1,6 @@
 <cfset pageTitle = "Media Gallery">
 <cfinclude template = "/shared/_header.cfm">
-<cfinclude template="/media/component/shared.cfc" runOnce="true">
+<cfinclude template="/component/shared.cfc" runOnce="true">
 	<cfset media_id = "1333">
 	
 	
