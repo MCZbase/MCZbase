@@ -1057,7 +1057,7 @@ limitations under the License.
 							</a>
 							<p class="mt-2 bg-light small caption-lg">
 								(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
-								<cfif NOT isDisplable>
+								<cfif NOT isDisplayable>
 									#media_type# (#mime_type#)
 									(<a class="" target="_blank" href="#media_url#">media file</a>)
 								<cfelse>
