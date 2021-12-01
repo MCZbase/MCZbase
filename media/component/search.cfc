@@ -1022,7 +1022,7 @@ limitations under the License.
 					<cfloop query="media">
 						<cfset isDisplayable = false>
 						<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
-							<cfset isDisplayable = false>
+							<cfset isDisplayable = true>
 						</cfif>
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 						<cfif isDisplayable>
