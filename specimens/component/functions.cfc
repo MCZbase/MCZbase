@@ -1599,7 +1599,7 @@ limitations under the License.
 																			<cfloop query="labels">
 																				<cfset d=media_label>
 																				<div id="labelsDiv_#k#_#j#" class="col-12 px-0">
-																				<div class="">#media_label#: #encodeForHTML(label_value)#</div>
+																					<div class=""><span class="strong">#media_label#:</span> <span style="font-size: .8rem;">#encodeForHTML(label_value)#</span></div>
 																				</div>
 																				<cfset j = j+1>
 																			</cfloop>
