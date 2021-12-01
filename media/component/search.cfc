@@ -1042,7 +1042,7 @@ limitations under the License.
 								<cfset displayImage = "/shared/images/noThumbnailImage.png">
 							<cfelseif media_type is "audio">
 								<cfset displayImage =  "/shared/images/noThumbnailAudio.png">
-							<cfelseif media_type "audio">
+							<cfelseif media_type IS "audio">
 								<cfset displayImage =  "/shared/images/noThumbnailVideo.png">
 							<cfelseif media_type is "text">
 								<cfset displayImage =  "/shared/images/noThumbDoc.png">
