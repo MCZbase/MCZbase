@@ -1,5 +1,5 @@
-<cfset pageTitle = "Search Taxonomy">
-	<cfinclude template = "shared/_header.cfm">
+<cfset pageTitle = "Media Gallery">
+<cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/media/component/shared.cfc" runOnce="true">
 	<cfset media_id = "1333">
 	
@@ -13,4 +13,4 @@
 	
 	
 	
-<cfinclude template = "shared/_footer.cfm">
+<cfinclude template = "/shared/_footer.cfm">
