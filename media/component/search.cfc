@@ -1029,7 +1029,7 @@ limitations under the License.
 							<cfif displayAs EQ "thumb">
 								<cfset displayImage = preview_uri>
 							<cfelse>
-								<cfif host="mczbase.mcz.harvard.edu">
+								<cfif host EQ "mczbase.mcz.harvard.edu">
 									<cfset sizeType='&width=#size#&height=#size#'>
 									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#specimen_media_id##sizeType#">
 								<cfelse>
