@@ -982,10 +982,10 @@ limitations under the License.
 	<cfargument name="size" type="string" required="no">
 	<cfargument name="displayAs" type="string" required="no">
 
-	<cfif not isDefined("size") OR len(size) IS 0>
+	<cfif (NOT isDefined("size")) OR len(size) IS 0>
 		<cfset size=600>
 	</cfif>
-	<cfif not isDefined("displayAs") OR len(displayAs) IS 0>
+	<cfif (NOT isDefined("displayAs")) OR len(displayAs) IS 0>
 		<cfset displayAs="full">
 	</cfif>
 
