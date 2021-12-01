@@ -988,6 +988,9 @@ limitations under the License.
 	<cfif (NOT isDefined("displayAs")) OR len(displayAs) IS 0>
 		<cfset displayAs="full">
 	</cfif>
+	<cfif NOT isDefined("displayAs")>
+		<cfset displayAs="full">
+	</cfif>
 
 	<cfthread name="mediaWidgetThread">
 		<cfoutput>
