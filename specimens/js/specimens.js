@@ -40,6 +40,23 @@ function loadIdentification(identification_id,form) {
 	});
 };
 
+
+function getMediaBlockHtml(media_id) {
+	jQuery.ajax({
+		url: "/media/component/shared.cfc",
+		data : {
+			method : "getMediaBlockHtml",
+			media_id: media_id,
+		},
+		success: function (result) {
+			$("#MediaBlockHtml").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing media");
+		},
+		dataType: "html"
+	});
+};
 /** updateIdentifications function 
  * @method getIdentification in functions.cfc
  * @param identification_id
