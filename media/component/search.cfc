@@ -1008,7 +1008,8 @@ limitations under the License.
 						MCZBASE.get_medialabel(media.media_id,'subject') as subject,
 						MCZBASE.get_medialabel(media.media_id,'height') as height,
 						MCZBASE.get_medialabel(media.media_id,'width') as width,
-						MCZBASE.get_media_descriptor(media.media_id) as alt
+						MCZBASE.get_media_descriptor(media.media_id) as alt,
+						MCZBASE.get_media_title(media.media_id) as title
 					FROM 
 						media
 						left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
@@ -1051,13 +1052,20 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<div class="media_widget" style="width: #l_size#;">	
-							<a class="" target="_blank" href="/media/#media_id#">#media.media_id#</a>
 							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 								<img src="#displayImage#" class="mx-auto" alt="#alt#" height="100%" width="100%">
 							</a>
-							<p class="mt-2 bg-light small caption-lg">#media_type# (#mime_type#)</p>
-							<p class="mt-2 bg-light small caption-lg">#subject##description##aspect#</p>
-							<p class="mt-2 bg-light small caption-lg">#owner#</p>
+							<p class="mt-2 bg-light small caption-lg">
+								(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
+								<cfif NOT isDisplable>
+									#media_type# (#mime_type#)
+									(<a class="" target="_blank" href="#media_url#">media file</a>)
+								<cfelse>
+									(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
+									(<a class="" target="_blank" href="#media_url#">full</a>)
+								</cfif>
+							</p>
+							<p class="mt-2 bg-light small caption-lg">#title#</p>
 							<p class="mt-2 bg-light small caption-lg"><a href="#license_uri#">#license_display#</a></p>
 						</div>
 					</cfloop>
