@@ -1,9 +1,10 @@
 <cfset pageTitle = "Search Taxonomy">
+	<cfinclude template = "shared/_header.cfm">
 <cfinclude template="/media/component/shared.cfc" runOnce="true">
+	<cfset media_id = "1333">
 	
 	
-	
-	<cfset mediablock= getMediaBlockHtml(media_id="1333")>
+	<cfset mediablock= getMediaBlockHtml(media_id="#media_id#")>
 #mediablock#
 
 	
