@@ -982,6 +982,10 @@ limitations under the License.
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 
+	<cfset l_media_id= #arguments.media_id#>
+	<cfset l_displayAs = #arguments.displayAs#>
+	<cfset l_size = #arguments.size#>
+
 	<cfthread name="mediaWidgetThread">
 		<cfoutput>
 			<cftry>
@@ -1008,7 +1012,7 @@ limitations under the License.
 						media
 						left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
 					WHERE 
-						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#l_media_id#">
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				</cfquery>
 				<cfif media.recordcount EQ 1>
@@ -1019,11 +1023,11 @@ limitations under the License.
 						</cfif>
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 						<cfif isDisplayable>
-							<cfif #arguments.DISPLAYAS# EQ "thumb">
+							<cfif #l_displayAs# EQ "thumb">
 								<cfset displayImage = preview_uri>
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
-									<cfset sizeType='&width=#arguments.SIZE#&height=#arguments.SIZE#'>
+									<cfset sizeType='&width=#l_size#&height=#l_size#'>
 									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
 								<cfelse>
 									<cfset displayImage = media_uri>
@@ -1045,8 +1049,8 @@ limitations under the License.
 								<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
 							</cfif>
 						</cfif>
-						<div class="media_widget" style="width: #arguments.SIZE#;">	
-							<a class="" target="_blank" href="/media/#media_id#">#media_id#</a>
+						<div class="media_widget" style="width: #l_size#;">	
+							<a class="" target="_blank" href="/media/#media_id#">#media.media_id#</a>
 							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 								<img src="#displayImage#" class="mx-auto" alt="#alt#" height="100%" width="100%">
 							</a>
