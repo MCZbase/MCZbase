@@ -1059,10 +1059,10 @@ limitations under the License.
 								(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
 								<cfif NOT isDisplayable>
 									#media_type# (#mime_type#)
-									(<a class="" target="_blank" href="#media_url#">media file</a>)
+									(<a class="" target="_blank" href="#media_uri#">media file</a>)
 								<cfelse>
 									(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
-									(<a class="" target="_blank" href="#media_url#">full</a>)
+									(<a class="" target="_blank" href="#media_uri#">full</a>)
 								</cfif>
 							</p>
 							<p class="mt-2 bg-light small caption-lg">#title#</p>
