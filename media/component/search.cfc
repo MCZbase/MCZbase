@@ -1070,9 +1070,9 @@ limitations under the License.
 									<li class="list-group-item">(<a class="" target="_blank" href="#media_uri#">full size</a>)</li>
 								</cfif>
 								</ul>
-							</p>
-							<p class="mt-2 bg-light small caption-lg">#title#</p>
-							<p class="mt-2 bg-light small caption-lg">
+						
+							#title# 
+							
 								<a href="#license_uri#">#license_display#</a>
 							</div>
 						</div>
