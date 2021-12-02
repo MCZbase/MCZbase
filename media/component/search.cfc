@@ -1057,7 +1057,7 @@ limitations under the License.
 						</cfif>
 						<div class="media_widget">	
 							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
-								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
+								<img src="#displayImage#" class="mx-auto" alt="#alt#" <cfif nlnString = find(px, #hw#)>#hw#</cfif>
 							</a>
 							<p class="mt-2 bg-light small caption-lg">
 								(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
@@ -1070,7 +1070,9 @@ limitations under the License.
 								</cfif>
 							</p>
 							<p class="mt-2 bg-light small caption-lg">#title#</p>
-							<p class="mt-2 bg-light small caption-lg"><a href="#license_uri#">#license_display#</a></p>
+							<p class="mt-2 bg-light small caption-lg">
+								<a href="#license_uri#">#license_display#</a>
+							</p>
 						</div>
 					</cfloop>
 				</cfif>
