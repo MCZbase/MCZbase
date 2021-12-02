@@ -1077,7 +1077,7 @@ limitations under the License.
 									<div class="pb-2">
 										<p class="text-center col-12 ">#title#</p> 
 
-										<p class="text-center col-12">License: <a href="#license_uri#">#license_display#</a></p>
+										<p class="text-center col-12 small">License: <a href="#license_uri#">#license_display#</a></p>
 									</div>
 								</div>
 							</div>
