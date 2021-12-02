@@ -1074,7 +1074,7 @@ limitations under the License.
 										<span class="d-inline px-1">(<a class="" target="_blank" href="#media_uri#">full size</a>)</span>
 									</cfif>
 									</p>
-									<div class="py-2">
+									<div class="pb-2">
 										<p class="text-center col-12 ">#title#</p> 
 
 										<p class="text-center col-12">License: <a href="#license_uri#">#license_display#</a></p>
