@@ -9,9 +9,6 @@
 			<div id="mediaBlockHtml">
 				#mediablock#
 			</div>
-			<a role="button" href="##" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="getMediaBlockHtml(media_id="#media_id#")">
-				media
-			</a>
 		</div>
 	</div>	
 </div>
