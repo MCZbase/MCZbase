@@ -1072,7 +1072,7 @@ limitations under the License.
 								</ul>
 									<p>#title#</p> 
 							
-								<a href="#license_uri#">#license_display#</a>
+								<a href="#license_uri#" class="small">#license_display#</a>
 							</div>
 						</div>
 					</cfloop>
