@@ -986,6 +986,7 @@ limitations under the License.
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
+	
 	<cfthread name="mediaWidgetThread">
 		<cfoutput>
 			<cftry>
@@ -1070,7 +1071,7 @@ limitations under the License.
 									
 									<cfelse>
 										
-										<span class="d-inline"> (<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">viewer</a>) </span>
+										<span class="d-inline"> (<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom viewer/related images</a>) </span>
 										<span class="d-inline"> (<a class="" target="_blank" href="#media_uri#">full</a>) </span>
 									</cfif>
 									</p>
