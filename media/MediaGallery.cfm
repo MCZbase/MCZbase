@@ -6,7 +6,7 @@
 
 
 	<div class="container-fluid">
-			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="60%",displayAs="full")>
+			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="100%",displayAs="full")>
 		<div class="row my-3">
 			<div class="col-5">
 				<div id="mediaBlockHtml">
