@@ -1055,24 +1055,26 @@ limitations under the License.
 								<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
 							</cfif>
 						</cfif>
-						<div class="media_widget">	
+						<div class="media_widget">
 							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 							</a>
-							<p class="mt-2 bg-light small caption-lg">
-								(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
+							<div class="mt-2 bg-light small caption-lg">
+								<ul class="list-group list-group-horizontal">
+									<li class="list-group-item">(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)</li>
 								<cfif NOT isDisplayable>
-									#media_type# (#mime_type#)
-									(<a class="" target="_blank" href="#media_uri#">media file</a>)
+									<li class="list-group-item">#media_type# (#mime_type#)</li>
+									<li>(<a class="" target="_blank" href="#media_uri#">media file</a>)</li>
 								<cfelse>
-									(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
-									(<a class="" target="_blank" href="#media_uri#">full</a>)
+									<li class="list-group-item">(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related imgs</a>)</li>
+									<li class="list-group-item">(<a class="" target="_blank" href="#media_uri#">full</a>)</li>
 								</cfif>
+								</ul>
 							</p>
 							<p class="mt-2 bg-light small caption-lg">#title#</p>
 							<p class="mt-2 bg-light small caption-lg">
 								<a href="#license_uri#">#license_display#</a>
-							</p>
+							</div>
 						</div>
 					</cfloop>
 				</cfif>
