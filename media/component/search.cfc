@@ -1060,7 +1060,7 @@ limitations under the License.
 								<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 									<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 								</a>
-								<div class="mt-2 bg-light col-12 px-0">
+								<div class="mt-2 bg-light col-12 py-1 px-0">
 									<p class="text-center col-12 small">
 								
 									<span class="d-inline px-1">	(<a  target="_blank" href="/media/#media_id#">Media Record</a>)</li>
