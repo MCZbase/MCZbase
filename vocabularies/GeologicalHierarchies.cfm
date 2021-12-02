@@ -397,7 +397,7 @@ limitations under the License.
 		</cfif>
 		<main class="container py-3" id="content" >
 			<cfoutput>
-				<div class="row mx-0 border rounded my-2 pt-2 px-2">
+				<div class="row mx-0 my-2 pt-2 px-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
 					<section class="accordion col-12 px-0" id="editSection"> 
@@ -454,7 +454,7 @@ limitations under the License.
 						};
 					</script>
 					<cfset attributesBlock = getGeologyAttributeTreeHtml(type="#type#")>
-					<section class="col-12" title="Geological Atribute" id="attributesSection">
+					<section class="col-12 border rounded" title="Geological Atribute" id="attributesSection">
 						#attributesBlock#
 					</section>
 				</div>
