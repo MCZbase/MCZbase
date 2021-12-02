@@ -19,6 +19,16 @@
 					#mediablock#
 				</div>
 			</div>
+			
+			
+			
+			<div class="col-2">
+				<div id="mediaBlockHtml">
+					#mediablock#
+				</div>
+			</div>
+			
+			
 		</div>
 	</div>
 
