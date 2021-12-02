@@ -230,7 +230,7 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 
 function getMediaBlockHtml(media_id) {
 	jQuery.ajax({
-		url: "/media/component/search.cfc?method=getMediaBlockHtml&media_id=2115",
+		url: "/media/component/search.cfc",
 		data : {
 			method : "getMediaBlockHtml",
 			media_id: media_id,
