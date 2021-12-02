@@ -1063,15 +1063,15 @@ limitations under the License.
 								<div class="mt-2 bg-light col-12 px-0">
 									<p class="text-center col-12 small">
 								
-									<span class="d-inline px-2">	(<a  target="_blank" href="/media/#media_id#">Media Record</a>)</li>
+									<span class="d-inline px-1">	(<a  target="_blank" href="/media/#media_id#">Media Record</a>)</li>
 									<cfif NOT isDisplayable>
-										<span class="d-inline px-2">#media_type# (#mime_type#)</span>
-										<span class="d-inline px-2">(<a class="" target="_blank" href="#media_uri#">media file</a>)</span>
+										<span class="d-inline px-1">#media_type# (#mime_type#)</span>
+										<span class="d-inline px-1">(<a class="" target="_blank" href="#media_uri#">media file</a>)</span>
 									
 									<cfelse>
 										
-										<span class="d-inline px-2">(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)</span>
-										<span class="d-inline px-2">(<a class="" target="_blank" href="#media_uri#">full size</a>)</span>
+										<span class="d-inline px-1">(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)</span>
+										<span class="d-inline px-1">(<a class="" target="_blank" href="#media_uri#">full size</a>)</span>
 									</cfif>
 									</p>
 									<div class="">
