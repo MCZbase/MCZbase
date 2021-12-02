@@ -1075,9 +1075,9 @@ limitations under the License.
 									</cfif>
 									</p>
 									<div class="">
-										<p class="">#title#</p> 
+										<p class="text-center col-12">#title#</p> 
 
-									<a href="#license_uri#" class="small col-auto mx-auto">#license_display#</a>
+										<p class="text-center col-12">License: <a href="#license_uri#">#license_display#</a></p>
 									</div>
 								</div>
 							</div>
