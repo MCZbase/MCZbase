@@ -1061,7 +1061,7 @@ limitations under the License.
 									<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 								</a>
 								<div class="mt-2 bg-light col-12 px-0">
-									<ul class="list-group small list-group-horizontal col-6 px-0 mx-auto">
+									<ul class="list-group small list-group-horizontal col-auto px-0 mx-auto">
 										<li class="list-group-item">(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)</li>
 									<cfif NOT isDisplayable>
 										<li class="list-group-item">#media_type# (#mime_type#)</li>
