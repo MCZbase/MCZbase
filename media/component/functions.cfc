@@ -20,7 +20,7 @@ Backing methods for managing media
 --->
 <cfcomponent>
 
-<cfinclude template = "/shared/functionLib.cfm">
+
 
 
 <!--- ** method createMedia creates a new media record. 
