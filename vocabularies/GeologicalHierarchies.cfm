@@ -400,7 +400,7 @@ limitations under the License.
 				<div class="row mx-0 border rounded my-2 pt-2 px-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
-					<section class="accordion col-12 w-100" id="editSection"> 
+					<section class="accordion col-12 px-0" id="editSection"> 
 						<div class="card mb-2 bg-light">
 							<div class="card-header">
 								<h2 class="h4 my-0">

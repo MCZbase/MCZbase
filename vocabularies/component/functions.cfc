@@ -568,8 +568,8 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 
 				<ul class="nav nav-tabs">
 					<cfloop query="types">
-						<li class="nav-item">
-							<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a>
+						<li class="nav-item active">
+							<a class="nav-link btnLink" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a>
 						</li>
 					</cfloop>
 					<li class="nav-item">
