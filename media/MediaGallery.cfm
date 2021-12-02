@@ -8,7 +8,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-5">
-				<div id="mediaBlockHtml">
+				<div id="mediaBlockHtml" class="border rounded p-3">
 					#mediablock#
 				</div>
 			</div>
