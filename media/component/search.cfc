@@ -1017,7 +1017,7 @@ limitations under the License.
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				</cfquery>
 				<cfif media.recordcount EQ 1>
-					<cfloop query="media">#title#
+					<cfloop query="media">
 						<div  class="border rounded p-3">
 							<cfset isDisplayable = false>
 							<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
