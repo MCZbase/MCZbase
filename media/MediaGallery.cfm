@@ -4,8 +4,9 @@
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfoutput>
 
-	<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="100%")>
+
 	<div class="container-fluid">
+			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="100%",displayAs="full")>
 		<div class="row my-3">
 			<div class="col-5">
 				<div id="mediaBlockHtml">
@@ -20,14 +21,14 @@
 				</div>
 			</div>
 			
-			
+		
 			
 			<div class="col-2">
 				<div id="mediaBlockHtml">
 					#mediablock#
 				</div>
 			</div>
-			
+				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="100%",displayAs="thumb")>
 			<div class="col-1">
 				<div id="mediaBlockHtml">
 					#mediablock#
