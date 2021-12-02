@@ -1059,7 +1059,7 @@ limitations under the License.
 							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 							</a>
-							<div class="mt-2 bg-light small col-12 caption-sm">
+							<div class="mt-2 bg-light small col-12 px-0">
 								<ul class="list-group list-group-horizontal col-6 px-0 mx-auto">
 									<li class="list-group-item">(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)</li>
 								<cfif NOT isDisplayable>
