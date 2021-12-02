@@ -565,8 +565,8 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 			FROM ctgeology_attribute
 		</cfquery>
 		<cfoutput>
-			<nav class="navbar navbar-expand-md navbar-light">
-				<ul class="navbar-nav">
+
+				<ul class="nav nav-tabs">
 					<cfloop query="types">
 						<li class="nav-item">
 							<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a>
@@ -585,7 +585,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 						<a class="nav-link" href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage types and categories</a>
 					</li>
 				</ul>
-			</nav>
+		
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="geoNavThread" />
