@@ -1019,61 +1019,63 @@ limitations under the License.
 				</cfquery>
 				<cfif media.recordcount EQ 1>
 					<cfloop query="media">
-						<cfset isDisplayable = false>
-						<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
-							<cfset isDisplayable = true>
-						</cfif>
-						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
-						<cfset hw = 'height="100%" width="100%"'>
-						<cfif isDisplayable>
-							<cfif #l_displayAs# EQ "thumb">
-								<cfset displayImage = preview_uri>
-								<cfset l_size = "100">
-								<cfset hw = 'width="100%"'>
-							<cfelse>
-								<cfif host EQ "mczbase.mcz.harvard.edu">
-									<cfset hw = 'height="#l_size#" width="#l_size#"'>
-									<cfset sizeType='&width=#l_size#&height=#l_size#'>
-									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
+						<div  class="border rounded p-3">
+							<cfset isDisplayable = false>
+							<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
+								<cfset isDisplayable = true>
+							</cfif>
+							<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
+							<cfset hw = 'height="100%" width="100%"'>
+							<cfif isDisplayable>
+								<cfif #l_displayAs# EQ "thumb">
+									<cfset displayImage = preview_uri>
+									<cfset l_size = "100">
+									<cfset hw = 'width="100%"'>
 								<cfelse>
-									<cfset displayImage = media_uri>
+									<cfif host EQ "mczbase.mcz.harvard.edu">
+										<cfset hw = 'height="#l_size#" width="#l_size#"'>
+										<cfset sizeType='&width=#l_size#&height=#l_size#'>
+										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
+									<cfelse>
+										<cfset displayImage = media_uri>
+									</cfif>
+								</cfif>
+							<cfelse>
+								<!--- pick placeholder --->
+								<cfif media_type is "image">
+									<cfset displayImage = "/shared/images/noThumbnailImage.png">
+								<cfelseif media_type is "audio">
+									<cfset displayImage =  "/shared/images/noThumbnailAudio.png">
+								<cfelseif media_type IS "audio">
+									<cfset displayImage =  "/shared/images/noThumbnailVideo.png">
+								<cfelseif media_type is "text">
+									<cfset displayImage =  "/shared/images/noThumbDoc.png">
+								<cfelseif media_type is "3D model">
+									<cfset displayImage =  "/shared/images/3dmodel.png">
+								<cfelse>
+									<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
 								</cfif>
 							</cfif>
-						<cfelse>
-							<!--- pick placeholder --->
-							<cfif media_type is "image">
-								<cfset displayImage = "/shared/images/noThumbnailImage.png">
-							<cfelseif media_type is "audio">
-								<cfset displayImage =  "/shared/images/noThumbnailAudio.png">
-							<cfelseif media_type IS "audio">
-								<cfset displayImage =  "/shared/images/noThumbnailVideo.png">
-							<cfelseif media_type is "text">
-								<cfset displayImage =  "/shared/images/noThumbDoc.png">
-							<cfelseif media_type is "3D model">
-								<cfset displayImage =  "/shared/images/3dmodel.png">
-							<cfelse>
-								<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
-							</cfif>
-						</cfif>
-						<div class="media_widget">
-							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
-								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
-							</a>
-							<div class="mt-2 bg-light col-12 px-0">
-								<ul class="list-group small list-group-horizontal col-6 px-0 mx-auto">
-									<li class="list-group-item">(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)</li>
-								<cfif NOT isDisplayable>
-									<li class="list-group-item">#media_type# (#mime_type#)</li>
-									<li>(<a class="" target="_blank" href="#media_uri#">media file</a>)</li>
-								<cfelse>
-									<li class="list-group-item">(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)</li>
-									<li class="list-group-item">(<a class="" target="_blank" href="#media_uri#">full size</a>)</li>
-								</cfif>
-								</ul>
-								<div class="">
-									<p class="">#title#</p> 
-							
-								<a href="#license_uri#" class="small col-auto mx-auto">#license_display#</a>
+							<div class="media_widget">
+								<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
+									<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
+								</a>
+								<div class="mt-2 bg-light col-12 px-0">
+									<ul class="list-group small list-group-horizontal col-6 px-0 mx-auto">
+										<li class="list-group-item">(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)</li>
+									<cfif NOT isDisplayable>
+										<li class="list-group-item">#media_type# (#mime_type#)</li>
+										<li>(<a class="" target="_blank" href="#media_uri#">media file</a>)</li>
+									<cfelse>
+										<li class="list-group-item">(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)</li>
+										<li class="list-group-item">(<a class="" target="_blank" href="#media_uri#">full size</a>)</li>
+									</cfif>
+									</ul>
+									<div class="">
+										<p class="">#title#</p> 
+
+									<a href="#license_uri#" class="small col-auto mx-auto">#license_display#</a>
+									</div>
 								</div>
 							</div>
 						</div>
