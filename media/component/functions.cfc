@@ -261,6 +261,51 @@ Backing methods for managing media
 							<!--- pick placeholder --->
 							<cfif media_type is "image">
 								<cfset displayImage = "/shared/images/noThumbnailImage.png">
+							<cfelseif media_type is "audio">
+								<cfset displayImage =  "/shared/images/noThumbnailAudio.png">
+							<cfelseif media_type IS "audio">
+								<cfset displayImage =  "/shared/images/noThumbnailVideo.png">
+							<cfelseif media_type is "text">
+								<cfset displayImage =  "/shared/images/noThumbDoc.png">
+							<cfelseif media_type is "3D model">
+								<cfset displayImage =  "/shared/images/3dmodel.png">
+							<cfelse>
+								<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
+							</cfif>
+						</cfif>
+						<div class="media_widget" style="width: #l_size#;">	
+							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
+								<img src="#displayImage#" class="mx-auto" alt="#alt#" height="100%" width="100%">
+							</a>
+							<p class="mt-2 bg-light small caption-lg">
+								(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
+								<cfif NOT isDisplayable>
+									#media_type# (#mime_type#)
+									(<a class="" target="_blank" href="#media_uri#">media file</a>)
+								<cfelse>
+									(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
+									(<a class="" target="_blank" href="#media_uri#">full</a>)
+								</cfif>
+							</p>
+							<p class="mt-2 bg-light small caption-lg">#title#</p>
+							<p class="mt-2 bg-light small caption-lg"><a href="#license_uri#">#license_display#</a></p>
+						</div>
+					</cfloop>
+				</cfif>
+			<cfcatch>
+				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="mediaWidgetThread" />
+	<cfreturn mediaWidgetThread.output>
+</cffunction>
+
 		
 
 </cfcomponent>
