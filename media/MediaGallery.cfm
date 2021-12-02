@@ -12,8 +12,8 @@
 					#mediablock#
 				</div>
 			</div>
-		</div>	
+		</div>
 	</div>
 
-</cfoutput>	
+</cfoutput>
 <cfinclude template = "/shared/_footer.cfm">

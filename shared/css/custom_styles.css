@@ -2233,7 +2233,7 @@ div.vslider-item[aria-hidden="true"]{
 	border-radius: 10px;
 }
 .media_widget {
-	background-color: #444444;
+	border: 1px solid #444444;
 	padding: 1rem;
 	
 }
