@@ -1066,8 +1066,8 @@ limitations under the License.
 									<li class="list-group-item">#media_type# (#mime_type#)</li>
 									<li>(<a class="" target="_blank" href="#media_uri#">media file</a>)</li>
 								<cfelse>
-									<li class="list-group-item">(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related imgs</a>)</li>
-									<li class="list-group-item">(<a class="" target="_blank" href="#media_uri#">full</a>)</li>
+									<li class="list-group-item">(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)</li>
+									<li class="list-group-item">(<a class="" target="_blank" href="#media_uri#">full size</a>)</li>
 								</cfif>
 								</ul>
 							</p>
