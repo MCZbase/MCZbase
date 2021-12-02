@@ -1018,6 +1018,7 @@ limitations under the License.
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				</cfquery>
 				<cfif media.recordcount EQ 1>
+					#title#
 					<cfloop query="media">
 						<div  class="border rounded p-3">
 							<cfset isDisplayable = false>
@@ -1036,6 +1037,7 @@ limitations under the License.
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
 										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
+									
 									<cfelse>
 										<cfset displayImage = media_uri>
 									</cfif>
