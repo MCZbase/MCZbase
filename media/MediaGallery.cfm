@@ -4,7 +4,7 @@
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfoutput>
 
-	<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="100%")>
+	<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="100%",title="true")>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-5">
