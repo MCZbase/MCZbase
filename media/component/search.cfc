@@ -1061,17 +1061,19 @@ limitations under the License.
 									<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 								</a>
 								<div class="mt-2 bg-light col-12 px-0">
-									<p class="text-center col-12"><a href="##">this</a><a href="##">that</a><a href="##">the other</a></p>
-									<ul class="list-group small list-group-horizontal px-0 text-center">
-										<li class="list-group-item">(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)</li>
+									<p class="text-center col-12">
+								
+									<span class="d-inline px-2">	(<a  target="_blank" href="/media/#media_id#">Media Record</a>)</li>
 									<cfif NOT isDisplayable>
-										<li class="list-group-item">#media_type# (#mime_type#)</li>
-										<li>(<a class="" target="_blank" href="#media_uri#">media file</a>)</li>
+										<span class="d-inline px-2">#media_type# (#mime_type#)</span>
+										<span class="d-inline px-2">(<a class="" target="_blank" href="#media_uri#">media file</a>)</span>
+									
 									<cfelse>
-										<li class="list-group-item">(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)</li>
-										<li class="list-group-item">(<a class="" target="_blank" href="#media_uri#">full size</a>)</li>
+										
+										<span class="d-inline px-2">(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)</span>
+										<span class="d-inline px-2">(<a class="" target="_blank" href="#media_uri#">full size</a>)</span>
 									</cfif>
-									</ul>
+									</p>
 									<div class="">
 										<p class="">#title#</p> 
 
