@@ -68,7 +68,7 @@ limitations under the License.
 						<a class="nav-link" href="/vocabularies/showGeologicalHierarchies.cfm">List All Terms</a>
 					</li>
 				</ul>
-			</nav>
+		
 			<cfset typetext = "">
 			<cfif type NEQ "all">
 				<cfset typetext = ": #encodeForHtml(type)#">
