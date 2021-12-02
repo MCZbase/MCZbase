@@ -1162,7 +1162,7 @@ limitations under the License.
 													<input type="hidden" id="collector_agent_id" name="collector_agent_id" value="#collector_agent_id#">
 													<script>
 														jQuery(document).ready(function() {
-															makeConstrainedAgentPicker('collector','collector_agent_id','transaction_agent');
+															makeConstrainedAgentPicker('collector','collector_agent_id','collector');
 														});
 													</script>
 												</div>
