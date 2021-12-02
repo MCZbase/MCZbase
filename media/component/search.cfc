@@ -1071,8 +1071,8 @@ limitations under the License.
 									
 									<cfelse>
 										
-										<span class="d-inline"> (<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom viewer/related images</a>) </span>
-										<span class="d-inline"> (<a class="" target="_blank" href="#media_uri#">full</a>) </span>
+										<span class="d-inline"> (<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">Zoom Viewer/Related Media</a>) </span>
+										<span class="d-inline"> (<a class="" target="_blank" href="#media_uri#">Full</a>) </span>
 									</cfif>
 									</p>
 									<div class="">
