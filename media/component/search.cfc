@@ -1076,7 +1076,14 @@ limitations under the License.
 									</cfif>
 									</p>
 									<div class="">
-										<p class="text-center col-12 small">#title# Title is not showing up.</p> 
+										<cfset showTitleText = trim(title)>
+										<cfif len(showTitleText) EQ 0>
+											<cfset showTitleText = trim(subject)>
+										</cfif>
+										<cfif len(showTitleText) EQ 0>
+											<cfset showTitleText = "Unlinked Media Object">
+										</cfif>
+										<p class="text-center col-12 small">#showTitleText#</p> 
 
 										<p class="text-center col-12 smaller">License: <a href="#license_uri#">#license_display#</a></p>
 									</div>
