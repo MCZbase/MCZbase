@@ -12,6 +12,13 @@
 					#mediablock#
 				</div>
 			</div>
+			
+			
+			<div class="col-3">
+				<div id="mediaBlockHtml">
+					#mediablock#
+				</div>
+			</div>
 		</div>
 	</div>
 
