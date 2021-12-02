@@ -405,7 +405,7 @@ limitations under the License.
 							<div class="card-header">
 								<h2 class="h4 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##editCardBodyWrap" aria-expanded="false" aria-controls="editCardBodyWrap">
-											Edit Hierarchy
+											Add New/Edit Hierarchy
 									</button>
 								</h2>
 							</div>
