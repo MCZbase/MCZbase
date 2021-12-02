@@ -736,8 +736,14 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				<cfif isdefined("constraint") AND constraint EQ 'media_creator_agent'>
 					left join media_relations on agent.agent_id = media_relations.related_primary_key
 				</cfif>
-				<cfif isdefined("determier") AND constraint EQ 'determiner'>
+				<cfif isdefined("determiner") AND constraint EQ 'determiner'>
 					join identification_agent on agent.agent_id = identification_agent.agent_id
+				</cfif>
+				<cfif isdefined("collector") AND constraint EQ 'collector'>
+					join collector on agent.agent_id = collector.agent_id
+				</cfif>
+				<cfif isdefined("preparator") AND constraint EQ 'preparator'>
+					join collector on agent.agent_id = collector.agent_id
 				</cfif>
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
@@ -762,6 +768,12 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				</cfif>
 				<cfif isdefined("determier") AND constraint EQ 'determiner'>
 					AND identification_agent.agent_id IS NOT NULL
+				</cfif>
+				<cfif isdefined("collector") AND constraint EQ 'collector'>
+					AND collector.collector_role = 'c'
+				</cfif>
+				<cfif isdefined("preparator") AND constraint EQ 'preparator'>
+					AND collector.collector_role = 'p'
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
