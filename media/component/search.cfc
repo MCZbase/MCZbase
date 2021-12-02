@@ -986,7 +986,7 @@ limitations under the License.
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
-
+<cfset media_id="1333">
 	<cfthread name="mediaWidgetThread">
 		<cfoutput>
 			<cftry>
