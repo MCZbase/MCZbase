@@ -226,3 +226,21 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 	}
 
 }
+
+
+function getMediaBlockHtml(media_id) {
+	jQuery.ajax({
+		url: "/media/component/shared.cfc",
+		data : {
+			method : "getMediaBlockHtml",
+			media_id: media_id,
+		},
+		success: function (result) {
+			$("#MediaBlockHtml").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing media");
+		},
+		dataType: "html"
+	});
+};
