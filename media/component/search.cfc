@@ -1055,7 +1055,7 @@ limitations under the License.
 								<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
 							</cfif>
 						</cfif>
-						<div class="media_widget" style="width: #l_size#px;">	
+						<div class="media_widget">	
 							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 							</a>
