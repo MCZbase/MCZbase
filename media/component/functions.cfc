@@ -19,7 +19,7 @@ Backing methods for managing media
 
 --->
 <cfcomponent>
-
+<cfinclude template="/media/component/shared.cfc" runOnce="true"> 
 <cfinclude template = "/shared/functionLib.cfm">
 
 
