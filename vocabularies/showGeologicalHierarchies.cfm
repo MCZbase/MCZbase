@@ -61,7 +61,7 @@ limitations under the License.
 				<ul class="nav nav-tabs">
 					<cfloop query="types">
 						<li class="nav-item">
-							<a class="nav-link" href="/vocabularies/showGeologicalHierarchies.cfm?type=#types.type#">List #types.type# Terms</a>
+							<a class="nav-link active" href="/vocabularies/showGeologicalHierarchies.cfm?type=#types.type#">List #types.type# Terms</a>
 						</li>
 					</cfloop>
 					<li class="nav-item">
