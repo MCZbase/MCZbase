@@ -1062,7 +1062,7 @@ limitations under the License.
 									<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 								</a>
 								<div class="mt-2 bg-light col-12 py-1 px-0">
-									<p class="text-center pt-1 col-12 small">
+									<p class="text-center pt-1 col-12 smaller">
 								
 									<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </li>
 									<cfif NOT isDisplayable>
@@ -1076,9 +1076,9 @@ limitations under the License.
 									</cfif>
 									</p>
 									<div class="">
-										<p class="text-center col-12 ">#title#</p> 
+										<p class="text-center col-12 small">#title#</p> 
 
-										<p class="text-center col-12 small">License: <a href="#license_uri#">#license_display#</a></p>
+										<p class="text-center col-12 smaller">License: <a href="#license_uri#">#license_display#</a></p>
 									</div>
 								</div>
 							</div>
