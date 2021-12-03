@@ -28,7 +28,7 @@
 			</div>
 				
 			<div class="col-1 p-0">
-				<div id="mediaBlockHtml">
+				<div id="mediaResponsiveBlockHtml">
 					#mediablock#
 				</div>
 			</div>
@@ -36,21 +36,21 @@
 	
 <cfoutput>
 		<cfset media_id = "1333">
-			<cfset mediablock= getMediaResponsiveBlockHtml(media_id="#media_id#")>
+			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#")>
 			<div class="col-5">
-				<div id="mediaResponsiveBlockHtml">
+				<div id="mediaBlockHtml">
 					#mediablock#
 				</div>
 			</div>
 			
 			<div class="col-3">
-				<div id="mediaResponsiveBlockHtml">
+				<div id="mediaBlockHtml">
 					#mediablock#
 				</div>
 			</div>
 			
 			<div class="col-2">
-				<div id="mediaResponseiveBlockHtml">
+				<div id="mediaBlockHtml">
 					#mediablock#
 				</div>
 			</div>
