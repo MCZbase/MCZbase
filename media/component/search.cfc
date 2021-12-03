@@ -1020,7 +1020,7 @@ limitations under the License.
 				</cfquery>
 				<cfif media.recordcount EQ 1>
 					<cfloop query="media">
-						<div  class="border rounded p-3">
+						<div  class="border rounded p-2">
 							<cfset isDisplayable = false>
 							<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 								<cfset isDisplayable = true>
@@ -1074,7 +1074,7 @@ limitations under the License.
 								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center mgImg" title="click to open full image">
 									<img src="#displayImage#" class="mx-auto #imgClasses#" alt="#alt#" #hw#>
 								</a>
-								<div class="mt-0 bg-light col-12 py-1 px-0">
+								<div class="mt-0 bg-light col-12 py-1 px-1">
 									<p class="text-center p-1 mb-0 col-12 smaller">
 										<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </span>
 										<cfif NOT isDisplayable>
