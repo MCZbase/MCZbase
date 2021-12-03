@@ -1117,7 +1117,7 @@ limitations under the License.
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
-	
+	<cfset #arguments.size# = "100%">	
 	<cfthread name="mediaResponsiveWidgetThread">
 		<cfoutput>
 			<cftry>
