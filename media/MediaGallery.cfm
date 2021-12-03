@@ -37,7 +37,7 @@
 </cfoutput>
 
 <cfoutput>	
-	<p class="col-12">[getMediaBlockHtml] Images that height and width are redefined with a class.</p> 
+	<p class="col-12 mt-4">[getMediaBlockHtml] Images that height and width are redefined with a class.</p> 
 		<cfset media_id = "90914">
 			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#")>
 			<div class="col-5">
