@@ -580,7 +580,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 						</cfif>
 					</cfif>
 					<!--- Warning: only searchText may be passed directly from the user here, join and field must be known good values ---> 
-					<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#",dataType="#searcFields.data_type#")>
+					<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#",dataType="#searchFields.data_type#")>
 					<cfset separator = ",">
 					<cfset nest = nest + 1>
 				</cfif>
