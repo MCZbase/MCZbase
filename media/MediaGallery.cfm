@@ -32,7 +32,7 @@
 					#mediablock#
 				</div>
 			</div>
-</output>
+</cfoutput>
 	
 <cfoutput>
 		<cfset media_id = "1333">
