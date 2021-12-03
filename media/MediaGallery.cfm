@@ -39,6 +39,36 @@
 		</div>
 
 		<div class="row">
+			<cfloop query="examples">
+				<div class="col-12 col-sm-4 col-md-3 col-xl-2">
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb")>
+					<div class="row">
+						<div class="col-12">
+							<div id="mediaBlock#media_id#">
+							#mediablock#
+							</div>
+						</div>
+					</div>
+				</div>
+			</cfloop>
+		</div>
+
+		<div class="row">
+			<cfloop query="examples">
+				<div class="col-12 col-md-6 col-xl-4">
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="600")>
+					<div class="row">
+						<div class="col-12">
+							<div id="mediaBlock#media_id#">
+							#mediablock#
+							</div>
+						</div>
+					</div>
+				</div>
+			</cfloop>
+		</div>
+		
+		<div class="row">
 			<div class="col-10 float-left">
 			<p class="col-12">[getMediaResponsiveBlockHtml] FULL Images that are redefined with height and width attributes =100%</p>
 			<cfset media_id = "1333">
