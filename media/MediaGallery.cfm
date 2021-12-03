@@ -8,7 +8,7 @@
 		<div class="row my-3">
 <cfoutput>
 	
-	<p class="col-12">Images that are redefined with height and width attributes =100%</p>
+	<p class="col-12">[getMediaResponsiveBlockHtml] Images that are redefined with height and width attributes =100%</p>
 		<cfset media_id = "1333">
 			<cfset mediablock= getMediaResponsiveBlockHtml(media_id="#media_id#")>
 			<div class="col-5">
@@ -36,10 +36,8 @@
 			</div>
 </cfoutput>
 
-<cfoutput>
-		<!---<cfset media_id = "1333">--->
-	
-	<p class="col-12">Images that height and width are redefined with a class.</p> 
+<cfoutput>	
+	<p class="col-12">[getMediaBlockHtml] Images that height and width are redefined with a class.</p> 
 		<cfset media_id = "90914">
 			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#")>
 			<div class="col-5">
