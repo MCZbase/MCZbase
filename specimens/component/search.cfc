@@ -361,27 +361,6 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 
-			<!---
-			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-				SELECT
-					<cfset comma = "">
-					<cfloop query="getFieldMetadata">
-						<cfif len(sql_element) GT 0> 
-							#comma##replace(sql_element,"''","'","all")# #column_name#
-							<cfset comma = ",">
-						</cfif>
-					</cfloop>
-				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flatTableName
-					join FLAT_TEXT FT ON flatTableName.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
-				WHERE contains(ft.cat_num, <cfqueryparam value="#searchValue#" CFSQLType="CF_SQL_VARCHAR">, 1) > 0
-					<cfif isDefined("collection_cde") and len(collection_cde) gt 0>
-						and flatTableName.collection_cde in (<cfqueryparam value="#collection_cde#" cfsqltype="CF_SQL_VARCHAR" list="true">)
-					</cfif>
-					and rownum < 2001
-				ORDER BY
-					flatTableName.collection_cde, flatTableName.cat_num_prefix, flatTableName.cat_num_integer, flatTableName.cat_num_suffix
-			</cfquery>
-			--->
 		<cfelse>
 			<cfthrow message="No search terms provided.">
 		</cfif>

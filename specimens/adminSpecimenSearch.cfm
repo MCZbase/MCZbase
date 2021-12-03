@@ -486,7 +486,13 @@ limitations under the License.
 											editor.jqxNumberInput({ decimalDigits: 0 } ); 
 										}
 									},
-									{text: 'Data Type', datafield: 'DATA_TYPE', width: 100, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
+									{text: 'Data Type', datafield: 'DATA_TYPE', width: 100, hideable: true, hidden: getColHidProp('DATA_TYPE', false),
+										columntype: 'dropdownlist', 
+										initeditor: function (row, cellvalue, editor) { 
+											var typeList = ["VARCHAR2","NUMBER","DATE","CHAR","CLOB"];
+											editor.jqxDropDownList( { source: typeList }); 
+										}
+									},
 									{text: 'SQL', datafield: 'SQL_ELEMENT', width: 250, hideable: true, hidden: getColHidProp('SQL_ELEMENT', false) },
 									{text: 'ID', datafield: 'CF_SPEC_RES_COLS_ID', editable: false, hideable: true, hidden: getColHidProp('CF_SPEC_RES_COLS_ID', false), cellsrenderer: deleteCellRenderer }
 								],
@@ -791,6 +797,7 @@ limitations under the License.
 														<option value="DATE">DATE</option>
 														<option value="CHAR">CHAR</option>
 														<option value="CLOB">CLOB</option>
+														<option value="CLOB">CTXKEYWORD</option>
 													</select>
 												</div>
 												<div class="col-12 col-md-3 px-1 mt-1">
@@ -1042,7 +1049,7 @@ limitations under the License.
 									{text: 'Data Type', datafield: 'DATA_TYPE', width: 80, hideable: true, hidden: getColHidProp('DATA_TYPE', false),
 										columntype: 'dropdownlist', 
 										initeditor: function (row, cellvalue, editor) { 
-											var typeList = ["VARCHAR2","NUMBER","DATE","CHAR","CLOB"];
+											var typeList = ["VARCHAR2","NUMBER","DATE","CHAR","CLOB","CTXKEYWORD"];
 											editor.jqxDropDownList( { source: typeList }); 
 										}
 									},

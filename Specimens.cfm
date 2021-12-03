@@ -2189,12 +2189,8 @@ limitations under the License.
 			$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 			$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 			$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-			if (whichGrid=='keyword') { 
-				$('##'+whichGrid+'resultDownloadButtonContainer').html('<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 mx-sm-2 mt-0 mt-sm-2 mb-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\''+whichGrid+'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
-			} else { 
-				var result_uuid = $('##result_id_' + whichGrid + 'Search').val(); 
-				$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 mx-sm-2 mt-0 mt-sm-2 mb-0" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
-			}
+			var result_uuid = $('##result_id_' + whichGrid + 'Search').val(); 
+			$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 mx-sm-2 mt-0 mt-sm-2 mb-0" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
 		}
 
 		function togglePinColumn(gridId,column) { 
