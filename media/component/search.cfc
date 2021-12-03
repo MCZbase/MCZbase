@@ -1063,20 +1063,17 @@ limitations under the License.
 									
 								</a>
 								<div class="mt-2 bg-light col-12 py-1 px-0">
-									<p class="text-center p-1 mb-0 col-12 smaller">
-								
-									<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </li>
+									<p class="text-center p-1 mb-0 col-12 px-1 smaller">
+									<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </span>
 									<cfif NOT isDisplayable>
 										<span class="d-inline ">#media_type# (#mime_type#)</span>
 										<span class="d-inline">(<a class="" target="_blank" href="#media_uri#">media file</a>)</span>
-									
 									<cfelse>
-										
 										<span class="d-inline"> (<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom /related</a>) </span>
 										<span class="d-inline"> (<a class="" target="_blank" href="#media_uri#">full</a>) </span>
 									</cfif>
 									</p>
-									<div class="">
+									<div class="pb-1">
 										<cfset showTitleText = trim(title)>
 										<cfif len(showTitleText) EQ 0>
 											<cfset showTitleText = trim(subject)>
@@ -1085,8 +1082,7 @@ limitations under the License.
 											<cfset showTitleText = "Unlinked Media Object">
 										</cfif>
 										<p class="text-center col-12 my-0 p-0 small">#showTitleText#</p> 
-
-										<p class="text-center col-12 p-1 smaller">License: <a href="#license_uri#">#license_display#</a></p>
+										<p class="text-center col-12 p-0 my-0 smaller">License: <a href="#license_uri#">#license_display#</a></p>
 									</div>
 								</div>
 							</div>
@@ -1215,8 +1211,7 @@ limitations under the License.
 											<cfset showTitleText = "Unlinked Media Object">
 										</cfif>
 										<p class="text-center col-12 my-0 pb-0 small">#showTitleText#</p> 
-
-										<cfif len(#license_uri#) gt 0><p class="text-center col-12 p-1 smaller">License: <a href="#license_uri#">#license_display#</a></p></cfif>
+										<cfif len(#license_uri#) gt 0><p class="text-center col-12 mb-0 p-0 smaller">License: <a href="#license_uri#">#license_display#</a></p></cfif>
 									</div>
 								</div>
 							</div>
