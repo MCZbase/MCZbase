@@ -1062,7 +1062,7 @@ limitations under the License.
 									<img src="#displayImage#" class="mx-auto w-100 h-100" alt="#alt#" #hw#>
 									
 								</a>
-								<div class="mt-2 bg-light col-12 p-2">
+								<div class="mt-0 bg-light col-12 p-2">
 									<p class="text-center p-0 mb-0 col-12 smaller">
 									<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </span>
 									<cfif NOT isDisplayable>
@@ -1188,7 +1188,7 @@ limitations under the License.
 								<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 									<img src="#displayImage#" class="mx-auto" alt="#alt#" width="100%" height="100%">
 								</a>
-								<div class="mt-2 bg-light col-12 py-1 px-0">
+								<div class="mt-0 bg-light col-12 py-1 px-0">
 									<p class="text-center mb-0 p-1 col-12 smaller">
 								
 									<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </li>
