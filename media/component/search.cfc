@@ -1084,7 +1084,7 @@ limitations under the License.
 										<cfif len(showTitleText) EQ 0>
 											<cfset showTitleText = "Unlinked Media Object">
 										</cfif>
-										<p class="text-center col-12 p-1 small">#showTitleText#</p> 
+										<p class="text-center col-12 my-1 p-1 small">#showTitleText#</p> 
 
 										<p class="text-center col-12 p-1 smaller">License: <a href="#license_uri#">#license_display#</a></p>
 									</div>
@@ -1214,7 +1214,7 @@ limitations under the License.
 										<cfif len(showTitleText) EQ 0>
 											<cfset showTitleText = "Unlinked Media Object">
 										</cfif>
-										<p class="text-center col-12 p-1 small">#showTitleText#</p> 
+										<p class="text-center col-12 my-1 p-1 small">#showTitleText#</p> 
 
 										<p class="text-center col-12 p-1 smaller">License: <a href="#license_uri#">#license_display#</a></p>
 									</div>
