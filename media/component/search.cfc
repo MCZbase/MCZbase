@@ -1190,7 +1190,7 @@ limitations under the License.
 							</cfif>
 							<div class="media_widget">
 								<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
-									<img src="#displayImage#" class="mx-auto" alt="#alt#" width="100%">
+									<img src="#displayImage#" class="rImg2 mx-auto" alt="#alt#" width="100%">
 								</a>
 								<div class="mt-2 bg-light col-12 py-1 px-0">
 									<p class="text-center mb-0 p-1 col-12 smaller">
