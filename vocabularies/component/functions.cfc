@@ -577,13 +577,13 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 					<li class="nav-item border rounded">
 						<a class="nav-link btn-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a>
 					</li>
-					<li class="nav-item border-rounded">
-						<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a>
+					<li class="nav-item border rounded">
+						<a class="nav-link btn-link" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a>
 					</li>
-					<li class="nav-item border-rounded">
+					<li class="nav-item border rounded">
 						<a class="nav-link btn-link" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a>
 					</li>
-					<li class="nav-item border-rounded">
+					<li class="nav-item border rounded">
 						<a class="nav-link btn-link" href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage types and categories</a>
 					</li>
 				</ul>
