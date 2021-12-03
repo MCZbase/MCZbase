@@ -986,8 +986,9 @@ limitations under the License.
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
-	
-	<cfthread name="mediaWidgetThread">
+	<cfset tn = rand()>	
+
+	<cfthread name="mediaWidgetThread#tn#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
@@ -1103,8 +1104,8 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="mediaWidgetThread" />
-	<cfreturn mediaWidgetThread.output>
+	<cfthread action="join" name="mediaWidgetThread#tn#" />
+	<cfreturn mediaWidgetThread#tn#.output>
 </cffunction>
 
 					
