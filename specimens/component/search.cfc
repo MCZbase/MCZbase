@@ -403,6 +403,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="value" type="string" required="yes">
 	<cfargument name="separator" type="string" required="yes">
 	<cfargument name="nestDepth" type="string" required="yes">
+	<cfargument name="dataType" type="string" required="no" default="not specified">
 
 	<cfset search_json = "">
 		<cfif left(value,2) is "=<">
@@ -443,6 +444,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			</cfif>
 			<cfset value = replace(value,'\','\\',"all")>
 			<cfset value = replace(value,'"','\"',"all")>
+		</cfif>
+		<!--- special case handling for keyword search, comparator must be empty --->
+		<cfif CompareNoCase(dataType,"CTXKEYWORD") EQ 0 >
+			<cfset comparator = '"comparator": ""'>
 		</cfif>
 		<cfset search_json = '#search_json##separator#{"nest":"#nestDepth#",#join##field#,#comparator#,"value": "#value#"}'>
 	<cfreturn #search_json#>
@@ -575,7 +580,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 						</cfif>
 					</cfif>
 					<!--- Warning: only searchText may be passed directly from the user here, join and field must be known good values ---> 
-					<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
+					<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#",dataType="#searchFields.data_type#")>
 					<cfset separator = ",">
 					<cfset nest = nest + 1>
 				</cfif>
@@ -700,6 +705,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="nature_of_id" type="string" required="no">
 	<cfargument name="determiner" type="string" required="no">
 	<cfargument name="determiner_id" type="string" required="no">
+	<cfargument name="keyword" type="string" required="no">
 	<cfargument name="debug" type="string" required="no">
 
 	<cfset search_json = "[">
@@ -939,6 +945,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("type_status") AND len(type_status) GT 0>
 		<cfset field = '"field": "citations_type_status"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#type_status#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("keyword") AND len(keyword) GT 0>
+		<cfset field = '"field": "KEYWORD"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#keyword#",separator="#separator#",nestDepth="#nest#",dataType="CTXKEYWORD")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
