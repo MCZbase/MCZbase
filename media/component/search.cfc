@@ -1058,7 +1058,7 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							<div class="media_widget">
-								<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
+								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active" title="click to open full image">
 									<img src="#displayImage#" class="mx-auto w-100 h-100" alt="#alt#" #hw#>
 									
 								</a>
@@ -1185,7 +1185,7 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							<div class="media_widget">
-								<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
+								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active" title="click to open full image">
 									<img src="#displayImage#" class="mx-auto" alt="#alt#" width="100%" height="100%">
 								</a>
 								<div class="mt-0 bg-light col-12 py-1 px-0">
