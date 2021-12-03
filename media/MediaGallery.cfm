@@ -15,7 +15,6 @@
 				</div>
 			</div>
 
-<cfimage source="#myImage#" action="writeToBrowser">
 			<div class="col-3">
 				<div id="mediaResponsiveBlockHtml">
 					#mediablock#
