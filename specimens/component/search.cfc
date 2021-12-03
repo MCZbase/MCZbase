@@ -444,6 +444,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset value = replace(value,'\','\\',"all")>
 			<cfset value = replace(value,'"','\"',"all")>
 		</cfif>
+		<!--- special case handling for keyword search, comparator must be empty --->
+		<cfif CompareNoCase(field,"keyword") EQ 0>
+			<cfset comparator = '"comparator": ""'>
+		</cfif>
 		<cfset search_json = '#search_json##separator#{"nest":"#nestDepth#",#join##field#,#comparator#,"value": "#value#"}'>
 	<cfreturn #search_json#>
 </cffunction>
