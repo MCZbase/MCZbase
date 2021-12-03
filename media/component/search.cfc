@@ -1036,12 +1036,7 @@ limitations under the License.
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
 										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id#">
-													<!--- Create a ColdFusion image from an existing JPEG file. --->
-										<cfimage source="#displayImage#" name="testImage">
-<!--- Turn on antialiasing to improve image quality. --->
-<cfset ImageScaleToFit(testImage,100,"","lanczos")>
-<!--- Display the modified image in a browser. --->
-	<cfimage source="#testImage#" action="writeToBrowser">
+									
 									<cfelse>
 										<cfset displayImage = media_uri>
 									</cfif>
