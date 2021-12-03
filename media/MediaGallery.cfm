@@ -7,7 +7,7 @@
 	<div class="container-fluid">
 		<div class="row my-3">
 <cfoutput>
-		<cfset media_id = "90914">
+		<cfset media_id = "1333">
 			<cfset mediablock= getMediaResponsiveBlockHtml(media_id="#media_id#")>
 			<div class="col-5">
 				<div id="mediaResponsiveBlockHtml">
@@ -35,7 +35,8 @@
 </cfoutput>
 
 <cfoutput>
-		<cfset media_id = "1333">
+		<!---<cfset media_id = "1333">--->
+		<cfset media_id = "90914">
 			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#")>
 			<div class="col-5">
 				<div id="mediaBlockHtml">
