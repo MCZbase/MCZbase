@@ -1038,7 +1038,7 @@ limitations under the License.
 										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id#">
 													<!--- Create a ColdFusion image from an existing JPEG file. --->
 										<cfset testImage="">
-											<cfimage source="#displayImage#" name="testImage">
+											<cfimage source="/media/rescaleImage.cfm?media_id=#media.media_id" name="testImage">
 <!--- Turn on antialiasing to improve image quality. --->
 <cfset ImageScaleToFit(testImage,100,"","lanczos")>
 <!--- Display the modified image in a browser. --->
@@ -1065,7 +1065,7 @@ limitations under the License.
 							</cfif>
 							<div class="media_widget">
 								<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
-									<img src="#displayImage#" class="rImg2 mx-auto" alt="#alt#" #hw#>
+									<img src="#source#" class="rImg2 mx-auto" alt="#alt#" #hw#>
 									
 								</a>
 								<div class="mt-2 bg-light col-12 py-1 px-0">
