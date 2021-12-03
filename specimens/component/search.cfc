@@ -403,6 +403,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="value" type="string" required="yes">
 	<cfargument name="separator" type="string" required="yes">
 	<cfargument name="nestDepth" type="string" required="yes">
+	<cfargument name="dataType" type="string" required="no" default="not specified">
 
 	<cfset search_json = "">
 		<cfif left(value,2) is "=<">
@@ -445,7 +446,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset value = replace(value,'"','\"',"all")>
 		</cfif>
 		<!--- special case handling for keyword search, comparator must be empty --->
-		<cfif CompareNoCase(field,"keyword") EQ 0>
+		<cfif CompareNoCase(dataType,"CTXKEYWORD") EQ 0 >
 			<cfset comparator = '"comparator": ""'>
 		</cfif>
 		<cfset search_json = '#search_json##separator#{"nest":"#nestDepth#",#join##field#,#comparator#,"value": "#value#"}'>
@@ -579,7 +580,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 						</cfif>
 					</cfif>
 					<!--- Warning: only searchText may be passed directly from the user here, join and field must be known good values ---> 
-					<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
+					<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#",dataType="#searcFields.data_type#")>
 					<cfset separator = ",">
 					<cfset nest = nest + 1>
 				</cfif>
