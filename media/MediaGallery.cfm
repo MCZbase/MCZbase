@@ -67,14 +67,14 @@
 
 </cfoutput>
 						<script>
-					img.onload = function() {
-  var img_width = img.width;
-  var img_height = img.height;
+					displayImage.onload = function() {
+  var img_width = sizeType.width;
+  var img_height = sizeType.height;
 
   console.log("Original width: " + img_width + "px")
   console.log("Original height: " + img_height + "px")
-  img.width = "100%"
-  img.height = "100%"
+  displayImage.width = "100%"
+  displayImage.height = "100%"
   document.body.appendChild(img);
 }
 					</script>
