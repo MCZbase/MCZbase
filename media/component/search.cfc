@@ -1025,7 +1025,8 @@ limitations under the License.
 								<cfset isDisplayable = true>
 							</cfif>
 							<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
-							<cfset hw = 'height="2000" width="2000"'>
+							<!--- specify a reasonable fallback for media height/width --->
+							<cfset hw = 'height="600" width="600"'>
 							<cfif isDisplayable>
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
@@ -1036,12 +1037,16 @@ limitations under the License.
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
 										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
-									
 									<cfelse>
+										<cfif len(media.height) GT 0 and len(media.width) GT 0>
+											<!--- specify the actual media height/width --->
+											<cfset hw = 'height="#media.height#" width="#media.width#"'>
+										</cfif>
 										<cfset displayImage = media_uri>
 									</cfif>
 								</cfif>
 							<cfelse>
+								<cfset hw = 'height="100" width="100"'>
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/noThumbnailImage.png">
@@ -1058,20 +1063,19 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							<div class="media_widget">
-								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100" title="click to open full image">
-									<img src="#displayImage#" class="mx-auto w-100 h-100" alt="#alt#" #hw#>
-									
+								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active" title="click to open full image">
+									<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 								</a>
-								<div class="mt-0 bg-light col-12 p-2">
-									<p class="text-center p-0 mb-0 col-12 smaller">
-									<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </span>
-									<cfif NOT isDisplayable>
-										<span class="d-inline ">#media_type# (#mime_type#)</span>
-										<span class="d-inline">(<a class="" target="_blank" href="#media_uri#">media file</a>)</span>
-									<cfelse>
-										<span class="d-inline"> (<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom /related</a>) </span>
-										<span class="d-inline"> (<a class="" target="_blank" href="#media_uri#">full</a>) </span>
-									</cfif>
+								<div class="mt-0 bg-light col-12 py-1 px-0">
+									<p class="text-center p-1 mb-0 col-12 smaller">
+										<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </span>
+										<cfif NOT isDisplayable>
+											<span class="d-inline ">#media_type# (#mime_type#)</span>
+											<span class="d-inline">(<a class="" target="_blank" href="#media_uri#">media file</a>)</span>
+										<cfelse>
+											<span class="d-inline"> (<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom /related</a>) </span>
+											<span class="d-inline"> (<a class="" target="_blank" href="#media_uri#">full</a>) </span>
+										</cfif>
 									</p>
 									<div class="pb-1">
 										<cfset showTitleText = trim(title)>
@@ -1152,15 +1156,12 @@ limitations under the License.
 								<cfset isDisplayable = true>
 							</cfif>
 							<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
-							<cfset hw = 'height="100%" width="100%"'>
 							<cfif isDisplayable>
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
 									<cfset l_size = "100">
-									<cfset hw = 'width="#l_size#"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
-										<cfset hw = 'width="#l_size#"'>
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
 										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
 									
@@ -1186,6 +1187,7 @@ limitations under the License.
 							</cfif>
 							<div class="media_widget">
 								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active" title="click to open full image">
+									<!--- WARNING: Specifying img height and width as percents is invalid HTML, except for 4.01 transitional.  Browser behavior is unpredicatble --->
 									<img src="#displayImage#" class="mx-auto" alt="#alt#" width="100%" height="100%">
 								</a>
 								<div class="mt-0 bg-light col-12 py-1 px-0">

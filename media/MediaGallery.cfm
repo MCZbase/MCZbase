@@ -2,11 +2,36 @@
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 
-
-
+<cfoutput>
 	<div class="container-fluid my-3">
+
+		<cfquery name="examples" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct media_id from (
+				select max(media_id) media_id from media
+				group by mime_type, media_type
+				union
+				select max(media_id) media_id from media_relations
+				group by media_relationship
+				union
+				select max(media_id) media_id from media
+				group by media.auto_host
+				having count(*) > 50
+			)
+		</cfquery>
 		<div class="row">
-		<cfoutput>
+			<cfloop query="examples">
+				<div class="col-3">
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400")>
+					<div class="col-12">
+						<div id="mediaBlock#media_id#">
+							#mediablock#
+						</div>
+					</div>
+				</div>
+			</cfloop>
+		</div>
+
+		<div class="row">
 			<div class="col-10 float-left">
 			<p class="col-12">[getMediaResponsiveBlockHtml] FULL Images that are redefined with height and width attributes =100%</p>
 			<cfset media_id = "1333">
@@ -27,10 +52,9 @@
 					</div>
 				</div>	
 			</div>
-		</cfoutput>
 		</div>
+
 	</div>
-
-
+</cfoutput>
 
 <cfinclude template = "/shared/_footer.cfm">
