@@ -26,7 +26,7 @@
 				</div>
 			</div>
 				
-			<div class="col-1">
+			<div class="col-1 p-1">
 				<div id="mediaBlockHtml">
 					#mediablock#
 				</div>
