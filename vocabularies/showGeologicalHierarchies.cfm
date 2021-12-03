@@ -52,7 +52,7 @@ limitations under the License.
 </cfquery>
 <main class="container py-3" id="content" >
 	<cfoutput>
-		<div class="row mx-0 border rounded my-2 pt-2 px-2">
+		<div class="row mx-0  my-2 pt-2 px-2">
 			<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
 				SELECT distinct type 
 				FROM ctgeology_attribute
