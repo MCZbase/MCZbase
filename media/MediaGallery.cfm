@@ -3,7 +3,7 @@
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfoutput>
 
-	<cfset media_id = "1333">
+	<cfset media_id = "1492277">
 	<div class="container-fluid">
 		<div class="row my-3">
 
@@ -26,7 +26,7 @@
 				</div>
 			</div>
 				
-			<div class="col-1 p-1">
+			<div class="col-1 p-0">
 				<div id="mediaBlockHtml">
 					#mediablock#
 				</div>
