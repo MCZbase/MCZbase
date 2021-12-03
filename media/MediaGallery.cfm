@@ -16,6 +16,11 @@
 				select max(media_id) media_id from media
 				group by media.auto_host
 				having count(*) > 50
+				union
+				select max(media_id) from media_labels
+				where media_label = 'height'
+				group by label_value
+				having count(*) > 1000
 			)
 		</cfquery>
 		<div class="row">
