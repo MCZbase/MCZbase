@@ -16,6 +16,11 @@
 				select max(media_id) media_id from media
 				group by media.auto_host
 				having count(*) > 50
+				union
+				select max(media_id) from media_labels
+				where media_label = 'height'
+				group by label_value
+				having count(*) > 1000
 			)
 		</cfquery>
 		<div class="row">
@@ -33,6 +38,36 @@
 			</cfloop>
 		</div>
 
+		<div class="row">
+			<cfloop query="examples">
+				<div class="col-12 col-sm-4 col-md-2 col-xl-1">
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb")>
+					<div class="row">
+						<div class="col-12">
+							<div id="mediaBlock#media_id#">
+							#mediablock#
+							</div>
+						</div>
+					</div>
+				</div>
+			</cfloop>
+		</div>
+
+		<div class="row">
+			<cfloop query="examples">
+				<div class="col-12 col-md-6 col-xl-4">
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="600")>
+					<div class="row">
+						<div class="col-12">
+							<div id="mediaBlock#media_id#">
+							#mediablock#
+							</div>
+						</div>
+					</div>
+				</div>
+			</cfloop>
+		</div>
+		
 		<div class="row">
 			<div class="col-10 float-left">
 			<p class="col-12">[getMediaResponsiveBlockHtml] FULL Images that are redefined with height and width attributes =100%</p>

@@ -1048,8 +1048,11 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelse>
-								<cfset hw = 'height="100" width="100"'>
+								<cfset hw = 'width="100"'>
 								<cfset imgClasses = "">
+								<cfif #l_displayAs# EQ "thumb">
+									<cfset hw = 'width="80"'>
+								</cfif>
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/noThumbnailImage.png">
@@ -1087,6 +1090,11 @@ limitations under the License.
 										</cfif>
 										<cfif len(showTitleText) EQ 0>
 											<cfset showTitleText = "Unlinked Media Object">
+										</cfif>
+										<cfif #l_displayAs# EQ "thumb">
+											<cfif len(showTitleText) GT 30>
+												<cfset showTitleText = "#left(showTitleText,30)#..." >
+											</cfif>
 										</cfif>
 										<p class="text-center col-12 my-0 p-0 small">#showTitleText#</p> 
 										<cfif len(#license_uri#) gt 0><p class="text-center col-12 p-0 my-0 smaller">License: <a href="#license_uri#">#license_display#</a></p></cfif>
