@@ -634,7 +634,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 							</select>
 						</div>
 						<div class="col-12 col-md-6 col-xl-6">
-							<label for="child">Child Term</label>
+							<label for="child" class="data-entry-label">Child Term</label>
 							<select name="child" id="child" class="data-entry-select reqdClr" required>
 								<option value=""></option>
 								<cfloop query="terms">
