@@ -17,7 +17,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-auto float-left">
+			<div class="col-1 px-0 float-left">
 			<p class="col-12 mt-4">[getMediaBlockHtml] Images that height and width are redefined with a class.</p> 
 			<cfset media_id = "90914">
 				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",size="100")>
