@@ -526,7 +526,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 								<option value="1">yes</option>
 							</select>
 						</div>
-						<div class="col-12">
+						<div class="col-12 my-2">
 							<label for="description" class="data-entry-label">Description</label>
 							<input type="text" name="description" id="description" class="data-entry-input">
 						</div>
