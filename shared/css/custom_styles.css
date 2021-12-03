@@ -171,12 +171,7 @@ h1.h4 {
 .btn-link, .helpText, .fas-info {
 	color: #036ee0 !important;
 }
-a.mgImg {
-	min-height: 11rem;
-}
-a.mgImg img {
-	vertical-align:middle;
-}
+
 span.caps {
 	text-transform: capitalize;
 }
