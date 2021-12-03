@@ -73,7 +73,7 @@
 
   console.log("Original width: " + img_width + "px")
   console.log("Original height: " + img_height + "px")
-  img.width = "100%""
+  img.width = "100%"
   img.height = "100%"
   document.body.appendChild(img);
 }
