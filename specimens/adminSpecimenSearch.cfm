@@ -791,6 +791,7 @@ limitations under the License.
 														<option value="DATE">DATE</option>
 														<option value="CHAR">CHAR</option>
 														<option value="CLOB">CLOB</option>
+														<option value="CLOB">CTXKEYWORD</option>
 													</select>
 												</div>
 												<div class="col-12 col-md-3 px-1 mt-1">
