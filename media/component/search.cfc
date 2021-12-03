@@ -1028,6 +1028,7 @@ limitations under the License.
 							<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 							<!--- specify a reasonable fallback for media height/width --->
 							<cfset hw = 'height="600" width="600"'>
+							<cfset imgClasses = "h-100 w-100">
 							<cfif isDisplayable>
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
@@ -1048,6 +1049,7 @@ limitations under the License.
 								</cfif>
 							<cfelse>
 								<cfset hw = 'height="100" width="100"'>
+								<cfset imgClasses = "">
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/noThumbnailImage.png">
@@ -1064,8 +1066,8 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							<div class="media_widget">
-								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active" title="click to open full image">
-									<img src="#displayImage#" class="mx-auto h-100 w-100" alt="#alt#" #hw#>
+								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center" title="click to open full image">
+									<img src="#displayImage#" class="mx-auto #imgClasses#" alt="#alt#" #hw#>
 								</a>
 								<div class="mt-0 bg-light col-12 py-1 px-0">
 									<p class="text-center p-1 mb-0 col-12 smaller">
