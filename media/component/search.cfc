@@ -1048,7 +1048,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelse>
-								<cfset hw = 'width="100"'>
+								<cfset hw = 'width="100%"'>
 								<cfset imgClasses = "">
 								
 								<cfif #l_displayAs# EQ "thumb">
@@ -1058,22 +1058,16 @@ limitations under the License.
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/noThumbnailImage.png">
-									<cfset imgClasses = "py-4">
 								<cfelseif media_type is "audio">
 									<cfset displayImage =  "/shared/images/noThumbnailAudio.png">
-									<cfset imgClasses = "py-4">
 								<cfelseif media_type IS "audio">
 									<cfset displayImage =  "/shared/images/noThumbnailVideo.png">
-									<cfset imgClasses = "py-4">
 								<cfelseif media_type is "text">
 									<cfset displayImage =  "/shared/images/noThumbDoc.png">
-									<cfset imgClasses = "py-4">
 								<cfelseif media_type is "3D model">
 									<cfset displayImage =  "/shared/images/3dmodel.png">
-									<cfset imgClasses = "py-4">
 								<cfelse>
 									<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
-									<cfset imgClasses = "py-4">
 								</cfif>
 							</cfif>
 							<div class="media_widget">
