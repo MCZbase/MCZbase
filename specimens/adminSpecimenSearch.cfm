@@ -486,7 +486,7 @@ limitations under the License.
 											editor.jqxNumberInput({ decimalDigits: 0 } ); 
 										}
 									},
-									{text: 'Data Type', datafield: 'DATA_TYPE', width: 100, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
+									{text: 'Data Type', datafield: 'DATA_TYPE', width: 100, hideable: true, hidden: getColHidProp('DATA_TYPE', false),
 										columntype: 'dropdownlist', 
 										initeditor: function (row, cellvalue, editor) { 
 											var typeList = ["VARCHAR2","NUMBER","DATE","CHAR","CLOB"];
