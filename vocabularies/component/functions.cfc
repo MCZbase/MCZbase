@@ -568,21 +568,21 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 
 				<ul class="nav nav-tabs">
 					<cfloop query="types">
-						<li class="nav-item border rounded">
-							<a class="nav-link btn-link px-2" style="text-transform:capitalize;" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">#types.type# Terms</a>
+						<li class="nav-item border-top border-right border-left rounded">
+							<a class="nav-link btn-link px-2 text-capitalize" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">#types.type# Terms</a>
 						</li>
 					</cfloop>
 				
-					<li class="nav-item border rounded">
+					<li class="nav-item border-top border-right border-left rounded">
 						<a class="nav-link btn-link px-2" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a>
 					</li>
-					<li class="nav-item border rounded">
+					<li class="nav-item border-top border-right border-left rounded">
 						<a class="nav-link btn-link px-2" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a>
 					</li>
-					<li class="nav-item border rounded">
+					<li class="nav-item border-top border-right border-left rounded">
 						<a class="nav-link btn-link px-2" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a>
 					</li>
-					<li class="nav-item border rounded">
+					<li class="nav-item border-top border-right border-left rounded">
 						<a class="nav-link btn-link px-2" href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage types and categories</a>
 					</li>
 				</ul>
