@@ -4,8 +4,8 @@
 
 
 
-	<div class="container-fluid">
-		<div class="row my-3">
+	<div class="container-fluid my-3">
+		<div class="row">
 		<cfoutput>
 			<div class="col-10 float-left">
 			<p class="col-12">[getMediaResponsiveBlockHtml] Images that are redefined with height and width attributes =100%</p>
