@@ -14,7 +14,8 @@
 					#mediablock#
 				</div>
 			</div>
-			
+
+<cfimage source="#myImage#" action="writeToBrowser">
 			<div class="col-3">
 				<div id="mediaResponsiveBlockHtml">
 					#mediablock#
@@ -33,11 +34,7 @@
 				</div>
 			</div>
 </cfoutput>
-<script type="text/javascript">
- var img2Obj=document.getElementsByClassName("rImg2");
- img2Obj.width='200';
- img2Obj.height='200';
-</script>	
+
 <cfoutput>
 		<cfset media_id = "1333">
 			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#")>
