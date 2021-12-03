@@ -1048,7 +1048,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelse>
-								<cfset hw = 'height="100" width="100"'>
+								<cfset hw = 'width="100"'>
 								<cfset imgClasses = "">
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset hw = 'width="80"'>
