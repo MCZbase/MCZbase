@@ -285,7 +285,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset nest = nest + 1>
 	</cfif>
 	<cfif isDefined("searchText") AND len(searchText) GT 0>
-		<cfset field = '"field": "kewyordSearchText"'>
+		<cfset field = '"field": "keyword"'>
 		<cfset comparator = '"comparator": ""'>
 		<!--- convert operator characters from conventions used elsewhere in MCZbase to oracle CONTAINS operators --->
 		<!--- 
@@ -305,7 +305,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset searchValueForJSON = searchValue>
 		<cfset searchValueForJSON = replace(searchValueForJSON,"\","\\","all")>
 		<cfset searchValueForJSON = replace(searchValueForJSON,'"','\"',"all")>
-		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"searchValue": "#searchValueForJSON#"}'>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#searchValueForJSON#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -340,7 +340,6 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				ORDER by category, disp_order
 			</cfquery>
 
-			<!--- 
 			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
@@ -361,8 +360,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				WHERE
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
-			--->
 
+			<!---
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 				SELECT
 					<cfset comma = "">
@@ -382,6 +381,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				ORDER BY
 					flatTableName.collection_cde, flatTableName.cat_num_prefix, flatTableName.cat_num_integer, flatTableName.cat_num_suffix
 			</cfquery>
+			--->
 		<cfelse>
 			<cfthrow message="No search terms provided.">
 		</cfif>
