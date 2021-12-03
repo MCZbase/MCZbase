@@ -574,7 +574,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 					</cfloop>
 				</ul>
 				<ul class="nav nav-tabs">
-					<li class="nav-item">
+					<li class="nav-item btnLink">
 						<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a>
 					</li>
 					<li class="nav-item">
