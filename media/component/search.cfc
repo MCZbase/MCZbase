@@ -1049,7 +1049,7 @@ limitations under the License.
 								</cfif>
 							<cfelse>
 								<cfset hw = 'width="100"'>
-								<cfset imgClasses = "py-4">
+								<cfset imgClasses = "py-5">
 								
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset hw = 'width="80"'>
