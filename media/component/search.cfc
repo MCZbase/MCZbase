@@ -1029,8 +1029,8 @@ limitations under the License.
 							<cfif isDisplayable>
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
-									<cfset l_size = "100">
-									<cfset hw = 'width="100"'>
+									<cfset l_size = "200">
+									<cfset hw = 'width="200"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
@@ -1156,11 +1156,11 @@ limitations under the License.
 							<cfif isDisplayable>
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
-									<cfset l_size = "100%">
-									<cfset hw = 'height="#l_size#" width="#l_size#"'>
+									<cfset l_size = "200">
+									<cfset hw = 'width="#l_size#"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
-										<cfset hw = 'height="#l_size#" width="#l_size#"'>
+										<cfset hw = 'width="#l_size#"'>
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
 										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
 									
