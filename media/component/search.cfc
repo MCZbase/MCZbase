@@ -1039,8 +1039,8 @@ limitations under the License.
 													<!--- Create a ColdFusion image from an existing JPEG file. --->
 										<cfimage source="#displayImage#" name="myImage">
 <!--- Turn on antialiasing to improve image quality. --->
-<cfset ImageSetAntialiasing(myImage,"on")>
-<cfset ImageScaleToFit(myImage,100,"","lanczos")>
+<cfset ImageSetAntialiasing(displayImage,"on")>
+<cfset ImageScaleToFit(displayImage,100,"","lanczos")>
 <!--- Display the modified image in a browser. --->
 									<cfelse>
 										<cfset displayImage = media_uri>
