@@ -1025,12 +1025,12 @@ limitations under the License.
 								<cfset isDisplayable = true>
 							</cfif>
 							<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
-							<cfset hw = 'height="100%" width="100%"'>
+							<cfset hw = 'height="600" width="600"'>
 							<cfif isDisplayable>
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
 									<cfset l_size = "100">
-									<cfset hw = 'width="100%"'>
+									<cfset hw = 'width="600"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
