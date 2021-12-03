@@ -39,6 +39,18 @@
 			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#")>
 			<div class="col-5">
 				<div id="mediaBlockHtml">
+					<script>
+					img.onload = function() {
+  var img_width = img.width;
+  var img_height = img.height;
+
+  console.log("Original width: " + img_width + "px")
+  console.log("Original height: " + img_height + "px")
+  img.width = "100%""
+  img.height = "100%"
+  document.body.appendChild(img);
+}
+					</script>
 					#mediablock#
 				</div>
 			</div>
