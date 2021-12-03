@@ -1050,6 +1050,9 @@ limitations under the License.
 							<cfelse>
 								<cfset hw = 'height="100" width="100"'>
 								<cfset imgClasses = "">
+								<cfif #l_displayAs# EQ "thumb">
+									<cfset hw = 'width="80"'>
+								</cfif>
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/noThumbnailImage.png">

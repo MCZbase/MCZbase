@@ -44,7 +44,7 @@
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb")>
 					<div class="row">
 						<div class="col-12">
-							<div id="mediaBlock#media_id#" style="min-width: 130px !important;">
+							<div id="mediaBlock#media_id#">
 							#mediablock#
 							</div>
 						</div>
