@@ -10,7 +10,7 @@
 	
 	<p class="col-12">[getMediaResponsiveBlockHtml] Images that are redefined with height and width attributes =100%</p>
 		<cfset media_id = "1333">
-			<cfset mediablock= getMediaResponsiveBlockHtml(media_id="#media_id#",sizeType="2000")>
+			<cfset mediablock= getMediaResponsiveBlockHtml(media_id="#media_id#",displayType="thumb")>
 			<div class="col-5">
 				<div id="mediaResponsiveBlockHtml">
 					#mediablock#
