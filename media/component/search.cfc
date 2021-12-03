@@ -1037,35 +1037,34 @@ limitations under the License.
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
 										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id#">
 													<!--- Create a ColdFusion image from an existing JPEG file. --->
-										<cfset testImage="">
-											<cfimage source="/media/rescaleImage.cfm?media_id=#media.media_id" name="testImage">
+										<cfimage source="#displayImage#" name="testImage">
 <!--- Turn on antialiasing to improve image quality. --->
 <cfset ImageScaleToFit(testImage,100,"","lanczos")>
 <!--- Display the modified image in a browser. --->
 	<cfimage source="#testImage#" action="writeToBrowser">
 									<cfelse>
-										<cfset source = media_uri>
+										<cfset displayImage = media_uri>
 									</cfif>
 								</cfif>
 							<cfelse>
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
-									<cfset source = "/shared/images/noThumbnailImage.png">
+									<cfset displayImage = "/shared/images/noThumbnailImage.png">
 								<cfelseif media_type is "audio">
-									<cfset source =  "/shared/images/noThumbnailAudio.png">
+									<cfset displayImage =  "/shared/images/noThumbnailAudio.png">
 								<cfelseif media_type IS "audio">
-									<cfset source =  "/shared/images/noThumbnailVideo.png">
+									<cfset displayImage =  "/shared/images/noThumbnailVideo.png">
 								<cfelseif media_type is "text">
-									<cfset source =  "/shared/images/noThumbDoc.png">
+									<cfset displayImage =  "/shared/images/noThumbDoc.png">
 								<cfelseif media_type is "3D model">
-									<cfset source =  "/shared/images/3dmodel.png">
+									<cfset displayImage =  "/shared/images/3dmodel.png">
 								<cfelse>
-									<cfset source =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
+									<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
 								</cfif>
 							</cfif>
 							<div class="media_widget">
 								<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
-									<img src="#source#" class="rImg2 mx-auto" alt="#alt#" #hw#>
+									<img src="#displayImage#" class="rImg2 mx-auto" alt="#alt#" #hw#>
 									
 								</a>
 								<div class="mt-2 bg-light col-12 py-1 px-0">
