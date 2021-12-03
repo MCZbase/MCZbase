@@ -1062,7 +1062,7 @@ limitations under the License.
 									<img src="#displayImage#" class="rImg2 mx-auto w-100 h-100" alt="#alt#" #hw#>
 									
 								</a>
-								<div class="mt-2 bg-light col-12 py-1 px-0">
+								<div class="mt-2 bg-light col-12 p-2">
 									<p class="text-center p-0 mb-0 col-12 smaller">
 									<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </span>
 									<cfif NOT isDisplayable>
