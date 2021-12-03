@@ -1063,7 +1063,7 @@ limitations under the License.
 									
 								</a>
 								<div class="mt-2 bg-light col-12 py-1 px-0">
-									<p class="text-center p-1 mb-0 col-12 px-1 smaller">
+									<p class="text-center p-0 mb-0 col-12 smaller">
 									<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </span>
 									<cfif NOT isDisplayable>
 										<span class="d-inline ">#media_type# (#mime_type#)</span>
