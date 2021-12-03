@@ -40,7 +40,7 @@
 
 		<div class="row">
 			<cfloop query="examples">
-				<div class="col-12 col-sm-4 col-md-3 col-xl-2">
+				<div class="col-12 col-sm-4 col-md-2 col-xl-1">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb")>
 					<div class="row">
 						<div class="col-12">
