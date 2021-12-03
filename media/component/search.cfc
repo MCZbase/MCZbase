@@ -1044,23 +1044,23 @@ limitations under the License.
 <!--- Display the modified image in a browser. --->
 	<cfimage source="#testImage#" action="writeToBrowser">
 									<cfelse>
-										<cfset displayImage = media_uri>
+										<cfset source = media_uri>
 									</cfif>
 								</cfif>
 							<cfelse>
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
-									<cfset displayImage = "/shared/images/noThumbnailImage.png">
+									<cfset source = "/shared/images/noThumbnailImage.png">
 								<cfelseif media_type is "audio">
-									<cfset displayImage =  "/shared/images/noThumbnailAudio.png">
+									<cfset source =  "/shared/images/noThumbnailAudio.png">
 								<cfelseif media_type IS "audio">
-									<cfset displayImage =  "/shared/images/noThumbnailVideo.png">
+									<cfset source =  "/shared/images/noThumbnailVideo.png">
 								<cfelseif media_type is "text">
-									<cfset displayImage =  "/shared/images/noThumbDoc.png">
+									<cfset source =  "/shared/images/noThumbDoc.png">
 								<cfelseif media_type is "3D model">
-									<cfset displayImage =  "/shared/images/3dmodel.png">
+									<cfset source =  "/shared/images/3dmodel.png">
 								<cfelse>
-									<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
+									<cfset source =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
 								</cfif>
 							</cfif>
 							<div class="media_widget">
