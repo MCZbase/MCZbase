@@ -1216,7 +1216,7 @@ limitations under the License.
 										</cfif>
 										<p class="text-center col-12 my-1 p-1 small">#showTitleText#</p> 
 
-										<p class="text-center col-12 p-1 smaller">License: <a href="#license_uri#">#license_display#</a></p>
+										<cfif len(#license_uri#) gt 0><p class="text-center col-12 p-1 smaller">License: <a href="#license_uri#">#license_display#</a></p></cfif>
 									</div>
 								</div>
 							</div>
