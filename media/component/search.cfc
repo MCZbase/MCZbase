@@ -1088,6 +1088,11 @@ limitations under the License.
 										<cfif len(showTitleText) EQ 0>
 											<cfset showTitleText = "Unlinked Media Object">
 										</cfif>
+										<cfif #l_displayAs# EQ "thumb">
+											<cfif len(showTitleText) GT 30>
+												<cfset showTitleText = "#left(showTitleText,30)#..." >
+											</cfif>
+										</cfif>
 										<p class="text-center col-12 my-0 p-0 small">#showTitleText#</p> 
 										<cfif len(#license_uri#) gt 0><p class="text-center col-12 p-0 my-0 smaller">License: <a href="#license_uri#">#license_display#</a></p></cfif>
 									</div>
