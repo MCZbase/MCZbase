@@ -1060,6 +1060,7 @@ limitations under the License.
 							<div class="media_widget">
 								<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 									<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
+									
 								</a>
 								<div class="mt-2 bg-light col-12 py-1 px-0">
 									<p class="text-center pt-1 col-12 smaller">
@@ -1165,7 +1166,7 @@ limitations under the License.
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
-										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
+										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id#">
 									
 									<cfelse>
 										<cfset displayImage = media_uri>
@@ -1179,8 +1180,8 @@ limitations under the License.
 									<cfset displayImage =  "/shared/images/noThumbnailAudio.png">
 								<cfelseif media_type IS "audio">
 									<cfset displayImage =  "/shared/images/noThumbnailVideo.png">
-								<!---<cfelseif media_type is "text">
-									<cfset displayImage =  "/shared/images/noThumbDoc.png">--->
+								<cfelseif media_type is "text">
+									<cfset displayImage =  "/shared/images/noThumbDoc.png">
 								<cfelseif media_type is "3D model">
 									<cfset displayImage =  "/shared/images/3dmodel.png">
 								<cfelse>
