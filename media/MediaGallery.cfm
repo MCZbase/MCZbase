@@ -7,6 +7,8 @@
 	<div class="container-fluid">
 		<div class="row my-3">
 <cfoutput>
+	
+	<p>Images that are coming in at full height and width and resizing with css in class</p>
 		<cfset media_id = "1333">
 			<cfset mediablock= getMediaResponsiveBlockHtml(media_id="#media_id#")>
 			<div class="col-5">
@@ -36,6 +38,8 @@
 
 <cfoutput>
 		<!---<cfset media_id = "1333">--->
+	
+	<p>Images that are coming at 100% and being resized.</p> 
 		<cfset media_id = "90914">
 			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#")>
 			<div class="col-5">
