@@ -7,7 +7,7 @@
 	<div class="container-fluid">
 		<div class="row my-3">
 
-			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full")>
+			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#")>
 			<div class="col-5">
 				<div id="mediaBlockHtml">
 					#mediablock#
