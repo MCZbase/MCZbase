@@ -65,17 +65,6 @@
 		</div>
 	</div>
 
-</cfoutput>
-						<script>
-					displayImage.onload = function() {
-  var img_width = sizeType.width;
-  var img_height = sizeType.height;
 
-  console.log("Original width: " + img_width + "px")
-  console.log("Original height: " + img_height + "px")
-  displayImage.width = "100%"
-  displayImage.height = "100%"
-  document.body.appendChild(img);
-}
-					</script>
+
 <cfinclude template = "/shared/_footer.cfm">
