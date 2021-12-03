@@ -9,19 +9,19 @@
 
 			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#")>
 			<div class="col-5">
-				<div id="mediaBlockHtml">
+				<div id="mediaResponsiveBlockHtml">
 					#mediablock#
 				</div>
 			</div>
 			
 			<div class="col-3">
-				<div id="mediaBlockHtml">
+				<div id="mediaResponsiveBlockHtml">
 					#mediablock#
 				</div>
 			</div>
 			
 			<div class="col-2">
-				<div id="mediaBlockHtml">
+				<div id="mediaResponseiveBlockHtml">
 					#mediablock#
 				</div>
 			</div>
