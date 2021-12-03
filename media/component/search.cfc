@@ -1166,7 +1166,7 @@ limitations under the License.
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
-										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id#">
+										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##hw#">
 									
 									<cfelse>
 										<cfset displayImage = media_uri>
