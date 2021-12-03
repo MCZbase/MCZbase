@@ -24,7 +24,7 @@
 		<cfset media_id = "90914">
 			<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",size="200")>
 
-			<div class="col-1 p-0">
+			<div class="col-1 p-0 mb-3">
 				<div id="mediaBlockHtml">
 					#mediablock#
 				</div>
