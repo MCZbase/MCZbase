@@ -1206,7 +1206,7 @@ limitations under the License.
 										<span class="d-inline"> (<a class="" target="_blank" href="#media_uri#">full</a>) </span>
 									</cfif>
 									</p>
-									<div class="">
+									<div class="pb-1">
 										<cfset showTitleText = trim(title)>
 										<cfif len(showTitleText) EQ 0>
 											<cfset showTitleText = trim(subject)>
@@ -1214,7 +1214,7 @@ limitations under the License.
 										<cfif len(showTitleText) EQ 0>
 											<cfset showTitleText = "Unlinked Media Object">
 										</cfif>
-										<p class="text-center col-12 my-0 p-0 small">#showTitleText#</p> 
+										<p class="text-center col-12 my-0 pb-0 small">#showTitleText#</p> 
 
 										<cfif len(#license_uri#) gt 0><p class="text-center col-12 p-1 smaller">License: <a href="#license_uri#">#license_display#</a></p></cfif>
 									</div>
