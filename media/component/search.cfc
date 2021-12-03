@@ -1076,7 +1076,9 @@ limitations under the License.
 									<p class="text-center p-1 mb-0 col-12 smaller">
 										<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </span>
 										<cfif NOT isDisplayable>
-											<span class="d-inline ">#media_type# (#mime_type#)</span>
+											<cfif #l_displayAs# NEQ "thumb">
+												<span class="d-inline ">#media_type# (#mime_type#)</span>
+											</cfif>
 											<span class="d-inline">(<a class="" target="_blank" href="#media_uri#">media file</a>)</span>
 										<cfelse>
 											<span class="d-inline"> (<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom /related</a>) </span>
