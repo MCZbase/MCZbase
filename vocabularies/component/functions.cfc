@@ -530,7 +530,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 							<label for="description" class="data-entry-label">Description</label>
 							<input type="text" name="description" id="description" class="data-entry-input">
 						</div>
-						<div class="col-12">
+						<div class="col-12 mb-2">
 							<input type="submit" value="Insert Term" class="btn btn-xs btn-primary">
 							<div id="addFeedbackDiv"></div>
 						</div>
