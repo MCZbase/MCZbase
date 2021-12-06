@@ -691,9 +691,8 @@
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select geology_attribute, type, ordinal, description from ctgeology_attributes order by ordinal
 		</cfquery>
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
+
+		
 					<h2>Geological attribute types, and their categories.</h2>
 					<h4>Categories are lithologic, for rock type terms (probably just the single term lithology), lithostratigraphic for rock unit names, and geochronologic/chronostratigraphic for time and rock/time related terms)</h4>
 					<form name="newData" method="post" action="CodeTableEditor.cfm">
@@ -793,9 +792,8 @@
 							<cfset i = #i#+1>
 						</cfloop>
 					</table>
-				</div>
-			</div>
-		</div>
+			
+
 	<cfelseif tbl is "ctpublication_attribute"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from ctpublication_attribute order by publication_attribute
