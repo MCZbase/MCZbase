@@ -224,7 +224,7 @@
 	<cfelseif tbl is "ctguid_type"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-			from ctguid_type 
+			from ctguid_type
 			order by guid_type
 		</cfquery>
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
@@ -564,7 +564,9 @@
 	<cfelseif tbl is "ctcitation_type_status"><!---------------------------------------------------->
 		<!---  Type status code table includes fields for category and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select type_status, description, category, ordinal from ctcitation_type_status order by category, ordinal, type_status
+			select type_status, description, category, ordinal 
+			from ctcitation_type_status 
+			order by category, ordinal, type_status
 		</cfquery>
 		<h2>Citation type, type status terms and other kinds of citation</h2>
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
