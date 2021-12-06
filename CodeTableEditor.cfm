@@ -28,7 +28,7 @@
 	</cfloop>
 </div>
 <cfelseif action is "edit">
-	<p class="m-3 px-3">
+	<p class="my-3">
 		<a href="/CodeTableEditor.cfm?action=nothing" class="btn-xs btn-outline-primary">Back to table list</a>
 	</p>
 	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
