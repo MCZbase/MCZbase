@@ -714,10 +714,10 @@
 									</select>
 								</td>
 								<td>
-									<input type="text" name="ordinal">
+									<input type="text" name="ordinal" class="data-entry-input">
 								</td>
 								<td>
-									<input type="text" name="description">
+									<input type="text" name="description" class="data-entry-input">
 								</td>
 								<td>
 									<input type="submit" 
