@@ -619,7 +619,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 			ORDER BY ordinal, attribute, attribute_value
 		</cfquery>
 		<cfoutput>
-			<section class="col-12 border-top border-right border-left border-bottom" title="Relate Geological Attributes">
+			<section class="col-12 border-top border-right border-left border-bottom rounded" title="Relate Geological Attributes">
 				<h2 class="h3">Link terms into Hierarchies</h2>
 				<form name="rel" id="newRelationshipForm" onsubmit="return noenter(event);">
 					<div class="form-row mb-2">
