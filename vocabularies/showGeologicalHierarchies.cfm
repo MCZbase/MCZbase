@@ -60,11 +60,11 @@ limitations under the License.
 
 				<ul class="nav nav-tabs">
 					<cfloop query="types">
-						<li class="nav-item border-top border-right px-2 border-left rounded">
+						<li class="nav-item border-top border-right mr-1 border-left rounded">
 							<a class="nav-link btn-link text-capitalize" href="/vocabularies/showGeologicalHierarchies.cfm?type=#types.type#">List #types.type# Terms</a>
 						</li>
 					</cfloop>
-					<li class="nav-item border-top border-right border-left rounded">
+					<li class="nav-item border-top mr-1 border-right border-left rounded">
 						<a class="nav-link btn-link" href="/vocabularies/showGeologicalHierarchies.cfm">List All Terms</a>
 					</li>
 				</ul>
