@@ -51,7 +51,7 @@ limitations under the License.
 						#navBlock#
 					</div>
 				</section>
-				<section class="row border rounded my-2">
+				<section class="row border rounded">
 					<div class="col-12 pt-3">
 						<ul>
 							<cfloop query="types">
