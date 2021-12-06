@@ -9,6 +9,8 @@
 			<div class="col-12">
 <cfset title = "Edit Code Tables">
 <cfif action is "nothing">
+<h1 class="h3">List of Code Tables</h1>
+<div class="my-4">
 	<cfquery name="getCTName" datasource="uam_god">
 		select 
 			distinct(table_name) table_name 
@@ -24,6 +26,7 @@
 		<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 		<a href="CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a><br>
 	</cfloop>
+</div>
 <cfelseif action is "edit">
 	<p class="m-3 px-3">
 		<a href="/CodeTableEditor.cfm?action=nothing" class="btn-xs btn-outline-primary">Back to table list</a>
