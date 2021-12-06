@@ -9,8 +9,8 @@
 			<div class="col-12">
 <cfset title = "Edit Code Tables">
 <cfif action is "nothing">
-<h1 class="h3">List of Code Tables</h1>
-<div class="my-4">
+<h1 class="h3 mt-2">List of Code Tables</h1>
+<div class="my-2">
 	<cfquery name="getCTName" datasource="uam_god">
 		select 
 			distinct(table_name) table_name 
