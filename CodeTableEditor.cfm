@@ -769,7 +769,8 @@
 										<input type="text" name="ordinal" value="#ordinal#">
 									</td>
 									<td>
-										<input type="description" name="description" value="#stripQuotes(description)#">
+										<!---<input type="description" name="description" value="#stripQuotes(description)#">--->
+										<input type="description" name="description" value="#description#">
 									</td>
 									<td>
 										<input type="button" 
