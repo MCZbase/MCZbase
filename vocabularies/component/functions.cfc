@@ -569,21 +569,21 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 				<ul class="nav nav-tabs" role="tablist" id="geol-tabs">
 					<cfloop query="types">
 						<li class="nav-item border mr-2 rounded" role="presentation">
-							<a class="nav-link p-2 d-block text-capitalize btn-xs btn-secondary" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">#types.type# Terms</a>
+							<a class="nav-link px-2 py-1 d-block text-capitalize btn-xs btn-secondary" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">#types.type# Terms</a>
 						</li>
 					</cfloop>
 				
 					<li class="nav-item mr-2 border rounded" role="presentation">
-						<a class="nav-link p-2 d-block btn-xs btn-secondary" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a>
+						<a class="nav-link px-2 py-1 d-block btn-xs btn-secondary" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a>
 					</li>
 					<li class="nav-item border mr-2 rounded" role="presentation">
-						<a class="nav-link btn-xs btn-secondary p-2 d-block" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a>
+						<a class="nav-link btn-xs btn-secondary px-2 py-1 d-block" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a>
 					</li>
 					<li class="nav-item border mr-2 rounded" role="presentation">
-						<a class="nav-link btn-xs btn-secondary p-2 d-block" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a>
+						<a class="nav-link btn-xs btn-secondary px-2 py-1 d-block" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a>
 					</li>
 					<li class="nav-item border mr-2 rounded" role="presentation">
-						<a class="nav-link btn-xs p-2 btn-secondary d-block" role="button" href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage types and categories</a>
+						<a class="nav-link btn-xs px-2 py-1 btn-secondary d-block" role="button" href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage types and categories</a>
 					</li>
 				</ul>
 		
