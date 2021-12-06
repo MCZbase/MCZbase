@@ -691,9 +691,9 @@
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select geology_attribute, type, ordinal, description from ctgeology_attributes order by ordinal
 		</cfquery>
-<a class="btn-xs btn-secondary px-2 float-left" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=list">Geological Hierarchy List</a>
+<a class="btn-xs btn-secondary px-2 float-left" href="/vocabularies/GeologicalHierarchies.cfm?action=list">Geological Hierarchy List</a>
 		
-					<h2>Geological attribute types, and their categories.</h2>
+					<h2 class="col-12 px-0">Geological attribute types, and their categories.</h2>
 					<h4>Categories are lithologic, for rock type terms (probably just the single term lithology), lithostratigraphic for rock unit names, and geochronologic/chronostratigraphic for time and rock/time related terms)</h4>
 					<form name="newData" method="post" action="CodeTableEditor.cfm">
 						<input type="hidden" name="action" value="newValue">
