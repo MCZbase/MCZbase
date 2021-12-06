@@ -1,3 +1,4 @@
+<cfset pageTitle = "Codetables">
 <cfinclude template="/shared/_header.cfm">
 <cfquery name="ctcollcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct collection_cde from ctcollection_cde
