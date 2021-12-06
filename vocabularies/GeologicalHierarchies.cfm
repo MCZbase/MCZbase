@@ -401,7 +401,7 @@ limitations under the License.
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
 					<section class="accordion col-12 px-0" id="editSection"> 
-						<div class="card mb-2 bg-light">
+						<div class="card bg-light">
 							<div class="card-header">
 								<h2 class="h4 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##editCardBodyWrap" aria-expanded="false" aria-controls="editCardBodyWrap">
