@@ -693,7 +693,7 @@
 					<form name="newData" method="post" action="CodeTableEditor.cfm">
 						<input type="hidden" name="action" value="newValue">
 						<input type="hidden" name="tbl" value="#tbl#">
-						<table class="newRec table">
+						<table class="newRec table col-9">
 							<tr>
 								<th>Geology Attribute</th>
 								<th>Category</th>
