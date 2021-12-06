@@ -45,8 +45,8 @@ limitations under the License.
 		<cfoutput>
 			<main class="container py-3" id="content" >
 				<section class="row mt-2">
-					<div class="col-12 pt-2">
-						<h1 class="h2">Manage Geological Controlled Vocabularies</h1>
+					<div class="col-12 px-0">
+						<h1 class="h2 px-2">Manage Geological Controlled Vocabularies</h1>
 						<cfset navBlock = getGeologyNavigationHtml()>
 						#navBlock#
 					</div>
