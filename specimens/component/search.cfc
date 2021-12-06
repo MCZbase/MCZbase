@@ -334,6 +334,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 						OR access_role = 'MANAGE_TRANSACTIONS'
 					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						OR access_role = 'MANAGE_SPECIMENS'
+					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
 						OR access_role = 'DATA_ENTRY'
 					</cfif>
@@ -619,6 +622,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				</cfif>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 					OR access_role = 'MANAGE_TRANSACTIONS'
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+					OR access_role = 'MANAGE_SPECIMENS'
 				</cfif>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
 					OR access_role = 'DATA_ENTRY'
@@ -1110,6 +1116,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				</cfif>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 					OR access_role = 'MANAGE_TRANSACTIONS'
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+					OR access_role = 'MANAGE_SPECIMENS'
 				</cfif>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
 					OR access_role = 'DATA_ENTRY'
@@ -1809,6 +1818,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				</cfif>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 					OR access_role = 'MANAGE_TRANSACTIONS'
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+					OR access_role = 'MANAGE_SPECIMENS'
 				</cfif>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
 					OR access_role = 'DATA_ENTRY'

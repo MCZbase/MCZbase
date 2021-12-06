@@ -1428,6 +1428,9 @@ limitations under the License.
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 				OR access_role = 'MANAGE_TRANSACTIONS'
 			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+				OR access_role = 'MANAGE_SPECIMENS'
+			</cfif>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
 				OR access_role = 'DATA_ENTRY'
 			</cfif>
