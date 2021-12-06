@@ -22,7 +22,7 @@
 		<a href="CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a><br>
 	</cfloop>
 <cfelseif action is "edit">
-	<p>
+	<p class="m-3">
 		<a href="/CodeTableEditor.cfm" class="btn-xs btn-outline-primary">Back to table list</a>
 	</p>
 	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
