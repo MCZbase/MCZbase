@@ -375,7 +375,7 @@ limitations under the License.
 	<cfcase value="organize">
 		<main class="container py-3" id="content" >
 			<cfoutput>
-				<div class="row mx-0 border rounded my-2 pt-2">
+				<div class="row mx-0 my-2 pt-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
 					<cfset organizeBlock = getGeologyMakeTreeHtml()>
