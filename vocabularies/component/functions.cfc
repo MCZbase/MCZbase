@@ -569,21 +569,21 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 				<ul class="nav nav-tabs" role="tablist" id="geol-tabs">
 					<cfloop query="types">
 						<li class="nav-item border mr-1 rounded" role="presentation">
-							<a class="nav-link btn-link p-2 d-block text-capitalize" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">#types.type# Terms</a>
+							<a class="btn-link p-2 d-block text-capitalize" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">#types.type# Terms</a>
 						</li>
 					</cfloop>
 				
 					<li class="nav-item mr-1 border rounded" role="presentation">
-						<a class="nav-link btn-link p-2 d-block" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a>
+						<a class="btn-link p-2 d-block" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a>
 					</li>
-					<li class="nav-item border-top border-right mr-1 border-left rounded" role="presentation">
-						<a class="nav-link btn-link p-2 d-block" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a>
+					<li class="nav-item border mr-1 rounded" role="presentation">
+						<a class="btn-link p-2 d-block" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a>
 					</li>
-					<li class="nav-item border-top border-right mr-1 border-left rounded" role="presentation">
-						<a class="nav-link btn-link p-2 d-block" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a>
+					<li class="nav-item border mr-1 rounded" role="presentation">
+						<a class="btn-link p-2 d-block" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a>
 					</li>
-					<li class="nav-item border-top border-right mr-1 border-left rounded" role="presentation">
-						<a class="nav-link btn-link p-2 d-block" href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage types and categories</a>
+					<li class="nav-item border mr-1 rounded" role="presentation">
+						<a class="btn-link p-2 d-block" href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage types and categories</a>
 					</li>
 				</ul>
 		
