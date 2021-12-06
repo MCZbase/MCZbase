@@ -4,6 +4,9 @@
 	select distinct collection_cde from ctcollection_cde
 </cfquery>
 <cfoutput>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
 <cfset title = "Edit Code Tables">
 <cfif action is "nothing">
 	<cfquery name="getCTName" datasource="uam_god">
@@ -1844,5 +1847,6 @@
 	</cfif>
 	<cflocation url="CodeTableEditor.cfm?action=edit&tbl=#tbl#" addtoken="false">
 </cfif>
+			</div></div></div>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
