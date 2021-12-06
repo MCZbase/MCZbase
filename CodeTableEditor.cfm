@@ -23,7 +23,7 @@
 	</cfloop>
 <cfelseif action is "edit">
 	<p class="m-3 px-3">
-		<a href="/CodeTableEditor.cfm" class="btn-xs btn-outline-primary">Back to table list</a>
+		<a href="/CodeTableEditor.cfm?action=nothing" class="btn-xs btn-outline-primary">Back to table list</a>
 	</p>
 	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
 		<cflocation url="/vocabularies/GeologicalHierarchies.cfm" addtoken="false">
