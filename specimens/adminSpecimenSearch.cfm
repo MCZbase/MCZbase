@@ -215,6 +215,8 @@ limitations under the License.
 														<option value="PUBLIC" selected>PUBLIC</option>
 														<option value="COLDFUSION_USER">COLDFUSION_USER</option>
 														<option value="DATA_ENTRY">DATA_ENTRY</option>
+														<option value="MANAGE_TRANSACTIONS">COLDFUSION_USER</option>
+														<option value="MANAGE_SPECIMENS">COLDFUSION_USER</option>
 														<option value="HIDE">HIDE (column is not queried or shown)</option>
 													</select>
 												</div>
@@ -813,7 +815,6 @@ limitations under the License.
 														<option value="MANAGE_TRANSACTIONS">MANAGE_TRANSACTIONS</option>
 														<option value="MANAGE_SPECIMENS">MANAGE_SPECIMENS</option>
 														<option value="MANAGE_CONTAINER">MANAGE_CONTAINER</option>
-														<option value="MANAGE_TRANSACTIONS">MANAGE_TRANSACTIONS</option>
 														<option value="GLOBAL_ADMIN">GLOBAL_ADMIN</option>
 														<option value="MANAGE_AGENTS">MANAGE_AGENTS</option>
 														<option value="MANAGE_MEDIA">MANAGE_MEDIA</option>
