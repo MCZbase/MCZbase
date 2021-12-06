@@ -67,7 +67,7 @@ limitations under the License.
 	<cfcase value="edit">
 		<main class="container py-3" id="content" >
 			<cfoutput>
-				<div class="row mx-0 my-2 pt-2">
+				<div class="row mx-0 pt-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
 					<section class="col-12" title="Edit Geological Atribute">
