@@ -693,7 +693,7 @@
 					<form name="newData" method="post" action="CodeTableEditor.cfm">
 						<input type="hidden" name="action" value="newValue">
 						<input type="hidden" name="tbl" value="#tbl#">
-						<table class="newRec">
+						<table class="newRec table">
 							<tr>
 								<th>Geology Attribute</th>
 								<th>Category</th>
@@ -703,10 +703,10 @@
 							</tr>
 							<tr>
 								<td>
-									<input type="text" name="newData" >
+									<input type="text" name="newData" class="data-entry-input">
 								</td>
 								<td>
-									<select name="type">
+									<select name="type" class="data-entry-select">
 										<option value="lithologic">Lithologic</option>
 										<option value="lithostratigraphic">Lithostratigraphic</option>
 										<option value="chronostratigraphic">Geochronologic/Chronstratigraphic</option>
@@ -759,7 +759,7 @@
 											<cfset scopestratselected = "">
 											<cfset scopechronselected = "selected='selected'">
 										</cfif>
-										<select name="type">
+										<select name="type" class="data-entry-select">
 											<option value="lithologic" #scopelithselected# >Lithologic</option>
 											<option value="lithostratigraphic" #scopestratselected# >Lithostratigraphic</option>
 											<option value="chronostratigraphic" #scopechronselected# >Geochronologic/Chronostratigraphic</option>
