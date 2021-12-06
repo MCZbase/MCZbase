@@ -743,7 +743,7 @@
 									<!---  Need to pass current value as it is the PK for the code table --->
 									<input type="hidden" name="origData" value="#geology_attribute#">
 									<td>
-										<input type="text" name="geology_attribute" value="#geology_attribute#">
+										<input type="text" name="geology_attribute" class="data-entry-input" value="#geology_attribute#">
 									</td>
 									<td>
 										<cfif type EQ "lithologic"> 
@@ -766,20 +766,20 @@
 										</select>
 									</td>
 									<td>
-										<input type="text" name="ordinal" value="#ordinal#">
+										<input type="text" name="ordinal" class="data-entry-input" value="#ordinal#">
 									</td>
 									<td>
 										<!---<input type="description" name="description" value="#stripQuotes(description)#">--->
-										<input type="description" name="description" value="#description#">
+										<input type="description" name="description" class="data-entry-input" value="#description#">
 									</td>
 									<td>
 										<input type="button" 
 											value="Save" 
-											class="savBtn btn-primary"
+											class="savBtn btn-xs btn-primary"
 											onclick="#tbl##i#.action.value='saveEdit';submit();">
 										<input type="button" 
 											value="Delete" 
-											class="delBtn btn-danger"
+											class="delBtn btn-xs btn-danger px-2"
 											onclick="#tbl##i#.action.value='deleteValue';submit();">
 									</td>
 								</form>
