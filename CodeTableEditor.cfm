@@ -775,11 +775,11 @@
 									<td>
 										<input type="button" 
 											value="Save" 
-											class="savBtn"
+											class="savBtn btn-primary"
 											onclick="#tbl##i#.action.value='saveEdit';submit();">
 										<input type="button" 
 											value="Delete" 
-											class="delBtn"
+											class="delBtn btn-danger"
 											onclick="#tbl##i#.action.value='deleteValue';submit();">
 									</td>
 								</form>
