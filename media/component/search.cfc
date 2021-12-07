@@ -1032,8 +1032,8 @@ limitations under the License.
 							<cfif isDisplayable>
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
-									<cfset l_size = "202">
-									<cfset hw = 'width="201"'>
+									<cfset l_size = "100">
+									<cfset hw = 'width="100"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
@@ -1048,11 +1048,11 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelse>
-								<cfset hw = 'width="203"'>
+								<cfset hw = 'width="100"'>
 								<cfset imgClasses = "py-5">
 								
 								<cfif #l_displayAs# EQ "thumb">
-									<cfset hw = 'width="201"'>
+									<cfset hw = 'width="80"'>
 									<cfset imgClasses = "py-0">
 								</cfif>
 								<!--- pick placeholder --->
@@ -1064,7 +1064,6 @@ limitations under the License.
 									<cfset displayImage =  "/shared/images/noThumbnailVideo.png">
 								<cfelseif media_type is "text">
 									<cfset displayImage =  "/shared/images/noThumbDoc.png">
-										<cfset displayImage =  "/shared/images/Test_Gnome-Documents.svg">
 								<cfelseif media_type is "3D model">
 									<cfset displayImage =  "/shared/images/3dmodel.png">
 								<cfelse>
