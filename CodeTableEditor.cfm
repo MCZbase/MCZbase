@@ -4,9 +4,7 @@
 	select distinct collection_cde from ctcollection_cde
 </cfquery>
 <cfoutput>
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
+
 <cfset title = "Edit Code Tables">
 <cfif action is "nothing">
 <h1 class="h3 mt-2">List of Code Tables</h1>
@@ -28,8 +26,8 @@
 	</cfloop>
 </div>
 <cfelseif action is "edit">
-	<p class="my-3">
-		<a href="/CodeTableEditor.cfm?action=nothing" class="btn btn-xs btn-outline-primary">Go to code table list</a>
+	<p>
+		<a href="/CodeTableEditor.cfm?action=nothing" class="">Back to table list</a>
 	</p>
 	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
 		<cflocation url="/vocabularies/GeologicalHierarchies.cfm" addtoken="false">
@@ -690,15 +688,13 @@
 		<!--- note, ctgeology_attribute (singluar), is view with sort by ordinal on table ctgeology_attributes (plural) --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select geology_attribute, type, ordinal, description from ctgeology_attributes order by ordinal
-		</cfquery>
-<a class="btn-xs btn-secondary px-2 float-right" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=list">Geological Hierarchy List</a>
-		
-					<h2>Geological attribute types, and their categories.</h2>
-					<h4>Categories are lithologic, for rock type terms (probably just the single term lithology), lithostratigraphic for rock unit names, and geochronologic/chronostratigraphic for time and rock/time related terms)</h4>
+		</cfquery>		
+					<h2>Geological attribute types, and their categories.
+					Categories are lithologic, for rock type terms (probably just the single term lithology), lithostratigraphic for rock unit names, and geochronologic/chronostratigraphic for time and rock/time related terms)</h2>
 					<form name="newData" method="post" action="CodeTableEditor.cfm">
 						<input type="hidden" name="action" value="newValue">
 						<input type="hidden" name="tbl" value="#tbl#">
-						<table class="newRec table col-12 col-md-9">
+						<table class="newRec">
 							<tr>
 								<th>Geology Attribute</th>
 								<th>Category</th>
@@ -708,10 +704,10 @@
 							</tr>
 							<tr>
 								<td>
-									<input type="text" name="newData" class="data-entry-input">
+									<input type="text" name="newData">
 								</td>
 								<td>
-									<select name="type" class="data-entry-select">
+									<select name="type">
 										<option value="lithologic">Lithologic</option>
 										<option value="lithostratigraphic">Lithostratigraphic</option>
 										<option value="chronostratigraphic">Geochronologic/Chronstratigraphic</option>
@@ -719,10 +715,10 @@
 									</select>
 								</td>
 								<td>
-									<input type="text" name="ordinal" class="data-entry-input">
+									<input type="text" name="ordinal">
 								</td>
 								<td>
-									<input type="text" name="description" class="data-entry-input">
+									<input type="text" name="description">
 								</td>
 								<td>
 									<input type="submit" 
@@ -732,7 +728,7 @@
 							</tr>
 						</table>
 					</form>
-					<table class="table">
+					<table>
 						<tr>
 							<th>Geological Attribute</th>
 							<th>Category</th>
@@ -748,7 +744,7 @@
 									<!---  Need to pass current value as it is the PK for the code table --->
 									<input type="hidden" name="origData" value="#geology_attribute#">
 									<td>
-										<input type="text" name="geology_attribute" class="data-entry-input" value="#geology_attribute#">
+										<input type="text" name="geology_attribute" value="#geology_attribute#">
 									</td>
 									<td>
 										<cfif type EQ "lithologic"> 
@@ -764,18 +760,17 @@
 											<cfset scopestratselected = "">
 											<cfset scopechronselected = "selected='selected'">
 										</cfif>
-										<select name="type" class="data-entry-select">
+										<select name="type">
 											<option value="lithologic" #scopelithselected# >Lithologic</option>
 											<option value="lithostratigraphic" #scopestratselected# >Lithostratigraphic</option>
 											<option value="chronostratigraphic" #scopechronselected# >Geochronologic/Chronostratigraphic</option>
 										</select>
 									</td>
 									<td>
-										<input type="text" name="ordinal" class="data-entry-input" value="#ordinal#">
+										<input type="text" name="ordinal" value="#ordinal#">
 									</td>
 									<td>
-										<!---<input type="description" name="description" value="#stripQuotes(description)#">--->
-										<input type="description" name="description" class="data-entry-input" value="#description#">
+										<input type="description" name="description" value="#stripQuotes(description)#">
 									</td>
 									<td>
 										<input type="button" 
@@ -1848,6 +1843,5 @@
 	</cfif>
 	<cflocation url="CodeTableEditor.cfm?action=edit&tbl=#tbl#" addtoken="false">
 </cfif>
-			</div></div></div>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
