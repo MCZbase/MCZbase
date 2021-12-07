@@ -1064,6 +1064,7 @@ limitations under the License.
 									<cfset displayImage =  "/shared/images/noThumbnailVideo.png">
 								<cfelseif media_type is "text">
 									<cfset displayImage =  "/shared/images/noThumbDoc.png">
+										<cfset displayImage =  "/shared/images/Test_Gnome-Documents.svg">
 								<cfelseif media_type is "3D model">
 									<cfset displayImage =  "/shared/images/3dmodel.png">
 								<cfelse>
