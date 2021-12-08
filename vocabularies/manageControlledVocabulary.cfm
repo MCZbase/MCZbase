@@ -41,7 +41,7 @@
 					</cfcase>
 				</cfswitch>
 
-<cfelseif action is "edit">
+<cfif action is "edit">
 	<p class="my-3">
 		<a href="/CodeTableEditor.cfm?action=nothing" class="btn btn-xs btn-outline-primary">Go to code table list</a>
 	</p>
