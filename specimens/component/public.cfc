@@ -15,7 +15,157 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
+<cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="size" type="string" required="no" default="2000">
+	<cfargument name="displayAs" type="string" required="no" default="full">
 
+	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
+	<cfset l_media_id= #arguments.media_id#>
+	<cfset l_displayAs = #arguments.displayAs#>
+	<cfset l_size = #arguments.size#>
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
+
+	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
+					SELECT media_id, 
+						preview_uri, media_uri, 
+						mime_type, media_type,
+						auto_extension as extension,
+						auto_host as host,
+						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+						MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
+						MCZBASE.get_media_credit(media.media_id) as credit,
+						MCZBASE.get_media_owner(media.media_id) as owner,
+						MCZBASE.get_media_creator(media.media_id) as creator,
+						MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
+						MCZBASE.get_medialabel(media.media_id,'description') as description,
+						MCZBASE.get_medialabel(media.media_id,'made date') as made_date,
+						MCZBASE.get_medialabel(media.media_id,'subject') as subject,
+						MCZBASE.get_medialabel(media.media_id,'height') as height,
+						MCZBASE.get_medialabel(media.media_id,'width') as width,
+						MCZBASE.get_media_descriptor(media.media_id) as alt,
+						MCZBASE.get_media_title(media.media_id) as title
+					FROM 
+						media
+						left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+					WHERE 
+						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#l_media_id#">
+						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
+				</cfquery>
+				<cfif media.recordcount EQ 1>
+					<cfloop query="media">
+						<div  class="border rounded p-2">
+							<cfset isDisplayable = false>
+							<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
+								<cfset isDisplayable = true>
+							</cfif>
+							<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
+							<!--- specify a reasonable fallback for media height/width --->
+							<cfset hw = 'height="600" width="600"'>
+							<cfset imgClasses = "h-100 w-100">
+							<cfif isDisplayable>
+								<cfif #l_displayAs# EQ "thumb">
+									<cfset displayImage = preview_uri>
+									<cfset l_size = "100">
+									<cfset hw = 'width="100"'>
+								<cfelse>
+									<cfif host EQ "mczbase.mcz.harvard.edu">
+										<cfset hw = 'height="#l_size#" width="#l_size#"'>
+										<cfset sizeType='&width=#l_size#&height=#l_size#'>
+										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
+									<cfelse>
+										<cfif len(media.height) GT 0 and len(media.width) GT 0>
+											<!--- specify the actual media height/width --->
+											<cfset hw = 'height="#media.height#" width="#media.width#"'>
+										</cfif>
+										<cfset displayImage = media_uri>
+									</cfif>
+								</cfif>
+							<cfelse>
+								<cfset hw = 'width="175"'>
+								<cfset imgClasses = "py-5">
+								
+								<cfif #l_displayAs# EQ "thumb">
+									<cfset hw = 'width="80"'>
+									<cfset imgClasses = "py-0">
+								</cfif>
+								<!--- pick placeholder --->
+								<cfif media_type is "image">
+									<cfset displayImage = "/shared/images/Image-x-generic.svg">
+								<cfelseif media_type is "audio">
+									<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
+								<cfelseif media_type IS "audio">
+									<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
+								<cfelseif media_type is "text">
+									<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
+								<cfelseif media_type is "3D model">
+									<cfset displayImage =  "/shared/images/Airy-3d.svg">
+								<cfelse>
+									<cfset displayImage =  "/shared/images/Image-x-generic.svg"><!---nothing was working for mime type--->
+								</cfif>
+							</cfif>
+							<div class="media_widget">
+								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center mgImg" title="click to open full image">
+									<img src="#displayImage#" class="mx-auto #imgClasses#" alt="#alt#" #hw#>
+								</a>
+								<div class="mt-0 bg-light col-12 py-1 px-1">
+									<p class="text-center p-1 mb-0 col-12 smaller">
+										<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </span>
+										<cfif NOT isDisplayable>
+											<cfif #l_displayAs# NEQ "thumb">
+												<span class="d-inline ">#media_type# (#mime_type#)</span>
+											</cfif>
+											<span class="d-inline">(<a class="" target="_blank" href="#media_uri#">media file</a>)</span>
+										<cfelse>
+											<span class="d-inline"> (<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom /related</a>) </span>
+											<span class="d-inline"> (<a class="" target="_blank" href="#media_uri#">full</a>) </span>
+										</cfif>
+									</p>
+									<div class="pb-1">
+										<cfset showTitleText = trim(title)>
+										<cfif len(showTitleText) EQ 0>
+											<cfset showTitleText = trim(subject)>
+										</cfif>
+										<cfif len(showTitleText) EQ 0>
+											<cfset showTitleText = "Unlinked Media Object">
+										</cfif>
+										<cfif #l_displayAs# EQ "thumb">
+											<cfif len(showTitleText) GT 30>
+												<cfset showTitleText = "#left(showTitleText,30)#..." >
+											</cfif>
+										</cfif>
+										<p class="text-center col-12 my-0 p-0 small">#showTitleText#</p> 
+										<cfif len(#license_uri#) gt 0>
+											<p class="text-center col-12 p-0 my-0 smaller">
+												<cfif #l_displayAs# NEQ "thumb">
+													License: 
+												</cfif>
+												<a href="#license_uri#">#license_display#</a>
+											</p>
+										</cfif>
+									</div>
+								</div>
+							</div>
+						</div>
+					</cfloop>
+				</cfif>
+			<cfcatch>
+				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="mediaWidgetThread#tn#" />
+	<cfreturn cfthread["mediaWidgetThread#tn#"].output>
+</cffunction>
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfoutput>
@@ -73,18 +223,7 @@ limitations under the License.
 										<!--- to-do: Create checkbox for featured media on create media page--->
 									<cfif #media.media_type# eq "image" and #media.mime_type# NEQ "text/html">	
 										<cfset i=1>
-										<cfloop query="media">
-				<div class="col-12 col-sm-6 col-md-4 col-xl-3">
-					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400")>
-					<div class="row">
-						<div class="col-12">
-							<div id="mediaBlock#media_id#">
-							#mediablock#
-							</div>
-						</div>
-					</div>
-				</div>
-			</cfloop>
+										
 										<cfloop query="media">
 												<!---div class="thumbs"--->
 												<cfquery name="ctmedia" dbtype="query">
