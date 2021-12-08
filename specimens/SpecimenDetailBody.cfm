@@ -154,6 +154,19 @@ limitations under the License.
 			<cfif mediaCount.ct gt 0>
 				<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 					<!-----------------------------Media----------------------------------> 
+					<cfquery name="mediaBlock1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select
+							media.media_id,
+							media_relations.media_relationship
+						from
+							media,
+							media_relations
+						where
+							media.media_id=media_relations.media_id and
+							media_relations.media_relationship like '%cataloged_item' and
+							media_relations.related_primary_key = <cfqueryparam value=#one.collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+						order by media.media_type
+					</cfquery>
 					<div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
 							<div id="mediaDialog"></div>
@@ -175,8 +188,8 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
-								<div class="card-body w-100 px-2 py-1 mb-1 float-left" id="mediaCardBody">
-									<cfset media_id = "1333">
+								<div class="card-body w-100 px-2 pb-1 pt-2 mb-1 float-left" id="mediaCardBody">
+									<cfloop query="mediaBlock1">
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full")>
 									<div class="row">
 										<div class="col-12">
@@ -185,6 +198,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+									</cfloop>
 								</div>
 							</div>
 						</div>
