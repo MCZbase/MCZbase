@@ -31,7 +31,7 @@ limitations under the License.
 		<cfquery name="results" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="results_result">
 			SELECT count(distinct collection_object_id) ct
 			FROM user_search_table
-			WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#result_id#">
+			WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfif results.ct EQ 0>
 			<cfthrow message = "No results found in user's USER_SEARCH_TABLE for result_id #encodeForHtml(result_id)#.">
