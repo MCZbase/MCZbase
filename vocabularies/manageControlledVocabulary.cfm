@@ -1,32 +1,46 @@
-<cfset pageTitle = "Edit Code Tables">
+<cfset pageTitle = "Manage Controlled Vocabularies">
 <cfinclude template="/shared/_header.cfm">
 <cfquery name="ctcollcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct collection_cde from ctcollection_cde
 </cfquery>
+<cfif not isdefined("action")><cfset action="listtables"></cfif>
 <!--- TODO: Not all actions involve output, move them to a backing method put this block only in actions that have output --->
 <cfoutput>
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-<cfif action is "nothing">
-<h1 class="h3 mt-2">List of Code Tables</h1>
-<div class="my-2">
-	<cfquery name="getCTName" datasource="uam_god">
-		select 
-			distinct(table_name) table_name 
-		from 
-			sys.user_tables 
-		where 
-			table_name like 'CT%'
-		UNION 
-			select 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name from dual
-		 order by table_name
-	</cfquery>
-	<cfloop query="getCTName">
-		<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
-		<a href="CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a><br>
-	</cfloop>
-</div>
+
+				<cfswitch expression="#action#"
+					<cfcase value="listtables">
+						<cfquery name="getCTName" datasource="uam_god">
+								SELECT
+									distinct(table_name) table_name 
+								FROM
+									sys.user_tables 
+								WHERE
+									table_name like 'CT%'
+								UNION 
+								SELECT 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name from dual
+			 					ORDER BY table_name
+						</cfquery>
+						<h1 class="h3 mt-2">Manage Controlled Vocabularies</h1>
+						<div class="my-2">
+							<ul>
+								<cfloop query="getCTName">
+									<cfquery name="getRowCounts" datasource="uam_god">
+										SELECT count(*) ct
+										FROM #getCTName.table_name#
+									</cfquery>
+									<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
+									<li>
+										<a href="CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a> (#getRowCounts.ct#)
+									</li>
+								</cfloop>
+							</ul>
+						</div>
+					</cfcase>
+				</cfswitch>
+
 <cfelseif action is "edit">
 	<p class="my-3">
 		<a href="/CodeTableEditor.cfm?action=nothing" class="btn btn-xs btn-outline-primary">Go to code table list</a>
