@@ -189,14 +189,14 @@ limitations under the License.
 									</cfquery>
 									<cfloop query="images">
 										<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full")>
-									</cfloop>
-									<div class="row">
-										<div class="col-12">
-											<div id="mediaBlock#media_id#">
-											#mediablock#
+										<div class="row">
+											<div class="col-12">
+												<div id="mediaBlock#media_id#">
+												#mediablock#
+												</div>
 											</div>
 										</div>
-									</div>
+									</cfloop>
 								</div>
 							</div>
 						</div>
