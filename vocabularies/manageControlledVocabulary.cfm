@@ -10,7 +10,7 @@
 		<div class="row">
 			<div class="col-12">
 
-				<cfswitch expression="#action#"
+				<cfswitch expression="#action#">
 					<cfcase value="listtables">
 						<cfquery name="getCTName" datasource="uam_god">
 								SELECT
