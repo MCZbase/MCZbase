@@ -371,7 +371,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfif compareNoCase(getFieldMetatada.column_name,sortdatafield) EQ 0>
 						<cfset sanitizedsortdatafield = "#getFieldMetadata.column_name#">
 					</cfif>
-				<cfloop>
+				</cfloop>
 			</cfif>
 
 			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
