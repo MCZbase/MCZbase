@@ -1259,6 +1259,7 @@ limitations under the License.
 					
 <cffunction name="getMediaResponsiveBlockHtml2" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
+		<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 
@@ -1343,7 +1344,7 @@ limitations under the License.
 								</a>
 								<div class="mt-0 bg-light col-12 py-1 px-0">
 									<p class="text-center mb-0 p-1 col-12 smaller">
-								
+								#collection_object_id#
 									<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </li>
 									<cfif NOT isDisplayable>
 										<span class="d-inline ">#media_type# (#mime_type#)</span>
