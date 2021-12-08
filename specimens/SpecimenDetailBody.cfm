@@ -189,7 +189,6 @@ limitations under the License.
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-2 pb-1 pt-2 mb-1 float-left" id="mediaCardBody">
-									<cfloop query="mediaBlock1">
 										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
 												media.media_id,
@@ -226,7 +225,6 @@ limitations under the License.
 											</div>
 										</div>
 									</cfloop>
-								</cfloop>
 								</div>
 							</div>
 						</div>
