@@ -54,7 +54,6 @@ limitations under the License.
  @return html for editing media for the specified cataloged item. 
 --->
 <cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditMediaThread"> <cfoutput>
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -66,8 +65,7 @@ limitations under the License.
 						media_relations
 					where
 						media.media_id=media_relations.media_id and
-						media_relations.media_relationship like '%cataloged_item' and
-						media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+						media_relations.media_relationship like '%cataloged_item'
 					order by media.media_type
 				</cfquery>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
