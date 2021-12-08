@@ -1018,7 +1018,7 @@ limitations under the License.
 						left join media_relations on media_relations.media_id = media.media_id
 					WHERE 
 						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#l_media_id#">
-						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						AND media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				</cfquery>
 				<cfif media.recordcount EQ 1>
