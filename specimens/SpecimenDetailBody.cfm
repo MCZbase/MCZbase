@@ -192,6 +192,9 @@ limitations under the License.
 										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
 												media.media_id,
+												media.media_uri,
+												media.preview_uri,
+												media.mime_type
 											FROM
 												media
 												left join media_relations on media_relations.media_id = media.media_id
@@ -202,6 +205,11 @@ limitations under the License.
 											<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT distinct
 													media.media_id,
+													media.media_uri,
+													media.preview_uri as preview_uri,
+													media.mime_type as mime_type,
+													media.media_type,
+													mczbase.get_media_descriptor(media.media_id) as media_descriptor
 												FROM 
 													media,
 													media_relations
