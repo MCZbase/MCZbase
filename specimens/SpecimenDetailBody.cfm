@@ -35,6 +35,7 @@ limitations under the License.
 </cfoutput> 
 <!--- Include the template that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
+<cfinclude template="/media/component/search.cfc" runOnce="true">
 <!--- query one is needed for the metadata block and one.collection_object_id is used for the counts on media and part headers --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
 	SELECT distinct
