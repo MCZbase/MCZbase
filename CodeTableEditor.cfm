@@ -1,13 +1,13 @@
-<cfset pageTitle = "Codetables">
+<cfset pageTitle = "Edit Code Tables">
 <cfinclude template="/shared/_header.cfm">
 <cfquery name="ctcollcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct collection_cde from ctcollection_cde
 </cfquery>
+<!--- TODO: Not all actions involve output, move them to a backing method put this block only in actions that have output --->
 <cfoutput>
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-<cfset title = "Edit Code Tables">
 <cfif action is "nothing">
 <h1 class="h3 mt-2">List of Code Tables</h1>
 <div class="my-2">
@@ -1848,6 +1848,8 @@
 	</cfif>
 	<cflocation url="CodeTableEditor.cfm?action=edit&tbl=#tbl#" addtoken="false">
 </cfif>
-			</div></div></div>
+			</div>
+		</div>
+	</div>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
