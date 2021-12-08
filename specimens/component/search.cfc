@@ -380,6 +380,15 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
 				<cfprocresult name="search">
 			</cfstoredproc>
+			<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result">
+				SELECT count(*) ct 
+				FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+					join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+				WHERE
+					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				<cfif lcase(sanitizedsortdatafield) EQ "guid">
+			</cfquery>
+			<cfset records = searchcount.ct>
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 				<cfif pagesize GT 0 >
 					SELECT * FROM (
@@ -407,7 +416,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 							) rownumber
 						</cfif>
 					FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-						left join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+						join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 					WHERE
 						user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 					<cfif lcase(sanitizedsortdatafield) EQ "guid">
@@ -436,6 +445,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
+			<cfset row["recordcount"] = "#records#">
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#ucase(col)#"] = replace(search[col][currentRow],'""','&quot;','all')>
 			</cfloop>

@@ -1533,6 +1533,14 @@ limitations under the License.
 					updaterow: function (rowid, rowdata, commit) {
 						commit(true);
 					},
+					beforeprocessing: function (data) {
+						if (data != null && data.length > 0) {
+							source.totalrecords = data[0].recordcount;
+						}
+					},
+					sort: function () {
+						$("##keywordsearcResultsGrid").jqxGrid('updatebounddata','sort');
+					},
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##keywordSearchForm").serialize(),
