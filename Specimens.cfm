@@ -1535,7 +1535,7 @@ limitations under the License.
 					},
 					beforeprocessing: function (data) {
 						if (data != null && data.length > 0) {
-							source.totalrecords = data[0].recordcount;
+							search.totalrecords = data[0].recordcount;
 						}
 					},
 					sort: function () {
