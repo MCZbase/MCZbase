@@ -17,11 +17,11 @@ function checkFormValidity(form) {
 		}
 	return result;
 };
-function getMediaBlockHtml(media_id) {
+function getMediaResponsiveBlockHtml2(media_id) {
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data : {
-			method : "getMediaBlockHtml",
+			method : "getMediaResponsiveBlockHtml2",
 			media_id: media_id,
 		},
 		success: function (result) {
