@@ -395,7 +395,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 						<cfif pagesize GT 0 >
 							,
 							row_number() OVER (
-								<cfif lcase(sanitizedortdatafield) EQ "guid">
+								<cfif lcase(sanitizedsortdatafield) EQ "guid">
 									ORDER BY flat.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
 										to_number(regexp_substr(flat.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
 										flat.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
