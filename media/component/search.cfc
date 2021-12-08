@@ -1382,7 +1382,7 @@ limitations under the License.
 		
 	</cfthread>
 	<cfthread action="join" name="mediaResponsiveWidgetThread2#tn#" />
-	<cfreturn cfthread["mediaWidgetThread#tn#"].output>
+	<cfreturn cfthread["mediaResponsiveWidgetThread2#tn#"].output>
 		</cfoutput>
 </cffunction>
 </cfcomponent>
