@@ -24,9 +24,9 @@ limitations under the License.
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
-	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
+	<!---<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >--->	
 
-	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
+	<cfthread name="mediaWidgetThread" threadName="mediaWidgetThread">
 		<cfoutput>
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
@@ -167,8 +167,8 @@ limitations under the License.
 	</cfthread>
 <!---	<cfthread action="join" name="mediaWidgetThread#tn#" />
 	<cfreturn cfthread["mediaWidgetThread#tn#"].output>--->
-				<cfthread action="join" name="mediaWidgetThread#tn#" />
-	<cfreturn mediaWidgetThread#tn#.output>
+				<cfthread action="join" name="mediaWidgetThread" />
+	<cfreturn mediaWidgetThread.output>
 </cffunction>
 <!---<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
