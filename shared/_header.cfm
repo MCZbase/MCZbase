@@ -273,10 +273,13 @@ limitations under the License.
 						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
 							<li> 	
-								<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens</a> <!--- old --->
-								<!--- TODO: Rollout by opening up to coldfusion_user --->
+								<cfset oldMarker = "">
 								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
-									<a class="dropdown-item " href="/Specimens.cfm">Specimens (new)</a>
+									<a class="dropdown-item " href="/Specimens.cfm">Specimens</a>
+									<cfset oldMarker = "(old)">
+								</cfif>
+								<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens #oldMarker#</a> <!--- old --->
+								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 								</cfif>
 								<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
