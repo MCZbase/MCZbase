@@ -191,13 +191,13 @@ limitations under the License.
 								<div class="card-body w-100 px-2 pb-1 pt-2 mb-1 float-left" id="mediaCardBody">
 									<cfloop query="mediaBlock1">
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb")>
-									<div class="row">
+							
 										<div class="col-4 float-left">
 											<div id="mediaBlock#media_id#">
 											#mediablock#
 											</div>
 										</div>
-									</div>
+								
 									</cfloop>
 								</div>
 							</div>
