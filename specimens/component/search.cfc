@@ -396,13 +396,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 							,
 							row_number() OVER (
 								<cfif lcase(sanitizedsortdatafield) EQ "guid">
-									ORDER BY flat.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
-										to_number(regexp_substr(flat.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
-										flat.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+									ORDER BY flatTableName.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+										to_number(regexp_substr(flatTableName.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+										flatTableName.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 								<cfelseif len(sanitizedsortdatafield) GT 0>
 									ORDER BY #sanitizedsortdatafield# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 								<cfelse>
-									ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
+									ORDER BY flatTableName.collection_cde asc, to_number(regexp_substr(flatTableName.guid, '\d+')) asc, flatTableName.guid asc
 								</cfif>
 							) rownumber
 						</cfif>
@@ -411,13 +411,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					WHERE
 						user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 					<cfif lcase(sanitizedsortdatafield) EQ "guid">
-						ORDER BY flat.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
-							to_number(regexp_substr(flat.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
-							flat.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+						ORDER BY flatTableName.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+							to_number(regexp_substr(flatTableName.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+							flatTableName.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 					<cfelseif len(sanitizedsortdatafield) GT 0>
 						ORDER BY #sanitizedsortdatafield# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 					<cfelse>
-						ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
+						ORDER BY flatTableName.collection_cde asc, to_number(regexp_substr(flatTableName.guid, '\d+')) asc, flatTableName.guid asc
 					</cfif>
 				<cfif pagesize GT 0 >
 					)
