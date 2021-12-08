@@ -185,7 +185,7 @@ limitations under the License.
 											media
 											left join media_relations on media_relations.media_id = media.media_id
 										WHERE
-											media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+											media_relations.related_primary_key = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 									</cfquery>
 									<cfloop query="images">
 										<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full")>
