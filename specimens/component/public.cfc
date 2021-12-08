@@ -19,8 +19,7 @@ limitations under the License.
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="2000">
 	<cfargument name="displayAs" type="string" required="no" default="full">
-		<cfargument name="collection_object_id" type="string" required="no">
-
+	<cfargument name="collection_object_id" type="string" required="no">
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
@@ -166,8 +165,10 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="mediaWidgetThread#tn#" />
-	<cfreturn cfthread["mediaWidgetThread#tn#"].output>
+<!---	<cfthread action="join" name="mediaWidgetThread#tn#" />
+	<cfreturn cfthread["mediaWidgetThread#tn#"].output>--->
+				<cfthread action="join" name="mediaWidgetThread#tn#" />
+	<cfreturn mediaWidgetThread#tn#.output>
 </cffunction>
 <!---<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -2299,6 +2300,7 @@ limitations under the License.
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
-							
+
 
 </cfcomponent>
+>>>>>>>>
