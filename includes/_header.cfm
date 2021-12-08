@@ -108,10 +108,12 @@
 					<ul class="dropdown-menu border-0 shadow" style="min-width: 12em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
+								<cfset oldMarker = "">
 								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
 									<a class="dropdown-item" target="_top" href="/Specimens.cfm">Specimens</a>
+									<cfset oldMarker = "(old)">
 								</cfif>
-								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens (old)</a>
+								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens #oldMarker#</a>
 								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 								</cfif>
