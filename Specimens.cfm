@@ -1570,6 +1570,7 @@ limitations under the License.
 					sortable: true,
 					pageable: true,
 					editable: false,
+					virtualmode: true,
 					pagesize: '25',
 					pagesizeoptions: ['5','10','25','50','100'], // reset in gridLoaded
 					showaggregates: true,
