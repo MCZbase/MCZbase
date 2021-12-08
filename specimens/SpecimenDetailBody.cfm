@@ -190,9 +190,36 @@ limitations under the License.
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-2 pb-1 pt-2 mb-1 float-left" id="mediaCardBody">
 									<cfloop query="mediaBlock1">
-										<cfset collection_object_id = "#collection_object_id#">
-									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb")>
-							
+										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											SELECT
+												media.media_id,
+												media.media_uri,
+												media.preview_uri,
+												media.mime_type
+											FROM
+												media
+												left join media_relations on media_relations.media_id = media.media_id
+											WHERE
+												media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+										</cfquery>
+										<cfloop query="images">
+											<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT distinct
+													media.media_id,
+													media.media_uri,
+													media.preview_uri as preview_uri,
+													media.mime_type as mime_type,
+													media.media_type,
+													mczbase.get_media_descriptor(media.media_id) as media_descriptor
+												FROM 
+													media,
+													media_relations
+												WHERE 
+													media_relations.media_id = media.media_id
+												AND
+													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
+											</cfquery>
+										<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
 										<div class="col-12 col-md-6 px-0 float-left">
 											<div id="mediaBlock#media_id#">
 											#mediablock#
