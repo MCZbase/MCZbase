@@ -190,9 +190,9 @@ limitations under the License.
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-2 pb-1 pt-2 mb-1 float-left" id="mediaCardBody">
 									<cfloop query="mediaBlock1">
-									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full")>
+									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb")>
 									<div class="row">
-										<div class="col-12">
+										<div class="col-3">
 											<div id="mediaBlock#media_id#">
 											#mediablock#
 											</div>
