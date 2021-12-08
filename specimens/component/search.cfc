@@ -269,6 +269,29 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="searchText" type="string" required="yes">
 	<cfargument name="collection_cde" type="string" required="no">
 
+	<cfargument name="debug" type="string" required="no">
+	<cfargument name="recordstartindex" type="string" required="no">
+	<cfargument name="recordendindex" type="string" required="no">
+	<cfargument name="pagesize" type="string" required="no">
+	<cfargument name="pagenum" type="string" required="no">
+	<cfargument name="sortdatafield" type="string" required="no">
+	<cfargument name="sortorder" type="string" required="no">
+	<cfargument name="filterscount" type="string" required="no">
+	<cfargument name="returnallrecords" type="string" required="no">
+
+	<cfif NOT isdefined("pagesize")><cfset pagesize=0></cfif>
+	<cfif NOT isdefined("sortdatafield")><cfset sortdatafield=""></cfif>
+	<cfif NOT isdefined("sortorder")><cfset sortorder="asc"></cfif>
+	<cfif NOT isdefined("returnallrecords")><cfset returnallrecords=""></cfif>
+	<cfif returnallrecords EQ "true">
+		<!--- turn off all server side filtering/paging --->
+		<cfset pagesize=0>
+		<cfset pagenum="">
+		<cfset sortdatafield="">
+		<cfset sortorder="asc">
+		<cfset filterscount="0">
+	</cfif>
+
 	<cfset search_json = "[">
 	<cfset separator = "">
 	<cfset join = ''>
@@ -494,6 +517,29 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="builderMaxRows" type="string" required="yes">
 
+	<cfargument name="debug" type="string" required="no">
+	<cfargument name="recordstartindex" type="string" required="no">
+	<cfargument name="recordendindex" type="string" required="no">
+	<cfargument name="pagesize" type="string" required="no">
+	<cfargument name="pagenum" type="string" required="no">
+	<cfargument name="sortdatafield" type="string" required="no">
+	<cfargument name="sortorder" type="string" required="no">
+	<cfargument name="filterscount" type="string" required="no">
+	<cfargument name="returnallrecords" type="string" required="no">
+
+	<cfif NOT isdefined("pagesize")><cfset pagesize=0></cfif>
+	<cfif NOT isdefined("sortdatafield")><cfset sortdatafield=""></cfif>
+	<cfif NOT isdefined("sortorder")><cfset sortorder="asc"></cfif>
+	<cfif NOT isdefined("returnallrecords")><cfset returnallrecords=""></cfif>
+	<cfif returnallrecords EQ "true">
+		<!--- turn off all server side filtering/paging --->
+		<cfset pagesize=0>
+		<cfset pagenum="">
+		<cfset sortdatafield="">
+		<cfset sortorder="asc">
+		<cfset filterscount="0">
+	</cfif>
+
 	<cfset search_json = "[">
 	<cfset separator = "">
 	<cfset join = ''>
@@ -712,7 +758,29 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="determiner" type="string" required="no">
 	<cfargument name="determiner_id" type="string" required="no">
 	<cfargument name="keyword" type="string" required="no">
+
 	<cfargument name="debug" type="string" required="no">
+	<cfargument name="recordstartindex" type="string" required="no">
+	<cfargument name="recordendindex" type="string" required="no">
+	<cfargument name="pagesize" type="string" required="no">
+	<cfargument name="pagenum" type="string" required="no">
+	<cfargument name="sortdatafield" type="string" required="no">
+	<cfargument name="sortorder" type="string" required="no">
+	<cfargument name="filterscount" type="string" required="no">
+	<cfargument name="returnallrecords" type="string" required="no">
+
+	<cfif NOT isdefined("pagesize")><cfset pagesize=0></cfif>
+	<cfif NOT isdefined("sortdatafield")><cfset sortdatafield=""></cfif>
+	<cfif NOT isdefined("sortorder")><cfset sortorder="asc"></cfif>
+	<cfif NOT isdefined("returnallrecords")><cfset returnallrecords=""></cfif>
+	<cfif returnallrecords EQ "true">
+		<!--- turn off all server side filtering/paging --->
+		<cfset pagesize=0>
+		<cfset pagenum="">
+		<cfset sortdatafield="">
+		<cfset sortorder="asc">
+		<cfset filterscount="0">
+	</cfif>
 
 	<cfset search_json = "[">
 	<cfset separator = "">
