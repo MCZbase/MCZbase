@@ -225,8 +225,8 @@ limitations under the License.
 											#mediablock#
 											</div>
 										</div>
-								
 									</cfloop>
+								</cfloop>
 								</div>
 							</div>
 						</div>
