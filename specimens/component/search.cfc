@@ -386,7 +386,6 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 				WHERE
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-				<cfif lcase(sanitizedsortdatafield) EQ "guid">
 			</cfquery>
 			<cfset records = searchcount.ct>
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
