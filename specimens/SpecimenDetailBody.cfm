@@ -177,7 +177,7 @@ limitations under the License.
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-2 py-1 mb-1 float-left" id="mediaCardBody">
-									<cfset block = getMediaHTML(collection_object_id = "#collection_object_id#")>
+									<cfset block = getMediaBlockHTML(collection_object_id = "#collection_object_id#")>
 									#block#
 								</div>
 							</div>
