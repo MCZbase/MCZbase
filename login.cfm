@@ -84,11 +84,19 @@
 				<cfset nogo="login.cfm,errors/">
 				<cfloop list="#nogo#" index="n">
 					<cfif gotopage contains n>
-						<cfset gotopage = "/SpecimenSearch.cfm">
+						<cfif session.roles contains "coldfusion_user">
+							<cfset gotopage = "/Specimens.cfm">
+						<cfelse>
+							<cfset gotopage = "/SpecimenSearch.cfm">
+						</cfif>
 					</cfif>
 				</cfloop>
 			<cfelse>
-				<cfset gotopage = "/SpecimenSearch.cfm">
+				<cfif session.roles contains "coldfusion_user">
+					<cfset gotopage = "/Specimens.cfm">
+				<cfelse>
+					<cfset gotopage = "/SpecimenSearch.cfm">
+				</cfif>
 			</cfif>
 		</cfif>
 		<cfif session.roles contains "coldfusion_user">
