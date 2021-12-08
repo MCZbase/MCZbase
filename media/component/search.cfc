@@ -1057,7 +1057,7 @@ limitations under the License.
 								</cfif>
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
-									<cfset displayImage = "/shared/images/Placeholder_view_vector.svg">
+									<cfset displayImage = "/shared/images/Image-x-generic.svg">
 								<cfelseif media_type is "audio">
 									<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
 								<cfelseif media_type IS "audio">
@@ -1067,7 +1067,7 @@ limitations under the License.
 								<cfelseif media_type is "3D model">
 									<cfset displayImage =  "/shared/images/Airy-3d.svg">
 								<cfelse>
-									<cfset displayImage =  "/shared/images/Placeholder_view_vector.svg"><!---nothing was working for mime type--->
+									<cfset displayImage =  "/shared/images/Image-x-generic.svg"><!---nothing was working for mime type--->
 								</cfif>
 							</cfif>
 							<div class="media_widget">
