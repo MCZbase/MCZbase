@@ -74,6 +74,18 @@ limitations under the License.
 									<cfif #media.media_type# eq "image" and #media.mime_type# NEQ "text/html">	
 										<cfset i=1>
 										<cfloop query="media">
+				<div class="col-12 col-sm-6 col-md-4 col-xl-3">
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400")>
+					<div class="row">
+						<div class="col-12">
+							<div id="mediaBlock#media_id#">
+							#mediablock#
+							</div>
+						</div>
+					</div>
+				</div>
+			</cfloop>
+										<cfloop query="media">
 												<!---div class="thumbs"--->
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
