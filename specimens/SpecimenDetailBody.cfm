@@ -16,7 +16,6 @@ limitations under the License.
 <!---<cfif not isdefined("HEADER_DELIVERED")>
 </cfif>--->
 <cfoutput>
-	
 	<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
 		<div class="error"> Improper call. Aborting..... </div>
 		<cfabort>
@@ -36,7 +35,6 @@ limitations under the License.
 </cfoutput> 
 <!--- Include the template that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
-
 <!--- query one is needed for the metadata block and one.collection_object_id is used for the counts on media and part headers --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
 	SELECT distinct
@@ -177,7 +175,7 @@ limitations under the License.
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-2 py-1 mb-1 float-left" id="mediaCardBody">
-									<cfset block = getMediaBlockHTML(media_id="#media_id#",size="400")>
+									<cfset block = getMediaHTML(collection_object_id = "#collection_object_id#")>
 									#block#
 								</div>
 							</div>
