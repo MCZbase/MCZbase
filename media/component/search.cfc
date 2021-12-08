@@ -1261,14 +1261,16 @@ limitations under the License.
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
-			<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
+
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
 	<cfset #arguments.size# = "100%">	
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
+			<cfoutput>
 	<cfthread name="mediaResponsiveWidgetThread2#tn#">
-		<cfoutput>
+	
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
 					SELECT media_id, 
@@ -1377,9 +1379,10 @@ limitations under the License.
 				<cfabort>
 			</cfcatch>
 			</cftry>
-		</cfoutput>
+		
 	</cfthread>
 	<cfthread action="join" name="mediaResponsiveWidgetThread2#tn#" />
 	<cfreturn mediaResponsiveWidgetThread2#tn#.output>
+		</cfoutput>
 </cffunction>
 </cfcomponent>
