@@ -21,7 +21,7 @@ limitations under the License.
 	<cfargument name="displayAs" type="string" required="no" default="full">
 	<cfargument name="collection_object_id" type="string" required="no">
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
-	<cfset l_media_id= #arguments.media_id#>
+
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
 
