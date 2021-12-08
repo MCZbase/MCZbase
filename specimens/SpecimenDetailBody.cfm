@@ -176,19 +176,8 @@ limitations under the License.
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-2 py-1 mb-1 float-left" id="mediaCardBody">
-			<!---						<cfset block = getMediaHTML(collection_object_id = "#collection_object_id#")>
-									#block#--->
-									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT
-											media.media_id,
-										FROM
-											media
-											left join media_relations on media_relations.media_id = media.media_id
-										WHERE
-											media_relations.related_primary_key = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-									</cfquery>
-									<cfloop query="images">
-										<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full")>
+									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full")>
+									<cfloop query="one">
 										<div class="row">
 											<div class="col-12">
 												<div id="mediaBlock#media_id#">
