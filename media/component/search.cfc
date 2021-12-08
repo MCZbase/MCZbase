@@ -1057,17 +1057,17 @@ limitations under the License.
 								</cfif>
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
-									<cfset displayImage = "/shared/images/noThumbnailImage.png">
+									<cfset displayImage = "/shared/images/Gnome-image-x-generic.svg">
 								<cfelseif media_type is "audio">
-									<cfset displayImage =  "/shared/images/noThumbnailAudio.png">
+									<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
 								<cfelseif media_type IS "audio">
-									<cfset displayImage =  "/shared/images/noThumbnailVideo.png">
+									<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
 								<cfelseif media_type is "text">
-									<cfset displayImage =  "/shared/images/noThumbDoc.png">
+									<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
 								<cfelseif media_type is "3D model">
-									<cfset displayImage =  "/shared/images/3dmodel.png">
+									<cfset displayImage =  "/shared/images/Airy-3d.svg">
 								<cfelse>
-									<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
+									<cfset displayImage =  "/shared/images/Gnome-image-x-generic.svg"><!---nothing was working for mime type--->
 								</cfif>
 							</cfif>
 							<div class="media_widget">
