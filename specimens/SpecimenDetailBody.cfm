@@ -178,6 +178,14 @@ limitations under the License.
 								<div class="card-body w-100 px-2 py-1 mb-1 float-left" id="mediaCardBody">
 									<cfset block = getMediaHTML(collection_object_id = "#collection_object_id#")>
 									#block#
+										<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb")>
+					<div class="row">
+						<div class="col-12">
+							<div id="mediaBlock#media_id#">
+							#mediablock#
+							</div>
+						</div>
+					</div>
 								</div>
 							</div>
 						</div>
