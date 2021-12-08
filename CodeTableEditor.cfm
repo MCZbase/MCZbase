@@ -3,11 +3,8 @@
 	select distinct collection_cde from ctcollection_cde
 </cfquery>
 <cfoutput>
-
 <cfset title = "Edit Code Tables">
 <cfif action is "nothing">
-<h1 class="h3 mt-2">List of Code Tables</h1>
-<div class="my-2">
 	<cfquery name="getCTName" datasource="uam_god">
 		select 
 			distinct(table_name) table_name 
@@ -23,10 +20,9 @@
 		<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 		<a href="CodeTableEditor.cfm?action=edit&tbl=#getCTName.table_name#">#name#</a><br>
 	</cfloop>
-</div>
 <cfelseif action is "edit">
 	<p>
-		<a href="/CodeTableEditor.cfm?action=nothing" class="">Back to table list</a>
+		<a href="/CodeTableEditor.cfm">Back to table list</a>
 	</p>
 	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
 		<cflocation url="/vocabularies/GeologicalHierarchies.cfm" addtoken="false">
@@ -227,7 +223,7 @@
 	<cfelseif tbl is "ctguid_type"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select guid_type, description, applies_to, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-			from ctguid_type
+			from ctguid_type 
 			order by guid_type
 		</cfquery>
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
@@ -567,9 +563,7 @@
 	<cfelseif tbl is "ctcitation_type_status"><!---------------------------------------------------->
 		<!---  Type status code table includes fields for category and sort order, thus needs custom form  --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select type_status, description, category, ordinal 
-			from ctcitation_type_status 
-			order by category, ordinal, type_status
+			select type_status, description, category, ordinal from ctcitation_type_status order by category, ordinal, type_status
 		</cfquery>
 		<h2>Citation type, type status terms and other kinds of citation</h2>
 		<form name="newData" method="post" action="CodeTableEditor.cfm">
@@ -664,8 +658,7 @@
 							<input type="text" name="ordinal" value="#ordinal#">
 						</td>
 						<td>
-						<!---	<input type="description" name="description" value="#stripQuotes(description)#">--->
-							<input type="description" name="description" value="#description#">
+							<input type="description" name="description" value="#stripQuotes(description)#">
 						</td>
 						<td>
 							<input type="button" 
@@ -687,107 +680,104 @@
 		<!--- note, ctgeology_attribute (singluar), is view with sort by ordinal on table ctgeology_attributes (plural) --->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select geology_attribute, type, ordinal, description from ctgeology_attributes order by ordinal
-		</cfquery>		
-					<h2>Geological attribute types, and their categories.
-					Categories are lithologic, for rock type terms (probably just the single term lithology), lithostratigraphic for rock unit names, and geochronologic/chronostratigraphic for time and rock/time related terms)</h2>
-					<form name="newData" method="post" action="CodeTableEditor.cfm">
-						<input type="hidden" name="action" value="newValue">
+		</cfquery>
+		<h2>Geological attribute types, and their categories.  Categories are lithologic, for rock type terms (probably just the single term lithology), lithostratigraphic for rock unit names, and geochronologic/chronostratigraphic for time and rock/time related terms)</h2>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<th>Geology Attribute</th>
+					<th>Category</th>
+					<th>Sort Order</th>
+					<th>Description</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<select name="type">
+							<option value="lithologic">Lithologic</option>
+							<option value="lithostratigraphic">Lithostratigraphic</option>
+							<option value="chronostratigraphic">Geochronologic/Chronstratigraphic</option>
+                     <!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
+						</select>
+					</td>
+					<td>
+						<input type="text" name="ordinal">
+					</td>
+					<td>
+						<input type="text" name="description">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<tr>
+				<th>Geological Attribute</th>
+				<th>Category</th>
+				<th>Sort Order</th>
+				<th>Description</th>
+			</tr>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
-						<table class="newRec">
-							<tr>
-								<th>Geology Attribute</th>
-								<th>Category</th>
-								<th>Sort Order</th>
-								<th>Description</th>
-								<th></th>
-							</tr>
-							<tr>
-								<td>
-									<input type="text" name="newData">
-								</td>
-								<td>
-									<select name="type">
-										<option value="lithologic">Lithologic</option>
-										<option value="lithostratigraphic">Lithostratigraphic</option>
-										<option value="chronostratigraphic">Geochronologic/Chronstratigraphic</option>
-								 <!---  NOTE: If you add a value here, you also need to add it to the edit picklist below --->
-									</select>
-								</td>
-								<td>
-									<input type="text" name="ordinal">
-								</td>
-								<td>
-									<input type="text" name="description">
-								</td>
-								<td>
-									<input type="submit" 
-										value="Insert" 
-										class="insBtn">
-								</td>
-							</tr>
-						</table>
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#geology_attribute#">
+						<td>
+							<input type="text" name="geology_attribute" value="#geology_attribute#">
+						</td>
+						<td>
+							<cfif type EQ "lithologic"> 
+								<cfset scopelithselected = "selected='selected'">
+								<cfset scopestratselected = "">
+								<cfset scopechronselected = "">
+							<cfelseif type EQ "lithostratigraphic"> 
+								<cfset scopelithselected = "">
+								<cfset scopestratselected = "selected='selected'">
+								<cfset scopechronselected = "">
+							<cfelse> 
+								<cfset scopelithselected = "">
+								<cfset scopestratselected = "">
+								<cfset scopechronselected = "selected='selected'">
+							</cfif>
+							<select name="type">
+								<option value="lithologic" #scopelithselected# >Lithologic</option>
+								<option value="lithostratigraphic" #scopestratselected# >Lithostratigraphic</option>
+								<option value="chronostratigraphic" #scopechronselected# >Geochronologic/Chronostratigraphic</option>
+							</select>
+						</td>
+						<td>
+							<input type="text" name="ordinal" value="#ordinal#">
+						</td>
+						<td>
+							<input type="description" name="description" value="#stripQuotes(description)#">
+						</td>
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
 					</form>
-					<table>
-						<tr>
-							<th>Geological Attribute</th>
-							<th>Category</th>
-							<th>Sort Order</th>
-							<th>Description</th>
-						</tr>
-						<cfset i = 1>
-						<cfloop query="q">
-							<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-								<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
-									<input type="hidden" name="action" value="">
-									<input type="hidden" name="tbl" value="#tbl#">
-									<!---  Need to pass current value as it is the PK for the code table --->
-									<input type="hidden" name="origData" value="#geology_attribute#">
-									<td>
-										<input type="text" name="geology_attribute" value="#geology_attribute#">
-									</td>
-									<td>
-										<cfif type EQ "lithologic"> 
-											<cfset scopelithselected = "selected='selected'">
-											<cfset scopestratselected = "">
-											<cfset scopechronselected = "">
-										<cfelseif type EQ "lithostratigraphic"> 
-											<cfset scopelithselected = "">
-											<cfset scopestratselected = "selected='selected'">
-											<cfset scopechronselected = "">
-										<cfelse> 
-											<cfset scopelithselected = "">
-											<cfset scopestratselected = "">
-											<cfset scopechronselected = "selected='selected'">
-										</cfif>
-										<select name="type">
-											<option value="lithologic" #scopelithselected# >Lithologic</option>
-											<option value="lithostratigraphic" #scopestratselected# >Lithostratigraphic</option>
-											<option value="chronostratigraphic" #scopechronselected# >Geochronologic/Chronostratigraphic</option>
-										</select>
-									</td>
-									<td>
-										<input type="text" name="ordinal" value="#ordinal#">
-									</td>
-									<td>
-										<input type="description" name="description" value="#stripQuotes(description)#">
-									</td>
-									<td>
-										<input type="button" 
-											value="Save" 
-											class="savBtn btn-xs btn-primary"
-											onclick="#tbl##i#.action.value='saveEdit';submit();">
-										<input type="button" 
-											value="Delete" 
-											class="delBtn btn-xs btn-danger px-2"
-											onclick="#tbl##i#.action.value='deleteValue';submit();">
-									</td>
-								</form>
-							</tr>
-							<cfset i = #i#+1>
-						</cfloop>
-					</table>
-			
-
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
 	<cfelseif tbl is "ctpublication_attribute"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from ctpublication_attribute order by publication_attribute
