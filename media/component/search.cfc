@@ -979,6 +979,7 @@ limitations under the License.
 
 <cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="2000">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 
@@ -1014,8 +1015,10 @@ limitations under the License.
 					FROM 
 						media
 						left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+						left join media_relations on media_relations.media_id = media.media_id
 					WHERE 
 						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#l_media_id#">
+						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				</cfquery>
 				<cfif media.recordcount EQ 1>
