@@ -19,6 +19,7 @@ limitations under the License.
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="2000">
 	<cfargument name="displayAs" type="string" required="no" default="full">
+		<cfargument name="collection_object_id" type="string" required="no">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
@@ -52,9 +53,11 @@ limitations under the License.
 					FROM 
 						media
 						left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+						left join media_relations on media.media_id=media_relations.media_id
 					WHERE 
 						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#l_media_id#">
-						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
+						media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" > and 
+						MCZBASE.is_media_encumbered(media.media_id) < 1
 				</cfquery>
 				<cfif media.recordcount EQ 1>
 					<cfloop query="media">
@@ -166,7 +169,7 @@ limitations under the License.
 	<cfthread action="join" name="mediaWidgetThread#tn#" />
 	<cfreturn cfthread["mediaWidgetThread#tn#"].output>
 </cffunction>
-<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfoutput>
 		<cfthread name="getMediaThread">
@@ -221,12 +224,12 @@ limitations under the License.
 								<div class="col-12 px-0 mx-0 mt-1"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
-									<cfif #media.media_type# eq "image" and #media.mime_type# NEQ "text/html">	
+								<!---	<cfif #media.media_type# eq "image" and #media.mime_type# NEQ "text/html">	
 										<cfset i=1>
 										
 										<cfloop query="media">
 												<!---div class="thumbs"--->
-												<cfquery name="ctmedia" dbtype="query">
+											<!---	<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
 												<cfset mt=media.mime_type>
@@ -250,7 +253,7 @@ limitations under the License.
 												</cfif>
 
 										<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
-											<div class="col-12 px-1">
+								<!---			<div class="col-12 px-1">
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
 													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
@@ -264,7 +267,7 @@ limitations under the License.
 											</div>
 										<cfelse>
 											<!---This is for all the thumbnails--->
-											<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
+									<!---		<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 											<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 											<div class='col-4 float-left border-white p-1 mb-1'>
 												<a href="#aForImHref#" target="_blank"> 
@@ -282,7 +285,7 @@ limitations under the License.
 													<button type="button" id="btn_pane2" class="btn btn-xs small py-0 mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog',reloadMedia)">Edit</button>
 													<cfif #media.media_type# eq "audio">
 														<!--- check for a transcript, link if present --->
-														<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<!---				<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															SELECT
 																transcript.media_uri as transcript_uri,
 																transcript.media_id as trainscript_media_id
@@ -310,7 +313,7 @@ limitations under the License.
 										<cfset i=1>
 										<cfloop query="media">
 											<!---div class="thumbs"--->
-												<cfquery name="ctmedia" dbtype="query">
+						<!---						<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
 												<cfset mt=media.mime_type>
@@ -334,7 +337,7 @@ limitations under the License.
 												</cfif>
 										
 											<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
-												<div class="col-4 px-1">
+									<!---			<div class="col-4 px-1">
 													<cfset aForImHref = media_uri>
 													<cfset aForThisHref = "/MediaSet.cfm?media_id=#media.media_id#" >
 													<a href="#aForImHref#" target="_blank" class="w-100 mb-2">
@@ -353,7 +356,7 @@ limitations under the License.
 											<cfelse>
 												<!---This is for all the thumbnails--->
 												<!---for DRS from library--->
-												<cfset aForImHref = media_uri>
+									<!---			<cfset aForImHref = media_uri>
 												<cfset aForDetHref = "/media/#media_id#">
 												<div class='col-4 float-left border-white p-1 mb-1'>
 													<a href="#aForImHref#" target="_blank"> 
@@ -371,7 +374,7 @@ limitations under the License.
 														<button type="button" id="btn_pane4" class="btn btn-xs small py-0 mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 														<cfif #media.media_type# eq "audio">
 															<!--- check for a transcript, link if present --->
-															<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<!---					<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
 																	transcript.media_uri as transcript_uri,
 																	transcript.media_id as trainscript_media_id
@@ -424,7 +427,7 @@ limitations under the License.
 		</cfoutput>
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
-</cffunction>
+</cffunction>--->
 	
 
 						
