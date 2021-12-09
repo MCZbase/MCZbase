@@ -1984,18 +1984,18 @@ limitations under the License.
 				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
 			}
 			// set maximum page size
-			if (rowcount > 100) {
-				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', '100', rowcount],pagesize: 25});
-				$('##' + gridId).jqxGrid({ pagesize: 25});
-			} else if (rowcount > 50) {
-				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', rowcount],pagesize: 25});
-				$('##' + gridId).jqxGrid({ pagesize: 25});
-			} else if (rowcount > 25) {
-				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25', rowcount],pagesize: 25});
-				$('##' + gridId).jqxGrid({ pagesize: 25});
-			} else {
-				$('##' + gridId).jqxGrid({ pageable: false });
-			}
+//			if (rowcount > 100) {
+//				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', '100', rowcount],pagesize: 25});
+//				$('##' + gridId).jqxGrid({ pagesize: 25});
+//			} else if (rowcount > 50) {
+//				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', rowcount],pagesize: 25});
+//				$('##' + gridId).jqxGrid({ pagesize: 25});
+//			} else if (rowcount > 25) {
+//				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25', rowcount],pagesize: 25});
+//				$('##' + gridId).jqxGrid({ pagesize: 25});
+//			} else {
+//				$('##' + gridId).jqxGrid({ pageable: false });
+//			}
 			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
 			var columnCount = columns.length;
