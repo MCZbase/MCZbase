@@ -1589,7 +1589,7 @@ limitations under the License.
 					},
 					rendergridrows: function (obj) {
 						return obj.data;
-					}
+					},
 					columns: [
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
