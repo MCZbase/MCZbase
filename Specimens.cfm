@@ -1587,6 +1587,9 @@ limitations under the License.
 					ready: function () {
 						$("##keywordsearchResultsGrid").jqxGrid('selectrow', 0);
 					},
+					rendergridrows: function (obj) {
+						return obj.data;
+					}
 					columns: [
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
