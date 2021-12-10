@@ -1502,7 +1502,7 @@ limitations under the License.
 						}
 					},
 					sort: function () {
-						$("##keywordsearcResultsGrid").jqxGrid('updatebounddata','sort');
+						$("##keywordsearchResultsGrid").jqxGrid('updatebounddata','sort');
 					},
 					root: 'specimenRecord',
 					id: 'collection_object_id',
