@@ -98,14 +98,6 @@ limitations under the License.
 <cfquery name="distinctContOcean" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select continent_ocean from ctContinent ORDER BY continent_ocean
 </cfquery>
-<cfquery name="distinctCountry" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select geog_auth_rec.country, count(flat.collection_object_id) as ct
-	FROM geog_auth_rec 
-		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-			on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
-	GROUP BY geog_auth_rec.country 
-	order by geog_auth_rec.country
-</cfquery>
 <cfquery name="IslGrp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select island_group from ctIsland_Group order by Island_Group
 </cfquery>
