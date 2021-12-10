@@ -89,45 +89,11 @@ limitations under the License.
 		collection
 	ORDER BY collection.collection
 </cfquery>
-<cfquery name="ctElevUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select orig_elev_units from CTORIG_ELEV_UNITS
-</cfquery>
-<cfquery name="ctDepthUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select depth_units from ctDepth_Units
-</cfquery>
-<cfquery name="distinctContOcean" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select continent_ocean from ctContinent ORDER BY continent_ocean
-</cfquery>
-<cfquery name="IslGrp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select island_group from ctIsland_Group order by Island_Group
-</cfquery>
-<cfquery name="distinctFeature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(Feature) from geog_auth_rec order by Feature
-</cfquery>
-<cfquery name="Water_Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(Water_Feature) from geog_auth_rec order by Water_Feature
-</cfquery>
-<cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select attribute from geology_attribute_hierarchy group by attribute order by attribute
-</cfquery>
-<cfquery name="ctgeology_attribute_val"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select attribute_value from geology_attribute_hierarchy group by attribute_value order by attribute_value
-</cfquery>
-<cfquery name="ctlat_long_error_units"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select lat_long_error_units from ctlat_long_error_units group by lat_long_error_units order by lat_long_error_units
-</cfquery>
-<cfquery name="ctverificationstatus"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select verificationstatus from ctverificationstatus group by verificationstatus order by verificationstatus
-</cfquery>
-<cfquery name="ctmedia_type" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
-	select media_type from ctmedia_type order by media_type
-</cfquery>
 <cfquery name="ctother_id_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT count(*) ct, ct.other_id_type 
-	FROM ctcoll_other_id_type ct
-		left join coll_obj_other_id_num co on ct.other_id_type = co.other_id_type
-	GROUP BY ct.other_id_type 
-	ORDER BY ct.other_id_type
+	SELECT count(*) ct, other_id_type 
+	FROM coll_obj_other_id_num co
+	GROUP BY other_id_type 
+	ORDER BY other_id_type
 </cfquery>
 <cfquery name="ctnature_of_id" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
 	SELECT nature_of_id, count(*) as ct 
