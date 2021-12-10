@@ -368,7 +368,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset sanitizedsortdatafield = "">
 			<cfif len(sortdatafield) GT 0>
 				<cfloop query="getFieldMetadata">
-					<cfif compareNoCase(getFieldMetatada.column_name,sortdatafield) EQ 0>
+					<cfif compareNoCase(getFieldMetadata.column_name,sortdatafield) EQ 0>
 						<cfset sanitizedsortdatafield = "#getFieldMetadata.column_name#">
 					</cfif>
 				</cfloop>
