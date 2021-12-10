@@ -1964,13 +1964,13 @@ limitations under the License.
 			if ($('##' + gridId).jqxGrid('isBindingCompleted')) { 
 				// set maximum page size
 				if (rowcount > 1000) {
-					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', '1000', rowcount] });
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', '1000', rowcount], pagesize: 25 });
 				} else if (rowcount > 100) {
-					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', '100', rowcount] });
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', '100', rowcount], pagesizee: 25 });
 				} else if (rowcount > 50) {
-					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', rowcount] });
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', rowcount], pagesize: 25 });
 				} else if (rowcount > 25) {
-					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25', rowcount] });
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25', rowcount], pagesize: 25 });
 				} else {
 					$('##' + gridId).jqxGrid({ pageable: false });
 				}
