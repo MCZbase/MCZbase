@@ -1453,12 +1453,17 @@ limitations under the License.
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
 		};
 	
+		// bindingcomplete is fired on each page load of the grid, we need to distinguish the first page load from subsequent loads.
+		var keywordSearchLoaded = 0;
+		var builderSearchLoaded = 0;
+		var fixedSearchLoaded = 0;
 	
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
 				evt.preventDefault();
+				
 				var uuid = getVersion4UUID();
 				$("##result_id_keywordSearch").val(uuid);
 		
@@ -1530,7 +1535,7 @@ limitations under the License.
 					editable: false,
 					virtualmode: true,
 					pagesize: '25',
-					pagesizeoptions: ['5','10','25','50','100'], // reset in gridLoaded
+					pagesizeoptions: ['5','10','25','50','100','1000'], // reset in gridLoaded on first load
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
@@ -1585,7 +1590,10 @@ limitations under the License.
 					console.log("bindingcomlete: keywordsearchResultsGrid");
 					// add a link out to this search, serializing the form as http get parameters
 					$('##keywordresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##keywordSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
-					gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
+					if (keywordSearchLoaded==0) { 
+						gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
+						keywordSearchLoaded = 1;
+					}
 				});
 				$('##keywordsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
