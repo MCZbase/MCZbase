@@ -1535,7 +1535,7 @@ limitations under the License.
 					editable: false,
 					virtualmode: true,
 					pagesize: '25',
-					pagesizeoptions: ['5','10','25','50','100','1000'], // reset in gridLoaded on first load
+					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
@@ -1684,7 +1684,7 @@ limitations under the License.
 					pageable: true,
 					editable: false,
 					pagesize: '25',
-					pagesizeoptions: ['5','10','25','50','100','1000'], // reset in gridLoaded on first grid load
+					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
@@ -1830,7 +1830,7 @@ limitations under the License.
 					pageable: true,
 					editable: false,
 					pagesize: '25',
-					pagesizeoptions: ['5','10','25','50','100','1000'], // reset in gridLoaded on initial grid load
+					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
@@ -1942,27 +1942,6 @@ limitations under the License.
 
 		function gridLoaded(gridId, searchType, whichGrid) {
 			console.log('gridLoaded:' + gridId);
-			var pagesizeset = 0;
-			// prevent infinite loop of setting pagesize on grid calling gridLoaded before searchLoaded parameter has been set to 1
-			// but still allow invocation of page size setting on first grid load event.
-			if (gridId=='keywordsearchResultsGrid') {
-				if (keywordSearchLoaded==1) { 
-					pagesizeset = 1;
-				}
-				keywordSearchLoaded = 1;
-			}
-			if (gridId=='buildersearchResultsGrid') { 
-				if (builderSearchLoaded==1) { 
-					pagesizeset = 1;
-				}
-				builderSearchLoaded = 1;
-			}
-			if (gridId=='fixedsearchResultsGrid') { 
-				if (fixedSearchLoaded==1) { 
-					pagesizeset = 1;
-				}
-				fixedSearchLoaded = 1;
-			}
 
 			if (Object.keys(window.columnHiddenSettings).length == 0) {
 				window.columnHiddenSettings = getColumnVisibilities(gridId);
@@ -1982,22 +1961,6 @@ limitations under the License.
 				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType);
 			} else {
 				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
-			}
-			if (pagesizeset==0) { 
-				if ($('##' + gridId).jqxGrid('isBindingCompleted')) { 
-					// set maximum page size
-					if (rowcount > 1000) {
-						$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', '1000', rowcount], pagesize: 25 });
-					} else if (rowcount > 100) {
-						$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', '100', rowcount], pagesizee: 25 });
-					} else if (rowcount > 50) {
-						$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', rowcount], pagesize: 25 });
-					} else if (rowcount > 25) {
-						$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25', rowcount], pagesize: 25 });
-					} else {
-						$('##' + gridId).jqxGrid({ pageable: false });
-					}
-				}
 			}
 			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
