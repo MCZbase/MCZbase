@@ -1950,11 +1950,13 @@ limitations under the License.
 					pagesizeset = 1;
 				}
 				keywordSearchLoaded = 1;
+			}
 			if (gridId=='buildersearchResultsGrid') { 
 				if (builderSearchLoaded==1) { 
 					pagesizeset = 1;
 				}
 				builderSearchLoaded = 1;
+			}
 			if (gridId=='fixedsearchResultsGrid') { 
 				if (fixedSearchLoaded==1) { 
 					pagesizeset = 1;
