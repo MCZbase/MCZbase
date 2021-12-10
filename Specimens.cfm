@@ -1582,6 +1582,7 @@ limitations under the License.
 				});
 		
 				$("##keywordsearchResultsGrid").on("bindingcomplete", function(event) {
+					console.log("bindingcomlete: keywordsearchResultsGrid");
 					// add a link out to this search, serializing the form as http get parameters
 					$('##keywordresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##keywordSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
@@ -1922,6 +1923,7 @@ limitations under the License.
 		var columnMetadataLoaded = false;
 
 		function gridLoaded(gridId, searchType, whichGrid) {
+			console.log('gridLoaded:' + gridId);
 			if (Object.keys(window.columnHiddenSettings).length == 0) {
 				window.columnHiddenSettings = getColumnVisibilities(gridId);
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
