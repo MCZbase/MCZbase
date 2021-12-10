@@ -1654,6 +1654,14 @@ limitations under the License.
 					updaterow: function (rowid, rowdata, commit) {
 						commit(true);
 					},
+					beforeprocessing: function (data) {
+						if (data != null && data.length > 0) {
+							search.totalrecords = data[0].recordcount;
+						}
+					},
+					sort: function () {
+						$("##buildersearchResultsGrid").jqxGrid('updatebounddata','sort');
+					},
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##builderSearchForm").serialize(),
@@ -1682,6 +1690,7 @@ limitations under the License.
 					filterable: false,
 					sortable: true,
 					pageable: true,
+					virtualmode: true,
 					editable: false,
 					pagesize: '25',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
@@ -1698,6 +1707,9 @@ limitations under the License.
 					showtoolbar: false,
 					ready: function () {
 						$("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
+					},
+					rendergridrows: function (obj) {
+						return obj.data;
 					},
 					columns: [
 						<cfset lastrow ="">
@@ -1800,6 +1812,14 @@ limitations under the License.
 					updaterow: function (rowid, rowdata, commit) {
 						commit(true);
 					},
+					beforeprocessing: function (data) {
+						if (data != null && data.length > 0) {
+							search.totalrecords = data[0].recordcount;
+						}
+					},
+					sort: function () {
+						$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
+					},
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
@@ -1828,6 +1848,7 @@ limitations under the License.
 					filterable: false,
 					sortable: true,
 					pageable: true,
+					virtualmode: true,
 					editable: false,
 					pagesize: '25',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
@@ -1844,6 +1865,9 @@ limitations under the License.
 					showtoolbar: false,
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
+					},
+					rendergridrows: function (obj) {
+						return obj.data;
 					},
 					columns: [
 						<cfset lastrow ="">

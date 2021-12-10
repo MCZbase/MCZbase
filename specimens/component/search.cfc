@@ -725,7 +725,26 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				</cfif>
 			ORDER by category, disp_order
 		</cfquery>
+		<cfset sanitizedsortdatafield = "">
+		<cfif len(sortdatafield) GT 0>
+			<cfloop query="getFieldMetadata">
+				<cfif compareNoCase(getFieldMetadata.column_name,sortdatafield) EQ 0>
+					<cfset sanitizedsortdatafield = "#getFieldMetadata.column_name#">
+				</cfif>
+			</cfloop>
+		</cfif>
+		<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result">
+			SELECT count(*) ct 
+			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+			WHERE
+				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
+		<cfset records = searchcount.ct>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			<cfif pagesize GT 0 >
+				SELECT * FROM (
+			</cfif>
 			SELECT 
 				<cfset comma = "">
 				<cfloop query="getFieldMetadata">
@@ -734,12 +753,38 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 						<cfset comma = ",">
 					</cfif>
 				</cfloop>
+				<cfif pagesize GT 0 >
+					,
+					row_number() OVER (
+						<cfif lcase(sanitizedsortdatafield) EQ "guid">
+							ORDER BY flatTableName.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+								to_number(regexp_substr(flatTableName.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+								flatTableName.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+						<cfelseif len(sanitizedsortdatafield) GT 0>
+							ORDER BY #sanitizedsortdatafield# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+						<cfelse>
+							ORDER BY flatTableName.collection_cde asc, to_number(regexp_substr(flatTableName.guid, '\d+')) asc, flatTableName.guid asc
+						</cfif>
+					) rownumber
+				</cfif>
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 			WHERE
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-			ORDER BY
-				flatTableName.collection_cde, flatTableName.cat_num_prefix, flatTableName.cat_num_integer, flatTableName.cat_num_suffix
+			<cfif lcase(sanitizedsortdatafield) EQ "guid">
+				ORDER BY flatTableName.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+					to_number(regexp_substr(flatTableName.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+					flatTableName.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfelseif len(sanitizedsortdatafield) GT 0>
+				ORDER BY #sanitizedsortdatafield# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfelse>
+				ORDER BY flatTableName.collection_cde asc, to_number(regexp_substr(flatTableName.guid, '\d+')) asc, flatTableName.guid asc
+			</cfif>
+			<cfif pagesize GT 0 >
+				)
+				WHERE rownumber between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recordstartindex#">
+					and <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recordendindex#">
+			</cfif>
 		</cfquery>
 
 		<cfset rows = 0>
@@ -747,6 +792,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
+			<cfset row["recordcount"] = "#records#">
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#ucase(col)#"] = replace(search[col][currentRow],'""','&quot;','all')>
 			</cfloop>
@@ -1241,7 +1287,26 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				</cfif>
 			ORDER by category, disp_order
 		</cfquery>
+		<cfset sanitizedsortdatafield = "">
+		<cfif len(sortdatafield) GT 0>
+			<cfloop query="getFieldMetadata">
+				<cfif compareNoCase(getFieldMetadata.column_name,sortdatafield) EQ 0>
+					<cfset sanitizedsortdatafield = "#getFieldMetadata.column_name#">
+				</cfif>
+			</cfloop>
+		</cfif>
+		<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result">
+			SELECT count(*) ct 
+			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+			WHERE
+				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
+		<cfset records = searchcount.ct>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			<cfif pagesize GT 0 >
+				SELECT * FROM (
+			</cfif>
 			SELECT 
 				<cfset comma = "">
 				<cfloop query="getFieldMetadata">
@@ -1250,12 +1315,38 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 						<cfset comma = ",">
 					</cfif>
 				</cfloop>
+				<cfif pagesize GT 0 >
+					,
+					row_number() OVER (
+						<cfif lcase(sanitizedsortdatafield) EQ "guid">
+							ORDER BY flatTableName.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+								to_number(regexp_substr(flatTableName.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+								flatTableName.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+						<cfelseif len(sanitizedsortdatafield) GT 0>
+							ORDER BY #sanitizedsortdatafield# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+						<cfelse>
+							ORDER BY flatTableName.collection_cde asc, to_number(regexp_substr(flatTableName.guid, '\d+')) asc, flatTableName.guid asc
+						</cfif>
+					) rownumber
+				</cfif>
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 			WHERE
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-			ORDER BY
-				flatTableName.collection_cde, flatTableName.cat_num_prefix, flatTableName.cat_num_integer, flatTableName.cat_num_suffix
+			<cfif lcase(sanitizedsortdatafield) EQ "guid">
+				ORDER BY flatTableName.collection_cde <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+					to_number(regexp_substr(flatTableName.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
+					flatTableName.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfelseif len(sanitizedsortdatafield) GT 0>
+				ORDER BY #sanitizedsortdatafield# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+			<cfelse>
+				ORDER BY flatTableName.collection_cde asc, to_number(regexp_substr(flatTableName.guid, '\d+')) asc, flatTableName.guid asc
+			</cfif>
+			<cfif pagesize GT 0 >
+				)
+				WHERE rownumber between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recordstartindex#">
+					and <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recordendindex#">
+			</cfif>
 		</cfquery>
 
 		<cfset rows = 0>
@@ -1264,6 +1355,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
+			<cfset row["recordcount"] = "#records#">
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#ucase(col)#"] = replace(search[col][currentRow],'""','&quot;','all')>
 			</cfloop>
