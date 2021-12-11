@@ -1453,12 +1453,17 @@ limitations under the License.
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
 		};
 	
+		// bindingcomplete is fired on each page load of the grid, we need to distinguish the first page load from subsequent loads.
+		var keywordSearchLoaded = 0;
+		var builderSearchLoaded = 0;
+		var fixedSearchLoaded = 0;
 	
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
 				evt.preventDefault();
+				
 				var uuid = getVersion4UUID();
 				$("##result_id_keywordSearch").val(uuid);
 		
@@ -1491,6 +1496,14 @@ limitations under the License.
 					updaterow: function (rowid, rowdata, commit) {
 						commit(true);
 					},
+					beforeprocessing: function (data) {
+						if (data != null && data.length > 0) {
+							search.totalrecords = data[0].recordcount;
+						}
+					},
+					sort: function () {
+						$("##keywordsearchResultsGrid").jqxGrid('updatebounddata','sort');
+					},
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##keywordSearchForm").serialize(),
@@ -1520,8 +1533,9 @@ limitations under the License.
 					sortable: true,
 					pageable: true,
 					editable: false,
+					virtualmode: true,
 					pagesize: '25',
-					pagesizeoptions: ['5','10','25','50','100'], // reset in gridLoaded
+					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
@@ -1535,6 +1549,9 @@ limitations under the License.
 					showtoolbar: false,
 					ready: function () {
 						$("##keywordsearchResultsGrid").jqxGrid('selectrow', 0);
+					},
+					rendergridrows: function (obj) {
+						return obj.data;
 					},
 					columns: [
 						<cfset lastrow ="">
@@ -1570,9 +1587,13 @@ limitations under the License.
 				});
 		
 				$("##keywordsearchResultsGrid").on("bindingcomplete", function(event) {
+					console.log("bindingcomlete: keywordsearchResultsGrid");
 					// add a link out to this search, serializing the form as http get parameters
 					$('##keywordresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##keywordSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
-					gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
+					if (keywordSearchLoaded==0) { 
+						gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
+						keywordSearchLoaded = 1;
+					}
 				});
 				$('##keywordsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -1602,6 +1623,8 @@ limitations under the License.
 				evt.preventDefault();
 				var uuid = getVersion4UUID();
 				$("##result_id_builderSearch").val(uuid);
+				
+				builderSearchLoaded = 0;
 		
 				$("##overlay").show();
 		
@@ -1631,6 +1654,14 @@ limitations under the License.
 					updaterow: function (rowid, rowdata, commit) {
 						commit(true);
 					},
+					beforeprocessing: function (data) {
+						if (data != null && data.length > 0) {
+							search.totalrecords = data[0].recordcount;
+						}
+					},
+					sort: function () {
+						$("##buildersearchResultsGrid").jqxGrid('updatebounddata','sort');
+					},
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##builderSearchForm").serialize(),
@@ -1659,9 +1690,10 @@ limitations under the License.
 					filterable: false,
 					sortable: true,
 					pageable: true,
+					virtualmode: true,
 					editable: false,
 					pagesize: '25',
-					pagesizeoptions: ['5','10','25','50','100'], // reset in gridLoaded
+					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
@@ -1675,6 +1707,9 @@ limitations under the License.
 					showtoolbar: false,
 					ready: function () {
 						$("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
+					},
+					rendergridrows: function (obj) {
+						return obj.data;
 					},
 					columns: [
 						<cfset lastrow ="">
@@ -1712,7 +1747,10 @@ limitations under the License.
 				$("##buildersearchResultsGrid").on("bindingcomplete", function(event) {
 					// add a link out to this search, serializing the form as http get parameters
 					$('##builderresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##builderSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
-					gridLoaded('buildersearchResultsGrid','occurrence record','builder');
+					if (builderSearchLoaded==0) { 
+						gridLoaded('buildersearchResultsGrid','occurrence record','builder');
+						builderSearchLoaded = 1;
+					}
 				});
 				$('##buildersearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -1743,6 +1781,8 @@ limitations under the License.
 				var uuid = getVersion4UUID();
 				$("##result_id_fixedSearch").val(uuid);
 	
+				fixedSearchLoaded = 0;
+
 				$("##overlay").show();
 	
 				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
@@ -1772,6 +1812,14 @@ limitations under the License.
 					updaterow: function (rowid, rowdata, commit) {
 						commit(true);
 					},
+					beforeprocessing: function (data) {
+						if (data != null && data.length > 0) {
+							search.totalrecords = data[0].recordcount;
+						}
+					},
+					sort: function () {
+						$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
+					},
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
@@ -1800,9 +1848,10 @@ limitations under the License.
 					filterable: false,
 					sortable: true,
 					pageable: true,
+					virtualmode: true,
 					editable: false,
 					pagesize: '25',
-					pagesizeoptions: ['5','10','25','50','100'], // reset in gridLoaded
+					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
@@ -1816,6 +1865,9 @@ limitations under the License.
 					showtoolbar: false,
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
+					},
+					rendergridrows: function (obj) {
+						return obj.data;
 					},
 					columns: [
 						<cfset lastrow ="">
@@ -1853,7 +1905,10 @@ limitations under the License.
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
-					gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+					if (fixedSearchLoaded==0) { 
+						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+						fixedSearchLoaded = 1;
+					}
 				});
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -1910,6 +1965,8 @@ limitations under the License.
 		var columnMetadataLoaded = false;
 
 		function gridLoaded(gridId, searchType, whichGrid) {
+			console.log('gridLoaded:' + gridId);
+
 			if (Object.keys(window.columnHiddenSettings).length == 0) {
 				window.columnHiddenSettings = getColumnVisibilities(gridId);
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -1928,19 +1985,6 @@ limitations under the License.
 				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType);
 			} else {
 				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
-			}
-			// set maximum page size
-			if (rowcount > 100) {
-				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', '100', rowcount],pagesize: 25});
-				$('##' + gridId).jqxGrid({ pagesize: 25});
-			} else if (rowcount > 50) {
-				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', rowcount],pagesize: 25});
-				$('##' + gridId).jqxGrid({ pagesize: 25});
-			} else if (rowcount > 25) {
-				$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25', rowcount],pagesize: 25});
-				$('##' + gridId).jqxGrid({ pagesize: 25});
-			} else {
-				$('##' + gridId).jqxGrid({ pageable: false });
 			}
 			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
@@ -2013,102 +2057,6 @@ limitations under the License.
 				});
 			}
 
-			// add a control to show/hide columns
-/*
-			var halfcolumns = Math.round(columns.length/2);
-			var quartercolumns = Math.round(columns.length/4);
-			var columnListSource = [];
-			for (i = 1; i < quartercolumns; i++) {
-				var text = columns[i].text;
-				var datafield = columns[i].datafield;
-				var hideable = columns[i].hideable;
-				var hidden = columns[i].hidden;
-				var show = ! hidden;
-				if (hideable == true) {
-					var listRow = { label: text, value: datafield, checked: show };
-					columnListSource.push(listRow);
-				}
-			}
-			$("##"+whichGrid+"columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
-			$("##"+whichGrid+"columnPick").on('checkChange', function (event) {
-				$("##" + gridId).jqxGrid('beginupdate');
-				if (event.args.checked) {
-					$("##" + gridId).jqxGrid('showcolumn', event.args.value);
-				} else {
-					$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
-				}
-				$("##" + gridId).jqxGrid('endupdate');
-			});
-
-			var columnListSource1 = [];
-			for (i = quartercolumns; i < halfcolumns; i++) {
-				var text = columns[i].text;
-				var datafield = columns[i].datafield;
-				var hideable = columns[i].hideable;
-				var hidden = columns[i].hidden;
-				var show = ! hidden;
-				if (hideable == true) {
-					var listRow = { label: text, value: datafield, checked: show };
-					columnListSource1.push(listRow);
-				}
-			}
-			$("##"+whichGrid+"columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
-			$("##"+whichGrid+"columnPick1").on('checkChange', function (event) {
-				$("##" + gridId).jqxGrid('beginupdate');
-				if (event.args.checked) {
-					$("##" + gridId).jqxGrid('showcolumn', event.args.value);
-				} else {
-					$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
-				}
-				$("##" + gridId).jqxGrid('endupdate');
-			});
-
-			var columnListSource2 = [];
-			for (i = halfcolumns; i < halfcolumns + quartercolumns; i++) {
-				var text = columns[i].text;
-				var datafield = columns[i].datafield;
-				var hideable = columns[i].hideable;
-				var hidden = columns[i].hidden;
-				var show = ! hidden;
-				if (hideable == true) {
-					var listRow = { label: text, value: datafield, checked: show };
-					columnListSource2.push(listRow);
-				}
-			}
-			$("##"+whichGrid+"columnPick2").jqxListBox({ source: columnListSource2, autoHeight: true, width: '260px', checkboxes: true });
-			$("##"+whichGrid+"columnPick2").on('checkChange', function (event) {
-				$("##" + gridId).jqxGrid('beginupdate');
-				if (event.args.checked) {
-					$("##" + gridId).jqxGrid('showcolumn', event.args.value);
-				} else {
-					$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
-				}
-				$("##" + gridId).jqxGrid('endupdate');
-			});
-
-			var columnListSource3 = [];
-			for (i = halfcolumns + quartercolumns; i < columns.length; i++) {
-				var text = columns[i].text;
-				var datafield = columns[i].datafield;
-				var hideable = columns[i].hideable;
-				var hidden = columns[i].hidden;
-				var show = ! hidden;
-				if (hideable == true) {
-					var listRow = { label: text, value: datafield, checked: show };
-					columnListSource3.push(listRow);
-				}
-			}
-			$("##"+whichGrid+"columnPick3").jqxListBox({ source: columnListSource3, autoHeight: true, width: '260px', checkboxes: true });
-			$("##"+whichGrid+"columnPick3").on('checkChange', function (event) {
-				$("##" + gridId).jqxGrid('beginupdate');
-				if (event.args.checked) {
-					$("##" + gridId).jqxGrid('showcolumn', event.args.value);
-				} else {
-					$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
-				}
-				$("##" + gridId).jqxGrid('endupdate');
-			});
-*/
 			$("##"+whichGrid+"columnPickDialog").dialog({
 				height: 'auto',
 				width: 'auto',
