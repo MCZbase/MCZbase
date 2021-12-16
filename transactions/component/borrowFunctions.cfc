@@ -56,7 +56,6 @@ limitations under the License.
  @param object_remarks the remarks for the borrow item
 --->
 <cffunction name="addBorrowItem" access="remote" returntype="any" returnformat="json">
-	<cfargument name="borrow_item_id" type="numeric" required="no">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	<cfargument name="catalog_number" required="yes">
 	<cfargument name="sci_name" required="yes">
