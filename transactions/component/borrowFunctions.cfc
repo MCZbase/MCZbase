@@ -70,7 +70,6 @@ limitations under the License.
 		<cftry>
 			<cfquery name="newBorrow_Item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newBorrow_Item_result">
 				INSERT INTO BORROW_ITEM (
-					BORROW_ITEM_ID,
 					TRANSACTION_ID,
 					CATALOG_NUMBER,
 					SCI_NAME,
@@ -80,7 +79,6 @@ limitations under the License.
 					COUNTRY_OF_ORIGIN,
 					OBJECT_REMARKS
 				) VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrow_item_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CATALOG_NUMBER#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SCI_NAME#">,
