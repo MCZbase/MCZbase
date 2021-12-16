@@ -1061,7 +1061,7 @@ limitations under the License.
 									<cfset displayImage = "/shared/images/Image-x-generic.svg">
 								<cfelseif media_type is "audio">
 									<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
-								<cfelseif media_type IS "audio">
+								<cfelseif media_type IS "video">
 									<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
 								<cfelseif media_type is "text">
 									<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
