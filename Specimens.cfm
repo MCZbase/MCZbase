@@ -1495,9 +1495,6 @@ limitations under the License.
 							<cfset separator = ",">
 						</cfloop>
 					],
-					updaterow: function (rowid, rowdata, commit) {
-						commit(true);
-					},
 					beforeprocessing: function (data) {
 						if (data != null && data.length > 0) {
 							search.totalrecords = data[0].recordcount;
@@ -1654,9 +1651,6 @@ limitations under the License.
 							<cfset separator = ",">
 						</cfloop>
 					],
-					updaterow: function (rowid, rowdata, commit) {
-						commit(true);
-					},
 					beforeprocessing: function (data) {
 						if (data != null && data.length > 0) {
 							search.totalrecords = data[0].recordcount;
@@ -1813,9 +1807,6 @@ limitations under the License.
 							<cfset separator = ",">
 						</cfloop>
 					],
-					updaterow: function (rowid, rowdata, commit) {
-						commit(true);
-					},
 					beforeprocessing: function (data) {
 						if (data != null && data.length > 0) {
 							search.totalrecords = data[0].recordcount;

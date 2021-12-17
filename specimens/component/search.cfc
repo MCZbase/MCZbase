@@ -392,7 +392,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfif pagesize GT 0 >
 					SELECT * FROM (
 				</cfif>
-					SELECT 
+					SELECT distinct 
 						<cfset comma = "">
 						<cfloop query="getFieldMetadata">
 							<cfif len(sql_element) GT 0> 
