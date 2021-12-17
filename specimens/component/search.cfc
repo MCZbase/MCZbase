@@ -374,6 +374,20 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				</cfloop>
 			</cfif>
 
+			<cfquery name="result_id_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="result_id_count_result">
+				SELECT count(*) ct 
+				FROM user_search_table 
+				WHERE
+					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			</cfquery>
+			<cfif result_id_count.ct EQ 0>
+				<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
+					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+					<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
+					<cfprocresult name="search">
+				</cfstoredproc>
+			</cfif>
 			<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result">
 				SELECT count(*) ct 
 				FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
@@ -382,14 +396,6 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 			<cfset records = searchcount.ct>
-			<cfif records EQ 0>
-				<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
-					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
-					<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
-					<cfprocresult name="search">
-				</cfstoredproc>
-			</cfif>
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 				<cfif pagesize GT 0 >
 					SELECT * FROM (
