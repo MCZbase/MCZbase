@@ -1969,7 +1969,7 @@ limitations under the License.
 		</cfloop>
 		var columnMetadataLoaded = false;
 	
-		function pageLaoaded(gridId, searchType, whichGrid) {
+		function pageLoaded(gridId, searchType, whichGrid) {
 			console.log('pageLoaded:' + gridId);
 			var pagingInfo = $("##" + gridId).jqxGrid("getpaginginformation");
 		}
