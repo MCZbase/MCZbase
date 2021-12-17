@@ -709,12 +709,20 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 
 	<cftry>
 		<cfset username = session.dbuser>
-		<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
-			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
-			<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
-			<cfprocresult name="search">
-		</cfstoredproc>
+		<cfquery name="result_id_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="result_id_count_result">
+			SELECT count(*) ct 
+			FROM user_search_table 
+			WHERE
+				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
+		<cfif result_id_count.ct EQ 0>
+			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
+				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
+				<cfprocresult name="search">
+			</cfstoredproc>
+		</cfif>
 		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
 			SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
 			FROM cf_spec_res_cols_r
@@ -1270,13 +1278,21 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 
 	<cftry>
 		<cfset username = session.dbuser>
-		<!--- errors are handled by build_query_dbms_sql throwing exceptions --->
-		<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
-			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
-			<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
-			<cfprocresult name="search">
-		</cfstoredproc>
+		<cfquery name="result_id_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="result_id_count_result">
+			SELECT count(*) ct 
+			FROM user_search_table 
+			WHERE
+				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
+		<cfif result_id_count.ct EQ 0>
+			<!--- errors are handled by build_query_dbms_sql throwing exceptions --->
+			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
+				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
+				<cfprocresult name="search">
+			</cfstoredproc>
+		</cfif>
 		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
 			SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
 			FROM cf_spec_res_cols_r
