@@ -1056,7 +1056,7 @@ limitations under the License.
 									<cfset hw = 'width="80"'>
 									<cfset imgClasses = "py-0">
 								</cfif>
-								<cfif len(preview_uri GT 0>
+								<cfif len(preview_uri) GT 0>
 									<cfset displayImage = preview_uri>
 								<cfelse>
 									<!--- pick placeholder --->
