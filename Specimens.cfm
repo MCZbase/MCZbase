@@ -1467,6 +1467,8 @@ limitations under the License.
 				var uuid = getVersion4UUID();
 				$("##result_id_keywordSearch").val(uuid);
 		
+				keywordSearchLoaded = 0;
+
 				$("##overlay").show();
 				$("##collapseKeyword").collapse("hide");  // hide the help text if it is visible.
 		
@@ -1493,9 +1495,6 @@ limitations under the License.
 							<cfset separator = ",">
 						</cfloop>
 					],
-					updaterow: function (rowid, rowdata, commit) {
-						commit(true);
-					},
 					beforeprocessing: function (data) {
 						if (data != null && data.length > 0) {
 							search.totalrecords = data[0].recordcount;
@@ -1550,8 +1549,8 @@ limitations under the License.
 					ready: function () {
 						$("##keywordsearchResultsGrid").jqxGrid('selectrow', 0);
 					},
-					rendergridrows: function (obj) {
-						return obj.data;
+					rendergridrows: function () {
+						return dataAdapter.records;
 					},
 					columns: [
 						<cfset lastrow ="">
@@ -1594,6 +1593,7 @@ limitations under the License.
 						gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
 						keywordSearchLoaded = 1;
 					}
+					pageLoaded('keywordsearchResultsGrid','occurrence record','keyword');
 				});
 				$('##keywordsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -1651,9 +1651,6 @@ limitations under the License.
 							<cfset separator = ",">
 						</cfloop>
 					],
-					updaterow: function (rowid, rowdata, commit) {
-						commit(true);
-					},
 					beforeprocessing: function (data) {
 						if (data != null && data.length > 0) {
 							search.totalrecords = data[0].recordcount;
@@ -1708,8 +1705,8 @@ limitations under the License.
 					ready: function () {
 						$("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
 					},
-					rendergridrows: function (obj) {
-						return obj.data;
+					rendergridrows: function () {
+						return dataAdapter.records;
 					},
 					columns: [
 						<cfset lastrow ="">
@@ -1751,6 +1748,7 @@ limitations under the License.
 						gridLoaded('buildersearchResultsGrid','occurrence record','builder');
 						builderSearchLoaded = 1;
 					}
+					pageLoaded('buildersearchResultsGrid','occurrence record','builder');
 				});
 				$('##buildersearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -1809,9 +1807,6 @@ limitations under the License.
 							<cfset separator = ",">
 						</cfloop>
 					],
-					updaterow: function (rowid, rowdata, commit) {
-						commit(true);
-					},
 					beforeprocessing: function (data) {
 						if (data != null && data.length > 0) {
 							search.totalrecords = data[0].recordcount;
@@ -1866,8 +1861,8 @@ limitations under the License.
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 					},
-					rendergridrows: function (obj) {
-						return obj.data;
+					rendergridrows: function () {
+						return dataAdapter.records;
 					},
 					columns: [
 						<cfset lastrow ="">
@@ -1909,6 +1904,7 @@ limitations under the License.
 						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 						fixedSearchLoaded = 1;
 					}
+					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 				});
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -1963,6 +1959,11 @@ limitations under the License.
 			}
 		</cfloop>
 		var columnMetadataLoaded = false;
+	
+		function pageLoaded(gridId, searchType, whichGrid) {
+			console.log('pageLoaded:' + gridId);
+			var pagingInfo = $("##" + gridId).jqxGrid("getpaginginformation");
+		}
 
 		function gridLoaded(gridId, searchType, whichGrid) {
 			console.log('gridLoaded:' + gridId);
