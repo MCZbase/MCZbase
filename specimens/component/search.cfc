@@ -291,6 +291,11 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset sortorder="asc">
 		<cfset filterscount="0">
 	</cfif>
+	<cfif isDefined("recordstartindex")>
+		<!--- the value of recordstartindex is off by one from the expectations of oracle where rownumber between recordstartindex and recordendindex, 
+         which returns values between start and end inclusive.  --->
+		<cfset recordstartindex = recordstartindex + 1>
+	</cfif>
 
 	<cfset search_json = "[">
 	<cfset separator = "">
@@ -595,6 +600,11 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset sortorder="asc">
 		<cfset filterscount="0">
 	</cfif>
+	<cfif isDefined("recordstartindex")>
+		<!--- the value of recordstartindex is off by one from the expectations of oracle where rownumber between recordstartindex and recordendindex, 
+         which returns values between start and end inclusive.  --->
+		<cfset recordstartindex = recordstartindex + 1>
+	</cfif>
 
 	<cfset search_json = "[">
 	<cfset separator = "">
@@ -890,6 +900,11 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset sortdatafield="">
 		<cfset sortorder="asc">
 		<cfset filterscount="0">
+	</cfif>
+	<cfif isDefined("recordstartindex")>
+		<!--- the value of recordstartindex is off by one from the expectations of oracle where rownumber between recordstartindex and recordendindex, 
+         which returns values between start and end inclusive.  --->
+		<cfset recordstartindex = recordstartindex + 1>
 	</cfif>
 
 	<cfset search_json = "[">
