@@ -105,6 +105,10 @@
 			              </cfloop>
 			            </select>
 					</td>
+					<td style="width: 50px;">
+						<label for="condition#i#">Condition&nbsp;<span class="likeLink" style="font-weight: 100;" onClick="chgCondition('#getParts.partID#')">[ History ]</span></label>
+						<input type="text" name="condition#i#" id="condition#i#" value="#getparts.condition#"  class="reqdClr" size="12">
+					</td>
 					<td style="width: 40px;">
 						<label for="coll_obj_disposition#i#">Disposition</label>
 						<select name="coll_obj_disposition#i#" size="1" class="reqdClr" style="width:100px";>
@@ -112,10 +116,6 @@
 				              <option <cfif ctdisp.coll_obj_disposition is getParts.coll_obj_disposition> selected </cfif>value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 			              </cfloop>
 			            </select>
-					</td>
-					<td style="width: 50px;">
-						<label for="condition#i#">Condition&nbsp;<span class="likeLink" style="font-weight: 100;" onClick="chgCondition('#getParts.partID#')">[ History ]</span></label>
-						<input type="text" name="condition#i#" id="condition#i#" value="#getparts.condition#"  class="reqdClr" size="12">
 					</td>
 					<td style="width: 55px;">
 						<label for="lot_count_modifier#i#" style="width:50px;">## Modifier</label>
