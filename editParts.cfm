@@ -163,7 +163,7 @@
 						<label for="newCode#i#">Container name</label>
 						<input type="text" name="newParentContLabel#i#" id="newParentContLabel#i#" value="#getparts.label#" size="12">
 					</td>
-					<td style="width: 130px;">
+					<td style="width: 150px;">
 						<label for="coll_object_remarks#i#">Remark</label>
 						<input type="text" name="coll_object_remarks#i#" id="coll_object_remarks#i#" value="#encodeForHtml(getparts.coll_object_remarks)#" size="26">
 					</td>
