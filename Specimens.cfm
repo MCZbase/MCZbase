@@ -1467,6 +1467,8 @@ limitations under the License.
 				var uuid = getVersion4UUID();
 				$("##result_id_keywordSearch").val(uuid);
 		
+				keywordSearchLoaded = 0;
+
 				$("##overlay").show();
 				$("##collapseKeyword").collapse("hide");  // hide the help text if it is visible.
 		
