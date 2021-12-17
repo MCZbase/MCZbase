@@ -157,11 +157,11 @@
 					</td>
 					<td>
 						<label for="newCode#i#">Container unique ID</label>
-						<input type="text" name="newCode#i#" id="newCode#i#" size="10" value="#getparts.barcode#">
+						<input type="text" name="newCode#i#" id="newCode#i#" size="12" value="#getparts.barcode#">
 					</td>
 					<td>
 						<label for="newCode#i#">Container name</label>
-						<input type="text" name="newParentContLabel#i#" id="newParentContLabel#i#" value="#getparts.label#" size="10">
+						<input type="text" name="newParentContLabel#i#" id="newParentContLabel#i#" value="#getparts.label#" size="12">
 					</td>
 					<td style="width: 130px;">
 						<label for="coll_object_remarks#i#">Remark</label>
