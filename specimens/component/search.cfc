@@ -385,7 +385,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 					<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
-					<cfprocresult name="search">
+					<cfprocresult name="buildsearch">
 				</cfstoredproc>
 			</cfif>
 			<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result">
@@ -720,7 +720,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
-				<cfprocresult name="search">
+				<cfprocresult name="buildsearch">
 			</cfstoredproc>
 		</cfif>
 		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFieldMetadata_result">
@@ -761,7 +761,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfif pagesize GT 0 >
 				SELECT * FROM (
 			</cfif>
-			SELECT 
+			SELECT distinct
 				<cfset comma = "">
 				<cfloop query="getFieldMetadata">
 					<cfif len(sql_element) GT 0> 
@@ -1290,7 +1290,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
-				<cfprocresult name="search">
+				<cfprocresult name="buildsearch">
 			</cfstoredproc>
 		</cfif>
 		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
@@ -1331,7 +1331,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfif pagesize GT 0 >
 				SELECT * FROM (
 			</cfif>
-			SELECT 
+			SELECT distinct
 				<cfset comma = "">
 				<cfloop query="getFieldMetadata">
 					<cfif len(sql_element) GT 0> 
