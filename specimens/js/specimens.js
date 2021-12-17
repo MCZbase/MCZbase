@@ -17,22 +17,6 @@ function checkFormValidity(form) {
 		}
 	return result;
 };
-function getMediaResponsiveBlockHtml2(media_id) {
-	jQuery.ajax({
-		url: "/media/component/search.cfc",
-		data : {
-			method : "getMediaResponsiveBlockHtml2",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#MediaBlockHtml").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
-		},
-		dataType: "html"
-	});
-};
 /** loadIdentification populate an html block with the identification 
 * history for a cataloged item.
 * @param identification_id 
@@ -54,8 +38,6 @@ function loadIdentification(identification_id,form) {
 		dataType: "html"
 	});
 };
-
-
 function getMediaBlockHtml(media_id) {
 	jQuery.ajax({
 		url: "/media/component/shared.cfc",

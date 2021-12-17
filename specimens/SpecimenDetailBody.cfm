@@ -154,19 +154,6 @@ limitations under the License.
 			<cfif mediaCount.ct gt 0>
 				<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 					<!-----------------------------Media----------------------------------> 
-					<cfquery name="mediaBlock1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select
-							media.media_id,
-							media_relations.media_relationship
-						from
-							media,
-							media_relations
-						where
-							media.media_id=media_relations.media_id and
-							media_relations.media_relationship like '%cataloged_item' and
-							media_relations.related_primary_key = <cfqueryparam value=#one.collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-						order by media.media_type
-					</cfquery>
 					<div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
 							<div id="mediaDialog"></div>
@@ -189,6 +176,7 @@ limitations under the License.
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-2 pb-1 pt-2 mb-1 float-left" id="mediaCardBody">
+									<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
 										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
 												media.media_id
@@ -210,7 +198,7 @@ limitations under the License.
 												AND
 													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 											</cfquery>
-										<cfset mediaBlock= getMediaResponsiveBlockHtml2(media_id="#images.media_id#",displayAs="full")>
+										<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
 										<div class="col-12 col-md-12 px-0 mb-2 float-left">
 											<div id="mediaBlock#media_id#">
 											#mediablock#

@@ -1135,10 +1135,13 @@ limitations under the License.
 </cffunction>
 
 					
+<!--- @deprecated, move any desired code from this function into getMediaBlock and delete this function.  --->
 <cffunction name="getMediaResponsiveBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
+
+	<cfthrow message="delete this block, move any desired styling ont getMediaBlockHtml, there should be only one media block, and it shouuld be responsive.">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
@@ -1261,13 +1264,16 @@ limitations under the License.
 	<cfreturn mediaResponsiveWidgetThread.output>
 </cffunction>
 					
+<!--- @deprecated, move any desired code from this function into getMediaBlock and delete this function.  --->
 <cffunction name="getMediaResponsiveBlockHtml2" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 		
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 
-	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
+	<cfthrow message="delete this block, move any desired styling ont getMediaBlockHtml, there should be only one media block, and it shouuld be responsive.">
+	
+<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>

@@ -70,11 +70,11 @@
 		
 		<div class="row">
 			<div class="col-10 float-left">
-			<p class="col-12">[getMediaResponsiveBlockHtml] FULL Images that are redefined with height and width attributes =100%</p>
+			<p class="col-12">[getMediBlockHtml] FULL Images that are redefined with height and width attributes =100%</p>
 			<cfset media_id = "1333">
-				<cfset mediablock= getMediaResponsiveBlockHtml(media_id="#media_id#",displayAs="full",size="2000")>
+				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full",size="2000")>
 				<div class="col-12">
-					<div id="mediaResponsiveBlockHtml">
+					<div id="mediaFullBlock#media_id#">
 						#mediablock#
 					</div>
 				</div>
@@ -84,7 +84,7 @@
 			<cfset media_id = "90914">
 				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",size="100")>
 				<div class="col-12 p-0">
-					<div id="mediaBlockHtml">
+					<div id="mediaThumbBlock#media_id#">
 						#mediablock#
 					</div>
 				</div>	
