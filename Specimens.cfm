@@ -1553,7 +1553,7 @@ limitations under the License.
 						$("##keywordsearchResultsGrid").jqxGrid('selectrow', 0);
 					},
 					rendergridrows: function () {
-						return dataAdaptor.records;
+						return dataAdapter.records;
 					},
 					columns: [
 						<cfset lastrow ="">
