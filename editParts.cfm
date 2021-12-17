@@ -130,11 +130,6 @@
 						<label for="lot_count#i#">##</label>
 						<input type="text" id="lot_count#i#" name="lot_count#i#" value="#getparts.lot_count#"  class="reqdClr" size="2">
 					</td>
-					<td style="width: 130px;">
-						<label for="coll_object_remarks#i#">Remark</label>
-						<input type="text" name="coll_object_remarks#i#" id="coll_object_remarks#i#" value="#encodeForHtml(getparts.coll_object_remarks)#" size="26">
-					</td>
-					<td>
 					<div class="ipad">
 						<label for="label#i#">In&nbsp;Container</label>
 						<span style="font-size:small">
@@ -168,6 +163,11 @@
 						<label for="newCode#i#">Container name</label>
 						<input type="text" name="newParentContLabel#i#" id="newParentContLabel#i#" value="#getparts.label#" size="10">
 					</td>
+					<td style="width: 130px;">
+						<label for="coll_object_remarks#i#">Remark</label>
+						<input type="text" name="coll_object_remarks#i#" id="coll_object_remarks#i#" value="#encodeForHtml(getparts.coll_object_remarks)#" size="26">
+					</td>
+					<td>
 					<td align="middle">
 						<input type="button" value="Delete Part" class="delBtn"
 							onclick="parts.action.value='deletePart';parts.partID.value='#partID#';confirmDelete('parts','#part_name#');">
