@@ -210,7 +210,7 @@ limitations under the License.
 												AND
 													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 											</cfquery>
-										<cfset mediablock= getMediaResponsiveBlockHtml2(media_id="#images.media_id#",displayAs="full")>
+										<cfset mediaBlock= getMediaResponsiveBlockHtml2(media_id="#images.media_id#",displayAs="full")>
 										<div class="col-12 col-md-12 px-0 mb-2 float-left">
 											<div id="mediaBlock#media_id#">
 											#mediablock#
