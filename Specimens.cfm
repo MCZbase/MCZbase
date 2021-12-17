@@ -1705,8 +1705,8 @@ limitations under the License.
 					ready: function () {
 						$("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
 					},
-					rendergridrows: function (obj) {
-						return obj.data;
+					rendergridrows: function () {
+						return dataAdapter.records;
 					},
 					columns: [
 						<cfset lastrow ="">
@@ -1861,8 +1861,8 @@ limitations under the License.
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 					},
-					rendergridrows: function (obj) {
-						return obj.data;
+					rendergridrows: function () {
+						return dataAdapter.records;
 					},
 					columns: [
 						<cfset lastrow ="">
