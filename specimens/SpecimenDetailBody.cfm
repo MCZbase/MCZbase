@@ -176,6 +176,13 @@ limitations under the License.
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-2 float-left" id="mediaCardBody">
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<div class="text-center">
+											<a role="button" href="/media/#media_id#" class="btn btn-xs small py-0">
+												Edit
+											</a>
+										</div>
+									</cfif>
 									<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
 										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT

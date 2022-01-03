@@ -1181,13 +1181,6 @@ limitations under the License.
 				<cfif media.recordcount EQ 1>
 					<cfloop query="media">
 						<div  class="border rounded p-3">
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<div class="text-center">
-									<a role="button" href="/media/#media_id#" class="btn btn-xs small py-0">
-										Edit
-									</a>
-								</div>
-							</cfif>
 							<cfset isDisplayable = false>
 							<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 								<cfset isDisplayable = true>
