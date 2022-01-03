@@ -203,6 +203,11 @@ limitations under the License.
 											<div id="mediaBlock#media_id#">
 											#mediablock#
 											</div>
+											<cfif listcontainsnocase(session.roles,"manage_specimens")>
+												<a role="button" href="/media/#media_id#" class="anchorFocus btn btn-xs small py-0">
+													Edit
+												</a>
+											</cfif>
 										</div>
 									</cfloop>
 								</div>
