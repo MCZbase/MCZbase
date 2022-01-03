@@ -201,16 +201,16 @@ limitations under the License.
 											</cfquery>
 											<cfif i eq 1>
 											<div class="col-12 col-md-12 px-0 mb-2 float-left">
-												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
-												<div id="mediaBlock#media_id#">
+												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id[1]#",displayAs="full")>
+												<div id="mediaBlock#media_id[1]#">
 												#mediablock#
 												</div>
 											</div>
 											</cfif>
 											<cfif i gt 1>
 											<div class="col-12 col-md-6 px-0 mb-2 float-left">
-												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
-												<div id="mediaBlock#media_id#">
+												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id[i]#",displayAs="thumb")>
+												<div id="mediaBlock#media_id[i]#">
 												#mediablock#
 												</div>
 											</div>
