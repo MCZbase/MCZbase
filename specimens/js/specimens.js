@@ -601,7 +601,7 @@ function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
 	createCitationEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		//url: "/specimens/Citations.cfm",
-		url: "/specimens/component/functions.cfc?action=nothing",
+		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getEditCitationHTML",
 			collection_object_id: collection_object_id,
@@ -615,7 +615,56 @@ function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
+function getCatalogedItemCitation (id,type) {
+	var collection_id = document.getElementById('collection').value;
+	var el = document.getElementById(id);
+	el.className='red';
+	var theNum = el.value;
+	jQuery.getJSON("/specimens/component/functions.cfc",
+		{
+			method : "getCatalogedItemCitation",
+			collection_id : collection_id,
+			theNum : theNum,
+			type : type,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		success_getCatalogedItemCitation
+	);
+}
+function success_getCatalogedItemCitation (r) {
+	var result=r.DATA;
+	//alert(result);
+	if (r.ROWCOUNT > 1){
+		alert('Multiple matches.');
+	} else {
+		if (r.ROWCOUNT==1) {
+			var scientific_name=result.SCIENTIFIC_NAME[0];
+			var collection_object_id=result.COLLECTION_OBJECT_ID[0];
+			var cat_num=result.CAT_NUM[0];
+			if (collection_object_id < 0) {
+				alert('error: ' + scientific_name);
+			} else {
+				var sn = document.getElementById('scientific_name');
+				var co = document.getElementById('collection_object_id');
+				var c = document.getElementById('collection');
+				var cn = document.getElementById('cat_num');
+				cn.className='reqdClr';
+				if (document.getElementById('custom_id')) {
+					var cusn = document.getElementById('custom_id');
+					cusn.className='';
+				}
+				co.value=collection_object_id;
+				sn.value=scientific_name;
+				cn.value=cat_num;
+				//c.style.background='#8BFEB9';
+				//cn.style.background='#8BFEB9';
+			}
+		} else {
+			alert('Specimen not found.');
+		}
+	}
+}
 function loadParts(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
