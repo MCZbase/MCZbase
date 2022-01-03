@@ -601,7 +601,7 @@ function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
 	createCitationEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		//url: "/specimens/Citations.cfm",
-		url: "/specimens/component/functions.cfc",
+		url: "/specimens/component/functions.cfc?action=nothing",
 		data : {
 			method : "getEditCitationHTML",
 			collection_object_id: collection_object_id,
