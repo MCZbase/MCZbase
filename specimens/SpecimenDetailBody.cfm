@@ -201,7 +201,7 @@ limitations under the License.
 											</cfquery>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<div class="d-block float-right w-100">
-												<a role="button" href="media.cfm?action=edit&media_id=#media.media_id#" class="btn btn-xs small py-0">
+												<a role="button" href="media.cfm?action=edit&media_id=#media_id#" class="btn btn-xs small py-0">
 													Edit
 												</a>
 											</div>
