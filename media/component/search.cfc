@@ -1222,7 +1222,9 @@ limitations under the License.
 								</a>
 								<div class="mt-0 bg-light col-12 py-1 px-0">
 									<p class="text-center mb-0 p-1 col-12 smaller">
-								
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<span class="d-inline"><a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">Edit</a></span>
+									</cfif>
 									<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </li>
 									<cfif NOT isDisplayable>
 										<span class="d-inline ">#media_type# (#mime_type#)</span>

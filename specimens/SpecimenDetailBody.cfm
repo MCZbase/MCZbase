@@ -186,7 +186,7 @@ limitations under the License.
 											WHERE
 												media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 										</cfquery>
-										<cfif len(images.media_id) eq 0>
+										<cfif len(images.media_id) eq 1>
 											<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT distinct
 													media.media_id
@@ -210,7 +210,7 @@ limitations under the License.
 												</div>
 											</div>
 										</cfif>
-										<cfif len(images.media_id) gt 0>
+										<cfif len(images.media_id) gt 1>
 											<cfloop query="images">
 												<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT distinct
@@ -223,13 +223,6 @@ limitations under the License.
 													AND
 														media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 												</cfquery>
-												<cfif listcontainsnocase(session.roles,"manage_specimens")>
-													<div class="d-block float-right">
-														<a role="button" href="/media.cfm?action=edit&media_id=#media_id#" class="float-right btn btn-xs small py-0 my-1">
-															Edit
-														</a>
-													</div>
-												</cfif>
 												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
 												<div class="col-12 col-md-6 px-0 mb-2 float-left">
 													<div id="mediaBlock#media_id#">
