@@ -3438,7 +3438,7 @@ limitations under the License.
 													newCitation.cited_taxon_name_id.value='#getCited.cited_taxon_name_id#';
 													newCitation.type_status.value='#getCited.type_status#';
 													newCitation.occurs_page_number.value='#getCited.occurs_page_number#';
-													newCitation.citation_remarks.value='#stripQuotes(getCited.citation_remarks)#';
+													newCitation.citation_remarks.value='#getCited.citation_remarks#';
 													newCitation.collection.value='#getCited.collection_id#';
 													newCitation.citation_page_uri.value='#getCited.citation_page_uri#';
 													">
