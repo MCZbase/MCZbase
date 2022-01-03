@@ -3301,7 +3301,7 @@ limitations under the License.
 			var el = document.getElementById(id);
 			el.className='red';
 			var theNum = el.value;
-			jQuery.getJSON("/component/functions.cfc",
+			jQuery.getJSON("../component/functions.cfc",
 				{
 					method : "getCatalogedItemCitation",
 					collection_id : collection_id,
