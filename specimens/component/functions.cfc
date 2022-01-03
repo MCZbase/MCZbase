@@ -3299,7 +3299,6 @@ limitations under the License.
 					</cfif>--->
 					<form name="newCitation" id="newCitation" method="post" action="Citation.cfm">
 					<input type="hidden" name="Action" value="newCitation">
-					<input type="hidden" name="publication_id" value="#publication_id#">
 					<input type="hidden" name="collection_object_id" id="collection_object_id">
 						<table border class="newRec">
 							<tr>
@@ -3407,7 +3406,6 @@ limitations under the License.
 											<tr>
 												<form name="deleCitation#i#" method="post" action="Citation.cfm">
 													<input type="hidden" name="Action">
-													<input type="hidden" value="#publication_id#" name="publication_id">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 													<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
 													<td style="border-bottom: none;">
