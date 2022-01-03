@@ -3295,10 +3295,8 @@ limitations under the License.
 							</cfif>
 							<span class="small font-italic">
 							<cfif len(citation_remarks) gt 0>
-							</cfif>#CITATION_REMARKS# </span> </div>
-						<cfset i = i + 1>
-					</cfloop>
-					<form name="newCitation" id="newCitation" method="post" action="Citation.cfm">
+							</cfif>#CITATION_REMARKS# </span> 
+							<form name="newCitation" id="newCitation" method="post" action="Citation.cfm">
 					<input type="hidden" name="Action" value="newCitation">
 					<input type="hidden" name="collection_object_id" id="collection_object_id">
 						<input type="hidden" name="publication_id" id="publication_id">
@@ -3465,6 +3463,10 @@ limitations under the License.
 							</cfloop>
 						</tbody>
 					</table>
+							</div>
+						<cfset i = i + 1>
+					</cfloop>
+					
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
