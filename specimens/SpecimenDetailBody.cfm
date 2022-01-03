@@ -202,7 +202,6 @@ limitations under the License.
 										<div class="col-12 col-md-12 px-0 mb-2 float-left">
 											<div id="mediaBlock#media_id#">
 											#mediablock#
-											</div>
 											<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<div class="col-12 col-md-12 px-0 mb-2 float-left">
 												<a role="button" href="/media/#media_id#" class="anchorFocus btn btn-xs small py-0">
@@ -210,6 +209,8 @@ limitations under the License.
 												</a>
 											</div>
 											</cfif>
+											</div>
+
 										</div>
 									</cfloop>
 								</div>
