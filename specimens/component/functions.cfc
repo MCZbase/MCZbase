@@ -3207,56 +3207,60 @@ limitations under the License.
 									c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								ORDER by substr(formatted_publication, -4)
 						</cfquery>
-						<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT
-								citation.publication_id,
-								citation.collection_object_id,
-								collection,
-								collection.collection_id,
-								cat_num,
-								identification.scientific_name,
-								citedTaxa.scientific_name as citSciName,
-								occurs_page_number,
-								citation_page_uri,
-								type_status,
-								citation_remarks,
-								publication_title,
-								doi,
-								cited_taxon_name_id,
-								concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
-							FROM
-								citation,
-								cataloged_item,
-								collection,
-								identification,
-								taxonomy citedTaxa,
-								publication
-							WHERE
-								citation.collection_object_id = cataloged_item.collection_object_id AND
-								cataloged_item.collection_id = collection.collection_id AND
-								citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
-								cataloged_item.collection_object_id = identification.collection_object_id (+) AND
-								identification.accepted_id_fg = 1 AND
-								citation.publication_id = publication.publication_id AND
-								citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-							ORDER BY
-								occurs_page_number,citSciName,cat_num
-						</cfquery>
-						<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select collection_id,collection from collection
-							order by collection
-						</cfquery>
-						<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select type_status from ctcitation_type_status order by type_status
-						</cfquery>
+					<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select collection_id,collection from collection
+						order by collection
+					</cfquery>
+					<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select type_status from ctcitation_type_status order by type_status
+					</cfquery>
+
+
+
+					
+					<cfset i = 1>
+					<cfloop query="citations" group="formatted_publication">
+					<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							citation.publication_id,
+							citation.collection_object_id,
+							collection,
+							collection.collection_id,
+							cat_num,
+							identification.scientific_name,
+							citedTaxa.scientific_name as citSciName,
+							occurs_page_number,
+							citation_page_uri,
+							type_status,
+							citation_remarks,
+							publication_title,
+							doi,
+							cited_taxon_name_id,
+							concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
+						FROM
+							citation,
+							cataloged_item,
+							collection,
+							identification,
+							taxonomy citedTaxa,
+							publication
+						WHERE
+							citation.collection_object_id = cataloged_item.collection_object_id AND
+							cataloged_item.collection_id = collection.collection_id AND
+							citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
+							cataloged_item.collection_object_id = identification.collection_object_id (+) AND
+							identification.accepted_id_fg = 1 AND
+							citation.publication_id = publication.publication_id AND
+							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						ORDER BY
+							occurs_page_number,citSciName,cat_num
+					</cfquery>
+						<div class="d-block py-1 px-2 w-100 float-left">
 							<h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
 							<cfif len(getCited.doi) GT 0>
 							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
 							</cfif>
-					
-					<cfset i = 1>
-					<cfloop query="citations" group="formatted_publication">
-						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
+							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
 								Page
 								<cfif len(citation_page_uri) gt 0>
@@ -3279,27 +3283,6 @@ limitations under the License.
 							</cfif>#CITATION_REMARKS# </span> </div>
 						<cfset i = i + 1>
 					</cfloop>
-<!---					<cfif publicationMedia.recordcount gt 0>
-						<cfloop query="publicationMedia">
-							<cfset puri=getMediaPreview(preview_uri,mime_type)>
-							<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select 	media_label, label_value from media_labels where media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-							</cfquery>
-							<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select media_label, label_value from media_labels where media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-							</cfquery>
-							<cfquery name="desc" dbtype="query">select label_value  from  labels  where  media_label='description'
-							 </cfquery>
-							<cfset alt="Media Preview Image">
-							<cfif desc.recordcount is 1>
-								<cfset alt=desc.label_value>
-							</cfif>
-							<div class="col-2 m-2 float-left d-inline">
-								<cfset mt = #mime_type#>
-								<cfset muri = #media_uri#>
-								<a href="#media_uri#" target="_blank"> <img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto w-100"> </a> <span class="d-block smaller text-center" style="line-height:.7rem;"> <a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a> </span> </div>
-						</cfloop>
-					</cfif>--->
 					<form name="newCitation" id="newCitation" method="post" action="Citation.cfm">
 					<input type="hidden" name="Action" value="newCitation">
 					<input type="hidden" name="collection_object_id" id="collection_object_id">
@@ -3397,7 +3380,7 @@ limitations under the License.
 								<th>Current ID</th>
 								<th>Citation Type</th>
 								<th style="padding: 0 1rem;">Page ##</th>
-								<th style="padding: 0 1rem; min-width: 300px;">Remarks</th>
+								<th style="padding: 0 1rem; min-width: 275px;">Remarks</th>
 							</tr>
 						</thead>
 						<tbody>
