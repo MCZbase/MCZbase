@@ -3162,7 +3162,7 @@ limitations under the License.
 	<cfthread action="join" name="getPartsThread" />
 	<cfreturn getPartsThread.output>
 </cffunction>
-<cffunction name="getEditCitationsHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getEditCitationHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditCitationsThread"> <cfoutput>
 			<cftry>
