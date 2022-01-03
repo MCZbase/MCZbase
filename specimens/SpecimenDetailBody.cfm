@@ -206,7 +206,7 @@ limitations under the License.
 												</a>
 											</div>
 										</cfif>
-										<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
+										<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
 										<div class="col-12 col-md-12 px-0 mb-2 float-left">
 											<div id="mediaBlock#media_id#">
 											#mediablock#
