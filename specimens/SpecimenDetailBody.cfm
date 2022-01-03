@@ -199,15 +199,15 @@ limitations under the License.
 												AND
 													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 											</cfquery>
-											<cfif listcontainsnocase(session.roles,"manage_specimens")>
-												<div class="d-block float-right w-100">
-													<a role="button" href="/media.cfm?action=edit&media_id=#media_id#" class="float-right btn btn-xs small py-0 my-1">
-														Edit
-													</a>
-												</div>
-											</cfif>
+											
+											
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
 											<div class="col-12 col-md-12 px-0 mb-2 float-left">
+												<cfif listcontainsnocase(session.roles,"manage_specimens")>
+													<a role="button" href="/media.cfm?action=edit&media_id=#media_id#" class="float-right btn btn-xs small py-0 my-1">
+															Edit
+													</a>
+												</cfif>
 												<div id="mediaBlock#media_id#">
 												#mediablock#
 												</div>
