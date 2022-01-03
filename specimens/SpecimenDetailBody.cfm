@@ -187,8 +187,8 @@ limitations under the License.
 											WHERE
 												media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 										</cfquery>
-										<cfset i = 1>
-										<cfif i gt 1>
+										<cfset  mediaCount.ct eq 1>
+										<cfif  mediaCount.ct gt 1>
 											<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT distinct
 													media.media_id
@@ -240,6 +240,7 @@ limitations under the License.
 											</div>
 										</div>
 									</cfloop>
+										</cfif>
 								</div>
 							</div>
 						</div>
