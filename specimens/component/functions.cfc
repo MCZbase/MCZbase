@@ -3214,7 +3214,7 @@ limitations under the License.
 								<cfif len(citation_page_uri) gt 0>
 									<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
 									<cfelse>
-#occurs_page_number#,
+									#occurs_page_number#,
 								</cfif>
 							</cfif>
 							<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
