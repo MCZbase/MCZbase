@@ -3207,6 +3207,50 @@ limitations under the License.
 									c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								ORDER by substr(formatted_publication, -4)
 						</cfquery>
+						<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT
+								citation.publication_id,
+								citation.collection_object_id,
+								collection,
+								collection.collection_id,
+								cat_num,
+								identification.scientific_name,
+								citedTaxa.scientific_name as citSciName,
+								occurs_page_number,
+								citation_page_uri,
+								type_status,
+								citation_remarks,
+								publication_title,
+								doi,
+								cited_taxon_name_id,
+								concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
+							FROM
+								citation,
+								cataloged_item,
+								collection,
+								identification,
+								taxonomy citedTaxa,
+								publication
+							WHERE
+								citation.collection_object_id = cataloged_item.collection_object_id AND
+								cataloged_item.collection_id = collection.collection_id AND
+								citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
+								cataloged_item.collection_object_id = identification.collection_object_id (+) AND
+								identification.accepted_id_fg = 1 AND
+								citation.publication_id = publication.publication_id AND
+								citation.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+							ORDER BY
+								occurs_page_number,citSciName,cat_num
+						</cfquery>
+						<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select collection_id,collection from collection
+							order by collection
+						</cfquery>
+							<h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
+							<cfif len(getCited.doi) GT 0>
+							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
+							</cfif>
+						<a href="Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
 					<cfset i = 1>
 					<cfloop query="citations" group="formatted_publication">
 						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
