@@ -3169,44 +3169,28 @@ limitations under the License.
 			<cftry>
 				<div id="citationsDialog">
 					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									citation.type_status,
-									citation.occurs_page_number,
-									citation.citation_page_uri,
-									citation.CITATION_REMARKS,
-									cited_taxa.scientific_name as cited_name,
-									cited_taxa.taxon_name_id as cited_name_id,
-									formatted_publication.formatted_publication,
-									formatted_publication.publication_id,
-									cited_taxa.taxon_status as cited_name_status
-								from
-									citation,
-									taxonomy cited_taxa,
-									formatted_publication
-								where
-									citation.cited_taxon_name_id = cited_taxa.taxon_name_id AND
-									citation.publication_id = formatted_publication.publication_id AND
-									format_style='short' and
-									citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-								order by
-									substr(formatted_publication, - 4)
-						</cfquery>
-					<cfquery name="publicationMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
-								FROM
-									media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
-								WHERE
-									mr.media_id = ml.media_id and
-									mr.media_id = m.media_id and
-									ml.media_label = 'description' and
-									MEDIA_RELATIONSHIP like '% publication' and
-									RELATED_PRIMARY_KEY = c.publication_id and
-									c.publication_id = fp.publication_id and
-									fp.format_style='short' and
-									c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-								ORDER by substr(formatted_publication, -4)
-						</cfquery>
+						SELECT
+							citation.type_status,
+							citation.occurs_page_number,
+							citation.citation_page_uri,
+							citation.CITATION_REMARKS,
+							cited_taxa.scientific_name as cited_name,
+							cited_taxa.taxon_name_id as cited_name_id,
+							formatted_publication.formatted_publication,
+							formatted_publication.publication_id,
+							cited_taxa.taxon_status as cited_name_status
+						from
+							citation,
+							taxonomy cited_taxa,
+							formatted_publication
+						where
+							citation.cited_taxon_name_id = cited_taxa.taxon_name_id AND
+							citation.publication_id = formatted_publication.publication_id AND
+							format_style='short' and
+							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						order by
+							substr(formatted_publication, - 4)
+					</cfquery>
 					<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select collection_id,collection from collection
 						order by collection
@@ -3214,10 +3198,6 @@ limitations under the License.
 					<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select type_status from ctcitation_type_status order by type_status
 					</cfquery>
-
-
-
-					
 					<cfset i = 1>
 					<cfloop query="citations" group="formatted_publication">
 					<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -3251,7 +3231,7 @@ limitations under the License.
 							cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 							identification.accepted_id_fg = 1 AND
 							citation.publication_id = publication.publication_id AND
-							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							citation.publication_id = <cfqueryparam value="#citations.publication_id#" cfsqltype="CF_SQL_DECIMAL">
 						ORDER BY
 							occurs_page_number,citSciName,cat_num
 					</cfquery>
