@@ -3162,6 +3162,56 @@ limitations under the License.
 	<cfthread action="join" name="getPartsThread" />
 	<cfreturn getPartsThread.output>
 </cffunction>
+<cffunction name="getCatalogedItemCitation" access="remote">
+	<cfargument name="collection_id" type="numeric" required="yes">
+	<cfargument name="theNum" type="string" required="yes">
+	<cfargument name="type" type="string" required="yes">
+	<cfoutput>
+	<cftry>
+		<cfif type is "cat_num">
+			<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					cataloged_item.COLLECTION_OBJECT_ID,
+					cataloged_item.cat_num,
+					scientific_name
+				from
+					cataloged_item,
+					identification
+				where
+					cataloged_item.collection_object_id = identification.collection_object_id AND
+					accepted_id_fg=1 and
+					cat_num='#theNum#' and
+					collection_id=#collection_id#
+			</cfquery>
+		<cfelse>
+			<cfquery name="result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					cataloged_item.COLLECTION_OBJECT_ID,
+					cataloged_item.cat_num,
+					scientific_name
+				from
+					cataloged_item,
+					identification,
+					coll_obj_other_id_num
+				where
+					cataloged_item.collection_object_id = identification.collection_object_id AND
+					cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id AND
+					accepted_id_fg=1 and
+					display_value='#theNum#' and
+					other_id_type='#type#' and
+					collection_id=#collection_id#
+			</cfquery>
+		</cfif>
+		<cfcatch>
+			<cfset result = querynew("collection_object_id,scientific_name")>
+			<cfset temp = queryaddrow(result,1)>
+			<cfset temp = QuerySetCell(result, "collection_object_id", "-1", 1)>
+			<cfset temp = QuerySetCell(result, "scientific_name", "#cfcatch.Message# #cfcatch.Detail#", 1)>
+		</cfcatch>
+	</cftry>
+	<cfreturn result>
+	</cfoutput>
+</cffunction>
 <cffunction name="getEditCitationHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditCitationsThread"> 
@@ -3294,59 +3344,6 @@ limitations under the License.
 				</cfcatch>
 			</cftry>
 		</cfoutput> 
-		<script type='text/javascript' src='/includes/checkForm.js'></script>
-	<script>
-		function getCatalogedItemCitation (id,type) {
-			var collection_id = document.getElementById('collection').value;
-			var el = document.getElementById(id);
-			el.className='red';
-			var theNum = el.value;
-			jQuery.getJSON("../component/functions.cfc",
-				{
-					method : "getCatalogedItemCitation",
-					collection_id : collection_id,
-					theNum : theNum,
-					type : type,
-					returnformat : "json",
-					queryformat : 'column'
-				},
-				success_getCatalogedItemCitation
-			);
-		}
-		function success_getCatalogedItemCitation (r) {
-			var result=r.DATA;
-			//alert(result);
-			if (r.ROWCOUNT > 1){
-				alert('Multiple matches.');
-			} else {
-				if (r.ROWCOUNT==1) {
-					var scientific_name=result.SCIENTIFIC_NAME[0];
-					var collection_object_id=result.COLLECTION_OBJECT_ID[0];
-					var cat_num=result.CAT_NUM[0];
-					if (collection_object_id < 0) {
-						alert('error: ' + scientific_name);
-					} else {
-						var sn = document.getElementById('scientific_name');
-						var co = document.getElementById('collection_object_id');
-						var c = document.getElementById('collection');
-						var cn = document.getElementById('cat_num');
-						cn.className='reqdClr';
-						if (document.getElementById('custom_id')) {
-						    var cusn = document.getElementById('custom_id');
-						    cusn.className='';
-						}
-						co.value=collection_object_id;
-						sn.value=scientific_name;
-						cn.value=cat_num;
-						//c.style.background='#8BFEB9';
-						//cn.style.background='#8BFEB9';
-					}
-				} else {
-					alert('Specimen not found.');
-				}
-			}
-		}
-	</script>
 
 <cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select type_status from ctcitation_type_status order by type_status
