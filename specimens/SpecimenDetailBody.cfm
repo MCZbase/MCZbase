@@ -316,7 +316,17 @@ limitations under the License.
 							</script>
 							<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingCitations">
-								<cfif len(#blockcit#) gt 10> 
+								<h3 class="h4 my-0 text-dark">
+									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##citationsPane" aria-expanded="true" aria-controls="citationsPane">
+										Citations
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Add/Remove</a>
+									</cfif>
+								</h3>
+							</div>
+						
+<!---								<cfif len(#blockcit#) gt 10> 
 									<h3 class="h4 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" data-toggle="collapse" data-target="##citationsPane" aria-controls="citationsPane">
 											Citations
@@ -338,8 +348,8 @@ limitations under the License.
 											</a>
 										</cfif>
 									</h3>
-								</cfif>
-							</div>
+								</cfif>--->
+					
 							<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
 								<div class="card-body py-1 mb-1 float-left" id="citationsCardBody">
 									<cfif len(#blockcit#) gt 10>
