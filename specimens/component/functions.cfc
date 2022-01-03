@@ -3301,6 +3301,7 @@ limitations under the License.
 					<form name="newCitation" id="newCitation" method="post" action="Citation.cfm">
 					<input type="hidden" name="Action" value="newCitation">
 					<input type="hidden" name="collection_object_id" id="collection_object_id">
+						<input type="hidden" name="publication_id" id="publication_id">
 						<table border class="newRec">
 							<tr>
 								<td colspan="2">
