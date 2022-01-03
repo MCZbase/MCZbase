@@ -205,7 +205,7 @@ limitations under the License.
 											#mediablock#
 											</div>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<div class="text-center float-left w-100">
+											<div class="text-center d-block float-left w-100">
 												<a role="button" href="/media/#media_id#" class="btn btn-xs small py-0">
 													Edit
 												</a>
