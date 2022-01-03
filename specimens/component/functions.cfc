@@ -3460,7 +3460,7 @@ limitations under the License.
 											#getCited.occurs_page_number#&nbsp;
 										</cfif>
 									</td>
-									<td nowrap>#stripQuotes(getCited.citation_remarks)#&nbsp;</td>
+									<td nowrap>#getCited.citation_remarks#&nbsp;</td>
 								</tr>
 								<cfset i=#i#+1>
 							</cfloop>
