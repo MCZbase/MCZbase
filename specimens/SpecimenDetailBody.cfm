@@ -176,7 +176,6 @@ limitations under the License.
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-2 float-left" id="mediaCardBody">
-
 									<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
 										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
@@ -199,8 +198,6 @@ limitations under the License.
 												AND
 													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 											</cfquery>
-											
-											
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
 											<div class="col-12 col-md-12 px-0 mb-2 float-left">
 												<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -227,7 +224,7 @@ limitations under the License.
 														media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 												</cfquery>
 												<cfif listcontainsnocase(session.roles,"manage_specimens")>
-													<div class="d-block float-right w-100">
+													<div class="d-block float-right">
 														<a role="button" href="/media.cfm?action=edit&media_id=#media_id#" class="float-right btn btn-xs small py-0 my-1">
 															Edit
 														</a>
