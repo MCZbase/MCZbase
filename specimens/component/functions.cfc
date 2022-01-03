@@ -3297,6 +3297,174 @@ limitations under the License.
 								<a href="#media_uri#" target="_blank"> <img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto w-100"> </a> <span class="d-block smaller text-center" style="line-height:.7rem;"> <a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a> </span> </div>
 						</cfloop>
 					</cfif>--->
+					<form name="newCitation" id="newCitation" method="post" action="Citation.cfm">
+					<input type="hidden" name="Action" value="newCitation">
+					<input type="hidden" name="publication_id" value="#publication_id#">
+					<input type="hidden" name="collection_object_id" id="collection_object_id">
+						<table border class="newRec">
+							<tr>
+								<td colspan="2">
+								Add Citation to <b>	#getCited.publication_title#</b>:
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="collection">Collection</label>
+									<select name="collection" id="collection" size="1" class="reqdClr">
+										<cfloop query="ctcollection">
+											<option value="#collection_id#">#collection#</option>
+										</cfloop>
+									</select>
+								</td>
+								<td>
+									<label for="cat_num" id="lbl_cat_num">Catalog Number [ <span class="likeLink" onclick="getCatalogedItemCitation('cat_num','cat_num');">force refresh</span> ]</label>
+									<input type="text" name="cat_num" id="cat_num" onchange="getCatalogedItemCitation(this.id,'cat_num')" class="reqdClr">
+								</td>
+								<cfif len(session.CustomOtherIdentifier) gt 0>
+									<td>
+										<label for="custom_id">#session.CustomOtherIdentifier#</label>
+										<input type="text" name="custom_id" id="custom_id" onchange="getCatalogedItemCitation(this.id,'#session.CustomOtherIdentifier#')">
+									</td>
+								</cfif>
+							</tr>
+							<tr>
+								<td>
+									<label for="scientific_name">Current Identification</label>
+									<input type="text" name="scientific_name" id="scientific_name" readonly class="readClr" size="50">
+								</td>
+								<td colspan="2">
+									<label for="cited_taxon_name" id="lbl_cited_taxon_name">
+										<a href="javascript:void(0);" onClick="getDocs('publication','cited_as_taxon')">Cited As</a></label>
+									<input type="text" name="cited_taxon_name" id="cited_taxon_name" class="reqdClr" size="50" onChange="taxaPick('cited_taxon_name_id','cited_taxon_name','newCitation',this.value); return false;">
+									<span class="infoLink"
+										onClick = "taxaPick('cited_taxon_name_id','cited_taxon_name','newCitation',document.getElementById('scientific_name').value)">Use Current</span>
+									<input type="hidden" name="cited_taxon_name_id">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="type_status">
+										<a href="javascript:void(0);" onClick="getDocs('publication','citation_type')">Citation Type</a>
+									</label>
+									<select name="type_status" id="type_status" size="1">
+										<cfloop query="ctTypeStatus">
+											<option value="#ctTypeStatus.type_status#">#ctTypeStatus.type_status#</option>
+										</cfloop>
+									</select>
+									<span class="infoLink" onClick="getCtDoc('ctcitation_type_status',newCitation.type_status.value)">Define</span>
+								</td>
+								<td>
+									<label for="occurs_page_number">
+										<a href="javascript:void(0);" onClick="getDocs('publication','cited_on_page_number')">Page ##</a>
+									</label>
+									<input type="text" name="occurs_page_number" id="occurs_page_number" size="4">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<label for="citation_page_uri">Citation Page URI:</label>
+									<input type="text" name="citation_page_uri" id="citation_page_uri" size="90">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<label for="citation_remarks">Remarks:</label>
+									<input type="text" name="citation_remarks" id="citation_remarks" size="90">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" align="center">
+									<input type="submit"
+										id="submit"
+										title="Insert Citation"
+										value="Insert Citation"
+										class="insBtn"
+										onmouseover="this.className='insBtn btnhov'"
+										onmouseout="this.className='insBtn'">
+								</td>
+							</tr>
+						</table>
+					</form>
+					<table class="pubtable" border="0" style="border: none;font-size: 15px;margin-top:1.5rem;">
+						<thead style="background-color: ##beecea;padding: 11px;line-height: 1.5rem;">
+							<tr>
+								<th>&nbsp;</th>
+								<th>Cat Num</th>
+								<cfif len(#getCited.CustomID#) GT 0><th>#session.CustomOtherIdentifier#</th></cfif>
+								<th>Cited As</th>
+								<th>Current ID</th>
+								<th>Citation Type</th>
+								<th style="padding: 0 1rem;">Page ##</th>
+								<th style="padding: 0 1rem; min-width: 300px;">Remarks</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfset i=1>
+							<cfloop query="getCited">
+								<tr>
+									<td nowrap>
+										<table>
+											<tr>
+												<form name="deleCitation#i#" method="post" action="Citation.cfm">
+													<input type="hidden" name="Action">
+													<input type="hidden" value="#publication_id#" name="publication_id">
+													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+													<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
+													<td style="border-bottom: none;">
+													<input type="button"
+														value="Delete"
+														class="delBtn"
+														onmouseover="this.className='delBtn btnhov'"
+														onmouseout="this.className='delBtn'"
+														onClick="deleCitation#i#.Action.value='deleCitation';submit();">
+													</td>
+													<td style="border-bottom: none;">
+													<input type="button"
+														value="Edit"
+														class="lnkBtn"
+														onmouseover="this.className='lnkBtn btnhov'"
+														onmouseout="this.className='lnkBtn'"
+														onClick="deleCitation#i#.Action.value='editCitation'; submit();">
+													</td>
+												</form>
+												<td style="border-bottom: none;">
+												<input type="button"
+													value="Clone"
+													class="insBtn"
+													onmouseover="this.className='insBtn btnhov'"
+													onmouseout="this.className='insBtn'"
+													onclick = "newCitation.cited_taxon_name.value='#getCited.citSciName#';
+													newCitation.cited_taxon_name_id.value='#getCited.cited_taxon_name_id#';
+													newCitation.type_status.value='#getCited.type_status#';
+													newCitation.occurs_page_number.value='#getCited.occurs_page_number#';
+													newCitation.citation_remarks.value='#stripQuotes(getCited.citation_remarks)#';
+													newCitation.collection.value='#getCited.collection_id#';
+													newCitation.citation_page_uri.value='#getCited.citation_page_uri#';
+													">
+												</td>
+											</tr>
+										</table>
+									</td>
+									<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
+									<cfif len(#getCited.CustomID#) GT 0><td nowrap="nowrap">#customID#</td></cfif>
+									<td style="padding: 0 .5rem;"><i>#getCited.citSciName#</i>&nbsp;</td>
+									<td style="padding: 0 .5rem;"><i>#getCited.scientific_name#</i>&nbsp;</td>
+									<td style="padding: 0 .5rem;">#getCited.type_status#&nbsp;</td>
+									<td>
+										<cfif len(#getCited.citation_page_uri#) gt 0>
+											<cfset citpage = trim(getCited.occurs_page_number)>
+											<cfif len(citpage) EQ 0><cfset citpage="[link]"></cfif>
+											<a href ="#getCited.citation_page_uri#" target="_blank">#citpage#</a>&nbsp;
+										<cfelse>
+											#getCited.occurs_page_number#&nbsp;
+										</cfif>
+									</td>
+									<td nowrap>#stripQuotes(getCited.citation_remarks)#&nbsp;</td>
+								</tr>
+								<cfset i=#i#+1>
+							</cfloop>
+						</tbody>
+					</table>
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
