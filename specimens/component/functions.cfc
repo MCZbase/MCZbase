@@ -3238,7 +3238,7 @@ limitations under the License.
 								cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 								identification.accepted_id_fg = 1 AND
 								citation.publication_id = publication.publication_id AND
-								citation.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+								citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 							ORDER BY
 								occurs_page_number,citSciName,cat_num
 						</cfquery>
