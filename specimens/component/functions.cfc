@@ -3246,6 +3246,9 @@ limitations under the License.
 							select collection_id,collection from collection
 							order by collection
 						</cfquery>
+						<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select type_status from ctcitation_type_status order by type_status
+						</cfquery>
 							<h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
 							<cfif len(getCited.doi) GT 0>
 							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
