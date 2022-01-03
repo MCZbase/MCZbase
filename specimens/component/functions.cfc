@@ -3266,14 +3266,14 @@ limitations under the License.
 							cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 							identification.accepted_id_fg = 1 AND
 							citation.publication_id = publication.publication_id AND
-							citation.publication_id = <cfqueryparam value="#citations.publication_id#" cfsqltype="CF_SQL_DECIMAL">
+							citation.publication_id = <cfqueryparam value="#getCited.publication_id#" cfsqltype="CF_SQL_DECIMAL">
 						ORDER BY
 							occurs_page_number,citSciName,cat_num
 					</cfquery>
 						<div class="d-block py-1 px-2 w-100 float-left">
-							<h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
-							<cfif len(getCited.doi) GT 0>
-							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
+							<h5 class="wikilink">Citations for <i>#getCited2.publication_title#</i></h5>
+							<cfif len(getCited2.doi) GT 0>
+							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited2.DOI#</a><br><br>
 							</cfif>
 							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
