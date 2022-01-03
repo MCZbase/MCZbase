@@ -170,12 +170,12 @@ limitations under the License.
 										<span class="text-success font-weight-light">(#mediaCount.ct#)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_media")>
-										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
+										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditImagesDialog(#collection_object_id#,'imagesDialog','#guid#',reloadImages)">Add/Remove</a>
 									</cfif>
 								</h3>
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
-								<div class="card-body w-100 px-2 pb-1 pt-2 mb-1 float-left" id="mediaCardBody">
+								<div class="card-body w-100 px-2 float-left" id="mediaCardBody">
 									<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
 										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
