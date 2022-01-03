@@ -3272,7 +3272,7 @@ limitations under the License.
 					</cfquery>
 						<div class="d-block py-1 px-2 w-100 float-left">
 							<h5 class="wikilink">Citations for <i>#getCited2.publication_title#</i></h5>
-							<cfif len(getCited2.doi) GT 0>
+							<cfif len(getCited.doi) GT 0>
 							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited2.DOI#</a><br><br>
 							</cfif>
 							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
