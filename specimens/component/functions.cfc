@@ -3231,6 +3231,41 @@ limitations under the License.
 							cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 							identification.accepted_id_fg = 1 AND
 							citation.publication_id = publication.publication_id AND
+							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						ORDER BY
+							occurs_page_number,citSciName,cat_num
+					</cfquery>
+					<cfquery name="getCited2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							citation.publication_id,
+							citation.collection_object_id,
+							collection,
+							collection.collection_id,
+							cat_num,
+							identification.scientific_name,
+							citedTaxa.scientific_name as citSciName,
+							occurs_page_number,
+							citation_page_uri,
+							type_status,
+							citation_remarks,
+							publication_title,
+							doi,
+							cited_taxon_name_id,
+							concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
+						FROM
+							citation,
+							cataloged_item,
+							collection,
+							identification,
+							taxonomy citedTaxa,
+							publication
+						WHERE
+							citation.collection_object_id = cataloged_item.collection_object_id AND
+							cataloged_item.collection_id = collection.collection_id AND
+							citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
+							cataloged_item.collection_object_id = identification.collection_object_id (+) AND
+							identification.accepted_id_fg = 1 AND
+							citation.publication_id = publication.publication_id AND
 							citation.publication_id = <cfqueryparam value="#citations.publication_id#" cfsqltype="CF_SQL_DECIMAL">
 						ORDER BY
 							occurs_page_number,citSciName,cat_num
