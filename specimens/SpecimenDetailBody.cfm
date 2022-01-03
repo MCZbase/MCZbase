@@ -213,40 +213,40 @@ limitations under the License.
 												#mediablock#
 												</div>
 											</div>
-										<cfif  mediaCount.ct gt 1>
-										<cfloop query="images">
-											<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												SELECT distinct
-													media.media_id
-												FROM 
-													media,
-													media_relations
-												WHERE 
-													media_relations.media_id = media.media_id
-												AND
-													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-											</cfquery>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<div class="d-block float-right w-100">
-												<a role="button" href="/media.cfm?action=edit&media_id=#media_id#" class="float-right btn btn-xs small py-0 my-1">
-													Edit
-												</a>
-											</div>
 										</cfif>
-										<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
-										<div class="col-12 col-md-12 px-0 mb-2 float-left">
-											<div id="mediaBlock#media_id#">
-											#mediablock#
-											</div>
-										</div>
-									</cfloop>
+										<cfif  mediaCount.ct gt 1>
+											<cfloop query="images">
+												<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													SELECT distinct
+														media.media_id
+													FROM 
+														media,
+														media_relations
+													WHERE 
+														media_relations.media_id = media.media_id
+													AND
+														media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
+												</cfquery>
+												<cfif listcontainsnocase(session.roles,"manage_specimens")>
+													<div class="d-block float-right w-100">
+														<a role="button" href="/media.cfm?action=edit&media_id=#media_id#" class="float-right btn btn-xs small py-0 my-1">
+															Edit
+														</a>
+													</div>
+												</cfif>
+												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
+												<div class="col-12 col-md-12 px-0 mb-2 float-left">
+													<div id="mediaBlock#media_id#">
+													#mediablock#
+													</div>
+												</div>
+											</cfloop>
 										</cfif>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</cfif>
 			</cfif>
 			<!----------------------------- two right columns ---------------------------------->
 			<div class="col-12 col-sm-12 mb-2 clearfix px-0 <cfif mediaCount.ct gt 0>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
