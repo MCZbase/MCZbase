@@ -261,7 +261,7 @@ limitations under the License.
 					</div>
 							
 					<!----------------------------- images ----------------------------------> 
-					<div class="accordion" id="accordionIm">
+<!---					<div class="accordion" id="accordionIm">
 						<div class="card mb-2 bg-light">
 							<div id="imagesDialog"></div>
 							<script>
@@ -303,7 +303,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</div>
+					</div>--->
 					<!----------------------------- Citations new ----------------------------------> 
 					<div class="accordion" id="accordionCitations">
 						<div class="card mb-2 bg-light">
