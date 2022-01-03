@@ -1216,13 +1216,6 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							<div class="media_widget">
-										
-											<div class="text-center d-block float-left w-100">
-												<a role="button" href="/media/#media.media_id#" class="btn btn-xs small py-0">
-													Edit
-												</a>
-											</div>
-										
 								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active" title="click to open full image">
 									<!--- WARNING: Specifying img height and width as percents is invalid HTML, except for 4.01 transitional.  Browser behavior is unpredicatble --->
 									<img src="#displayImage#" class="mx-auto" alt="#alt#" width="100%" height="100%">

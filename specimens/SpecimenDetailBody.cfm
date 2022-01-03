@@ -200,8 +200,8 @@ limitations under the License.
 													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 											</cfquery>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<div class="text-center d-block float-left w-100">
-												<a role="button" href="/media/#media_id#" class="btn btn-xs small py-0">
+											<div class="d-block float-right w-100">
+												<a role="button" href="media.cfm?action=edit&media_id=#media.media_id#" class="btn btn-xs small py-0">
 													Edit
 												</a>
 											</div>
