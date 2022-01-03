@@ -3164,7 +3164,8 @@ limitations under the License.
 </cffunction>
 <cffunction name="getEditCitationHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditCitationsThread"> <cfoutput>
+	<cfthread name="getEditCitationsThread"> 
+		<cfoutput>
 			<cftry>
 				
 				<script type='text/javascript' src='/includes/checkForm.js'></script>
@@ -3174,7 +3175,7 @@ limitations under the License.
 			var el = document.getElementById(id);
 			el.className='red';
 			var theNum = el.value;
-			jQuery.getJSON("/component/functions.cfc",
+			jQuery.getJSON("../component/functions.cfc",
 				{
 					method : "getCatalogedItemCitation",
 					collection_id : collection_id,
