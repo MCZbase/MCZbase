@@ -3273,39 +3273,20 @@ limitations under the License.
 							</cfif>
 							<span class="small font-italic">
 							<cfif len(citation_remarks) gt 0>
-							</cfif>
-#CITATION_REMARKS# 							</span> </div>
+							</cfif>#CITATION_REMARKS# </span> </div>
 						<cfset i = i + 1>
 					</cfloop>
-					<cfif publicationMedia.recordcount gt 0>
+<!---					<cfif publicationMedia.recordcount gt 0>
 						<cfloop query="publicationMedia">
 							<cfset puri=getMediaPreview(preview_uri,mime_type)>
 							<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select
-											media_label,
-											label_value
-										from
-											media_labels
-										where
-											media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-									</cfquery>
+								select 	media_label, label_value from media_labels where media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+							</cfquery>
 							<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select
-											media_label,
-											label_value
-										from
-											media_labels
-										where
-											media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-									</cfquery>
-							<cfquery name="desc" dbtype="query">
-										select 
-											label_value 
-										from 
-											labels 
-										where 
-											media_label='description'
-									</cfquery>
+								select media_label, label_value from media_labels where media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+							</cfquery>
+							<cfquery name="desc" dbtype="query">select label_value  from  labels  where  media_label='description'
+							 </cfquery>
 							<cfset alt="Media Preview Image">
 							<cfif desc.recordcount is 1>
 								<cfset alt=desc.label_value>
@@ -3315,7 +3296,7 @@ limitations under the License.
 								<cfset muri = #media_uri#>
 								<a href="#media_uri#" target="_blank"> <img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto w-100"> </a> <span class="d-block smaller text-center" style="line-height:.7rem;"> <a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a> </span> </div>
 						</cfloop>
-					</cfif>
+					</cfif>--->
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
