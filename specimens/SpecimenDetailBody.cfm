@@ -188,7 +188,7 @@ limitations under the License.
 												media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 										</cfquery>
 										<cfset j=5/>
-										<cfloop query="images" from=1 to=#j#>
+										<cfloop query="images" index="list" from="1" to="#j#">
 										
 											<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT distinct
