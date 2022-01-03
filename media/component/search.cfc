@@ -1139,14 +1139,12 @@ limitations under the License.
 
 					
 <!--- @deprecated, move any desired code from this function into getMediaBlock and delete this function.  --->
-<cffunction name="getMediaResponsiveBlockHtml" access="remote" returntype="string" returnformat="plain">
+<!---<cffunction name="getMediaResponsiveBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 
 	<cfthrow message="delete this block, move any desired styling ont getMediaBlockHtml, there should be only one media block, and it shouuld be responsive.">
-
-	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
@@ -1203,7 +1201,6 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelse>
-								<!--- pick placeholder --->
 								<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/noThumbnailImage.png">
 								<cfelseif media_type is "audio">
@@ -1215,12 +1212,12 @@ limitations under the License.
 								<cfelseif media_type is "3D model">
 									<cfset displayImage =  "/shared/images/3dmodel.png">
 								<cfelse>
-									<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
+									<cfset displayImage =  "/shared/images/noThumbnailImage.png">
 								</cfif>
 							</cfif>
 							<div class="media_widget">
 								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active" title="click to open full image">
-									<!--- WARNING: Specifying img height and width as percents is invalid HTML, except for 4.01 transitional.  Browser behavior is unpredicatble --->
+
 									<img src="#displayImage#" class="mx-auto" alt="#alt#" width="100%" height="100%">
 								</a>
 								<div class="mt-0 bg-light col-12 py-1 px-0">
@@ -1269,16 +1266,11 @@ limitations under the License.
 	<cfreturn mediaResponsiveWidgetThread.output>
 </cffunction>
 					
-<!--- @deprecated, move any desired code from this function into getMediaBlock and delete this function.  --->
 <cffunction name="getMediaResponsiveBlockHtml2" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-		
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
-
 	<cfthrow message="delete this block, move any desired styling ont getMediaBlockHtml, there should be only one media block, and it shouuld be responsive.">
-	
-<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
@@ -1286,7 +1278,6 @@ limitations under the License.
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 			<cfoutput>
 	<cfthread name="mediaResponsiveWidgetThread2#tn#">
-	
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
 					SELECT media_id, 
@@ -1337,7 +1328,6 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelse>
-								<!--- pick placeholder --->
 								<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/noThumbnailImage.png">
 								<cfelseif media_type is "audio">
@@ -1349,12 +1339,11 @@ limitations under the License.
 								<cfelseif media_type is "3D model">
 									<cfset displayImage =  "/shared/images/3dmodel.png">
 								<cfelse>
-									<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
+									<cfset displayImage =  "/shared/images/noThumbnailImage.png">
 								</cfif>
 							</cfif>
 							<div class="media_widget">
 								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active" title="click to open full image">
-									<!--- WARNING: Specifying img height and width as percents is invalid HTML, except for 4.01 transitional.  Browser behavior is unpredicatble --->
 									<img src="#displayImage#" class="mx-auto" alt="#alt#" width="100%" height="100%">
 								</a>
 								<div class="mt-0 bg-light col-12 py-1 px-0">
@@ -1401,4 +1390,4 @@ limitations under the License.
 	<cfreturn cfthread["mediaResponsiveWidgetThread2#tn#"].output>
 		</cfoutput>
 </cffunction>
-</cfcomponent>
+</cfcomponent>--->
