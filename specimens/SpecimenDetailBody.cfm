@@ -199,11 +199,6 @@ limitations under the License.
 												AND
 													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 											</cfquery>
-										<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
-										<div class="col-12 col-md-12 px-0 mb-2 float-left">
-											<div id="mediaBlock#media_id#">
-											#mediablock#
-											</div>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<div class="text-center d-block float-left w-100">
 												<a role="button" href="/media/#media_id#" class="btn btn-xs small py-0">
@@ -211,6 +206,11 @@ limitations under the License.
 												</a>
 											</div>
 										</cfif>
+										<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
+										<div class="col-12 col-md-12 px-0 mb-2 float-left">
+											<div id="mediaBlock#media_id#">
+											#mediablock#
+											</div>
 										</div>
 									</cfloop>
 								</div>
