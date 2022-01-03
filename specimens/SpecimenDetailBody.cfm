@@ -187,7 +187,7 @@ limitations under the License.
 											WHERE
 												media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 										</cfquery>
-										<cfloop query="images" index="i" from="1" to="#arrayLen(images.media_id)#">
+										<cfloop query="images" index="i" to ="#images.recordCount#">
 											<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT distinct
 													media.media_id
@@ -199,22 +199,22 @@ limitations under the License.
 												AND
 													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 											</cfquery>
-										<cfif i eq 1>
+											<cfif i eq 1>
 											<div class="col-12 col-md-12 px-0 mb-2 float-left">
 												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
 												<div id="mediaBlock#media_id#">
 												#mediablock#
 												</div>
 											</div>
-										</cfif>
-										<cfif i gt 1>
+											</cfif>
+											<cfif i gt 1>
 											<div class="col-12 col-md-6 px-0 mb-2 float-left">
 												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
 												<div id="mediaBlock#media_id#">
 												#mediablock#
 												</div>
 											</div>
-										</cfif>
+											</cfif>
 									</cfloop>
 								</div>
 							</div>
