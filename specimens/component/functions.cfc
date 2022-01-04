@@ -3247,7 +3247,7 @@ limitations under the License.
 							<cfif len(citation_remarks) gt 0>#CITATION_REMARKS# </cfif>
 							</span> 
 						</div>
-							<table class="pubtable border-0 mt-2 mb-0 small table">
+							<table class="pubtable border-0 mt-2 mb-0 small">
 								<thead class="p-2">
 								<tr>
 									<th>&nbsp;</th>
