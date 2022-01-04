@@ -3240,7 +3240,7 @@ limitations under the License.
 								occurs_page_number,cat_num
 						</cfquery>
 					<cfif len(getCited.publication_id) GT 0>
-					<cfset i = 1 >
+						<cfset i = 1 >
 						<h1 class="h3">Publications Citing This Specimen</h1>
 							<table class="table mb-0 small">
 								<thead class="p-2">
@@ -3254,7 +3254,7 @@ limitations under the License.
 										<th class="px-1" style="min-width: 213px;">Remarks</th>
 									</tr>
 								</thead>
-							<cfloop query="getCited">
+								<cfloop query="getCited">
 								<tbody>
 									<tr>
 										<td nowrap>
@@ -3297,8 +3297,8 @@ limitations under the License.
 							</table>
 						<cfset i = i + 1>
 					</cfif>
-						<section class="container-fluid" role="search" aria-labelledby="formheader">
-							<div class="row mx-0 my-3">
+					<section class="container-fluid px-0" role="search" aria-labelledby="formheader">
+						<div class="row mx-0 my-3">
 							<div class="search-box">
 								<cfset title = "Search for Results">
 								<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -3326,13 +3326,24 @@ limitations under the License.
 										<label for="p_title" class="data-entry-label mt-0 mb-0"><span id="project_publication_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">
 									</div>
+								</div>
+								<div class="col-12 float-left mt-0 px-0 pb-3 pt-0">
 									<div class="col-12 col-md-6 float-left pl-0 pr-md-2 pr-0">
 										<label for="author" class="data-entry-label mt-1 mb-0"><span id="project_publication_agent">Participant</span></label>
 										<input name="author" id="author" type="text" class="data-entry-input">
 										<label for="year" class="data-entry-label mt-1 mb-0"><span id="project_publication_year">Year</span></label>
 										<input name="year" id="year" type="text" class="data-entry-input">
-										<label for="descr_len" class="data-entry-label mt-1 mb-0"> Description Min. Length</label>
-										<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">
+<!---										<label for="descr_len" class="data-entry-label mt-1 mb-0"> Description Min. Length</label>
+										<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">--->
+									</div>
+									<div class="col-12 col-md-6 float-left pr-0 pl-md-1 pl-0">
+										<label for="journal" class="data-entry-label mt-1 mb-0">Journal Name</label>
+										<select name="journal" id="journal" size="1" class="data-entry-select">
+											<option value=""></option>
+											<cfloop query="ctjournal_name">
+												<option value="#journal_name#">#journal_name#</option>
+											</cfloop>
+										</select>
 										<label for="publication_type" class="data-entry-label mt-1 mb-0"><span id="publication_type">Publication Type</span></label>
 										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
 											<option value=""></option>
@@ -3340,23 +3351,17 @@ limitations under the License.
 												<option value="#publication_type#">#publication_type#</option>
 											</cfloop>
 										</select>
-											<label for="journal" class="data-entry-label mt-1 mb-0">Journal Name</label>
-											<select name="journal" id="journal" size="1" class="data-entry-select">
-												<option value=""></option>
-												<cfloop query="ctjournal_name">
-													<option value="#journal_name#">#journal_name#</option>
-												</cfloop>
-											</select>
-
 									</div>
-									<div class="col-12 col-md-6 float-left pr-0 pl-md-1 pl-0">
-											<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
-											<select name="collection_id" id="collection_id" size="1"  class="data-entry-select">
-												<option value="">All</option>
-												<cfloop query="ctColl">
-													<option value="#collection_id#">#collection#</option>
-												</cfloop>
-											</select>
+								</div>
+								<div class="col-12 float-left mt-0 px-0 pb-3 pt-0">
+									<div class="col-12 col-md-4 float-left pr-0 pl-md-1 pl-0">
+										<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
+										<select name="collection_id" id="collection_id" size="1"  class="data-entry-select">
+											<option value="">All</option>
+											<cfloop query="ctColl">
+												<option value="#collection_id#">#collection#</option>
+											</cfloop>
+										</select>
 										</cfoutput>
 										<label for="onlyCitePubs" class="data-entry-label mt-1 mb-0">
 											<span id="pub_cites_specimens">Cites specimens?</span>
@@ -3366,6 +3371,8 @@ limitations under the License.
 											<option value="1">Cites Specimens</option>
 											<option value="0">Cites no Specimens</option>
 										</select>
+									</div>
+									<div class="col-12 col-md-4 float-left pr-0 pl-md-1 pl-0">
 										<label for="cited_sci_Name" class="data-entry-label mt-1 mb-0">
 											<span id="cited_sci_Name">Cited Scientific Name</span>
 										</label>
@@ -3374,11 +3381,14 @@ limitations under the License.
 											<span id="accepted_sci_name">Accepted Scientific Name</span>
 										</label>
 										<input name="current_sci_Name" class="data-entry-input" id="current_sci_Name" type="text">
+									</div>
+									<div class="col-12 col-md-4 float-left pr-0 pl-md-1 pl-0">
 										<label for="is_peer_reviewed_fg" class="data-entry-label mt-1 mb-0"><span id="is_peer_reviewed_fg">Peer Reviewed only?</span></label>
 										<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="data-entry-select">
 											<option value=""></option>
 											<option value="1">yes</option>
 										</select>
+									</div>
 								</div>
 									<div class="col-12 px-0 mt-3 float-left">
 										<input type="submit" value="Search" class="btn btn-xs btn-secondary pr-2">
@@ -3387,7 +3397,255 @@ limitations under the License.
 								</div>
 							</form>
 							</div>
+						</div>
 					</section>
+					<section class="container-fluid">
+						<div class="row mx-0">
+							<div class="col-12">
+								<div class="mb-5">
+									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+										<h1 class="h4">Results: </h1>
+										<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+										<div id="columnPickDialog">
+											<div id="columnPick" class="px-1"></div>
+										</div>
+										<div id="columnPickDialogButton"></div>
+										<div id="resultDownloadButtonContainer"></div>
+									</div>
+									<div class="row mt-0"> 
+										<!--- Grid Related code is below along with search handlers --->
+										<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+										<div id="enableselection"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+				<cfset cellRenderClasses = "ml-1">
+				<script>
+					window.columnHiddenSettings = new Object();
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					</cfif>
+
+					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##searchCitResultsGrid").jqxGrid('getrowdata',row);
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/specimens/SpecimenDetailBody.cfm?underscore_collection_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+value+'</a></span>';
+					};
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+							var rowData = jQuery("##searchCitResultsGrid").jqxGrid('getrowdata',row);
+							return '<span class="cellRenderClasses" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="/specimens/SpecimenDetailBody.cfm?action=edit&underscore_collection_id=' + rowData['COLLECTION_OBJECT_ID'] + '">Edit</a></span>';
+							return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/specimens/SpecimenDetailBody.cfm?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
+						};
+					</cfif>
+
+
+					$(document).ready(function() {
+						/* Setup jqxgrid for Search */
+						$('##searchCitForm').bind('submit', function(evt){
+							evt.preventDefault();
+					
+							$("##overlay").show();
+					
+							$("##searchCitResultsGrid").replaceWith('<div id="searchCitResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+							$('##resultCount').html('');
+							$('##resultLink').html('');
+					
+							var search =
+							{
+								datatype: "json",
+								datafields:
+								[
+									{ name: 'collection_object_id', type: 'string' },
+									{ name: 'cited_taxon_name_id', type: 'string' },
+									{ name: 'publication_year', type: 'string' },
+									{ name: 'publication_title', type: 'string' },
+									{ name: 'publication_type', type: 'string' },
+									{ name: 'is_peer_reviewed_fg', type: 'string' },
+									{ name: 'cit_current_fg', type: 'string' },
+									{ name: 'taxon_name_id', type: 'string' },
+									{ name: 'type_status', type: 'string'}
+								],
+								updaterow: function (rowid, rowdata, commit) {
+									commit(true);
+								},
+								root: 'citationRecord',
+								id: 'collection_object_id',
+								url: '/specimens/component/functions.cfc?' + $('##searchForm').serialize(),
+								timeout: 30000,  // units not specified, miliseconds? 
+								loadError: function(jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+								},
+								async: true
+							};
+					
+							var dataAdapter = new $.jqx.dataAdapter(search);
+							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+								var details = $($(parentElement).children()[0]);
+								details.html("<div id='rowDetailsTarget" + index + "'></div>");
+					
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+								// Workaround, expansion sits below row in zindex.
+								var maxZIndex = getMaxZIndex();
+								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+							}
+					
+							$("##searchResultsGrid").jqxGrid({
+								width: '100%',
+								autoheight: 'true',
+								source: dataAdapter,
+								filterable: true,
+								sortable: true,
+								pageable: true,
+								editable: false,
+								pagesize: '50',
+								pagesizeoptions: ['5','50','100'],
+								showaggregates: true,
+								columnsresize: true,
+								autoshowfiltericon: true,
+								autoshowcolumnsmenubutton: false,
+								autoshowloadelement: false,  // overlay acts as load element for form+results
+								columnsreorder: true,
+								groupable: true,
+								selectionmode: 'singlerow',
+								altrows: true,
+								showtoolbar: false,
+								columns: [
+									{text: 'COI', datafield: 'COLLECTION_OBJECT_ID', width: 300, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID', false), cellsrenderer: linkIdCellRenderer },
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+										{text: 'ID', datafield: 'CITED_TAXON_NAME_ID', width:100, hideable: true, hidden: getColHidProp('CITED_TAXON_NAME_ID', false), cellsrenderer: editCellRenderer },
+									<cfelse>
+										{text: 'Year', datafield: 'PUBLICATION_YEAR', width:100, hideable: true, hidden: getColHidProp('PUBLICATION_YEAR', true) },
+									</cfif>
+									{text: 'Publication Title', datafield: 'PUBLICATION_TITLE', width: 100, hidable: true, hidden: getColHidProp('PUBLICATION_TITLE', true) },
+									{text: 'Publication Type', datafield: 'PUBLICATION_TYPE', width: 150, hidable: true, hidden: getColHidProp('PUBLICATION_TYPE', false) },
+									{text: 'Peer Reviewed', datafield: 'IS_PEER_REVIEWED_FG', width:100, hideable: true, hidden: getColHidProp('IS_PEER_REVIEWED_FG', true) },
+									{text: 'Cited Scientific Name', datafield: 'CIT_CURRENT_FG', width:150, hideable: true, hidden: getColHidProp('CIT_CURRENT_FG', false) },
+									{text: 'Type Status', datafield: 'TYPE_STATUS', hideable: true, hidden: getColHidProp('TYPE_STATUS', true) }
+								],
+								rowdetails: true,
+								rowdetailstemplate: {
+									rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+									rowdetailsheight: 1 // row details will be placed in popup dialog
+								},
+								initrowdetails: initRowDetails
+							});
+							$("##searchResultsGrid").on("bindingcomplete", function(event) {
+								// add a link out to this search, serializing the form as http get parameters
+								$('##resultLink').html('<a href="/specimens/SpecimenDetailBody.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+								gridLoaded('searchResultsGrid','collection');
+							});
+							$('##searchResultsGrid').on('rowexpand', function (event) {
+								//  Create a content div, add it to the detail row, and make it into a dialog.
+								var args = event.args;
+								var rowIndex = args.rowindex;
+								var datarecord = args.owner.source.records[rowIndex];
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+							});
+							$('##searchResultsGrid').on('rowcollapse', function (event) {
+								// remove the dialog holding the row details
+								var args = event.args;
+								var rowIndex = args.rowindex;
+								$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+							});
+						});
+						/* End Setup jqxgrid for Search ******************************/
+		
+						// If requested in uri, execute search immediately.
+						<cfif isdefined("execute")>
+							$('##searchForm').submit();
+						</cfif>
+					}); /* End document.ready */
+	
+					function gridLoaded(gridId, searchType) { 
+						if (Object.keys(window.columnHiddenSettings).length == 0) { 
+							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+							</cfif>
+						}
+						$("##overlay").hide();
+						var now = new Date();
+						var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+						var filename = searchType + '_results_' + nowstring + '.csv';
+						// display the number of rows found
+						var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+						var rowcount = datainformation.rowscount;
+						if (rowcount == 1) {
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+						} else { 
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+						}
+						// set maximum page size
+						if (rowcount > 100) { 
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
+						} else if (rowcount > 50) { 
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
+						} else { 
+							$('##' + gridId).jqxGrid({ pageable: false });
+						}
+						// add a control to show/hide columns
+						var columns = $('##' + gridId).jqxGrid('columns').records;
+						var columnListSource = [];
+						for (i = 1; i < columns.length; i++) {
+							var text = columns[i].text;
+							var datafield = columns[i].datafield;
+							var hideable = columns[i].hideable;
+							var hidden = columns[i].hidden;
+							var show = ! hidden;
+							if (hideable == true) { 
+								var listRow = { label: text, value: datafield, checked: show };
+								columnListSource.push(listRow);
+							}
+						} 
+						$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+						$("##columnPick").on('checkChange', function (event) {
+							$("##" + gridId).jqxGrid('beginupdate');
+							if (event.args.checked) {
+								$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+							} else {
+								$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+							}
+							$("##" + gridId).jqxGrid('endupdate');
+						});
+						$("##columnPickDialog").dialog({ 
+							height: 'auto', 
+							title: 'Show/Hide Columns',
+							autoOpen: false,
+							modal: true, 
+							reszable: true, 
+							buttons: { 
+								Ok: function(){
+									window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+									</cfif>
+									$(this).dialog("close"); 
+								}
+							},
+							open: function (event, ui) { 
+								var maxZIndex = getMaxZIndex();
+								// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+								$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+								$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+							} 
+						});
+						$("##columnPickDialogButton").html(
+							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-1 mx-3' >Show/Hide Columns</button>"
+						);
+						// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+						// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+						var maxZIndex = getMaxZIndex();
+						$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+						$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+						$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+					}
+				</script> 
+			</cfoutput>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
