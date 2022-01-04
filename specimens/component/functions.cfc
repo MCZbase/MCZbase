@@ -3250,7 +3250,7 @@ limitations under the License.
 								<thead class="p-2">
 								<tr>
 									<th>&nbsp;</th>
-									<th>Cat Num</th>
+									<th>Publication Title</th>
 									<th>Cited As</th>
 									<th>Current ID</th>
 									<th class="px-1" style="min-width: 80px;">Citation Type</th>
@@ -3268,19 +3268,15 @@ limitations under the License.
 														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 														<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
 														<td class="border-0">
-														<input type="button"
+															<input type="button"
 															value="Remove"
-															class="delBtn"
-															onmouseover="this.className='delBtn btnhov'"
-															onmouseout="this.className='delBtn'"
+															class="btn btn-xs btn-danger"
 															onClick="deleCitation#i#.Action.value='deleCitation';submit();">
 														</td>
 														<td class="border-0">
-														<input type="button"
+															<input type="button"
 															value="Edit"
-															class="lnkBtn"
-															onmouseover="this.className='lnkBtn btnhov'"
-															onmouseout="this.className='lnkBtn'"
+															class="btn btn-xs btn-danger"
 															onClick="deleCitation#i#.Action.value='editCitation'; submit();">
 														</td>
 													</form>
