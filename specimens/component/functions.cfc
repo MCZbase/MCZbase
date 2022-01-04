@@ -3270,7 +3270,7 @@ limitations under the License.
 														<td class="border-0">
 															<input type="button"
 															value="Remove"
-															class="btn btn-xs btn-danger"
+															class="btn btn-xs btn-primary"
 															onClick="deleCitation#i#.Action.value='deleCitation';submit();">
 														</td>
 														<td class="border-0">
