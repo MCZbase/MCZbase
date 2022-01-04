@@ -3307,7 +3307,7 @@ limitations under the License.
 							<h2 class="h3 mt-4">Publication Search</h2>
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
-								<div class="mt-2 p-3 border rounded">
+								<div class="col-12 float-left mt-2 p-3 border rounded">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="">
 										<a class="btn btn-xs btn-outline-primary px-2" href="/Publication.cfm?action=newPub">New Publication</a>
