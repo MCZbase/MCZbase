@@ -3310,7 +3310,7 @@ limitations under the License.
 								<input name="action" type="hidden" value="search">
 								<div class="col-12 float-left mt-2 p-3 border rounded">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="w-100">
+									<div class="col-12 px-0">
 										<a class="btn btn-xs btn-outline-primary px-2 float-right" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 									</cfif>
