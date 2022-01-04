@@ -3176,7 +3176,7 @@ limitations under the License.
 									citation.CITATION_REMARKS,
 									cited_taxa.scientific_name as cited_name,
 									cited_taxa.taxon_name_id as cited_name_id,
-									formatted_publication.formatted_publication,
+									formatted_publication.formatted_publication as formpub,
 									formatted_publication.publication_id,
 									cited_taxa.taxon_status as cited_name_status
 								from
@@ -3237,7 +3237,7 @@ limitations under the License.
 						<div class="border p-1 my-2">
 							<div class="d-block mt-1 py-1 px-2 w-100 float-left"> 
 							<span class="d-inline"></span> 
-							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#citations.formatted_publication#</a>, #publication_title#
+							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#citations.formpub#</a>, #publication_title#
 							<span class="small font-italic">
 							<cfif len(citation_remarks) gt 0>#CITATION_REMARKS# </cfif>
 							</span> 
