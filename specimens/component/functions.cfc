@@ -3237,7 +3237,8 @@ limitations under the License.
 							ORDER BY
 								occurs_page_number,cat_num
 						</cfquery>
-					<cfset i = 1>
+					<cfif len(citations.publication_id) gt 0>
+					<cfset i = >
 						<h1 class="h3">Publications Citing This Specimen</h1>
 							<table class="table mb-0 small">
 								<thead class="p-2">
@@ -3293,6 +3294,7 @@ limitations under the License.
 								</cfloop>
 							</table>
 						<cfset i = i + 1>
+					</cfif>
 						<div class="">
 						<cfset title = "Search for Results">
 							<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -3307,8 +3309,8 @@ limitations under the License.
 							<cfoutput>
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
-								<div class="col-12 col-md-6 px-0 float-left">
-									<h2 class="h3 mt-4 float-left mb-0">Publication Search</h2>
+								<div class="col-12 search-box-header col-md-6 px-0 float-left">
+									<h2 class="h3 text-white mt-4 float-left mb-0">Publication Search</h2>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-6 px-0 mt-4 float-left">
