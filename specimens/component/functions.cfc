@@ -3468,7 +3468,7 @@ limitations under the License.
 									{ name: 'formatted_title', type: 'string' },
 									{ name: 'publication_type', type: 'string' },
 									{ name: 'is_peer_reviewed_fg', type: 'string' },
-									{ name: 'cit_current_fg', type: 'string' },
+									{ name: 'scientific_name', type: 'string' },
 									{ name: 'taxon_name_id', type: 'string' },
 									{ name: 'type_status', type: 'string'}
 								],
@@ -3535,7 +3535,7 @@ limitations under the License.
 							});
 							$("##searchCitResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
-								$('##resultCitLink').html('<a href="/specimens/SpecimenDetailBody.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+								$('##resultCitLink').html('<a href="/specimens/SpecimenDetailBody.cfm?action=search&execute=true&' + $('##searchCitForm').serialize() + '">Link to this search</a>');
 								gridLoaded('searchCitResultsGrid','collection');
 							});
 							$('##searchCitResultsGrid').on('rowexpand', function (event) {
