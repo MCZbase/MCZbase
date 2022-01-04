@@ -3391,7 +3391,7 @@ limitations under the License.
 										<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">
 									</div>
 								</div>
-									<div class="col-12 mt-3 float-left">
+									<div class="col-12 my-2 float-left">
 										<input type="submit" value="Search" class="btn btn-xs btn-secondary pr-2">
 										<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
 									</div>
