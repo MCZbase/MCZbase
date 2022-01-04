@@ -3182,11 +3182,13 @@ limitations under the License.
 								from
 									citation,
 									taxonomy cited_taxa,
-									formatted_publication
+									formatted_publication,
+									publication
 								where
 									citation.cited_taxon_name_id = cited_taxa.taxon_name_id AND
 									citation.publication_id = formatted_publication.publication_id AND
 									format_style='short' and
+									publication.publication_id = citation.publication_id and
 									citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								order by
 									substr(formatted_publication, - 4)
@@ -3257,7 +3259,7 @@ limitations under the License.
 					
 					<cfset i = 1>
 					<cfloop query="citations" group="formatted_publication">
-						<h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
+						<h3 class="wikilink">Citations for <i>#publication_title#</i></h3>
 						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
 								Page
