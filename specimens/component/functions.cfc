@@ -3477,7 +3477,7 @@ limitations under the License.
 								},
 								root: 'citationRecord',
 								id: 'collection_object_id',
-								url: '/specimens/component/functions.cfc?' + $('##searchCitForm').serialize(),
+								url: '/specimens/component/search.cfc?' + $('##searchCitForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
@@ -3485,7 +3485,7 @@ limitations under the License.
 								async: true
 							};
 					
-							var dataAdapter = new $.jqx.dataAdapter(search);
+							var dataAdapter = new $.jqx.dataAdapter(searchCit);
 							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 								var details = $($(parentElement).children()[0]);

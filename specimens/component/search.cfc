@@ -2103,4 +2103,87 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 <cfoutput>#retval#</cfoutput>
 </cffunction>
 
+			
+<cffunction name="getCitResults" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="no">
+	<cfargument name="cited_taxon_name_id" type="string" required="no">
+	<cfargument name="publication_id" type="string" required="no">
+	<cfargument name="guid" type="string" required="no">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="searchCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT
+				citation.publication_id,
+				citation.collection_object_id,
+				collection,
+				collection.collection_id,
+				cat_num,
+				identification.scientific_name,
+				citedTaxa.scientific_name as citSciName,
+				occurs_page_number,
+				citation_page_uri,
+				type_status,
+				citation_remarks,
+				publication_title,
+				formatted_publication.formatted_publication as formpub,
+				formatted_publication.publication_id,
+				publication.publication_id,
+				publication.published_year,
+				publication.publication_type,
+				doi,
+				cited_taxon_name_id
+			FROM
+				citation,
+				cataloged_item,
+				collection,
+				identification,
+				taxonomy citedTaxa,
+				formatted_publication,
+				publication
+			WHERE
+				citation.collection_object_id = cataloged_item.collection_object_id AND
+				cataloged_item.collection_id = collection.collection_id AND
+				citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
+				cataloged_item.collection_object_id = identification.collection_object_id (+) AND
+				identification.accepted_id_fg = 1 AND
+				citation.publication_id = publication.publication_id AND
+				citation.publication_id = formatted_publication.publication_id AND
+				format_style='long' and
+				citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+			ORDER BY
+				occurs_page_number,cat_num
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset columnNames = ListToArray(search.columnList)>
+			<cfloop array="#columnNames#" index="columnName">
+				<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
+				<cfquery name="getClob" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getClob_result">
+					SELECT formatted_publicaton 
+					FROM formatted_publication
+					WHERE
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#search.collection_object_id#">
+				</cfquery>
+				<cfloop query="getClob">
+					<cfset row["HTML_DESCRIPTION"] = "#replace(encodeForHTML(REReplace(getClob.formatted_publication,'<[^>]*>','','All')),'\n','')#">
+				</cfloop>
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
