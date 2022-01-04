@@ -3245,7 +3245,7 @@ limitations under the License.
 							collection,
 							collection.collection_id,
 							cat_num,
-							identification.scientific_name,
+							identification.scientific_name as cited_name_id,
 							citedTaxa.scientific_name as citSciName,
 							occurs_page_number,
 							citation_page_uri,
