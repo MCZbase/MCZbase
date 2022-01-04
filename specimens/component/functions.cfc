@@ -3271,10 +3271,10 @@ limitations under the License.
 							occurs_page_number,citSciName,cat_num
 					</cfquery>
 						<div class="d-block py-1 px-2 w-100 float-left">
-							<h5 class="wikilink">Citations for <i>#getCited.publication_title#</i></h5>
 							<cfif len(getCited.doi) GT 0>
 							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited2.DOI#</a><br><br>
 							</cfif>
+							
 							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
 								Page
@@ -3303,7 +3303,7 @@ limitations under the License.
 						<table border class="newRec">
 							<tr>
 								<td colspan="2">
-								Add Citation to <b>	#getCited.publication_title#</b>:
+								Add Citation to <b>	#getCited2.publication_title#</b>:
 								</td>
 							</tr>
 							<tr>
