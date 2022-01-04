@@ -3198,8 +3198,6 @@ limitations under the License.
 					<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select type_status from ctcitation_type_status order by type_status
 					</cfquery>
-					<cfset i = 1>
-					<cfloop query="citations" group="formatted_publication">
 					<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							citation.publication_id,
@@ -3235,7 +3233,9 @@ limitations under the License.
 						ORDER BY
 							occurs_page_number,citSciName,cat_num
 					</cfquery>
-					<cfquery name="getCited2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfset i = 1>
+					<cfloop query="getCited" group="formatted_publication">
+						<cfquery name="getCited2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							citation.publication_id,
 							citation.collection_object_id,
@@ -3275,7 +3275,7 @@ limitations under the License.
 							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited2.DOI#</a><br><br>
 							</cfif>
 							
-							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>, #getCited.formatted_title#
+							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>, #getCited2.formatted_title#
 							<cfif len(occurs_page_number) gt 0>
 								Page
 								<cfif len(citation_page_uri) gt 0>
