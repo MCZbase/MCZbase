@@ -3277,7 +3277,7 @@ limitations under the License.
 												</tr>
 											</table>
 										</td>
-										<td class="px-2"><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a></td>
+										<td class="px-2"><a href="/SpecimenDetailBody.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a></td>
 										<td class="px-2"><i><a href="/TaxonomyDetails.cfm?taxon_name_id=#getCited.citSciName#" target="_mainFrame"><i>#replace(getCited.citSciName," ","&nbsp;","all")#</i></a></i>&nbsp;</td>
 										<td class="px-2"><i>#scientific_name#</i>&nbsp;</td>
 										<td class="px-2">#type_status#&nbsp;</td>
