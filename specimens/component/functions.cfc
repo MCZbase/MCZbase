@@ -3327,9 +3327,9 @@ limitations under the License.
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">
 									</div>
 								</div>
-								<div class="col-12 float-left mt-0 px-0 pb-3 pt-0">
+								<div class="col-12 float-left mt-0 px-0 pb-1 pt-0">
 									<div class="col-12 col-md-6 float-left">
-										<label for="author" class="data-entry-label mt-1 mb-0"><span id="project_publication_agent">Participant</span></label>
+										<label for="author" class="data-entry-label mt-0 mb-0"><span id="project_publication_agent">Participant</span></label>
 										<input name="author" id="author" type="text" class="data-entry-input">
 										<label for="year" class="data-entry-label mt-1 mb-0"><span id="project_publication_year">Year</span></label>
 										<input name="year" id="year" type="text" class="data-entry-input">
@@ -3353,7 +3353,7 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="col-12 float-left mt-0 px-0 pb-3 pt-0">
+								<div class="col-12 float-left mt-0 px-0 pb-1 pt-0">
 									<div class="col-12 col-md-4 float-left">
 										<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
 										<select name="collection_id" id="collection_id" size="1"  class="data-entry-select">
@@ -3390,7 +3390,7 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-									<div class="col-12 px-0 mt-3 float-left">
+									<div class="col-12 mt-3 float-left">
 										<input type="submit" value="Search" class="btn btn-xs btn-secondary pr-2">
 										<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
 									</div>
