@@ -3276,11 +3276,11 @@ limitations under the License.
 							occurs_page_number,citSciName,cat_num
 					</cfquery>
 						<div class="d-block py-1 px-2 w-100 float-left">
-							<cfif len(getCited.doi) GT 0>
-							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
+							<cfif len(doi) GT 0>
+							doi: <a target="_blank" href="https://doi.org/#DOI#">#DOI#</a><br><br>
 							</cfif>
 							
-							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>, #getCited.formatted_title#
+							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>, #formatted_title#
 							<cfif len(occurs_page_number) gt 0>
 								Page
 								<cfif len(citation_page_uri) gt 0>
