@@ -3249,12 +3249,6 @@ limitations under the License.
 							ORDER BY
 								occurs_page_number,cat_num
 						</cfquery>
-
-							<h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
-							<cfif len(getCited.doi) GT 0>
-							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
-							</cfif>
-					
 					<cfset i = 1>
 					<cfloop query="citations" group="formatted_publication">
 						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
@@ -3280,6 +3274,86 @@ limitations under the License.
 							</cfif>#CITATION_REMARKS# </span> </div>
 						<cfset i = i + 1>
 					</cfloop>
+
+					<table class="pubtable" border="0" style="border: none;font-size: 15px;margin-top:1.5rem;">
+						<thead style="background-color: ##beecea;padding: 11px;line-height: 1.5rem;">
+							<tr>
+								<th>&nbsp;</th>
+								<th>Cat Num</th>
+								<cfif len(#getCited.CustomID#) GT 0><th>#session.CustomOtherIdentifier#</th></cfif>
+								<th>Cited As</th>
+								<th>Current ID</th>
+								<th>Citation Type</th>
+								<th style="padding: 0 1rem;">Page ##</th>
+								<th style="padding: 0 1rem; min-width: 275px;">Remarks</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfset i=1>
+							<cfloop query="getCited">
+								<tr>
+									<td nowrap>
+										<table>
+											<tr>
+												<form name="deleCitation#i#" method="post" action="Citation.cfm">
+													<input type="hidden" name="Action">
+													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+													<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
+													<td style="border-bottom: none;">
+													<input type="button"
+														value="Delete"
+														class="delBtn"
+														onmouseover="this.className='delBtn btnhov'"
+														onmouseout="this.className='delBtn'"
+														onClick="deleCitation#i#.Action.value='deleCitation';submit();">
+													</td>
+													<td style="border-bottom: none;">
+													<input type="button"
+														value="Edit"
+														class="lnkBtn"
+														onmouseover="this.className='lnkBtn btnhov'"
+														onmouseout="this.className='lnkBtn'"
+														onClick="deleCitation#i#.Action.value='editCitation'; submit();">
+													</td>
+												</form>
+												<td style="border-bottom: none;">
+												<input type="button"
+													value="Clone"
+													class="insBtn"
+													onmouseover="this.className='insBtn btnhov'"
+													onmouseout="this.className='insBtn'"
+													onclick = "newCitation.cited_taxon_name.value='#getCited.citSciName#';
+													newCitation.cited_taxon_name_id.value='#getCited.cited_taxon_name_id#';
+													newCitation.type_status.value='#getCited.type_status#';
+													newCitation.occurs_page_number.value='#getCited.occurs_page_number#';
+													newCitation.citation_remarks.value='#getCited.citation_remarks#';
+													newCitation.collection.value='#getCited.collection_id#';
+													newCitation.citation_page_uri.value='#getCited.citation_page_uri#';
+													">
+												</td>
+											</tr>
+										</table>
+									</td>
+									<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
+									<cfif len(#getCited.CustomID#) GT 0><td nowrap="nowrap">#customID#</td></cfif>
+									<td style="padding: 0 .5rem;"><i>#getCited.citSciName#</i>&nbsp;</td>
+									<td style="padding: 0 .5rem;"><i>#getCited.scientific_name#</i>&nbsp;</td>
+									<td style="padding: 0 .5rem;">#getCited.type_status#&nbsp;</td>
+									<td>
+										<cfif len(#getCited.citation_page_uri#) gt 0>
+											<cfset citpage = trim(getCited.occurs_page_number)>
+											<cfif len(citpage) EQ 0><cfset citpage="[link]"></cfif>
+											<a href ="#getCited.citation_page_uri#" target="_blank">#citpage#</a>&nbsp;
+										<cfelse>
+											#getCited.occurs_page_number#&nbsp;
+										</cfif>
+									</td>
+									<td nowrap>#getCited.citation_remarks#&nbsp;</td>
+								</tr>
+								<cfset i=#i#+1>
+							</cfloop>
+						</tbody>
+					</table>
 					<form name="newCitation" id="newCitation" method="post" action="Citation.cfm">
 					<input type="hidden" name="Action" value="newCitation">
 					<input type="hidden" name="collection_object_id" id="collection_object_id">
@@ -3367,85 +3441,6 @@ limitations under the License.
 							</tr>
 						</table>
 					</form>
-					<table class="pubtable" border="0" style="border: none;font-size: 15px;margin-top:1.5rem;">
-						<thead style="background-color: ##beecea;padding: 11px;line-height: 1.5rem;">
-							<tr>
-								<th>&nbsp;</th>
-								<th>Cat Num</th>
-								<cfif len(#getCited.CustomID#) GT 0><th>#session.CustomOtherIdentifier#</th></cfif>
-								<th>Cited As</th>
-								<th>Current ID</th>
-								<th>Citation Type</th>
-								<th style="padding: 0 1rem;">Page ##</th>
-								<th style="padding: 0 1rem; min-width: 275px;">Remarks</th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfset i=1>
-							<cfloop query="getCited">
-								<tr>
-									<td nowrap>
-										<table>
-											<tr>
-												<form name="deleCitation#i#" method="post" action="Citation.cfm">
-													<input type="hidden" name="Action">
-													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-													<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
-													<td style="border-bottom: none;">
-													<input type="button"
-														value="Delete"
-														class="delBtn"
-														onmouseover="this.className='delBtn btnhov'"
-														onmouseout="this.className='delBtn'"
-														onClick="deleCitation#i#.Action.value='deleCitation';submit();">
-													</td>
-													<td style="border-bottom: none;">
-													<input type="button"
-														value="Edit"
-														class="lnkBtn"
-														onmouseover="this.className='lnkBtn btnhov'"
-														onmouseout="this.className='lnkBtn'"
-														onClick="deleCitation#i#.Action.value='editCitation'; submit();">
-													</td>
-												</form>
-												<td style="border-bottom: none;">
-												<input type="button"
-													value="Clone"
-													class="insBtn"
-													onmouseover="this.className='insBtn btnhov'"
-													onmouseout="this.className='insBtn'"
-													onclick = "newCitation.cited_taxon_name.value='#getCited.citSciName#';
-													newCitation.cited_taxon_name_id.value='#getCited.cited_taxon_name_id#';
-													newCitation.type_status.value='#getCited.type_status#';
-													newCitation.occurs_page_number.value='#getCited.occurs_page_number#';
-													newCitation.citation_remarks.value='#getCited.citation_remarks#';
-													newCitation.collection.value='#getCited.collection_id#';
-													newCitation.citation_page_uri.value='#getCited.citation_page_uri#';
-													">
-												</td>
-											</tr>
-										</table>
-									</td>
-									<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
-									<cfif len(#getCited.CustomID#) GT 0><td nowrap="nowrap">#customID#</td></cfif>
-									<td style="padding: 0 .5rem;"><i>#getCited.citSciName#</i>&nbsp;</td>
-									<td style="padding: 0 .5rem;"><i>#getCited.scientific_name#</i>&nbsp;</td>
-									<td style="padding: 0 .5rem;">#getCited.type_status#&nbsp;</td>
-									<td>
-										<cfif len(#getCited.citation_page_uri#) gt 0>
-											<cfset citpage = trim(getCited.occurs_page_number)>
-											<cfif len(citpage) EQ 0><cfset citpage="[link]"></cfif>
-											<a href ="#getCited.citation_page_uri#" target="_blank">#citpage#</a>&nbsp;
-										<cfelse>
-											#getCited.occurs_page_number#&nbsp;
-										</cfif>
-									</td>
-									<td nowrap>#getCited.citation_remarks#&nbsp;</td>
-								</tr>
-								<cfset i=#i#+1>
-							</cfloop>
-						</tbody>
-					</table>
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
