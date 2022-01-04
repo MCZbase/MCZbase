@@ -3239,7 +3239,7 @@ limitations under the License.
 						</cfquery>
 					<cfset i = 1>
 					<cfloop query="getCited">
-						<div class="p-1 mt-2" style="border:3px solid ##beecea; line-height: 1.1rem;">
+						<div class="p-1 mt-2" style="border:3px solid ##cccccc; line-height: 1.1rem;">
 							<div class="d-block mt-1 py-1 px-2 w-100 float-left"> 
 							<span class="d-inline"></span> 
 							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a>
@@ -3247,7 +3247,7 @@ limitations under the License.
 							<cfif len(citation_remarks) gt 0>#CITATION_REMARKS# </cfif>
 							</span> 
 						</div>
-							<table class="pubtable border-0 mt-2 small table">
+							<table class="pubtable border-0 mt-2 mb-0 small table">
 								<thead class="p-2">
 								<tr>
 									<th>&nbsp;</th>
