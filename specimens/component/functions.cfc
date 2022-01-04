@@ -3186,7 +3186,7 @@ limitations under the License.
 								where
 									citation.cited_taxon_name_id = cited_taxa.taxon_name_id AND
 									citation.publication_id = formatted_publication.publication_id AND
-									format_style='short' and
+									format_style='long' and
 									citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								order by
 									substr(formatted_publication, - 4)
@@ -3237,7 +3237,7 @@ limitations under the License.
 						<div class="border p-1 my-2">
 							<div class="d-block mt-1 py-1 px-2 w-100 float-left"> 
 							<span class="d-inline"></span> 
-							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#citations.formpub#</a>, #publication_title#
+							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#publication_title#</a>, #publication_title#
 							<span class="small font-italic">
 							<cfif len(citation_remarks) gt 0>#CITATION_REMARKS# </cfif>
 							</span> 
