@@ -3262,8 +3262,8 @@ limitations under the License.
 							<cfif len(citation_remarks) gt 0>
 							</cfif>#CITATION_REMARKS# </span> 
 						</div>
-							<table class="pubtable border-0 mt-2">
-								<thead style="background-color: ##beecea;line-height: 1.1rem;" class="small p-2">
+							<table class="pubtable border-0 mt-2 small">
+								<thead style="background-color: ##beecea;line-height: 1.1rem;" class="p-2">
 								<tr>
 									<th>&nbsp;</th>
 									<th>Cat Num</th>
@@ -3274,7 +3274,7 @@ limitations under the License.
 									<th style="padding: 0 1rem; min-width: 275px;">Remarks</th>
 								</tr>
 							</thead>
-								<tbody class="small">
+								<tbody>
 									<tr>
 										<td nowrap>
 											<table>
@@ -3285,7 +3285,7 @@ limitations under the License.
 														<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
 														<td class="border-0">
 														<input type="button"
-															value="Delete"
+															value="Remove"
 															class="delBtn"
 															onmouseover="this.className='delBtn btnhov'"
 															onmouseout="this.className='delBtn'"
@@ -3300,21 +3300,6 @@ limitations under the License.
 															onClick="deleCitation#i#.Action.value='editCitation'; submit();">
 														</td>
 													</form>
-													<td class="border-0">
-													<input type="button"
-														value="Clone"
-														class="insBtn"
-														onmouseover="this.className='insBtn btnhov'"
-														onmouseout="this.className='insBtn'"
-														onclick = "newCitation.cited_taxon_name.value='#getCited.citSciName#';
-														newCitation.cited_taxon_name_id.value='#cited_taxon_name_id#';
-														newCitation.type_status.value='#citations.type_status#';
-														newCitation.occurs_page_number.value='#citations.occurs_page_number#';
-														newCitation.citation_remarks.value='#citations.citation_remarks#';
-														newCitation.collection.value='#collection_id#';
-														newCitation.citation_page_uri.value='#citations.citation_page_uri#';
-														">
-													</td>
 												</tr>
 											</table>
 										</td>
