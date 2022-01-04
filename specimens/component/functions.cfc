@@ -3251,7 +3251,7 @@ limitations under the License.
 								<thead class="p-2">
 								<tr>
 									<th>&nbsp;</th>
-									<th class="px-1">Publication Title</th>
+									<th class="px-1" style="min-width: 280px;">Publication Title</th>
 									<th class="px-1">Cited As</th>
 									<th class="px-1">Current ID</th>
 									<th class="px-1" style="min-width: 80px;">Citation Type</th>
