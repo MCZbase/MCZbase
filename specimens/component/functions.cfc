@@ -3277,7 +3277,7 @@ limitations under the License.
 								<tbody>
 									<tr>
 										<td nowrap>
-											<table>
+											<table class="small">
 												<tr>
 													<form name="deleCitation#i#" method="post" action="Citation.cfm">
 														<input type="hidden" name="Action">
