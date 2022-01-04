@@ -3246,7 +3246,7 @@ limitations under the License.
 									#occurs_page_number#,
 								</cfif>
 							</cfif>
-							<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#citations.citSciName#" target="_mainFrame"><i>#replace(citations.citSciName," ","&nbsp;","all")#</i></a>
+							<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#citations.citSciName#" target="_mainFrame"><i>#replace(getCited.citSciName," ","&nbsp;","all")#</i></a>
 							<cfif find("(ms)", #type_status#) NEQ 0>
 								<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
 								<cfif find(" ", #cited_name#) NEQ 0>
@@ -3307,7 +3307,7 @@ limitations under the License.
 													class="insBtn"
 													onmouseover="this.className='insBtn btnhov'"
 													onmouseout="this.className='insBtn'"
-													onclick = "newCitation.cited_taxon_name.value='#citations.citSciName#';
+													onclick = "newCitation.cited_taxon_name.value='#getCited.citSciName#';
 													newCitation.cited_taxon_name_id.value='#citations.cited_taxon_name_id#';
 													newCitation.type_status.value='#citations.type_status#';
 													newCitation.occurs_page_number.value='#citations.occurs_page_number#';
@@ -3320,7 +3320,7 @@ limitations under the License.
 										</table>
 									</td>
 									<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#citations.collection_object_id#">#collection#&nbsp;#cat_num#</a></td>
-									<td style="padding: 0 .5rem;"><i>#citations.citSciName#</i>&nbsp;</td>
+									<td style="padding: 0 .5rem;"><i>#getCited.citSciName#</i>&nbsp;</td>
 									<td style="padding: 0 .5rem;"><i>#scientific_name#</i>&nbsp;</td>
 									<td style="padding: 0 .5rem;">#type_status#&nbsp;</td>
 									<td>
