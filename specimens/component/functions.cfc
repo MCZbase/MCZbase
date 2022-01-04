@@ -3307,9 +3307,7 @@ limitations under the License.
 							<h2 class="">Publication Search</h2>
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
-								<table>
-									<tr>
-										<td>
+							
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 												<table>
 													<tr>
@@ -3320,7 +3318,7 @@ limitations under the License.
 													</tr>
 												</table>
 											</cfif>
-											<tr>
+										
 											<label for="p_title"><span id="project_publication_title">Title</span></label>
 											<input name="p_title" id="p_title" type="text">
 											<label for="author"><span id="project_publication_agent">Participant</span></label>
@@ -3341,8 +3339,7 @@ limitations under the License.
 											</select>
 											<label for="descr_len"> Description Min. Length</label>
 											<input name="descr_len" id="descr_len" type="text" value="100">
-										</td>
-										<td>
+								
 											<cfoutput>
 												<label for="publication_type"><span id="publication_type">Publication Type</span></label>
 												<select name="publication_type" id="publication_type" size="1">
@@ -3387,15 +3384,9 @@ limitations under the License.
 												<option value=""></option>
 												<option value="1">yes</option>
 											</select>
-										</td>
-									</tr>
-									<tr>
-										<td colspan="2" align="center" style="padding-top: 2em;">
 											<input type="submit" value="Search" class="schBtn">&nbsp;&nbsp;
 											<input type="reset"	value="Clear Form"	class="clrBtn">
-										</td>
-									</tr>
-								</table>
+					
 							</form>
 					</div>
 				<cfcatch>
