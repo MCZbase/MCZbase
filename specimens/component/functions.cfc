@@ -3305,11 +3305,13 @@ limitations under the License.
 								select publication_type from ctpublication_type order by publication_type
 							</cfquery>
 							<cfoutput>
-							<h2 class="h3 mt-4 col-12 col-md-6 float-left">Publication Search</h2>
+							<div class="col-12 col-md-6 px-0 float-left">
+							<h2 class="h3 mt-4">Publication Search</h2>
+							</div>
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 col-md-6 px-0 float-right">
+									<div class="col-12 col-md-6 px-0 float-left">
 										<a class="btn btn-xs btn-outline-primary px-2 float-right" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 								</cfif>
