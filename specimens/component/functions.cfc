@@ -3316,7 +3316,7 @@ limitations under the License.
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-2 mt-2 float-right">
-										<a class="btn btn-xs btn-outline-primary px-0 float-right" href="/Publication.cfm?action=newPub">New Publication</a>
+										<a class="btn btn-xs btn-outline-primary px-2 float-right" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 								</cfif>
 								<div class="col-12 float-left mt-0 px-3 pb-3 pt-0">
