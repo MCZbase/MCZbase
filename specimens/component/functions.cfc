@@ -3252,9 +3252,9 @@ limitations under the License.
 							ORDER BY
 								occurs_page_number,cat_num
 						</cfquery>
-						<cfoutput query="getCited">
+						<cdiv>
 							Add Citation to <b>	#getCited.publication_title#</b>:
-						</cfoutput>
+						</div>
 						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
 								Page
