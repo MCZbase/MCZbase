@@ -3262,14 +3262,14 @@ limitations under the License.
 							<cfif len(citation_remarks) gt 0>
 							</cfif>#CITATION_REMARKS# </span> 
 						</div>
-							<table class="pubtable" border="0" style="border: none;font-size: 15px;margin-top:1.5rem;">
-								<thead style="background-color: ##beecea;padding: 11px;line-height: 1.1rem;" class="small">
+							<table class="pubtable border-0 mt-2">
+								<thead style="background-color: ##beecea;line-height: 1.1rem;" class="small p-2">
 								<tr>
 									<th>&nbsp;</th>
 									<th>Cat Num</th>
 									<th>Cited As</th>
 									<th>Current ID</th>
-									<th>Citation Type</th>
+									<th class="px-1" style="min-width: 80px;">Citation Type</th>
 									<th style="padding: 0 .25rem;min-width: 70px;">Page ##</th>
 									<th style="padding: 0 1rem; min-width: 275px;">Remarks</th>
 								</tr>
