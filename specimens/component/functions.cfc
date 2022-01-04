@@ -3333,8 +3333,7 @@ limitations under the License.
 										<input name="author" id="author" type="text" class="data-entry-input">
 										<label for="year" class="data-entry-label mt-1 mb-0"><span id="project_publication_year">Year</span></label>
 										<input name="year" id="year" type="text" class="data-entry-input">
-<!---										<label for="descr_len" class="data-entry-label mt-1 mb-0"> Description Min. Length</label>
-										<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">--->
+
 									</div>
 									<div class="col-12 col-md-6 float-left">
 										<label for="journal" class="data-entry-label mt-1 mb-0">Journal Name</label>
@@ -3376,7 +3375,7 @@ limitations under the License.
 										<label for="cited_sci_Name" class="data-entry-label mt-1 mb-0">
 											<span id="cited_sci_Name">Cited Scientific Name</span>
 										</label>
-										<input name="cited_sci_Name" id="cited_sci_Name" type="text">
+										<input name="cited_sci_Name" class="data-entry-input" id="cited_sci_Name" type="text">
 										<label for="current_sci_Name" class="data-entry-label mt-1 mb-0">
 											<span id="accepted_sci_name">Accepted Scientific Name</span>
 										</label>
@@ -3388,6 +3387,8 @@ limitations under the License.
 											<option value=""></option>
 											<option value="1">yes</option>
 										</select>
+										<label for="descr_len" class="data-entry-label mt-1 mb-0"> Description Min. Length</label>
+										<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">
 									</div>
 								</div>
 									<div class="col-12 mt-3 float-left">
