@@ -3245,7 +3245,7 @@ limitations under the License.
 							collection,
 							collection.collection_id,
 							cat_num,
-							identification.scientific_name as cited_name_id,
+							identification.scientific_name,
 							citedTaxa.scientific_name as citSciName,
 							occurs_page_number,
 							citation_page_uri,
@@ -3289,7 +3289,7 @@ limitations under the License.
 									#occurs_page_number#,
 								</cfif>
 							</cfif>
-							<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
+							<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#citSciName#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
 							<cfif find("(ms)", #type_status#) NEQ 0>
 								<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
 								<cfif find(" ", #cited_name#) NEQ 0>
