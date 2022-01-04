@@ -3392,7 +3392,7 @@ limitations under the License.
 									</div>
 								</div>
 									<div class="col-12 my-2 float-left">
-										<input type="submit" value="Search" class="btn btn-xs btn-secondary pr-3">
+										<input type="submit" value="Search" class="btn btn-xs btn-secondary mr-3">
 										<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
 									</div>
 								</div>
@@ -3406,7 +3406,7 @@ limitations under the License.
 								<div class="mb-5">
 									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 										<h1 class="h4">Results: </h1>
-										<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+										<span class="d-block px-3 p-2" id="resultCitCount"></span> <span id="resultLink" class="d-block p-2"></span>
 										<div id="columnPickDialog">
 											<div id="columnPick" class="px-1"></div>
 										</div>
@@ -3415,7 +3415,7 @@ limitations under the License.
 									</div>
 									<div class="row mt-0"> 
 										<!--- Grid Related code is below along with search handlers --->
-										<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+										<div id="searchCitResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 										<div id="enableselection"></div>
 									</div>
 								</div>
@@ -3474,7 +3474,7 @@ limitations under the License.
 								},
 								root: 'citationRecord',
 								id: 'collection_object_id',
-								url: '/specimens/component/functions.cfc?' + $('##searchForm').serialize(),
+								url: '/specimens/component/functions.cfc?' + $('##searchCitForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
@@ -3488,13 +3488,13 @@ limitations under the License.
 								var details = $($(parentElement).children()[0]);
 								details.html("<div id='rowDetailsTarget" + index + "'></div>");
 					
-								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+								createRowDetailsDialog('searchCitResultsGrid','rowDetailsTarget',datarecord,index);
 								// Workaround, expansion sits below row in zindex.
 								var maxZIndex = getMaxZIndex();
 								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 							}
 					
-							$("##searchResultsGrid").jqxGrid({
+							$("##searchCitResultsGrid").jqxGrid({
 								width: '100%',
 								autoheight: 'true',
 								source: dataAdapter,
@@ -3534,23 +3534,23 @@ limitations under the License.
 								},
 								initrowdetails: initRowDetails
 							});
-							$("##searchResultsGrid").on("bindingcomplete", function(event) {
+							$("##searchCitResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
 								$('##resultLink').html('<a href="/specimens/SpecimenDetailBody.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-								gridLoaded('searchResultsGrid','collection');
+								gridLoaded('searchCitResultsGrid','collection');
 							});
-							$('##searchResultsGrid').on('rowexpand', function (event) {
+							$('##searchCitResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
 								var args = event.args;
 								var rowIndex = args.rowindex;
 								var datarecord = args.owner.source.records[rowIndex];
-								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+								createRowDetailsDialog('searchCitResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 							});
-							$('##searchResultsGrid').on('rowcollapse', function (event) {
+							$('##searchCitResultsGrid').on('rowcollapse', function (event) {
 								// remove the dialog holding the row details
 								var args = event.args;
 								var rowIndex = args.rowindex;
-								$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+								$("##searchCitResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 							});
 						});
 						/* End Setup jqxgrid for Search ******************************/
@@ -3563,7 +3563,7 @@ limitations under the License.
 	
 					function gridLoaded(gridId, searchType) { 
 						if (Object.keys(window.columnHiddenSettings).length == 0) { 
-							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
+							window.columnHiddenSettings = getColumnVisibilities('searchCitResultsGrid');
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 							</cfif>
@@ -3620,7 +3620,7 @@ limitations under the License.
 							reszable: true, 
 							buttons: { 
 								Ok: function(){
-									window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
+									window.columnHiddenSettings = getColumnVisibilities('searchCitResultsGrid');
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 									</cfif>
@@ -3643,7 +3643,7 @@ limitations under the License.
 						$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 						$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 						$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchCitResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 					}
 				</script> 
 				<cfcatch>
