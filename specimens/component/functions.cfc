@@ -3321,7 +3321,7 @@ limitations under the License.
 								</cfif>
 								<div class="col-12 float-left mt-0 px-3 pb-3 pt-0">
 									<div class="col-12 float-left px-0">
-										<label for="p_title" class="data-entry-label mt-1 mb-0"><span id="project_publication_title">Title</span></label>
+										<label for="p_title" class="data-entry-label mt-2 mb-0"><span id="project_publication_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-6 float-left pl-0 pr-md-2 pr-0">
