@@ -3343,7 +3343,7 @@ limitations under the License.
 		and publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 		and cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
 	</cfquery>
-	<cflocation url="Citation.cfm?publication_id=#publication_id#">
+	<cflocation url="/guid/#guid#">
 </cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------->
