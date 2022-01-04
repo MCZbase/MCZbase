@@ -3242,7 +3242,7 @@ limitations under the License.
 					<cfif len(getCited.publication_id) GT 0>
 						<cfset i = 1 >
 						<h1 class="h3">Publications Citing This Specimen</h1>
-							<table class="table mb-0 small">
+							<table class="table mb-0 small px-2">
 								<thead class="p-2">
 									<tr>
 										<th>&nbsp;</th>
@@ -3297,7 +3297,7 @@ limitations under the License.
 							</table>
 						<cfset i = i + 1>
 					</cfif>
-					<section class="container-fluid px-0" role="search" aria-labelledby="formheader">
+					<section class="container-fluid" role="search" aria-labelledby="formheader">
 						<div class="row mx-0 my-3">
 							<div class="search-box">
 								<cfset title = "Search for Results">
