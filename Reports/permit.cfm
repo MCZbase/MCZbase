@@ -48,6 +48,7 @@ Based on:
 		<cfset thisName = #replace(thisName," ","_","all")#>
 		<cfset thisName = #replace(thisName,"-","_","all")#>
 		<cfset thisName = #left(thisName,20)#>
+		<cfif #thisName# is "size"><cfset thisName = "size_attr"></cfif><!--- reserved word --->
 		<cfif #thisName# is not "sex"><!--- already got it --->
 			<cfset seleAttributes = "#seleAttributes#,ConcatAttributeValue(cataloged_item.collection_object_id,'#ctAtt.attribute_type#')
 					as #thisName#">
