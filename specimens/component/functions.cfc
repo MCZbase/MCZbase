@@ -3234,7 +3234,7 @@ limitations under the License.
 						</cfquery>
 					<cfset i = 1>
 					<cfloop query="getCited">
-						<div class="border p-1 mb-1">
+						<div class="border p-1 my-1">
 							<div class="px-1">
 							Publication title:  <b>	#publication_title#</b>:
 						</div>
@@ -3275,7 +3275,6 @@ limitations under the License.
 								</tr>
 							</thead>
 								<tbody>
-
 									<tr>
 										<td nowrap>
 											<table>
@@ -3319,10 +3318,10 @@ limitations under the License.
 												</tr>
 											</table>
 										</td>
-										<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#collection#&nbsp;#cat_num#</a></td>
-										<td style="padding: 0 .5rem;"><i>#getCited.citSciName#</i>&nbsp;</td>
-										<td style="padding: 0 .5rem;"><i>#scientific_name#</i>&nbsp;</td>
-										<td style="padding: 0 .5rem;">#type_status#&nbsp;</td>
+										<td class="px-2"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#collection#&nbsp;#cat_num#</a></td>
+										<td class="px-2"><i>#getCited.citSciName#</i>&nbsp;</td>
+										<td class="px-2"><i>#scientific_name#</i>&nbsp;</td>
+										<td class="px-2">#type_status#&nbsp;</td>
 										<td>
 											<cfif len(#citation_page_uri#) gt 0>
 												<cfset citpage = trim(occurs_page_number)>
