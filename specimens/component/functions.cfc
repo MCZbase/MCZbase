@@ -3313,7 +3313,7 @@ limitations under the License.
 										<a class="btn btn-xs btn-outline-primary px-2" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 									</cfif>
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-6 float-left px-0">
 									<label for="p_title" class="data-entry-label"><span id="project_publication_title">Title</span></label>
 									<input name="p_title" id="p_title" type="text" class="data-entry-input">
 									<label for="author" class="data-entry-label"><span id="project_publication_agent">Participant</span></label>
@@ -3323,7 +3323,7 @@ limitations under the License.
 									<label for="sponsor" class="data-entry-label"><span id="project_sponsor">Sponsor</span></label>
 									<input name="sponsor" id="sponsor" type="text" class="data-entry-input">
 									</div>
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-6 float-left px-0">
 										<label for="project_type" class="data-entry-label"><span id="project_type">Type</span></label>
 										<select name="project_type" id="project_type" class="data-entry-select">
 											<option value=""></option>
