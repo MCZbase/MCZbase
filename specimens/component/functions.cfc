@@ -3535,7 +3535,7 @@ limitations under the License.
 							});
 							$("##searchCitResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
-								$('##resultLink').html('<a href="/specimens/SpecimenDetailBody.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+								$('##resultCitLink').html('<a href="/specimens/SpecimenDetailBody.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 								gridLoaded('searchCitResultsGrid','collection');
 							});
 							$('##searchCitResultsGrid').on('rowexpand', function (event) {
@@ -3575,9 +3575,9 @@ limitations under the License.
 						var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 						var rowcount = datainformation.rowscount;
 						if (rowcount == 1) {
-							$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+							$('##resultCitCount').html('Found ' + rowcount + ' ' + searchType);
 						} else { 
-							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+							$('##resultCitCount').html('Found ' + rowcount + ' ' + searchType + 's');
 						}
 						// set maximum page size
 						if (rowcount > 100) { 
