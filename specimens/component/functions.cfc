@@ -3338,6 +3338,9 @@ limitations under the License.
 													<option value="#journal_name#">#journal_name#</option>
 												</cfloop>
 											</select>
+
+									</div>
+									<div class="col-12 col-md-6 float-left pr-0 pl-md-1 pl-0">
 											<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
 											<select name="collection_id" id="collection_id" size="1"  class="data-entry-select">
 												<option value="">All</option>
@@ -3346,9 +3349,6 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</cfoutput>
-									</div>
-									<div class="col-12 col-md-6 float-left pr-0 pl-md-1 pl-0">
-
 										<label for="onlyCitePubs" class="data-entry-label mt-1 mb-0">
 											<span id="pub_cites_specimens">Cites specimens?</span>
 										</label>
