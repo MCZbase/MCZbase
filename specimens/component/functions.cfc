@@ -3331,7 +3331,7 @@ limitations under the License.
 									<div class="col-12 col-md-6 float-left">
 										<label for="author" class="data-entry-label mt-0 mb-0"><span id="project_publication_agent">Participant</span></label>
 										<input name="author" id="author" type="text" class="data-entry-input">
-										<label for="year" class="data-entry-label mt-0 mb-0"><span id="project_publication_year">Year</span></label>
+										<label for="year" class="data-entry-label mt-1 mb-0"><span id="project_publication_year">Year</span></label>
 										<input name="year" id="year" type="text" class="data-entry-input">
 
 									</div>
@@ -3343,7 +3343,7 @@ limitations under the License.
 												<option value="#journal_name#">#journal_name#</option>
 											</cfloop>
 										</select>
-										<label for="publication_type" class="data-entry-label mt-0 mb-0"><span id="publication_type">Publication Type</span></label>
+										<label for="publication_type" class="data-entry-label mt-1 mb-0"><span id="publication_type">Publication Type</span></label>
 										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
 											<option value=""></option>
 											<cfloop query="ctpublication_type">
