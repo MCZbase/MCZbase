@@ -3212,6 +3212,8 @@ limitations under the License.
 								type_status,
 								citation_remarks,
 								publication_title,
+						formatted_publication.formatted_publication as formpub,
+									formatted_publication.publication_id,
 								doi,
 								cited_taxon_name_id
 							FROM
@@ -3220,6 +3222,7 @@ limitations under the License.
 								collection,
 								identification,
 								taxonomy citedTaxa,
+						formatted_publication,
 								publication
 							WHERE
 								citation.collection_object_id = cataloged_item.collection_object_id AND
@@ -3228,6 +3231,8 @@ limitations under the License.
 								cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 								identification.accepted_id_fg = 1 AND
 								citation.publication_id = publication.publication_id AND
+						citation.publication_id = formatted_publication.publication_id AND
+									format_style='long' and
 								citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 							ORDER BY
 								occurs_page_number,cat_num
@@ -3237,7 +3242,7 @@ limitations under the License.
 						<div class="border p-1 my-2">
 							<div class="d-block mt-1 py-1 px-2 w-100 float-left"> 
 							<span class="d-inline"></span> 
-							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#citations.formpub#</a>
+							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a>
 							<span class="small font-italic">
 							<cfif len(citation_remarks) gt 0>#CITATION_REMARKS# </cfif>
 							</span> 
