@@ -3235,12 +3235,47 @@ limitations under the License.
 						ORDER BY
 							occurs_page_number,citSciName,cat_num
 					</cfquery>
+					<cfquery name="getCited2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							citation.publication_id,
+							citation.collection_object_id,
+							collection,
+							collection.collection_id,
+							cat_num,
+							identification.scientific_name,
+							citedTaxa.scientific_name as citSciName,
+							occurs_page_number,
+							citation_page_uri,
+							type_status,
+							citation_remarks,
+							publication_title,
+							doi,
+							cited_taxon_name_id,
+							concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
+						FROM
+							citation,
+							cataloged_item,
+							collection,
+							identification,
+							taxonomy citedTaxa,
+							publication
+						WHERE
+							citation.collection_object_id = cataloged_item.collection_object_id AND
+							cataloged_item.collection_id = collection.collection_id AND
+							citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
+							cataloged_item.collection_object_id = identification.collection_object_id (+) AND
+							identification.accepted_id_fg = 1 AND
+							citation.publication_id = publication.publication_id AND
+							citation.publication_id = <cfqueryparam value="#getCited.publication_id#" cfsqltype="CF_SQL_DECIMAL">
+						ORDER BY
+							occurs_page_number,citSciName,cat_num
+					</cfquery>
 						<div class="d-block py-1 px-2 w-100 float-left">
-							<h5>Citations for <i>#getCited.publication_title#</i></h5>
+							<h5 class="wikilink">Citations for <i>#getCited.publication_title#</i></h5>
 							<cfif len(getCited.doi) GT 0>
-							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
+							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited2.DOI#</a><br><br>
 							</cfif>
-							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#getCited.formatted_publication#</a>,
+							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
 								Page
 								<cfif len(citation_page_uri) gt 0>
@@ -3348,69 +3383,6 @@ limitations under the License.
 								</td>
 							</tr>
 						</table>
-					
-								<tr>
-									<td nowrap>
-										<table>
-											<tr>#formatted_publication#</tr>
-											<tr>
-												<form name="deleCitation#i#" method="post" action="Citation.cfm">
-													<input type="hidden" name="Action">
-													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-													<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
-													<td style="border-bottom: none;">
-													<input type="button"
-														value="Delete"
-														class="delBtn"
-														onmouseover="this.className='delBtn btnhov'"
-														onmouseout="this.className='delBtn'"
-														onClick="deleCitation#i#.Action.value='deleCitation';submit();">
-													</td>
-													<td style="border-bottom: none;">
-													<input type="button"
-														value="Edit"
-														class="lnkBtn"
-														onmouseover="this.className='lnkBtn btnhov'"
-														onmouseout="this.className='lnkBtn'"
-														onClick="deleCitation#i#.Action.value='editCitation'; submit();">
-													</td>
-												</form>
-												<td style="border-bottom: none;">
-												<input type="button"
-													value="Clone"
-													class="insBtn"
-													onmouseover="this.className='insBtn btnhov'"
-													onmouseout="this.className='insBtn'"
-													onclick = "newCitation.cited_taxon_name.value='#getCited.citSciName#';
-													newCitation.cited_taxon_name_id.value='#getCited.cited_taxon_name_id#';
-													newCitation.type_status.value='#getCited.type_status#';
-													newCitation.occurs_page_number.value='#getCited.occurs_page_number#';
-													newCitation.citation_remarks.value='#getCited.citation_remarks#';
-													newCitation.collection.value='#getCited.collection_id#';
-													newCitation.citation_page_uri.value='#getCited.citation_page_uri#';
-													">
-												</td>
-											</tr>
-							
-									</td>
-									<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
-									<cfif len(#getCited.CustomID#) GT 0><td nowrap="nowrap">#customID#</td></cfif>
-									<td style="padding: 0 .5rem;"><i>#getCited.citSciName#</i>&nbsp;</td>
-									<td style="padding: 0 .5rem;"><i>#getCited.scientific_name#</i>&nbsp;</td>
-									<td style="padding: 0 .5rem;">#getCited.type_status#&nbsp;</td>
-									<td>
-										<cfif len(#getCited.citation_page_uri#) gt 0>
-											<cfset citpage = trim(getCited.occurs_page_number)>
-											<cfif len(citpage) EQ 0><cfset citpage="[link]"></cfif>
-											<a href ="#getCited.citation_page_uri#" target="_blank">#citpage#</a>&nbsp;
-										<cfelse>
-											#getCited.occurs_page_number#&nbsp;
-										</cfif>
-									</td>
-									<td nowrap>#getCited.citation_remarks#&nbsp;</td>
-								</tr>
-								<cfset i=#i#+1>
-							</cfloop>
 					</form>
 					<table class="pubtable" border="0" style="border: none;font-size: 15px;margin-top:1.5rem;">
 						<thead style="background-color: ##beecea;padding: 11px;line-height: 1.5rem;">
