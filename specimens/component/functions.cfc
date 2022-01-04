@@ -3239,7 +3239,7 @@ limitations under the License.
 						</cfquery>
 					<cfset i = 1>
 						<h1 class="h4">Publications Citing This Specimen</h1>
-					<cfloop query="getCited">
+			
 <!---					<div class="d-block mt-1 py-1 px-2 w-100 float-left"> 
 							<span class="d-inline"></span> 
 							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a>
@@ -3259,6 +3259,7 @@ limitations under the License.
 									<th class="px-1" style="min-width: 275px;">Remarks</th>
 								</tr>
 							</thead>
+							<cfloop query="getCited">
 								<tbody>
 									<tr>
 										<td nowrap>
@@ -3299,11 +3300,11 @@ limitations under the License.
 										</td>
 										<td nowrap>#citation_remarks#&nbsp;</td>
 									</tr>
-
-							</tbody>
+									</tbody>
+								</cfloop>
 							</table>
 						<cfset i = i + 1>
-					</cfloop>
+				
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
