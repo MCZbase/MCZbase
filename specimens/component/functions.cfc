@@ -3251,9 +3251,11 @@ limitations under the License.
 						</cfquery>
 					<cfset i = 1>
 					<cfloop query="citations" group="formatted_publication">
-						
+						<cfquery  name="getCitedPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select publication_title from publication where publication_id=getCited.publication_id
+						</cfquery>
 						<div>
-							Add Citation to <b>	#getCited.publication_title#</b>:
+							Add Citation to <b>	#getCitedPub.publication_title#</b>:
 						</div>
 						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
