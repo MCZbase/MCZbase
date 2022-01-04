@@ -3274,10 +3274,10 @@ limitations under the License.
 									<th style="padding: 0 1rem; min-width: 275px;">Remarks</th>
 								</tr>
 							</thead>
-								<tbody>
+								<tbody class="small">
 									<tr>
 										<td nowrap>
-											<table class="small">
+											<table>
 												<tr>
 													<form name="deleCitation#i#" method="post" action="Citation.cfm">
 														<input type="hidden" name="Action">
