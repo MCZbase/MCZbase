@@ -3336,7 +3336,7 @@ limitations under the License.
 <!---										<label for="descr_len" class="data-entry-label mt-1 mb-0"> Description Min. Length</label>
 										<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">--->
 									</div>
-									<div class="col-12 col-md-6 float-left pr-0 pl-md-1 pl-0">
+									<div class="col-12 col-md-6 float-left">
 										<label for="journal" class="data-entry-label mt-1 mb-0">Journal Name</label>
 										<select name="journal" id="journal" size="1" class="data-entry-select">
 											<option value=""></option>
