@@ -3315,13 +3315,13 @@ limitations under the License.
 									<h2 class="h3 text-white float-left mb-0 px-3">Search Publications in MCZbase to Add Citation</h2>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 col-md-2 mt-2 float-right">
-										<a class="btn btn-xs btn-outline-primary px-2 text-right" href="/Publication.cfm?action=newPub">New Publication</a>
+									<div class="col-12 col-md-2 mt-2 px-0 float-right">
+										<a class="btn btn-xs btn-outline-primary px-2 float-right" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 								</cfif>
 								<div class="col-12 float-left mt-0 px-3 pb-3 pt-0">
 									<div class="col-12 float-left px-0">
-										<label for="p_title" class="data-entry-label mt-2 mb-0"><span id="project_publication_title">Title</span></label>
+										<label for="p_title" class="data-entry-label mt-0 mb-0"><span id="project_publication_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-6 float-left pl-0 pr-md-2 pr-0">
