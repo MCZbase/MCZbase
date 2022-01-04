@@ -259,51 +259,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-							
-					<!----------------------------- images ----------------------------------> 
-<!---					<div class="accordion" id="accordionIm">
-						<div class="card mb-2 bg-light">
-							<div id="imagesDialog"></div>
-							<script>
-								function reloadImages() { 
-								
-									loadImages(#collection_object_id#,'imagesCardBody');
-								}
-							</script>
-							<cfset blockident = getImagesHTML(collection_object_id = "#collection_object_id#")>
-							<div class="card-header" id="heading1">
-								<cfif len(#blockident#) gt 10> 
-									<h3 class="h4 my-0" tabindex="0">
-										<button type="button" class="headerLnk text-left w-100" href="##" data-toggle="collapse" data-target="##imagesPane" aria-expanded="true" aria-controls="imagesPane">
-											Images
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="##" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditImagesDialog(#collection_object_id#,'imagesDialog','#guid#',reloadImages)">
-												Add/Remove
-											</a>
-										</cfif>
-									</h3>
-								<cfelse>
-									<h3 class="h4 my-0" tabindex="0">
-										<button type="button" class="headerLnk text-left w-100 h-100" href="##" data-toggle="collapse" data-target="##imagesPane" aria-controls="imagesPane">
-											Images
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="##" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditImagesDialog(#collection_object_id#,'imagesDialog','#guid#',reloadImages)">
-												Add
-											</a>
-										</cfif>
-									</h3>
-								</cfif>
-							</div>
-							<div id="imagesPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionIm">
-								<div class="card-body py-1 mb-1 w-100 float-left" id="imagesCardBody">
-									#blockident#
-									<div id="imagesHTML"></div>
-								</div>
-							</div>
-						</div>
-					</div>--->
 					<!----------------------------- Citations new ----------------------------------> 
 					<div class="accordion" id="accordionCitations">
 						<div class="card mb-2 bg-light">
@@ -325,31 +280,6 @@ limitations under the License.
 									</cfif>
 								</h3>
 							</div>
-						
-<!---								<cfif len(#blockcit#) gt 10> 
-									<h3 class="h4 my-0">
-										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" data-toggle="collapse" data-target="##citationsPane" aria-controls="citationsPane">
-											Citations
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" role="button" class="anchorFocus btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
-												Edit
-											</a>
-										</cfif>
-									</h3>
-								<cfelse>
-									<h3 class="h4 my-0">
-										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" data-toggle="collapse" data-target="##citationsPane" aria-controls="citationsPane">
-											Citations
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" role="button" class="anchorFocus btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
-												Add
-											</a>
-										</cfif>
-									</h3>
-								</cfif>--->
-					
 							<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
 								<div class="card-body py-1 mb-1 float-left" id="citationsCardBody">
 									<cfif len(#blockcit#) gt 10>
