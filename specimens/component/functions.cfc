@@ -3283,7 +3283,7 @@ limitations under the License.
 														<input type="hidden" name="Action">
 														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 														<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
-														<td style="border-bottom: none;">
+														<td class="border-0">
 														<input type="button"
 															value="Delete"
 															class="delBtn"
@@ -3291,7 +3291,7 @@ limitations under the License.
 															onmouseout="this.className='delBtn'"
 															onClick="deleCitation#i#.Action.value='deleCitation';submit();">
 														</td>
-														<td style="border-bottom: none;">
+														<td class="border-0">
 														<input type="button"
 															value="Edit"
 															class="lnkBtn"
@@ -3300,7 +3300,7 @@ limitations under the License.
 															onClick="deleCitation#i#.Action.value='editCitation'; submit();">
 														</td>
 													</form>
-													<td style="border-bottom: none;">
+													<td class="border-0">
 													<input type="button"
 														value="Clone"
 														class="insBtn"
