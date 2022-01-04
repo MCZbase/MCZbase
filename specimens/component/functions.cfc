@@ -3333,7 +3333,20 @@ limitations under the License.
 	select type_status from ctcitation_type_status order by type_status
 </cfquery>
 <!--- get all cited specimens --->
-
+<!------------------------------------------------------------------------------->
+<cfif #Action# is "deleCitation">
+<cfoutput>
+	<cfquery name="deleCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	delete from citation
+	where
+		collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		and publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+		and cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
+	</cfquery>
+	<cflocation url="Citation.cfm?publication_id=#publication_id#">
+</cfoutput>
+</cfif>
+<!------------------------------------------------------------------------------->
 <!------------------------------------------------------------------------------->
 <cfif action is "nothing">
      <div style="width: 99%; margin: 0 auto; padding: 0 .5rem 5em .5rem;">
