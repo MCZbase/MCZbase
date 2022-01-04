@@ -3310,34 +3310,34 @@ limitations under the License.
 								<input name="action" type="hidden" value="search">
 								<div class="col-12 float-left mt-2 p-3 border rounded">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="float-right">
-										<a class="btn btn-xs btn-outline-primary px-2" href="/Publication.cfm?action=newPub">New Publication</a>
+									<div class="w-100">
+										<a class="btn btn-xs btn-outline-primary px-2 float-right" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 									</cfif>
 									<div class="col-12 col-md-6 float-left px-0">
-										<label for="p_title" class="data-entry-label mt-1"><span id="project_publication_title">Title</span></label>
-										<input name="p_title" id="p_title" type="text" class="data-entry-input mt-1">
-										<label for="author" class="data-entry-label"><span id="project_publication_agent">Participant</span></label>
-										<input name="author" id="author" type="text" class="data-entry-input mt-1">
-										<label for="year" class="data-entry-label"><span id="project_publication_year">Year</span></label>
-										<input name="year" id="year" type="text" class="data-entry-input mt-1">
-										<label for="descr_len" class="data-entry-label mt-1"> Description Min. Length</label>
+										<label for="p_title" class="data-entry-label mt-1 mb-0"><span id="project_publication_title">Title</span></label>
+										<input name="p_title" id="p_title" type="text" class="data-entry-input">
+										<label for="author" class="data-entry-label mt-1 mb-0"><span id="project_publication_agent">Participant</span></label>
+										<input name="author" id="author" type="text" class="data-entry-input">
+										<label for="year" class="data-entry-label mt-1 mb-0"><span id="project_publication_year">Year</span></label>
+										<input name="year" id="year" type="text" class="data-entry-input">
+										<label for="descr_len" class="data-entry-label mt-1 mb-0"> Description Min. Length</label>
 										<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">
-										<label for="publication_type" class="data-entry-label"><span id="publication_type">Publication Type</span></label>
+										<label for="publication_type" class="data-entry-label mt-1 mb-0"><span id="publication_type">Publication Type</span></label>
 										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
 											<option value=""></option>
 											<cfloop query="ctpublication_type">
 												<option value="#publication_type#">#publication_type#</option>
 											</cfloop>
 										</select>
-											<label for="journal" class="data-entry-label">Journal Name</label>
+											<label for="journal" class="data-entry-label mt-1 mb-0">Journal Name</label>
 											<select name="journal" id="journal" size="1" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="ctjournal_name">
 													<option value="#journal_name#">#journal_name#</option>
 												</cfloop>
 											</select>
-											<label for="collection_id" class="data-entry-label">Cites Collection</label>
+											<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
 											<select name="collection_id" id="collection_id" size="1"  class="data-entry-select">
 												<option value="">All</option>
 												<cfloop query="ctColl">
@@ -3348,7 +3348,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-6 float-left px-0">
 
-										<label for="onlyCitePubs" class="data-entry-label">
+										<label for="onlyCitePubs" class="data-entry-label mt-1 mb-0">
 											<span id="pub_cites_specimens">Cites specimens?</span>
 										</label>
 										<select name="onlyCitePubs" id="onlyCitePubs" class="data-entry-select">
@@ -3356,15 +3356,15 @@ limitations under the License.
 											<option value="1">Cites Specimens</option>
 											<option value="0">Cites no Specimens</option>
 										</select>
-										<label for="cited_sci_Name" class="data-entry-label">
+										<label for="cited_sci_Name" class="data-entry-label mt-1 mb-0">
 											<span id="cited_sci_Name">Cited Scientific Name</span>
 										</label>
 										<input name="cited_sci_Name" id="cited_sci_Name" type="text">
-										<label for="current_sci_Name" class="data-entry-label">
+										<label for="current_sci_Name" class="data-entry-label mt-1 mb-0">
 											<span id="accepted_sci_name">Accepted Scientific Name</span>
 										</label>
 										<input name="current_sci_Name" class="data-entry-input" id="current_sci_Name" type="text">
-										<label for="is_peer_reviewed_fg" class="data-entry-label"><span id="is_peer_reviewed_fg">Peer Reviewed only?</span></label>
+										<label for="is_peer_reviewed_fg" class="data-entry-label mt-1 mb-0"><span id="is_peer_reviewed_fg">Peer Reviewed only?</span></label>
 										<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="data-entry-select">
 											<option value=""></option>
 											<option value="1">yes</option>
