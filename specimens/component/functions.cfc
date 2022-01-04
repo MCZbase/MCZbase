@@ -3198,7 +3198,7 @@ limitations under the License.
 					<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select type_status from ctcitation_type_status order by type_status
 					</cfquery>
-					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="citation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							citation.publication_id,
 							citation.collection_object_id,
@@ -3280,7 +3280,7 @@ limitations under the License.
 							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
 							</cfif>
 							
-							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>, #citation.formatted_title#
+							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>, #getCited.formatted_title#
 							<cfif len(occurs_page_number) gt 0>
 								Page
 								<cfif len(citation_page_uri) gt 0>
