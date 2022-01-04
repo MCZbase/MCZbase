@@ -3237,7 +3237,7 @@ limitations under the License.
 							occurs_page_number,citSciName,cat_num
 					</cfquery>
 					<cfset i = 1>
-					<cfloop query="citations">
+					<cfloop query="citation">
 						<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							citation.publication_id,
