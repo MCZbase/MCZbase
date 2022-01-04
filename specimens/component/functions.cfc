@@ -3247,16 +3247,16 @@ limitations under the License.
 							<cfif len(citation_remarks) gt 0>#CITATION_REMARKS# </cfif>
 							</span> 
 						</div>--->
-							<table class="pubtable border-0 mb-0 small">
+							<table class="table mb-0 small">
 								<thead class="p-2">
 								<tr>
 									<th>&nbsp;</th>
-									<th>Publication Title</th>
-									<th>Cited As</th>
-									<th>Current ID</th>
+									<th class="px-1">Publication Title</th>
+									<th class="px-1">Cited As</th>
+									<th class="px-1">Current ID</th>
 									<th class="px-1" style="min-width: 80px;">Citation Type</th>
-									<th style="padding: 0 .25rem;min-width: 70px;">Page ##</th>
-									<th style="padding: 0 1rem; min-width: 275px;">Remarks</th>
+									<th class="px-1" style="min-width: 70px;">Page ##</th>
+									<th class="px-1" style="min-width: 275px;">Remarks</th>
 								</tr>
 							</thead>
 								<tbody>
