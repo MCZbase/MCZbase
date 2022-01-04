@@ -3168,29 +3168,45 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<div id="citationsDialog">
-<!---					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
-							citation.type_status,
-							citation.occurs_page_number,
-							citation.citation_page_uri,
-							citation.CITATION_REMARKS,
-							cited_taxa.scientific_name as cited_name,
-							cited_taxa.taxon_name_id as cited_name_id,
-							formatted_publication.formatted_publication,
-							formatted_publication.publication_id,
-							cited_taxa.taxon_status as cited_name_status
-						from
-							citation,
-							taxonomy cited_taxa,
-							formatted_publication
-						where
-							citation.cited_taxon_name_id = cited_taxa.taxon_name_id AND
-							citation.publication_id = formatted_publication.publication_id AND
-							format_style='short' and
-							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						order by
-							substr(formatted_publication, - 4)
-					</cfquery>--->
+					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									citation.type_status,
+									citation.occurs_page_number,
+									citation.citation_page_uri,
+									citation.CITATION_REMARKS,
+									cited_taxa.scientific_name as cited_name,
+									cited_taxa.taxon_name_id as cited_name_id,
+									formatted_publication.formatted_publication,
+									formatted_publication.publication_id,
+									cited_taxa.taxon_status as cited_name_status
+								from
+									citation,
+									taxonomy cited_taxa,
+									formatted_publication
+								where
+									citation.cited_taxon_name_id = cited_taxa.taxon_name_id AND
+									citation.publication_id = formatted_publication.publication_id AND
+									format_style='short' and
+									citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								order by
+									substr(formatted_publication, - 4)
+						</cfquery>
+					<cfquery name="publicationMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
+								FROM
+									media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
+								WHERE
+									mr.media_id = ml.media_id and
+									mr.media_id = m.media_id and
+									ml.media_label = 'description' and
+									MEDIA_RELATIONSHIP like '% publication' and
+									RELATED_PRIMARY_KEY = c.publication_id and
+									c.publication_id = fp.publication_id and
+									fp.format_style='short' and
+									c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								ORDER by substr(formatted_publication, -4)
+						</cfquery>
 					<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select collection_id,collection from collection
 						order by collection
@@ -3198,47 +3214,7 @@ limitations under the License.
 					<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select type_status from ctcitation_type_status order by type_status
 					</cfquery>
-					<cfquery name="citation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
-							citation.publication_id,
-							citation.collection_object_id,
-							collection,
-							collection.collection_id,
-							cat_num,
-							identification.scientific_name,
-							citedTaxa.scientific_name as citSciName,
-							occurs_page_number,
-							citation_page_uri,
-							type_status,
-							citation_remarks,
-							publication_title,
-							formatted_publication,
-							doi,
-							cited_taxon_name_id,
-							concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
-						FROM
-							citation,
-							cataloged_item,
-							collection,
-							identification,
-							taxonomy citedTaxa,
-							publication,
-							formatted_publication
-						WHERE
-							citation.collection_object_id = cataloged_item.collection_object_id AND
-							cataloged_item.collection_id = collection.collection_id AND
-							citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
-							cataloged_item.collection_object_id = identification.collection_object_id (+) AND
-							identification.accepted_id_fg = 1 AND
-							citation.publication_id = formatted_publication.publication_id AND
-							format_style='short' and
-							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						ORDER BY
-							occurs_page_number,citSciName,cat_num
-					</cfquery>
-					<cfset i = 1>
-					<cfloop query="citation">
-						<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							citation.publication_id,
 							citation.collection_object_id,
@@ -3261,26 +3237,27 @@ limitations under the License.
 							collection,
 							identification,
 							taxonomy citedTaxa,
-							publication,
-							formatted_publication
+							publication
 						WHERE
 							citation.collection_object_id = cataloged_item.collection_object_id AND
 							cataloged_item.collection_id = collection.collection_id AND
 							citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
 							cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 							identification.accepted_id_fg = 1 AND
-							citation.publication_id = formatted_publication.publication_id AND
-							format_style='short' and
+							citation.publication_id = publication.publication_id AND
 							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						ORDER BY
 							occurs_page_number,citSciName,cat_num
 					</cfquery>
-						<div class="d-block py-1 px-2 w-100 float-left">
-							<cfif len(doi) GT 0>
-							doi: <a target="_blank" href="https://doi.org/#DOI#">#DOI#</a><br><br>
+
+							<h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
+							<cfif len(getCited.doi) GT 0>
+							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
 							</cfif>
-							
-							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>, #publication_title#
+					
+					<cfset i = 1>
+					<cfloop query="citations" group="formatted_publication">
+						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
 								Page
 								<cfif len(citation_page_uri) gt 0>
@@ -3289,7 +3266,7 @@ limitations under the License.
 									#occurs_page_number#,
 								</cfif>
 							</cfif>
-							<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#citSciName#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
+							<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
 							<cfif find("(ms)", #type_status#) NEQ 0>
 								<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
 								<cfif find(" ", #cited_name#) NEQ 0>
@@ -3300,12 +3277,18 @@ limitations under the License.
 							</cfif>
 							<span class="small font-italic">
 							<cfif len(citation_remarks) gt 0>
-							</cfif>#CITATION_REMARKS# </span> 
-							<form name="newCitation" id="newCitation" method="post" action="Citation.cfm">
+							</cfif>#CITATION_REMARKS# </span> </div>
+						<cfset i = i + 1>
+					</cfloop>
+					<form name="newCitation" id="newCitation" method="post" action="Citation.cfm">
 					<input type="hidden" name="Action" value="newCitation">
 					<input type="hidden" name="collection_object_id" id="collection_object_id">
-						<input type="hidden" name="publication_id" id="publication_id">
 						<table border class="newRec">
+							<tr>
+								<td colspan="2">
+								Add Citation to <b>	#getCited.publication_title#</b>:
+								</td>
+							</tr>
 							<tr>
 								<td>
 									<label for="collection">Collection</label>
@@ -3463,10 +3446,6 @@ limitations under the License.
 							</cfloop>
 						</tbody>
 					</table>
-							</div>
-						<cfset i = i + 1>
-					</cfloop>
-					
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
