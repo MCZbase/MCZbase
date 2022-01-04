@@ -3230,6 +3230,7 @@ limitations under the License.
 							type_status,
 							citation_remarks,
 							publication_title,
+							formatted_publication,
 							doi,
 							cited_taxon_name_id,
 							concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
@@ -3239,6 +3240,7 @@ limitations under the License.
 							collection,
 							identification,
 							taxonomy citedTaxa,
+							formatted_publication,
 							publication
 						WHERE
 							citation.collection_object_id = cataloged_item.collection_object_id AND
@@ -3246,6 +3248,9 @@ limitations under the License.
 							citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
 							cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 							identification.accepted_id_fg = 1 AND
+							citation.publication_id = formatted_publication.publication_id AND
+							format_style='short' and
+							publication.publication_id = citation.publication_id and
 							citation.publication_id = publication.publication_id AND
 							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						ORDER BY
