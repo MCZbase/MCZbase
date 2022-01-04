@@ -3308,13 +3308,13 @@ limitations under the License.
 													class="insBtn"
 													onmouseover="this.className='insBtn btnhov'"
 													onmouseout="this.className='insBtn'"
-													onclick = "newCitation.cited_taxon_name.value='#getCited.citSciName#';
-													newCitation.cited_taxon_name_id.value='#getCited.cited_taxon_name_id#';
-													newCitation.type_status.value='#getCited.type_status#';
-													newCitation.occurs_page_number.value='#getCited.occurs_page_number#';
-													newCitation.citation_remarks.value='#getCited.citation_remarks#';
-													newCitation.collection.value='#getCited.collection_id#';
-													newCitation.citation_page_uri.value='#getCited.citation_page_uri#';
+													onclick = "newCitation.cited_taxon_name.value='#citations.citSciName#';
+													newCitation.cited_taxon_name_id.value='#citations.cited_taxon_name_id#';
+													newCitation.type_status.value='#citations.type_status#';
+													newCitation.occurs_page_number.value='#citations.occurs_page_number#';
+													newCitation.citation_remarks.value='#citations.citation_remarks#';
+													newCitation.collection.value='#citations.collection_id#';
+													newCitation.citation_page_uri.value='#citations.citation_page_uri#';
 													">
 												</td>
 											</tr>
