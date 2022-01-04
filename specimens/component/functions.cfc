@@ -3295,17 +3295,19 @@ limitations under the License.
 							</table>
 						<cfset i = i + 1>
 					</cfif>
-						<div class="">
-						<cfset title = "Search for Results">
-							<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select collection,collection_id from collection order by collection
-							</cfquery>
-							<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select journal_name from ctjournal_name order by journal_name
-							</cfquery>
-							<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select publication_type from ctpublication_type order by publication_type
-							</cfquery>
+						<section class="container-fluid" role="search" aria-labelledby="formheader">
+							<div class="row mx-0 mb-3">
+							<div class="search-box">
+								<cfset title = "Search for Results">
+								<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select collection,collection_id from collection order by collection
+								</cfquery>
+								<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select journal_name from ctjournal_name order by journal_name
+								</cfquery>
+								<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select publication_type from ctpublication_type order by publication_type
+								</cfquery>
 							<cfoutput>
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
@@ -3317,13 +3319,12 @@ limitations under the License.
 										<a class="btn btn-xs btn-outline-primary px-2" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 								</cfif>
-								<div class="col-12 float-left mt-2 p-3 border rounded">
+								<div class="col-12 float-left mt-2 p-3">
 									<div class="col-12 float-left px-0">
 										<label for="p_title" class="data-entry-label mt-1 mb-0"><span id="project_publication_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-6 float-left pl-0 pr-md-2 pr-0">
-									
 										<label for="author" class="data-entry-label mt-1 mb-0"><span id="project_publication_agent">Participant</span></label>
 										<input name="author" id="author" type="text" class="data-entry-input">
 										<label for="year" class="data-entry-label mt-1 mb-0"><span id="project_publication_year">Year</span></label>
@@ -3377,13 +3378,14 @@ limitations under the License.
 											<option value="1">yes</option>
 										</select>
 								</div>
-								<div class="col-12 px-0 mt-3 float-left">
+									<div class="col-12 px-0 mt-3 float-left">
 										<input type="submit" value="Search" class="btn btn-xs btn-secondary pr-2">
 										<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
 									</div>
 								</div>
 							</form>
-					</div>
+							</div>
+					</section>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
