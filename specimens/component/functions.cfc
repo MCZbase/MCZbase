@@ -3263,14 +3263,14 @@ limitations under the License.
 							</cfif>#CITATION_REMARKS# </span> 
 						</div>
 						<table class="pubtable" border="0" style="border: none;font-size: 15px;margin-top:1.5rem;">
-						<thead style="background-color: ##beecea;padding: 11px;line-height: 1rem;" class="small">
+						<thead style="background-color: ##beecea;padding: 11px;line-height: 1.1rem;" class="small">
 							<tr>
 								<th>&nbsp;</th>
 								<th>Cat Num</th>
 								<th>Cited As</th>
 								<th>Current ID</th>
 								<th>Citation Type</th>
-								<th style="padding: 0 .25rem;min-width: 75px;">Page ##</th>
+								<th style="padding: 0 .25rem;min-width: 70px;">Page ##</th>
 								<th style="padding: 0 1rem; min-width: 275px;">Remarks</th>
 							</tr>
 						</thead>
