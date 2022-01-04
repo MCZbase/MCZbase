@@ -3269,8 +3269,9 @@ limitations under the License.
 							citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
 							cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 							identification.accepted_id_fg = 1 AND
-							citation.publication_id = publication.publication_id AND
-							citation.publication_id = <cfqueryparam value="#publication_id#" cfsqltype="CF_SQL_DECIMAL">
+							citation.publication_id = formatted_publication.publication_id AND
+							format_style='short' and
+							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						ORDER BY
 							occurs_page_number,citSciName,cat_num
 					</cfquery>
