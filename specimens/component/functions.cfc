@@ -3191,22 +3191,6 @@ limitations under the License.
 								order by
 									substr(formatted_publication, - 4)
 						</cfquery>
-					<cfquery name="publicationMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
-								FROM
-									media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
-								WHERE
-									mr.media_id = ml.media_id and
-									mr.media_id = m.media_id and
-									ml.media_label = 'description' and
-									MEDIA_RELATIONSHIP like '% publication' and
-									RELATED_PRIMARY_KEY = c.publication_id and
-									c.publication_id = fp.publication_id and
-									fp.format_style='short' and
-									c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-								ORDER by substr(formatted_publication, -4)
-						</cfquery>
 					<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select collection_id,collection from collection
 						order by collection
@@ -3214,10 +3198,7 @@ limitations under the License.
 					<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select type_status from ctcitation_type_status order by type_status
 					</cfquery>
-
-					<cfset i = 1>
-					<cfloop query="citations" group="formatted_publication">
-						<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
 								citation.publication_id,
 								citation.collection_object_id,
@@ -3232,8 +3213,7 @@ limitations under the License.
 								citation_remarks,
 								publication_title,
 								doi,
-								cited_taxon_name_id,
-								concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
+								cited_taxon_name_id
 							FROM
 								citation,
 								cataloged_item,
@@ -3252,7 +3232,10 @@ limitations under the License.
 							ORDER BY
 								occurs_page_number,cat_num
 						</cfquery>
-						<cdiv>
+					<cfset i = 1>
+					<cfloop query="getCited">
+						<cfquery name="pubTitle" dbtype="query">select distinct publication_title from citations where publication_id = getCited.publication_id
+						<div>
 							Add Citation to <b>	#getCited.publication_title#</b>:
 						</div>
 						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
