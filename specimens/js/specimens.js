@@ -466,7 +466,23 @@ function removeMedia(media_id,form) {
 		dataType: "html"
 	});
 };
-
+function removeCitation(cited_taxon_name_id,form) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "removeMedia",
+			publication_id: publication_id,
+			cited_taxon_name_id: cited_taxon_name_id,
+		},
+		success: function (result) {
+			$("#citationsHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing citations");
+		},
+		dataType: "html"
+	});
+};
 /** updateIdentifications function 
  * @method updateOID in functions.cfc
  * @param identification_id
@@ -554,13 +570,6 @@ function openEditMediaDetailsDialog(media_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
-
-
-
-
-
-
 
 function loadCitations(collection_object_id,targetDivId) { 
 	jQuery.ajax({
