@@ -3321,29 +3321,29 @@ limitations under the License.
 										<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 								</cfif>
-								<div class="col-12 float-left mt-0 px-3 pb-1 pt-0">
+								<div class="col-12 float-left mt-0 p-0">
 									<div class="col-12 float-left px-0">
 										<label for="p_title" class="data-entry-label mt-0 mb-0"><span id="project_publication_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">
 									</div>
 								</div>
-								<div class="col-12 float-left mt-0 px-0 pb-1 pt-0">
+								<div class="col-12 float-left mt-0 p-0">
 									<div class="col-12 col-md-6 float-left">
 										<label for="author" class="data-entry-label mt-0 mb-0"><span id="project_publication_agent">Participant</span></label>
 										<input name="author" id="author" type="text" class="data-entry-input">
-										<label for="year" class="data-entry-label mt-1 mb-0"><span id="project_publication_year">Year</span></label>
+										<label for="year" class="data-entry-label mt-0 mb-0"><span id="project_publication_year">Year</span></label>
 										<input name="year" id="year" type="text" class="data-entry-input">
 
 									</div>
 									<div class="col-12 col-md-6 float-left">
-										<label for="journal" class="data-entry-label mt-1 mb-0">Journal Name</label>
+										<label for="journal" class="data-entry-label mt-0 mb-0">Journal Name</label>
 										<select name="journal" id="journal" size="1" class="data-entry-select">
 											<option value=""></option>
 											<cfloop query="ctjournal_name">
 												<option value="#journal_name#">#journal_name#</option>
 											</cfloop>
 										</select>
-										<label for="publication_type" class="data-entry-label mt-1 mb-0"><span id="publication_type">Publication Type</span></label>
+										<label for="publication_type" class="data-entry-label mt-0 mb-0"><span id="publication_type">Publication Type</span></label>
 										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
 											<option value=""></option>
 											<cfloop query="ctpublication_type">
@@ -3352,7 +3352,7 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="col-12 float-left mt-0 px-0 pb-1 pt-0">
+								<div class="col-12 float-left mt-0 p-0">
 									<div class="col-12 col-md-4 float-left">
 										<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
 										<select name="collection_id" id="collection_id" size="1"  class="data-entry-select">
