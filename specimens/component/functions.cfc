@@ -3238,26 +3238,11 @@ limitations under the License.
 							<div class="d-block mt-1 py-1 px-2 w-100 float-left"> 
 							<span class="d-inline"></span> 
 							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#citations.formatted_publication#</a>, #publication_title#
-							<cfif len(occurs_page_number) gt 0>
-								Page
-								<cfif len(citation_page_uri) gt 0>
-									<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
-									<cfelse>
-									#occurs_page_number#,
-								</cfif>
-							</cfif>
-							<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#getCited.citSciName#" target="_mainFrame"><i>#replace(getCited.citSciName," ","&nbsp;","all")#</i></a>
-							<cfif find("(ms)", #type_status#) NEQ 0>
-								<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
-								<cfif find(" ", #cited_name#) NEQ 0>
-									&nbsp;ssp. nov.
-									<cfelse>
-									&nbsp;sp. nov.
-								</cfif>
-							</cfif>
+							
+					
 							<span class="small font-italic">
-							<cfif len(citation_remarks) gt 0>
-							</cfif>#CITATION_REMARKS# </span> 
+							<cfif len(citation_remarks) gt 0>#CITATION_REMARKS# </cfif>
+							</span> 
 						</div>
 							<table class="pubtable border-0 mt-2 small">
 								<thead style="background-color: ##beecea;line-height: 1.1rem;" class="p-2">
@@ -3301,7 +3286,7 @@ limitations under the License.
 											</table>
 										</td>
 										<td class="px-2"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#collection#&nbsp;#cat_num#</a></td>
-										<td class="px-2"><i>#getCited.citSciName#</i>&nbsp;</td>
+										<td class="px-2"><i><a href="/TaxonomyDetails.cfm?taxon_name_id=#getCited.citSciName#" target="_mainFrame"><i>#replace(getCited.citSciName," ","&nbsp;","all")#</i></a></i>&nbsp;</td>
 										<td class="px-2"><i>#scientific_name#</i>&nbsp;</td>
 										<td class="px-2">#type_status#&nbsp;</td>
 										<td>
