@@ -3464,7 +3464,7 @@ limitations under the License.
 								[
 									{ name: 'collection_object_id', type: 'string' },
 									{ name: 'cited_taxon_name_id', type: 'string' },
-									{ name: 'publication_year', type: 'string' },
+									{ name: 'published_year', type: 'string' },
 									{ name: 'publication_title', type: 'string' },
 									{ name: 'publication_type', type: 'string' },
 									{ name: 'is_peer_reviewed_fg', type: 'string' },
