@@ -3250,13 +3250,14 @@ limitations under the License.
 							occurs_page_number,citSciName,cat_num
 					</cfquery>
 
-							<h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
+							
 							<cfif len(getCited.doi) GT 0>
 							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
 							</cfif>
 					
 					<cfset i = 1>
 					<cfloop query="citations" group="formatted_publication">
+						<h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
 						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
 								Page
