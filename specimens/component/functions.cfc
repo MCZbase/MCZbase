@@ -3168,7 +3168,7 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<div id="citationsDialog">
-					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							citation.type_status,
 							citation.occurs_page_number,
@@ -3190,7 +3190,7 @@ limitations under the License.
 							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						order by
 							substr(formatted_publication, - 4)
-					</cfquery>
+					</cfquery>--->
 					<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select collection_id,collection from collection
 						order by collection
@@ -3198,7 +3198,7 @@ limitations under the License.
 					<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select type_status from ctcitation_type_status order by type_status
 					</cfquery>
-					<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							citation.publication_id,
 							citation.collection_object_id,
@@ -3212,6 +3212,7 @@ limitations under the License.
 							type_status,
 							citation_remarks,
 							publication_title,
+							formatted_publication
 							doi,
 							cited_taxon_name_id,
 							concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
@@ -3221,21 +3222,23 @@ limitations under the License.
 							collection,
 							identification,
 							taxonomy citedTaxa,
-							publication
+							publication,
+							formatted_publication
 						WHERE
 							citation.collection_object_id = cataloged_item.collection_object_id AND
 							cataloged_item.collection_id = collection.collection_id AND
 							citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
 							cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 							identification.accepted_id_fg = 1 AND
-							citation.publication_id = publication.publication_id AND
+							citation.publication_id = formatted_publication.publication_id AND
+							format_style='short' and
 							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						ORDER BY
 							occurs_page_number,citSciName,cat_num
 					</cfquery>
 					<cfset i = 1>
-					<cfloop query="getCited" group="formatted_publication">
-						<cfquery name="getCited2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfloop query="citations">
+						<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							citation.publication_id,
 							citation.collection_object_id,
@@ -3272,7 +3275,7 @@ limitations under the License.
 					</cfquery>
 						<div class="d-block py-1 px-2 w-100 float-left">
 							<cfif len(getCited.doi) GT 0>
-							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited2.DOI#</a><br><br>
+							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
 							</cfif>
 							
 							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>, #citation.formatted_title#
