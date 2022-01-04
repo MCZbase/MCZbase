@@ -3269,12 +3269,7 @@ limitations under the License.
 														<input type="hidden" name="Action">
 														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 														<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
-														<td class="border-0 px-0">
-															<input type="button"
-															value="Remove"
-															class="btn btn-xs btn-danger"
-															onClick="deleCitation#i#.Action.value='deleCitation';submit();">
-														</td>
+														<td><button type="button" aria-label="Remove Media" class="btn btn-xs btn-danger" onclick="removeCitation(#collection_object_id#, #cited_taxon_name_id#)">Remove from Specimen Record</button></td>
 														<td class="border-0 pr-0 pl-2">
 															<input type="button"
 															value="Edit"
