@@ -3523,7 +3523,7 @@ limitations under the License.
 									{text: 'Publication Title', datafield: 'FORMATTED_TITLE', width: 100, hidable: true, hidden: getColHidProp('FORMATTED_TITLE', true) },
 									{text: 'Publication Type', datafield: 'PUBLICATION_TYPE', width: 150, hidable: true, hidden: getColHidProp('PUBLICATION_TYPE', false) },
 									{text: 'Peer Reviewed', datafield: 'IS_PEER_REVIEWED_FG', width:100, hideable: true, hidden: getColHidProp('IS_PEER_REVIEWED_FG', true) },
-									{text: 'Cited Scientific Name', datafield: 'CIT_CURRENT_FG', width:150, hideable: true, hidden: getColHidProp('CIT_CURRENT_FG', false) },
+									{text: 'Cited Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150, hideable: true, hidden: getColHidProp('SCIENTIFIC_NAME', false) },
 									{text: 'Type Status', datafield: 'TYPE_STATUS', hideable: true, hidden: getColHidProp('TYPE_STATUS', true) }
 								],
 								rowdetails: true,
