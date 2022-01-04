@@ -3214,7 +3214,10 @@ limitations under the License.
 					<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select type_status from ctcitation_type_status order by type_status
 					</cfquery>
-					<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+
+					<cfset i = 1>
+					<cfloop query="citations" group="formatted_publication">
+						<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
 								citation.publication_id,
 								citation.collection_object_id,
@@ -3249,14 +3252,9 @@ limitations under the License.
 							ORDER BY
 								occurs_page_number,cat_num
 						</cfquery>
-					<cfset i = 1>
-					<cfloop query="citations" group="formatted_publication">
-						<cfquery  name="getCitedPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select publication_title from publication where publication_id=<cfqueryparam value="#getCited.publication_id#" cfsqltype="CF_SQL_DECIMAL">
-						</cfquery>
-						<div>
-							Add Citation to <b>	#getCitedPub.publication_title#</b>:
-						</div>
+						<cfoutput query="getCited">
+							Add Citation to <b>	#getCited.publication_title#</b>:
+						</cfoutput>
 						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
 								Page
