@@ -3311,7 +3311,7 @@ limitations under the License.
 									select publication_type from ctpublication_type order by publication_type
 								</cfquery>
 							<cfoutput>
-							<form action="/guid/#guid#" method="post">
+							<form name="searchCitForm" id="searchCitForm">
 								<input name="action" type="hidden" value="search">
 								<div class="col-12 search-box-header px-0 float-left">
 									<h2 class="h3 text-white float-left mb-1 mt-0 px-3">Search Publications in MCZbase to Add Citation</h2>
