@@ -3304,26 +3304,25 @@ limitations under the License.
 							<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select publication_type from ctpublication_type order by publication_type
 							</cfquery>
-							<h2 class="">Publication Search</h2>
+							<h2 class="mt-4">Publication Search</h2>
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
-								<div class="border p-3">
+								<div class="mt-2 p-3">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="px-2">
 										<a class="btn btn-xs btn-outline-primary px-2" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 									</cfif>
-									<label for="p_title"><span id="project_publication_title">Title</span></label>
+									<label for="p_title" class="data-entry-label"><span id="project_publication_title">Title</span></label>
 									<input name="p_title" id="p_title" type="text">
-									<label for="author"><span id="project_publication_agent">Participant</span></label>
+									<label for="author" class="data-entry-label"><span id="project_publication_agent">Participant</span></label>
 									<input name="author" id="author" type="text">
-									<label for="year"><span id="project_publication_year">Year</span></label>
+									<label for="year" class="data-entry-label"><span id="project_publication_year">Year</span></label>
 									<input name="year" id="year" type="text">
-									<h4 style="padding-top: 1em;">Project Details</h4>
-									<label for="sponsor"><span id="project_sponsor">Sponsor</span></label>
+									<label for="sponsor" class="data-entry-label"><span id="project_sponsor">Sponsor</span></label>
 									<input name="sponsor" id="sponsor" type="text">
-									<label for="project_type"><span id="project_type">Type</span></label>
-									<select name="project_type" id="project_type">
+									<label for="project_type" class="data-entry-label"><span id="project_type">Type</span></label>
+									<select name="project_type" id="project_type" class="data-entry-select">
 										<option value=""></option>
 										<option value="loan">Uses Specimens</option>
 										<option value="loan_no_pub">Uses Specimens, no publication</option>
@@ -3331,8 +3330,8 @@ limitations under the License.
 										<option value="both">Uses and Contributes</option>
 										<option value="neither">Neither Uses nor Contributes</option>
 									</select>
-									<label for="descr_len"> Description Min. Length</label>
-									<input name="descr_len" id="descr_len" type="text" value="100">
+									<label for="descr_len" class="data-entry-label"> Description Min. Length</label>
+									<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">
 									<cfoutput>
 										<label for="publication_type" class="data-entry-label"><span id="publication_type">Publication Type</span></label>
 										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
