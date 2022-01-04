@@ -3255,7 +3255,7 @@ limitations under the License.
 									<th class="px-1">Cited As</th>
 									<th class="px-1">Current ID</th>
 									<th class="px-1" style="min-width: 80px;">Citation Type</th>
-									<th class="px-1" style="min-width: 60px;">Page ##</th>
+									<th class="px-1" style="min-width: 50px;">Page ##</th>
 									<th class="px-1" style="min-width: 240px;">Remarks</th>
 								</tr>
 							</thead>
