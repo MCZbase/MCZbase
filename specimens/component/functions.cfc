@@ -3239,7 +3239,7 @@ limitations under the License.
 						</cfquery>
 					<cfset i = 1>
 					<cfloop query="getCited">
-						<div class="border p-1 my-2" style="background-color: ##beecea;line-height: 1.1rem;">
+						<div class="p-1 my-2" style="border:2px solid ##beecea; line-height: 1.1rem;">
 							<div class="d-block mt-1 py-1 px-2 w-100 float-left"> 
 							<span class="d-inline"></span> 
 							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a>
