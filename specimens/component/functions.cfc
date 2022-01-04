@@ -3329,19 +3329,35 @@ limitations under the License.
 </cfquery>
 <!--- get all cited specimens --->
 <!------------------------------------------------------------------------------->
-<cfif #Action# is "deleCitation">
-<cfoutput>
-	<cfquery name="deleCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	delete from citation
-	where
-		collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-		and publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-		and cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
-	</cfquery>
-	<cflocation url="/guid/#guid#">
-</cfoutput>
-</cfif>
-<!------------------------------------------------------------------------------->
+<!---remove citation --button for removing media relationship = shows cataloged_item--->
+<cffunction name="removeCitation" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="cited_taxon_name_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="publication_id" type="string" required="yes">
+		<cfthread name="removeCitationThread"> 
+	<cftry>
+		<cftransaction>
+			<cfquery name="deleteCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				delete from citation
+				where
+				collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				and publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+				and cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
+			</cfquery>
+		</cftransaction>
+			<cfset row["status"] = "deleted">
+			<cftransaction action="commit">
+		<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+		</cfcatch>
+	</cftry>
+	</cfthread>
+	<cfthread action="join" name="getEditCitationThread" />
+	<cfreturn getEditCitationThread.output>
+</cffunction>
 <!------------------------------------------------------------------------------->
 <cfif action is "nothing">
      <div style="width: 99%; margin: 0 auto; padding: 0 .5rem 5em .5rem;">
