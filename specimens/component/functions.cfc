@@ -3251,7 +3251,7 @@ limitations under the License.
 							citation_page_uri,
 							type_status,
 							citation_remarks,
-							formatted_title,
+							publication_title,
 							doi,
 							cited_taxon_name_id,
 							concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
