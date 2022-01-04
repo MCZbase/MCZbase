@@ -3328,7 +3328,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="col-12 float-left mt-0 px-0 pb-3 pt-0">
-									<div class="col-12 col-md-6 float-left pl-0 pr-md-2 pr-0">
+									<div class="col-12 col-md-6 float-left">
 										<label for="author" class="data-entry-label mt-1 mb-0"><span id="project_publication_agent">Participant</span></label>
 										<input name="author" id="author" type="text" class="data-entry-input">
 										<label for="year" class="data-entry-label mt-1 mb-0"><span id="project_publication_year">Year</span></label>
@@ -3354,7 +3354,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="col-12 float-left mt-0 px-0 pb-3 pt-0">
-									<div class="col-12 col-md-4 float-left pr-0 pl-md-1 pl-0">
+									<div class="col-12 col-md-4 float-left">
 										<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
 										<select name="collection_id" id="collection_id" size="1"  class="data-entry-select">
 											<option value="">All</option>
@@ -3372,7 +3372,7 @@ limitations under the License.
 											<option value="0">Cites no Specimens</option>
 										</select>
 									</div>
-									<div class="col-12 col-md-4 float-left pr-0 pl-md-1 pl-0">
+									<div class="col-12 col-md-4 float-left">
 										<label for="cited_sci_Name" class="data-entry-label mt-1 mb-0">
 											<span id="cited_sci_Name">Cited Scientific Name</span>
 										</label>
@@ -3382,7 +3382,7 @@ limitations under the License.
 										</label>
 										<input name="current_sci_Name" class="data-entry-input" id="current_sci_Name" type="text">
 									</div>
-									<div class="col-12 col-md-4 float-left pr-0 pl-md-1 pl-0">
+									<div class="col-12 col-md-4 float-left">
 										<label for="is_peer_reviewed_fg" class="data-entry-label mt-1 mb-0"><span id="is_peer_reviewed_fg">Peer Reviewed only?</span></label>
 										<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="data-entry-select">
 											<option value=""></option>
