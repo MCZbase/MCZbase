@@ -3310,7 +3310,7 @@ limitations under the License.
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
 								<div class="col-12 search-box-header col-md-6 px-0 float-left">
-									<h2 class="h3 text-white mt-4 float-left mb-0">Publication Search</h2>
+									<h2 class="h3 text-white mt-4 float-left mb-0">Search Publications to Add Citation</h2>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-6 px-0 mt-4 float-left">
@@ -3377,7 +3377,7 @@ limitations under the License.
 											<option value="1">yes</option>
 										</select>
 								</div>
-								<div class="col-12 px-0 mt-1">
+								<div class="col-12 px-0 mt-1 float-left">
 										<input type="submit" value="Search" class="btn btn-xs btn-secondary pr-2">
 										<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
 									</div>
