@@ -3261,7 +3261,8 @@ limitations under the License.
 							collection,
 							identification,
 							taxonomy citedTaxa,
-							publication
+							publication,
+							formatted_publication
 						WHERE
 							citation.collection_object_id = cataloged_item.collection_object_id AND
 							cataloged_item.collection_id = collection.collection_id AND
