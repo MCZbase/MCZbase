@@ -3312,10 +3312,10 @@ limitations under the License.
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
 								<div class="col-12 search-box-header px-0 float-left">
-									<h2 class="h3 text-white mt-4 float-left mb-0 px-3">Search Publications to Add Citation</h2>
+									<h2 class="h3 text-white float-left mb-0 px-3">Search Publications to Add Citation</h2>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 col-md-6 px-0 mt-4 float-left">
+									<div class="col-12 mt-4 float-right">
 										<a class="btn btn-xs btn-outline-primary px-2" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 								</cfif>
