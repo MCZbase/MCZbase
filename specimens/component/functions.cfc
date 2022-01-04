@@ -3267,7 +3267,7 @@ limitations under the License.
 								<th>Cited As</th>
 								<th>Current ID</th>
 								<th>Citation Type</th>
-								<th style="padding: 0 1rem;">Page ##</th>
+								<th style="padding: 0 .5rem;">Page ##</th>
 								<th style="padding: 0 1rem; min-width: 275px;">Remarks</th>
 							</tr>
 						</thead>
@@ -3324,9 +3324,9 @@ limitations under the License.
 										<cfif len(#citation_page_uri#) gt 0>
 											<cfset citpage = trim(occurs_page_number)>
 											<cfif len(citpage) EQ 0><cfset citpage="[link]"></cfif>
-											<a href ="#citation_page_uri#" target="_blank">#citpage#</a>&nbsp;
+											<a href ="#citation_page_uri#" target="_blank" class="px-1">#citpage#</a>&nbsp;
 										<cfelse>
-											#occurs_page_number#&nbsp;
+											<span class="px-1">#occurs_page_number#&nbsp;</span>
 										</cfif>
 									</td>
 									<td nowrap>#citation_remarks#&nbsp;</td>
