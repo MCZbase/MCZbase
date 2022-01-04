@@ -3217,7 +3217,7 @@ limitations under the License.
 								formatted_publication.formatted_publication as formpub,
 								formatted_publication.publication_id,
 								publication.publication_id,
-								publication.publication_year,
+								publication.published_year,
 								publication.publication_type,
 								doi,
 								cited_taxon_name_id
