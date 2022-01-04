@@ -3258,10 +3258,7 @@ limitations under the License.
 							<span class="small font-italic">
 							<cfif len(citation_remarks) gt 0>
 							</cfif>#CITATION_REMARKS# </span> </div>
-						<cfset i = i + 1>
-					</cfloop>
-
-					<table class="pubtable" border="0" style="border: none;font-size: 15px;margin-top:1.5rem;">
+												<table class="pubtable" border="0" style="border: none;font-size: 15px;margin-top:1.5rem;">
 						<thead style="background-color: ##beecea;padding: 11px;line-height: 1.5rem;">
 							<tr>
 								<th>&nbsp;</th>
@@ -3338,6 +3335,10 @@ limitations under the License.
 							</cfloop>
 						</tbody>
 					</table>
+						<cfset i = i + 1>
+					</cfloop>
+
+
 
 				</div>
 				<cfcatch>
