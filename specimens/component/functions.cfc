@@ -3433,10 +3433,10 @@ limitations under the License.
 						lookupColumnVisibilities ('#cgi.script_name#','Default');
 					</cfif>
 
-					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						var rowData = jQuery("##searchCitResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/specimens/SpecimenDetailBody.cfm?collection_object_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+value+'</a></span>';
-					};
+//					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+//						var rowData = jQuery("##searchCitResultsGrid").jqxGrid('getrowdata',row);
+//						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/specimens/SpecimenDetailBody.cfm?collection_object_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+value+'</a></span>';
+//					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchCitResultsGrid").jqxGrid('getrowdata',row);
@@ -3518,7 +3518,7 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
-									{text: 'ID', datafield: 'CITED_TAXON_NAME_ID', width:100, hideable: true, hidden: getColHidProp('CITED_TAXON_NAME_ID', false), cellsrenderer: editCellRenderer },
+									{text: 'ID', datafield: 'GETCITED.CITED_TAXON_NAME_ID', width:100, hideable: true, hidden: getColHidProp('CITED_TAXON_NAME_ID', false), cellsrenderer: editCellRenderer },
 									{text: 'Year', datafield: 'PUBLISHED_YEAR', width:100, hideable: true, hidden: getColHidProp('PUBLISHED_YEAR', true) },
 									{text: 'Publication Title', datafield: 'FORMATTED_TITLE', width: 100, hidable: true, hidden: getColHidProp('FORMATTED_TITLE', true) },
 									{text: 'Publication Type', datafield: 'PUBLICATION_TYPE', width: 150, hidable: true, hidden: getColHidProp('PUBLICATION_TYPE', false) },
