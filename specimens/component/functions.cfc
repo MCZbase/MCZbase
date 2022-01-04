@@ -3237,8 +3237,8 @@ limitations under the License.
 							ORDER BY
 								occurs_page_number,cat_num
 						</cfquery>
-					<cfif len(citations.type_status) gt 0>
-					<cfset i = >
+					<cfif len(getCited.publication_id) GT 0>
+					<cfset i = 1 >
 						<h1 class="h3">Publications Citing This Specimen</h1>
 							<table class="table mb-0 small">
 								<thead class="p-2">
