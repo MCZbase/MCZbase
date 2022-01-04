@@ -3308,7 +3308,7 @@ limitations under the License.
 													onmouseover="this.className='insBtn btnhov'"
 													onmouseout="this.className='insBtn'"
 													onclick = "newCitation.cited_taxon_name.value='#getCited.citSciName#';
-													newCitation.cited_taxon_name_id.value='#citations.cited_taxon_name_id#';
+													newCitation.cited_taxon_name_id.value='#cited_taxon_name_id#';
 													newCitation.type_status.value='#citations.type_status#';
 													newCitation.occurs_page_number.value='#citations.occurs_page_number#';
 													newCitation.citation_remarks.value='#citations.citation_remarks#';
