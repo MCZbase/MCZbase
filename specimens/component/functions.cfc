@@ -3266,7 +3266,7 @@ limitations under the License.
 							<tr>
 								<th>&nbsp;</th>
 								<th>Cat Num</th>
-								<cfif len(#getCited.CustomID#) GT 0><th>#session.CustomOtherIdentifier#</th></cfif>
+								<cfif len(#CustomID#) GT 0><th>#session.CustomOtherIdentifier#</th></cfif>
 								<th>Cited As</th>
 								<th>Current ID</th>
 								<th>Citation Type</th>
@@ -3320,21 +3320,21 @@ limitations under the License.
 											</tr>
 										</table>
 									</td>
-									<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
-									<cfif len(#getCited.CustomID#) GT 0><td nowrap="nowrap">#customID#</td></cfif>
-									<td style="padding: 0 .5rem;"><i>#getCited.citSciName#</i>&nbsp;</td>
-									<td style="padding: 0 .5rem;"><i>#getCited.scientific_name#</i>&nbsp;</td>
-									<td style="padding: 0 .5rem;">#getCited.type_status#&nbsp;</td>
+									<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#citations.collection_object_id#">#collection#&nbsp;#cat_num#</a></td>
+									<cfif len(#CustomID#) GT 0><td nowrap="nowrap">#customID#</td></cfif>
+									<td style="padding: 0 .5rem;"><i>#citSciName#</i>&nbsp;</td>
+									<td style="padding: 0 .5rem;"><i>#scientific_name#</i>&nbsp;</td>
+									<td style="padding: 0 .5rem;">#type_status#&nbsp;</td>
 									<td>
-										<cfif len(#getCited.citation_page_uri#) gt 0>
-											<cfset citpage = trim(getCited.occurs_page_number)>
+										<cfif len(#citation_page_uri#) gt 0>
+											<cfset citpage = trim(occurs_page_number)>
 											<cfif len(citpage) EQ 0><cfset citpage="[link]"></cfif>
-											<a href ="#getCited.citation_page_uri#" target="_blank">#citpage#</a>&nbsp;
+											<a href ="#citation_page_uri#" target="_blank">#citpage#</a>&nbsp;
 										<cfelse>
-											#getCited.occurs_page_number#&nbsp;
+											#occurs_page_number#&nbsp;
 										</cfif>
 									</td>
-									<td nowrap>#getCited.citation_remarks#&nbsp;</td>
+									<td nowrap>#citation_remarks#&nbsp;</td>
 								</tr>
 								<cfset i=#i#+1>
 							</cfloop>
