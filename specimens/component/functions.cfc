@@ -3235,6 +3235,7 @@ limitations under the License.
 					<cfset i = 1>
 					<cfloop query="getCited">
 						<cfquery name="pubTitle" dbtype="query">select distinct publication_title from citations where publication_id = getCited.publication_id
+						</cfquery>
 						<div>
 							Add Citation to <b>	#getCited.publication_title#</b>:
 						</div>
