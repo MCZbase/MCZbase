@@ -3312,7 +3312,7 @@ limitations under the License.
 													newCitation.type_status.value='#citations.type_status#';
 													newCitation.occurs_page_number.value='#citations.occurs_page_number#';
 													newCitation.citation_remarks.value='#citations.citation_remarks#';
-													newCitation.collection.value='#citations.collection_id#';
+													newCitation.collection.value='#collection_id#';
 													newCitation.citation_page_uri.value='#citations.citation_page_uri#';
 													">
 												</td>
