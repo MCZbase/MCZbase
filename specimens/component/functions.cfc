@@ -3296,7 +3296,7 @@ limitations under the License.
 						<cfset i = i + 1>
 					</cfif>
 						<section class="container-fluid" role="search" aria-labelledby="formheader">
-							<div class="row mx-0 mb-3">
+							<div class="row mx-0 my-3">
 							<div class="search-box">
 								<cfset title = "Search for Results">
 								<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -3315,11 +3315,11 @@ limitations under the License.
 									<h2 class="h3 text-white float-left mb-0 px-3">Search Publications to Add Citation</h2>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 mt-4 float-right">
+									<div class="col-12 mt-2 float-right">
 										<a class="btn btn-xs btn-outline-primary px-2 text-right" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 								</cfif>
-								<div class="col-12 float-left mt-0 p-3">
+								<div class="col-12 float-left mt-0 px-3 pb-3 pt-0">
 									<div class="col-12 float-left px-0">
 										<label for="p_title" class="data-entry-label mt-1 mb-0"><span id="project_publication_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">
