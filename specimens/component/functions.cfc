@@ -3237,7 +3237,7 @@ limitations under the License.
 						<cfquery name="pubTitle" dbtype="query">select distinct publication_title from citations where publication_id = getCited.publication_id
 						</cfquery>
 						<div>
-							Add Citation to <b>	#getCited.publication_title#</b>:
+							Add Citation to <b>	#publication_title#</b>:
 						</div>
 						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
