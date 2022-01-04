@@ -3397,7 +3397,6 @@ limitations under the License.
 									</tr>
 								</table>
 							</form>
-						</cfif>
 					</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
