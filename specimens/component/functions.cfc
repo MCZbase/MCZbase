@@ -3214,8 +3214,11 @@ limitations under the License.
 								type_status,
 								citation_remarks,
 								publication_title,
-						formatted_publication.formatted_publication as formpub,
-									formatted_publication.publication_id,
+								formatted_publication.formatted_publication as formpub,
+								formatted_publication.publication_id,
+								publication.publication_id,
+								publication.publication_year,
+								publication.publication_type,
 								doi,
 								cited_taxon_name_id
 							FROM
@@ -3224,7 +3227,7 @@ limitations under the License.
 								collection,
 								identification,
 								taxonomy citedTaxa,
-						formatted_publication,
+								formatted_publication,
 								publication
 							WHERE
 								citation.collection_object_id = cataloged_item.collection_object_id AND
@@ -3233,8 +3236,8 @@ limitations under the License.
 								cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 								identification.accepted_id_fg = 1 AND
 								citation.publication_id = publication.publication_id AND
-						citation.publication_id = formatted_publication.publication_id AND
-									format_style='long' and
+								citation.publication_id = formatted_publication.publication_id AND
+								format_style='long' and
 								citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 							ORDER BY
 								occurs_page_number,cat_num
