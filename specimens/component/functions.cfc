@@ -3238,7 +3238,7 @@ limitations under the License.
 								occurs_page_number,cat_num
 						</cfquery>
 					<cfset i = 1>
-						<h1 class="h4">Publications Citing This Specimen</h1>
+						<h1 class="h3">Publications Citing This Specimen</h1>
 							<table class="table mb-0 small">
 								<thead class="p-2">
 									<tr>
@@ -3304,80 +3304,84 @@ limitations under the License.
 							<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select publication_type from ctpublication_type order by publication_type
 							</cfquery>
-							<h2 class="mt-4">Publication Search</h2>
+							<h2 class="h3 mt-4">Publication Search</h2>
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
-								<div class="mt-2 p-3 border">
+								<div class="mt-2 p-3 border rounded">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="">
 										<a class="btn btn-xs btn-outline-primary px-2" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 									</cfif>
+									<div class="col-12 col-md-6">
 									<label for="p_title" class="data-entry-label"><span id="project_publication_title">Title</span></label>
-									<input name="p_title" id="p_title" type="text">
+									<input name="p_title" id="p_title" type="text" class="data-entry-input">
 									<label for="author" class="data-entry-label"><span id="project_publication_agent">Participant</span></label>
-									<input name="author" id="author" type="text">
+									<input name="author" id="author" type="text" class="data-entry-input">
 									<label for="year" class="data-entry-label"><span id="project_publication_year">Year</span></label>
-									<input name="year" id="year" type="text">
+									<input name="year" id="year" type="text" class="data-entry-input">
 									<label for="sponsor" class="data-entry-label"><span id="project_sponsor">Sponsor</span></label>
-									<input name="sponsor" id="sponsor" type="text">
-									<label for="project_type" class="data-entry-label"><span id="project_type">Type</span></label>
-									<select name="project_type" id="project_type" class="data-entry-select">
-										<option value=""></option>
-										<option value="loan">Uses Specimens</option>
-										<option value="loan_no_pub">Uses Specimens, no publication</option>
-										<option value="accn">Contributes Specimens</option>
-										<option value="both">Uses and Contributes</option>
-										<option value="neither">Neither Uses nor Contributes</option>
-									</select>
-									<label for="descr_len" class="data-entry-label"> Description Min. Length</label>
-									<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">
-									<cfoutput>
-										<label for="publication_type" class="data-entry-label"><span id="publication_type">Publication Type</span></label>
-										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
+									<input name="sponsor" id="sponsor" type="text" class="data-entry-input">
+									</div>
+									<div class="col-12 col-md-6">
+										<label for="project_type" class="data-entry-label"><span id="project_type">Type</span></label>
+										<select name="project_type" id="project_type" class="data-entry-select">
 											<option value=""></option>
-											<cfloop query="ctpublication_type">
-												<option value="#publication_type#">#publication_type#</option>
-											</cfloop>
+											<option value="loan">Uses Specimens</option>
+											<option value="loan_no_pub">Uses Specimens, no publication</option>
+											<option value="accn">Contributes Specimens</option>
+											<option value="both">Uses and Contributes</option>
+											<option value="neither">Neither Uses nor Contributes</option>
 										</select>
-										<label for="journal" class="data-entry-label">Journal Name</label>
-										<select name="journal" id="journal" size="1" class="data-entry-select">
+										<label for="descr_len" class="data-entry-label"> Description Min. Length</label>
+										<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">
+										<cfoutput>
+											<label for="publication_type" class="data-entry-label"><span id="publication_type">Publication Type</span></label>
+											<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
+												<option value=""></option>
+												<cfloop query="ctpublication_type">
+													<option value="#publication_type#">#publication_type#</option>
+												</cfloop>
+											</select>
+											<label for="journal" class="data-entry-label">Journal Name</label>
+											<select name="journal" id="journal" size="1" class="data-entry-select">
+												<option value=""></option>
+												<cfloop query="ctjournal_name">
+													<option value="#journal_name#">#journal_name#</option>
+												</cfloop>
+											</select>
+											<label for="collection_id" class="data-entry-label">Cites Collection</label>
+											<select name="collection_id" id="collection_id" size="1"  class="data-entry-select">
+												<option value="">All</option>
+												<cfloop query="ctColl">
+													<option value="#collection_id#">#collection#</option>
+												</cfloop>
+											</select>
+										</cfoutput>
+										<label for="onlyCitePubs" class="data-entry-label">
+											<span id="pub_cites_specimens">Cites specimens?</span>
+										</label>
+										<select name="onlyCitePubs" id="onlyCitePubs" class="data-entry-select">
 											<option value=""></option>
-											<cfloop query="ctjournal_name">
-												<option value="#journal_name#">#journal_name#</option>
-											</cfloop>
+											<option value="1">Cites Specimens</option>
+											<option value="0">Cites no Specimens</option>
 										</select>
-										<label for="collection_id" class="data-entry-label">Cites Collection</label>
-										<select name="collection_id" id="collection_id" size="1"  class="data-entry-select">
-											<option value="">All</option>
-											<cfloop query="ctColl">
-												<option value="#collection_id#">#collection#</option>
-											</cfloop>
+										<label for="cited_sci_Name" class="data-entry-label">
+											<span id="cited_sci_Name">Cited Scientific Name</span>
+										</label>
+										<input name="cited_sci_Name" id="cited_sci_Name" type="text">
+										<label for="current_sci_Name" class="data-entry-label">
+											<span id="accepted_sci_name">Accepted Scientific Name</span>
+										</label>
+										<input name="current_sci_Name" class="data-entry-input" id="current_sci_Name" type="text">
+										<label for="is_peer_reviewed_fg" class="data-entry-label"><span id="is_peer_reviewed_fg">Peer Reviewed only?</span></label>
+										<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="data-entry-select">
+											<option value=""></option>
+											<option value="1">yes</option>
 										</select>
-									</cfoutput>
-									<label for="onlyCitePubs" class="data-entry-label">
-										<span id="pub_cites_specimens">Cites specimens?</span>
-									</label>
-									<select name="onlyCitePubs" id="onlyCitePubs" class="data-entry-select">
-										<option value=""></option>
-										<option value="1">Cites Specimens</option>
-										<option value="0">Cites no Specimens</option>
-									</select>
-									<label for="cited_sci_Name" class="data-entry-label">
-										<span id="cited_sci_Name">Cited Scientific Name</span>
-									</label>
-									<input name="cited_sci_Name" id="cited_sci_Name" type="text">
-									<label for="current_sci_Name" class="data-entry-label">
-										<span id="accepted_sci_name">Accepted Scientific Name</span>
-									</label>
-									<input name="current_sci_Name" class="data-entry-input" id="current_sci_Name" type="text">
-									<label for="is_peer_reviewed_fg" class="data-entry-label"><span id="is_peer_reviewed_fg">Peer Reviewed only?</span></label>
-									<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="data-entry-select">
-										<option value=""></option>
-										<option value="1">yes</option>
-									</select>
-									<input type="submit" value="Search" class="btn btn-xs btn-secondary">
-									<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
+										<input type="submit" value="Search" class="btn btn-xs btn-secondary">
+										<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
+									</div>
 								</div>
 							</form>
 					</div>
