@@ -3235,7 +3235,7 @@ limitations under the License.
 					<cfset i = 1>
 					<cfloop query="getCited">
 						<div>
-							Add Citation to <b>	#publication_title#</b>:
+							Publication title:  <b>	#publication_title#</b>:
 						</div>
 						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#citations.formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
@@ -3257,9 +3257,10 @@ limitations under the License.
 							</cfif>
 							<span class="small font-italic">
 							<cfif len(citation_remarks) gt 0>
-							</cfif>#CITATION_REMARKS# </span> </div>
-												<table class="pubtable" border="0" style="border: none;font-size: 15px;margin-top:1.5rem;">
-						<thead style="background-color: ##beecea;padding: 11px;line-height: 1.5rem;">
+							</cfif>#CITATION_REMARKS# </span> 
+						</div>
+						<table class="pubtable" border="0" style="border: none;font-size: 15px;margin-top:1.5rem;">
+						<thead style="background-color: ##beecea;padding: 11px;line-height: 1.5rem;" class="small">
 							<tr>
 								<th>&nbsp;</th>
 								<th>Cat Num</th>
@@ -3271,8 +3272,7 @@ limitations under the License.
 							</tr>
 						</thead>
 						<tbody>
-							<cfset i=1>
-							<cfloop query="getCited">
+					
 								<tr>
 									<td nowrap>
 										<table>
@@ -3331,8 +3331,7 @@ limitations under the License.
 									</td>
 									<td nowrap>#citation_remarks#&nbsp;</td>
 								</tr>
-								<cfset i=#i#+1>
-							</cfloop>
+				
 						</tbody>
 					</table>
 						<cfset i = i + 1>
