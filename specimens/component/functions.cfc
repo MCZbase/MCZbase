@@ -3252,7 +3252,7 @@ limitations under the License.
 					<cfset i = 1>
 					<cfloop query="citations" group="formatted_publication">
 						<cfquery  name="getCitedPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select publication_title from publication where publication_id=getCited.publication_id
+							select publication_title from publication where publication_id=<cfqueryparam value="#getCited.publication_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<div>
 							Add Citation to <b>	#getCitedPub.publication_title#</b>:
