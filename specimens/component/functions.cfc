@@ -3308,11 +3308,11 @@ limitations under the License.
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
 								<div class="col-12 col-md-6 px-0 float-left">
-									<h2 class="h3 mt-4 float-right">Publication Search</h2>
+									<h2 class="h3 mt-4 float-left">Publication Search</h2>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 col-md-6 px-0 float-left">
-										<a class="btn btn-xs btn-outline-primary px-2 float-right" href="/Publication.cfm?action=newPub">New Publication</a>
+									<div class="col-12 col-md-6 px-0 mt-4 float-left">
+										<a class="btn btn-xs btn-outline-primary px-2" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 								</cfif>
 								<div class="col-12 float-left mt-2 p-3 border rounded">
