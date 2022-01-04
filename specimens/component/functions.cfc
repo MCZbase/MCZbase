@@ -3377,7 +3377,7 @@ limitations under the License.
 											<option value="1">yes</option>
 										</select>
 								</div>
-								<div class="col-12 px-0 mt-1 float-left">
+								<div class="col-12 px-0 mt-3 float-left">
 										<input type="submit" value="Search" class="btn btn-xs btn-secondary pr-2">
 										<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
 									</div>
