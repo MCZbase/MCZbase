@@ -3556,7 +3556,7 @@ limitations under the License.
 		
 						// If requested in uri, execute search immediately.
 						<cfif isdefined("execute")>
-							$('##searchForm').submit();
+							$('##searchCitForm').submit();
 						</cfif>
 					}); /* End document.ready */
 	
