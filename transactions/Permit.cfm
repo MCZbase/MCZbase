@@ -1309,7 +1309,7 @@ limitations under the License.
 							concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 							locality.sovereign_nation,
 							flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
-							TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
+							GET_TRANS_SOLE_SHIP_DATE(permit_trans.transaction_id) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
 							decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 						from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 							left join collection on trans.collection_id = collection.collection_id
@@ -1381,7 +1381,7 @@ limitations under the License.
 							concat('/transactions/Deaccession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 							locality.sovereign_nation,
 							flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
-							TO_DATE(null) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
+							GET_TRANS_SOLE_SHIP_DATE(permit_trans.transaction_id) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
 							decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 						from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 							left join collection on trans.collection_id = collection.collection_id
@@ -1441,7 +1441,6 @@ limitations under the License.
 							where trans.transaction_type = 'borrow'
 								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					</cfquery>
-					<!---</div>---><!---IS this an extra div?--->
 				</section>	
 
 				<!--- Results table as a jqxGrid. --->
