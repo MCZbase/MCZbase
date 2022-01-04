@@ -3293,7 +3293,7 @@ limitations under the License.
 								</cfloop>
 							</table>
 						<cfset i = i + 1>
-						<div class="border">
+						<div class="">
 						<cfset title = "Search for Results">
 							<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select collection,collection_id from collection order by collection
@@ -3307,9 +3307,9 @@ limitations under the License.
 							<h2 class="mt-4">Publication Search</h2>
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
-								<div class="mt-2 p-3">
+								<div class="mt-2 p-3 border">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="px-2">
+									<div class="">
 										<a class="btn btn-xs btn-outline-primary px-2" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 									</cfif>
