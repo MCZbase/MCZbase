@@ -3314,7 +3314,7 @@ limitations under the License.
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
 								<div class="col-12 search-box-header px-0 float-left">
-									<h2 class="h3 text-white float-left mb-0 px-3">Search Publications in MCZbase to Add Citation</h2>
+									<h2 class="h3 text-white float-left mb-1 px-3">Search Publications in MCZbase to Add Citation</h2>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-2 mt-2 float-right">
@@ -3392,7 +3392,7 @@ limitations under the License.
 									</div>
 								</div>
 									<div class="col-12 my-2 float-left">
-										<input type="submit" value="Search" class="btn btn-xs btn-secondary pr-2">
+										<input type="submit" value="Search" class="btn btn-xs btn-secondary pr-3">
 										<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
 									</div>
 								</div>
