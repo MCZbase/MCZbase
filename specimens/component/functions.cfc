@@ -3256,7 +3256,7 @@ limitations under the License.
 									<th class="px-1">Current ID</th>
 									<th class="px-1" style="min-width: 80px;">Citation Type</th>
 									<th class="px-1" style="min-width: 50px;">Page ##</th>
-									<th class="px-1" style="min-width: 240px;">Remarks</th>
+									<th class="px-1" style="min-width: 213px;">Remarks</th>
 								</tr>
 							</thead>
 							<cfloop query="getCited">
