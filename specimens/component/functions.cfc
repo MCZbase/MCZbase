@@ -3251,7 +3251,10 @@ limitations under the License.
 						</cfquery>
 					<cfset i = 1>
 					<cfloop query="citations" group="formatted_publication">
-						<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">Add to pub:#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
+						
+						<div>
+							Add Citation to <b>	#getCited.publication_title#</b>:
+						</div>
 						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
 								Page
