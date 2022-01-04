@@ -3275,7 +3275,7 @@ limitations under the License.
 							doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited2.DOI#</a><br><br>
 							</cfif>
 							
-							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
+							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>, #formatted_title#
 							<cfif len(occurs_page_number) gt 0>
 								Page
 								<cfif len(citation_page_uri) gt 0>
@@ -3301,11 +3301,6 @@ limitations under the License.
 					<input type="hidden" name="collection_object_id" id="collection_object_id">
 						<input type="hidden" name="publication_id" id="publication_id">
 						<table border class="newRec">
-							<tr>
-								<td colspan="2">
-								Add Citation to <b>	#getCited2.publication_title#</b>:
-								</td>
-							</tr>
 							<tr>
 								<td>
 									<label for="collection">Collection</label>
