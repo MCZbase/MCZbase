@@ -3533,11 +3533,11 @@ limitations under the License.
 								},
 								initrowdetails: initRowDetails
 							});
-//							$("##searchCitResultsGrid").on("bindingcomplete", function(event) {
-//								// add a link out to this search, serializing the form as http get parameters
-//								$('##resultCitLink').html('<a href="/specimens/SpecimenDetailBody.cfm?action=search&execute=true&' + $('##searchCitForm').serialize() + '">Link to this search</a>');
-//								gridLoaded('searchCitResultsGrid','collection');
-//							});
+							$("##searchCitResultsGrid").on("bindingcomplete", function(event) {
+								// add a link out to this search, serializing the form as http get parameters
+								$('##resultCitLink').html('<a href="/specimens/SpecimenDetailBody.cfm?action=search&execute=true&' + $('##searchCitForm').serialize() + '">Link to this search</a>');
+								gridLoaded('searchCitResultsGrid','collection');
+							});
 							$('##searchCitResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
 								var args = event.args;
@@ -3588,54 +3588,54 @@ limitations under the License.
 							$('##' + gridId).jqxGrid({ pageable: false });
 						}
 						// add a control to show/hide columns
-//						var columns = $('##' + gridId).jqxGrid('columns').records;
-//						var columnListSource = [];
-//						for (i = 1; i < columns.length; i++) {
-//							var text = columns[i].text;
-//							var datafield = columns[i].datafield;
-//							var hideable = columns[i].hideable;
-//							var hidden = columns[i].hidden;
-//							var show = ! hidden;
-//							if (hideable == true) { 
-//								var listRow = { label: text, value: datafield, checked: show };
-//								columnListSource.push(listRow);
-//							}
-//						} 
-//						$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
-//						$("##columnPick").on('checkChange', function (event) {
-//							$("##" + gridId).jqxGrid('beginupdate');
-//							if (event.args.checked) {
-//								$("##" + gridId).jqxGrid('showcolumn', event.args.value);
-//							} else {
-//								$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
-//							}
-//							$("##" + gridId).jqxGrid('endupdate');
-//						});
-//						$("##columnPickDialog").dialog({ 
-//							height: 'auto', 
-//							title: 'Show/Hide Columns',
-//							autoOpen: false,
-//							modal: true, 
-//							reszable: true, 
-//							buttons: { 
-//								Ok: function(){
-//									window.columnHiddenSettings = getColumnVisibilities('searchCitResultsGrid');
-//									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-//										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
-//									</cfif>
-//									$(this).dialog("close"); 
-//								}
-//							},
-//							open: function (event, ui) { 
-//								var maxZIndex = getMaxZIndex();
-//								// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
-//								$('.ui-dialog').css({'z-index': maxZIndex + 4 });
-//								$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
-//							} 
-//						});
-//						$("##columnPickDialogButton").html(
-//							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-1 mx-3' >Show/Hide Columns</button>"
-//						);
+						var columns = $('##' + gridId).jqxGrid('columns').records;
+						var columnListSource = [];
+						for (i = 1; i < columns.length; i++) {
+							var text = columns[i].text;
+							var datafield = columns[i].datafield;
+							var hideable = columns[i].hideable;
+							var hidden = columns[i].hidden;
+							var show = ! hidden;
+							if (hideable == true) { 
+								var listRow = { label: text, value: datafield, checked: show };
+								columnListSource.push(listRow);
+							}
+						} 
+						$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+						$("##columnPick").on('checkChange', function (event) {
+							$("##" + gridId).jqxGrid('beginupdate');
+							if (event.args.checked) {
+								$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+							} else {
+								$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+							}
+							$("##" + gridId).jqxGrid('endupdate');
+						});
+						$("##columnPickDialog").dialog({ 
+							height: 'auto', 
+							title: 'Show/Hide Columns',
+							autoOpen: false,
+							modal: true, 
+							reszable: true, 
+							buttons: { 
+								Ok: function(){
+									window.columnHiddenSettings = getColumnVisibilities('searchCitResultsGrid');
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+									</cfif>
+									$(this).dialog("close"); 
+								}
+							},
+							open: function (event, ui) { 
+								var maxZIndex = getMaxZIndex();
+								// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+								$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+								$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+							} 
+						});
+						$("##columnPickDialogButton").html(
+							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-1 mx-3' >Show/Hide Columns</button>"
+						);
 						// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 						// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 						var maxZIndex = getMaxZIndex();
