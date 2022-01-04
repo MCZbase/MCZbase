@@ -3322,7 +3322,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<div class="col-12 float-left mt-0 p-0">
-									<div class="col-12 float-left px-0">
+									<div class="col-12 float-left">
 										<label for="p_title" class="data-entry-label mt-0 mb-0"><span id="project_publication_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">
 									</div>
@@ -3352,7 +3352,7 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="col-12 float-left mt-0 p-0">
+								<div class="col-12 float-left mt-0 p-0 pb-1 pt-0">
 									<div class="col-12 col-md-4 float-left">
 										<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
 										<select name="collection_id" id="collection_id" size="1"  class="data-entry-select">
