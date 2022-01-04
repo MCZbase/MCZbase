@@ -3314,10 +3314,12 @@ limitations under the License.
 									</div>
 								</cfif>
 								<div class="col-12 float-left mt-2 p-3 border rounded">
-									
-									<div class="col-12 col-md-6 float-left pl-0 pr-md-2 pr-0">
+									<div class="col-12 float-left px-0">
 										<label for="p_title" class="data-entry-label mt-1 mb-0"><span id="project_publication_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">
+									</div>
+									<div class="col-12 col-md-6 float-left pl-0 pr-md-2 pr-0">
+									
 										<label for="author" class="data-entry-label mt-1 mb-0"><span id="project_publication_agent">Participant</span></label>
 										<input name="author" id="author" type="text" class="data-entry-input">
 										<label for="year" class="data-entry-label mt-1 mb-0"><span id="project_publication_year">Year</span></label>
