@@ -3321,8 +3321,8 @@ limitations under the License.
 										<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 								</cfif>
-								<div class="col-12 float-left mt-0 p-0">
-									<div class="col-12 float-left mb-1">
+								<div class="col-12 float-left mt-0 mb-1 p-0">
+									<div class="col-12 float-left">
 										<label for="p_title" class="data-entry-label my-0"><span id="project_publication_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">
 									</div>
