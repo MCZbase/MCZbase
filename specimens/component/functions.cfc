@@ -3465,7 +3465,7 @@ limitations under the License.
 									{ name: 'collection_object_id', type: 'string' },
 									{ name: 'cited_taxon_name_id', type: 'string' },
 									{ name: 'published_year', type: 'string' },
-									{ name: 'publication_title', type: 'string' },
+									{ name: 'formatted_title', type: 'string' },
 									{ name: 'publication_type', type: 'string' },
 									{ name: 'is_peer_reviewed_fg', type: 'string' },
 									{ name: 'cit_current_fg', type: 'string' },
@@ -3520,7 +3520,7 @@ limitations under the License.
 								columns: [
 									{text: 'ID', datafield: 'CITED_TAXON_NAME_ID', width:100, hideable: true, hidden: getColHidProp('CITED_TAXON_NAME_ID', false), cellsrenderer: editCellRenderer },
 									{text: 'Year', datafield: 'PUBLISHED_YEAR', width:100, hideable: true, hidden: getColHidProp('PUBLISHED_YEAR', true) },
-									{text: 'Publication Title', datafield: 'PUBLICATION_TITLE', width: 100, hidable: true, hidden: getColHidProp('PUBLICATION_TITLE', true) },
+									{text: 'Publication Title', datafield: 'FORMATTED_TITLE', width: 100, hidable: true, hidden: getColHidProp('FORMATTED_TITLE', true) },
 									{text: 'Publication Type', datafield: 'PUBLICATION_TYPE', width: 150, hidable: true, hidden: getColHidProp('PUBLICATION_TYPE', false) },
 									{text: 'Peer Reviewed', datafield: 'IS_PEER_REVIEWED_FG', width:100, hideable: true, hidden: getColHidProp('IS_PEER_REVIEWED_FG', true) },
 									{text: 'Cited Scientific Name', datafield: 'CIT_CURRENT_FG', width:150, hideable: true, hidden: getColHidProp('CIT_CURRENT_FG', false) },
