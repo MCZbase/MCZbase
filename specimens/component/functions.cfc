@@ -3304,45 +3304,32 @@ limitations under the License.
 							<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select publication_type from ctpublication_type order by publication_type
 							</cfquery>
+							<cfoutput>
 							<h2 class="h3 mt-4">Publication Search</h2>
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
 								<div class="col-12 float-left mt-2 p-3 border rounded">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="">
+									<div class="float-right">
 										<a class="btn btn-xs btn-outline-primary px-2" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 									</cfif>
 									<div class="col-12 col-md-6 float-left px-0">
-									<label for="p_title" class="data-entry-label"><span id="project_publication_title">Title</span></label>
-									<input name="p_title" id="p_title" type="text" class="data-entry-input">
-									<label for="author" class="data-entry-label"><span id="project_publication_agent">Participant</span></label>
-									<input name="author" id="author" type="text" class="data-entry-input">
-									<label for="year" class="data-entry-label"><span id="project_publication_year">Year</span></label>
-									<input name="year" id="year" type="text" class="data-entry-input">
-									<label for="sponsor" class="data-entry-label"><span id="project_sponsor">Sponsor</span></label>
-									<input name="sponsor" id="sponsor" type="text" class="data-entry-input">
-									</div>
-									<div class="col-12 col-md-6 float-left px-0">
-										<label for="project_type" class="data-entry-label"><span id="project_type">Type</span></label>
-										<select name="project_type" id="project_type" class="data-entry-select">
-											<option value=""></option>
-											<option value="loan">Uses Specimens</option>
-											<option value="loan_no_pub">Uses Specimens, no publication</option>
-											<option value="accn">Contributes Specimens</option>
-											<option value="both">Uses and Contributes</option>
-											<option value="neither">Neither Uses nor Contributes</option>
-										</select>
-										<label for="descr_len" class="data-entry-label"> Description Min. Length</label>
+										<label for="p_title" class="data-entry-label mt-1"><span id="project_publication_title">Title</span></label>
+										<input name="p_title" id="p_title" type="text" class="data-entry-input mt-1">
+										<label for="author" class="data-entry-label"><span id="project_publication_agent">Participant</span></label>
+										<input name="author" id="author" type="text" class="data-entry-input mt-1">
+										<label for="year" class="data-entry-label"><span id="project_publication_year">Year</span></label>
+										<input name="year" id="year" type="text" class="data-entry-input mt-1">
+										<label for="descr_len" class="data-entry-label mt-1"> Description Min. Length</label>
 										<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">
-										<cfoutput>
-											<label for="publication_type" class="data-entry-label"><span id="publication_type">Publication Type</span></label>
-											<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
-												<option value=""></option>
-												<cfloop query="ctpublication_type">
-													<option value="#publication_type#">#publication_type#</option>
-												</cfloop>
-											</select>
+										<label for="publication_type" class="data-entry-label"><span id="publication_type">Publication Type</span></label>
+										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
+											<option value=""></option>
+											<cfloop query="ctpublication_type">
+												<option value="#publication_type#">#publication_type#</option>
+											</cfloop>
+										</select>
 											<label for="journal" class="data-entry-label">Journal Name</label>
 											<select name="journal" id="journal" size="1" class="data-entry-select">
 												<option value=""></option>
@@ -3358,6 +3345,9 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</cfoutput>
+									</div>
+									<div class="col-12 col-md-6 float-left px-0">
+
 										<label for="onlyCitePubs" class="data-entry-label">
 											<span id="pub_cites_specimens">Cites specimens?</span>
 										</label>
