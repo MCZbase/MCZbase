@@ -3308,7 +3308,7 @@ limitations under the License.
 							<form action="SpecimenUsage.cfm" method="post">
 								<input name="action" type="hidden" value="search">
 								<div class="col-12 col-md-6 px-0 float-left">
-									<h2 class="h3 mt-4 float-left">Publication Search</h2>
+									<h2 class="h3 mt-4 float-left mb-0">Publication Search</h2>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-6 px-0 mt-4 float-left">
