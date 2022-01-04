@@ -3513,18 +3513,18 @@ limitations under the License.
 								autoshowcolumnsmenubutton: false,
 								autoshowloadelement: false,  // overlay acts as load element for form+results
 								columnsreorder: true,
-								groupable: true,
+								groupable: false,
 								selectionmode: 'singlerow',
 								altrows: true,
 								showtoolbar: false,
 								columns: [
-									{text: 'ID', datafield: 'GETCITED.CITED_TAXON_NAME_ID', width:100, hideable: true, hidden: getColHidProp('CITED_TAXON_NAME_ID', false), cellsrenderer: editCellRenderer },
-									{text: 'Year', datafield: 'PUBLISHED_YEAR', width:100, hideable: true, hidden: getColHidProp('PUBLISHED_YEAR', true) },
-									{text: 'Publication Title', datafield: 'FORMATTED_TITLE', width: 100, hidable: true, hidden: getColHidProp('FORMATTED_TITLE', true) },
-									{text: 'Publication Type', datafield: 'PUBLICATION_TYPE', width: 150, hidable: true, hidden: getColHidProp('PUBLICATION_TYPE', false) },
-									{text: 'Peer Reviewed', datafield: 'IS_PEER_REVIEWED_FG', width:100, hideable: true, hidden: getColHidProp('IS_PEER_REVIEWED_FG', true) },
-									{text: 'Cited Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150, hideable: true, hidden: getColHidProp('SCIENTIFIC_NAME', false) },
-									{text: 'Type Status', datafield: 'TYPE_STATUS', hideable: true, hidden: getColHidProp('TYPE_STATUS', true) }
+									{text: 'ID', datafield: 'GETCITED.CITED_TAXON_NAME_ID', width:100 },
+									{text: 'Year', datafield: 'PUBLISHED_YEAR', width:100},
+									{text: 'Publication Title', datafield: 'FORMATTED_TITLE', width: 100},
+									{text: 'Publication Type', datafield: 'PUBLICATION_TYPE', width: 150 },
+									{text: 'Peer Reviewed', datafield: 'IS_PEER_REVIEWED_FG', width:100},
+									{text: 'Cited Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150 },
+									{text: 'Type Status', datafield: 'TYPE_STATUS', width:200}
 								],
 								rowdetails: true,
 								rowdetailstemplate: {
