@@ -3235,7 +3235,7 @@ limitations under the License.
 					<cfset i = 1>
 					<cfloop query="getCited">
 						<div class="border p-1 my-2">
-							<div class="px-2">
+							<div class="mt-2 px-2">
 							Publication title:  <b>	#publication_title#</b>
 						</div>
 							<div class="d-block py-1 px-2 w-100 float-left"> 
