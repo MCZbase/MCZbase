@@ -3240,13 +3240,13 @@ limitations under the License.
 					<cfset i = 1>
 					<cfloop query="getCited">
 						<div class="p-1 mt-3 rounded border" style="line-height: 1.1rem;">
-							<div class="d-block mt-1 py-1 px-2 w-100 float-left"> 
+<!---							<div class="d-block mt-1 py-1 px-2 w-100 float-left"> 
 							<span class="d-inline"></span> 
 							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a>
 							<span class="small font-italic">
 							<cfif len(citation_remarks) gt 0>#CITATION_REMARKS# </cfif>
 							</span> 
-						</div>
+							</div>--->
 							<table class="pubtable border-0 mt-2 mb-0 small">
 								<thead class="p-2">
 								<tr>
@@ -3288,7 +3288,7 @@ limitations under the License.
 												</tr>
 											</table>
 										</td>
-										<td class="px-2"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#collection#&nbsp;#cat_num#</a></td>
+										<td class="px-2"><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a></td>
 										<td class="px-2"><i><a href="/TaxonomyDetails.cfm?taxon_name_id=#getCited.citSciName#" target="_mainFrame"><i>#replace(getCited.citSciName," ","&nbsp;","all")#</i></a></i>&nbsp;</td>
 										<td class="px-2"><i>#scientific_name#</i>&nbsp;</td>
 										<td class="px-2">#type_status#&nbsp;</td>
