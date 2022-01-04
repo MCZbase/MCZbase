@@ -3224,7 +3224,7 @@ limitations under the License.
 							collection.collection_id,
 							cat_num,
 							identification.scientific_name,
-							citedTaxa.scientific_name as citSciName,
+							citedTaxa.scientific_name as cit_name_id,
 							occurs_page_number,
 							citation_page_uri,
 							type_status,
@@ -3254,7 +3254,7 @@ limitations under the License.
 							citation.publication_id = publication.publication_id AND
 							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						ORDER BY
-							occurs_page_number,citSciName,cat_num
+							occurs_page_number, cit_name_id, cat_num
 					</cfquery>
 
 							
