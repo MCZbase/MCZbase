@@ -3422,7 +3422,7 @@ limitations under the License.
 													class="insBtn"
 													onmouseover="this.className='insBtn btnhov'"
 													onmouseout="this.className='insBtn'"
-													onclick = "newCitation.cited_taxon_name.value='#getCited.citSciName#';
+													onclick = "newCitation.cited_taxon_name.value='#getCited.cited_name#';
 													newCitation.cited_taxon_name_id.value='#getCited.cited_taxon_name_id#';
 													newCitation.type_status.value='#getCited.type_status#';
 													newCitation.occurs_page_number.value='#getCited.occurs_page_number#';
@@ -3436,7 +3436,7 @@ limitations under the License.
 									</td>
 									<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
 									<cfif len(#getCited.CustomID#) GT 0><td nowrap="nowrap">#customID#</td></cfif>
-									<td style="padding: 0 .5rem;"><i>#getCited.citSciName#</i>&nbsp;</td>
+									<td style="padding: 0 .5rem;"><i>#getCited.cited_name#</i>&nbsp;</td>
 									<td style="padding: 0 .5rem;"><i>#getCited.scientific_name#</i>&nbsp;</td>
 									<td style="padding: 0 .5rem;">#getCited.type_status#&nbsp;</td>
 									<td>
@@ -3497,7 +3497,7 @@ limitations under the License.
 		collection.collection_id,
 		cat_num,
 		identification.scientific_name,
-		citedTaxa.scientific_name as citSciName,
+		citedTaxa.scientific_name as cited_name,
 		occurs_page_number,
 		citation_page_uri,
 		type_status,
@@ -3522,7 +3522,7 @@ limitations under the License.
 		citation.publication_id = publication.publication_id AND
 		citation.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	ORDER BY
-		occurs_page_number,citSciName,cat_num
+		occurs_page_number,cited_name,cat_num
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection_id,collection from collection
@@ -3670,7 +3670,7 @@ limitations under the License.
 									class="insBtn"
 									onmouseover="this.className='insBtn btnhov'"
 									onmouseout="this.className='insBtn'"
-									onclick = "newCitation.cited_taxon_name.value='#getCited.citSciName#';
+									onclick = "newCitation.cited_taxon_name.value='#getCited.cited_name#';
 									newCitation.cited_taxon_name_id.value='#getCited.cited_taxon_name_id#';
 									newCitation.type_status.value='#getCited.type_status#';
 									newCitation.occurs_page_number.value='#getCited.occurs_page_number#';
@@ -3684,7 +3684,7 @@ limitations under the License.
 					</td>
 					<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#getCited.collection_object_id#">#getCited.collection#&nbsp;#getCited.cat_num#</a></td>
 					<cfif len(#getCited.CustomID#) GT 0><td nowrap="nowrap">#customID#</td></cfif>
-					<td style="padding: 0 .5rem;"><i>#getCited.citSciName#</i>&nbsp;</td>
+					<td style="padding: 0 .5rem;"><i>#getCited.cited_name#</i>&nbsp;</td>
 					<td style="padding: 0 .5rem;"><i>#getCited.scientific_name#</i>&nbsp;</td>
 					<td style="padding: 0 .5rem;">#getCited.type_status#&nbsp;</td>
 					<td>
@@ -3810,7 +3810,7 @@ limitations under the License.
 		cat_num,
 		collection,
 		identification.scientific_name,
-		citedTaxa.scientific_name as citSciName,
+		citedTaxa.scientific_name as cited_name,
 		occurs_page_number,
 		citation_page_uri,
 		type_status,
@@ -3865,7 +3865,7 @@ limitations under the License.
 		<input type="text"
 			name="cited_taxon_name"
 			id="cited_taxon_name"
-			value="#citSciName#"
+			value="#cited_name#"
 			class="reqdClr"
 			size="50"
 			onChange="taxaPick('cited_taxon_name_id','cited_taxon_name','editCitation',this.value); return false;">
