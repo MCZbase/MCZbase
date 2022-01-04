@@ -3314,7 +3314,7 @@ limitations under the License.
 										<a class="btn btn-xs btn-outline-primary px-2 float-right" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 									</cfif>
-									<div class="col-12 col-md-6 float-left px-0">
+									<div class="col-12 col-md-6 float-left pl-0 pr-md-2 pr-0">
 										<label for="p_title" class="data-entry-label mt-1 mb-0"><span id="project_publication_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">
 										<label for="author" class="data-entry-label mt-1 mb-0"><span id="project_publication_agent">Participant</span></label>
@@ -3346,7 +3346,7 @@ limitations under the License.
 											</select>
 										</cfoutput>
 									</div>
-									<div class="col-12 col-md-6 float-left px-0">
+									<div class="col-12 col-md-6 float-left pr-0 pl-md-1 pl-0">
 
 										<label for="onlyCitePubs" class="data-entry-label mt-1 mb-0">
 											<span id="pub_cites_specimens">Cites specimens?</span>
@@ -3369,6 +3369,8 @@ limitations under the License.
 											<option value=""></option>
 											<option value="1">yes</option>
 										</select>
+								</div>
+								<div class="col-12 px-0">
 										<input type="submit" value="Search" class="btn btn-xs btn-secondary">
 										<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
 									</div>
