@@ -3280,7 +3280,7 @@ limitations under the License.
 							doi: <a target="_blank" href="https://doi.org/#DOI#">#DOI#</a><br><br>
 							</cfif>
 							
-							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>, #formatted_title#
+							<span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>, #publication_title#
 							<cfif len(occurs_page_number) gt 0>
 								Page
 								<cfif len(citation_page_uri) gt 0>
