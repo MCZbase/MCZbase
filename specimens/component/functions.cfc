@@ -3169,28 +3169,28 @@ limitations under the License.
 			<cftry>
 				<div id="citationsDialog">
 					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									citation.type_status,
-									citation.occurs_page_number,
-									citation.citation_page_uri,
-									citation.CITATION_REMARKS,
-									cited_taxa.scientific_name as cited_name,
-									cited_taxa.taxon_name_id as cited_name_id,
-									formatted_publication.formatted_publication as formpub,
-									formatted_publication.publication_id,
-									cited_taxa.taxon_status as cited_name_status
-								from
-									citation,
-									taxonomy cited_taxa,
-									formatted_publication
-								where
-									citation.cited_taxon_name_id = cited_taxa.taxon_name_id AND
-									citation.publication_id = formatted_publication.publication_id AND
-									format_style='long' and
-									citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-								order by
-									substr(formatted_publication, - 4)
-						</cfquery>
+						SELECT
+							citation.type_status,
+							citation.occurs_page_number,
+							citation.citation_page_uri,
+							citation.CITATION_REMARKS,
+							cited_taxa.scientific_name as cited_name,
+							cited_taxa.taxon_name_id as cited_name_id,
+							formatted_publication.formatted_publication as formpub,
+							formatted_publication.publication_id,
+							cited_taxa.taxon_status as cited_name_status
+						from
+							citation,
+							taxonomy cited_taxa,
+							formatted_publication
+						where
+							citation.cited_taxon_name_id = cited_taxa.taxon_name_id AND
+							citation.publication_id = formatted_publication.publication_id AND
+							format_style='long' and
+							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						order by
+							substr(formatted_publication, - 4)
+					</cfquery>
 					<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select collection_id,collection from collection
 						order by collection
@@ -3239,26 +3239,18 @@ limitations under the License.
 						</cfquery>
 					<cfset i = 1>
 						<h1 class="h4">Publications Citing This Specimen</h1>
-			
-<!---					<div class="d-block mt-1 py-1 px-2 w-100 float-left"> 
-							<span class="d-inline"></span> 
-							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a>
-							<span class="small font-italic">
-							<cfif len(citation_remarks) gt 0>#CITATION_REMARKS# </cfif>
-							</span> 
-						</div>--->
 							<table class="table mb-0 small">
 								<thead class="p-2">
-								<tr>
-									<th>&nbsp;</th>
-									<th class="px-1" style="min-width: 280px;">Publication Title</th>
-									<th class="px-1">Cited As</th>
-									<th class="px-1">Current ID</th>
-									<th class="px-1" style="min-width: 80px;">Citation Type</th>
-									<th class="px-1" style="min-width: 50px;">Page ##</th>
-									<th class="px-1" style="min-width: 213px;">Remarks</th>
-								</tr>
-							</thead>
+									<tr>
+										<th>&nbsp;</th>
+										<th class="px-1" style="min-width: 280px;">Publication Title</th>
+										<th class="px-1">Cited As</th>
+										<th class="px-1">Current ID</th>
+										<th class="px-1" style="min-width: 80px;">Citation Type</th>
+										<th class="px-1" style="min-width: 50px;">Page ##</th>
+										<th class="px-1" style="min-width: 213px;">Remarks</th>
+									</tr>
+								</thead>
 							<cfloop query="getCited">
 								<tbody>
 									<tr>
@@ -3269,7 +3261,9 @@ limitations under the License.
 														<input type="hidden" name="Action">
 														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 														<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
-														<td class="border-0 px-0"><button type="button" aria-label="Remove Citation" class="btn btn-xs btn-danger" onclick="removeCitation(#collection_object_id#, #cited_taxon_name_id#)">Remove</button></td>
+														<td class="border-0 px-0">
+															<button type="button" aria-label="Remove Citation" class="btn btn-xs btn-danger" onclick="removeCitation(#collection_object_id#, #cited_taxon_name_id#)">Remove</button
+														</td>
 														<td class="border-0 pr-0 pl-2">
 															<input type="button"
 															value="Edit"
@@ -3299,8 +3293,112 @@ limitations under the License.
 								</cfloop>
 							</table>
 						<cfset i = i + 1>
-				
-				</div>
+						<div class="border">
+						<cfset title = "Search for Results">
+							<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select collection,collection_id from collection order by collection
+							</cfquery>
+							<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select journal_name from ctjournal_name order by journal_name
+							</cfquery>
+							<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select publication_type from ctpublication_type order by publication_type
+							</cfquery>
+							<h2 class="">Publication Search</h2>
+							<form action="SpecimenUsage.cfm" method="post">
+								<input name="action" type="hidden" value="search">
+								<table>
+									<tr>
+										<td>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+												<table>
+													<tr>
+														<td>
+															<a  style="padding: .5em 0;display: block;" href="/Project.cfm?action=makeNew">[ New Project ]</a>
+															<a style="padding: .5em 0;display: block;" href="/Publication.cfm?action=newPub">[ New Publication ]</a>
+														</td>
+													</tr>
+												</table>
+											</cfif>
+											<tr>
+											<label for="p_title"><span id="project_publication_title">Title</span></label>
+											<input name="p_title" id="p_title" type="text">
+											<label for="author"><span id="project_publication_agent">Participant</span></label>
+											<input name="author" id="author" type="text">
+											<label for="year"><span id="project_publication_year">Year</span></label>
+											<input name="year" id="year" type="text">
+											<h4 style="padding-top: 1em;">Project Details</h4>
+											<label for="sponsor"><span id="project_sponsor">Sponsor</span></label>
+											<input name="sponsor" id="sponsor" type="text">
+											<label for="project_type"><span id="project_type">Type</span></label>
+											<select name="project_type" id="project_type">
+												<option value=""></option>
+												<option value="loan">Uses Specimens</option>
+												<option value="loan_no_pub">Uses Specimens, no publication</option>
+												<option value="accn">Contributes Specimens</option>
+												<option value="both">Uses and Contributes</option>
+												<option value="neither">Neither Uses nor Contributes</option>
+											</select>
+											<label for="descr_len"> Description Min. Length</label>
+											<input name="descr_len" id="descr_len" type="text" value="100">
+										</td>
+										<td>
+											<cfoutput>
+												<label for="publication_type"><span id="publication_type">Publication Type</span></label>
+												<select name="publication_type" id="publication_type" size="1">
+													<option value=""></option>
+													<cfloop query="ctpublication_type">
+														<option value="#publication_type#">#publication_type#</option>
+													</cfloop>
+												</select>
+												<label for="journal">Journal Name</label>
+												<select name="journal" id="journal" size="1">
+													<option value=""></option>
+													<cfloop query="ctjournal_name">
+														<option value="#journal_name#">#journal_name#</option>
+													</cfloop>
+												</select>
+												<label for="collection_id">Cites Collection</label>
+												<select name="collection_id" id="collection_id" size="1">
+													<option value="">All</option>
+													<cfloop query="ctColl">
+														<option value="#collection_id#">#collection#</option>
+													</cfloop>
+												</select>
+											</cfoutput>
+											<label for="onlyCitePubs">
+												<span id="pub_cites_specimens">Cites specimens?</span>
+											</label>
+											<select name="onlyCitePubs" id="onlyCitePubs">
+												<option value=""></option>
+												<option value="1">Cites Specimens</option>
+												<option value="0">Cites no Specimens</option>
+											</select>
+											<label for="cited_sci_Name">
+												<span id="cited_sci_Name">Cited Scientific Name</span>
+											</label>
+											<input name="cited_sci_Name" id="cited_sci_Name" type="text">
+											<label for="current_sci_Name">
+												<span id="accepted_sci_name">Accepted Scientific Name</span>
+											</label>
+											<input name="current_sci_Name" id="current_sci_Name" type="text">
+											<label for="is_peer_reviewed_fg"><span id="is_peer_reviewed_fg">Peer Reviewed only?</span></label>
+											<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg">
+												<option value=""></option>
+												<option value="1">yes</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2" align="center" style="padding-top: 2em;">
+											<input type="submit" value="Search" class="schBtn">&nbsp;&nbsp;
+											<input type="reset"	value="Clear Form"	class="clrBtn">
+										</td>
+									</tr>
+								</table>
+							</form>
+						</cfif>
+					</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
