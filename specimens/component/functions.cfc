@@ -3255,8 +3255,8 @@ limitations under the License.
 									<th class="px-1">Cited As</th>
 									<th class="px-1">Current ID</th>
 									<th class="px-1" style="min-width: 80px;">Citation Type</th>
-									<th class="px-1" style="min-width: 70px;">Page ##</th>
-									<th class="px-1" style="min-width: 275px;">Remarks</th>
+									<th class="px-1" style="min-width: 60px;">Page ##</th>
+									<th class="px-1" style="min-width: 240px;">Remarks</th>
 								</tr>
 							</thead>
 							<cfloop query="getCited">
@@ -3275,7 +3275,7 @@ limitations under the License.
 															class="btn btn-xs btn-danger"
 															onClick="deleCitation#i#.Action.value='deleCitation';submit();">
 														</td>
-														<td class="border-0 px-0">
+														<td class="border-0 pr-0 pl-2">
 															<input type="button"
 															value="Edit"
 															class="btn btn-xs btn-primary"
