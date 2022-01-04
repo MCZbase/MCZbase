@@ -3254,7 +3254,7 @@ limitations under the License.
 							citation.publication_id = publication.publication_id AND
 							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						ORDER BY
-							occurs_page_number, cit_name_id, cat_num
+							occurs_page_number, cited_name_id, cat_num
 					</cfquery>
 
 							
