@@ -3235,12 +3235,9 @@ limitations under the License.
 					<cfset i = 1>
 					<cfloop query="getCited">
 						<div class="border p-1 my-2">
-							<div class="mt-2 px-2">
-							Publication title:  <b>	#publication_title#</b>
-						</div>
-							<div class="d-block py-1 px-2 w-100 float-left"> 
+							<div class="d-block mt-1 py-1 px-2 w-100 float-left"> 
 							<span class="d-inline"></span> 
-							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#citations.formatted_publication#</a>,
+							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#citations.formatted_publication#</a>, #publication_title#
 							<cfif len(occurs_page_number) gt 0>
 								Page
 								<cfif len(citation_page_uri) gt 0>
