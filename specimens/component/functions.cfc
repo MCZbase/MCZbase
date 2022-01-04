@@ -3316,10 +3316,10 @@ limitations under the License.
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 mt-4 float-right">
-										<a class="btn btn-xs btn-outline-primary px-2" href="/Publication.cfm?action=newPub">New Publication</a>
+										<a class="btn btn-xs btn-outline-primary px-2 text-right" href="/Publication.cfm?action=newPub">New Publication</a>
 									</div>
 								</cfif>
-								<div class="col-12 float-left mt-2 p-3">
+								<div class="col-12 float-left mt-0 p-3">
 									<div class="col-12 float-left px-0">
 										<label for="p_title" class="data-entry-label mt-1 mb-0"><span id="project_publication_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">
