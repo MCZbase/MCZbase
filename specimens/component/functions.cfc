@@ -3266,7 +3266,6 @@ limitations under the License.
 							<tr>
 								<th>&nbsp;</th>
 								<th>Cat Num</th>
-								<cfif len(#CustomID#) GT 0><th>#session.CustomOtherIdentifier#</th></cfif>
 								<th>Cited As</th>
 								<th>Current ID</th>
 								<th>Citation Type</th>
@@ -3321,7 +3320,6 @@ limitations under the License.
 										</table>
 									</td>
 									<td style="padding:0 .5rem;"><a href="/SpecimenDetail.cfm?collection_object_id=#citations.collection_object_id#">#collection#&nbsp;#cat_num#</a></td>
-									<cfif len(#CustomID#) GT 0><td nowrap="nowrap">#customID#</td></cfif>
 									<td style="padding: 0 .5rem;"><i>#citSciName#</i>&nbsp;</td>
 									<td style="padding: 0 .5rem;"><i>#scientific_name#</i>&nbsp;</td>
 									<td style="padding: 0 .5rem;">#type_status#&nbsp;</td>
