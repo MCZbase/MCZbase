@@ -3233,11 +3233,14 @@ limitations under the License.
 								occurs_page_number,cat_num
 						</cfquery>
 					<cfset i = 1>
+					<div class="border p-1">
 					<cfloop query="getCited">
-						<div>
+						<div class="px-1">
 							Publication title:  <b>	#publication_title#</b>:
 						</div>
-						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#citations.formatted_publication#</a>,
+						<div class="d-block py-1 px-2 w-100 float-left"> 
+							<span class="d-inline"></span> 
+							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#citations.formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
 								Page
 								<cfif len(citation_page_uri) gt 0>
@@ -3260,14 +3263,14 @@ limitations under the License.
 							</cfif>#CITATION_REMARKS# </span> 
 						</div>
 						<table class="pubtable" border="0" style="border: none;font-size: 15px;margin-top:1.5rem;">
-						<thead style="background-color: ##beecea;padding: 11px;line-height: 1.5rem;" class="small">
+						<thead style="background-color: ##beecea;padding: 11px;line-height: 1rem;" class="small">
 							<tr>
 								<th>&nbsp;</th>
 								<th>Cat Num</th>
 								<th>Cited As</th>
 								<th>Current ID</th>
 								<th>Citation Type</th>
-								<th style="padding: 0 .5rem;">Page ##</th>
+								<th style="padding: 0 .25rem;min-width: 75px;">Page ##</th>
 								<th style="padding: 0 1rem; min-width: 275px;">Remarks</th>
 							</tr>
 						</thead>
