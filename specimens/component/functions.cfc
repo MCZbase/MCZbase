@@ -1579,32 +1579,19 @@ limitations under the License.
 															<cfif desc.recordcount is 1>
 																<cfset description=desc.label_value>
 															</cfif>
-															<cfloop query="images">
-																<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																	SELECT distinct
-																		media.media_id
-																	FROM 
-																		media,
-																		media_relations
-																	WHERE 
-																		media_relations.media_id = media.media_id
-																	AND
-																		media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-																</cfquery>
-																<div class="col-12 col-md-12 px-0 mb-2 float-left">
-																	<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
-																	<div id="mediaBlock#media_id#">
-																	#mediaBlock#
-																	</div>
-																</div>
-															</cfloop>
 															<cfset k=1>
 															<cfloop query="getImages">
 																<div class="col-6 float-left p-2">
 																	<div class="border overflow-hidden px-2">
 																		<div class="col-auto p-2 float-left">
 																			<a href="/media/#getImages.media_id#" target="_blank" class="text-left small d-block">Media ID: #getImages.media_id#</a>
-																			<a href="#auto_host#/#auto_path#/#auto_filename#" class=""><img src="#puri#" alt="#altText#" class="" width="100"></a><br>
+																			
+																			<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
+																				<div id="mediaBlock#media_id#">
+																					#mediaBlock#
+																				</div>
+																			<a href="#auto_host#/#auto_path#/#auto_filename#" class="">
+																				<img src="#puri#" alt="#altText#" class="" width="100"></a><br>
 																			<div class="small text-center">#media_type# (#mime_type#)
 																				<span class="text-center d-block">
 																				(<a href="/MediaSet.cfm?media_id=#getImages.media_id#" class="" target="_blank" style="">viewer</a>)
