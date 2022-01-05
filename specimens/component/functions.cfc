@@ -3317,7 +3317,6 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input name="action" type="hidden" value="search">
 								<input type="hidden" name="method" value="getCitResults" class="keeponclear">
-								<input type="hidden" name="collection_object_id" value="#collection_object_id#" class="keeponclear">
 								<div class="col-12 search-box-header px-0 float-left">
 									<h2 class="h3 text-white float-left mb-1 mt-0 px-3">Search Publications in MCZbase to Add Citation</h2>
 								</div>
@@ -3437,13 +3436,13 @@ limitations under the License.
 
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/specimens/SpecimenDetailBody.cfm?collection_object_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+value+'</a></span>';
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/specimens/component/search.cfc?collection_object_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+value+'</a></span>';
 					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-							return '<span class="cellRenderClasses" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="/specimens/SpecimenDetailBody.cfm?action=edit&collection_object_id=' + rowData['COLLECTION_OBJECT_ID'] + '">Edit</a></span>';
-							return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/specimens/SpecimenDetailBody.cfm?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
+							return '<span class="cellRenderClasses" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="/specimens/component/search.cfc?collection_object_id=edit&collection_object_id=' + rowData['COLLECTION_OBJECT_ID'] + '">Edit</a></span>';
+							return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/specimens/component/search.cfc?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
 						};
 					</cfif>
 
