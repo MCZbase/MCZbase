@@ -92,17 +92,18 @@ limitations under the License.
 		<div class="row">
 			<cfif #oneOfUs# eq 1>
 				<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto">
-<!---					<li class="list-group-item px-0 mx-1">
+					<li class="list-group-item px-0 mx-1">
 						<div id="mediaDialog"></div>
 						<script>
 							function reloadMedia() { 
+								// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 								loadMedia(#collection_object_id#,'mediaCardBody');
 							}
 						</script>
 						<cfif listcontainsnocase(session.roles,"manage_media")>
 							<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 						</cfif>
-					</li>--->
+					</li>
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 					</li>
@@ -157,12 +158,11 @@ limitations under the License.
 						<div class="card mb-2 bg-light">
 							<div id="mediaDialog"></div>
 							<script>
-								function reloadMedia() { 
-									// invoke specimen/component/public.cfc function getMediaHTML via ajax and repopulate the media block.
-									loadMedia(#collection_object_id#,'mediaCardBody');
+								function reloadImages() { 
+									// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+									loadImages(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
-							<cfset blockMedia = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingMedia">
 								<h3 class="h4 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
@@ -170,12 +170,13 @@ limitations under the License.
 										<span class="text-success font-weight-light">(#mediaCount.ct#)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_media")>
-										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditImagesDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
+										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditImagesDialog(#collection_object_id#,'mediaDialog','#guid#',reloadImages)">Add/Remove</a>
 									</cfif>
 								</h3>
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-2 float-left" id="mediaCardBody">
+
 									<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
 										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
@@ -201,7 +202,7 @@ limitations under the License.
 											<div class="col-12 col-md-12 px-0 mb-2 float-left">
 												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
 												<div id="mediaBlock#media_id#">
-												#mediaBlock#
+												#mediablock#
 												</div>
 											</div>
 									</cfloop>
