@@ -3519,6 +3519,7 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
+									{text: 'Collection Object ID', datafield: 'COLLECTION_OBJECT_ID', width:100 },
 									{text: 'ID', datafield: 'CITED_TAXON_NAME_ID', width:100 },
 									{text: 'Year', datafield: 'PUBLISHED_YEAR', width:100},
 									{text: 'Publication Title', datafield: 'FORMATTED_TITLE', width: 100},
