@@ -107,7 +107,7 @@ limitations under the License.
 												</a>
 												<div class="form-row mx-0">
 													<div class="small">#desc.label_value# 
-														<button type="button" id="btn_pane1" class="btn btn-xs py-0 small mb-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog',reloadMedia)">Edit</button>
+														<button type="button" id="btn_pane1" class="btn btn-xs py-0 small mb-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog',reloadImages)">Edit</button>
 													</div>
 												</div>
 											</div>
@@ -123,7 +123,7 @@ limitations under the License.
 													<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 													<span class="">#description#</span><br>
 													<script>
-														function reloadMedia() { 
+														function reloadImages() { 
 															// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 															loadMedia('#media_id#','mediaCardBody');
 														}
