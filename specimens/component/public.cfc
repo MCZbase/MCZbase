@@ -117,7 +117,7 @@ limitations under the License.
 													<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> 
 												</a>
 												<p class="small">
-													<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
+													<a href="#aForDetHref#" target="_blank">pub120 Details</a> <br>
 													<span class="">#description#</span><br>
 													<script>
 														function reloadMedia() { 
