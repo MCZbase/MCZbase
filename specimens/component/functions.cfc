@@ -3246,7 +3246,7 @@ limitations under the License.
 						</cfquery>
 					<cfif len(getCited.publication_id) GT 0>
 						<cfset i = 1 >
-						<h1 class="h3">Publications Citing This Specimen</h1>
+						<h1 class="h3">Citations for this specimen</h1>
 							<table class="table mb-0 small px-2">
 								<thead class="p-2">
 									<tr>
@@ -3320,7 +3320,7 @@ limitations under the License.
 								<input name="action" type="hidden" value="search">
 								<input type="hidden" name="method" value="getCitResults" class="keeponclear">
 								<div class="col-12 search-box-header px-0 float-left">
-									<h2 class="h3 text-white float-left mb-1 mt-0 px-3">Search Publications in MCZbase to Add Citation</h2>
+									<h2 class="h3 text-white float-left mb-1 mt-0 px-3"> Add Citation</h2>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-3 mt-2 float-right">
