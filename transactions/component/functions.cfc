@@ -5676,8 +5676,8 @@ limitations under the License.
 			<cfset row["tnumber"] = "#use.tnumber#">
 			<cfset row["ttype"] = "#use.ttype#">
 			<cfset row["transaction_type"] = "#use.transaction_type#">
-			<cfset row["trans_date"] = "#use.trans_date#">
-			<cfset row["shipped_date"] = "#use.shipped_date#">
+			<cfset row["trans_date"] = "#dateformat(use.trans_date,'yyyy-mm-dd')#">
+			<cfset row["shipped_date"] = "dateformat(#use.shipped_date#,'yyyy-mm-dd')">
 			<cfset row["guid_prefix"] = "#use.guid_prefix#">
 			<cfset row["uri"] = "#use.uri#">
 			<cfset row["sovereign_nation"] = "#use.sovereign_nation#">
