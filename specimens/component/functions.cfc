@@ -3530,7 +3530,7 @@ limitations under the License.
 									{text: 'Title', datafield: 'P_TITLE', width:100 },
 									{text: 'Author', datafield: 'AUTHOR_TEXT', width:100},
 									{text: 'Year', datafield: 'PUBLISHED_YEAR', width: 100},
-									{text: 'Type', datafield: 'PUBLICATION_TYPE', width: 150 },
+									{text: 'Pub Type', datafield: 'PUBLICATION_TYPE', width: 150 },
 									{text: 'Collection', datafield: 'COLLECTION', width:100},
 									{text: 'Cited Scientific Name', datafield: 'CITSCINAME', width:150 },
 									{text: 'Peer Reviewed?', datafield: 'IS_PEER_REVIEWED_FG', width:150 },
