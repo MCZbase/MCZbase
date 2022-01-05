@@ -162,6 +162,7 @@ limitations under the License.
 									loadMedia(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
+							<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
 							<div class="card-header" id="headingMedia">
 								<h3 class="h4 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
@@ -197,16 +198,21 @@ limitations under the License.
 												AND
 													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 											</cfquery>
-											<div class="col-12 col-md-12 px-0 mb-2 float-left">
-												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
-												<div id="mediaBlock#media_id#">
-												#mediaBlock#
+											<cfif len(#mediaBlock#) gt 10>
+												<div class="col-12 col-md-12 px-0 mb-2 float-left">
+													<div id="mediaBlock#media_id#">
+														#mediaBlock#
+													</div>
 												</div>
-											</div>
-									</cfloop>
+											<cfelse>
+												<ul class="pl-0 mb-0">
+													<li>None</li>
+												</ul>
+											</cfif>
+										</cfloop>
+									</div>
 								</div>
 							</div>
-						</div>
 					</div>
 				</div>
 			</cfif>

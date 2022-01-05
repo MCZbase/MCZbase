@@ -67,7 +67,9 @@ limitations under the License.
 						order by media.media_type
 					</cfquery>
 					<cfoutput>
-							<div class="form-row">	pub70		
+							<div class="form-row">
+								
+								<article>pub70		
 								<div class="col-12 px-0 mx-0 mt-1"> 
 									<cfif #media.media_type# eq "image" and #media.mime_type# NEQ "text/html">	
 										<cfset i=1>
@@ -242,6 +244,7 @@ limitations under the License.
 										</cfloop>
 									</cfif>
 								</div>
+								</article>
 							</div>
 					</cfoutput>
 				</cfif>
