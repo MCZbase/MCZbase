@@ -1585,13 +1585,7 @@ limitations under the License.
 																	<div class="border overflow-hidden px-2">
 																		<div class="col-auto p-2 float-left">
 																			<a href="/media/#getImages.media_id#" target="_blank" class="text-left small d-block">Media ID: #getImages.media_id#</a>
-																			
-																			<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
-																				<div id="mediaBlock#media_id#">
-																					#mediaBlock#
-																				</div>
-																			<a href="#auto_host#/#auto_path#/#auto_filename#" class="">
-																				<img src="#puri#" alt="#altText#" class="" width="100"></a><br>
+																			<a href="#auto_host#/#auto_path#/#auto_filename#" class=""><img src="#puri#" alt="#altText#" class="" width="100"></a><br>
 																			<div class="small text-center">#media_type# (#mime_type#)
 																				<span class="text-center d-block">
 																				(<a href="/MediaSet.cfm?media_id=#getImages.media_id#" class="" target="_blank" style="">viewer</a>)
@@ -3276,7 +3270,7 @@ limitations under the License.
 														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 														<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
 														<td class="border-0 px-0">
-															<button type="button" aria-label="Remove Citation" class="btn btn-xs btn-danger" onclick="removeCitation(#collection_object_id#, #cited_taxon_name_id#)">Delete</button
+															<button type="button" aria-label="Remove Citation" class="btn btn-xs btn-warning" onclick="removeCitation(#collection_object_id#, #cited_taxon_name_id#)">Remove</button
 														</td>
 														<td class="border-0 pr-0 pl-2">
 															<input type="button"
