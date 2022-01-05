@@ -69,12 +69,11 @@ limitations under the License.
 </cfif>
 <cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
 <cfquery name="mediaCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaCount_result">
-	select count(*) as ct, media_id 
+	select count(*) as ct 
 	from 
 		media_relations
 	where 
 		media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#" >
-	group by media_id
 </cfquery>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
@@ -163,7 +162,7 @@ limitations under the License.
 									loadMedia(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
-							<cfset mediaBlock= getMediaBlockHtml(media_id="#mediaCount.media_id#",displayAs="full")>
+							<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
 							<div class="card-header" id="headingMedia">
 								<h3 class="h4 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
@@ -178,7 +177,7 @@ limitations under the License.
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-2 float-left" id="mediaCardBody">
 									<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
-									<!---	<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
 												media.media_id
 											FROM
@@ -198,10 +197,10 @@ limitations under the License.
 													media_relations.media_id = media.media_id
 												AND
 													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-											</cfquery>--->
+											</cfquery>
 											<cfif len(#mediaBlock#) gt 10>
 												<div class="col-12 col-md-12 px-0 mb-2 float-left">
-													<div id="mediaBlock#mediaCount.media_id#">
+													<div id="mediaBlock#media_id#">
 														#mediaBlock#
 													</div>
 												</div>
@@ -210,7 +209,7 @@ limitations under the License.
 													<li>None</li>
 												</ul>
 											</cfif>
-									<!---	</cfloop>--->
+										</cfloop>
 									</div>
 								</div>
 							</div>
