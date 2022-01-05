@@ -3317,6 +3317,7 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input name="action" type="hidden" value="search">
 								<input type="hidden" name="method" value="getCitResults" class="keeponclear">
+								<input type="hidden" name="collection_object_id" value="#getCited.collection_object_id#" class="keeponclear">
 								<div class="col-12 search-box-header px-0 float-left">
 									<h2 class="h3 text-white float-left mb-1 mt-0 px-3">Search Publications in MCZbase to Add Citation</h2>
 								</div>
