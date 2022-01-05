@@ -158,7 +158,7 @@ limitations under the License.
 						<div class="card mb-2 bg-light">
 							<div id="mediaDialog"></div>
 							<script>
-								function reloadMedia() { 
+								function reloadImages() { 
 									// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 									loadMedia(#collection_object_id#,'mediaCardBody');
 								}
