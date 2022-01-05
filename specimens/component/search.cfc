@@ -2103,7 +2103,6 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 <cfoutput>#retval#</cfoutput>
 </cffunction>
 
-<cfinclude template="/shared/component/functions.cfc" runOnce="true">
 <cffunction name="getCitResults" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="no">
 	<cfargument name="cited_taxon_name_id" type="string" required="no">
