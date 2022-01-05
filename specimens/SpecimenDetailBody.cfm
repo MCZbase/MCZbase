@@ -163,7 +163,7 @@ limitations under the License.
 									loadMedia(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
-							<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
+							<cfset mediaBlock= getMediaBlockHtml(media_id="#mediaCount.media_id#",displayAs="full")>
 							<div class="card-header" id="headingMedia">
 								<h3 class="h4 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
