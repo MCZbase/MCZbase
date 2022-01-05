@@ -40,7 +40,7 @@ function loadIdentification(identification_id,form) {
 };
 function getMediaBlockHtml(media_id) {
 	jQuery.ajax({
-		url: "/media/component/shared.cfc",
+		url: "/media/component/search.cfc",
 		data : {
 			method : "getMediaBlockHtml",
 			media_id: media_id,
