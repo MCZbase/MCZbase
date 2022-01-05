@@ -159,7 +159,7 @@ limitations under the License.
 							<script>
 								function reloadMedia() { 
 									// invoke specimen/component/public.cfc function getMediaHTML via ajax and repopulate the media block.
-									loadMedia(#collection_object_id#,'mediaCardBody');
+									loadMedia(#media_id#,'mediaCardBody');
 								}
 							</script>
 							<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
@@ -176,40 +176,7 @@ limitations under the License.
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-2 float-left" id="mediaCardBody">
-									<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
-										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT
-												media.media_id
-											FROM
-												media
-												left join media_relations on media_relations.media_id = media.media_id
-											WHERE
-												media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-										</cfquery>
-										<cfloop query="images">
-											<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												SELECT distinct
-													media.media_id
-												FROM 
-													media,
-													media_relations
-												WHERE 
-													media_relations.media_id = media.media_id
-												AND
-													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-											</cfquery>
-											<cfif len(#mediaBlock#) gt 10>
-												<div class="col-12 col-md-12 px-0 mb-2 float-left">
-													<div id="mediaBlock#media_id#">
-														#mediaBlock#
-													</div>
-												</div>
-											<cfelse>
-												<ul class="pl-0 mb-0">
-													<li>None</li>
-												</ul>
-											</cfif>
-										</cfloop>
+								
 									</div>
 								</div>
 							</div>
