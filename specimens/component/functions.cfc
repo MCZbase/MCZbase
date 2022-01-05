@@ -3418,7 +3418,7 @@ limitations under the License.
 									</div>
 									<div class="row mt-0"> 
 										<!--- Grid Related code is below along with search handlers --->
-										<div id="searchCitResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+										<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 										<div id="enableselection"></div>
 									</div>
 								</div>
@@ -3439,7 +3439,7 @@ limitations under the License.
 //					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-							var rowData = jQuery("##searchCitResultsGrid").jqxGrid('getrowdata',row);
+							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 							return '<span class="cellRenderClasses" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="/specimens/SpecimenDetailBody.cfm?action=edit&collection_object_id=' + rowData['COLLECTION_OBJECT_ID'] + '">Edit</a></span>';
 							return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/specimens/SpecimenDetailBody.cfm?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
 						};
@@ -3453,7 +3453,7 @@ limitations under the License.
 					
 							$("##overlay").show();
 					
-							$("##searchCitResultsGrid").replaceWith('<div id="searchCitResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 							$('##resultCitCount').html('');
 							$('##resultCitLink').html('');
 					
@@ -3491,13 +3491,13 @@ limitations under the License.
 								var details = $($(parentElement).children()[0]);
 								details.html("<div id='rowDetailsTarget" + index + "'></div>");
 					
-								createRowDetailsDialog('searchCitResultsGrid','rowDetailsTarget',datarecord,index);
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 								// Workaround, expansion sits below row in zindex.
 								var maxZIndex = getMaxZIndex();
 								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 							}
 					
-							$("##searchCitResultsGrid").jqxGrid({
+							$("##searchResultsGrid").jqxGrid({
 								width: '100%',
 								autoheight: 'true',
 								source: dataAdapter,
@@ -3533,23 +3533,23 @@ limitations under the License.
 								},
 								initrowdetails: initRowDetails
 							});
-							$("##searchCitResultsGrid").on("bindingcomplete", function(event) {
+							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
 								$('##resultCitLink').html('<a href="/specimens/SpecimenDetailBody.cfm?action=search&execute=true&' + $('##searchCitForm').serialize() + '">Link to this search</a>');
 								gridLoaded('searchCitResultsGrid','collection');
 							});
-							$('##searchCitResultsGrid').on('rowexpand', function (event) {
+							$('##searchResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
 								var args = event.args;
 								var rowIndex = args.rowindex;
 								var datarecord = args.owner.source.records[rowIndex];
-								createRowDetailsDialog('searchCitResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 							});
-							$('##searchCitResultsGrid').on('rowcollapse', function (event) {
+							$('##searchResultsGrid').on('rowcollapse', function (event) {
 								// remove the dialog holding the row details
 								var args = event.args;
 								var rowIndex = args.rowindex;
-								$("##searchCitResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+								$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 							});
 						});
 						/* End Setup jqxgrid for Search ******************************/
@@ -3562,7 +3562,7 @@ limitations under the License.
 	
 					function gridLoaded(gridId, searchType) { 
 						if (Object.keys(window.columnHiddenSettings).length == 0) { 
-							window.columnHiddenSettings = getColumnVisibilities('searchCitResultsGrid');
+							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 							</cfif>
@@ -3619,7 +3619,7 @@ limitations under the License.
 							reszable: true, 
 							buttons: { 
 								Ok: function(){
-									window.columnHiddenSettings = getColumnVisibilities('searchCitResultsGrid');
+									window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 									</cfif>
