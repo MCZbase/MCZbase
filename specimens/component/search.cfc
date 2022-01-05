@@ -2162,25 +2162,6 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				occurs_page_number,cat_num
 		</cfquery>
 		<cfset rows = search_result.recordcount>
-		<cfset i = 1>
-		<cfloop query="search">
-			<cfset row = StructNew()>
-			<cfset columnNames = ListToArray(search.columnList)>
-			<cfloop array="#columnNames#" index="columnName">
-				<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
-				<cfquery name="getClob" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getClob_result">
-					SELECT formatted_publication 
-					FROM formatted_publication
-					WHERE
-						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#search.publication_id#">
-				</cfquery>
-				<cfloop query="getClob">
-					<cfset row["HTML_DESCRIPTION"] = "#replace(encodeForHTML(REReplace(getClob.formatted_publication,'<[^>]*>','','All')),'\n','')#">
-				</cfloop>
-			</cfloop>
-			<cfset data[i]  = row>
-			<cfset i = i + 1>
-		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
