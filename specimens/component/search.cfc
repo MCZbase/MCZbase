@@ -2169,7 +2169,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfloop array="#columnNames#" index="columnName">
 				<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
 				<cfquery name="getClob" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getClob_result">
-					SELECT formatted_publicaton 
+					SELECT formatted_publication 
 					FROM formatted_publication
 					WHERE
 						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#search.publication_id#">
