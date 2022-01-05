@@ -628,56 +628,7 @@ limitations under the License.
  @param media-id the media.media_id to edit.
  @return html for editing the media 
 --->
-<cffunction name="getMediaHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="media_id" type="string" required="yes">
-	<cfthread name="getMediaThread">
-		<cftry>
-				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						media.media_id
-					FROM
-						media
-						left join media_relations on media_relations.media_id = media.media_id
-					WHERE
-						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfquery>
-				<cfloop query="images">
-					<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT distinct
-							media.media_id
-						FROM 
-							media,
-							media_relations
-						WHERE 
-							media_relations.media_id = media.media_id
-						AND
-							media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-					</cfquery>
-					<cfif len(#mediaBlock#) gt 10>
-						<div class="col-12 col-md-12 px-0 mb-2 float-left">
-							<div id="mediaBlock#media_id#">
-								#mediaBlock#
-							</div>
-						</div>
-					<cfelse>
-						<ul class="pl-0 mb-0">
-							<li>None</li>
-						</ul>
-					</cfif>
-				</cfloop>
-					<!--- theResult ---> 
-				</div>
-			</cfoutput>
-			<cfcatch>
-				<cfoutput>
-					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-				</cfoutput>
-			</cfcatch>
-		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getMediaThread" />
-	<cfreturn getMediaThread.output>
-</cffunction>
+
 <!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
@@ -1545,7 +1496,7 @@ limitations under the License.
 										<div class="card-header p-0" id="headingImg1">
 											<h2 class="my-0 py-1 text-dark">
 												<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg1" aria-expanded="false" aria-controls="collapseImg1">
-													<span class="h3 px-2">Remove links to media</span> 
+													<span class="h3 px-2">Delete links to media</span> 
 												</button>
 											</h2>
 										</div>
@@ -1633,7 +1584,7 @@ limitations under the License.
 																<div class="col-6 float-left p-2">
 																	<div class="border overflow-hidden px-2">
 																		<div class="col-auto p-2 float-left">
-																			<a href="/media/#getImages.media_id#" target="_blank" class="text-left small d-block">funct1587: Media ID: #getImages.media_id#</a>
+																			<a href="/media/#getImages.media_id#" target="_blank" class="text-left small d-block">Media ID: #getImages.media_id#</a>
 																			<a href="#auto_host#/#auto_path#/#auto_filename#" class=""><img src="#puri#" alt="#altText#" class="" width="100"></a><br>
 																			<div class="small text-center">#media_type# (#mime_type#)
 																				<span class="text-center d-block">
@@ -1650,7 +1601,7 @@ limitations under the License.
 																				</div>
 																				<cfset j = j+1>
 																			</cfloop>
-																			<input type="button" value="Remove" aria-label="Remove Link to Image" class="btn btn-xs btn-warning"
+																			<input type="button" value="Remove" aria-label="Remove Image" class="btn btn-xs btn-warning"
 																			onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
 																			<output id="deleteImagesResultDiv" class="text-danger">&nbsp;</output>
 																		</div>
