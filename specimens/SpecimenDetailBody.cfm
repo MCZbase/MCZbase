@@ -201,7 +201,7 @@ limitations under the License.
 											</cfquery>--->
 											<cfif len(#mediaBlock#) gt 10>
 												<div class="col-12 col-md-12 px-0 mb-2 float-left">
-													<div id="mediaBlock#media_id#">
+													<div id="mediaBlock#mediaCount.media_id#">
 														#mediaBlock#
 													</div>
 												</div>
