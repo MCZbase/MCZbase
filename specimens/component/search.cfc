@@ -2104,10 +2104,18 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 </cffunction>
 
 <cffunction name="getCitResults" access="remote" returntype="any" returnformat="json">
-	<cfargument name="collection_object_id" type="string" required="no">
-	<cfargument name="cited_taxon_name_id" type="string" required="no">
 	<cfargument name="publication_id" type="string" required="no">
-	<cfargument name="guid" type="string" required="no">
+	<cfargument name="cited_taxon_name_id" type="string" required="no">
+	<cfargument name="p_title" type="string" required="no">
+	<cfargument name="author_text" type="string" required="no">
+	<cfargument name="published_year" type="string" required="no">
+	<cfargument name="publication_type" type="string" required="no">
+	<cfargument name="collection" type="string" required="no">
+	<cfargument name="citSciName" type="string" required="no">
+	<cfargument name="is_peer_reviewed_fg" type="string" required="no">
+	<cfargument name="cit_current_fg" type="string" required="no">
+	<cfargument name="scientific_name" type="string" required="no">
+	<cfargument name="type_status" type="string" required="no">
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
@@ -2131,6 +2139,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				publication.published_year,
 				publication.publication_type,
 				doi,
+				citedTaxa.author_text,
 				cited_taxon_name_id
 			FROM
 				citation,
@@ -2148,8 +2157,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				identification.accepted_id_fg = 1 AND
 				citation.publication_id = publication.publication_id AND
 				citation.publication_id = formatted_publication.publication_id AND
-				format_style='long' and
-				citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				format_style='long'
 			ORDER BY
 				occurs_page_number,cat_num
 		</cfquery>
@@ -2164,7 +2172,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					SELECT formatted_publicaton 
 					FROM formatted_publication
 					WHERE
-						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#search.collection_object_id#">
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#search.publication_id#">
 				</cfquery>
 				<cfloop query="getClob">
 					<cfset row["HTML_DESCRIPTION"] = "#replace(encodeForHTML(REReplace(getClob.formatted_publication,'<[^>]*>','','All')),'\n','')#">

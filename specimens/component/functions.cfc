@@ -3213,6 +3213,8 @@ limitations under the License.
 								citation_page_uri,
 								type_status,
 								citation_remarks,
+								cit_current_fg,
+								citation_remarks,
 								publication_title,
 								formatted_publication.formatted_publication as formpub,
 								formatted_publication.publication_id,
@@ -3317,7 +3319,6 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input name="action" type="hidden" value="search">
 								<input type="hidden" name="method" value="getCitResults" class="keeponclear">
-								<input type="hidden" name="collection_object_id" value="#getCited.collection_object_id#" class="keeponclear">
 								<div class="col-12 search-box-header px-0 float-left">
 									<h2 class="h3 text-white float-left mb-1 mt-0 px-3">Search Publications in MCZbase to Add Citation</h2>
 								</div>
@@ -3464,12 +3465,16 @@ limitations under the License.
 								datatype: "json",
 								datafields:
 								[
-									{ name: 'collection_object_id', type: 'string' },
+									{ name: 'publication_id', type: 'string' },
 									{ name: 'cited_taxon_name_id', type: 'string' },
+									{ name: 'p_title', type: 'string' },
+									{ name: 'author_text', type: 'string' },
 									{ name: 'published_year', type: 'string' },
-									{ name: 'formatted_title', type: 'string' },
 									{ name: 'publication_type', type: 'string' },
+									{ name: 'collection', type: 'string' },
+									{ name: 'citSciName', type: 'string' },
 									{ name: 'is_peer_reviewed_fg', type: 'string' },
+									{ name: 'cit_current_fg', type: 'string' },
 									{ name: 'scientific_name', type: 'string' },
 									{ name: 'taxon_name_id', type: 'string' },
 									{ name: 'type_status', type: 'string'}
@@ -3478,7 +3483,7 @@ limitations under the License.
 									commit(true);
 								},
 								root: 'citationRecord',
-								id: 'collection_object_id',
+								id: 'publication_id',
 								url: '/specimens/component/search.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
@@ -3520,13 +3525,17 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
-									{text: 'Collection Object ID', datafield: 'COLLECTION_OBJECT_ID', width:100 },
-									{text: 'ID', datafield: 'CITED_TAXON_NAME_ID', width:100 },
-									{text: 'Year', datafield: 'PUBLISHED_YEAR', width:100},
-									{text: 'Publication Title', datafield: 'FORMATTED_TITLE', width: 100},
+									{text: 'Publication ID', datafield: 'PUBLICATION_ID', width:100 },
+									{text: 'Citation ID', datafield: 'CITED_TAXON_NAME_ID', width:100 },
+									{text: 'Publication Title', datafield: 'P_TITLE', width:100 },
+									{text: 'Publication Author', datafield: 'AUTHOR_TEXT', width:100},
+									{text: 'Publication Year', datafield: 'PUBLISHED_YEAR', width: 100},
 									{text: 'Publication Type', datafield: 'PUBLICATION_TYPE', width: 150 },
-									{text: 'Peer Reviewed', datafield: 'IS_PEER_REVIEWED_FG', width:100},
-									{text: 'Cited Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150 },
+									{text: 'Collection', datafield: 'COLLECTION', width:100},
+									{text: 'Cited Scientific Name', datafield: 'CITSCINAME', width:150 },
+									{text: 'Peer Reviewed?', datafield: 'IS_PEER_REVIEWED_FG', width:150 },
+									{text: 'Cites Specimens', datafield: 'CIT_CURRENT_FG', width:150 },
+									{text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150 },
 									{text: 'Type Status', datafield: 'TYPE_STATUS', width:200}
 								],
 								rowdetails: true,
