@@ -159,10 +159,10 @@ limitations under the License.
 							<script>
 								function reloadMedia() { 
 									// invoke specimen/component/public.cfc function getMediaHTML via ajax and repopulate the media block.
-									loadMedia(#media_id#,'mediaCardBody');
+									loadMedia(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
-							<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
+							
 							<div class="card-header" id="headingMedia">
 								<h3 class="h4 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
@@ -176,7 +176,8 @@ limitations under the License.
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-2 float-left" id="mediaCardBody">
-								
+								<cfset mediaBlock= getMediaBlockHtml(media_id="#media_id#",displayAs="full")>
+									#mediaBlock#
 									</div>
 								</div>
 							</div>
