@@ -3329,16 +3329,16 @@ limitations under the License.
 								</cfif>
 								<div class="col-12 float-left mt-0 mb-1 p-0">
 									<div class="col-12 float-left">
-										<label for="p_title" class="data-entry-label my-0"><span id="project_publication_title">Title</span></label>
+										<label for="p_title" class="data-entry-label my-0"><span id="p_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">
 									</div>
 								</div>
 								<div class="col-12 float-left mt-1 mb-1 p-0">
 									<div class="col-12 col-md-6 float-left">
-										<label for="author" class="data-entry-label mt-0 mb-0"><span id="project_publication_agent">Participant</span></label>
-										<input name="author" id="author" type="text" class="data-entry-input">
-										<label for="year" class="data-entry-label mt-1 mb-0"><span id="project_publication_year">Year</span></label>
-										<input name="year" id="year" type="text" class="data-entry-input">
+										<label for="author_text" class="data-entry-label mt-0 mb-0"><span id="author_text">Participant</span></label>
+										<input name="author_text" id="author_text" type="text" class="data-entry-input">
+										<label for="published_year" class="data-entry-label mt-1 mb-0"><span id="published_year">Year</span></label>
+										<input name="published_year" id="published_year" type="text" class="data-entry-input">
 
 									</div>
 									<div class="col-12 col-md-6 float-left">
@@ -3361,31 +3361,31 @@ limitations under the License.
 								<div class="col-12 float-left mt-0 p-0 pb-1 pt-0">
 									<div class="col-12 col-md-4 float-left">
 										<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
-										<select name="collection_id" id="collection_id" size="1"  class="data-entry-select">
+										<select name="collection" id="collection" size="1"  class="data-entry-select">
 											<option value="">All</option>
 											<cfloop query="ctColl">
-												<option value="#collection_id#">#collection#</option>
+												<option value="#collection#">#collection#</option>
 											</cfloop>
 										</select>
 										</cfoutput>
-										<label for="onlyCitePubs" class="data-entry-label mt-1 mb-0">
-											<span id="pub_cites_specimens">Cites specimens?</span>
+										<label for="cit_current_fg" class="data-entry-label mt-1 mb-0">
+											<span id="cit_current_fg">Cites specimens?</span>
 										</label>
-										<select name="onlyCitePubs" id="onlyCitePubs" class="data-entry-select">
+										<select name="cit_current_fg" id="cit_current_fg" class="data-entry-select">
 											<option value=""></option>
 											<option value="1">Cites Specimens</option>
 											<option value="0">Cites no Specimens</option>
 										</select>
 									</div>
 									<div class="col-12 col-md-4 float-left">
-										<label for="cited_sci_Name" class="data-entry-label mt-1 mb-0">
-											<span id="cited_sci_Name">Cited Scientific Name</span>
+										<label for="citsciname" class="data-entry-label mt-1 mb-0">
+											<span id="citsciname">Cited Scientific Name</span>
 										</label>
-										<input name="cited_sci_Name" class="data-entry-input" id="cited_sci_Name" type="text">
-										<label for="current_sci_Name" class="data-entry-label mt-1 mb-0">
-											<span id="accepted_sci_name">Accepted Scientific Name</span>
+										<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
+										<label for="scientific_name" class="data-entry-label mt-1 mb-0">
+											<span id="scientific_name">Accepted Scientific Name</span>
 										</label>
-										<input name="current_sci_Name" class="data-entry-input" id="current_sci_Name" type="text">
+										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
 									</div>
 									<div class="col-12 col-md-4 float-left">
 										<label for="is_peer_reviewed_fg" class="data-entry-label mt-1 mb-0"><span id="is_peer_reviewed_fg">Peer Reviewed only?</span></label>
