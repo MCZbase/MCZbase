@@ -260,7 +260,7 @@ limitations under the License.
 							<div class="col-12 col-md-12 px-0 mb-2 float-left">
 								<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
 								<div id="mediaBlock#media_id#">
-								#mediablock#
+								#mediaBlock#
 								</div>
 							</div>
 					</cfloop>
