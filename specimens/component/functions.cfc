@@ -1601,7 +1601,7 @@ limitations under the License.
 																				</div>
 																				<cfset j = j+1>
 																			</cfloop>
-																			<input type="button" value="Delete" aria-label="Delete Image" class="btn btn-xs btn-danger"
+																			<input type="button" value="Remove" aria-label="Remove Link to Image" class="btn btn-xs btn-warning"
 																			onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
 																			<output id="deleteImagesResultDiv" class="text-danger">&nbsp;</output>
 																		</div>
@@ -3270,7 +3270,7 @@ limitations under the License.
 														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 														<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
 														<td class="border-0 px-0">
-															<button type="button" aria-label="Remove Citation" class="btn btn-xs btn-warning" onclick="removeCitation(#collection_object_id#, #cited_taxon_name_id#)">Remove</button
+															<button type="button" aria-label="Remove Citation" class="btn btn-xs btn-danger" onclick="removeCitation(#collection_object_id#, #cited_taxon_name_id#)">Delete</button
 														</td>
 														<td class="border-0 pr-0 pl-2">
 															<input type="button"
