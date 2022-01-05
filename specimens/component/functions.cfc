@@ -3323,7 +3323,7 @@ limitations under the License.
 									<h2 class="h3 text-white float-left mb-1 mt-0 px-3">Search Publications in MCZbase to Add Citation</h2>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 col-md-2 mt-2 float-right">
+									<div class="col-12 col-md-3 mt-2 float-right">
 										<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/Publication.cfm?action=newPub">Add New Publication <i class="fas fa-external-link-alt"></i></a>
 									</div>
 								</cfif>
