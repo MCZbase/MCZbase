@@ -450,22 +450,22 @@ function loadMedia(media_id,form) {
 		dataType: "html"
 	});
 };
-function removeMedia(media_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "removeMedia",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#mediaHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
-		},
-		dataType: "html"
-	});
-};
+//function removeMedia(media_id,form) {
+//	jQuery.ajax({
+//		url: "/specimens/component/functions.cfc",
+//		data : {
+//			method : "removeMedia",
+//			media_id: media_id,
+//		},
+//		success: function (result) {
+//			$("#mediaHTML").html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"removing media");
+//		},
+//		dataType: "html"
+//	});
+//};
 function removeCitation(cited_taxon_name_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
