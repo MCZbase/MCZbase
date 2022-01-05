@@ -3393,12 +3393,12 @@ limitations under the License.
 											<option value=""></option>
 											<option value="1">yes</option>
 										</select>
-										<label for="descr_len" class="data-entry-label mt-1 mb-0"> Description Min. Length</label>
-										<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">
+<!---										<label for="descr_len" class="data-entry-label mt-1 mb-0"> Description Min. Length</label>
+										<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">--->
 									</div>
 								</div>
 									<div class="col-12 my-2 float-left">
-										<input type="submit" value="Search" class="btn btn-xs btn-secondary mr-3">
+										<input type="submit" value="Search" class="btn btn-xs btn-primary mr-3">
 										<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
 									</div>
 								</div>
