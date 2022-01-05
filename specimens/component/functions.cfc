@@ -1805,7 +1805,7 @@ limitations under the License.
 					<cfif thisMedia_relations_id is "DELETE">
 						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							DELETE FROM media_relations
-							WHERE media_relations_id = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#thisMedia_relations_id#">
+							WHERE media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisMedia_relations_id#">
 						</cfquery>
 					<cfelse>
 						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

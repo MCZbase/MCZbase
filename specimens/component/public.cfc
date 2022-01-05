@@ -100,7 +100,7 @@ limitations under the License.
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
 													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
-													<span class="smaller col-6 px-0">Media details</span>
+													<span class="smaller col-6 px-0">Pub103 details</span>
 												</a>
 												<div class="form-row mx-0">
 													<div class="small">#desc.label_value# 
