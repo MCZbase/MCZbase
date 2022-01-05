@@ -82,7 +82,7 @@ limitations under the License.
 		<cfelseif mt contains "audio" >
 			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelseif mt contains "text">
-			<cfreturn "/shared/images/48px-Gnome-text-x-generic.svg.png">
+			<cfreturn "/shared/images/48px-Gnome-text-x-preview.svg.png">
 		<cfelseif mt contains "model">
 			<cfreturn "/shared/images/3dmodel.png">
 		<cfelse>
