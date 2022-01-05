@@ -3434,10 +3434,10 @@ limitations under the License.
 						lookupColumnVisibilities ('#cgi.script_name#','Default');
 					</cfif>
 
-//					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-//						var rowData = jQuery("##searchCitResultsGrid").jqxGrid('getrowdata',row);
-//						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/specimens/SpecimenDetailBody.cfm?collection_object_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+value+'</a></span>';
-//					};
+					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/specimens/SpecimenDetailBody.cfm?collection_object_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+value+'</a></span>';
+					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -3486,7 +3486,7 @@ limitations under the License.
 								async: true
 							};
 					
-							var dataAdapter = new $.jqx.dataAdapter(searchCit);
+							var dataAdapter = new $.jqx.dataAdapter(search);
 							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 								var details = $($(parentElement).children()[0]);
