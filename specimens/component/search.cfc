@@ -2148,7 +2148,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				identification.accepted_id_fg = 1 AND
 				citation.publication_id = publication.publication_id AND
 				citation.publication_id = formatted_publication.publication_id AND
-				format_style='long'
+				format_style='long' and
+				citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			ORDER BY
 				occurs_page_number,cat_num
 		</cfquery>
