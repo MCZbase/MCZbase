@@ -33,7 +33,7 @@
 /transactions/Permit.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2020 President and Fellows of Harvard College
+Copyright 2008-2022 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -1304,6 +1304,7 @@ limitations under the License.
 							</div>
 						</div>
 					</cfloop>
+					<!--- NOTE: This query is duplicated in the backing method used to populate the jqx grid --->
 					<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
 							concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
@@ -1461,7 +1462,6 @@ limitations under the License.
 								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 								<div id="enableselection"></div>
 							</div>
-							<!---</section>---><!---Is this an extra section end?--->
 						</div>
 					</div>
 				</section>
@@ -1557,6 +1557,7 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
+									{text: 'Catalog Number', datafield: 'guid', width:100, hideable: false, hidden: false },
 									{text: 'Transaction', datafield: 'id_link', width: 160, hideable: false, hidden: false},
 									{text: 'Type', datafield: 'ttype', width:50, hideable: true, hidden: false },
 									{text: 'Number', datafield: 'tnumber', width:150, hideable: true, hidden: true },
@@ -1572,7 +1573,6 @@ limitations under the License.
 									{text: 'Date Collected', datafield: 'eventdate', width:120, hideable: true, hidden: false },
 									{text: 'Common Name', datafield: 'common_name', width:150, hideable: true, hidden: false },
 									{text: 'Preparations', datafield: 'parts', width:180, hideable: true, hidden: false },
-									{text: 'Catalog Number', datafield: 'guid', width:100, hideable: true, hidden: false },
 									{text: 'From Institution', datafield: 'frominstitution', width:100, hideable: true, hidden: false},
 									{text: 'To Institution', datafield: 'toinstitution', hideable: true, hidden: false }
 								],
@@ -1690,6 +1690,7 @@ limitations under the License.
 							<table class="table table-responsive border table-striped table-sm">
 								<thead class="thead-light">
 									<tr>
+										<th>Catalog&nbsp;Number</th>
 										<th>Transaction</th>
 										<th>Type</th>
 										<th>Date</th>
@@ -1702,7 +1703,6 @@ limitations under the License.
 										<th>Scientific&nbsp;Name</th>
 										<th>Common&nbsp;Name</th>
 										<th>Preparations</th>
-										<th>Catalog&nbsp;Number</th>
 										<th>From&nbsp;Institution</th>
 										<th>To&nbsp;Institution</th>
 									</tr>
@@ -1710,6 +1710,7 @@ limitations under the License.
 								<tbody>
 									<cfloop query="permituse">
 										<tr>
+											<td>#guid#</td>
 											<td><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a></td>
 											<td>#ontype# #ttype#</td>
 											<td>#dateformat(trans_date,'yyyy-mm-dd')#</td>
@@ -1722,7 +1723,6 @@ limitations under the License.
 											<td>#scientific_name#</td>
 											<td>#common_name#</td>
 											<td>#parts#</td>
-											<td>#guid#</td>
 											<td>#frominstitution#</td>
 											<td>#toinstitution#</td>
 										</tr>
