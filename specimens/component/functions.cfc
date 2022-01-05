@@ -3314,8 +3314,9 @@ limitations under the License.
 									select publication_type from ctpublication_type order by publication_type
 								</cfquery>
 							<cfoutput>
-							<form name="searchCitForm" id="searchCitForm">
+							<form name="searchForm" id="searchForm">
 								<input name="action" type="hidden" value="search">
+								<input type="hidden" name="method" value="getCitResults" class="keeponclear">
 								<div class="col-12 search-box-header px-0 float-left">
 									<h2 class="h3 text-white float-left mb-1 mt-0 px-3">Search Publications in MCZbase to Add Citation</h2>
 								</div>
@@ -3409,7 +3410,7 @@ limitations under the License.
 								<div class="mb-5">
 									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 										<h1 class="h4">Results: </h1>
-										<span class="d-block px-3 p-2" id="resultCitCount"></span> <span id="resultCitLink" class="d-block p-2"></span>
+										<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 										<div id="columnPickDialog">
 											<div id="columnPick" class="px-1"></div>
 										</div>
@@ -3448,14 +3449,14 @@ limitations under the License.
 
 					$(document).ready(function() {
 						/* Setup jqxgrid for Search */
-						$('##searchCitForm').bind('submit', function(evt){
+						$('##searchForm').bind('submit', function(evt){
 							evt.preventDefault();
 					
 							$("##overlay").show();
 					
 							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
-							$('##resultCitCount').html('');
-							$('##resultCitLink').html('');
+							$('##resultCount').html('');
+							$('##resultLink').html('');
 					
 							var search =
 							{
@@ -3477,7 +3478,7 @@ limitations under the License.
 								},
 								root: 'citationRecord',
 								id: 'collection_object_id',
-								url: '/specimens/component/search.cfc?' + $('##searchCitForm').serialize(),
+								url: '/specimens/component/search.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
@@ -3535,8 +3536,8 @@ limitations under the License.
 							});
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
-								$('##resultCitLink').html('<a href="/specimens/SpecimenDetailBody.cfm?action=search&execute=true&' + $('##searchCitForm').serialize() + '">Link to this search</a>');
-								gridLoaded('searchCitResultsGrid','collection');
+								$('##resultLink').html('<a href="/specimens/SpecimenDetailBody.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+								gridLoaded('searchResultsGrid','collection');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -3556,7 +3557,7 @@ limitations under the License.
 		
 						// If requested in uri, execute search immediately.
 						<cfif isdefined("execute")>
-							$('##searchCitForm').submit();
+							$('##searchForm').submit();
 						</cfif>
 					}); /* End document.ready */
 	
@@ -3575,9 +3576,9 @@ limitations under the License.
 						var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 						var rowcount = datainformation.rowscount;
 						if (rowcount == 1) {
-							$('##resultCitCount').html('Found ' + rowcount + ' ' + searchType);
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
 						} else { 
-							$('##resultCitCount').html('Found ' + rowcount + ' ' + searchType + 's');
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
 						}
 						// set maximum page size
 						if (rowcount > 100) { 
@@ -3642,7 +3643,7 @@ limitations under the License.
 						$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 						$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 						$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchCitResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 					}
 				</script> 
 				<cfcatch>

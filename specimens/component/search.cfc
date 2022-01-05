@@ -2112,7 +2112,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="searchCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT
 				citation.publication_id,
 				citation.collection_object_id,
