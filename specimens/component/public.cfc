@@ -22,7 +22,7 @@ limitations under the License.
 		<cfoutput>
 		<cfthread name="getMediaThread">
 			<cftry>
-<!---				<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct
 						media.media_id,
 						media.media_uri,
@@ -234,38 +234,7 @@ limitations under the License.
 								</div>
 							</div>
 					</cfoutput>
-				</cfif>--->
-					<div class="card-body w-100 px-2 float-left" id="mediaCardBody">
-					<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
-						<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT
-								media.media_id
-							FROM
-								media
-								left join media_relations on media_relations.media_id = media.media_id
-							WHERE
-								media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						</cfquery>
-						<cfloop query="images">
-							<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT distinct
-									media.media_id
-								FROM 
-									media,
-									media_relations
-								WHERE 
-									media_relations.media_id = media.media_id
-								AND
-									media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-							</cfquery>
-							<div class="col-12 col-md-12 px-0 mb-2 float-left">
-								<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
-								<div id="mediaBlock#media_id#">
-								#mediaBlock#
-								</div>
-							</div>
-					</cfloop>
-				</div>
+				</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
