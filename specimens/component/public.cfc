@@ -15,10 +15,9 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
-<cfinclude template="/media/component/search.cfc" runOnce="true">	
+
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfargument name="media_id" type="string" required="yes">
 		<cfoutput>
 		<cfthread name="getMediaThread">
 			<cftry>
@@ -95,63 +94,68 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
-											<cfif i eq 1>
-												<div class="col-12 px-1">
-													<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
-													<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
-														<img src="#mediaS1.media_uri#" class="w-100 mb-0">
-														<span class="smaller col-6 px-0">Media details</span>
-													</a>
-													<div class="form-row mx-0">
-														<div class="small">#desc.label_value# 
-															<button type="button" id="btn_pane1" class="btn btn-xs py-0 small mb-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog',reloadMedia)">Edit</button>
-														</div>
+
+										<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
+											<div class="col-12 px-1">
+												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
+												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
+													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
+													<span class="smaller col-6 px-0">Media details</span>
+												</a>
+												<div class="form-row mx-0">
+													<div class="small">#desc.label_value# 
+														<button type="button" id="btn_pane1" class="btn btn-xs py-0 small mb-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog',reloadMedia)">Edit</button>
 													</div>
 												</div>
-											<cfelse>
-												<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
-												<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
-												<div class='col-4 float-left border-white p-1 mb-1'>
-													<a href="#aForImHref#" target="_blank"> 
-														<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> 
-													</a>
-													<p class="small">
-														<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-														<span class="">#description#</span><br>
-														<script>
-															function reloadMedia() { 
-																loadMedia('#media_id#','mediaCardBody');
-															}
-														</script>
-														<button type="button" id="btn_pane2" class="btn btn-xs small py-0 mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog',reloadMedia)">Edit</button>
-														<cfif #media.media_type# eq "audio">
-															<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																SELECT
-																	transcript.media_uri as transcript_uri,
-																	transcript.media_id as trainscript_media_id
-																FROM
-																	media_relations
-																	left join media transcript on media_relations.related_primary_key = transcript.media_id
-																WHERE
-																	media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
-																	and media_relationship = 'transcript for audio media'
-																	and MCZBASE.is_media_encumbered(transcript.media_id) < 1
-															</cfquery>
-															<cfif checkforTranscript.recordcount GT 0>
-																<cfloop query="checkForTranscript">
-																	<a href="#transcript_uri#">View Transcript</a>
-																</cfloop>
-															</cfif>
+											</div>
+										<cfelse>
+											<!---This is for all the thumbnails--->
+											<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
+											<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
+											<div class='col-4 float-left border-white p-1 mb-1'>
+												<a href="#aForImHref#" target="_blank"> 
+													<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> 
+												</a>
+												<p class="small">
+													<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
+													<span class="">#description#</span><br>
+													<script>
+														function reloadMedia() { 
+															// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+															loadMedia('#media_id#','mediaCardBody');
+														}
+													</script>
+													<button type="button" id="btn_pane2" class="btn btn-xs small py-0 mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog',reloadMedia)">Edit</button>
+													<cfif #media.media_type# eq "audio">
+														<!--- check for a transcript, link if present --->
+														<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															SELECT
+																transcript.media_uri as transcript_uri,
+																transcript.media_id as trainscript_media_id
+															FROM
+																media_relations
+																left join media transcript on media_relations.related_primary_key = transcript.media_id
+															WHERE
+																media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+																and media_relationship = 'transcript for audio media'
+																and MCZBASE.is_media_encumbered(transcript.media_id) < 1
+														</cfquery>
+														<cfif checkforTranscript.recordcount GT 0>
+															<cfloop query="checkForTranscript">
+																<a href="#transcript_uri#">View Transcript</a>
+															</cfloop>
 														</cfif>
-													</p>
-												</div>
-											</cfif>
-											<cfset i=i+1>
+													</cfif>
+												</p>
+											</div>
+										</cfif>
+										<cfset i=i+1>
 										</cfloop>
 									</cfif>
 									<cfif #media.media_type# neq "image" and #media.mime_type# EQ "text/html">	
 										<cfset i=1>
 										<cfloop query="media">
+											<!---div class="thumbs"--->
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
@@ -174,7 +178,8 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
-											<cfif i eq 1>
+										
+											<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
 												<div class="col-4 px-1">
 													<cfset aForImHref = media_uri>
 													<cfset aForThisHref = "/MediaSet.cfm?media_id=#media.media_id#" >
@@ -190,7 +195,10 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
+											
 											<cfelse>
+												<!---This is for all the thumbnails--->
+												<!---for DRS from library--->
 												<cfset aForImHref = media_uri>
 												<cfset aForDetHref = "/media/#media_id#">
 												<div class='col-4 float-left border-white p-1 mb-1'>
@@ -202,11 +210,13 @@ limitations under the License.
 														<span class="">#description#</span><br>
 														<script>
 															function reloadMedia() { 
+																// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 																loadMedia(#media_id#,'mediaCardBody');
 															}
 														</script>
 														<button type="button" id="btn_pane4" class="btn btn-xs small py-0 mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 														<cfif #media.media_type# eq "audio">
+															<!--- check for a transcript, link if present --->
 															<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
 																	transcript.media_uri as transcript_uri,
