@@ -18,6 +18,7 @@ limitations under the License.
 	
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+		<cfargument name="media_id" type="string" required="yes">
 		<cfoutput>
 		<cfthread name="getMediaThread">
 			<cftry>
