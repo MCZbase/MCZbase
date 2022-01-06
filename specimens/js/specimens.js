@@ -23,9 +23,9 @@ function checkFormValidity(form) {
  **/
 function loadMedia(media_id,form) {
 	jQuery.ajax({
-		url: "/media/component/search.cfc",
+		url: "/media/component/function.cfc",
 		data : {
-			method : "getMediaBlockHtml",
+			method : "getMedia",
 			media_id: media_id,
 		},
 		success: function (result) {
