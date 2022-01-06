@@ -70,10 +70,25 @@ function updateImages(media_id,targetDiv) {
 				$('#' + targetDiv).html(message);
 			}
 		}
-	},
+	}
 	)
 };
-
+function loadMedia(media_id,form) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getMediaBlockHtml",
+			media_id: media_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media");
+		},
+		dataType: "html"
+	});
+}
 function updateImages(media_id,targetDiv) {
 	jQuery.ajax(
 	{
