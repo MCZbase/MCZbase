@@ -18,7 +18,7 @@ function checkFormValidity(form) {
 	return result;
 };
 
-function loadMedia(collection_object_id,media_id,displayAs,targetDivId) { 
+function loadMedia(media_id,displayAs,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
@@ -72,6 +72,22 @@ function updateImages(media_id,targetDiv) {
 		}
 	}
 	)
+};
+function loadMedia(media_id,form) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getMediaHtml",
+			media_id: media_id,
+		},
+		success: function (result) {
+			$("#mediaHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing media");
+		},
+		dataType: "html"
+	});
 };
 function loadMedia(media_id,form) { 
 	jQuery.ajax({
