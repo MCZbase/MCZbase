@@ -176,9 +176,12 @@ limitations under the License.
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
-
+									<cfset mediaBlock= getMediaHTML(collection_object_id = "#collection_object_id#")>
+									
+										<div id="mediaHTML">#mediablock#</div>
+									
 									<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
-										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<!---	<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
 												media.media_id
 											FROM
@@ -206,7 +209,7 @@ limitations under the License.
 												</div>
 											</div>
 									</cfloop>
-								</div>
+								</div>--->
 							</div>
 						</div>
 					</div>
