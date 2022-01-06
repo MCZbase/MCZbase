@@ -108,6 +108,23 @@ function loadIdentifications(collection_object_id,targetDivId) {
 	});
 };
 
+
+function getMediaBlockHTML(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/media/component/search.cfc",
+		data : {
+			method : "getMediaBlockHtml",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading Media Widget");
+		},
+		dataType: "html"
+	});
+};
 /** updateIdentifications function 
  * @method updateOID in functions.cfc
  * @param identification_id
@@ -304,7 +321,6 @@ function openEditImagesDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
 
 
 
