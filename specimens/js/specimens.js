@@ -233,7 +233,7 @@ function updateImages(media_id,targetDiv) {
  **/
 function loadImages(collection_object_id,targetDivId) { 
 	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
+		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getImagesHTML",
 			collection_object_id: collection_object_id
@@ -434,22 +434,22 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 
 
 
-function loadMedia(media_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getMediaHtml",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#mediaHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
-		},
-		dataType: "html"
-	});
-};
+//function loadMedia(media_id,form) {
+//	jQuery.ajax({
+//		url: "/specimens/component/functions.cfc",
+//		data : {
+//			method : "getMediaHtml",
+//			media_id: media_id,
+//		},
+//		success: function (result) {
+//			$("#mediaHTML").html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"removing media");
+//		},
+//		dataType: "html"
+//	});
+//};
 //function removeMedia(media_id,form) {
 //	jQuery.ajax({
 //		url: "/specimens/component/functions.cfc",
