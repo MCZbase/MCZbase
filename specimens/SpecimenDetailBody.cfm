@@ -175,7 +175,7 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
-								<div class="card-body w-100 px-0 float-left" id="mediaCardBody">
+								<div class="card-body w-100 px-1 pt-1 float-left" id="mediaCardBody">
 
 									<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
 										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
