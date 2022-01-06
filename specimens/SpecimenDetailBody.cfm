@@ -578,11 +578,9 @@ limitations under the License.
 					<!--- TODO: Fix broken nesting, cause unclear, could be remnant of bad paste???? --->
 					<!--- cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail) --->
 						<!--- TODO: Fix broken nesting, cause unclear, could be remnant of bad paste???? --->
-						<cfif oneOfUs is 1>
+							<!--------------------  Project / Usage ------------------------------------>
+<!---						<cfif oneOfUs is 1>
 							<div class="accordion" id="accordionMetadata">
-								
-								<!--------------------  Project / Usage ------------------------------------>
-								
 								<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										project_name, project.project_id project_id 
@@ -688,7 +686,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-							</div>
+							</div>--->
 							<!---
 							<div class="card mb-2">
 								<div class="card-header pt-1 float-left w-100">
