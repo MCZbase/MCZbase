@@ -1108,7 +1108,7 @@ limitations under the License.
 												<cfset showTitleText = "#left(showTitleText,30)#..." >
 											</cfif>
 										</cfif>
-										<p class="text-center col-12 my-0 p-0 small">#showTitleText#</p> 
+										<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
 										<cfif len(#license_uri#) gt 0>
 											<p class="text-center col-12 p-0 my-0 smaller">
 												<cfif #l_displayAs# NEQ "thumb">
