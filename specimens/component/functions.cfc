@@ -1476,7 +1476,7 @@ limitations under the License.
  @return html for editing identifications for the specified cataloged item. 
 --->
 <cffunction name="getEditImagesHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
+<!---	<cfargument name="collection_object_id" type="string" required="yes">--->
 		<cfthread name="getEditImagesThread"> 
 			<cfoutput>
 			<cftry>
