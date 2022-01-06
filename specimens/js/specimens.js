@@ -517,23 +517,23 @@ function updateIdentifications(identification_id,targetDiv) {
  * @param collection_object_id 
  * @param targetDivId 
  **/
-//function loadMedia(collection_object_id,targetDivId) { 
-//	jQuery.ajax({
-//		url: "/specimens/component/public.cfc",
-//		data : {
-//			method : "getMediaHTML",
-//			collection_object_id: collection_object_id
-//		},
-//		success: function (result) {
-//			$("#" + targetDivId ).html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"loading media");
-//		},
-//		dataType: "html"
-//	});
-//};
-function loadMedia(media_id,displayAs,targetDivId) { 
+function loadMediaDialog(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getMediaHTML",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media");
+		},
+		dataType: "html"
+	});
+};
+function loadMedia(collection_object_id,media_id,displayAs,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
@@ -569,24 +569,24 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-function openEditMediaDetailsDialog(media_id,dialogId,guid,callback) {
-	var title = "Edit Media for Item";
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditMediaDetailsHTML",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
-		},
-		dataType: "html"
-	});
-};
+//function openEditMediaDetailsDialog(media_id,dialogId,guid,callback) {
+//	var title = "Edit Media for Item";
+//	createSpecimenEditDialog(dialogId,title,callback);
+//	jQuery.ajax({
+//		url: "/specimens/component/functions.cfc",
+//		data : {
+//			method : "getEditMediaDetailsHTML",
+//			media_id: media_id,
+//		},
+//		success: function (result) {
+//			$("#" + dialogId + "_div").html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
+//		},
+//		dataType: "html"
+//	});
+//};
 
 function loadCitations(collection_object_id,targetDivId) { 
 	jQuery.ajax({
