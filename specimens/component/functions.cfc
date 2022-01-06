@@ -87,7 +87,7 @@ limitations under the License.
 							</h1>
 						</div>
 						<div class="col-12 float-left px-0">
-							<div id="accordionMediaDialog">
+							<div id="MediaDialog">
 								<div class="card">
 									<div class="card-header p-0 m-0" id="headingMedia1">
 										<h2 class="h4 my-0">
@@ -96,7 +96,7 @@ limitations under the License.
 											</button>
 										</h2>
 									</div>
-									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMediaDialog">
+									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##MediaDialog">
 										<div class="card-body"> 
 											<cfoutput>
 												<div class="row mx-0">
@@ -167,7 +167,7 @@ limitations under the License.
 											</button>
 										</h2>
 									</div>
-									<div id="collapseMedia2" class="collapse show" aria-labelledby="headingMedia2" data-parent="##accordionMediaDialog">
+									<div id="collapseMedia2" class="collapse show" aria-labelledby="headingMedia2" data-parent="##MediaDialog">
 										<div class="card-body"> 
 											<form name="editMediaForm" id="editMediaForm">
 												<input type="hidden" name="method" value="updateMedia">
@@ -1480,7 +1480,7 @@ limitations under the License.
 		<cfthread name="getEditImagesThread"> 
 			<cfoutput>
 			<cftry>
-				<div class="container-fluid">
+				<div id="mediaDialog" class="container-fluid">
 					<div class="row">
 						<div class="col-12">
 							<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
