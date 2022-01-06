@@ -533,11 +533,11 @@ function updateIdentifications(identification_id,targetDiv) {
 //		dataType: "html"
 //	});
 //};
-function loadMedia(collection_object_id,targetDivId) { 
+function loadMedia(media_id,displayAs,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
-			method : "getMediaHTML",
+			method : "getMediaBlockHtml",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
