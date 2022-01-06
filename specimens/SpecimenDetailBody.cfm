@@ -175,7 +175,7 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
-								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
+								<div class="card-body w-100 px-0 pt-2 float-left" id="mediaCardBody">
 
 									<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
 										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -199,7 +199,7 @@ limitations under the License.
 												AND
 													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 											</cfquery>
-											<div class="col-12 px-1 col-md-6 mb-2 float-left">
+											<div class="col-12 px-1 col-md-4 mb-2 float-left">
 												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
 												<div id="mediaBlock#media_id#">
 													<div id="mediaHTML">#mediablock#</div>
