@@ -163,6 +163,7 @@ limitations under the License.
 									loadMedia(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
+							<cfset blockmedia = getMediaHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingMedia">
 								<h3 class="h4 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
@@ -178,7 +179,7 @@ limitations under the License.
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
 									<cfset mediaBlock= getMediaHTML(collection_object_id = "#collection_object_id#")>
 									
-										<div id="mediaHTML">#mediablock#</div>
+										<div id="mediaHTML">#blockmedia#</div>
 									
 									<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
 									<!---	<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
