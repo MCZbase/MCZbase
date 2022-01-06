@@ -159,7 +159,7 @@ limitations under the License.
 							<div id="mediaDialog"></div>
 							<script>
 								function reloadMedia() { 
-									// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+									// invoke specimen/component/public.cfc function getMediaHTML via ajax and repopulate the media block.
 									loadMedia(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
@@ -170,7 +170,7 @@ limitations under the License.
 										<span class="text-success font-weight-light">(#mediaCount.ct#)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_media")>
-										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditImagesDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
+										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
 							</div>
