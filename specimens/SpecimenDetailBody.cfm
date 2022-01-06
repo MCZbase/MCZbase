@@ -199,10 +199,10 @@ limitations under the License.
 												AND
 													media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 											</cfquery>
-											<div class="col-12 col-md-12 px-0 mb-2 float-left">
+											<div class="col-12 col-md-6 px-0 mb-2 float-left">
 												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
 												<div id="mediaBlock#media_id#">
-												#mediablock#
+													<div id="mediaHTML">#mediablock#</div>
 												</div>
 											</div>
 									</cfloop>
