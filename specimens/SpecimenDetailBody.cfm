@@ -173,7 +173,7 @@ limitations under the License.
 										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditImagesDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
-							</div>
+							</div><cfset media_id="1333">
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
 									<div class="col-12 px-1 col-md-6 mb-2 float-left">
