@@ -538,7 +538,7 @@ function loadMedia(media_id,displayAs,targetDivId) {
 		url: "/specimens/component/public.cfc",
 		data : {
 			method : "getMediaBlockHtml",
-			collection_object_id: collection_object_id,
+			media_id: media_id,
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
