@@ -39,39 +39,39 @@ function loadIdentification(identification_id,form) {
 	});
 };
 
-function getMediaBlockHtml(media_id) {
-	jQuery.ajax({
-		url: "/media/component/search.cfc",
-		data : {
-			method : "getMediaBlockHtml",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#MediaBlockHtml").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
-		},
-		dataType: "html"
-	});
-};
-
-//function getMediaBlockHTML(collection_object_id,targetDivId) { 
+//function getMediaBlockHtml(media_id) {
 //	jQuery.ajax({
 //		url: "/media/component/search.cfc",
 //		data : {
 //			method : "getMediaBlockHtml",
-//			collection_object_id: collection_object_id
+//			media_id: media_id,
 //		},
 //		success: function (result) {
-//			$("#" + targetDivId ).html(result);
+//			$("#MediaBlockHtml").html(result);
 //		},
 //		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"loading Media Widget");
+//			handleFail(jqXHR,textStatus,error,"removing media");
 //		},
 //		dataType: "html"
 //	});
 //};
+
+function getMediaBlockHTML(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/media/component/search.cfc",
+		data : {
+			method : "getMediaBlockHtml",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading Media Widget");
+		},
+		dataType: "html"
+	});
+};
 /** updateIdentifications function 
  * @method getIdentification in functions.cfc
  * @param identification_id
