@@ -15,6 +15,8 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
+	
+	
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfoutput>
@@ -45,7 +47,6 @@ limitations under the License.
 										media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 								<div class="col-12 col-md-12 px-0 mb-2 float-left">
-									<cfset getMediaBlockHtml ="">
 									<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full")>
 									<div id="mediaBlock#media_id#">
 									#mediablock#
