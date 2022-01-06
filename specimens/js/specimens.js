@@ -516,12 +516,28 @@ function updateIdentifications(identification_id,targetDiv) {
  * @param collection_object_id 
  * @param targetDivId 
  **/
+//function loadMedia(collection_object_id,targetDivId) { 
+//	jQuery.ajax({
+//		url: "/specimens/component/public.cfc",
+//		data : {
+//			method : "getMediaHTML",
+//			collection_object_id: collection_object_id
+//		},
+//		success: function (result) {
+//			$("#" + targetDivId ).html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"loading media");
+//		},
+//		dataType: "html"
+//	});
+//};
 function loadMedia(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
-			method : "getMediaHTML",
-			collection_object_id: collection_object_id
+			method : "getImagesHTML",
+			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
@@ -531,7 +547,7 @@ function loadMedia(collection_object_id,targetDivId) {
 		},
 		dataType: "html"
 	});
-};
+}
 
 
 function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
