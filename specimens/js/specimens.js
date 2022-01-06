@@ -17,12 +17,16 @@ function checkFormValidity(form) {
 		}
 	return result;
 };
-function loadMedia(media_id,form) {
+/** loadMedia populate an html block with the media 
+ * @param collection_object_id 
+ * @param targetDivId 
+ **/
+function loadMedia(collection_object_id,form) {
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data : {
 			method : "getMediaBlockHtml",
-			media_id: media_id,
+			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
 			$("#mediaHTML").html(result);
