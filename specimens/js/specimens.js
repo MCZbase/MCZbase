@@ -23,7 +23,23 @@ function checkFormValidity(form) {
  **/
 function loadMedia(media_id,form) {
 	jQuery.ajax({
-		url: "/media/component/public.cfc",
+		url: "/specimens/component/search.cfc",
+		data : {
+			method : "getMediaHTML",
+			media_id: media_id,
+		},
+		success: function (result) {
+			$("#mediaHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing media");
+		},
+		dataType: "html"
+	});
+};
+function loadMediaHTML(media_id,form) {
+	jQuery.ajax({
+		url: "/media/component/search.cfc",
 		data : {
 			method : "getMediaHTML",
 			media_id: media_id,
