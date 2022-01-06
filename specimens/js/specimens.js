@@ -28,7 +28,7 @@ function checkFormValidity(form) {
  * @param media_id
  * @param targetDiv the id
  **/
-function updateImages(media_id,targetDiv) {
+function updateMedia(media_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
@@ -83,13 +83,13 @@ function loadMedia(collection_object_id,displayAs,targetDivId) {
  * @param guid the guid of the specimen to display in the dialog title
  * @param callback a callback function to invoke on closing the dialog.
  **/
-function openEditImagesDialog(collection_object_id,dialogId,guid,callback) {
+function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Images for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getEditImagesHTML",
+			method : "getEditMediaHTML",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {

@@ -84,13 +84,13 @@ limitations under the License.
 	
 
 						
-<!--- TEST getImagesHTML obtain a block of html listing identifications for a cataloged item
+<!--- TEST getMediaHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 
 --->
-<cffunction name="getImagesHTML" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfthread name="getImagesThread">
+		<cfthread name="getMediaThread">
 			<cfoutput>
 				<cftry>
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -179,9 +179,9 @@ limitations under the License.
 			</cftry>
 			</cfoutput>
 		</cfthread>
-		<cfthread action="join" name="getImagesThread" />
-	<cfreturn getImagesThread.output>
-</cffunction>
+		<cfthread action="join" name="getMediaThread" />
+	<cfreturn getMediaThread.output>
+</cffunction>--->
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 

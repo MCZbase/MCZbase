@@ -53,9 +53,9 @@ limitations under the License.
 	editor dialog.
  @return html for editing identifications for the specified cataloged item. 
 --->
-<cffunction name="getEditImagesHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfthread name="getEditImagesThread"> 
+		<cfthread name="getEditMediaThread"> 
 			<cfoutput>
 			<cftry>
 				<div class="container-fluid">
@@ -356,8 +356,8 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="getEditImagesThread" />
-	<cfreturn getEditImagesThread.output>
+	<cfthread action="join" name="getEditMediaThread" />
+	<cfreturn getEditMediaThread.output>
 </cffunction>
 <!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
