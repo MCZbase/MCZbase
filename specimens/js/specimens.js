@@ -26,7 +26,7 @@ function updateImages(media_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
-		url: "/transactions/component/functions.cfc",
+		url: "/specimens/component/functions.cfc",
 		data: { 
 			method : "getImages",
 			identification_id : media_id,
