@@ -21,39 +21,7 @@ function checkFormValidity(form) {
  * @param media_id 
  * @param form 
  **/
-function loadMedia2(collection_object_id,targetDivId) {
-	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
-		data : {
-			method : "getMediaHTML",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#" + targetDivId).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
-		},
-		dataType: "html"
-	});
-};
-//
-//function getMediaBlockHTML(collection_object_id,targetDivId) { 
-//	jQuery.ajax({
-//		url: "/media/component/search.cfc",
-//		data : {
-//			method : "getMediaBlockHtml",
-//			collection_object_id: collection_object_id
-//		},
-//		success: function (result) {
-//			$("#" + targetDivId ).html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"loading Media Widget");
-//		},
-//		dataType: "html"
-//	});
-//};
+
 function updateImages(media_id,targetDiv) {
 	jQuery.ajax(
 	{
