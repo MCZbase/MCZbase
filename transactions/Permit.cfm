@@ -33,7 +33,7 @@
 /transactions/Permit.cfm
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2020 President and Fellows of Harvard College
+Copyright 2008-2022 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -1298,12 +1298,13 @@ limitations under the License.
 							Issued: #issued_date# | Expires: #exp_Date# | Renewed: #renewed_Date# | Issued By: #issuedByAgent# | Issued To: #issuedToAgent# | Remarks: #permit_remarks#
 							</div>
 							<div class="col-12">
-								<button type="button" class="btn btn-xs btn-primary" id="displayReportButton" >Display Detailed Report</button>
+								<button type="button" class="btn btn-xs btn-primary" id="displayReportButton" >Display/Download Detailed Report</button>
 								<a class="btn btn-xs btn-secondary ml-2" href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">Edit This Permissions &amp; Rights Document</a>
 								<a class="btn btn-xs btn-secondary ml-2" href="/Reports/permit.cfm?permit_id=#permit_id#">(Old) Permit Use Report</a>
 							</div>
 						</div>
 					</cfloop>
+					<!--- NOTE: This query is duplicated in the backing method used to populate the jqx grid --->
 					<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
 							concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
@@ -1461,7 +1462,6 @@ limitations under the License.
 								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 								<div id="enableselection"></div>
 							</div>
-							<!---</section>---><!---Is this an extra section end?--->
 						</div>
 					</div>
 				</section>
@@ -1488,6 +1488,7 @@ limitations under the License.
 									{ name: 'ttype', type: 'string' },
 									{ name: 'transaction_type', type: 'string' },
 									{ name: 'trans_date', type: 'string' },
+									{ name: 'shipped_date', type: 'string' },
 									{ name: 'guid_prefix', type: 'string' },
 									{ name: 'uri', type: 'string' },
 									{ name: 'sovereign_nation', type: 'string' },
@@ -1557,22 +1558,22 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
+									{text: 'Catalog Number', datafield: 'guid', width:180, hideable: false, hidden: false },
 									{text: 'Transaction', datafield: 'id_link', width: 160, hideable: false, hidden: false},
 									{text: 'Type', datafield: 'ttype', width:50, hideable: true, hidden: false },
 									{text: 'Number', datafield: 'tnumber', width:150, hideable: true, hidden: true },
 									{text: 'Transaction Type', datafield: 'transaction_type', width:150, hideable: true, hidden: true },
 									{text: 'Date', datafield: 'trans_date', width:110, hideable: true, hidden: false },
 									{text: 'Ship Date', datafield: 'shipped_date', width:110, hideable: true, hidden: false },
-									{text: 'Collection', datafield: 'guid_prefix', width:50, hideable: true, hidden: false },
+									{text: 'Collection', datafield: 'guid_prefix', width:80, hideable: true, hidden: true },
 									{text: 'Sovereign Nation', datafield: 'sovereign_nation', width:180, hideable: true, hidden: false },
 									{text: 'Country', datafield: 'country', width:150, hideable: true, hidden: true },
-									{text: 'State/Province', datafield: 'state_prov', width:180, hideable: true, hidden: false },
+									{text: 'State/Province', datafield: 'state_prov', width:160, hideable: true, hidden: false },
 									{text: 'County', datafield: 'county', width:150, hideable: true, hidden: true },
 									{text: 'Scientific Name', datafield: 'scientific_name', width:200, hideable: true, hidden: false },
 									{text: 'Date Collected', datafield: 'eventdate', width:120, hideable: true, hidden: false },
 									{text: 'Common Name', datafield: 'common_name', width:150, hideable: true, hidden: false },
 									{text: 'Preparations', datafield: 'parts', width:180, hideable: true, hidden: false },
-									{text: 'Catalog Number', datafield: 'guid', width:100, hideable: true, hidden: false },
 									{text: 'From Institution', datafield: 'frominstitution', width:100, hideable: true, hidden: false},
 									{text: 'To Institution', datafield: 'toinstitution', hideable: true, hidden: false }
 								],
@@ -1690,6 +1691,7 @@ limitations under the License.
 							<table class="table table-responsive border table-striped table-sm">
 								<thead class="thead-light">
 									<tr>
+										<th>Catalog&nbsp;Number</th>
 										<th>Transaction</th>
 										<th>Type</th>
 										<th>Date</th>
@@ -1702,7 +1704,6 @@ limitations under the License.
 										<th>Scientific&nbsp;Name</th>
 										<th>Common&nbsp;Name</th>
 										<th>Preparations</th>
-										<th>Catalog&nbsp;Number</th>
 										<th>From&nbsp;Institution</th>
 										<th>To&nbsp;Institution</th>
 									</tr>
@@ -1710,6 +1711,7 @@ limitations under the License.
 								<tbody>
 									<cfloop query="permituse">
 										<tr>
+											<td>#guid#</td>
 											<td><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a></td>
 											<td>#ontype# #ttype#</td>
 											<td>#dateformat(trans_date,'yyyy-mm-dd')#</td>
@@ -1722,7 +1724,6 @@ limitations under the License.
 											<td>#scientific_name#</td>
 											<td>#common_name#</td>
 											<td>#parts#</td>
-											<td>#guid#</td>
 											<td>#frominstitution#</td>
 											<td>#toinstitution#</td>
 										</tr>

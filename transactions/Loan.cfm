@@ -938,7 +938,7 @@ limitations under the License.
 							<div class="col-12">
 								<h2 class="h3">
 									Media documenting this Loan 
-									<span class="mt-1 smaller d-block">Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</span>
+									<span class="mt-1 smaller d-block">Include copies of signed loan invoices and correspondence here.  Attach permits to shipments. <strong>DO NOT Attach permits here.</strong></span>
 								</h2>
 								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select

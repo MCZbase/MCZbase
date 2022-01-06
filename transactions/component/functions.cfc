@@ -5516,7 +5516,8 @@ limitations under the License.
 						(case when flat.began_date > '1700-01-01' then 
      						 ( case when flat.began_date = flat.ended_date then flat.began_date else flat.began_date || '/' || flat.ended_date end)
     					else '' end) as eventDate,
-						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
+						GET_TRANS_SOLE_SHIP_DATE(permit_trans.transaction_id) as shipped_date,
+						'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
 						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 						left join collection on trans.collection_id = collection.collection_id
@@ -5600,7 +5601,8 @@ limitations under the License.
 						(case when flat.began_date > '1700-01-01' then 
      						 ( case when flat.began_date = flat.ended_date then flat.began_date else flat.began_date || '/' || flat.ended_date end)
     					else '' end) as eventDate,
-						TO_DATE(null) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
+						GET_TRANS_SOLE_SHIP_DATE(permit_trans.transaction_id) as shipped_date,
+						' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
 						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 						left join collection on trans.collection_id = collection.collection_id
@@ -5674,8 +5676,8 @@ limitations under the License.
 			<cfset row["tnumber"] = "#use.tnumber#">
 			<cfset row["ttype"] = "#use.ttype#">
 			<cfset row["transaction_type"] = "#use.transaction_type#">
-			<cfset row["trans_date"] = "#use.trans_date#">
-			<cfset row["shipped_date"] = "#use.shipped_date#">
+			<cfset row["trans_date"] = "#dateformat(use.trans_date,'yyyy-mm-dd')#">
+			<cfset row["shipped_date"] = "#dateformat(use.shipped_date,'yyyy-mm-dd')#">
 			<cfset row["guid_prefix"] = "#use.guid_prefix#">
 			<cfset row["uri"] = "#use.uri#">
 			<cfset row["sovereign_nation"] = "#use.sovereign_nation#">

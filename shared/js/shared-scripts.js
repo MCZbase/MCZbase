@@ -782,16 +782,8 @@ function makePublicationAutocompleteMeta(valueControl, idControl) {
 				data: { term: request.term, method: 'getPublicationAutocompleteMeta' },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : function (jqXHR, status, error) {
-					var message = "";
-					if (error == 'timeout') { 
-						message = ' Server took too long to respond.';
-					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-						message = ' Backing method did not return JSON.';
-					} else { 
-						message = jqXHR.responseText;
-					}
-					messageDialog('Error:' + message ,'Error: ' + error);
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up publications for a publication picker");
 				}
 			})
 		},
@@ -803,6 +795,26 @@ function makePublicationAutocompleteMeta(valueControl, idControl) {
 		// override to display meta with additional information instead of minimal value in picklist.
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};
+};
+/** Make a text name control into an autocomplete journal picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makeJournalAutocomplete(valueControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/vocabularies/component/search.cfc",
+				data: { term: request.term, method: 'getJournalAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up journals for a journal picker");
+				}
+			})
+		},
+		minLength: 3
+	});
 };
 
 /** Make a text name control into an autocomplete type status picker.
@@ -817,16 +829,8 @@ function makeTypeStatusSearchAutocomplete(valueControl) {
 				data: { term: request.term, method: 'getTypeStatusSearchAutocomplete' },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : function (jqXHR, status, error) {
-					var message = "";
-					if (error == 'timeout') { 
-						message = ' Server took too long to respond.';
-					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-						message = ' Backing method did not return JSON.';
-					} else { 
-						message = jqXHR.responseText;
-					}
-					messageDialog('Error:' + message ,'Error: ' + error);
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up type status");
 				}
 			})
 		},
