@@ -177,10 +177,16 @@ limitations under the License.
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
 									<div class="col-12 px-1 col-md-6 mb-2 float-left">
-										<cfset mediaBlock= loadMedia(media_id="#media_id#",displayAs="thumb")>
+										<script>
+											function() { 
+											// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+											loadMedia(#collection_object_id#);
+											}
+										</script>
+						<!---				<cfset mediaBlock= loadMedia(media_id="#media_id#",displayAs="thumb")>
 										<div id="mediaBlock#media_id#">
 											#mediaBlock#
-										</div>
+										</div>--->
 									</div>
 								</div>
 							</div>
