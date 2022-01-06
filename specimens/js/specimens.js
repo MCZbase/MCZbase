@@ -536,7 +536,7 @@ function loadMedia(collection_object_id,targetDivId) {
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
-			method : "getImagesHTML",
+			method : "getMediaHTML",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
