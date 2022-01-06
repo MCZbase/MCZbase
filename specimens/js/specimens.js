@@ -18,15 +18,15 @@ function checkFormValidity(form) {
 	return result;
 };
 /** loadMedia populate an html block with the media 
- * @param collection_object_id 
- * @param targetDivId 
+ * @param media_id 
+ * @param form 
  **/
-function loadMedia(collection_object_id,form) {
+function loadMedia(media_id,form) {
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data : {
 			method : "getMediaBlockHtml",
-			collection_object_id: collection_object_id,
+			media_id: media_id,
 		},
 		success: function (result) {
 			$("#mediaHTML").html(result);
@@ -37,23 +37,23 @@ function loadMedia(collection_object_id,form) {
 		dataType: "html"
 	});
 };
-
-function getMediaBlockHTML(collection_object_id,targetDivId) { 
-	jQuery.ajax({
-		url: "/media/component/search.cfc",
-		data : {
-			method : "getMediaBlockHtml",
-			collection_object_id: collection_object_id
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading Media Widget");
-		},
-		dataType: "html"
-	});
-};
+//
+//function getMediaBlockHTML(collection_object_id,targetDivId) { 
+//	jQuery.ajax({
+//		url: "/media/component/search.cfc",
+//		data : {
+//			method : "getMediaBlockHtml",
+//			collection_object_id: collection_object_id
+//		},
+//		success: function (result) {
+//			$("#" + targetDivId ).html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"loading Media Widget");
+//		},
+//		dataType: "html"
+//	});
+//};
 function updateImages(media_id,targetDiv) {
 	jQuery.ajax(
 	{
@@ -77,13 +77,18 @@ function updateImages(media_id,targetDiv) {
 	}
 	)
 };
+/** updateImages function 
+ * @method getImages in functions.cfc
+ * @param media_id
+ * @param targetDiv the id
+ **/
 function updateImages(media_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
-		url: "/transactions/component/functions.cfc",
+		url: "/media/component/search.cfc",
 		data: { 
-			method : "updateImages",
+			method : "getMediaBlockHtml",
 			media_id : media_id,
 			returnformat : "json",
 			queryformat : 'column'
@@ -101,12 +106,18 @@ function updateImages(media_id,targetDiv) {
 	}
 	)
 };
-function loadMedia(media_id,displayAs,targetDivId) { 
+/** loadMedia populate an html block with the media 
+ * @param collection_object_id identifying the cataloged item
+ * @param targetDivId the id for the div in the dom, without a leading #
+ *  selector, for which to replace the html content with the identification 
+ *  history.
+ **/
+function loadMedia(collection_object_id,displayAs,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
 			method : "getMediaBlockHtml",
-			media_id: media_id,
+			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
@@ -118,14 +129,14 @@ function loadMedia(media_id,displayAs,targetDivId) {
 	}
 	)
 }
-/** TEST openEditImagesDialog (plural) open a dialog for editing 
- * identifications for a cataloged item.
- * @param collection_object_id for the cataloged_item for which to edit identifications.
+/**openEditImagesDialog (plural) open a dialog for editing 
+ * media objects for a cataloged item.
+ * @param collection_object_id for the cataloged_item for which to edit media.
  * @param dialogId the id in the dom for the div to turn into the dialog without 
  *  a leading # selector.
  * @param guid the guid of the specimen to display in the dialog title
  * @param callback a callback function to invoke on closing the dialog.
- */
+ **/
 function openEditImagesDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Images for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -144,6 +155,9 @@ function openEditImagesDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
+
+
+
 /** loadIdentification populate an html block with the identification 
 * history for a cataloged item.
 * @param identification_id 
@@ -166,22 +180,7 @@ function loadIdentification(identification_id,form) {
 	});
 };
 
-//function getMediaBlockHtml(media_id) {
-//	jQuery.ajax({
-//		url: "/media/component/search.cfc",
-//		data : {
-//			method : "getMediaBlockHtml",
-//			media_id: media_id,
-//		},
-//		success: function (result) {
-//			$("#MediaBlockHtml").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"removing media");
-//		},
-//		dataType: "html"
-//	});
-//};
+
 /** updateIdentifications function 
  * @method getIdentification in functions.cfc
  * @param identification_id
