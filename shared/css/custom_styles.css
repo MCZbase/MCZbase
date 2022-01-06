@@ -1757,7 +1757,9 @@ tr.line-top:first-child {
 	margin-bottom: .5rem;
 	/* Caution, this directive will have unexpected side effects such as hiding badge spans */
 }
-
+.card-body li.list-group-item span.sd:last-child {
+	display:none;
+}
 input#readMore_check_id {
 	display: none;
 }

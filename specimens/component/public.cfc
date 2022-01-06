@@ -1770,7 +1770,7 @@ limitations under the License.
 					<cfelse>
 						<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
 							<cfloop query="colls">
-								#colls.collectors#<span>,</span>
+								#colls.collectors#<span class="sd">,</span>
 							</cfloop>
 						</li>
 					</cfif>
