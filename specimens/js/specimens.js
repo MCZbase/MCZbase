@@ -17,23 +17,23 @@ function checkFormValidity(form) {
 		}
 	return result;
 };
-
-function loadMedia(media_id,displayAs,targetDivId) { 
+function loadMedia(media_id,form) {
 	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
+		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getMediaBlockHtml",
+			method : "getMediaHtml",
 			media_id: media_id,
 		},
 		success: function (result) {
-			$("#" + targetDivId ).html(result);
+			$("#mediaHTML").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading media");
+			handleFail(jqXHR,textStatus,error,"removing media");
 		},
 		dataType: "html"
 	});
-}
+};
+
 function getMediaBlockHTML(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
@@ -73,38 +73,8 @@ function updateImages(media_id,targetDiv) {
 	}
 	)
 };
-function loadMedia(media_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getMediaHtml",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#mediaHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
-		},
-		dataType: "html"
-	});
-};
-function loadMedia(media_id,form) { 
-	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
-		data : {
-			method : "getMediaBlockHtml",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading media");
-		},
-		dataType: "html"
-	});
-}
+
+
 function updateImages(media_id,targetDiv) {
 	jQuery.ajax(
 	{
@@ -126,10 +96,26 @@ function updateImages(media_id,targetDiv) {
 				$('#' + targetDiv).html(message);
 			}
 		}
-	},
+	}
 	)
 };
-
+function loadMedia(media_id,displayAs,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getMediaBlockHtml",
+			media_id: media_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media");
+		},
+		dataType: "html"
+	}
+	)
+}
 /** TEST openEditImagesDialog (plural) open a dialog for editing 
  * identifications for a cataloged item.
  * @param collection_object_id for the cataloged_item for which to edit identifications.
