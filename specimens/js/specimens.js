@@ -22,29 +22,7 @@ function checkFormValidity(form) {
  * @param form 
  **/
 
-function updateImages(media_id,targetDiv) {
-	jQuery.ajax(
-	{
-		dataType: "json",
-		url: "/specimens/component/functions.cfc",
-		data: { 
-			method : "getImages",
-			identification_id : media_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		error: function (jqXHR, status, message) {
-			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-		},
-		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are images";
-				$('#' + targetDiv).html(message);
-			}
-		}
-	}
-	)
-};
+
 /** updateImages function 
  * @method getImages in functions.cfc
  * @param media_id
