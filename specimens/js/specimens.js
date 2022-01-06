@@ -21,7 +21,7 @@ function checkFormValidity(form) {
  * @param media_id 
  * @param form 
  **/
-function loadMedia(collection_object_id,targetDivId) {
+function loadMedia2(collection_object_id,targetDivId) {
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {

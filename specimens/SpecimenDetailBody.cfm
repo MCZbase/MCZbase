@@ -180,7 +180,7 @@ limitations under the License.
 										<script>
 											function() { 
 											// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
-											loadMedia(#collection_object_id#);
+											loadMedia2(#collection_object_id#);
 											}
 										</script>
 						<!---				<cfset mediaBlock= loadMedia(media_id="#media_id#",displayAs="thumb")>
