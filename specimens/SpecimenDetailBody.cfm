@@ -158,9 +158,9 @@ limitations under the License.
 						<div class="card mb-2 bg-light">
 							<div id="mediaDialog"></div>
 							<script>
-								function reloadImages() { 
+								function reloadMedia() { 
 									// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
-									loadImages(#collection_object_id#,'mediaCardBody');
+									loadMedia(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
 							<div class="card-header" id="headingMedia">
@@ -170,7 +170,7 @@ limitations under the License.
 										<span class="text-success font-weight-light">(#mediaCount.ct#)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_media")>
-										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditImagesDialog(#collection_object_id#,'mediaDialog','#guid#',reloadImages)">Add/Remove</a>
+										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditImagesDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
 							</div>
