@@ -21,7 +21,7 @@ function checkFormValidity(form) {
  * @param media_id 
  * @param form 
  **/
-function loadMedia(media_id,form) {
+function loadMedia(collection_object_id,targetDivId) {
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
@@ -29,7 +29,7 @@ function loadMedia(media_id,form) {
 			media_id: media_id,
 		},
 		success: function (result) {
-			$("#mediaCardBody").html(result);
+			$("#" + targetDivId).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"removing media");
