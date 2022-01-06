@@ -35,7 +35,7 @@ limitations under the License.
 </cfoutput> 
 <!--- Include the template that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
-<cfinclude template="/media/component/search.cfc" runOnce="true">
+<!---<cfinclude template="/media/component/search.cfc" runOnce="true">--->
 <!--- query one is needed for the metadata block and one.collection_object_id is used for the counts on media and part headers --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
 	SELECT distinct
@@ -174,11 +174,11 @@ limitations under the License.
 									</cfif>
 								</h3>
 							</div>
-							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
-								<div class="card-body w-100 px-2 float-left" id="mediaCardBody">
+					<!---		<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
+								<div class="card-body w-100 px-2 float-left" id="mediaCardBody">--->
 
 									<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
-										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<!---<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
 												media.media_id
 											FROM
@@ -207,7 +207,7 @@ limitations under the License.
 											</div>
 									</cfloop>
 								</div>
-							</div>
+							</div>--->
 						</div>
 					</div>
 				</div>
