@@ -1480,7 +1480,7 @@ limitations under the License.
 		<cfthread name="getEditImagesThread"> 
 			<cfoutput>
 			<cftry>
-				<div id="mediaDialog" class="container-fluid">
+				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
 							<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
