@@ -205,6 +205,7 @@ function loadImages(media_id,form) {
 		dataType: "html"
 	});
 };
+
 function loadMedia(collection_object_id,media_id,displayAs,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -332,9 +333,6 @@ function openEditImagesDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
-
-
 /** loadOtherID populate an html block with the other IDs for a cataloged item.
 * @param collection_object_id identifying the cataloged item for which 
 *  to list the identification history.
@@ -525,9 +523,6 @@ function updateIdentifications(identification_id,targetDiv) {
 		dataType: "html"
 	});
 };*/
-
-
-
 //function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 //	var title = "Edit Media for " + guid;
 //	createSpecimenEditDialog(dialogId,title,callback);
@@ -564,6 +559,22 @@ function updateIdentifications(identification_id,targetDiv) {
 //		dataType: "html"
 //	});
 //};
+//function loadCitation(collection_object_id,form) {
+//	jQuery.ajax({
+//		url: "/specimens/component/functions.cfc",
+//		data : {
+//			method : "getCitationHTML",
+//			collection_object_id: collection_object_id,
+//		},
+//		success: function (result) {
+//			$("#citationHTML").html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"removing citation");
+//		},
+//		dataType: "html"
+//	});
+//};
 
 function loadCitations(collection_object_id,targetDivId) { 
 	jQuery.ajax({
@@ -581,23 +592,6 @@ function loadCitations(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
-
-//function loadCitation(collection_object_id,form) {
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getCitationHTML",
-//			collection_object_id: collection_object_id,
-//		},
-//		success: function (result) {
-//			$("#citationHTML").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"removing citation");
-//		},
-//		dataType: "html"
-//	});
-//};
 
 function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Citations for " + guid;
