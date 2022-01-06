@@ -77,15 +77,13 @@ function updateImages(media_id,targetDiv) {
 	}
 	)
 };
-
-
 function updateImages(media_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
 		url: "/transactions/component/functions.cfc",
 		data: { 
-			method : "updateIIOID",
+			method : "updateImages",
 			media_id : media_id,
 			returnformat : "json",
 			queryformat : 'column'
