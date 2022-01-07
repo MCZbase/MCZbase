@@ -2749,10 +2749,10 @@ limitations under the License.
 								</cfif>
 								<div class="col-12 float-left mt-0 mb-1 p-0">
 									<div class="col-12 float-left">
-										<label for="publication_#i#" class="data-entry-label">Title</label>
+										<label for="publication_ID_#i#" class="data-entry-label">Title</label>
 										<!--- TODO: Cause clearing publication picker to clear id --->
 										<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
-										<input type="text" id="publication_#i#" value='#encodeForHTML(formatted_publication)#' class="data-entry-input">
+										<input type="text" id="publication_ID_#i#" value='#encodeForHTML(formatted_publication)#' class="data-entry-input">
 <!---										<label for="p_title" class="data-entry-label my-0"><span id="p_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">--->
 									</div>
