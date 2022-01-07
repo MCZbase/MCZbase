@@ -2747,12 +2747,15 @@ limitations under the License.
 										<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/Publication.cfm?action=newPub">Add New Publication <i class="fas fa-external-link-alt"></i></a>
 									</div>
 								</cfif>
-								<div class="col-12 float-left mt-0 mb-1 p-0">
-									<div class="col-12 float-left">
-										<label for="p_title" class="data-entry-label my-0"><span id="p_title">Title</span></label>
-										<input name="p_title" id="p_title" type="text" class="data-entry-input">
+								<cfloop query="getCited">
+									<div class="col-12 float-left mt-0 mb-1 p-0">
+										<div class="col-12 float-left">
+											<label for="publication_id_#i#" class="data-entry-label my-0"><span id="publication_id_#i#">Title</span></label>
+											<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
+											<input type="text" id="publication_#i#" value='#encodeForHTML(formatted_publication)#' class="data-entry-input">
+										</div>
 									</div>
-								</div>
+								</cfloop>
 								<div class="col-12 float-left mt-1 mb-1 p-0">
 									<div class="col-12 col-md-6 float-left">
 										<label for="author_text" class="data-entry-label mt-0 mb-0"><span id="author_text">Participant</span></label>
