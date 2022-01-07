@@ -48,10 +48,15 @@ limitations under the License.
 										media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 								<div class="col-12 col-md-12 px-0 mb-2 float-left">
-									<cfset mediaBlock= getMediaHtml(media_id="#images.media_id#",displayAs="thumb")>
+									<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
 									<div id="mediaBlock#media_id#">
 									#mediablock#
 									</div>
+									<script>
+										$(document).ready(function() {
+											getMediaBlockHtml("media_id");
+										});
+									</script>
 								</div>
 						</cfloop>
 					</div>
