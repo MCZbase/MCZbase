@@ -2753,8 +2753,8 @@ limitations under the License.
 									<div class="col-12 float-left mt-0 mb-1 p-0">
 										<div class="col-12 float-left">
 											<label for="publication_id" class="data-entry-label my-0"><span id="publication_id">Title</span></label>
-												<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#encodeForHTML(getpubs.formatted_publication)#">
-												<input type="text" id="publication_#i#" value='' class="data-entry-input">
+											<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#encodeForHTML(getpubs.formatted_publication)#">
+											<input type="text" id="publication_#i#" value='' class="data-entry-input">
 										</div>
 									</div>
 								
@@ -2767,13 +2767,9 @@ limitations under the License.
 
 									</div>
 									<div class="col-12 col-md-6 float-left">
-										<label for="journal" class="data-entry-label mt-0 mb-0">Journal Name</label>
-										<select name="journal" id="journal" size="1" class="data-entry-select">
-											<option value=""></option>
-											<cfloop query="ctjournal_name">
-												<option value="#journal_name#">#journal_name#</option>
-											</cfloop>
-										</select>
+										<label for="publication_id" class="data-entry-label mt-0 mb-0">Journal Name</label>
+										<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#encodeForHTML(ctjournal_name.journal_name)#">
+										<input type="text" id="publication_#i#" value='' class="data-entry-input">
 										<label for="publication_type" class="data-entry-label mt-1 mb-0"><span id="publication_type">Publication Type</span></label>
 										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
 											<option value=""></option>
