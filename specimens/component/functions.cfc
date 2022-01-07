@@ -2769,13 +2769,11 @@ limitations under the License.
 											journal_name as id, journal_name
 										FROM 
 											ctjournal_name
-										WHERE
-											upper(journal_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(journal_name)#">
 									</cfquery>
 									<div class="col-12 col-md-6 float-left">
 										<label for="journal" class="data-entry-label mt-0 mb-0"><span class="ID">Journal Name</span></label>
 										<input type="hidden" name="ID_#i#" id="ID_#i#" value="#encodeForHTML(ctjournal_name.journal_name)#">
-										<input type="text" id="journal_#i#" value='#journal_name#' class="data-entry-input">
+										<input type="text" id="journal_#i#" value='' class="data-entry-input">
 										
 										<label for="publication_type" class="data-entry-label mt-2 mb-0"><span id="publication_type">Publication Type</span></label>
 										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
