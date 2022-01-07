@@ -2847,6 +2847,16 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
+						<script>
+							$(document).ready(function() {
+								//makeScientificNameAutocompleteMeta("taxona", "taxona_id");
+								//makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
+								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
+							});
+							$(document).ready(function() {
+								makeJournalAutocompleteMeta("publication_#i#", "publication_id_#i#");
+							});
+						</script>
 					</section>
 				</div>
 				<cfset cellRenderClasses = "ml-1">
