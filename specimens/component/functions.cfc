@@ -2752,7 +2752,7 @@ limitations under the License.
 								</cfquery>
 									<div class="col-12 float-left mt-0 mb-1 p-0">
 										<div class="col-12 float-left">
-											<label for="publication_id" class="data-entry-label my-0"><span id="publication_id">Title</span></label>
+											<label for="publication" class="data-entry-label my-0"><span id="publication_id">Title</span></label>
 											<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#encodeForHTML(getpubs.formatted_publication)#">
 											<input type="text" id="publication_#i#" value='' class="data-entry-input">
 										</div>
@@ -2770,9 +2770,9 @@ limitations under the License.
 										select journal_name from ctjournal_name
 									</cfquery>
 									<div class="col-12 col-md-6 float-left">
-										<label for="journal_name" class="data-entry-label mt-0 mb-0">Journal Name</label>
+										<label for="journal" class="data-entry-label mt-0 mb-0">Journal Name</label>
 										<input type="hidden" name="journal_name_#i#" id="journal_name_#i#" value="#encodeForHTML(ctjournal_name.journal_name)#">
-										<input type="text" id="journal_name_#i#" value='' class="data-entry-input">
+										<input type="text" id="journal_#i#" value='' class="data-entry-input">
 										
 										<label for="publication_type" class="data-entry-label mt-2 mb-0"><span id="publication_type">Publication Type</span></label>
 										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
