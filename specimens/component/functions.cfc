@@ -2770,9 +2770,10 @@ limitations under the License.
 										select journal_name from ctjournal_name
 									</cfquery>
 									<div class="col-12 col-md-6 float-left">
-										<label for="journal_name" class="data-entry-label mt-0 mb-0">Journal Name</label>
-										<input type="hidden" name="journal_name_#i#" id="journal_name_#i#" value="#encodeForHTML(ctjournal_name.journal_name)#">
-										<input type="text" id="journal_name_#i#" value='' class="data-entry-input">
+										<label for="ID" class="data-entry-label mt-0 mb-0">Journal Name</label>
+										<input type="hidden" name="ID_#i#" id="ID_#i#" value="#encodeForHTML(search.id)#">
+										<input type="text" id="ID_#i#" value='' class="data-entry-input">
+										
 										<label for="publication_type" class="data-entry-label mt-1 mb-0"><span id="publication_type">Publication Type</span></label>
 										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
 											<option value=""></option>
