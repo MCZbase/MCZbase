@@ -2752,7 +2752,7 @@ limitations under the License.
 										<label for="p_title" class="data-entry-label">Title</label>
 										<!--- TODO: Cause clearing publication picker to clear id --->
 										<input type="hidden" name="p_title" id="p_title" value="p_title">
-										<input type="text" id="p_title" value='#encodeForHTML(formatted_publication)#' class="data-entry-input">
+										<input type="text" id="p_title" value='#encodeForHTML(formpub)#' class="data-entry-input">
 <!---										<label for="p_title" class="data-entry-label my-0"><span id="p_title">Title</span></label>
 										<input name="p_title" id="p_title" type="text" class="data-entry-input">--->
 									</div>
