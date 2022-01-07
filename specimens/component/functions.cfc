@@ -2587,9 +2587,8 @@ limitations under the License.
 <cffunction name="getEditCitationHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditCitationsThread"> 
-	
+		<cfoutput>
 			<cftry>
-				<cfoutput>
 					<div id="citationsDialog">
 						<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
@@ -2828,7 +2827,6 @@ limitations under the License.
 							</div>
 						</section>
 					</div>
-				</cfoutput>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
@@ -2848,14 +2846,12 @@ limitations under the License.
 						</div>
 					</div>
 				</cfcatch>
-				
 			</cftry>
-	
-	
-
-<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select type_status from ctcitation_type_status order by type_status
-</cfquery>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEditIdentsThread" />
+	<cfreturn getEditIdentsThread.output>
+</cffunction>
 <!--- get all cited specimens --->
 <!------------------------------------------------------------------------------->
 <!---remove citation --button for removing media relationship = shows cataloged_item--->
