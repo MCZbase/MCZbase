@@ -84,7 +84,7 @@ function getMediaBlock(media_id,displayAs,targetDivId) {
 		url: "/media/component/search.cfc",
 		data : {
 			method : "getMediaBlockHtml",
-			collection_object_id: collection_object_id,
+			media_id: media_id,
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
