@@ -15,6 +15,8 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm">
+<cfinclude template = "/vocabularies/component/search.cfc">
+
 
 <!--- updateCondition update the condition on a part identified by the part's collection object id 
  @param part_id the collection_object_id for the part to update
