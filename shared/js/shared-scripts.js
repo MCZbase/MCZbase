@@ -814,7 +814,10 @@ function makeJournalAutocomplete(valueControl) {
 			})
 		},
 		minLength: 3
-	});
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
 };
 
 /** Make a text name control into an autocomplete type status picker.
