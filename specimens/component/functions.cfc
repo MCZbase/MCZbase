@@ -2724,7 +2724,7 @@ limitations under the License.
 					</cfif>
 					<section class="container-fluid" role="search" aria-labelledby="formheader">
 						<div class="row mx-0 my-3">
-							<div class="">
+							<div class="search-box">
 								<cfset title = "Search for Results">
 								<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select collection,collection_id from collection order by collection
@@ -2739,8 +2739,8 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input name="action" type="hidden" value="search">
 								<input type="hidden" name="method" value="getCitResults" class="keeponclear">
-								<div class="col-12 px-0 float-left">
-									<h2 class="h3 float-left mb-1 mt-0 px-3"> Add Citation</h2>
+								<div class="col-12 search-box-header px-0 float-left">
+									<h2 class="h3 text-white float-left mb-1 mt-0 px-3"> Add Citation</h2>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-3 mt-2 float-right">
