@@ -2772,7 +2772,7 @@ limitations under the License.
 												<input type="text" id="journal_name_#i#" value='' class="data-entry-input">
 										</div>
 										<label for="publication_type" class="data-entry-label mt-1 mb-0"><span id="publication_type">Publication Type</span></label>
-										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
+										<select name="publication_type" class="data-entry-select mt-1 mb-0" id="publication_type" size="1">
 											<option value=""></option>
 											<cfloop query="ctpublication_type">
 												<option value="#publication_type#">#publication_type#</option>
@@ -2837,7 +2837,7 @@ limitations under the License.
 								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
 							});
 							$(document).ready(function() {
-								makeJournalAutocompleteMeta("publication_#i#", "publication_id_#i#");
+								makeJournalAutocomplete("publication_#i#", "publication_id_#i#");
 							});
 						</script>
 
