@@ -2827,8 +2827,6 @@ limitations under the License.
 						</div>
 					</section>
 				</div>
-				<cfset cellRenderClasses = "ml-1">
-
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
