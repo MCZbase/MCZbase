@@ -2766,7 +2766,7 @@ limitations under the License.
 									</div>
 									<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT 
-											journal_name as id, journal_name as value
+											journal_name as id, journal_name
 										FROM 
 											ctjournal_name
 										WHERE
@@ -2774,7 +2774,7 @@ limitations under the License.
 									</cfquery>
 									<div class="col-12 col-md-6 float-left">
 										<label for="journal" class="data-entry-label mt-0 mb-0"><span class="ID">Journal Name</span></label>
-										<input type="hidden" name="ID_#i#" id="ID_#i#" value="#encodeForHTML(ctjournal_name.value)#">
+										<input type="hidden" name="ID_#i#" id="ID_#i#" value="#encodeForHTML(ctjournal_name.journal_name)#">
 										<input type="text" id="journal_#i#" value='' class="data-entry-input">
 										
 										<label for="publication_type" class="data-entry-label mt-2 mb-0"><span id="publication_type">Publication Type</span></label>
