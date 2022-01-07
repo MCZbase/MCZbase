@@ -449,26 +449,26 @@ function updateIdentifications(identification_id,targetDiv) {
 	},
 	)
 };
-/** loadMedia populate an html block with the media 
+/**REMOVE loadMedia populate an html block with the media 
  * @param collection_object_id 
  * @param targetDivId 
  **/
-/*function loadMediaDialog(collection_object_id,targetDivId) { 
-	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
-		data : {
-			method : "getMediaHTML",
-			collection_object_id: collection_object_id
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading media");
-		},
-		dataType: "html"
-	});
-};*/
+///*function loadMediaDialog(collection_object_id,targetDivId) { 
+//	jQuery.ajax({
+//		url: "/specimens/component/public.cfc",
+//		data : {
+//			method : "getMediaHTML",
+//			collection_object_id: collection_object_id
+//		},
+//		success: function (result) {
+//			$("#" + targetDivId ).html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"loading media");
+//		},
+//		dataType: "html"
+//	});
+//};*/
 //function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 //	var title = "Edit Media for " + guid;
 //	createSpecimenEditDialog(dialogId,title,callback);
@@ -505,23 +505,6 @@ function updateIdentifications(identification_id,targetDiv) {
 //		dataType: "html"
 //	});
 //};
-//function loadCitation(collection_object_id,form) {
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getCitationHTML",
-//			collection_object_id: collection_object_id,
-//		},
-//		success: function (result) {
-//			$("#citationHTML").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"removing citation");
-//		},
-//		dataType: "html"
-//	});
-//};
-
 function loadCitations(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
