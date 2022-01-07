@@ -2750,9 +2750,9 @@ limitations under the License.
 								<cfloop query="citations">
 									<div class="col-12 float-left mt-0 mb-1 p-0">
 										<div class="col-12 float-left">
-											<label for="formatted_publication_#i#" class="data-entry-label my-0"><span id="formatted_publication_#i#">Title</span></label>
-											<input type="hidden" name="formatted_publication_#i#" id="formatted_publication_#i#" value="#formatted_publication#">
-											<input type="text" id="formatted_publication_#i#" value='#encodeForHTML(formatted_publication)#' class="data-entry-input">
+											<label for="publication_id_#i#" class="data-entry-label my-0"><span id="publication_id_#i#">Title</span></label>
+											<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
+											<input type="text" id="publication_#i#" value='#encodeForHTML(publication_id)#' class="data-entry-input">
 										</div>
 									</div>
 								</cfloop>
@@ -2854,9 +2854,11 @@ limitations under the License.
 							$(document).ready(function() {
 								//makeScientificNameAutocompleteMeta("taxona", "taxona_id");
 								//makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
-								makePublicationAutocompleteMeta("formatted_publication_#i#", "formatted_publication_#i#");
+								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
 							});
-			
+							$(document).ready(function() {
+								makeJournalAutocompleteMeta("publication_#i#", "publication_id_#i#");
+							});
 						</script>
 					</section>
 				</div>
