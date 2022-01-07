@@ -2854,11 +2854,9 @@ limitations under the License.
 							$(document).ready(function() {
 								//makeScientificNameAutocompleteMeta("taxona", "taxona_id");
 								//makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
-								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
+								makePublicationAutocompleteMeta("formatted_publication_#i#", "formatted_publication_#i#");
 							});
-							$(document).ready(function() {
-								makeJournalAutocompleteMeta("publication_#i#", "publication_id_#i#");
-							});
+			
 						</script>
 					</section>
 				</div>
