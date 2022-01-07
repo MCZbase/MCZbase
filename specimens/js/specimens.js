@@ -28,6 +28,27 @@ function checkFormValidity(form) {
  * @param media_id
  * @param targetDiv the id
  **/
+function loadMedia(media_id,form) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/specimens/component/functions.cfc",
+		data: { 
+			method : "getMediaHtml",
+			media_id : media_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		success: function (result) {
+			$("#mediaHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing media");
+		},
+		dataType: "html"
+	}
+	)
+};
 function loadMedia(media_id,targetDiv) {
 	jQuery.ajax(
 	{
@@ -229,22 +250,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 		dataType: "html"
 	});
 };
-//function loadImages(collection_object_id,targetDivId) { 
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getImagesHTML",
-//			collection_object_id: collection_object_id
-//		},
-//		success: function (result) {
-//			$("#" + targetDivId ).html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"loading images");
-//		},
-//		dataType: "html"
-//	});
-//};
+
 /** loadOtherID populate an html block with the other IDs for a cataloged item.
 * @param collection_object_id identifying the cataloged item for which 
 *  to list the identification history.

@@ -54,7 +54,7 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function() {
-											getMediaBlockHtml("media_id");
+											getMediaBlockHtml("media_id", mediaCardBody);
 										});
 									</script>
 								</div>
