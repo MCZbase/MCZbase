@@ -79,9 +79,9 @@ function loadMedia(media_id,targetDiv) {
  *  selector, for which to replace the html content with the identification 
  *  history.
  **/
-function loadMedia(collection_object_id,displayAs,targetDivId) { 
+function getMediaBlock(media_id,displayAs,targetDivId) { 
 	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
+		url: "/media/component/search.cfc",
 		data : {
 			method : "getMediaBlockHtml",
 			collection_object_id: collection_object_id,
