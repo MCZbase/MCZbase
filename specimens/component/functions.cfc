@@ -2770,7 +2770,7 @@ limitations under the License.
 										FROM 
 											ctjournal_name
 										WHERE
-											upper(journal_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+											upper(journal_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(journal_name)#">
 									</cfquery>
 									<div class="col-12 col-md-6 float-left">
 										<label for="journal" class="data-entry-label mt-0 mb-0"><span class="ID">Journal Name</span></label>
