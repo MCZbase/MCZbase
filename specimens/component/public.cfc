@@ -50,13 +50,13 @@ limitations under the License.
 								<div class="col-12 col-md-12 px-0 mb-2 float-left">
 									<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
 									<div id="mediaBlock#media_id#">
-									#mediaBlock#
 									</div>
 									<script>
 										$(document).ready(function() {
-											getMediaBlockHtml("media_id", mediaCardBody);
+											getMediaBlockHtml("media_id", mediaHTML);
 										});
 									</script>
+										#mediaBlock#
 								</div>
 						</cfloop>
 					</div>
