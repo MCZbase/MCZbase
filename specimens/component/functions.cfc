@@ -2753,10 +2753,8 @@ limitations under the License.
 									<div class="col-12 float-left mt-0 mb-1 p-0">
 										<div class="col-12 float-left">
 											<label for="publication_id" class="data-entry-label my-0"><span id="publication_id">Title</span></label>
-											<cfloop query="getpubs">
 												<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
-												<input type="text" id="publication_#i#" value='#encodeForHTML(formatted_publication)#' class="data-entry-input">
-											</cfloop>
+												<input type="text" id="publication_#i#" value='#encodeForHTML(getpubs.formatted_publication)#' class="data-entry-input">
 										</div>
 									</div>
 								
