@@ -2859,28 +2859,7 @@ limitations under the License.
 						</script>
 					</section>
 				</div>
-				<cfset cellRenderClasses = "ml-1">
-				<script>
-					window.columnHiddenSettings = new Object();
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						lookupColumnVisibilities ('#cgi.script_name#','Default');
-					</cfif>
 
-					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/specimens/component/search.cfc?collection_object_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+value+'</a></span>';
-					};
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-							return '<span class="cellRenderClasses" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="/specimens/component/search.cfc?collection_object_id=edit&collection_object_id=' + rowData['COLLECTION_OBJECT_ID'] + '">Edit</a></span>';
-							return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/specimens/component/search.cfc?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
-						};
-					</cfif>
-
-
-				
-				</script> 
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
