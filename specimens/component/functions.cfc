@@ -2765,7 +2765,7 @@ limitations under the License.
 										<input name="published_year" id="published_year" type="text" class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-6 float-left">
-										<label for="journal" class="data-entry-label mt-0 mb-0"><span class="ID">Journal Name</span></label>
+										<label for="journal_#i#" class="data-entry-label mt-0 mb-0"><span class="journal">Journal Name</span></label>
 										<input type="hidden" name="journal_name_#i#" id="journal_name_#i#" value="#encodeForHTML(ctjournal_name.value)#">
 										<input type="text" id="journal_#i#" value='' class="data-entry-input">
 										
