@@ -202,7 +202,13 @@ limitations under the License.
 									<!---	<div class="col-12 px-1 col-md-6 mb-2 float-left">--->
 										<!---	<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>--->
 									<!---		<div id="mediaBlock#media_id#">--->
-												#mediablock# <div id="mediaHTML"></div>
+								<!---	#mediablock# --->
+								<script>
+								function loadMedia() { 
+									// invoke specimen/component/public.cfc function getMediaHTML via ajax and repopulate the media block.
+									loadMedia(#media_id#,'mediaCardBody');
+								}
+								</script>
 				<!---							</div>
 										</div>
 									</cfloop>--->
