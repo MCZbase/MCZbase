@@ -23,8 +23,8 @@ function checkFormValidity(form) {
  **/
 
 
-/** updateImages function 
- * @method getImages in functions.cfc
+/** updateMedia function 
+ * @method getMedia in functions.cfc
  * @param media_id
  * @param targetDiv the id
  **/
@@ -75,7 +75,7 @@ function loadMedia(collection_object_id,displayAs,targetDivId) {
 	}
 	)
 }
-/**openEditImagesDialog (plural) open a dialog for editing 
+/**openEditMediaDialog (plural) open a dialog for editing 
  * media objects for a cataloged item.
  * @param collection_object_id for the cataloged_item for which to edit media.
  * @param dialogId the id in the dom for the div to turn into the dialog without 
@@ -101,9 +101,6 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
-
-
 /** loadIdentification populate an html block with the identification 
 * history for a cataloged item.
 * @param identification_id 
@@ -125,8 +122,6 @@ function loadIdentification(identification_id,form) {
 		dataType: "html"
 	});
 };
-
-
 /** updateIdentifications function 
  * @method getIdentification in functions.cfc
  * @param identification_id
@@ -155,7 +150,6 @@ function updateIdentifications(identification_id,targetDiv) {
 	},
 	)
 };
-
 /** loadIdentifications populate an html block with the identification 
  * history for a cataloged item.
  * @param collection_object_id identifying the cataloged item for which 
@@ -209,7 +203,6 @@ function updateIdentifications(identification_id,targetDiv) {
 	},
 	)
 };
-
 /** openEditIdentificationsDialog (plural) open a dialog for editing 
  * identifications for a cataloged item.
  * @param collection_object_id for the cataloged_item for which to edit identifications.
@@ -236,10 +229,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 		dataType: "html"
 	});
 };
-
-
-
-/** TEST loadIdentification populate an html block with the identification 
+/** REMOVE loadImages populate an html block with the images
 * history for a cataloged item.
 * @param identification_id 
 * @param form
@@ -260,17 +250,12 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 //		dataType: "html"
 //	});
 //};
-
-
-
-/** TEST updateImages function 
+/** REMOVE updateImages function 
  * @method getIdentification in functions.cfc
  * @param identification_id
  * @param targetDiv the id
  **/
-
-
-/** TEST loadIdentifications populate an html block with the identification 
+/** REMOVE loadImages populate an html block with the images 
  * history for a cataloged item.
  * @param collection_object_id identifying the cataloged item for which 
  *  to list the identification history.
@@ -294,8 +279,6 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 //		dataType: "html"
 //	});
 //};
-
-
 /** loadOtherID populate an html block with the other IDs for a cataloged item.
 * @param collection_object_id identifying the cataloged item for which 
 *  to list the identification history.
