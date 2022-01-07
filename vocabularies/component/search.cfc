@@ -114,7 +114,7 @@ Function getJournalAutocomplete.  Search for journals by name with a substring m
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["value"] = "#search.journal_name#" >
-			<cfset row["meta"] = "#search.journal_name#" >
+			<cfset row["id"] = "#search.journal_name#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
