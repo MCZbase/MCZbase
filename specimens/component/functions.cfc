@@ -2762,7 +2762,7 @@ limitations under the License.
 									<div class="col-12 col-md-6 float-left">
 										<label for="author_text" class="data-entry-label mt-0 mb-0"><span id="author_text">Participant</span></label>
 										<input name="author_text" id="author_text" type="text" class="data-entry-input">
-										<label for="published_year" class="data-entry-label mt-1 mb-0"><span id="published_year">Year</span></label>
+										<label for="published_year" class="data-entry-label mt-2 mb-0"><span id="published_year">Year</span></label>
 										<input name="published_year" id="published_year" type="text" class="data-entry-input">
 
 									</div>
@@ -2774,7 +2774,7 @@ limitations under the License.
 										<input type="hidden" name="journal_name_#i#" id="journal_name_#i#" value="#encodeForHTML(ctjournal_name.journal_name)#">
 										<input type="text" id="journal_name_#i#" value='' class="data-entry-input">
 										
-										<label for="publication_type" class="data-entry-label mt-1 mb-0"><span id="publication_type">Publication Type</span></label>
+										<label for="publication_type" class="data-entry-label mt-2 mb-0"><span id="publication_type">Publication Type</span></label>
 										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
 											<option value=""></option>
 											<cfloop query="ctpublication_type">
@@ -2793,7 +2793,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 										</cfoutput>
-										<label for="cit_current_fg" class="data-entry-label mt-1 mb-0">
+										<label for="cit_current_fg" class="data-entry-label mt-2 mb-0">
 											<span id="cit_current_fg">Cites specimens?</span>
 										</label>
 										<select name="cit_current_fg" id="cit_current_fg" class="data-entry-select">
@@ -2807,7 +2807,7 @@ limitations under the License.
 											<span id="citsciname">Cited Scientific Name</span>
 										</label>
 										<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
-										<label for="scientific_name" class="data-entry-label mt-1 mb-0">
+										<label for="scientific_name" class="data-entry-label mt-2 mb-0">
 											<span id="scientific_name">Accepted Scientific Name</span>
 										</label>
 										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
