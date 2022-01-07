@@ -2859,7 +2859,7 @@ limitations under the License.
 								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
 							});
 							$(document).ready(function() {
-								makeJournalAutocomplete("ID_#i#", "ID_#i#");
+								makeJournalAutocomplete("journal_name_#i#", "journal_name_#i#");
 							});
 						</script>
 					</section>
