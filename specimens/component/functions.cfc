@@ -2753,8 +2753,8 @@ limitations under the License.
 									<div class="col-12 float-left mt-0 mb-1 p-0">
 										<div class="col-12 float-left">
 											<label for="publication_id" class="data-entry-label my-0"><span id="publication_id">Title</span></label>
-												<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#getpubs.publication_id#">
-												<input type="text" id="publication_#i#" value='#encodeForHTML(getpubs.formatted_publication)#' class="data-entry-input">
+												<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#encodeForHTML(getpubs.formatted_publication)#">
+												<input type="text" id="publication_#i#" value='' class="data-entry-input">
 										</div>
 									</div>
 								
