@@ -2764,9 +2764,8 @@ limitations under the License.
 										<input name="author_text" id="author_text" type="text" class="data-entry-input">
 										<label for="published_year" class="data-entry-label mt-1 mb-0"><span id="published_year">Year</span></label>
 										<input name="published_year" id="published_year" type="text" class="data-entry-input">
-
 									</div>
-									<div class="col-12 col-md-6 mb-1 float-left">
+									<div class="col-12 col-md-6 mt-1 mb-1 float-left">
 										<div class="col-12 px-0 float-left">
 											<label for="publication_id" class="data-entry-label my-0"><span id="publication_id">Journal</span></label>
 												<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#encodeForHTML(ctjournal_name.journal_name)#">
@@ -2829,27 +2828,8 @@ limitations under the License.
 							</div>
 						</div>
 					</section>
-					<section class="container-fluid">
-						<div class="row mx-0">
-							<div class="col-12">
-								<div class="mb-5">
-									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-										<h1 class="h4">Results: </h1>
-										<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-										<div id="columnPickDialog">
-											<div id="columnPick" class="px-1"></div>
-										</div>
-										<div id="columnPickDialogButton"></div>
-										<div id="resultDownloadButtonContainer"></div>
-									</div>
-									<div class="row mt-0"> 
-										<!--- Grid Related code is below along with search handlers --->
-										<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-										<div id="enableselection"></div>
-									</div>
-								</div>
-							</div>
-						</div>
+			
+
 						<script>
 							$(document).ready(function() {
 								//makeScientificNameAutocompleteMeta("taxona", "taxona_id");
@@ -2860,7 +2840,7 @@ limitations under the License.
 								makeJournalAutocompleteMeta("publication_#i#", "publication_id_#i#");
 							});
 						</script>
-					</section>
+
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
