@@ -2827,9 +2827,6 @@ limitations under the License.
 							</form>
 							</div>
 						</div>
-					</section>
-			
-
 						<script>
 							$(document).ready(function() {
 								//makeScientificNameAutocompleteMeta("taxona", "taxona_id");
@@ -2840,7 +2837,7 @@ limitations under the License.
 								makeJournalAutocomplete("publication_#i#", "publication_id_#i#");
 							});
 						</script>
-
+					</section>
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
