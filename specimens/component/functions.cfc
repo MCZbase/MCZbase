@@ -2749,12 +2749,8 @@ limitations under the License.
 								</cfif>
 								<div class="col-12 float-left mt-0 mb-1 p-0">
 									<div class="col-12 float-left">
-										<label for="p_title" class="data-entry-label">Title</label>
-										<!--- TODO: Cause clearing publication picker to clear id --->
-										<input type="hidden" name="p_title" id="p_title" value="p_title">
-										<input type="text" id="p_title" value='#encodeForHTML(p_title)#' class="data-entry-input">
-<!---										<label for="p_title" class="data-entry-label my-0"><span id="p_title">Title</span></label>
-										<input name="p_title" id="p_title" type="text" class="data-entry-input">--->
+										<label for="p_title" class="data-entry-label my-0"><span id="p_title">Title</span></label>
+										<input name="p_title" id="p_title" type="text" class="data-entry-input">
 									</div>
 								</div>
 								<div class="col-12 float-left mt-1 mb-1 p-0">
@@ -2763,6 +2759,7 @@ limitations under the License.
 										<input name="author_text" id="author_text" type="text" class="data-entry-input">
 										<label for="published_year" class="data-entry-label mt-1 mb-0"><span id="published_year">Year</span></label>
 										<input name="published_year" id="published_year" type="text" class="data-entry-input">
+
 									</div>
 									<div class="col-12 col-md-6 float-left">
 										<label for="journal" class="data-entry-label mt-0 mb-0">Journal Name</label>
