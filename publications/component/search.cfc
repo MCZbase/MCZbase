@@ -33,7 +33,7 @@ Function getPublicationList.  Search for publications by name with a substring m
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-      <cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				publication_type, published_year, publication_title,
@@ -89,7 +89,7 @@ Function getPublicationAutocomplete.  Search for publications by name with a sub
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-      <cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				publication_id, formatted_publication
