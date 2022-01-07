@@ -2766,6 +2766,9 @@ limitations under the License.
 										<input name="published_year" id="published_year" type="text" class="data-entry-input">
 
 									</div>
+									<cfquery query="ctjournal_name">
+										select journal_name from ctjournal_name
+									</cfquery>
 									<div class="col-12 col-md-6 float-left">
 										<label for="publication_id" class="data-entry-label mt-0 mb-0">Journal Name</label>
 										<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#encodeForHTML(ctjournal_name.journal_name)#">
