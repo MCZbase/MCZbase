@@ -171,14 +171,14 @@ limitations under the License.
 										<span class="text-success font-weight-light">(#mediaCount.ct#)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_media")>
-										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
+										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
 									<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
-									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<!---<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT
 											media.media_id
 										FROM
@@ -198,14 +198,14 @@ limitations under the License.
 												media_relations.media_id = media.media_id
 											AND
 												media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-										</cfquery>
-										<div class="col-12 px-1 col-md-6 mb-2 float-left">
-											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
-											<div id="mediaBlock#media_id#">
-												#mediablock#
-											</div>
+										</cfquery>--->
+									<!---	<div class="col-12 px-1 col-md-6 mb-2 float-left">--->
+										<!---	<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>--->
+									<!---		<div id="mediaBlock#media_id#">--->
+												#mediablock# <div id="mediaHTML"></div>
+				<!---							</div>
 										</div>
-									</cfloop>
+									</cfloop>--->
 								</div>
 							</div>
 						</div>
