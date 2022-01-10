@@ -76,6 +76,15 @@ limitations under the License.
 	where 
 		media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#" >
 </cfquery>
+<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT
+		media.media_id
+	FROM
+		media
+		left join media_relations on media_relations.media_id = media.media_id
+	WHERE
+		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+</cfquery>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		specimen_part.collection_object_id part_id
@@ -203,7 +212,9 @@ limitations under the License.
 										<!---	<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>--->
 									<!---		<div id="mediaBlock#media_id#">--->
 								
-									<div id="mediaHTML"></div>
+									<div id="mediaBlock#media_id#">
+										#mediaBlock#
+									</div>
 				<!---							</div>
 										</div>
 									</cfloop>--->
