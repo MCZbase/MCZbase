@@ -112,6 +112,7 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 		data : {
 			method : "getEditMediaHTML",
 			collection_object_id: collection_object_id,
+			media_id: media_id
 		},
 		success: function (result) {
 			$("#" + dialogId + "_div").html(result);
