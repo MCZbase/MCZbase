@@ -1053,10 +1053,10 @@ limitations under the License.
 							<cfelse>
 								<cfset hw = 'width="100" height="100"'>
 								<cfset imgClasses = "py-2 notthumb">
-								<cfset thumbs ='max-width="100px"'>
+								
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset hw = 'height="100"'>
-								
+									<cfset thumbs ='max-width="100px"'>
 									<cfset imgClasses = "py-0 thumbs">
 								</cfif>
 								<cfif len(preview_uri) GT 0>
