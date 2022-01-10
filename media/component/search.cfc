@@ -1055,7 +1055,7 @@ limitations under the License.
 								<cfset imgClasses = "py-2 w-100 notthumb">
 								
 								<cfif #l_displayAs# EQ "thumb" >
-									<cfset hw = 'height="100"'>
+									<cfset hw = 'height="auto"'>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset imgClasses = "py-0 w-100 thumbs">
 									</cfif>
