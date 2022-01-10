@@ -173,7 +173,7 @@ limitations under the License.
 									loadIdentifications(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
-							<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
+							<cfset blockmedia = getMediaHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingMedia">
 								<h3 class="h4 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
@@ -187,7 +187,7 @@ limitations under the License.
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 								<div class="card-body py-1 mb-1 w-100 float-left" id="mediaCardBody">
-									#blockident#
+									#blockmedia#
 									<div id="mediaHTML"></div>
 								</div>
 							</div>
