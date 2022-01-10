@@ -89,7 +89,7 @@ limitations under the License.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 
 --->
-<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfthread name="getMediaThread">
 			<cfoutput>
@@ -182,7 +182,7 @@ limitations under the License.
 		</cfthread>
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
-</cffunction>
+</cffunction>--->
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 
