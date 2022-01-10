@@ -1021,7 +1021,7 @@ limitations under the License.
 				</cfquery>
 				<cfif media.recordcount EQ 1>
 					<cfloop query="media">
-						<div  class="border rounded py-2 px-2">
+						<div  class="border rounded py-2 px-1">
 							<cfset isDisplayable = false>
 							<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 								<cfset isDisplayable = true>
