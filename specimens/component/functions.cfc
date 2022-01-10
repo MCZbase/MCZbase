@@ -144,7 +144,7 @@ limitations under the License.
 										</div>
 										<div id="collapseImg1" class="collapse" aria-labelledby="headingImg1" data-parent="##accordionImages1">
 											<div class="card-body"> 
-												<div class="row mx-0">
+<!---												<div class="row mx-0">
 													<div class="col-12 px-0">
 														<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															SELECT
@@ -295,7 +295,7 @@ limitations under the License.
 													</div>
 													</cfloop>
 													</div>
-												</div>
+												</div>--->
 											</div>
 										</div>
 									</div>
