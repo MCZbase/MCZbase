@@ -16,7 +16,7 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 <cfinclude template = "/media/component/search.cfc" runOnce="true">
-	
+	<!---
 <cffunction name="getMediaHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfoutput>
@@ -24,7 +24,7 @@ limitations under the License.
 			<cftry>
 				<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 					<div class="card-body w-100 px-2 float-left" id="mediaCardBody">
-						<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
+					
 							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
 									media.media_id
@@ -47,12 +47,12 @@ limitations under the License.
 										media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 									Media
-<!---								<div class="col-12 col-md-12 px-0 mb-2 float-left">
+								<div class="col-12 col-md-12 px-0 mb-2 float-left">
 									<cfset mediaBlock= getMediaBlock(media_id="#images.media_id#",displayAs="thumb")>
 									<div id="mediaBlock#media_id#">
 										#mediaBlock#
 									</div>
-								</div>--->
+								</div>
 						</cfloop>
 					</div>
 				</div>
@@ -81,7 +81,7 @@ limitations under the License.
 		</cfoutput>
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
-</cffunction>
+</cffunction>--->
 	
 
 						
@@ -89,7 +89,7 @@ limitations under the License.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 
 --->
-<!---<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfthread name="getMediaThread">
 			<cfoutput>
@@ -182,7 +182,7 @@ limitations under the License.
 		</cfthread>
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
-</cffunction>--->
+</cffunction>
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 
