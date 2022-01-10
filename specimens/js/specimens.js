@@ -49,14 +49,14 @@ function loadMedia(collection_object_id,form) {
 	}
 	)
 };
-function loadMedia(media_id,targetDiv) {
+function loadMedia(collection_object_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
 		url: "/specimens/component/public.cfc",
 		data: { 
 			method : "getMediaHtml",
-			media_id : media_id,
+			collection_object_id : collection_object_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
