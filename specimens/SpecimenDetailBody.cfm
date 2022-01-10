@@ -92,10 +92,9 @@ limitations under the License.
 		media,
 		media_labels
 	WHERE 
-		media_labels.media_id = media.media_id
-	AND
-		media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-	AND media_labels.media_label='height'
+		media_labels.media_id = media.media_id AND
+		media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL"> AND
+		media_labels.media_label='height'
 	ORDER BY 
 		height
 </cfquery>
