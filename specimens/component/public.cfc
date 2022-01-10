@@ -18,23 +18,13 @@ limitations under the License.
 	
 	
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="media_id" type="string" required="yes">
 		<cfoutput>
 		<cfthread name="getMediaThread">
 			<cftry>
 				<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 					<div class="card-body w-100 px-2 float-left" id="mediaCardBody">
-						<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
-							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									media.media_id
-								FROM
-									media
-									left join media_relations on media_relations.media_id = media.media_id
-								WHERE
-									media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-							</cfquery>
-						
+						<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->						
 							<cfloop query="images">
 								<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct
