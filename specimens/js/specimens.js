@@ -63,7 +63,7 @@ function loadMedia(collection_object_id,targetDivId) {
 };
 
 function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Identifications for " + guid;
+	var title = "Edit Media for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
@@ -79,6 +79,30 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 		},
 		dataType: "html"
 	});
+};
+
+function updateMedia(media_id,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/media/component/search.cfc",
+		data: { 
+			method : "getMedia",
+			media_id : media_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are images";
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
 };
 //function loadMedia(media_id,form) {
 //	jQuery.ajax({
@@ -120,23 +144,23 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
  *  selector, for which to replace the html content with the identification 
  *  history.
  **/
-function getMediaBlockHtml(media_id,displayAs,targetDivId) { 
-	jQuery.ajax({
-		url: "/media/component/search.cfc",
-		data : {
-			method : "getMediaBlockHtml",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading media");
-		},
-		dataType: "html"
-	}
-	)
-}
+//function getMediaBlockHtml(media_id,displayAs,targetDivId) { 
+//	jQuery.ajax({
+//		url: "/media/component/search.cfc",
+//		data : {
+//			method : "getMediaBlockHtml",
+//			media_id: media_id,
+//		},
+//		success: function (result) {
+//			$("#" + targetDivId ).html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"loading media");
+//		},
+//		dataType: "html"
+//	}
+//	)
+//}
 /**openEditMediaDialog (plural) open a dialog for editing 
  * media objects for a cataloged item.
  * @param collection_object_id for the cataloged_item for which to edit media.
