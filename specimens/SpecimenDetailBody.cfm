@@ -186,7 +186,7 @@ limitations under the License.
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
-									<div id="mediaHTML"></div>
+									<div id="identificationHTML"></div>
 								</div>
 							</div>
 						</div>
