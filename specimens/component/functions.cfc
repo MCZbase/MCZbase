@@ -144,7 +144,16 @@ limitations under the License.
 										</div>
 										<div id="collapseImg1" class="collapse" aria-labelledby="headingImg1" data-parent="##accordionImages1">
 											<div class="card-body"> 
-
+										<cfloop query="images">
+											<div class="col-12 px-1 col-md-6 mb-2 float-left" >
+												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#", displayAs="thumb")>
+												<div id="mediaHTML">
+													<div id="mediaBlock#images.media_id#">
+														#mediaBlock#
+													</div>
+												</div>
+											</div>
+										</cfloop>
 			<!---												<div class="row mx-0">
 													<div class="col-12 px-0">
 														<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
