@@ -88,7 +88,7 @@ limitations under the License.
 <cfloop query="images">
 	<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT distinct
-			media_labels.label_value
+			media_labels.label_value as height
 		FROM 
 			media,
 			media_labels
