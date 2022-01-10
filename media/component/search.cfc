@@ -1029,14 +1029,14 @@ limitations under the License.
 							<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 							<!--- specify a reasonable fallback for media height/width --->
 							<cfset hw = 'height="600" width="600"'>
-							<cfset imgClasses = "w-100 default">
+							<cfset imgClasses = "w-auto">
 							
 							<cfif isDisplayable>
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
 									<cfset l_size = "100">
 						
-									<cfset hw = 'height="90"'>
+									<cfset hw = 'height="auto"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
