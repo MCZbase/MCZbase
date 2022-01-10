@@ -184,8 +184,9 @@ limitations under the License.
 									</cfif>
 								</h3>
 							</div>
-							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
-								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
+							<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
+								<div class="card-body py-1 mb-1 w-100 float-left" id="identificationsCardBody">
+									#blockident#
 									<div id="identificationHTML"></div>
 								</div>
 							</div>
