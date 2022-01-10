@@ -143,7 +143,19 @@ limitations under the License.
 											</h2>
 										</div>
 										<div id="collapseImg1" class="collapse" aria-labelledby="headingImg1" data-parent="##accordionImages1">
-											<div class="card-body"> 
+										<div class="card-body"> 
+										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											SELECT
+												media.media_id,
+												media.media_uri,
+												media.preview_uri,
+												media.mime_type
+											FROM
+												media
+												left join media_relations on media_relations.media_id = media.media_id
+											WHERE
+												media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+										</cfquery>
 										<cfloop query="images">
 											<div class="col-12 px-1 col-md-6 mb-2 float-left" >
 												<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#", displayAs="thumb")>
