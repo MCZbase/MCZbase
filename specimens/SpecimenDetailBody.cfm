@@ -232,10 +232,10 @@ limitations under the License.
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
 											<div id="mediaBlock#images.media_id#">
 												#mediaBlock#
-												#getImages.height#
+										
 											</div>
 										</div>
-									</cfloop>
+									</cfloop>		#getImages.height#
 								<!---											</div>
 									</cfloop>--->
 								</div>
