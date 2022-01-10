@@ -1037,7 +1037,7 @@ limitations under the License.
 									<cfset hw = 'height="auto"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
-										<cfset l_size = "120">
+										<cfset l_size = "500">
 										<cfset hw = 'height="auto" width="auto"'>
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
 										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
