@@ -28,14 +28,14 @@ function checkFormValidity(form) {
  * @param media_id
  * @param targetDiv the id
  **/
-function loadMedia(collection_object_id,form) {
+function loadMedia(media_id,form) {
 	jQuery.ajax(
 	{
 		dataType: "json",
 		url: "/specimens/component/functions.cfc",
 		data: { 
 			method : "getMediaHtml",
-			collection_object_id : collection_object_id,
+			media_id : media_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
