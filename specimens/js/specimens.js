@@ -55,24 +55,18 @@ function loadMedia(collection_object_id,targetDiv) {
 		dataType: "json",
 		url: "/specimens/component/public.cfc",
 		data: { 
-			method : "getMediaHtml",
+			method : "getMediaHTML",
 			collection_object_id : collection_object_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		error: function (jqXHR, status, message) {
-			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
 		},
 		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are images";
-	
-				$('#' + targetDiv).html(message);
-			}
-		}
-	}
-	)
-};
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading citations");
+		},
+		dataType: "html"
+	});
+}
 /** loadMedia populate an html block with the media 
  * @param collection_object_id identifying the cataloged item
  * @param targetDivId the id for the div in the dom, without a leading #
