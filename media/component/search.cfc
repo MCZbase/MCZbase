@@ -1018,7 +1018,6 @@ limitations under the License.
 					WHERE 
 						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#l_media_id#">
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
-					ORDER BY MCZBASE.get_medialabel(media.media_id,'height') as height
 				</cfquery>
 				<cfif media.recordcount EQ 1>
 					<cfloop query="media">
@@ -1055,7 +1054,7 @@ limitations under the License.
 								
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset hw = 'width="100"'>
-									<cfset imgClasses = " w-100 h-100 py-0">
+									<cfset imgClasses = " w-100 #height# py-0">
 								</cfif>
 								<cfif len(preview_uri) GT 0>
 									<cfset displayImage = preview_uri>
