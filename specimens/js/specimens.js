@@ -28,7 +28,7 @@ function checkFormValidity(form) {
  * @param media_id
  * @param targetDiv the id
  **/
-function loadMedia(collection_object_id,media_id,form) {
+function loadMedia(media_id,form) {
 	jQuery.ajax(
 	{
 		dataType: "json",
@@ -36,7 +36,6 @@ function loadMedia(collection_object_id,media_id,form) {
 		data: { 
 			method : "getMediaHtml",
 			media_id : media_id,
-			collection_object_id : collection_object_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
@@ -50,14 +49,14 @@ function loadMedia(collection_object_id,media_id,form) {
 	}
 	)
 };
-function loadMedia(media_id,targetDiv) {
+function loadMedia(collection_object_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
 		url: "/specimens/component/public.cfc",
 		data: { 
 			method : "getMediaHtml",
-			media_id : media_id,
+			collection_object_id : collection_object_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
