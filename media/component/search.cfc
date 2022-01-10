@@ -1033,10 +1033,9 @@ limitations under the License.
 							<cfif isDisplayable>
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
-									<cfset l_size = "100">
+									<cfset l_size = "400">
 									<cfset hw = 'height="auto"'>
 								<cfelse>
-									<cfset l_size = "400">
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
