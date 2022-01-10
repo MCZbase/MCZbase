@@ -1021,7 +1021,7 @@ limitations under the License.
 				</cfquery>
 				<cfif media.recordcount EQ 1>
 					<cfloop query="media">
-						<div  class="border rounded py-2 px-1">
+						<div  class="border rounded py-2 px-2">
 							<cfset isDisplayable = false>
 							<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 								<cfset isDisplayable = true>
@@ -1034,7 +1034,7 @@ limitations under the License.
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
 									<cfset l_size = "100">
-									<cfset hw = 'width="100" height="100"'>
+									<cfset hw = 'height="100"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
@@ -1053,7 +1053,7 @@ limitations under the License.
 								<cfset imgClasses = "py-2">
 								
 								<cfif #l_displayAs# EQ "thumb">
-									<cfset hw = 'width="100" height="100"'>
+									<cfset hw = 'width="100"'>
 									<cfset imgClasses = " w-100 py-0">
 								</cfif>
 								<cfif len(preview_uri) GT 0>
