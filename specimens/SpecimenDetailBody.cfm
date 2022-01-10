@@ -78,11 +78,11 @@ limitations under the License.
 </cfquery>
 <cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
-		media.media_id
+		media.media_id,
+		(select * from media_relations where media_label ='height') height
 	FROM
 		media
 		left join media_relations on media_relations.media_id = media.media_id
-		(select * from media_relations where media_label ='height') height
 	WHERE
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 	ORDER BY
