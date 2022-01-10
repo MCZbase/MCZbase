@@ -1054,7 +1054,7 @@ limitations under the License.
 								
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset hw = 'height="100"'>
-									<cfset imgClasses = "py-0 thumb">
+									<cfset imgClasses = "fluid-width py-0 thumb">
 								</cfif>
 								<cfif len(preview_uri) GT 0>
 									<cfset displayImage = preview_uri>
