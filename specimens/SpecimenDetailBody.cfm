@@ -170,7 +170,7 @@ limitations under the License.
 							<script>
 								function reloadMedia() { 
 									// invoke specimen/component/public.cfc function getMediaHTML via ajax and repopulate the media block.
-									loadMedia(#collection_object_id#,'mediaCardBody');
+									loadIdentification(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
 							<div class="card-header" id="headingMedia">

@@ -61,6 +61,25 @@ function loadMedia(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 };
+
+function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Identifications for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditIdentificationsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit identifications dialog");
+		},
+		dataType: "html"
+	});
+};
 //function loadMedia(media_id,form) {
 //	jQuery.ajax({
 //		url: "/specimens/component/functions.cfc",
