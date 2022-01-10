@@ -187,8 +187,14 @@ limitations under the License.
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
 									<cfloop query="images">
+										<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select media_labels.label_value 
+											from media_labels 
+											where media_labels.media_label = 'height'
+											order by label_value
+										</cfquery>
 										<div class="col-12 px-1 col-md-6 mb-2 float-left">
-											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
+											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#", height=#getImages.label_value#, displayAs="thumb")>
 											<div id="mediaBlock#images.media_id#">
 												#mediaBlock#
 											</div>
