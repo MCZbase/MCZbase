@@ -1029,7 +1029,7 @@ limitations under the License.
 							<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 							<!--- specify a reasonable fallback for media height/width --->
 							<cfset hw = 'height="600" width="600"'>
-							<cfset imgClasses = "w-100">
+							<cfset imgClasses = "w-100 px-1">
 							
 							<cfif isDisplayable>
 								<cfif #l_displayAs# EQ "thumb">
