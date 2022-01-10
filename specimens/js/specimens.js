@@ -87,7 +87,7 @@ function updateMedia(media_id,targetDiv) {
 		dataType: "json",
 		url: "/media/component/search.cfc",
 		data: { 
-			method : "getMedia",
+			method : "getMediaBlockHtml",
 			media_id : media_id,
 			returnformat : "json",
 			queryformat : 'column'
