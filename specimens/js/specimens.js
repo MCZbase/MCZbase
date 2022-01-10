@@ -28,22 +28,39 @@ function checkFormValidity(form) {
  * @param media_id
  * @param targetDiv the id
  **/
-function loadMedia(media_id,form) {
+
+function loadMedia(identification_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getMediaHTML",
-			media_id: media_id,
+			method : "getIdentificationHtml",
+			identification_id: identification_id,
 		},
 		success: function (result) {
-			$("#mediaHTML").html(result);
+			$("#identificationHTML").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
+			handleFail(jqXHR,textStatus,error,"removing identification");
 		},
 		dataType: "html"
 	});
 };
+//function loadMedia(media_id,form) {
+//	jQuery.ajax({
+//		url: "/specimens/component/functions.cfc",
+//		data : {
+//			method : "getMediaHTML",
+//			media_id: media_id,
+//		},
+//		success: function (result) {
+//			$("#mediaHTML").html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"removing media");
+//		},
+//		dataType: "html"
+//	});
+//};
 function loadMedia(collection_object_id,targetDiv) {
 	jQuery.ajax(
 	{
