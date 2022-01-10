@@ -187,7 +187,7 @@ limitations under the License.
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
 									<cfloop query="images">
-										#images.collection_object_id#
+										#one.collection_object_id#
 										<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select media_labels.label_value 
 											from media_labels 
