@@ -1054,7 +1054,7 @@ limitations under the License.
 								
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset hw = 'width="100" height="100"'>
-									<cfset imgClasses = " w-100 h-100 py-0">
+									<cfset imgClasses = " w-100 py-0">
 								</cfif>
 								<cfif len(preview_uri) GT 0>
 									<cfset displayImage = preview_uri>
@@ -1077,7 +1077,6 @@ limitations under the License.
 							</cfif>
 							<div class="media_widget">
 								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center mgImg" title="click to open full image">
-							
 									<img src="#displayImage#" id="myImage" class="mx-auto #imgClasses#" alt="#alt#" #hw#>
 								</a>
 								<div class="mt-0 bg-light col-12 py-1 px-1">
