@@ -1139,7 +1139,7 @@ limitations under the License.
 							data = data + "&sci_name=" + rowdata.SCI_NAME;
 							data = data + "&no_of_spec=" + rowdata.NO_OF_SPEC;
 							data = data + "&type_status=" + rowdata.TYPE_STATUS;
-							data = data + "&spec_prep=" + rowdata.SPEC_PREP;
+							data = data + "&spec_prep=" + encodeURIComponent(rowdata.SPEC_PREP);
 							data = data + "&country_of_origin=" + rowdata.COUNTRY_OF_ORIGIN;
 							data = data + "&object_remarks=" + rowdata.OBJECT_REMARKS;
 							$.ajax({
