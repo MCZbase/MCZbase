@@ -98,7 +98,7 @@ limitations under the License.
 			media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 		AND media_labels.media_label='height'
 		ORDER BY 
-			media_labels.label_value
+			height
 	</cfquery>
 </cfloop>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
