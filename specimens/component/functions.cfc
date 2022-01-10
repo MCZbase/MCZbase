@@ -78,10 +78,11 @@ limitations under the License.
 								</cfquery>
 								<div class="col-12 col-md-12 px-0 mb-2 float-left">
 									<cfset mediaBlock= getMediaBlock(media_id="#images.media_id#",displayAs="thumb")>
+										<div id="mediaHTML">
 									<div id="mediaBlock#media_id#">
 										#mediaBlock#
 									</div>
-								</div>
+										</div></div>
 						</cfloop>
 					</div>
 				</div>
