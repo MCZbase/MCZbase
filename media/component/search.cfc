@@ -1019,6 +1019,7 @@ limitations under the License.
 					WHERE 
 						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#l_media_id#">
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
+					ORDER BY height
 				</cfquery>
 				<cfif media.recordcount EQ 1>
 					<cfloop query="media">
