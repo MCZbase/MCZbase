@@ -979,6 +979,7 @@ limitations under the License.
 
 <cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
 
 	<cfargument name="size" type="string" required="no" default="800">
 	<cfargument name="displayAs" type="string" required="no" default="full">
@@ -987,6 +988,7 @@ limitations under the License.
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
+	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
