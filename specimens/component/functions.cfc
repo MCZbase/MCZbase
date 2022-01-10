@@ -131,6 +131,7 @@ limitations under the License.
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">
 								<input type="hidden" name="mediaidnum" value="column">
+								<input type="hidden" name="method" value="getmediablockhtml">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								<div class="col-12 col-lg-12 float-left mb-4 px-0">
 								<div id="accordionImages1">
