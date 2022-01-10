@@ -987,7 +987,7 @@ limitations under the License.
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
-	<cfargument name="collection_object_id" type="string" required="yes">
+		
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
