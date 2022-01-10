@@ -29,15 +29,11 @@ function checkFormValidity(form) {
  * @param targetDiv the id
  **/
 function loadMedia(media_id,form) {
-	jQuery.ajax(
-	{
-		dataType: "json",
+	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
-		data: { 
-			method : "getMediaHtml",
-			media_id : media_id,
-			returnformat : "json",
-			queryformat : 'column'
+		data : {
+			method : "getMediaHTML",
+			media_id: media_id,
 		},
 		success: function (result) {
 			$("#mediaHTML").html(result);
@@ -46,8 +42,7 @@ function loadMedia(media_id,form) {
 			handleFail(jqXHR,textStatus,error,"removing media");
 		},
 		dataType: "html"
-	}
-	)
+	});
 };
 function loadMedia(collection_object_id,targetDiv) {
 	jQuery.ajax(
