@@ -29,18 +29,18 @@ function checkFormValidity(form) {
  * @param targetDiv the id
  **/
 
-function loadMedia(identification_id,form) {
+function loadMedia(media_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getIdentificationHtml",
-			identification_id: identification_id,
+			method : "getMediaHtml",
+			media_id: media_id,
 		},
 		success: function (result) {
-			$("#identificationHTML").html(result);
+			$("#mediaHTML").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing identification");
+			handleFail(jqXHR,textStatus,error,"removing media");
 		},
 		dataType: "html"
 	});
