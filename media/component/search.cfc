@@ -1051,11 +1051,11 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelse>
-								<cfset hw = 'width="100" height="90"'>
+								<cfset hw = 'width="auto" height="auto"'>
 								<cfset imgClasses = "py-2 w-auto notthumb">
 								
 								<cfif #l_displayAs# EQ "thumb" >
-									<cfset hw = 'height="100%"'>
+									<cfset hw = 'height="auto"'>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset imgClasses = "py-0 w-100 thumbs">
 									</cfif>
