@@ -15,7 +15,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
-<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getMediaHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfoutput>
