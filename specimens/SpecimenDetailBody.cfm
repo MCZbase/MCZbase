@@ -85,22 +85,20 @@ limitations under the License.
 	WHERE
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-<cfloop query="images">
-	<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT distinct
-			media_labels.label_value as height
-		FROM 
-			media,
-			media_labels
-		WHERE 
-			media_labels.media_id = media.media_id
-		AND
-			media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-		AND media_labels.media_label='height'
-		ORDER BY 
-			height
-	</cfquery>
-</cfloop>
+<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT distinct
+		media_labels.label_value as height
+	FROM 
+		media,
+		media_labels
+	WHERE 
+		media_labels.media_id = media.media_id
+	AND
+		media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
+	AND media_labels.media_label='height'
+	ORDER BY 
+		height
+</cfquery>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		specimen_part.collection_object_id part_id
