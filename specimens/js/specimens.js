@@ -28,7 +28,7 @@ function checkFormValidity(form) {
  * @param media_id
  * @param targetDiv the id
  **/
-function loadMedia(media_id,form) {
+function loadMedia(collection_object_id,media_id,form) {
 	jQuery.ajax(
 	{
 		dataType: "json",
