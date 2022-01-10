@@ -1075,7 +1075,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</cfif>
-							<div class="media_widget">
+							<div class="media_widget">#height#
 								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center mgImg" title="click to open full image">
 							
 									<img src="#displayImage#" id="myImage" class="mx-auto #height#" alt="#alt#" #hw#>
