@@ -1055,7 +1055,7 @@ limitations under the License.
 								<cfset imgClasses = "py-2">
 								
 								<cfif #l_displayAs# EQ "thumb">
-									<cfset hw = 'width="100"'>
+									<cfset hw = '#media.height#'>
 									<cfset imgClasses = " w-100 h-100 py-0">
 								</cfif>
 								<cfif len(preview_uri) GT 0>
@@ -1079,10 +1079,9 @@ limitations under the License.
 							</cfif>
 							<div class="media_widget">
 								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center mgImg" title="click to open full image">
-							
-									<img src="#displayImage#" id="myImage" class="mx-auto" alt="#alt#" hw="#media.height#">
+									<img src="#displayImage#" id="myImage" alt="#alt#" #hw#>
 								</a>
-								<div class="mt-0 bg-light col-12 py-1 px-1">
+								<div class="mt-0 bg-light col-12 py-1 px-0">
 									<p class="text-center py-1 mb-0 col-12 px-0 smaller">
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<span class="d-inline"><a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">(edit) </a></span>
