@@ -982,7 +982,6 @@ limitations under the License.
 
 	<cfargument name="size" type="string" required="no" default="2000">
 	<cfargument name="displayAs" type="string" required="no" default="full">
-		<cfargument name="height" type="string" required="no" default="100">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
@@ -1019,11 +1018,10 @@ limitations under the License.
 					WHERE 
 						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#l_media_id#">
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
-					ORDER BY height
 				</cfquery>
 				<cfif media.recordcount EQ 1>
 					<cfloop query="media">
-						<div  class="border rounded py-2 px-1">
+						<div  class="border rounded py-2 px-0">
 							<cfset isDisplayable = false>
 							<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 								<cfset isDisplayable = true>
@@ -1036,7 +1034,7 @@ limitations under the License.
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
 									<cfset l_size = "100">
-									<cfset hw = 'height="#media.height#" width="#media.width#"'>
+									<cfset hw = 'width="100"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
@@ -1055,7 +1053,7 @@ limitations under the License.
 								<cfset imgClasses = "py-2">
 								
 								<cfif #l_displayAs# EQ "thumb">
-									<cfset hw = 'height="100"'>
+									<cfset hw = 'width="100"'>
 									<cfset imgClasses = " w-100 h-100 py-0">
 								</cfif>
 								<cfif len(preview_uri) GT 0>
@@ -1079,10 +1077,11 @@ limitations under the License.
 							</cfif>
 							<div class="media_widget">
 								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center mgImg" title="click to open full image">
-									<img src="#displayImage#" id="myImage" alt="#alt#" #hw#>
+							
+									<img src="#displayImage#" id="myImage" class="mx-auto #imgClasses#" alt="#alt#" #hw#>
 								</a>
-								<div class="mt-0 bg-light col-12 py-1 px-0">
-									<p class="text-center py-1 mb-0 col-12 px-0 smaller">
+								<div class="mt-0 bg-light col-12 py-1 px-1">
+									<p class="text-center p-1 mb-0 col-12 smaller">
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<span class="d-inline"><a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">(edit) </a></span>
 									</cfif>
