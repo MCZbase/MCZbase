@@ -1031,13 +1031,12 @@ limitations under the License.
 							<cfset hw = 'height="600" width="600"'>
 							<cfset imgClasses = "w-100 px-1">
 							<cfif isDisplayable>
-								<cfif #l_displayAs# EQ "thumb">
+								<cfif #l_displayAs# EQ "full">
 									<cfset displayImage = preview_uri>
-									<cfset l_size = "100">
+									<cfset l_size = "400">
 									<cfset hw = 'height="auto"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
-										<cfset l_size = "400">
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
 										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
@@ -1055,6 +1054,7 @@ limitations under the License.
 								
 								<cfif #l_displayAs# EQ "thumb" >
 									<cfset hw = 'height="auto"'>
+									<cfset l_size = "100">
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset imgClasses = "py-0 w-100 thumbs">
 									</cfif>
