@@ -982,6 +982,7 @@ limitations under the License.
 
 	<cfargument name="size" type="string" required="no" default="2000">
 	<cfargument name="displayAs" type="string" required="no" default="full">
+		<cfargument name="height" type="string" required="no" default="100">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
