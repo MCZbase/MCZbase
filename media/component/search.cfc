@@ -1030,11 +1030,12 @@ limitations under the License.
 							<!--- specify a reasonable fallback for media height/width --->
 							<cfset hw = 'height="600" width="600"'>
 							<cfset imgClasses = "w-100 default">
-							<cfset thumb ='max-width="100px"'>
+							
 							<cfif isDisplayable>
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
 									<cfset l_size = "100">
+									<cfset thumb ='max-width="100px"'>
 									<cfset hw = 'height="100"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
