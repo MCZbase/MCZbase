@@ -1043,7 +1043,7 @@ limitations under the License.
 									<cfelse>
 										<cfif len(media.height) GT 0 and len(media.width) GT 0>
 											<!--- specify the actual media height/width --->
-											<cfset hw = 'height="#media.height#" width="#media.width#"'>
+											<cfset hw = 'height="auto" width="auto"'>
 										</cfif>
 										<cfset displayImage = media_uri>
 									</cfif>
