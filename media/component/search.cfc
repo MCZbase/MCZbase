@@ -1080,7 +1080,7 @@ limitations under the License.
 							<div class="media_widget">
 								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center mgImg" title="click to open full image">
 							
-									<img src="#displayImage#" id="myImage" class="mx-auto" alt="#alt#">
+									<img src="#displayImage#" id="myImage" class="mx-auto" alt="#alt#" hw="#media.height#">
 								</a>
 								<div class="mt-0 bg-light col-12 py-1 px-1">
 									<p class="text-center py-1 mb-0 col-12 px-0 smaller">
