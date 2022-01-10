@@ -1035,7 +1035,7 @@ limitations under the License.
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
 									<cfset l_size = "100">
-									<cfset hw = 'width="100"'>
+									<cfset hw = 'width="100" height="100"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
@@ -1079,7 +1079,7 @@ limitations under the License.
 							<div class="media_widget">
 								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center mgImg" title="click to open full image">
 							
-									<img src="#displayImage#" id="myImage" class="mx-auto" alt="#alt#" height='#height#'>
+									<img src="#displayImage#" id="myImage" class="mx-auto" alt="#alt#">
 								</a>
 								<div class="mt-0 bg-light col-12 py-1 px-1">
 									<p class="text-center py-1 mb-0 col-12 px-0 smaller">
