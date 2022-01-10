@@ -170,7 +170,7 @@ limitations under the License.
 							<script>
 								function reloadMedia() { 
 									// invoke specimen/component/public.cfc function getMediaHTML via ajax and repopulate the media block.
-									loadIdentification(#collection_object_id#,'mediaCardBody');
+									loadIdentifications(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
 							<div class="card-header" id="headingMedia">
@@ -179,7 +179,7 @@ limitations under the License.
 										Media
 										<span class="text-success font-weight-light">(#mediaCount.ct#)</span>
 									</button>
-									<cfif listcontainsnocase(session.roles,"manage_media")>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
