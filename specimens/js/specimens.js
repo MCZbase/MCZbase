@@ -45,6 +45,22 @@ function loadMedia(identification_id,form) {
 		dataType: "html"
 	});
 };
+function loadMedia(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getIdentificationsHTML",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading identifications");
+		},
+		dataType: "html"
+	});
+};
 //function loadMedia(media_id,form) {
 //	jQuery.ajax({
 //		url: "/specimens/component/functions.cfc",
@@ -61,24 +77,24 @@ function loadMedia(identification_id,form) {
 //		dataType: "html"
 //	});
 //};
-function loadMedia(collection_object_id,targetDiv) {
-	jQuery.ajax(
-	{
-		dataType: "json",
-		url: "/specimens/component/public.cfc",
-		data: { 
-			method : "getMediaHTML",
-			collection_object_id : collection_object_id,
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading citations");
-		},
-		dataType: "html"
-	});
-}
+//function loadMedia(collection_object_id,targetDiv) {
+//	jQuery.ajax(
+//	{
+//		dataType: "json",
+//		url: "/specimens/component/public.cfc",
+//		data: { 
+//			method : "getMediaHTML",
+//			collection_object_id : collection_object_id,
+//		},
+//		success: function (result) {
+//			$("#" + targetDivId ).html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"loading citations");
+//		},
+//		dataType: "html"
+//	});
+//}
 /** loadMedia populate an html block with the media 
  * @param collection_object_id identifying the cataloged item
  * @param targetDivId the id for the div in the dom, without a leading #
