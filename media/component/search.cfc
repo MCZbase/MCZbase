@@ -1080,7 +1080,7 @@ limitations under the License.
 							</cfif>
 							<div class="media_widget">
 								<a href="#media.media_uri#" target="_blank" class="d-block my-0 active text-center mgImg" title="click to open full image">
-									<img src="#displayImage#" id="myImage" alt="#alt#" class="#imgClasses#" #hw#>
+									<img src="#displayImage#" id="myImage" alt="#alt#" class="#imgClasses#" #thumbs# #hw#>
 								</a>
 								<div class="mt-0 bg-light col-12 py-1 px-0">
 									<p class="text-center p-1 mb-0 col-12 smaller">
