@@ -980,7 +980,7 @@ limitations under the License.
 <cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 
-	<cfargument name="size" type="string" required="no" default="2000">
+	<cfargument name="size" type="string" required="no" default="800">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
@@ -1029,15 +1029,14 @@ limitations under the License.
 							<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 							<!--- specify a reasonable fallback for media height/width --->
 							<cfset hw = 'height="600" width="600"'>
-							<cfset imgClasses = "w-auto px-1">
-							
+							<cfset imgClasses = "w-100 px-1">
 							<cfif isDisplayable>
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
 									<cfset l_size = "100">
-						
 									<cfset hw = 'height="100"'>
 								<cfelse>
+									<cfset l_size = "w-100">
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset hw = 'height="#l_size#" width="#l_size#"'>
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
