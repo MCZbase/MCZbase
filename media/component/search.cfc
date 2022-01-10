@@ -1035,7 +1035,7 @@ limitations under the License.
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
 									<cfset l_size = "100">
-									<cfset thumb ='max-width="100px"'>
+						
 									<cfset hw = 'height="100"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
@@ -1053,10 +1053,11 @@ limitations under the License.
 							<cfelse>
 								<cfset hw = 'width="100" height="100"'>
 								<cfset imgClasses = "py-2 notthumb">
-								
+								<cfset thumbs ='max-width="100px"'>
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset hw = 'height="100"'>
-									<cfset imgClasses = "fluid-width py-0 thumb">
+								
+									<cfset imgClasses = "py-0 thumbs">
 								</cfif>
 								<cfif len(preview_uri) GT 0>
 									<cfset displayImage = preview_uri>
