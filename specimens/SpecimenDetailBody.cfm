@@ -195,7 +195,7 @@ limitations under the License.
 											order by label_value
 										</cfquery>
 										<div class="col-12 px-1 col-md-6 mb-2 float-left">
-											<cfset mediaBlock= getMediaBlockHtml(collection_object_id="#one.collection_object_id#",media_id="#images.media_id#", displayAs="thumb")>
+											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#", displayAs="thumb")>
 											<div id="mediaBlock#images.media_id#">
 												#mediaBlock#
 											</div>
