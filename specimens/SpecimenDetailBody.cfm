@@ -78,16 +78,29 @@ limitations under the License.
 </cfquery>
 <cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
-		media.media_id,
-		(select * from media_labels where label_value='height') height
+		media.media_id
 	FROM
 		media
 		left join media_relations on media_relations.media_id = media.media_id
 	WHERE
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-	ORDER BY
-		height
 </cfquery>
+<cfloop query="images">
+	<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT distinct
+			media_labels.label_value
+		FROM 
+			media,
+			media_labels
+		WHERE 
+			media_labels.media_id = media.media_id
+		AND
+			media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
+		AND media_labels.media_label='height'
+		ORDER BY 
+			media_labels.label_value
+	</cfquery>
+</cfloop>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		specimen_part.collection_object_id part_id
@@ -219,6 +232,7 @@ limitations under the License.
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
 											<div id="mediaBlock#images.media_id#">
 												#mediaBlock#
+												#getImages.height#
 											</div>
 										</div>
 									</cfloop>
