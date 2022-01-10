@@ -193,18 +193,12 @@ limitations under the License.
 											where media_labels.media_label = 'height'
 											order by label_value
 										</cfquery>
-										<script>
-											function getMedia() { 
-												// invoke specimen/component/public.cfc function getMediaHTML via ajax and repopulate the media block.
-												getMediaBlockHtml(media_id="#images.media_id#", displayAs="thumb");
-											}
-										</script>
-<!---										<div class="col-12 px-1 col-md-6 mb-2 float-left">
+										<div class="col-12 px-1 col-md-6 mb-2 float-left">
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#", displayAs="thumb")>
 											<div id="mediaBlock#images.media_id#">
 												#mediaBlock#
 											</div>
-										</div>--->
+										</div>
 									</cfloop>
 								</div>
 							</div>
