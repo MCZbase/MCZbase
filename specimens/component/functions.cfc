@@ -303,7 +303,7 @@ limitations under the License.
 								</div>
 							</form>
 						</div>
-						<div class="col-12 col-lg-7 float-left px-0">
+							<div class="col-12 col-lg-7 float-left px-0">
 								<div id="accordionImg">
 									<div class="card bg-light">
 										<div class="card-header p-0" id="headingImg">
@@ -409,6 +409,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
+				
 					</div>
 				</div>
 				<cfcatch>
