@@ -196,10 +196,11 @@ limitations under the License.
 										<div class="col-12 px-1 col-md-6 mb-2 float-left" >
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#", displayAs="thumb")>
 											<div id="mediaHTML">
-											<div id="mediaBlock#images.media_id#">
-												#mediaBlock#
+												<div id="mediaBlock#images.media_id#">
+													#mediaBlock#
+												</div>
 											</div>
-												</div></div>
+										</div>
 									</cfloop>
 								</div>
 							</div>
