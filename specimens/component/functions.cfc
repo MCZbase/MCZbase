@@ -47,70 +47,7 @@ limitations under the License.
 	</cftry>
 	<cfreturn result>
 </cffunction>
-<cffunction name="getMediaHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfoutput>
-		<cfthread name="getMediaThread">
-			<cftry>
-				<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
-					<div class="card-body w-100 px-2 float-left" id="mediaCardBody">
-						<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
-							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									media.media_id
-								FROM
-									media
-									left join media_relations on media_relations.media_id = media.media_id
-								WHERE
-									media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-							</cfquery>
-							<cfloop query="images">
-								<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT distinct
-										media.media_id
-									FROM 
-										media,
-										media_relations
-									WHERE 
-										media_relations.media_id = media.media_id
-									AND
-										media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-								</cfquery>
-								<div class="col-12 col-md-12 px-0 mb-2 float-left">
-									<cfset mediaBlock= getMediaBlock(media_id="#images.media_id#",displayAs="thumb")>
-									<div id="mediaBlock#media_id#">
-										#mediaBlock#
-									</div>
-								</div>
-						</cfloop>
-					</div>
-				</div>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert">
-								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
-			</cfcatch>
-			</cftry>
-		</cfthread>
-		</cfoutput>
-		<cfthread action="join" name="getMediaThread" />
-	<cfreturn getMediaThread.output>
-</cffunction>
+
 <!---TEST getEditImagesHTML obtain a block of html to populate an images editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
