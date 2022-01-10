@@ -36,6 +36,7 @@ function loadMedia(media_id,form) {
 		data: { 
 			method : "getMediaHtml",
 			media_id : media_id,
+			collection_object_id : collection_object_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
