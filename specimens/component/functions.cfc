@@ -427,6 +427,7 @@ limitations under the License.
 											<div class="">
 												<div class="col-12 px-0">
 													<cfset idnum=1>
+													<cfset i=1>
 													<div class="col-12 col-md-6 float-left border rounded p-1">
 													<cfloop query="determiners">
 														<div id="IdTr_#i#_#idnum#">
