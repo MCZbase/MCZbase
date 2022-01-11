@@ -52,7 +52,7 @@ limitations under the License.
 					</cfquery>
 					<div class="col-12 col-md-12 px-0 mb-2 float-left">
 						<script>
-						function updateMedia(media_id,targetDiv) {
+						function getMediaBlock(media_id,targetDiv) {
 							jQuery.ajax(
 							{
 								dataType: "json",
@@ -76,7 +76,7 @@ limitations under the License.
 							)
 						};
 						</script>
-						<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
+						<cfset mediaBlock= getMediaBlock(media_id="#images.media_id#",displayAs="thumb")>
 						<div id="mediaHTML">
 							<div id="mediaBlock#media_id#">
 								#mediaBlock#
