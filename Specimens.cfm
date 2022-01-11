@@ -2042,7 +2042,7 @@ limitations under the License.
 			var maxZIndex = getMaxZIndex();
 
 			if (Object.keys(window.columnHiddenSettings).length == 0) {
-				window.columnHiddenSettings = getColumnVisibilities('Default');
+				window.columnHiddenSettings = getColumnVisibilities(gridId);
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 				</cfif>
@@ -2071,7 +2071,7 @@ limitations under the License.
 				modal: true,
 				reszable: true,
 				close: function(event, ui) { 
-					window.columnHiddenSettings = getColumnVisibilities('Default');		
+					window.columnHiddenSettings = getColumnVisibilities(gridId);		
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 						saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 					</cfif>
