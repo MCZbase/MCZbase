@@ -385,7 +385,7 @@ limitations under the License.
 											<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 											<div class="row float-left mx-1 mt-0 pt-2 pb-1">
 												<div class="col-12 col-md-6 float-left px-0">
-													<div class="col-12 col-md-2 px-1 float-left">
+													<div class="col-12 col-md-3 px-1 float-left">
 														<label for="taxa_formula" class="data-entry-label">ID Formula</label>
 														<cfif not isdefined("taxa_formula")>
 															<cfset taxa_formula='A'>
@@ -402,7 +402,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="col-12 col-md-10 px-1 float-left">
+													<div class="col-12 col-md-9 px-1 float-left">
 														<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
 														<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
 														<input type="hidden" name="taxona_id" id="taxona_id">
@@ -414,11 +414,11 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="col-12 col-md-6 px-1 float-left">	
-													<div class="col-12 col-md-2 px-1 float-left">
+													<div class="col-12 col-md-6 px-1 float-left">
 														<label for="made_date" class="data-entry-label" >Date Identified</label>
 														<input type="text" name="made_date" id="made_date" class="data-entry-input">
 													</div>
-													<div class="col-12 col-md-3 px-1 float-left">
+													<div class="col-12 col-md-6 px-1 float-left">
 														<label for="nature_of_id" class="data-entry-label mt-0" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
 														<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
 															<cfloop query="ctnature">
