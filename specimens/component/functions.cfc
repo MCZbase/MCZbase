@@ -2814,13 +2814,8 @@ limitations under the License.
 										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
 									</div>
 									<div class="col-12 col-md-4 float-left">
-										<label for="is_peer_reviewed_fg" class="data-entry-label mt-1 mb-0"><span id="is_peer_reviewed_fg">Peer Reviewed only?</span></label>
-										<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="data-entry-select">
-											<option value=""></option>
-											<option value="1">yes</option>
-										</select>
-<!---										<label for="descr_len" class="data-entry-label mt-1 mb-0"> Description Min. Length</label>
-										<input name="descr_len" id="descr_len" class="data-entry-input" type="text" value="100">--->
+										<label for="occurs_page_number" class="data-entry-label mt-1 mb-0"> Description Min. Length</label>
+										<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="100">
 									</div>
 								</div>
 									<div class="col-12 my-2 float-left">
