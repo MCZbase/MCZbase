@@ -81,7 +81,7 @@ limitations under the License.
 							<cfset hw = 'height="600" width="600"'>
 							<cfset imgClasses = "w-100 px-1">
 							<cfif isDisplayable>
-								<cfif #l_displayAs# EQ "thumb">
+								<cfif #displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
 									<cfset l_size = "100">
 									<cfset hw = 'height="auto"'>
