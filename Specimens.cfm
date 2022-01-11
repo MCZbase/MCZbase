@@ -155,9 +155,9 @@ limitations under the License.
 								<cfset builderTabShow = "hidden">
 								<cfset fixedTabActive = "active">
 								<cfset fixedTabShow = "">
+								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
 								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
 							</cfcase>
 							<cfcase value="keywordSearch">
 								<cfset keywordTabActive = "active">
@@ -166,9 +166,9 @@ limitations under the License.
 								<cfset builderTabShow = "hidden">
 								<cfset fixedTabActive = "">
 								<cfset fixedTabShow = "hidden">
+								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
 								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfcase value="builderSearch">
 								<cfset keywordTabActive = "">
@@ -177,9 +177,9 @@ limitations under the License.
 								<cfset builderTabShow = "">
 								<cfset fixedTabActive = "">
 								<cfset fixedTabShow = "hidden">
+								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
-								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfdefaultcase>
 								<cfset keywordTabActive = "">
