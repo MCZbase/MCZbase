@@ -568,7 +568,7 @@ limitations under the License.
 												Add New Determination
 											</h2>
 										</div>
-										<div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
+										<!---<div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" <!---data-parent="##accordion1"--->
 											<div class="card-body"> 
 												<script>
 													function idFormulaChanged(newFormula,baseId) { 
@@ -701,7 +701,7 @@ limitations under the License.
 														</script>
 												</form>
 											</div>
-										</div>
+										<!---</div>--->
 									</div>
 						<!---		</div>--->
 							</div>
