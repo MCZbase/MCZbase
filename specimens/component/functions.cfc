@@ -560,16 +560,15 @@ limitations under the License.
 									</div>
 								</form>
 							</div>
-							<div class="col-12 col-lg-12 float-left px-0">
-								<div id="accordion1">
-									<div class="card add-form">
-										<div class="card-header add-form-header pt-1" id="headingOnex">
+						<div class="row mx-0 mb-5">
+							<div class="col-12 add-form-header float-left px-0">
+								<div class="card add-form">
+									<div class="card-header add-form-header pt-1">
 											<h2 class="h3 text-white my-0 px-1 pb-1">
 												Add New Determination
 											</h2>
 										</div>
-										<div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="##accordion1">
-											<div class="card-body"> 
+									<div class="card-body"> 
 												<script>
 													function idFormulaChanged(newFormula,baseId) { 
 														if(newFormula.includes("B")) {
@@ -702,8 +701,6 @@ limitations under the License.
 														</script>
 												</form>
 											</div>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>
