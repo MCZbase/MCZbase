@@ -2550,7 +2550,7 @@ limitations under the License.
 								<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select publication_type from ctpublication_type order by publication_type
 								</cfquery>
-								<cfoutput>
+						<cfoutput>
 							<form name="searchForm" id="searchForm">
 								<input name="action" type="hidden" value="search">
 								<input type="hidden" name="method" value="getCitResults" class="keeponclear">
@@ -2624,11 +2624,7 @@ limitations under the License.
 							</cfoutput>
 							</div>
 						</div>
-						<script>
-							$(document).ready(function() {
-								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
-							});
-						</script>
+
 					</section>
 				<div id="citationsDialog">
 					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2763,7 +2759,11 @@ limitations under the License.
 							</table>
 						<cfset i = i + 1>
 					</cfif>
-
+						<script>
+							$(document).ready(function() {
+								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
+							});
+						</script>
 				</div>
 				<cfset cellRenderClasses = "ml-1">
 				<script>
