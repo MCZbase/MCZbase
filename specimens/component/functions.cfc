@@ -180,7 +180,7 @@ limitations under the License.
 																				<cfset j = j+1>
 																			</cfloop>
 																			<input type="button" value="Remove" aria-label="Remove Image" class="btn btn-xs btn-warning"
-																			onClick="if (checkFormValidity($('##editMediaForm')[0])) { removeMedia();  } ">
+																			onClick="removeMedia();">
 																			<output id="deleteMediaResultDiv" class="text-danger">&nbsp;</output>
 																		</div>
 																	</div>
