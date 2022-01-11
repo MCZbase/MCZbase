@@ -2772,7 +2772,7 @@ limitations under the License.
 										</label>
 										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
 									</div>
-									<div class="col-12 col-md-4 float-left">
+									<div class="col-12 float-left">
 										<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
 										<select name="collection" id="collection" size="1"  class="data-entry-select">
 											<option value="">All</option>
