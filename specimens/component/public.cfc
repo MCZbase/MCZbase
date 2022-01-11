@@ -76,7 +76,7 @@ limitations under the License.
 								media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#images.media_id#">
 								AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
 						</cfquery>
-						<div class="col-6 float-left px-1 pt-1">
+						<div class="col-6 mb-2 float-left px-1 pt-1">
 							<div  class="border rounded py-2 px-1">
 								<cfset isDisplayable = false>
 								<cfif media.media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
