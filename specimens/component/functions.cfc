@@ -636,13 +636,19 @@ limitations under the License.
 																		<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
 																		</label>
 																		<div class="col-12 px-0">
-																			<div class="input-group col-7 px-1 float-left">
+																			<div class="input-group col-4 px-1 float-left">
 																				<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
 																				<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
 																			</div>
 																			<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
 																			<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																			<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addNewIDName col-4 rounded px-1" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a> </div>
+																			<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addNewIDName col-2 rounded px-1" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a> 
+																		</div>
+																		<div class="col-12 col-md-12 px-1">
+																			<label for="identification_publication" class="data-entry-label" >Sensu</label>
+																			<input type="hidden" name="new_publication_id" id="new_publication_id">
+																			<input type="text" id="newPub" class="data-entry-input">
+																		</div>
 																	</div>
 																	<script>
 																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
