@@ -2699,7 +2699,7 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-							</cfoutput>
+						
 						</div>
 					</div>
 					<cfif len(getCited.publication_id) GT 0>
@@ -2760,11 +2760,13 @@ limitations under the License.
 							</table>
 						<cfset i = i + 1>
 					</cfif>
+					
 					<script>
 						$(document).ready(function() {
 							makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
 						});
 					</script>
+						</cfoutput>
 				</section>
 				</div>
 				<cfset cellRenderClasses = "ml-1">
