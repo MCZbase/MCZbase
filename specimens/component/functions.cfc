@@ -476,7 +476,7 @@ limitations under the License.
 													</div>
 												</div>
 							
-											<div id="addNewID" class="row"></div>
+											<div id="addNewID" class="row float-left mx-0"></div>
 											<script>
 												function addIdentAgentToForm(agent_id,agent_name) { 
 													// add trans_agent record
