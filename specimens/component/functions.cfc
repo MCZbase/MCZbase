@@ -479,11 +479,11 @@ limitations under the License.
 													handleChange();
 												}
 											</script>
-											<div class="row mx-0 mt-0 py-1">
+										
 												<div class="col-12 col-md-6 pt-2 px-1 float-left">
 													<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
 												</div>
-											</div>
+											
 											<script>
 												$(document).ready(function() {
 													makeScientificNameAutocompleteMeta("taxona", "taxona_id");
