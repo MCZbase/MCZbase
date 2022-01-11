@@ -155,7 +155,7 @@ limitations under the License.
 											</cfif>
 										</p>
 										<div class="pb-1">
-											<cfset showTitleText = trim(title)>
+											<cfset showTitleText = trim(#media.title#)>
 											<cfif len(showTitleText) EQ 0>
 												<cfset showTitleText = trim(subject)>
 											</cfif>
