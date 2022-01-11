@@ -34,6 +34,9 @@ limitations under the License.
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						media.media_id,
+						media.media_uri,
+						media.preview_uri,
+						media.mime_type
 					FROM
 						media
 						left join media_relations on media_relations.media_id = media.media_id
@@ -76,7 +79,7 @@ limitations under the License.
 						<div class="col-6 float-left px-1 pt-2">
 							<div  class="border rounded py-2 px-1">
 								<cfset isDisplayable = false>
-								<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
+								<cfif media.media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 									<cfset isDisplayable = true>
 								</cfif>
 								<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
