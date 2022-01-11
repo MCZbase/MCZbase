@@ -76,7 +76,7 @@ limitations under the License.
 						media
 						left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
 					WHERE 
-						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#l_media_id#">
+						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				</cfquery>
 				<cfif media.recordcount EQ 1>
