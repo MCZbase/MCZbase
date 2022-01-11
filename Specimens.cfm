@@ -1963,6 +1963,7 @@ limitations under the License.
 			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
 			var columnCount = columns.length;
+			columnSections = new Map();  
 			for (i = 1; i < columnCount; i++) {
 				var text = columns[i].text;
 				var datafield = columns[i].datafield;
