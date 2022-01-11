@@ -186,7 +186,11 @@ limitations under the License.
 																		</div>
 																	</div>
 																</div>
-															<script>
+						
+															<cfset k = k+1>
+															</cfloop>
+															</cfoutput>
+																<script>
 //																	function editMediaSubmit(){
 //																		$('##deleteMediaResultDiv').html('Deleting....');
 //																		$('##deleteMediaResultDiv').addClass('text-warning');
@@ -222,9 +226,6 @@ limitations under the License.
 //																		});
 //																	};
 																</script> 
-															<cfset k = k+1>
-															</cfloop>
-															</cfoutput>
 														<cfelse>
 																None
 														</cfif>
