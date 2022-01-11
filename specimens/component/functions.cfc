@@ -179,9 +179,9 @@ limitations under the License.
 																				</div>
 																				<cfset j = j+1>
 																			</cfloop>
-																			<input type="button" value="Remove" aria-label="Remove Image" class="btn btn-xs btn-warning"
+																		<!---	<input type="button" value="Remove" aria-label="Remove Image" class="btn btn-xs btn-warning"
 																			onClick="removeMedia();">
-																			<output id="deleteMediaResultDiv" class="text-danger">&nbsp;</output>
+																			<output id="deleteMediaResultDiv" class="text-danger">&nbsp;</output>--->
 																		</div>
 																	</div>
 																</div>
