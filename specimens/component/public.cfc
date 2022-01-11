@@ -74,6 +74,7 @@ limitations under the License.
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				</cfquery>
 				<cfif media.recordcount EQ 1>
+					<div class="col-6 float-left px-1 pt-2">
 					<cfloop query="media">
 						<div  class="border rounded py-2 px-1">
 							<cfset isDisplayable = false>
