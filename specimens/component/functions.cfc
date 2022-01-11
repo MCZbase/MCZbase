@@ -2729,7 +2729,9 @@ limitations under the License.
 								<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select collection,collection_id from collection order by collection
 								</cfquery>
-								
+								<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select type_status from ctcitation_type_status order by type_status
+								</cfquery>
 								<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select journal_name from ctjournal_name order by journal_name
 								</cfquery>
@@ -2783,8 +2785,9 @@ limitations under the License.
 											<span id="type_status">Citation Type</span>
 										</label>
 										<select name="type_status" id="type_status" class="data-entry-select">
-											<option value=""></option>
-											<option value="#type_status#">#type_status#</option>
+											<cfloop query="ctTypeStatus">
+												<option value="#type_status#">#type_status#</option>
+											</cfloop>
 										</select>
 									</div>
 
