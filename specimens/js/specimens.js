@@ -192,22 +192,22 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 * @param identification_id 
 * @param form
 **/
-function loadIdentification(identification_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getIdentificationHtml",
-			identification_id: identification_id,
-		},
-		success: function (result) {
-			$("#identificationHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing identification");
-		},
-		dataType: "html"
-	});
-};
+//function loadIdentification(identification_id,form) {
+//	jQuery.ajax({
+//		url: "/specimens/component/functions.cfc",
+//		data : {
+//			method : "getIdentificationHtml",
+//			identification_id: identification_id,
+//		},
+//		success: function (result) {
+//			$("#identificationHTML").html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"removing identification");
+//		},
+//		dataType: "html"
+//	});
+//};
 /** updateIdentifications function 
  * @method getIdentification in functions.cfc
  * @param identification_id
@@ -315,7 +315,35 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 		dataType: "html"
 	});
 };
-
+/** updateIdentifications function 
+ * @method updateOID in functions.cfc
+ * @param identification_id
+ * @param targetDiv the id
+ **/
+function updateIdentifications(identification_id,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/transactions/component/functions.cfc",
+		data: { 
+			method : "updateOID",
+			identification_id : idenification_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are identifications";
+	
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
+};
 /** loadOtherID populate an html block with the other IDs for a cataloged item.
 * @param collection_object_id identifying the cataloged item for which 
 *  to list the identification history.
@@ -457,35 +485,7 @@ function removeCitation(cited_taxon_name_id,form) {
 		dataType: "html"
 	});
 };
-/** updateIdentifications function 
- * @method updateOID in functions.cfc
- * @param identification_id
- * @param targetDiv the id
- **/
-function updateIdentifications(identification_id,targetDiv) {
-	jQuery.ajax(
-	{
-		dataType: "json",
-		url: "/transactions/component/functions.cfc",
-		data: { 
-			method : "updateOID",
-			identification_id : idenification_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		error: function (jqXHR, status, message) {
-			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-		},
-		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are identifications";
-	
-				$('#' + targetDiv).html(message);
-			}
-		}
-	},
-	)
-};
+
 
 function loadCitations(collection_object_id,targetDivId) { 
 	jQuery.ajax({
