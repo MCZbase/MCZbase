@@ -182,23 +182,20 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
  *  selector, for which to replace the html content with the identification 
  *  history.
  **/
-//function getMediaBlockHtml(media_id,displayAs,targetDivId) { 
-//	jQuery.ajax({
-//		url: "/media/component/search.cfc",
-//		data : {
-//			method : "getMediaBlockHtml",
-//			media_id: media_id,
-//		},
-//		success: function (result) {
-//			$("#" + targetDivId ).html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"loading media");
-//		},
-//		dataType: "html"
-//	}
-//	)
-//}
+function getMediaBlock(media_id,displayAs) { 
+	jQuery.ajax({
+		url: "/media/component/search.cfc",
+		data : {
+			method : "getMediaBlockHtml",
+			media_id: media_id,
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media");
+		},
+		dataType: "html"
+	}
+	)
+}
 /**openEditMediaDialog (plural) open a dialog for editing 
  * media objects for a cataloged item.
  * @param collection_object_id for the cataloged_item for which to edit media.
