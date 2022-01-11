@@ -360,8 +360,8 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 float-left">
 							<div class="col-12 float-left px-0">
-								<div class="add-form">
-									<div class="add-form-header pt-1 px-2">
+								<div class="add-form float-left">
+									<div class="add-form-header pt-1 px-2 col-12 float-left">
 										<h2 class="h3 text-white my-0 px-1 pb-1">
 											Add New Determination
 										</h2>
@@ -383,8 +383,8 @@ limitations under the License.
 										<form name="addForm" id="addForm">
 											<input type="hidden" name="Action" value="createNew">
 											<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-											<div class="row mx-1 mt-0 pt-2 pb-1">
-												<div class="col-12 col-md-2 px-1">
+											<div class="row float-left mx-1 mt-0 pt-2 pb-1">
+												<div class="col-12 col-md-2 px-1 float-left">
 													<label for="taxa_formula" class="data-entry-label">ID Formula</label>
 													<cfif not isdefined("taxa_formula")>
 														<cfset taxa_formula='A'>
