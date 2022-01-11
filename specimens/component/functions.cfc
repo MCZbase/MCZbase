@@ -345,6 +345,17 @@ limitations under the License.
 					ORDER BY 
 						accepted_id_fg DESC, sort_order ASC
 				</cfquery>
+				<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct
+						agent_name, identifier_order, identification_agent.agent_id, identification_agent_id
+					FROM
+						identification_agent
+						left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
+					WHERE
+						identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
+					ORDER BY
+						identifier_order
+				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
