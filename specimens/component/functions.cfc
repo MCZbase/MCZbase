@@ -2732,9 +2732,6 @@ limitations under the License.
 								<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select journal_name from ctjournal_name order by journal_name
 								</cfquery>
-								<cfquery name="ctcataloged_item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select cat_num from cataloged_item order by cat_num
-								</cfquery>
 								<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select publication_type from ctpublication_type order by publication_type
 								</cfquery>
@@ -2796,11 +2793,11 @@ limitations under the License.
 												<option value="#collection#">#collection#</option>
 											</cfloop>
 										</select>
-<!---										<label for="cat_num" class="data-entry-label mt-1 mb-0">Catalog Number</label>
-										<select name="cat_num" id="cat_num" size="1"  class="data-entry-select">
+						<!---				<label for="collection_id" class="data-entry-label mt-1 mb-0">Catalog Number</label>
+										<select name="cataloged_item" id="cataloged_item" size="1"  class="data-entry-select">
 											<option value="">All</option>
-											<cfloop query="ctcataloged_item">
-												<option value="#cat_num#">#cat_num#</option>
+											<cfloop query="getCited">
+												<option value="#cataloged_item#">#cataloged_item#</option>
 											</cfloop>
 										</select>--->
 										</cfoutput>
