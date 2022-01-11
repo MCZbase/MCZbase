@@ -63,10 +63,289 @@ limitations under the License.
 						<div class="col-12">
 							<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
 							<form name="editImagesForm" id="editImagesForm">
-								test
+								<input type="hidden" name="method" value="updateMedia">
+								<input type="hidden" name="returnformat" value="json">
+								<input type="hidden" name="queryformat" value="column">
+								<input type="hidden" name="mediaidnum" value="column">
+								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+								<div class="col-12 col-lg-12 float-left mb-4 px-0">
+								<div id="accordionImages1">
+									<div class="card bg-light">
+										<div class="card-header p-0" id="headingImg1">
+											<h2 class="my-0 py-1 text-dark">
+												<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg1" aria-expanded="false" aria-controls="collapseImg1">
+													<span class="h3 px-2">Delete links to media</span> 
+												</button>
+											</h2>
+										</div>
+										<div id="collapseImg1" class="collapse" aria-labelledby="headingImg1" data-parent="##accordionImages1">
+											<div class="card-body"> 
+												<div class="row mx-0">
+													<div class="col-12 px-0">
+														<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															SELECT
+																media.media_id,
+																media.media_uri,
+																media.preview_uri,
+																media.mime_type
+															FROM
+																media
+																left join media_relations on media_relations.media_id = media.media_id
+															WHERE
+																media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+														</cfquery>
+													<cfset i = 1>
+													<cfloop query="images">
+													<div id="Media_#i#">
+														<cfif len(images.media_uri) gt 0>
+															<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																SELECT distinct
+																	media.media_id,
+																	media.auto_host,
+																	media.auto_path,
+																	media.auto_filename,
+																	media.media_uri,
+																	media.preview_uri as preview_uri,
+																	media.mime_type as mime_type,
+																	media.media_type,
+																	mczbase.get_media_descriptor(media.media_id) as media_descriptor
+																FROM 
+																	media,
+																	media_relations
+																WHERE 
+																	media_relations.media_id = media.media_id
+																AND
+																	media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
+															</cfquery>
+															<cfset thisMedia_id = #media_id#>
+															<input type="hidden" name="media_id_#i#" id="media_id_#i#" value="#media_id#">
+															<cfset mt=getImages.mime_type>
+															<cfset altText = getImages.media_descriptor>
+															<cfset puri=getMediaPreview(preview_uri,mime_type)>
+															<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																SELECT
+																	media_label,
+																	media_label_id,
+																	label_value
+																FROM
+																	media_labels
+																WHERE
+																	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+															</cfquery>
+															<cfquery name="ctlabels" dbtype="query">
+															select count(*) as ct from labels group by media_label order by media_label
+														</cfquery>
+														<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select media_relationship from ctmedia_relationship order by media_relationship
+														</cfquery>
+														<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select media_label from ctmedia_label order by media_label
+														</cfquery>
+														<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select media_type from ctmedia_type order by media_type
+														</cfquery>
+														<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select mime_type from ctmime_type order by mime_type
+														</cfquery>
+														<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select media_license_id,display media_license from ctmedia_license order by media_license_id
+														</cfquery>	
+															<cfquery name="desc" dbtype="query">
+																select label_value from labels where media_label='description'
+															</cfquery>
+															<cfset description="Media Preview Image">
+															<cfif desc.recordcount is 1>
+																<cfset description=desc.label_value>
+															</cfif>
+															<cfset k=1>
+															<cfoutput>
+															<cfloop query="getImages">
+																<div class="col-6 float-left p-2">
+																	<div class="border overflow-hidden px-2">
+																		<div class="col-auto p-2 float-left">
+																			<a href="/media/#getImages.media_id#" target="_blank" class="text-left small d-block">Media ID: #getImages.media_id#</a>
+																			<a href="#auto_host#/#auto_path#/#auto_filename#" class=""><img src="#puri#" alt="#altText#" class="" width="100"></a><br>
+																			<div class="small text-center">#media_type# (#mime_type#)
+																				<span class="text-center d-block">
+																				(<a href="/MediaSet.cfm?media_id=#getImages.media_id#" class="" target="_blank" style="">viewer</a>)
+																				(<a href="##" class="">full</a>)</span>
+																			</div>
+																		</div>
+																		<div class="col-8 px-0 w-100 pt-4 pb-2 float-left">
+																		<cfset j = 1>
+																			<cfloop query="labels">
+																				<cfset d=media_label>
+																				<div id="labelsDiv_#k#_#j#" class="col-12 px-0">
+																					<div class=""><span class="strong">#media_label#:</span> <span style="font-size: .8rem;">#encodeForHTML(label_value)#</span></div>
+																				</div>
+																				<cfset j = j+1>
+																			</cfloop>
+																		<!---	<input type="button" value="Remove" aria-label="Remove Image" class="btn btn-xs btn-warning"
+																			onClick="removeMedia();">
+																			<output id="deleteMediaResultDiv" class="text-danger">&nbsp;</output>--->
+																		</div>
+																	</div>
+																</div>
+						
+															<cfset k = k+1>
+															</cfloop>
+															</cfoutput>
+																<script>
+//																	function editMediaSubmit(){
+//																		$('##deleteMediaResultDiv').html('Deleting....');
+//																		$('##deleteMediaResultDiv').addClass('text-warning');
+//																		$('##deleteMediaResultDiv').removeClass('text-success');
+//																		$('##deleteMediaResultDiv').removeClass('text-danger');
+//																		$.ajax({
+//																			url : "/specimens/component/functions.cfc",
+//																			type : "post",
+//																			dataType : "json",
+//																			data: $("##editMediaForm").serialize(),
+//																			success: function (result) {
+//																				if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+//																					$('##deleteMediaResultDiv').html('Deleted');
+//																					$('##deleteMediaResultDiv').addClass('text-success');
+//																					$('##deleteMediaResultDiv').removeClass('text-warning');
+//																					$('##deleteMediaResultDiv').removeClass('text-danger');
+//																				} else {
+//																					// we shouldn't be able to reach this block, backing error should return an http 500 status
+//																					$('##deleteMediaResultDiv').html('Error');
+//																					$('##deleteMediaResultDiv').addClass('text-danger');
+//																					$('##deleteMediaResultDiv').removeClass('text-warning');
+//																					$('##deleteMediaResultDiv').removeClass('text-success');
+//																					messageDialog('Error updating images: '+result.DATA.MESSAGE[0], 'Error saving images.');
+//																				}
+//																			},
+//																			error: function(jqXHR,textStatus,error){
+//																				$('##deleteMediaResultDiv').html('Error');
+//																				$('##deleteMediaResultDiv').addClass('text-danger');
+//																				$('##deleteMediaResultDiv').removeClass('text-warning');
+//																				$('##deleteMediaResultDiv').removeClass('text-success');
+//																				handleFail(jqXHR,textStatus,error,"deleting relationship between image and cataloged item");
+//																			}
+//																		});
+//																	};
+																</script> 
+														<cfelse>
+																None
+														</cfif>
+														<cfset i= i+1>
+													</div>
+													</cfloop>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</form>
 						</div>
-					
+							<div class="col-12 col-lg-7 float-left px-0">
+								<div id="accordionImg">
+									<div class="card bg-light">
+										<div class="card-header p-0" id="headingImg">
+											<h2 class="my-0 py-1 text-dark">
+												<button type="button" class="headerLnk px-3 w-100 border-0 text-left collapsed" data-toggle="collapse" data-target="##collapseImg" aria-expanded="false" aria-controls="collapseImg">
+													<span class="h3 px-2">Add new media and link to this cataloged item</span> 
+												</button>
+											</h2>
+										</div>
+										<div id="collapseImg" class="collapse" aria-labelledby="heading1Im" data-parent="##accordionImg">
+											<div class="card-body"> 
+												<form name="newImgForm" id="newImgForm">
+													<input type="hidden" name="Action" value="createNew">
+													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+													<div class="row mx-0 mt-0 pt-2 pb-1">
+														<div class="col-12 col-md-12 px-1">
+															<label for="media_uri" class="data-entry-label" >Media URI</label>
+															<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
+														</div>
+													</div>
+													<div class="row mx-0 mt-0 pt-2 pb-1">
+														<div class="col-12 col-md-12 px-1">
+															<label for="media_uri" class="data-entry-label" >Media URI</label>
+															<input type="text" name="media_uri" id="media_uri" class="data-entry-input">
+														</div>
+													</div>
+													<div class="row mx-0 mt-0 py-1">
+														<div class="col-12 col-md-4 px-1">
+															<label for="media_type" class="data-entry-label" >Media Type</label>
+															<input type="text" name="media_type" id="media_type" class="data-entry-input">
+														</div>
+														<div class="col-12 col-md-4 px-1">
+															<label for="mime_type" class="data-entry-label" >Mime Type</label>
+															<input type="text" name="mime_type" id="mime_type" class="data-entry-input">
+														</div>
+														<div class="col-12 col-md-4 px-1">
+															<label for="mask_media_fg" class="data-entry-label" >Visibility</label>
+															<input type="text" name="mask_media_fg" id="mask_media_fg" class="data-entry-input">
+														</div>
+													</div>
+													<div class="row mx-0 mt-0 py-1">
+														<div class="col-12 col-md-12 px-1">
+															<label for="media_license_id" class="data-entry-label mt-0" >License</label>
+															<input type="text" name="media_license_id" id="media_license_id" class="data-entry-input">
+														</div>
+													</div>
+													<div class="row mx-0 mt-0 pt-2 pb-1">
+														<div class="col-12 col-md-4 px-1">
+ 															Form inputs to add relationship
+														</div>
+													</div>
+													<div class="row mx-0 mt-0 py-1">
+														<div class="col-12 px-0">
+															Form inputs to add labels
+														</div>
+													</div>
+													<div class="row mx-0 mt-0 py-1">
+														<div class="col-12 col-md-12 px-1">
+												<!---			<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
+															onClick=" editImagesSubmit(); ">
+															<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>--->
+														</div>
+													</div>
+										<script>
+//												function editImagesSubmit(){
+//													$('##saveImagesResultDiv').html('Saving....');
+//													$('##saveImagessResultDiv').addClass('text-warning');
+//													$('##saveImagesResultDiv').removeClass('text-success');
+//													$('##saveImagesResultDiv').removeClass('text-danger');
+//													$.ajax({
+//														url : "/specimens/component/functions.cfc",
+//														type : "post",
+//														dataType : "json",
+//														data: $("##editImagesForm").serialize(),
+//														success: function (result) {
+//															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+//																$('##saveImagesResultDiv').html('Saved');
+//																$('##saveImagesResultDiv').addClass('text-success');
+//																$('##saveImagesResultDiv').removeClass('text-warning');
+//																$('##saveImagesResultDiv').removeClass('text-danger');
+//															} else {
+//																// we shouldn't be able to reach this block, backing error should return an http 500 status
+//																$('##saveImagesResultDiv').html('Error');
+//																$('##saveImagesResultDiv').addClass('text-danger');
+//																$('##saveImagesResultDiv').removeClass('text-warning');
+//																$('##saveImagesResultDiv').removeClass('text-success');
+//																messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
+//															}
+//														},
+//														error: function(jqXHR,textStatus,error){
+//															$('##saveImagesResultDiv').html('Error');
+//															$('##saveImagesResultDiv').addClass('text-danger');
+//															$('##saveImagesResultDiv').removeClass('text-warning');
+//															$('##saveImagesResultDiv').removeClass('text-success');
+//															handleFail(jqXHR,textStatus,error,"saving changes to images history");
+//														}
+//													});
+//												};
+											</script> 
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
