@@ -614,6 +614,18 @@ limitations under the License.
 															<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
 															<input type="hidden" name="taxonb_id" id="taxonb_id">
 														</div>
+														<div class="col-12 col-md-3 px-1">
+															<label for="made_date" class="data-entry-label" >Date Identified</label>
+															<input type="text" name="made_date" id="made_date" class="data-entry-input">
+														</div>
+														<div class="col-12 col-md-3 px-1">
+															<label for="nature_of_id" class="data-entry-label mt-0" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
+															<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
+																<cfloop query="ctnature">
+																	<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
+																</cfloop>
+															</select>
+														</div>
 													</div>
 													<div class="row mx-0 mt-0 py-1">
 														<div class="col-12 px-0">
@@ -660,18 +672,7 @@ limitations under the License.
 														}
 													</script>
 													<div class="row mx-0 mt-0 pt-2 pb-1">
-														<div class="col-12 col-md-6 px-1">
-															<label for="made_date" class="data-entry-label" >Date Identified</label>
-															<input type="text" name="made_date" id="made_date" class="data-entry-input">
-														</div>
-														<div class="col-12 col-md-6 px-1">
-															<label for="nature_of_id" class="data-entry-label mt-0" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
-															<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
-																<cfloop query="ctnature">
-																	<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-																</cfloop>
-															</select>
-														</div>
+													
 													</div>
 													<div class="row mx-0 mt-0 py-1">
 														<div class="col-12 col-md-12 px-1">
