@@ -2806,10 +2806,10 @@ limitations under the License.
 											</cfloop>
 										</select>
 										</cfoutput>
-										<label for="cit_current_fg" class="data-entry-label mt-2 mb-0">
-											<span id="cit_current_fg">Cites specimens?</span>
+										<label for="citation_type" class="data-entry-label mt-2 mb-0">
+											<span id="citation_type">Cites specimens?</span>
 										</label>
-										<select name="cit_current_fg" id="cit_current_fg" class="data-entry-select">
+										<select name="citation_type" id="citation_type" class="data-entry-select">
 											<option value=""></option>
 											<option value="1">Cites Specimens</option>
 											<option value="0">Cites no Specimens</option>
