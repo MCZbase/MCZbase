@@ -2535,6 +2535,98 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<div id="citationsDialog">
+				<section class="container-fluid" role="search" aria-labelledby="formheader">
+					<div class="row mx-0 my-3">
+						<div class="search-box">
+							<cfset title = "Search for Results">
+							<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select collection,collection_id from collection order by collection
+							</cfquery>
+							<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select type_status from ctcitation_type_status order by type_status
+							</cfquery>
+							<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select journal_name from ctjournal_name order by journal_name
+							</cfquery>
+							<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select publication_type from ctpublication_type order by publication_type
+							</cfquery>
+							<cfoutput>
+							<form name="searchForm" id="searchForm">
+								<input name="action" type="hidden" value="search">
+								<input type="hidden" name="method" value="getCitResults" class="keeponclear">
+								<div class="col-12 search-box-header px-0 float-left">
+									<h2 class="h3 text-white float-left mb-1 mt-0 px-3"> Add Citation</h2>
+								</div>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<div class="col-12 col-md-3 mt-2 float-right">
+										<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/Publication.cfm?action=newPub">Add New Publication <i class="fas fa-external-link-alt"></i></a>
+									</div>
+								</cfif>
+								<cfquery name="getpubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select publication_id,formatted_publication from formatted_publication
+								</cfquery>
+								<div class="col-12 px-2">
+									<div class="col-12 float-left mt-0 mb-1 py-0 px-0">
+										<div class="col-12 px-1 float-left">
+											<label for="publication" class="data-entry-label my-0"><span id="publication_id">Title</span></label>
+											<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#encodeForHTML(getpubs.formatted_publication)#">
+											<input type="text" id="publication_#i#" value='' class="data-entry-input">
+										</div>
+									</div>
+									<div class="col-12 col-md-3 px-1 mb-1 float-left">
+										<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
+										<select name="collection" id="collection" size="1"  class="data-entry-select">
+											<option value="">All</option>
+											<cfloop query="ctColl">
+												<option value="#collection#">#collection#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-5 px-1 mb-1 float-left">
+										<label for="citsciname" class="data-entry-label mt-1 mb-0">
+											<span id="citsciname">Cited Scientific Name</span>
+										</label>
+										<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
+									</div>
+									<div class="col-12 col-md-4 mb-1 px-1 float-left">
+										<label for="scientific_name" class="data-entry-label mt-1 mb-0">
+											<span id="scientific_name">Accepted Scientific Name</span>
+										</label>
+										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
+									</div>
+									<div class="col-12 float-left mt-0 mb-1 p-0">
+										<div class="col-12 col-md-3 px-1 float-left">
+											<label for="type_status" class="data-entry-label mt-1 mb-0">
+												<span id="type_status">Citation Type</span>
+											</label>
+											<select name="type_status" id="type_status" class="data-entry-select">
+												<option value""></option>
+
+												<cfloop query="ctTypeStatus">
+													<option value="#type_status#">#type_status#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-3 px-1 float-left">
+											<label for="occurs_page_number" class="data-entry-label mt-1 mb-0">Page ##</label>
+											<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="">
+										</div>
+										<div class="col-12 col-md-6 px-1 float-left">
+											<label for="citation_remarks" class="data-entry-label mt-1 mb-0">Remarks</label>
+											<input name="citation_remarks" id="citation_remarks" class="data-entry-input" type="text" value="">
+										</div>
+									</div>
+									<div class="col-12 my-2 px-1 float-left">
+										<input type="submit" value="Save" class="btn btn-xs btn-primary mr-3">
+										<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
+									</div>
+								</div>
+							</form>
+							</cfoutput>
+						</div>
+					</div>
+				</section>
 				<section>
 					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
@@ -2669,97 +2761,7 @@ limitations under the License.
 						<cfset i = i + 1>
 					</cfif>
 				</section>
-				<section class="container-fluid" role="search" aria-labelledby="formheader">
-					<div class="row mx-0 my-3">
-						<div class="search-box">
-							<cfset title = "Search for Results">
-							<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select collection,collection_id from collection order by collection
-							</cfquery>
-							<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select type_status from ctcitation_type_status order by type_status
-							</cfquery>
-							<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select journal_name from ctjournal_name order by journal_name
-							</cfquery>
-							<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select publication_type from ctpublication_type order by publication_type
-							</cfquery>
-							<cfoutput>
-							<form name="searchForm" id="searchForm">
-								<input name="action" type="hidden" value="search">
-								<input type="hidden" name="method" value="getCitResults" class="keeponclear">
-								<div class="col-12 search-box-header px-0 float-left">
-									<h2 class="h3 text-white float-left mb-1 mt-0 px-3"> Add Citation</h2>
-								</div>
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 col-md-3 mt-2 float-right">
-										<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/Publication.cfm?action=newPub">Add New Publication <i class="fas fa-external-link-alt"></i></a>
-									</div>
-								</cfif>
-								<cfquery name="getpubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select publication_id,formatted_publication from formatted_publication
-								</cfquery>
-								<div class="col-12 px-2">
-									<div class="col-12 float-left mt-0 mb-1 py-0 px-0">
-										<div class="col-12 px-1 float-left">
-											<label for="publication" class="data-entry-label my-0"><span id="publication_id">Title</span></label>
-											<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#encodeForHTML(getpubs.formatted_publication)#">
-											<input type="text" id="publication_#i#" value='' class="data-entry-input">
-										</div>
-									</div>
-									<div class="col-12 col-md-3 px-1 mb-1 float-left">
-										<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
-										<select name="collection" id="collection" size="1"  class="data-entry-select">
-											<option value="">All</option>
-											<cfloop query="ctColl">
-												<option value="#collection#">#collection#</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-5 px-1 mb-1 float-left">
-										<label for="citsciname" class="data-entry-label mt-1 mb-0">
-											<span id="citsciname">Cited Scientific Name</span>
-										</label>
-										<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
-									</div>
-									<div class="col-12 col-md-4 mb-1 px-1 float-left">
-										<label for="scientific_name" class="data-entry-label mt-1 mb-0">
-											<span id="scientific_name">Accepted Scientific Name</span>
-										</label>
-										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
-									</div>
-									<div class="col-12 float-left mt-0 mb-1 p-0">
-										<div class="col-12 col-md-3 px-1 float-left">
-											<label for="type_status" class="data-entry-label mt-1 mb-0">
-												<span id="type_status">Citation Type</span>
-											</label>
-											<select name="type_status" id="type_status" class="data-entry-select">
-												<option value""></option>
-												<cfloop query="ctTypeStatus">
-													<option value="#type_status#">#type_status#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3 px-1 float-left">
-											<label for="occurs_page_number" class="data-entry-label mt-1 mb-0">Page ##</label>
-											<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="">
-										</div>
-										<div class="col-12 col-md-6 px-1 float-left">
-											<label for="citation_remarks" class="data-entry-label mt-1 mb-0">Remarks</label>
-											<input name="citation_remarks" id="citation_remarks" class="data-entry-input" type="text" value="">
-										</div>
-									</div>
-									<div class="col-12 my-2 px-1 float-left">
-										<input type="submit" value="Save" class="btn btn-xs btn-primary mr-3">
-										<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
-									</div>
-								</div>
-							</form>
-							</cfoutput>
-						</div>
-					</div>
-				</section>
+			
 					<script>
 						$(document).ready(function() {
 							makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
