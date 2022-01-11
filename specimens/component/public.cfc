@@ -42,6 +42,15 @@ limitations under the License.
 					WHERE
 						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
+					<cfargument name="media_id" type="string" required="yes">
+
+				<cfargument name="size" type="string" required="no" default="800">
+				<cfargument name="displayAs" type="string" required="no" default="full">
+
+				<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
+				<cfset l_media_id= #arguments.media_id#>
+				<cfset l_displayAs = #arguments.displayAs#>
+				<cfset l_size = #arguments.size#>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
 					SELECT media_id, 
 						preview_uri, media_uri, 
@@ -66,7 +75,7 @@ limitations under the License.
 						media
 						left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
 					WHERE 
-						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#images.media_id#">
+						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#l_media_id#">
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				</cfquery>
 				<cfif media.recordcount EQ 1>
@@ -80,9 +89,8 @@ limitations under the License.
 							<!--- specify a reasonable fallback for media height/width --->
 							<cfset hw = 'height="600" width="600"'>
 							<cfset imgClasses = "w-100 px-1">
-								<cfset #displayAs# = "thumb">
 							<cfif isDisplayable>
-								<cfif #displayAs# EQ "thumb">
+								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
 									<cfset l_size = "100">
 									<cfset hw = 'height="auto"'>
@@ -104,7 +112,7 @@ limitations under the License.
 								<cfset hw = 'width="auto" height="auto"'>
 								<cfset imgClasses = "py-2 w-auto notthumb">
 								
-								<cfif #displayAs# EQ "thumb" >
+								<cfif #l_displayAs# EQ "thumb" >
 									<cfset hw = 'height="auto"'>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
 										<cfset imgClasses = "py-0 w-100 thumbs">
