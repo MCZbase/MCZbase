@@ -2608,7 +2608,7 @@ limitations under the License.
 							ORDER BY
 								occurs_page_number,cat_num
 						</cfquery>
-				
+
 					<section class="container-fluid" role="search" aria-labelledby="formheader">
 						<div class="row mx-0 my-3">
 							<div class="search-box">
@@ -2700,7 +2700,17 @@ limitations under the License.
 							</div>
 						</div>
 					</section>
-						<cfif len(getCited.publication_id) GT 0>
+					<section class="container-fluid">
+						<script>
+							$(document).ready(function() {
+								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
+							});
+//							$(document).ready(function() {
+//								makeJournalAutocomplete("journal_name_#i#");
+//							});
+						</script>
+					</section>
+					<cfif len(getCited.publication_id) GT 0>
 						<cfset i = 1 >
 						<h1 class="h3">Citations for this specimen</h1>
 							<table class="table mb-0 small px-2">
@@ -2758,16 +2768,6 @@ limitations under the License.
 							</table>
 						<cfset i = i + 1>
 					</cfif>
-					<section class="container-fluid">
-						<script>
-							$(document).ready(function() {
-								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
-							});
-//							$(document).ready(function() {
-//								makeJournalAutocomplete("journal_name_#i#");
-//							});
-						</script>
-					</section>
 				</div>
 				<cfset cellRenderClasses = "ml-1">
 				<script>
