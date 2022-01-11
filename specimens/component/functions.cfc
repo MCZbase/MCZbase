@@ -358,7 +358,7 @@ limitations under the License.
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12">
+						<div class="col-12 float-left">
 							<div class="col-12 float-left px-0">
 								<div class="add-form">
 									<div class="add-form-header pt-1 px-2">
@@ -436,13 +436,13 @@ limitations under the License.
 															<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
 															</label>
 															<div class="col-12 col-md-12 px-0 float-left">
-																<div class="input-group col-8 px-1 float-left">
+																<div class="input-group col-9 px-1 float-left">
 																	<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
 																	<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
 																</div>
 																<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
 																<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addNewIDName col-4 rounded" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Name</a> 
+																<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addNewIDName col-3 rounded" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Name</a> 
 															</div>
 														</div>
 														<script>
@@ -504,7 +504,7 @@ limitations under the License.
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<h1 class="h3 mb-1 px-1"> Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
 									<div class="row mx-0">
-										<div class="col-12 px-0">
+										<div class="col-12 px-0 float-left">
 										
 											<cfset i = 1>
 											<cfset sortCount=getIds.recordcount - 1>
@@ -524,7 +524,7 @@ limitations under the License.
 												<cfset thisIdentification_id = #identification_id#>
 												<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
 												<input type="hidden" name="number_of_determiners_#i#" id="number_of_determiners_#i#" value="#determiners.recordcount#">
-												<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-1">
+												<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-1 float-left">
 													<div class="row mt-2">
 														<div class="col-12 col-md-6 pr-0"> 
 															<!--- TODO: A/B pickers --->
@@ -664,7 +664,7 @@ limitations under the License.
 												</div>
 												<cfset i = #i#+1>
 											</cfloop>
-											<div class="col-12 mt-2">
+											<div class="col-12 mt-2 float-left">
 												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
 													onClick="if (checkFormValidity($('##editIdentificationsForm')[0])) { editIdentificationsSubmit();  } ">
 												<output id="saveIdentificationsResultDiv" class="text-danger">&nbsp;</output>
