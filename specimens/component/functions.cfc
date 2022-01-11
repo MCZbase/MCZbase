@@ -496,13 +496,13 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-lg-12 float-left mb-4 px-0">
+							<div class="col-12 col-lg-12 float-left mt-4 mb-4 px-0">
 								<form name="editIdentificationsForm" id="editIdentificationsForm">
 									<input type="hidden" name="method" value="updateIdentifications">
 									<input type="hidden" name="returnformat" value="json">
 									<input type="hidden" name="queryformat" value="column">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<h1 class="h3 px-1"> Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
+									<h1 class="h3 mb-1 px-1"> Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
 									<div class="row mx-0">
 										<div class="col-12 px-0">
 										
