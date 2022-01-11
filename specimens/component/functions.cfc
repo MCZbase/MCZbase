@@ -442,8 +442,8 @@ limitations under the License.
 													</div>
 												</div>
 												<cfset idnum=1>
-													<cfset i=1>
-													<div class="col-12 col-md-6 px-0 mt-2 float-left">
+												<cfset i=1>
+												<div class="row col-12 col-md-6 px-0 mt-2 float-left">
 													<cfloop query="determiners">
 														<div id="IdTr_#i#_#idnum#">
 															<label for="IdBy_#i#_#idnum#" class="data-entry-label col-6 float-left">
@@ -463,7 +463,6 @@ limitations under the License.
 														<script>
 															makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
 														</script> 
-													</div>
 													<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.---> 
 													<script>	
 														$(document).ready(function(){
@@ -473,7 +472,8 @@ limitations under the License.
 														});
 													</script>
 													<cfset idnum=idnum+1>
-													</cfloop>
+												</cfloop>
+												</div>
 											<div id="addNewID"></div>
 											<script>
 												function addIdentAgentToForm(agent_id,agent_name) { 
@@ -483,11 +483,9 @@ limitations under the License.
 													handleChange();
 												}
 											</script>
-										
-												<div class="col-12 col-md-12 py-2 px-2 float-left">
-													<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
-												</div>
-											
+											<div class="col-12 col-md-12 py-2 px-2 float-left">
+												<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
+											</div>
 											<script>
 												$(document).ready(function() {
 													makeScientificNameAutocompleteMeta("taxona", "taxona_id");
