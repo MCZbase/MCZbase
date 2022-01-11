@@ -2724,7 +2724,7 @@ limitations under the License.
 					</cfif>
 					<section class="container-fluid" role="search" aria-labelledby="formheader">
 						<div class="row mx-0 my-3">
-							<div class="search-box px-1">
+							<div class="search-box">
 								<cfset title = "Search for Results">
 								<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select collection,collection_id from collection order by collection
@@ -2753,6 +2753,7 @@ limitations under the License.
 								<cfquery name="getpubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select publication_id,formatted_publication from formatted_publication
 								</cfquery>
+								<div class="col-12 px-1">
 									<div class="col-12 float-left mt-0 mb-1 py-0 px-1">
 										<div class="col-12 px-1 float-left">
 											<label for="publication" class="data-entry-label my-0"><span id="publication_id">Title</span></label>
