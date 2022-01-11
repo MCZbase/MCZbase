@@ -661,12 +661,10 @@ limitations under the License.
 															</cfloop>
 														</div>
 														<div class="col-12 px-0">
-															<div class="col-12 col-md-6 px-1 float-left">
+															<div class="col-12 col-md-6 px-1 float-right">
 																<label for="identification_publication" class="data-entry-label" >Sensu</label>
 																<input type="hidden" name="new_publication_id" id="new_publication_id">
 																<input type="text" id="newPub" class="data-entry-input">
-															</div>
-															<div class="col-12 col-md-6 float-left px-1">
 																<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
 																<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 															</div>
