@@ -1990,7 +1990,7 @@ limitations under the License.
 			popluateColumnPicker(gridId);
 		}
 
-		function popluateColumnPicker(gridId);
+		function popluateColumnPicker(gridId) {
 			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
 			var columnCount = columns.length;
