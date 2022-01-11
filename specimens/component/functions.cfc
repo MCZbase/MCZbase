@@ -2757,32 +2757,32 @@ limitations under the License.
 											<input type="text" id="publication_#i#" value='' class="data-entry-input">
 										</div>
 									</div>
-					<!---			<div class="col-12 float-left mt-1 mb-1 p-0">--->
-<!---									<div class="col-12 col-md-6 float-left">
+								<div class="col-12 float-left mt-1 mb-1 p-0">
+									<div class="col-12 col-md-6 float-left">
 										<label for="author_text" class="data-entry-label mt-0 mb-0"><span id="author_text">Participant</span></label>
 										<input name="author_text" id="author_text" type="text" class="data-entry-input">
 										<label for="published_year" class="data-entry-label mt-2 mb-0"><span id="published_year">Year</span></label>
 										<input name="published_year" id="published_year" type="text" class="data-entry-input">
-									</div>--->
+									</div>
 <!---									<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT 
 											journal_name as id, journal_name
 										FROM 
 											ctjournal_name
-									</cfquery>
+									</cfquery>--->
 									<div class="col-12 col-md-6 float-left">
-										<label for="journal" class="data-entry-label mt-0 mb-0"><span class="ID">Journal Name</span></label>--->
-							<!---			<input type="hidden" name="ID_#i#" id="ID_#i#" value="#encodeForHTML(ctjournal_name.journal_name)#">
+									<!---	<label for="journal" class="data-entry-label mt-0 mb-0"><span class="ID">Journal Name</span></label>
+										<input type="hidden" name="ID_#i#" id="ID_#i#" value="#encodeForHTML(ctjournal_name.journal_name)#">
 										<input type="text" id="journal_#i#" value='' class="data-entry-input">--->
 										
-<!---										<label for="publication_type" class="data-entry-label mt-2 mb-0"><span id="publication_type">Publication Type</span></label>
+										<label for="publication_type" class="data-entry-label mt-2 mb-0"><span id="publication_type">Publication Type</span></label>
 										<select name="publication_type" class="data-entry-select" id="publication_type" size="1">
 											<option value=""></option>
 											<cfloop query="ctpublication_type">
 												<option value="#publication_type#">#publication_type#</option>
 											</cfloop>
-										</select>--->
-						<!---			</div>--->
+										</select>
+									</div>
 								</div>
 								<div class="col-12 float-left mt-0 p-0 pb-1 pt-0">
 									<div class="col-12 col-md-4 float-left">
@@ -2793,13 +2793,6 @@ limitations under the License.
 												<option value="#collection#">#collection#</option>
 											</cfloop>
 										</select>
-						<!---				<label for="collection_id" class="data-entry-label mt-1 mb-0">Catalog Number</label>
-										<select name="cataloged_item" id="cataloged_item" size="1"  class="data-entry-select">
-											<option value="">All</option>
-											<cfloop query="getCited">
-												<option value="#cataloged_item#">#cataloged_item#</option>
-											</cfloop>
-										</select>--->
 										</cfoutput>
 										<label for="cit_current_fg" class="data-entry-label mt-2 mb-0">
 											<span id="cit_current_fg">Cites specimens?</span>
@@ -2844,9 +2837,9 @@ limitations under the License.
 							$(document).ready(function() {
 								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
 							});
-							$(document).ready(function() {
-								makeJournalAutocomplete("journal_name_#i#");
-							});
+//							$(document).ready(function() {
+//								makeJournalAutocomplete("journal_name_#i#");
+//							});
 						</script>
 					</section>
 				</div>
