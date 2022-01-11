@@ -644,6 +644,7 @@ limitations under the License.
 																			<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
 																			<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addNewIDName col-3 rounded" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a> 
 																		</div>
+																		<div class="row mx-0">
 																		<div class="col-12 col-md-6 px-1 float-left">
 																			<label for="identification_publication" class="data-entry-label" >Sensu</label>
 																			<input type="hidden" name="new_publication_id" id="new_publication_id">
@@ -652,6 +653,7 @@ limitations under the License.
 																		<div class="col-12 col-md-6 float-left px-1">
 																			<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
 																			<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
+																		</div>
 																		</div>
 																	</div>
 																	<script>
