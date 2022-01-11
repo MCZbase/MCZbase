@@ -1932,14 +1932,14 @@ limitations under the License.
 			// If requested in uri, execute search immediately.
 			<cfif isdefined("execute")>
 				<cfswitch expression="#execute#">
+					<cfcase value="fixed">
+						$('##fixedSearchForm').submit();
+					</cfcase>
 					<cfcase value="keyword">
 						$('##keywordSearchForm').submit();
 					</cfcase>
 						<cfcase value="builder">
 						$('##builderSearchForm').submit();
-					</cfcase>
-						<cfcase value="fixed">
-						$('##fixedSearchForm').submit();
 					</cfcase>
 				</cfswitch>
 			</cfif>
