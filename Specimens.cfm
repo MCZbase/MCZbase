@@ -48,7 +48,7 @@ limitations under the License.
 			"Link to this search" link.
 	--->
 	<cfcase value="fixedSearch">
-		<cfset pageTitle = "Specimen Search">
+		<cfset pageTitle = "Basic Specimen Search">
 		<cfif isdefined("execute")>
 			<cfset execute="fixed">
 		</cfif>
@@ -66,9 +66,9 @@ limitations under the License.
 		</cfif>
 	</cfcase>
 	<cfdefaultcase>
-		<cfset pageTitle = "Specimen Search by Keyword">
+		<cfset pageTitle = "Basic Specimen Search">
 		<cfif isdefined("execute")>
-			<cfset execute="keyword">
+			<cfset execute="fixed">
 		</cfif>
 	</cfdefaultcase>
 </cfswitch>
