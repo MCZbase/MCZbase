@@ -1135,13 +1135,13 @@ limitations under the License.
 							var data = "method=updateBorrowItem";
 							data = data + "&transaction_id=" + rowdata.TRANSACTION_ID;
 							data = data + "&borrow_item_id=" + rowdata.BORROW_ITEM_ID;
-							data = data + "&catalog_number=" + rowdata.CATALOG_NUMBER;
-							data = data + "&sci_name=" + rowdata.SCI_NAME;
-							data = data + "&no_of_spec=" + rowdata.NO_OF_SPEC;
-							data = data + "&type_status=" + rowdata.TYPE_STATUS;
-							data = data + "&spec_prep=" + rowdata.SPEC_PREP;
-							data = data + "&country_of_origin=" + rowdata.COUNTRY_OF_ORIGIN;
-							data = data + "&object_remarks=" + rowdata.OBJECT_REMARKS;
+							data = data + "&catalog_number=" + encodeURIComponent(rowdata.CATALOG_NUMBER);
+							data = data + "&sci_name=" + encodeURIComponent(rowdata.SCI_NAME);
+							data = data + "&no_of_spec=" + encodeURIComponent(rowdata.NO_OF_SPEC);
+							data = data + "&type_status=" + encodeURIComponent(rowdata.TYPE_STATUS);
+							data = data + "&spec_prep=" + encodeURIComponent(rowdata.SPEC_PREP);
+							data = data + "&country_of_origin=" + encodeURIComponent(rowdata.COUNTRY_OF_ORIGIN);
+							data = data + "&object_remarks=" + encodeURIComponent(rowdata.OBJECT_REMARKS);
 							$.ajax({
 								dataType: 'json',
 								url: '/transactions/component/borrowFunctions.cfc',
