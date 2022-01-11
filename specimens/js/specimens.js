@@ -123,30 +123,7 @@ function updateMedia(media_id,targetDiv) {
 	)
 };
 
-function updateMedia(media_id,targetDiv) {
-	jQuery.ajax(
-	{
-		dataType: "json",
-		url: "/media/component/search.cfc",
-		data: { 
-			method : "getMediaBlockHtml",
-			media_id : media_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		error: function (jqXHR, status, message) {
-			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-		},
-		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are Media";
-	
-				$('#' + targetDiv).html(message);
-			}
-		}
-	},
-	)
-};
+
 
 
 /** loadMedia populate an html block with the media 
@@ -155,20 +132,20 @@ function updateMedia(media_id,targetDiv) {
  *  selector, for which to replace the html content with the identification 
  *  history.
  **/
-function getMediaBlock(media_id,displayAs) { 
-	jQuery.ajax({
-		url: "/media/component/search.cfc",
-		data : {
-			method : "getMediaBlockHtml",
-			media_id: media_id,
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading media");
-		},
-		dataType: "html"
-	}
-	)
-}
+//function getMediaBlock(media_id,displayAs) { 
+//	jQuery.ajax({
+//		url: "/media/component/search.cfc",
+//		data : {
+//			method : "getMediaBlockHtml",
+//			media_id: media_id,
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"loading media");
+//		},
+//		dataType: "html"
+//	}
+//	)
+//}
 /**openEditMediaDialog (plural) open a dialog for editing 
  * media objects for a cataloged item.
  * @param collection_object_id for the cataloged_item for which to edit media.
@@ -195,7 +172,30 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
+function updateMedia(media_id,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/media/component/search.cfc",
+		data: { 
+			method : "getMediaBlockHtml",
+			media_id : media_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are Media";
+	
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
+};
 /** updateIdentifications function 
  * @method getIdentification in functions.cfc
  * @param identification_id
