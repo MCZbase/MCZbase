@@ -2833,29 +2833,8 @@ limitations under the License.
 						</div>
 					</section>
 					<section class="container-fluid">
-						<div class="row mx-0">
-							<div class="col-12">
-<!---								<div class="mb-5">
-									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-										<h1 class="h4">Results: </h1>
-										<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-										<div id="columnPickDialog">
-											<div id="columnPick" class="px-1"></div>
-										</div>
-										<div id="columnPickDialogButton"></div>
-										<div id="resultDownloadButtonContainer"></div>
-									</div>
-									<div class="row mt-0"> 
-										<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-										<div id="enableselection"></div>
-									</div>
-								</div>--->
-							</div>
-						</div>
 						<script>
 							$(document).ready(function() {
-								//makeScientificNameAutocompleteMeta("taxona", "taxona_id");
-								//makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
 								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
 							});
 							$(document).ready(function() {
