@@ -127,7 +127,7 @@ limitations under the License.
 																	handleChange();
 																	}
 																	</script>
-																	<cfset mediaBlock= getMediaBlock(media_id)>
+																	<cfset mediaBlock= "getMediaBlock(media_id)">
 																	<div id="mediaBlock#images.media_id#">
 																		#mediaBlock#
 																	</div>
