@@ -162,7 +162,7 @@ limitations under the License.
 							<cfcase value="keywordSearch">
 								<cfset fixedTabActive = "">
 								<cfset fixedTabShow = "hidden">
-								<cfset keywordTabActive = "active">
+								<cfset keywordTabActive = "">
 								<cfset keywordTabShow = "">
 								<cfset builderTabActive = "">
 								<cfset builderTabShow = "hidden">
