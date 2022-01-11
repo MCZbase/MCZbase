@@ -384,6 +384,7 @@ limitations under the License.
 											<input type="hidden" name="Action" value="createNew">
 											<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 											<div class="row float-left mx-1 mt-0 pt-2 pb-1">
+												<div class="col-12 col-md-12 float-left">
 												<div class="col-12 col-md-2 px-1 float-left">
 													<label for="taxa_formula" class="data-entry-label">ID Formula</label>
 													<cfif not isdefined("taxa_formula")>
@@ -400,6 +401,7 @@ limitations under the License.
 															<option #selected# value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
 														</cfloop>
 													</select>
+												</div>
 												</div>
 												<div class="col-12 col-md-4 px-1">
 													<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
@@ -480,7 +482,7 @@ limitations under the License.
 												}
 											</script>
 										
-												<div class="col-12 col-md-6 pt-2 px-1 float-left">
+												<div class="col-12 col-md-6 py-2 px-2 float-left">
 													<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
 												</div>
 											
