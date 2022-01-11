@@ -631,11 +631,11 @@ limitations under the License.
 																<div class="col-12 col-md-12 px-0 float-left">
 																<cfloop query="determiners">
 																	<div id="IdTr_#i#_#idnum#">
-																		<label for="IdBy_#i#_#idnum#" class="data-entry-label col-12 col-md-6">
+																		<label for="IdBy_#i#_#idnum#" class="data-entry-label col-12 col-md-6 float-left">
 																		Identified By
 																		<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
 																		</label>
-																		<div class="col-12 col-md-6 px-0">
+																		<div class="col-12 col-md-6 px-0 float-left">
 																			<div class="input-group col-7 px-1 float-left">
 																				<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
 																				<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
