@@ -1263,7 +1263,7 @@ limitations under the License.
  @param media_id the media.media_id to edit.
  @return html for editing the media record 
 --->
-<cffunction name="getMediaHtml" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="getMediaThread">
 		<cftry>
