@@ -67,22 +67,22 @@ function updateMedia(media_id,targetDiv) {
 	},
 	)
 };
-//function loadMedia(media_id,form) {
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getMediaHtml",
-//			media_id: media_id,
-//		},
-//		success: function (result) {
-//			$("#mediaHTML").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"removing media");
-//		},
-//		dataType: "html"
-//	});
-//};
+function loadMedia(media_id,form) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getMediaHtml",
+			media_id: media_id,
+		},
+		success: function (result) {
+			$("#mediaHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing media");
+		},
+		dataType: "html"
+	});
+};
 function loadMedia(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -122,6 +122,14 @@ function updateMedia(media_id,targetDiv) {
 	},
 	)
 };
+/**openEditMediaDialog (plural) open a dialog for editing 
+ * media objects for a cataloged item.
+ * @param collection_object_id for the cataloged_item for which to edit media.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ **/
 function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Media for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -165,40 +173,7 @@ function updateMedia(media_id,targetDiv) {
 	)
 };
 
-//function loadMedia(media_id,form) {
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getMediaHTML",
-//			media_id: media_id,
-//		},
-//		success: function (result) {
-//			$("#mediaHTML").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"removing media");
-//		},
-//		dataType: "html"
-//	});
-//};
-//function loadMedia(collection_object_id,targetDiv) {
-//	jQuery.ajax(
-//	{
-//		dataType: "json",
-//		url: "/specimens/component/public.cfc",
-//		data: { 
-//			method : "getMediaHTML",
-//			collection_object_id : collection_object_id,
-//		},
-//		success: function (result) {
-//			$("#" + targetDivId ).html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"loading citations");
-//		},
-//		dataType: "html"
-//	});
-//}
+
 /** loadMedia populate an html block with the media 
  * @param collection_object_id identifying the cataloged item
  * @param targetDivId the id for the div in the dom, without a leading #
@@ -219,53 +194,8 @@ function getMediaBlock(media_id,displayAs) {
 	}
 	)
 }
-/**openEditMediaDialog (plural) open a dialog for editing 
- * media objects for a cataloged item.
- * @param collection_object_id for the cataloged_item for which to edit media.
- * @param dialogId the id in the dom for the div to turn into the dialog without 
- *  a leading # selector.
- * @param guid the guid of the specimen to display in the dialog title
- * @param callback a callback function to invoke on closing the dialog.
- **/
-//function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
-//	var title = "Edit Images for " + guid;
-//	createSpecimenEditDialog(dialogId,title,callback);
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getEditMediaHTML",
-//			collection_object_id: collection_object_id,
-//		},
-//		success: function (result) {
-//			$("#" + dialogId + "_div").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"opening edit images dialog");
-//		},
-//		dataType: "html"
-//	});
-//};
-/** loadIdentification populate an html block with the identification 
-* history for a cataloged item.
-* @param identification_id 
-* @param form
-**/
-//function loadIdentification(identification_id,form) {
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getIdentificationHtml",
-//			identification_id: identification_id,
-//		},
-//		success: function (result) {
-//			$("#identificationHTML").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"removing identification");
-//		},
-//		dataType: "html"
-//	});
-//};
+
+
 /** updateIdentifications function 
  * @method getIdentification in functions.cfc
  * @param identification_id
