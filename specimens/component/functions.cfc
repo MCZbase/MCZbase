@@ -563,7 +563,7 @@ limitations under the License.
 							<div class="col-12 float-left px-0">
 								<div class="add-form">
 									<div class="add-form-header pt-1 px-2">
-										<h2 class="h3 text-white my-0 px-0 pb-1">
+										<h2 class="h3 text-white my-0 px-1 pb-1">
 											Add New Determination
 										</h2>
 									</div>
