@@ -32,7 +32,7 @@ function loadMedia(media_id,targetDivId) {
 	jQuery.ajax(
 	{
 		dataType: "json",
-		url: "/media/component/search.cfc",
+		url: "/specimens/component/functions.cfc",
 		data: { 
 			method : "getMedia",
 			media_id : media_id,
