@@ -561,11 +561,11 @@ limitations under the License.
 								</form>
 							</div>
 							<div class="col-12 col-lg-7 float-left px-0">
-								<div id="accordion1">
+			<!---					<div id="accordion1">--->
 									<div class="card add-form">
 										<div class="card-header add-form-header pt-1" id="headingOnex">
 											<h2 class="text-white my-0 px-1 pb-1">
-												<button class="btn text-white w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">Add New Determination </button>
+												Add New Determination
 											</h2>
 										</div>
 										<div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
@@ -703,7 +703,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-								</div>
+						<!---		</div>--->
 							</div>
 						</div>
 					</div>
