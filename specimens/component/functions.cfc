@@ -48,7 +48,7 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
-<!---TEST getEditImagesHTML obtain a block of html to populate an images editor dialog for a specimen.
+<!---getEditImagesHTML obtain a block of html to populate an images editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
  @return html for editing identifications for the specified cataloged item. 
@@ -158,6 +158,7 @@ limitations under the License.
 																<cfset description=desc.label_value>
 															</cfif>
 															<cfset k=1>
+															<cfoutput>
 															<cfloop query="getImages">
 																<div class="col-6 float-left p-2">
 																	<div class="border overflow-hidden px-2">
@@ -223,7 +224,7 @@ limitations under the License.
 																</script> 
 															<cfset k = k+1>
 															</cfloop>
-							
+															</cfoutput>
 														<cfelse>
 																None
 														</cfif>
