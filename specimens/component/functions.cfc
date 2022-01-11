@@ -383,8 +383,8 @@ limitations under the License.
 										<form name="addForm" id="addForm">
 											<input type="hidden" name="Action" value="createNew">
 											<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-											<div class="row mx-0 mt-0 pt-2 pb-1">
-												<div class="col-12 col-md-2">
+											<div class="row mx-1 mt-0 pt-2 pb-1">
+												<div class="col-12 col-md-2 px-1">
 													<label for="taxa_formula" class="data-entry-label">ID Formula</label>
 													<cfif not isdefined("taxa_formula")>
 														<cfset taxa_formula='A'>
