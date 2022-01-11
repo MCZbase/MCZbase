@@ -564,7 +564,7 @@ limitations under the License.
 			<!---					<div id="accordion1">--->
 									<div class="card add-form">
 										<div class="card-header add-form-header pt-1" id="headingOnex">
-											<h2 class="text-white my-0 px-1 pb-1">
+											<h2 class="h3 text-white my-0 px-1 pb-1">
 												Add New Determination
 											</h2>
 										</div>
