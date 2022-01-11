@@ -320,6 +320,31 @@ limitations under the License.
 				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
+				<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct
+						identification.identification_id,
+						institution_acronym,
+						identification.scientific_name,
+						cat_num,
+						cataloged_item.collection_id,
+						cataloged_item.collection_cde,
+						made_date,
+						nature_of_id,
+						accepted_id_fg,
+						identification_remarks,
+						MCZBASE.GETSHORTCITATION(identification.publication_id) as formatted_publication,
+						identification.publication_id,
+						identification.sort_order,
+						identification.stored_as_fg
+					FROM
+						cataloged_item
+						left join identification on identification.collection_object_id = cataloged_item.collection_object_id
+						left join collection on cataloged_item.collection_id=collection.collection_id
+					WHERE
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					ORDER BY 
+						accepted_id_fg DESC, sort_order ASC
+				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
@@ -468,31 +493,7 @@ limitations under the License.
 									<h1 class="h3 px-1"> Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
 									<div class="row mx-0">
 										<div class="col-12 px-0">
-											<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												SELECT distinct
-													identification.identification_id,
-													institution_acronym,
-													identification.scientific_name,
-													cat_num,
-													cataloged_item.collection_id,
-													cataloged_item.collection_cde,
-													made_date,
-													nature_of_id,
-													accepted_id_fg,
-													identification_remarks,
-													MCZBASE.GETSHORTCITATION(identification.publication_id) as formatted_publication,
-													identification.publication_id,
-													identification.sort_order,
-													identification.stored_as_fg
-												FROM
-													cataloged_item
-													left join identification on identification.collection_object_id = cataloged_item.collection_object_id
-													left join collection on cataloged_item.collection_id=collection.collection_id
-												WHERE
-													cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-												ORDER BY 
-													accepted_id_fg DESC, sort_order ASC
-											</cfquery>
+										
 											<cfset i = 1>
 											<cfset sortCount=getIds.recordcount - 1>
 											<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIds.recordcount#">
