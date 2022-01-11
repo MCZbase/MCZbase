@@ -563,8 +563,8 @@ limitations under the License.
 															</cfif>
 														</div>
 													</div>
-													<div class="row mt-2">
-														<div class="col-12 px-0">
+													<div class="row mx-0 mt-2">
+														<div class="col-12 px-0 float-left">
 															<cfset idnum=1>
 															<cfloop query="determiners">
 																<div id="IdTr_#i#_#idnum#">
