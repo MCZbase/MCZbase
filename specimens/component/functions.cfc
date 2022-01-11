@@ -352,7 +352,7 @@ limitations under the License.
 						identification_agent
 						left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
 					WHERE
-						identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
+						identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getIDs.identification_id#">
 					ORDER BY
 						identifier_order
 				</cfquery>
