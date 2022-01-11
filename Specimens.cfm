@@ -1960,7 +1960,7 @@ limitations under the License.
 		</cfloop>
 		var columnMetadataLoaded = false;
 	
-		function popluateColumnPicker(gridId) {
+		function popluateColumnPicker(gridId,whichGrid) {
 			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
 			var columnCount = columns.length;
@@ -2061,7 +2061,7 @@ limitations under the License.
 			} else {
 				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
 			}
-			popluateColumnPicker(gridId);
+			popluateColumnPicker(gridId,whichGrid);
 
 			$("##"+whichGrid+"columnPickDialog").dialog({
 				height: 'auto',
