@@ -83,7 +83,7 @@ function removeMedia(media_id,form) {
 		dataType: "html"
 	});
 };
-function updateMedia(media_id,targetDiv) {
+function loadMedia(media_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
