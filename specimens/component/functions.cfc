@@ -442,7 +442,7 @@ limitations under the License.
 																</div>
 																<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
 																<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addNewIDName col-3 rounded" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a> 
+																<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addNewIDName col-3 rounded" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Name</a> 
 															</div>
 														</div>
 														<script>
