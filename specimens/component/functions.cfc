@@ -63,7 +63,7 @@ limitations under the License.
 						<div class="col-12">
 							<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
 							<form name="editImagesForm" id="editImagesForm">
-								<input type="hidden" name="method" value="updateImages">
+								<input type="hidden" name="method" value="updateMedia">
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">
 								<input type="hidden" name="mediaidnum" value="column">
