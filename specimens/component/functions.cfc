@@ -463,7 +463,7 @@ limitations under the License.
 													<cfset idnum=idnum+1>
 												</cfloop>
 									
-											<div class="col-12 col-md-6 px-0 float-left">
+											<div class="col-12 col-md-6 px-0 float-right">
 												<div class="col-12 col-md-12 px-1 float-left">
 													<label for="identification_publication" class="data-entry-label" >Sensu</label>
 													<input type="hidden" name="new_publication_id" id="new_publication_id">
@@ -474,7 +474,7 @@ limitations under the License.
 													<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 												</div>
 											</div>
-																</div>
+										</div>
 							
 											<div id="addNewID" class="row"></div>
 											<script>
