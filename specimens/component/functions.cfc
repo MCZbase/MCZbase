@@ -425,7 +425,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="">
-												<div class="col-12">
+												<div class="col-12 px-1">
 													<cfset idnum=1>
 													<cfset i=1>
 													<div class="col-12 col-md-6 float-left border rounded p-1">
