@@ -2760,19 +2760,7 @@ limitations under the License.
 											<input type="text" id="publication_#i#" value='' class="data-entry-input">
 										</div>
 									</div>
-									<div class="col-12 col-md-6 float-left">
-										<label for="citsciname" class="data-entry-label mt-1 mb-0">
-											<span id="citsciname">Cited Scientific Name</span>
-										</label>
-										<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
-									</div>
-									<div class="col-12 col-md-6 float-left">
-										<label for="scientific_name" class="data-entry-label mt-2 mb-0">
-											<span id="scientific_name">Accepted Scientific Name</span>
-										</label>
-										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
-									</div>
-									<div class="col-12 float-left">
+									<div class="col-12 col-md-4 float-left">
 										<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
 										<select name="collection" id="collection" size="1"  class="data-entry-select">
 											<option value="">All</option>
@@ -2780,21 +2768,41 @@ limitations under the License.
 												<option value="#collection#">#collection#</option>
 											</cfloop>
 										</select>
-										</cfoutput>
+									</div>
+									<div class="col-12 col-md-4 float-left">
+										<label for="citsciname" class="data-entry-label mt-1 mb-0">
+											<span id="citsciname">Cited Scientific Name</span>
+										</label>
+										<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
+									</div>
+									<div class="col-12 col-md-4 float-left">
+										<label for="scientific_name" class="data-entry-label mt-2 mb-0">
+											<span id="scientific_name">Accepted Scientific Name</span>
+										</label>
+										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
+									</div>
+
+									<div class="col-12 col-md-3 float-left">
 										<label for="type_status" class="data-entry-label mt-2 mb-0">
 											<span id="type_status">Citation Type</span>
 										</label>
 										<select name="type_status" id="type_status" class="data-entry-select">
 											<cfloop query="ctTypeStatus">
+												<option value""></option>
 												<option value="#type_status#">#type_status#</option>
 											</cfloop>
 										</select>
 									</div>
-
-									<div class="col-12 col-md-4 float-left">
+									<div class="col-12 col-md-3 float-left">
 										<label for="occurs_page_number" class="data-entry-label mt-1 mb-0">Page ##</label>
 										<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="">
 									</div>
+									<div class="col-12 col-md-3 float-left">
+										<label for="citation_remarks" class="data-entry-label mt-1 mb-0">Remarks</label>
+										<input name="citation_remarks" id="citation_remarks" class="data-entry-input" type="text" value="">
+									</div>
+								</cfoutput>
+
 								</div>
 									<div class="col-12 my-2 float-left">
 										<input type="submit" value="Save" class="btn btn-xs btn-primary mr-3">
