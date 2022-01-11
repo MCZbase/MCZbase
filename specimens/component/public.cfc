@@ -27,9 +27,7 @@ limitations under the License.
 --->
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="media_id" type="string" required="yes">
-	<cfargument name="size" type="string" required="no" default="800">
-	<cfargument name="displayAs" type="string" required="no" default="full">
+
 		<cfthread name="getMediaThread">
 			<cfoutput>
 				<cftry>
@@ -45,12 +43,9 @@ limitations under the License.
 					WHERE
 						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-
-
+				<cfset size="200">
+				<cfset displayAs="thumb">
 				<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
-				<cfset l_media_id= #arguments.media_id#>
-				<cfset l_displayAs = #arguments.displayAs#>
-				<cfset l_size = #arguments.size#>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
 					SELECT media_id, 
 						preview_uri, media_uri, 
