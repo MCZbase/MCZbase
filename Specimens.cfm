@@ -1963,6 +1963,9 @@ limitations under the License.
 			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
 			var columnCount = columns.length;
+			// clear out the datafield arrays for each columnSection category
+			for (let [key,value] of columnSections) { value.length = 0; };
+			// repopulate the datafield arrays for each columnSection category with the current values.
 			for (i = 1; i < columnCount; i++) {
 				var text = columns[i].text;
 				var datafield = columns[i].datafield;
