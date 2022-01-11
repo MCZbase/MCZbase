@@ -32,7 +32,8 @@ limitations under the License.
 					WHERE
 						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<cfset formerHeadShown = false>
+					<script type="text/javascript" src="/specimens/js/specimens.js"></script>	
+						<cfset mediaBlock= getMediaBlock(media_id="#images.media_id#",displayAs="thumb")>
 				<cfloop query="images">
 					<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct
@@ -52,8 +53,7 @@ limitations under the License.
 					</cfquery>
 					<div class="col-12 col-md-12 px-0 mb-2 float-left">
 						<cfoutput>
-						<script type="text/javascript" src="/specimens/js/specimens.js"></script>	
-						<cfset mediaBlock= getMediaBlock(media_id="#images.media_id#",displayAs="thumb")>
+					
 						<div id="mediaHTML">
 							<div id="mediaBlock#media_id#">
 								#mediaBlock#
