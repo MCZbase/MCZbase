@@ -598,7 +598,7 @@ limitations under the License.
 															</cfloop>
 														</div>
 													</div>
-													<div id="newID" class="row"></div>
+													<div id="newID" class="col-12"></div>
 													<script>
 														function addIdentAgentToForm(agent_id,agent_name) { 
 															// add trans_agent record
