@@ -161,30 +161,14 @@ limitations under the License.
 															<cfoutput>
 															<cfloop query="getImages">
 																<div class="col-6 float-left p-2">
-																	<div class="border overflow-hidden px-2">
-																		<div class="col-auto p-2 float-left">
-																			<a href="/media/#getImages.media_id#" target="_blank" class="text-left small d-block">Media ID: #getImages.media_id#</a>
-																			<a href="#auto_host#/#auto_path#/#auto_filename#" class=""><img src="#puri#" alt="#altText#" class="" width="100"></a><br>
-																			<div class="small text-center">#media_type# (#mime_type#)
-																				<span class="text-center d-block">
-																				(<a href="/MediaSet.cfm?media_id=#getImages.media_id#" class="" target="_blank" style="">viewer</a>)
-																				(<a href="##" class="">full</a>)</span>
-																			</div>
-																		</div>
-																		<div class="col-8 px-0 w-100 pt-4 pb-2 float-left">
-																		<cfset j = 1>
-																			<cfloop query="labels">
-																				<cfset d=media_label>
-																				<div id="labelsDiv_#k#_#j#" class="col-12 px-0">
-																					<div class=""><span class="strong">#media_label#:</span> <span style="font-size: .8rem;">#encodeForHTML(label_value)#</span></div>
-																				</div>
-																				<cfset j = j+1>
-																			</cfloop>
-																			<input type="button" value="Remove" aria-label="Remove Image" class="btn btn-xs btn-warning"
-																			onClick="removeMedia();">
-																			<output id="deleteMediaResultDiv" class="text-danger">&nbsp;</output>
-																		</div>
-																	</div>
+																										<cfloop query="images">
+										<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
+											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
+											<div id="mediaBlock#images.media_id#">
+												#mediaBlock#
+											</div>
+										</div>
+									</cfloop>
 																</div>
 						
 															<cfset k = k+1>
