@@ -140,7 +140,30 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
+function updateMedia(media_id,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/media/component/search.cfc",
+		data: { 
+			method : "getMediaBlockHtml",
+			media_id : media_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are Media";
+	
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
+};
 
 //function loadMedia(media_id,form) {
 //	jQuery.ajax({
@@ -204,24 +227,24 @@ function getMediaBlock(media_id,displayAs) {
  * @param guid the guid of the specimen to display in the dialog title
  * @param callback a callback function to invoke on closing the dialog.
  **/
-function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Images for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditMediaHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit images dialog");
-		},
-		dataType: "html"
-	});
-};
+//function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
+//	var title = "Edit Images for " + guid;
+//	createSpecimenEditDialog(dialogId,title,callback);
+//	jQuery.ajax({
+//		url: "/specimens/component/functions.cfc",
+//		data : {
+//			method : "getEditMediaHTML",
+//			collection_object_id: collection_object_id,
+//		},
+//		success: function (result) {
+//			$("#" + dialogId + "_div").html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"opening edit images dialog");
+//		},
+//		dataType: "html"
+//	});
+//};
 /** loadIdentification populate an html block with the identification 
 * history for a cataloged item.
 * @param identification_id 
