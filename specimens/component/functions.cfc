@@ -1204,7 +1204,7 @@ limitations under the License.
 	@param collection_object_id the collecton object to which the identification history pertains
 	@param number_of_ids the number of determinations in the identification history
 --->
-<cffunction name="updateImages" returntype="any" access="remote" returnformat="json">
+<cffunction name="updateMedia" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="mediaidnum" type="string" required="yes">
 	<cfoutput> 
