@@ -628,7 +628,7 @@ limitations under the License.
 													<div class="row mx-0 mt-0 py-1">
 														<div class="col-12 px-0">
 															<cfset idnum=1>
-																<div class="col-12 col-md-6 px-0 float-left">
+																<div class="col-12 col-md-12 px-0 float-left">
 																<cfloop query="determiners">
 																	<div id="IdTr_#i#_#idnum#">
 																		<label for="IdBy_#i#_#idnum#" class="data-entry-label">
