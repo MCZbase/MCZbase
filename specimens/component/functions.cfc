@@ -2757,8 +2757,6 @@ limitations under the License.
 							</cfoutput>
 							</div>
 						</div>
-					</section>
-					<section class="container-fluid">
 						<script>
 							$(document).ready(function() {
 								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
