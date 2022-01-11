@@ -427,18 +427,18 @@ limitations under the License.
 														</select>
 													</div>
 											</div>
-											<div class="">
-												<div class="col-12 col-md-12 px-0">
+							
+												<div class="col-12 col-md-12 px-0 float-left">
 													<cfset idnum=1>
 													<cfset i=1>
-													<div class="col-12 col-md-12 float-left border rounded p-1 m-1">
+													<div class="col-12 col-md-6 float-left border rounded p-1 m-1">
 													<cfloop query="determiners">
 														<div id="IdTr_#i#_#idnum#">
 															<label for="IdBy_#i#_#idnum#" class="data-entry-label col-6 float-left">
 															Identified By
 															<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
 															</label>
-															<div class="col-12 col-md-6 px-0 float-left">
+															<div class="col-12 col-md-12 px-0 float-left">
 																<div class="input-group col-9 px-1 float-left">
 																	<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
 																	<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
@@ -475,7 +475,7 @@ limitations under the License.
 												</div>
 											</div>
 																</div>
-										</div>
+							
 											<div id="addNewID" class="row"></div>
 											<script>
 												function addIdentAgentToForm(agent_id,agent_name) { 
