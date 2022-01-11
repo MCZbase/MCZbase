@@ -2782,7 +2782,7 @@ limitations under the License.
 										<label for="type_status" class="data-entry-label mt-2 mb-0">
 											<span id="type_status">Citation Type</span>
 										</label>
-										<select name="ctTypeStatus" id="type_status" class="data-entry-select">
+										<select name="type_status" id="type_status" class="data-entry-select">
 											<option value=""></option>
 											<option value="#type_status#">#type_status#</option>
 										</select>
