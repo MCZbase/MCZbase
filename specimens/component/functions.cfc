@@ -426,7 +426,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-											</div>
+												</div>
 							
 												<div class="col-12 col-md-12 px-0 float-left">
 													<cfset idnum=1>
@@ -451,8 +451,6 @@ limitations under the License.
 														<script>
 															makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
 														</script> 
-													</div>
-													<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.---> 
 													<script>	
 														$(document).ready(function(){
 															$(".addNewIDName").click(function(){$("##addNewID").append('<div class="col-12 col-md-6 float-left px-0"><label for="IdBy_#i#_#idnum#" class="data-entry-label mt-1">Identified By <h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5></label><div class="col-12 col-md-12 float-left px-0"><div class="input-group col-7 px-1 float-left"><div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span></div><input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(determiners.agent_name)#" class="reqdClr data-entry-input form-control"></div><input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#determiners.agent_id#"><input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#determiners.identification_agent_id#"></div><button href="javascript:void(0);" arial-label="remove" class="btn data-entry-button px-2 mx-0 addIDName float-left remIDName"><i class="fas fa-times"></i></button></div></div></div>');
@@ -461,6 +459,9 @@ limitations under the License.
 														});
 													</script>
 													<cfset idnum=idnum+1>
+													</div>
+													<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.---> 
+
 													</cfloop>
 													<div class="col-12 col-md-6 px-1 mt-1 float-right">
 														<div class="col-12 col-md-12 px-1 float-left">
