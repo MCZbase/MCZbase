@@ -628,7 +628,7 @@ limitations under the License.
 													<div class="">
 														<div class="col-12 px-0">
 															<cfset idnum=1>
-																<div class="col-12 col-md-6 px-0 float-left border">
+																<div class="col-12 col-md-6 px-0 float-left border rounded">
 																<cfloop query="determiners">
 																	<div id="IdTr_#i#_#idnum#">
 																		<label for="IdBy_#i#_#idnum#" class="data-entry-label col-12 float-left">
@@ -680,7 +680,7 @@ limitations under the License.
 														}
 													</script>
 													<div class="row mx-0 mt-0 py-1">
-														<div class="col-12 col-md-12 pt-1 px-1">
+														<div class="col-12 col-md-12 pt-2 px-1">
 															<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
 														</div>
 													</div>
