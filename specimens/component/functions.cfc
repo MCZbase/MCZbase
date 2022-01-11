@@ -429,7 +429,19 @@ limitations under the License.
 												</div>
 							
 												<div class="col-12 col-md-12 px-0 float-left">
-													<cfset idnum=1>
+													<div class="col-12 col-md-6 px-1 mt-1 float-right">
+														<div class="col-12 col-md-12 px-1 float-left">
+															<label for="identification_publication" class="data-entry-label" >Sensu</label>
+															<input type="hidden" name="new_publication_id" id="new_publication_id">
+															<input type="text" id="newPub" class="data-entry-input mb-1">
+														</div>
+														<div class="col-12 col-md-12 px-1 float-left">
+															<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
+															<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
+														</div>
+													</div>
+												</div>
+												<cfset idnum=1>
 													<cfset i=1>
 													<div class="col-12 col-md-6 px-0 mt-2 float-left">
 													<cfloop query="determiners">
@@ -462,19 +474,6 @@ limitations under the License.
 													</script>
 													<cfset idnum=idnum+1>
 													</cfloop>
-														<div class="col-12 col-md-6 px-1 mt-1 float-right">
-															<div class="col-12 col-md-12 px-1 float-left">
-																<label for="identification_publication" class="data-entry-label" >Sensu</label>
-																<input type="hidden" name="new_publication_id" id="new_publication_id">
-																<input type="text" id="newPub" class="data-entry-input mb-1">
-															</div>
-															<div class="col-12 col-md-12 px-1 float-left">
-																<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
-																<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
-															</div>
-														</div>
-													</div>
-							
 											<div id="addNewID"></div>
 											<script>
 												function addIdentAgentToForm(agent_id,agent_name) { 
