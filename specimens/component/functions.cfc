@@ -474,7 +474,7 @@ limitations under the License.
 													<cfset idnum=idnum+1>
 												</cfloop>
 												</div>
-											<div id="addNewID"></div>
+											<div id="addNewID" class="row mx-0"></div>
 											<script>
 												function addIdentAgentToForm(agent_id,agent_name) { 
 													// add trans_agent record
