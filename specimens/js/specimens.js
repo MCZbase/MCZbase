@@ -122,32 +122,7 @@ function updateMedia(media_id,targetDiv) {
 	},
 	)
 };
-/**openEditMediaDialog (plural) open a dialog for editing 
- * media objects for a cataloged item.
- * @param collection_object_id for the cataloged_item for which to edit media.
- * @param dialogId the id in the dom for the div to turn into the dialog without 
- *  a leading # selector.
- * @param guid the guid of the specimen to display in the dialog title
- * @param callback a callback function to invoke on closing the dialog.
- **/
-function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Media for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditMediaHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
-		},
-		dataType: "html"
-	});
-};
+
 function updateMedia(media_id,targetDiv) {
 	jQuery.ajax(
 	{
@@ -194,7 +169,32 @@ function getMediaBlock(media_id,displayAs) {
 	}
 	)
 }
-
+/**openEditMediaDialog (plural) open a dialog for editing 
+ * media objects for a cataloged item.
+ * @param collection_object_id for the cataloged_item for which to edit media.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ **/
+function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Media for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditMediaHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
+		},
+		dataType: "html"
+	});
+};
 
 /** updateIdentifications function 
  * @method getIdentification in functions.cfc
