@@ -628,7 +628,7 @@ limitations under the License.
 													<div class="row mx-0 mt-0 py-1">
 														<div class="col-12 px-0">
 															<cfset idnum=1>
-															<div class="col-12 col-md-6 px-0 float-left border">
+																<div class="col-12 col-md-6 px-0 float-left border">
 																<cfloop query="determiners">
 																	<div id="IdTr_#i#_#idnum#" class="col-12 col-md-6 px-0 float-left">
 																		<label for="IdBy_#i#_#idnum#" class="data-entry-label col-12 col-md-6 float-left">
@@ -645,29 +645,31 @@ limitations under the License.
 																			<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addNewIDName col-3 rounded" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a> 
 																		</div>
 																	</div>
-																</cfloop>
-																<div class="col-12 col-md-6 px-1 float-left">
-																	<label for="identification_publication" class="data-entry-label" >Sensu</label>
-																	<input type="hidden" name="new_publication_id" id="new_publication_id">
-																	<input type="text" id="newPub" class="data-entry-input">
+																	<script>
+																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
+																	</script> 
 																</div>
-																<div class="col-12 col-md-6 float-left px-1">
-																	<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
-																	<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
-																</div>
-																<script>
-																	makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
-																</script> 
-															</div>
-															<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.---> 
-															<script>	
-																$(document).ready(function(){
-																	$(".addNewIDName").click(function(){$("##addNewID").append('<div class="col-12"><label for="IdBy_#i#_#idnum#" class="data-entry-label mt-1">Identified By this one <h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5></label><div class="col-12 px-0"><div class="input-group col-7 px-1 float-left"><div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span></div><input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(determiners.agent_name)#" class="reqdClr data-entry-input form-control"></div><input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#determiners.agent_id#"><input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#determiners.identification_agent_id#"></div><button href="javascript:void(0);" arial-label="remove" class="btn data-entry-button px-2 mx-0 addIDName float-left remIDName"><i class="fas fa-times"></i></button></div></div></div>');
+																<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.---> 
+																<script>	
+																	$(document).ready(function(){
+																		$(".addNewIDName").click(function(){$("##addNewID").append('<div class="col-12"><label for="IdBy_#i#_#idnum#" class="data-entry-label mt-1">Identified By this one <h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5></label><div class="col-12 px-0"><div class="input-group col-7 px-1 float-left"><div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span></div><input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(determiners.agent_name)#" class="reqdClr data-entry-input form-control"></div><input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#determiners.agent_id#"><input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#determiners.identification_agent_id#"></div><button href="javascript:void(0);" arial-label="remove" class="btn data-entry-button px-2 mx-0 addIDName float-left remIDName"><i class="fas fa-times"></i></button></div></div></div>');
+																		});
+																		$("##addNewID").on('click','.remIDName',function(){$(this).parent().remove()});
 																	});
-																	$("##addNewID").on('click','.remIDName',function(){$(this).parent().remove()});
-																});
-															</script>
-															<cfset idnum=idnum+1>
+																</script>
+																<cfset idnum=idnum+1>
+															</cfloop>
+														</div>
+														<div class="col-12 px-0">
+															<div class="col-12 col-md-6 px-1 float-left">
+																<label for="identification_publication" class="data-entry-label" >Sensu</label>
+																<input type="hidden" name="new_publication_id" id="new_publication_id">
+																<input type="text" id="newPub" class="data-entry-input">
+															</div>
+															<div class="col-12 col-md-6 float-left px-1">
+																<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
+																<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
+															</div>
 														</div>
 													</div>
 													<div id="addNewID" class="row"></div>
