@@ -2761,7 +2761,7 @@ limitations under the License.
 											<input type="text" id="publication_#i#" value='' class="data-entry-input">
 										</div>
 									</div>
-									<div class="col-12 col-md-3 px-1 float-left">
+									<div class="col-12 col-md-3 px-1 mb-1 float-left">
 										<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
 										<select name="collection" id="collection" size="1"  class="data-entry-select">
 											<option value="">All</option>
@@ -2770,13 +2770,13 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-5 px-1 float-left">
+									<div class="col-12 col-md-5 px-1 mb-1 float-left">
 										<label for="citsciname" class="data-entry-label mt-1 mb-0">
 											<span id="citsciname">Cited Scientific Name</span>
 										</label>
 										<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
 									</div>
-									<div class="col-12 col-md-4 px-1 float-left">
+									<div class="col-12 col-md-4 mb-1 px-1 float-left">
 										<label for="scientific_name" class="data-entry-label mt-1 mb-0">
 											<span id="scientific_name">Accepted Scientific Name</span>
 										</label>
