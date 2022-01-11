@@ -157,7 +157,7 @@ limitations under the License.
 										<div class="pb-1">
 											<cfset showTitleText = trim(#media.title#)>
 											<cfif len(showTitleText) EQ 0>
-												<cfset showTitleText = trim(subject)>
+												<cfset showTitleText = trim(#media.subject#)>
 											</cfif>
 											<cfif len(showTitleText) EQ 0>
 												<cfset showTitleText = "Unlinked Media Object">
