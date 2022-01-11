@@ -1960,36 +1960,6 @@ limitations under the License.
 		</cfloop>
 		var columnMetadataLoaded = false;
 	
-		function pageLoaded(gridId, searchType, whichGrid) {
-			console.log('pageLoaded:' + gridId);
-			var pagingInfo = $("##" + gridId).jqxGrid("getpaginginformation");
-		}
-
-		function gridLoaded(gridId, searchType, whichGrid) {
-			console.log('gridLoaded:' + gridId);
-
-			if (Object.keys(window.columnHiddenSettings).length == 0) {
-				window.columnHiddenSettings = getColumnVisibilities(gridId);
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
-				</cfif>
-			}
-			$("##overlay").hide();
-			$('.jqx-header-widget').css({'z-index': maxZIndex + 1 });
-			var now = new Date();
-			var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-			var filename = searchType.replace(/ /g,'_') + '_results_' + nowstring + '.csv';
-			// display the number of rows found
-			var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
-			var rowcount = datainformation.rowscount;
-			if (rowcount == 1) {
-				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType);
-			} else {
-				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
-			}
-			popluateColumnPicker(gridId);
-		}
-
 		function popluateColumnPicker(gridId) {
 			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
@@ -2061,6 +2031,37 @@ limitations under the License.
 					$("##" + gridId).jqxGrid('endupdate');
 				});
 			}
+		}
+
+		function pageLoaded(gridId, searchType, whichGrid) {
+			console.log('pageLoaded:' + gridId);
+			var pagingInfo = $("##" + gridId).jqxGrid("getpaginginformation");
+		}
+
+		function gridLoaded(gridId, searchType, whichGrid) {
+			console.log('gridLoaded:' + gridId);
+			var maxZIndex = getMaxZIndex();
+
+			if (Object.keys(window.columnHiddenSettings).length == 0) {
+				window.columnHiddenSettings = getColumnVisibilities(gridId);
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+				</cfif>
+			}
+			$("##overlay").hide();
+			$('.jqx-header-widget').css({'z-index': maxZIndex + 1 });
+			var now = new Date();
+			var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+			var filename = searchType.replace(/ /g,'_') + '_results_' + nowstring + '.csv';
+			// display the number of rows found
+			var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+			var rowcount = datainformation.rowscount;
+			if (rowcount == 1) {
+				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType);
+			} else {
+				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+			}
+			popluateColumnPicker(gridId);
 
 			$("##"+whichGrid+"columnPickDialog").dialog({
 				height: 'auto',
@@ -2101,7 +2102,7 @@ limitations under the License.
 			);
 			// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 			// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
-			var maxZIndex = getMaxZIndex();
+			maxZIndex = getMaxZIndex();
 			$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 			$('.jqx-grid-cell').css({'border-color': '##aaa'});
 			$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
