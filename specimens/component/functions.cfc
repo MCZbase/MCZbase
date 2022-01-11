@@ -487,7 +487,7 @@ limitations under the License.
 												}
 											</script>
 										
-												<div class="col-12 col-md-12 py-2 px-2 float-left">
+												<div class="col-12 col-md-12 py-2 px-1 float-left">
 													<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
 												</div>
 											
