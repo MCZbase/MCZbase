@@ -2535,6 +2535,7 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<div id="citationsDialog">
+				<section>
 					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							citation.type_status,
@@ -2667,22 +2668,23 @@ limitations under the License.
 							</table>
 						<cfset i = i + 1>
 					</cfif>
-					<section class="container-fluid" role="search" aria-labelledby="formheader">
-						<div class="row mx-0 my-3">
-							<div class="search-box">
-								<cfset title = "Search for Results">
-								<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select collection,collection_id from collection order by collection
-								</cfquery>
-								<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select type_status from ctcitation_type_status order by type_status
-								</cfquery>
-								<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select journal_name from ctjournal_name order by journal_name
-								</cfquery>
-								<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select publication_type from ctpublication_type order by publication_type
-								</cfquery>
+				</section>
+				<section class="container-fluid" role="search" aria-labelledby="formheader">
+					<div class="row mx-0 my-3">
+						<div class="search-box">
+							<cfset title = "Search for Results">
+							<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select collection,collection_id from collection order by collection
+							</cfquery>
+							<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select type_status from ctcitation_type_status order by type_status
+							</cfquery>
+							<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select journal_name from ctjournal_name order by journal_name
+							</cfquery>
+							<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select publication_type from ctpublication_type order by publication_type
+							</cfquery>
 							<cfoutput>
 							<form name="searchForm" id="searchForm">
 								<input name="action" type="hidden" value="search">
@@ -2755,14 +2757,14 @@ limitations under the License.
 								</div>
 							</form>
 							</cfoutput>
-							</div>
 						</div>
-						<script>
-							$(document).ready(function() {
-								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
-							});
-						</script>
-					</section>
+					</div>
+				</section>
+					<script>
+						$(document).ready(function() {
+							makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
+						});
+					</script>
 				</div>
 				<cfset cellRenderClasses = "ml-1">
 				<script>
