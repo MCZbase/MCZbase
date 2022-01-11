@@ -560,10 +560,9 @@ limitations under the License.
 									</div>
 								</form>
 							</div>
-						<div class="row mx-0 mb-5">
-							<div class="col-12 add-form-header float-left px-0">
-								<div class="card add-form">
-									<div class="card-header add-form-header pt-1">
+							<div class="col-12 float-left px-0">
+								<div class="add-form">
+									<div class="add-form-header pt-1">
 											<h2 class="h3 text-white my-0 px-1 pb-1">
 												Add New Determination
 											</h2>
