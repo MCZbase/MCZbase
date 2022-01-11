@@ -152,7 +152,8 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
 		},
 		dataType: "html"
-	});
+	},
+	)
 };
 function updateMedia(media_id,targetDiv) {
 	jQuery.ajax(
@@ -160,7 +161,7 @@ function updateMedia(media_id,targetDiv) {
 		dataType: "json",
 		url: "/media/component/search.cfc",
 		data: { 
-			method : "getMediaBlockHtml",
+			method : "getMediaHtml",
 			media_id : media_id,
 			returnformat : "json",
 			queryformat : 'column'
