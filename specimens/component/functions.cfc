@@ -62,7 +62,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<h1 class="h3 px-1"> Edit Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
-							<form name="editImagesForm" id="editImagesForm">
+							<form name="editMediaForm" id="editMediaForm">
 								<input type="hidden" name="method" value="updateMedia">
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">
@@ -79,7 +79,7 @@ limitations under the License.
 											</h2>
 										</div>
 										<div id="collapseImg1" class="collapse" aria-labelledby="headingImg1" data-parent="##accordionImages1">
-											<div class="card-body"> 
+											<div class="card-body" id="mediaCardBody"> 
 												<div class="row mx-0">
 													<div class="col-12 px-0">
 														<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -180,9 +180,9 @@ limitations under the License.
 																				</div>
 																				<cfset j = j+1>
 																			</cfloop>
-																		<!---	<input type="button" value="Remove" aria-label="Remove Image" class="btn btn-xs btn-warning"
+																			<input type="button" value="Remove" aria-label="Remove Image" class="btn btn-xs btn-warning"
 																			onClick="removeMedia();">
-																			<output id="deleteMediaResultDiv" class="text-danger">&nbsp;</output>--->
+																			<output id="deleteMediaResultDiv" class="text-danger">&nbsp;</output>
 																		</div>
 																	</div>
 																</div>
@@ -191,40 +191,40 @@ limitations under the License.
 															</cfloop>
 															</cfoutput>
 																<script>
-//																	function editMediaSubmit(){
-//																		$('##deleteMediaResultDiv').html('Deleting....');
-//																		$('##deleteMediaResultDiv').addClass('text-warning');
-//																		$('##deleteMediaResultDiv').removeClass('text-success');
-//																		$('##deleteMediaResultDiv').removeClass('text-danger');
-//																		$.ajax({
-//																			url : "/specimens/component/functions.cfc",
-//																			type : "post",
-//																			dataType : "json",
-//																			data: $("##editMediaForm").serialize(),
-//																			success: function (result) {
-//																				if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-//																					$('##deleteMediaResultDiv').html('Deleted');
-//																					$('##deleteMediaResultDiv').addClass('text-success');
-//																					$('##deleteMediaResultDiv').removeClass('text-warning');
-//																					$('##deleteMediaResultDiv').removeClass('text-danger');
-//																				} else {
-//																					// we shouldn't be able to reach this block, backing error should return an http 500 status
-//																					$('##deleteMediaResultDiv').html('Error');
-//																					$('##deleteMediaResultDiv').addClass('text-danger');
-//																					$('##deleteMediaResultDiv').removeClass('text-warning');
-//																					$('##deleteMediaResultDiv').removeClass('text-success');
-//																					messageDialog('Error updating images: '+result.DATA.MESSAGE[0], 'Error saving images.');
-//																				}
-//																			},
-//																			error: function(jqXHR,textStatus,error){
-//																				$('##deleteMediaResultDiv').html('Error');
-//																				$('##deleteMediaResultDiv').addClass('text-danger');
-//																				$('##deleteMediaResultDiv').removeClass('text-warning');
-//																				$('##deleteMediaResultDiv').removeClass('text-success');
-//																				handleFail(jqXHR,textStatus,error,"deleting relationship between image and cataloged item");
-//																			}
-//																		});
-//																	};
+																	function editMediaSubmit(){
+																		$('##deleteMediaResultDiv').html('Deleting....');
+																		$('##deleteMediaResultDiv').addClass('text-warning');
+																		$('##deleteMediaResultDiv').removeClass('text-success');
+																		$('##deleteMediaResultDiv').removeClass('text-danger');
+																		$.ajax({
+																			url : "/specimens/component/functions.cfc",
+																			type : "post",
+																			dataType : "json",
+																			data: $("##editMediaForm").serialize(),
+																			success: function (result) {
+																				if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+																					$('##deleteMediaResultDiv').html('Deleted');
+																					$('##deleteMediaResultDiv').addClass('text-success');
+																					$('##deleteMediaResultDiv').removeClass('text-warning');
+																					$('##deleteMediaResultDiv').removeClass('text-danger');
+																				} else {
+																					// we shouldn't be able to reach this block, backing error should return an http 500 status
+																					$('##deleteMediaResultDiv').html('Error');
+																					$('##deleteMediaResultDiv').addClass('text-danger');
+																					$('##deleteMediaResultDiv').removeClass('text-warning');
+																					$('##deleteMediaResultDiv').removeClass('text-success');
+																					messageDialog('Error updating images: '+result.DATA.MESSAGE[0], 'Error saving images.');
+																				}
+																			},
+																			error: function(jqXHR,textStatus,error){
+																				$('##deleteMediaResultDiv').html('Error');
+																				$('##deleteMediaResultDiv').addClass('text-danger');
+																				$('##deleteMediaResultDiv').removeClass('text-warning');
+																				$('##deleteMediaResultDiv').removeClass('text-success');
+																				handleFail(jqXHR,textStatus,error,"deleting relationship between image and cataloged item");
+																			}
+																		});
+																	};
 																</script> 
 														<cfelse>
 																None
@@ -299,47 +299,47 @@ limitations under the License.
 													</div>
 													<div class="row mx-0 mt-0 py-1">
 														<div class="col-12 col-md-12 px-1">
-												<!---			<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
+															<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
 															onClick=" editImagesSubmit(); ">
-															<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>--->
+															<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
 														</div>
 													</div>
-										<script>
-//												function editImagesSubmit(){
-//													$('##saveImagesResultDiv').html('Saving....');
-//													$('##saveImagessResultDiv').addClass('text-warning');
-//													$('##saveImagesResultDiv').removeClass('text-success');
-//													$('##saveImagesResultDiv').removeClass('text-danger');
-//													$.ajax({
-//														url : "/specimens/component/functions.cfc",
-//														type : "post",
-//														dataType : "json",
-//														data: $("##editImagesForm").serialize(),
-//														success: function (result) {
-//															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-//																$('##saveImagesResultDiv').html('Saved');
-//																$('##saveImagesResultDiv').addClass('text-success');
-//																$('##saveImagesResultDiv').removeClass('text-warning');
-//																$('##saveImagesResultDiv').removeClass('text-danger');
-//															} else {
-//																// we shouldn't be able to reach this block, backing error should return an http 500 status
-//																$('##saveImagesResultDiv').html('Error');
-//																$('##saveImagesResultDiv').addClass('text-danger');
-//																$('##saveImagesResultDiv').removeClass('text-warning');
-//																$('##saveImagesResultDiv').removeClass('text-success');
-//																messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
-//															}
-//														},
-//														error: function(jqXHR,textStatus,error){
-//															$('##saveImagesResultDiv').html('Error');
-//															$('##saveImagesResultDiv').addClass('text-danger');
-//															$('##saveImagesResultDiv').removeClass('text-warning');
-//															$('##saveImagesResultDiv').removeClass('text-success');
-//															handleFail(jqXHR,textStatus,error,"saving changes to images history");
-//														}
-//													});
-//												};
-											</script> 
+													<script>
+														function editImagesSubmit(){
+															$('##saveImagesResultDiv').html('Saving....');
+															$('##saveImagessResultDiv').addClass('text-warning');
+															$('##saveImagesResultDiv').removeClass('text-success');
+															$('##saveImagesResultDiv').removeClass('text-danger');
+															$.ajax({
+																url : "/specimens/component/functions.cfc",
+																type : "post",
+																dataType : "json",
+																data: $("##editImagesForm").serialize(),
+																success: function (result) {
+																	if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+																		$('##saveImagesResultDiv').html('Saved');
+																		$('##saveImagesResultDiv').addClass('text-success');
+																		$('##saveImagesResultDiv').removeClass('text-warning');
+																		$('##saveImagesResultDiv').removeClass('text-danger');
+																	} else {
+																		// we shouldn't be able to reach this block, backing error should return an http 500 status
+																		$('##saveImagesResultDiv').html('Error');
+																		$('##saveImagesResultDiv').addClass('text-danger');
+																		$('##saveImagesResultDiv').removeClass('text-warning');
+																		$('##saveImagesResultDiv').removeClass('text-success');
+																		messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
+																	}
+																},
+																error: function(jqXHR,textStatus,error){
+																	$('##saveImagesResultDiv').html('Error');
+																	$('##saveImagesResultDiv').addClass('text-danger');
+																	$('##saveImagesResultDiv').removeClass('text-warning');
+																	$('##saveImagesResultDiv').removeClass('text-success');
+																	handleFail(jqXHR,textStatus,error,"saving changes to images history");
+																}
+															});
+														};
+													</script> 
 												</form>
 											</div>
 										</div>
