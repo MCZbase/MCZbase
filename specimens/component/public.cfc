@@ -76,12 +76,14 @@ limitations under the License.
 							)
 						};
 						</script>
+						<cfoutput>
 						<cfset mediaBlock= getMediaBlock(media_id="#images.media_id#",displayAs="thumb")>
 						<div id="mediaHTML">
 							<div id="mediaBlock#media_id#">
 								#mediaBlock#
 							</div>
 						</div>
+						</cfoutput>
 					</div>
 				</cfloop>
 			
