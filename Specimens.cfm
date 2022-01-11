@@ -149,45 +149,45 @@ limitations under the License.
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<cfswitch expression="#action#">
 							<cfcase value="fixedSearch">
+								<cfset fixedTabActive = "active">
+								<cfset fixedTabShow = "">
 								<cfset keywordTabActive = "">
 								<cfset keywordTabShow = "hidden">
 								<cfset builderTabActive = "">
 								<cfset builderTabShow = "hidden">
-								<cfset fixedTabActive = "active">
-								<cfset fixedTabShow = "">
 								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
 								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfcase value="keywordSearch">
+								<cfset fixedTabActive = "">
+								<cfset fixedTabShow = "hidden">
 								<cfset keywordTabActive = "active">
 								<cfset keywordTabShow = "">
 								<cfset builderTabActive = "">
 								<cfset builderTabShow = "hidden">
-								<cfset fixedTabActive = "">
-								<cfset fixedTabShow = "hidden">
 								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
 								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfcase value="builderSearch">
+								<cfset fixedTabActive = "">
+								<cfset fixedTabShow = "hidden">
 								<cfset keywordTabActive = "">
 								<cfset keywordTabShow = "hidden">
 								<cfset builderTabActive = "active">
 								<cfset builderTabShow = "">
-								<cfset fixedTabActive = "">
-								<cfset fixedTabShow = "hidden">
 								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
 							</cfcase>
 							<cfdefaultcase>
+								<cfset fixedTabActive = "active">
+								<cfset fixedTabShow = "">
 								<cfset keywordTabActive = "">
 								<cfset keywordTabShow = "hidden">
 								<cfset builderTabActive = "">
 								<cfset builderTabShow = "hidden">
-								<cfset fixedTabActive = "active">
-								<cfset fixedTabShow = "">
 								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
 								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
@@ -705,7 +705,7 @@ limitations under the License.
 							</div><!--- end fixed search tab --->
 	
 							<!---Keyword Search/results tab panel--->
-							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="0" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
+							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
 									<div class="col-9 float-right px-0"> 
 										<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseKeyword" aria-expanded="false" aria-controls="collapseKeyword">
 													Search Help
@@ -847,7 +847,7 @@ limitations under the License.
 							</div><!--- end keyword search/results panel --->
 	
 								<!---Query Builder tab panel--->
-							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
+							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<section role="search" class="container-fluid">
 									<form id="builderSearchForm">
 										<script>
@@ -1453,12 +1453,171 @@ limitations under the License.
 		};
 	
 		// bindingcomplete is fired on each page load of the grid, we need to distinguish the first page load from subsequent loads.
+		var fixedSearchLoaded = 0;
 		var keywordSearchLoaded = 0;
 		var builderSearchLoaded = 0;
-		var fixedSearchLoaded = 0;
+		
 	
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
+						/* Setup jqxgrid for fixed Search */
+			$('##fixedSearchForm').bind('submit', function(evt){
+				evt.preventDefault();
+				var uuid = getVersion4UUID();
+				$("##result_id_fixedSearch").val(uuid);
+	
+				fixedSearchLoaded = 0;
+
+				$("##overlay").show();
+	
+				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+				$('##fixedresultCount').html('');
+				$('##fixedresultLink').html('');
+				/*var debug = $('##fixedSearchForm').serialize();
+				console.log(debug);*/
+				/*var datafieldlist = [ ];//add synchronous call to cf component*/
+	
+				var search =
+				{
+					datatype: "json",
+					datafields:
+					[
+						<cfset separator = "">
+						<cfloop query="getFieldMetadata">
+							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							<cfelseif data_type EQ 'NUMBER' >
+								#separator#{name: '#ucase(column_name)#', type: 'number' }
+							<cfelse>
+								#separator#{name: '#ucase(column_name)#', type: 'string' }
+							</cfif>
+							<cfset separator = ",">
+						</cfloop>
+					],
+					beforeprocessing: function (data) {
+						if (data != null && data.length > 0) {
+							search.totalrecords = data[0].recordcount;
+						}
+					},
+					sort: function () {
+						$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
+					},
+					root: 'specimenRecord',
+					id: 'collection_object_id',
+					url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
+					timeout: 120000,  // units not specified, miliseconds?
+					loadError: function(jqXHR, textStatus, error) {
+						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+					},
+					async: true
+				};
+	
+				var dataAdapter = new $.jqx.dataAdapter(search);
+				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+					var details = $($(parentElement).children()[0]);
+					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
+					createRowDetailsDialogNoBlanks('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
+					// Workaround, expansion sits below row in zindex.
+					var maxZIndex = getMaxZIndex();
+					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+				}
+	
+				$("##fixedsearchResultsGrid").jqxGrid({
+					width: '100%',
+					autoheight: 'true',
+					source: dataAdapter,
+					filterable: false,
+					sortable: true,
+					pageable: true,
+					virtualmode: true,
+					editable: false,
+					pagesize: '25',
+					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
+					showaggregates: true,
+					columnsresize: true,
+					autoshowfiltericon: true,
+					autoshowcolumnsmenubutton: false,
+					autoshowloadelement: false,  // overlay acts as load element for form+results
+					columnsreorder: true,
+					groupable: true,
+					selectionmode: 'singlerow',
+					enablebrowserselection: true,
+					altrows: true,
+					showtoolbar: false,
+					ready: function () {
+						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
+					},
+					rendergridrows: function () {
+						return dataAdapter.records;
+					},
+					columns: [
+						<cfset lastrow ="">
+						<cfloop query="getFieldMetadata">
+							<cfset cellrenderer = "">
+							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
+								<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
+									<cfset cellrenderer = " cellsrenderer:fixed#getFieldMetadata.cellsrenderer#,">
+								<cfelse>
+									<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
+								</cfif>
+							</cfif> 
+							<cfif ucase(data_type) EQ 'DATE'>
+								<cfset filtertype = " filtertype: 'date',">
+							<cfelse>
+								<cfset filtertype = "">
+							</cfif>
+							<cfif ucase(column_name) EQ lastcolumn>
+								<!--- last column, no trailing comma --->
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+							<cfelse> 
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+							</cfif>
+						</cfloop>
+						#lastrow#
+					],
+					rowdetails: true,
+					rowdetailstemplate: {
+						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+						rowdetailsheight:  1 // row details will be placed in popup dialog
+					},
+					initrowdetails: initRowDetails
+				});
+	
+				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+					// add a link out to this search, serializing the form as http get parameters
+					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					if (fixedSearchLoaded==0) { 
+						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+						fixedSearchLoaded = 1;
+					}
+					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+				});
+				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
+					//  Create a content div, add it to the detail row, and make it into a dialog.
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					var datarecord = args.owner.source.records[rowIndex];
+					createRowDetailsDialogNoBlanks('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
+				});
+				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
+					// remove the dialog holding the row details
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+				});
+				// display selected row index.
+				$("##fixedsearchResultsGrid").on('rowselect', function (event) {
+					$("##fixedselectrowindex").text(event.args.rowindex);
+				});
+				// display unselected row index.
+				$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
+					$("##fixedunselectrowindex").text(event.args.rowindex);
+				});
+			});
+			/* End Setup jqxgrid for keyword Search ****************************************************************************************/
+	 
+			
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
 				evt.preventDefault();
@@ -1772,163 +1931,7 @@ limitations under the License.
 				});
 			});
 	
-			/* Setup jqxgrid for fixed Search */
-			$('##fixedSearchForm').bind('submit', function(evt){
-				evt.preventDefault();
-				var uuid = getVersion4UUID();
-				$("##result_id_fixedSearch").val(uuid);
-	
-				fixedSearchLoaded = 0;
 
-				$("##overlay").show();
-	
-				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
-				$('##fixedresultCount').html('');
-				$('##fixedresultLink').html('');
-				/*var debug = $('##fixedSearchForm').serialize();
-				console.log(debug);*/
-				/*var datafieldlist = [ ];//add synchronous call to cf component*/
-	
-				var search =
-				{
-					datatype: "json",
-					datafields:
-					[
-						<cfset separator = "">
-						<cfloop query="getFieldMetadata">
-							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
-								#separator#{name: '#ucase(column_name)#', type: 'string' }
-							<cfelseif data_type EQ 'NUMBER' >
-								#separator#{name: '#ucase(column_name)#', type: 'number' }
-							<cfelse>
-								#separator#{name: '#ucase(column_name)#', type: 'string' }
-							</cfif>
-							<cfset separator = ",">
-						</cfloop>
-					],
-					beforeprocessing: function (data) {
-						if (data != null && data.length > 0) {
-							search.totalrecords = data[0].recordcount;
-						}
-					},
-					sort: function () {
-						$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
-					},
-					root: 'specimenRecord',
-					id: 'collection_object_id',
-					url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
-					timeout: 120000,  // units not specified, miliseconds?
-					loadError: function(jqXHR, textStatus, error) {
-						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
-					},
-					async: true
-				};
-	
-				var dataAdapter = new $.jqx.dataAdapter(search);
-				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-					var details = $($(parentElement).children()[0]);
-					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
-					createRowDetailsDialogNoBlanks('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
-					// Workaround, expansion sits below row in zindex.
-					var maxZIndex = getMaxZIndex();
-					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-				}
-	
-				$("##fixedsearchResultsGrid").jqxGrid({
-					width: '100%',
-					autoheight: 'true',
-					source: dataAdapter,
-					filterable: false,
-					sortable: true,
-					pageable: true,
-					virtualmode: true,
-					editable: false,
-					pagesize: '25',
-					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
-					showaggregates: true,
-					columnsresize: true,
-					autoshowfiltericon: true,
-					autoshowcolumnsmenubutton: false,
-					autoshowloadelement: false,  // overlay acts as load element for form+results
-					columnsreorder: true,
-					groupable: true,
-					selectionmode: 'singlerow',
-					enablebrowserselection: true,
-					altrows: true,
-					showtoolbar: false,
-					ready: function () {
-						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
-					},
-					rendergridrows: function () {
-						return dataAdapter.records;
-					},
-					columns: [
-						<cfset lastrow ="">
-						<cfloop query="getFieldMetadata">
-							<cfset cellrenderer = "">
-							<cfif len(getFieldMetadata.cellsrenderer) GT 0>
-								<cfif left(getFieldMetadata.cellsrenderer,1) EQ "_"> 
-									<cfset cellrenderer = " cellsrenderer:fixed#getFieldMetadata.cellsrenderer#,">
-								<cfelse>
-									<cfset cellrenderer = " cellsrenderer:#getFieldMetadata.cellsrenderer#,">
-								</cfif>
-							</cfif> 
-							<cfif ucase(data_type) EQ 'DATE'>
-								<cfset filtertype = " filtertype: 'date',">
-							<cfelse>
-								<cfset filtertype = "">
-							</cfif>
-							<cfif ucase(column_name) EQ lastcolumn>
-								<!--- last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
-							<cfelse> 
-								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
-							</cfif>
-						</cfloop>
-						#lastrow#
-					],
-					rowdetails: true,
-					rowdetailstemplate: {
-						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-						rowdetailsheight:  1 // row details will be placed in popup dialog
-					},
-					initrowdetails: initRowDetails
-				});
-	
-				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					// add a link out to this search, serializing the form as http get parameters
-					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
-					if (fixedSearchLoaded==0) { 
-						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-						fixedSearchLoaded = 1;
-					}
-					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
-				});
-				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					var datarecord = args.owner.source.records[rowIndex];
-					createRowDetailsDialogNoBlanks('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
-				});
-				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
-					// remove the dialog holding the row details
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					$("##fixedsearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-				});
-				// display selected row index.
-				$("##fixedsearchResultsGrid").on('rowselect', function (event) {
-					$("##fixedselectrowindex").text(event.args.rowindex);
-				});
-				// display unselected row index.
-				$("##fixedsearchResultsGrid").on('rowunselect', function (event) {
-					$("##fixedunselectrowindex").text(event.args.rowindex);
-				});
-			});
-			/* End Setup jqxgrid for keyword Search ****************************************************************************************/
-	 
 			// If requested in uri, execute search immediately.
 			<cfif isdefined("execute")>
 				<cfswitch expression="#execute#">
