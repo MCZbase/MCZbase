@@ -630,7 +630,7 @@ limitations under the License.
 															<cfset idnum=1>
 																<div class="col-12 col-md-12 px-0 float-left">
 																<cfloop query="determiners">
-																	<div id="IdTr_#i#_#idnum#">
+																	<div id="IdTr_#i#_#idnum#" class="col-12 col-md-6 float-left">
 																		<label for="IdBy_#i#_#idnum#" class="data-entry-label col-12 col-md-6 float-left">
 																		Identified By
 																		<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
@@ -649,7 +649,7 @@ limitations under the License.
 																			<input type="hidden" name="new_publication_id" id="new_publication_id">
 																			<input type="text" id="newPub" class="data-entry-input">
 																		</div>
-																		<div class="col-12 col-md-8 float-left px-1">
+																		<div class="col-12 col-md-6 float-left px-1">
 																			<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
 																			<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 																		</div>
