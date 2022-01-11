@@ -2781,14 +2781,14 @@ limitations under the License.
 										</label>
 										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
 									</div>
-
+								<div class="col-12 float-left mt-0 mb-1 p-0">
 									<div class="col-12 col-md-3 float-left">
 										<label for="type_status" class="data-entry-label mt-2 mb-0">
 											<span id="type_status">Citation Type</span>
 										</label>
 										<select name="type_status" id="type_status" class="data-entry-select">
+											<option value""></option>
 											<cfloop query="ctTypeStatus">
-												<option value""></option>
 												<option value="#type_status#">#type_status#</option>
 											</cfloop>
 										</select>
@@ -2797,11 +2797,11 @@ limitations under the License.
 										<label for="occurs_page_number" class="data-entry-label mt-1 mb-0">Page ##</label>
 										<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="">
 									</div>
-									<div class="col-12 col-md-3 float-left">
+									<div class="col-12 col-md-6 float-left">
 										<label for="citation_remarks" class="data-entry-label mt-1 mb-0">Remarks</label>
 										<input name="citation_remarks" id="citation_remarks" class="data-entry-input" type="text" value="">
 									</div>
-								</cfoutput>
+							
 
 								</div>
 									<div class="col-12 my-2 float-left">
@@ -2810,6 +2810,7 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
+							</cfoutput>
 							</div>
 						</div>
 					</section>
