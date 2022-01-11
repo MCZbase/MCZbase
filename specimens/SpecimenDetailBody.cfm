@@ -178,7 +178,7 @@ limitations under the License.
 								<h3 class="h4 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
 										Media
-										<span class="text-success font-weight-light">(#mediaCount.ct#)</span>
+									<!---	<span class="text-success font-weight-light">(#mediaCount.ct#)</span>--->
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
