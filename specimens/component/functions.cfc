@@ -158,7 +158,7 @@ limitations under the License.
 																<cfset description=desc.label_value>
 															</cfif>
 															<cfset k=1>
-															<cfoutput>
+														
 															<cfloop query="getImages">
 																<div class="col-6 float-left p-2">
 																	<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
@@ -170,7 +170,7 @@ limitations under the License.
 																</div>
 															<cfset k = k+1>
 															</cfloop>
-															</cfoutput>
+													
 																<script>
 																	function editMediaSubmit(){
 																		$('##deleteMediaResultDiv').html('Deleting....');
