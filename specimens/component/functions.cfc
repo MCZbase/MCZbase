@@ -1261,9 +1261,9 @@ limitations under the License.
  @param media_id the media.media_id to edit.
  @return html for editing the media record 
 --->
-<cffunction name="getImagesHtml" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getMediaHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfthread name="getImagesThread">
+	<cfthread name="getMediaThread">
 		<cftry>
 			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 1 as status, media.media_id, media.media_uri,media.preview_uri, media.media_type, media.mime_type, media.mask_media_fg, media.media_license_id 
@@ -1277,9 +1277,9 @@ limitations under the License.
 					media_id
 			</cfquery>
 			<cfoutput>
-				<div id="imagesHTML">
+				<div id="mediaHTML">
 					<cfloop query="theResult">
-						<div class="imagesExistingForm">
+						<div class="mediaExistingForm">
 							<form>
 								<div class="container pl-1">
 									<div class="row mx-0 mt-0 pt-2 pb-1">
@@ -1328,10 +1328,10 @@ limitations under the License.
 			</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getImagesThread" />
-	<cfreturn getImagesThread.output>
+	<cfthread action="join" name="getMediaThread" />
+	<cfreturn getMediaThread.output>
 </cffunction>
-<cffunction name="getImagesTable" returntype="query" access="remote">
+<cffunction name="getMediaTable" returntype="query" access="remote">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfset r=1>
 	<cftry>
@@ -1366,7 +1366,7 @@ limitations under the License.
 		<cfreturn theResult>
 	</cfif>
 </cffunction>
-<cffunction name="saveImagesID" access="remote" returntype="any" returnformat="json">
+<cffunction name="saveMediaID" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="media_uri" type="string" required="yes">
@@ -1378,15 +1378,15 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="updateImagesCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newImagesCheck_result">
+			<cfquery name="updateMediaCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newMediaCheck_result">
 				SELECT count(*) as ct from media
 				WHERE
 					MEDIA_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#media_id#'>
 			</cfquery>
-			<cfif updateImagesCheck.ct NEQ 1>
+			<cfif updateMediaCheck.ct NEQ 1>
 				<cfthrow message = "Unable to update images. Provided media_id does not match a record in the images ID table.">
 			</cfif>
-			<cfquery name="updateImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateImages">
+			<cfquery name="updateMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateMedia">
 				UPDATE media SET
 					media_uri = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#media_uri#">,
 					preview_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preview_uri#">,
