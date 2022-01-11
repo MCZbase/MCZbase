@@ -28,12 +28,11 @@ function checkFormValidity(form) {
  * @param media_id
  * @param targetDiv the id
  **/
-
-function loadMedia(media_id,form) {
+function removeMedia(media_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getMediaHtml",
+			method : "removeMedia",
 			media_id: media_id,
 		},
 		success: function (result) {
@@ -45,42 +44,6 @@ function loadMedia(media_id,form) {
 		dataType: "html"
 	});
 };
-function loadMedia(collection_object_id,targetDivId) { 
-	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
-		data : {
-			method : "getMediaHTML",
-			collection_object_id: collection_object_id
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading media");
-		},
-		dataType: "html"
-	});
-};
-
-function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Media for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditMediaHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
-		},
-		dataType: "html"
-	});
-};
-
 function updateMedia(media_id,targetDiv) {
 	jQuery.ajax(
 	{
@@ -104,6 +67,81 @@ function updateMedia(media_id,targetDiv) {
 	},
 	)
 };
+//function loadMedia(media_id,form) {
+//	jQuery.ajax({
+//		url: "/specimens/component/functions.cfc",
+//		data : {
+//			method : "getMediaHtml",
+//			media_id: media_id,
+//		},
+//		success: function (result) {
+//			$("#mediaHTML").html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"removing media");
+//		},
+//		dataType: "html"
+//	});
+//};
+function loadMedia(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getMediaHTML",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media");
+		},
+		dataType: "html"
+	});
+};
+function updateMedia(media_id,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/media/component/search.cfc",
+		data: { 
+			method : "updateMediaBlockHtml",
+			media_id : media_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are images";
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
+};
+function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Media for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditMediaHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
+		},
+		dataType: "html"
+	});
+};
+
+
 //function loadMedia(media_id,form) {
 //	jQuery.ajax({
 //		url: "/specimens/component/functions.cfc",
@@ -451,22 +489,7 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
-function removeMedia(media_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "removeMedia",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#mediaHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
-		},
-		dataType: "html"
-	});
-};
+
 
 function removeCitation(cited_taxon_name_id,form) {
 	jQuery.ajax({
