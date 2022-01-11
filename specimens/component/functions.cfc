@@ -161,16 +161,13 @@ limitations under the License.
 															<cfoutput>
 															<cfloop query="getImages">
 																<div class="col-6 float-left p-2">
-																										<cfloop query="images">
-										<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
-											<div id="mediaBlock#images.media_id#">
-												#mediaBlock#
-											</div>
-										</div>
-									</cfloop>
+																	<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
+																		<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
+																		<div id="mediaBlock#images.media_id#">
+																			#mediaBlock#
+																		</div>
+																	</div>
 																</div>
-						
 															<cfset k = k+1>
 															</cfloop>
 															</cfoutput>
