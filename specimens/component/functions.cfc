@@ -66,7 +66,7 @@ limitations under the License.
 								<input type="hidden" name="method" value="updateMedia">
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">
-								<input type="hidden" name="mediaidnum" value="column">
+								<input type="hidden" name="media_id" value="column">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								<div class="col-12 col-lg-12 float-left mb-4 px-0">
 								<div id="accordionImages1">
@@ -117,15 +117,14 @@ limitations under the License.
 																AND
 																	media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 															</cfquery>
-														
-														<div class="col-6 float-left p-2">
-															<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-																<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
-																<div id="mediaBlock#images.media_id#">
-																	#mediaBlock#
+															<div class="col-6 float-left p-2">
+																<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
+																	<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
+																	<div id="mediaBlock#images.media_id#">
+																		#mediaBlock#
+																	</div>
 																</div>
 															</div>
-														</div>
 															<script>
 																function editMediaSubmit(){
 																	$('##deleteMediaResultDiv').html('Deleting....');
