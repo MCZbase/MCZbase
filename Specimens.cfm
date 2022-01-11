@@ -2066,14 +2066,16 @@ limitations under the License.
 				autoOpen: false,
 				modal: true,
 				reszable: true,
+				close: function(event, ui) { 
+					window.columnHiddenSettings = getColumnVisibilities(gridId);		
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+					</cfif>
+				},
 				buttons: [
 					{
 						text: "Ok",
 						click: function(){ 
-							window.columnHiddenSettings = getColumnVisibilities(gridId);		
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
-							</cfif>
 							$(this).dialog("close"); 
 						},
 						tabindex: 0
