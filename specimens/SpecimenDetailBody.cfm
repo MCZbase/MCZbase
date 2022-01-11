@@ -173,21 +173,27 @@ limitations under the License.
 									loadMedia(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
-							<cfset blockmedia = getMediaHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingMedia">
 								<h3 class="h4 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
 										Media
-									<!---	<span class="text-success font-weight-light">(#mediaCount.ct#)</span>--->
+										<span class="text-success font-weight-light">(#mediaCount.ct#)</span>
 									</button>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<cfif listcontainsnocase(session.roles,"manage_media")>
 										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
 							</div>
-							<div id="mediaPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionMedia">
-								<div class="card-body py-1 mb-1 w-100 float-left" id="mediaCardBody">
-									<div id="mediaHTML"></div>
+							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
+								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
+									<cfloop query="images">
+										<div class="col-12 px-1 col-md-6 mb-2 float-left">
+											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
+											<div id="mediaBlock#images.media_id#">
+												#mediaBlock#
+											</div>
+										</div>
+									</cfloop>
 								</div>
 							</div>
 						</div>
