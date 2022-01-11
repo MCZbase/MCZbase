@@ -42,57 +42,140 @@ limitations under the License.
 					WHERE
 						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<cfloop query="images">
-					<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT distinct
-							media.media_id,
-							media.media_uri,
-							media.preview_uri as preview_uri,
-							media.mime_type as mime_type,
-							media.media_type,
-							mczbase.get_media_descriptor(media.media_id) as media_descriptor
-						FROM 
-							media,
-							media_relations
-						WHERE 
-							media_relations.media_id = media.media_id
-						AND
-							media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-					</cfquery>
-					<cfset mt=getImages.mime_type>
-					<cfset altText = getImages.media_descriptor>
-					<cfset puri=getMediaPreview(preview_uri,mime_type)>
-					<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
-							media_label,
-							label_value
-						FROM
-							media_labels
-						WHERE
-							media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					</cfquery>
-					<cfquery name="desc" dbtype="query">
-						select label_value from labels where media_label='description'
-					</cfquery>
-					<cfset description="Media Preview Image">
-					<cfif desc.recordcount is 1>
-						<cfset description=desc.label_value>
-					</cfif>
-					<cfif len(images.media_uri) gt 0>
-						<ul class="list-group mt-1 mx-2 rounded px-3 py-2 h4 font-weight-normal">
-							<div class="font-italic h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> 
-								<a href="/media/#getImages.media_id#" target="_blank">
-									<img src="#puri#" alt="#altText#" class="" style="width:100px;"> 
-								</a>
-								<cfif len(description) gt 0>
-									<span class="sm-caps font-weight-lessbold">#description#</span>
+				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
+					SELECT media_id, 
+						preview_uri, media_uri, 
+						mime_type, media_type,
+						auto_extension as extension,
+						auto_host as host,
+						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+						MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
+						MCZBASE.get_media_credit(media.media_id) as credit,
+						MCZBASE.get_media_owner(media.media_id) as owner,
+						MCZBASE.get_media_creator(media.media_id) as creator,
+						MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
+						MCZBASE.get_medialabel(media.media_id,'description') as description,
+						MCZBASE.get_medialabel(media.media_id,'made date') as made_date,
+						MCZBASE.get_medialabel(media.media_id,'subject') as subject,
+						MCZBASE.get_medialabel(media.media_id,'height') as height,
+						MCZBASE.get_medialabel(media.media_id,'width') as width,
+						MCZBASE.get_media_descriptor(media.media_id) as alt,
+						MCZBASE.get_media_title(media.media_id) as title
+					FROM 
+						media
+						left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+					WHERE 
+						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#images.media_id#">
+						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
+				</cfquery>
+				<cfif media.recordcount EQ 1>
+					<cfloop query="media">
+						<div  class="border rounded py-2 px-1">
+							<cfset isDisplayable = false>
+							<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
+								<cfset isDisplayable = true>
+							</cfif>
+							<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
+							<!--- specify a reasonable fallback for media height/width --->
+							<cfset hw = 'height="600" width="600"'>
+							<cfset imgClasses = "w-100 px-1">
+							<cfif isDisplayable>
+								<cfif #l_displayAs# EQ "thumb">
+									<cfset displayImage = preview_uri>
+									<cfset l_size = "100">
+									<cfset hw = 'height="auto"'>
+								<cfelse>
+									<cfif host EQ "mczbase.mcz.harvard.edu">
+										<cfset l_size = "500">
+										<cfset hw = 'height="auto" width="auto"'>
+										<cfset sizeType='&width=#l_size#&height=#l_size#'>
+										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
+									<cfelse>
+										<cfif len(media.height) GT 0 and len(media.width) GT 0>
+											<!--- specify the actual media height/width --->
+											<cfset hw = 'height="auto" width="auto"'>
+										</cfif>
+										<cfset displayImage = media_uri>
+									</cfif>
 								</cfif>
+							<cfelse>
+								<cfset hw = 'width="auto" height="auto"'>
+								<cfset imgClasses = "py-2 w-auto notthumb">
+								
+								<cfif #l_displayAs# EQ "thumb" >
+									<cfset hw = 'height="auto"'>
+									<cfif host EQ "mczbase.mcz.harvard.edu">
+										<cfset imgClasses = "py-0 w-100 thumbs">
+									</cfif>
+								</cfif>
+								<cfif len(preview_uri) GT 0>
+									<cfset displayImage = preview_uri>
+								<cfelse>
+									<!--- pick placeholder --->
+									<cfif media_type is "image">
+										<cfset displayImage = "/shared/images/Image-x-generic.svg">
+									<cfelseif media_type is "audio">
+										<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
+									<cfelseif media_type IS "video">
+										<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
+									<cfelseif media_type is "text">
+										<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
+									<cfelseif media_type is "3D model">
+										<cfset displayImage =  "/shared/images/Airy-3d.svg">
+									<cfelse>
+										<cfset displayImage =  "/shared/images/Image-x-generic.svg"><!---nothing was working for mime type--->
+									</cfif>
+								</cfif>
+							</cfif>
+							<div class="media_widget">
+								<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center mgImg" title="click to open full image">
+									<img src="#displayImage#" id="myImage" alt="#alt#" class="#imgClasses#" #hw#>
+								</a>
+								<div class="mt-0 bg-light col-12 pb-1 px-0">
+									<p class="text-center p-1 mb-0 col-12 smaller">
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<span class="d-inline"><a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">(edit) </a></span>
+									</cfif>
+										<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </span>
+										<cfif NOT isDisplayable>
+											<cfif #l_displayAs# NEQ "thumb">
+												<span class="d-inline ">#media_type# (#mime_type#)</span>
+											</cfif>
+											<span class="d-inline">(<a class="" target="_blank" href="#media_uri#">media file</a>)</span>
+										<cfelse>
+											<span class="d-inline"> (<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom /related</a>) </span>
+											<span class="d-inline"> (<a class="" target="_blank" href="#media_uri#">full</a>) </span>
+										</cfif>
+									</p>
+									<div class="pb-1">
+										<cfset showTitleText = trim(title)>
+										<cfif len(showTitleText) EQ 0>
+											<cfset showTitleText = trim(subject)>
+										</cfif>
+										<cfif len(showTitleText) EQ 0>
+											<cfset showTitleText = "Unlinked Media Object">
+										</cfif>
+										<cfif #l_displayAs# EQ "thumb">
+											<cfif len(showTitleText) GT 30>
+												<cfset showTitleText = "#left(showTitleText,30)#..." >
+											</cfif>
+										</cfif>
+										<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
+										<cfif len(#license_uri#) gt 0>
+											<p class="text-center col-12 p-0 my-0 smaller">
+												<cfif #l_displayAs# NEQ "thumb">
+													License: 
+												</cfif>
+												<a href="#license_uri#">#license_display#</a>
+											</p>
+										</cfif>
+									</div>
+								</div>
 							</div>
-						</ul>
-					<cfelse>
-						None
-					</cfif>
-				</cfloop>
+						</div>
+					</cfloop>
+				</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
