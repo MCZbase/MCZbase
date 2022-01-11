@@ -80,6 +80,7 @@ limitations under the License.
 							<!--- specify a reasonable fallback for media height/width --->
 							<cfset hw = 'height="600" width="600"'>
 							<cfset imgClasses = "w-100 px-1">
+								<cfset #displayAs# = "thumb">
 							<cfif isDisplayable>
 								<cfif #displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
