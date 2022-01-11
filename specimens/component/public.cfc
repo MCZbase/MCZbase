@@ -173,7 +173,7 @@ limitations under the License.
 													<cfif #displayAs# NEQ "thumb">
 														License: 
 													</cfif>
-													<a href="#license_uri#">#license_display#</a>
+													<a href="#media.license_uri#">#media.license_display#</a>
 												</p>
 											</cfif>
 										</div>
