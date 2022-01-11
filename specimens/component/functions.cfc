@@ -565,7 +565,7 @@ limitations under the License.
 									<div class="card add-form">
 										<div class="card-header add-form-header pt-1" id="headingOnex">
 											<h2 class="h3 text-white my-0 px-1 pb-1">
-												<button class="btn btn-link text-white w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex"><span class="h4">Add New Determination</span> </button>
+												<button class="btn text-white w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">Add New Determination </button>
 											</h2>
 										</div>
 										<div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
