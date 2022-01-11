@@ -51,6 +51,31 @@ limitations under the License.
 							media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 					<div class="col-12 col-md-12 px-0 mb-2 float-left">
+						<script>
+						function updateMedia(media_id,targetDiv) {
+							jQuery.ajax(
+							{
+								dataType: "json",
+								url: "/media/component/search.cfc",
+								data: { 
+									method : "getMediaBlockHtml",
+									media_id : media_id,
+									returnformat : "json",
+									queryformat : 'column'
+								},
+								error: function (jqXHR, status, message) {
+									messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+								},
+								success: function (result) {
+									if (result.DATA.STATUS[0]==1) {
+										var message  = "There are images";
+										$('#' + targetDiv).html(message);
+									}
+								}
+							},
+							)
+						};
+						</script>
 						<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
 						<div id="mediaHTML">
 							<div id="mediaBlock#media_id#">
