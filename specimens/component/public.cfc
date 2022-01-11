@@ -82,7 +82,7 @@ limitations under the License.
 								<cfif media.media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 									<cfset isDisplayable = true>
 								</cfif>
-								<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
+								<cfset altEscaped = replace(replace(#media.alt#,"'","&##8217;","all"),'"',"&quot;","all") >
 								<!--- specify a reasonable fallback for media height/width --->
 								<cfset hw = 'height="600" width="600"'>
 								<cfset imgClasses = "w-100 px-1">
