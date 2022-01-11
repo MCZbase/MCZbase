@@ -46,35 +46,36 @@ limitations under the License.
 				<cfset size="200">
 				<cfset displayAs="thumb">
 				<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
-				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
-					SELECT media_id, 
-						preview_uri, media_uri, 
-						mime_type, media_type,
-						auto_extension as extension,
-						auto_host as host,
-						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
-						MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
-						MCZBASE.get_media_credit(media.media_id) as credit,
-						MCZBASE.get_media_owner(media.media_id) as owner,
-						MCZBASE.get_media_creator(media.media_id) as creator,
-						MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
-						MCZBASE.get_medialabel(media.media_id,'description') as description,
-						MCZBASE.get_medialabel(media.media_id,'made date') as made_date,
-						MCZBASE.get_medialabel(media.media_id,'subject') as subject,
-						MCZBASE.get_medialabel(media.media_id,'height') as height,
-						MCZBASE.get_medialabel(media.media_id,'width') as width,
-						MCZBASE.get_media_descriptor(media.media_id) as alt,
-						MCZBASE.get_media_title(media.media_id) as title
-					FROM 
-						media
-						left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
-					WHERE 
-						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#images.media_id#">
-						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
-				</cfquery>
+				
 				<cfif media.recordcount EQ 1>
 					<cfloop query="media">
+						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
+							SELECT media_id, 
+								preview_uri, media_uri, 
+								mime_type, media_type,
+								auto_extension as extension,
+								auto_host as host,
+								CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+								CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+								MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
+								MCZBASE.get_media_credit(media.media_id) as credit,
+								MCZBASE.get_media_owner(media.media_id) as owner,
+								MCZBASE.get_media_creator(media.media_id) as creator,
+								MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
+								MCZBASE.get_medialabel(media.media_id,'description') as description,
+								MCZBASE.get_medialabel(media.media_id,'made date') as made_date,
+								MCZBASE.get_medialabel(media.media_id,'subject') as subject,
+								MCZBASE.get_medialabel(media.media_id,'height') as height,
+								MCZBASE.get_medialabel(media.media_id,'width') as width,
+								MCZBASE.get_media_descriptor(media.media_id) as alt,
+								MCZBASE.get_media_title(media.media_id) as title
+							FROM 
+								media
+								left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+							WHERE 
+								media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#images.media_id#">
+								AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
+						</cfquery>
 						<div class="col-6 float-left px-1 pt-2">
 							<div  class="border rounded py-2 px-1">
 								<cfset isDisplayable = false>
