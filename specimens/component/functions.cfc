@@ -2817,7 +2817,7 @@ limitations under the License.
 									</div>
 
 									<div class="col-12 col-md-4 float-left">
-										<label for="occurs_page_number" class="data-entry-label mt-1 mb-0"> Description Min. Length</label>
+										<label for="occurs_page_number" class="data-entry-label mt-1 mb-0">Page ##</label>
 										<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="">
 									</div>
 								</div>
