@@ -119,7 +119,15 @@ limitations under the License.
 															</cfquery>
 															<div class="col-6 float-left p-2">
 																<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-																	<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
+																<script>
+																	function getMediaBlock(media_id) { 
+																	// add trans_agent record
+																	getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb");
+																	// trigger save needed
+																	handleChange();
+																	}
+																	</script>
+																	<cfset mediaBlock= getMediaBlock(media_id)>
 																	<div id="mediaBlock#images.media_id#">
 																		#mediaBlock#
 																	</div>
