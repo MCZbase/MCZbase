@@ -15,54 +15,46 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
-<cfinclude template = "/media/component/search.cfc" runOnce="true">
 	
-
-<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
+	
+<cffunction name="getMediaHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="no">
+		<cfoutput>
 		<cfthread name="getMediaThread">
-			<cfoutput>
-				<cftry>
-				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						media.media_id
-					FROM
-						media
-						left join media_relations on media_relations.media_id = media.media_id
-					WHERE
-						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfquery>
-					<script type="text/javascript" src="/specimens/js/specimens.js"></script>	
-						<cfset mediaBlock= getMediaBlock(media_id="#images.media_id#",displayAs="thumb")>
-				<cfloop query="images">
-					<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT distinct
-							media.media_id,
-							media.media_uri,
-							media.preview_uri as preview_uri,
-							media.mime_type as mime_type,
-							media.media_type,
-							mczbase.get_media_descriptor(media.media_id) as media_descriptor
-						FROM 
-							media,
-							media_relations
-						WHERE 
-							media_relations.media_id = media.media_id
-						AND
-							media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-					</cfquery>
-					<div class="col-12 col-md-12 px-0 mb-2 float-left">
-						<cfoutput>
-					
-						<div id="mediaHTML">
-							<div id="mediaBlock#media_id#">
-								#mediaBlock#
-							</div>
-						</div>
-						</cfoutput>
+			<cftry>
+				<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
+					<div class="card-body w-100 px-2 float-left" id="mediaCardBody">
+						<!--- TODO: Fix indentation, and move this block into an ajax function invoked by loadMedia. --->
+							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									media.media_id
+								FROM
+									media
+									left join media_relations on media_relations.media_id = media.media_id
+								WHERE
+									media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							</cfquery>
+							<cfloop query="images">
+								<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT distinct
+										media.media_id
+									FROM 
+										media,
+										media_relations
+									WHERE 
+										media_relations.media_id = media.media_id
+									AND
+										media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
+								</cfquery>
+								<div class="col-12 col-md-12 px-0 mb-2 float-left">
+									<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
+									<div id="mediaBlock#media_id#">
+										#mediaBlock#
+									</div>
+								</div>
+						</cfloop>
 					</div>
-				</cfloop>
-			
+				</div>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
@@ -84,11 +76,12 @@ limitations under the License.
 					</div>
 			</cfcatch>
 			</cftry>
-			</cfoutput>
 		</cfthread>
+		</cfoutput>
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
 </cffunction>
+	
 
 						
 <!--- TEST getMediaHTML obtain a block of html listing identifications for a cataloged item
