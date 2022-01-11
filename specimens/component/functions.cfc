@@ -366,7 +366,7 @@ limitations under the License.
 											Add New Determination
 										</h2>
 									</div>
-									<div class="card-body"> 
+									<div class="card-body px-2"> 
 										<script>
 											function idFormulaChanged(newFormula,baseId) { 
 												if(newFormula.includes("B")) {
