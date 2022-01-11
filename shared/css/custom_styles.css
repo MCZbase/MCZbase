@@ -1129,7 +1129,7 @@ table.inputTable tr {
 .card-header:first-child {
 	border-radius: .25rem .25rem 0 0;
 }
-.search-box {
+.search-box, .add-form {
 	background-color: #f5f5f5;
 	margin-top: 1rem;
 	padding-bottom: .25rem;
@@ -1137,7 +1137,7 @@ table.inputTable tr {
 	border-radius: .5rem;
 	border: 2px solid #3E6F7D;
 }
-.search-box-header {
+.search-box-header, .add-form-header {
 	background-color: #3e6f7d;
 	padding: .15rem 1rem .1rem 1.65rem;
 	margin-top: -1px;
