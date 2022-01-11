@@ -168,7 +168,7 @@ limitations under the License.
 												</cfif>
 											</cfif>
 											<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
-											<cfif len(#license_uri#) gt 0>
+											<cfif len(#media.license_uri#) gt 0>
 												<p class="text-center col-12 p-0 my-0 smaller">
 													<cfif #displayAs# NEQ "thumb">
 														License: 
