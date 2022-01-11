@@ -69,7 +69,7 @@ limitations under the License.
 								success: function (result) {
 									if (result.DATA.STATUS[0]==1) {
 										var message  = "There are images";
-										$('#' + targetDiv).html(message);
+										$('##' + targetDiv).html(message);
 									}
 								}
 							},
