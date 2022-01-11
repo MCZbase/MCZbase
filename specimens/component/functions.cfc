@@ -2729,14 +2729,14 @@ limitations under the License.
 								<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select collection,collection_id from collection order by collection
 								</cfquery>
+								<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select type_status from ctcollection_type_status order by type_status
+								</cfquery>
 								<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select journal_name from ctjournal_name order by journal_name
 								</cfquery>
 								<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select publication_type from ctpublication_type order by publication_type
-								</cfquery>
-								<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select type_status from ctcitation_type_status order by type_status
 								</cfquery>
 							<cfoutput>
 							<form name="searchForm" id="searchForm">
@@ -2773,6 +2773,14 @@ limitations under the License.
 										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
 									</div>
 									<div class="col-12 col-md-4 float-left">
+										<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
+										<select name="collection" id="collection" size="1"  class="data-entry-select">
+											<option value="">All</option>
+											<cfloop query="ctColl">
+												<option value="#collection#">#collection#</option>
+											</cfloop>
+										</select>
+										</cfoutput>
 										<label for="type_status" class="data-entry-label mt-2 mb-0">
 											<span id="type_status">Citation Type</span>
 										</label>
@@ -2781,6 +2789,7 @@ limitations under the License.
 											<option value="#type_status#">#type_status#</option>
 										</select>
 									</div>
+
 									<div class="col-12 col-md-4 float-left">
 										<label for="occurs_page_number" class="data-entry-label mt-1 mb-0">Page ##</label>
 										<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="">
@@ -2792,7 +2801,6 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-							</cfoutput>
 							</div>
 						</div>
 					</section>
@@ -2801,6 +2809,9 @@ limitations under the License.
 							$(document).ready(function() {
 								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
 							});
+//							$(document).ready(function() {
+//								makeJournalAutocomplete("journal_name_#i#");
+//							});
 						</script>
 					</section>
 				</div>
