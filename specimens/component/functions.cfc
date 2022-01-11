@@ -385,46 +385,47 @@ limitations under the License.
 											<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 											<div class="row float-left mx-1 mt-0 pt-2 pb-1">
 												<div class="col-12 col-md-12 float-left">
-												<div class="col-12 col-md-2 px-1 float-left">
-													<label for="taxa_formula" class="data-entry-label">ID Formula</label>
-													<cfif not isdefined("taxa_formula")>
-														<cfset taxa_formula='A'>
-													</cfif>
-													<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr w-100" required onchange="idFormulaChanged(this.value,'taxonb');">
-														<cfset selected_value = "#taxa_formula#">
-														<cfloop query="ctFormula">
-															<cfif selected_value EQ ctFormula.taxa_formula>
-																<cfset selected = "selected='selected'">
-																<cfelse>
-																<cfset selected ="">
-															</cfif>
-															<option #selected# value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
-														</cfloop>
-													</select>
+													<div class="col-12 col-md-2 px-1 float-left">
+														<label for="taxa_formula" class="data-entry-label">ID Formula</label>
+														<cfif not isdefined("taxa_formula")>
+															<cfset taxa_formula='A'>
+														</cfif>
+														<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr w-100" required onchange="idFormulaChanged(this.value,'taxonb');">
+															<cfset selected_value = "#taxa_formula#">
+															<cfloop query="ctFormula">
+																<cfif selected_value EQ ctFormula.taxa_formula>
+																	<cfset selected = "selected='selected'">
+																	<cfelse>
+																	<cfset selected ="">
+																</cfif>
+																<option #selected# value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="col-12 col-md-4 px-1 float-left">
+														<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
+														<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
+														<input type="hidden" name="taxona_id" id="taxona_id">
+													</div>
+													<div class="col-12 col-md-3 px-1 d-none float-left">
+														<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
+														<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
+														<input type="hidden" name="taxonb_id" id="taxonb_id">
+													</div>
 												</div>
-												</div>
-												<div class="col-12 col-md-4 px-1">
-													<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
-													<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
-													<input type="hidden" name="taxona_id" id="taxona_id">
-												</div>
-												<div class="col-12 col-md-3 px-1 d-none">
-													<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
-													<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
-													<input type="hidden" name="taxonb_id" id="taxonb_id">
-												</div>
-												<div class="col-12 col-md-2 px-1">
-													<label for="made_date" class="data-entry-label" >Date Identified</label>
-													<input type="text" name="made_date" id="made_date" class="data-entry-input">
-												</div>
-												<div class="col-12 col-md-3 px-1">
-													<label for="nature_of_id" class="data-entry-label mt-0" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
-													<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
-														<cfloop query="ctnature">
-															<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-														</cfloop>
-													</select>
-												</div>
+												<div class="col-12 col-md-12 px-1 float-left">	
+													<div class="col-12 col-md-2 px-1 float-left">
+														<label for="made_date" class="data-entry-label" >Date Identified</label>
+														<input type="text" name="made_date" id="made_date" class="data-entry-input">
+													</div>
+													<div class="col-12 col-md-3 px-1 float-left">
+														<label for="nature_of_id" class="data-entry-label mt-0" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
+														<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
+															<cfloop query="ctnature">
+																<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
+															</cfloop>
+														</select>
+													</div>
 											</div>
 											<div class="">
 												<div class="col-12 px-1">
