@@ -47,16 +47,16 @@ limitations under the License.
 			even though it will be included in the URI parameter list when clicking on the 
 			"Link to this search" link.
 	--->
-	<cfcase value="keywordSearch">
-		<cfset pageTitle = "Specimen Search by Keyword">
-		<cfif isdefined("execute")>
-			<cfset execute="keyword">
-		</cfif>
-	</cfcase>
 	<cfcase value="fixedSearch">
 		<cfset pageTitle = "Specimen Search">
 		<cfif isdefined("execute")>
 			<cfset execute="fixed">
+		</cfif>
+	</cfcase>
+	<cfcase value="keywordSearch">
+		<cfset pageTitle = "Specimen Search by Keyword">
+		<cfif isdefined("execute")>
+			<cfset execute="keyword">
 		</cfif>
 	</cfcase>
 	<cfcase value="builderSearch">
@@ -185,9 +185,9 @@ limitations under the License.
 								<cfset keywordTabActive = "">
 								<cfset keywordTabShow = "hidden">
 								<cfset builderTabActive = "">
-								<cfset builderTabShow = "">
+								<cfset builderTabShow = "hidden">
 								<cfset fixedTabActive = "active">
-								<cfset fixedTabShow = "hidden">
+								<cfset fixedTabShow = "">
 								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
 								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
