@@ -2746,7 +2746,7 @@ limitations under the License.
 									<h2 class="h3 text-white float-left mb-1 mt-0 px-3"> Add Citation</h2>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 col-md-3 mt-2 float-right">
+									<div class="col-12 col-md-3 mt-1 float-right">
 										<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/Publication.cfm?action=newPub">Add New Publication <i class="fas fa-external-link-alt"></i></a>
 									</div>
 								</cfif>
@@ -2777,7 +2777,7 @@ limitations under the License.
 										<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
 									</div>
 									<div class="col-12 col-md-4 px-1 float-left">
-										<label for="scientific_name" class="data-entry-label mt-2 mb-0">
+										<label for="scientific_name" class="data-entry-label mt-1 mb-0">
 											<span id="scientific_name">Accepted Scientific Name</span>
 										</label>
 										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
