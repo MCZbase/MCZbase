@@ -2796,13 +2796,13 @@ limitations under the License.
 												<option value="#collection#">#collection#</option>
 											</cfloop>
 										</select>
-										<label for="cat_num" class="data-entry-label mt-1 mb-0">Catalog Number</label>
+<!---										<label for="cat_num" class="data-entry-label mt-1 mb-0">Catalog Number</label>
 										<select name="cat_num" id="cat_num" size="1"  class="data-entry-select">
 											<option value="">All</option>
 											<cfloop query="ctcataloged_item">
 												<option value="#cat_num#">#cat_num#</option>
 											</cfloop>
-										</select>
+										</select>--->
 										</cfoutput>
 										<label for="cit_current_fg" class="data-entry-label mt-2 mb-0">
 											<span id="cit_current_fg">Cites specimens?</span>
