@@ -2551,7 +2551,7 @@ limitations under the License.
 							<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select publication_type from ctpublication_type order by publication_type
 							</cfquery>
-							<cfoutput>
+							
 							<form name="searchForm" id="searchForm">
 								<input name="action" type="hidden" value="search">
 								<input type="hidden" name="method" value="getCitResults" class="keeponclear">
@@ -2623,7 +2623,7 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-							</cfoutput>
+					
 						</div>
 					</div>
 				</section>
