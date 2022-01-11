@@ -53,16 +53,16 @@ limitations under the License.
 			<cfset execute="keyword">
 		</cfif>
 	</cfcase>
-	<cfcase value="builderSearch">
-		<cfset pageTitle = "Specimen Search Builder">
-		<cfif isdefined("execute")>
-			<cfset execute="builder">
-		</cfif>
-	</cfcase>
 	<cfcase value="fixedSearch">
 		<cfset pageTitle = "Specimen Search">
 		<cfif isdefined("execute")>
 			<cfset execute="fixed">
+		</cfif>
+	</cfcase>
+	<cfcase value="builderSearch">
+		<cfset pageTitle = "Specimen Search Builder">
+		<cfif isdefined("execute")>
+			<cfset execute="builder">
 		</cfif>
 	</cfcase>
 	<cfdefaultcase>
@@ -159,17 +159,6 @@ limitations under the License.
 								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
-							<cfcase value="builderSearch">
-								<cfset keywordTabActive = "">
-								<cfset keywordTabShow = "hidden">
-								<cfset builderTabActive = "active">
-								<cfset builderTabShow = "">
-								<cfset fixedTabActive = "">
-								<cfset fixedTabShow = "hidden">
-								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
-								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							</cfcase>
 							<cfcase value="fixedSearch">
 								<cfset keywordTabActive = "">
 								<cfset keywordTabShow = "hidden">
@@ -180,6 +169,17 @@ limitations under the License.
 								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
+							</cfcase>
+							<cfcase value="builderSearch">
+								<cfset keywordTabActive = "">
+								<cfset keywordTabShow = "hidden">
+								<cfset builderTabActive = "active">
+								<cfset builderTabShow = "">
+								<cfset fixedTabActive = "">
+								<cfset fixedTabShow = "hidden">
+								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfdefaultcase>
 								<cfset keywordTabActive = "active">
@@ -194,11 +194,516 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" id="3" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#" id="1" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="2" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" id="3" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Fixed Search</button>
 						</div>
 						<div class="tab-content">
+							<!---Fixed Search tab panel--->
+							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
+								<section role="search" class="container-fluid">
+									<form id="fixedSearchForm">
+										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
+										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
+										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
+										<div class="container-flex">
+											<div class="form-row mb-2">
+												<div class="col-12 col-md-3">
+													<label for="fixedCollection" class="data-entry-label">Collection</label>
+													<div name="collection" id="fixedCollection" class="w-100"></div>
+													<cfif not isdefined("collection")><cfset collection=""></cfif>
+													<cfset collection_array = ListToArray(collection)>
+													<script>
+														function setFixedCollectionValues() {
+															$('##fixedCollection').jqxComboBox('clearSelection');
+															<cfloop query="ctCollection">
+																<cfif ArrayContains(collection_array, ctCollection.collection_cde)>
+																	$("##fixedCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
+																</cfif>
+															</cfloop>
+														};
+														$(document).ready(function () {
+															var collectionsource = [
+																<cfset comma="">
+																<cfloop query="ctCollection">
+																	#comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
+																	<cfset comma=",">
+																</cfloop>
+															];
+															$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '23px', width: '100%' });
+															setFixedCollectionValues();
+														});
+													</script> 
+												</div>
+												<div class="col-12 col-md-3">
+													<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
+													<label for="catalogNum" class="data-entry-label">Catalog Number</label>
+													<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="1,1-4,A-1,R1-4" value="#cat_num#">
+												</div>
+												<div class="col-12 col-md-3">
+													<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
+													<label for="otherID" class="data-entry-label">Other ID Type</label>
+													<div name="other_id_type" id="other_id_type" class="w-100"></div>
+													<cfset otheridtype_array = ListToArray(other_id_type)>
+													<script>
+														function setOtherIdTypeValues() {
+															$('##other_id_type').jqxComboBox('clearSelection');
+															<cfloop query="ctother_id_type">
+																<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
+																	$("##other_id_type").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
+																</cfif>
+															</cfloop>
+														};
+														$(document).ready(function () {
+															var otheridtypesource = [
+																<cfset comma="">
+																<cfloop query="ctother_id_type">
+																	#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
+																	<cfset comma=",">
+																</cfloop>
+															];
+															$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
+															setOtherIdTypeValues();
+														});
+													</script> 
+												</div>
+												<div class="col-12 col-md-3">
+													<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
+													<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
+													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#other_id_number#">
+												</div>
+											</div>
+											<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
+												<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
+												<div class="form-row mb-2">
+													<div class="col-12 col-md-3">
+														<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
+														<label for="otherID" class="data-entry-label">Other ID Type</label>
+														<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
+														<cfset otheridtype_array = ListToArray(other_id_type_1)>
+														<script>
+															function setOtherIdType_1_Values() {
+																$('##other_id_type_1').jqxComboBox('clearSelection');
+																<cfloop query="ctother_id_type">
+																	<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
+																		$("##other_id_type_1").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
+																	</cfif>
+																</cfloop>
+															};
+															$(document).ready(function () {
+																var otheridtypesource = [
+																	<cfset comma="">
+																	<cfloop query="ctother_id_type">
+																		#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
+																		<cfset comma=",">
+																	</cfloop>
+																];
+																$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
+																setOtherIdType_1_Values();
+															});
+														</script> 
+													</div>
+													<div class="col-12 col-md-3">
+														<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
+														<label for="other_id_number_1" class="data-entry-label">Other ID Numbers</label>
+														<input type="text" class="data-entry-input" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#other_id_number_1#">
+													</div>
+													<div class="col-12 col-md-6">
+														<label for="other_id_controls_note" class="data-entry-label">Note (fields to left): </label>
+														<p id="other_id_controls_note" class="px-1">Second set of other id type/other id number fields is for testing, may not work as expected.</p>
+													</div>
+												</div>
+											</cfif>
+											<div class="form-row mb-2">
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("full_taxon_name")><cfset full_taxon_name=""></cfif>
+													<label for="taxa" class="data-entry-label">Any Taxonomic Element</label>
+													<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy" value="#full_taxon_name#">
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="phylum" class="data-entry-label">Phylum</label>
+													<cfif not isdefined("phylum")><cfset phylum=""></cfif>
+													<input id="phylum" name="phylum" class="data-entry-input" value="#phylum#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeTaxonSearchAutocomplete('phylum','phylum');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="phylclass" class="data-entry-label">Class</label>
+													<cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
+													<input id="phylclass" name="phylclass" class="data-entry-input" value="#phylclass#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeTaxonSearchAutocomplete('phylclass','class');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="phylorder" class="data-entry-label">Order</label>
+													<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
+													<input id="phylorder" name="phylorder" class="data-entry-input" value="#phylorder#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeTaxonSearchAutocomplete('phylorder','order');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="family" class="data-entry-label">Family</label>
+													<cfif not isdefined("family")><cfset family=""></cfif>
+													<input type="text" id="family" name="family" class="data-entry-input" value="#family#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeTaxonSearchAutocomplete('family','family');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="publication_id" class="data-entry-label">Citation</label>
+													<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
+													<cfif not isdefined("citation")><cfset citation=""></cfif>
+													<input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input" value="#publication_id#" >
+													<input type="text" id="citation" name="citation" class="data-entry-input" value="#citation#" >
+													<script>
+														jQuery(document).ready(function() {
+															makePublicationPicker('citation','publication_id');
+														});
+													</script>
+												</div>
+											</div>
+											<div class="form-row mb-2">
+												<div class="col-12 col-md-2">
+													<label for="type_status" class="data-entry-label">Type Status/Citation</label>
+													<cfif not isdefined("type_status")><cfset type_status=""></cfif>
+													<input type="text" class="data-entry-input" id="type_status" name="type_status" value="#type_status#">
+													<script>
+														jQuery(document).ready(function() {
+															makeTypeStatusSearchAutocomplete('type_status');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="genus" class="data-entry-label">Genus</label>
+													<cfif not isdefined("genus")><cfset genus=""></cfif>
+													<input type="text" class="data-entry-input" id="genus" name="genus" value="#genus#">
+													<script>
+														jQuery(document).ready(function() {
+															makeTaxonSearchAutocomplete('genus','genus');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="scientific_name" class="data-entry-label">Scientific Name</label>
+													<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
+													<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
+													<cfif len(taxon_name_id) GT 0 and len(scientific_name) EQ 0>
+														<!--- lookup scientific name --->
+														<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupTaxon_result">
+															SELECT scientific_name as sciname
+															FROM taxonomy
+															WHERE
+																taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+														</cfquery>
+														<cfif lookupTaxon.recordcount EQ 1>
+															<cfset scientific_name = "=#lookupTaxon.sciname#">
+														</cfif>
+													</cfif>
+													<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input" value="#scientific_name#" >
+													<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#taxon_name_id#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeScientificNameAutocompleteMeta('scientific_name','taxon_name_id');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="author_text" class="data-entry-label">Authorship</label>
+													<cfif not isdefined("author_text")><cfset author_text=""></cfif>
+													<input id="author_text" name="author_text" class="data-entry-input" value="#author_text#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeTaxonSearchAutocomplete('author_text','author_text');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="determiner" class="data-entry-label">Determiner</label>
+													<cfif not isdefined("determiner")><cfset determiner=""></cfif>
+													<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
+													<!--- lookup agent name --->
+													<cfif len(determiner) EQ 0 AND len(determiner_id) GT 0>
+														<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupDeterminer_result">
+															SELECT agent_name
+															FROM preferred_agent_name
+															WHERE
+																agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determiner_id#">
+														</cfquery>
+														<cfif lookupDeterminer.recordcount EQ 1>
+															<cfset determiner = "=#lookupDeterminer.agent_name#">
+														</cfif>
+													</cfif>
+													<input type="hidden" id="determiner_id" name="determiner_id" class="data-entry-input" value="#determiner_id#" >
+													<input type="text" id="determiner" name="determiner" class="data-entry-input" value="#determiner#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeConstrainedAgentPicker('determiner', 'determiner_id', 'determiner');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="nature_of_id" class="data-entry-label">Nature Of Id</label>
+													<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
+													<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select col-sm-12 pl-2">
+														<option value=""></option>
+														<cfset nid = nature_of_id>
+														<cfloop query="ctnature_of_id">
+															<cfif nid EQ "=#ctnature_of_id.nature_of_id#"><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
+															<option value="=#ctnature_of_id.nature_of_id#" #selected#>#ctnature_of_id.nature_of_id# (#ctnature_of_id.ct#)</option>
+														</cfloop>
+													</select>
+												</div>
+											</div>
+											<div class="form-row mb-2">
+											</div>
+											<div class="form-row mb-2">
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
+													<label for="higher_geog" class="data-entry-label">Any Geographic Element</label>
+													<input type="text" class="data-entry-input" name="higher_geog" id="higher_geog" value="#higher_geog#">
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="country" class="data-entry-label">Country</label>
+													<cfif not isdefined("country")><cfset country=""></cfif>
+													<input type="text" class="data-entry-input" id="country" name="country" value="#country#">
+													<script>
+														jQuery(document).ready(function() {
+															makeCountrySearchAutocomplete('country');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="state_prov" class="data-entry-label">State/Province</label>
+													<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
+													<input type="text" class="data-entry-input" id="state_prov" name="state_prov" aria-label="state or province" value="#state_prov#">
+													<script>
+														jQuery(document).ready(function() {
+															makeGeogSearchAutocomplete('state_prov','state_prov');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="county" class="data-entry-label">County/Shire/Parish</label>
+													<cfif not isdefined("county")><cfset county=""></cfif>
+													<input type="text" class="data-entry-input" id="county" name="county" aria-label="county shire or parish" value="#county#">
+													<script>
+														jQuery(document).ready(function() {
+															makeGeogSearchAutocomplete('county','county');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="island_group" class="data-entry-label">Island Group</label>
+													<cfif not isdefined("island_group")><cfset island_group=""></cfif>
+													<input type="text" class="data-entry-input" id="island_group" name="island_group" value="#island_group#">
+													<script>
+														jQuery(document).ready(function() {
+															makeGeogSearchAutocomplete('island_group','island_group');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="island" class="data-entry-label">Island</label>
+													<cfif not isdefined("island")><cfset island=""></cfif>
+													<input type="text" class="data-entry-input" id="island" name="island" value="#island#">
+													<script>
+														jQuery(document).ready(function() {
+															makeGeogSearchAutocomplete('island','island');
+														});
+													</script>
+												</div>
+											</div>
+											<div class="form-row mb-2">
+												<div class="col-12 col-md-3">
+													<label for="collector" class="data-entry-label">Collector</label>
+													<cfif not isdefined("collector")>
+														<cfset collector="">
+													</cfif>
+													<cfif not isdefined("collector_agent_id") OR len(collector_agent_id) EQ 0>
+														<cfif len(collector) EQ 0>
+															<cfset collector_agent_id ="">
+														<cfelse>
+															<cfset collector_agent_id ="">
+															<!--- lookup collector's agent_id --->
+															<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																SELECT agent_id 
+																FROM preferred_agent_name 
+																WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collector#"> 
+																	AND rownum < 2
+															</cfquery>
+															<cfloop query="collectorLookup">
+																<cfset collector_agent_id = collectorLookup.agent_id>
+															</cfloop>
+														</cfif>
+													<cfelse>
+														<!--- lookup collector --->
+														<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															SELECT agent_name 
+															FROM preferred_agent_name 
+															WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
+																AND rownum < 2
+														</cfquery>
+														<cfif collectorLookup.recordcount GT 0>
+															<cfloop query="collectorLookup">
+																<cfset collector = collectorLookup.agent_name>
+															</cfloop>
+														</cfif>
+													</cfif>
+													<input type="text" id="collector" name="collector" class="data-entry-input" value="#collector#">
+													<input type="hidden" id="collector_agent_id" name="collector_agent_id" value="#collector_agent_id#">
+													<script>
+														jQuery(document).ready(function() {
+															makeConstrainedAgentPicker('collector','collector_agent_id','collector');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("part_name")><cfset part_name=""></cfif>
+													<label for="part_name" class="data-entry-label">Part Name</label>
+													<input type="text" id="part_name" name="part_name" class="data-entry-input" value="#part_name#" >
+													<script>
+														jQuery(document).ready(function() {
+															makePartNameAutocompleteMeta('part_name');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
+													<label for="preserve_method" class="data-entry-label">Preserve Method</label>
+													<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input" value="#preserve_method#" >
+													<script>
+														jQuery(document).ready(function() {
+															makePreserveMethodAutocompleteMeta('preserve_method');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-3">
+													<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
+													<label class="data-entry-label" for="when">Verbatim Date</label>
+													<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#verbatim_date#">
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+														<label class="data-entry-label" for="debug">Debug</label>
+														<select title="debug" name="debug" id="dbug" class="data-entry-select">
+															<option value=""></option>
+															<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+															<option value="true" #selected#>Debug JSON</option>
+														</select>
+													</cfif>
+												</div>
+											</div>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+												<div class="form-row mb-2">
+													<div class="col-12 col-md-2">
+														<cfif not isdefined("loan_number")>
+															<cfset loan_number="">
+														</cfif>
+														<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
+															<!--- lookup loan number (for api call &loan_trans_id=) --->
+															<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupLoan_result">
+																SELECT loan_number as lnum
+																FROM loan
+																WHERE
+																	transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_trans_id#">
+															</cfquery>
+															<cfif lookupLoan.recordcount EQ 1>
+																<cfset accn_number = "=#lookupLoan.lnum#">
+															</cfif>
+														</cfif>
+														<label for="loan_number" class="data-entry-label">Loan Number</label>
+														<input type="text" name="loan_number" class="data-entry-input" id="loan_number" placeholder="yyyy-n-Col" value="#loan_number#" >
+													</div>
+													<div class="col-12 col-md-2">
+														<cfif not isdefined("accn_number")>
+															<cfset accn_number="">
+														</cfif>
+														<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
+															<!--- lookup accession number (for api call &accn_trans_id=) --->
+															<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAccn_result">
+																SELECT accn_number as accnum
+																FROM accn
+																WHERE
+																	transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_trans_id#">
+															</cfquery>
+															<cfif lookupAccn.recordcount EQ 1>
+																<cfset accn_number = "=#lookupAccn.accnum#">
+															</cfif>
+														</cfif>
+														<label for="accn_number" class="data-entry-label">Accession Number</label>
+														<input type="text" name="accn_number" class="data-entry-input" id="accn_number" placeholder="nnnnn" value="#accn_number#" >
+													</div>
+													<div class="col-12 col-md-2">
+														<cfif not isdefined("deaccession_number")>
+															<cfset deaccession_number="">
+														</cfif>
+														<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
+														<input type="text" name="deaccession_number" class="data-entry-input" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#deaccession_number#" >
+													</div>
+												</div>
+											</cfif>
+											<div class="form-row my-3">
+												<div class="col-12">
+													<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-1 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
+													<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
+													<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
+												</div>
+											</div>
+										</div><!--- end container-flex --->
+										<div class="menu_results"> </div>
+									</form>
+								</section>
+								<!--- results for fixed search --->
+								<section class="container-fluid">
+									<div class="row mx-0">
+										<div class="col-12">
+											<div class="mb-5">
+												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
+													<h1 class="h4">Results: </h1>
+													<span class="d-block px-3 p-2" id="fixedresultCount"></span> <span id="fixedresultLink" class="d-block p-2"></span>
+													<div id="fixedcolumnPickDialog">
+														<div class="container-fluid">
+															<div class="row pick-column-width" id="fixedcolumnPick_row">
+																<div class="col-12 col-md-3">
+																	<div id="fixedcolumnPick" class="px-1"></div>
+																</div>
+																<div class="col-12 col-md-3">
+																	<div id="fixedcolumnPick1" class="px-1"></div>
+																</div>
+																<div class="col-12 col-md-3">
+																	<div id="fixedcolumnPick2" class="px-1"></div>
+																</div>
+																<div class="col-12 col-md-3">
+																	<div id="fixedcolumnPick3" class="px-1"></div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div id="fixedcolumnPickDialogButton"></div>
+													<div id="fixedresultDownloadButtonContainer"></div>
+												</div>
+												<div class="row mt-0"> 
+													<!--- Grid Related code is below along with search handlers --->
+													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+													<div id="fixedenableselection"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</section>
+							</div><!--- end fixed search tab --->
+	
 							<!---Keyword Search/results tab panel--->
 							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
 									<div class="col-9 float-right px-0"> 
@@ -755,511 +1260,7 @@ limitations under the License.
 								</section>
 							</div><!--- end search builder tab --->
 	
-							<!---Fixed Search tab panel--->
-							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
-								<section role="search" class="container-fluid">
-									<form id="fixedSearchForm">
-										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
-										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
-										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
-										<div class="container-flex">
-											<div class="form-row mb-2">
-												<div class="col-12 col-md-3">
-													<label for="fixedCollection" class="data-entry-label">Collection</label>
-													<div name="collection" id="fixedCollection" class="w-100"></div>
-													<cfif not isdefined("collection")><cfset collection=""></cfif>
-													<cfset collection_array = ListToArray(collection)>
-													<script>
-														function setFixedCollectionValues() {
-															$('##fixedCollection').jqxComboBox('clearSelection');
-															<cfloop query="ctCollection">
-																<cfif ArrayContains(collection_array, ctCollection.collection_cde)>
-																	$("##fixedCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
-																</cfif>
-															</cfloop>
-														};
-														$(document).ready(function () {
-															var collectionsource = [
-																<cfset comma="">
-																<cfloop query="ctCollection">
-																	#comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
-																	<cfset comma=",">
-																</cfloop>
-															];
-															$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '23px', width: '100%' });
-															setFixedCollectionValues();
-														});
-													</script> 
-												</div>
-												<div class="col-12 col-md-3">
-													<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
-													<label for="catalogNum" class="data-entry-label">Catalog Number</label>
-													<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="1,1-4,A-1,R1-4" value="#cat_num#">
-												</div>
-												<div class="col-12 col-md-3">
-													<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
-													<label for="otherID" class="data-entry-label">Other ID Type</label>
-													<div name="other_id_type" id="other_id_type" class="w-100"></div>
-													<cfset otheridtype_array = ListToArray(other_id_type)>
-													<script>
-														function setOtherIdTypeValues() {
-															$('##other_id_type').jqxComboBox('clearSelection');
-															<cfloop query="ctother_id_type">
-																<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
-																	$("##other_id_type").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
-																</cfif>
-															</cfloop>
-														};
-														$(document).ready(function () {
-															var otheridtypesource = [
-																<cfset comma="">
-																<cfloop query="ctother_id_type">
-																	#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
-																	<cfset comma=",">
-																</cfloop>
-															];
-															$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
-															setOtherIdTypeValues();
-														});
-													</script> 
-												</div>
-												<div class="col-12 col-md-3">
-													<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
-													<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
-													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#other_id_number#">
-												</div>
-											</div>
-											<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
-												<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
-												<div class="form-row mb-2">
-													<div class="col-12 col-md-3">
-														<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
-														<label for="otherID" class="data-entry-label">Other ID Type</label>
-														<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
-														<cfset otheridtype_array = ListToArray(other_id_type_1)>
-														<script>
-															function setOtherIdType_1_Values() {
-																$('##other_id_type_1').jqxComboBox('clearSelection');
-																<cfloop query="ctother_id_type">
-																	<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
-																		$("##other_id_type_1").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
-																	</cfif>
-																</cfloop>
-															};
-															$(document).ready(function () {
-																var otheridtypesource = [
-																	<cfset comma="">
-																	<cfloop query="ctother_id_type">
-																		#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
-																		<cfset comma=",">
-																	</cfloop>
-																];
-																$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
-																setOtherIdType_1_Values();
-															});
-														</script> 
-													</div>
-													<div class="col-12 col-md-3">
-														<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
-														<label for="other_id_number_1" class="data-entry-label">Other ID Numbers</label>
-														<input type="text" class="data-entry-input" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#other_id_number_1#">
-													</div>
-													<div class="col-12 col-md-6">
-														<label for="other_id_controls_note" class="data-entry-label">Note (fields to left): </label>
-														<p id="other_id_controls_note" class="px-1">Second set of other id type/other id number fields is for testing, may not work as expected.</p>
-													</div>
-												</div>
-											</cfif>
-											<div class="form-row mb-2">
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("full_taxon_name")><cfset full_taxon_name=""></cfif>
-													<label for="taxa" class="data-entry-label">Any Taxonomic Element</label>
-													<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy" value="#full_taxon_name#">
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="phylum" class="data-entry-label">Phylum</label>
-													<cfif not isdefined("phylum")><cfset phylum=""></cfif>
-													<input id="phylum" name="phylum" class="data-entry-input" value="#phylum#" >
-													<script>
-														jQuery(document).ready(function() {
-															makeTaxonSearchAutocomplete('phylum','phylum');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="phylclass" class="data-entry-label">Class</label>
-													<cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
-													<input id="phylclass" name="phylclass" class="data-entry-input" value="#phylclass#" >
-													<script>
-														jQuery(document).ready(function() {
-															makeTaxonSearchAutocomplete('phylclass','class');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="phylorder" class="data-entry-label">Order</label>
-													<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
-													<input id="phylorder" name="phylorder" class="data-entry-input" value="#phylorder#" >
-													<script>
-														jQuery(document).ready(function() {
-															makeTaxonSearchAutocomplete('phylorder','order');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="family" class="data-entry-label">Family</label>
-													<cfif not isdefined("family")><cfset family=""></cfif>
-													<input type="text" id="family" name="family" class="data-entry-input" value="#family#" >
-													<script>
-														jQuery(document).ready(function() {
-															makeTaxonSearchAutocomplete('family','family');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="publication_id" class="data-entry-label">Citation</label>
-													<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
-													<cfif not isdefined("citation")><cfset citation=""></cfif>
-													<input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input" value="#publication_id#" >
-													<input type="text" id="citation" name="citation" class="data-entry-input" value="#citation#" >
-													<script>
-														jQuery(document).ready(function() {
-															makePublicationPicker('citation','publication_id');
-														});
-													</script>
-												</div>
-											</div>
-											<div class="form-row mb-2">
-												<div class="col-12 col-md-2">
-													<label for="type_status" class="data-entry-label">Type Status/Citation</label>
-													<cfif not isdefined("type_status")><cfset type_status=""></cfif>
-													<input type="text" class="data-entry-input" id="type_status" name="type_status" value="#type_status#">
-													<script>
-														jQuery(document).ready(function() {
-															makeTypeStatusSearchAutocomplete('type_status');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="genus" class="data-entry-label">Genus</label>
-													<cfif not isdefined("genus")><cfset genus=""></cfif>
-													<input type="text" class="data-entry-input" id="genus" name="genus" value="#genus#">
-													<script>
-														jQuery(document).ready(function() {
-															makeTaxonSearchAutocomplete('genus','genus');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="scientific_name" class="data-entry-label">Scientific Name</label>
-													<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
-													<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
-													<cfif len(taxon_name_id) GT 0 and len(scientific_name) EQ 0>
-														<!--- lookup scientific name --->
-														<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupTaxon_result">
-															SELECT scientific_name as sciname
-															FROM taxonomy
-															WHERE
-																taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-														</cfquery>
-														<cfif lookupTaxon.recordcount EQ 1>
-															<cfset scientific_name = "=#lookupTaxon.sciname#">
-														</cfif>
-													</cfif>
-													<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input" value="#scientific_name#" >
-													<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#taxon_name_id#" >
-													<script>
-														jQuery(document).ready(function() {
-															makeScientificNameAutocompleteMeta('scientific_name','taxon_name_id');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="author_text" class="data-entry-label">Authorship</label>
-													<cfif not isdefined("author_text")><cfset author_text=""></cfif>
-													<input id="author_text" name="author_text" class="data-entry-input" value="#author_text#" >
-													<script>
-														jQuery(document).ready(function() {
-															makeTaxonSearchAutocomplete('author_text','author_text');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="determiner" class="data-entry-label">Determiner</label>
-													<cfif not isdefined("determiner")><cfset determiner=""></cfif>
-													<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
-													<!--- lookup agent name --->
-													<cfif len(determiner) EQ 0 AND len(determiner_id) GT 0>
-														<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupDeterminer_result">
-															SELECT agent_name
-															FROM preferred_agent_name
-															WHERE
-																agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determiner_id#">
-														</cfquery>
-														<cfif lookupDeterminer.recordcount EQ 1>
-															<cfset determiner = "=#lookupDeterminer.agent_name#">
-														</cfif>
-													</cfif>
-													<input type="hidden" id="determiner_id" name="determiner_id" class="data-entry-input" value="#determiner_id#" >
-													<input type="text" id="determiner" name="determiner" class="data-entry-input" value="#determiner#" >
-													<script>
-														jQuery(document).ready(function() {
-															makeConstrainedAgentPicker('determiner', 'determiner_id', 'determiner');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="nature_of_id" class="data-entry-label">Nature Of Id</label>
-													<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
-													<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select col-sm-12 pl-2">
-														<option value=""></option>
-														<cfset nid = nature_of_id>
-														<cfloop query="ctnature_of_id">
-															<cfif nid EQ "=#ctnature_of_id.nature_of_id#"><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
-															<option value="=#ctnature_of_id.nature_of_id#" #selected#>#ctnature_of_id.nature_of_id# (#ctnature_of_id.ct#)</option>
-														</cfloop>
-													</select>
-												</div>
-											</div>
-											<div class="form-row mb-2">
-											</div>
-											<div class="form-row mb-2">
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
-													<label for="higher_geog" class="data-entry-label">Any Geographic Element</label>
-													<input type="text" class="data-entry-input" name="higher_geog" id="higher_geog" value="#higher_geog#">
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="country" class="data-entry-label">Country</label>
-													<cfif not isdefined("country")><cfset country=""></cfif>
-													<input type="text" class="data-entry-input" id="country" name="country" value="#country#">
-													<script>
-														jQuery(document).ready(function() {
-															makeCountrySearchAutocomplete('country');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="state_prov" class="data-entry-label">State/Province</label>
-													<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
-													<input type="text" class="data-entry-input" id="state_prov" name="state_prov" aria-label="state or province" value="#state_prov#">
-													<script>
-														jQuery(document).ready(function() {
-															makeGeogSearchAutocomplete('state_prov','state_prov');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="county" class="data-entry-label">County/Shire/Parish</label>
-													<cfif not isdefined("county")><cfset county=""></cfif>
-													<input type="text" class="data-entry-input" id="county" name="county" aria-label="county shire or parish" value="#county#">
-													<script>
-														jQuery(document).ready(function() {
-															makeGeogSearchAutocomplete('county','county');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="island_group" class="data-entry-label">Island Group</label>
-													<cfif not isdefined("island_group")><cfset island_group=""></cfif>
-													<input type="text" class="data-entry-input" id="island_group" name="island_group" value="#island_group#">
-													<script>
-														jQuery(document).ready(function() {
-															makeGeogSearchAutocomplete('island_group','island_group');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<label for="island" class="data-entry-label">Island</label>
-													<cfif not isdefined("island")><cfset island=""></cfif>
-													<input type="text" class="data-entry-input" id="island" name="island" value="#island#">
-													<script>
-														jQuery(document).ready(function() {
-															makeGeogSearchAutocomplete('island','island');
-														});
-													</script>
-												</div>
-											</div>
-											<div class="form-row mb-2">
-												<div class="col-12 col-md-3">
-													<label for="collector" class="data-entry-label">Collector</label>
-													<cfif not isdefined("collector")>
-														<cfset collector="">
-													</cfif>
-													<cfif not isdefined("collector_agent_id") OR len(collector_agent_id) EQ 0>
-														<cfif len(collector) EQ 0>
-															<cfset collector_agent_id ="">
-														<cfelse>
-															<cfset collector_agent_id ="">
-															<!--- lookup collector's agent_id --->
-															<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																SELECT agent_id 
-																FROM preferred_agent_name 
-																WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collector#"> 
-																	AND rownum < 2
-															</cfquery>
-															<cfloop query="collectorLookup">
-																<cfset collector_agent_id = collectorLookup.agent_id>
-															</cfloop>
-														</cfif>
-													<cfelse>
-														<!--- lookup collector --->
-														<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															SELECT agent_name 
-															FROM preferred_agent_name 
-															WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
-																AND rownum < 2
-														</cfquery>
-														<cfif collectorLookup.recordcount GT 0>
-															<cfloop query="collectorLookup">
-																<cfset collector = collectorLookup.agent_name>
-															</cfloop>
-														</cfif>
-													</cfif>
-													<input type="text" id="collector" name="collector" class="data-entry-input" value="#collector#">
-													<input type="hidden" id="collector_agent_id" name="collector_agent_id" value="#collector_agent_id#">
-													<script>
-														jQuery(document).ready(function() {
-															makeConstrainedAgentPicker('collector','collector_agent_id','collector');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("part_name")><cfset part_name=""></cfif>
-													<label for="part_name" class="data-entry-label">Part Name</label>
-													<input type="text" id="part_name" name="part_name" class="data-entry-input" value="#part_name#" >
-													<script>
-														jQuery(document).ready(function() {
-															makePartNameAutocompleteMeta('part_name');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
-													<label for="preserve_method" class="data-entry-label">Preserve Method</label>
-													<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input" value="#preserve_method#" >
-													<script>
-														jQuery(document).ready(function() {
-															makePreserveMethodAutocompleteMeta('preserve_method');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-3">
-													<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
-													<label class="data-entry-label" for="when">Verbatim Date</label>
-													<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#verbatim_date#">
-												</div>
-												<div class="col-12 col-md-2">
-													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-														<label class="data-entry-label" for="debug">Debug</label>
-														<select title="debug" name="debug" id="dbug" class="data-entry-select">
-															<option value=""></option>
-															<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-															<option value="true" #selected#>Debug JSON</option>
-														</select>
-													</cfif>
-												</div>
-											</div>
-											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<div class="form-row mb-2">
-													<div class="col-12 col-md-2">
-														<cfif not isdefined("loan_number")>
-															<cfset loan_number="">
-														</cfif>
-														<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
-															<!--- lookup loan number (for api call &loan_trans_id=) --->
-															<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupLoan_result">
-																SELECT loan_number as lnum
-																FROM loan
-																WHERE
-																	transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_trans_id#">
-															</cfquery>
-															<cfif lookupLoan.recordcount EQ 1>
-																<cfset accn_number = "=#lookupLoan.lnum#">
-															</cfif>
-														</cfif>
-														<label for="loan_number" class="data-entry-label">Loan Number</label>
-														<input type="text" name="loan_number" class="data-entry-input" id="loan_number" placeholder="yyyy-n-Col" value="#loan_number#" >
-													</div>
-													<div class="col-12 col-md-2">
-														<cfif not isdefined("accn_number")>
-															<cfset accn_number="">
-														</cfif>
-														<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
-															<!--- lookup accession number (for api call &accn_trans_id=) --->
-															<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAccn_result">
-																SELECT accn_number as accnum
-																FROM accn
-																WHERE
-																	transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_trans_id#">
-															</cfquery>
-															<cfif lookupAccn.recordcount EQ 1>
-																<cfset accn_number = "=#lookupAccn.accnum#">
-															</cfif>
-														</cfif>
-														<label for="accn_number" class="data-entry-label">Accession Number</label>
-														<input type="text" name="accn_number" class="data-entry-input" id="accn_number" placeholder="nnnnn" value="#accn_number#" >
-													</div>
-													<div class="col-12 col-md-2">
-														<cfif not isdefined("deaccession_number")>
-															<cfset deaccession_number="">
-														</cfif>
-														<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
-														<input type="text" name="deaccession_number" class="data-entry-input" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#deaccession_number#" >
-													</div>
-												</div>
-											</cfif>
-											<div class="form-row my-3">
-												<div class="col-12">
-													<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-1 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
-													<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
-													<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
-												</div>
-											</div>
-										</div><!--- end container-flex --->
-										<div class="menu_results"> </div>
-									</form>
-								</section>
-								<!--- results for fixed search --->
-								<section class="container-fluid">
-									<div class="row mx-0">
-										<div class="col-12">
-											<div class="mb-5">
-												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
-													<h1 class="h4">Results: </h1>
-													<span class="d-block px-3 p-2" id="fixedresultCount"></span> <span id="fixedresultLink" class="d-block p-2"></span>
-													<div id="fixedcolumnPickDialog">
-														<div class="container-fluid">
-															<div class="row pick-column-width" id="fixedcolumnPick_row">
-																<div class="col-12 col-md-3">
-																	<div id="fixedcolumnPick" class="px-1"></div>
-																</div>
-																<div class="col-12 col-md-3">
-																	<div id="fixedcolumnPick1" class="px-1"></div>
-																</div>
-																<div class="col-12 col-md-3">
-																	<div id="fixedcolumnPick2" class="px-1"></div>
-																</div>
-																<div class="col-12 col-md-3">
-																	<div id="fixedcolumnPick3" class="px-1"></div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div id="fixedcolumnPickDialogButton"></div>
-													<div id="fixedresultDownloadButtonContainer"></div>
-												</div>
-												<div class="row mt-0"> 
-													<!--- Grid Related code is below along with search handlers --->
-													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-													<div id="fixedenableselection"></div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</section>
-							</div><!--- end fixed search tab --->
-	
+
 						</div>
 					</div>
 				</div>
