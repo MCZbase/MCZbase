@@ -366,7 +366,7 @@ limitations under the License.
 											Add New Determination
 										</h2>
 									</div>
-									<div class="card-body px-2"> 
+									<div class="card-body"> 
 										<script>
 											function idFormulaChanged(newFormula,baseId) { 
 												if(newFormula.includes("B")) {
@@ -384,7 +384,7 @@ limitations under the License.
 											<input type="hidden" name="Action" value="createNew">
 											<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 											<div class="row mx-0 mt-0 pt-2 pb-1">
-												<div class="col-12 col-md-2 px-1">
+												<div class="col-12 col-md-2">
 													<label for="taxa_formula" class="data-entry-label">ID Formula</label>
 													<cfif not isdefined("taxa_formula")>
 														<cfset taxa_formula='A'>
