@@ -2761,9 +2761,6 @@ limitations under the License.
 							$(document).ready(function() {
 								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
 							});
-//							$(document).ready(function() {
-//								makeJournalAutocomplete("journal_name_#i#");
-//							});
 						</script>
 					</section>
 				</div>
