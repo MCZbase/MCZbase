@@ -2626,7 +2626,7 @@ limitations under the License.
 				<div id="citationsDialog">
 				
 				<section class="container-fluid" role="search" aria-labelledby="formheader">
-					<div class="row mx-0 my-3">
+					<div class="row mx-0 mb-5">
 						<div class="search-box">
 							<cfset title = "Search for Results">
 						<!---	<cfoutput>--->
