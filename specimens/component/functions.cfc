@@ -429,21 +429,9 @@ limitations under the License.
 												</div>
 							
 												<div class="col-12 col-md-12 px-0 float-left">
-													<div class="col-12 col-md-6 px-1 mt-1 float-right">
-														<div class="col-12 col-md-12 px-1 float-left">
-															<label for="identification_publication" class="data-entry-label" >Sensu</label>
-															<input type="hidden" name="new_publication_id" id="new_publication_id">
-															<input type="text" id="newPub" class="data-entry-input mb-1">
-														</div>
-														<div class="col-12 col-md-12 px-1 float-left">
-															<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
-															<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
-														</div>
-													</div>
-												</div>
-												<cfset idnum=1>
-												<cfset i=1>
-												<div class="row col-12 col-md-6 px-0 mt-2 float-left">
+													<cfset idnum=1>
+													<cfset i=1>
+													<div class="col-12 col-md-6 px-0 mt-2 float-left">
 													<cfloop query="determiners">
 														<div id="IdTr_#i#_#idnum#">
 															<label for="IdBy_#i#_#idnum#" class="data-entry-label col-6 float-left">
@@ -463,6 +451,7 @@ limitations under the License.
 														<script>
 															makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
 														</script> 
+													</div>
 													<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.---> 
 													<script>	
 														$(document).ready(function(){
@@ -472,9 +461,21 @@ limitations under the License.
 														});
 													</script>
 													<cfset idnum=idnum+1>
-												</cfloop>
-												</div>
-											<div id="addNewID" class="row mx-0"></div>
+													</cfloop>
+														<div class="col-12 col-md-6 px-1 mt-1 float-right">
+															<div class="col-12 col-md-12 px-1 float-left">
+																<label for="identification_publication" class="data-entry-label" >Sensu</label>
+																<input type="hidden" name="new_publication_id" id="new_publication_id">
+																<input type="text" id="newPub" class="data-entry-input mb-1">
+															</div>
+															<div class="col-12 col-md-12 px-1 float-left">
+																<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
+																<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
+															</div>
+														</div>
+													</div>
+							
+											<div id="addNewID" class="row"></div>
 											<script>
 												function addIdentAgentToForm(agent_id,agent_name) { 
 													// add trans_agent record
@@ -483,9 +484,11 @@ limitations under the License.
 													handleChange();
 												}
 											</script>
-											<div class="col-12 col-md-12 py-2 px-2 float-left">
-												<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
-											</div>
+										
+												<div class="col-12 col-md-12 py-2 px-2 float-left">
+													<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
+												</div>
+											
 											<script>
 												$(document).ready(function() {
 													makeScientificNameAutocompleteMeta("taxona", "taxona_id");
