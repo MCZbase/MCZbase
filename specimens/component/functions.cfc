@@ -445,7 +445,7 @@ limitations under the License.
 																</div>
 																<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
 																<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addNewIDName col-3 rounded" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Name</a> 
+																<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addNewIDName col-2 rounded" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Name</a> 
 															</div>
 														</div>
 														<script>
@@ -463,7 +463,7 @@ limitations under the License.
 													<cfset idnum=idnum+1>
 												</cfloop>
 									
-											<div class="col-12 col-md-6 px-0 float-right">
+											<div class="col-12 col-md-6 px-1 mt-1 float-right">
 												<div class="col-12 col-md-12 px-1 float-left">
 													<label for="identification_publication" class="data-entry-label" >Sensu</label>
 													<input type="hidden" name="new_publication_id" id="new_publication_id">
