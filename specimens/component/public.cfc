@@ -48,7 +48,7 @@ limitations under the License.
 				<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 				
 				<cfif len(images.media_id)gt 0>
-					<cfloop query="media">
+					<cfloop query="images">
 						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
 							SELECT media_id, 
 								preview_uri, media_uri, 
