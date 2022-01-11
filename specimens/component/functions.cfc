@@ -625,7 +625,7 @@ limitations under the License.
 															</select>
 														</div>
 													</div>
-													<div class="row mx-0 mt-0 py-1">
+													<div class="">
 														<div class="col-12 px-0">
 															<cfset idnum=1>
 																<div class="col-12 col-md-6 px-0 float-left border">
