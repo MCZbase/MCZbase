@@ -304,41 +304,41 @@ limitations under the License.
 															<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>--->
 														</div>
 													</div>
-											<script>
-												function editImagesSubmit(){
-													$('##saveImagesResultDiv').html('Saving....');
-													$('##saveImagessResultDiv').addClass('text-warning');
-													$('##saveImagesResultDiv').removeClass('text-success');
-													$('##saveImagesResultDiv').removeClass('text-danger');
-													$.ajax({
-														url : "/specimens/component/functions.cfc",
-														type : "post",
-														dataType : "json",
-														data: $("##editImagesForm").serialize(),
-														success: function (result) {
-															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																$('##saveImagesResultDiv').html('Saved');
-																$('##saveImagesResultDiv').addClass('text-success');
-																$('##saveImagesResultDiv').removeClass('text-warning');
-																$('##saveImagesResultDiv').removeClass('text-danger');
-															} else {
-																// we shouldn't be able to reach this block, backing error should return an http 500 status
-																$('##saveImagesResultDiv').html('Error');
-																$('##saveImagesResultDiv').addClass('text-danger');
-																$('##saveImagesResultDiv').removeClass('text-warning');
-																$('##saveImagesResultDiv').removeClass('text-success');
-																messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
-															}
-														},
-														error: function(jqXHR,textStatus,error){
-															$('##saveImagesResultDiv').html('Error');
-															$('##saveImagesResultDiv').addClass('text-danger');
-															$('##saveImagesResultDiv').removeClass('text-warning');
-															$('##saveImagesResultDiv').removeClass('text-success');
-															handleFail(jqXHR,textStatus,error,"saving changes to images history");
-														}
-													});
-												};
+										<script>
+//												function editImagesSubmit(){
+//													$('##saveImagesResultDiv').html('Saving....');
+//													$('##saveImagessResultDiv').addClass('text-warning');
+//													$('##saveImagesResultDiv').removeClass('text-success');
+//													$('##saveImagesResultDiv').removeClass('text-danger');
+//													$.ajax({
+//														url : "/specimens/component/functions.cfc",
+//														type : "post",
+//														dataType : "json",
+//														data: $("##editImagesForm").serialize(),
+//														success: function (result) {
+//															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+//																$('##saveImagesResultDiv').html('Saved');
+//																$('##saveImagesResultDiv').addClass('text-success');
+//																$('##saveImagesResultDiv').removeClass('text-warning');
+//																$('##saveImagesResultDiv').removeClass('text-danger');
+//															} else {
+//																// we shouldn't be able to reach this block, backing error should return an http 500 status
+//																$('##saveImagesResultDiv').html('Error');
+//																$('##saveImagesResultDiv').addClass('text-danger');
+//																$('##saveImagesResultDiv').removeClass('text-warning');
+//																$('##saveImagesResultDiv').removeClass('text-success');
+//																messageDialog('Error updating images history: '+result.DATA.MESSAGE[0], 'Error saving images history.');
+//															}
+//														},
+//														error: function(jqXHR,textStatus,error){
+//															$('##saveImagesResultDiv').html('Error');
+//															$('##saveImagesResultDiv').addClass('text-danger');
+//															$('##saveImagesResultDiv').removeClass('text-warning');
+//															$('##saveImagesResultDiv').removeClass('text-success');
+//															handleFail(jqXHR,textStatus,error,"saving changes to images history");
+//														}
+//													});
+//												};
 											</script> 
 												</form>
 											</div>
