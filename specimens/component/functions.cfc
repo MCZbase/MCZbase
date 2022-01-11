@@ -2534,80 +2534,6 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<div id="citationsDialog">
-					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
-							citation.type_status,
-							citation.occurs_page_number,
-							citation.citation_page_uri,
-							citation.CITATION_REMARKS,
-							cited_taxa.scientific_name as cited_name,
-							cited_taxa.taxon_name_id as cited_name_id,
-							formatted_publication.formatted_publication as formpub,
-							formatted_publication.publication_id,
-							cited_taxa.taxon_status as cited_name_status
-						from
-							citation,
-							taxonomy cited_taxa,
-							formatted_publication
-						where
-							citation.cited_taxon_name_id = cited_taxa.taxon_name_id AND
-							citation.publication_id = formatted_publication.publication_id AND
-							format_style='long' and
-							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						order by
-							substr(formatted_publication, - 4)
-					</cfquery>
-					<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collection_id,collection from collection
-						order by collection
-					</cfquery>
-					<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select type_status from ctcitation_type_status order by type_status
-					</cfquery>
-					<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT
-								citation.publication_id,
-								citation.collection_object_id,
-								collection,
-								collection.collection_id,
-								cat_num,
-								identification.scientific_name,
-								citedTaxa.scientific_name as citSciName,
-								occurs_page_number,
-								citation_page_uri,
-								type_status,
-								citation_remarks,
-								cit_current_fg,
-								citation_remarks,
-								publication_title,
-								formatted_publication.formatted_publication as formpub,
-								formatted_publication.publication_id,
-								publication.publication_id,
-								publication.published_year,
-								publication.publication_type,
-								doi,
-								cited_taxon_name_id
-							FROM
-								citation,
-								cataloged_item,
-								collection,
-								identification,
-								taxonomy citedTaxa,
-								formatted_publication,
-								publication
-							WHERE
-								citation.collection_object_id = cataloged_item.collection_object_id AND
-								cataloged_item.collection_id = collection.collection_id AND
-								citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
-								cataloged_item.collection_object_id = identification.collection_object_id (+) AND
-								identification.accepted_id_fg = 1 AND
-								citation.publication_id = publication.publication_id AND
-								citation.publication_id = formatted_publication.publication_id AND
-								format_style='long' and
-								citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-							ORDER BY
-								occurs_page_number,cat_num
-						</cfquery>
 
 					<section class="container-fluid" role="search" aria-labelledby="formheader">
 						<div class="row mx-0 my-3">
@@ -2697,10 +2623,144 @@ limitations under the License.
 								</div>
 							</form>
 							</cfoutput>
+							<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									citation.type_status,
+									citation.occurs_page_number,
+									citation.citation_page_uri,
+									citation.CITATION_REMARKS,
+									cited_taxa.scientific_name as cited_name,
+									cited_taxa.taxon_name_id as cited_name_id,
+									formatted_publication.formatted_publication as formpub,
+									formatted_publication.publication_id,
+									cited_taxa.taxon_status as cited_name_status
+								from
+									citation,
+									taxonomy cited_taxa,
+									formatted_publication
+								where
+									citation.cited_taxon_name_id = cited_taxa.taxon_name_id AND
+									citation.publication_id = formatted_publication.publication_id AND
+									format_style='long' and
+									citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								order by
+									substr(formatted_publication, - 4)
+							</cfquery>
+							<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select collection_id,collection from collection
+								order by collection
+							</cfquery>
+							<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select type_status from ctcitation_type_status order by type_status
+							</cfquery>
+							<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									citation.publication_id,
+									citation.collection_object_id,
+									collection,
+									collection.collection_id,
+									cat_num,
+									identification.scientific_name,
+									citedTaxa.scientific_name as citSciName,
+									occurs_page_number,
+									citation_page_uri,
+									type_status,
+									citation_remarks,
+									cit_current_fg,
+									citation_remarks,
+									publication_title,
+									formatted_publication.formatted_publication as formpub,
+									formatted_publication.publication_id,
+									publication.publication_id,
+									publication.published_year,
+									publication.publication_type,
+									doi,
+									cited_taxon_name_id
+								FROM
+									citation,
+									cataloged_item,
+									collection,
+									identification,
+									taxonomy citedTaxa,
+									formatted_publication,
+									publication
+								WHERE
+									citation.collection_object_id = cataloged_item.collection_object_id AND
+									cataloged_item.collection_id = collection.collection_id AND
+									citation.cited_taxon_name_id = citedTaxa.taxon_name_id (+) AND
+									cataloged_item.collection_object_id = identification.collection_object_id (+) AND
+									identification.accepted_id_fg = 1 AND
+									citation.publication_id = publication.publication_id AND
+									citation.publication_id = formatted_publication.publication_id AND
+									format_style='long' and
+									citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								ORDER BY
+									occurs_page_number,cat_num
+							</cfquery>
+								<cfoutput>
+							<cfif len(getCited.publication_id) GT 0>
+								<cfset i = 1 >
+								<h1 class="h3">Citations for this specimen</h1>
+									<table class="table mb-0 small px-2">
+										<thead class="p-2">
+											<tr>
+												<th>&nbsp;</th>
+												<th class="px-1" style="min-width: 280px;">Publication Title</th>
+												<th class="px-1">Cited As</th>
+												<th class="px-1">Current ID</th>
+												<th class="px-1" style="min-width: 80px;">Citation Type</th>
+												<th class="px-1" style="min-width: 50px;">Page ##</th>
+												<th class="px-1" style="min-width: 213px;">Remarks</th>
+											</tr>
+										</thead>
+										<cfloop query="getCited">
+										<tbody>
+											<tr>
+												<td nowrap>
+													<table>
+														<tr>
+															<form name="deleCitation#i#" method="post" action="Citation.cfm">
+																<input type="hidden" name="Action">
+																<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+																<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
+																<td class="border-0 px-0">
+																	<button type="button" aria-label="Remove Citation" class="btn btn-xs btn-danger" onclick="removeCitation(#collection_object_id#, #cited_taxon_name_id#)">Delete</button
+																</td>
+																<td class="border-0 pr-0 pl-2">
+																	<input type="button"
+																	value="Edit"
+																	class="btn btn-xs btn-primary"
+																	onClick="deleCitation#i#.Action.value='editCitation'; submit();">
+																</td>
+															</form>
+														</tr>
+													</table>
+												</td>
+												<td class="px-2"><a href="/SpecimenDetailBody.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a></td>
+												<td class="px-2"><i><a href="/TaxonomyDetails.cfm?taxon_name_id=#getCited.citSciName#" target="_mainFrame"><i>#replace(getCited.citSciName," ","&nbsp;","all")#</i></a></i>&nbsp;</td>
+												<td class="px-2"><i>#scientific_name#</i>&nbsp;</td>
+												<td class="px-2">#type_status#&nbsp;</td>
+												<td>
+													<cfif len(#citation_page_uri#) gt 0>
+														<cfset citpage = trim(occurs_page_number)>
+														<cfif len(citpage) EQ 0><cfset citpage="[link]"></cfif>
+														<a href ="#citation_page_uri#" target="_blank" class="px-1">#citpage#</a>&nbsp;
+													<cfelse>
+														<span class="px-1">#occurs_page_number#&nbsp;</span>
+													</cfif>
+												</td>
+												<td nowrap>#citation_remarks#&nbsp;</td>
+											</tr>
+											</tbody>
+										</cfloop>
+									</table>
+								<cfset i = i + 1>
+							</cfif>
+										</output>
 							</div>
 						</div>
 					</section>
-					<section class="container-fluid">
+		
 						<script>
 							$(document).ready(function() {
 								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
@@ -2709,65 +2769,7 @@ limitations under the License.
 //								makeJournalAutocomplete("journal_name_#i#");
 //							});
 						</script>
-					</section>
-					<cfif len(getCited.publication_id) GT 0>
-						<cfset i = 1 >
-						<h1 class="h3">Citations for this specimen</h1>
-							<table class="table mb-0 small px-2">
-								<thead class="p-2">
-									<tr>
-										<th>&nbsp;</th>
-										<th class="px-1" style="min-width: 280px;">Publication Title</th>
-										<th class="px-1">Cited As</th>
-										<th class="px-1">Current ID</th>
-										<th class="px-1" style="min-width: 80px;">Citation Type</th>
-										<th class="px-1" style="min-width: 50px;">Page ##</th>
-										<th class="px-1" style="min-width: 213px;">Remarks</th>
-									</tr>
-								</thead>
-								<cfloop query="getCited">
-								<tbody>
-									<tr>
-										<td nowrap>
-											<table>
-												<tr>
-													<form name="deleCitation#i#" method="post" action="Citation.cfm">
-														<input type="hidden" name="Action">
-														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-														<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
-														<td class="border-0 px-0">
-															<button type="button" aria-label="Remove Citation" class="btn btn-xs btn-danger" onclick="removeCitation(#collection_object_id#, #cited_taxon_name_id#)">Delete</button
-														</td>
-														<td class="border-0 pr-0 pl-2">
-															<input type="button"
-															value="Edit"
-															class="btn btn-xs btn-primary"
-															onClick="deleCitation#i#.Action.value='editCitation'; submit();">
-														</td>
-													</form>
-												</tr>
-											</table>
-										</td>
-										<td class="px-2"><a href="/SpecimenDetailBody.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a></td>
-										<td class="px-2"><i><a href="/TaxonomyDetails.cfm?taxon_name_id=#getCited.citSciName#" target="_mainFrame"><i>#replace(getCited.citSciName," ","&nbsp;","all")#</i></a></i>&nbsp;</td>
-										<td class="px-2"><i>#scientific_name#</i>&nbsp;</td>
-										<td class="px-2">#type_status#&nbsp;</td>
-										<td>
-											<cfif len(#citation_page_uri#) gt 0>
-												<cfset citpage = trim(occurs_page_number)>
-												<cfif len(citpage) EQ 0><cfset citpage="[link]"></cfif>
-												<a href ="#citation_page_uri#" target="_blank" class="px-1">#citpage#</a>&nbsp;
-											<cfelse>
-												<span class="px-1">#occurs_page_number#&nbsp;</span>
-											</cfif>
-										</td>
-										<td nowrap>#citation_remarks#&nbsp;</td>
-									</tr>
-									</tbody>
-								</cfloop>
-							</table>
-						<cfset i = i + 1>
-					</cfif>
+	
 				</div>
 				<cfset cellRenderClasses = "ml-1">
 				<script>
