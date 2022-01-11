@@ -2724,7 +2724,7 @@ limitations under the License.
 					</cfif>
 					<section class="container-fluid" role="search" aria-labelledby="formheader">
 						<div class="row mx-0 my-3">
-							<div class="search-box">
+							<div class="search-box px-1">
 								<cfset title = "Search for Results">
 								<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select collection,collection_id from collection order by collection
@@ -2781,29 +2781,27 @@ limitations under the License.
 										</label>
 										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
 									</div>
-								<div class="col-12 float-left mt-0 mb-1 p-0">
-									<div class="col-12 col-md-3 px-1 float-left">
-										<label for="type_status" class="data-entry-label mt-2 mb-0">
-											<span id="type_status">Citation Type</span>
-										</label>
-										<select name="type_status" id="type_status" class="data-entry-select">
-											<option value""></option>
-											<cfloop query="ctTypeStatus">
-												<option value="#type_status#">#type_status#</option>
-											</cfloop>
-										</select>
+									<div class="col-12 float-left mt-0 mb-1 p-0">
+										<div class="col-12 col-md-3 px-1 float-left">
+											<label for="type_status" class="data-entry-label mt-1 mb-0">
+												<span id="type_status">Citation Type</span>
+											</label>
+											<select name="type_status" id="type_status" class="data-entry-select">
+												<option value""></option>
+												<cfloop query="ctTypeStatus">
+													<option value="#type_status#">#type_status#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-3 px-1 float-left">
+											<label for="occurs_page_number" class="data-entry-label mt-1 mb-0">Page ##</label>
+											<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="">
+										</div>
+										<div class="col-12 col-md-6 px-1 float-left">
+											<label for="citation_remarks" class="data-entry-label mt-1 mb-0">Remarks</label>
+											<input name="citation_remarks" id="citation_remarks" class="data-entry-input" type="text" value="">
+										</div>
 									</div>
-									<div class="col-12 col-md-3 px-1 float-left">
-										<label for="occurs_page_number" class="data-entry-label mt-1 mb-0">Page ##</label>
-										<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="">
-									</div>
-									<div class="col-12 col-md-6 px-1 float-left">
-										<label for="citation_remarks" class="data-entry-label mt-1 mb-0">Remarks</label>
-										<input name="citation_remarks" id="citation_remarks" class="data-entry-input" type="text" value="">
-									</div>
-							
-
-								</div>
 									<div class="col-12 my-2 px-1 float-left">
 										<input type="submit" value="Save" class="btn btn-xs btn-primary mr-3">
 										<input type="reset"	value="Clear Form"	class="btn btn-xs btn-warning">
