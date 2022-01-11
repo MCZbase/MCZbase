@@ -103,7 +103,7 @@ function updateMedia(media_id,targetDiv) {
 				$('#' + targetDiv).html(message);
 			}
 		}
-	},
+	}
 	)
 };
 
