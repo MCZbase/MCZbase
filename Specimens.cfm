@@ -38,7 +38,7 @@ limitations under the License.
 <!--- **** End temporary block ******************************************************************************** --->
 
 <cfif not isdefined("action")>
-	<cfset action="keywordSearch">
+	<cfset action="fixedSearch">
 </cfif>
 <cfswitch expression="#action#">
 	<!--- API note: action and method seem duplicative, action is required and used to determine
