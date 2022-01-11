@@ -2799,7 +2799,7 @@ limitations under the License.
 										<label for="cat_num" class="data-entry-label mt-1 mb-0">Catalog Number</label>
 										<select name="cat_num" id="cat_num" size="1"  class="data-entry-select">
 											<option value="">All</option>
-											<cfloop query="ctcat_num">
+											<cfloop query="ctcataloged_item">
 												<option value="#cat_num#">#cat_num#</option>
 											</cfloop>
 										</select>
