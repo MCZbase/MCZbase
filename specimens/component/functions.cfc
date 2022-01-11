@@ -146,7 +146,7 @@ limitations under the License.
 	<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
 </cffunction>
-<!---<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfoutput>
 		<cfthread name="getMediaThread">
@@ -176,12 +176,13 @@ limitations under the License.
 										media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 								<div class="col-12 col-md-12 px-0 mb-2 float-left">
-									<cfset mediaBlock= getMediaBlock(media_id="#images.media_id#",displayAs="thumb")>
-										<div id="mediaHTML">
-									<div id="mediaBlock#media_id#">
-										#mediaBlock#
+								<cfset mediaBlock= getMediaBlock(media_id="#images.media_id#",displayAs="thumb")>
+									<div id="mediaHTML">
+										<div id="mediaBlock#media_id#">
+											#mediaBlock#
+										</div>
 									</div>
-										</div></div>
+								</div>
 						</cfloop>
 					</div>
 				</div>
@@ -210,7 +211,7 @@ limitations under the License.
 		</cfoutput>
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
-</cffunction>--->
+</cffunction>
 <!---TEST getEditImagesHTML obtain a block of html to populate an images editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
