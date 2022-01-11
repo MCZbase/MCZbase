@@ -2753,8 +2753,8 @@ limitations under the License.
 								<cfquery name="getpubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select publication_id,formatted_publication from formatted_publication
 								</cfquery>
-								<div class="col-12 px-1">
-									<div class="col-12 float-left mt-0 mb-1 py-0 px-1">
+								<div class="col-12 px-2">
+									<div class="col-12 float-left mt-0 mb-1 py-0 px-0">
 										<div class="col-12 px-1 float-left">
 											<label for="publication" class="data-entry-label my-0"><span id="publication_id">Title</span></label>
 											<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#encodeForHTML(getpubs.formatted_publication)#">
