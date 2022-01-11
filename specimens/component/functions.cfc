@@ -180,42 +180,42 @@ limitations under the License.
 																				<cfset j = j+1>
 																			</cfloop>
 																			<input type="button" value="Remove" aria-label="Remove Image" class="btn btn-xs btn-warning"
-																			onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
-																			<output id="deleteImagesResultDiv" class="text-danger">&nbsp;</output>
+																			onClick="if (checkFormValidity($('##editMediaForm')[0])) { editMediaSubmit();  } ">
+																			<output id="deleteMediaResultDiv" class="text-danger">&nbsp;</output>
 																		</div>
 																	</div>
 																</div>
 																<script>
-																	function editImagesSubmit(){
-																		$('##deleteImagesResultDiv').html('Deleting....');
-																		$('##deleteImagessResultDiv').addClass('text-warning');
-																		$('##deleteImagesResultDiv').removeClass('text-success');
-																		$('##deleteImagesResultDiv').removeClass('text-danger');
+																	function editMediaSubmit(){
+																		$('##deleteMediaResultDiv').html('Deleting....');
+																		$('##deleteMediaResultDiv').addClass('text-warning');
+																		$('##deleteMediaResultDiv').removeClass('text-success');
+																		$('##deleteMediaResultDiv').removeClass('text-danger');
 																		$.ajax({
 																			url : "/specimens/component/functions.cfc",
 																			type : "post",
 																			dataType : "json",
-																			data: $("##editImagesForm").serialize(),
+																			data: $("##editMediaForm").serialize(),
 																			success: function (result) {
 																				if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																					$('##deleteImagesResultDiv').html('Deleted');
-																					$('##deleteImagesResultDiv').addClass('text-success');
-																					$('##deleteImagesResultDiv').removeClass('text-warning');
-																					$('##deleteImagesResultDiv').removeClass('text-danger');
+																					$('##deleteMediaResultDiv').html('Deleted');
+																					$('##deleteMediaResultDiv').addClass('text-success');
+																					$('##deleteMediaResultDiv').removeClass('text-warning');
+																					$('##deleteMediaResultDiv').removeClass('text-danger');
 																				} else {
 																					// we shouldn't be able to reach this block, backing error should return an http 500 status
-																					$('##deleteImagesResultDiv').html('Error');
-																					$('##deleteImagesResultDiv').addClass('text-danger');
-																					$('##deleteImagesResultDiv').removeClass('text-warning');
-																					$('##deleteImagesResultDiv').removeClass('text-success');
+																					$('##deleteMediaResultDiv').html('Error');
+																					$('##deleteMediaResultDiv').addClass('text-danger');
+																					$('##deleteMediaResultDiv').removeClass('text-warning');
+																					$('##deleteMediaResultDiv').removeClass('text-success');
 																					messageDialog('Error updating images: '+result.DATA.MESSAGE[0], 'Error saving images.');
 																				}
 																			},
 																			error: function(jqXHR,textStatus,error){
-																				$('##deleteImagesResultDiv').html('Error');
-																				$('##deleteImagesResultDiv').addClass('text-danger');
-																				$('##deleteImagesResultDiv').removeClass('text-warning');
-																				$('##deleteImagesResultDiv').removeClass('text-success');
+																				$('##deleteMediaResultDiv').html('Error');
+																				$('##deleteMediaResultDiv').addClass('text-danger');
+																				$('##deleteMediaResultDiv').removeClass('text-warning');
+																				$('##deleteMediaResultDiv').removeClass('text-success');
 																				handleFail(jqXHR,textStatus,error,"deleting relationship between image and cataloged item");
 																			}
 																		});
