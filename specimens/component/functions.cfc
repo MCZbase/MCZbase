@@ -2757,20 +2757,32 @@ limitations under the License.
 											<input type="text" id="publication_#i#" value='' class="data-entry-input">
 										</div>
 									</div>
-								<div class="col-12 float-left mt-1 mb-1 p-0">
 									<div class="col-12 col-md-6 float-left">
+										<label for="citsciname" class="data-entry-label mt-1 mb-0">
+											<span id="citsciname">Cited Scientific Name</span>
+										</label>
+										<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
+									</div>
+									<div class="col-12 col-md-6 float-left">
+										<label for="scientific_name" class="data-entry-label mt-2 mb-0">
+											<span id="scientific_name">Accepted Scientific Name</span>
+										</label>
+										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
+									</div>
+					<!---			<div class="col-12 float-left mt-1 mb-1 p-0">
+									<div class="col-12 col-md-6 float-left">--->
 <!---										<label for="author_text" class="data-entry-label mt-0 mb-0"><span id="author_text">Participant</span></label>
 										<input name="author_text" id="author_text" type="text" class="data-entry-input">
 										<label for="published_year" class="data-entry-label mt-2 mb-0"><span id="published_year">Year</span></label>
 										<input name="published_year" id="published_year" type="text" class="data-entry-input">--->
-									</div>
+								<!---	</div>--->
 <!---									<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT 
 											journal_name as id, journal_name
 										FROM 
 											ctjournal_name
 									</cfquery>--->
-									<div class="col-12 col-md-6 float-left">
+								<!---	<div class="col-12 col-md-6 float-left">--->
 									<!---	<label for="journal" class="data-entry-label mt-0 mb-0"><span class="ID">Journal Name</span></label>
 										<input type="hidden" name="ID_#i#" id="ID_#i#" value="#encodeForHTML(ctjournal_name.journal_name)#">
 										<input type="text" id="journal_#i#" value='' class="data-entry-input">--->
@@ -2782,8 +2794,8 @@ limitations under the License.
 												<option value="#publication_type#">#publication_type#</option>
 											</cfloop>
 										</select>--->
-									</div>
-								</div>
+						<!---			</div>
+								</div>--->
 								<div class="col-12 float-left mt-0 p-0 pb-1 pt-0">
 									<div class="col-12 col-md-4 float-left">
 										<label for="collection_id" class="data-entry-label mt-1 mb-0">Cites Collection</label>
@@ -2803,19 +2815,10 @@ limitations under the License.
 											<option value="0">Cites no Specimens</option>
 										</select>
 									</div>
-									<div class="col-12 col-md-4 float-left">
-										<label for="citsciname" class="data-entry-label mt-1 mb-0">
-											<span id="citsciname">Cited Scientific Name</span>
-										</label>
-										<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
-										<label for="scientific_name" class="data-entry-label mt-2 mb-0">
-											<span id="scientific_name">Accepted Scientific Name</span>
-										</label>
-										<input name="scientific_name" class="data-entry-input" id="scientific_name" type="text">
-									</div>
+
 									<div class="col-12 col-md-4 float-left">
 										<label for="occurs_page_number" class="data-entry-label mt-1 mb-0"> Description Min. Length</label>
-										<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="100">
+										<input name="occurs_page_number" id="occurs_page_number" class="data-entry-input" type="text" value="">
 									</div>
 								</div>
 									<div class="col-12 my-2 float-left">
