@@ -609,12 +609,12 @@ limitations under the License.
 															<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
 															<input type="hidden" name="taxona_id" id="taxona_id">
 														</div>
-														<div class="col-12 col-md-7 px-1 d-none">
+														<div class="col-12 col-md-8 px-1 d-none">
 															<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
 															<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
 															<input type="hidden" name="taxonb_id" id="taxonb_id">
 														</div>
-														<div class="col-12 col-md-3 px-1">
+														<div class="col-12 col-md-2 px-1">
 															<label for="made_date" class="data-entry-label" >Date Identified</label>
 															<input type="text" name="made_date" id="made_date" class="data-entry-input">
 														</div>
