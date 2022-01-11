@@ -297,9 +297,9 @@ limitations under the License.
 													</div>
 													<div class="row mx-0 mt-0 py-1">
 														<div class="col-12 col-md-12 px-1">
-															<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
-															onClick="if (checkFormValidity($('##editImagesForm')[0])) { editImagesSubmit();  } ">
-															<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>
+												<!---			<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
+															onClick=" editImagesSubmit(); ">
+															<output id="saveImagesResultDiv" class="text-danger">&nbsp;</output>--->
 														</div>
 													</div>
 											<script>
