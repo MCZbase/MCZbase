@@ -200,7 +200,7 @@ limitations under the License.
 						</div>
 						<div class="tab-content">
 							<!---Fixed Search tab panel--->
-							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="active mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
+							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
 								<section role="search" class="container-fluid">
 									<form id="fixedSearchForm">
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
