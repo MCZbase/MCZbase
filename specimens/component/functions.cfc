@@ -628,9 +628,9 @@ limitations under the License.
 													<div class="row mx-0 mt-0 py-1">
 														<div class="col-12 px-0">
 															<cfset idnum=1>
-																<div class="col-12 col-md-12 px-0 float-left">
+																<div class="col-12 col-md-12 px-0 float-left border">
 																<cfloop query="determiners">
-																	<div id="IdTr_#i#_#idnum#" class="col-12 col-md-6 float-left">
+																	<div id="IdTr_#i#_#idnum#" class="col-12 col-md-6 px-0 float-left">
 																		<label for="IdBy_#i#_#idnum#" class="data-entry-label col-12 col-md-6 float-left">
 																		Identified By
 																		<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
