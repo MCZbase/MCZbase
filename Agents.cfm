@@ -158,10 +158,18 @@ limitations under the License.
 										</label>
 										<input type="text" id="anyName" name="anyName" class="data-entry-input" value="#anyName#" aria-labelledby="anyName_label" >
 									</div>
+									<!--- onblur, if field is emptied, clear the agent_id. --->
+									<script>
+										function specificagentBlurHandler() { 
+											if($('##specificagent').val()=='') { 
+												$('##agent_id').val('');
+											}
+										}
+									</script>
 									<div class="col-12 col-md-4">
 										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
 										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#specificagent#" aria-labelledby="specificagent_label"
-											onblur=" if($('##specificagent').val()=='') { $('##agent_id').val(''); }"
+											onblur=" specificagentBlurHandler();"
 											>
 										<script>
 											$(document).ready(function() {
