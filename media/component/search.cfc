@@ -979,7 +979,6 @@ limitations under the License.
 
 <cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-
 	<cfargument name="size" type="string" required="no" default="800">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 
@@ -1035,10 +1034,10 @@ limitations under the License.
 								<cfif #l_displayAs# EQ "thumb">
 									<cfset displayImage = preview_uri>
 									<cfset l_size = "100">
-									<cfset hw = 'height="auto width="100"'>
+									<cfset hw = 'height="auto" width="100"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
-										<cfset l_size = "400">
+										<cfset l_size = "500">
 										<cfset hw = 'height="400" width="400"'>
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
 										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
