@@ -1038,7 +1038,7 @@ limitations under the License.
 									<cfset hw = 'height="auto width="100"'>
 								<cfelse>
 									<cfif host EQ "mczbase.mcz.harvard.edu">
-										<cfset l_size = "500">
+										<cfset l_size = "400">
 										<cfset hw = 'height="400" width="400"'>
 										<cfset sizeType='&width=#l_size#&height=#l_size#'>
 										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
@@ -1073,7 +1073,7 @@ limitations under the License.
 									<cfelseif media_type is "text">
 										<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
 									<cfelseif media_type is "3D model">
-										<cfset displayImage =  "/shared/images/Airy-3d.svg">
+										<cfset displayImage =  "/shared/images/Placeholder_view_vector.svg">
 									<cfelse>
 										<cfset displayImage =  "/shared/images/Image-x-generic.svg"><!---nothing was working for mime type--->
 									</cfif>
