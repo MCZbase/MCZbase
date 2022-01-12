@@ -2703,6 +2703,11 @@ limitations under the License.
 								$(document).ready(function() {
 									makeScientificNameAutocompleteMeta("cited_sci_Name", "collection_object_id");
 								});
+								$(document).ready(function() {
+									makeCitedScientificNameAutocompleteMeta("cited_sci_Name", "taxon_name_id");
+								});
+								
+								
 							</script>
 							</div>
 						</div>
