@@ -2624,9 +2624,64 @@ limitations under the License.
 						<cfquery name="getpubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select publication_id,formatted_publication from formatted_publication
 						</cfquery>
-											<cfif len(getCited.publication_id) GT 0>
-						<cfset i = 1>
-						<cfloop query="getCited">
+					<cfif len(getCited.publication_id) GT 0>
+						<cfset i = 1 >
+						<h1 class="h3">Citations for this specimen</h1>
+							<table class="table mb-0 small px-2">
+								<thead class="p-2">
+									<tr>
+										<th>&nbsp;</th>
+										<th class="px-1" style="min-width: 280px;">Publication Title</th>
+										<th class="px-1">Cited As</th>
+										<th class="px-1">Current ID</th>
+										<th class="px-1" style="min-width: 80px;">Citation Type</th>
+										<th class="px-1" style="min-width: 50px;">Page ##</th>
+										<th class="px-1" style="min-width: 213px;">Remarks</th>
+									</tr>
+								</thead>
+								<cfloop query="getCited">
+								<tbody>
+									<tr>
+										<td nowrap>
+											<table>
+												<tr>
+													<form name="deleCitation#i#" method="post" action="Citation.cfm">
+														<input type="hidden" name="Action">
+														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+														<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
+														<td class="border-0 px-0">
+															<button type="button" aria-label="Remove Citation" class="btn btn-xs btn-danger" onclick="removeCitation(#collection_object_id#, #cited_taxon_name_id#)">Delete</button
+														</td>
+														<td class="border-0 pr-0 pl-2">
+															<input type="button"
+															value="Edit"
+															class="btn btn-xs btn-primary"
+															onClick="deleCitation#i#.Action.value='editCitation'; submit();">
+														</td>
+													</form>
+												</tr>
+											</table>
+										</td>
+										<td class="px-2"><a href="/SpecimenDetailBody.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a></td>
+										<td class="px-2"><i><a href="/TaxonomyDetails.cfm?taxon_name_id=#getCited.citSciName#" target="_mainFrame"><i>#replace(getCited.citSciName," ","&nbsp;","all")#</i></a></i>&nbsp;</td>
+										<td class="px-2"><i>#scientific_name#</i>&nbsp;</td>
+										<td class="px-2">#type_status#&nbsp;</td>
+										<td>
+											<cfif len(#citation_page_uri#) gt 0>
+												<cfset citpage = trim(occurs_page_number)>
+												<cfif len(citpage) EQ 0><cfset citpage="[link]"></cfif>
+												<a href ="#citation_page_uri#" target="_blank" class="px-1">#citpage#</a>&nbsp;
+											<cfelse>
+												<span class="px-1">#occurs_page_number#&nbsp;</span>
+											</cfif>
+										</td>
+										<td nowrap>#citation_remarks#&nbsp;</td>
+									</tr>
+									</tbody>
+								</cfloop>
+							</table>
+						<cfset i = i + 1>
+					</cfif>
 					<section class="container-fluid">
 						<div class="row mx-0 my-3">
 							<div class="search-box">
@@ -2703,64 +2758,6 @@ limitations under the License.
 						</div>
 					</section>
 					<section class="container-fluid">
-
-						
-						<h1 class="h3">Citations for this specimen</h1>
-							<table class="table mb-0 small px-2">
-								<thead class="p-2">
-									<tr>
-										<th>&nbsp;</th>
-										<th class="px-1" style="min-width: 280px;">Publication Title</th>
-										<th class="px-1">Cited As</th>
-										<th class="px-1">Current ID</th>
-										<th class="px-1" style="min-width: 80px;">Citation Type</th>
-										<th class="px-1" style="min-width: 50px;">Page ##</th>
-										<th class="px-1" style="min-width: 213px;">Remarks</th>
-									</tr>
-								</thead>
-				
-								<tbody>
-									<tr>
-										<td nowrap>
-											<table>
-												<tr>
-													<form name="deleCitation#i#" method="post" action="Citation.cfm">
-														<input type="hidden" name="Action">
-														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-														<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
-														<td class="border-0 px-0">
-															<button type="button" aria-label="Remove Citation" class="btn btn-xs btn-danger" onclick="removeCitation(#collection_object_id#, #cited_taxon_name_id#)">Delete</button
-														</td>
-														<td class="border-0 pr-0 pl-2">
-															<input type="button"
-															value="Edit"
-															class="btn btn-xs btn-primary"
-															onClick="deleCitation#i#.Action.value='editCitation'; submit();">
-														</td>
-													</form>
-												</tr>
-											</table>
-										</td>
-										<td class="px-2"><a href="/SpecimenDetailBody.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a></td>
-										<td class="px-2"><i><a href="/TaxonomyDetails.cfm?taxon_name_id=#getCited.citSciName#" target="_mainFrame"><i>#replace(getCited.citSciName," ","&nbsp;","all")#</i></a></i>&nbsp;</td>
-										<td class="px-2"><i>#scientific_name#</i>&nbsp;</td>
-										<td class="px-2">#type_status#&nbsp;</td>
-										<td>
-											<cfif len(#citation_page_uri#) gt 0>
-												<cfset citpage = trim(occurs_page_number)>
-												<cfif len(citpage) EQ 0><cfset citpage="[link]"></cfif>
-												<a href ="#citation_page_uri#" target="_blank" class="px-1">#citpage#</a>&nbsp;
-											<cfelse>
-												<span class="px-1">#occurs_page_number#&nbsp;</span>
-											</cfif>
-										</td>
-										<td nowrap>#citation_remarks#&nbsp;</td>
-									</tr>
-									</tbody>
-								</cfloop>
-							</table>
-						<cfset i = i + 1>
-					</cfif>
 						<script>
 							$(document).ready(function() {
 								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
