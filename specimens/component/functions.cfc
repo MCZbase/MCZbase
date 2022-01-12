@@ -2598,7 +2598,8 @@ limitations under the License.
 								publication.publication_id,
 								publication.published_year,
 								publication.publication_type,
-								doi
+								doi,
+								cited_taxon_name_id
 							FROM
 								citation,
 								cataloged_item,
