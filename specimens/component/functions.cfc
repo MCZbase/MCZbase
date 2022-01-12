@@ -2701,8 +2701,8 @@ limitations under the License.
 									<div class="col-12 float-left mt-0 mb-1 py-0 px-0">
 										<div class="col-12 px-1 float-left">
 											<label for="publication" class="data-entry-label my-0"><span id="publication_id">Title</span></label>
-											<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#encodeForHTML(getpubs.formatted_publication)#">
-											<input type="text" id="publication_#i#" value='' class="data-entry-input">
+											<input type="hidden" name="publication_id" id="publication_id" value="#encodeForHTML(getpubs.formatted_publication)#">
+											<input type="text" id="publication" value='' class="data-entry-input">
 										</div>
 									</div>
 									<div class="col-12 col-md-3 px-1 mb-1 float-left">
@@ -2760,11 +2760,8 @@ limitations under the License.
 					<section class="container-fluid">
 						<script>
 							$(document).ready(function() {
-								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
+								makePublicationAutocompleteMeta("publication", "publication_id");
 							});
-//							$(document).ready(function() {
-//								makeJournalAutocomplete("journal_name_#i#");
-//							});
 						</script>
 					</section>
 				</div>
