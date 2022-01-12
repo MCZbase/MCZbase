@@ -1082,15 +1082,13 @@ Function getCitedScientificNameAutocomplete.  Search for taxonomy entries by sci
 				taxonomy.taxon_name_id,
 				taxonomy.scientific_name,
 				taxonomy.author_text,
-				citation.collection_object_id,
 				REGEXP_REPLACE(taxonomy.full_taxon_name, taxonomy.scientific_name || '$','') as higher_taxa
 			FROM 
-				taxonomy, citation
+				taxonomy
 			WHERE
-				taxonomy.taxon_name_id = citation.cited_taxon_name_id and
-				upper(scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				citation.cit_current_fg and (upper(scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 				OR
-				upper(author_text) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				upper(author_text) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">)
 			ORDER BY
 				taxonomy.scientific_name
 		</cfquery>
