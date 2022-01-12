@@ -1143,7 +1143,7 @@ limitations under the License.
 
 					
 <!--- @deprecated, move any desired code from this function into getMediaBlock and delete this function.  --->
-<!---<cffunction name="getMediaResponsiveBlockHtml" access="remote" returntype="string" returnformat="plain">
+<cffunction name="getMediaResponsiveBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
@@ -1393,5 +1393,5 @@ limitations under the License.
 	<cfthread action="join" name="mediaResponsiveWidgetThread2#tn#" />
 	<cfreturn cfthread["mediaResponsiveWidgetThread2#tn#"].output>
 		</cfoutput>
-</cffunction>--->
+</cffunction>
 </cfcomponent>
