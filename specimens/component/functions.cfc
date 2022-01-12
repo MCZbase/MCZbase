@@ -2667,7 +2667,7 @@ limitations under the License.
 										<label for="citsciname" class="data-entry-label mt-1 mb-0">
 											Accepted Scientific Name
 										</label>
-										<input name="scientific_name" id="scientific_name" type="hidden" value="#encodeForHTML(getCited.scientific_name)#">
+										<input name="scientific_name" id="scientific_name" type="hidden" value="#encodeForHTML(getCited.citSciName)#">
 										<input name="accepted_name" class="data-entry-input" value="" id="accepted_name" type="text">
 									</div>
 									<div class="col-12 float-left mt-0 mb-1 p-0">
