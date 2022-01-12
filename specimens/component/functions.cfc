@@ -2657,11 +2657,11 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 col-md-5 px-1 mb-1 float-left">
-										<label for="citSciName" class="data-entry-label mt-1 mb-0">
+										<label for="cited" class="data-entry-label mt-1 mb-0">
 											Cited Name
 										</label>
-										<input name="citSciName" id="citSciName" type="hidden" value="#encodeForHTML(getCited.citSciName)#">
-										<input class="data-entry-input" value='' id="citSciName" type="text">
+										<input type="hidden" name="cited_taxon_name_id" id="cited_taxon_name_id" value="#encodeForHTML(getCited.citSciName)#">
+										<input type="text" id="cited" value='' class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-4 mb-1 px-1 float-left">
 										<label for="scientific_name" class="data-entry-label mt-1 mb-0">
@@ -2705,7 +2705,7 @@ limitations under the License.
 									makeScientificNameAutocompleteMeta("accepted_Name", "collection_object_id");
 								});
 								$(document).ready(function() {
-									makeCitedScientificNameAutocompleteMeta("cited_name", "collection_object_id");
+									makeCitedScientificNameAutocompleteMeta("cited_name", "cited_taxon_name_id");
 								});
 								
 								
