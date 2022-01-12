@@ -427,6 +427,7 @@ limitations under the License.
 														</select>
 													</div>
 												</div>
+															<cfset i = #i#>
 											<div class="row col-12 mt-2 px-0 mx-0">
 												<div class="col-12 col-md-6 px-1 float-left">
 													<label for="identification_publication" class="data-entry-label" >Sensu</label>
