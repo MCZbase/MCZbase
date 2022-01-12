@@ -2621,6 +2621,9 @@ limitations under the License.
 							ORDER BY
 								occurs_page_number,cat_num
 						</cfquery>
+						<cfquery name="getpubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select publication_id,formatted_publication from formatted_publication
+						</cfquery>
 					<cfif len(getCited.publication_id) GT 0>
 						<cfset i = 1 >
 						<h1 class="h3">Citations for this specimen</h1>
@@ -2679,10 +2682,10 @@ limitations under the License.
 							</table>
 						<cfset i = i + 1>
 					</cfif>
-					<section class="container-fluid" role="search" aria-labelledby="formheader">
+					<section class="container-fluid">
 						<div class="row mx-0 my-3">
 							<div class="search-box">
-							<form name="searchForm" id="searchForm">
+							<form name="addCitForm" id="addCitForm">
 								<input name="action" type="hidden" value="search">
 								<input type="hidden" name="method" value="getCitResults" class="keeponclear">
 								<div class="col-12 search-box-header px-0 float-left">
@@ -2693,9 +2696,7 @@ limitations under the License.
 										<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/Publication.cfm?action=newPub">Add New Publication <i class="fas fa-external-link-alt"></i></a>
 									</div>
 								</cfif>
-								<cfquery name="getpubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select publication_id,formatted_publication from formatted_publication
-								</cfquery>
+
 								<div class="col-12 px-2">
 									<div class="col-12 float-left mt-0 mb-1 py-0 px-0">
 										<div class="col-12 px-1 float-left">
