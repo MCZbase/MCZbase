@@ -2624,7 +2624,7 @@ limitations under the License.
 						<cfquery name="getpubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select publication_id,formatted_publication from formatted_publication
 						</cfquery>
-	
+		<cfset i = 1 >
 					<section class="container-fluid">
 						<div class="row mx-0 my-3">
 							<div class="search-box">
