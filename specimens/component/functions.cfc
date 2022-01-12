@@ -2624,6 +2624,7 @@ limitations under the License.
 						<cfquery name="getpubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select publication_id,formatted_publication from formatted_publication
 						</cfquery>
+											<cfif len(getCited.publication_id) GT 0>
 						<cfset i = 1>
 						<cfloop query="getCited">
 					<section class="container-fluid">
@@ -2702,7 +2703,7 @@ limitations under the License.
 						</div>
 					</section>
 					<section class="container-fluid">
-					<cfif len(getCited.publication_id) GT 0>
+
 						
 						<h1 class="h3">Citations for this specimen</h1>
 							<table class="table mb-0 small px-2">
