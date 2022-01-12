@@ -1082,7 +1082,7 @@ Function getCitedScientificNameAutocomplete.  Search for taxonomy entries by sci
 				taxonomy.taxon_name_id,
 				taxonomy.scientific_name,
 				taxonomy.author_text,
-				citation.cited_taxon_name_id,
+				citation.collection_object_id,
 				REGEXP_REPLACE(taxonomy.full_taxon_name, taxonomy.scientific_name || '$','') as higher_taxa
 			FROM 
 				taxonomy, citation
