@@ -1960,26 +1960,25 @@ limitations under the License.
 				columnSections.set("#getFieldMetadata.category#",new Array());
 			}
 		</cfloop>
-		var columnMetadataLoaded = false;
 	
 		function populateColumnPicker(gridId,whichGrid) {
 			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
 			var columnCount = columns.length;
-			if (!columnMetadataLoaded) { 
-				for (i = 1; i < columnCount; i++) {
-					var text = columns[i].text;
-					var datafield = columns[i].datafield;
-					var hideable = columns[i].hideable;
-					var hidden = columns[i].hidden;
-					var show = ! hidden;
-					if (hideable == true) {
-						var listRow = { label: text, value: datafield, checked: show };
-						var inCategory = columnCategoryPlacements.get(datafield);
-						columnSections.get(inCategory).push(listRow);
-					}
+			// clear out the datafield arrays for each columnSection category
+			for (let [key,value] of columnSections) { value.length = 0; };
+			// repopulate the datafield arrays for each columnSection category with the current values.
+			for (i = 1; i < columnCount; i++) {
+				var text = columns[i].text;
+				var datafield = columns[i].datafield;
+				var hideable = columns[i].hideable;
+				var hidden = columns[i].hidden;
+				var show = ! hidden;
+				if (hideable == true) {
+					var listRow = { label: text, value: datafield, checked: show };
+					var inCategory = columnCategoryPlacements.get(datafield);
+					columnSections.get(inCategory).push(listRow);
 				}
-				columnMetadataLoaded = true;
 			}
 			console.log(columnSections);
 			$("##"+whichGrid+"columnPick_row").html("");
