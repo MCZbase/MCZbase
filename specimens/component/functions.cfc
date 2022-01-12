@@ -2682,9 +2682,7 @@ limitations under the License.
 					<section class="container-fluid" role="search" aria-labelledby="formheader">
 						<div class="row mx-0 my-3">
 							<div class="search-box">
-								<cfset title = "Search for Results">
-
-							<cfoutput>
+					
 							<form name="searchForm" id="searchForm">
 								<input name="action" type="hidden" value="search">
 								<input type="hidden" name="method" value="getCitResults" class="keeponclear">
@@ -2755,7 +2753,7 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-							</cfoutput>
+							
 							</div>
 						</div>
 					</section>
