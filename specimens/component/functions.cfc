@@ -430,8 +430,8 @@ limitations under the License.
 								<div class="row col-12 mt-2 px-0 mx-0">
 									<div class="col-12 col-md-6 px-1 float-left">
 										<label for="identification_publication" class="data-entry-label" >Sensu</label>
-										<input type="hidden" name="new_publication_id" id="new_publication_id">
-										<input type="text" id="newPub" class="data-entry-input mb-1">
+										<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
+										<input type="text" id="publication_#i#" value='#encodeForHTML(formatted_publication)#' class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-6 px-1 float-left">
 										<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
@@ -573,7 +573,7 @@ limitations under the License.
 																			</div>
 																			<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
 																			<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																			<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addIDName rounded mx-1" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a> </div>
+																			<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addIDName rounded mx-1" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Name</a> </div>
 																	</div>
 																	<script>
 																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon","IdBy_#i#_#idnum#_view",'#agent_id#');
