@@ -2665,11 +2665,11 @@ limitations under the License.
 										<input name="citsciname" class="data-entry-input" value="" id="cited_sci_Name" type="text">
 									</div>
 									<div class="col-12 col-md-4 mb-1 px-1 float-left">
-										<label for="scientific_name" class="data-entry-label mt-1 mb-0">
-											<span id="scientific_name">Cited Scientific Name</span>
+										<label for="sciName" class="data-entry-label mt-1 mb-0">
+											<span id="sciName">Cited Scientific Name</span>
 										</label>
-										<input name="scientific_name" id="scientific_name" type="hidden" value="#encodeForHTML(getCited.scientific_name)#">
-										<input name="scientific_name" class="data-entry-input" value="" id="scientific_name" type="text">
+										<input name="sciName" id="sciName" type="hidden" value="#encodeForHTML(getCited.scientific_name)#">
+										<input name="sciName" class="data-entry-input" value="" id="sciName" type="text">
 									</div>
 									<div class="col-12 float-left mt-0 mb-1 p-0">
 										<div class="col-12 col-md-3 px-1 float-left">
@@ -2706,7 +2706,7 @@ limitations under the License.
 									makeScientificNameAutocompleteMeta("scientific_name", "collection_object_id");
 								});
 								$(document).ready(function() {
-									makeScientificNameAutocompleteMeta("cited_sci_Name", "identification_id");
+									makeScientificNameAutocompleteMeta("sciName", "cited_taxon_name_id");
 								});
 								
 								
