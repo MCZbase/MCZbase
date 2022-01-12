@@ -430,7 +430,7 @@ limitations under the License.
 												<div class="row col-12 mt-2 px-0 mx-0">
 													<div class="col-12 col-md-6 px-1 float-left">
 														<label for="identification_publication" class="data-entry-label" >Sensu</label>
-														<input type="hidden" name="publication_id" id="publication_id" value="#publication_id#">
+														<input type="hidden" name="publication_id" id="publication_id" value="">
 														<input type="text" id="publication" value='#encodeForHTML(formatted_publication)#' class="data-entry-input">
 													</div>
 													<div class="col-12 col-md-6 px-1 float-left">
