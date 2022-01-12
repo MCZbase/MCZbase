@@ -7,19 +7,35 @@
 </cfif>
 <cfset filePath = replace('#cgi.script_name#','//','/') >
 <cfif fileexists(application.webDirectory & filePath)>
+	<!---  Find all of the roles specified for the given filePath (requested page) --->
+	<!---  Note, if you've just added a new page and requested it before adding permissions to cf_form_permissions, 
+		you will be denied access until the cache expires (or you transiently reset to a timespan of 0,0,0,0).
+		See the Redmine wiki for instructions on adding a new page to MCZbase.
+	--->
 	<cfquery name="isValid" datasource="uam_god" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
-		select ROLE_NAME from cf_form_permissions
-		where form_path = <cfqueryparam value="#filePath#" cfsqltype="CF_SQL_VARCHAR">
-		union
-		select ROLE_NAME from cf_form_permissions_r
-		where form_path = <cfqueryparam value="#filePath#" cfsqltype="CF_SQL_VARCHAR">
+		select distinct ROLE_NAME from (
+		 	select ROLE_NAME from cf_form_permissions
+			where form_path = <cfqueryparam value="#filePath#" cfsqltype="CF_SQL_VARCHAR">
+			union
+			select ROLE_NAME from cf_form_permissions_r
+			where form_path = <cfqueryparam value="#filePath#" cfsqltype="CF_SQL_VARCHAR">
+      )
 	</cfquery>
 	<cfif isValid.recordcount is 0>
+		<!--- no permissions specified, a new page or an invalid request, assume bad and deny access --->
 		<cfset bad=true>
+	<cfelseif isValid.recordcount is 1 AND valuelist(isValid.role_name) is "public">
+		<!--- only entry or entries for the requested page are public, don't check against session.roles --->
 	<cfelseif valuelist(isValid.role_name) is not "public">
+		<!--- check that the current user's session.roles contains all of the roles specified for the current page --->
+		<!--- The assumption of cf_form_permissions and rolecheck is that a user must have all of the permissions 
+			specified for a page, not any single permission.  This differs from the logic of grants within the database,
+			and differs from the logic used on the menu for which pages are shown to whom.
+		--->
 		<cfloop query="isValid">
 			<cfif not listfindnocase(session.roles,role_name)>
 				<cfset bad=true>
+				<!--- If any permission specified for the requested page is absent from session.roles, deny access --->
 			</cfif>
 		</cfloop>
 	</cfif>

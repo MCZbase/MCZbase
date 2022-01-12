@@ -1466,7 +1466,12 @@ limitations under the License.
 				
 				var uuid = getVersion4UUID();
 				$("##result_id_keywordSearch").val(uuid);
-		
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					if (Object.keys(window.columnHiddenSettings).length == 0) {
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					}
+				</cfif>
+
 				keywordSearchLoaded = 0;
 
 				$("##overlay").show();
@@ -1623,7 +1628,12 @@ limitations under the License.
 				evt.preventDefault();
 				var uuid = getVersion4UUID();
 				$("##result_id_builderSearch").val(uuid);
-				
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					if (Object.keys(window.columnHiddenSettings).length == 0) {
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					}
+				</cfif>
+
 				builderSearchLoaded = 0;
 		
 				$("##overlay").show();
@@ -1778,6 +1788,11 @@ limitations under the License.
 				evt.preventDefault();
 				var uuid = getVersion4UUID();
 				$("##result_id_fixedSearch").val(uuid);
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					if (Object.keys(window.columnHiddenSettings).length == 0) {
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					}
+				</cfif>
 	
 				fixedSearchLoaded = 0;
 
@@ -1958,52 +1973,25 @@ limitations under the License.
 				columnSections.set("#getFieldMetadata.category#",new Array());
 			}
 		</cfloop>
-		var columnMetadataLoaded = false;
 	
-		function pageLoaded(gridId, searchType, whichGrid) {
-			console.log('pageLoaded:' + gridId);
-			var pagingInfo = $("##" + gridId).jqxGrid("getpaginginformation");
-		}
-
-		function gridLoaded(gridId, searchType, whichGrid) {
-			console.log('gridLoaded:' + gridId);
-
-			if (Object.keys(window.columnHiddenSettings).length == 0) {
-				window.columnHiddenSettings = getColumnVisibilities(gridId);
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
-				</cfif>
-			}
-			$("##overlay").hide();
-			$('.jqx-header-widget').css({'z-index': maxZIndex + 1 });
-			var now = new Date();
-			var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-			var filename = searchType.replace(/ /g,'_') + '_results_' + nowstring + '.csv';
-			// display the number of rows found
-			var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
-			var rowcount = datainformation.rowscount;
-			if (rowcount == 1) {
-				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType);
-			} else {
-				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
-			}
+		function populateColumnPicker(gridId,whichGrid) {
 			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
 			var columnCount = columns.length;
-			if (!columnMetadataLoaded) { 
-				for (i = 1; i < columnCount; i++) {
-					var text = columns[i].text;
-					var datafield = columns[i].datafield;
-					var hideable = columns[i].hideable;
-					var hidden = columns[i].hidden;
-					var show = ! hidden;
-					if (hideable == true) {
-						var listRow = { label: text, value: datafield, checked: show };
-						var inCategory = columnCategoryPlacements.get(datafield);
-						columnSections.get(inCategory).push(listRow);
-					}
+			// clear out the datafield arrays for each columnSection category
+			for (let [key,value] of columnSections) { value.length = 0; };
+			// repopulate the datafield arrays for each columnSection category with the current values.
+			for (i = 1; i < columnCount; i++) {
+				var text = columns[i].text;
+				var datafield = columns[i].datafield;
+				var hideable = columns[i].hideable;
+				var hidden = columns[i].hidden;
+				var show = ! hidden;
+				if (hideable == true) {
+					var listRow = { label: text, value: datafield, checked: show };
+					var inCategory = columnCategoryPlacements.get(datafield);
+					columnSections.get(inCategory).push(listRow);
 				}
-				columnMetadataLoaded = true;
 			}
 			console.log(columnSections);
 			$("##"+whichGrid+"columnPick_row").html("");
@@ -2057,6 +2045,41 @@ limitations under the License.
 					$("##" + gridId).jqxGrid('endupdate');
 				});
 			}
+		}
+
+		function pageLoaded(gridId, searchType, whichGrid) {
+			console.log('pageLoaded:' + gridId);
+			var pagingInfo = $("##" + gridId).jqxGrid("getpaginginformation");
+		}
+
+		function gridLoaded(gridId, searchType, whichGrid) {
+			console.log('gridLoaded:' + gridId);
+			var maxZIndex = getMaxZIndex();
+
+			if (Object.keys(window.columnHiddenSettings).length == 0) {
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					lookupColumnVisibilities ('#cgi.script_name#','Default');
+				<cfelse>
+					window.columnHiddenSettings = getColumnVisibilities(gridId);
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+				</cfif>
+			}
+			$("##overlay").hide();
+			$('.jqx-header-widget').css({'z-index': maxZIndex + 1 });
+			var now = new Date();
+			var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+			var filename = searchType.replace(/ /g,'_') + '_results_' + nowstring + '.csv';
+			// display the number of rows found
+			var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+			var rowcount = datainformation.rowscount;
+			if (rowcount == 1) {
+				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType);
+			} else {
+				$('##'+whichGrid+'resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+			}
+			populateColumnPicker(gridId,whichGrid);
 
 			$("##"+whichGrid+"columnPickDialog").dialog({
 				height: 'auto',
@@ -2066,14 +2089,16 @@ limitations under the License.
 				autoOpen: false,
 				modal: true,
 				reszable: true,
+				close: function(event, ui) { 
+					window.columnHiddenSettings = getColumnVisibilities(gridId);		
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+					</cfif>
+				},
 				buttons: [
 					{
 						text: "Ok",
 						click: function(){ 
-							window.columnHiddenSettings = getColumnVisibilities(gridId);		
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
-							</cfif>
 							$(this).dialog("close"); 
 						},
 						tabindex: 0
@@ -2087,13 +2112,15 @@ limitations under the License.
 				}
 			});
 			$("##"+whichGrid+"columnPickDialogButton").html(
-				`<button id="columnPickDialogOpener" onclick=" $('##`+whichGrid+`columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary  mr-1" >Select Columns</button>
+				`<button id="columnPickDialogOpener" 
+					onclick=" populateColumnPicker('`+gridId+`','`+whichGrid+`'); $('##`+whichGrid+`columnPickDialog').dialog('open'); " 
+					class="btn btn-xs btn-secondary  mr-1" >Select Columns</button>
 				<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-1 my-2" >Pin GUID Column</button>
 				`
 			);
 			// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 			// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
-			var maxZIndex = getMaxZIndex();
+			maxZIndex = getMaxZIndex();
 			$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 			$('.jqx-grid-cell').css({'border-color': '##aaa'});
 			$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
