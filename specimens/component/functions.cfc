@@ -427,18 +427,17 @@ limitations under the License.
 														</select>
 													</div>
 												</div>
-															<cfset i = #i#>
-											<div class="row col-12 mt-2 px-0 mx-0">
-												<div class="col-12 col-md-6 px-1 float-left">
-													<label for="identification_publication" class="data-entry-label" >Sensu</label>
-													<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
-													<input type="text" id="publication_#i#" value='#encodeForHTML(formatted_publication)#' class="data-entry-input">
-												</div>
-												<div class="col-12 col-md-6 px-1 float-left">
-													<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
-													<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
-												</div>
-											</div>
+								<div class="row col-12 mt-2 px-0 mx-0">
+									<div class="col-12 col-md-6 px-1 float-left">
+										<label for="identification_publication" class="data-entry-label" >Sensu</label>
+										<input type="hidden" name="new_publication_id" id="new_publication_id">
+										<input type="text" id="newPub" class="data-entry-input mb-1">
+									</div>
+									<div class="col-12 col-md-6 px-1 float-left">
+										<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
+										<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
+									</div>
+								</div>
 												<div class="col-12 col-md-12 px-0 float-left">
 													<cfset idnum=1>
 													<cfset i=1>
