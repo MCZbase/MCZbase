@@ -2582,7 +2582,7 @@ limitations under the License.
 								citation.publication_id,
 								citation.collection_object_id,
 								collection,
-								identfication.identification_id,
+								identification.identification_id,
 								collection.collection_id,
 								cat_num,
 								identification.scientific_name,
