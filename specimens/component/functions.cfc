@@ -2695,7 +2695,11 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-							
+							<script>
+								$(document).ready(function() {
+									makePublicationAutocompleteMeta("publication", "publication_id");
+								});
+							</script>
 							</div>
 						</div>
 					</section>
@@ -2758,11 +2762,6 @@ limitations under the License.
 							</table>
 						<cfset i = i + 1>
 					</cfif>
-						<script>
-							$(document).ready(function() {
-								makePublicationAutocompleteMeta("publication", "publication_id");
-							});
-						</script>
 					</section>
 				</div>
 				<cfset cellRenderClasses = "ml-1">
