@@ -1466,7 +1466,12 @@ limitations under the License.
 				
 				var uuid = getVersion4UUID();
 				$("##result_id_keywordSearch").val(uuid);
-		
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					if (Object.keys(window.columnHiddenSettings).length == 0) {
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					}
+				</cfif>
+
 				keywordSearchLoaded = 0;
 
 				$("##overlay").show();
@@ -1623,7 +1628,12 @@ limitations under the License.
 				evt.preventDefault();
 				var uuid = getVersion4UUID();
 				$("##result_id_builderSearch").val(uuid);
-				
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					if (Object.keys(window.columnHiddenSettings).length == 0) {
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					}
+				</cfif>
+
 				builderSearchLoaded = 0;
 		
 				$("##overlay").show();
@@ -1778,6 +1788,11 @@ limitations under the License.
 				evt.preventDefault();
 				var uuid = getVersion4UUID();
 				$("##result_id_fixedSearch").val(uuid);
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					if (Object.keys(window.columnHiddenSettings).length == 0) {
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					}
+				</cfif>
 	
 				fixedSearchLoaded = 0;
 
@@ -2047,7 +2062,6 @@ limitations under the License.
 				<cfelse>
 					window.columnHiddenSettings = getColumnVisibilities(gridId);
 				</cfif>
-				window.columnHiddenSettings = getColumnVisibilities(gridId);
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 				</cfif>
