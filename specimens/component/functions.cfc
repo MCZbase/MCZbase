@@ -2660,14 +2660,14 @@ limitations under the License.
 										<label for="cited" class="data-entry-label mt-1 mb-0">
 											Cited Name
 										</label>
-										<input type="hidden" name="collection_object_id" id="collection_object_id" value="#encodeForHTML(getCited.citSciName)#">
+										<input type="hidden" name="collob" id="collob" value="#encodeForHTML(getCited.citSciName)#">
 										<input type="text" id="cited" value='' class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-4 mb-1 px-1 float-left">
 										<label for="sci_name" class="data-entry-label mt-1 mb-0">
 											Accepted Scientific Name
 										</label>
-										<input name="scientific_name" id="sci_name" type="hidden" value="#encodeForHTML(getCited.scientific_name)#">
+										<input name="scientific_name" id="sci_name" type="hidden" value="#encodeForHTML(getCited.citSciName)#">
 										<input class="data-entry-input" value='' id="sci_name" type="text">
 									</div>
 									<div class="col-12 float-left mt-0 mb-1 p-0">
