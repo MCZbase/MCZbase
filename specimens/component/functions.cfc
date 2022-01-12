@@ -2703,7 +2703,7 @@ limitations under the License.
 									makePublicationAutocompleteMeta("publication", "publication_id");
 								});
 								$(document).ready(function() {
-									makeScientificNameAutocompleteMeta("scientific_name", "collection_object_id");
+									makeScientificNameAutocompleteMeta("citSciName", "collection_object_id");
 								});
 								$(document).ready(function() {
 									makeScientificNameAutocompleteMeta("sciName", "collection_object_id");
