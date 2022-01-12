@@ -308,9 +308,10 @@ function noenter (e)
 	}
 }
 
-/** Make a paired hidden agent_id and text agent_name control into an autocomplete agent picker
+/** Make a paired hidden agent_id and text agent_name control into an autocomplete agent picker, where an agent_name
+ *  must be selected from the list.
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
- *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
+ *  @param idControl the id for a (hidden or not) input that is to hold the selected agent_id (without a leading # selector).
  */
 function makeAgentPicker(nameControl, idControl) { 
 	$('#'+nameControl).autocomplete({
@@ -326,7 +327,16 @@ function makeAgentPicker(nameControl, idControl) {
 			})
 		},
 		select: function (event, result) {
+			// Handle case of a selection from the pick list, set value in id control
 			$('#'+idControl).val(result.item.id);
+		},
+		change: function(event,ui) { 
+			if(!ui.item){
+				// handle a change that isn't a selection from the pick list, clear the id control.
+				$('#'+idControl).val("");
+				// and clear the name control, so that e.g. a search cannot be run on a text substring
+				$('#'+nameControl).val("");
+			}
 		},
 		minLength: 3
 	});
