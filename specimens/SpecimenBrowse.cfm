@@ -98,7 +98,7 @@ limitations under the License.
 				</ul>
 			</div>
 			<div class="col-8">
-				<h1 class="h2">Featured Groups of Cataloged Items</h1>
+				<h1 class="h2">MCZ Featured Collections of Cataloged Items</h1>
 				<ul>
 					<cfloop query="namedGroups">
 						<cfset mask="">
