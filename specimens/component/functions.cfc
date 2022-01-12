@@ -2699,11 +2699,14 @@ limitations under the License.
 								$(document).ready(function() {
 									makePublicationAutocompleteMeta("publication", "publication_id");
 								});
+								$(document).ready(function() {
+									get_taxonomy("coll_ID", "collection_object_id");
+								});
 							</script>
 							</div>
 						</div>
 					</section>
-					<section class="container-fluid my-4">
+					<section class="container-fluid px-0 my-4">
 						<cfif len(getCited.publication_id) GT 0>
 						<cfset i = 1 >
 						<h1 class="h3">Citations for this specimen</h1>
