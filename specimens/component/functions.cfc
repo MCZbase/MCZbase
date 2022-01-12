@@ -2626,7 +2626,7 @@ limitations under the License.
 						</cfquery>
 
 					<section class="container-fluid">
-						<div class="row mx-0 my-3">
+						<div class="row mx-0">
 							<div class="search-box">
 							<form name="addCitForm" id="addCitForm">
 								<input name="action" type="hidden" value="search">
@@ -2700,7 +2700,7 @@ limitations under the License.
 							</div>
 						</div>
 					</section>
-					<section class="container-fluid">
+					<section class="container-fluid my-4">
 					<cfif len(getCited.publication_id) GT 0>
 						<cfset i = 1 >
 						<h1 class="h3">Citations for this specimen</h1>
