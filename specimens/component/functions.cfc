@@ -2582,6 +2582,7 @@ limitations under the License.
 								citation.publication_id,
 								citation.collection_object_id,
 								collection,
+								identficiation.identification_id,
 								collection.collection_id,
 								cat_num,
 								identification.scientific_name,
@@ -2705,7 +2706,7 @@ limitations under the License.
 									makeScientificNameAutocompleteMeta("scientific_name", "collection_object_id");
 								});
 								$(document).ready(function() {
-									makeScientificNameAutocompleteMeta("cited_sci_Name", "taxon_name_id");
+									makeScientificNameAutocompleteMeta("cited_sci_Name", "identification_id");
 								});
 								
 								
