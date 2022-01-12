@@ -1064,5 +1064,55 @@ Function getScientificNameAutocomplete.  Search for taxonomy entries by scientif
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!---
+Function getCitedScientificNameAutocomplete.  Search for taxonomy entries by scientific name with a substring match on cited scientific 
+ name, returning json suitable for jquery-ui autocomplete.
 
+@param term substring match in scientific name to look for
+@return a json structure containing id, meta, and value, with matching with matched name in value and id along with more detail in meta.
+--->
+<cffunction name="getCitedScientificNameAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT
+				distinct
+				taxonomy.taxon_name_id,
+				taxonomy.scientific_name,
+				taxonomy.author_text,
+				citation.cited_taxon_name_id,
+				REGEXP_REPLACE(taxonomy.full_taxon_name, taxonomy.scientific_name || '$','') as higher_taxa
+			FROM 
+				taxonomy, citation
+			WHERE
+				taxonomy.taxon_name_id = citation.cited_taxon_name_id and
+				upper(scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				OR
+				upper(author_text) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			ORDER BY
+				taxonomy.scientific_name
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.taxon_name_id#">
+			<cfset row["value"] = "#search.scientific_name# #search.author_text#" >
+			<cfset row["meta"] = "#search.scientific_name# #search.author_text# (#search.higher_taxa#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 </cfcomponent>

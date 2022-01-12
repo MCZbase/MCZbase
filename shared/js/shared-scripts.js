@@ -1045,6 +1045,42 @@ function makeScientificNameAutocompleteMeta(valueControl, idControl) {
 	};
 };
 
+/** Make a paired hidden id and text name control into an autocomplete cited scientific name picker
+ *  intended for use on searches, to allow selection of scientific names, but to allow a text value not on
+ *  the list without an id value, as in a name substring.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected collection_object_id (without a leading # selector).
+ */
+function makeCitedScientificNameAutocompleteMeta(valueControl, idControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/taxonomy/component/search.cfc",
+				data: { term: request.term, method: 'getCitedScientificNameAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a cited scientific name autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		change: function (event, ui) {
+			// clear the id control if the action wasn't a selection of an item on the list
+			if(!ui.item){ 
+				$('#'+idControl).val("");
+			}
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
 /** makeTaxonAutocomplete make an input control into a picker for a taxon field of arbitrary rank.
  *  This version of the function does not prefix the selected value with an = for exact match search.
  * @param fieldId the id for the input without a leading # selector.
