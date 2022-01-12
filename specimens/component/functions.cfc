@@ -2565,8 +2565,17 @@ limitations under the License.
 						select collection_id,collection from collection
 						order by collection
 					</cfquery>
+					<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select collection,collection_id from collection order by collection
+					</cfquery>
 					<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select type_status from ctcitation_type_status order by type_status
+					</cfquery>
+					<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select journal_name from ctjournal_name order by journal_name
+					</cfquery>
+					<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select publication_type from ctpublication_type order by publication_type
 					</cfquery>
 					<cfquery name="getCited" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
@@ -2674,18 +2683,7 @@ limitations under the License.
 						<div class="row mx-0 my-3">
 							<div class="search-box">
 								<cfset title = "Search for Results">
-								<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select collection,collection_id from collection order by collection
-								</cfquery>
-								<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select type_status from ctcitation_type_status order by type_status
-								</cfquery>
-								<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select journal_name from ctjournal_name order by journal_name
-								</cfquery>
-								<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select publication_type from ctpublication_type order by publication_type
-								</cfquery>
+
 							<cfoutput>
 							<form name="searchForm" id="searchForm">
 								<input name="action" type="hidden" value="search">
