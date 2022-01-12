@@ -2660,7 +2660,8 @@ limitations under the License.
 										<label for="citsciname" class="data-entry-label mt-1 mb-0">
 											<span id="citsciname">Cited Scientific Name</span>
 										</label>
-										<input name="citsciname" class="data-entry-input" id="cited_sci_Name" type="text">
+										<input name="citsciname" id="citsciname" type="hidden" value="#encodeForHTML(getCited.citSciName)#">
+										<input name="citsciname" class="data-entry-input" value="" id="cited_sci_Name" type="text">
 									</div>
 									<div class="col-12 col-md-4 mb-1 px-1 float-left">
 										<label for="scientific_name" class="data-entry-label mt-1 mb-0">
@@ -2700,7 +2701,7 @@ limitations under the License.
 									makePublicationAutocompleteMeta("publication", "publication_id");
 								});
 								$(document).ready(function() {
-									get_taxonomy("coll_ID", "collection_object_id");
+									get_taxonomy("cited_sci_Name", "collection_object_id");
 								});
 							</script>
 							</div>
