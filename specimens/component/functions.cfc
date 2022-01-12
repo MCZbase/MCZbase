@@ -2532,7 +2532,7 @@ limitations under the License.
 </cffunction>
 				
 
-<cffunction name="getEditCitationHTML" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="getEditCitationHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditCitationsThread"> 
 		<cfoutput>
@@ -3289,7 +3289,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getEditCitationsThread" />
 	<cfreturn getEditCitationsThread.output>
-</cffunction>
+</cffunction>--->
 		
 <cffunction name="getCatalogedItemCitation" access="remote">
 	<cfargument name="collection_id" type="numeric" required="yes">
