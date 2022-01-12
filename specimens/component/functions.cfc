@@ -2624,7 +2624,6 @@ limitations under the License.
 						<cfquery name="getpubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select publication_id,formatted_publication from formatted_publication
 						</cfquery>
-
 					<section class="container-fluid">
 						<div class="row mx-0">
 							<div class="search-box">
@@ -2701,7 +2700,7 @@ limitations under the License.
 						</div>
 					</section>
 					<section class="container-fluid my-4">
-					<cfif len(getCited.publication_id) GT 0>
+						<cfif len(getCited.publication_id) GT 0>
 						<cfset i = 1 >
 						<h1 class="h3">Citations for this specimen</h1>
 							<table class="table mb-0 small px-2">
@@ -2794,7 +2793,7 @@ limitations under the License.
 						<cfelse>
 						<cfset queryError = ''>
 					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfset message=trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)>
 					<cfcontent reset="yes">
 					<cfheader statusCode="500" statusText="#message#">
 					<div class="container">
@@ -2810,10 +2809,6 @@ limitations under the License.
 			</cftry>
 		</cfoutput> 
 	
-
-<cfquery name="ctTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select type_status from ctcitation_type_status order by type_status
-</cfquery>
 <!--- get all cited specimens --->
 <!------------------------------------------------------------------------------->
 <!---remove citation --button for removing media relationship = shows cataloged_item--->
