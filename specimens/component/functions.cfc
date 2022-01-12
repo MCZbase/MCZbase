@@ -2701,8 +2701,11 @@ limitations under the License.
 									makePublicationAutocompleteMeta("publication", "publication_id");
 								});
 								$(document).ready(function() {
-									get_taxonomy("coll_ID", "collection_object_id");
+									makeScientificNameAutocompleteMeta("cited_sci_Name", "collection_object_id");
 								});
+								
+								
+								
 							</script>
 							</div>
 						</div>
