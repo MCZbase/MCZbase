@@ -2702,7 +2702,7 @@ limitations under the License.
 									makePublicationAutocompleteMeta("publication", "publication_id");
 								});
 								$(document).ready(function() {
-									makeScientificNameAutocompleteMeta("accepted_Name", "collection_object_id");
+									makeScientificNameAutocompleteMeta("scientific_name", "collection_object_id");
 								});
 								$(document).ready(function() {
 									makeCitedScientificNameAutocompleteMeta("cited", "collection_object_id");
