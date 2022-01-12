@@ -2657,18 +2657,18 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 col-md-5 px-1 mb-1 float-left">
-										<label for="citsciname" class="data-entry-label mt-1 mb-0">
-											Cited Scientific Name
+										<label for="cited_name" class="data-entry-label mt-1 mb-0">
+											Cited Name
 										</label>
 										<input name="citsciname" id="citsciname" type="hidden" value="#encodeForHTML(getCited.citSciName)#">
-										<input name="citsciname" class="data-entry-input" value='' id="ident_sci_Name" type="text">
+										<input name="cited_name" class="data-entry-input" value='' id="cited_name" type="text">
 									</div>
 									<div class="col-12 col-md-4 mb-1 px-1 float-left">
 										<label for="citsciname" class="data-entry-label mt-1 mb-0">
-											Cited Scientific Name
+											Accepted Scientific Name
 										</label>
-										<input name="citsciname" id="citsciname" type="hidden" value="#encodeForHTML(getCited.citSciName)#">
-										<input name="citsciname" class="data-entry-input" value="" id="cited_name" type="text">
+										<input name="scientific_name" id="scientific_name" type="hidden" value="#encodeForHTML(getCited.scientific_name)#">
+										<input name="accepted_name" class="data-entry-input" value="" id="accepted_name" type="text">
 									</div>
 									<div class="col-12 float-left mt-0 mb-1 p-0">
 										<div class="col-12 col-md-3 px-1 float-left">
@@ -2702,7 +2702,7 @@ limitations under the License.
 									makePublicationAutocompleteMeta("publication", "publication_id");
 								});
 								$(document).ready(function() {
-									makeScientificNameAutocompleteMeta("ident_sci_Name", "collection_object_id");
+									makeScientificNameAutocompleteMeta("accepted_Name", "collection_object_id");
 								});
 								$(document).ready(function() {
 									makeCitedScientificNameAutocompleteMeta("cited_name", "collection_object_id");
