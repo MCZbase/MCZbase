@@ -2584,7 +2584,7 @@ limitations under the License.
 								collection,
 								collection.collection_id,
 								cat_num,
-								identification.scientific_name,
+								identification.scientific_name as ident,
 								citedTaxa.scientific_name as citSciName,
 								occurs_page_number,
 								citation_page_uri,
@@ -2664,11 +2664,11 @@ limitations under the License.
 										<input type="text" id="cited" value='' class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-4 mb-1 px-1 float-left">
-										<label for="scientific_name" class="data-entry-label mt-1 mb-0">
+										<label for="sci_name" class="data-entry-label mt-1 mb-0">
 											Accepted Scientific Name
 										</label>
-										<input name="scientific_name" id="scientific_name" type="hidden" value="#encodeForHTML(getCited.citSciName)#">
-										<input class="data-entry-input" value='' id="scientific_name" type="text">
+										<input name="scientific_name" id="sci_name" type="hidden" value="#encodeForHTML(getCited.scientific_name)#">
+										<input class="data-entry-input" value='' id="sci_name" type="text">
 									</div>
 									<div class="col-12 float-left mt-0 mb-1 p-0">
 										<div class="col-12 col-md-3 px-1 float-left">
@@ -2702,7 +2702,7 @@ limitations under the License.
 									makePublicationAutocompleteMeta("publication", "publication_id");
 								});
 								$(document).ready(function() {
-									makeScientificNameAutocompleteMeta("scientific_name", "collection_object_id");
+									makeScientificNameAutocompleteMeta("sci_name", "collection_object_id");
 								});
 								$(document).ready(function() {
 									makeCitedScientificNameAutocompleteMeta("cited", "collection_object_id");
