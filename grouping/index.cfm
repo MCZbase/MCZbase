@@ -30,7 +30,7 @@ limitations under the License.
 		</cfquery>
 	<div class="container">
 		<div class="row mx-0">
-			<div class="col-12 px-0 float-left mt-5">
+			<div class="col-12 bg-light py-2 float-left mt-5">
 			<div class="col-3 float-left h-100">
 				<ul class="list-unstyled text-right px-3 h-100 mt-2 rounded border bg-light">
 					<li class="my-2"><h3>Expeditions</h3></li>
@@ -51,8 +51,8 @@ limitations under the License.
 					and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
 				</cfquery>
 				<cfif len(#groups.description#)gt 0>
-					<div class="col-9 px-2 float-left my-2">
-						<div class="border rounded py-3 col-12 float-left">
+					<div class="col-9 px-2 bg-white float-left my-2">
+						<div class="border rounded py-3 col-12 px-0 float-left">
 							<div class="row mx-0">
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="130")>
