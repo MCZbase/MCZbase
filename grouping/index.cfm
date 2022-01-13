@@ -24,7 +24,7 @@ limitations under the License.
 				underscore_collection_id, mask_fg
 			FROM
 				underscore_collection
-			WHERE mask_fg = 0 and underscore_collection.underscore_collection_id = 22 and rownum = 1
+			WHERE mask_fg = 0 and underscore_collection.underscore_collection_id = <cfqueryparam value="#underscore_collection.underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL"> and rownum = 1
 </cfquery>
 
 <cfoutput>
