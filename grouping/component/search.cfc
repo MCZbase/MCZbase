@@ -608,9 +608,9 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 							</a>
 							<div class="mt-0 col-12 pb-1 px-0">
 								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+<!---									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<span class="d-inline">(<a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>
-									</cfif>
+									</cfif>--->
 									(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
 									<cfif NOT isDisplayable>
 										#media_type# (#mime_type#)

@@ -30,7 +30,7 @@ limitations under the License.
 		</cfquery>
 	<div class="container">
 		<div class="row mx-0 mb-4">
-			<h1 class="h2 w-100 mt-45 px-2 mt-5 text-center">MCZ Featured Collectionsof Cataloged Items</h1>
+			<h1 class="h2 w-100 mt-45 px-2 mt-5 text-center">MCZ Featured Collections of Cataloged Items</h1>
 			<div class="col-12 bg-light border px-0 py-2 mb-3 float-left mt-1">
 			<div class="col-3 float-left h-100">
 				<ul class="list-unstyled text-right px-3 h-100 mt-2 rounded border bg-light">
@@ -68,7 +68,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<div class="col-10 float-left mt-2">
-									<h3>#groups.collection_name#</h3>
+									<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#groups.underscore_collection_id#">#groups.collection_name#</a></h3>
 									<p>#groups.description#</p>
 									<p><i>Collection Type: #groups.underscore_collection_type#</i></p>
 								</div>
