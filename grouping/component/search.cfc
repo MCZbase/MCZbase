@@ -611,7 +611,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 <!---									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<span class="d-inline">(<a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>
 									</cfif>--->
-									(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
+									(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)<br>
 									<cfif NOT isDisplayable>
 										#media_type# (#mime_type#)
 										(<a class="" target="_blank" href="#media_uri#">media file</a>)
@@ -629,8 +629,8 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 										<cfset showTitleText = "Unlinked Media Object">
 									</cfif>
 									<cfif #l_displayAs# EQ "thumb">
-										<cfif len(showTitleText) GT 30>
-											<cfset showTitleText = "#left(showTitleText,30)#..." >
+										<cfif len(showTitleText) GT 27>
+											<cfset showTitleText = "#left(showTitleText,27)#..." >
 										</cfif>
 									</cfif>
 									<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
