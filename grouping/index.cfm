@@ -30,8 +30,8 @@ limitations under the License.
 		</cfquery>
 	<div class="container-fluid">
 		<div class="row mx-0">
-			<div class="col-12 px-0 float-left mt-3">
-			<div class="col-3 float-left h-100">
+			<div class="col-12 px-0 float-left mt-5">
+			<div class="col-3 float-left h-100 mx-5">
 				<ul class="list-unstyled">
 					<li class="my-2"><h3>Expeditions</h3></li>
 					<li class="my-2"><h3>Collections</h3></li>
