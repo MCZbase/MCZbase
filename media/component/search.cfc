@@ -1043,22 +1043,22 @@ limitations under the License.
 							<!--- pick placeholder --->
 							<cfif media_type is "image">
 								<cfset displayImage = "/shared/images/Image-x-generic.svg">
-								<cfset hw = 'height="80%" width="80%"'>
+								<cfset hw = 'height="60%" width="60%"'>
 							<cfelseif media_type is "audio">
 								<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
-								<cfset hw = 'height="80%" width="80%"'>
+								<cfset hw = 'height="60%" width="60%"'>
 							<cfelseif media_type IS "video">
 								<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
-								<cfset hw = 'height="80%" width="80%"'>
+								<cfset hw = 'height="60%" width="60%"'>
 							<cfelseif media_type is "text">
 								<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
-								<cfset hw = 'height="80%" width="80%"'>
+								<cfset hw = 'height="60%" width="60%"'>
 							<cfelseif media_type is "3D model">
 								<cfset displayImage =  "/shared/images/Airy-3d.svg">
-								<cfset hw = 'height="80%" width="80%"'>
+								<cfset hw = 'height="60%" width="60%"'>
 							<cfelse>
 								<cfset displayImage =  "/shared/images/Image-x-generic.svg">
-								<cfset hw = 'height="80%" width="80%"'>
+								<cfset hw = 'height="60%" width="60%"'>
 								<!---nothing was working for mime type--->
 							</cfif>
 						</cfif>
