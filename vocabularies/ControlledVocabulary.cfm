@@ -144,6 +144,46 @@
 				</cfloop>
 				</tbody>
 			</table>
+		<cfelseif table is "cttrans_agent_role">
+			<table class="table table-responsive table-striped d-lg-table">
+				<thead class="thead-light">
+				<tr>
+					<th>
+						TRANS_AGENT_ROLE
+					</th>
+					<th>
+						Description
+					</th>
+					<th>
+						Transactinos
+					</th>
+				</tr>
+				</thead>
+				<tbody>
+				<cfloop query="docs">
+					<tr>
+						<td>#trans_agent_role#</td>
+						<td>#description#</td>
+						<cfquery name="getallowed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT transaction_type, required_to_print 
+							FROM trans_agent_role_allowed
+							WHERE trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role#">
+							ORDER BY transaction_type
+						</cfquery>
+						<cfset transactions="">
+						<cfset separator = "">
+						<cfloop query="getallowed">
+							<cfset transactions="#transactions##separator##getallowed.transaction_type">
+							<cfif getallowed.required_to_print EQ 1>
+								<cfset transactions="#transactions#(Required)">
+							</cfif>
+							<cfset separator = "; ">
+						</cfloop>
+						<td>#transactions#</td>
+					</tr>
+				</cfloop>
+				</tbody>
+			</table>
 		<cfelse>
 
 			<cfset theColumnName = "">
