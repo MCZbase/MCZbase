@@ -1054,7 +1054,7 @@ limitations under the License.
 								<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
 								<cfset hw = 'height="80%" width="80%"'>
 							<cfelseif media_type is "3D model">
-								<cfset displayImage =  "/shared/images/3dmodel.png">
+								<cfset displayImage =  "/shared/images/Airy-3d.svg">
 								<cfset hw = 'height="80%" width="80%"'>
 							<cfelse>
 								<cfset displayImage =  "/shared/images/Image-x-generic.svg">
