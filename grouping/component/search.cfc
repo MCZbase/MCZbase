@@ -512,7 +512,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			
 			
 <cffunction name="getNamedGroupBlockHtml" access="remote" returntype="string" returnformat="plain">
-<!---	<cfargument name="underscore_collection_id" type="string" required="yes">--->
+	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 
@@ -521,32 +521,28 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
 	<cfset media_type = 'true'>
-		<cfset underscore_collection_id = '22'>
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
 <cfoutput>
 			<cftry>
+				<cfloop query="namedGroups">
 				<cfquery name="groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						underscore_collection_id, underscore_collection.collection_name, description, mask_fg, type 
 					FROM 
 						underscore_collection
 					WHERE 
-						underscore_collection_id = <cfqueryparam value="#underscore_collection.underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL">
+						underscore_collection_id = <cfqueryparam value="#underscore_collection.underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL"> and rownum=1 
 				</cfquery>
-				<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
-
-				<cfloop query="groups">
-						<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT 
-							media_id, 
+							media.media_id, 
 							preview_uri, media_uri, 
 							mime_type, media_type,
 							auto_extension as extension,
 							auto_host as host,
-							CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-							CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+							MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
 							MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
 							MCZBASE.get_media_credit(media.media_id) as credit,
 							MCZBASE.get_media_owner(media.media_id) as owner,
@@ -567,7 +563,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 							on media_relations.related_primary_key = flat.collection_object_id
 						INNER JOIN media
 							on media_relations.media_id = media.media_id
-						WHERE underscore_relation.underscore_collection_id = <cfqueryparam value="#groups.underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL"> and rownum = 1
+						WHERE underscore_relation.underscore_collection_id = <cfqueryparam value="#underscore_collection.underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL"> and rownum = 1
 						</cfquery>
 					<cfoutput>
 						<cfset isDisplayable = false>
