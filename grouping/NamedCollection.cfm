@@ -714,10 +714,10 @@ limitations under the License.
 										<label for="underscore_collection_type" id="underscore_collection_type" class="data-entry-label">Type
 											<h5 id="underscore_collection_type" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 										</label>
-										<select name="underscore_collection_type" id="underscore_collection_type" required class="data-entry-select reqdClr">
-											<option value="" selected="selected"></option>
+										<select name="underscore_collection_type" id="underscore_collection_type" class="data-entry-select">
+											<option value=""></option>
 											<cfloop query="ctundcolltype">
-												<option value="#ctundcolltype.underscore_collection_type#">#undcolltype.underscore_collection_type#</option>
+												<option  selected="selected" value="#ctundcolltype.underscore_collection_type#">#undcolltype.underscore_collection_type#</option>
 											</cfloop>
 										</select>
 									</div>
