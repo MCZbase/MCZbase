@@ -43,7 +43,7 @@ limitations under the License.
 				<div class="col-12 col-sm-6 col-md-4 col-xl-3">
 					<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="400")>
 					<div id="mediaBlock#images.media_id#">
-					#mediablock#
+					#mediablock#   <br/></br/>#groups.collection_name#
 					</div>
 				</div>
 			</cfloop>
