@@ -19,6 +19,14 @@ limitations under the License.
 -->
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
+<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT 
+				underscore_collection_id, mask_fg
+			FROM
+				underscore_collection
+			WHERE mask_fg = 0 and underscore_collection.underscore_collection_id = 22 and rownum = 1
+</cfquery>
+
 <cfoutput>
 	<main class="container">
 		<div class="row">
