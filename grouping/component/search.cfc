@@ -636,9 +636,6 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 									<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
 									<cfif len(#license_uri#) gt 0>
 										<p class="text-center col-12 p-0 my-0 smaller">
-											<cfif #l_displayAs# NEQ "thumb">
-												License: 
-											</cfif>
 											<a href="#license_uri#">#license_display#</a>
 										</p>
 									</cfif>
