@@ -665,7 +665,7 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="form-row mb-0">
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-6">
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Named Group
 											<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 										</label>
@@ -709,7 +709,7 @@ limitations under the License.
 												};
 											</script> 
 									</div>
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-3">
 										<label for="named_coll_type" >Named Group Type </label>
 										<select name="named_coll_type" id="named_coll_type" class="data-entry-select">
 											<option value=""></option>
@@ -719,9 +719,9 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-3">
 										<label for="displayed_media_id_label" >Displayed Media ID </label>
-										<input type="text" name="displayed_media_id" id="displayed_media_id" class="form-control rounded-right data-entry-input form-control-s" aria-label="Displayed Media ID" aria-describedby="displayed_media_id_label" value="#displayed_media_id#">
+										<input type="text" name="displayed_media_id" id="displayed_media_id" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Displayed Media ID" aria-describedby="displayed_media_id_label" value="#displayed_media_id#">
 										<input type="hidden" name="displayed_media_id" id="displayed_media_id" value="#displayed_media_id#">
 									</div>
 
