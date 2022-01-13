@@ -34,7 +34,7 @@ limitations under the License.
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						media_id,
-						media_uri
+						flat.collection_object_id
 					FROM
 						underscore_relation 
 					INNER JOIN flat 
