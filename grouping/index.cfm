@@ -46,10 +46,9 @@ limitations under the License.
 				</cfquery>
 			
 				<div class="col-12 float-left my-2">
-					
-					<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="180")>
 					<div class="border p-2 m-2 col-6 float-left">
-					<cfif len(media_id) gt 0>
+					<cfif len(images.media_id) gt 0>
+						<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="180")>
 						<div class="col-3 px-0 float-left" id="mediaBlock#images.media_id#">
 						#mediablock#
 						</div>
