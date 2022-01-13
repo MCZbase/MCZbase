@@ -40,6 +40,8 @@ limitations under the License.
 						on underscore_relation.collection_object_id = flat.collection_object_id
 					INNER JOIN media_relations
 						on media_relations.related_primary_key = flat.collection_object_id
+					INNER JOIN underscore_collection
+						on underscore_collection.underscore_collection_id = underscore_relations.underscore_collection_id
 					WHERE rownum = 1 and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
 				</cfquery>
 				<cfif len(#groups.description#)gt 0>
