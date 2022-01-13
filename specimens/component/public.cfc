@@ -15,7 +15,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
-<cfinclude template="/media/component/search.cfc" runOnce="true">
+<script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
 
 <!--- getMediaHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
