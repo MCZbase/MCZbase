@@ -586,7 +586,7 @@ limitations under the License.
 			<cfthrow type="Application" message="Error: No value provided for underscore_collection_id">
 		<cfelse>
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
-				select underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
+				select underscore_collection_id, collection_name, description, underscore_agent_id, html_description, underscore_collection_type
 					case 
 						when underscore_agent_id is null then '[No Agent]'
 						else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
@@ -705,6 +705,13 @@ limitations under the License.
 													}
 												};
 											</script> 
+									</div>
+									<div class="col-12 col-md-6">
+										<label for="underscore_collection_type" id="underscore_collection_type" class="data-entry-label">Type
+											<h5 id="underscore_collection_type" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+										</label>
+										<input type="text" name="underscore_collection_type" id="underscore_collection_type" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Collection Type" aria-describedby="underscore_collection_type" value="#underscore_collection_type#">
+											<input type="hidden" name="underscore_collection_type" id="underscore_collection_type" value="#underscore_collection_type#">
 									</div>
 									<div class="col-12 row mx-0 px-1 mt-3">
 										<input type="button" 
