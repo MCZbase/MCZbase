@@ -52,6 +52,10 @@ limitations under the License.
 						<div class="col-3 px-0 float-left" id="mediaBlock#images.media_id#">
 						#mediablock#
 						</div>
+					<cfelse>
+						<div class="col-3 px-0 float-left">
+						<img src =  "/shared/images/Gnome-media-playback-start.svg">
+						</div>
 					</cfif>
 						<div class="col-9 px-0 float-left mt-2">
 							<h3>#groups.collection_name#</h3>
