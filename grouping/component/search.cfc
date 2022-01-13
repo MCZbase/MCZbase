@@ -240,6 +240,9 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 				flat.higher_geog, 
 				flat.spec_locality,
 				flat.othercatalognumbers, 
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+					flat.cabinets, 
+				</cfif>
 				flat.full_taxon_name
 				<cfif NOT isDefined("smallerfieldlist") OR len(smallerfieldlist) GT 0>
 					,
@@ -476,6 +479,9 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 				flat.higher_geog, 
 				flat.spec_locality,
 				flat.othercatalognumbers, 
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+					flat.cabinets, 
+				</cfif>
 				flat.full_taxon_name
 				<cfif NOT isDefined("smallerfieldlist") OR len(smallerfieldlist) GT 0>
 					,
