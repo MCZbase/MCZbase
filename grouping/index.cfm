@@ -41,8 +41,8 @@ limitations under the License.
 					WHERE rownum = 1 and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
 				</cfquery>
 				<div class="col-12 col-sm-6 col-md-4 col-xl-3">
-					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400")>
-					<div id="mediaBlock#media_id#">
+					<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="400")>
+					<div id="mediaBlock#images.media_id#">
 					#mediablock#
 					</div>
 				</div>
