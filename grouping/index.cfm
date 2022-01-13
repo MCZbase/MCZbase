@@ -41,7 +41,7 @@ limitations under the License.
 		<div class="row">
 			<cfloop query="examples">
 				<div class="col-12 col-sm-6 col-md-4 col-xl-3">
-					<cfset mediablock= getNamedGroupBlockHtml(media_id="#media_id#",size="400")>
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400")>
 					<div id="mediaBlock#media_id#">
 					#mediablock#
 					</div>

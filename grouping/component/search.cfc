@@ -511,7 +511,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			
 			
 			
-<cffunction name="getNamedGroupBlockHtml" access="remote" returntype="string" returnformat="plain">
+<cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
