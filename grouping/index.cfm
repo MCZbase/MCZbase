@@ -44,7 +44,7 @@ limitations under the License.
 					WHERE rownum = 1 and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
 					order by flat.collection_object_id
 				</cfquery>
-				<div class="col-6 px-0 float-left my-2">
+				<div class="col-6 px-2 float-left my-2">
 					
 					<div class="border py-2 rounded col-12 px-0 float-left">
 						<div class="row mx-0">
