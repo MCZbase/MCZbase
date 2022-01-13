@@ -706,10 +706,19 @@ limitations under the License.
 												};
 											</script> 
 									</div>
+									<cfquery name="ctundcolltype">
+										select underscore_collection_type from ctunderscore_collection_type order by underscore_collection_type
+									</cfquery>
 									<div class="col-12 col-md-6">
 										<label for="underscore_collection_type" id="underscore_collection_type" class="data-entry-label">Type
 											<h5 id="underscore_collection_type" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 										</label>
+										<select name="underscore_collection_type" id="underscore_collection_type" required class="data-entry-select reqdClr">
+											<cfloop query="ctundcolltype">
+												<option value="" selected="selected">Public</option>
+												<option value="undColl.underscore_collection_type">Hidden</option>
+											</cfloop>
+										</select>
 										<input type="text" name="underscore_collection_type" id="underscore_collection_type" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Collection Type" aria-describedby="underscore_collection_type" value="#underscore_collection_type#">
 											<input type="hidden" name="underscore_collection_type" id="underscore_collection_type" value="#underscore_collection_type#">
 									</div>
