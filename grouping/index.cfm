@@ -20,17 +20,10 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT count(flat.collection_object_id) ct, underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
-	FROM UNDERSCORE_COLLECTION
-	LEFT JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-	LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-		on underscore_relation.collection_object_id = flat.collection_object_id
-	<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
-		WHERE underscore_collection.mask_fg = 0
-	</cfif>
-	GROUP BY
-		underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
-	ORDER BY underscore_collection.collection_name
+SELECT underscore_collection_id
+			FROM
+				underscore_collection
+			WHERE mask_fg = 0
 </cfquery>
 
 <cfoutput>

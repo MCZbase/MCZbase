@@ -509,7 +509,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 </cffunction>
 
 <cffunction name="getNamedGroupBlockHtml" access="remote" returntype="string" returnformat="plain">
-	
+	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 
@@ -518,7 +518,6 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
 	<cfset media_type = 'true'>
-	<cfset underscore_collection_id  = '22'>
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
