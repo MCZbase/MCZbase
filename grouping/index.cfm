@@ -30,6 +30,7 @@ limitations under the License.
 	<div class="container-fluid">
 		<div class="row mx-0">
 			<div class="col-12 px-0 float-left mt-3">
+			<cfif len(groups.description)gt 0>
 			<cfloop query="groups">
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
@@ -45,7 +46,6 @@ limitations under the License.
 					order by flat.collection_object_id
 				</cfquery>
 				<div class="col-6 px-2 float-left my-2">
-					
 					<div class="border py-2 rounded col-12 px-0 float-left">
 						<div class="row mx-0">
 							<cfif len(images.media_id) gt 0>
@@ -68,6 +68,7 @@ limitations under the License.
 					</div>
 				</div>
 			</cfloop>
+			</cfif>
 			</div>
 		</div>
 	</div>
