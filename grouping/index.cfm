@@ -35,8 +35,8 @@ limitations under the License.
 			<div class="col-12 bg-light border px-0 py-2 float-left mt-1">
 			<div class="col-3 float-left h-100">
 				<ul class="list-unstyled text-right px-3 h-100 mt-2 rounded border bg-light">
-					<li class="my-2"><h3>Expeditions</h3></li>
 					<li class="my-2"><h3>Collections</h3></li>
+					<li class="my-2"><h3>Expeditions</h3></li>
 					<li class="my-2"><h3>Grants</h3></li>
 					<li class="my-2"><h3>Teaching Collections</h3></li>
 				</ul>
@@ -57,7 +57,7 @@ limitations under the License.
 						<div class="border rounded bg-white py-3 col-12 px-3 float-left">
 							<div class="row mx-0">
 								<cfif len(images.media_id) gt 0>
-									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="130")>
+									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="100")>
 									<div class="col-3 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
 									#mediablock#
 									</div>
