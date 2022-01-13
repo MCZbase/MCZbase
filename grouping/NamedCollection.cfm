@@ -586,7 +586,7 @@ limitations under the License.
 			<cfthrow type="Application" message="Error: No value provided for underscore_collection_id">
 		<cfelse>
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
-				select underscore_collection_id, collection_name, description, underscore_agent_id, html_description, underscore_collection_type
+				select underscore_collection_id, collection_name, description, underscore_agent_id, html_description, underscore_collection_type,
 					case 
 						when underscore_agent_id is null then '[No Agent]'
 						else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
