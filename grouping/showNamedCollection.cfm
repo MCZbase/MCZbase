@@ -261,6 +261,9 @@ limitations under the License.
 										{ name: 'higher_geog', type: 'string' },
 										{ name: 'spec_locality', type: 'string' },
 										{ name: 'othercatalognumbers', type: 'string' },
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+											 { name: 'cabinets', type: 'string' },
+										</cfif>
 										{ name: 'full_taxon_name', type: 'string' }
 									],
 									url: '/grouping/component/search.cfc?method=getSpecimensInGroup&smallerfieldlist=true&underscore_collection_id=#underscore_collection_id#',
@@ -311,6 +314,9 @@ limitations under the License.
 										{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
 										{ text: 'Locality', datafield: 'spec_locality',width:'350', filtertype: 'input' },
 										{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'250', filtertype: 'input' },
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+											{ text: 'Cabinet/Freezer', datafield: 'cabinets',width:'200', filtertype: 'input' },
+										</cfif>
 										{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350', filtertype: 'input' }
 									],
 									rendergridrows: function (obj) {
