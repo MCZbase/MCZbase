@@ -39,7 +39,7 @@ limitations under the License.
 					<li class="my-3"><h3>Expeditions</h3></li>
 					<li class="my-3"><h3>Grants</h3></li>
 					<li class="my-3"><h3>Teaching Collections</h3></li>
-					<li class="mt-5"><p class="small">The Museum of Comparative Zoology at Harvard University and Boston Harbor Islands Partnership have collaborated to conduct an All Taxa Biodiversity Inventory (ATBI) of Boston Harbor Islands National and State Park. The project focuses on the "microwilderness" of the islands, namely, insects and other invertebrates. This extremely diverse group of animals is easily sampled, yet often overlooked. Our goal is to combine scientific research with public education, and to foster an appreciation for the amazing biological diversity that exists within Boston Harbor.</p></li>
+					<li class="mt-5"><p class="font-italic">The Museum of Comparative Zoology at Harvard University and Boston Harbor Islands Partnership have collaborated to conduct an All Taxa Biodiversity Inventory (ATBI) of Boston Harbor Islands National and State Park. The project focuses on the "microwilderness" of the islands, namely, insects and other invertebrates. This extremely diverse group of animals is easily sampled, yet often overlooked. Our goal is to combine scientific research with public education, and to foster an appreciation for the amazing biological diversity that exists within Boston Harbor.</p></li>
 				</ul>
 
 			</div>
