@@ -46,7 +46,7 @@ limitations under the License.
 				</cfquery>
 			
 				<div class="col-12 float-left my-2">
-					<div class="border p-2 m-2 col-6 float-left">
+					<div class="border rounded col-6 float-left">
 					<cfif len(images.media_id) gt 0>
 						<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="180")>
 						<div class="col-3 px-0 float-left" id="mediaBlock#images.media_id#">
@@ -55,7 +55,7 @@ limitations under the License.
 					<cfelse>
 						<div class="col-3 px-0 float-left">
 							<a href="" class="d-block my-0 w-100 active text-center">
-								<img src = "/shared/images/Image-x-generic.svg" class="mx-auto">
+								<img src = "/shared/images/Image-x-generic.svg" class="mx-auto w-75">
 							</a>
 						</div>
 					</cfif>
