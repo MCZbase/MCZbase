@@ -709,18 +709,16 @@ limitations under the License.
 												};
 											</script> 
 									</div>
-
-<!---									<div class="col-12 col-md-6">
-										<label for="underscore_collection_type" id="underscore_collection_type" class="data-entry-label">Type
-											<h5 id="underscore_collection_type" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
-										</label>
-										<select name="underscore_collection_type" id="underscore_collection_type" class="data-entry-select">
+									<div class="col-12 col-md-6">
+										<label for="named_coll_type" >Nomenclatural Status <i class="fas fas-info fa-info-circle" onclick="getCtDoc('ctundcolltype');" aria-label="help link"></i></label>
+										<select name="named_coll_type" id="named_coll_type" class="data-entry-select">
 											<option value=""></option>
 											<cfloop query="ctundcolltype">
-												<option  selected="selected" value="#ctundcolltype.underscore_collection_type#">#undcolltype.underscore_collection_type#</option>
+												<option 
+													<cfif undColl.underscore_collection_type is ctundcolltype.underscore_collection_type> selected="selected" </cfif>value="#ctundcolltype.underscore_collection_type#">#ctundcolltype.underscore_collection_type#</option>
 											</cfloop>
 										</select>
-									</div>--->
+									</div>
 									<div class="col-12 row mx-0 px-1 mt-3">
 										<input type="button" 
 												value="Save" title="Save" aria-label="Save"
