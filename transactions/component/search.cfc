@@ -880,16 +880,18 @@ limitations under the License.
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			select distinct
+			SELECT distinct
 				trans.transaction_id,
 				to_char(trans_date,'YYYY-MM-DD') trans_date,
 				loan_number,
 				loan_status,
 				concattransagent(trans.transaction_id,'received by') rec_agent
-			from 
+			FROM
 				loan left join trans on loan.transaction_id = trans.transaction_id
-			where upper(loan_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
-			order by loan_number
+			WHERE 
+				upper(loan_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
+			ORDER BY loan_number
+				to_number(regexp_substr (loan.loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan.loan_number, '[0-9]+', 1, 2)), loan.loan_number
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -931,7 +933,10 @@ limitations under the License.
 				borrow left join trans on borrow.transaction_id = trans.transaction_id
 			where upper(borrow_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 				OR upper(lenders_trans_num_cde) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
-			order by borrow_number
+			order by 
+				regexp_substr(borrow_number,'^[B0-9]+-'), 
+				to_number(replace(regexp_substr(borrow_number,'-[0-9]+-'),'-','')), 
+				borrow_number
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -972,7 +977,10 @@ limitations under the License.
 			from 
 				deaccession left join trans on deaccession.transaction_id = trans.transaction_id
 			where upper(deacc_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
-			order by deacc_number
+			order by 
+				regexp_substr(deacc_number,'^[D0-9]+-'), 
+				to_number(replace(regexp_substr(deacc_number,'-[0-9]+-'),'-','')), 
+				deacc_number
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -1855,7 +1863,10 @@ limitations under the License.
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					</cfif>
 				</cfif>
-			ORDER BY deacc_number
+			ORDER BY 
+				regexp_substr(deacc_number,'^[D0-9]+-'), 
+				to_number(replace(regexp_substr(deacc_number,'-[0-9]+-'),'-','')), 
+				deacc_number
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -2303,7 +2314,10 @@ limitations under the License.
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					</cfif>
 				</cfif>
-			ORDER BY borrow_number
+			ORDER BY 
+				regexp_substr(borrow_number,'^[B0-9]+-'), 
+				to_number(replace(regexp_substr(borrow_number,'-[0-9]+-'),'-','')), 
+				borrow_number
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
