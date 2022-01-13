@@ -721,8 +721,8 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="displayed_media_id_label" >Displayed Media ID </label>
-										<input type="text" name="displayed_media_id" id="displayed_media_id" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Displayed Media ID" aria-describedby="displayed_media_id_label" value="#displayed_media_id#">
-										<input type="hidden" name="displayed_media_id" id="displayed_media_id" value="#displayed_media_id#">
+									<input type="text" id="displayed_media_id" name="displayed_media_id" class="data-entry-input reqdClr" 
+												required value="#encodeForHtml(displayed_media_id)#" aria-labelledby="displayed_media_id_label" >
 									</div>
 
 									<div class="col-12 row mx-0 px-1 mt-3">
