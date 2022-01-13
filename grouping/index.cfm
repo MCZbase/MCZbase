@@ -50,7 +50,7 @@ limitations under the License.
 							<div class="row mx-0">
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="180")>
-									<div class="col-3 px-0 float-left" id="mediaBlock#images.media_id#">
+									<div class="col-3 px-0 float-left bg-light border rounded" id="mediaBlock#images.media_id#">
 									#mediablock#
 									</div>
 								<cfelse>
