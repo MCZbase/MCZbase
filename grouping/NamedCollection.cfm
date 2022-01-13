@@ -710,7 +710,7 @@ limitations under the License.
 											</script> 
 									</div>
 									<div class="col-12 col-md-6">
-										<label for="named_coll_type" >Named Group Type <i class="fas fas-info fa-info-circle" onclick="getCtDoc('ctundcolltype');" aria-label="help link"></i></label>
+										<label for="named_coll_type" >Named Group Type </label>
 										<select name="named_coll_type" id="named_coll_type" class="data-entry-select">
 											<option value=""></option>
 											<cfloop query="ctundcolltype">
