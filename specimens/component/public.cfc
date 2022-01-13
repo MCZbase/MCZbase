@@ -582,13 +582,13 @@ limitations under the License.
 							<cfif desc.recordcount is 1>
 								<cfset alt=desc.label_value>
 							</cfif>
-							<div class="col-12 col-md-6 col-lg-2 px-3 mt-1 mx-2 float-left d-inline">
+							<div class="col-12 col-md-6 col-xl-2 px-xl-5 my-1 mx-2 float-left d-inline">
 								<cfset mt = #mime_type#>
 								<cfset muri = #media_uri#>
 								<a href="#media_uri#" target="_blank">
 									<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto w-100">
 								</a>
-								<span class="d-block smaller text-center" style="line-height:.7rem;">
+								<span class="d-block smaller text-center pt-1" style="line-height:.8rem;">
 									<a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a> 
 								</span>
 							</div>
