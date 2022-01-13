@@ -40,8 +40,8 @@ limitations under the License.
 						on media_relations.related_primary_key = flat.collection_object_id
 					WHERE rownum = 1 and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
 				</cfquery>
-				<div class="col-12 float-left">
-					<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="400")>
+				<div class="col-12 float-left border rounded m-2">
+					<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="200")>
 					<div class="col-3 px-0 float-left" id="mediaBlock#images.media_id#">
 					#mediablock#
 					</div>
