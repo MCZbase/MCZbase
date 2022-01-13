@@ -1060,7 +1060,7 @@ limitations under the License.
 								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 							</a>
 							<div class="mt-0 bg-light col-12 pb-1 px-0">
-								<p class="text-center p-1 mb-0 smaller col-12">
+								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<span class="d-inline"><a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">(edit) </a></span>
 									</cfif>
