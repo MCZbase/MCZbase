@@ -456,7 +456,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-	   <cfabort>
+		<cfabort>
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
@@ -521,8 +521,20 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
-					SELECT media_id, 
+				<cfquery name="groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct
+						underscore_collection_id, collection_name, description, mask_fg, type 
+					FROM 
+						underscore_collection
+					WHERE 
+						underscore_collection_id = <cfqueryparam value="#underscore_collection.underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+				<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
+				<cfif len(groups.media_id)gt 0>
+				<cfloop query="groups">
+					<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						media_id, 
 						preview_uri, media_uri, 
 						mime_type, media_type,
 						auto_extension as extension,
@@ -541,15 +553,18 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 						MCZBASE.get_medialabel(media.media_id,'width') as width,
 						MCZBASE.get_media_descriptor(media.media_id) as alt,
 						MCZBASE.get_media_title(media.media_id) as title
-					FROM 
-						media
-						left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
-					WHERE 
-						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#l_media_id#">
-						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
-				</cfquery>
-				<cfif media.recordcount EQ 1>
-					<cfloop query="media">
+					FROM
+						underscore_relation 
+					INNER JOIN flat 
+						on underscore_relation.collection_object_id = flat.collection_object_id
+					INNER JOIN media_relations
+						on media_relations.related_primary_key = flat.collection_object_id
+					INNER JOIN media
+						on media_relations.media_id = media.media_id
+					WHERE underscore_relation.underscore_collection_id = <cfqueryparam value="#groups.underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL"> and rownum = 1
+					</cfquery>
+				<cfif getImages.recordcount EQ 1>
+					<cfloop query="getImages">
 						<cfset isDisplayable = false>
 						<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 							<cfset isDisplayable = true>

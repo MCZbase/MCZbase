@@ -36,7 +36,7 @@ limitations under the License.
 <cfoutput>
 	<main class="container">
 		<div class="row">
-			<div class="col-12 col-md-6">
+			<div class="col-12 col-md-6 mt-4">
 				<h1 class="h2">MCZ Featured Collections of Cataloged Items</h1>
 				<ul>
 					<cfloop query="namedGroups">
@@ -49,9 +49,10 @@ limitations under the License.
 						<li><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#">#collection_name#</a> (#ct#)#mask#</li>
 						<div class="row">
 							<cfloop query="namedGroups">
+								
 								<div class="col-12 col-sm-6 col-md-4 col-xl-3">
-									<cfset namedgroupblock= getNamedGroupBlockHtml(media_id="#media_id#",size="400")>
-									<div id="mediaBlock#media_id#">
+									<cfset namedgroupblock= getNamedGroupBlockHtml(underscore_id="#underscore_id#",media_id="#media_id#",size="400")>
+									<div id="namedGroupBlock#underscore_id#">
 									#namedgroupblock#
 									</div>
 								</div>
