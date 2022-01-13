@@ -710,7 +710,7 @@ limitations under the License.
 											</script> 
 									</div>
 
-									<div class="col-12 col-md-6">
+<!---									<div class="col-12 col-md-6">
 										<label for="underscore_collection_type" id="underscore_collection_type" class="data-entry-label">Type
 											<h5 id="underscore_collection_type" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 										</label>
@@ -720,7 +720,7 @@ limitations under the License.
 												<option  selected="selected" value="#ctundcolltype.underscore_collection_type#">#undcolltype.underscore_collection_type#</option>
 											</cfloop>
 										</select>
-									</div>
+									</div>--->
 									<div class="col-12 row mx-0 px-1 mt-3">
 										<input type="button" 
 												value="Save" title="Save" aria-label="Save"
