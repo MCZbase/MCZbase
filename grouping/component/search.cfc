@@ -532,7 +532,6 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 				<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 				<cfoutput>
 					<cfif len(groups.media_id)gt 0>
-					<cfloop query="groups">
 						<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT 
 							media_id, 
@@ -654,6 +653,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 							</div>
 						</cfloop>
 					</cfif>
+					
 				</cfoutput>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
