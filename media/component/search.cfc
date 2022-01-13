@@ -1073,7 +1073,7 @@ limitations under the License.
 									<cfelseif media_type is "text">
 										<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
 									<cfelseif media_type is "3D model">
-										<cfset displayImage =  "/shared/images/Placeholder_view_vector.svg">
+										<cfset displayImage =  "/shared/images/3dmodel.png">
 									<cfelse>
 										<cfset displayImage =  "/shared/images/Image-x-generic.svg"><!---nothing was working for mime type--->
 									</cfif>
