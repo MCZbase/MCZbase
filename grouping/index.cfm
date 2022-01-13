@@ -47,6 +47,16 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<li><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#">#collection_name#</a> (#ct#)#mask#</li>
+						<div class="row">
+							<cfloop query="examples">
+								<div class="col-12 col-sm-6 col-md-4 col-xl-3">
+									<cfset namedgroupblock= getNamedGroupBlockHtml(media_id="#media_id#",size="400")>
+									<div id="mediaBlock#media_id#">
+									#namedgroupblock#
+									</div>
+								</div>
+							</cfloop>
+						</div>
 					</cfloop>
 				</ul>
 			</div>
