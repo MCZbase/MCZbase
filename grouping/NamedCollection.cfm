@@ -715,14 +715,11 @@ limitations under the License.
 											<h5 id="underscore_collection_type" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 										</label>
 										<select name="underscore_collection_type" id="underscore_collection_type" required class="data-entry-select reqdClr">
-											
-												<option value="" selected="selected"></option>
+											<option value="" selected="selected"></option>
 											<cfloop query="ctundcolltype">
 												<option value="#ctundcolltype.underscore_collection_type#">#undcolltype.underscore_collection_type#</option>
 											</cfloop>
 										</select>
-										<input type="text" name="underscore_collection_type" id="underscore_collection_type" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Collection Type" aria-describedby="underscore_collection_type" value="#underscore_collection_type#">
-											<input type="hidden" name="underscore_collection_type" id="underscore_collection_type" value="#underscore_collection_type#">
 									</div>
 									<div class="col-12 row mx-0 px-1 mt-3">
 										<input type="button" 
