@@ -20,19 +20,26 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfoutput>
-		<cfquery name="examples" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-SELECT media_id
-    FROM
-        underscore_relation 
-    INNER JOIN flat 
-        on underscore_relation.collection_object_id = flat.collection_object_id
-    inner join media_relations
-        on media_relations.related_primary_key = flat.collection_object_id
-    WHERE rownum = 1
-		</cfquery>
 
+		<cfquery name="groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				collection_name, underscore_collection_id
+			FROM
+				underscore_collection 
+		</cfquery>
 		<div class="row">
-			<cfloop query="examples">
+			<cfloop query="groups">
+				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						media_id
+					FROM
+						underscore_relation 
+					INNER JOIN flat 
+						on underscore_relation.collection_object_id = flat.collection_object_id
+					INNER JOIN media_relations
+						on media_relations.related_primary_key = flat.collection_object_id
+					WHERE rownum = 1 and underscore_relation.underscore_collection_id = groups.underscore_collection_id
+				</cfquery>
 				<div class="col-12 col-sm-6 col-md-4 col-xl-3">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400")>
 					<div id="mediaBlock#media_id#">
