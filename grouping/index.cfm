@@ -29,7 +29,7 @@ limitations under the License.
 			ORDER BY collection_name
 		</cfquery>
 	<div class="container">
-		<div class="row mx-0">
+		<div class="row mx-0 mb-4">
 			<div class="col-12 bg-light py-2 float-left mt-5">
 			<div class="col-3 float-left h-100">
 				<ul class="list-unstyled text-right px-3 h-100 mt-2 rounded border bg-light">
