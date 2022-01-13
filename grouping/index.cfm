@@ -54,7 +54,9 @@ limitations under the License.
 						</div>
 					<cfelse>
 						<div class="col-3 px-0 float-left">
-						<img src = "/shared/images/Image-x-generic.svg" class="text-center w-75">
+							<a href="" class="w-75 d-block my-0 w-100 active text-center">
+								<img src = "/shared/images/Image-x-generic.svg" class="mx-auto">
+							</a>
 						</div>
 					</cfif>
 						<div class="col-9 px-0 float-left mt-2">
