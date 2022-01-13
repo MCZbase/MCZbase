@@ -29,7 +29,7 @@ limitations under the License.
 		</cfquery>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-12 mt-3">
+			<div class="col-6 float-left mt-3">
 			<cfloop query="groups">
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
@@ -44,7 +44,8 @@ limitations under the License.
 					WHERE rownum = 1 and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
 					order by flat.collection_object_id
 				</cfquery>
-				<div class="col-12 px-0 float-left my-2">
+				<div class="col-6 px-0 float-left my-2">
+					
 					<div class="border py-2 rounded col-md-5 px-0 float-left">
 						<div class="row mx-0">
 							<cfif len(images.media_id) gt 0>
