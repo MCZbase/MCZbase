@@ -512,60 +512,47 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			
 			
 <cffunction name="getNamedGroupBlockHtml" access="remote" returntype="string" returnformat="plain">
-	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
-	<cfset l_underscore_collection_id= #arguments.underscore_collection_id#>
+	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
-	<cfset media_type = 'true'>
-	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
-<cfoutput>
+		<cfoutput>
 			<cftry>
-				<cfloop query="namedGroups">
-				<cfquery name="groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						underscore_collection_id, underscore_collection.collection_name, description, mask_fg, type 
+				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
+					SELECT media_id, 
+						preview_uri, media_uri, 
+						mime_type, media_type,
+						auto_extension as extension,
+						auto_host as host,
+						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+						MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
+						MCZBASE.get_media_credit(media.media_id) as credit,
+						MCZBASE.get_media_owner(media.media_id) as owner,
+						MCZBASE.get_media_creator(media.media_id) as creator,
+						MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
+						MCZBASE.get_medialabel(media.media_id,'description') as description,
+						MCZBASE.get_medialabel(media.media_id,'made date') as made_date,
+						MCZBASE.get_medialabel(media.media_id,'subject') as subject,
+						MCZBASE.get_medialabel(media.media_id,'height') as height,
+						MCZBASE.get_medialabel(media.media_id,'width') as width,
+						MCZBASE.get_media_descriptor(media.media_id) as alt,
+						MCZBASE.get_media_title(media.media_id) as title
 					FROM 
-						underscore_collection
+						media
+						left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
 					WHERE 
-						underscore_collection_id = <cfqueryparam value="#underscore_collection.underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL"> and rownum=1 
+						media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#l_media_id#">
+						AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				</cfquery>
-					<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT 
-							media.media_id, 
-							preview_uri, media_uri, 
-							mime_type, media_type,
-							auto_extension as extension,
-							auto_host as host,
-							MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
-							MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
-							MCZBASE.get_media_credit(media.media_id) as credit,
-							MCZBASE.get_media_owner(media.media_id) as owner,
-							MCZBASE.get_media_creator(media.media_id) as creator,
-							MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
-							MCZBASE.get_medialabel(media.media_id,'description') as description,
-							MCZBASE.get_medialabel(media.media_id,'made date') as made_date,
-							MCZBASE.get_medialabel(media.media_id,'subject') as subject,
-							MCZBASE.get_medialabel(media.media_id,'height') as height,
-							MCZBASE.get_medialabel(media.media_id,'width') as width,
-							MCZBASE.get_media_descriptor(media.media_id) as alt,
-							MCZBASE.get_media_title(media.media_id) as title
-						FROM
-							underscore_relation 
-						INNER JOIN flat 
-							on underscore_relation.collection_object_id = flat.collection_object_id
-						INNER JOIN media_relations
-							on media_relations.related_primary_key = flat.collection_object_id
-						INNER JOIN media
-							on media_relations.media_id = media.media_id
-						WHERE underscore_relation.underscore_collection_id = <cfqueryparam value="#underscore_collection.underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL"> and rownum = 1
-						</cfquery>
-					<cfoutput>
+				<cfif media.recordcount EQ 1>
+					<cfloop query="media">
 						<cfset isDisplayable = false>
 						<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 							<cfset isDisplayable = true>
@@ -615,9 +602,9 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 							</a>
 							<div class="mt-0 col-12 pb-1 px-0">
 								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
-<!---									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<span class="d-inline">(<a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>
-									</cfif>--->
+									</cfif>
 									(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
 									<cfif NOT isDisplayable>
 										#media_type# (#mime_type#)
@@ -652,8 +639,8 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 								</div>
 							</div>
 						</div>
-					</cfoutput>
-				</cfloop>
+					</cfloop>
+				</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >

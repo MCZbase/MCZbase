@@ -19,42 +19,34 @@ limitations under the License.
 -->
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
-<cfset underscore_collection_id = '22'>
-<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT 
-				underscore_collection_id, mask_fg
-			FROM
-				underscore_collection
-			WHERE mask_fg = 0 and underscore_collection.underscore_collection_id = <cfqueryparam value="#underscore_collection.underscore_collection_id#" cfsqltype="CF_SQL_DECIMAL"> and rownum = 1
-</cfquery>
-
-<cfoutput>
-	<main class="container">
+<cfset media_id = 1333>
+		<cfquery name="examples" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct media_id from (
+				select max(media_id) media_id from media
+				group by mime_type, media_type
+				union
+				select max(media_id) media_id from media_relations
+				group by media_relationship
+				union
+				select max(media_id) media_id from media
+				group by media.auto_host
+				having count(*) > 50
+				union
+				select max(media_id) from media_labels
+				where media_label = 'height'
+				group by label_value
+				having count(*) > 1000
+			)
+		</cfquery>
 		<div class="row">
-			<div class="col-12 col-md-6 mt-4">
-				<h1 class="h2">MCZ Featured Collections of Cataloged Items</h1>
-				<ul>
-					<cfloop query="namedGroups">
-						<cfset mask="">
-						<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") GT 0>
-							<cfif namedGroups.mask_fg EQ 1>
-								<cfset mask=" [Hidden]">
-							</cfif>
-						</cfif>
-						<cfset underscore_collection_id = 22>
-						<div class="row">
-							<div class="col-12 col-sm-6 col-md-4 col-xl-3">
-								<cfset namedgroupblock= getNamedGroupBlockHtml(underscore_collection_id="#underscore_collection_id#",size="400")>
-								<div id="namedGroupBlock#underscore_collection_id#">
-								#namedgroupblock#
-								</div>
-							</div>
-						</div>
-					</cfloop>
-				</ul>
-			</div>
+			<cfloop query="examples">
+				<div class="col-12 col-sm-6 col-md-4 col-xl-3">
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400")>
+					<div id="mediaBlock#media_id#">
+					#mediablock#
+					</div>
+				</div>
+			</cfloop>
 		</div>
-	</main>
-</cfoutput>
 
 <cfinclude template = "/shared/_footer.cfm">
