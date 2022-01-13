@@ -975,7 +975,7 @@ limitations under the License.
 				<cfloop query="theRest">
 					<li class="list-group-item">#attribute_type#: #attribute_value#
 						<cfif len(attribute_units) gt 0>
-							, #attribute_units#
+						#attribute_units#
 						</cfif>
 						<cfif len(attributeDeterminer) gt 0>
 						<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
@@ -988,7 +988,6 @@ limitations under the License.
 							#determination#
 						</cfif>
 						<cfif len(attribute_remark) gt 0>
-
 							, Remark: #attribute_remark#
 						</cfif>
 					</li>
