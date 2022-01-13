@@ -21,21 +21,14 @@ limitations under the License.
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfoutput>
 		<cfquery name="examples" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct media_id from (
-				select max(media_id) media_id from media
-				group by mime_type, media_type
-				union
-				select max(media_id) media_id from media_relations
-				group by media_relationship
-				union
-				select max(media_id) media_id from media
-				group by media.auto_host
-				having count(*) > 50
-				union
-				select max(media_id) from media_labels
-				where media_label = 'height'
-				and rownum= 1
-			)
+SELECT media_id
+    FROM
+        underscore_relation 
+    INNER JOIN flat 
+        on underscore_relation.collection_object_id = flat.collection_object_id
+    inner join media_relations
+        on media_relations.related_primary_key = flat.collection_object_id
+    WHERE rownum = 1
 		</cfquery>
 
 		<div class="row">
