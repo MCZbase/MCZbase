@@ -204,7 +204,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-4">
 								<span>
 									<label for="in_house_contact_agent_name" class="data-entry-label">
 										In-House Contact:
@@ -224,7 +224,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('in_house_contact_agent_name','in_house_contact_agent_id','in_house_contact_agent_icon','in_house_contact_agent_view',null));
 								</script> 
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-4">
 								<span>
 									<label for="additional_incontact_agent_name" class="data-entry-label">
 										Additional In-house Contact:
@@ -240,6 +240,24 @@ limitations under the License.
 								<input type="hidden" name="additional_incontact_agent_id" id="additional_incontact_agent_id" >
 								<script>
 									$(makeRichTransAgentPicker('additional_incontact_agent_name','additional_incontact_agent_id','additional_incontact_agent_icon','additional_incontact_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="inhouse_authorizedby_agent_name" class="data-entry-label">
+										In-house Authorized By:
+										<span id="inhouse_authorizedby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									</label>
+								</span>
+								<div class="input-group mb-1">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="inhouse_authorizedby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="inhouse_authorizedby_agent_name" id="inhouse_authorizedby_agent_name" class="form-control form-control-sm data-entry-input" >
+								</div>
+								<input type="hidden" name="inhouse_authorizedby_agent_id" id="inhouse_authorizedby_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('inhouse_authorizedby_agent_name','inhouse_authorizedby_agent_id','inhouse_authorizedby_agent_icon','inhouse_authorizedby_agent_view',null));
 								</script> 
 							</div>
 						</div>
@@ -1066,6 +1084,18 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_incontact_agent_id#">,
 						'additional in-house contact')
+				</cfquery>
+			</cfif>
+			<cfif isdefined("inhouse_authorizedby_agent_id") and len(inhouse_authorizedby_agent_id) gt 0>
+				<cfquery name="q_inhouseauthorizedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					INSERT INTO trans_agent (
+						transaction_id,
+						agent_id,
+						trans_agent_role
+					) values (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inhouse_authorizedby_agent_id#">,
+						'in-house authorized by')
 				</cfquery>
 			</cfif>
 		</cftransaction>
