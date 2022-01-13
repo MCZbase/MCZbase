@@ -34,7 +34,7 @@ limitations under the License.
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						media_id,
-						media.media_uri
+						media_relations.media_relationship
 					FROM
 						underscore_relation 
 					INNER JOIN flat 
@@ -42,7 +42,7 @@ limitations under the License.
 					INNER JOIN media_relations
 						on media_relations.related_primary_key = flat.collection_object_id
 					WHERE rownum = 1 and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
-					order by media.media_uri
+					order by media_relations.media_relationship
 				</cfquery>
 				<cfif len(#groups.description#)gt 0>
 					<div class="col-6 px-2 float-left my-2">
