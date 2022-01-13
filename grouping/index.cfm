@@ -23,7 +23,7 @@ limitations under the License.
 
 		<cfquery name="groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
-				collection_name, underscore_collection_id, description, underscore_collection_type
+				collection_name, underscore_collection_id, description, underscore_collection_type,displayed_media_id
 			FROM
 				underscore_collection 
 		</cfquery>
@@ -40,7 +40,7 @@ limitations under the License.
 						on underscore_relation.collection_object_id = flat.collection_object_id
 					INNER JOIN media_relations
 						on media_relations.related_primary_key = flat.collection_object_id
-					WHERE rownum = 1 and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
+					WHERE rownum = 1 and media_id = #groups.displayed_media_id#  and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
 				</cfquery>
 				<cfif len(#groups.description#)gt 0>
 					<div class="col-6 px-2 float-left my-2">
