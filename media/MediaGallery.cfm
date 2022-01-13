@@ -59,7 +59,7 @@
 		<div class="row">
 			<div class="col-10 float-left">
 			<cfset media_id = "1333">
-				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full",size="2000")>
+				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full",size="1000")>
 				<div id="mediaFullBlock#media_id#">
 					#mediablock#
 				</div>
