@@ -33,7 +33,7 @@ limitations under the License.
 			<cfloop query="groups">
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						displayed_media_id
+						displayed_media_id as media_id
 					FROM
 						underscore_relation 
 					INNER JOIN underscore_collection
