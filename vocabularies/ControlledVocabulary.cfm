@@ -173,7 +173,7 @@
 						<cfset transactions="">
 						<cfset separator = "">
 						<cfloop query="getallowed">
-							<cfset transactions="#transactions##separator##getallowed.transaction_type">
+							<cfset transactions="#transactions##separator##getallowed.transaction_type#">
 							<cfif getallowed.required_to_print EQ 1>
 								<cfset transactions="#transactions#(Required)">
 							</cfif>
