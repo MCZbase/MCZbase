@@ -38,7 +38,7 @@ limitations under the License.
 						on underscore_relation.collection_object_id = flat.collection_object_id
 					INNER JOIN media_relations
 						on media_relations.related_primary_key = flat.collection_object_id
-					WHERE rownum = 1 and underscore_relation.underscore_collection_id = groups.underscore_collection_id
+					WHERE rownum = 1 and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
 				</cfquery>
 				<div class="col-12 col-sm-6 col-md-4 col-xl-3">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400")>
