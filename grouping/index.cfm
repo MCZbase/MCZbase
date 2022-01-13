@@ -26,6 +26,7 @@ limitations under the License.
 				collection_name, underscore_collection_id, description, underscore_collection_type,displayed_media_id
 			FROM
 				underscore_collection 
+			ORDER BY collection_name
 		</cfquery>
 	<div class="container-fluid">
 		<div class="row mx-0">
