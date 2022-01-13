@@ -710,7 +710,7 @@ limitations under the License.
 											</script> 
 									</div>
 									<div class="col-12 col-md-3">
-										<label for="named_coll_type" >Named Group Type </label>
+										<label for="named_coll_type" class="data-entry-label">Named Group Type </label>
 										<select name="named_coll_type" id="named_coll_type" class="data-entry-select">
 											<option value=""></option>
 											<cfloop query="ctundcolltype">
@@ -720,7 +720,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 col-md-3">
-										<label for="displayed_media_id_label" >Displayed Media ID </label>
+										<label for="displayed_media_id_label" class="data-entry-label" >Displayed Media ID </label>
 									<input type="text" id="displayed_media_id" name="displayed_media_id" class="data-entry-input" 
 												required value="#encodeForHtml(displayed_media_id)#" aria-labelledby="displayed_media_id_label" >
 									</div>
