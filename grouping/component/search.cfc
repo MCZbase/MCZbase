@@ -509,12 +509,12 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 </cffunction>
 
 <cffunction name="getNamedGroupBlockHtml" access="remote" returntype="string" returnformat="plain">
-	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
-	<cfset l_media_id= #arguments.media_id#>
+	<cfset l_underscore_collection_id= #arguments.underscore_collection_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
 	<cfset media_type = 'true'>
