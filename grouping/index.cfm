@@ -31,7 +31,7 @@ limitations under the License.
 	<div class="container">
 		<div class="row mx-0 mb-4">
 			<h1 class="h2 w-100 mt-45 px-2 mt-5 text-center">MCZ Featured Collections of Cataloged Items</h1>
-			<p class="w-100 px-2">The Museum of Comparative Zoology at Harvard University and Boston Harbor Islands Partnership have collaborated to conduct an All Taxa Biodiversity Inventory (ATBI) of Boston Harbor Islands National and State Park. The project focuses on the "microwilderness" of the islands, namely, insects and other invertebrates. This extremely diverse group of animals is easily sampled, yet often overlooked. Our goal is to combine scientific research with public education, and to foster an appreciation for the amazing biological diversity that exists within Boston Harbor.</p>
+			
 			<div class="col-12 bg-light border px-0 py-2 mb-3 float-left mt-1">
 			<div class="col-3 float-left h-100">
 				<ul class="list-unstyled text-right px-3 h-75 mt-3 rounded border bg-light">
@@ -39,6 +39,7 @@ limitations under the License.
 					<li class="my-3"><h3>Expeditions</h3></li>
 					<li class="my-3"><h3>Grants</h3></li>
 					<li class="my-3"><h3>Teaching Collections</h3></li>
+					<li class="mt-5"><p class="small">The Museum of Comparative Zoology at Harvard University and Boston Harbor Islands Partnership have collaborated to conduct an All Taxa Biodiversity Inventory (ATBI) of Boston Harbor Islands National and State Park. The project focuses on the "microwilderness" of the islands, namely, insects and other invertebrates. This extremely diverse group of animals is easily sampled, yet often overlooked. Our goal is to combine scientific research with public education, and to foster an appreciation for the amazing biological diversity that exists within Boston Harbor.</p></li>
 				</ul>
 
 			</div>
