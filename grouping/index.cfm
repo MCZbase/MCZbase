@@ -54,7 +54,7 @@ limitations under the License.
 						</div>
 					<cfelse>
 						<div class="col-3 px-0 float-left">
-						<img src =  "/shared/images/Gnome-media-playback-start.svg">
+						<img src = "/shared/images/Image-x-generic.svg" class="text-center w-75">
 						</div>
 					</cfif>
 						<div class="col-9 px-0 float-left mt-2">
