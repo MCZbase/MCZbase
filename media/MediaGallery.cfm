@@ -27,12 +27,8 @@
 			<cfloop query="examples">
 				<div class="col-12 col-sm-6 col-md-4 col-xl-3">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400")>
-					<div class="row">
-						<div class="col-12">
-							<div id="mediaBlock#media_id#">
-							#mediablock#
-							</div>
-						</div>
+					<div id="mediaBlock#media_id#">
+					#mediablock#
 					</div>
 				</div>
 			</cfloop>
@@ -42,12 +38,8 @@
 			<cfloop query="examples">
 				<div class="col-12 col-sm-4 col-md-2 col-xl-1">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb")>
-					<div class="row">
-						<div class="col-12">
-							<div id="mediaBlock#media_id#">
-							#mediablock#
-							</div>
-						</div>
+					<div id="mediaBlock#media_id#">
+						#mediablock#
 					</div>
 				</div>
 			</cfloop>
@@ -57,12 +49,8 @@
 			<cfloop query="examples">
 				<div class="col-12 col-md-6 col-xl-4">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="600")>
-					<div class="row">
-						<div class="col-12">
-							<div id="mediaBlock#media_id#">
-							#mediablock#
-							</div>
-						</div>
+					<div id="mediaBlock#media_id#">
+					#mediablock#
 					</div>
 				</div>
 			</cfloop>
@@ -70,25 +58,19 @@
 		
 		<div class="row">
 			<div class="col-10 float-left">
-			<p class="col-12">[getMediBlockHtml] FULL Images that are redefined with height and width attributes =100%</p>
 			<cfset media_id = "1333">
 				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full",size="2000")>
-				<div class="col-12">
-					<div id="mediaFullBlock#media_id#">
-						#mediablock#
-					</div>
+				<div id="mediaFullBlock#media_id#">
+					#mediablock#
 				</div>
 			</div>
 			<div class="col-1 px-0 float-left">
-			<p class="col-12 mt-4">[getMediaBlockHtml] THUMBNAIL Images that height and width are redefined with a class.</p> 
 			<cfset media_id = "90914">
 				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",size="100")>
-				<div class="col-12 p-0">
-					<div id="mediaThumbBlock#media_id#">
-						#mediablock#
-					</div>
-				</div>	
-			</div>
+				<div id="mediaThumbBlock#media_id#">
+					#mediablock#
+				</div>
+			</div>	
 		</div>
 
 	</div>
