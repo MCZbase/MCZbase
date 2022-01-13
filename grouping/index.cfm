@@ -34,15 +34,17 @@ limitations under the License.
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						media_id,
-						media_relations.media_relationship
+						underscore_relation
 					FROM
 						underscore_relation 
+					INNER JOIN underscore_collection
+						on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 					INNER JOIN flat 
 						on underscore_relation.collection_object_id = flat.collection_object_id
 					INNER JOIN media_relations
 						on media_relations.related_primary_key = flat.collection_object_id
 					WHERE rownum = 1 and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
-					order by media_relations.media_relationship
+						order by media_relations.media_relationship
 				</cfquery>
 				<cfif len(#groups.description#)gt 0>
 					<div class="col-6 px-2 float-left my-2">
