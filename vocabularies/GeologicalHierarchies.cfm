@@ -296,7 +296,7 @@ limitations under the License.
 						</cfquery>
 						<div class="row border rounded my-2 mx-1 py-1">
 							<div class="col-12">
-								<h3 class="h4">Merge other nodes into #c.attribute#:#c.attribute_value# </h3>
+								<h3 class="h4">Merge other (non-accepted) nodes into #c.attribute#:#c.attribute_value# </h3>
 								<p>Merging nodes will update the geological attributes of all localities that use the selected attribute and value to use #c.attribute#:#c.attribute_value# instead.</p>
 							</div>
 							<cfif mergeCandidates.recordcount GT 0> 
