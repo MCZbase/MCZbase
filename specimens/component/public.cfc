@@ -41,7 +41,8 @@ limitations under the License.
 				</cfquery>
 				<cfset size="200">
 				<cfset displayAs="thumb">
-				<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
+				<cfset media_type=''>
+					<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 				<cfif len(images.media_id)gt 0>
 				<cfloop query="images">
 					<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
