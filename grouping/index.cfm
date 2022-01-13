@@ -42,7 +42,7 @@ limitations under the License.
 					INNER JOIN media_relations
 						on media_relations.related_primary_key = flat.collection_object_id
 					WHERE rownum = 1 and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
-					order by media_uri
+					order by flat.collection_object_id
 				</cfquery>
 			
 				<div class="col-12 float-left my-2">
