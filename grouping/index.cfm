@@ -31,6 +31,14 @@ limitations under the License.
 	<div class="container-fluid">
 		<div class="row mx-0">
 			<div class="col-12 px-0 float-left mt-3">
+			<div class="col-3">
+				<ul class="list-unstyled">
+					<li>Expeditions</li>
+					<li>Collections</li>
+					<li>Grants</li>
+					<li>Teaching Collections</li>
+				</ul>
+			</div>
 			<cfloop query="groups">
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
@@ -44,14 +52,7 @@ limitations under the License.
 				</cfquery>
 				<cfif len(#groups.description#)gt 0>
 					
-					<div class="col-3">
-						<ul class="list-unstyled">
-							<li>Expeditions</li>
-							<li>Collections</li>
-							<li>Grants</li>
-							<li>Teaching Collections</li>
-						</ul>
-					</div>
+
 					<div class="col-9 px-2 float-left my-2">
 						<div class="border rounded py-3 col-12 float-left">
 							<div class="row mx-0">
