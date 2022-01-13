@@ -44,8 +44,8 @@ limitations under the License.
 					WHERE rownum = 1 and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
 					order by flat.collection_object_id
 				</cfquery>
-				<div class="col-12 col-md-6 float-left my-2">
-					<div class="border py-2 rounded float-left">
+				<div class="col-12 float-left my-2">
+					<div class="border py-2 rounded col-md-6 float-left">
 						<div class="row">
 							<cfif len(images.media_id) gt 0>
 								<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="180")>
