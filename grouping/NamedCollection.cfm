@@ -596,6 +596,9 @@ limitations under the License.
 				from underscore_collection
 				where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
+			<cfquery name="ctundcolltype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="ctundcolltype_result">
+				select underscore_collection_type from ctunderscore_collection_type order by underscore_collection_type
+			</cfquery>
 			<cfif undColl_result.recordcount EQ 0>
 				<cfthrow message="No such named group found (underscore_collection_id=[#encodeForHtml(underscore_collection_id)#])" >
 			</cfif>
@@ -706,9 +709,7 @@ limitations under the License.
 												};
 											</script> 
 									</div>
-									<cfquery name="ctundcolltype">
-										select underscore_collection_type from ctunderscore_collection_type order by underscore_collection_type
-									</cfquery>
+
 									<div class="col-12 col-md-6">
 										<label for="underscore_collection_type" id="underscore_collection_type" class="data-entry-label">Type
 											<h5 id="underscore_collection_type" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
