@@ -33,11 +33,11 @@ limitations under the License.
 			<h1 class="h2 w-100 mt-45 px-2 mt-5 text-center">MCZ Featured Collections of Cataloged Items</h1>
 			<div class="col-12 bg-light border px-0 py-2 mb-3 float-left mt-1">
 			<div class="col-3 float-left h-100">
-				<ul class="list-unstyled text-right px-3 h-100 mt-2 rounded border bg-light">
-					<li class="my-2"><h3>Collections</h3></li>
-					<li class="my-2"><h3>Expeditions</h3></li>
-					<li class="my-2"><h3>Grants</h3></li>
-					<li class="my-2"><h3>Teaching Collections</h3></li>
+				<ul class="list-unstyled text-right px-3 h-100 mt-3 rounded border bg-light">
+					<li class="my-3"><h3>Collections</h3></li>
+					<li class="my-3"><h3>Expeditions</h3></li>
+					<li class="my-3"><h3>Grants</h3></li>
+					<li class="my-3"><h3>Teaching Collections</h3></li>
 				</ul>
 			</div>
 			<cfloop query="groups">
