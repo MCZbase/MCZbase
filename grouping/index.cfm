@@ -40,9 +40,10 @@ limitations under the License.
 								<cfset mask=" [Hidden]">
 							</cfif>
 						</cfif>
+						<cfset underscore_collection_id = 22>
 						<div class="row">
 							<div class="col-12 col-sm-6 col-md-4 col-xl-3">
-								<cfset namedgroupblock= getNamedGroupBlockHtml(underscore_id="#underscore_collection_id#",size="400")>
+								<cfset namedgroupblock= getNamedGroupBlockHtml(underscore_collection_id="#underscore_collection_id#",size="400")>
 								<div id="namedGroupBlock#underscore_collection_id#">
 								#namedgroupblock#
 								</div>
