@@ -29,7 +29,7 @@ limitations under the License.
 		</cfquery>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-12">
+			<div class="col-12 mt-3">
 			<cfloop query="groups">
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
@@ -43,12 +43,14 @@ limitations under the License.
 					WHERE rownum = 1 and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
 				</cfquery>
 			
-				<div class="col-12 float-left border rounded my-2">
-					<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="200")>
-					<div class="col-3 px-0 float-left" id="mediaBlock#images.media_id#">
-					#mediablock#
+				<div class="col-12 float-left my-2">
+					<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="180")>
+					<div class="border p-2 m-2">
+						<div class="col-3 px-0 float-left" id="mediaBlock#images.media_id#">
+						#mediablock#
+						</div>
+						<div class="col-12 px-0"><h3>#groups.collection_name#</h3></div>
 					</div>
-					<div class="col-12 px-0"><h3>#groups.collection_name#</h3></div>
 				</div>
 			</cfloop>
 			</div>
