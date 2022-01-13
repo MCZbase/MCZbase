@@ -44,26 +44,24 @@ limitations under the License.
 					WHERE rownum = 1 and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
 					order by flat.collection_object_id
 				</cfquery>
-			
-					<div class="col-12 col-md-6 float-left my-2">
-						<div class="border py-2 rounded col-6 float-left">
-							<div class="row">
-								<cfif len(images.media_id) gt 0>
-									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="180")>
-									<div class="col-3 px-0 float-left" id="mediaBlock#images.media_id#">
-									#mediablock#
-									</div>
-								<cfelse>
-									<div class="col-3 px-0 float-left">
-										<a href="" class="d-block my-0 w-100 active text-center">
-											<img src = "/shared/images/Image-x-generic.svg" class="mx-auto w-75">
-										</a>
-									</div>
-								</cfif>
-								<div class="col-9 px-0 float-left mt-2">
-									<h3>#groups.collection_name#</h3>
-									<p>#groups.description#</p>
+				<div class="col-12 col-md-6 float-left my-2">
+					<div class="border py-2 rounded float-left">
+						<div class="row">
+							<cfif len(images.media_id) gt 0>
+								<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="180")>
+								<div class="col-3 px-0 float-left" id="mediaBlock#images.media_id#">
+								#mediablock#
 								</div>
+							<cfelse>
+								<div class="col-3 px-0 float-left">
+									<a href="" class="d-block my-0 w-100 active text-center">
+										<img src = "/shared/images/Image-x-generic.svg" class="mx-auto w-75">
+									</a>
+								</div>
+							</cfif>
+							<div class="col-9 px-0 float-left mt-2">
+								<h3>#groups.collection_name#</h3>
+								<p>#groups.description#</p>
 							</div>
 						</div>
 					</div>
