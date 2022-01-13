@@ -1466,6 +1466,12 @@ limitations under the License.
 				var uuid = getVersion4UUID();
 				$("##result_id_fixedSearch").val(uuid);
 	
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					if (Object.keys(window.columnHiddenSettings).length == 0) {
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					}
+				</cfif>
+
 				fixedSearchLoaded = 0;
 
 				$("##overlay").show();
@@ -1624,7 +1630,12 @@ limitations under the License.
 				
 				var uuid = getVersion4UUID();
 				$("##result_id_keywordSearch").val(uuid);
-		
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					if (Object.keys(window.columnHiddenSettings).length == 0) {
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					}
+				</cfif>
+
 				keywordSearchLoaded = 0;
 
 				$("##overlay").show();
@@ -1782,8 +1793,14 @@ limitations under the License.
 				var uuid = getVersion4UUID();
 				$("##result_id_builderSearch").val(uuid);
 				
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					if (Object.keys(window.columnHiddenSettings).length == 0) {
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					}
+				</cfif>
+	
 				builderSearchLoaded = 0;
-		
+
 				$("##overlay").show();
 		
 				$("##buildersearchResultsGrid").replaceWith('<div id="buildersearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
@@ -2044,7 +2061,11 @@ limitations under the License.
 			var maxZIndex = getMaxZIndex();
 
 			if (Object.keys(window.columnHiddenSettings).length == 0) {
-				window.columnHiddenSettings = getColumnVisibilities(gridId);
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					lookupColumnVisibilities ('#cgi.script_name#','Default');
+				<cfelse>
+					window.columnHiddenSettings = getColumnVisibilities(gridId);
+				</cfif>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 				</cfif>
