@@ -45,11 +45,11 @@ limitations under the License.
 			
 				<div class="col-12 float-left my-2">
 					<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="180")>
-					<div class="border p-2 m-2">
+					<div class="border p-2 m-2 col-6 float-left">
 						<div class="col-3 px-0 float-left" id="mediaBlock#images.media_id#">
 						#mediablock#
 						</div>
-						<div class="col-12 px-0"><h3>#groups.collection_name#</h3></div>
+						<div class="col-9 px-0 float-left"><h3>#groups.collection_name#</h3></div>
 					</div>
 				</div>
 			</cfloop>
