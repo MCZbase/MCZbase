@@ -1059,21 +1059,44 @@ limitations under the License.
 							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 							</a>
-							<p class="mt-2 bg-light small caption-lg">
-								<cfif listcontainsnocase(session.roles,"manage_specimens")>
-									<span class="d-inline"><a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">(edit) </a></span>
-								</cfif>
-								(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
-								<cfif NOT isDisplayable>
-									#media_type# (#mime_type#)
-									(<a class="" target="_blank" href="#media_uri#">media file</a>)
-								<cfelse>
-									(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
-									(<a class="" target="_blank" href="#media_uri#">full</a>)
-								</cfif>
-							</p>
-							<p class="mt-2 bg-light small caption-lg">#title#</p>
-							<p class="mt-2 bg-light small caption-lg"><a href="#license_uri#">#license_display#</a></p>
+							<div class="mt-0 bg-light col-12 pb-1 px-0">
+								<p class="text-center p-1 mb-0 smaller col-12 caption-lg">
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<span class="d-inline"><a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">(edit) </a></span>
+									</cfif>
+									(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
+									<cfif NOT isDisplayable>
+										#media_type# (#mime_type#)
+										(<a class="" target="_blank" href="#media_uri#">media file</a>)
+									<cfelse>
+										(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
+										(<a class="" target="_blank" href="#media_uri#">full</a>)
+									</cfif>
+								</p>
+								<div class="pb-1">
+									<cfset showTitleText = trim(title)>
+									<cfif len(showTitleText) EQ 0>
+										<cfset showTitleText = trim(subject)>
+									</cfif>
+									<cfif len(showTitleText) EQ 0>
+										<cfset showTitleText = "Unlinked Media Object">
+									</cfif>
+									<cfif #l_displayAs# EQ "thumb">
+										<cfif len(showTitleText) GT 30>
+											<cfset showTitleText = "#left(showTitleText,30)#..." >
+										</cfif>
+									</cfif>
+									<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
+									<cfif len(#license_uri#) gt 0>
+										<p class="text-center col-12 p-0 my-0 smaller">
+											<cfif #l_displayAs# NEQ "thumb">
+												License: 
+											</cfif>
+											<a href="#license_uri#">#license_display#</a>
+										</p>
+									</cfif>
+								</div>
+							</div>
 						</div>
 					</cfloop>
 				</cfif>
