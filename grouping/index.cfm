@@ -19,7 +19,7 @@ limitations under the License.
 -->
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
-<cfset media_id = 1333>
+
 		<cfquery name="examples" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct media_id from (
 				select max(media_id) media_id from media
