@@ -60,7 +60,7 @@ limitations under the License.
 									</a>
 								</div>
 							</cfif>
-							<div class="col-9 px-0 float-left mt-2">
+							<div class="col-9 float-left mt-2">
 								<h3>#groups.collection_name#</h3>
 								<p>#groups.description#</p>
 							</div>
