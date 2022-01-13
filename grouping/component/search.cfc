@@ -521,7 +521,6 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
 		<cfoutput>
 			<cftry>
-				
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
 					SELECT media_id, 
 						preview_uri, media_uri, 

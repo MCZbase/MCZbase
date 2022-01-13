@@ -18,7 +18,7 @@ limitations under the License.
 
 -->
 <cfinclude template = "/shared/_header.cfm">
-
+<cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT count(flat.collection_object_id) ct, underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
 	FROM UNDERSCORE_COLLECTION
