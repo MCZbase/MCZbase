@@ -30,7 +30,7 @@ limitations under the License.
 		</cfquery>
 	<div class="container">
 		<div class="row mx-0 mb-4">
-			<h1 class="h2 w-100 mt-45 px-2">MCZ Featured Collections<br>
+			<h1 class="h2 w-100 mt-45 px-2 mt-5">MCZ Featured Collections<br>
 			<span class="h4">of Cataloged Items</span></h1>
 			<div class="col-12 bg-light border px-0 py-2 mb-3 float-left mt-1">
 			<div class="col-3 float-left h-100">
