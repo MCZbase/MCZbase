@@ -155,7 +155,7 @@
 						Description
 					</th>
 					<th>
-						Transactinos
+						Transactions
 					</th>
 				</tr>
 				</thead>
