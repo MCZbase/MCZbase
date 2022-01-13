@@ -23,7 +23,7 @@ limitations under the License.
 
 		<cfquery name="groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
-				collection_name, underscore_collection_id, description
+				collection_name, underscore_collection_id, description, underscore_collection_type
 			FROM
 				underscore_collection 
 		</cfquery>
@@ -61,6 +61,7 @@ limitations under the License.
 								<div class="col-9 float-left mt-2">
 									<h3>#groups.collection_name#</h3>
 									<p>#groups.description#</p>
+									<p>#groups.underscore_collection_type#</p>
 								</div>
 							</div>
 						</div>
