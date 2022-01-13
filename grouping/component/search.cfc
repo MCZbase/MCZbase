@@ -519,7 +519,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfset l_size = #arguments.size#>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
-
+<cfoutput>
 			<cftry>
 				<cfquery name="groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct
