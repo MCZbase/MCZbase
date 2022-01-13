@@ -31,6 +31,7 @@ limitations under the License.
 		<div class="row mx-0">
 			<div class="col-12 px-0 float-left mt-3">
 			<cfif len(#groups.description#)gt 0>
+				#groups.description#
 			<cfloop query="groups">
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
