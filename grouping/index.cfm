@@ -33,10 +33,10 @@ limitations under the License.
 			<div class="col-12 px-0 float-left mt-3">
 			<div class="col-3">
 				<ul class="list-unstyled">
-					<li>Expeditions</li>
-					<li>Collections</li>
-					<li>Grants</li>
-					<li>Teaching Collections</li>
+					<li class="my-2"><h3>Expeditions</h3></li>
+					<li class="my-2"><h3>Collections</h3></li>
+					<li class="my-2"><h3>Grants</h3></li>
+					<li class="my-2"><h3>Teaching Collections</h3></li>
 				</ul>
 			</div>
 			<cfloop query="groups">
