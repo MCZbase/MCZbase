@@ -586,7 +586,7 @@ limitations under the License.
 			<cfthrow type="Application" message="Error: No value provided for underscore_collection_id">
 		<cfelse>
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
-				select underscore_collection_id, collection_name, description, underscore_agent_id, html_description, underscore_collection_type,displayed_media_id
+				select underscore_collection_id, collection_name, description, underscore_agent_id, html_description, underscore_collection_type,displayed_media_id,
 					case 
 						when underscore_agent_id is null then '[No Agent]'
 						else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
@@ -724,6 +724,7 @@ limitations under the License.
 										<input type="text" name="displayed_media_id" id="displayed_media_id" class="form-control rounded-right data-entry-input form-control-s" aria-label="Displayed Media ID" aria-describedby="displayed_media_id_label" value="#displayed_media_id#">
 										<input type="hidden" name="displayed_media_id" id="displayed_media_id" value="#displayed_media_id#">
 									</div>
+
 									<div class="col-12 row mx-0 px-1 mt-3">
 										<input type="button" 
 												value="Save" title="Save" aria-label="Save"
