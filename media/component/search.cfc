@@ -1055,12 +1055,12 @@ limitations under the License.
 								<cfset displayImage =  "/shared/images/Image-x-generic.svg"><!---nothing was working for mime type--->
 							</cfif>
 						</cfif>
-						<div class="media_widget" style="width: #l_size#px;">	
+						<div class="media_widget">	
 							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
 								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 							</a>
 							<div class="mt-0 bg-light col-12 pb-1 px-0">
-								<p class="text-center p-1 mb-0 smaller col-12 caption-lg">
+								<p class="text-center p-1 mb-0 smaller col-12">
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<span class="d-inline"><a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">(edit) </a></span>
 									</cfif>
