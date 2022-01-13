@@ -508,6 +508,9 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 <cfoutput>#retval#</cfoutput>
 </cffunction>
 
+			
+			
+			
 <cffunction name="getNamedGroupBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
@@ -525,7 +528,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			<cftry>
 				<cfquery name="groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct
-						underscore_collection_id, collection_name, description, mask_fg, type 
+						underscore_collection_id, underscore_collection.collection_name, description, mask_fg, type 
 					FROM 
 						underscore_collection, underscore_relation
 					WHERE 

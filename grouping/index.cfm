@@ -40,15 +40,13 @@ limitations under the License.
 								<cfset mask=" [Hidden]">
 							</cfif>
 						</cfif>
-						<li><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#">#collection_name#</a> (#ct#)#mask#</li>
 						<div class="row">
-								
-								<div class="col-12 col-sm-6 col-md-4 col-xl-3">
-									<cfset namedgroupblock= getNamedGroupBlockHtml(underscore_id="#underscore_collection_id#",size="400")>
-									<div id="namedGroupBlock#underscore_collection_id#">
-									#namedgroupblock#
-									</div>
+							<div class="col-12 col-sm-6 col-md-4 col-xl-3">
+								<cfset namedgroupblock= getNamedGroupBlockHtml(underscore_id="#underscore_collection_id#",size="400")>
+								<div id="namedGroupBlock#underscore_collection_id#">
+								#namedgroupblock#
 								</div>
+							</div>
 						</div>
 					</cfloop>
 				</ul>
