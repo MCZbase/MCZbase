@@ -31,7 +31,7 @@ limitations under the License.
 	<div class="container-fluid">
 		<div class="row mx-0">
 			<div class="col-12 px-0 float-left mt-3">
-			<div class="col-3">
+			<div class="col-3 float-left">
 				<ul class="list-unstyled">
 					<li class="my-2"><h3>Expeditions</h3></li>
 					<li class="my-2"><h3>Collections</h3></li>
@@ -51,8 +51,6 @@ limitations under the License.
 					and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
 				</cfquery>
 				<cfif len(#groups.description#)gt 0>
-					
-
 					<div class="col-9 px-2 float-left my-2">
 						<div class="border rounded py-3 col-12 float-left">
 							<div class="row mx-0">
