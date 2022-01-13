@@ -1802,7 +1802,7 @@ limitations under the License.
 						<li class="list-group-item">
 							<h5 class="my-0">Preparators:&nbsp;</h5>
 							<cfloop query="preps">
-								#preps.preparators#<span>,</span>
+								#preps.preparators#<span class="sd">,</span>
 							</cfloop>
 						</li>
 					</cfif>
