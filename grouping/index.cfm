@@ -61,7 +61,7 @@ limitations under the License.
 								<div class="col-9 float-left mt-2">
 									<h3>#groups.collection_name#</h3>
 									<p>#groups.description#</p>
-									<p>#groups.underscore_collection_type#</p>
+									<p>Collection Type: #groups.underscore_collection_type#</p>
 								</div>
 							</div>
 						</div>
