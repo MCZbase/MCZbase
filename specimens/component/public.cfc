@@ -130,7 +130,7 @@ limitations under the License.
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<span class="d-inline"><a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">(edit) </a></span>
 										</cfif>
-											<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record</a>) </span>
+											<span class="d-inline">	(<a  target="_blank" href="/media/#media_id#">media record pub</a>) </span>
 											<cfif NOT isDisplayable>
 												<cfif #displayAs# NEQ "thumb">
 													<span class="d-inline ">#media_type# (#mime_type#)</span>
