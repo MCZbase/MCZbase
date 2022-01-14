@@ -673,7 +673,7 @@ limitations under the License.
 												required value="#encodeForHtml(collection_name)#" aria-labelledby="collection_name_label" >
 									</div>
 									<div class="col-md-3">
-										<label for="mask_fg" class="data_entry_label">Record Visibility</label>
+										<label for="mask_fg" class="data-entry-label">Record Visibility</label>
 										<select name="mask_fg" id="mask_fg" required class="data-entry-select reqdClr">
 											<cfif #undColl.mask_fg# eq 1 >
 												<option value="0">Public</option>
