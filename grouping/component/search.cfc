@@ -521,7 +521,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="200">
 	<cfargument name="displayAs" type="string" required="no" default="full">
-
+	<cfargument name="sizeTypeSm" type="string" required="no" default="thumb">
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
