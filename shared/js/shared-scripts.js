@@ -779,6 +779,35 @@ function handleFail(jqXHR,textStatus,error,context) {
 	messageDialog(details, 'Error: '+error.toString().substring(0,50));
 }
 
+
+/** Make a text name control into an autocomplete media_id picker, with media metadata displayed in the autocomplete.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makeMediaPickerOneControlMeta(valueControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/media/component/search.cfc",
+				data: { term: request.term, method: 'getMediaAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up media for a media_id picker");
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+valueControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
+
 /** Make a paired hidden id and text name control into an autocomplete publication picker.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).

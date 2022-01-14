@@ -552,9 +552,13 @@ limitations under the License.
 										</script> 
 									</div>
 									<div class="col-12 col-md-6">
-										<!--- TODO: Media picker --->
 										<label for="displayed_media_id" id="displayed_media_id_label" class="data-entry-label">MediaID of exemplar image</label>
 										<input type="text" id="displayed_media_id" name="displayed_media_id" class="data-entry-input" aria-labelledby="displayed_media_id_label" >
+										<script>
+											$(document).ready(function() {
+												makeMediaPickerOneControlMeta("displayed_media_id");
+											});
+										</script>
 									</div>
 								</div>
 								<div class="form-row mb-1">
@@ -742,9 +746,13 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
-										<!--- TODO: Media picker --->
 										<label for="displayed_media_id" id="displayed_media_id_label" class="data-entry-label">MediaID of exemplar image</label>
 										<input type="text" id="displayed_media_id" name="displayed_media_id" class="data-entry-input" aria-labelledby="displayed_media_id_label" value="#displayed_media_id#" >
+										<script>
+											$(document).ready(function() {
+												makeMediaPickerOneControlMeta("displayed_media_id");
+											});
+										</script>
 									</div>
 									<div class="col-12 col-md-6">
 										<!--- TODO: Multiple agents --->
