@@ -989,17 +989,18 @@ limitations under the License.
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			select 
-				media_id,
+			select distinct 
+				media.media_id,
 				auto_filename
 			from 
 				media
+				left join media_labels on media.media_id = media_labels.media_id
 			where 
 				MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				AND (
 					upper(auto_filename) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 					OR
-					upper(description) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+					upper(media_label.label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 				)
 			order by auto_filename
 		</cfquery>
