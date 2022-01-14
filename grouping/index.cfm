@@ -42,7 +42,7 @@ limitations under the License.
 					</cfif>
 					<div class="input-group w-auto float-right">
 						<div class="form-outline">
-							<input type="search" id="form1" class="data-entry-input w-75" />
+							<input type="search" id="form1" class="data-entry-input" />
 						</div>
 						<button type="button" class="btn btn-xs btn-primary py-1"><i class="fas fa-search"></i></button>
 					</div>
