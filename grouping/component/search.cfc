@@ -566,16 +566,15 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
-							
-							<cfif #l_displayAs# EQ "thumb">
-								<cfset displayImage = preview_uri>
-								<cfset l_size = "100">
-								<cfset hw = 'width="100%"'>
-							<cfelseif  #l_displayAs# EQ "thumbRes" and isDefined(#size#)>
+							<cfif  #l_displayAs# EQ "thumbRes" and isDefined(#size#)>
 								<cfset sizeTypeSm='&width=#l_size#'>
 								<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeTypeSm#">
 								<cfset hw = 'width="100%"'>
-							<cfelse >
+							<cfelseif #l_displayAs# EQ "thumb" and not isDefined(#size#)>
+								<cfset displayImage = preview_uri>
+								<cfset l_size = "100">
+								<cfset hw = 'width="100%"'>
+							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
 									<cfset hw = 'height="#l_size#px" width="#l_size#px"'>
 									<cfset sizeType='&width=#l_size#'>
