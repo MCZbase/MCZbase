@@ -30,7 +30,6 @@ limitations under the License.
 	<div class="container">
 		<div class="row mx-0 mb-4">
 			<h1 class="w-100 mt-45 px-2 mt-5 text-center">MCZ Featured Collections of Cataloged Items</h1>
-			
 			<div class="col-12 col-md-12 bg-light border rounded px-0 py-2 mb-3 float-left mt-1">
 			<div class="col-12 col-md-3 float-left">
 				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-2  bg-light">
