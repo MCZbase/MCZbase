@@ -1094,7 +1094,7 @@ limitations under the License.
 									</cfif>
 									<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
 									<cfif len(#license_uri#) gt 0>
-										<cfif #l_displayAs# NEQ "thumb" OR #l_displayAs# NEQ "thumbSm">
+										<cfif #l_displayAs# EQ "large">
 										<p class="text-center col-12 p-0 my-0 smaller">
 											<a href="#license_uri#">#license_display#</a>
 										</p>											
