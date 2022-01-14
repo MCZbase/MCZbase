@@ -1000,7 +1000,7 @@ limitations under the License.
 				AND (
 					upper(auto_filename) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 					OR
-					upper(media_label.label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+					upper(media_labels.label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 				)
 			order by auto_filename
 		</cfquery>
