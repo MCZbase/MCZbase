@@ -577,6 +577,8 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
 								<cfelse>
 									<cfset displayImage = media_uri>
+									<cfset hw = 'height="#l_size#px" width="#l_size#px"'>
+									<cfset displayImage = preview_uri>
 								</cfif>
 							</cfif>
 						<cfelse>
