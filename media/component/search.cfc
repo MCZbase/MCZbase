@@ -1085,7 +1085,7 @@ limitations under the License.
 						<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 							<cfset isDisplayable = true>
 						</cfif>
-						<cfif media_type EQ 'image' AND (media.mime_type EQ 'html')>
+						<cfif media_type EQ 'image' AND media.mime_type EQ 'html'>
 							<cfset isDisplayable = true>
 						</cfif>
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
