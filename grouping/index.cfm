@@ -40,7 +40,7 @@ limitations under the License.
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=workflow" class="text-dark">Workflow</a></h3></li>
 					</cfif>
-					<div class="input-group w-auto float-right">
+					<div class="input-group w-auto mb-2 float-right">
 						<div class="form-outline">
 							<input type="search" id="form1" class="data-entry-input" />
 						</div>
