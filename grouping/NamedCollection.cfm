@@ -857,7 +857,7 @@ limitations under the License.
 											<form action="/grouping/NamedCollection.cfm" method="post" id="deleteForm">
 												<input type="hidden" name="action" value="delete">
 												<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
-												<button class="btn btn-xs btn-danger mx-3 py-1" id="deleteButton" aria-label="Delete this named group.">Delete</button>
+												<button class="btn btn-xs btn-danger mx-3 my-2" id="deleteButton" aria-label="Delete this named group.">Delete This Named Group</button>
 												<script>
 													$(document).ready(function() {
 														$('##deleteButton').bind('click', function(evt){
