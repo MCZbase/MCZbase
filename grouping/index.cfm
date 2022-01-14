@@ -20,7 +20,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfoutput>
-<cfif reFindNoCase("Mobi|Android", CGI.HTTP_USER_AGENT) NEQ 0>
+<cfif reFindNoCase("distinct_keyword|android|blackberry|iphone|ipod|mobile|palm|phone|windows", CGI.HTTP_USER_AGENT) NEQ 0>
   <cfset mobileDevice = true>
 <cfelse>
 	<cfset mobileDevice = false>
