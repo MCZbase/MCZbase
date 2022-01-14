@@ -1712,7 +1712,7 @@
 				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
 				allowed_agent_roles = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#allowed_agent_roles#" />
 			WHERE
-				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldunderscore_collection_type#" />
 		</cfquery>
 	<cfelse>
 		<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
