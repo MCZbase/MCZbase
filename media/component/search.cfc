@@ -1026,11 +1026,11 @@ limitations under the License.
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
-							<cfif #l_displayAs# EQ "thumb" OR #l_displayAs# EQ "thumbLg">
+							<cfif #l_displayAs# EQ "thumb">
 								<cfset displayImage = preview_uri>
 								<cfset l_size = "100">
 								<cfset hw = 'width="100%"'>
-							<cfelse>
+							<cfelseif  #l_displayAs# EQ "" or #l_displayAs# EQ "thumbLg">
 								<cfif host EQ "mczbase.mcz.harvard.edu">
 									<cfset sizeType='&width=#l_size#&height=#l_size#'>
 									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
