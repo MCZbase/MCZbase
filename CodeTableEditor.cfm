@@ -1279,6 +1279,83 @@
 				<cfset i=#i#+1>
 			</cfloop>
 		</table>
+	<cfelseif tbl is "ctunderscore_collection_type">
+		<cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT * FROM ctunderscore_collection_type 
+			ORDER BY
+				underscore_collection_type
+		</cfquery>
+		<p>
+			Types of Named Groups of Cataloged Items.
+		</p>
+		Create type of named group
+		<table class="newRec" border>
+			<tr>
+				<th>Type</th>
+				<th>Description</th>
+				<th>Allowed Agent Roles</th>
+				<th></th>
+			</tr>
+			<form name="newType" method="post" action="CodeTableEditor.cfm">
+				<input type="hidden" name="action" value="newValue">
+				<input type="hidden" name="tbl" value="#tbl#">
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<textarea name="description" rows="4" cols="70"></textarea>
+					</td>
+					<td>
+						<input type="text" name="allowed_agent_roles" >
+					</td>
+					<td colspan="3">
+						<input type="submit" 
+							value="Create" 
+							class="insBtn">	
+					</td>
+				</tr>
+			</form>	
+		</table>
+		Edit types of named groups
+		<table border>
+			<tr>
+				<th>Type</th>
+				<th>Description</th>
+				<th>Allowed Agent Roles</th>
+				<th>&nbsp;</th>
+			</tr>
+			<cfset i=1>
+			<cfloop query="thisRec">
+				<form name="type#i#" method="post" action="CodeTableEditor.cfm">
+					<input type="hidden" name="action" value="replacedinbuttonclick">
+					<input type="hidden" name="tbl" value="#tbl#">
+					<input type="hidden" name="oldunderscore_collection_type" value="#underscore_collection_type#">
+					<tr>
+						<td>
+							<input type="text" name="underscore_collection_type" value="#underscore_collection_type#" >
+						</td>
+						<td>
+							<input type="text" name="description" value="#description#" >
+						</td>
+						<td>
+							<input type="text" name="allowed_agent_roles" value="#allowed_agent_roles#" >
+						</td>
+						<td colspan="3">
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="type#i#.action.value='saveEdit';submit();">	
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+							 	onclick="type#i#.action.value='deleteValue';submit();">	
+						</td>
+					</tr>
+				</form>
+				<cfset i=#i#+1>
+			</cfloop>
+		</table>
 	<cfelse><!---------------------------- normal CTs --------------->
 		<cfquery name="getCols" datasource="uam_god">
 			select column_name from sys.user_tab_columns where table_name='#tbl#'
@@ -1486,6 +1563,12 @@
 				partname = '#oldpartname#' AND
 				list_order = '#oldlist_order#'
 		</cfquery>
+	<cfelseif tbl is "ctunderscore_collection_type">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			DELETE FROM ctunderscore_collection_type
+			WHERE
+				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldunderscore_collection_type#">
+		</cfquery>
 	<cfelse>
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			DELETE FROM #tbl# 
@@ -1621,6 +1704,15 @@
 			WHERE
 				partname = '#oldpartname#' AND
 				list_order = '#oldlist_order#'
+		</cfquery>
+	<cfelseif tbl is "ctunderscore_collection_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			UPDATE ctunderscore_collection_type SET 
+				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#" />,
+				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				allowed_agent_roles = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#allowed_agent_roles#" />
+			WHERE
+				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelse>
 		<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1806,6 +1898,19 @@
 			VALUES (
 				'#partname#',
 				#list_order#
+			)
+		</cfquery>
+	<cfelseif tbl is "ctunderscore_collection_type">
+		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO ctunderscore_collection_type (
+				underscore_collection_type,
+				description,
+				allowed_agent_roles
+				)
+			VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#allowed_agent_roles#">
 			)
 		</cfquery>
 	<cfelse>
