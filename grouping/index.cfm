@@ -67,7 +67,7 @@ limitations under the License.
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="350",displayAs="thumb")>
 									<div class="col-12 col-md-3 col-xl-2 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
-									#mediablock# #mobileDevice#
+									#mediablock#
 									</div>
 								<cfelse>
 									<div class="col-12 col-md-3 col-xl-2 py-2 float-left bg-light border rounded">
