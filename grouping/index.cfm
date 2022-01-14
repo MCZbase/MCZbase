@@ -69,7 +69,7 @@ limitations under the License.
 					<cfloop query="types">
 						<li class="my-3">
 							<h3 class="mb-0"><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="text-dark">#types.underscore_collection_type#</a></h3>
-							<p class="small90 text-muted">#types.description#</p>
+							<p class="small90 text-muted w-75 float-right">#types.description#</p>
 						</li>
 					</cfloop>
 					<div class="input-group w-auto float-right">
