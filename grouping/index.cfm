@@ -20,12 +20,6 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfoutput>
-<cfif reFindNoCase("distinct_keyword|android|blackberry|iphone|ipod|mobile|palm|phone", CGI.HTTP_USER_AGENT) NEQ 0>
-  <cfset mobileDevice = true>
-<cfelse>
-	<cfset mobileDevice = false>
-</cfif>
-
 		<cfquery name="groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				collection_name, underscore_collection_id, description, underscore_collection_type,displayed_media_id
@@ -46,10 +40,9 @@ limitations under the License.
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=workflow" class="text-dark">Workflow</a></h3></li>
 					</cfif>
-					<div class="input-group">
+					<div class="input-group w-auto float-right">
 						<div class="form-outline">
 							<input type="search" id="form1" class="data-entry-input" />
-							<label class="form-label" for="form1">Search</label>
 						</div>
 						<button type="button" class="btn btn-xs btn-primary py-1"><i class="fas fa-search"></i></button>
 					</div>
@@ -71,8 +64,6 @@ limitations under the License.
 					<div class="col-12 col-md-9 float-right my-2">
 						<div class="border rounded bg-white py-3 col-12 px-3 float-left">
 							<div class="row mx-0">
-							<cfif #mobileDevice# eq 'true'>
-					
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="350",displayAs="thumb")>
 									<div class="col-12 col-md-3 col-xl-2 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
@@ -85,21 +76,6 @@ limitations under the License.
 										</a>
 									</div>
 								</cfif>
-							</cfif>
-							<cfif #mobileDevice# eq 'false'>
-								<cfif len(images.media_id) gt 0>
-									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="155",displayAs="thumb")>
-									<div class="col-12 col-md-3 col-xl-2 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
-									#mediablock# #mobileDevice#
-									</div>
-								<cfelse>
-									<div class="col-12 col-md-3 col-xl-2 py-2 float-left bg-light border rounded">
-										<a href="" class="d-block my-0 w-100 active text-center">
-											<img src = "/shared/images/Image-x-generic.svg" class="mx-auto w-75">
-										</a>
-									</div>
-								</cfif>
-						</cfif>
 								<div class="col-12 col-md-9 col-xl-10 float-left mt-2">
 									<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#groups.underscore_collection_id#">#groups.collection_name#</a></h3>
 									<p>#groups.description#</p>
