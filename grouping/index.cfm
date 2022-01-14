@@ -32,13 +32,14 @@ limitations under the License.
 		<div class="row mx-0 mb-4">
 			<h1 class="w-100 mt-45 px-2 mt-5 text-center">MCZ Featured Collections of Cataloged Items</h1>
 			
-			<div class="col-12 col-md-12 bg-light border px-0 py-2 mb-3 float-left mt-1">
+			<div class="col-12 col-md-12 bg-light border rounded px-0 py-2 mb-3 float-left mt-1">
 			<div class="col-12 col-md-3 float-left">
 				<ul class="list-unstyled text-right px-3 mb-3 mt-2  bg-light">
-					<li class="my-3"><h3>Collections</h3></li>
-					<li class="my-3"><h3>Expeditions</h3></li>
-					<li class="my-3"><h3>Grants</h3></li>
-					<li class="my-3"><h3>Teaching Collections</h3></li>
+					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=collection" class="text-dark">Collections</a></h3></li>
+					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=expedition" class="text-dark">Expeditions</a></h3></li>
+					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=grant" class="text-dark">Grants</a></h3></li>
+					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=teaching_collection" class="text-dark">Teaching Collections</a></h3></li>
+					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=workflow" class="text-dark">Workflow</a></h3></li>
 					<li class="mt-5"><p class="font-italic text-dark">The Museum of Comparative Zoology at Harvard University and Boston Harbor Islands Partnership have collaborated to conduct an All Taxa Biodiversity Inventory (ATBI) of Boston Harbor Islands National and State Park. The project focuses on the "microwilderness" of the islands, namely, insects and other invertebrates. This extremely diverse group of animals is easily sampled, yet often overlooked. Our goal is to combine scientific research with public education, and to foster an appreciation for the amazing biological diversity that exists within Boston Harbor.</p></li>
 				</ul>
 			</div>
