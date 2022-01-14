@@ -521,10 +521,12 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="200">
 	<cfargument name="displayAs" type="string" required="no" default="full">
+	<cfargument name="sizeTypeSm" type="string" required="no" default="300">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
+	<cfset sizeTypeSm = #arguments.sizeTypeSm#>
 	<cfset l_size = #arguments.size#>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
@@ -566,8 +568,9 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
+							<cfset sizeType=''>
 							<cfif #l_displayAs# EQ "thumb">
-								<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
+								<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeTypeSm#">
 								<cfset hw = 'width="100%"'>
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
