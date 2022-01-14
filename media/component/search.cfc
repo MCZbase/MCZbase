@@ -1085,9 +1085,7 @@ limitations under the License.
 						<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 							<cfset isDisplayable = true>
 						</cfif>
-						<cfif find("slide-atlas",displayImage)>
-							<cfset isDisplayable = true>
-						</cfif>
+
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
