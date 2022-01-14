@@ -1026,7 +1026,7 @@ limitations under the License.
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
-							<cfif #l_displayAs# EQ "thumb">
+							<cfif #l_displayAs# EQ "thumb" OR #l_displayAs# EQ "thumbLg">
 								<cfset displayImage = preview_uri>
 								<cfset l_size = "100">
 								<cfset hw = 'width="100%"'>
