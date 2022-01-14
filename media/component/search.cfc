@@ -1054,13 +1054,13 @@ limitations under the License.
 								<cfset hw = 'height="60%" width="60%"'>
 							<cfelseif media_type is "text">
 								<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
-								<cfset hw = 'height="60%" width="60%"'>
+								<cfset hw = 'height="80%" width="80%"'>
 							<cfelseif media_type is "3D model">
 								<cfset displayImage =  "/shared/images/Airy-3d.svg">
 								<cfset hw = 'height="60%" width="60%"'>
 							<cfelse>
 								<cfset displayImage =  "/shared/images/Image-x-generic.svg">
-								<cfset hw = 'height="60%" width="60%"'>
+								<cfset hw = 'height="80%" width="80%"'>
 								<!---nothing was working for mime type--->
 							</cfif>
 						</cfif>
