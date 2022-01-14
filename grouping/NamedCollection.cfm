@@ -512,10 +512,11 @@ limitations under the License.
 									<div class="col-12 col-md-3">
 										<label for="underscore_collection_type" class="data-entry-label" id="underscore_collection_type_label">Type</label>
 										<select name="underscore_collection_type" id="underscore_collection_type" class="data-entry-select reqdClr" required>
-										<option value="" selected="selected"></option>
-										<cfloop query="ctunderscore_collection_type">
-											<option value="#ctunderscore_collection_type.underscore_collection_type#">#ctunderscore_collection_type.underscore_collection_type#</option>
-										</cfloop>
+											<option value="" selected="selected"></option>
+											<cfloop query="ctunderscore_collection_type">
+												<option value="#ctunderscore_collection_type.underscore_collection_type#">#ctunderscore_collection_type.underscore_collection_type#</option>
+											</cfloop>
+										</select>
 									</div>
 								</div>
 								<div class="form-row mb-2">
