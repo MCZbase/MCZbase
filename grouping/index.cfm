@@ -21,12 +21,44 @@ limitations under the License.
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfoutput>
-		<cfquery name="groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT underscore_collection_type, description 
+			FROM ctunderscore_collection_type
+			WHERE
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+					underscore_collection_type is not null
+				<cfelse>
+					underscore_collection_type <> 'workflow'
+				</cfif>
+		</cfquery>
+		<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
-				collection_name, underscore_collection_id, description, underscore_collection_type,displayed_media_id
+				count(flat.collection_object_id) ct, 
+				underscore_collection.collection_name, 
+				underscore_collection.underscore_collection_id, underscore_collection.mask_fg
+				underscore_collection.description, underscore_collection.underscore_collection_type,
+				underscore_collection.displayed_media_id
 			FROM
 				underscore_collection 
-			ORDER BY collection_name
+				LEFT JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+					on underscore_relation.collection_object_id = flat.collection_object_id
+			WHERE
+				underscore_collection.underscore_collection_id IS NOT NULL
+				<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
+					AND underscore_collection.mask_fg = 0
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+					AND underscore_collection_type is not null
+				<cfelse>
+					AND underscore_collection.underscore_collection_type <> 'workflow'
+				</cfif>
+			GROUP BY
+				underscore_collection.collection_name, 
+				underscore_collection.underscore_collection_id, underscore_collection.mask_fg
+				underscore_collection.description, underscore_collection.underscore_collection_type,
+				underscore_collection.displayed_media_id
+			ORDER BY underscore_collection_type, collection_name
 		</cfquery>
 	<div class="container">
 		<div class="row mx-0 mb-4">
@@ -34,22 +66,26 @@ limitations under the License.
 			<div class="col-12 col-md-12 bg-light border rounded px-0 py-2 mb-3 float-left mt-1">
 			<div class="col-12 col-md-3 float-left">
 				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-2  bg-light">
-					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=collection" class="text-dark">Collections</a></h3></li>
-					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=expedition" class="text-dark">Expeditions</a></h3></li>
-					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=grant" class="text-dark">Grants</a></h3></li>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=workflow" class="text-dark">Workflow</a></h3></li>
-					</cfif>
+					<cfloop query="types">
+						<li class="my-3">
+							<h3><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="text-dark">#types.underscore_collection_types#</a></h3>
+							<p>#types.description#</p>
+						</li>
+					</cfloop>
 					<div class="input-group w-auto float-right">
 						<div class="form-outline">
 							<input type="search" id="form1" class="data-entry-input" />
 						</div>
 						<button type="button" class="btn btn-xs btn-primary py-1"><i class="fas fa-search"></i></button>
 					</div>
-					<li class="mt-5 pt-3"><p class="font-italic text-dark">The Museum of Comparative Zoology at Harvard University and Boston Harbor Islands Partnership have collaborated to conduct an All Taxa Biodiversity Inventory (ATBI) of Boston Harbor Islands National and State Park. The project focuses on the "microwilderness" of the islands, namely, insects and other invertebrates. This extremely diverse group of animals is easily sampled, yet often overlooked. Our goal is to combine scientific research with public education, and to foster an appreciation for the amazing biological diversity that exists within Boston Harbor.</p></li>
+					<li class="mt-5 pt-3">
+						<p class="font-italic text-dark">
+							Placeholder text for something, not clear what....
+						</p>
+					</li>
 				</ul>
 			</div>
-			<cfloop query="groups">
+			<cfloop query="namedGroups">
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						displayed_media_id as media_id
@@ -58,9 +94,9 @@ limitations under the License.
 					INNER JOIN underscore_collection
 						on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 					WHERE rownum = 1 
-					and underscore_relation.underscore_collection_id = #groups.underscore_collection_id#
+					and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
 				</cfquery>
-				<cfif len(#groups.description#)gt 0>
+				<cfif len(#namedGroups.description#)gt 0>
 					<div class="col-12 col-md-9 float-right my-2">
 						<div class="border rounded bg-white py-3 col-12 px-3 float-left">
 							<div class="row mx-0">
@@ -77,9 +113,10 @@ limitations under the License.
 									</div>--->
 								</cfif>
 								<div class="col-12 col-md-9 col-xl-10 float-left mt-2">
-									<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#groups.underscore_collection_id#">#groups.collection_name#</a></h3>
-									<p>#groups.description#</p>
-									<p class="font-italic text-capitalize">Collection Type: #groups.underscore_collection_type#</p>
+									<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
+									<p>#namedGroups.description#</p>
+									<p>Includes #namedGroups.ct# Cataloged Items</p>
+									<p class="font-italic text-capitalize">Collection Type: #namedGroups.underscore_collection_type#</p>
 								</div>
 							</div>
 						</div>
