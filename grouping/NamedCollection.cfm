@@ -862,7 +862,7 @@ limitations under the License.
 													$(document).ready(function() {
 														$('##deleteButton').bind('click', function(evt){
 															evt.preventDefault();
-															confirmDialog('Delete the #collname# collection? ', 'Delete?', function(){ $('##deleteForm').submit(); }); 
+															confirmDialog('Delete the #collname# named group? ', 'Delete?', function(){ $('##deleteForm').submit(); }); 
 														});
 													});
 												</script>
@@ -1197,12 +1197,17 @@ limitations under the License.
 			<cfif not isdefined("underscore_collection_id") OR len(trim(#underscore_collection_id#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value underscore_collection_id">
 			</cfif>
+			<cfquery name="getName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
+					select collection_name from underscore_collection 
+					where
+						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+			</cfquery>
 			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
 					delete from underscore_collection 
 					where
 						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
-			<h1 class="h2">"Collection" successfully deleted.</h1>
+			<h1 class="h2">Named Group "#getName.collection_name#" successfully deleted.</h1>
 			<ul>
 				<li><a href="/grouping/NamedCollection.cfm">Search for Named groups of cataloged items</a>.</li>
 				<li><a href="/grouping/NamedCollection.cfm?action=new">Create a new named group of cataloged items</a>.</li>
