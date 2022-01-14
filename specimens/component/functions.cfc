@@ -15,7 +15,7 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm">
-
+<cfinclude template="/media/component/search.cfc" runOnce="true">
 <!--- updateCondition update the condition on a part identified by the part's collection object id 
  @param part_id the collection_object_id for the part to update
  @param condition the new condition to update the part to 
@@ -119,14 +119,6 @@ limitations under the License.
 															</cfquery>
 															<div class="col-6 float-left p-2">
 																<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-																<script>
-																	function getMediaBlockHtml(media_id) { 
-																	// add trans_agent record
-																	getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb");
-																	// trigger save needed
-																	handleChange();
-																	}
-																	</script>
 																	<cfset mediaBlock= getMediaBlock(media_id)>
 																	<div id="mediaBlock#images.media_id#">
 																		#mediaBlock#
