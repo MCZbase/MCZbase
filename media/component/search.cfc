@@ -1085,7 +1085,7 @@ limitations under the License.
 						<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 							<cfset isDisplayable = true>
 						</cfif>
-						<cfif media_type EQ 'image' AND (media.mime_type EQ 'html')>
+						<cfif media_type EQ 'image' AND media.mime_type EQ 'html'>
 							<cfset isDisplayable = true>
 						</cfif>
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
@@ -1107,22 +1107,16 @@ limitations under the License.
 							<!--- pick placeholder --->
 							<cfif media_type is "image">
 								<cfset displayImage = "/shared/images/Image-x-generic.svg">
-								<cfset hw = 'height="60%" width="60%"'>
 							<cfelseif media_type is "audio">
 								<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
-								<cfset hw = 'height="60%" width="60%"'>
 							<cfelseif media_type IS "video">
 								<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
-								<cfset hw = 'height="60%" width="60%"'>
 							<cfelseif media_type is "text">
 								<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
-								<cfset hw = 'height="60%" width="60%"'>
 							<cfelseif media_type is "3D model">
 								<cfset displayImage =  "/shared/images/Airy-3d.svg">
-								<cfset hw = 'height="60%" width="60%"'>
 							<cfelse>
 								<cfset displayImage =  "/shared/images/Image-x-generic.svg">
-								<cfset hw = 'height="60%" width="60%"'>
 								<!---nothing was working for mime type--->
 							</cfif>
 						</cfif>
@@ -1158,8 +1152,8 @@ limitations under the License.
 										</cfif>
 									</cfif>
 									<cfif #l_displayAs# EQ "thumbLg">
-										<cfif len(showTitleText) GT 100>
-											<cfset showTitleText = "#left(showTitleText,100)#..." >
+										<cfif len(showTitleText) GT 50>
+											<cfset showTitleText = "#left(showTitleText,50)#..." >
 										</cfif>
 									</cfif>
 									<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
