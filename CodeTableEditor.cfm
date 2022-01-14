@@ -1908,7 +1908,7 @@
 				allowed_agent_roles
 				)
 			VALUES (
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#">,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#allowed_agent_roles#">
 			)
