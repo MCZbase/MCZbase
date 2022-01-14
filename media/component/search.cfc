@@ -1026,19 +1026,38 @@ limitations under the License.
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
-							<cfif #l_displayAs# EQ "thumb">
+<!---							<cfif #l_displayAs# EQ "thumb">
 								<cfset displayImage = preview_uri>
 								<cfset l_size = "100">
 								<cfset hw = 'width="100%"'>
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
-								<!---	<cfset hw = 'height="#l_size#px" width="#l_size#px"'>--->
 									<cfset sizeType='&width=#l_size#&height=#l_size#'>
 									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
 								<cfelse>
 									<cfset displayImage = media_uri>
 								</cfif>
+							</cfif>--->
+										
+							<cfif #l_displayAs# NEQ "thumb">
+								<cfif host EQ "mczbase.mcz.harvard.edu">
+									<cfset sizeType='&width=#l_size#&height=#l_size#'>
+									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
+								<cfelse>
+									<cfset displayImage = media_uri>
+								</cfif>
+							<cfelse>	
+								<cfif #l_displayAs# EQ "thumb">
+									<cfset displayImage = preview_uri>
+									<cfset l_size = "100">
+									<cfset hw = 'width="100%"'>
+								<cfelseif #l_displayAs# EQ "thumbSm">
+									<cfset sizeType='&width=#l_size#&height=#l_size#'>
+									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
+								</cfif>
 							</cfif>
+										
+
 						<cfelse>
 							<!--- pick placeholder --->
 							<cfif media_type is "image">
