@@ -34,7 +34,7 @@ limitations under the License.
 			
 			<div class="col-12 col-md-12 bg-light border rounded px-0 py-2 mb-3 float-left mt-1">
 			<div class="col-12 col-md-3 float-left">
-				<ul class="list-unstyled text-right px-3 mb-3 mt-2  bg-light">
+				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-2  bg-light">
 					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=collection" class="text-dark">Collections</a></h3></li>
 					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=expedition" class="text-dark">Expeditions</a></h3></li>
 					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=grant" class="text-dark">Grants</a></h3></li>
