@@ -629,16 +629,16 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 										<cfset showTitleText = "Unlinked Media Object">
 									</cfif>
 									<cfif #l_displayAs# EQ "thumb">
-										<cfif len(showTitleText) GT 27>
-											<cfset showTitleText = "#left(showTitleText,27)#..." >
+										<cfif len(showTitleText) GT 35>
+											<cfset showTitleText = "#left(showTitleText,35)#..." >
 										</cfif>
 									</cfif>
 									<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
-									<cfif len(#license_uri#) gt 0>
+<!---									<cfif len(#license_uri#) gt 0>
 										<p class="text-center col-12 p-0 my-0 smaller">
 											<a href="#license_uri#">#license_display#</a>
 										</p>
-									</cfif>
+									</cfif>--->
 								</div>
 							</div>
 						</div>
