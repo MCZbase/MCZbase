@@ -569,7 +569,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 							
 							<cfif #l_displayAs# EQ "thumb">
 								<cfset sizeTypeSm='&width=#l_size#'>
-								<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeTypeSm#">
+								<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
 								<cfset hw = 'width="100%"'>
 								
 							<cfelse>
