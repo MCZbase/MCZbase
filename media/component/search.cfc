@@ -1100,31 +1100,23 @@ limitations under the License.
 									<cfset sizeType='&width=#l_size#&height=#l_size#'>
 									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
 								<cfelse>
-									<cfset displayImage = preview_uri>
-									<cfset l_size = "100">
-									<cfset hw = 'width="100%"'>
+									<cfset displayImage = media_uri>
 								</cfif>
 							</cfif>
 						<cfelse>
 							<!--- pick placeholder --->
 							<cfif media_type is "image">
 								<cfset displayImage = "/shared/images/Image-x-generic.svg">
-						
 							<cfelseif media_type is "audio">
 								<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
-						
 							<cfelseif media_type IS "video">
 								<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
-					
 							<cfelseif media_type is "text">
 								<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
-							
 							<cfelseif media_type is "3D model">
 								<cfset displayImage =  "/shared/images/Airy-3d.svg">
-						
 							<cfelse>
 								<cfset displayImage =  "/shared/images/Image-x-generic.svg">
-							
 								<!---nothing was working for mime type--->
 							</cfif>
 						</cfif>
