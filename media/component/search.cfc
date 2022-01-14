@@ -1093,8 +1093,8 @@ limitations under the License.
 										</cfif>
 									</cfif>
 									<cfif #l_displayAs# EQ "thumbLg">
-										<cfif len(showTitleText) GT 60>
-											<cfset showTitleText = "#left(showTitleText,60)#..." >
+										<cfif len(showTitleText) GT 100>
+											<cfset showTitleText = "#left(showTitleText,100)#..." >
 										</cfif>
 									</cfif>
 									<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
