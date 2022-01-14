@@ -94,12 +94,14 @@ limitations under the License.
 			GROUP BY
 				underscore_collection.underscore_collection_id,
 				collection_name,
+				underscore_collection_type,
 				description,
 				underscore_agent_id, 
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end,
+				displayed_media_id,
 				mask_fg
 			ORDER BY
 				underscore_collection.collection_name
