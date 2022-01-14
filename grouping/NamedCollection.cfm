@@ -135,6 +135,7 @@ limitations under the License.
 														<option value="#ctunderscore_collection_type.underscore_collection_type#" #sel#>#ctunderscore_collection_type.underscore_collection_type#</option>
 													</cfloop>
 												</select>
+											</div>
 											<div class="col-md-2">
 												<label for="mask_fg" class="data-entry-label">Record Visibility</label>
 												<select name="mask_fg" id="mask_fg" class="data-entry-select">
