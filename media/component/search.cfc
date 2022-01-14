@@ -1104,20 +1104,26 @@ limitations under the License.
 								</cfif>
 							</cfif>
 						<cfelse>
-							<!--- pick placeholder --->
-							<cfif media_type is "image">
-								<cfset displayImage = "/shared/images/Image-x-generic.svg">
-							<cfelseif media_type is "audio">
-								<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
-							<cfelseif media_type IS "video">
-								<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
-							<cfelseif media_type is "text">
-								<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
-							<cfelseif media_type is "3D model">
-								<cfset displayImage =  "/shared/images/Airy-3d.svg">
+							<cfif length(preview_uri) GT 0>
+								<!--- use a preview_uri, if one was specified --->
+								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
+								<cfset displayImage = preview_uri>
 							<cfelse>
-								<cfset displayImage =  "/shared/images/Image-x-generic.svg">
-								<!---nothing was working for mime type--->
+								<!--- pick placeholder --->
+								<cfif media_type is "image">
+									<cfset displayImage = "/shared/images/Image-x-generic.svg">
+								<cfelseif media_type is "audio">
+									<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
+								<cfelseif media_type IS "video">
+									<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
+								<cfelseif media_type is "text">
+									<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
+								<cfelseif media_type is "3D model">
+									<cfset displayImage =  "/shared/images/Airy-3d.svg">
+								<cfelse>
+									<cfset displayImage =  "/shared/images/Image-x-generic.svg">
+									<!---nothing was working for mime type--->
+								</cfif>
 							</cfif>
 						</cfif>
 						<div class="media_widget">	
