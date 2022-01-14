@@ -80,7 +80,7 @@ limitations under the License.
 					</div>
 					<li class="mt-5 pt-3">
 						<p class="font-italic text-dark w-75 mt-3 float-right">
-							Placeholder text for something, not clear what....
+							Placeholder text for something overview of page....
 						</p>
 					</li>
 				</ul>
