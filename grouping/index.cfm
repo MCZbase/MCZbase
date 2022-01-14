@@ -35,13 +35,13 @@ limitations under the License.
 			SELECT
 				count(flat.collection_object_id) ct, 
 				underscore_collection.collection_name, 
-				underscore_collection.underscore_collection_id, underscore_collection.mask_fg
+				underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
 				underscore_collection.description, underscore_collection.underscore_collection_type,
 				underscore_collection.displayed_media_id
 			FROM
 				underscore_collection 
 				LEFT JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+				LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 					on underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE
 				underscore_collection.underscore_collection_id IS NOT NULL
@@ -55,7 +55,7 @@ limitations under the License.
 				</cfif>
 			GROUP BY
 				underscore_collection.collection_name, 
-				underscore_collection.underscore_collection_id, underscore_collection.mask_fg
+				underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
 				underscore_collection.description, underscore_collection.underscore_collection_type,
 				underscore_collection.displayed_media_id
 			ORDER BY underscore_collection_type, collection_name
@@ -68,7 +68,7 @@ limitations under the License.
 				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-2  bg-light">
 					<cfloop query="types">
 						<li class="my-3">
-							<h3><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="text-dark">#types.underscore_collection_types#</a></h3>
+							<h3><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="text-dark">#types.underscore_collection_type#</a></h3>
 							<p>#types.description#</p>
 						</li>
 					</cfloop>
