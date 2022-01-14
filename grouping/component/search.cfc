@@ -20,9 +20,13 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true">
 
-<!---   Function getCollections  --->
+<!---   Function getCollections  
+   Obtain a list of named groups in a form suitable for display in a jqxgrid
+	@return json containing data about named groups matching specified search criteria.
+--->
 <cffunction name="getCollections" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_name" type="string" required="no">
+	<cfargument name="underscore_collection_type" type="string" required="no">
 	<cfargument name="underscore_agent_id" type="string" required="no">
 	<cfargument name="underscore_agent_name" type="string" required="no">
 	<cfargument name="description" type="string" required="no">
@@ -37,6 +41,7 @@ limitations under the License.
 			SELECT count(underscore_relation.collection_object_id) as specimen_count, 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
 				collection_name,
+				underscore_collection_type,
 				description,
 				underscore_agent_id, 
 				case 
@@ -44,6 +49,7 @@ limitations under the License.
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end
 				as agentname,
+				displayed_media_id,
 				decode(mask_fg,1,'Hidden','Public') as visibility
 			FROM underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -57,6 +63,9 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("collection_name") and len(collection_name) gt 0>
 					and collection_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#collection_name#%">
+				</cfif>
+				<cfif isDefined("underscore_collection_type") and len(underscore_collection_type) gt 0>
+					and underscore_collection_type like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">
 				</cfif>
 				<cfif isDefined("description") and len(description) gt 0>
 					and upper(description) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(description)#%">
@@ -85,12 +94,14 @@ limitations under the License.
 			GROUP BY
 				underscore_collection.underscore_collection_id,
 				collection_name,
+				underscore_collection_type,
 				description,
 				underscore_agent_id, 
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end,
+				displayed_media_id,
 				mask_fg
 			ORDER BY
 				underscore_collection.collection_name

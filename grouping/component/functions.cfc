@@ -27,19 +27,22 @@ Update an existing arbitrary collection record (underscore_collection).
 			
 <cffunction name="saveUndColl" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="underscore_collection_type" type="string" required="yes">
 	<cfargument name="collection_name" type="string" required="yes">
 	<cfargument name="description" type="string" required="no">
 	<cfargument name="html_description" type="string" required="no">
 	<cfargument name="underscore_agent_id" type="string" required="no">
+	<cfargument name="displayed_media_id" type="string" required="no">
 	<cfargument name="mask_fg" type="string" required="no">
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfif len(trim(#collection_name#)) EQ 0>
-			<cfthrow type="Application" message="Number Series must contain a value.">
+			<cfthrow type="Application" message="Name of named group must contain a value.">
 		</cfif>
 		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update underscore_collection set
-				collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">
+				collection_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">,
+				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">
 				<cfif isdefined("description")>
 					,description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
 				</cfif>
@@ -47,6 +50,11 @@ Update an existing arbitrary collection record (underscore_collection).
 					,underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
 				<cfelse>
 					,underscore_agent_id = NULL
+				</cfif>
+				<cfif isdefined("displayed_media_id") and len(displayed_media_id) GT 0>
+					,displayed_media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
+				<cfelse>
+					,displayed_media_id = NULL
 				</cfif>
 				<cfif isdefined("mask_fg")>
 					,mask_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
@@ -74,11 +82,11 @@ Update an existing arbitrary collection record (underscore_collection).
 <!---
 Function getUndCollList.  Search for arbitrary collections returning json suitable for a dataadaptor.
 @param collection_name name of the underscore collection (arbitrary grouping) to search for.
-@return a json structure containing matching coll event number series.
+@return a json structure containing matching named groups.
 --->
 <cffunction name="getUndCollList" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_name" type="string" required="yes">
-	<!--- perform wildcard search anywhere in coll_event_collection_name.collection_name --->
+	<!--- perform wildcard search anywhere in underscore_collection.collection_name --->
 	<cfset collection_name = "%#collection_name#%"> 
 
 	<cfset data = ArrayNew(1)>
@@ -88,6 +96,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			SELECT 
 				underscore_collection_id, 
 				collection_name, 
+				underscore_collection_type,
 				description,
 				underscore_agent_id,
 				case 
@@ -95,6 +104,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end
 				as agentname,
+				displayed_media_id,
 				html_description
 			FROM 
 				underscore_collection
@@ -108,6 +118,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
 			<cfset row["coll_event_num_series_id"] = "#search.coll_event_num_series_id#">
 			<cfset row["collection_name"] = "#search.collection_name#">
+			<cfset row["underscore_collection_type"] = "#search.underscore_collection_type#">
 			<cfset row["description"] = "#search.description#">
 			<cfset row["agent_name"] = "#search.agent_name#">
 			<cfset row["id_link"] = "<a href='/grouping/NamedCollection.cfm?method=edit&underscore_collection_id#search.underscore_collection_id#' target='_blank'>#search.collection_name#</a>">
