@@ -994,13 +994,13 @@ limitations under the License.
 				auto_filename
 			from 
 				media
-				left join media_labels on media.media_id = media_labels.media_id
+				-- left join media_labels on media.media_id = media_labels.media_id
 			where 
 				MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				AND (
 					upper(auto_filename) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
-					OR
-					upper(media_labels.label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+					-- OR
+					-- upper(media_labels.label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 				)
 			order by auto_filename
 		</cfquery>
