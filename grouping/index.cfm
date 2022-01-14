@@ -79,7 +79,7 @@ limitations under the License.
 						<button type="button" class="btn btn-xs btn-primary py-1"><i class="fas fa-search"></i></button>
 					</div>
 					<li class="mt-5 pt-3">
-						<p class="font-italic text-dark w-75 float-right">
+						<p class="font-italic text-dark w-75 mt-3 float-right">
 							Placeholder text for something, not clear what....
 						</p>
 					</li>
