@@ -49,9 +49,9 @@ limitations under the License.
 					<div class="input-group">
 						<div class="form-outline">
 							<input type="search" id="form1" class="form-control data-entry-input" />
-							<label class="data-entry-label form-label" for="form1">Search</label>
+							<label class="form-label" for="form1">Search</label>
 						</div>
-						<button type="button" class="btn btn-xs btn-primary">
+						<button type="button" class="btn btn-xs btn-primary py-1">
 							<i class="fas fa-search"></i>
 						</button>
 					</div>
@@ -78,7 +78,7 @@ limitations under the License.
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="350",displayAs="thumb")>
 									<div class="col-12 col-md-3 col-xl-2 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
-									#mediablock#
+									#mediablock# #mobileDevice#
 									</div>
 								<cfelse>
 									<div class="col-12 col-md-3 col-xl-2 py-2 float-left bg-light border rounded">
@@ -87,11 +87,12 @@ limitations under the License.
 										</a>
 									</div>
 								</cfif>
-							<cfelse>
+							</cfif>
+							<cfif #mobileDevice# eq 'false'>
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="155",displayAs="thumb")>
 									<div class="col-12 col-md-3 col-xl-2 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
-									#mediablock#
+									#mediablock# #mobileDevice#
 									</div>
 								<cfelse>
 									<div class="col-12 col-md-3 col-xl-2 py-2 float-left bg-light border rounded">
