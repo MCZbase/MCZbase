@@ -53,6 +53,12 @@ limitations under the License.
 	</cfcase>
 </cfswitch>
 <!---------------------------------------------------------------------------------->
+<!--- code table used across several actions --->
+<cfquery name="ctunderscore_collection_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
+	SELECT underscore_collection_type, description, allowed_agent_roles 
+	FROM ctunderscore_collection_type
+</cfquery>
+<!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="search">
 		<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
@@ -107,10 +113,28 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-md-5">
+											<div class="col-md-3">
 												<label for="description" class="data-entry-label" id="description_label">Overview</label>
 												<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 											</div>
+											<div class="col-md-2">
+												<cfif NOT isDefined("underscore_collection_type")>
+													<cfset underscore_collection_type = "">
+												</cfif>
+												<cfset current_type = "#underscore_collection_type#">
+												<label for="underscore_collection_type" class="data-entry-label" id="underscore_collection_type_label">Type</label>
+												<select name="underscore_collection_type" id="underscore_collection_type" class="data-entry-select">
+													<cfif len(current_type) EQ 0><cfset sel = ""><cfelse><cfset sel='selected="selected"'></cfif>
+													<option value="" #sel#></option>
+													<cfloop query="ctunderscore_collection_type">
+														<cfif current_type EQ ctunderscore_collection_type.underscore_collection_type>
+															<cfset sel='selected="selected"'>
+														<cfelse>
+															<cfset sel = "">
+														</cfif> 
+														<option value="#ctunderscore_collection_type.underscore_collection_type#" #sel#>#ctunderscore_collection_type.underscore_collection_type#</option>
+													</cfloop>
+												</select>
 											<div class="col-md-2">
 												<label for="mask_fg" class="data-entry-label">Record Visibility</label>
 												<select name="mask_fg" id="mask_fg" class="data-entry-select">
@@ -251,6 +275,7 @@ limitations under the License.
 								[
 									{ name: 'UNDERSCORE_COLLECTION_ID', type: 'string' },
 									{ name: 'COLLECTION_NAME', type: 'string' },
+									{ name: 'UNDERSCORE_COLLECTION_TYPE', type: 'string' },
 									{ name: 'VISIBILITY', type: 'string' },
 									{ name: 'DESCRIPTION', type: 'string' },
 									{ name: 'UNDERSCORE_AGENT_ID', type: 'string' },
@@ -310,6 +335,7 @@ limitations under the License.
 									<cfelse>
 										{text: 'ID', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: getColHidProp('UNDERSCORE_COLLECTION_ID', true) },
 									</cfif>
+									{text: 'Type', datafield: 'UNDERSCORE_COLLECTION_TYPE', width: 100, hidable: true, hidden: getColHidProp('UNDERSCORE_COLLECTION_TYPE', false) },
 									{text: 'Visibility', datafield: 'VISIBILITY', width: 100, hidable: true, hidden: getColHidProp('VISIBILITY', true) },
 									{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: getColHidProp('AGENTNAME', false) },
 									{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: getColHidProp('UNDERSCORE_AGENT_ID', true) },
@@ -471,7 +497,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-md-12">
+									<div class="col-12 col-md-9">
 										<label for="description" id="description_label" class="data-entry-label">Overview (<span id="length_description">0 characters, 4000 left</span>)</label>
 										<textarea id="description" name="description" class="data-entry-textarea mt-0"
 												onkeyup="countCharsLeft('description',4000,'length_description');"
@@ -482,6 +508,14 @@ limitations under the License.
 											$('##description').keyup(autogrow);
 										});
 									</script>
+									<div class="col-12 col-md-3">
+										<label for="underscore_collection_type" class="data-entry-label" id="underscore_collection_type_label">Type</label>
+										<select name="underscore_collection_type" id="underscore_collection_type" class="data-entry-select reqdClr" required>
+										<option value="" selected="selected"></option>
+										<cfloop query="ctunderscore_collection_type">
+											<option value="#ctunderscore_collection_type.underscore_collection_type#">#ctunderscore_collection_type.underscore_collection_type#</option>
+										</cfloop>
+									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
@@ -515,6 +549,11 @@ limitations under the License.
 											});
 										</script> 
 									</div>
+									<div class="col-12 col-md-6">
+										<!--- TODO: Media picker --->
+										<label for="displayed_media_id" id="displayed_media_id_label" class="data-entry-label">MediaID of exemplar image</label>
+										<input type="text" id="displayed_media_id" name="displayed_media_id" class="data-entry-input" aria-labelledby="displayed_media_id_label" >
+									</div>
 								</div>
 								<div class="form-row mb-1">
 									<div class="col-12 row mx-0 px-1 my-3">
@@ -544,7 +583,8 @@ limitations under the License.
 			</cfif>
 			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
 				insert into underscore_collection (
-					collection_name
+					collection_name,
+					underscore_collection_type
 					<cfif isdefined("description")>
 						,description
 					</cfif>
@@ -555,7 +595,8 @@ limitations under the License.
 						,underscore_agent_id
 					</cfif>
 				) values (
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">
 					<cfif isdefined("description")>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
 					</cfif>
@@ -564,6 +605,9 @@ limitations under the License.
 					</cfif>
 					<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
+					</cfif>
+					<cfif isdefined("displayed_media_id") and len(displayed_media_id) GT 0 >
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
 					</cfif>
 				)
 			</cfquery>
@@ -633,7 +677,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-12">
+									<div class="col-12 col-md-9">
 										<label for="description" id="description_label" class="data-entry-label">Overview (<span id="length_description"></span>)</label>
 										<textarea id="description" name="description" class="data-entry-textarea mt-0 autogrow"
 												onkeyup="countCharsLeft('description',4000,'length_description');"
@@ -648,6 +692,20 @@ limitations under the License.
 											$('textarea.autogrow').keyup();
 										});
 									</script>
+									<div class="col-12 col-md-3">
+										<cfset current_type = "#underscore_collection_type#">
+										<label for="underscore_collection_type" class="data-entry-label" id="underscore_collection_type_label">Type</label>
+										<select name="underscore_collection_type" id="underscore_collection_type" class="data-entry-select">
+											<cfloop query="ctunderscore_collection_type">
+												<cfif current_type EQ ctunderscore_collection_type.underscore_collection_type>
+													<cfset sel='selected="selected"'>
+												<cfelse>
+													<cfset sel = "">
+												</cfif> 
+												<option value="#ctunderscore_collection_type.underscore_collection_type#" #sel#>#ctunderscore_collection_type.underscore_collection_type#</option>
+											</cfloop>
+										</select>
+									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
@@ -662,7 +720,7 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="form-row mb-0">
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-4">
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Named Group
 											<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 										</label>
@@ -673,39 +731,49 @@ limitations under the License.
 											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
 											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
 										</div>
-										<script>
-												function changed(){
-													$('##saveResultDiv').html('Unsaved changes.');
-													$('##saveResultDiv').addClass('text-danger');
-													$('##saveResultDiv').removeClass('text-success');
-													$('##saveResultDiv').removeClass('text-warning');
-												};
-												$(document).ready(function() {
-													$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', '#underscore_agent_id#'));
-													$('##editUndColl input[type=text]').on("change",changed);
-													$('##editUndColl input[type=checkbox]').on("change",changed);
-													$('##editUndColl select').on("change",changed);
-													$('##editUndColl textarea').on("change",changed);
-													$('##description').on("change",changed);
-												});
-												function updateFromSave() { 
-													$('##headingNameOfCollection').html($('#collection_name#').val());
-												}
-												function saveChanges(){ 
-													var agenttext = $('##underscore_agent_name').val();
-													var agentid = $('##underscore_agent_id').val();
-													if (agenttext.length == 0 || (agentid.length>0 && agenttext.length>0) || (agentid.length == 0 && agenttext == '[No Agent]') ) { 
-														saveEditsFromFormCallback("editUndColl","/grouping/component/functions.cfc","saveResultDiv","saving named group",updateFromSave);
-													} else { 
-														messageDialog('Error saving named group: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
-														$('##saveResultDiv').html('Fix error in Agent field.');
-														$('##saveResultDiv').addClass('text-danger');
-														$('##saveResultDiv').removeClass('text-success');
-														$('##saveResultDiv').removeClass('text-warning');
-													}
-												};
-											</script> 
 									</div>
+									<div class="col-12 col-md-2">
+										<!--- TODO: Media picker --->
+										<label for="displayed_media_id" id="displayed_media_id_label" class="data-entry-label">MediaID of exemplar image</label>
+										<input type="text" id="displayed_media_id" name="displayed_media_id" class="data-entry-input" aria-labelledby="displayed_media_id_label" >
+									</div>
+									<div class="col-12 col-md-6">
+										<!--- TODO: Multiple agents --->
+									</div>
+								</div>
+								<script>
+									function changed(){
+										$('##saveResultDiv').html('Unsaved changes.');
+										$('##saveResultDiv').addClass('text-danger');
+										$('##saveResultDiv').removeClass('text-success');
+										$('##saveResultDiv').removeClass('text-warning');
+									};
+									$(document).ready(function() {
+										$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', '#underscore_agent_id#'));
+										$('##editUndColl input[type=text]').on("change",changed);
+										$('##editUndColl input[type=checkbox]').on("change",changed);
+										$('##editUndColl select').on("change",changed);
+										$('##editUndColl textarea').on("change",changed);
+										$('##description').on("change",changed);
+									});
+									function updateFromSave() { 
+										$('##headingNameOfCollection').html($('#collection_name#').val());
+									}
+									function saveChanges(){ 
+										var agenttext = $('##underscore_agent_name').val();
+										var agentid = $('##underscore_agent_id').val();
+										if (agenttext.length == 0 || (agentid.length>0 && agenttext.length>0) || (agentid.length == 0 && agenttext == '[No Agent]') ) { 
+											saveEditsFromFormCallback("editUndColl","/grouping/component/functions.cfc","saveResultDiv","saving named group",updateFromSave);
+										} else { 
+											messageDialog('Error saving named group: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
+											$('##saveResultDiv').html('Fix error in Agent field.');
+											$('##saveResultDiv').addClass('text-danger');
+											$('##saveResultDiv').removeClass('text-success');
+											$('##saveResultDiv').removeClass('text-warning');
+										}
+									};
+								</script> 
+								<div class="form-row mb-0">
 									<div class="col-12 row mx-0 px-1 mt-3">
 										<input type="button" 
 												value="Save" title="Save" aria-label="Save"
