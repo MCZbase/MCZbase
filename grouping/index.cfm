@@ -42,6 +42,15 @@ limitations under the License.
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=workflow" class="text-dark">Workflow</a></h3></li>
 					</cfif>
+					<div class="input-group">
+						<div class="form-outline">
+							<input type="search" id="form1" class="form-control" />
+							<label class="form-label" for="form1">Search</label>
+						</div>
+						<button type="button" class="btn btn-primary">
+							<i class="fas fa-search"></i>
+						</button>
+					</div>
 					<li class="mt-5"><p class="font-italic text-dark">The Museum of Comparative Zoology at Harvard University and Boston Harbor Islands Partnership have collaborated to conduct an All Taxa Biodiversity Inventory (ATBI) of Boston Harbor Islands National and State Park. The project focuses on the "microwilderness" of the islands, namely, insects and other invertebrates. This extremely diverse group of animals is easily sampled, yet often overlooked. Our goal is to combine scientific research with public education, and to foster an appreciation for the amazing biological diversity that exists within Boston Harbor.</p></li>
 				</ul>
 			</div>
