@@ -519,7 +519,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			
 <cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfargument name="size" type="string" required="no" default="600">
+	<cfargument name="size" type="string" required="no" default="200">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
@@ -570,6 +570,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 								<cfset displayImage = preview_uri>
 								<cfset l_size = "200">
 								<cfset hw = 'width="100%"'>
+								<cfset sizeType = 'width=200'
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
 									<cfset hw = 'height="#l_size#px" width="#l_size#px"'>
