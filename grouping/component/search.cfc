@@ -568,7 +568,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 						<cfif isDisplayable>
 							<cfif #l_displayAs# EQ "thumb">
 								<cfset displayImage = preview_uri>
-								<cfset l_size = "100">
+								<cfset l_size = "200">
 								<cfset hw = 'width="100%"'>
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
