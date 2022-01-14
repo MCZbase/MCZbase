@@ -853,11 +853,11 @@ limitations under the License.
 								<div class="col-12">
 									<div class="mb-5">
 										<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-											<h2 class="h3" id="existingvalues">There are no collection objects in this named group</h2>
+											<h2 class="h3" id="existingvalues">There are no cataloged items in this named group.</h2>
 											<form action="/grouping/NamedCollection.cfm" method="post" id="deleteForm">
 												<input type="hidden" name="action" value="delete">
 												<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
-												<button class="btn btn-xs btn-danger mb-3" id="deleteButton" aria-label="Delete this named group.">Delete</button>
+												<button class="btn btn-xs btn-danger mx-3 py-1" id="deleteButton" aria-label="Delete this named group.">Delete</button>
 												<script>
 													$(document).ready(function() {
 														$('##deleteButton').bind('click', function(evt){
