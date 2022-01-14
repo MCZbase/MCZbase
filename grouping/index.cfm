@@ -22,6 +22,8 @@ limitations under the License.
 <cfoutput>
 <cfif reFindNoCase("Mobi|Android", CGI.HTTP_USER_AGENT) NEQ 0>
   <cfset mobileDevice = true>
+<cfelse>
+	<cfset mobileDevice = false>
 </cfif>
 
 		<cfquery name="groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -71,7 +73,7 @@ limitations under the License.
 					<div class="col-12 col-md-9 float-right my-2">
 						<div class="border rounded bg-white py-3 col-12 px-3 float-left">
 							<div class="row mx-0">
-							<cfif mobileDevice = 'true'>
+							<cfif #mobileDevice# eq 'true'>
 					
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="350",displayAs="thumb")>
