@@ -38,7 +38,6 @@ limitations under the License.
 					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=collection" class="text-dark">Collections</a></h3></li>
 					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=expedition" class="text-dark">Expeditions</a></h3></li>
 					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=grant" class="text-dark">Grants</a></h3></li>
-					<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=teaching_collection" class="text-dark">Teaching Collections</a></h3></li>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 						<li class="my-3"><h3><a href="/grouping/index.cfm?underscore_collection_type=workflow" class="text-dark">Workflow</a></h3></li>
 					</cfif>
