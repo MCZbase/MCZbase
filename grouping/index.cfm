@@ -72,7 +72,7 @@ limitations under the License.
 							<p class="small90 text-muted w-75 float-right">#types.description#</p>
 						</li>
 					</cfloop>
-					<div class="input-group w-auto float-right">
+					<div class="input-group w-auto float-right mt-2">
 						<div class="form-outline">
 							<input type="search" id="form1" class="data-entry-input" />
 						</div>
