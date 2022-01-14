@@ -819,6 +819,7 @@ limitations under the License.
 											success : function (data) {
 												$('##addResultDiv').html("Added " + data[0].added);
 												$("##catalogedItemsGrid").jqxGrid("updateBoundData");
+												$('##deleteSection').hide();
 											},
 											error: function(jqXHR,textStatus,error){
 												$('##addResultDiv').html("Error.");
@@ -846,6 +847,34 @@ limitations under the License.
 						FROM underscore_relation 
 						where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					</cfquery>
+					<cfif undCollRelationsSum.ct EQ 0>
+						<section class="container-fluid" id="deleteSection">
+							<div class="row mx-0">
+								<div class="col-12">
+									<div class="mb-5">
+										<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+											<h2 class="h3" id="existingvalues">There are no collection objects in this named group</h2>
+											<form action="/grouping/NamedCollection.cfm" method="post" id="deleteForm">
+												<input type="hidden" name="action" value="delete">
+												<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
+												<button class="btn btn-xs btn-danger mb-3" id="deleteButton" aria-label="Delete this named group.">Delete</button>
+												<script>
+													$(document).ready(function() {
+														$('##deleteButton').bind('click', function(evt){
+															evt.preventDefault();
+															confirmDialog('Delete the #collname# collection? ', 'Delete?', function(){ $('##deleteForm').submit(); }); 
+														});
+													});
+												</script>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+					<cfelse>
+						<div id="deleteSection" style="display: none;"></div>
+					</cfif>
 					<section class="container-fluid">
 						<div class="row mx-0">
 							<div class="col-12">
