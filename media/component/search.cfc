@@ -1087,7 +1087,7 @@ limitations under the License.
 									<cfif len(showTitleText) EQ 0>
 										<cfset showTitleText = "Unlinked Media Object">
 									</cfif>
-									<cfif #l_displayAs# EQ "thumb">
+									<cfif #l_displayAs# EQ "thumb" OR #l_displayAs# EQ "thumbSm">
 										<cfif len(showTitleText) GT 30>
 											<cfset showTitleText = "#left(showTitleText,30)#..." >
 										</cfif>
