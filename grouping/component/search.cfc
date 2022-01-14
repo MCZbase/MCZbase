@@ -41,6 +41,7 @@ limitations under the License.
 			SELECT count(underscore_relation.collection_object_id) as specimen_count, 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
 				collection_name,
+				underscore_collection_type,
 				description,
 				underscore_agent_id, 
 				case 
@@ -48,6 +49,7 @@ limitations under the License.
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end
 				as agentname,
+				displayed_media_id,
 				decode(mask_fg,1,'Hidden','Public') as visibility
 			FROM underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
