@@ -596,6 +596,9 @@ limitations under the License.
 					<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
 						,underscore_agent_id
 					</cfif>
+					<cfif isdefined("displayed_media_id") and len(displayed_media_id) GT 0 >
+						,displayed_media_id
+					</cfif>
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">
