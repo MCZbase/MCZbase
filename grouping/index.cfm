@@ -68,7 +68,7 @@ limitations under the License.
 				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-2  bg-light">
 					<cfloop query="types">
 						<li class="my-3">
-							<h3><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="text-dark">#types.underscore_collection_types#</a></h3>
+							<h3><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="text-dark">#types.underscore_collection_type#</a></h3>
 							<p>#types.description#</p>
 						</li>
 					</cfloop>
