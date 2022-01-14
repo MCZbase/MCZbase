@@ -60,17 +60,17 @@ limitations under the License.
 							<div class="row mx-0">
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="large")>
-									<div class="col-2 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
+									<div class="col-2 col-md-3 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
 									#mediablock#
 									</div>
 								<cfelse>
-									<div class="col-2 py-2 float-left bg-light border rounded">
+									<div class="col-2 col-md-3 py-2 float-left bg-light border rounded">
 										<a href="" class="d-block my-0 w-100 active text-center">
 											<img src = "/shared/images/Image-x-generic.svg" class="mx-auto w-75">
 										</a>
 									</div>
 								</cfif>
-								<div class="col-10 float-left mt-2">
+								<div class="col-10 col-md-9 float-left mt-2">
 									<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#groups.underscore_collection_id#">#groups.collection_name#</a></h3>
 									<p>#groups.description#</p>
 									<p><i>Collection Type: #groups.underscore_collection_type#</i></p>
