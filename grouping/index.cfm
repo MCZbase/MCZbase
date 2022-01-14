@@ -60,6 +60,8 @@ limitations under the License.
 					<div class="col-12 col-md-9 float-right my-2">
 						<div class="border rounded bg-white py-3 col-12 px-3 float-left">
 							<div class="row mx-0">
+							<cfif refindNoCase ( 'android|blackberry|iphone|ipod|mobile|palm|phone|windows\s+ce', CGI.HTTP_USER_AGENT)>
+
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="350",displayAs="thumb")>
 									<div class="col-12 col-md-3 col-xl-2 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
@@ -72,6 +74,20 @@ limitations under the License.
 										</a>
 									</div>
 								</cfif>
+							<cfelse>
+								<cfif len(images.media_id) gt 0>
+									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="150",displayAs="thumb")>
+									<div class="col-12 col-md-3 col-xl-2 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
+									#mediablock#
+									</div>
+								<cfelse>
+									<div class="col-12 col-md-3 col-xl-2 py-2 float-left bg-light border rounded">
+										<a href="" class="d-block my-0 w-100 active text-center">
+											<img src = "/shared/images/Image-x-generic.svg" class="mx-auto w-75">
+										</a>
+									</div>
+								</cfif>
+						</cfif>
 								<div class="col-12 col-md-9 col-xl-10 float-left mt-2">
 									<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#groups.underscore_collection_id#">#groups.collection_name#</a></h3>
 									<p>#groups.description#</p>
