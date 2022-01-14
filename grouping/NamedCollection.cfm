@@ -1207,11 +1207,13 @@ limitations under the License.
 					where
 						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
-			<h1 class="h2">Named Group "#getName.collection_name#" successfully deleted.</h1>
-			<ul>
-				<li><a href="/grouping/NamedCollection.cfm">Search for Named groups of cataloged items</a>.</li>
-				<li><a href="/grouping/NamedCollection.cfm?action=new">Create a new named group of cataloged items</a>.</li>
-			</ul>
+			<cfoutput>
+				<h1 class="h2">Named Group "#getName.collection_name#" successfully deleted.</h1>
+				<ul>
+					<li><a href="/grouping/NamedCollection.cfm">Search for Named groups of cataloged items</a>.</li>
+					<li><a href="/grouping/NamedCollection.cfm?action=new">Create a new named group of cataloged items</a>.</li>
+				</ul>
+			</cfoutput>
 		<cfcatch>
 			<cfthrow type="Application" message="Error deleting Named Group: #cfcatch.Message# #cfcatch.Detail#">
 		</cfcatch>
