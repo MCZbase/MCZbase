@@ -977,6 +977,68 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- function getMediaAutocomplete backing for a media lookup autocomplete returns metadata 
+  and a media_id 
+  @param term search term value for finding media records.
+  @return json structure containing id, value, and meta suitable for use with an autocomplete.
+--->
+<cffunction name="getMediaAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select 
+				media_id,
+				auto_filename
+			from 
+				media
+			where 
+				MCZBASE.is_media_encumbered(media.media_id)  < 1 
+				AND (
+					upper(auto_filename) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+					OR
+					upper(description) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				)
+			order by auto_filename
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.media_id#">
+			<cfset row["value"] = "#search.media_id#" >
+			<cfset row["meta"] = "#search.media_id# #search.auto_filename#" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- function getMediaBlockHtml safely (with use of is_media_encumbered) display an html block
+ serving as an arbitrary media display widget on any MCZbase page in a conistent manner.
+ Appropriately handles media objects of all types, displaying appropriate metadata and thumbnail
+ or larger image for the requested context.
+
+ WARNING: Do not make copies of this function and use elsewhere, include this function 
+
+ @param media_id the media_id of the media record to display a media widget for.
+ @param size the size, an integer for pixel size of the image tag to include in the widget, image tags are
+   always square, with the image fitted into this square preserving its aspect ratio within this 
+   square, so size specifies both the height and width of the img tag in the returned html block,
+   default is 600.
+ @param displayAs the mode in which to display this media block, default is full.
+---> 
 <cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
