@@ -84,7 +84,7 @@ limitations under the License.
 								</cfif>
 							<cfelse>
 								<cfif len(images.media_id) gt 0>
-									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="150",displayAs="thumb")>
+									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="155",displayAs="thumb")>
 									<div class="col-12 col-md-3 col-xl-2 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
 									#mediablock#
 									</div>
