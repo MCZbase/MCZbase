@@ -79,7 +79,7 @@ limitations under the License.
 								<div class="col-12 col-md-9 col-xl-10 float-left mt-2">
 									<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#groups.underscore_collection_id#">#groups.collection_name#</a></h3>
 									<p>#groups.description#</p>
-									<p><i>Collection Type: #groups.underscore_collection_type#</i></p>
+									<p class="font-italic text-capitalize">Collection Type: #groups.underscore_collection_type#</p>
 								</div>
 							</div>
 						</div>
