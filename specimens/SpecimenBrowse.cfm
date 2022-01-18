@@ -203,13 +203,33 @@ limitations under the License.
 </style>
 <cfoutput>
 	<main class="container-fluid">
-		<a name="top" id="top" class="hidden"></a>
+		<a name="top" id="top" class="hidden">Top</a>
 		<div class="row">
 			<nav class="col-3">
-				<a href="##section1" class="cbp-fbcurrent">Primary Types</a>
-				<a href="##section2">MCZ Featured Collections of Cataloged Items</a>
-				<a href="##section3">Browse by Higher Geography</a>
-				<a href="##section4">Browse by Higher Taxonomy</a>
+				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-0 bg-light">
+					<li class="my-3">
+						<h2 class="h3 mb-0 w-75 float-right"><a href="##section1" class="cbp-fbcurrent">Primary Types</a></h2>
+						<p class="small90 text-muted w-75 float-right">description</p>
+					</li>
+					<li class="my-3">
+						<h2 class="h3 mb-0 w-75 float-right"><a href="##section2">MCZ Featured Collections of Cataloged Items</a></h2>
+						<p class="small90 text-muted w-75 float-right">description</p>
+					</li>
+					<li class="my-3">
+						<h2 class="h3 mb-0 w-75 float-right"><a href="##section3">Browse by Higher Geography</a></h2>
+						<p class="small90 text-muted w-75 float-right">description</p>
+					</li>
+					<li class="my-3">
+						<h2 class="h3 mb-0 w-75 float-right"><a href="##section4">Browse by Higher Taxonomy</a></h2>
+						<p class="small90 text-muted w-75 float-right">description</p>
+					</li>
+					<div class="input-group w-auto float-right mt-2">
+						<div class="form-outline">
+							<input type="search" id="form1" class="data-entry-input py-1" />
+						</div>
+						<button type="button" class="btn btn-xs btn-primary py-1"><i class="fas fa-search"></i></button>
+					</div>
+				</ul>
 			</nav>
 			<div class="col-9 mt-2">
 				<h1 class="text-center mt-3">Browse Specimens by Category</h1>
