@@ -132,8 +132,8 @@ limitations under the License.
 	<main class="container-fluid">
 		<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 	
-		<div class="row mx-0 bg-light border rounded">
-			<nav class="col-3 my-2">
+		<div class="row mx-0 bg-white">
+			<nav class="col-3 mb-2">
 				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-4 bg-light">
 					<li class="my-3">
 						<h2 class="h3 mb-0 w-75 float-right"><a href="##section1" class="text-dark cbp-current">Primary Types</a></h2>
