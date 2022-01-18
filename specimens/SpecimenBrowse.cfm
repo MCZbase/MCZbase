@@ -239,7 +239,7 @@ limitations under the License.
 					<ul class="d-flex flex-wrap px-2">
 						
 						<cfloop query="primaryTypes">
-							<cfset typeStatusColor = "text-white">
+							<cfset #typeStatusColor# = "">
 							<cfif #primaryTypes.toptypestatus# eq "Holotype">
 								<cfset #typeStatusColor# eq "text-danger">
 							<cfelseif #primaryTypes.toptypestatus# eq "Syntype">
