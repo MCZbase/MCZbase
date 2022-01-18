@@ -1130,7 +1130,7 @@ limitations under the License.
 								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 							</a>
 							<cfif #l_displayAs# EQ "thumbTiny">
-								<p>?</p>
+						
 							<cfelse>
 							<div class="mt-0 col-12 pb-1 px-0">
 								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
