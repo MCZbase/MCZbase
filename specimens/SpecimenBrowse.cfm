@@ -160,7 +160,7 @@ limitations under the License.
 				</ul>
 			</nav>
 			<div class="col-9 my-2 px-0 my-0 border rounded">
-				<section class="col-12 py-2" id="section1">
+				<section class="col-12 pt-2 pb-3" id="section1">
 					<h2 class="h3 px-2">Primary Types</h2>
 					<div class="col-12 px-0 pt-2 bg-white border rounded">
 						<ul class="d-flex flex-wrap px-1">
