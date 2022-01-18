@@ -1099,7 +1099,6 @@ limitations under the License.
 									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
 								<cfelse>
 									<cfset displayImage = media_uri>
-									<cfset hw = 'width="auto" height="100"'>
 								</cfif>
 							</cfif>
 						<cfelse>
@@ -1107,6 +1106,7 @@ limitations under the License.
 								<!--- use a preview_uri, if one was specified --->
 								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
 								<cfset displayImage = preview_uri>
+								<cfset hw = 'width="auto" height="100"'>
 							<cfelse>
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
