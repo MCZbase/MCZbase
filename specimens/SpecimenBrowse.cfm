@@ -164,16 +164,16 @@ limitations under the License.
 							and underscore_relation.underscore_collection_id = #namedGroups2.underscore_collection_id#
 						</cfquery>
 						<cfif len(#namedGroups2.description#)gt 0>
-							<div class="col-12 col-md-9 float-right my-2">
+							<div class="col-12 col-md-4 float-right my-2">
 								<div class="border rounded bg-white py-3 col-12 px-3 float-left">
 									<div class="row mx-0">
 										<cfif len(images.media_id) gt 0>
 											<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="75",displayAs="thumbTiny")>
-											<div class="col-12 col-md-3 col-xl-2 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
+											<div class="col-1 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
 											#mediablock#
 											</div>
 										</cfif>
-										<div class="col-12 col-md-9 col-xl-10 float-left mt-2">
+										<div class="col-11 float-left mt-2">
 											<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups2.underscore_collection_id#">#namedGroups2.collection_name#</a></h3>
 											<p>#namedGroups2.description#</p>
 											<p>Includes #namedGroups2.ct# Cataloged Items</p>
