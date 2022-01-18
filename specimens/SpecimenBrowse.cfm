@@ -133,14 +133,14 @@ limitations under the License.
 				<h1 class="text-center mt-3">Browse Specimens by Category</h1>
 				<section class="col-12 px-0 mt-3">
 					<h2 class="h3 px-3">Primary Types</h2>
-					<ul class="d-flex flex-wrap px-3">
+					<ul class="d-flex flex-wrap px-2">
 						<cfloop query="primaryTypes">
 							<li class="list-group-item col-2"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
 						</cfloop>
 					</ul>
 				</section>
 				<section class="col-12 mt-3">
-					<h2 class="h3 px-0">MCZ Featured Collections of Cataloged Items</h2>
+					<h2 class="h3 px-3">MCZ Featured Collections of Cataloged Items</h2>
 					<ul class="d-flex flex-wrap px-0">
 						<cfloop query="namedGroups2">
 							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -190,7 +190,7 @@ limitations under the License.
 				</section>
 				<section class="col-12 px-0 mt-3">
 					<h2 class="h3 px-3">Browse by higher taxonomy</h2>
-					<ul class="d-flex flex-wrap">
+					<ul class="d-flex px-2 flex-wrap">
 						<cfloop query="phyla">
 							<li class="list-group-item"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
 						</cfloop>
