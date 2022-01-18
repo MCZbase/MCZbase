@@ -238,9 +238,10 @@ limitations under the License.
 </style>
 <cfoutput>
 	<h1 class="text-center mt-3 mb-3">Browse Specimens by Category</h1>
-		<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+		
 	<main class="container-fluid">
-		<a name="top" id="top" class="hidden">Top</a>
+		<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+	
 		<div class="row mx-0 bg-light border rounded">
 			<nav class="col-3 my-2">
 				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-4 bg-light">
