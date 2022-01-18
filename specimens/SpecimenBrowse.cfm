@@ -178,6 +178,7 @@ limitations under the License.
 	height: 24px;
 	border-radius: 50%;
 	border: 4px solid ##fff;
+	bottom:20px;
 }
 
 .cbp-scroller > nav a:hover:after {
