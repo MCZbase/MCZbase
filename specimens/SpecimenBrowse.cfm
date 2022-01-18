@@ -126,12 +126,93 @@ limitations under the License.
 <cfelse>
 	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
 </cfif>
+<style>
+/* Set all parents to full height */
+html, body, 
+.container,
+.cbp-scroller,
+.cbp-scroller section { 
+	height: 100%; 
+}
+
+/* The nav is fixed on the right side  and we center it by translating it 50% 
+(we don't know it's height so we can't use the negative margin trick) */
+.cbp-scroller > nav {
+	position: fixed;
+	z-index: 9999;
+	right: 100px;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.cbp-scroller > nav a {
+	display: block;
+	position: relative;
+	color: transparent;
+	height: 50px;
+}
+
+.cbp-scroller > nav a:after {
+	content: '';
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	border: 4px solid #fff;
+}
+
+.cbp-scroller > nav a:hover:after {
+	background: rgba(255,255,255,0.6);
+}
+
+.cbp-fbscroller > nav a.cbp-fbcurrent:after {
+	background: #fff;
+}
+
+/* background-attachment does the trick */
+.cbp-scroller section {
+	position: relative;
+	background-position: top center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+#section1 {
+	background-image: url(../images/1.jpg);
+	background-color: yellow;
+}
+
+#section2 {
+	background-image: url(../images/2.jpg);
+	background-color: green;
+}
+
+#section3 {
+	background-image: url(../images/3.jpg);
+	background-color: red;
+}
+
+#section4 {
+	background-image: url(../images/4.jpg);
+	background-color: blue;
+}
+</style>
 <cfoutput>
 	<main class="container-fluid">
 		<div class="row">
-			<div class="col-12 mt-2">
+			<nav class="col-3">
+				<a href="#section1" class="cbp-fbcurrent">Primary Types</a>
+				<a href="#section2">MCZ Featured Collections of Cataloged Items</a>
+				<a href="#section3">Browse by Higher Geography</a>
+				<a href="#section4">Browse by Higher Taxonomy</a>
+			</nav>
+			<div class="col-9 mt-2">
 				<h1 class="text-center mt-3">Browse Specimens by Category</h1>
-				<section class="col-12 mt-3">
+				<section class="col-12 mt-3" id="section1">
 					<h2 class="h3 px-3">Primary Types</h2>
 					<ul class="d-flex flex-wrap px-2">
 						<cfloop query="primaryTypes">
@@ -139,7 +220,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</section>
-				<section class="col-12 mt-3">
+				<section class="col-12 mt-3" id="section2">
 					<h2 class="h3 px-3">MCZ Featured Collections of Cataloged Items</h2>
 					<ul class="d-flex flex-wrap px-2">
 						<cfloop query="namedGroups2">
@@ -177,7 +258,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</section>
-				<section class="col-12 mt-3">
+				<section class="col-12 mt-3" id="section3">
 					<h2 class="h3 px-3">Browse by higher geography</h2>
 					<ul class="d-flex px-2 flex-wrap">
 						<cfloop query="countries">
@@ -188,7 +269,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</section>
-				<section class="col-12 mt-3">
+				<section class="col-12 mt-3" id="section4">
 					<h2 class="h3 px-3">Browse by higher taxonomy</h2>
 					<ul class="d-flex px-2 flex-wrap">
 						<cfloop query="phyla">
