@@ -90,18 +90,16 @@ limitations under the License.
 	<main class="container">
 		<div class="row">
 			<div class="col-12 mt-3">
-				<div class="row">
-					<div class="col-4">
 				<h1 class="h2">Primary Types</h1>
 				<ul class="list-group list-group-horizontal">
 					<cfloop query="primaryTypes">
 						<li class="list-group-item"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
 					</cfloop>
 				</ul>
-				</div>
-					<div class="col-8">
+			</div>
+			<div class="col-12>">
 				<h1 class="h2">MCZ Featured Collections of Cataloged Items</h1>
-				<ul>
+				<ul class="list-group-horizontal list-group">
 					<cfloop query="namedGroups">
 						<cfset mask="">
 						<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") GT 0>
@@ -109,38 +107,34 @@ limitations under the License.
 								<cfset mask=" [Hidden]">
 							</cfif>
 						</cfif>
-						<li><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#">#collection_name#</a> (#ct#)#mask#</li>
+						<li class="list-group-item"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#">#collection_name#</a> (#ct#)#mask#</li>
 					</cfloop>
 				</ul>
 			</div>
-				</div>
-				<div class="row">
 			<div class="col-12 col-md-6">
 				<h1 class="h2">Browse by higher geography</h1>
-				<ul>
+				<ul class="list-group list-group-horizontal">
 					<cfloop query="countries">
-						<li><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
+						<li class="list-group-item"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
 					</cfloop>
 					<cfloop query="notcountries">
-						<li><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
+						<li class="list-group-item"><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
 					</cfloop>
 				</ul>
 			</div>
 			<div class="col-12 col-md-6">
 				<h1 class="h2">Browse by higher taxonomy</h1>
-				<ul>
+				<ul class="list-group">
 					<cfloop query="phyla">
-						<li><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
+						<li class="list-group-item"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
 					</cfloop>
 					<cfloop query="notphyla">
-						<li><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
+						<li class="list-group-item"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
 					</cfloop>
 					<cfloop query="notkingdoms">
-						<li><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
+						<li class="list-group-item"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
 					</cfloop>
 				</ul>
-			</div>
-		</div>
 			</div>
 		</div>
 	</main>
