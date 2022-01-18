@@ -130,17 +130,17 @@ limitations under the License.
 	<main class="container-fluid">
 		<div class="row">
 			<div class="col-12 mt-2">
-				<h1>Browse Specimens by Category</h1>
-				<Section class="col-12 px-0 mt-3">
-					<h2 class="h2 px-3">Primary Types</h2>
+				<h1 class="text-center mt-3">Browse Specimens by Category</h1>
+				<section class="col-12 px-0 mt-3">
+					<h2 class="h3 px-3">Primary Types</h2>
 					<ul class="d-flex flex-wrap">
 						<cfloop query="primaryTypes">
-							<li class="list-group-item"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
+							<li class="list-group-item col-5 px-1"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
 						</cfloop>
 					</ul>
 				</section>
 				<section class="col-12 px-0 mt-3">
-					<h2 class="h2 px-3">MCZ Featured Collections of Cataloged Items</h2>
+					<h2 class="h3 px-3">MCZ Featured Collections of Cataloged Items</h2>
 					<ul class="d-flex flex-wrap">
 	<!---					<cfloop query="namedGroups">
 							<cfset mask="">
@@ -190,7 +190,7 @@ limitations under the License.
 					</ul>
 				</section>
 				<section class="col-12 px-0 mt-3">
-					<h2 class="h2 px-3">Browse by higher geography</h2>
+					<h2 class="h3 px-3">Browse by higher geography</h2>
 					<ul class="d-flex flex-wrap">
 						<cfloop query="countries">
 							<li class="list-group-item"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
@@ -201,7 +201,7 @@ limitations under the License.
 					</ul>
 				</section>
 				<section class="col-12 px-0 mt-3">
-					<h2 class="h2 px-3">Browse by higher taxonomy</h2>
+					<h2 class="h3 px-3">Browse by higher taxonomy</h2>
 					<ul class="d-flex flex-wrap">
 						<cfloop query="phyla">
 							<li class="list-group-item"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
