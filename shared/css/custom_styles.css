@@ -2300,25 +2300,25 @@ div.vslider-item[aria-hidden="true"]{
 #section1 {
 	background-color: #f1f3f3;
 	padding-top: .5rem;
-	padding-bottom: 1rem;
+	padding-bottom: 1.5rem;
 	border-radius: .2rem;
 }
 #section2 {
 	background-color: aliceblue;
 	padding-top: .5rem;
-	padding-bottom: 1rem; 
+	padding-bottom: 1.5rem; 
 	border-radius: .2rem;
 }
 #section3 {
 	background-color: #f1f3f3;
 	padding-top: .5rem;
-	padding-bottom: 1rem; 
+	padding-bottom: 1.5rem; 
 	border-radius: .2rem;
 }
 #section4 {
 	background-color: aliceblue;
 	padding-top: .5rem;
-	padding-bottom: 1rem; 
+	padding-bottom: 1.5rem; 
 	border-radius: .2rem;
 }
 #myBtn {
