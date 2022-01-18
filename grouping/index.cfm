@@ -115,7 +115,7 @@ limitations under the License.
 								<div class="col-12 col-md-9 col-xl-10 float-left mt-2">
 									<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
 								<!---	<p>#namedGroups.description#</p>--->
-									<cfif len(namedGroups.description) GT 150>
+									<cfif len(media_id) GT 1>
 											<cfset description = "#left(namedGroups.description,150)#..." >
 										</cfif>
 									<p>Includes #namedGroups.ct# Cataloged Items</p>
