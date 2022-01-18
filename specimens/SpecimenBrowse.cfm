@@ -134,6 +134,10 @@ limitations under the License.
 .cbp-scroller section { 
 	height: 100%; 
 }
+	
+.secondary-blue {
+	color: #007bff40;
+}
 
 /* The nav is fixed on the right side  and we center it by translating it 50% 
 (we don't know it's height so we can't use the negative margin trick) */
