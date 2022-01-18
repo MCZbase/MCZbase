@@ -237,14 +237,14 @@ limitations under the License.
 				<section class="col-12 mt-2" id="section1">
 					<h2 class="h3 px-3">Primary Types</h2>
 					<ul class="d-flex flex-wrap px-2">
-						<cfset typeStatusColor = "">
+						<cfset typeStatusColor = "text-white">
 						<cfloop query="primaryTypes">
 							<cfif #primaryTypes.toptypestatus# eq "Holotype">
-								<cfset typeStatusColor eq "text-danger">
+								<cfset #typeStatusColor# eq "text-danger">
 							<cfelseif #primaryTypes.toptypestatus# eq "Syntype">
-								<cfset typeStatusColor eq "text-info">
+								<cfset #typeStatusColor# eq "text-info">
 							<cfelse>
-								<cfset typeStatusColor eq "text-white">
+								<cfset #typeStatusColor# eq "text-white">
 							</cfif>
 							#toptypestatus#
 							<li class="list-group-item col-2"><i class="fa fa-square #typeStatusColor#" aria-hidden="true"></i> <a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)</li>
