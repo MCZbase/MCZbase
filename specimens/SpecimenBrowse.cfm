@@ -147,6 +147,9 @@ limitations under the License.
 .redder {
 	color: #b22719;
 }
+.orange {
+	color: #d0887d;
+}
 
 /* The nav is fixed on the right side  and we center it by translating it 50% 
 (we don't know it's height so we can't use the negative margin trick) */
@@ -258,6 +261,8 @@ limitations under the License.
 									<cfset typeStatusColor = "secondary-red">
 								<cfelseif #toptypestatus# eq "Holotype">
 									<cfset typeStatusColor = "darker-red">
+								<cfelseif #toptypestatus# eq "Syntype">
+									<cfset typeStatusColor = "orange">
 								<cfelseif #toptypestatus# eq "Lectotype">
 									<cfset typeStatusColor = "darker-pink">
 								<cfelse>
