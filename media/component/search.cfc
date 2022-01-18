@@ -1109,7 +1109,7 @@ limitations under the License.
 									<cfif #l_displayAs# eq "thumbTiny">
 										<cfset hw = 'width="100" height="auto"'>
 									<cfelse>
-										<cfset hw = 'width="auto" height="100"'>
+										<cfset hw = 'width="100" height="100"'>
 									</cfif>
 							<cfelse>
 								<!--- pick placeholder --->
