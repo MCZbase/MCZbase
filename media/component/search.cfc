@@ -1106,7 +1106,7 @@ limitations under the License.
 								<!--- use a preview_uri, if one was specified --->
 								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
 								<cfset displayImage = preview_uri>
-									<cfif ## eq "thumbTiny">
+									<cfif #l_displayAs# eq "thumbTiny">
 										<cfset hw = 'width="100" height="auto"'>
 									<cfelse>
 										<cfset hw = 'width="auto" height="100"'>
