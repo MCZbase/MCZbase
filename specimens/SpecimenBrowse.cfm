@@ -206,21 +206,21 @@ limitations under the License.
 		<a name="top" id="top" class="hidden">Top</a>
 		<div class="row">
 			<nav class="col-3">
-				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-0 bg-light">
+				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-4 bg-light">
 					<li class="my-3">
-						<h2 class="h3 mb-0 w-75 float-right"><a href="##section1" class="cbp-fbcurrent">Primary Types</a></h2>
+						<h2 class="h3 mb-0 w-75 float-right"><a href="##section1" class="text-dark cbp-current">Primary Types</a></h2>
 						<p class="small90 text-muted w-75 float-right">description</p>
 					</li>
 					<li class="my-3">
-						<h2 class="h3 mb-0 w-75 float-right"><a href="##section2">MCZ Featured Collections of Cataloged Items</a></h2>
+						<h2 class="h3 mb-0 w-75 float-right"><a href="##section2" class="text-dark">MCZ Featured Collections of Cataloged Items</a></h2>
 						<p class="small90 text-muted w-75 float-right">description</p>
 					</li>
 					<li class="my-3">
-						<h2 class="h3 mb-0 w-75 float-right"><a href="##section3">Browse by Higher Geography</a></h2>
+						<h2 class="h3 mb-0 w-75 float-right"><a href="##section3" class="text-dark">Browse by Higher Geography</a></h2>
 						<p class="small90 text-muted w-75 float-right">description</p>
 					</li>
 					<li class="my-3">
-						<h2 class="h3 mb-0 w-75 float-right"><a href="##section4">Browse by Higher Taxonomy</a></h2>
+						<h2 class="h3 mb-0 w-75 float-right"><a href="##section4" class="text-dark">Browse by Higher Taxonomy</a></h2>
 						<p class="small90 text-muted w-75 float-right">description</p>
 					</li>
 					<div class="input-group w-auto float-right mt-2">
