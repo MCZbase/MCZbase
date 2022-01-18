@@ -238,9 +238,10 @@ limitations under the License.
 					<h2 class="h3 px-2">Primary Types</h2>
 					<ul class="d-flex flex-wrap px-1">
 						<cfloop query="primaryTypes">
+							<cfset #typeStatusColor# ="">
 							<cfset toptypestatus = "#toptypestatus#">
 							<cfif #toptypestatus# eq "Neotype">
-								<cfset typeStatusColor eq "text-danger">
+								<cfset #typeStatusColor# eq "text-danger">
 							<cfelseif #toptypestatus# eq "Syntype">
 								<cfset typeStatusColor eq "text-info">
 							<cfelse>
