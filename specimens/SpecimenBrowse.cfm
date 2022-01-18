@@ -126,16 +126,13 @@ limitations under the License.
 <cfelse>
 	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
 </cfif>
-<style>
-
-</style>
 <cfoutput>
 	<h1 class="text-center mt-3 mb-3">Browse Specimens by Category</h1>
 		
 	<main class="container-fluid">
 		<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 	
-		<div class="row mx-0 bg-light">
+		<div class="row mx-0 bg-light border rounded">
 			<nav class="col-3 my-2">
 				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-4 bg-light">
 					<li class="my-3">
@@ -162,8 +159,8 @@ limitations under the License.
 					</div>
 				</ul>
 			</nav>
-			<div class="col-9 my-2">
-				<section class="col-12 mt-2" id="section1">
+			<div class="col-9 my-2 px-0 my-0">
+				<section class="col-12 pt-2" id="section1">
 					<h2 class="h3 px-2">Primary Types</h2>
 					<div class="col-12 px-0 pt-2 bg-white border rounded">
 						<ul class="d-flex flex-wrap px-1">
