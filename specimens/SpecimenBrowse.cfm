@@ -239,7 +239,7 @@ limitations under the License.
 					<ul class="d-flex flex-wrap px-2">
 				
 						<cfloop query="primaryTypes">
-							<cfset #typeStatusColor# = "text-danger">
+							<cfset #typeStatusColor# = text-danger>
 							<cfif #toptypestatus# eq "Neotype">
 								<cfset #typeStatusColor# = text-danger>
 							<cfelseif #toptypestatus# eq "Syntype">
