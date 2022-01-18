@@ -131,7 +131,7 @@ limitations under the License.
 		<div class="row">
 			<div class="col-12 mt-2">
 			<div class="col-12 px-0 mt-3">
-				<h2 class="h2">Primary Types</h2>
+				<h2 class="h2 px-3">Primary Types</h2>
 				<ul class="d-flex flex-wrap">
 					<cfloop query="primaryTypes">
 						<li class="list-group-item"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
@@ -139,7 +139,7 @@ limitations under the License.
 				</ul>
 			</div>
 			<div class="col-12 px-0 mt-3">
-				<h2 class="h2">MCZ Featured Collections of Cataloged Items</h2>
+				<h2 class="h2 px-3">MCZ Featured Collections of Cataloged Items</h2>
 				<ul class="d-flex flex-wrap">
 <!---					<cfloop query="namedGroups">
 						<cfset mask="">
@@ -161,7 +161,7 @@ limitations under the License.
 							INNER JOIN underscore_collection
 								on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 							WHERE rownum = 1 
-							and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
+							and underscore_relation.underscore_collection_id = #namedGroups2.underscore_collection_id#
 						</cfquery>
 						<cfif len(#namedGroups2.description#)gt 0>
 							<div class="col-12 col-md-9 float-right my-2">
@@ -193,7 +193,7 @@ limitations under the License.
 				</ul>
 			</div>
 			<div class="col-12 px-0 mt-3">
-				<h2 class="h2">Browse by higher geography</h2>
+				<h2 class="h2 px-3">Browse by higher geography</h2>
 				<ul class="d-flex flex-wrap">
 					<cfloop query="countries">
 						<li class="list-group-item"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
@@ -204,7 +204,7 @@ limitations under the License.
 				</ul>
 			</div>
 			<div class="col-12 px-0 mt-3">
-				<h2 class="h2">Browse by higher taxonomy</h2>
+				<h2 class="h2 px-3">Browse by higher taxonomy</h2>
 				<ul class="d-flex flex-wrap">
 					<cfloop query="phyla">
 						<li class="list-group-item"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
