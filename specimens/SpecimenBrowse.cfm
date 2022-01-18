@@ -251,8 +251,8 @@ limitations under the License.
 					</ul>
 				</section>
 				<section class="col-12 mt-3" id="section2">
-					<h2 class="h3 px-3">MCZ Featured Collections of Cataloged Items</h2>
-					<ul class="d-flex flex-wrap px-2">
+					<h2 class="h3 px-2">MCZ Featured Collections of Cataloged Items</h2>
+					<ul class="d-flex flex-wrap px-1">
 						<cfloop query="namedGroups2">
 							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
@@ -290,8 +290,8 @@ limitations under the License.
 						<a href="##top" class="px-2">top</a>
 				</section>
 				<section class="col-12 mt-3" id="section3">
-					<h2 class="h3 px-3">Browse by higher geography</h2>
-					<ul class="d-flex px-2 flex-wrap">
+					<h2 class="h3 px-2">Browse by higher geography</h2>
+					<ul class="d-flex px-1 flex-wrap">
 						<cfloop query="countries">
 							<li class="list-group-item col-2"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
 						</cfloop>
