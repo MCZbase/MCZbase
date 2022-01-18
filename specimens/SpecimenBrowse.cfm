@@ -289,7 +289,7 @@ limitations under the License.
 							</cfquery>
 							<cfif len(#namedGroups2.description#)gt 0>
 								<div class="col-12 col-md-3 px-1 float-right my-1">
-									<div class="border rounded bg-white py-2 col-12 px-2 float-left">
+									<div class="border rounded bg-white mt-1 pb-2 col-12 px-2 float-left">
 										<div class="row mx-0">
 											<cfif len(images.media_id) gt 0>
 												<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
