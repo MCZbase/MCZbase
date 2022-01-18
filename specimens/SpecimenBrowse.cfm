@@ -130,90 +130,91 @@ limitations under the License.
 	<main class="container-fluid">
 		<div class="row">
 			<div class="col-12 mt-2">
-			<div class="col-12 px-0 mt-3">
-				<h2 class="h2 px-3">Primary Types</h2>
-				<ul class="d-flex flex-wrap">
-					<cfloop query="primaryTypes">
-						<li class="list-group-item"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
-					</cfloop>
-				</ul>
-			</div>
-			<div class="col-12 px-0 mt-3">
-				<h2 class="h2 px-3">MCZ Featured Collections of Cataloged Items</h2>
-				<ul class="d-flex flex-wrap">
-<!---					<cfloop query="namedGroups">
-						<cfset mask="">
-						<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") GT 0>
-							<cfif namedGroups.mask_fg EQ 1>
-								<cfset mask=" [Hidden]">
+				<h1>Browse Specimens by Category</h1>
+				<Section class="col-12 px-0 mt-3">
+					<h2 class="h2 px-3">Primary Types</h2>
+					<ul class="d-flex flex-wrap">
+						<cfloop query="primaryTypes">
+							<li class="list-group-item"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
+						</cfloop>
+					</ul>
+				</section>
+				<section class="col-12 px-0 mt-3">
+					<h2 class="h2 px-3">MCZ Featured Collections of Cataloged Items</h2>
+					<ul class="d-flex flex-wrap">
+	<!---					<cfloop query="namedGroups">
+							<cfset mask="">
+							<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") GT 0>
+								<cfif namedGroups.mask_fg EQ 1>
+									<cfset mask=" [Hidden]">
+								</cfif>
 							</cfif>
-						</cfif>
-						<li class="list-group-item">
-							<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#">#collection_name#</a> (#ct#)#mask#</li>
-					</cfloop>--->
-							
-					<cfloop query="namedGroups2">
-						<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT
-								displayed_media_id as media_id
-							FROM
-								underscore_relation 
-							INNER JOIN underscore_collection
-								on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-							WHERE rownum = 1 
-							and underscore_relation.underscore_collection_id = #namedGroups2.underscore_collection_id#
-						</cfquery>
-						<cfif len(#namedGroups2.description#)gt 0>
-							<div class="col-12 col-md-3 px-1 float-right my-2">
-								<div class="border rounded bg-white py-2 col-12 px-1 float-left">
-									<div class="row mx-0">
-										<cfif len(images.media_id) gt 0>
-											<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="96",displayAs="thumbTiny")>
-												<div class="px-1 float-left py-2 bg-light border rounded" style="width: 105px;" id="mediaBlock#images.media_id#">
-													#mediablock#
-												</div>
-										</cfif>
-										<div class="col float-left mt-2">
-											<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups2.underscore_collection_id#">#namedGroups2.collection_name#</a></h3>
-											<p><cfif len(description) GT 50>
-											<cfset description = "#left(description,50)#..." >
-										</cfif></p>
-											<p>Includes #namedGroups2.ct# Cataloged Items</p>
-											<p class="font-italic text-capitalize">Collection Type: #namedGroups2.underscore_collection_type#</p>
+							<li class="list-group-item">
+								<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#">#collection_name#</a> (#ct#)#mask#</li>
+						</cfloop>--->
+
+						<cfloop query="namedGroups2">
+							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									displayed_media_id as media_id
+								FROM
+									underscore_relation 
+								INNER JOIN underscore_collection
+									on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+								WHERE rownum = 1 
+								and underscore_relation.underscore_collection_id = #namedGroups2.underscore_collection_id#
+							</cfquery>
+							<cfif len(#namedGroups2.description#)gt 0>
+								<div class="col-12 col-md-3 px-1 float-right my-2">
+									<div class="border rounded bg-white py-2 col-12 px-1 float-left">
+										<div class="row mx-0">
+											<cfif len(images.media_id) gt 0>
+												<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="96",displayAs="thumbTiny")>
+													<div class="px-1 float-left py-2 bg-light border rounded" style="width: 105px;" id="mediaBlock#images.media_id#">
+														#mediablock#
+													</div>
+											</cfif>
+											<div class="col float-left mt-2">
+												<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups2.underscore_collection_id#">#namedGroups2.collection_name#</a></h3>
+												<p><cfif len(description) GT 50>
+												<cfset description = "#left(description,50)#..." >
+											</cfif></p>
+												<p>Includes #namedGroups2.ct# Cataloged Items</p>
+												<p class="font-italic text-capitalize">Collection Type: #namedGroups2.underscore_collection_type#</p>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</cfif>
-					</cfloop>
-				</ul>
+							</cfif>
+						</cfloop>
+					</ul>
+				</section>
+				<section class="col-12 px-0 mt-3">
+					<h2 class="h2 px-3">Browse by higher geography</h2>
+					<ul class="d-flex flex-wrap">
+						<cfloop query="countries">
+							<li class="list-group-item"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
+						</cfloop>
+						<cfloop query="notcountries">
+							<li class="list-group-item"><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
+						</cfloop>
+					</ul>
+				</section>
+				<section class="col-12 px-0 mt-3">
+					<h2 class="h2 px-3">Browse by higher taxonomy</h2>
+					<ul class="d-flex flex-wrap">
+						<cfloop query="phyla">
+							<li class="list-group-item"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
+						</cfloop>
+						<cfloop query="notphyla">
+							<li class="list-group-item"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
+						</cfloop>
+						<cfloop query="notkingdoms">
+							<li class="list-group-item"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
+						</cfloop>
+					</ul>
+				</section>
 			</div>
-			<div class="col-12 px-0 mt-3">
-				<h2 class="h2 px-3">Browse by higher geography</h2>
-				<ul class="d-flex flex-wrap">
-					<cfloop query="countries">
-						<li class="list-group-item"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
-					</cfloop>
-					<cfloop query="notcountries">
-						<li class="list-group-item"><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
-					</cfloop>
-				</ul>
-			</div>
-			<div class="col-12 px-0 mt-3">
-				<h2 class="h2 px-3">Browse by higher taxonomy</h2>
-				<ul class="d-flex flex-wrap">
-					<cfloop query="phyla">
-						<li class="list-group-item"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
-					</cfloop>
-					<cfloop query="notphyla">
-						<li class="list-group-item"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
-					</cfloop>
-					<cfloop query="notkingdoms">
-						<li class="list-group-item"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
-					</cfloop>
-				</ul>
-			</div>
-		</div>
 		</div>
 	</main>
 </cfoutput>
