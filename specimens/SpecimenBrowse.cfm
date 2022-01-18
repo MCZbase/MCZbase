@@ -203,6 +203,7 @@ limitations under the License.
 </style>
 <cfoutput>
 	<main class="container-fluid">
+		<a name="top" id="top" class="hidden"></a>
 		<div class="row">
 			<nav class="col-3">
 				<a href="##section1" class="cbp-fbcurrent">Primary Types</a>
@@ -257,6 +258,7 @@ limitations under the License.
 							</cfif>
 						</cfloop>
 					</ul>
+						<a href="##top">top</a>
 				</section>
 				<section class="col-12 mt-3" id="section3">
 					<h2 class="h3 px-3">Browse by higher geography</h2>
