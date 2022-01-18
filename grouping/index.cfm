@@ -68,7 +68,7 @@ limitations under the License.
 				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-0 bg-light">
 					<cfloop query="types">
 						<li class="my-3">
-							<h3 class="mb-0 w-75 float-right"><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="text-dark">#types.underscore_collection_type#</a></h3>
+							<h2 class="h3 mb-0 w-75 float-right"><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="text-dark">#types.underscore_collection_type#</a></h2>
 							<p class="small90 text-muted w-75 float-right">#types.description#</p>
 						</li>
 					</cfloop>
@@ -98,7 +98,7 @@ limitations under the License.
 				</cfquery>
 				<cfif len(#namedGroups.description#)gt 0>
 					<div class="col-12 col-md-3 float-right my-2">
-						<div class="border rounded bg-white py-2 col-12 px-2 float-left">
+						<div class="border rounded bg-white py-2 col-12 px-2 float-right">
 							<div class="row mx-0">
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
@@ -113,10 +113,10 @@ limitations under the License.
 									</div>--->
 								</cfif>
 								<div class="col float-left mt-2">
-									<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
+									<h3 class="h4"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
 								<!---	<p>#namedGroups.description#</p>--->
-									<p>Includes #namedGroups.ct# Cataloged Items</p>
-									<p class="font-italic text-capitalize mb-0">Collection Type: #namedGroups.underscore_collection_type#</p>
+									<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
+									<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
 								</div>
 							</div>
 						</div>
