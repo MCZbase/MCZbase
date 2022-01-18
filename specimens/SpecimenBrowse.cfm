@@ -205,7 +205,7 @@ limitations under the License.
 	<main class="container-fluid">
 		<h1 class="text-center mt-5 mb-3">Browse Specimens by Category</h1>
 		<a name="top" id="top" class="hidden">Top</a>
-		<div class="row">
+		<div class="row mx-0">
 			<div class="col-12 bg-light border rounded">
 				<nav class="col-3 my-2">
 				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-4 bg-light">
