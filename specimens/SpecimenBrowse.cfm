@@ -221,14 +221,14 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</section>
-				<section class="col-12 mt-3" id="section3">
+				<section class="col-12 pt-2" id="section3">
 					<h2 class="h3 px-2">Browse by higher geography</h2>
 					<ul class="d-flex px-1 flex-wrap">
 						<cfloop query="countries">
-							<li class="list-group-item col-2"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
+							<li class="list-group-item col-2 px-1"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
 						</cfloop>
 						<cfloop query="notcountries">
-							<li class="list-group-item col-2"><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
+							<li class="list-group-item col-2 px-1"><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
 						</cfloop>
 					</ul>
 				</section>
