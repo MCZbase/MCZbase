@@ -240,7 +240,7 @@ limitations under the License.
 			
 				<section class="col-12 mt-2" id="section1">
 					<h2 class="h3 px-2">Primary Types</h2>
-					<ul class="d-flex flex-wrap px-1">
+					<ul class="d-flex flex-wrap px-1 bg-white border rounded">
 						<cfloop query="primaryTypes">
 							<cfset typeStatusColor ="">
 							<cfset toptypestatus = "#toptypestatus#">
