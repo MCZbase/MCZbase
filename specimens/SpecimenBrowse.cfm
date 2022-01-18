@@ -240,20 +240,22 @@ limitations under the License.
 			
 				<section class="col-12 mt-2" id="section1">
 					<h2 class="h3 px-2">Primary Types</h2>
-					<ul class="d-flex flex-wrap px-1 bg-white border rounded">
-						<cfloop query="primaryTypes">
-							<cfset typeStatusColor ="">
-							<cfset toptypestatus = "#toptypestatus#">
-							<cfif #toptypestatus# eq "Neotype" OR #toptypestatus# eq "Holotype">
-								<cfset typeStatusColor = "text-danger">
-							<cfelseif #toptypestatus# eq "Syntype">
-								<cfset typeStatusColor = "secondary-blue">
-							<cfelse>
-								<cfset #typeStatusColor# eq "text-white">
-							</cfif>
-							<li class="list-group-item col-2"><i class="fa fa-square #typeStatusColor#" aria-hidden="true"></i> <a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)</li>
-						</cfloop>
-					</ul>
+					<div class="col-12 bg-white border rounded">
+						<ul class="d-flex flex-wrap px-1">
+							<cfloop query="primaryTypes">
+								<cfset typeStatusColor ="">
+								<cfset toptypestatus = "#toptypestatus#">
+								<cfif #toptypestatus# eq "Neotype" OR #toptypestatus# eq "Holotype">
+									<cfset typeStatusColor = "text-danger">
+								<cfelseif #toptypestatus# eq "Syntype">
+									<cfset typeStatusColor = "secondary-blue">
+								<cfelse>
+									<cfset #typeStatusColor# eq "text-white">
+								</cfif>
+								<li class="list-group-item col-2"><i class="fa fa-square #typeStatusColor#" aria-hidden="true"></i> <a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)</li>
+							</cfloop>
+						</ul>
+					</div>
 				</section>
 				<section class="col-12 mt-3" id="section2">
 					<h2 class="h3 px-2">MCZ Featured Collections of Cataloged Items</h2>
