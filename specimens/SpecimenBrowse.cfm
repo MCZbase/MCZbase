@@ -256,7 +256,7 @@ limitations under the License.
 								<cfset toptypestatus = "#toptypestatus#">
 								<cfif #toptypestatus# eq "Neotype">
 									<cfset typeStatusColor = "secondary-red">
-								<cfif #toptypestatus# eq "Holotype">
+								<cfelseif #toptypestatus# eq "Holotype">
 									<cfset typeStatusColor = "darker-red">
 								<cfelseif #toptypestatus# eq "Lectotype">
 									<cfset typeStatusColor = "darker-pink">
