@@ -161,7 +161,7 @@ html, body,
 	width: 24px;
 	height: 24px;
 	border-radius: 50%;
-	border: 4px solid #fff;
+	border: 4px solid ##fff;
 }
 
 .cbp-scroller > nav a:hover:after {
@@ -169,7 +169,7 @@ html, body,
 }
 
 .cbp-fbscroller > nav a.cbp-fbcurrent:after {
-	background: #fff;
+	background: ##fff;
 }
 
 /* background-attachment does the trick */
@@ -181,22 +181,22 @@ html, body,
 	background-attachment: fixed;
 }
 
-#section1 {
+##section1 {
 	background-image: url(../images/1.jpg);
 	background-color: yellow;
 }
 
-#section2 {
+##section2 {
 	background-image: url(../images/2.jpg);
 	background-color: green;
 }
 
-#section3 {
+##section3 {
 	background-image: url(../images/3.jpg);
 	background-color: red;
 }
 
-#section4 {
+##section4 {
 	background-image: url(../images/4.jpg);
 	background-color: blue;
 }
@@ -205,10 +205,10 @@ html, body,
 	<main class="container-fluid">
 		<div class="row">
 			<nav class="col-3">
-				<a href="#section1" class="cbp-fbcurrent">Primary Types</a>
-				<a href="#section2">MCZ Featured Collections of Cataloged Items</a>
-				<a href="#section3">Browse by Higher Geography</a>
-				<a href="#section4">Browse by Higher Taxonomy</a>
+				<a href="##section1" class="cbp-fbcurrent">Primary Types</a>
+				<a href="##section2">MCZ Featured Collections of Cataloged Items</a>
+				<a href="##section3">Browse by Higher Geography</a>
+				<a href="##section4">Browse by Higher Taxonomy</a>
 			</nav>
 			<div class="col-9 mt-2">
 				<h1 class="text-center mt-3">Browse Specimens by Category</h1>
