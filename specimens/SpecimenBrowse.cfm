@@ -90,17 +90,17 @@ limitations under the License.
 	<main class="container-fluid">
 		<div class="row">
 			<div class="col-12 mt-2">
-			<div class="col-12 mt-3">
+			<div class="col-12 px-0 mt-3">
 				<h2 class="h2">Primary Types</h2>
-				<ul class="list-group list-group-horizontal">
+				<ul class="d-flex flex-wrap">
 					<cfloop query="primaryTypes">
 						<li class="list-group-item"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
 					</cfloop>
 				</ul>
 			</div>
-			<div class="col-12">
+			<div class="col-12 px-0 mt-3">
 				<h2 class="h2">MCZ Featured Collections of Cataloged Items</h2>
-				<ul class="list-group-horizontal list-group">
+				<ul class="d-flex flex-wrap">
 					<cfloop query="namedGroups">
 						<cfset mask="">
 						<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") GT 0>
@@ -112,9 +112,9 @@ limitations under the License.
 					</cfloop>
 				</ul>
 			</div>
-			<div class="col-12">
+			<div class="col-12 px-0 mt-3">
 				<h2 class="h2">Browse by higher geography</h2>
-				<ul class="list-group list-group-horizontal">
+				<ul class="d-flex flex-wrap">
 					<cfloop query="countries">
 						<li class="list-group-item"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
 					</cfloop>
@@ -123,9 +123,9 @@ limitations under the License.
 					</cfloop>
 				</ul>
 			</div>
-			<div class="col-12">
+			<div class="col-12 px-0 mt-3">
 				<h2 class="h2">Browse by higher taxonomy</h2>
-				<ul class="list-group list-group-horizontal">
+				<ul class="d-flex flex-wrap">
 					<cfloop query="phyla">
 						<li class="list-group-item"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
 					</cfloop>
