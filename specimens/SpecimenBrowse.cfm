@@ -131,7 +131,7 @@ limitations under the License.
 		<div class="row">
 			<div class="col-12 mt-2">
 				<h1 class="text-center mt-3">Browse Specimens by Category</h1>
-				<section class="col-12 px-0 mt-3">
+				<section class="col-12 mt-3">
 					<h2 class="h3 px-3">Primary Types</h2>
 					<ul class="d-flex flex-wrap px-2">
 						<cfloop query="primaryTypes">
