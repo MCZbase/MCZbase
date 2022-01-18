@@ -274,7 +274,7 @@ limitations under the License.
 					</div>
 				</section>
 				<section class="col-12 px-1 mt-3" id="section2">
-					<h2 class="h3 px-2">MCZ Featured Collections of Cataloged Items</h2>
+					<h2 class="h3 px-3">MCZ Featured Collections of Cataloged Items</h2>
 					<ul class="d-flex flex-wrap px-1">
 						<cfloop query="namedGroups2">
 							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
