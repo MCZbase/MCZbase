@@ -158,7 +158,7 @@ limitations under the License.
 									<div class="border rounded bg-white py-2 col-12 px-1 float-left">
 										<div class="row mx-0">
 											<cfif len(images.media_id) gt 0>
-												<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="96",displayAs="thumbTiny")>
+												<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
 													<div class="px-1 float-left py-2 bg-light border rounded" style="width: 105px;" id="mediaBlock#images.media_id#">
 														#mediablock#
 													</div>
