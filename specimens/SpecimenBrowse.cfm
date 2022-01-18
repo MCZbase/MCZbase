@@ -235,7 +235,7 @@ limitations under the License.
 				<h1 class="text-center mt-3">Browse Specimens by Category</h1>
 				<section class="col-12 mt-2" id="section1">
 					<h2 class="h3 px-3">Primary Types</h2>
-					<cfset typeStatus ="">
+					<cfset toptypestatus eq "">
 					<cfif #toptypestatus# eq "Holotype">
 						<cfset typeStatus eq "text-danger">
 					<cfelseif #toptypestatus# eq "Syntype">
