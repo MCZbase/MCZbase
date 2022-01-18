@@ -99,7 +99,7 @@ limitations under the License.
 				<cfif len(#namedGroups.description#)gt 0>
 					<div class="col-12 col-md-3 float-right px-1 my-2">
 						<div class="border rounded bg-white py-2 col-12 px-2 float-right">
-							<div class="row h-100 mx-0">
+							<div class="row h-25 mx-0">
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
 									<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
