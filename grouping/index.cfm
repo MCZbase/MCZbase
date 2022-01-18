@@ -36,7 +36,7 @@ limitations under the License.
 <cfoutput>
 	<main class="container">
 		<div class="row">
-			<div class="col-12 col-md-6">
+			<div class="col-12 col-md-6 mt-4">
 				<h1 class="h2">MCZ Featured Collections of Cataloged Items</h1>
 				<ul>
 					<cfloop query="namedGroups">
