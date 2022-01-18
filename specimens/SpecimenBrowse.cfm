@@ -177,7 +177,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</section>
-				<section class="col-12 px-0 mt-3">
+				<section class="col-12 mt-3">
 					<h2 class="h3 px-3">Browse by higher geography</h2>
 					<ul class="d-flex px-1 flex-wrap">
 						<cfloop query="countries">
@@ -188,7 +188,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</section>
-				<section class="col-12 px-0 mt-3">
+				<section class="col-12 mt-3">
 					<h2 class="h3 px-3">Browse by higher taxonomy</h2>
 					<ul class="d-flex px-2 flex-wrap">
 						<cfloop query="phyla">
