@@ -184,7 +184,7 @@ limitations under the License.
 							<li class="list-group-item col-2"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
 						</cfloop>
 						<cfloop query="notcountries">
-							<li class="list-group-item"><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
+							<li class="list-group-item col-2"><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
 						</cfloop>
 					</ul>
 				</section>
