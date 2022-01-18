@@ -112,7 +112,7 @@ limitations under the License.
 										</a>
 									</div>--->
 								</cfif>
-								<div class="col-12 col-md-9 col-xl-10 float-left mt-2">
+								<div class="col float-left mt-2">
 									<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
 								<!---	<p>#namedGroups.description#</p>--->
 									<p>Includes #namedGroups.ct# Cataloged Items</p>
