@@ -203,9 +203,9 @@ limitations under the License.
 </style>
 <cfoutput>
 	<h1 class="text-center mt-5 mb-3">Browse Specimens by Category</h1>
-	<main class="container-fluid bg-light px-2 border rounded">
+	<main class="container-fluid">
 		<a name="top" id="top" class="hidden">Top</a>
-		<div class="row">
+		<div class="row bg-light border rounded">
 			<nav class="col-3 my-2">
 				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-4 bg-light">
 					<li class="my-3">
