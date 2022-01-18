@@ -127,111 +127,7 @@ limitations under the License.
 	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
 </cfif>
 <style>
-/* Set all parents to full height */
-.container-fluid, 
-.container,
-.cbp-scroller,
-.cbp-scroller section { 
-/*	height: 100%; */
-}
-	
-.secondary-red {
-	color: #dc4c35;
-}
-.darker-red {
-	color: #b22719;
-}
-.darker-pink {
-	color: #d64c59;
-}
-.redder {
-	color: #b22719;
-}
-.orange {
-	color: #d0887d;
-}
 
-/* The nav is fixed on the right side  and we center it by translating it 50% 
-(we don't know it's height so we can't use the negative margin trick) */
-.cbp-scroller > nav {
-	position: fixed;
-	z-index: 9999;
-	right: 100px;
-	top: 50%;
-	-webkit-transform: translateY(-50%);
-	-moz-transform: translateY(-50%);
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
-}
-
-.cbp-scroller > nav a {
-	display: block;
-	position: relative;
-	color: transparent;
-	height: 50px;
-}
-
-.cbp-scroller > nav a:after {
-	content: '';
-	position: absolute;
-	width: 24px;
-	height: 24px;
-	border-radius: 50%;
-	border: 4px solid ##fff;
-	bottom:20px;
-}
-
-.cbp-scroller > nav a:hover:after {
-	background: rgba(255,255,255,0.6);
-}
-
-.cbp-scroller > nav a.cbp-current:after {
-	background: ##fff;
-}
-
-/* background-attachment does the trick */
-.cbp-scroller section {
-	position: relative;
-	background-position: top center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-attachment: fixed;
-}
-
-##section1 {
-	background-color: yellow;
-}
-
-##section2 {
-	background-color: green;
-}
-
-##section3 {
-	background-color: red;
-}
-
-##section4 {
-	background-color: blue;
-}
-##myBtn {
-  display: none;
-  position: fixed;
-  bottom: 20px;
-  right: 30px;
-  z-index: 99;
-  font-size: 18px;
-  border: none;
-  outline: none;
-  background-color: red;
-  color: white;
-  cursor: pointer;
-  padding: 15px;
-  border-radius: 4px;
-}
-
-##myBtn:hover {
-  background-color: ##555;
-}
 </style>
 <cfoutput>
 	<h1 class="text-center mt-3 mb-3">Browse Specimens by Category</h1>
@@ -239,7 +135,7 @@ limitations under the License.
 	<main class="container-fluid">
 		<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 	
-		<div class="row mx-0 bg-light border rounded">
+		<div class="row mx-0 bg-light">
 			<nav class="col-3 my-2">
 				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-4 bg-light">
 					<li class="my-3">
