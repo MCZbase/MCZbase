@@ -136,7 +136,7 @@ limitations under the License.
 }
 	
 .secondary-blue {
-	color: #007bff40;
+	color: #007bff60;
 }
 
 /* The nav is fixed on the right side  and we center it by translating it 50% 
