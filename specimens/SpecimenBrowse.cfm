@@ -232,17 +232,17 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</section>
-				<section class="col-12 mt-3" id="section4">
-					<h2 class="h3 px-3">Browse by higher taxonomy</h2>
+				<section class="col-12 pt-2" id="section4">
+					<h2 class="h3 px-2">Browse by higher taxonomy</h2>
 					<ul class="d-flex px-2 flex-wrap">
 						<cfloop query="phyla">
-							<li class="list-group-item col-2"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
+							<li class="list-group-item col-2 px-1"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
 						</cfloop>
 						<cfloop query="notphyla">
-							<li class="list-group-item col-2"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
+							<li class="list-group-item col-2 px-1"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
 						</cfloop>
 						<cfloop query="notkingdoms">
-							<li class="list-group-item col-2"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
+							<li class="list-group-item col-2 px-1"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
 						</cfloop>
 					</ul>
 				</section>
