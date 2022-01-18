@@ -2298,16 +2298,24 @@ div.vslider-item[aria-hidden="true"]{
 	background-attachment: fixed;
 }
 #section1 {
-	background-color: yellow;
+	background-color: #ccc;
+	padding-top: .5rem;
+	padding-bottom: 1rem; 
 }
 #section2 {
-	background-color: green;
+	background-color: aliceblue;
+	padding-top: .5rem;
+	padding-bottom: 1rem; 
 }
 #section3 {
-	background-color: red;
+	background-color: #ccc;
+	padding-top: .5rem;
+	padding-bottom: 1rem; 
 }
 #section4 {
-	background-color: blue;
+	background-color: aliceblue;
+	padding-top: .5rem;
+	padding-bottom: 1rem; 
 }
 #myBtn {
   display: none;
