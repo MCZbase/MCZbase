@@ -132,7 +132,7 @@ limitations under the License.
 			<div class="col-12 mt-2">
 				<h1 class="text-center mt-3">Browse Specimens by Category</h1>
 				<section class="col-12 px-0 mt-3">
-					<h2 class="h3 px-3">Primary Types</h2>
+					<h2 class="h3 px-5">Primary Types</h2>
 					<ul class="d-flex flex-wrap">
 						<cfloop query="primaryTypes">
 							<li class="list-group-item col-2 px-1"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
@@ -140,7 +140,7 @@ limitations under the License.
 					</ul>
 				</section>
 				<section class="col-12 px-0 mt-3">
-					<h2 class="h3 px-3">MCZ Featured Collections of Cataloged Items</h2>
+					<h2 class="h3 px-5">MCZ Featured Collections of Cataloged Items</h2>
 					<ul class="d-flex flex-wrap">
 	<!---					<cfloop query="namedGroups">
 							<cfset mask="">
@@ -175,12 +175,11 @@ limitations under the License.
 													</div>
 											</cfif>
 											<div class="col float-left mt-2">
-												<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups2.underscore_collection_id#">#namedGroups2.collection_name#</a></h3>
-												<p><cfif len(description) GT 50>
-												<cfset description = "#left(description,50)#..." >
-											</cfif></p>
-												<p>Includes #namedGroups2.ct# Cataloged Items</p>
-												<p class="font-italic text-capitalize">Collection Type: #namedGroups2.underscore_collection_type#</p>
+												<h3 class="h5">
+													<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups2.underscore_collection_id#">#namedGroups2.collection_name#</a>
+												</h3>
+												<p class="mb-0">Includes #namedGroups2.ct# Cataloged Items</p>
+												<p class="font-italic text-capitalize mb-0">Collection Type: #namedGroups2.underscore_collection_type#</p>
 											</div>
 										</div>
 									</div>
