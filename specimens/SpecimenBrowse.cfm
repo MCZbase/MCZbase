@@ -132,7 +132,7 @@ limitations under the License.
 .container,
 .cbp-scroller,
 .cbp-scroller section { 
-	height: 100%; 
+/*	height: 100%; */
 }
 	
 .secondary-red {
