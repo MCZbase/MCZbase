@@ -236,11 +236,10 @@ limitations under the License.
 				<section class="col-12 mt-2" id="section1">
 					<h2 class="h3 px-3">Primary Types</h2>
 					<ul class="d-flex flex-wrap px-2">
-						<cfset typetatus = "">
 						<cfloop query="primaryTypes">
-							<cfif #typestatus# eq "Holotype">
+							<cfif #type_status# eq "Holotype">
 								<cfset typeStatusColor eq "text-danger">
-							<cfelseif #typestatus# eq "Syntype">
+							<cfelseif #type_status# eq "Syntype">
 								<cfset typeStatusColor eq "text-info">
 							<cfelse>
 								<cfset typeStatusColor eq "text-white">
