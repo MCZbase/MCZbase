@@ -139,9 +139,9 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</section>
-				<section class="col-12 px-0 mt-3">
-					<h2 class="h3 px-3">MCZ Featured Collections of Cataloged Items</h2>
-					<ul class="d-flex flex-wrap px-2">
+				<section class="col-12 mt-3">
+					<h2 class="h3 px-0">MCZ Featured Collections of Cataloged Items</h2>
+					<ul class="d-flex flex-wrap px-0">
 	<!---					<cfloop query="namedGroups">
 							<cfset mask="">
 							<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") GT 0>
