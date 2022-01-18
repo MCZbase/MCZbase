@@ -216,6 +216,25 @@ limitations under the License.
 	background-image: url(../images/4.jpg);
 	background-color: blue;
 }
+##myBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+##myBtn:hover {
+  background-color: #555;
+}
 </style>
 <cfoutput>
 	<h1 class="text-center mt-5 mb-3">Browse Specimens by Category</h1>
@@ -249,7 +268,6 @@ limitations under the License.
 				</ul>
 			</nav>
 			<div class="col-9 my-2">
-			
 				<section class="col-12 mt-2" id="section1">
 					<h2 class="h3 px-2">Primary Types</h2>
 					<div class="col-12 px-0 pt-2 bg-white border rounded">
@@ -310,7 +328,6 @@ limitations under the License.
 							</cfif>
 						</cfloop>
 					</ul>
-						<a href="##top" class="px-2">top</a>
 				</section>
 				<section class="col-12 mt-3" id="section3">
 					<h2 class="h3 px-2">Browse by higher geography</h2>
@@ -337,6 +354,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</section>
+				<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 			</div>
 		</div>
 	</main>
@@ -411,5 +429,26 @@ var cbpFixedScrollLayout = (function() {
 	return { init : init };
 
 })();
+</script>
+<script>
+//Get the button
+var mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
 </script>
 <cfinclude template = "/shared/_footer.cfm">
