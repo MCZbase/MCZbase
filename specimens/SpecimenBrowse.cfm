@@ -133,7 +133,7 @@ limitations under the License.
 				<h1 class="text-center mt-3">Browse Specimens by Category</h1>
 				<section class="col-12 px-0 mt-3">
 					<h2 class="h3 px-3">Primary Types</h2>
-					<ul class="d-flex flex-wrap px-2">
+					<ul class="d-flex flex-wrap px-3">
 						<cfloop query="primaryTypes">
 							<li class="list-group-item col-2"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
 						</cfloop>
@@ -179,9 +179,9 @@ limitations under the License.
 				</section>
 				<section class="col-12 px-0 mt-3">
 					<h2 class="h3 px-3">Browse by higher geography</h2>
-					<ul class="d-flex flex-wrap">
+					<ul class="d-flex px-1 flex-wrap">
 						<cfloop query="countries">
-							<li class="list-group-item"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
+							<li class="list-group-item col-2"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
 						</cfloop>
 						<cfloop query="notcountries">
 							<li class="list-group-item"><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
