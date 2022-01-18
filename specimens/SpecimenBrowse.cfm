@@ -235,15 +235,15 @@ limitations under the License.
 				<h1 class="text-center mt-3">Browse Specimens by Category</h1>
 				<section class="col-12 mt-2" id="section1">
 					<h2 class="h3 px-3">Primary Types</h2>
-					<cfif #toptypestatus# eq "Holotype">
-						<cfset typeStatus eq "text-danger">
-					<cfelseif #toptypestatus# eq "Syntype">
-						<cfset typeStatus eq "text-info">
-					<cfelse>
-						<cfset typestatus eq "text-white">
-					</cfif>
 					<ul class="d-flex flex-wrap px-2">
 						<cfloop query="primaryTypes">
+							<cfif #toptypestatus# eq "Holotype">
+								<cfset typeStatus eq "text-danger">
+							<cfelseif #toptypestatus# eq "Syntype">
+								<cfset typeStatus eq "text-info">
+							<cfelse>
+								<cfset typestatus eq "text-white">
+							</cfif>
 							<li class="list-group-item col-2"><i class="fa fa-square #typeStatus#" aria-hidden="true"></i> <a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)</li>
 						</cfloop>
 					</ul>
