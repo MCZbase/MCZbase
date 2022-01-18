@@ -135,8 +135,17 @@ limitations under the License.
 	height: 100%; 
 }
 	
-.secondary-blue {
-	color: #007bff60;
+.secondary-red {
+	color: #dc4c35;
+}
+.darker-red {
+	color: #b22719;
+}
+.darker-pink {
+	color: #d64c59;
+}
+.redder {
+	color: #b22719;
 }
 
 /* The nav is fixed on the right side  and we center it by translating it 50% 
@@ -245,14 +254,16 @@ limitations under the License.
 							<cfloop query="primaryTypes">
 								<cfset typeStatusColor ="">
 								<cfset toptypestatus = "#toptypestatus#">
-								<cfif #toptypestatus# eq "Neotype" OR #toptypestatus# eq "Holotype">
-									<cfset typeStatusColor = "text-danger">
-								<cfelseif #toptypestatus# eq "Syntype">
-									<cfset typeStatusColor = "secondary-blue">
+								<cfif #toptypestatus# eq "Neotype">
+									<cfset typeStatusColor = "secondary-red">
+								<cfif #toptypestatus# eq "Holotype">
+									<cfset typeStatusColor = "darker-red">
+								<cfelseif #toptypestatus# eq "Lectotype">
+									<cfset typeStatusColor = "darker-pink">
 								<cfelse>
-									<cfset #typeStatusColor# eq "text-white">
+									<cfset #typeStatusColor# eq "text-danger">
 								</cfif>
-								<li class="list-group-item col-2"><i class="fa fa-square #typeStatusColor#" aria-hidden="true"></i> <a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)</li>
+								<li class="list-group-item col-2 mb-2"><i class="fa fa-square #typeStatusColor#" aria-hidden="true"></i> <a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)</li>
 							</cfloop>
 						</ul>
 					</div>
