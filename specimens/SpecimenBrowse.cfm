@@ -132,16 +132,16 @@ limitations under the License.
 			<div class="col-12 mt-2">
 				<h1 class="text-center mt-3">Browse Specimens by Category</h1>
 				<section class="col-12 px-0 mt-3">
-					<h2 class="h3 px-5">Primary Types</h2>
-					<ul class="d-flex flex-wrap">
+					<h2 class="h3 px-3">Primary Types</h2>
+					<ul class="d-flex flex-wrap px-2">
 						<cfloop query="primaryTypes">
 							<li class="list-group-item col-2 px-1"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
 						</cfloop>
 					</ul>
 				</section>
 				<section class="col-12 px-0 mt-3">
-					<h2 class="h3 px-5">MCZ Featured Collections of Cataloged Items</h2>
-					<ul class="d-flex flex-wrap">
+					<h2 class="h3 px-3">MCZ Featured Collections of Cataloged Items</h2>
+					<ul class="d-flex flex-wrap px-2">
 	<!---					<cfloop query="namedGroups">
 							<cfset mask="">
 							<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") GT 0>
