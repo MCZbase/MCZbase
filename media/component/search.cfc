@@ -1129,6 +1129,9 @@ limitations under the License.
 							<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center" title="click to open full image">
 								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 							</a>
+							<cfif #l_displayAs# EQ "thumbTiny">
+								<p>?</p>
+							<cfelse>
 							<div class="mt-0 col-12 pb-1 px-0">
 								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -1171,6 +1174,7 @@ limitations under the License.
 									</cfif>
 								</div>
 							</div>
+							</cfif>
 						</div>
 					</cfloop>
 				</cfif>
