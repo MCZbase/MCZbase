@@ -87,7 +87,7 @@ limitations under the License.
 	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
 </cfif>
 <cfoutput>
-	<main class="container">
+	<main class="container mt-4">
 		<div class="row">
 			<div class="col-4">
 				<h1 class="h2">Primary Types</h1>
