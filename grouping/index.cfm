@@ -60,9 +60,9 @@ limitations under the License.
 				underscore_collection.displayed_media_id
 			ORDER BY underscore_collection_type, collection_name
 		</cfquery>
-	<div class="container">
-		<div class="row mx-0 mb-4">
-			<h1 class="w-100 mt-45 px-2 mt-5 text-center">MCZ Featured Collections of Cataloged Items</h1>
+	<div class="container-fluid h-50">
+		<div class="row h-100 mx-0 mb-4">
+			<h1 class="w-100 px-2 mt-3 text-center">MCZ Featured Collections of Cataloged Items</h1>
 			<div class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
 				<div class="col-12 col-md-3 float-left">
 					<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-0 bg-light">
@@ -99,7 +99,7 @@ limitations under the License.
 				<cfif len(#namedGroups.description#)gt 0>
 					<div class="col-12 col-md-3 float-right px-1 my-2">
 						<div class="border rounded bg-white py-2 col-12 px-2 float-right">
-							<div class="row mx-0">
+							<div class="row h-100 mx-0">
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
 									<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
