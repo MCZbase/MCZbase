@@ -192,13 +192,13 @@ limitations under the License.
 					<h2 class="h3 px-3">Browse by higher taxonomy</h2>
 					<ul class="d-flex px-2 flex-wrap">
 						<cfloop query="phyla">
-							<li class="list-group-item"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
+							<li class="list-group-item col-2"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
 						</cfloop>
 						<cfloop query="notphyla">
-							<li class="list-group-item"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
+							<li class="list-group-item col-2"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
 						</cfloop>
 						<cfloop query="notkingdoms">
-							<li class="list-group-item"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
+							<li class="list-group-item col-2"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
 						</cfloop>
 					</ul>
 				</section>
