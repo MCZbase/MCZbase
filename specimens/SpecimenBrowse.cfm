@@ -128,7 +128,7 @@ limitations under the License.
 </cfif>
 <style>
 /* Set all parents to full height */
-html, body, 
+.container-fluid, 
 .container,
 .cbp-scroller,
 .cbp-scroller section { 
