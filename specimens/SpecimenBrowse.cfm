@@ -89,15 +89,17 @@ limitations under the License.
 <cfoutput>
 	<main class="container">
 		<div class="row">
-			<div class="col-4">
+			<div class="col-12 mt-3">
+				<div class="row">
+					<div class="col-4">
 				<h1 class="h2">Primary Types</h1>
-				<ul>
+				<ul class="list-group list-group-horizontal">
 					<cfloop query="primaryTypes">
 						<li><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
 					</cfloop>
 				</ul>
 			</div>
-			<div class="col-8">
+					<div class="col-8">
 				<h1 class="h2">MCZ Featured Collections of Cataloged Items</h1>
 				<ul>
 					<cfloop query="namedGroups">
@@ -111,8 +113,8 @@ limitations under the License.
 					</cfloop>
 				</ul>
 			</div>
-		</div>
-		<div class="row">
+				</div>
+				<div class="row">
 			<div class="col-12 col-md-6">
 				<h1 class="h2">Browse by higher geography</h1>
 				<ul>
@@ -137,6 +139,8 @@ limitations under the License.
 						<li><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
 					</cfloop>
 				</ul>
+			</div>
+		</div>
 			</div>
 		</div>
 	</main>
