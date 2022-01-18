@@ -331,7 +331,7 @@ var cbpFixedScrollLayout = (function() {
 		// index of current link / section
 		currentLink : 0,
 		// the body element
-		$body : $( 'html, body' ),
+		$body : $( 'container-fluid' ),
 		// the body animation speed
 		animspeed : 650,
 		// the body animation easing (jquery easing)
