@@ -97,12 +97,12 @@ limitations under the License.
 					and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
 				</cfquery>
 				<cfif len(#namedGroups.description#)gt 0>
-					<div class="col-12 col-md-9 float-right my-2">
-						<div class="border rounded bg-white py-3 col-12 px-3 float-left">
+					<div class="col-12 col-md-3 float-right my-2">
+						<div class="border rounded bg-white py-2 col-12 px-2 float-left">
 							<div class="row mx-0">
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbLg")>
-									<div class="px-1 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
+									<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
 									#mediablock#
 									</div>
 <!---								<cfelse>
@@ -116,7 +116,7 @@ limitations under the License.
 									<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
 								<!---	<p>#namedGroups.description#</p>--->
 									<p>Includes #namedGroups.ct# Cataloged Items</p>
-									<p class="font-italic text-capitalize">Collection Type: #namedGroups.underscore_collection_type#</p>
+									<p class="font-italic text-capitalize mb-0">Collection Type: #namedGroups.underscore_collection_type#</p>
 								</div>
 							</div>
 						</div>
