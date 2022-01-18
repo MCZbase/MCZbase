@@ -239,15 +239,13 @@ limitations under the License.
 					<ul class="d-flex flex-wrap px-2">
 						
 						<cfloop query="primaryTypes">
-							<cfset #typeStatusColor# = "">
-							<cfif #primaryTypes.toptypestatus# eq "Neotype">
+							<cfif #toptypestatus# eq "Neotype">
 								<cfset #typeStatusColor# eq "text-danger">
-							<cfelseif #primaryTypes.toptypestatus# eq "Syntype">
+							<cfelseif #toptypestatus# eq "Syntype">
 								<cfset #typeStatusColor# eq "text-info">
 							<cfelse>
 								<cfset #typeStatusColor# eq "text-white">
 							</cfif>
-							#toptypestatus#
 							<li class="list-group-item col-2"><i class="fa fa-square #typeStatusColor#" aria-hidden="true"></i> <a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)</li>
 						</cfloop>
 					</ul>
