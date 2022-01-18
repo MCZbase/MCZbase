@@ -358,7 +358,6 @@ limitations under the License.
 			</div>
 		</div>
 	</main>
-</cfoutput>
 <script>
 	/**
  * cbpFixedScrollLayout.js v1.0.0
@@ -451,4 +450,6 @@ function topFunction() {
   document.documentElement.scrollTop = 0;
 }
 </script>
+</cfoutput>
+
 <cfinclude template = "/shared/_footer.cfm">
