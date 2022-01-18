@@ -1099,6 +1099,7 @@ limitations under the License.
 									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
 								<cfelse>
 									<cfset displayImage = media_uri>
+									<cfset hw = 'width="auto" height="100"'>
 								</cfif>
 							</cfif>
 						<cfelse>
