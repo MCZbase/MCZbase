@@ -244,7 +244,7 @@ limitations under the License.
 						<cfloop query="primaryTypes">
 							<cfset typeStatusColor ="">
 							<cfset toptypestatus = "#toptypestatus#">
-							<cfif #toptypestatus# eq "Neotype">
+							<cfif #toptypestatus# eq "Neotype" OR #toptypestatus# eq "Holotype">
 								<cfset typeStatusColor = "text-danger">
 							<cfelseif #toptypestatus# eq "Syntype">
 								<cfset typeStatusColor = "secondary-blue">
