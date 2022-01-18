@@ -135,7 +135,7 @@ limitations under the License.
 					<h2 class="h3 px-3">Primary Types</h2>
 					<ul class="d-flex flex-wrap">
 						<cfloop query="primaryTypes">
-							<li class="list-group-item col-5 px-1"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
+							<li class="list-group-item col-2 px-1"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
 						</cfloop>
 					</ul>
 				</section>
