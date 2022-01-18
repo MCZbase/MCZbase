@@ -198,22 +198,18 @@ limitations under the License.
 }
 
 ##section1 {
-	background-image: url(../images/1.jpg);
 	background-color: yellow;
 }
 
 ##section2 {
-	background-image: url(../images/2.jpg);
 	background-color: green;
 }
 
 ##section3 {
-	background-image: url(../images/3.jpg);
 	background-color: red;
 }
 
 ##section4 {
-	background-image: url(../images/4.jpg);
 	background-color: blue;
 }
 ##myBtn {
@@ -233,7 +229,7 @@ limitations under the License.
 }
 
 ##myBtn:hover {
-  background-color: #555;
+  background-color: ##555;
 }
 </style>
 <cfoutput>
