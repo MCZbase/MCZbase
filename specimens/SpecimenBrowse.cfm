@@ -95,10 +95,10 @@ limitations under the License.
 				<h1 class="h2">Primary Types</h1>
 				<ul class="list-group list-group-horizontal">
 					<cfloop query="primaryTypes">
-						<li><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
+						<li class="list-group-item"><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
 					</cfloop>
 				</ul>
-			</div>
+				</div>
 					<div class="col-8">
 				<h1 class="h2">MCZ Featured Collections of Cataloged Items</h1>
 				<ul>
