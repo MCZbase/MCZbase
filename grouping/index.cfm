@@ -80,7 +80,7 @@ limitations under the License.
 					</div>
 					<li class="mt-5 pt-3">
 						<p class="font-italic text-dark w-75 mt-3 float-right">
-							Placeholder text for overview of page....
+							Placeholder text for  overview of page....
 						</p>
 					</li>
 				</ul>
@@ -114,10 +114,10 @@ limitations under the License.
 								</cfif>
 								<div class="col-12 col-md-9 col-xl-10 float-left mt-2">
 									<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
-									<p><cfif len(namedGroups.description) GT 150>
-											<cfset namedGroups.description = "#left(namedGroups.description,150)#..." >
+								<!---	<p>#namedGroups.description#</p>--->
+									<cfif len(namedGroups.description) GT 150>
+											<cfset description = "#left(namedGroups.description,150)#..." >
 										</cfif>
-									</p>
 									<p>Includes #namedGroups.ct# Cataloged Items</p>
 									<p class="font-italic text-capitalize">Collection Type: #namedGroups.underscore_collection_type#</p>
 								</div>
