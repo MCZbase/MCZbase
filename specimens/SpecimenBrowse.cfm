@@ -205,7 +205,7 @@ limitations under the License.
 	<main class="container-fluid">
 		<a name="top" id="top" class="hidden">Top</a>
 		<div class="row">
-			<nav class="col-3">
+			<nav class="col-3 my-5">
 				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-4 bg-light">
 					<li class="my-3">
 						<h2 class="h3 mb-0 w-75 float-right"><a href="##section1" class="text-dark cbp-current">Primary Types</a></h2>
@@ -231,7 +231,7 @@ limitations under the License.
 					</div>
 				</ul>
 			</nav>
-			<div class="col-9 mt-2">
+			<div class="col-9 my-2">
 				<h1 class="text-center mt-3">Browse Specimens by Category</h1>
 				<section class="col-12 mt-2" id="section1">
 					<h2 class="h3 px-3">Primary Types</h2>
