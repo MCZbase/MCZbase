@@ -142,17 +142,6 @@ limitations under the License.
 				<section class="col-12 mt-3">
 					<h2 class="h3 px-0">MCZ Featured Collections of Cataloged Items</h2>
 					<ul class="d-flex flex-wrap px-0">
-	<!---					<cfloop query="namedGroups">
-							<cfset mask="">
-							<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") GT 0>
-								<cfif namedGroups.mask_fg EQ 1>
-									<cfset mask=" [Hidden]">
-								</cfif>
-							</cfif>
-							<li class="list-group-item">
-								<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#">#collection_name#</a> (#ct#)#mask#</li>
-						</cfloop>--->
-
 						<cfloop query="namedGroups2">
 							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
@@ -165,7 +154,7 @@ limitations under the License.
 								and underscore_relation.underscore_collection_id = #namedGroups2.underscore_collection_id#
 							</cfquery>
 							<cfif len(#namedGroups2.description#)gt 0>
-								<div class="col-12 col-md-3 px-1 float-right my-2">
+								<div class="col-12 col-md-3 px-0 float-right my-2">
 									<div class="border rounded bg-white py-2 col-12 px-1 float-left">
 										<div class="row mx-0">
 											<cfif len(images.media_id) gt 0>
