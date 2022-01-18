@@ -173,7 +173,7 @@ limitations under the License.
 													#mediablock#
 												</div>
 										</cfif>
-										<div class="col float-left mt-2">
+										<div class="col px-1 float-left mt-2">
 											<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups2.underscore_collection_id#">#namedGroups2.collection_name#</a></h3>
 											<p><cfif len(description) GT 50>
 											<cfset description = "#left(description,50)#..." >
