@@ -179,7 +179,7 @@ limitations under the License.
 				</section>
 				<section class="col-12 mt-3">
 					<h2 class="h3 px-3">Browse by higher geography</h2>
-					<ul class="d-flex px-1 flex-wrap">
+					<ul class="d-flex px-0 flex-wrap">
 						<cfloop query="countries">
 							<li class="list-group-item col-2"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
 						</cfloop>
