@@ -301,7 +301,7 @@ limitations under the License.
 												<h3 class="h5">
 													<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups2.underscore_collection_id#">#namedGroups2.collection_name#</a>
 												</h3>
-												<p class="mb-2 small">Includes #namedGroups2.ct# Cataloged Items</p>
+												<p class="mb-1 small">Includes #namedGroups2.ct# Cataloged Items</p>
 												<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups2.underscore_collection_type#</p>
 											</div>
 										</div>
