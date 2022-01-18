@@ -97,7 +97,7 @@ limitations under the License.
 					and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
 				</cfquery>
 				<cfif len(#namedGroups.description#)gt 0>
-					<div class="col-12 col-md-3 float-right my-2">
+					<div class="col-12 col-md-3 float-right px-1 my-2">
 						<div class="border rounded bg-white py-2 col-12 px-2 float-right">
 							<div class="row mx-0">
 								<cfif len(images.media_id) gt 0>
