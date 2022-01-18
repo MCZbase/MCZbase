@@ -273,7 +273,7 @@ limitations under the License.
 						</ul>
 					</div>
 				</section>
-				<section class="col-12 mt-3" id="section2">
+				<section class="col-12 px-1 mt-3" id="section2">
 					<h2 class="h3 px-2">MCZ Featured Collections of Cataloged Items</h2>
 					<ul class="d-flex flex-wrap px-1">
 						<cfloop query="namedGroups2">
