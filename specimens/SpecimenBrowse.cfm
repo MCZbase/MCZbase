@@ -32,6 +32,45 @@ limitations under the License.
 		underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
 	ORDER BY underscore_collection.collection_name
 </cfquery>
+<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT underscore_collection_type, description 
+	FROM ctunderscore_collection_type
+	WHERE
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+			underscore_collection_type is not null
+		<cfelse>
+			underscore_collection_type <> 'workflow'
+		</cfif>
+</cfquery>
+<cfquery name="namedGroups2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT
+		count(flat.collection_object_id) ct, 
+		underscore_collection.collection_name, 
+		underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
+		underscore_collection.description, underscore_collection.underscore_collection_type,
+		underscore_collection.displayed_media_id
+	FROM
+		underscore_collection 
+		LEFT JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+		LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+			on underscore_relation.collection_object_id = flat.collection_object_id
+	WHERE
+		underscore_collection.underscore_collection_id IS NOT NULL
+		<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
+			AND underscore_collection.mask_fg = 0
+		</cfif>
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+			AND underscore_collection_type is not null
+		<cfelse>
+			AND underscore_collection.underscore_collection_type <> 'workflow'
+		</cfif>
+	GROUP BY
+		underscore_collection.collection_name, 
+		underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
+		underscore_collection.description, underscore_collection.underscore_collection_type,
+		underscore_collection.displayed_media_id
+	ORDER BY underscore_collection_type, collection_name
+</cfquery>
 <cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	select count(*) ct, country 
 	from 
@@ -101,14 +140,54 @@ limitations under the License.
 			<div class="col-12 px-0 mt-3">
 				<h2 class="h2">MCZ Featured Collections of Cataloged Items</h2>
 				<ul class="d-flex flex-wrap">
-					<cfloop query="namedGroups">
+<!---					<cfloop query="namedGroups">
 						<cfset mask="">
 						<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") GT 0>
 							<cfif namedGroups.mask_fg EQ 1>
 								<cfset mask=" [Hidden]">
 							</cfif>
 						</cfif>
-						<li class="list-group-item"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#">#collection_name#</a> (#ct#)#mask#</li>
+						<li class="list-group-item">
+							<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#">#collection_name#</a> (#ct#)#mask#</li>
+					</cfloop>--->
+							
+					<cfloop query="namedGroups2">
+						<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT
+								displayed_media_id as media_id
+							FROM
+								underscore_relation 
+							INNER JOIN underscore_collection
+								on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+							WHERE rownum = 1 
+							and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
+						</cfquery>
+						<cfif len(#namedGroups2.description#)gt 0>
+							<div class="col-12 col-md-9 float-right my-2">
+								<div class="border rounded bg-white py-3 col-12 px-3 float-left">
+									<div class="row mx-0">
+										<cfif len(images.media_id) gt 0>
+											<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="350",displayAs="thumbLg")>
+											<div class="col-12 col-md-3 col-xl-2 float-left py-2 bg-light border rounded" id="mediaBlock#images.media_id#">
+											#mediablock#
+											</div>
+		<!---								<cfelse>
+											<div class="col-12 col-md-3 col-xl-2 py-2 float-left bg-light border rounded">
+												<a href="" class="d-block my-0 w-100 active text-center">
+													<img src = "/shared/images/Image-x-generic.svg" class="mx-auto w-75">
+												</a>
+											</div>--->
+										</cfif>
+										<div class="col-12 col-md-9 col-xl-10 float-left mt-2">
+											<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups2.underscore_collection_id#">#namedGroups2.collection_name#</a></h3>
+											<p>#namedGroups2.description#</p>
+											<p>Includes #namedGroups2.ct# Cataloged Items</p>
+											<p class="font-italic text-capitalize">Collection Type: #namedGroups2.underscore_collection_type#</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</cfif>
 					</cfloop>
 				</ul>
 			</div>
