@@ -164,7 +164,7 @@ limitations under the License.
 							and underscore_relation.underscore_collection_id = #namedGroups2.underscore_collection_id#
 						</cfquery>
 						<cfif len(#namedGroups2.description#)gt 0>
-							<div class="col-12 col-md-4 float-right my-2">
+							<div class="col-12 col-md-3 px-1 float-right my-2">
 								<div class="border rounded bg-white py-3 col-12 px-3 float-left">
 									<div class="row mx-0">
 										<cfif len(images.media_id) gt 0>
@@ -173,7 +173,7 @@ limitations under the License.
 													#mediablock#
 												</div>
 										</cfif>
-										<div class="col px-1 float-left mt-2">
+										<div class="col float-left mt-2">
 											<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups2.underscore_collection_id#">#namedGroups2.collection_name#</a></h3>
 											<p><cfif len(description) GT 50>
 											<cfset description = "#left(description,50)#..." >
