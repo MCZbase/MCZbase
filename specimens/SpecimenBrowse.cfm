@@ -160,7 +160,7 @@ limitations under the License.
 				</ul>
 			</nav>
 			<div class="col-9 my-2 px-0 my-0 border rounded">
-				<section class="col-12 pt-2" id="section1">
+				<section class="col-12 pt-2 mt-0" id="section1">
 					<h2 class="h3 px-2">Primary Types</h2>
 					<div class="col-12 px-0 pt-2 bg-white border rounded">
 						<ul class="d-flex flex-wrap px-1">
@@ -221,7 +221,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</section>
-				<section class="col-12 pt-2" id="section3">
+				<section class="col-12 pt-2 mt-0" id="section3">
 					<h2 class="h3 px-2">Browse by higher geography</h2>
 					<ul class="d-flex px-1 flex-wrap">
 						<cfloop query="countries">
@@ -232,7 +232,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</section>
-				<section class="col-12 pt-2" id="section4">
+				<section class="col-12 pt-2 mt-0" id="section4">
 					<h2 class="h3 px-2">Browse by higher taxonomy</h2>
 					<ul class="d-flex px-2 flex-wrap">
 						<cfloop query="phyla">
