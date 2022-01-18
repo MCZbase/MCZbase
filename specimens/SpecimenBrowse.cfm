@@ -175,7 +175,9 @@ limitations under the License.
 										</cfif>
 										<div class="col-11 float-left mt-2">
 											<h3><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups2.underscore_collection_id#">#namedGroups2.collection_name#</a></h3>
-											<p>#namedGroups2.description#</p>
+											<p><cfif len(description) GT 50>
+											<cfset description = "#left(description,50)#..." >
+										</cfif></p>
 											<p>Includes #namedGroups2.ct# Cataloged Items</p>
 											<p class="font-italic text-capitalize">Collection Type: #namedGroups2.underscore_collection_type#</p>
 										</div>
