@@ -203,10 +203,10 @@ limitations under the License.
 </style>
 <cfoutput>
 	<main class="container-fluid">
-		<h1 class="text-center mt-3">Browse Specimens by Category</h1>
+		<h1 class="text-center mt-5">Browse Specimens by Category</h1>
 		<a name="top" id="top" class="hidden">Top</a>
 		<div class="row">
-			<nav class="col-3 my-5">
+			<nav class="col-3 my-2">
 				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-4 bg-light">
 					<li class="my-3">
 						<h2 class="h3 mb-0 w-75 float-right"><a href="##section1" class="text-dark cbp-current">Primary Types</a></h2>
