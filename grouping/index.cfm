@@ -98,7 +98,7 @@ limitations under the License.
 				</cfquery>
 				<cfif len(#namedGroups.description#)gt 0>
 					<section class="col-12 col-md-3 d-flex flex-wrap px-1 my-1">
-						<div class="border rounded bg-white py-2 col-12 px-2 float-right">
+						<div class="border rounded bg-white py-2 col-12 px-2 float-left">
 							<div class="row h-25 mx-0">
 								<cfif len(images.media_id) gt 0>
 									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
