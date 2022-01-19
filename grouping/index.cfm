@@ -64,6 +64,12 @@ limitations under the License.
 	<div class="container-fluid">
 		<div class="row mx-0 mb-4">
 			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
+				<div class="input-group w-auto float-right mt-2">
+					<div class="form-outline">
+						<input type="search" id="form1" class="data-entry-input py-2" />
+					</div>
+					<button type="button" class="btn btn-xs btn-primary py-0"><i class="fas fa-search"></i></button>
+				</div>
 				<nav class="col-12 col-md-12 float-left">
 					<ul class="nav nav-tabs">
 						<cfloop query="types">
@@ -79,12 +85,7 @@ limitations under the License.
 							</p>
 						</li>--->
 					</ul>
-					<div class="input-group w-auto float-right mt-2">
-						<div class="form-outline">
-							<input type="search" id="form1" class="data-entry-input py-2" />
-						</div>
-						<button type="button" class="btn btn-xs btn-primary py-0"><i class="fas fa-search"></i></button>
-					</div>
+
 				</nav>
 				<section>
 					<cfloop query="namedGroups">
