@@ -69,7 +69,7 @@ limitations under the License.
 			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
 
 				<nav class="col-12 col-md-12 float-left w-100">
-						<div class="input-group w-auto mt-2 position-absolute" style="right:0">
+						<div class="input-group w-auto mt-2 position-absolute" style="right:.5rem;">
 							<div class="form-outline">
 								<input type="search" id="form1" class="data-entry-input py-1" />
 							</div>
