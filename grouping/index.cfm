@@ -98,9 +98,8 @@ limitations under the License.
 							on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 						WHERE rownum = 1 
 						and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-						and underscore_collection.underscore_collection_type = #underscorecollectiontype#
 					</cfquery>
-						<cfif len(#namedGroups.description#)gt 0>
+						<cfif #namedGroups.underscore_collection_type# eq 'collection'>
 							<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
 								<div class="border rounded bg-white py-2 col-12 px-2 float-left">
 									<div class="row h-25 mx-0">
