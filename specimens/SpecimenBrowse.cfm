@@ -159,7 +159,7 @@ limitations under the License.
 					</div>
 				</ul>
 			</nav>
-			<div class="col-9 my-2 px-0 my-0 border rounded">
+			<div class="col-9 mt-2 px-0 mb-4 border rounded">
 				<section class="col-12 pt-2 mt-0" id="section1">
 					<h2 class="h3 px-2">Primary Types</h2>
 					<div class="col-12 px-0 pt-2 bg-white border rounded">
