@@ -64,7 +64,7 @@ limitations under the License.
 	<div class="container-fluid">
 		<div class="row mx-0 mb-4">
 			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
-				<nav class="col-12 float-left">
+				<nav class="col-12 col-md-3 float-left">
 					<ul class="nav nav-tabs">
 						<cfloop query="types">
 							<li class="nav-item">
@@ -98,7 +98,7 @@ limitations under the License.
 						and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
 					</cfquery>
 						<cfif len(#namedGroups.description#)gt 0>
-							<div class="col-12 float-left d-flex flex-wrap px-1 my-1">
+							<div class="col-12 col-md-2 float-left d-flex flex-wrap px-1 my-1">
 								<div class="border rounded bg-white py-2 col-12 px-2 float-left">
 									<div class="row h-25 mx-0">
 										<cfif len(images.media_id) gt 0>
