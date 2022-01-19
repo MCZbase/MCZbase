@@ -65,11 +65,11 @@ limitations under the License.
 		<div class="row mx-0 mb-4">
 			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
 				<nav class="col-12 col-md-3 float-left">
-					<ul class="list-unstyled text-right px-0 pr-xl-3 pl-xl-0 mb-3 mt-0">
+					<ul class="nav nav-tabs">
 						<cfloop query="types">
-							<li class="my-3">
-								<h2 class="h3 mb-0 w-75 float-right"><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="text-dark">#types.underscore_collection_type#</a></h2>
-								<p class="small90 text-muted w-75 float-right">#types.description#</p>
+							<li class="nav-item">
+								<h2 class="h3 mb-0 w-75 float-right"><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="nav-link active">#types.underscore_collection_type#</a></h2>
+							<!---	<p class="small90 text-muted w-75 float-right">#types.description#</p>--->
 							</li>
 						</cfloop>
 						<div class="input-group w-auto float-right mt-2">
@@ -78,11 +78,11 @@ limitations under the License.
 							</div>
 							<button type="button" class="btn btn-xs btn-primary py-1"><i class="fas fa-search"></i></button>
 						</div>
-						<li class="mt-5 pt-3">
+<!---						<li class="mt-5 pt-3">
 							<p class="font-italic text-dark w-75 mt-3 float-right">
-								Placeholder text for  overview of page....
+								Placeholder text for overview of page....
 							</p>
-						</li>
+						</li>--->
 					</ul>
 				</nav>
 				<section>
@@ -106,12 +106,6 @@ limitations under the License.
 											<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
 											#mediablock#
 											</div>
-		<!---								<cfelse>
-											<div class="col-12 col-md-3 col-xl-2 py-2 float-left bg-light border rounded">
-												<a href="" class="d-block my-0 w-100 active text-center">
-													<img src = "/shared/images/Image-x-generic.svg" class="mx-auto w-75">
-												</a>
-											</div>--->
 										</cfif>
 										<div class="col float-left mt-2">
 											<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
