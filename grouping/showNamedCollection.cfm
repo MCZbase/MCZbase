@@ -377,8 +377,8 @@ limitations under the License.
 														</a>
 														<p id="specimen_media_desc" class="mt-2 bg-light small caption-lg">#specimen_alt#</p>
 													</div>
-														<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="105",displayAs="thumbTiny")>
-											<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#media_id#" style="width: 100px;">
+														<cfset mediablock= getMediaBlockHtml(media_id="#specimenImagesForCarousel.media_id#",size="105",displayAs="thumbTiny")>
+											<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#specimenImagesForCarousel.media_id#" style="width: 100px;">
 											#mediablock#
 												</div>
 												<div class="custom-nav text-center small mb-1 bg-white pt-0 pb-1">
