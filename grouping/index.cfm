@@ -71,7 +71,7 @@ limitations under the License.
 				<nav class="col-12 col-md-12 float-left w-100">
 					<div class="input-group w-auto float-right mt-2">
 						<div class="form-outline">
-							<input type="search" id="form1" class="data-entry-input pt-2 pb-0" />
+							<input type="search" id="form1" class="data-entry-input pt-0 pb-0" />
 						</div>
 						<button type="button" class="btn btn-xs btn-primary py-0"><i class="fas fa-search"></i></button>
 					</div>
