@@ -192,17 +192,18 @@ limitations under the License.
 					</cfloop>
 				</section>
 				<section id="workflow">
-					<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
-							displayed_media_id as media_id
-						FROM
-							underscore_relation 
-						INNER JOIN underscore_collection
-							on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-						WHERE rownum = 1 
-						and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-						and underscore_collection_type = #workflow#
-					</cfquery>
+					<cfloop query="namedGroups">
+						<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT
+								displayed_media_id as media_id
+							FROM
+								underscore_relation 
+							INNER JOIN underscore_collection
+								on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+							WHERE rownum = 1 
+							and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
+							and underscore_collection_type = #workflow#
+						</cfquery>
 						<cfif #namedGroups.underscore_collection_type# eq 'workflow'>
 							<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
 								<div class="border rounded bg-white py-2 col-12 px-2 float-left">
