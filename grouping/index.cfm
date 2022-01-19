@@ -67,7 +67,7 @@ limitations under the License.
 				<nav class="col-12 col-md-12 float-left">
 					<ul class="nav nav-tabs">
 						<cfloop query="types">
-							<li class="nav-item mr-2 mb-1">
+							<li class="nav-item mr-2">
 								<h2 class="h3 mb-0"><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="nav-link active font-capitalize">#types.underscore_collection_type#</a></h2>
 							<!---	<p class="small90 text-muted w-75 float-right">#types.description#</p>--->
 							</li>
@@ -98,7 +98,7 @@ limitations under the License.
 						and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
 					</cfquery>
 						<cfif len(#namedGroups.description#)gt 0>
-							<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 my-1">
+							<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
 								<div class="border rounded bg-white py-2 col-12 px-2 float-left">
 									<div class="row h-25 mx-0">
 										<cfif len(images.media_id) gt 0>
