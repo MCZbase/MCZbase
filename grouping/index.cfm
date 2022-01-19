@@ -74,7 +74,7 @@ limitations under the License.
 						</cfloop>
 						<div class="input-group w-auto float-right mt-2">
 							<div class="form-outline">
-								<input type="search" id="form1" class="data-entry-input py-1" />
+								<input type="search" id="form1" class="data-entry-input py-2" />
 							</div>
 							<button type="button" class="btn btn-xs btn-primary py-0"><i class="fas fa-search"></i></button>
 						</div>
