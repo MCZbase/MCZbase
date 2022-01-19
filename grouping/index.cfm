@@ -65,7 +65,7 @@ limitations under the License.
 		<div class="row mx-0 mb-4">
 			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
 				<nav class="col-12 col-md-3 float-left">
-					<ul class="list-unstyled text-right px-0 pr-xl-3 pl-xl-0 mb-3 mt-0 bg-light">
+					<ul class="list-unstyled text-right px-0 pr-xl-3 pl-xl-0 mb-3 mt-0">
 						<cfloop query="types">
 							<li class="my-3">
 								<h2 class="h3 mb-0 w-75 float-right"><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="text-dark">#types.underscore_collection_type#</a></h2>
