@@ -60,7 +60,9 @@ limitations under the License.
 				underscore_collection.displayed_media_id
 			ORDER BY underscore_collection_type, collection_name
 		</cfquery>
-	<h1 class="w-100 px-2 mt-4 mb-2 text-center">MCZ Featured Collections of Cataloged Items</h1>
+	<div class="w-100">
+		<h1 class="px-2 mt-4 mb-2 text-center">MCZ Featured Collections of Cataloged Items</h1>		
+	</div>
 	<div class="container-fluid">
 		<div class="row mx-0 mb-4">
 			<p class="font-italic text-dark w-75 mt-3 float-right">Placeholder text for overview of page....</p>
