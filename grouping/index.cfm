@@ -65,13 +65,13 @@ limitations under the License.
 		<div class="row mx-0 mb-4">
 			<p class="font-italic text-dark w-75 mt-3 float-right">Placeholder text for overview of page....</p>
 			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
-				<div class="input-group w-auto float-right mt-2">
+				<div class="input-group w-50 float-right mt-2">
 					<div class="form-outline">
 						<input type="search" id="form1" class="data-entry-input pt-2 pb-0" />
 					</div>
 					<button type="button" class="btn btn-xs btn-primary py-0"><i class="fas fa-search"></i></button>
 				</div>
-				<nav class="col-12 col-md-12 float-left">
+				<nav class="col-12 col-md-12 float-left w-50">
 					<ul class="nav nav-tabs">
 						<cfloop query="types">
 							<li class="nav-item mr-2">
@@ -81,7 +81,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</nav>
-				<section>
+				<section id="collection">
 					<cfloop query="namedGroups">
 					<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
@@ -114,6 +114,14 @@ limitations under the License.
 							</div>
 						</cfif>
 					</cfloop>
+				</section>
+				<section id="expedition">
+				</section>
+				<section id="grant">
+					
+				</section>
+				<section id="workflow">
+					
 				</section>
 			</main>
 		</div>
