@@ -65,7 +65,7 @@ limitations under the License.
 		<div class="row mx-0 mb-4">
 			
 			<div class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
-				<section class="col-12 col-md-3 float-left">
+				<nav class="col-12 col-md-3 float-left">
 					<ul class="list-unstyled text-right px-0 pr-xl-3 pl-xl-0 mb-3 mt-0 bg-light">
 						<cfloop query="types">
 							<li class="my-3">
@@ -85,7 +85,7 @@ limitations under the License.
 							</p>
 						</li>
 					</ul>
-				</section>
+				</nav>
 				<cfloop query="namedGroups">
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
