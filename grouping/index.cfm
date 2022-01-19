@@ -67,7 +67,7 @@ limitations under the License.
 				<nav class="col-12 col-md-12 float-left">
 					<ul class="nav nav-tabs">
 						<cfloop query="types">
-							<li class="nav-item mr-2">
+							<li class="nav-item mr-2 mb-1">
 								<h2 class="h3 mb-0"><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="nav-link active font-capitalize">#types.underscore_collection_type#</a></h2>
 							<!---	<p class="small90 text-muted w-75 float-right">#types.description#</p>--->
 							</li>
