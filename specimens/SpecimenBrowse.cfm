@@ -174,7 +174,7 @@ limitations under the License.
 								<cfelseif #toptypestatus# eq "Syntype">
 									<cfset typeStatusColor = "orange">
 								<cfelseif #toptypestatus# eq "Lectotype">
-									<cfset typeStatusColor = "darker-pink">
+									<cfset typeStatusColor = "red">
 								<cfelse>
 									<cfset typeStatusColor eq "text-danger">
 								</cfif>
