@@ -168,13 +168,13 @@ limitations under the License.
 								<cfset typeStatusColor ="">
 								<cfset toptypestatus = "#toptypestatus#">
 								<cfif #toptypestatus# eq "Neotype">
-									<cfset typeStatusColor = "secondary-red">
-								<cfelseif #toptypestatus# eq "Holotype">
-									<cfset typeStatusColor = "redder">
-								<cfelseif #toptypestatus# eq "Syntype">
 									<cfset typeStatusColor = "orange">
+								<cfelseif #toptypestatus# eq "Holotype">
+									<cfset typeStatusColor = "darkest_red">
+								<cfelseif #toptypestatus# eq "Syntype">
+									<cfset typeStatusColor = "dark_orange">
 								<cfelseif #toptypestatus# eq "Lectotype">
-									<cfset typeStatusColor = "red">
+									<cfset typeStatusColor = "reddish">
 								<cfelse>
 									<cfset typeStatusColor eq "text-danger">
 								</cfif>
