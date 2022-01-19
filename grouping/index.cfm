@@ -132,7 +132,6 @@ limitations under the License.
 								on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 							WHERE rownum = 1 
 							and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-							and underscore_collection_type = #expedition#
 						</cfquery>
 						<cfif #namedGroups.underscore_collection_type# eq 'expedition'>
 							<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
@@ -167,7 +166,6 @@ limitations under the License.
 								on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 							WHERE rownum = 1 
 							and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-							and underscore_collection_type = #grant#
 						</cfquery>
 						<cfif #namedGroups.underscore_collection_type# eq 'grant'>
 							<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
@@ -202,7 +200,6 @@ limitations under the License.
 								on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 							WHERE rownum = 1 
 							and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-							and underscore_collection_type = #workflow#
 						</cfquery>
 						<cfif #namedGroups.underscore_collection_type# eq 'workflow'>
 							<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
