@@ -72,18 +72,19 @@ limitations under the License.
 							<!---	<p class="small90 text-muted w-75 float-right">#types.description#</p>--->
 							</li>
 						</cfloop>
-						<div class="input-group w-auto float-right mt-2">
-							<div class="form-outline">
-								<input type="search" id="form1" class="data-entry-input py-2" />
-							</div>
-							<button type="button" class="btn btn-xs btn-primary py-0"><i class="fas fa-search"></i></button>
-						</div>
+
 <!---						<li class="mt-5 pt-3">
 							<p class="font-italic text-dark w-75 mt-3 float-right">
 								Placeholder text for overview of page....
 							</p>
 						</li>--->
 					</ul>
+					<div class="input-group w-auto float-right mt-2">
+						<div class="form-outline">
+							<input type="search" id="form1" class="data-entry-input py-2" />
+						</div>
+						<button type="button" class="btn btn-xs btn-primary py-0"><i class="fas fa-search"></i></button>
+					</div>
 				</nav>
 				<section>
 					<cfloop query="namedGroups">
