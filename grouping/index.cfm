@@ -76,7 +76,7 @@ limitations under the License.
 							<div class="form-outline">
 								<input type="search" id="form1" class="data-entry-input py-1" />
 							</div>
-							<button type="button" class="btn btn-xs btn-primary py-1"><i class="fas fa-search"></i></button>
+							<button type="button" class="btn btn-xs btn-primary py-0"><i class="fas fa-search"></i></button>
 						</div>
 <!---						<li class="mt-5 pt-3">
 							<p class="font-italic text-dark w-75 mt-3 float-right">
