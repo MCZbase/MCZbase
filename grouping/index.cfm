@@ -63,8 +63,7 @@ limitations under the License.
 					<h1 class="w-100 px-2 mt-4 mb-2 text-center">MCZ Featured Collections of Cataloged Items</h1>
 	<div class="container-fluid">
 		<div class="row mx-0 mb-4">
-			
-			<div class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
+			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
 				<nav class="col-12 col-md-3 float-left">
 					<ul class="list-unstyled text-right px-0 pr-xl-3 pl-xl-0 mb-3 mt-0 bg-light">
 						<cfloop query="types">
@@ -86,45 +85,47 @@ limitations under the License.
 						</li>
 					</ul>
 				</nav>
-				<cfloop query="namedGroups">
-				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						displayed_media_id as media_id
-					FROM
-						underscore_relation 
-					INNER JOIN underscore_collection
-						on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-					WHERE rownum = 1 
-					and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-				</cfquery>
-				<cfif len(#namedGroups.description#)gt 0>
-					<section class="col-12 col-md-3 float-left d-flex flex-wrap px-1 my-1">
-						<div class="border rounded bg-white py-2 col-12 px-2 float-left">
-							<div class="row h-25 mx-0">
-								<cfif len(images.media_id) gt 0>
-									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
-									<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
-									#mediablock#
+				<section>
+					<cfloop query="namedGroups">
+					<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							displayed_media_id as media_id
+						FROM
+							underscore_relation 
+						INNER JOIN underscore_collection
+							on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+						WHERE rownum = 1 
+						and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
+					</cfquery>
+						<cfif len(#namedGroups.description#)gt 0>
+							<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 my-1">
+								<div class="border rounded bg-white py-2 col-12 px-2 float-left">
+									<div class="row h-25 mx-0">
+										<cfif len(images.media_id) gt 0>
+											<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
+											<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
+											#mediablock#
+											</div>
+		<!---								<cfelse>
+											<div class="col-12 col-md-3 col-xl-2 py-2 float-left bg-light border rounded">
+												<a href="" class="d-block my-0 w-100 active text-center">
+													<img src = "/shared/images/Image-x-generic.svg" class="mx-auto w-75">
+												</a>
+											</div>--->
+										</cfif>
+										<div class="col float-left mt-2">
+											<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
+										<!---	<p>#namedGroups.description#</p>--->
+											<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
+											<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
+										</div>
 									</div>
-<!---								<cfelse>
-									<div class="col-12 col-md-3 col-xl-2 py-2 float-left bg-light border rounded">
-										<a href="" class="d-block my-0 w-100 active text-center">
-											<img src = "/shared/images/Image-x-generic.svg" class="mx-auto w-75">
-										</a>
-									</div>--->
-								</cfif>
-								<div class="col float-left mt-2">
-									<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
-								<!---	<p>#namedGroups.description#</p>--->
-									<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
-									<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
 								</div>
 							</div>
-						</div>
-					</section>
-				</cfif>
-			</cfloop>
-			</div>
+						</cfif>
+					</cfloop>
+				</section>
+			</main>
 		</div>
 	</div>
 </cfoutput>
