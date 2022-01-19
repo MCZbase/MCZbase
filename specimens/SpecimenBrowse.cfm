@@ -134,7 +134,7 @@ limitations under the License.
 	
 		<div class="row mx-0 bg-white">
 			<nav class="col-3 mb-2 px-3">
-				<ul class="list-unstyled text-right px-0 pr-xl-0 pl-xl-3 mb-3 mt-4 bg-light">
+				<ul class="list-unstyled text-right px-0 pr-xl-3 pl-xl-0 mb-3 mt-4 bg-light">
 					<li class="my-3">
 						<h2 class="h3 mb-0 w-75 float-right"><a href="##section1" class="text-dark cbp-current">Primary Types</a></h2>
 						<p class="small90 text-muted w-75 float-right">description</p>
