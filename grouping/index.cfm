@@ -60,9 +60,10 @@ limitations under the License.
 				underscore_collection.displayed_media_id
 			ORDER BY underscore_collection_type, collection_name
 		</cfquery>
-					<h1 class="w-100 px-2 mt-4 mb-2 text-center">MCZ Featured Collections of Cataloged Items</h1>
+	<h1 class="w-100 px-2 mt-4 mb-2 text-center">MCZ Featured Collections of Cataloged Items</h1>
 	<div class="container-fluid">
 		<div class="row mx-0 mb-4">
+			<p class="font-italic text-dark w-75 mt-3 float-right">Placeholder text for overview of page....</p>
 			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
 				<div class="input-group w-auto float-right mt-2">
 					<div class="form-outline">
@@ -75,17 +76,10 @@ limitations under the License.
 						<cfloop query="types">
 							<li class="nav-item mr-2">
 								<h2 class="h3 mb-0"><a href="/grouping/index.cfm?underscore_collection_type=#types.underscore_collection_type#" class="nav-link active font-capitalize">#types.underscore_collection_type#</a></h2>
-							<!---	<p class="small90 text-muted w-75 float-right">#types.description#</p>--->
+							<!---<p class="small90 text-muted w-75 float-right">#types.description#</p>--->
 							</li>
 						</cfloop>
-
-<!---						<li class="mt-5 pt-3">
-							<p class="font-italic text-dark w-75 mt-3 float-right">
-								Placeholder text for overview of page....
-							</p>
-						</li>--->
 					</ul>
-
 				</nav>
 				<section>
 					<cfloop query="namedGroups">
