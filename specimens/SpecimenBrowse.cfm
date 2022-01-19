@@ -127,7 +127,7 @@ limitations under the License.
 	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
 </cfif>
 <cfoutput>
-	<h1 class="text-center mt-3 mb-3">Browse Specimens by Category</h1>
+	<h1 class="text-center mt-4 mb-2">Browse Specimens by Category</h1>
 		
 	<main class="container-fluid">
 		<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
