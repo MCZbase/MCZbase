@@ -87,6 +87,7 @@ limitations under the License.
 
 				</nav>
 				<section id="collection">
+					<cfset underscorecollectiontype=collection>
 					<cfloop query="namedGroups">
 					<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
@@ -97,7 +98,7 @@ limitations under the License.
 							on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 						WHERE rownum = 1 
 						and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-						and underscore_collection_type = #collection#
+						and underscore_collection.underscore_collection_type = #underscorecollectiontype#
 					</cfquery>
 						<cfif len(#namedGroups.description#)gt 0>
 							<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
