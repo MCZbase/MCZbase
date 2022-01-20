@@ -159,7 +159,11 @@ limitations under the License.
 				</div>
 			</div>
   </div>--->
-			<cfswitch expression="#action#">
+	
+
+					<!--- Tab header div --->
+					<div class="tabs card-header tab-card-header px-2 pt-3">
+							<cfswitch expression="#action#">
 							<cfcase value="fixedSearch">
 								<cfset fixedTabActive = "active">
 								<cfset fixedTabShow = "">
@@ -204,10 +208,7 @@ limitations under the License.
 								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfdefaultcase>
-						</cfswitch>		
-
-					<!--- Tab header div --->
-					<div class="tabs card-header tab-card-header px-2 pt-3">
+						</cfswitch>
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" id="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
