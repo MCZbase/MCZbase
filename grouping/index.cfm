@@ -78,21 +78,21 @@ limitations under the License.
 						<div class="tabs card-header tab-card-header px-2 pt-3">
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs">
-								<li class="nav-item">
+								<li class="nav-item mx-1">
 								<a class="nav-link active" href="##home">Collection</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mx-1">
 								<a class="nav-link" href="##menu1">Expedition</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mx-1">
 								<a class="nav-link" href="##menu2">Grant</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mx-1">
 								<a class="nav-link" href="##menu3">Workflow</a>
 								</li>
 							</ul>
 							<!-- Tab panes -->
-							<div class="tab-content border flex-wrap d-flex mb-3">
+							<div class="tab-content border flex-wrap d-flex mb-1">
 							<div id="home" class="container-fluid tab-pane active"><br>
 							<h3>Collection</h3>
 								<cfloop query="namedGroups">
