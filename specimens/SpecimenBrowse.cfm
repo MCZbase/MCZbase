@@ -265,7 +265,7 @@ limitations under the License.
 											from 
 												<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 											where country is not null
-													and country = #continents.country#
+												
 											group by country
 											order by country
 										</cfquery>
