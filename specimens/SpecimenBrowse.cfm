@@ -269,7 +269,7 @@ limitations under the License.
 											group by country
 											order by country
 										</cfquery>
-										<li class="list-group-item col-3 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#countries1.country#</a> (#ct#)</li>
+										<li class="list-group-item col-3 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#countries1.country#</a> (#countries1.ct#)</li>
 								
 							
 <!---									<cfif #notcountries.continent_ocean# eq "">
