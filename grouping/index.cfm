@@ -190,9 +190,8 @@ limitations under the License.
 
   <!-- Tab panes -->
   <div class="tab-content border mb-3">
-    <div id="home" class="container tab-pane active"><br>
+    <div id="home" class="container-fluid tab-pane active"><br>
       <h3>Collection</h3>
-    	<cfset underscorecollectiontype='collection'>
 			<cfloop query="namedGroups">
 			<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
