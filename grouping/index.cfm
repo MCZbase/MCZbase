@@ -70,11 +70,6 @@ limitations under the License.
 <div class="row mx-0 mb-4">
 	<div class="col-9 mx-auto">
 	<p class="text-dark mt-3 text-justified">The Museum of Comparative Zoology (MCZ) contains over 21-million specimens in ten research collections that comprise one of the world's richest and most varied resources for studying the diversity of life. The museum serves as the primary repository for zoological specimens collected by past and present Harvard faculty-curators, staff, and associates conducting research around the world. The public can see a small percentage of our holdings on display at the Harvard Museum of Natural History, but visitors can also browse MCZ specimens and metadata online via our Featured Collections.</p>
-	<ul class="list-group font-italic">
-		<li class="list-group-item">Collections highlight specimens that are linked via their shared history and includes collections assembled by famous naturalists, histological slide collections, and acquisitions or exchanges from other museums.</li>
-		<li class="list-group-item">Expeditions feature specimens collected during specific voyages undertaken for the purpose of scientific exploration. </li>
-		<li class="list-group-item">Grants showcase specimens used in funded work and includes digitization projects that enrich digital specimen data and make MCZ holdings more accessible to researchers around the world.</li>
-	</ul>
 	</div>	
 	<cfoutput>
 		<main class="col-12 col-md-12 px-2 py-2 mb-3 float-left mt-1">
@@ -99,6 +94,7 @@ limitations under the License.
 					<div class="tab-content border flex-wrap d-flex mb-1">
 						<div id="home" class="container-fluid tab-pane active"><br>
 							<h3 class="px-2">Collections</h3>
+							<p>Collections highlight specimens that are linked via their shared history and includes collections assembled by famous naturalists, histological slide collections, and acquisitions or exchanges from other museums.</p>
 							<cfloop query="namedGroups">
 								<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT
@@ -133,6 +129,7 @@ limitations under the License.
 						</div>
 						<div id="menu1" class="container tab-pane fade"><br>
 							<h3 class="px-2">Expeditions</h3>
+							<p>Expeditions feature specimens collected during specific voyages undertaken for the purpose of scientific exploration.</p>
 							<cfloop query="namedGroups">
 								<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT
@@ -168,6 +165,7 @@ limitations under the License.
 						</div>
 						<div id="menu2" class="container tab-pane fade"><br>
 							<h3 class="px-2">Grants</h3>
+							<p>Grants showcase specimens used in funded work and includes digitization projects that enrich digital specimen data and make MCZ holdings more accessible to researchers around the world.</p>
 							<cfloop query="namedGroups">
 							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
