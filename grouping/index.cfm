@@ -145,9 +145,9 @@ limitations under the License.
 						</cfdefaultcase>
 					</cfswitch>
 					<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
-						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" data-toggle="tab" id="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
-						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#"  data-toggle="tab" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
-						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#"  data-toggle="tab" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
+						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive# nav nav-tabs" data-toggle="tab" id="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
+						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive# nav nav-tabs"  data-toggle="tab" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
+						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive# nav nav-tabs"  data-toggle="tab" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
 					</div>
 					<div class="tab-content">
 						<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="tab-pane mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
