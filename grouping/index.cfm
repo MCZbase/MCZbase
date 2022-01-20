@@ -90,7 +90,7 @@ limitations under the License.
 </div>
 
 <script>
-var triggerTabList = [].slice.call(document.querySelectorAll('#myTab button'))
+var triggerTabList = [].slice.call(document.querySelectorAll('##myTab button'))
 triggerTabList.forEach(function (triggerEl) {
   var tabTrigger = new bootstrap.Tab(triggerEl)
 
