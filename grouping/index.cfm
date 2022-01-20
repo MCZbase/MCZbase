@@ -216,7 +216,6 @@ limitations under the License.
 								</cfif>
 								<div class="col float-left mt-2">
 									<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
-									<p>#namedGroups.description#</p>
 									<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
 									<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
 								</div>
