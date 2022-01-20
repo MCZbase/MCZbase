@@ -97,7 +97,7 @@ limitations under the License.
 			<p class="font-italic text-dark w-75 mt-3 text-center">Placeholder text for overview of page....</p>
 			<main id="content" class="col-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
 			<output>
-				<div class="tabs card-header w-100 tab-card-header px-2 pt-3">
+				<div class="tabs card-header tab-card-header px-2 pt-3">
 					<cfswitch expression="#action#">
 						<cfcase value="fixedSearch">
 							<cfset fixedTabActive = "active">
@@ -149,7 +149,7 @@ limitations under the License.
 						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
 						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
 					</div>
-					<div class="tab-content">
+					<div class="tab-content col-12">
 						<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
 							<section role="search" class="container-fluid">
 								one
