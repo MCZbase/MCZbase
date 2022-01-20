@@ -94,7 +94,7 @@ limitations under the License.
 							<!-- Tab panes -->
 							<div class="tab-content border flex-wrap d-flex mb-1">
 							<div id="home" class="container-fluid tab-pane active"><br>
-							<h3 class="px-1">Collection</h3>
+							<h3 class="px-1">Collections</h3>
 								<cfloop query="namedGroups">
 								<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT
@@ -128,16 +128,108 @@ limitations under the License.
 							</cfloop>
 						</div>
 						<div id="menu1" class="container tab-pane fade"><br>
-						<h3>Menu 1</h3>
-						<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+						<h3>Expeditions</h3>
+						<cfloop query="namedGroups">
+							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									displayed_media_id as media_id
+								FROM
+									underscore_relation 
+								INNER JOIN underscore_collection
+									on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+								WHERE rownum = 1 
+								and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
+							</cfquery>
+							<cfif #namedGroups.underscore_collection_type# eq 'expedition'>
+								<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
+									<div class="border rounded bg-white py-2 col-12 px-2 float-left">
+										<div class="row h-25 mx-0">
+											<cfif len(images.media_id) gt 0>
+												<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
+												<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
+												#mediablock#
+												</div>
+											</cfif>
+											<div class="col float-left mt-2">
+												<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
+												<p>#namedGroups.description#</p>
+												<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
+												<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</cfif>
+						</cfloop>
 						</div>
 						<div id="menu2" class="container tab-pane fade"><br>
-						<h3>Menu 2</h3>
-						<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+						<h3>Grants</h3>
+						<cfloop query="namedGroups">
+							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									displayed_media_id as media_id
+								FROM
+									underscore_relation 
+								INNER JOIN underscore_collection
+									on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+								WHERE rownum = 1 
+								and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
+							</cfquery>
+							<cfif #namedGroups.underscore_collection_type# eq 'grant'>
+								<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
+									<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height:110">
+										<div class="row h-25 mx-0">
+											<cfif len(images.media_id) gt 0>
+												<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
+												<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
+												#mediablock#
+												</div>
+											</cfif>
+											<div class="col float-left mt-2">
+												<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
+												<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
+												<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</cfif>
+						</cfloop>
 						</div>
 						<div id="menu3" class="container tab-pane fade"><br>
-						<h3>Menu 2</h3>
-						<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+						<h3>Workflow</h3>
+							<cfloop query="namedGroups">
+							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									displayed_media_id as media_id
+								FROM
+									underscore_relation 
+								INNER JOIN underscore_collection
+									on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+								WHERE rownum = 1 
+								and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
+							</cfquery>
+							<cfif #namedGroups.underscore_collection_type# eq 'workflow'>
+								<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
+									<div class="border rounded bg-white py-2 col-12 px-2 float-left">
+										<div class="row h-25 mx-0">
+											<cfif len(images.media_id) gt 0>
+												<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
+												<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
+												#mediablock#
+												</div>
+											</cfif>
+											<div class="col float-left mt-2">
+												<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
+											
+												<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
+												<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</cfif>	
+						</cfloop>
 						</div>
 						</div>
 <!---							<p class="act"><b>Active Tab</b>: <span></span></p>
@@ -221,38 +313,7 @@ limitations under the License.
 						</cfloop>
 					</div>
 					<div id="expedition" class="tab-pane fade" role="tabpanel" aria-labelledby="expedition-tab">
-						<cfloop query="namedGroups">
-							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									displayed_media_id as media_id
-								FROM
-									underscore_relation 
-								INNER JOIN underscore_collection
-									on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-								WHERE rownum = 1 
-								and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-							</cfquery>
-							<cfif #namedGroups.underscore_collection_type# eq 'expedition'>
-								<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
-									<div class="border rounded bg-white py-2 col-12 px-2 float-left">
-										<div class="row h-25 mx-0">
-											<cfif len(images.media_id) gt 0>
-												<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
-												<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
-												#mediablock#
-												</div>
-											</cfif>
-											<div class="col float-left mt-2">
-												<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
-												<p>#namedGroups.description#</p>
-												<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
-												<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</cfif>
-						</cfloop>
+						
 					</div>
 					<div id="grant" class="tab-pane fade" role="tabpanel" aria-labelledby="grant-tab">
 						<cfloop query="namedGroups">
