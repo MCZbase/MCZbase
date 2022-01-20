@@ -49,7 +49,6 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
-<cfoutput>
 		<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT underscore_collection_type, description 
 			FROM ctunderscore_collection_type
