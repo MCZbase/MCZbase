@@ -214,17 +214,16 @@ limitations under the License.
 										ORDER BY 
 											collection
 									</cfquery>
-									<cfif #primaryTypes2.collection# eq 'Entomology'>
+								
 										<div class="col-12 col-md-3 float-left float-left px-0 mt-1 mb-1">
 											<ul class="d-flex flex-wrap px-1">
-										
+												<cfif #primaryTypes2.collection# eq 'Entomology'>
 												<li class="list-group-item col-12 mb-1">
 													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)
 												</li>
-											
+												</cfif>
 											</ul>
 										</div>
-									</cfif>
 								</cfloop>
 							</div>
 							<div id="menu1" class="container tab-pane fade"><br>
