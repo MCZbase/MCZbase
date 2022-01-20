@@ -63,15 +63,15 @@ limitations under the License.
 		underscore_collection.displayed_media_id
 	ORDER BY underscore_collection_type, collection_name
 </cfquery>
+<cfoutput>
 <div class="w-100">
-<h1 class="px-2 mt-5 mb-0 text-center h2">MCZ Featured Collections of Cataloged Items</h1>		
+	<h1 class="px-2 mt-5 mb-0 text-center h2">MCZ Featured Collections of Cataloged Items</h1>		
 </div>
 <div class="container-fluid">
-<div class="row mx-0 mb-4">
-	<div class="col-10 mx-auto">
-	<p class="text-dark mt-1 text-justified small90 mb-1">The Museum of Comparative Zoology (MCZ) contains over 21-million specimens in ten research collections that comprise one of the world's richest and most varied resources for studying the diversity of life. The museum serves as the primary repository for zoological specimens collected by past and present Harvard faculty-curators, staff, and associates conducting research around the world. The public can see a small percentage of our holdings on display at the Harvard Museum of Natural History, but visitors can also browse MCZ specimens and metadata online via our Featured Collections.</p>
-	</div>	
-	<cfoutput>
+	<div class="row mx-0 mb-4">
+		<div class="col-10 mx-auto">
+			<p class="text-dark mt-1 text-justified small90 mb-1">The Museum of Comparative Zoology (MCZ) contains over 21-million specimens in ten research collections that comprise one of the world's richest and most varied resources for studying the diversity of life. The museum serves as the primary repository for zoological specimens collected by past and present Harvard faculty-curators, staff, and associates conducting research around the world. The public can see a small percentage of our holdings on display at the Harvard Museum of Natural History, but visitors can also browse MCZ specimens and metadata online via our Featured Collections.</p>
+		</div>	
 		<main class="col-12 col-md-12 px-2 py-2 mb-3 float-left mt-1">
 			<div class="container mt-2">
 				<div class="tabs card-header tab-card-header px-2 pt-3">
@@ -252,8 +252,7 @@ limitations under the License.
 		var triggerFirstTabEl = document.querySelector('##myTab li:first-child a')
 		bootstrap.Tab.getInstance(triggerFirstTabEl).show() // Select first tab
 		</script>
-	</cfoutput>
+	</div>
 </div>
-</div>
-
+</cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
