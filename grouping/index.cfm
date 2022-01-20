@@ -260,17 +260,5 @@ limitations under the License.
 		</div>
 	</div>
 </cfoutput>
-<script>
-var triggerTabList = [].slice.call(document.querySelectorAll('#NamedGroupTabs a'))
-triggerTabList.forEach(function (triggerEl) {
-  var tabTrigger = new bootstrap.Tab(triggerEl)
 
-  triggerEl.addEventListener('click', function (event) {
-    event.preventDefault()
-    tabTrigger.show()
-  })
-})	
-var triggerFirstTabEl = document.querySelector('#NamedGroupTabs li:first-child a')
-bootstrap.Tab.getInstance(triggerFirstTabEl).show() // Select first tab
-</script>
 <cfinclude template = "/shared/_footer.cfm">
