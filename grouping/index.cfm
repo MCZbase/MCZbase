@@ -169,33 +169,72 @@ limitations under the License.
 				</div>
 								
 								<div class="container mt-3">
-  <h2>Dynamic Tabs with jQuery</h2>
-  <p>Click on the Tabs to display the active and previous tab.</p>  
+  <h2>MCZ Featured Collections of Cataloged Items</h2>
+  <p>Placeholder text for overview of page....</p>  
   
   <!-- Nav tabs -->
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link active" href="##home">Home</a>
+      <a class="nav-link active" href="##home">Collection</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="##menu1">Menu 1</a>
+      <a class="nav-link" href="##menu1">Expedition</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="##menu2">Menu 2</a>
+      <a class="nav-link" href="##menu2">Grant</a>
+    </li>
+	<li class="nav-item">
+      <a class="nav-link" href="##menu3">Workflow</a>
     </li>
   </ul>
 
   <!-- Tab panes -->
   <div class="tab-content border mb-3">
     <div id="home" class="container tab-pane active"><br>
-      <h3>HOME</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <h3>Collection</h3>
+    	<cfset underscorecollectiontype='collection'>
+			<cfloop query="namedGroups">
+			<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					displayed_media_id as media_id, underscore_collection.underscore_collection_type
+				FROM
+					underscore_relation 
+				INNER JOIN underscore_collection
+					on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				WHERE rownum = 1 
+				and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
+			</cfquery>
+				<cfif #namedGroups.underscore_collection_type# eq 'collection'>
+					<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
+						<div class="border rounded bg-white py-2 col-12 px-2 float-left">
+							<div class="row h-25 mx-0">
+								<cfif len(images.media_id) gt 0>
+									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
+									<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
+									#mediablock#
+									</div>
+								</cfif>
+								<div class="col float-left mt-2">
+									<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
+									<p>#namedGroups.description#</p>
+									<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
+									<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</cfif>
+			</cfloop>
     </div>
     <div id="menu1" class="container tab-pane fade"><br>
       <h3>Menu 1</h3>
       <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
     </div>
     <div id="menu2" class="container tab-pane fade"><br>
+      <h3>Menu 2</h3>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+    </div>
+	 <div id="menu3" class="container tab-pane fade"><br>
       <h3>Menu 2</h3>
       <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
     </div>
