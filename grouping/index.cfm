@@ -249,7 +249,7 @@ limitations under the License.
 			$(".prev span").text(y);
 		  });
 		});
-		var triggerFirstTabEl = document.querySelector('#myTab li:first-child a')
+		var triggerFirstTabEl = document.querySelector('##myTab li:first-child a')
 		bootstrap.Tab.getInstance(triggerFirstTabEl).show() // Select first tab
 		</script>
 	</cfoutput>
