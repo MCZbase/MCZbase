@@ -385,6 +385,8 @@ function topFunction() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 }
+var triggerFirstTabEl = document.querySelector('##myTab li:first-child a')
+			bootstrap.Tab.getInstance(triggerFirstTabEl).show() // Select first tab
 </script>
 
 
