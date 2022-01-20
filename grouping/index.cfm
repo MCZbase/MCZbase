@@ -100,24 +100,24 @@ limitations under the License.
   padding : 5px 15px;
 }
 
-##exTab2 h3 {
+#exTab2 h3 {
   color : white;
-  background-color: ##428bca;
+  background-color: #428bca;
   padding : 5px 15px;
 }
 
-##exTab1 .nav-pills > li > a {
+#exTab1 .nav-pills > li > a {
   border-radius: 0;
 }
 
 
-##exTab3 .nav-pills > li > a {
+#exTab3 .nav-pills > li > a {
   border-radius: 4px 4px 0 0 ;
 }
 
 ##exTab3 .tab-content {
   color : white;
-  background-color: ##428bca;
+  background-color: #428bca;
   padding : 5px 15px;
 }
 </style>
