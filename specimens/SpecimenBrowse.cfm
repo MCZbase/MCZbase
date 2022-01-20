@@ -272,9 +272,9 @@ limitations under the License.
 										<li class="list-group-item col-3 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
 								
 							
-									<cfloop query="notcountries">
+<!---									<cfif #notcountries.continent_ocean# eq "">
 										<li class="list-group-item col-3 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
-									</cfloop>
+									</cfif>--->
 									</cfloop>									
 								</ul>
 							</div>
