@@ -202,19 +202,7 @@ limitations under the License.
 						<div class="tab-content border flex-wrap d-flex mb-1">
 							<div id="home" class="container-fluid tab-pane active"><br>
 								<h3 class="px-2">Primary Types</h3>
-								<cfloop query="primaryTypes">
-									<cfquery name="primaryTypes2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-										SELECT collection
-										FROM
-											<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
-										WHERE
-											toptypestatuskind = 'Primary'
-										GROUP BY
-											collection
-										ORDER BY 
-											collection
-									</cfquery>
-								
+								<cfloop query="primaryTypes">						
 										<div class="col-12 col-md-3 float-left float-left px-0 mt-1 mb-1">
 											<ul class="d-flex flex-wrap px-1">
 											
