@@ -237,7 +237,7 @@ limitations under the License.
 				</div>
 			</div>
 		</main>
-				<nav class="col-12 col-md-12 float-left w-100">
+<!---				<nav class="col-12 col-md-12 float-left w-100">
 						<div class="input-group w-auto mt-2 position-absolute" style="right:.5rem;">
 							<div class="form-outline">
 								<input type="search" id="form1" class="data-entry-input py-1" />
@@ -387,7 +387,7 @@ limitations under the License.
 											</cfif>
 											<div class="col float-left mt-2">
 												<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
-												<p>#namedGroups.description#</p>--->
+											
 												<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
 												<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
 											</div>
@@ -398,7 +398,7 @@ limitations under the License.
 						</cfloop>
 					</div>
 				</section>
-			</main>
+			</main>--->
 		</div>
 	</div>
 </cfoutput>
