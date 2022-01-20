@@ -169,8 +169,9 @@ limitations under the License.
 <div class="w-100">
 <style>
 	.nav-tabs .nav-link {background-color: #fff;border-color: #fff;border-bottom: 1px solid #f5f5f5;font-weight: 450;}	
-	.nav-tabs .nav-link.active {background-color: #f5f5f5;border-color: #f5f5f5; font-weight:550;}
+	.nav-tabs .nav-link.active, .show {background-color: #f5f5f5;border-color: #f5f5f5; font-weight:550;}
 </style>
+
 <h1 class="px-2 mt-4 mb-2 text-center">Browse Specimens by Category</h1>		
 </div>
 <div class="container-fluid">
@@ -183,7 +184,7 @@ limitations under the License.
 						<!-- Nav tabs -->
 						<ul class="nav nav-tabs">
 							<li class="nav-item mr-1">
-							<a class="nav-link active" href="##home">Primary Types</a>
+							<a class="nav-link show active" href="##home">Primary Types</a>
 							</li>
 							<li class="nav-item mx-1">
 							<a class="nav-link" href="##menu1">MCZ Featured Collections of Cataloged Items</a>
