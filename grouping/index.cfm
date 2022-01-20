@@ -21,6 +21,9 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
+<style>
+	.nav-link {background-color: #f8f3f1;}	
+</style>
 		<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT underscore_collection_type, description 
 			FROM ctunderscore_collection_type
@@ -74,19 +77,19 @@ limitations under the License.
 						<div class="tabs card-header tab-card-header px-2 pt-3">
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs">
-	<li class="nav-item">
-	<a class="nav-link active" href="##home">Collection</a>
-	</li>
-	<li class="nav-item">
-	<a class="nav-link" href="##menu1">Expedition</a>
-	</li>
-	<li class="nav-item">
-	<a class="nav-link" href="##menu2">Grant</a>
-	</li>
-	<li class="nav-item">
-	<a class="nav-link" href="##menu3">Workflow</a>
-	</li>
-	</ul>
+								<li class="nav-item">
+								<a class="nav-link active" href="##home">Collection</a>
+								</li>
+								<li class="nav-item">
+								<a class="nav-link" href="##menu1">Expedition</a>
+								</li>
+								<li class="nav-item">
+								<a class="nav-link" href="##menu2">Grant</a>
+								</li>
+								<li class="nav-item">
+								<a class="nav-link" href="##menu3">Workflow</a>
+								</li>
+							</ul>
 							<!-- Tab panes -->
 							<div class="tab-content border flex-wrap d-flex mb-3">
 							<div id="home" class="container-fluid tab-pane active"><br>
@@ -136,8 +139,8 @@ limitations under the License.
 						<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
 						</div>
 						</div>
-							<p class="act"><b>Active Tab</b>: <span></span></p>
-							<p class="prev"><b>Previous Tab</b>: <span></span></p>
+<!---							<p class="act"><b>Active Tab</b>: <span></span></p>
+							<p class="prev"><b>Previous Tab</b>: <span></span></p>--->
 						</div>
 					</div>
 				</main>
