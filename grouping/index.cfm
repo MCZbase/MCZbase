@@ -94,7 +94,7 @@ limitations under the License.
 					<div class="tab-content border flex-wrap d-flex mb-1">
 						<div id="home" class="container-fluid tab-pane active"><br>
 							<h3 class="px-2">Collections</h3>
-							<p>Collections highlight specimens that are linked via their shared history and includes collections assembled by famous naturalists, histological slide collections, and acquisitions or exchanges from other museums.</p>
+							<p class="px-2">Collections highlight specimens that are linked via their shared history and includes collections assembled by famous naturalists, histological slide collections, and acquisitions or exchanges from other museums.</p>
 							<cfloop query="namedGroups">
 								<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT
@@ -129,7 +129,7 @@ limitations under the License.
 						</div>
 						<div id="menu1" class="container tab-pane fade"><br>
 							<h3 class="px-2">Expeditions</h3>
-							<p>Expeditions feature specimens collected during specific voyages undertaken for the purpose of scientific exploration.</p>
+							<p class="px-2">Expeditions feature specimens collected during specific voyages undertaken for the purpose of scientific exploration.</p>
 							<cfloop query="namedGroups">
 								<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT
@@ -165,7 +165,7 @@ limitations under the License.
 						</div>
 						<div id="menu2" class="container tab-pane fade"><br>
 							<h3 class="px-2">Grants</h3>
-							<p>Grants showcase specimens used in funded work and includes digitization projects that enrich digital specimen data and make MCZ holdings more accessible to researchers around the world.</p>
+							<p class="px-2">Grants showcase specimens used in funded work and includes digitization projects that enrich digital specimen data and make MCZ holdings more accessible to researchers around the world.</p>
 							<cfloop query="namedGroups">
 							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
