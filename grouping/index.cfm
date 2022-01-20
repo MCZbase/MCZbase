@@ -22,7 +22,7 @@ limitations under the License.
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <style>
-	.nav-tabs .nav-link {background-color: #fff;border-color: #f5f5f5;}	
+	.nav-tabs .nav-link {background-color: #fff;border-color: #fff;}	
 	.nav-tabs .nav-link.active {background-color: #f5f5f5;border-color: #f5f5f5;}
 </style>
 		<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -78,7 +78,7 @@ limitations under the License.
 						<div class="tabs card-header tab-card-header px-2 pt-3">
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs">
-								<li class="nav-item mx-1">
+								<li class="nav-item mr-1">
 								<a class="nav-link active" href="##home">Collection</a>
 								</li>
 								<li class="nav-item mx-1">
