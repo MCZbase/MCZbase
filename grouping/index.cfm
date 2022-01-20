@@ -189,7 +189,7 @@ limitations under the License.
   </ul>
 
   <!-- Tab panes -->
-  <div class="tab-content border mb-3">
+  <div class="tab-content border flex-wrap d-flex mb-3">
     <div id="home" class="container-fluid tab-pane active"><br>
       <h3>Collection</h3>
 			<cfloop query="namedGroups">
