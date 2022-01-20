@@ -90,8 +90,15 @@ limitations under the License.
 </div>
 
 <script>
-  var firstTabEl = document.querySelector('##myTab li:last-child button')
-  var firstTab = new bootstrap.Tab(firstTabEl)
+var triggerTabList = [].slice.call(document.querySelectorAll('#myTab button'))
+triggerTabList.forEach(function (triggerEl) {
+  var tabTrigger = new bootstrap.Tab(triggerEl)
+
+  triggerEl.addEventListener('click', function (event) {
+    event.preventDefault()
+    tabTrigger.show()
+  })
+})
 
   firstTab.show()
 var tabEl = document.querySelector('button[data-bs-toggle="tab"]')
