@@ -17,6 +17,41 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
+	<cfif not isdefined("action")>
+	<cfset action="fixedSearch">
+</cfif>
+<cfswitch expression="#action#">
+	<!--- API note: action and method seem duplicative, action is required and used to determine
+			which tab to show, method invokes target backing method in form submission, but when 
+			invoking this page with execute=true method does not need to be included in the call
+			even though it will be included in the URI parameter list when clicking on the 
+			"Link to this search" link.
+	--->
+	<cfcase value="fixedSearch">
+		<cfset pageTitle = "Basic Specimen Search">
+		<cfif isdefined("execute")>
+			<cfset execute="fixed">
+		</cfif>
+	</cfcase>
+	<cfcase value="keywordSearch">
+		<cfset pageTitle = "Specimen Search by Keyword">
+		<cfif isdefined("execute")>
+			<cfset execute="keyword">
+		</cfif>
+	</cfcase>
+	<cfcase value="builderSearch">
+		<cfset pageTitle = "Specimen Search Builder">
+		<cfif isdefined("execute")>
+			<cfset execute="builder">
+		</cfif>
+	</cfcase>
+	<cfdefaultcase>
+		<cfset pageTitle = "Basic Specimen Search">
+		<cfif isdefined("execute")>
+			<cfset execute="fixed">
+		</cfif>
+	</cfdefaultcase>
+</cfswitch>
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
@@ -124,14 +159,59 @@ limitations under the License.
 				</div>
 			</div>
   </div>--->
-				
+			<cfswitch expression="#action#">
+							<cfcase value="fixedSearch">
+								<cfset fixedTabActive = "active">
+								<cfset fixedTabShow = "">
+								<cfset keywordTabActive = "">
+								<cfset keywordTabShow = "hidden">
+								<cfset builderTabActive = "">
+								<cfset builderTabShow = "hidden">
+								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfcase>
+							<cfcase value="keywordSearch">
+								<cfset fixedTabActive = "">
+								<cfset fixedTabShow = "hidden">
+								<cfset keywordTabActive = "active">
+								<cfset keywordTabShow = "">
+								<cfset builderTabActive = "">
+								<cfset builderTabShow = "hidden">
+								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfcase>
+							<cfcase value="builderSearch">
+								<cfset fixedTabActive = "">
+								<cfset fixedTabShow = "hidden">
+								<cfset keywordTabActive = "">
+								<cfset keywordTabShow = "hidden">
+								<cfset builderTabActive = "active">
+								<cfset builderTabShow = "">
+								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
+							</cfcase>
+							<cfdefaultcase>
+								<cfset fixedTabActive = "active">
+								<cfset fixedTabShow = "">
+								<cfset keywordTabActive = "">
+								<cfset keywordTabShow = "hidden">
+								<cfset builderTabActive = "">
+								<cfset builderTabShow = "hidden">
+								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfdefaultcase>
+						</cfswitch>		
 
 					<!--- Tab header div --->
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 active" id="1" role="tab" aria-controls="fixedSearchPanel"  aria-selected="true" tabindex="0">Basic Search</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 " id="2" role="tab" aria-controls="keywordSearchPanel"  aria-selected="false" tabindex="-1" >Keyword Search</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0" id="3" role="tab" aria-controls="builderSearchPanel"  aria-selected="false" tabindex="-1">Search Builder</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" id="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
 						</div>
 						<div class="tab-content">
 							<!---Fixed Search tab panel--->
