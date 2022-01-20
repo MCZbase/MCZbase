@@ -399,6 +399,6 @@ function topFunction() {
   document.documentElement.scrollTop = 0;
 }
 </script>
-</cfoutput>
+
 
 <cfinclude template = "/shared/_footer.cfm">
