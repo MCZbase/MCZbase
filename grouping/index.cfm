@@ -169,7 +169,7 @@ limitations under the License.
 						</cfquery>
 						<cfif #namedGroups.underscore_collection_type# eq 'grant'>
 							<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
-								<div class="border rounded bg-white py-2 col-12 px-2 float-left">
+								<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height:110">
 									<div class="row h-25 mx-0">
 										<cfif len(images.media_id) gt 0>
 											<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
@@ -179,7 +179,6 @@ limitations under the License.
 										</cfif>
 										<div class="col float-left mt-2">
 											<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
-										<!---	<p>#namedGroups.description#</p>--->
 											<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
 											<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
 										</div>
