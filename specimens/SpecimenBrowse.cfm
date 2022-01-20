@@ -119,6 +119,8 @@ limitations under the License.
 		toptypestatuskind = 'Primary'
 	GROUP BY
 		collection, collection_id, toptypestatus
+	ORDER BY 
+		collection
 </cfquery>
 
 <cfif findNoCase('redesign',Session.gitBranch) GT 0>
@@ -169,7 +171,7 @@ limitations under the License.
 <div class="w-100">
 <style>
 	.nav-tabs .nav-link {background-color: #fff;border-color: #fff;border-bottom: 1px solid #f5f5f5;font-weight: 450;}	
-	.nav-tabs .nav-link.active, .show {background-color: #f5f5f5;border-color: #f5f5f5; font-weight:550;}
+	.nav-tabs .nav-link.active, .nav-tabs .nav-link.show {background-color: #f5f5f5;border-color: #f5f5f5; font-weight:550;}
 </style>
 
 <h1 class="px-2 mt-4 mb-2 text-center">Browse Specimens by Category</h1>		
