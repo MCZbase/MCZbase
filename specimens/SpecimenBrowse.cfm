@@ -202,18 +202,19 @@ limitations under the License.
 						<div class="tab-content border flex-wrap d-flex mb-1">
 							<div id="home" class="container-fluid tab-pane active"><br>
 								<h3 class="px-2">Primary Types</h3>
-								<cfloop query="namedGroups">
-									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT
-											displayed_media_id as media_id, underscore_collection.underscore_collection_type
+								<cfloop query="primaryTypes">
+									<cfquery name="primaryTypes2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+										SELECT collection
 										FROM
-											underscore_relation 
-										INNER JOIN underscore_collection
-											on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										WHERE rownum = 1 
-										and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
+											<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+										WHERE
+											toptypestatuskind = 'Primary'
+										GROUP BY
+											collection
+										ORDER BY 
+											collection
 									</cfquery>
-									<cfif #namedGroups.underscore_collection_type# eq 'collection'>
+									<cfif #primaryTypes2.collection# eq 'Entomology'>
 										<div class="col-12 col-md-3 float-left float-left px-0 mt-1 mb-1">
 											<ul class="d-flex flex-wrap px-1">
 												<cfloop query="primaryTypes">
