@@ -64,7 +64,7 @@ limitations under the License.
 	ORDER BY underscore_collection_type, collection_name
 </cfquery>
 <div class="w-100">
-<h1 class="px-2 mt-4 mb-2 text-center">MCZ Featured Collections of Cataloged Items</h1>		
+<h1 class="px-2 mt-4 mb-0 text-center h2">MCZ Featured Collections of Cataloged Items</h1>		
 </div>
 <div class="container-fluid">
 <div class="row mx-0 mb-4">
