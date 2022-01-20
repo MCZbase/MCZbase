@@ -75,7 +75,7 @@ limitations under the License.
 							</div>
 							<button type="button" class="btn btn-xs btn-primary py-0"><i class="fas fa-search"></i></button>
 						</div>
-					<ul class="nav nav-tabs w-100">
+					<ul class="nav nav-tabs w-100" id="NamedGroupTabs" role="tablist">
 						<li class="nav-item mr-2" role="presentation">
 							<button id="collection-tab" data-bs-toggle="tab" data-bs-target="##collection" type="button" role="tab" aria-controls="collection" class="nav-link active h3">Collection</button>
 						</li>
