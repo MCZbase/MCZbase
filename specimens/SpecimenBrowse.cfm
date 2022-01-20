@@ -259,7 +259,7 @@ limitations under the License.
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="continents">
-										#continent#
+										#continent_ocean#
 										<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 											select count(*) ct, country 
 											from 
