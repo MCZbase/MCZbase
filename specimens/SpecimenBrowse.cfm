@@ -205,7 +205,7 @@ limitations under the License.
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
 									<ul class="d-flex flex-wrap px-1">
 										<cfloop query="primaryTypes">	
-										<li class="list-group-item col-3 float-left px-0 mb-1">
+										<li class="list-group-item col-3 float-left px-1 mb-2">
 											<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)
 										</li>
 										</cfloop>
