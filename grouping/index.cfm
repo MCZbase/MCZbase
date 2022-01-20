@@ -68,7 +68,13 @@ limitations under the License.
 </div>
 <div class="container-fluid">
 <div class="row mx-0 mb-4">
-	<p class="font-italic text-dark w-75 mt-3 text-center">Placeholder text for overview of page....</p>
+	<p class="font-italic text-dark w-75 mt-3 text-center">The Museum of Comparative Zoology (MCZ) contains over 21-million specimens in ten research collections that comprise one of the world's richest and most varied resources for studying the diversity of life. The museum serves as the primary repository for zoological specimens collected by past and present Harvard faculty-curators, staff, and associates conducting research around the world. The public can see a small percentage of our holdings on display at the Harvard Museum of Natural History, but visitors can also browse MCZ specimens and metadata online via our Featured Collections.</p>
+	<ul class="list-group">
+		<li class="list-group-item">Collections highlight specimens that are linked via their shared history and includes collections assembled by famous naturalists, histological slide collections, and acquisitions or exchanges from other museums.</li>
+		<li class="list-group-item">Expeditions feature specimens collected during specific voyages undertaken for the purpose of scientific exploration. </li>
+		<li class="list-group-item">Grants showcase specimens used in funded work and includes digitization projects that enrich digital specimen data and make MCZ holdings more accessible to researchers around the world.</li>
+	</ul>
+</p>
 	<cfoutput>
 		<main class="col-12 col-md-12 px-2 py-2 mb-3 float-left mt-1">
 			<div class="container mt-2">
