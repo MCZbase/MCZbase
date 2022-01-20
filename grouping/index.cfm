@@ -92,11 +92,11 @@ limitations under the License.
   padding : 5px 15px;
 }*/
 </style>
-<!---	<div class="container-fluid">
+	<div class="container-fluid">
 		<div class="row mx-0 mb-4">
 			<p class="font-italic text-dark w-75 mt-3 text-center">Placeholder text for overview of page....</p>
 			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
-<div class="container"><h2>Example </h2></div>
+<!---<div class="container"><h2>Example </h2></div>
 <div id="exTab3" class="container">	
 <ul  class="nav nav-pills">
 			<li class="active">
@@ -109,8 +109,7 @@ limitations under the License.
   		<li><a href="##4a" data-toggle="tab">Background color</a>
 			</li>
 		</ul>
-
-			<div class="tab-content clearfix">
+	<div class="tab-content clearfix">
 			  <div class="tab-pane active" id="1b">
           <h3>we have now styled the tab's corner</h3>
 				</div>
@@ -125,8 +124,93 @@ limitations under the License.
 				</div>
 			</div>
   </div>--->
+				
+
+					<!--- Tab header div --->
+					<div class="tabs card-header tab-card-header px-2 pt-3">
+						<cfswitch expression="#action#">
+							<cfcase value="fixedSearch">
+								<cfset fixedTabActive = "active">
+								<cfset fixedTabShow = "">
+								<cfset keywordTabActive = "">
+								<cfset keywordTabShow = "hidden">
+								<cfset builderTabActive = "">
+								<cfset builderTabShow = "hidden">
+								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfcase>
+							<cfcase value="keywordSearch">
+								<cfset fixedTabActive = "">
+								<cfset fixedTabShow = "hidden">
+								<cfset keywordTabActive = "active">
+								<cfset keywordTabShow = "">
+								<cfset builderTabActive = "">
+								<cfset builderTabShow = "hidden">
+								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfcase>
+							<cfcase value="builderSearch">
+								<cfset fixedTabActive = "">
+								<cfset fixedTabShow = "hidden">
+								<cfset keywordTabActive = "">
+								<cfset keywordTabShow = "hidden">
+								<cfset builderTabActive = "active">
+								<cfset builderTabShow = "">
+								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
+							</cfcase>
+							<cfdefaultcase>
+								<cfset fixedTabActive = "active">
+								<cfset fixedTabShow = "">
+								<cfset keywordTabActive = "">
+								<cfset keywordTabShow = "hidden">
+								<cfset builderTabActive = "">
+								<cfset builderTabShow = "hidden">
+								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfdefaultcase>
+						</cfswitch>
+						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" id="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
+						</div>
+						<div class="tab-content">
+							<!---Fixed Search tab panel--->
+							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
+								<section role="search" class="container-fluid">
 
 
+
+one
+								</section>
+							</div><!--- end fixed search tab --->
+	
+							<!---Keyword Search/results tab panel--->
+							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
+
+								<!--- results for keyword search --->
+								<section class="container-fluid">
+two
+								</section>
+							</div><!--- end keyword search/results panel --->
+	
+								<!---Query Builder tab panel--->
+							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
+								<section role="search" class="container-fluid">
+								three
+								</section>
+								
+							</div><!--- end search builder tab --->
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
 				<nav class="col-12 col-md-12 float-left w-100">
 						<div class="input-group w-auto mt-2 position-absolute" style="right:.5rem;">
 							<div class="form-outline">
@@ -136,16 +220,16 @@ limitations under the License.
 						</div>
 					<ul class="nav nav-tabs w-100" id="NamedGroupTabs" role="tablist">
 						<li class="nav-item mr-2" role="presentation">
-							<button id="collection-tab" data-bs-toggle="tab" data-bs-target="##collection" type="button" role="tab" aria-controls="collection" aria-selected="true" class="nav-link active h3">Collection</button>
+							<a href="##collection" id="collection" data-bs-toggle="tab" data-bs-target="##collection" type="button" role="tab" aria-controls="collection" aria-selected="true" class="nav-link active h3">Collection</a>
 						</li>
 						<li class="nav-item mr-2" role="presentation">
-							<button id="expedition-tab" data-bs-toggle="tab" data-bs-target="##expedition" type="button" role="tab" aria-controls="expedition" aria-selected="false" class="nav-link h3">Expedition</button>
+							<a href="##expedition" id="expedition" data-bs-toggle="tab" data-bs-target="##expedition" type="button" role="tab" aria-controls="expedition" aria-selected="false" class="nav-link h3">Expedition</a>
 						</li>
 						<li class="nav-item mr-2" role="presentation">
-							<button id="grant-tab" data-bs-toggle="tab" data-bs-target="##grant" type="button" role="tab" aria-controls="grant" aria-selected="false" class="nav-link h3">Grant</button>
+							<a href="##grant" id="grant" data-bs-toggle="tab" data-bs-target="##grant" type="button" role="tab" aria-controls="grant" aria-selected="false" class="nav-link h3">Grant</a>
 						</li>
 						<li class="nav-item mr-2" role="presentation">
-							<button id="workflow-tab" data-bs-toggle="tab" data-bs-target="##workflow" type="button" role="tab" aria-controls="workflow" aria-selected="false" class="nav-link h3">Workflow</button>
+							<a id="workflow-tab" data-bs-toggle="tab" data-bs-target="##workflow" type="button" role="tab" aria-controls="workflow" aria-selected="false" class="nav-link h3">Workflow</button>
 						</li>
 					</ul>
 
