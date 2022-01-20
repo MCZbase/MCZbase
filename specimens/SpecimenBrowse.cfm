@@ -202,10 +202,10 @@ limitations under the License.
 						<div class="tab-content border flex-wrap d-flex mb-1">
 							<div id="home" class="container-fluid tab-pane active"><br>
 								<h3 class="px-2">Primary Types</h3>			
-								<div class="col-12 col-md-3 float-left float-left px-0 mt-1 mb-1">
+								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
 									<ul class="d-flex flex-wrap px-1">
 										<cfloop query="primaryTypes">	
-										<li class="list-group-item col-12 mb-1">
+										<li class="list-group-item col-3 float-left px-0 mb-1">
 											<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)
 										</li>
 										</cfloop>
