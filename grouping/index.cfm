@@ -79,8 +79,7 @@ limitations under the License.
 						<cfloop query="types">
 							<li class="nav-item mr-2" role="presentation">
 								<h2 class="h3 mb-0">
-									<button id="#types.underscore_collection_type#-tab" data-bs-toggle="tab" data-bs-target="#types.underscore_collection_type#" type="button" role="tab" aria-controls="#types.underscore_collection_type#" class="nav-link active font-capitalize">#types.underscore_collection_type#</button></h2>
-							<!---<p class="small90 text-muted w-75 float-right">#types.description#</p>--->
+									<button id="#types.underscore_collection_type#-tab" data-bs-toggle="tab" data-bs-target="##types.underscore_collection_type#" type="button" role="tab" aria-controls="#types.underscore_collection_type#" class="nav-link active font-capitalize">#types.underscore_collection_type#</button></h2>
 							</li>
 						</cfloop>
 					</ul>
