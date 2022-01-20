@@ -17,10 +17,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<cfif not isdefined("action")>
+	<cfif not isdefined("action")>
 	<cfset action="fixedSearch">
 </cfif>
 <cfswitch expression="#action#">
+	<!--- API note: action and method seem duplicative, action is required and used to determine
+			which tab to show, method invokes target backing method in form submission, but when 
+			invoking this page with execute=true method does not need to be included in the call
+			even though it will be included in the URI parameter list when clicking on the 
+			"Link to this search" link.
+	--->
 	<cfcase value="fixedSearch">
 		<cfset pageTitle = "Collections Featured">
 		<cfif isdefined("execute")>
@@ -28,19 +34,19 @@ limitations under the License.
 		</cfif>
 	</cfcase>
 	<cfcase value="keywordSearch">
-
+		<cfset pageTitle = "Specimen Search by Keyword">
 		<cfif isdefined("execute")>
 			<cfset execute="keyword">
 		</cfif>
 	</cfcase>
 	<cfcase value="builderSearch">
-
+		<cfset pageTitle = "Specimen Search Builder">
 		<cfif isdefined("execute")>
 			<cfset execute="builder">
 		</cfif>
 	</cfcase>
 	<cfdefaultcase>
-
+		<cfset pageTitle = "Basic Specimen Search">
 		<cfif isdefined("execute")>
 			<cfset execute="fixed">
 		</cfif>
@@ -49,7 +55,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
-
+<cfoutput>
 		<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT underscore_collection_type, description 
 			FROM ctunderscore_collection_type
@@ -92,84 +98,155 @@ limitations under the License.
 	<div class="w-100">
 		<h1 class="px-2 mt-4 mb-2 text-center">MCZ Featured Collections of Cataloged Items</h1>		
 	</div>
+<style>
+
+/*##exTab1 .tab-content {
+  color : white;
+  background-color: ##428bca;
+  padding : 5px 15px;
+}
+
+##exTab2 h3 {
+  color : white;
+  background-color: ##428bca;
+  padding : 5px 15px;
+}
+
+##exTab1 .nav-pills > li > a {
+  border-radius: 0;
+}
+
+
+##exTab3 .nav-pills > li > a {
+  border-radius: 4px 4px 0 0 ;
+}
+
+##exTab3 .tab-content {
+  color : white;
+  background-color: ##428bca;
+  padding : 5px 15px;
+}*/
+</style>
 	<div class="container-fluid">
 		<div class="row mx-0 mb-4">
 			<p class="font-italic text-dark w-75 mt-3 text-center">Placeholder text for overview of page....</p>
-			<main id="content" class="col-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
-			<output>
-				<div class="tabs card-header tab-card-header px-2 pt-3">
-					<cfswitch expression="#action#">
-						<cfcase value="fixedSearch">
-							<cfset fixedTabActive = "active">
-							<cfset fixedTabShow = "">
-							<cfset keywordTabActive = "">
-							<cfset keywordTabShow = "hidden">
-							<cfset builderTabActive = "">
-							<cfset builderTabShow = "hidden">
-							<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
-							<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-						</cfcase>
-						<cfcase value="keywordSearch">
-							<cfset fixedTabActive = "">
-							<cfset fixedTabShow = "hidden">
-							<cfset keywordTabActive = "active">
-							<cfset keywordTabShow = "">
-							<cfset builderTabActive = "">
-							<cfset builderTabShow = "hidden">
-							<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
-							<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-						</cfcase>
-						<cfcase value="builderSearch">
-							<cfset fixedTabActive = "">
-							<cfset fixedTabShow = "hidden">
-							<cfset keywordTabActive = "">
-							<cfset keywordTabShow = "hidden">
-							<cfset builderTabActive = "active">
-							<cfset builderTabShow = "">
-							<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
-						</cfcase>
-						<cfdefaultcase>
-							<cfset fixedTabActive = "active">
-							<cfset fixedTabShow = "">
-							<cfset keywordTabActive = "">
-							<cfset keywordTabShow = "hidden">
-							<cfset builderTabActive = "">
-							<cfset builderTabShow = "hidden">
-							<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
-							<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-						</cfdefaultcase>
-					</cfswitch>
-					<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
-						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" id="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
-						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
-						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
-					</div>
-					<div class="tab-content col-12">
-						<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
-							<section role="search" class="container-fluid">
-								one
-							</section>
-						</div>	
-						<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
-							<section  class="container-fluid">
-							two
-							</section>
+			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
+				<cfoutput>
+<!---<div class="container"><h2>Example </h2></div>
+<div id="exTab3" class="container">	
+<ul  class="nav nav-pills">
+			<li class="active">
+        <a  href="##1b" data-toggle="tab">Overview</a>
+			</li>
+			<li><a href="##2b" data-toggle="tab">Using nav-pills</a>
+			</li>
+			<li><a href="##3b" data-toggle="tab">Applying clearfix</a>
+			</li>
+  		<li><a href="##4a" data-toggle="tab">Background color</a>
+			</li>
+		</ul>
+	<div class="tab-content clearfix">
+			  <div class="tab-pane active" id="1b">
+          <h3>we have now styled the tab's corner</h3>
+				</div>
+				<div class="tab-pane" id="2b">
+          <h3>We use the class nav-pills which creates a background color for the tab</h3>
+				</div>
+        <div class="tab-pane" id="3b">
+          <h3>We applied clearfix to the tab-content to rid of the gap between the tab and the content</h3>
+				</div>
+          <div class="tab-pane" id="4b">
+          <h3>We use css to change the background color of the content to be equal to the tab</h3>
+				</div>
+			</div>
+  </div>--->
+	
+
+					<div class="tabs card-header tab-card-header px-2 pt-3">
+						<cfswitch expression="#action#">
+							<cfcase value="fixedSearch">
+								<cfset fixedTabActive = "active">
+								<cfset fixedTabShow = "">
+								<cfset keywordTabActive = "">
+								<cfset keywordTabShow = "hidden">
+								<cfset builderTabActive = "">
+								<cfset builderTabShow = "hidden">
+								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfcase>
+							<cfcase value="keywordSearch">
+								<cfset fixedTabActive = "">
+								<cfset fixedTabShow = "hidden">
+								<cfset keywordTabActive = "active">
+								<cfset keywordTabShow = "">
+								<cfset builderTabActive = "">
+								<cfset builderTabShow = "hidden">
+								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfcase>
+							<cfcase value="builderSearch">
+								<cfset fixedTabActive = "">
+								<cfset fixedTabShow = "hidden">
+								<cfset keywordTabActive = "">
+								<cfset keywordTabShow = "hidden">
+								<cfset builderTabActive = "active">
+								<cfset builderTabShow = "">
+								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
+							</cfcase>
+							<cfdefaultcase>
+								<cfset fixedTabActive = "active">
+								<cfset fixedTabShow = "">
+								<cfset keywordTabActive = "">
+								<cfset keywordTabShow = "hidden">
+								<cfset builderTabActive = "">
+								<cfset builderTabShow = "hidden">
+								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfdefaultcase>
+						</cfswitch>
+						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" id="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
 						</div>
-						<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
-							<section  class="container-fluid">
-								three
-							</section>
+						<div class="tab-content">
+							<!---Fixed Search tab panel--->
+							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
+								<section role="search" class="container-fluid">
+									one
+								</section>
+						
+							</div><!--- end fixed search tab --->
+	
+							<!---Keyword Search/results tab panel--->
+							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
+								
+								<section  class="container-fluid">
+								two
+								
+								</section>
+			
+							</div><!--- end keyword search/results panel --->
+	
+								<!---Query Builder tab panel--->
+							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
+								<section  class="container-fluid">
+									three
+								</section>
+								<!--- results for search builder search --->
+						
+							</div><!--- end search builder tab --->
 						</div>
 					</div>
 				</div>
-			</output>
-			</main>
-							
+			</div>
+		</main>
+									</cfoutput>
 <!---				<nav class="col-12 col-md-12 float-left w-100">
 						<div class="input-group w-auto mt-2 position-absolute" style="right:.5rem;">
 							<div class="form-outline">
@@ -334,5 +411,76 @@ limitations under the License.
 			</main>--->
 		</div>
 	</div>
-
+</cfoutput>
+<script>
+	/*!
+	 * classie - class helper functions
+	 * from bonzo https://github.com/ded/bonzo
+	 *
+	 * classie.has( elem, 'my-class' ) -> true/false
+	 * classie.add( elem, 'my-new-class' )
+	 * classie.remove( elem, 'my-unwanted-class' )
+	 * classie.toggle( elem, 'my-class' )
+	 */
+	/*jshint browser: true, strict: true, undef: true */
+	
+	( function( window ) {
+	
+	'use strict';
+	
+	// class helper functions from bonzo https://github.com/ded/bonzo
+	
+	function classReg( className ) {
+	  return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
+	}
+	
+	// classList support for class management
+	// altho to be fair, the api sucks because it won't accept multiple classes at once
+	var hasClass, addClass, removeClass;
+	
+	if ( 'classList' in document.documentElement ) {
+	  hasClass = function( elem, c ) {
+	    return elem.classList.contains( c );
+	  };
+	  addClass = function( elem, c ) {
+	    elem.classList.add( c );
+	  };
+	  removeClass = function( elem, c ) {
+	    elem.classList.remove( c );
+	  };
+	}
+	else {
+	  hasClass = function( elem, c ) {
+	    return classReg( c ).test( elem.className );
+	  };
+	  addClass = function( elem, c ) {
+	    if ( !hasClass( elem, c ) ) {
+	      elem.className = elem.className + ' ' + c;
+	    }
+	  };
+	  removeClass = function( elem, c ) {
+	    elem.className = elem.className.replace( classReg( c ), ' ' );
+	  };
+	}
+	
+	function toggleClass( elem, c ) {
+	  var fn = hasClass( elem, c ) ? removeClass : addClass;
+	  fn( elem, c );
+	}
+	
+	window.classie = {
+	  // full names
+	  hasClass: hasClass,
+	  addClass: addClass,
+	  removeClass: removeClass,
+	  toggleClass: toggleClass,
+	  // short names
+	  has: hasClass,
+	  add: addClass,
+	  remove: removeClass,
+	  toggle: toggleClass
+	};
+	
+	})( window );
+	</script>
 <cfinclude template = "/shared/_footer.cfm">
