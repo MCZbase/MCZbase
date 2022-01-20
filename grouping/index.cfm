@@ -28,7 +28,7 @@ limitations under the License.
 			"Link to this search" link.
 	--->
 	<cfcase value="fixedSearch">
-		<cfset pageTitle = "Basic Specimen Search">
+		<cfset pageTitle = "Collections Featured">
 		<cfif isdefined("execute")>
 			<cfset execute="fixed">
 		</cfif>
