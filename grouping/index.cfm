@@ -129,24 +129,7 @@ limitations under the License.
 			</div>
   </div>
 
-<script>
-var triggerTabList = [].slice.call(document.querySelectorAll('##myTab button'))
-triggerTabList.forEach(function (triggerEl) {
-  var tabTrigger = new bootstrap.Tab(triggerEl)
 
-  triggerEl.addEventListener('click', function (event) {
-    event.preventDefault()
-    tabTrigger.show()
-  })
-})
-
-  firstTab.show()
-var tabEl = document.querySelector('button[data-bs-toggle="tab"]')
-tabEl.addEventListener('shown.bs.tab', function (event) {
-  event.target // newly activated tab
-  event.relatedTarget // previous active tab
-})
-</script>
 <!---				<nav class="col-12 col-md-12 float-left w-100">
 						<div class="input-group w-auto mt-2 position-absolute" style="right:.5rem;">
 							<div class="form-outline">
