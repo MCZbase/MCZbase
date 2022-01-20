@@ -260,9 +260,17 @@ limitations under the License.
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="continents">
 										#continent#
-										<cfloop query="countries">
+										<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
+											select count(*) ct, country 
+											from 
+												<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+											where country is not null
+													and country = #continents.country#
+											group by country
+											order by country
+										</cfquery>
 										<li class="list-group-item col-3 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
-										</cfloop>
+									
 									</cfloop>
 							
 									<cfloop query="notcountries">
