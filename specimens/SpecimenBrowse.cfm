@@ -84,7 +84,6 @@ limitations under the License.
 	select count(*) ct, continent_ocean
 	from
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
-	where country is null
 	group by continent_ocean
 </cfquery>
 
@@ -252,12 +251,12 @@ limitations under the License.
 							<div id="menu2" class="container tab-pane fade"><br>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<ul class="d-flex px-1 flex-wrap">
-									<cfloop query="continents">
+									<cfloop query="notcountries">
 										<li class="list-group-item col-3 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#continent_ocean# #country#</a> (#ct#)</li>
 									</cfloop>
-									<cfloop query="notcountries">
+<!---									<cfloop query="notcountries">
 										<li class="list-group-item col-3 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
-									</cfloop>
+									</cfloop>--->
 								</ul>
 							</div>
 							<div id="menu3" class="container tab-pane fade"><br>
