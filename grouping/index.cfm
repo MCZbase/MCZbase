@@ -71,10 +71,10 @@ limitations under the License.
 		<div class="row mx-0 mb-4">
 			<p class="font-italic text-dark w-75 mt-3 text-center">Placeholder text for overview of page....</p>
 			<cfoutput>
-				<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
+				<main class="col-12 col-md-12 px-2 py-2 mb-3 float-left mt-1">
 					<div class="container mt-2">
-						<h2>MCZ Featured Collections of Cataloged Items</h2>
-						<p>Placeholder text for overview of page....</p>  
+			<!---			<h2>MCZ Featured Collections of Cataloged Items</h2>
+						<p>Placeholder text for overview of page....</p> ---> 
 						<div class="tabs card-header tab-card-header px-2 pt-3">
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs">
