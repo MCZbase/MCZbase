@@ -100,7 +100,7 @@ limitations under the License.
 	</div>
 <style>
 
-/*##exTab1 .tab-content {
+##exTab1 .tab-content {
   color : white;
   background-color: ##428bca;
   padding : 5px 15px;
@@ -125,7 +125,7 @@ limitations under the License.
   color : white;
   background-color: ##428bca;
   padding : 5px 15px;
-}*/
+}
 </style>
 	<div class="container-fluid">
 		<div class="row mx-0 mb-4">
