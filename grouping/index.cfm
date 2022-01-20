@@ -96,165 +96,93 @@ limitations under the License.
 		<div class="row mx-0 mb-4">
 			<p class="font-italic text-dark w-75 mt-3 text-center">Placeholder text for overview of page....</p>
 			<cfoutput>
-			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
-				<div class="tabs card-header tab-card-header px-2 pt-3">
-					<cfswitch expression="#action#">
-						<cfcase value="fixedSearch">
-							<cfset fixedTabActive = "active">
-							<cfset fixedTabShow = "">
-							<cfset keywordTabActive = "">
-							<cfset keywordTabShow = "hidden">
-							<cfset builderTabActive = "">
-							<cfset builderTabShow = "hidden">
-							<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
-							<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-						</cfcase>
-						<cfcase value="keywordSearch">
-							<cfset fixedTabActive = "">
-							<cfset fixedTabShow = "hidden">
-							<cfset keywordTabActive = "active">
-							<cfset keywordTabShow = "">
-							<cfset builderTabActive = "">
-							<cfset builderTabShow = "hidden">
-							<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
-							<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-						</cfcase>
-						<cfcase value="builderSearch">
-							<cfset fixedTabActive = "">
-							<cfset fixedTabShow = "hidden">
-							<cfset keywordTabActive = "">
-							<cfset keywordTabShow = "hidden">
-							<cfset builderTabActive = "active">
-							<cfset builderTabShow = "">
-							<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
-						</cfcase>
-						<cfdefaultcase>
-							<cfset fixedTabActive = "active">
-							<cfset fixedTabShow = "">
-							<cfset keywordTabActive = "">
-							<cfset keywordTabShow = "hidden">
-							<cfset builderTabActive = "">
-							<cfset builderTabShow = "hidden">
-							<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
-							<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-						</cfdefaultcase>
-					</cfswitch>
-					<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
-						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive# nav nav-tabs" data-toggle="tab" id="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
-						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive# nav nav-tabs"  data-toggle="tab" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
-						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive# nav nav-tabs"  data-toggle="tab" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
-					</div>
-					<div class="tab-content">
-						<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="tab-pane mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
-							<section class="container-fluid">
-								one
-							</section>
-						</div>
-						<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="tab-pane unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
-							<section class="container-fluid">
-							two
-							</section>
-						</div>
-						<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="tab-pane mx-0 #builderTabActive# unfocus"  #builderTabShow#>
-							<section class="container-fluid">
-								three
-							</section>
-						</div>
-					</div>
-				</div>
-								
-								<div class="container mt-3">
-  <h2>MCZ Featured Collections of Cataloged Items</h2>
-  <p>Placeholder text for overview of page....</p>  
-  
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" href="##home">Collection</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="##menu1">Expedition</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="##menu2">Grant</a>
-    </li>
+				<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
+					<div class="tabs card-header tab-card-header px-2 pt-3">
+						<div class="container mt-3">
+							<h2>MCZ Featured Collections of Cataloged Items</h2>
+							<p>Placeholder text for overview of page....</p>  
+							<!-- Nav tabs -->
+							<ul class="nav nav-tabs">
 	<li class="nav-item">
-      <a class="nav-link" href="##menu3">Workflow</a>
-    </li>
-  </ul>
-
-  <!-- Tab panes -->
-  <div class="tab-content border flex-wrap d-flex mb-3">
-    <div id="home" class="container-fluid tab-pane active"><br>
-      <h3>Collection</h3>
-			<cfloop query="namedGroups">
-			<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					displayed_media_id as media_id, underscore_collection.underscore_collection_type
-				FROM
-					underscore_relation 
-				INNER JOIN underscore_collection
-					on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				WHERE rownum = 1 
-				and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-			</cfquery>
-				<cfif #namedGroups.underscore_collection_type# eq 'collection'>
-					<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
-						<div class="border rounded bg-white py-2 col-12 px-2 float-left">
-							<div class="row h-25 mx-0">
-								<cfif len(images.media_id) gt 0>
-									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
-									<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
-									#mediablock#
-									</div>
-								</cfif>
-								<div class="col float-left mt-2">
-									<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
-									<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
-									<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
+	<a class="nav-link active" href="##home">Collection</a>
+	</li>
+	<li class="nav-item">
+	<a class="nav-link" href="##menu1">Expedition</a>
+	</li>
+	<li class="nav-item">
+	<a class="nav-link" href="##menu2">Grant</a>
+	</li>
+	<li class="nav-item">
+	<a class="nav-link" href="##menu3">Workflow</a>
+	</li>
+	</ul>
+							<!-- Tab panes -->
+							<div class="tab-content border flex-wrap d-flex mb-3">
+	<div id="home" class="container-fluid tab-pane active"><br>
+	<h3>Collection</h3>
+		<cfloop query="namedGroups">
+		<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				displayed_media_id as media_id, underscore_collection.underscore_collection_type
+			FROM
+				underscore_relation 
+			INNER JOIN underscore_collection
+				on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+			WHERE rownum = 1 
+			and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
+		</cfquery>
+			<cfif #namedGroups.underscore_collection_type# eq 'collection'>
+				<div class="col-12 col-md-3 float-left d-flex flex-wrap px-1 mt-2 mb-1">
+					<div class="border rounded bg-white py-2 col-12 px-2 float-left">
+						<div class="row h-25 mx-0">
+							<cfif len(images.media_id) gt 0>
+								<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
+								<div class="px-1 float-left py-1 bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
+								#mediablock#
 								</div>
+							</cfif>
+							<div class="col float-left mt-2">
+								<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
+								<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
+								<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
 							</div>
 						</div>
 					</div>
-				</cfif>
-			</cfloop>
-    </div>
-    <div id="menu1" class="container tab-pane fade"><br>
-      <h3>Menu 1</h3>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-    <div id="menu2" class="container tab-pane fade"><br>
-      <h3>Menu 2</h3>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-    </div>
-	 <div id="menu3" class="container tab-pane fade"><br>
-      <h3>Menu 2</h3>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-    </div>
-  </div>
-  <p class="act"><b>Active Tab</b>: <span></span></p>
-  <p class="prev"><b>Previous Tab</b>: <span></span></p>
-</div>
-
-<script>
-$(document).ready(function(){
-  $(".nav-tabs a").click(function(){
-    $(this).tab('show');
-  });
-  $('.nav-tabs a').on('shown.bs.tab', function(event){
-    var x = $(event.target).text();         // active tab
-    var y = $(event.relatedTarget).text();  // previous tab
-    $(".act span").text(x);
-    $(".prev span").text(y);
-  });
-});
-</script>
-			</main>
+				</div>
+			</cfif>
+		</cfloop>
+	</div>
+	<div id="menu1" class="container tab-pane fade"><br>
+	<h3>Menu 1</h3>
+	<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+	</div>
+	<div id="menu2" class="container tab-pane fade"><br>
+	<h3>Menu 2</h3>
+	<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+	</div>
+	<div id="menu3" class="container tab-pane fade"><br>
+	<h3>Menu 2</h3>
+	<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+	</div>
+	</div>
+							<p class="act"><b>Active Tab</b>: <span></span></p>
+							<p class="prev"><b>Previous Tab</b>: <span></span></p>
+						</div>
+					</div>
+				</main>
+				<script>
+				$(document).ready(function(){
+				  $(".nav-tabs a").click(function(){
+					$(this).tab('show');
+				  });
+				  $('.nav-tabs a').on('shown.bs.tab', function(event){
+					var x = $(event.target).text();         // active tab
+					var y = $(event.relatedTarget).text();  // previous tab
+					$(".act span").text(x);
+					$(".prev span").text(y);
+				  });
+				});
+				</script>
 			</cfoutput>
 		</div>
 	</div>
