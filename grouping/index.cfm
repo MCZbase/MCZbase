@@ -33,7 +33,7 @@ limitations under the License.
 		</cfquery>
 		<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
-				count(flat.collection_object_id) ct, 
+				count(FF.collection_object_id) ct, 
 				underscore_collection.collection_name, 
 				underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
 				underscore_collection.description, underscore_collection.underscore_collection_type,
