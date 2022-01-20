@@ -76,12 +76,18 @@ limitations under the License.
 							<button type="button" class="btn btn-xs btn-primary py-0"><i class="fas fa-search"></i></button>
 						</div>
 					<ul class="nav nav-tabs w-100">
-						<cfloop query="types">
-							<li class="nav-item mr-2" role="presentation">
-								<h2 class="h3 mb-0">
-									<button id="#types.underscore_collection_type#-tab" data-bs-toggle="tab" data-bs-target="##types.underscore_collection_type#" type="button" role="tab" aria-controls="#types.underscore_collection_type#" class="nav-link active font-capitalize">#types.underscore_collection_type#</button></h2>
-							</li>
-						</cfloop>
+						<li class="nav-item mr-2" role="presentation">
+							<button id="collection-tab" data-bs-toggle="tab" data-bs-target="#collection" type="button" role="tab" aria-controls="collection" class="nav-link active h3">Collection</button>
+						</li>
+						<li class="nav-item mr-2" role="presentation">
+							<button id="expedition-tab" data-bs-toggle="tab" data-bs-target="#expedition" type="button" role="tab" aria-controls="expedition" class="nav-link active h3">Expedition</button>
+						</li>
+						<li class="nav-item mr-2" role="presentation">
+							<button id="grant-tab" data-bs-toggle="tab" data-bs-target="#grant" type="button" role="tab" aria-controls="grant" class="nav-link active h3">Grant</button>
+						</li>
+						<li class="nav-item mr-2" role="presentation">
+							<button id="workflow-tab" data-bs-toggle="tab" data-bs-target="#workflow" type="button" role="tab" aria-controls="workflow" class="nav-link active h3">Workflow</button>
+						</li>
 					</ul>
 
 				</nav>
