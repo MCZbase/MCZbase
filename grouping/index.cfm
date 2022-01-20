@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<!---<cfif not isdefined("action")>
+<cfif not isdefined("action")>
 	<cfset action="fixedSearch">
 </cfif>
 <cfswitch expression="#action#">
@@ -45,7 +45,7 @@ limitations under the License.
 			<cfset execute="fixed">
 		</cfif>
 	</cfdefaultcase>
-</cfswitch>--->
+</cfswitch>
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
@@ -92,71 +92,12 @@ limitations under the License.
 	<div class="w-100">
 		<h1 class="px-2 mt-4 mb-2 text-center">MCZ Featured Collections of Cataloged Items</h1>		
 	</div>
-<style>
-
-##exTab1 .tab-content {
-  color : white;
-  background-color: ##428bca;
-  padding : 5px 15px;
-}
-
-#exTab2 h3 {
-  color : white;
-  background-color: #428bca;
-  padding : 5px 15px;
-}
-
-#exTab1 .nav-pills > li > a {
-  border-radius: 0;
-}
-
-
-#exTab3 .nav-pills > li > a {
-  border-radius: 4px 4px 0 0 ;
-}
-
-##exTab3 .tab-content {
-  color : white;
-  background-color: #428bca;
-  padding : 5px 15px;
-}
-</style>
 	<div class="container-fluid">
 		<div class="row mx-0 mb-4">
 			<p class="font-italic text-dark w-75 mt-3 text-center">Placeholder text for overview of page....</p>
 			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
-	<div>
-<div class="container"><h2>Example </h2></div>
-<div id="exTab3" class="container">	
-<ul  class="nav nav-pills">
-			<li class="active">
-        <a  href="##1b" data-toggle="tab">Overview</a>
-			</li>
-			<li><a href="##2b" data-toggle="tab">Using nav-pills</a>
-			</li>
-			<li><a href="##3b" data-toggle="tab">Applying clearfix</a>
-			</li>
-  		<li><a href="##4a" data-toggle="tab">Background color</a>
-			</li>
-		</ul>
-	<div class="tab-content clearfix">
-			  <div class="tab-pane active" id="1b">
-          <h3>we have now styled the tab's corner</h3>
-				</div>
-				<div class="tab-pane" id="2b">
-          <h3>We use the class nav-pills which creates a background color for the tab</h3>
-				</div>
-        <div class="tab-pane" id="3b">
-          <h3>We applied clearfix to the tab-content to rid of the gap between the tab and the content</h3>
-				</div>
-          <div class="tab-pane" id="4b">
-          <h3>We use css to change the background color of the content to be equal to the tab</h3>
-				</div>
-			</div>
-  </div>
-	
-
-	<!---				<div class="tabs card-header tab-card-header px-2 pt-3">
+			<output>
+				<div class="tabs card-header tab-card-header px-2 pt-3">
 						<cfswitch expression="#action#">
 							<cfcase value="fixedSearch">
 								<cfset fixedTabActive = "active">
@@ -230,14 +171,11 @@ limitations under the License.
 								<section  class="container-fluid">
 									three
 								</section>
-						
-						
 							</div>
 						</div>
-					</div>--->
-				</div>
-		
-		</main>
+					</div>
+			</output>
+			</main>
 							
 <!---				<nav class="col-12 col-md-12 float-left w-100">
 						<div class="input-group w-auto mt-2 position-absolute" style="right:.5rem;">
