@@ -69,9 +69,9 @@ limitations under the License.
 			<cfoutput>
 				<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
 					<div class="container mt-2">
+						<h2>MCZ Featured Collections of Cataloged Items</h2>
+						<p>Placeholder text for overview of page....</p>  
 						<div class="tabs card-header tab-card-header px-2 pt-3">
-							<h2>MCZ Featured Collections of Cataloged Items</h2>
-							<p>Placeholder text for overview of page....</p>  
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs">
 	<li class="nav-item">
