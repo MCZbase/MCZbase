@@ -226,41 +226,39 @@ limitations under the License.
 							</div>
 							<div id="menu1" class="container tab-pane fade"><br>
 								<h3 class="px-2">MCZ Featured Collections of Cataloged Items</h3>
-								<ul class="d-flex flex-wrap px-2 mb-0">
-									<cfloop query="namedGroups2">
-										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT
-												displayed_media_id as media_id
-											FROM
-												underscore_relation 
-											INNER JOIN underscore_collection
-												on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-											WHERE rownum = 1 
-											and underscore_relation.underscore_collection_id = #namedGroups2.underscore_collection_id#
-										</cfquery>
-										<cfif len(#namedGroups2.description#)gt 0>
-											<div class="col-12 col-md-3 px-1 float-right mb-1">
-												<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height: 116px;">
-													<div class="row mx-0">
-														<cfif len(images.media_id) gt 0>
-															<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
-																<div class="float-left bg-light border rounded" style="width: 100px;" id="mediaBlock#images.media_id#">
-																	#mediablock#
-																</div>
-														</cfif>
-														<div class="col float-left px-2 mt-2">
-															<h3 class="h5 mt-0 px-0">
-																<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups2.underscore_collection_id#">#namedGroups2.collection_name#</a>
-															</h3>
-															<p class="mb-1 small">Includes #namedGroups2.ct# Cataloged Items</p>
-															<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups2.underscore_collection_type#</p>
-														</div>
+								<cfloop query="namedGroups2">
+									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT
+											displayed_media_id as media_id
+										FROM
+											underscore_relation 
+										INNER JOIN underscore_collection
+											on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+										WHERE rownum = 1 
+										and underscore_relation.underscore_collection_id = #namedGroups2.underscore_collection_id#
+									</cfquery>
+									<cfif len(#namedGroups2.description#)gt 0>
+										<div class="col-12 col-md-3 px-0 float-right my-1">
+											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height: 116px;">
+												<div class="row mx-0">
+													<cfif len(images.media_id) gt 0>
+														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
+															<div class="float-left bg-light border rounded" style="width: 100px;" id="mediaBlock#images.media_id#">
+																#mediablock#
+															</div>
+													</cfif>
+													<div class="col float-left px-2 mt-2">
+														<h3 class="h5 mt-0 px-0">
+															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups2.underscore_collection_id#">#namedGroups2.collection_name#</a>
+														</h3>
+														<p class="mb-1 small">Includes #namedGroups2.ct# Cataloged Items</p>
+														<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups2.underscore_collection_type#</p>
 													</div>
 												</div>
 											</div>
-										</cfif>
-									</cfloop>
-								</ul>
+										</div>
+									</cfif>
+								</cfloop>
 							</div>
 							<div id="menu2" class="container tab-pane fade"><br>
 								<h3 class="px-2">Browse by Higher Geography</h3>
