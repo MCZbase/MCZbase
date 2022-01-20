@@ -140,14 +140,14 @@ limitations under the License.
 							</div><!--- end fixed search tab --->
 	
 							<!---Keyword Search/results tab panel--->
-							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0" hidden>
+							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0" hidden="true">
 
 								<!--- results for keyword search --->
 								<section class="container-fluid">two</section>
 							</div><!--- end keyword search/results panel --->
 	
 								<!---Query Builder tab panel--->
-							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 unfocus" hidden>
+							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 unfocus" hidden="true">
 								<section class="container-fluid">	three</section>
 								
 							</div><!--- end search builder tab --->
