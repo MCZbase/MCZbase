@@ -94,7 +94,7 @@ limitations under the License.
 							<!-- Tab panes -->
 							<div class="tab-content border flex-wrap d-flex mb-1">
 							<div id="home" class="container-fluid tab-pane active"><br>
-							<h3 class="px-1">Collections</h3>
+							<h3 class="px-2">Collections</h3>
 								<cfloop query="namedGroups">
 								<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT
@@ -128,7 +128,7 @@ limitations under the License.
 							</cfloop>
 						</div>
 						<div id="menu1" class="container tab-pane fade"><br>
-						<h3 class="px-1">Expeditions</h3>
+						<h3 class="px-2">Expeditions</h3>
 						<cfloop query="namedGroups">
 							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
@@ -163,7 +163,7 @@ limitations under the License.
 						</cfloop>
 						</div>
 						<div id="menu2" class="container tab-pane fade"><br>
-						<h3>Grants</h3>
+						<h3 class="px-2">Grants</h3>
 						<cfloop query="namedGroups">
 							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
