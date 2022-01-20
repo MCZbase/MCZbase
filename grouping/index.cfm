@@ -77,11 +77,11 @@ limitations under the License.
 				<div class="container mt-2">
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<!-- Nav tabs -->
-						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
+<!---						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" id="1" role="tab" aria-controls="collectionPanel" #collectionTabAria#>Collection</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#" id="2" role="tab" aria-controls="expeditionPanel" #keywordTabAria# >Keyword Search</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="3" role="tab" aria-controls="grantPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
-						</div>
+						</div>--->
 						<ul class="nav nav-tabs">
 							<li class="nav-item mr-1">
 							<a class="nav-link active" href="##home">Collection</a>
