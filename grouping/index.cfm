@@ -93,7 +93,7 @@ limitations under the License.
 					<!-- Tab panes -->
 					<div class="tab-content border flex-wrap d-flex mb-1">
 						<div id="home" class="container-fluid tab-pane active"><br>
-							<h3 class="h4 px-2">Collections</h3>
+							<h3 class="px-2">Collections</h3>
 							<p class="px-2">Collections highlight specimens that are linked via their shared history and includes collections assembled by famous naturalists, histological slide collections, and acquisitions or exchanges from other museums.</p>
 							<cfloop query="namedGroups">
 								<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
