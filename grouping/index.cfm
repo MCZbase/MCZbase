@@ -197,7 +197,7 @@ limitations under the License.
 						</cfloop>
 						</div>
 						<div id="menu3" class="container tab-pane fade"><br>
-						<h3>Workflow</h3>
+						<h3 class="px-2">Workflow</h3>
 							<cfloop query="namedGroups">
 							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
