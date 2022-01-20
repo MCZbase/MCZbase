@@ -77,16 +77,16 @@ limitations under the License.
 						</div>
 					<ul class="nav nav-tabs w-100" id="NamedGroupTabs" role="tablist">
 						<li class="nav-item mr-2" role="presentation">
-							<button id="collection-tab" data-bs-toggle="tab" data-bs-target="##collection" type="button" role="tab" aria-controls="collection" class="nav-link active h3">Collection</button>
+							<button id="collection-tab" data-bs-toggle="tab" data-bs-target="##collection" type="button" role="tab" aria-controls="collection" aria-selected="true" class="nav-link active h3">Collection</button>
 						</li>
 						<li class="nav-item mr-2" role="presentation">
-							<button id="expedition-tab" data-bs-toggle="tab" data-bs-target="##expedition" type="button" role="tab" aria-controls="expedition" class="nav-link active h3">Expedition</button>
+							<button id="expedition-tab" data-bs-toggle="tab" data-bs-target="##expedition" type="button" role="tab" aria-controls="expedition" aria-selected="false" class="nav-link h3">Expedition</button>
 						</li>
 						<li class="nav-item mr-2" role="presentation">
-							<button id="grant-tab" data-bs-toggle="tab" data-bs-target="##grant" type="button" role="tab" aria-controls="grant" class="nav-link active h3">Grant</button>
+							<button id="grant-tab" data-bs-toggle="tab" data-bs-target="##grant" type="button" role="tab" aria-controls="grant" aria-selected="false" class="nav-link h3">Grant</button>
 						</li>
 						<li class="nav-item mr-2" role="presentation">
-							<button id="workflow-tab" data-bs-toggle="tab" data-bs-target="##workflow" type="button" role="tab" aria-controls="workflow" class="nav-link active h3">Workflow</button>
+							<button id="workflow-tab" data-bs-toggle="tab" data-bs-target="##workflow" type="button" role="tab" aria-controls="workflow" aria-selected="false" class="nav-link h3">Workflow</button>
 						</li>
 					</ul>
 
