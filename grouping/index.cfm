@@ -103,13 +103,13 @@ limitations under the License.
 <div id="exTab3" class="container">	
 <ul  class="nav nav-pills">
 			<li class="active">
-        <a  href="#1b" data-toggle="tab">Overview</a>
+        <a  href="##1b" data-toggle="tab">Overview</a>
 			</li>
-			<li><a href="#2b" data-toggle="tab">Using nav-pills</a>
+			<li><a href="##2b" data-toggle="tab">Using nav-pills</a>
 			</li>
-			<li><a href="#3b" data-toggle="tab">Applying clearfix</a>
+			<li><a href="##3b" data-toggle="tab">Applying clearfix</a>
 			</li>
-  		<li><a href="#4a" data-toggle="tab">Background color</a>
+  		<li><a href="##4a" data-toggle="tab">Background color</a>
 			</li>
 		</ul>
 
