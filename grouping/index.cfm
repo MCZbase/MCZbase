@@ -136,7 +136,7 @@ limitations under the License.
 						</div>
 						<div class="tab-content">
 							<!---Fixed Search tab panel--->
-							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
+							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 active unfocus" show>
 								<section role="search" class="container-fluid">
 
 
@@ -155,7 +155,7 @@ two
 							</div><!--- end keyword search/results panel --->
 	
 								<!---Query Builder tab panel--->
-							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 active unfocus">
+							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 unfocus">
 								<section role="search" class="container-fluid">
 								three
 								</section>
