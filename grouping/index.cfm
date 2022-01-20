@@ -23,7 +23,7 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <style>
 	.nav-tabs .nav-link {background-color: #fff;}	
-	.nav-tabs .nav-link.active {background-color: #bac5c6;}
+	.nav-tabs .nav-link.active {background-color: #f5f5f5;}
 </style>
 		<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT underscore_collection_type, description 
