@@ -127,11 +127,6 @@ limitations under the License.
 	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
 </cfif>
 
-									
-<style>
-	.nav-tabs .nav-link {background-color: #fff;border-color: #fff;border-bottom: 1px solid #f5f5f5;font-weight: 450;}	
-	.nav-tabs .nav-link.active {background-color: #f5f5f5;border-color: #f5f5f5; font-weight:550;}
-</style>
 <cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT underscore_collection_type, description 
 	FROM ctunderscore_collection_type
@@ -172,6 +167,10 @@ limitations under the License.
 	ORDER BY underscore_collection_type, collection_name
 </cfquery>
 <div class="w-100">
+<style>
+	.nav-tabs .nav-link {background-color: #fff;border-color: #fff;border-bottom: 1px solid #f5f5f5;font-weight: 450;}	
+	.nav-tabs .nav-link.active {background-color: #f5f5f5;border-color: #f5f5f5; font-weight:550;}
+</style>
 <h1 class="px-2 mt-4 mb-2 text-center">Browse Specimens by Category</h1>		
 </div>
 <div class="container-fluid">
