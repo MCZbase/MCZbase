@@ -267,7 +267,7 @@ limitations under the License.
 										<li class="list-group-item col-3 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
 									</cfloop>
 									<cfloop query="notcountries">
-										<li class="list-group-item col-2 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
+										<li class="list-group-item col-3 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
 									</cfloop>
 								</ul>
 							</div>
