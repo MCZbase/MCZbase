@@ -63,9 +63,9 @@ limitations under the License.
 	<div class="w-100">
 		<h1 class="px-2 mt-4 mb-2 text-center">MCZ Featured Collections of Cataloged Items</h1>		
 	</div>
-					<style>
+<style>
 
-##exTab1 .tab-content {
+/*##exTab1 .tab-content {
   color : white;
   background-color: ##428bca;
   padding : 5px 15px;
@@ -77,13 +77,10 @@ limitations under the License.
   padding : 5px 15px;
 }
 
-/* remove border radius for the tab */
-
 ##exTab1 .nav-pills > li > a {
   border-radius: 0;
 }
 
-/* change border radius for the tab , apply corners on top*/
 
 ##exTab3 .nav-pills > li > a {
   border-radius: 4px 4px 0 0 ;
@@ -93,9 +90,9 @@ limitations under the License.
   color : white;
   background-color: ##428bca;
   padding : 5px 15px;
-}
+}*/
 </style>
-	<div class="container-fluid">
+<!---	<div class="container-fluid">
 		<div class="row mx-0 mb-4">
 			<p class="font-italic text-dark w-75 mt-3 text-center">Placeholder text for overview of page....</p>
 			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
@@ -127,11 +124,10 @@ limitations under the License.
           <h3>We use css to change the background color of the content to be equal to the tab</h3>
 				</div>
 			</div>
-  </div>
+  </div>--->
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<!---				<nav class="col-12 col-md-12 float-left w-100">
+
+				<nav class="col-12 col-md-12 float-left w-100">
 						<div class="input-group w-auto mt-2 position-absolute" style="right:.5rem;">
 							<div class="form-outline">
 								<input type="search" id="form1" class="data-entry-input py-1" />
@@ -180,7 +176,7 @@ limitations under the License.
 											</cfif>
 											<div class="col float-left mt-2">
 												<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
-											<!---	<p>#namedGroups.description#</p>--->
+												<p>#namedGroups.description#</p>
 												<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
 												<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
 											</div>
@@ -214,7 +210,7 @@ limitations under the License.
 											</cfif>
 											<div class="col float-left mt-2">
 												<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
-											<!---	<p>#namedGroups.description#</p>--->
+												<p>#namedGroups.description#</p>
 												<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
 												<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
 											</div>
@@ -281,7 +277,7 @@ limitations under the License.
 											</cfif>
 											<div class="col float-left mt-2">
 												<h3 class="h5"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
-											<!---	<p>#namedGroups.description#</p>--->
+												<p>#namedGroups.description#</p>--->
 												<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
 												<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
 											</div>
@@ -291,10 +287,11 @@ limitations under the License.
 							</cfif>	
 						</cfloop>
 					</div>
-				</section>--->
+				</section>
 			</main>
 		</div>
 	</div>
 </cfoutput>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <cfinclude template = "/shared/_footer.cfm">
