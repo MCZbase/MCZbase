@@ -77,23 +77,23 @@ limitations under the License.
 				<div class="container mt-2">
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<!-- Nav tabs -->
-<!---						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
+						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" id="1" role="tab" aria-controls="collectionPanel" #collectionTabAria#>Collection</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#" id="2" role="tab" aria-controls="expeditionPanel" #keywordTabAria# >Keyword Search</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="3" role="tab" aria-controls="grantPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
-						</div>--->
+						</div>
 						<ul class="nav nav-tabs">
 							<li class="nav-item mr-1">
-							<button class="nav-link active" data-target="##home" href="##home">Collection</button>
+							<a class="nav-link active" href="##home">Collection</a>
 							</li>
 							<li class="nav-item mx-1">
-							<button class="nav-link" data-target="##menu1" href="##menu1">Expedition</button>
+							<a class="nav-link"  href="##menu1">Expedition</a>
 							</li>
 							<li class="nav-item mx-1">
-							<button class="nav-link" data-target="##menu2" href="##menu2">Grant</button>
+							<a class="nav-link" href="##menu2">Grant</a>
 							</li>
 							<li class="nav-item mx-1">
-							<button class="nav-link" data-target="##menu3" href="##menu3">Workflow</button>
+							<a class="nav-link"  href="##menu3">Workflow</a>
 							</li>
 						</ul>
 						<!-- Tab panes -->
@@ -245,17 +245,17 @@ limitations under the License.
 			</main>
 			<script>
 			$(document).ready(function(){
-			  $(".nav-tabs button").click(function(){
+			  $(".nav-tabs a").click(function(){
 				$(this).tab('show');
 			  });
-			  $('.nav-tabs button').on('shown.bs.tab', function(event){
+			  $('.nav-tabs a').on('shown.bs.tab', function(event){
 				var x = $(event.target).text();         // active tab
 				var y = $(event.relatedTarget).text();  // previous tab
 				$(".act span").text(x);
 				$(".prev span").text(y);
 			  });
 			});
-			var triggerFirstTabEl = document.querySelector('##myTab li:first-child button')
+			var triggerFirstTabEl = document.querySelector('##myTab li:first-child a')
 			bootstrap.Tab.getInstance(triggerFirstTabEl).show() // Select first tab
 			</script>
 		</div>
