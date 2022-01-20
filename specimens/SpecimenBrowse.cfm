@@ -81,10 +81,11 @@ limitations under the License.
 	order by country
 </cfquery>
 <cfquery name="notcountries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-	select count(*) ct, continent_ocean
+	select count(*) ct, continent_ocean, country
 	from
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
-	group by continent_ocean
+	group by continent_ocean, country
+	order by continent_ocean, country
 </cfquery>
 
 <cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
