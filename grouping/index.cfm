@@ -17,35 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<cfif not isdefined("action")>
-	<cfset action="fixedSearch">
-</cfif>
-<cfswitch expression="#action#">
-	<cfcase value="fixedSearch">
-		<cfset pageTitle = "Collections Featured">
-		<cfif isdefined("execute")>
-			<cfset execute="fixed">
-		</cfif>
-	</cfcase>
-	<cfcase value="keywordSearch">
-		<cfset pageTitle = "Specimen Search by Keyword">
-		<cfif isdefined("execute")>
-			<cfset execute="keyword">
-		</cfif>
-	</cfcase>
-	<cfcase value="builderSearch">
-		<cfset pageTitle = "Specimen Search Builder">
-		<cfif isdefined("execute")>
-			<cfset execute="builder">
-		</cfif>
-	</cfcase>
-	<cfdefaultcase>
-		<cfset pageTitle = "Basic Specimen Search">
-		<cfif isdefined("execute")>
-			<cfset execute="fixed">
-		</cfif>
-	</cfdefaultcase>
-</cfswitch>
+
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
@@ -91,14 +63,13 @@ limitations under the License.
 	<div class="w-100">
 		<h1 class="px-2 mt-4 mb-2 text-center">MCZ Featured Collections of Cataloged Items</h1>		
 	</div>
-
 	<div class="container-fluid">
 		<div class="row mx-0 mb-4">
 			<p class="font-italic text-dark w-75 mt-3 text-center">Placeholder text for overview of page....</p>
 			<cfoutput>
 				<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
-					<div class="tabs card-header tab-card-header px-2 pt-3">
-						<div class="container mt-3">
+					<div class="container mt-2">
+						<div class="tabs card-header tab-card-header px-2 pt-3">
 							<h2>MCZ Featured Collections of Cataloged Items</h2>
 							<p>Placeholder text for overview of page....</p>  
 							<!-- Nav tabs -->
