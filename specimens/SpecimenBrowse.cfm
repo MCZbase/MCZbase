@@ -212,7 +212,7 @@ limitations under the License.
 										and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
 									</cfquery>
 									<cfif #namedGroups.underscore_collection_type# eq 'collection'>
-										<div class="col-12 col-md-3 float-left float-left px-1 mt-1 mb-1">
+										<div class="col-12 col-md-3 float-left float-left px-0 mt-1 mb-1">
 											<ul class="d-flex flex-wrap px-1">
 												<cfloop query="primaryTypes">
 												<li class="list-group-item col-12 mb-1">
@@ -238,7 +238,7 @@ limitations under the License.
 										and underscore_relation.underscore_collection_id = #namedGroups2.underscore_collection_id#
 									</cfquery>
 									<cfif len(#namedGroups2.description#)gt 0>
-										<div class="col-12 col-md-3 px-2 float-right my-1">
+										<div class="col-12 col-md-3 px-1 float-right my-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height: 116px;">
 												<div class="row mx-0">
 													<cfif len(images.media_id) gt 0>
