@@ -63,31 +63,71 @@ limitations under the License.
 	<div class="w-100">
 		<h1 class="px-2 mt-4 mb-2 text-center">MCZ Featured Collections of Cataloged Items</h1>		
 	</div>
+					<style>
+
+#exTab1 .tab-content {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+}
+
+#exTab2 h3 {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+}
+
+/* remove border radius for the tab */
+
+#exTab1 .nav-pills > li > a {
+  border-radius: 0;
+}
+
+/* change border radius for the tab , apply corners on top*/
+
+#exTab3 .nav-pills > li > a {
+  border-radius: 4px 4px 0 0 ;
+}
+
+#exTab3 .tab-content {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+}
+</style>
 	<div class="container-fluid">
 		<div class="row mx-0 mb-4">
 			<p class="font-italic text-dark w-75 mt-3 text-center">Placeholder text for overview of page....</p>
 			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="##home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="##profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="##messages" type="button" role="tab" aria-controls="messages" aria-selected="false">Messages</button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="##settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Settings</button>
-  </li>
-</ul>
+<div class="container"><h2>Example </h2></div>
+<div id="exTab3" class="container">	
+<ul  class="nav nav-pills">
+			<li class="active">
+        <a  href="#1b" data-toggle="tab">Overview</a>
+			</li>
+			<li><a href="#2b" data-toggle="tab">Using nav-pills</a>
+			</li>
+			<li><a href="#3b" data-toggle="tab">Applying clearfix</a>
+			</li>
+  		<li><a href="#4a" data-toggle="tab">Background color</a>
+			</li>
+		</ul>
 
-<div class="tab-content">
-  <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">...one</div>
-  <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">...two</div>
-  <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">...three</div>
-  <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">...four</div>
-</div>
+			<div class="tab-content clearfix">
+			  <div class="tab-pane active" id="1b">
+          <h3>we have now styled the tab's corner</h3>
+				</div>
+				<div class="tab-pane" id="2b">
+          <h3>We use the class nav-pills which creates a background color for the tab</h3>
+				</div>
+        <div class="tab-pane" id="3b">
+          <h3>We applied clearfix to the tab-content to rid of the gap between the tab and the content</h3>
+				</div>
+          <div class="tab-pane" id="4b">
+          <h3>We use css to change the background color of the content to be equal to the tab</h3>
+				</div>
+			</div>
+  </div>
 
 <script>
 var triggerTabList = [].slice.call(document.querySelectorAll('##myTab button'))
