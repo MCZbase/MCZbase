@@ -95,7 +95,7 @@ limitations under the License.
 
   firstTab.show()
 </script>
-				<nav class="col-12 col-md-12 float-left w-100">
+<!---				<nav class="col-12 col-md-12 float-left w-100">
 						<div class="input-group w-auto mt-2 position-absolute" style="right:.5rem;">
 							<div class="form-outline">
 								<input type="search" id="form1" class="data-entry-input py-1" />
@@ -255,7 +255,7 @@ limitations under the License.
 							</cfif>	
 						</cfloop>
 					</div>
-				</section>
+				</section>--->
 			</main>
 		</div>
 	</div>
