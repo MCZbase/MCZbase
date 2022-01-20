@@ -20,6 +20,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
+	<script src="/shared/js/tabs.js"></script>
 <style>
 	.nav-tabs .nav-link {background-color: #fff;border-color: #fff;border-bottom: 1px solid #f5f5f5;font-weight: 450;}	
 	.nav-tabs .nav-link.active {background-color: #f5f5f5;border-color: #f5f5f5; font-weight:550;}
