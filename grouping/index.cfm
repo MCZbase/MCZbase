@@ -175,13 +175,13 @@ limitations under the License.
   <!-- Nav tabs -->
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link active" href="#home">Home</a>
+      <a class="nav-link active" href="##home">Home</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#menu1">Menu 1</a>
+      <a class="nav-link" href="##menu1">Menu 1</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#menu2">Menu 2</a>
+      <a class="nav-link" href="##menu2">Menu 2</a>
     </li>
   </ul>
 
