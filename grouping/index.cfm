@@ -130,35 +130,26 @@ limitations under the License.
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 active" id="1" role="tab" aria-controls="fixedSearchPanel"  aria-selected="false" tabindex="0">Basic Search</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 active" id="1" role="tab" aria-controls="fixedSearchPanel"  aria-selected="true" tabindex="0">Basic Search</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 " id="2" role="tab" aria-controls="keywordSearchPanel"  aria-selected="false" tabindex="-1" >Keyword Search</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0" id="3" role="tab" aria-controls="builderSearchPanel"  aria-label="search builder tab" aria-selected="false" tabindex="-1">Search Builder</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0" id="3" role="tab" aria-controls="builderSearchPanel"  aria-selected="false" tabindex="-1">Search Builder</button>
 						</div>
 						<div class="tab-content">
 							<!---Fixed Search tab panel--->
 							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 active unfocus" show>
-								<section role="search" class="container-fluid">
-
-
-
-one
-								</section>
+								<section class="container-fluid">one</section>
 							</div><!--- end fixed search tab --->
 	
 							<!---Keyword Search/results tab panel--->
 							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0">
 
 								<!--- results for keyword search --->
-								<section class="container-fluid">
-two
-								</section>
+								<section class="container-fluid">two</section>
 							</div><!--- end keyword search/results panel --->
 	
 								<!---Query Builder tab panel--->
 							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 unfocus">
-								<section role="search" class="container-fluid">
-								three
-								</section>
+								<section class="container-fluid">	three</section>
 								
 							</div><!--- end search builder tab --->
 						</div>
