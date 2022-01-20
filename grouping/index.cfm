@@ -145,22 +145,22 @@ limitations under the License.
 						</cfdefaultcase>
 					</cfswitch>
 					<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
-						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" id="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
-						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
-						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
+						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #fixedTabActive#" data-toggle="tab" id="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
+						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#"  data-toggle="tab" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
+						<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#"  data-toggle="tab" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
 					</div>
 					<div class="tab-content">
-						<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
+						<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="tab-pane mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
 							<section class="container-fluid">
 								one
 							</section>
 						</div>
-						<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
+						<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="tab-pane unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
 							<section class="container-fluid">
 							two
 							</section>
 						</div>
-						<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
+						<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="tab-pane mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 							<section class="container-fluid">
 								three
 							</section>
