@@ -42,7 +42,7 @@ limitations under the License.
 				underscore_collection 
 				LEFT JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 				LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
-					on underscore_relation.collection_object_id = flat.collection_object_id
+					on underscore_relation.collection_object_id = (flat.collection_object_id or filtered_flat.collection_object_id)
 			WHERE
 				underscore_collection.underscore_collection_id IS NOT NULL
 				<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
@@ -86,7 +86,7 @@ limitations under the License.
 					</ul>
 
 				</nav>
-				<section id="collection">
+				<section id="collection" class="tab-content">
 					<cfset underscorecollectiontype='collection'>
 					<cfloop query="namedGroups">
 					<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -121,7 +121,7 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 				</section>
-				<section id="expedition">
+				<section id="expedition" class="tab-content">
 					<cfloop query="namedGroups">
 						<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
@@ -155,7 +155,7 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 				</section>
-				<section id="grant">
+				<section id="grant" class="tab-content">
 					<cfloop query="namedGroups">
 						<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
@@ -188,7 +188,7 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 				</section>
-				<section id="workflow">
+				<section id="workflow" class="tab-content">
 					<cfloop query="namedGroups">
 						<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
