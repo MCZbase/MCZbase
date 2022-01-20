@@ -131,7 +131,7 @@ limitations under the License.
 		<div class="row mx-0 mb-4">
 			<p class="font-italic text-dark w-75 mt-3 text-center">Placeholder text for overview of page....</p>
 			<main class="col-12 col-md-12 bg-light border rounded px-2 py-2 mb-3 float-left mt-1">
-				<cfoutput>
+	
 <div class="container"><h2>Example </h2></div>
 <div id="exTab3" class="container">	
 <ul  class="nav nav-pills">
@@ -244,7 +244,7 @@ limitations under the License.
 				</div>
 			</div>
 		</main>
-									</cfoutput>
+							
 <!---				<nav class="col-12 col-md-12 float-left w-100">
 						<div class="input-group w-auto mt-2 position-absolute" style="right:.5rem;">
 							<div class="form-outline">
