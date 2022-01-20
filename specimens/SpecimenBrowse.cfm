@@ -126,135 +126,8 @@ limitations under the License.
 <cfelse>
 	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
 </cfif>
-<cfoutput>
-	<h1 class="text-center mt-4 mb-2">Browse Specimens by Category</h1>
-		
-	<main class="container-fluid">
-		<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-	
-	<!---	<div class="row mx-0 bg-white">
-			<nav class="col-3 mb-2 px-3">
-				<ul class="list-unstyled text-right px-0 pr-xl-3 pl-xl-0 mb-3 mt-4 bg-light">
-					<li class="my-3">
-						<h2 class="h3 mb-0 w-75 float-right"><a href="##section1" class="text-dark cbp-current">Primary Types</a></h2>
-						<p class="small90 text-muted w-75 float-right">description</p>
-					</li>
-					<li class="my-3">
-						<h2 class="h3 mb-0 w-75 float-right"><a href="##section2" class="text-dark">MCZ Featured Collections of Cataloged Items</a></h2>
-						<p class="small90 text-muted w-75 float-right">description</p>
-					</li>
-					<li class="my-3">
-						<h2 class="h3 mb-0 w-75 float-right"><a href="##section3" class="text-dark">Browse by Higher Geography</a></h2>
-						<p class="small90 text-muted w-75 float-right">description</p>
-					</li>
-					<li class="my-3">
-						<h2 class="h3 mb-0 w-75 float-right"><a href="##section4" class="text-dark">Browse by Higher Taxonomy</a></h2>
-						<p class="small90 text-muted w-75 float-right">description</p>
-					</li>
-					<div class="input-group w-auto float-right mt-2">
-						<div class="form-outline">
-							<input type="search" id="form1" class="data-entry-input py-1" />
-						</div>
-						<button type="button" class="btn btn-xs btn-primary py-1"><i class="fas fa-search"></i></button>
-					</div>
-				</ul>
-			</nav>
-			<div class="col-9 mt-2 px-0 mb-5 border rounded">
-				<section class="col-12 pt-2 mt-0" id="section1">
-					<h2 class="h3 px-2">Primary Types</h2>
-					<div class="col-12 px-0 pt-2 ">
-						<ul class="d-flex flex-wrap px-1">
-							<cfloop query="primaryTypes">
-								<cfset typeStatusColor ="">
-								<cfset toptypestatus = "#toptypestatus#">
-								<cfif #toptypestatus# eq "Neotype">
-									<cfset typeStatusColor = "red">
-								<cfelseif #toptypestatus# eq "Holotype">
-									<cfset typeStatusColor = "darkest-red">
-								<cfelseif #toptypestatus# eq "Syntype">
-									<cfset typeStatusColor = "dark-orange">
-								<cfelseif #toptypestatus# eq "Lectotype">
-									<cfset typeStatusColor = "reddish">
-								<cfelse>
-									<cfset typeStatusColor eq "text-danger">
-								</cfif>
-								<li class="list-group-item col-2 mb-1"><i class="fa fa-square #typeStatusColor#" aria-hidden="true"></i> <a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)</li>
-							</cfloop>
-						</ul>
-					</div>
-				</section>
-				<section class="col-12 px-1 mt-0 pt-2" id="section2">
-					<h2 class="h3 px-3">MCZ Featured Collections of Cataloged Items</h2>
-					<ul class="d-flex flex-wrap px-2 mb-0">
-						<cfloop query="namedGroups2">
-							<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									displayed_media_id as media_id
-								FROM
-									underscore_relation 
-								INNER JOIN underscore_collection
-									on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-								WHERE rownum = 1 
-								and underscore_relation.underscore_collection_id = #namedGroups2.underscore_collection_id#
-							</cfquery>
-							<cfif len(#namedGroups2.description#)gt 0>
-								<div class="col-12 col-md-3 px-1 float-right my-0">
-									<div class="border rounded bg-white py-2 col-12 px-2 float-left">
-										<div class="row mx-0">
-											<cfif len(images.media_id) gt 0>
-												<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
-													<div class="float-left bg-light border rounded" style="width: 100px;" id="mediaBlock#images.media_id#">
-														#mediablock#
-													</div>
-											</cfif>
-											<div class="col float-left px-2 mt-2">
-												<h3 class="h5 mt-0 px-0">
-													<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups2.underscore_collection_id#">#namedGroups2.collection_name#</a>
-												</h3>
-												<p class="mb-1 small">Includes #namedGroups2.ct# Cataloged Items</p>
-												<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups2.underscore_collection_type#</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</cfif>
-						</cfloop>
-					</ul>
-				</section>
-				<section class="col-12 pt-2 mt-0" id="section3">
-					<h2 class="h3 px-2">Browse by higher geography</h2>
-					<ul class="d-flex px-1 flex-wrap">
-						<cfloop query="countries">
-							<li class="list-group-item col-2 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#country#</a> (#ct#)</li>
-						</cfloop>
-						<cfloop query="notcountries">
-							<li class="list-group-item col-2 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
-						</cfloop>
-					</ul>
-				</section>
-				<section class="col-12 pt-2 mt-0" id="section4">
-					<h2 class="h3 px-2">Browse by higher taxonomy</h2>
-					<ul class="d-flex px-2 flex-wrap">
-						<cfloop query="phyla">
-							<li class="list-group-item col-2 px-1"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
-						</cfloop>
-						<cfloop query="notphyla">
-							<li class="list-group-item col-2 px-1"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
-						</cfloop>
-						<cfloop query="notkingdoms">
-							<li class="list-group-item col-2 px-1"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
-						</cfloop>
-					</ul>
-				</section>
-			
-			</div>
-		</div>--->
-	</main>
-									
-<!---Tabs below--->
-<!---Tabs below--->	
-<!---Tabs below--->
-<!---Tabs below--->	
+
+
 									
 <style>
 	.nav-tabs .nav-link {background-color: #fff;border-color: #fff;border-bottom: 1px solid #f5f5f5;font-weight: 450;}	
@@ -563,6 +436,5 @@ function topFunction() {
   document.documentElement.scrollTop = 0;
 }
 </script>
-</cfoutput>
 
 <cfinclude template = "/shared/_footer.cfm">
