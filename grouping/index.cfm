@@ -215,15 +215,15 @@ limitations under the License.
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
 						</div>
 						<div class="tab-content">
-							<!---Fixed Search tab panel--->
+					
 							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
 								<section role="search" class="container-fluid">
 									one
 								</section>
 						
-							</div><!--- end fixed search tab --->
+							</div>
 	
-							<!---Keyword Search/results tab panel--->
+							
 							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
 								
 								<section  class="container-fluid">
@@ -231,16 +231,14 @@ limitations under the License.
 								
 								</section>
 			
-							</div><!--- end keyword search/results panel --->
-	
-								<!---Query Builder tab panel--->
+							</div>
 							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<section  class="container-fluid">
 									three
 								</section>
-								<!--- results for search builder search --->
 						
-							</div><!--- end search builder tab --->
+						
+							</div>
 						</div>
 					</div>--->
 				</div>
