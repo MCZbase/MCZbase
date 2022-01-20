@@ -17,16 +17,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<cfif not isdefined("action")>
+<!---<cfif not isdefined("action")>
 	<cfset action="fixedSearch">
 </cfif>
 <cfswitch expression="#action#">
-	<!--- API note: action and method seem duplicative, action is required and used to determine
-			which tab to show, method invokes target backing method in form submission, but when 
-			invoking this page with execute=true method does not need to be included in the call
-			even though it will be included in the URI parameter list when clicking on the 
-			"Link to this search" link.
-	--->
 	<cfcase value="fixedSearch">
 		<cfset pageTitle = "Collections Featured">
 		<cfif isdefined("execute")>
@@ -51,11 +45,11 @@ limitations under the License.
 			<cfset execute="fixed">
 		</cfif>
 	</cfdefaultcase>
-</cfswitch>
+</cfswitch>--->
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
-<cfoutput>
+
 		<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT underscore_collection_type, description 
 			FROM ctunderscore_collection_type
@@ -409,76 +403,5 @@ limitations under the License.
 			</main>--->
 		</div>
 	</div>
-</cfoutput>
-<script>
-	/*!
-	 * classie - class helper functions
-	 * from bonzo https://github.com/ded/bonzo
-	 *
-	 * classie.has( elem, 'my-class' ) -> true/false
-	 * classie.add( elem, 'my-new-class' )
-	 * classie.remove( elem, 'my-unwanted-class' )
-	 * classie.toggle( elem, 'my-class' )
-	 */
-	/*jshint browser: true, strict: true, undef: true */
-	
-	( function( window ) {
-	
-	'use strict';
-	
-	// class helper functions from bonzo https://github.com/ded/bonzo
-	
-	function classReg( className ) {
-	  return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
-	}
-	
-	// classList support for class management
-	// altho to be fair, the api sucks because it won't accept multiple classes at once
-	var hasClass, addClass, removeClass;
-	
-	if ( 'classList' in document.documentElement ) {
-	  hasClass = function( elem, c ) {
-	    return elem.classList.contains( c );
-	  };
-	  addClass = function( elem, c ) {
-	    elem.classList.add( c );
-	  };
-	  removeClass = function( elem, c ) {
-	    elem.classList.remove( c );
-	  };
-	}
-	else {
-	  hasClass = function( elem, c ) {
-	    return classReg( c ).test( elem.className );
-	  };
-	  addClass = function( elem, c ) {
-	    if ( !hasClass( elem, c ) ) {
-	      elem.className = elem.className + ' ' + c;
-	    }
-	  };
-	  removeClass = function( elem, c ) {
-	    elem.className = elem.className.replace( classReg( c ), ' ' );
-	  };
-	}
-	
-	function toggleClass( elem, c ) {
-	  var fn = hasClass( elem, c ) ? removeClass : addClass;
-	  fn( elem, c );
-	}
-	
-	window.classie = {
-	  // full names
-	  hasClass: hasClass,
-	  addClass: addClass,
-	  removeClass: removeClass,
-	  toggleClass: toggleClass,
-	  // short names
-	  has: hasClass,
-	  add: addClass,
-	  remove: removeClass,
-	  toggle: toggleClass
-	};
-	
-	})( window );
-	</script>
+
 <cfinclude template = "/shared/_footer.cfm">
