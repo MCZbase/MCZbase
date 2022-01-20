@@ -135,7 +135,7 @@ limitations under the License.
 						</div>
 						<div class="tab-content">
 							<!---Fixed Search tab panel--->
-							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 active unfocus" show>
+							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 active unfocus">
 								<section class="container-fluid">one</section>
 							</div><!--- end fixed search tab --->
 	
