@@ -196,7 +196,7 @@ limitations under the License.
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="3" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants">Grants</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="4" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow">Workflows</button>
 						</div>
-						<div class="tab-content border flex-wrap d-flex mb-1">
+						<div class="tab-content flex-wrap d-flex mb-1">
 							<!---Fixed Search tab panel--->
 							<div id="collectionPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 mx-0 #collectionTabActive# unfocus"  #collectionTabShow#>
 								<h3 class="px-2">Collections</h3>
