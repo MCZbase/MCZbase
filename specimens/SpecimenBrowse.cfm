@@ -225,7 +225,7 @@ limitations under the License.
 		<cfoutput>
 			<main class="col-12 col-md-12 px-2 py-2 mb-3 float-left mt-1">
 				<div class="container mt-2">
-					<p class="font-italic text-dark w-75 mt-3 text-center">The Museum of Comparative Zoology (MCZ) contains over 21-million specimens in ten research collections that comprise one of the world's richest and most varied resources for studying the diversity of life. The museum serves as the primary repository for zoological specimens collected by past and present Harvard faculty-curators, staff, and associates conducting research around the world. The public can see a small percentage of our holdings on display at the Harvard Museum of Natural History, but visitors can also browse MCZ specimens and metadata online via these catagories.</p>
+					<p class="font-italic text-dark mt-3 text-justified">The Museum of Comparative Zoology (MCZ) contains over 21-million specimens in ten research collections that comprise one of the world's richest and most varied resources for studying the diversity of life. The museum serves as the primary repository for zoological specimens collected by past and present Harvard faculty-curators, staff, and associates conducting research around the world. The public can see a small percentage of our holdings on display at the Harvard Museum of Natural History, but visitors can also browse MCZ specimens and metadata online via these catagories.</p>
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<cfswitch expression="#action#">
 							<cfcase value="browseprimarytypes">
