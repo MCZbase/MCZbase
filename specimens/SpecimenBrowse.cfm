@@ -122,7 +122,7 @@ limitations under the License.
 	group by country
 	order by country
 </cfquery>
-<cfquery name="notcountries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+<cfquery name="continents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, continent_ocean, country
 	from
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
@@ -356,11 +356,33 @@ limitations under the License.
 							</div>
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
-								<ul class="d-flex px-1 flex-wrap">
-									<cfloop query="notcountries">
-										<li class="list-group-item col-4 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#continent_ocean#: #country#</a> (#ct#)</li>
-									</cfloop>
+								<cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+									select distinct g1.continent_ocean, g1.country
+									from
+									geog_auth_rec g1
+									left join geog_auth_rec2 g2 on g2.country = g1.country
+									group by g1.continent_ocean, g1.country
+									order by g1.continent_ocean, g1.country
+								</cfquery>
+								<ul class="col-4 px-0 list-group">
+									<cfloop query="continental">
+										<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											SELECT
+												distinct count(*) ct 
+											FROM
+												geog_auth_rec 
+											WHERE
+												geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
+										</cfquery>
+									<li class="list-group-item">#continental.continent_ocean#</li>
+										<ul class="list-group">
+										
+											<cfloop query="country1">
+												<li class="list-group-item">#continental.country# (#country1.ct#)  </li>
+											</cfloop>
+										</ul>
 								</ul>
+								</cfloop>
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
