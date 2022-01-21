@@ -357,12 +357,11 @@ limitations under the License.
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-									select distinct g1.continent_ocean, g1.country
+									select distinct g1.continent_ocean
 									from
 									geog_auth_rec g1
-									left join geog_auth_rec2 g2 on g2.country = g1.country
-									group by g1.continent_ocean, g1.country
-									order by g1.continent_ocean, g1.country
+									group by g1.continent_ocean
+									order by g1.continent_ocean
 								</cfquery>
 								<ul class="col-4 px-0 list-group">
 									<cfloop query="continental">
@@ -374,11 +373,10 @@ limitations under the License.
 											WHERE
 												geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
 										</cfquery>
-									<li class="list-group-item">#continental.continent_ocean#</li>
+									<!---<li class="list-group-item">#continental.continent_ocean#</li>--->
 										<ul class="list-group">
-										
 											<cfloop query="country1">
-												<li class="list-group-item">#continental.country# (#country1.ct#)  </li>
+												<li class="list-group-item">#continental.continent_ocean# (#country1.ct#)  </li>
 											</cfloop>
 										</ul>
 								</ul>
