@@ -373,8 +373,8 @@ limitations under the License.
 												WHERE
 													geog_auth_rec.continent_ocean = #continental.continent_ocean#
 												GROUP BY
-													geog_auth_rec.country
-												ORDER BY geog_auth_rec.country
+													continent_ocean, country
+												ORDER BY continent_ocean, country
 											</cfquery>
 											<ul>
 												<cfloop query="country">
