@@ -365,22 +365,22 @@ limitations under the License.
 								</cfquery>
 								<ul class="col-4 px-0 list-group">
 									<cfloop query="continental">
-										<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT
-												distinct count(*) ct 
-											FROM
-												geog_auth_rec 
-											WHERE
-												geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
-										</cfquery>
-									<!---<li class="list-group-item">#continental.continent_ocean#</li>--->
-										<ul class="list-group">
-											<cfloop query="country1">
-												<li class="list-group-item">#continental.continent_ocean# (#country1.ct#)  </li>
-											</cfloop>
-										</ul>
+									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT
+											distinct count(*) ct 
+										FROM
+											geog_auth_rec 
+										WHERE
+											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
+									</cfquery>
+								<!---<li class="list-group-item">#continental.continent_ocean#</li>--->
+									<ul class="list-group">
+										<cfloop query="country1">
+											<li class="list-group-item">#continental.continent_ocean# (#country1.ct#)  </li>
+										</cfloop>
+									</ul>
+									</cfloop>
 								</ul>
-								</cfloop>
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
