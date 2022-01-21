@@ -217,7 +217,7 @@ limitations under the License.
 	.nav-tabs .nav-link.active {background-color: #f5f5f5;border-color: #f5f5f5; font-weight:550;}
 </style>
 
-<h1 class="px-2 mt-4 mb-2 text-center">Browse MCZ Specimens by Category</h1>		
+<h1 class="px-2 mt-4 mb-0 text-center">Browse MCZ Specimens by Category</h1>		
 </div>
 <div class="container-fluid">
 	<div class="row mx-0 mb-4">
