@@ -376,7 +376,7 @@ limitations under the License.
 								<!---<li class="list-group-item">#continental.continent_ocean#</li>--->
 									<ul class="list-group">
 										<cfloop query="country1">
-											<li class="list-group-item"><a href="#specimenSearch#&continent_ocean=#continent_ocean#">#continental.continent_ocean# (#country1.ct#)</a></li>
+											<li class="list-group-item"><a href="#specimenSearch#&continent_ocean=#continental.continent_ocean#">#continental.continent_ocean# (#country1.ct#)</a></li>
 										</cfloop>
 									</ul>
 									</cfloop>
