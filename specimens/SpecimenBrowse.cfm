@@ -372,6 +372,7 @@ limitations under the License.
 											geog_auth_rec 
 										WHERE
 											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
+										and geog_auth_rec.continent_ocean is not null
 									</cfquery>
 								<!---<li class="list-group-item">#continental.continent_ocean#</li>--->
 									<ul class="list-group col-12 col-md-4 px-0 list-group-horizontal d-flex flex-wrap pb-2">
