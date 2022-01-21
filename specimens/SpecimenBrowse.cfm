@@ -382,7 +382,7 @@ limitations under the License.
 												ORDER BY geog_auth_rec.country
 											</cfquery>
 											<ul>
-												<cfloop query="">
+												<cfloop query="country">
 													<li class="col-3">#continents.country# (#country.ct#)</li>
 												</cfloop>
 											
