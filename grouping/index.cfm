@@ -79,13 +79,13 @@ limitations under the License.
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		count(FF.collection_object_id) ct, 
-	case
-			when length(underscore_collection.collection_name) > 40 then
-						substr(underscore_collection.collection_name,1,40) || '...'
-					else
-						underscore_collection.collection_name
-					end
-					as collection_name_trim,
+		case
+		when length(underscore_collection.collection_name) > 40 then
+			substr(underscore_collection.collection_name,1,40) || '...'
+		else
+			underscore_collection.collection_name
+		end
+		as collection_name_trim, 
 		underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
 		underscore_collection.description, underscore_collection.underscore_collection_type,
 		underscore_collection.displayed_media_id
@@ -229,7 +229,7 @@ limitations under the License.
 													</cfif>
 													<div class="col float-left px-2 pl-md-1 pr-md-0 mt-0">
 														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-														#namedGroups.collection_name#
+														#namedGroups.collection_trim#
 														</a></h3>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
