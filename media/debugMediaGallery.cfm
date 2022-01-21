@@ -5,6 +5,8 @@
 <cfoutput>
 	<div class="container-fluid my-3">
 
+		<h1 class="h2">Gallery of images for testing/debugging the media widget.</h1>
+
 		<cfquery name="examples" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct media_id from (
 				select max(media_id) media_id from media

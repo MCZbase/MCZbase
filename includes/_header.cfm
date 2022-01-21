@@ -330,6 +330,9 @@
 											<a class="dropdown-item" target="_top" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
 											<a class="dropdown-item" target="_top" href="/tools/imageList.cfm">Image List</a>
 										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
+											<a class="dropdown-item" target="_top" href="/media/debugMediaGallery.cfm">Test/Debug Media Widget</a>
+										</cfif>
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>

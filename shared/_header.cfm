@@ -655,6 +655,9 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Image List</a>
 											</cfif>
 										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
+											<a class="dropdown-item" href="/media/debugMediaGallery.cfm">Test/Debug Media Widget</a>
+										</cfif>
 									</div>
 									</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
