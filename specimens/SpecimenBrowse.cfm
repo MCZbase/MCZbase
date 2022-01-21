@@ -217,7 +217,7 @@ limitations under the License.
 	.nav-tabs .nav-link.active {background-color: #f5f5f5;border-color: #f5f5f5; font-weight:550;}
 </style>
 
-<h1 class="px-2 mt-4 mb-2 text-center">Browse Specimens by Category</h1>		
+<h1 class="px-2 mt-4 mb-2 text-center">Browse MCZ Specimens by Category</h1>		
 </div>
 <div class="container-fluid">
 	<div class="row mx-0 mb-4">
@@ -301,7 +301,7 @@ limitations under the License.
 						<!-- Nav tabs -->
 						<div class="tab-headers tabList" role="tablist" aria-label="browse specimens">
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #primarytypesTabActive#" id="1" role="tab" aria-controls="primarytypesPanel" #primarytypesTabAria# aria-label="Browse Primary Types">Primary Types</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #featuredTabActive#" id="2" role="tab" aria-controls="featuredPanel" #featuredTabAria# aria-label="Browse Featured Collections">MCZ Featured Collections of Cataloged Items</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #featuredTabActive#" id="2" role="tab" aria-controls="featuredPanel" #featuredTabAria# aria-label="Browse Featured Collections">Featured Collections of Cataloged Items</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #highergeoTabActive#" id="3" role="tab" aria-controls="highergeoPanel" #highergeoTabAria# aria-label="Browse Higher Geography">Higher Geography</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #taxonomyTabActive#" id="4" role="tab" aria-controls="taxonomyPanel" #taxonomyTabAria# aria-label="Browse Taxonomy">Taxonomy</button>
 						</div>
