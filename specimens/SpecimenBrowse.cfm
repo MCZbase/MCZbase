@@ -130,11 +130,11 @@ limitations under the License.
 	order by continent_ocean, country
 </cfquery>
 <cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-	select count(*) ct, continent_ocean
+	select distinct continent_ocean, country
 	from
 	geog_auth_rec
-	group by continent_ocean
-	order by continent_ocean
+	group by continent_ocean, country
+	order by continent_ocean, country
 </cfquery>
 <cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, phylum 
@@ -364,17 +364,13 @@ limitations under the License.
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="continental">
-										<li class="list-group-item col-12 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&continent=#continent_ocean#">#continental.continent_ocean#</a> (#continental.ct#)</li>
+										<li class="list-group-item col-12 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&continent=#continent_ocean#">#continental.continent_ocean#</a> <!---(#continental.ct#)---></li>
 											<cfquery name="country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT
-													count(flat.country) ct, 
-													geog_auth_rec.country, flat.continent_ocean
+													distinct country
 												FROM
 													geog_auth_rec 
-													LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
-														on geog_auth_rec.country = flat.country
 												WHERE
-													geog_auth_rec.country IS NOT NULL
 													AND geog_auth_rec.continent_ocean = #continental.continent_ocean#
 												GROUP BY
 													geog_auth_rec.country
@@ -382,7 +378,7 @@ limitations under the License.
 											</cfquery>
 											<ul>
 												<cfloop query="country">
-													<li class="col-3">#country.country# (#country.ct#)</li>
+													<li class="col-3">#continental.country# (#country.ct#)</li>
 												</cfloop>
 											
 											</ul>
