@@ -222,10 +222,11 @@ limitations under the License.
 														</div>
 													</cfif>
 													<div class="col float-left px-2 pl-md-1 pr-md-0 mt-0">
+														<cfset showTitleText = trim(collection_name)>
 														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-														<cfif len(collection_name) GT 35>
-															<cfset collection_name = "#left(collection_name,35)#..." >
-														</cfif>#namedGroups.collection_name#
+														<cfif len(showTitleText) GT 35>
+															<cfset showTitleText = "#left(showTitleText,35)#..." >
+														</cfif>
 														</a></h3>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
