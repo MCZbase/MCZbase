@@ -358,7 +358,23 @@ limitations under the License.
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="notcountries">
-										<li class="list-group-item col-4 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#continent_ocean#: #country#</a> (#ct#)</li>
+										<li class="list-group-item col-4 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#continent_ocean#</a> (#ct#)</li>
+											<cfquery name="countries2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select count(*) ct, country 
+												from 
+												<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+													join notcounties on notcountries.country = countries2.country
+												where country is not null
+													group by country
+													order by country
+											</cfquery>
+											<ul>
+												<cfloop query="countries2">
+													<li>#notcountries.country# (#countries.ct#)</li>
+												</cfloop>
+											
+											</ul>
+										
 									</cfloop>
 								</ul>
 							</div>
