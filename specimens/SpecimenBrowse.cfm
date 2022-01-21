@@ -17,6 +17,47 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
+<cfif not isdefined("action")>
+	<cfset action="collection">
+</cfif>
+<cfswitch expression="#action#">
+	<!--- API note: action and method seem duplicative, action is required and used to determine
+			which tab to show, method invokes target backing method in form submission, but when 
+			invoking this page with execute=true method does not need to be included in the call
+			even though it will be included in the URI parameter list when clicking on the 
+			"Link to this search" link.
+	--->
+	<cfcase value="browsecollection">
+		<cfset pageTitle = "Browse Collections">
+		<cfif isdefined("execute")>
+			<cfset execute="collection">
+		</cfif>
+	</cfcase>
+	<cfcase value="browseexpedition">
+		<cfset pageTitle = "Browse Expeditions">
+		<cfif isdefined("execute")>
+			<cfset execute="expedition">
+		</cfif>
+	</cfcase>
+	<cfcase value="browsegrant">
+		<cfset pageTitle = "Browse Grants">
+		<cfif isdefined("execute")>
+			<cfset execute="grant">
+		</cfif>
+	</cfcase>
+	<cfcase value="browseworkflows">
+		<cfset pageTitle = "Browse Workflows">
+		<cfif isdefined("execute")>
+			<cfset execute="workflows">
+		</cfif>
+	</cfcase>
+	<cfdefaultcase>
+		<cfset pageTitle = "Browse Collections">
+		<cfif isdefined("execute")>
+			<cfset execute="collection">
+		</cfif>
+	</cfdefaultcase>
+</cfswitch>
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
@@ -184,8 +225,87 @@ limitations under the License.
 			<main class="col-12 col-md-12 px-2 py-2 mb-3 float-left mt-1">
 				<div class="container mt-2">
 					<div class="tabs card-header tab-card-header px-2 pt-3">
+						<cfswitch expression="#action#">
+							<cfcase value="browsecollection">
+								<cfset collectionTabActive = "active">
+								<cfset collectionTabShow = "">
+								<cfset expeditionTabActive = "">
+								<cfset expeditionTabShow = "hidden">
+								<cfset grantTabActive = "">
+								<cfset grantTabShow = "hidden">
+								<cfset workflowTabActive = "">
+								<cfset workflowTabShow = "hidden">
+								<cfset collectionTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset expeditionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset grantTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset workflowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfcase>
+							<cfcase value="browseexpedition">
+								<cfset collectionTabActive = "">
+								<cfset collectionTabShow = "hidden">
+								<cfset expeditionTabActive = "active">
+								<cfset expeditionTabShow = "">
+								<cfset workflowTabActive = "">
+								<cfset workflowTabShow = "hidden">
+								<cfset grantTabActive = "">
+								<cfset grantTabShow = "hidden">
+								<cfset collectionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset expeditionTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset grantTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset workflowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfcase>
+							<cfcase value="browsegrant">
+								<cfset collectionTabActive = "">
+								<cfset collectionTabShow = "hidden">
+								<cfset expeditionTabActive = "">
+								<cfset expeditionTabShow = "hidden">
+								<cfset workflowTabActive = "">
+								<cfset workflowTabShow = "hidden">
+								<cfset grantTabActive = "active">
+								<cfset grantTabShow = "">
+								<cfset collectionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset expeditionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset workflowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset grantTabAria = "aria-selected=""true"" tabindex=""0"" ">
+							</cfcase>
+							<cfcase value="browseworkflow">
+								<cfset collectionTabActive = "">
+								<cfset collectionTabShow = "hidden">
+								<cfset expeditionTabActive = "">
+								<cfset expeditionTabShow = "hidden">
+								<cfset grantTabActive = "">
+								<cfset grantTabShow = "hidden">
+								<cfset workflowTabActive = "active">
+								<cfset workflowTabShow = "">
+								<cfset collectionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset expeditionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset grantTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset workflowTabAria = "aria-selected=""true"" tabindex=""0"" ">
+							</cfcase>			
+							<cfdefaultcase>
+								<cfset collectionTabActive = "active">
+								<cfset collectionTabShow = "">
+								<cfset expeditionTabActive = "">
+								<cfset expeditionTabShow = "hidden">
+								<cfset grantTabActive = "">
+								<cfset grantTabShow = "hidden">
+								<cfset workflowTabActive = "">
+								<cfset workflowTabShow = "hidden">
+								<cfset collectionTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset grantTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset expeditionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset workflowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfdefaultcase>
+						</cfswitch>
 						<!-- Nav tabs -->
-						<ul class="nav nav-tabs">
+						<div class="tab-headers tabList" role="tablist" aria-label="browse collections types">
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #collectionTabActive#" id="1" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections">Collections</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #expeditionTabActive#" id="2" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions">Expeditions</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="3" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants">Grants</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="4" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow">Workflows</button>
+						</div>
+						<!-- Nav tabs -->
+<!---						<ul class="nav nav-tabs">
 							<li class="nav-item mr-1">
 							<a class="nav-link show active" href="##home">Primary Types</a>
 							</li>
@@ -198,10 +318,10 @@ limitations under the License.
 							<li class="nav-item mx-1">
 							<a class="nav-link" href="##menu3">Browse by Higher Taxonomy</a>
 							</li>
-						</ul>
+						</ul>--->
 						<!-- Tab panes -->
-						<div class="tab-content border flex-wrap d-flex mb-1">
-							<div id="home" class="container-fluid tab-pane active"><br>
+						<div class="tab-content flex-wrap d-flex mb-1">
+							<div id="collectionPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #collectionTabActive# unfocus"  #collectionTabShow#>
 								<h3 class="px-2">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
 									<ul class="d-flex flex-wrap px-1">
@@ -213,7 +333,7 @@ limitations under the License.
 									</ul>
 								</div>
 							</div>
-							<div id="menu1" class="container tab-pane fade"><br>
+							<div id="expeditionPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #expeditionTabActive# unfocus"  #expeditionTabShow#>
 								<h3 class="px-2">MCZ Featured Collections of Cataloged Items</h3>
 								<cfloop query="namedGroups2">
 									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -249,7 +369,7 @@ limitations under the License.
 									</cfif>
 								</cfloop>
 							</div>
-							<div id="menu2" class="container tab-pane fade"><br>
+							<div id="grantPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #grantTabActive# unfocus"  #grantTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="notcountries">
@@ -257,7 +377,7 @@ limitations under the License.
 									</cfloop>
 								</ul>
 							</div>
-							<div id="menu3" class="container tab-pane fade"><br>
+							<div id="workflowPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #workflowTabActive# unfocus"  #workflowTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="phyla">
@@ -275,19 +395,6 @@ limitations under the License.
 					</div>
 				</div>
 			</main>
-			<script>
-				$(document).ready(function(){
-				  $(".nav-tabs a").click(function(){
-					$(this).tab('show');
-				  });
-				  $('.nav-tabs a').on('shown.bs.tab', function(event){
-					var x = $(event.target).text();         // active tab
-					var y = $(event.relatedTarget).text();  // previous tab
-					$(".act span").text(x);
-					$(".prev span").text(y);
-				  });
-				});
-			</script>
 		</cfoutput>
 	</div>
 </div>
@@ -365,29 +472,7 @@ var cbpFixedScrollLayout = (function() {
 
 })();
 </script>
-<script>
-//Get the button
-var mybutton = document.getElementById("myBtn");
 
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    mybutton.style.display = "block";
-  } else {
-    mybutton.style.display = "none";
-  }
-}
-
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
-}
-var triggerFirstTabEl = document.querySelector('##myTab li:first-child a')
-			bootstrap.Tab.getInstance(triggerFirstTabEl).show() // Select first tab
-</script>
 
 
 <cfinclude template = "/shared/_footer.cfm">
