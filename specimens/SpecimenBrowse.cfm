@@ -211,17 +211,15 @@ limitations under the License.
 		underscore_collection.displayed_media_id
 	ORDER BY underscore_collection_type, collection_name
 </cfquery>
-<div class="w-100">
+
 <style>
 	.nav-tabs .nav-link {background-color: #fff;border-color: #fff;border-bottom: 1px solid #f5f5f5;font-weight: 450;}	
 	.nav-tabs .nav-link.active {background-color: #f5f5f5;border-color: #f5f5f5; font-weight:550;}
 </style>
 
-<h1 class="px-2 mt-4 mb-0 text-center">Browse MCZ Specimens by Category</h1>		
-</div>
 <div class="container-fluid">
 	<div class="row mx-0 mb-4">
-	
+	<h1 class="px-2 mt-4 mb-0 text-center">Browse MCZ Specimens by Category</h1>	
 		<cfoutput>
 			<main class="col-12 col-md-12 px-2 py-2 mb-3 float-left mt-1">
 				<div class="container mt-0">
