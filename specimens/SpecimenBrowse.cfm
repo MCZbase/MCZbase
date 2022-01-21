@@ -359,8 +359,28 @@ limitations under the License.
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="continents">
 										<li class="list-group-item col-12 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#continent_ocean#</a> (#ct#)</li>
+										SELECT
+											count(flat.country) ct, 
+											geog_auth_rec.country
+										FROM
+											geog_auth_rec 
+											LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+												on geog_auth_rec.country = flat.country
+										WHERE
+											geog_auth_rec.country IS NOT NULL
+											<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
+												AND flat.country is not null
+											</cfif>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+												AND geog_auth_rec.continent_ocean IS NOT NULL
+											<cfelse>
+												AND geog_auth_rec.continent_ocean = #continents.country#
+											</cfif>
+										GROUP BY
+											geog_auth_rec.country
+										ORDER BY  geog_auth_rec.country
 											<ul>
-												<cfloop query="countries">
+												<cfloop query="countries2">
 													<li class="col-3">#continents.country# (#countries.ct#)</li>
 												</cfloop>
 											
