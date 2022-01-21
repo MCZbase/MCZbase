@@ -129,13 +129,7 @@ limitations under the License.
 	group by continent_ocean, country
 	order by continent_ocean, country
 </cfquery>
-<cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-	select distinct continent_ocean, country
-	from
-	geog_auth_rec
-	group by continent_ocean, country
-	order by continent_ocean, country
-</cfquery>
+
 <cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, phylum 
 	from 
@@ -362,16 +356,24 @@ limitations under the License.
 							</div>
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
-								<cfloop query="continental">
+								<cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+									select distinct g1.continent_ocean, g1.country
+									from
+									geog_auth_rec g1
+									left join geog_auth_rec2 g2 on g2.country = g1.country
+									group by g1.continent_ocean, g1.country
+									order by g1.continent_ocean, g1.country
+								</cfquery>
 								<ul class="col-4 px-0 list-group">
-									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT
-											distinct count(*) ct 
-										FROM
-											geog_auth_rec 
-										WHERE
-											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
-									</cfquery>
+									<cfloop query="continental">
+										<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											SELECT
+												distinct count(*) ct 
+											FROM
+												geog_auth_rec 
+											WHERE
+												geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
+										</cfquery>
 									<li class="list-group-item">#continental.continent_ocean#</li>
 										<ul class="list-group">
 										
