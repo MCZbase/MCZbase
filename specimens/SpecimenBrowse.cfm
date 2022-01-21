@@ -362,10 +362,11 @@ limitations under the License.
 							</div>
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
-
+								<cfloop query="continents">
+									<li class="list-group-item col-12 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&continent=#continent_ocean#">#continents.continent_ocean#</a> </li>
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="continental">
-									<li class="list-group-item col-12 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&continent=#continent_ocean#">#continental.continent_ocean#</a> </li>
+									
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT
 											distinct count(*) ct 
@@ -382,6 +383,7 @@ limitations under the License.
 										</ul>
 									</cfloop>
 								</ul>
+								</cfloop>
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
