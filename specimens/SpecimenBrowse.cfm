@@ -374,7 +374,7 @@ limitations under the License.
 											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
 									</cfquery>
 								<!---<li class="list-group-item">#continental.continent_ocean#</li>--->
-									<ul class="list-group col-12 col-md-4 px-0">
+									<ul class="list-group col-12 col-md-4 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 										<cfloop query="country1">
 											<li class="list-group-item"><a href="#specimenSearch#&continent_ocean=#continental.continent_ocean#">#continental.continent_ocean# (#country1.ct#)</a></li>
 										</cfloop>
