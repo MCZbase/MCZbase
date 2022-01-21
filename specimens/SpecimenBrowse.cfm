@@ -371,7 +371,7 @@ limitations under the License.
 												FROM
 													geog_auth_rec 
 												WHERE
-													AND geog_auth_rec.continent_ocean = #continental.continent_ocean#
+													geog_auth_rec.continent_ocean = #continental.continent_ocean#
 												GROUP BY
 													geog_auth_rec.country
 												ORDER BY geog_auth_rec.country
