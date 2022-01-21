@@ -364,7 +364,7 @@ limitations under the License.
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="continental">
-										<li class="list-group-item col-12 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&continent=#continent_ocean#">#continent.continent_ocean#</a> (#continents.ct#)</li>
+										<li class="list-group-item col-12 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&continent=#continent_ocean#">#continental.continent_ocean#</a> (#continental.ct#)</li>
 											<cfquery name="country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT
 													count(flat.country) ct, 
