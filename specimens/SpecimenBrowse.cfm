@@ -219,7 +219,7 @@ limitations under the License.
 
 <div class="container-fluid">
 	<div class="row mx-0 mb-4">
-	<h1 class="px-2 mt-4 mb-0 text-center">Browse MCZ Specimens by Category</h1>	
+	<h1 class="px-2 mt-4 mb-0 w-100 text-center">Browse MCZ Specimens by Category</h1>	
 		<cfoutput>
 			<main class="col-12 col-md-12 px-2 py-2 mb-3 float-left mt-1">
 				<div class="container mt-0">
