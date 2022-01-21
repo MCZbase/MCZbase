@@ -122,7 +122,7 @@ limitations under the License.
 	group by country
 	order by country
 </cfquery>
-<cfquery name="notcountries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+<cfquery name="continents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, continent_ocean, country
 	from
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
@@ -357,20 +357,11 @@ limitations under the License.
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<ul class="d-flex px-1 flex-wrap">
-									<cfloop query="notcountries">
+									<cfloop query="continents">
 										<li class="list-group-item col-4 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#continent_ocean#</a> (#ct#)</li>
-											<cfquery name="countries2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select country 
-												from 
-												<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
-													join notcountries on country = #notcountries.country#
-												where country is not null
-													group by country
-													order by country
-											</cfquery>
 											<ul>
-												<cfloop query="countries2">
-													<li>#notcountries.country# (#countries.ct#)</li>
+												<cfloop query="countries">
+													<li>#continents.country# (#countries.ct#)</li>
 												</cfloop>
 											
 											</ul>
