@@ -372,7 +372,7 @@ limitations under the License.
 												<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
 													AND flat.country is not null
 												</cfif>
-													AND geog_auth_rec.continent_ocean = #continents.country#
+													AND geog_auth_rec.continent_ocean = #continents.continent_ocean#
 												GROUP BY
 													geog_auth_rec.country
 												ORDER BY geog_auth_rec.country
