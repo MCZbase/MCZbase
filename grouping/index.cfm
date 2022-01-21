@@ -221,11 +221,11 @@ limitations under the License.
 														#mediablock#
 														</div>
 													</cfif>
-													<div class="col float-left px-2 px-md-1 mt-0">
+													<div class="col float-left px-2 pl-md-1 pr-md-0 mt-0">
 														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 														<cfif len(namedGroups.collection_name) GT 35>
 															<cfset collection_name = "#left(namedGroups.collection_name,35)#..." >
-														</cfif>#collection_name#
+														</cfif>#namedGroups.collection_name#
 														</a></h3>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
