@@ -376,7 +376,7 @@ limitations under the License.
 								<!---<li class="list-group-item">#continental.continent_ocean#</li>--->
 									<ul class="list-group col-12 col-md-4 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 										<cfloop query="country1">
-											<li class="list-group-item"><a href="#specimenSearch#&continent_ocean=#continental.continent_ocean#">#continental.continent_ocean# (#country1.ct# countries)</a></li>
+											<li class="list-group-item"><a href="#specimenSearch#&action=builderSearch&nestdepth1=0&field1=GEOG_AUTH_REC%3ACONTINENT_OCEAN&searchText1=Central%20America#">#continental.continent_ocean# (#country1.ct# countries)</a></li>
 										</cfloop>
 									</ul>
 									</cfloop>
