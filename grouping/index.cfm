@@ -226,7 +226,7 @@ limitations under the License.
 														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 														<cfif len(showTitleText) GT 35>
 															<cfset showTitleText = "#left(showTitleText,35)#..." >
-														</cfif>
+														</cfif>#showTitleText#
 														</a></h3>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
