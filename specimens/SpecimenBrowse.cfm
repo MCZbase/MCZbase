@@ -372,6 +372,7 @@ limitations under the License.
 													geog_auth_rec 
 												WHERE
 													geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
+												GROUP BY country
 											</cfquery>
 											<ul>
 												<cfloop query="country1">
