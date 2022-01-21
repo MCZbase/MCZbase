@@ -79,12 +79,13 @@ limitations under the License.
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		count(FF.collection_object_id) ct, 
+	case
 			when length(underscore_collection.collection_name) > 40 then
 						substr(underscore_collection.collection_name,1,40) || '...'
 					else
 						underscore_collection.collection_name
 					end
-					as collection_name_trim 
+					as collection_name_trim,
 		underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
 		underscore_collection.description, underscore_collection.underscore_collection_type,
 		underscore_collection.displayed_media_id
