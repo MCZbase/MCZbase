@@ -378,7 +378,7 @@ limitations under the License.
 											</cfquery>
 											<ul>
 												<cfloop query="country">
-													<li class="col-3">#continental.country# (#country.ct#)</li>
+													<li class="col-3">#country# </li>
 												</cfloop>
 											
 											</ul>
