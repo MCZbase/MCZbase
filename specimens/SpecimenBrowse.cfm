@@ -365,17 +365,17 @@ limitations under the License.
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="continental">
 										<li class="list-group-item col-12 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&continent=#continent_ocean#">#continental.continent_ocean#</a> <!---(#continental.ct#)---></li>
-											<cfquery name="country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT
-													distinct continent_ocean, country
+													distinct country
 												FROM
 													geog_auth_rec 
 												WHERE
 													geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
 											</cfquery>
 											<ul>
-												<cfloop query="country">
-													<li class="col-3">#continental.country# </li>
+												<cfloop query="country1">
+													<li class="col-3">#country# </li>
 												</cfloop>
 											
 											</ul>
