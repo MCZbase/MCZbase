@@ -19,9 +19,8 @@ Backing methods for managing media
 
 --->
 <cfcomponent>
-
-
-
+<cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!--- ** method createMedia creates a new media record. 
   * @param media_uri the media_uri to create, must be unique, will produce error if a media record 
