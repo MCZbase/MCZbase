@@ -363,7 +363,7 @@ limitations under the License.
 									group by g1.continent_ocean
 									order by g1.continent_ocean
 								</cfquery>
-								<ul class="col-4 px-0 list-group float-left">
+								<ul class="col-12 px-0 list-group float-left">
 									<cfloop query="continental">
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT
@@ -374,7 +374,7 @@ limitations under the License.
 											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
 									</cfquery>
 								<!---<li class="list-group-item">#continental.continent_ocean#</li>--->
-									<ul class="list-group">
+									<ul class="list-group col-12 col-md-4 px-0">
 										<cfloop query="country1">
 											<li class="list-group-item"><a href="#specimenSearch#&continent_ocean=#continental.continent_ocean#">#continental.continent_ocean# (#country1.ct#)</a></li>
 										</cfloop>
