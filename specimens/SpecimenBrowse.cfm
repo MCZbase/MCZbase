@@ -359,7 +359,7 @@ limitations under the License.
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="continents">
 										<li class="list-group-item col-12 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#continent_ocean#</a> (#ct#)</li>
-											<cfquery name="country">
+											<cfquery name="country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT
 													count(flat.country) ct, 
 													geog_auth_rec.country
