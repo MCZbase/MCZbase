@@ -258,7 +258,7 @@ limitations under the License.
 														</div>
 													</cfif>
 													<div class="col float-left px-2 px-md-1 mt-0">
-														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
+														<h3 class="h6 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
 														<p>#namedGroups.description#</p>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 														<p class="font-italic text-capitalize mb-0 small">Type: #namedGroups.underscore_collection_type#</p>
@@ -294,7 +294,7 @@ limitations under the License.
 													</div>
 												</cfif>
 												<div class="col float-left px-2 px-md-1 mt-0">
-													<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
+													<h3 class="h6 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
 													<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 													<p class="font-italic text-capitalize mb-0 small">Type: #namedGroups.underscore_collection_type#</p>
 												</div>
@@ -328,7 +328,7 @@ limitations under the License.
 													</div>
 												</cfif>
 												<div class="col float-left px-2 px-md-1 mt-0">
-													<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
+													<h3 class="h6 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">#namedGroups.collection_name#</a></h3>
 
 													<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 													<p class="font-italic text-capitalize mb-0 small">Type: #namedGroups.underscore_collection_type#</p>
