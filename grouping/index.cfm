@@ -196,22 +196,6 @@ limitations under the License.
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="3" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants">Grants</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="3" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow">Workflows</button>
 						</div>
-						
-<!---						<ul class="nav nav-tabs">
-							<li class="nav-item mr-1">
-							<a class="nav-link active" href="##home">Collection</a>
-							</li>
-							<li class="nav-item mx-1">
-							<a class="nav-link"  href="##menu1">Expedition</a>
-							</li>
-							<li class="nav-item mx-1">
-							<a class="nav-link" href="##menu2">Grant</a>
-							</li>
-							<li class="nav-item mx-1">
-							<a class="nav-link"  href="##menu3">Workflow</a>
-							</li>
-						</ul>--->
-						<!-- Tab panes -->
 						<div class="tab-content border flex-wrap d-flex mb-1">
 							<!---Fixed Search tab panel--->
 							<div id="collectionPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #collectionTabActive# unfocus"  #collectionTabShow#>
@@ -249,7 +233,7 @@ limitations under the License.
 									</cfif>
 								</cfloop>
 							</div>
-							<div id="expeditionPanel" role="tabpanel" aria-labelledby="1" tabindex="-1" class="mx-0 #expeditionTabActive# unfocus"  #expeditionTabShow#>
+							<div id="expeditionPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="mx-0 #expeditionTabActive# unfocus"  #expeditionTabShow#>
 								<h3 class="px-2">Expeditions</h3>
 								<p class="px-2">Expeditions feature specimens collected during specific voyages undertaken for the purpose of scientific exploration.</p>
 								<cfloop query="namedGroups">
@@ -285,7 +269,7 @@ limitations under the License.
 									</cfif>
 								</cfloop>
 							</div>
-							<div id="grantPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #grantTabActive# unfocus"  #grantTabShow#>
+							<div id="grantPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 #grantTabActive# unfocus"  #grantTabShow#>
 								<h3 class="px-2">Grants</h3>
 								<p class="px-2">Grants showcase specimens used in funded work and includes digitization projects that enrich digital specimen data and make MCZ holdings more accessible to researchers around the world.</p>
 								<cfloop query="namedGroups">
@@ -320,7 +304,7 @@ limitations under the License.
 								</cfif>
 							</cfloop>
 							</div>
-							<div id="workflowPanel" role="tabpanel" aria-labelledby="1" tabindex="-1" class="mx-0 #workflowTabActive# unfocus"  #workflowTabShow#>
+							<div id="workflowPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="mx-0 #workflowTabActive# unfocus"  #workflowTabShow#>
 								<h3 class="px-2">Workflow</h3>
 								<cfloop query="namedGroups">
 								<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
