@@ -379,11 +379,11 @@ limitations under the License.
 													</cfif>
 												GROUP BY
 													geog_auth_rec.country
-												ORDER BY  geog_auth_rec.country
+												ORDER BY geog_auth_rec.country
 											</cfquery>
 											<ul>
 												<cfloop query="">
-													<li class="col-3">#continents.country# (#countries.ct#)</li>
+													<li class="col-3">#continents.country# (#country.ct#)</li>
 												</cfloop>
 											
 											</ul>
