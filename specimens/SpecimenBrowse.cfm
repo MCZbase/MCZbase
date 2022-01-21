@@ -27,34 +27,34 @@ limitations under the License.
 			even though it will be included in the URI parameter list when clicking on the 
 			"Link to this search" link.
 	--->
-	<cfcase value="browsecollection">
-		<cfset pageTitle = "Browse Collections">
+	<cfcase value="browseprimarytypes">
+		<cfset pageTitle = "Browse Primary Types">
 		<cfif isdefined("execute")>
-			<cfset execute="collection">
+			<cfset execute="primarytypes">
 		</cfif>
 	</cfcase>
-	<cfcase value="browseexpedition">
-		<cfset pageTitle = "Browse Expeditions">
+	<cfcase value="browsefeatured">
+		<cfset pageTitle = "Browse Featured Collections">
 		<cfif isdefined("execute")>
-			<cfset execute="expedition">
+			<cfset execute="featured">
 		</cfif>
 	</cfcase>
-	<cfcase value="browsegrant">
-		<cfset pageTitle = "Browse Grants">
+	<cfcase value="browsehighergeo">
+		<cfset pageTitle = "Browse Higher Geography">
 		<cfif isdefined("execute")>
-			<cfset execute="grant">
+			<cfset execute="highergeo">
 		</cfif>
 	</cfcase>
-	<cfcase value="browseworkflows">
-		<cfset pageTitle = "Browse Workflows">
+	<cfcase value="browsetaxonomy">
+		<cfset pageTitle = "Browse Taxonomy">
 		<cfif isdefined("execute")>
-			<cfset execute="workflows">
+			<cfset execute="taxonomy">
 		</cfif>
 	</cfcase>
 	<cfdefaultcase>
-		<cfset pageTitle = "Browse Collections">
+		<cfset pageTitle = "Browse Primary Types">
 		<cfif isdefined("execute")>
-			<cfset execute="collection">
+			<cfset execute="primarytypes">
 		</cfif>
 	</cfdefaultcase>
 </cfswitch>
@@ -227,102 +227,87 @@ limitations under the License.
 				<div class="container mt-2">
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<cfswitch expression="#action#">
-							<cfcase value="browsecollection">
-								<cfset collectionTabActive = "active">
-								<cfset collectionTabShow = "">
-								<cfset expeditionTabActive = "">
-								<cfset expeditionTabShow = "hidden">
-								<cfset grantTabActive = "">
-								<cfset grantTabShow = "hidden">
-								<cfset workflowTabActive = "">
-								<cfset workflowTabShow = "hidden">
-								<cfset collectionTabAria = "aria-selected=""true"" tabindex=""0"" ">
-								<cfset expeditionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset grantTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset workflowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							<cfcase value="browseprimarytypes">
+								<cfset primarytypesTabActive = "active">
+								<cfset primarytypesTabShow = "">
+								<cfset featuredTabActive = "">
+								<cfset featuredTabShow = "hidden">
+								<cfset highergeoTabActive = "">
+								<cfset highergeoTabShow = "hidden">
+								<cfset taxonomyTabActive = "">
+								<cfset taxonomyTabShow = "hidden">
+								<cfset primarytypesTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
-							<cfcase value="browseexpedition">
-								<cfset collectionTabActive = "">
-								<cfset collectionTabShow = "hidden">
-								<cfset expeditionTabActive = "active">
-								<cfset expeditionTabShow = "">
-								<cfset workflowTabActive = "">
-								<cfset workflowTabShow = "hidden">
-								<cfset grantTabActive = "">
-								<cfset grantTabShow = "hidden">
-								<cfset collectionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset expeditionTabAria = "aria-selected=""true"" tabindex=""0"" ">
-								<cfset grantTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset workflowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							<cfcase value="browsefeatured">
+								<cfset primarytypesTabActive = "">
+								<cfset primarytypesTabShow = "hidden">
+								<cfset featuredTabActive = "active">
+								<cfset featuredTabShow = "">
+								<cfset highergeoTabActive = "">
+								<cfset highergeoTabShow = "hidden">
+								<cfset taxonomyTabActive = "">
+								<cfset taxonomyTabShow = "hidden">
+								<cfset primarytypesTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset featuredTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
-							<cfcase value="browsegrant">
-								<cfset collectionTabActive = "">
-								<cfset collectionTabShow = "hidden">
-								<cfset expeditionTabActive = "">
-								<cfset expeditionTabShow = "hidden">
-								<cfset workflowTabActive = "">
-								<cfset workflowTabShow = "hidden">
-								<cfset grantTabActive = "active">
-								<cfset grantTabShow = "">
-								<cfset collectionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset expeditionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset workflowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset grantTabAria = "aria-selected=""true"" tabindex=""0"" ">
+							<cfcase value="browsehighergeo">
+								<cfset primarytypesTabActive = "">
+								<cfset primarytypesTabShow = "hidden">
+								<cfset featuredTabActive = "">
+								<cfset featuredTabShow = "hidden">
+								<cfset highergeoTabActive = "">
+								<cfset highergeoTabShow = "hidden">
+								<cfset taxonomyTabActive = "active">
+								<cfset taxonomyTabShow = "">
+								<cfset primarytypesTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset taxonomyTabAria = "aria-selected=""true"" tabindex=""0"" ">
 							</cfcase>
-							<cfcase value="browseworkflow">
-								<cfset collectionTabActive = "">
-								<cfset collectionTabShow = "hidden">
-								<cfset expeditionTabActive = "">
-								<cfset expeditionTabShow = "hidden">
-								<cfset grantTabActive = "">
-								<cfset grantTabShow = "hidden">
-								<cfset workflowTabActive = "active">
-								<cfset workflowTabShow = "">
-								<cfset collectionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset expeditionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset grantTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset workflowTabAria = "aria-selected=""true"" tabindex=""0"" ">
+							<cfcase value="browsetaxonomy">
+								<cfset primarytypesTabActive = "">
+								<cfset primarytypesTabShow = "hidden">
+								<cfset featuredTabActive = "">
+								<cfset featuredTabShow = "hidden">
+								<cfset highergeoTabActive = "">
+								<cfset highergeoTabShow = "hidden">
+								<cfset taxonomyTabActive = "active">
+								<cfset taxonomyTabShow = "">
+								<cfset primarytypesTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset taxonomyTabAria = "aria-selected=""true"" tabindex=""0"" ">
 							</cfcase>			
 							<cfdefaultcase>
-								<cfset collectionTabActive = "active">
-								<cfset collectionTabShow = "">
-								<cfset expeditionTabActive = "">
-								<cfset expeditionTabShow = "hidden">
-								<cfset grantTabActive = "">
-								<cfset grantTabShow = "hidden">
-								<cfset workflowTabActive = "">
-								<cfset workflowTabShow = "hidden">
-								<cfset collectionTabAria = "aria-selected=""true"" tabindex=""0"" ">
-								<cfset grantTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset expeditionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset workflowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset primarytypesTabActive = "active">
+								<cfset primarytypesTabShow = "">
+								<cfset featuredTabActive = "">
+								<cfset featuredTabShow = "hidden">
+								<cfset highergeoTabActive = "">
+								<cfset highergeoTabShow = "hidden">
+								<cfset taxonomyTabActive = "">
+								<cfset taxonomyTabShow = "hidden">
+								<cfset primarytypesTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfdefaultcase>
 						</cfswitch>
 						<!-- Nav tabs -->
-						<div class="tab-headers tabList" role="tablist" aria-label="browse collections types">
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #collectionTabActive#" id="1" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections">Collections</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #expeditionTabActive#" id="2" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions">Expeditions</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="3" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants">Grants</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="4" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow">Workflows</button>
+						<div class="tab-headers tabList" role="tablist" aria-label="browse specimens">
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #primarytypesTabActive#" id="1" role="tab" aria-controls="primarytypesPanel" #primarytypesTabAria# aria-label="Browse Primary Types">Primary Types</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #featuredTabActive#" id="2" role="tab" aria-controls="featuredPanel" #featuredTabAria# aria-label="Browse Featured Collections">Featured Collections of Cataloged Items</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #highergeoTabActive#" id="3" role="tab" aria-controls="highergeoPanel" #highergeoTabAria# aria-label="Browse Higher Geography">Higher Geography</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #taxonomyTabActive#" id="4" role="tab" aria-controls="taxonomyPanel" #taxonomyTabAria# aria-label="Browse Taxonomy">Taxonomy</button>
 						</div>
-						<!-- Nav tabs -->
-<!---						<ul class="nav nav-tabs">
-							<li class="nav-item mr-1">
-							<a class="nav-link show active" href="##home">Primary Types</a>
-							</li>
-							<li class="nav-item mx-1">
-							<a class="nav-link" href="##menu1">MCZ Featured Collections of Cataloged Items</a>
-							</li>
-							<li class="nav-item mx-1">
-							<a class="nav-link" href="##menu2">Browse by Higher Geography</a>
-							</li>
-							<li class="nav-item mx-1">
-							<a class="nav-link" href="##menu3">Browse by Higher Taxonomy</a>
-							</li>
-						</ul>--->
 						<!-- Tab panes -->
 						<div class="tab-content flex-wrap d-flex mb-1">
-							<div id="collectionPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #collectionTabActive# unfocus"  #collectionTabShow#>
+							<div id="primarytypesPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
 								<h3 class="px-2">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
 									<ul class="d-flex flex-wrap px-1">
@@ -334,7 +319,7 @@ limitations under the License.
 									</ul>
 								</div>
 							</div>
-							<div id="expeditionPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #expeditionTabActive# unfocus"  #expeditionTabShow#>
+							<div id="featuredPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
 								<h3 class="px-2">MCZ Featured Collections of Cataloged Items</h3>
 								<cfloop query="namedGroups2">
 									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -370,7 +355,7 @@ limitations under the License.
 									</cfif>
 								</cfloop>
 							</div>
-							<div id="grantPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #grantTabActive# unfocus"  #grantTabShow#>
+							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="notcountries">
@@ -378,7 +363,7 @@ limitations under the License.
 									</cfloop>
 								</ul>
 							</div>
-							<div id="workflowPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #workflowTabActive# unfocus"  #workflowTabShow#>
+							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="phyla">
