@@ -129,7 +129,13 @@ limitations under the License.
 	group by continent_ocean, country
 	order by continent_ocean, country
 </cfquery>
-
+<cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+	select count(*) ct, continent_ocean
+	from
+	geog_auth_rec
+	group by continent_ocean
+	order by continent_ocean
+</cfquery>
 <cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, phylum 
 	from 
@@ -357,8 +363,8 @@ limitations under the License.
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<ul class="d-flex px-1 flex-wrap">
-									<cfloop query="continents">
-										<li class="list-group-item col-12 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#continent_ocean#</a> (#ct#)</li>
+									<cfloop query="continental">
+										<li class="list-group-item col-12 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&country=#country#">#continents.continent_ocean#</a> (#continents.ct#)</li>
 											<cfquery name="country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT
 													count(flat.country) ct, 
@@ -372,14 +378,14 @@ limitations under the License.
 												<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
 													AND flat.country is not null
 												</cfif>
-													AND geog_auth_rec.continent_ocean = #continents.continent_ocean#
+													AND geog_auth_rec.continent_ocean = #continental.continent_ocean#
 												GROUP BY
 													geog_auth_rec.country
 												ORDER BY geog_auth_rec.country
 											</cfquery>
 											<ul>
 												<cfloop query="country">
-													<li class="col-3">#continents.country# (#country.ct#)</li>
+													<li class="col-3">#continental.country# (#country.ct#)</li>
 												</cfloop>
 											
 											</ul>
