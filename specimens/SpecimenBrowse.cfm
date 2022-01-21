@@ -363,7 +363,7 @@ limitations under the License.
 												select count(*) ct, country 
 												from 
 												<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
-													join notcounties on notcountries.country = countries2.country
+													join notcounties on country = #notcountries.country#
 												where country is not null
 													group by country
 													order by country
