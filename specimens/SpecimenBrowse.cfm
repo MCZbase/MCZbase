@@ -367,7 +367,7 @@ limitations under the License.
 										<li class="list-group-item col-12 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&continent=#continent_ocean#">#continental.continent_ocean#</a> <!---(#continental.ct#)---></li>
 											<cfquery name="country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT
-													distinct country
+													distinct continent_ocean, country
 												FROM
 													geog_auth_rec 
 												WHERE
