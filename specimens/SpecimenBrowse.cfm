@@ -375,9 +375,6 @@ limitations under the License.
 														on geog_auth_rec.country = flat.country
 												WHERE
 													geog_auth_rec.country IS NOT NULL
-												<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
-													AND flat.country is not null
-												</cfif>
 													AND geog_auth_rec.continent_ocean = #continental.continent_ocean#
 												GROUP BY
 													geog_auth_rec.country
