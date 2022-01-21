@@ -363,7 +363,7 @@ limitations under the License.
 									group by g1.continent_ocean
 									order by g1.continent_ocean
 								</cfquery>
-								<ul class="col-4 px-0 list-group">
+								<ul class="col-4 px-0 list-group float-left">
 									<cfloop query="continental">
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT
