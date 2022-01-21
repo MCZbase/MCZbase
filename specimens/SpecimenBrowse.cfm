@@ -364,12 +364,11 @@ limitations under the License.
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT
-										distinct count(*) ct, country 
+										distinct count(*) ct 
 									FROM
 										geog_auth_rec 
 									WHERE
 										geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
-									GROUP BY country
 								</cfquery>
 								<ul class="d-flex px-1 flex-wrap">
 									<cfloop query="continental">
