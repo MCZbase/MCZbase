@@ -368,7 +368,7 @@ limitations under the License.
 											<cfquery name="country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT
 													count(flat.country) ct, 
-													geog_auth_rec.country
+													geog_auth_rec.country, flat.continent_ocean
 												FROM
 													geog_auth_rec 
 													LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
