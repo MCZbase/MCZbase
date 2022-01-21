@@ -110,7 +110,7 @@ limitations under the License.
 		<h1 class="px-2 mt-5 mb-0 text-center h2">MCZ Featured Collections of Cataloged Items</h1>		
 	</div>
 	<div class="container-fluid">
-		<div class="row mx-0 mb-4">
+		<div class="row mb-4">
 
 			<main class="col-12 col-md-12 px-0 py-2 mb-3 float-left mt-1">
 				<div class="container mt-2">
