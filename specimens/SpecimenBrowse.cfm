@@ -384,7 +384,7 @@ limitations under the License.
 											group by flat.country,flat.continent_ocean
 											) 
 										group by continent_ocean, country
-										order by ct desc;
+										order by ct desc
 									</cfquery>
 
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean# </a></li>
