@@ -376,7 +376,6 @@ limitations under the License.
 								<cfloop query="continental">
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="country1_result">
 									select count(*) ct, cat_num, country from flat 
-									where continent_ocean='#continental.continent_ocean#'
 									group by cat_num, country
 									order by ct desc
 									</cfquery>
