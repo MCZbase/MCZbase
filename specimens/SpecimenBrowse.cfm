@@ -363,10 +363,9 @@ limitations under the License.
 									SELECT distinct g1.continent_ocean
 									FROM
 										geog_auth_rec g1
-										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-										on underscore_relation.collection_object_id = flat.collection_object_id
-										left join geog_auth_rec on flat.continent_ocean = geog_auth_rec.continent_ocean
+										on g1.continent_ocean = flat.continent_ocean
+										left join underscore_relation on flat.collection_object_id = underscore_relation.collection_object_id
 									GROUP BY 
 										g1.continent_ocean
 									ORDER BY
