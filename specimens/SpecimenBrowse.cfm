@@ -365,8 +365,7 @@ limitations under the License.
 									group by g1.continent_ocean
 									order by g1.continent_ocean
 								</cfquery>
-								<ul class="col-12 px-0 list-group float-left">
-									<cfloop query="continental">
+								<cfloop query="continental">
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT
 											distinct count(*) ct 
@@ -382,8 +381,7 @@ limitations under the License.
 											<li class="list-group-item"><a href="##">#continental.continent_ocean# (#country1.ct# countries)</a></li>
 										</cfloop>
 									</ul>
-									</cfloop>
-								</ul>
+								</cfloop>
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
