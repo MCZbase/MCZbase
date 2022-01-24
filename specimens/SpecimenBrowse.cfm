@@ -365,8 +365,6 @@ limitations under the License.
 										geog_auth_rec g1
 									WHERE 
 										g1.continent_ocean is not null
-										and g1.continent_ocean not like '%/%'
-										and g1.continent_ocean not like '%[no higher_geography data]%'
 									GROUP BY 
 										g1.continent_ocean
 									ORDER BY
@@ -374,20 +372,23 @@ limitations under the License.
 								</cfquery>
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
-									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="country1_result">
-									select count(*) ct, flat.country 
-									FROM geog_auth_rec 
-									left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> on flat.continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continental.continent_ocean#">
-									group by flat.country
-									order by ct desc
+									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT
+											distinct count(*) ct, geog_auth_rec.country
+										FROM
+											geog_auth_rec 
+										WHERE
+											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
+											AND geog_auth_rec.country is not null
+											
+										GROUP BY 
+											geog_auth_rec.country
 									</cfquery>
-								
+
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean# </a></li>
-									<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 									<cfloop query="country1">
-										<li class="list-group-item col-6 col-md-3"><a href="#specimenSearch#&country=#country1.country#">#country1.country#</a> </li>
+										<li class="list-group-item col-4"><a href="#specimenSearch#&country=#country1.country#">#country1.country#</a> (#country1.ct#)</li>
 									</cfloop>
-									</ul>
 								</cfloop>
 								</ul>
 							</div>
