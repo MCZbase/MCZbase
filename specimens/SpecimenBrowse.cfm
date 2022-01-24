@@ -375,7 +375,7 @@ limitations under the License.
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="country1_result">
-									select sum(ct) as ct, country 
+									select sum(ct) as ct, country, waterbody
 										from (
 											select count(*) ct, flat.country,flat.continent_ocean
 											from geog_auth_rec
@@ -385,22 +385,7 @@ limitations under the License.
 												and flat.county not like '%/%'
 												and flat.county is not null
 											group by flat.country,flat.continent_ocean
-											) 
-										group by continent_ocean, country
-										order by ct desc
-									</cfquery>
-
-									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#</a></li>
-									<cfloop query="country1">
-										<li class="list-group-item col-6 col-md-3"><a href="#specimenSearch#&country=#country1.country#">#country1.country# (#country1.ct#)</a> </li>
-									</cfloop>
-								</cfloop>
-								</ul>
-									<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
-								<cfloop query="continental">
-									<cfquery name="water2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="water2_result">
-									select sum(ct) as ct, waterbody 
-										from (
+										UNION
 											select count(*) ct, flat.waterbody,flat.continent_ocean
 											from geog_auth_rec
 												left join flat
@@ -409,15 +394,21 @@ limitations under the License.
 												and flat.waterbody not like '%/%'
 											and flat.waterbody is not null
 											group by flat.waterbody,flat.continent_ocean
-											) 
-										group by continent_ocean, waterbody
+											)  
+										group by continent_ocean, country, waterbody
 										order by ct desc
 									</cfquery>
-
+									
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#</a></li>
-									<cfloop query="water2">
+									<cfif len(waterbody) gt 0>
+									<cfloop query="country1">
+										<li class="list-group-item col-6 col-md-3"><a href="#specimenSearch#&country=#country1.country#">#country1.country# (#country1.ct#)</a> </li>
+									</cfloop>
+									<cfelse>
+										<cfloop query="water2">
 										<li class="list-group-item col-6 col-md-3"><a href="#specimenSearch#&waterbody=#water2.waterbody#">#water2.waterbody# (#water2.ct#)</a> </li>
 									</cfloop>
+									</cfif>
 								</cfloop>
 								</ul>
 							</div>
