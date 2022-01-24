@@ -375,8 +375,10 @@ limitations under the License.
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="country1_result">
-									select count(*) ct, country from flat 
-									group by country
+									select count(*) ct, FF.country 
+									 geog_auth_rec 
+										left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> FF on FF.continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continental.continent_ocean#">
+									group by FF.country
 									order by ct desc
 									</cfquery>
 
