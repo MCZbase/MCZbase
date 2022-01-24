@@ -398,17 +398,18 @@ limitations under the License.
 										group by continent_ocean, country, waterbody
 										order by ct desc
 									</cfquery>
-									
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#</a></li>
-									<cfif len(waterbody) gt 0>
+									<ul class="list-group list-group-horizontal d-flex px-0">	
 									<cfloop query="country1">
-										<li class="list-group-item col-6 col-md-3"><a href="#specimenSearch#&country=#country1.country#">#country1.country# (#country1.ct#)</a> </li>
+										<li>
+											<cfif len(country1.waterbody) gt 0>
+												<a href="#specimenSearch#&country=#country1.country#">#country1.country# (#country1.ct#)</a>
+											<cfelse>
+												<a href="#specimenSearch#&waterbody=#water2.waterbody#">#country1.waterbody# (#water2.ct#)</a> 
+											</cfif>
+										</li>
 									</cfloop>
-									<cfelse>
-										<cfloop query="water2">
-										<li class="list-group-item col-6 col-md-3"><a href="#specimenSearch#&waterbody=#water2.waterbody#">#water2.waterbody# (#water2.ct#)</a> </li>
-									</cfloop>
-									</cfif>
+									</ul>
 								</cfloop>
 								</ul>
 							</div>
