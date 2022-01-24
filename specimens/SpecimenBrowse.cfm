@@ -374,21 +374,21 @@ limitations under the License.
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select sum(ct) as ct, country 
+									select sum(ct) as ct, flat.country, flat.continent_ocean 
 										from (
 											select count(*) ct, flat.country,flat.continent_ocean
 											from geog_auth_rec
 												left join flat
 													on geog_auth_rec.geog_auth_rec_ID = flat.geog_auth_rec_id
 											where flat.continent_ocean = '#continental.continent_ocean#'
-												and flat.county not like '%/%'
+												and flat.country not like '%/%'
 											group by flat.country,flat.continent_ocean
 											) 
-										group by continent_ocean, country
+										group by country, continent_ocean 
 										order by ct desc
 									</cfquery>
 
-									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean# </a></li>
+									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continental.continent_ocean#">#continental.continent_ocean# </a></li>
 									<cfloop query="country1">
 										<li class="list-group-item col-4"><a href="#specimenSearch#&country=#country1.country#">#country1.country#</a><!--- (#country1.ct#)---></li>
 									</cfloop>
