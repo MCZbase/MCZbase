@@ -391,7 +391,7 @@ limitations under the License.
 										WHERE 
 											geog_auth_rec.country = '#country1.country#'
 										GROUP BY 
-											country
+											geog_auth_rec.country
 									</cfquery>
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#</a></li>
 									<cfloop query="country1">
