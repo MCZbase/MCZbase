@@ -383,15 +383,40 @@ limitations under the License.
 													on geog_auth_rec.geog_auth_rec_ID = flat.geog_auth_rec_id
 											where flat.continent_ocean = '#continental.continent_ocean#'
 												and flat.county not like '%/%'
+												and flat.county is not null
 											group by flat.country,flat.continent_ocean
 											) 
 										group by continent_ocean, country
 										order by ct desc
 									</cfquery>
 
-									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean# (#country1.ct#)</a></li>
+									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#</a></li>
 									<cfloop query="country1">
-										<li class="list-group-item col-6 col-md-3"><a href="#specimenSearch#&country=#country1.country#">#country1.country#</a> (#country1.ct#) </li>
+										<li class="list-group-item col-6 col-md-3"><a href="#specimenSearch#&country=#country1.country#">#country1.country# (#country1.ct#)</a> </li>
+									</cfloop>
+								</cfloop>
+								</ul>
+									<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
+								<cfloop query="continental">
+									<cfquery name="water2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="water2_result">
+									select sum(ct) as ct, waterbody 
+										from (
+											select count(*) ct, flat.waterbody,flat.continent_ocean
+											from geog_auth_rec
+												left join flat
+													on geog_auth_rec.geog_auth_rec_ID = flat.geog_auth_rec_id
+											where flat.continent_ocean = '#continental.continent_ocean#'
+												and flat.waterbody not like '%/%'
+											and flat.waterbody is not null
+											group by flat.waterbody,flat.continent_ocean
+											) 
+										group by continent_ocean, waterbody
+										order by ct desc
+									</cfquery>
+
+									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#</a></li>
+									<cfloop query="water2">
+										<li class="list-group-item col-6 col-md-3"><a href="#specimenSearch#&country=#water2.country#">#water2.country# (#water2.ct#)</a> </li>
 									</cfloop>
 								</cfloop>
 								</ul>
