@@ -382,9 +382,9 @@ limitations under the License.
 											geog_auth_rec.country
 									</cfquery>
 
-									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#</a></li>
+									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#  (#country1.ct#)</a></li>
 									<cfloop query="country1">
-										<li class="list-group-item col-4"><a href="#specimenSearch#&higher_geog=#continental.continent_ocean#&country1.country=#country#">#country1.country# (#country1.ct#)</a></li>
+										<li class="list-group-item col-4"><a href="#specimenSearch#&higher_geog=#continental.continent_ocean#&country1.country=#country#">#country1.country#</a></li>
 									</cfloop>
 								</cfloop>
 								</ul>
