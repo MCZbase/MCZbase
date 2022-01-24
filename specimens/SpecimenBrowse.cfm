@@ -376,7 +376,7 @@ limitations under the License.
 										and geog_auth_rec.continent_ocean is not null
 									</cfquery>
 								<!---<li class="list-group-item">#continental.continent_ocean#</li>--->
-									<ul class="list-group col-12 col-md-4 px-0 list-group-horizontal d-flex flex-wrap pb-2">
+									<ul class="list-group col-12 col-md-4 px-0 list-group-horizontal d-flex pb-2">
 										<cfloop query="country1">
 											<li class="list-group-item"><a href="##">#continental.continent_ocean# (#country1.ct# countries)</a></li>
 										</cfloop>
