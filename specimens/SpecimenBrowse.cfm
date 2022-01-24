@@ -297,7 +297,7 @@ limitations under the License.
 							<div id="primarytypesPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
 								<h3 class="px-2">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
-									<ul class="d-flex flex-wrap px-1">
+									
 										<cfquery name="collectionID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 											SELECT collection
 											FROM
@@ -307,25 +307,28 @@ limitations under the License.
 											ORDER BY 
 												collection asc
 										</cfquery>
+										<ul class="d-flex flex-wrap px-1">
 										<cfloop query="collectionID">	
-										<li class="list-group-item bg-white float-left px-1 mb-2 w-100">
-											<a href="#specimenSearch#&collection=#collectionID.collection#"> #collection# </a> 
-										</li>
-										<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-											SELECT collection, collection_id, toptypestatus, count(*) as ct
-											FROM
-												<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
-											WHERE
-												toptypestatuskind = 'Primary'
-												and collection = #collectionID.collection#
-											GROUP BY
-												collection, collection_id, toptypestatus
-											ORDER BY 
-												collection
-										</cfquery>
-										<li class="list-group-item col-3 float-left px-1 mb-2">
-											<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)
-										</li>
+											<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+												SELECT collection, collection_id, toptypestatus, count(*) as ct
+												FROM
+													<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+												WHERE
+													toptypestatuskind = 'Primary'
+													and collection = #collectionID.collection#
+												GROUP BY
+													collection, collection_id, toptypestatus
+												ORDER BY 
+													collection
+											</cfquery>
+											<li class="list-group-item bg-white float-left px-1 mb-2 w-100">
+												<a href="#specimenSearch#&collection=#collectionID.collection#"> #collection# </a> 
+											</li>
+											<cfloop query="primaryTypes">
+												<li class="list-group-item col-3 float-left px-1 mb-2">
+													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)
+												</li>
+											</cfloop>
 										</cfloop>
 									</ul>
 								</div>
@@ -388,7 +391,7 @@ limitations under the License.
 								</cfquery>
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
-									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 										select sum(ct) as ct, country 
 										from (
 											select count(*) ct, flat.country
