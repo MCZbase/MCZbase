@@ -302,6 +302,8 @@ limitations under the License.
 											SELECT collection
 											FROM
 												collection
+											where collection is not 'Cryogeneic'
+											and collection is not 'Herpetology Observations'
 											GROUP BY
 												collection
 											ORDER BY 
