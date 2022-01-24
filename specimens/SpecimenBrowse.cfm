@@ -378,6 +378,7 @@ limitations under the License.
 										WHERE
 											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
 											AND geog_auth_rec.country is not null
+											AND geog_auth_rec.continent is not null
 										GROUP BY 
 											geog_auth_rec.country
 									</cfquery>
