@@ -302,8 +302,10 @@ limitations under the License.
 											SELECT collection
 											FROM
 												collection
-											where collection <> 'Cryogeneic'
-											and collection <> 'Herpetology Observations'
+											where collection != 'Cryogeneic'
+											and collection != 'Herpetology Observations'
+											and collection != 'Special Collections'
+											and collection != 'MCZ Collections'
 											GROUP BY
 												collection
 											ORDER BY 
