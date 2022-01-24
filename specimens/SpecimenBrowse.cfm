@@ -375,12 +375,11 @@ limitations under the License.
 											distinct count(*) ct, geog_auth_rec.country
 										FROM
 											geog_auth_rec 
-											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on geog_auth_rec.continent_ocean = flat.continent_ocean
+											left join geog_auth_rec2 on geog_auth_rec.continent_ocean = geog_auth_rec2.continent_ocean
 										WHERE
 											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
 											AND geog_auth_rec.country is not null
-											AND geog_auth_rec.country = flat.country
+											AND geog_auth_rec.country = geog_auth_rec2.country
 										GROUP BY 
 											geog_auth_rec.country
 									</cfquery>
