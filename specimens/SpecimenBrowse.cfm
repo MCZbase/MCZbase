@@ -366,6 +366,7 @@ limitations under the License.
 									WHERE 
 										g1.continent_ocean is not null
 										and g1.continent_ocean not like '%/%'
+										and g1.continent_ocean not like '[no higher_geography data]'
 									GROUP BY 
 										g1.continent_ocean
 									ORDER BY
