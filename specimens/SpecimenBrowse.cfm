@@ -360,11 +360,17 @@ limitations under the License.
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-									select distinct g1.continent_ocean
-									from
-									geog_auth_rec g1
-									group by g1.continent_ocean
-									order by g1.continent_ocean
+									SELECT distinct g1.continent_ocean
+									FROM
+										geog_auth_rec g1
+										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+										on underscore_relation.collection_object_id = flat.collection_object_id
+										left join geog_auth_rec on flat.continent_ocean = geog_auth_rec.continent_ocean
+									GROUP BY 
+										g1.continent_ocean
+									ORDER BY
+										g1.continent_ocean
 								</cfquery>
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
@@ -379,23 +385,10 @@ limitations under the License.
 										GROUP BY 
 											country
 									</cfquery>
-									<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
-										SELECT distinct count(*) ct, geog_auth_rec.country 
-										FROM
-											underscore_collection
-											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-											left join geog_auth_rec
-												on flat.country = geog_auth_rec.country						
-										WHERE 
-											geog_auth_rec.country = '#country1.country#'
-										GROUP BY 
-											geog_auth_rec.country
-									</cfquery>
+
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#</a></li>
 									<cfloop query="country1">
-										<li class="list-group-item col-4"><a href="#specimenSearch#&country=#country#">#country1.country# (#specimens.ct#)</a></li>
+										<li class="list-group-item col-4"><a href="#specimenSearch#&country=#country#">#country1.country# (#country1.ct#)</a></li>
 									</cfloop>
 								</cfloop>
 								</ul>
