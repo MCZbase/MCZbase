@@ -302,7 +302,8 @@ limitations under the License.
 											SELECT collection
 											FROM
 												collection
-											where collection != 'Cryogeneic'
+											where collection is not null and 
+											collection != 'Cryogeneic'
 											and collection != 'Herpetology Observations'
 											and collection != 'Special Collections'
 											and collection != 'MCZ Collections'
