@@ -363,6 +363,8 @@ limitations under the License.
 									SELECT distinct g1.continent_ocean
 									FROM
 										geog_auth_rec g1
+									WHERE 
+										g1.continent is not null
 									GROUP BY 
 										g1.continent_ocean
 									ORDER BY
@@ -378,7 +380,7 @@ limitations under the License.
 										WHERE
 											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
 											AND geog_auth_rec.country is not null
-											AND geog_auth_rec.continent is not null
+											
 										GROUP BY 
 											geog_auth_rec.country
 									</cfquery>
