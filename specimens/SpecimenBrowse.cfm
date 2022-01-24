@@ -309,7 +309,7 @@ limitations under the License.
 										</cfquery>
 										<cfloop query="collectionID">	
 										<li class="list-group-item bg-white float-left px-1 mb-2 w-100">
-											<a href="#specimenSearch#&collection=#collectionID.collection#"> #collection# </a> (#ct#)
+											<a href="#specimenSearch#&collection=#collectionID.collection#"> #collection# </a> 
 										</li>
 										<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 											SELECT collection, collection_id, toptypestatus, count(*) as ct
