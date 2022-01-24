@@ -375,6 +375,8 @@ limitations under the License.
 										WHERE
 											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
 										and geog_auth_rec.continent_ocean is not null
+										GROUP BY 
+											country
 									</cfquery>
 									<li class="list-group-item">#continental.continent_ocean#</li>
 									<cfloop query="country1">
