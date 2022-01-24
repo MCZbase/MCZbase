@@ -393,7 +393,7 @@ limitations under the License.
 									</cfquery>
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#</a></li>
 									<cfloop query="country1">
-										<li class="list-group-item col-4"><a href="#specimenSearch#&country=#country#">#country1.country# (#country1.ct#)</a></li>
+										<li class="list-group-item col-4"><a href="#specimenSearch#&country=#country#">#country1.country# (#specimens.ct#)</a></li>
 									</cfloop>
 								</cfloop>
 								</ul>
