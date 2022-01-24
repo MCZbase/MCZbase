@@ -360,15 +360,11 @@ limitations under the License.
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-									SELECT distinct g1.continent_ocean
+									SELECT distinct g1.continent_ocean, g1.geog_auth_rec_id
 									FROM
 										geog_auth_rec g1
 									WHERE 
 										g1.continent_ocean is not null
-									GROUP BY 
-										g1.continent_ocean
-									ORDER BY
-										g1.continent_ocean
 								</cfquery>
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
@@ -378,7 +374,7 @@ limitations under the License.
 										FROM
 											geog_auth_rec 
 										WHERE
-											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
+											geog_auth_rec.continent_ocean = '#continental.geog_auth_rec_id#'
 											AND geog_auth_rec.country is not null
 											
 										GROUP BY 
