@@ -372,7 +372,7 @@ limitations under the License.
 								</cfquery>
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
-									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="country1_result">
 									select sum(ct) as ct, country 
 										from (
 											select count(*) ct, flat.country,flat.continent_ocean
@@ -389,7 +389,7 @@ limitations under the License.
 
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean# </a></li>
 									<cfloop query="country1">
-										<li class="list-group-item col-4"><a href="#specimenSearch#&country=#country1.country#">#country1.country#</a> (#country1.ct#)</li>
+										<li class="list-group-item col-4"><a href="#specimenSearch#&country=#country1.country#">#country1.country#</a> <cfif len(country1.ct) gt 1>(#country1.ct#) specimens <cfelse>#country1.ct# </cfif></li>
 									</cfloop>
 								</cfloop>
 								</ul>
