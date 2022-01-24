@@ -363,9 +363,6 @@ limitations under the License.
 									SELECT distinct g1.continent_ocean
 									FROM
 										geog_auth_rec g1
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-										on g1.continent_ocean = flat.continent_ocean
-										left join underscore_relation on flat.collection_object_id = underscore_relation.collection_object_id
 									GROUP BY 
 										g1.continent_ocean
 									ORDER BY
@@ -378,11 +375,14 @@ limitations under the License.
 											distinct count(*) ct, country
 										FROM
 											geog_auth_rec 
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on geog_auth_rec.continent_ocean = flat.continent_ocean
+											left join underscore_relation on flat.collection_object_id = underscore_relation.collection_object_id
 										WHERE
 											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
 										and geog_auth_rec.country is not null
 										GROUP BY 
-											country
+											geog_auth_rec.country
 									</cfquery>
 
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#</a></li>
