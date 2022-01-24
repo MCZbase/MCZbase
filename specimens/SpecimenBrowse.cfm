@@ -377,7 +377,6 @@ limitations under the License.
 											geog_auth_rec 
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 											on geog_auth_rec.continent_ocean = flat.continent_ocean
-											left join underscore_relation on flat.collection_object_id = underscore_relation.collection_object_id
 										WHERE
 											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
 										AND geog_auth_rec.country is not null
