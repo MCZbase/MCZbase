@@ -373,16 +373,26 @@ limitations under the License.
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT
-											distinct count(*) ct, geog_auth_rec.country
-										FROM
-											geog_auth_rec 
-										WHERE
-											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
-											AND geog_auth_rec.country is not null
-											
-										GROUP BY 
-											geog_auth_rec.country
+									select sum(ct) as ct, country 
+										from (
+											select count(*) ct, flat.country,flat.continent_ocean
+											from geog_auth_rec
+												left join flat
+													on geog_auth_rec.geog_auth_rec_ID = flat.geog_auth_rec_id
+											where geog_auth_rec.continent_ocean is not null
+												and flat.continent_ocean = '#continental.continent_ocean#'
+											group by flat.country,flat.continent_ocean
+											union
+											select count(*) ct, flat.country,flat.continent_ocean
+											from geog_auth_rec
+												left join flat
+													on geog_auth_rec.geog_auth_rec_ID = flat.geog_auth_rec_id
+											where geog_auth_rec.continent_ocean is not null
+												and flat.continent_ocean = '#continental.continent_ocean#'
+											group by flat.country,flat.continent_ocean
+											) 
+										group by continent_ocean, country
+										order by ct desc;
 									</cfquery>
 
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean# </a></li>
