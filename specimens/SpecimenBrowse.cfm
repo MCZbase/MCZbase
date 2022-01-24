@@ -364,7 +364,7 @@ limitations under the License.
 									FROM
 										geog_auth_rec g1
 									WHERE 
-										g1.continent is not null
+										g1.continent_ocean is not null
 									GROUP BY 
 										g1.continent_ocean
 									ORDER BY
