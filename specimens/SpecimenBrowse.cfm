@@ -379,20 +379,12 @@ limitations under the License.
 											from geog_auth_rec
 												left join flat
 													on geog_auth_rec.geog_auth_rec_ID = flat.geog_auth_rec_id
-											where geog_auth_rec.continent_ocean is not null
-												and flat.continent_ocean = '#continental.continent_ocean#'
-											group by flat.country,flat.continent_ocean
-											union
-											select count(*) ct, flat.country,flat.continent_ocean
-											from geog_auth_rec
-												left join flat
-													on geog_auth_rec.geog_auth_rec_ID = flat.geog_auth_rec_id
-											where geog_auth_rec.continent_ocean is not null
+											where geog_auth_rec.country is not null
 												and flat.continent_ocean = '#continental.continent_ocean#'
 											group by flat.country,flat.continent_ocean
 											) 
 										group by continent_ocean, country
-										order by ct desc
+										order by ct desc;
 									</cfquery>
 
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean# </a></li>
