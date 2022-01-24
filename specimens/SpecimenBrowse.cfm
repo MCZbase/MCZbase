@@ -325,7 +325,7 @@ limitations under the License.
 												ORDER BY 
 													collection
 											</cfquery>
-											<li class="list-group-item bg-white float-left px-1 mb-2 w-100">
+											<li class="list-group-item bg-white float-left px-1 mb-2 w-100 font-weight-bold">
 												<a href="#specimenSearch#&collection=#collectionID.collection#"> #collection# </a> 
 											</li>
 											<cfloop query="primaryTypes">
