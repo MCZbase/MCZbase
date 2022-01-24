@@ -155,17 +155,7 @@ limitations under the License.
 	group by scientific_name
 	order by scientific_name
 </cfquery> 
-<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-	SELECT collection, collection_id, toptypestatus, count(*) as ct
-	FROM
-		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
-	WHERE
-		toptypestatuskind = 'Primary'
-	GROUP BY
-		collection, collection_id, toptypestatus
-	ORDER BY 
-		collection
-</cfquery>
+
 
 <cfif findNoCase('redesign',Session.gitBranch) GT 0>
 	<cfset specimenSearch="/Specimens.cfm?execute=true&action=fixedSearch">
@@ -308,7 +298,31 @@ limitations under the License.
 								<h3 class="px-2">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
 									<ul class="d-flex flex-wrap px-1">
-										<cfloop query="primaryTypes">	
+										<cfquery name="collectionID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+											SELECT collection
+											FROM
+												collection
+											GROUP BY
+												collection
+											ORDER BY 
+												collection asc
+										</cfquery>
+										<cfloop query="collectionID">	
+										<li class="list-group-item bg-white float-left px-1 mb-2 w-100">
+											<a href="#specimenSearch#&collection=#collectionID.collection#"> #collection# </a> (#ct#)
+										</li>
+										<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+											SELECT collection, collection_id, toptypestatus, count(*) as ct
+											FROM
+												<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+											WHERE
+												toptypestatuskind = 'Primary'
+												and collection = #collectionID.collection#
+											GROUP BY
+												collection, collection_id, toptypestatus
+											ORDER BY 
+												collection
+										</cfquery>
 										<li class="list-group-item col-3 float-left px-1 mb-2">
 											<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)
 										</li>
