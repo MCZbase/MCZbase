@@ -375,8 +375,8 @@ limitations under the License.
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="country1_result">
-									select count(*) ct, cat_num, country from flat 
-									group by cat_num, country
+									select count(*) ct, collection_object_id, country from flat 
+									group by collection_object_id, country
 									order by ct desc
 									</cfquery>
 
