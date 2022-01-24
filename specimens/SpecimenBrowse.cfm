@@ -377,7 +377,7 @@ limitations under the License.
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="country1_result">
 									select count(*) ct, flat.country 
 									FROM geog_auth_rec 
-									left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on flat.continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continental.continent_ocean#">
+									left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> on flat.continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continental.continent_ocean#">
 									group by flat.country
 									order by ct desc
 									</cfquery>
