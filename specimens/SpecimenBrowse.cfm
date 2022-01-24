@@ -378,7 +378,7 @@ limitations under the License.
 										GROUP BY 
 											country
 									</cfquery>
-									<li class="list-group-item">#continental.continent_ocean#</li>
+									<li class="w-100 list-group-item">#continental.continent_ocean#</li>
 									<cfloop query="country1">
 										<li class="list-group-item col-4"><a href="##">#country1.country# (#country1.ct# countries)</a></li>
 									</cfloop>
