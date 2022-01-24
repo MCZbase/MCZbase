@@ -95,7 +95,7 @@ limitations under the License.
 	FROM
 		underscore_collection 
 		LEFT JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-		LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+		LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 			on underscore_relation.collection_object_id = flat.collection_object_id
 	WHERE
 		underscore_collection.underscore_collection_id IS NOT NULL
