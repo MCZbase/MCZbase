@@ -337,7 +337,7 @@ limitations under the License.
 											<div class="row h-25 mx-0">
 												<cfif len(images.media_id) gt 0>
 													<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
-													<div class="float-left bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
+													<div class="float-left" id="mediaBlock#images.media_id#" style="width: auto;">
 													#mediablock#
 													</div>
 												</cfif>
