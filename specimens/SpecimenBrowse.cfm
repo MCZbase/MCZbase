@@ -365,6 +365,7 @@ limitations under the License.
 									group by g1.continent_ocean
 									order by g1.continent_ocean
 								</cfquery>
+								<ul class="list-group col-12 col-md-4 px-0 list-group-horizontal d-flex pb-2">
 								<cfloop query="continental">
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT
@@ -376,12 +377,11 @@ limitations under the License.
 										and geog_auth_rec.continent_ocean is not null
 									</cfquery>
 								<!---<li class="list-group-item">#continental.continent_ocean#</li>--->
-									<ul class="list-group col-12 col-md-4 px-0 list-group-horizontal d-flex pb-2">
-										<cfloop query="country1">
-											<li class="list-group-item"><a href="##">#continental.continent_ocean# (#country1.ct# countries)</a></li>
-										</cfloop>
-									</ul>
+									<cfloop query="country1">
+										<li class="list-group-item"><a href="##">#continental.continent_ocean# (#country1.ct# countries)</a></li>
+									</cfloop>
 								</cfloop>
+								</ul>
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
