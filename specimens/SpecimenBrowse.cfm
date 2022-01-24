@@ -384,7 +384,7 @@ limitations under the License.
 												and flat.country not like '%/%'
 											group by flat.country,flat.continent_ocean
 											) 
-										group by country, continent_ocean 
+										group by flat.country, flat.continent_ocean 
 										order by ct desc
 									</cfquery>
 
