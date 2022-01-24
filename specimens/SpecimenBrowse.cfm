@@ -380,7 +380,7 @@ limitations under the License.
 											country
 									</cfquery>
 									<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
-										SELECT distinct geog_auth_rec.country 
+										SELECT distinct count(*) ct, geog_auth_rec.country 
 										FROM
 											underscore_collection
 											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
