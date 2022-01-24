@@ -372,7 +372,7 @@ limitations under the License.
 								<cfloop query="continental">
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT
-											distinct count(*) ct, country
+											distinct count(*) ct, geog_auth_rec.country
 										FROM
 											geog_auth_rec 
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
@@ -380,7 +380,7 @@ limitations under the License.
 											left join underscore_relation on flat.collection_object_id = underscore_relation.collection_object_id
 										WHERE
 											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
-										and geog_auth_rec.country is not null
+										AND geog_auth_rec.country is not null
 										GROUP BY 
 											geog_auth_rec.country
 									</cfquery>
