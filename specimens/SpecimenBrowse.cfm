@@ -416,7 +416,7 @@ limitations under the License.
 
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#</a></li>
 									<cfloop query="water2">
-										<li class="list-group-item col-6 col-md-3"><a href="#specimenSearch#&country=#water2.country#">#water2.country# (#water2.ct#)</a> </li>
+										<li class="list-group-item col-6 col-md-3"><a href="#specimenSearch#&waterbody=#water2.waterbody#">#water2.waterbody# (#water2.ct#)</a> </li>
 									</cfloop>
 								</cfloop>
 								</ul>
