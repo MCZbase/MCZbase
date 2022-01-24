@@ -381,11 +381,13 @@ limitations under the License.
 									group by flat.country
 									order by ct desc
 									</cfquery>
-
+								
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean# </a></li>
+									<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 									<cfloop query="country1">
 										<li class="list-group-item col-6 col-md-3"><a href="#specimenSearch#&country=#country1.country#">#country1.country#</a> </li>
 									</cfloop>
+									</ul>
 								</cfloop>
 								</ul>
 							</div>
