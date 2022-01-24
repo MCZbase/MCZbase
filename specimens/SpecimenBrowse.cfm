@@ -212,10 +212,7 @@ limitations under the License.
 	ORDER BY underscore_collection_type, collection_name
 </cfquery>
 
-<style>
-	.nav-tabs .nav-link {background-color: #fff;border-color: #fff;border-bottom: 1px solid #f5f5f5;font-weight: 450;}	
-	.nav-tabs .nav-link.active {background-color: #f5f5f5;border-color: #f5f5f5; font-weight:550;}
-</style>
+
 
 <div class="container-fluid">
 	<div class="row mx-0 mb-4">
