@@ -375,7 +375,7 @@ limitations under the License.
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  result="country1_result">
-									select sum(ct) as ct, country, waterbody
+									select sum(ct) as ct, country 
 										from (
 											select count(*) ct, flat.country,flat.continent_ocean
 											from geog_auth_rec
@@ -383,33 +383,16 @@ limitations under the License.
 													on geog_auth_rec.geog_auth_rec_ID = flat.geog_auth_rec_id
 											where flat.continent_ocean = '#continental.continent_ocean#'
 												and flat.county not like '%/%'
-												and flat.county is not null
 											group by flat.country,flat.continent_ocean
-										UNION
-											select count(*) ct, flat.waterbody,flat.continent_ocean
-											from geog_auth_rec
-												left join flat
-													on geog_auth_rec.geog_auth_rec_ID = flat.geog_auth_rec_id
-											where flat.continent_ocean = '#continental.continent_ocean#'
-												and flat.waterbody not like '%/%'
-											and flat.waterbody is not null
-											group by flat.waterbody,flat.continent_ocean
-											)  
-										group by continent_ocean, country, waterbody
+											) 
+										group by continent_ocean, country
 										order by ct desc
 									</cfquery>
-									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#</a></li>
-									<ul class="list-group list-group-horizontal d-flex px-0">	
+
+									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean# </a></li>
 									<cfloop query="country1">
-										<li>
-											<cfif len(country1.waterbody) gt 0>
-												<a href="#specimenSearch#&country=#country1.country#">#country1.country# (#country1.ct#)</a>
-											<cfelse>
-												<a href="#specimenSearch#&waterbody=#water2.waterbody#">#country1.waterbody# (#water2.ct#)</a> 
-											</cfif>
-										</li>
+										<li class="list-group-item col-6 col-md-3"><a href="#specimenSearch#&country=#country1.country#">#country1.country#</a> (#country1.ct#) </li>
 									</cfloop>
-									</ul>
 								</cfloop>
 								</ul>
 							</div>
