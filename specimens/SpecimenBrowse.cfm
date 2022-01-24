@@ -302,11 +302,11 @@ limitations under the License.
 											SELECT collection
 											FROM
 												collection
-											where collection is not null and 
-											collection != 'Cryogeneic'
+											where collection is not null
 											and collection != 'Herpetology Observations'
 											and collection != 'Special Collections'
 											and collection != 'MCZ Collections'
+											and collection != 'Cryogenic'
 											GROUP BY
 												collection
 											ORDER BY 
@@ -327,7 +327,7 @@ limitations under the License.
 													collection
 											</cfquery>
 											<li class="list-group-item bg-white float-left px-1 mb-2 w-100 font-weight-bold">
-												<a href="#specimenSearch#&collection=#collectionID.collection#"> #collection# </a> 
+												<a href="##"> #collection# </a> 
 											</li>
 											<cfloop query="primaryTypes">
 												<li class="list-group-item col-3 float-left px-1 mb-2">
