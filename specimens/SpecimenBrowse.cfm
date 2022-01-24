@@ -365,6 +365,7 @@ limitations under the License.
 										geog_auth_rec g1
 									WHERE 
 										g1.continent_ocean is not null
+										and g1.continent_ocean not like '%/%'
 									GROUP BY 
 										g1.continent_ocean
 									ORDER BY
