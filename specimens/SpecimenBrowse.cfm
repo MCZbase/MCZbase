@@ -389,7 +389,7 @@ limitations under the License.
 											left join geog_auth_rec
 												on flat.country = geog_auth_rec.country						
 										WHERE 
-											geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
+											geog_auth_rec.continent_ocean = '#country1.continent_ocean#'
 									</cfquery>
 									<li class="w-100 list-group-item mt-2 font-weight-bold"><a href="#specimenSearch#&higher_geog=#continent_ocean#">#continental.continent_ocean#</a></li>
 									<cfloop query="country1">
