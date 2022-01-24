@@ -380,7 +380,7 @@ limitations under the License.
 											from geog_auth_rec
 												left join flat
 													on geog_auth_rec.geog_auth_rec_ID = flat.geog_auth_rec_id
-											where flat.continent_ocean = '#continental.continent_ocean#'
+											where geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
 												and flat.country not like '%/%'
 											group by flat.country,flat.continent_ocean
 											) 
