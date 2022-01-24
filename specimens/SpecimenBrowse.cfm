@@ -315,7 +315,7 @@ limitations under the License.
 													<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 												WHERE
 													toptypestatuskind = 'Primary'
-													and collection = #collectionID.collection#
+													and collection = '#collectionID.collection#''
 												GROUP BY
 													collection, collection_id, toptypestatus
 												ORDER BY 
