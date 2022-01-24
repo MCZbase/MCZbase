@@ -381,8 +381,7 @@ limitations under the License.
 											from geog_auth_rec
 												left join flat
 													on geog_auth_rec.geog_auth_rec_ID = flat.geog_auth_rec_id
-											where geog_auth_rec.country is not null
-												and flat.continent_ocean = '#continental.continent_ocean#'
+											where flat.continent_ocean = '#continental.continent_ocean#'
 												and flat.county not like '%/%'
 											group by flat.country,flat.continent_ocean
 											) 
