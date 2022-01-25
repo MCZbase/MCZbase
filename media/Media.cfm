@@ -165,7 +165,7 @@ limitations under the License.
 									<h3 class="h5 mt-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 									<p class="small">#media.alttag#</p>
 								</div>
-					
+							<div class="col-12 col-md-6 float-left">
 								<div class="form-row mx-0 mt-2">
 								<div class="col-12">
 									<h2>
@@ -184,14 +184,14 @@ limitations under the License.
 														<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 													</cfloop>
 												</select>
-												<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
-												<input type="hidden" name="related_id__0" id="related_id__0">
-											</div>
+										<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
+										<input type="hidden" name="related_id__0" id="related_id__0">
+									</div>
 											<!--- end seed data --->
 										</cfif>
 										<cfloop query="relns">
 											<cfset d=media_relationship>
-										<div class="form-row col-12 px-0 mx-0">
+											<div class="form-row col-12 px-0 mx-0">
 											<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 												<label class="sr-only" for="relationship__#i#">Relationship</label>
 												<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-6">
@@ -206,8 +206,7 @@ limitations under the License.
 										</div>
 										</cfloop>
 											<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 px-0 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
-										</div>
-									</div>	
+								</div>
 								<div class="form-row mt-2">
 								<div class="col-12">	
 									<h2>
