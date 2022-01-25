@@ -338,7 +338,9 @@ limitations under the License.
 										GROUP BY country
 										ORDER BY ct desc
 									</cfquery>
-									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white"><a href="#specimenSearch#&higher_geog=#continental.continent_ocean#">#continental.continent_ocean# </a><cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")><cfif len(country1.ct)gt 0>(#continental.ct#)</cfif></cfif></li>
+									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white"><a href="#specimenSearch#&higher_geog=#continental.continent_ocean#">#continental.continent_ocean# </a>
+<!---										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")><cfif len(country1.ct)gt 0>(#continental.ct#)</cfif></cfif>--->
+									</li>
 									<cfloop query="country1">
 										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#country1.country#">#country1.country#</a> </li>
 									</cfloop>
