@@ -331,16 +331,16 @@ limitations under the License.
 										order by ct desc
 									</cfquery>--->
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-										select sum(ct) as ct, country, waterbody 
+										select sum(ct) as ct, country 
 										from (
-											select count(*) ct, country, waterbody
+											select count(*) ct, country
 											from geog_auth_rec
 											where continent_ocean = '#continental.continent_ocean#'
 												and country not like '%/%'
 											<!---and country is not null--->
-											group by country, waterbody
+											group by country
 											) 
-										group by country, waterbody
+										group by country
 										order by ct desc
 									</cfquery>
 
