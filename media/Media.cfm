@@ -80,7 +80,9 @@ limitations under the License.
 			<div class="container">
 				<div class="row mb-4">
 					<div class="col-12 my-4">
-						<h1 class="h2 px-1">Edit Media <i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>  </h1>
+						<h1 class="h2 px-1">Edit Media 
+							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
+						</h1>
 						<div class="px-1"><a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info">Detail Page</a></div>
 					<form name="editMedia" method="post" action="media.cfm" class="mt-2">
 						<div class="border rounded bg-light px-3 pb-2">
@@ -149,15 +151,17 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-							<div class="form-row mx-0 mt-1">
-								<div class="bg-light rounded border col-12 mt-2 px-3 py-1">
-									<h3 class="h5" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
+							<div class="form-row mx-0 mt-2">
+								<div class="bg-light rounded border col-12 mt-2 px-4 py-1">
+									<h3 class="h5 mt-3" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 									<p class="small">#media.alttag#</p>
 								</div>
 							</div>
 							<div class="form-row mx-0 mt-2">
 								<div class="col-12">
-									 <label for="relationships" class="h2 mb-1 mt-2 data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
+									<h2>
+										<label for="relationships" class="mb-1 mt-2 data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
+									</h2>
 									<div id="relationships">
 										<cfset i=1>
 										<cfif relns.recordcount is 0>
@@ -198,7 +202,10 @@ limitations under the License.
 							</div>
 							<div class="form-row mt-2">
 								<div class="col-12">	
-									<label for="labels" class="h2 mb-1 mt-2 px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
+									<h2>
+										<label for="labels" class="h2 mb-1 mt-2 px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span>
+										</label>
+									</h2>
 									<div id="labels">
 										<cfset i=1>
 										<cfif labels.recordcount is 0>
