@@ -155,7 +155,7 @@ limitations under the License.
 							</div>
 							<div class="form-row mx-0 px-2 mt-2">
 								<div class="bg-light rounded border col-12 px-3 mt-2 py-1">
-									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb")>
+									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumbTiny")>
 									<div id="mediaBlock#media.media_id#">
 										#mediaBlock#
 									</div>
