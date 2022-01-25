@@ -153,6 +153,10 @@ limitations under the License.
 							</div>
 							<div class="form-row mx-0 px-2 mt-2">
 								<div class="bg-light rounded border col-12 px-3 mt-2 py-1">
+									<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
+									<div id="mediaBlock#images.media_id#">
+										#mediaBlock#
+									</div>
 									<h3 class="h5 mt-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 									<p class="small">#media.alttag#</p>
 								</div>
