@@ -62,20 +62,6 @@ limitations under the License.
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <script src="/shared/js/tabs.js"></script>
-<!---<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
-	SELECT count(flat.collection_object_id) ct, underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
-	FROM UNDERSCORE_COLLECTION
-	LEFT JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-	LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-		on underscore_relation.collection_object_id = flat.collection_object_id
-	<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
-		WHERE underscore_collection.mask_fg = 0
-	</cfif>
-	GROUP BY
-		underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
-	ORDER BY underscore_collection.collection_name
-</cfquery>--->
-
 
 <cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, phylum 
@@ -101,7 +87,6 @@ limitations under the License.
 	group by scientific_name
 	order by scientific_name
 </cfquery> 
-
 
 <cfif findNoCase('redesign',Session.gitBranch) GT 0>
 	<cfset specimenSearch="/Specimens.cfm?execute=true&action=fixedSearch">
@@ -138,7 +123,6 @@ limitations under the License.
 		underscore_collection.displayed_media_id
 	ORDER BY underscore_collection_type, collection_name
 </cfquery>
-
 
 <div class="container-fluid">
 	<div class="row mx-0 mb-4">
@@ -330,7 +314,7 @@ limitations under the License.
 								</cfquery>
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
-									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+<!---									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 										select sum(ct) as ct, country 
 										from (
 											select count(*) ct, flat.country
@@ -344,6 +328,20 @@ limitations under the License.
 											group by flat.country
 											) 
 										group by  country
+										order by ct desc
+									</cfquery>--->
+									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+										select sum(ct) as ct, country 
+										from (
+											select count(*) ct, country
+											from geog_auth_rec
+											where continent_ocean = '#continental.continent_ocean#'
+											and geog_auth_rec.continent_ocean = flat.continent_ocean
+												and country not like '%/%'
+											and country is not null
+											group by country
+											) 
+										group by country
 										order by ct desc
 									</cfquery>
 
