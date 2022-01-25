@@ -125,7 +125,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-12 px-0 float-left">
+							<div class="col-12 col-md-6 px-0 float-left">
 								<div class="form-row mx-0 mt-1">
 									<div class="col-12 col-md-6">
 										<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
