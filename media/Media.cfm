@@ -176,7 +176,6 @@ limitations under the License.
 											</div>
 											<!--- end seed data --->
 										</cfif>
-										
 										<cfloop query="relns">
 											<cfset d=media_relationship>
 										<div class="form-row col-12 px-0 mx-0">
@@ -190,13 +189,13 @@ limitations under the License.
 													</select>
 												<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
 												<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
-												<cfset i=i+1>
+											<cfset i=i+1>
 										</div>
 										</cfloop>
 											<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
 										</div>
 									</div>	
-			</div>
+							</div>
 							<div class="form-row mt-2">
 								<div class="col-12">	
 									<label for="labels" class="data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
@@ -234,8 +233,7 @@ limitations under the License.
 													</select>
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
 											</div>
-													<cfset i=i+1>
-											
+											<cfset i=i+1>
 										</cfloop>
 											<span class="infoLink h5 box-shadow-0 col-12 col-md-2 offset-md-10 d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 										</div>
