@@ -93,9 +93,9 @@ limitations under the License.
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 							
-							<div class="rounded border col-12 col-md-6 float-left px-2 mt-2 py-1">
+							<div class="rounded border col-12 col-md-4 float-left px-2 mt-2 py-1">
 								<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb")>
-								<div id="mediaBlock#media.media_id#" class="col-5 px-0 mt-3 col-md-2 float-left">
+								<div id="mediaBlock#media.media_id#" class="col-5 px-2 mt-3 col-md-2 float-left">
 									#mediaBlock#
 								</div>
 								<div class="col-12 col-md-7 px-2 float-left">
@@ -103,7 +103,7 @@ limitations under the License.
 									<p class="small">#media.alttag#</p>
 								</div>
 							</div>
-							<div class="col-12 col-md-6 px-0 float-left">
+							<div class="col-12 col-md-8 px-0 float-left">
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12">
 										<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
@@ -125,7 +125,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-md-6 px-0 float-left">
+							<div class="col-12 col-md-8 px-0 float-left">
 								<div class="form-row mx-0 mt-1">
 									<div class="col-12 col-md-6">
 										<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
