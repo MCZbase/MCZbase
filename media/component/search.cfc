@@ -1159,8 +1159,8 @@ limitations under the License.
 										<cfset showTitleText = "Unlinked Media Object">
 									</cfif>
 									<cfif #l_displayAs# EQ "thumb"><!---This is for use WITHOUT a size so that the images will appear at their intrinsic ratio, which means the thumbnails may not be the same heights in the responsive containers  (affects floats/stacking)--->
-										<cfif len(showTitleText) GT 50>
-											<cfset showTitleText = "#left(showTitleText,50)#..." >
+										<cfif len(showTitleText) GT 100>
+											<cfset showTitleText = "#left(showTitleText,100)#..." >
 										</cfif>
 									</cfif>
 									<cfif #l_displayAs# EQ "thumbSm"><!---This is for use with a size so that the images will appear in a gray square and be the same height for floats/stacking (e.g., specimen details page)--->
