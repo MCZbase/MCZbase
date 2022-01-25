@@ -163,7 +163,7 @@ limitations under the License.
 	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
 </cfif>
 
-<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	SELECT underscore_collection_type, description 
 	FROM ctunderscore_collection_type
 	WHERE
@@ -173,7 +173,7 @@ limitations under the License.
 			underscore_collection_type <> 'workflow'
 		</cfif>
 </cfquery>
-<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	SELECT
 		count(FF.collection_object_id) ct, 
 		underscore_collection.collection_name, 
@@ -314,7 +314,7 @@ limitations under the License.
 										</cfquery>
 										<ul class="d-flex flex-wrap px-1">
 										<cfloop query="collectionID">	
-											<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+											<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 												SELECT collection, collection_id, toptypestatus, count(*) as ct
 												FROM
 													<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
