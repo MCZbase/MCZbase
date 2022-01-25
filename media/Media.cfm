@@ -92,7 +92,6 @@ limitations under the License.
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
-							<div class="col-12">
 							<div class="form-row mx-0 mt-2">
 								<div class="col-12">
 									<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
@@ -154,8 +153,8 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-							</div>
-								<div class="bg-light rounded border col-12 col-md-6 float-left px-3 mt-2 py-1">
+							<div class="form-row mx-0 px-2 mt-2">
+								<div class="bg-light rounded border col-12 px-3 mt-2 py-1">
 									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb")>
 									<div id="mediaBlock#media.media_id#" class="col-3 px-0 mt-3 col-md-2 float-left">
 										#mediaBlock#
