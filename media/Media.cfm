@@ -98,9 +98,9 @@ limitations under the License.
 										#mediaBlock#
 									</div>
 									<h3 class="h5 mt-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
-									<p class="small">#media.alttag#</p>
+									<p class="small px-2">#media.alttag#</p>
 								</div>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-9 float-left">
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12">
 										<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
