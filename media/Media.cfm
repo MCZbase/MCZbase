@@ -96,7 +96,7 @@ limitations under the License.
 							
 							<div class="rounded border col-12 col-md-4 float-left px-2 mt-2 py-1">
 								<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",size="250",displayAs="thumbLg")>
-								<div id="mediaBlock#media.media_id#" class="col-6 px-2 mt-3 col-md-9 float-left">
+								<div id="mediaBlock#media.media_id#" class="px-2 mt-3 float-left">
 									#mediaBlock#
 								</div>
 								
@@ -127,7 +127,7 @@ limitations under the License.
 									<p class="small px-2">#media.alttag#</p>
 								</div>
 							</div>
-							<div class="col-12 col-md-8 px-0 float-left">
+							<div class="col-12 col-md-8 float-left">
 								<div class="form-row mx-0 mt-3">
 									<div class="col-12 col-md-6">
 										<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
