@@ -88,7 +88,7 @@ limitations under the License.
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
-							<div class="form-row mt-1">
+							<div class="form-row mx-0 mt-1">
 								<div class="col-12">
 									<label for="media_uri" class="data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 									<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
@@ -97,7 +97,7 @@ limitations under the License.
 										</cfif>
 								</div>
 							</div>
-							<div class="form-row mt-1">
+							<div class="form-row mx-0 mt-1">
 								<div class="col-12">
 									<label for="preview_uri" class="data-entry-label">Preview URI
 										<cfif len(media.preview_uri) gt 0>
@@ -108,7 +108,7 @@ limitations under the License.
 									<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 								</div>
 							</div>
-							<div class="form-row mt-1">
+							<div class="form-row mx-0 mt-1">
 								<div class="col-12 col-md-6">
 									<label for="mime_type" class="data-entry-label">MIME Type</label>
 									<select name="mime_type" id="mime_type" class="data-entry-select">
@@ -126,7 +126,7 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-							<div class="form-row mt-1">
+							<div class="form-row mx-0 mt-1">
 								<div class="col-12 col-md-6">
 									<label for="media_license_id" class="data-entry-label">License (<span class="infoLink" onclick="popupDefine();">Define</span>)</label>
 									<select name="media_license_id" id="media_license_id" class="data-entry-select">
