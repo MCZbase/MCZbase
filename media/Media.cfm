@@ -80,10 +80,10 @@ limitations under the License.
 			<div class="container">
 				<div class="row mb-4">
 					<div class="col-12 mt-4">
-						<h1 class="h2">Edit Media <i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>  </h1>
+						<h1 class="h2 px-1">Edit Media <i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>  </h1>
 						<div class="px-1"><a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info">Detail Page</a></div>
 					<form name="editMedia" method="post" action="media.cfm" class="mt-2">
-						<div class="border px-3 pb-2">
+						<div class="border rounded px-3 pb-2">
 							<input type="hidden" name="action" value="saveEdit">
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
