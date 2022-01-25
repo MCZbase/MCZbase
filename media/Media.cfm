@@ -157,7 +157,7 @@ limitations under the License.
 							</div>
 							<div class="form-row mx-0 mt-2">
 								<div class="col-12">
-									 <label for="relationships" class="h3 mb-1 mt-2 data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
+									 <label for="relationships" class="h2 mb-1 mt-2 data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
 									<div id="relationships">
 										<cfset i=1>
 										<cfif relns.recordcount is 0>
@@ -198,7 +198,7 @@ limitations under the License.
 							</div>
 							<div class="form-row mt-2">
 								<div class="col-12">	
-									<label for="labels" class="h3 mb-1 mt-2 px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
+									<label for="labels" class="h2 mb-1 mt-2 px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
 									<div id="labels">
 										<cfset i=1>
 										<cfif labels.recordcount is 0>
