@@ -156,7 +156,7 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-							</div>
+						
 								<div class="bg-light rounded border col-12 col-md-6 float-left px-3 mt-2 py-1">
 									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb")>
 									<div id="mediaBlock#media.media_id#" class="col-3 px-0 mt-3 col-md-2 float-left">
