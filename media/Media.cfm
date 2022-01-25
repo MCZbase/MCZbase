@@ -94,11 +94,11 @@ limitations under the License.
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 							
 							<div class="rounded border col-12 col-md-4 float-left px-2 mt-2 py-1">
-								<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb")>
+								<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",size="300",displayAs="thumb")>
 								<div id="mediaBlock#media.media_id#" class="col-6 px-2 mt-3 col-md-6 float-left">
 									#mediaBlock#
 								</div>
-								<div class="col-12 col-md-6 px-0 float-left">
+								<div class="col-12 col-md-6 px-0 mt-4 float-left">
 									<h3 class="h5 mt-2 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 									<p class="small px-2">#media.alttag#</p>
 								</div>
