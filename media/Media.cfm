@@ -165,7 +165,7 @@ limitations under the License.
 											<div id="seedMedia" style="display:none">
 												<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 												<cfset d="">
-												<select name="relationship__0" id="relationship__0" class="data-entry-select col-6" size="1"  onchange="pickedRelationship(this.id)">
+												<select name="relationship__0" id="relationship__0" class="data-entry-select custom-select col-6" size="1"  onchange="pickedRelationship(this.id)">
 													<option value="delete">delete</option>
 													<cfloop query="ctmedia_relationship">
 														<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
@@ -226,10 +226,10 @@ limitations under the License.
 													<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 														<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
 														<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-6">
-																<option value="delete">delete</option>
-																<cfloop query="ctmedia_label">
-																	<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
-																</cfloop>
+															<option value="delete">delete</option>
+															<cfloop query="ctmedia_label">
+																<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+															</cfloop>
 														</select>
 														<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
 												</div>
