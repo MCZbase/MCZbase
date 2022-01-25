@@ -17,6 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
+<cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfif NOT isdefined("action")>
 	<cfset action = "edit">
 </cfif>
