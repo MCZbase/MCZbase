@@ -62,7 +62,7 @@ limitations under the License.
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <script src="/shared/js/tabs.js"></script>
-<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
+<!---<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	SELECT count(flat.collection_object_id) ct, underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
 	FROM UNDERSCORE_COLLECTION
 	LEFT JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -74,18 +74,9 @@ limitations under the License.
 	GROUP BY
 		underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
 	ORDER BY underscore_collection.collection_name
-</cfquery>
-<!---<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT underscore_collection_type, description 
-	FROM ctunderscore_collection_type
-	WHERE
-		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-			underscore_collection_type is not null
-		<cfelse>
-			underscore_collection_type <> 'workflow'
-		</cfif>
 </cfquery>--->
-<cfquery name="namedGroups2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+
+<!---<cfquery name="namedGroups2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		count(flat.collection_object_id) ct, 
 		underscore_collection.collection_name, 
@@ -113,24 +104,7 @@ limitations under the License.
 		underscore_collection.description, underscore_collection.underscore_collection_type,
 		underscore_collection.displayed_media_id
 	ORDER BY underscore_collection_type, collection_name
-</cfquery>
-
-<!---<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
-	select count(*) ct, country 
-	from 
-		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
-	where country is not null
-	group by country
-	order by country
 </cfquery>--->
-<!---<cfquery name="continents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-	select count(*) ct, continent_ocean, country
-	from
-		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
-	group by continent_ocean, country
-	order by continent_ocean, country
-</cfquery>--->
-
 <cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, phylum 
 	from 
@@ -163,16 +137,6 @@ limitations under the License.
 	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
 </cfif>
 
-<!---<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
-	SELECT underscore_collection_type, description 
-	FROM ctunderscore_collection_type
-	WHERE
-		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-			underscore_collection_type is not null
-		<cfelse>
-			underscore_collection_type <> 'workflow'
-		</cfif>
-</cfquery>--->
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	SELECT
 		count(FF.collection_object_id) ct, 
