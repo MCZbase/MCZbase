@@ -192,13 +192,13 @@ limitations under the License.
 											<cfset i=i+1>
 										</div>
 										</cfloop>
-											<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
+											<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 px-0 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
 										</div>
 									</div>	
 							</div>
 							<div class="form-row mt-2">
 								<div class="col-12">	
-									<label for="labels" class="data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
+									<label for="labels" class="px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
 									<div id="labels">
 										<cfset i=1>
 										<cfif labels.recordcount is 0>
