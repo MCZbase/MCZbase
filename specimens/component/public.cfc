@@ -63,7 +63,7 @@ limitations under the License.
 						<div class="col-6 py-1 float-left px-1">
 							<div  class="border rounded py-2 px-1">
 								<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-									<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
+									<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumbSm")>
 									<div id="mediaBlock#images.media_id#">
 										#mediaBlock#
 									</div>
