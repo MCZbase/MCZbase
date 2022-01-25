@@ -300,9 +300,7 @@ limitations under the License.
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-									SELECT sum(ct) as ct, continent_ocean 
-									FROM
-									(select count(*) ct,country,continent_ocean
+									SELECT count(*) ct,country,continent_ocean
 									FROM
 										geog_auth_rec
 									WHERE 
@@ -310,9 +308,7 @@ limitations under the License.
 										and continent_ocean not like '%/%'
 										and continent_ocean not like '%[no higher geography data]%'
 									GROUP BY 
-										continent_ocean
-									)
-									group by, continent_ocean
+										country,continent_ocean
 									ORDER BY
 										continent_ocean
 								</cfquery>
