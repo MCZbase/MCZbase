@@ -76,35 +76,7 @@ limitations under the License.
 	ORDER BY underscore_collection.collection_name
 </cfquery>--->
 
-<!---<cfquery name="namedGroups2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT
-		count(flat.collection_object_id) ct, 
-		underscore_collection.collection_name, 
-		underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
-		underscore_collection.description, underscore_collection.underscore_collection_type,
-		underscore_collection.displayed_media_id
-	FROM
-		underscore_collection 
-		LEFT JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-		LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-			on underscore_relation.collection_object_id = flat.collection_object_id
-	WHERE
-		underscore_collection.underscore_collection_id IS NOT NULL
-		<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
-			AND underscore_collection.mask_fg = 0
-		</cfif>
-		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-			AND underscore_collection_type is not null
-		<cfelse>
-			AND underscore_collection.underscore_collection_type <> 'workflow'
-		</cfif>
-	GROUP BY
-		underscore_collection.collection_name, 
-		underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
-		underscore_collection.description, underscore_collection.underscore_collection_type,
-		underscore_collection.displayed_media_id
-	ORDER BY underscore_collection_type, collection_name
-</cfquery>--->
+
 <cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, phylum 
 	from 
@@ -139,7 +111,7 @@ limitations under the License.
 
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	SELECT
-		count(FF.collection_object_id) ct, 
+		count(flat.collection_object_id) ct, 
 		underscore_collection.collection_name, 
 		underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
 		underscore_collection.description, underscore_collection.underscore_collection_type,
@@ -147,8 +119,8 @@ limitations under the License.
 	FROM
 		underscore_collection 
 		LEFT JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-		LEFT JOIN <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> FF
-			on underscore_relation.collection_object_id = FF.collection_object_id
+		LEFT JOIN <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+			on underscore_relation.collection_object_id = flat.collection_object_id
 	WHERE
 		underscore_collection.underscore_collection_id IS NOT NULL
 		<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
@@ -166,7 +138,6 @@ limitations under the License.
 		underscore_collection.displayed_media_id
 	ORDER BY underscore_collection_type, collection_name
 </cfquery>
-
 
 
 <div class="container-fluid">
@@ -303,7 +274,7 @@ limitations under the License.
 							</div>
 							<div id="featuredPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
 								<h3 class="px-2">MCZ Featured Collections of Cataloged Items</h3>
-								<cfloop query="namedGroups2">
+								<cfloop query="namedGroups">
 									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT
 											displayed_media_id as media_id
@@ -314,7 +285,7 @@ limitations under the License.
 										WHERE rownum = 1 
 										and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
 									</cfquery>
-									<cfif len(#namedGroups2.description#)gt 0>
+									<cfif len(#namedGroups.description#)gt 0>
 										<div class="col-12 col-md-3 px-1 float-left my-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height: 116px;">
 												<div class="row mx-0">
@@ -333,8 +304,8 @@ limitations under the License.
 															</cfif>#showTitleText#
 															</a>
 														</h3>
-														<p class="mb-1 small">Includes #namedGroups2.ct# Cataloged Items</p>
-														<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups2.underscore_collection_type#</p>
+														<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
+														<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
 													</div>
 												</div>
 											</div>
