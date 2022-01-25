@@ -100,7 +100,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 px-2 float-left">
 									<h3 class="h5 mt-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
-									<p class="small px-2">#media.alttag#</p>
+									<p class="small">#media.alttag#</p>
 								</div>
 							</div>
 							<div class="col-12 col-md-6 px-0 float-left">
