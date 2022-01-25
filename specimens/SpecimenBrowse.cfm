@@ -300,7 +300,7 @@ limitations under the License.
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-									SELECT sum(ct) ct, g1.continent_ocean
+									SELECT sum(ct) as ct, g1.continent_ocean
 									FROM
 										geog_auth_rec g1
 									WHERE 
@@ -314,7 +314,7 @@ limitations under the License.
 								</cfquery>
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
-<!---									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+										<!---<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 										select sum(ct) as ct, country 
 										from (
 											select count(*) ct, flat.country
@@ -331,19 +331,16 @@ limitations under the License.
 										order by ct desc
 									</cfquery>--->
 									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-									
-											select count(*) ct, country
-											from geog_auth_rec
-											where continent_ocean = '#continental.continent_ocean#'
-												and country not like '%/%'
-											<!---and country is not null--->
-											group by country
-										order by ct desc
+										SELECT count(*) ct, country
+										FROM geog_auth_rec
+										WHERE continent_ocean = '#continental.continent_ocean#'
+										AND country not like '%/%'
+										GROUP BY country
+										ORDER BY ct desc
 									</cfquery>
-
-									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white"><a href="#specimenSearch#&higher_geog=#continental.continent_ocean#">#continental.continent_ocean# </a></li>
+									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white"><a href="#specimenSearch#&higher_geog=#continental.continent_ocean#">#continental.continent_ocean# </a><cfif len(country1.ct)gt 0>(#continental.ct#)</cfif></li>
 									<cfloop query="country1">
-										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#country1.country#">#country1.country#</a> <cfif len(country1.ct)gt 0>(#country1.ct#)</cfif></li>
+										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#country1.country#">#country1.country#</a> </li>
 									</cfloop>
 								</cfloop>
 								</ul>
