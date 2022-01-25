@@ -323,8 +323,7 @@ limitations under the License.
 													and collection = '#collectionID.collection#'
 												GROUP BY
 													collection, collection_id, toptypestatus
-												ORDER BY 
-													collection
+												order by ct desc
 											</cfquery>
 											<li class="list-group-item bg-white float-left px-1 mb-2 w-100 font-weight-bold">
 												<a href="##"> #collection# </a> 
