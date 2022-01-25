@@ -1134,7 +1134,7 @@ limitations under the License.
 								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 							</a>
 							<cfif #l_displayAs# EQ "thumbTiny">
-						
+						<!---thumbTiny is used when we don't want any text below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 							<cfelse>
 							<div class="mt-0 col-12 pb-1 px-0">
 								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
@@ -1158,12 +1158,12 @@ limitations under the License.
 									<cfif len(showTitleText) EQ 0>
 										<cfset showTitleText = "Unlinked Media Object">
 									</cfif>
-									<cfif #l_displayAs# EQ "thumb">
+									<cfif #l_displayAs# EQ "thumb"><!---This is for use WITHOUT a size so that the images will appear at their intrinsic ratio, which means the thumbnails may not be the same heights in the responsive containers  (affects floats/stacking)--->
 										<cfif len(showTitleText) GT 50>
 											<cfset showTitleText = "#left(showTitleText,50)#..." >
 										</cfif>
 									</cfif>
-									<cfif #l_displayAs# EQ "thumbSm">
+									<cfif #l_displayAs# EQ "thumbSm"><!---This is for use with a size so that the images will appear in a gray square and be the same height for floats/stacking--->
 										<cfif len(showTitleText) GT 50>
 											<cfset showTitleText = "#left(showTitleText,50)#..." >
 										</cfif>
