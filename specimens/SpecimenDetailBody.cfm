@@ -188,7 +188,7 @@ limitations under the License.
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
 									<cfloop query="images">
 										<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",displayAs="thumbSm")>
+											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",displayAs="thumb")>
 											<div id="mediaBlock#images.media_id#">
 												#mediaBlock#
 											</div>
