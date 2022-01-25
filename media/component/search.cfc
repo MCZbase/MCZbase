@@ -1168,7 +1168,7 @@ limitations under the License.
 											<cfset showTitleText = "#left(showTitleText,50)#..." >
 										</cfif>
 									</cfif>
-									<cfif #l_displayAs# EQ "thumbLg"><!---This is for use with a size so that the images will fill the container and have a full caption (e.g., edit media page)--->
+									<cfif #l_displayAs# EQ "thumbLg"><!---This is for use with a size so that the images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
 										<cfif len(showTitleText) GT 250>
 											<cfset showTitleText = "#left(showTitleText,250)#..." >
 										</cfif>
