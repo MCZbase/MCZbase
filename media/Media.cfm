@@ -18,6 +18,7 @@ limitations under the License.
 
 -->
 <cfinclude template="/media/component/search.cfc" runOnce="true">
+	<cfargument name="media_id" type="string" required="yes">
 <cfif NOT isdefined("action")>
 	<cfset action = "edit">
 </cfif>
