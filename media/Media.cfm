@@ -90,7 +90,7 @@ limitations under the License.
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 							<div class="form-row mx-0 mt-1">
 								<div class="col-12">
-									<label for="media_uri" class="data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
+									<label for="media_uri" class="h5 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 									<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
 										<cfif #media.media_uri# contains #application.serverRootUrl#>
 											<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
@@ -99,7 +99,7 @@ limitations under the License.
 							</div>
 							<div class="form-row mx-0 mt-1">
 								<div class="col-12">
-									<label for="preview_uri" class="data-entry-label">Preview URI
+									<label for="preview_uri" class="h5 data-entry-label">Preview URI
 										<cfif len(media.preview_uri) gt 0>
 											(<a href="#media.preview_uri#" class="infoLink" target="_blank">open</a>)
 										</cfif>
@@ -110,7 +110,7 @@ limitations under the License.
 							</div>
 							<div class="form-row mx-0 mt-1">
 								<div class="col-12 col-md-6">
-									<label for="mime_type" class="data-entry-label">MIME Type</label>
+									<label for="mime_type" class="h5 data-entry-label">MIME Type</label>
 									<select name="mime_type" id="mime_type" class="data-entry-select">
 										<cfloop query="ctmime_type">
 											<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
@@ -242,7 +242,7 @@ limitations under the License.
 								</div>
 								</div>
 					<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
-							<div class="form-row mt-2 mb-4">
+							<div class="form-row mx-0 mt-2 mb-4">
 								<div class="col-12">
 									<!---  TODO: Change to ajax save of form. ---->
 									<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary">
