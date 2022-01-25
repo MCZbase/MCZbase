@@ -99,10 +99,7 @@ limitations under the License.
 								<div id="mediaBlock#media.media_id#" class="col-6 px-2 mt-3 col-md-9 float-left">
 									#mediaBlock#
 								</div>
-								<div class="col-12 col-md-3 px-0 mt-4 float-left">
-									<h3 class="h5 mt-2 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
-									<p class="small px-2">#media.alttag#</p>
-								</div>
+								
 							</div>
 							<div class="col-12 col-md-8 px-2 float-left">
 								<div class="form-row mx-0 mt-3">
@@ -124,6 +121,10 @@ limitations under the License.
 										<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#" class="data-entry-input">
 										<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 									</div>
+								</div>
+								<div class="col-12 col-md-3 px-0 mt-4 float-left">
+									<h3 class="h5 mt-2 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
+									<p class="small px-2">#media.alttag#</p>
 								</div>
 							</div>
 							<div class="col-12 col-md-8 px-0 float-left">
