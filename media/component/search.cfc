@@ -1139,7 +1139,7 @@ limitations under the License.
 							<div class="mt-0 col-12 pb-1 px-0">
 								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<span class="d-inline">(<a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>
+										<span class="d-inline">(<a target="_blank" href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>
 									</cfif>
 									(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
 									<cfif NOT isDisplayable>
@@ -1163,7 +1163,7 @@ limitations under the License.
 											<cfset showTitleText = "#left(showTitleText,50)#..." >
 										</cfif>
 									</cfif>
-									<cfif #l_displayAs# EQ "thumbSm"><!---This is for use with a size so that the images will appear in a gray square and be the same height for floats/stacking--->
+									<cfif #l_displayAs# EQ "thumbSm"><!---This is for use with a size so that the images will appear in a gray square and be the same height for floats/stacking (e.g., specimen details page)--->
 										<cfif len(showTitleText) GT 50>
 											<cfset showTitleText = "#left(showTitleText,50)#..." >
 										</cfif>
