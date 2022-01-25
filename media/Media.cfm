@@ -113,6 +113,14 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mx-0 mt-1">
+								<div class="bg-light rounded border col-3 px-3 mt-2 py-1">
+									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb")>
+									<div id="mediaBlock#media.media_id#" class="col- px-0 mt-3 col-md-2 float-left">
+										#mediaBlock#
+									</div>
+									<h3 class="h5 mt-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
+									<p class="small">#media.alttag#</p>
+								</div>
 								<div class="col-12 col-md-6">
 									<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
 									<select name="mime_type" id="mime_type" class="data-entry-select">
@@ -154,14 +162,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mx-0 px-2 mt-2">
-								<div class="bg-light rounded border col-12 px-3 mt-2 py-1">
-									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb")>
-									<div id="mediaBlock#media.media_id#" class="col-3 px-0 mt-3 col-md-2 float-left">
-										#mediaBlock#
-									</div>
-									<h3 class="h5 mt-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
-									<p class="small">#media.alttag#</p>
-								</div>
+
 							</div>
 							<div class="form-row mx-0 mt-2">
 								<div class="col-12">
