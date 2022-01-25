@@ -95,10 +95,10 @@ limitations under the License.
 							
 							<div class="rounded border col-12 col-md-6 float-left px-2 mt-2 py-1">
 								<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb")>
-								<div id="mediaBlock#media.media_id#" class="col-6 px-0 mt-3 col-md-2 float-left">
+								<div id="mediaBlock#media.media_id#" class="col-5 px-0 mt-3 col-md-2 float-left">
 									#mediaBlock#
 								</div>
-								<div class="col-12 px-2 float-left">
+								<div class="col-12 col-md-7 px-2 float-left">
 									<h3 class="h5 mt-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 									<p class="small">#media.alttag#</p>
 								</div>
