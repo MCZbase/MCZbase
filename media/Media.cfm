@@ -92,9 +92,9 @@ limitations under the License.
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
-								<div class="bg-light rounded border col-4 float-left px-3 mt-2 py-1">
+								<div class="rounded border col-6 float-left px-3 mt-2 py-1">
 									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb")>
-									<div id="mediaBlock#media.media_id#" class="col-4 px-0 mt-3 col-md-2 float-left">
+									<div id="mediaBlock#media.media_id#" class="col-6 px-0 mt-3 col-md-2 float-left">
 										#mediaBlock#
 									</div>
 									<h3 class="h5 mt-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
