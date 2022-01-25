@@ -1164,8 +1164,8 @@ limitations under the License.
 										</cfif>
 									</cfif>
 									<cfif #l_displayAs# EQ "thumbSm">
-										<cfif len(showTitleText) GT 25>
-											<cfset showTitleText = "#left(showTitleText,25)#..." >
+										<cfif len(showTitleText) GT 50>
+											<cfset showTitleText = "#left(showTitleText,50)#..." >
 										</cfif>
 									</cfif>
 									<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
