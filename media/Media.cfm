@@ -90,7 +90,7 @@ limitations under the License.
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 							<div class="form-row mx-0 mt-1">
 								<div class="col-12">
-									<label for="media_uri" class="h5 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
+									<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 									<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
 										<cfif #media.media_uri# contains #application.serverRootUrl#>
 											<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
@@ -99,7 +99,7 @@ limitations under the License.
 							</div>
 							<div class="form-row mx-0 mt-1">
 								<div class="col-12">
-									<label for="preview_uri" class="h5 data-entry-label">Preview URI
+									<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
 										<cfif len(media.preview_uri) gt 0>
 											(<a href="#media.preview_uri#" class="infoLink" target="_blank">open</a>)
 										</cfif>
@@ -110,7 +110,7 @@ limitations under the License.
 							</div>
 							<div class="form-row mx-0 mt-1">
 								<div class="col-12 col-md-6">
-									<label for="mime_type" class="h5 data-entry-label">MIME Type</label>
+									<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
 									<select name="mime_type" id="mime_type" class="data-entry-select">
 										<cfloop query="ctmime_type">
 											<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
@@ -118,7 +118,7 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col-12 col-md-6">
-									<label for="media_type" class="data-entry-label">Media Type</label>
+									<label for="media_type" class="h5 mb-1 mt-2 data-entry-label">Media Type</label>
 									<select name="media_type" id="media_type" class="data-entry-select">
 									<cfloop query="ctmedia_type">
 										<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
@@ -128,7 +128,7 @@ limitations under the License.
 							</div>
 							<div class="form-row mx-0 mt-1">
 								<div class="col-12 col-md-6">
-									<label for="media_license_id" class="data-entry-label">License (<span class="infoLink" onclick="popupDefine();">Define</span>)</label>
+									<label for="media_license_id" class="h5 mb-1 mt-2 data-entry-label">License (<span class="infoLink" onclick="popupDefine();">Define</span>)</label>
 									<select name="media_license_id" id="media_license_id" class="data-entry-select">
 										<option value="">NONE</option>
 										<cfloop query="ctmedia_license">
@@ -137,7 +137,7 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col-12 col-md-6">
-									<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
+									<label for="mask_media_fg" class="h5 mb-1 mt-2 data-entry-label">Media Record Visibility</label>
 									<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
 										<cfif #media.mask_media_fg# eq 1 >
 											<option value="0">Public</option>
@@ -157,7 +157,7 @@ limitations under the License.
 							</div>
 							<div class="form-row mx-0 mt-2">
 								<div class="col-12">
-									 <label for="relationships" class="data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
+									 <label for="relationships" class="h3 mb-1 mt-2 data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
 									<div id="relationships">
 										<cfset i=1>
 										<cfif relns.recordcount is 0>
@@ -198,7 +198,7 @@ limitations under the License.
 							</div>
 							<div class="form-row mt-2">
 								<div class="col-12">	
-									<label for="labels" class="px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
+									<label for="labels" class="h3 mb-1 mt-2 px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
 									<div id="labels">
 										<cfset i=1>
 										<cfif labels.recordcount is 0>
