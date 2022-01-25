@@ -300,17 +300,21 @@ limitations under the License.
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-									SELECT distinct g1.continent_ocean
+									SELECT sum(ct) as ct, continent_ocean 
 									FROM
-										geog_auth_rec g1
+									(select count(*) ct,country,continent_ocean
+									FROM
+										geog_auth_rec
 									WHERE 
-										g1.continent_ocean is not null
-										and g1.continent_ocean not like '%/%'
-										and g1.continent_ocean not like '%[no higher geography data]%'
+										continent_ocean is not null
+										and continent_ocean not like '%/%'
+										and continent_ocean not like '%[no higher geography data]%'
 									GROUP BY 
-										g1.continent_ocean
+										continent_ocean
+									)
+									group by, continent_ocean
 									ORDER BY
-										g1.continent_ocean
+										continent_ocean
 								</cfquery>
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
