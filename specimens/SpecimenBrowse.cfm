@@ -75,7 +75,7 @@ limitations under the License.
 		underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
 	ORDER BY underscore_collection.collection_name
 </cfquery>
-<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT underscore_collection_type, description 
 	FROM ctunderscore_collection_type
 	WHERE
@@ -84,7 +84,7 @@ limitations under the License.
 		<cfelse>
 			underscore_collection_type <> 'workflow'
 		</cfif>
-</cfquery>
+</cfquery>--->
 <cfquery name="namedGroups2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		count(flat.collection_object_id) ct, 
@@ -115,21 +115,21 @@ limitations under the License.
 	ORDER BY underscore_collection_type, collection_name
 </cfquery>
 
-<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
+<!---<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	select count(*) ct, country 
 	from 
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 	where country is not null
 	group by country
 	order by country
-</cfquery>
-<cfquery name="continents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+</cfquery>--->
+<!---<cfquery name="continents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, continent_ocean, country
 	from
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 	group by continent_ocean, country
 	order by continent_ocean, country
-</cfquery>
+</cfquery>--->
 
 <cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	select count(*) ct, phylum 
@@ -163,7 +163,7 @@ limitations under the License.
 	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
 </cfif>
 
-<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
+<!---<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	SELECT underscore_collection_type, description 
 	FROM ctunderscore_collection_type
 	WHERE
@@ -172,7 +172,7 @@ limitations under the License.
 		<cfelse>
 			underscore_collection_type <> 'workflow'
 		</cfif>
-</cfquery>
+</cfquery>--->
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	SELECT
 		count(FF.collection_object_id) ct, 
@@ -348,7 +348,7 @@ limitations under the License.
 										INNER JOIN underscore_collection
 											on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 										WHERE rownum = 1 
-										and underscore_relation.underscore_collection_id = #namedGroups2.underscore_collection_id#
+										and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
 									</cfquery>
 									<cfif len(#namedGroups2.description#)gt 0>
 										<div class="col-12 col-md-3 px-1 float-left my-1">
