@@ -151,8 +151,8 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-							<div class="form-row mx-0 mt-2">
-								<div class="bg-light rounded border col-12 px-3 mt-2 mx-5 py-1">
+							<div class="form-row mx-0 px-2 mt-2">
+								<div class="bg-light rounded border col-12 px-3 mt-2 py-1">
 									<h3 class="h5 mt-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 									<p class="small">#media.alttag#</p>
 								</div>
