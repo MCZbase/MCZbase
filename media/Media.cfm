@@ -100,7 +100,7 @@ limitations under the License.
 									<h3 class="h5 mt-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 									<p class="small px-2">#media.alttag#</p>
 								</div>
-							<div class="col-12 col-8 float-left">
+							<div class="col-12 col-8 px-0 float-left">
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12">
 										<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
@@ -122,6 +122,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
+							<div class="col-12 px-0 float-left">
 							<div class="form-row mx-0 mt-1">
 								<div class="col-12 col-md-6">
 									<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
@@ -162,9 +163,6 @@ limitations under the License.
 										</cfif>
 									</select>
 								</div>
-							</div>
-							<div class="form-row mx-0 px-2 mt-2">
-
 							</div>
 							<div class="form-row mx-0 mt-2">
 								<div class="col-12">
@@ -208,7 +206,6 @@ limitations under the License.
 											<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 px-0 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
 										</div>
 									</div>	
-							</div>
 							<div class="form-row mt-2">
 								<div class="col-12">	
 									<h2>
@@ -254,9 +251,8 @@ limitations under the License.
 											<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 										</div>
 									</div>	
-									
-								</div>
-								</div>
+							</div>
+							</div>
 					<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
 							<div class="form-row mx-0 mt-2 mb-4">
 								<div class="col-12">
