@@ -400,7 +400,7 @@ limitations under the License.
 										from (
 											select count(*) ct, flat.country
 											from geog_auth_rec
-												left join flat
+												left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 													on geog_auth_rec.country = flat.country
 											where flat.continent_ocean = '#continental.continent_ocean#'
 											and geog_auth_rec.continent_ocean = flat.continent_ocean
