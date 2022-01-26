@@ -168,7 +168,8 @@ limitations under the License.
 													<label for="relationships" class="mb-1 mt-2 data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
 												</h2>
 												<div id="relationships">
-													<cfset i=1>
+													<div class="form-row">
+														<cfset i=1>
 													<cfif relns.recordcount is 0>
 														<!--- seed --->
 														<div id="seedMedia" style="display:none">
@@ -185,6 +186,7 @@ limitations under the License.
 														</div>
 														<!--- end seed data --->
 													</cfif>
+													</div>
 													<cfloop query="relns">
 														<cfset d=media_relationship>
 														<div class="form-row col-12 px-0 mx-0">
@@ -223,7 +225,7 @@ limitations under the License.
 																<select name="label__0" id="label__0" size="1" class="col-6 data-entry-select">
 																	<option value="delete">delete</option>
 																	<cfloop query="ctmedia_label">
-																		<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label# 1</option>
+																		<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																	</cfloop>
 																</select>
 																<input type="text" name="label_value__0" id="label_value__0" class="col-6 data-entry-input">
