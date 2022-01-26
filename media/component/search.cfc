@@ -1108,6 +1108,8 @@ limitations under the License.
 								<cfset displayImage = preview_uri>
 									<cfif #l_displayAs# eq "thumbTiny">
 										<cfset hw = 'width="90" height="105"'>
+									<cfelseif #l_displayAs# eq "thumb">
+										<cfset hw = 'width="90" height="105"'>
 									<cfelse>
 										<cfset hw = 'width="100" height="auto"'>
 									</cfif>
