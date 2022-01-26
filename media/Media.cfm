@@ -87,13 +87,12 @@ limitations under the License.
 						</h1>
 						<div class="px-1"><a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info">Detail Page</a></div>
 							<form name="editMedia" method="post" action="media.cfm" class="my-2">
-							<div class="col-12 float-left">
-								<div class="border rounded bg-light float-left col-12 px-3 pb-2">
-									<input type="hidden" name="action" value="saveEdit">
-									<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
-									<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
-									<input type="hidden" id="media_id" name="media_id" value="#media_id#">
-
+							<div class="border rounded bg-light float-left col-12 px-3 pb-2">
+								<input type="hidden" name="action" value="saveEdit">
+								<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
+								<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
+								<input type="hidden" id="media_id" name="media_id" value="#media_id#">
+								<div class="col-12 float-left">
 									<div class="rounded border col-12 col-md-2 float-left mt-3">
 										<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",size="180",displayAs="thumbLg")>
 										<div id="mediaBlock#media.media_id#" class="float-left p-1 pt-3">
@@ -161,7 +160,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-							</div>
+								</div>
 									<div class="col-12 px-0 float-left">
 										<div class="form-row mx-0 mt-2">
 											<div class="col-12">
