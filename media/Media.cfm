@@ -89,6 +89,13 @@ limitations under the License.
 							<h4 class="pr-3 d-inline-block">Media ID = #media_id#</h4>
 							<a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info">Media Record</a>
 						</div>
+						<style>
+							.media_widget {}
+							.media_widget a {
+								float:right;
+								display: inline;
+							}
+						</style>
 							<form name="editMedia" method="post" action="media.cfm" class="my-2">
 								<input type="hidden" name="action" value="saveEdit">
 								<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
@@ -97,7 +104,7 @@ limitations under the License.
 								<div class="col-12 float-left px-0">
 									<div class="rounded border col-5 col-md-1 float-left mt-3">
 										<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",size="180",displayAs="thumbLg")>
-										<div id="mediaBlock#media.media_id#" class="float-left p-1 pt-3">
+										<div id="mediaBlock#media.media_id#" class="float-left pt-3">
 											#mediaBlock#
 										</div>
 									</div>
