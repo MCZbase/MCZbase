@@ -134,24 +134,24 @@ limitations under the License.
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<cfswitch expression="#action#">
 							<cfcase value="browseprimarytypes">
-								<cfset primarytypesTabActive = "active">
-								<cfset primarytypesTabShow = "">
-								<cfset featuredTabActive = "">
-								<cfset featuredTabShow = "hidden">
-								<cfset highergeoTabActive = "">
-								<cfset highergeoTabShow = "hidden">
-								<cfset taxonomyTabActive = "">
-								<cfset taxonomyTabShow = "hidden">
-								<cfset primarytypesTabAria = "aria-selected=""true"" tabindex=""0"" ">
-								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							</cfcase>
-							<cfcase value="browsefeatured">
 								<cfset primarytypesTabActive = "">
 								<cfset primarytypesTabShow = "hidden">
 								<cfset featuredTabActive = "active">
 								<cfset featuredTabShow = "">
+								<cfset highergeoTabActive = "">
+								<cfset highergeoTabShow = "hidden">
+								<cfset taxonomyTabActive = "">
+								<cfset taxonomyTabShow = "hidden">
+								<cfset primarytypesTabAria = "aria-selected=""true"" tabindex=""-1"" ">
+								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""0"" ">
+								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfcase>
+							<cfcase value="browsefeatured">
+								<cfset primarytypesTabActive = "active">
+								<cfset primarytypesTabShow = "">
+								<cfset featuredTabActive = "">
+								<cfset featuredTabShow = "hidden">
 								<cfset highergeoTabActive = "">
 								<cfset highergeoTabShow = "hidden">
 								<cfset taxonomyTabActive = "">
