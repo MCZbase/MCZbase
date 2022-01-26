@@ -206,13 +206,54 @@ limitations under the License.
 						</cfswitch>
 						<!-- Nav tabs -->
 						<div class="tab-headers tabList" role="tablist" aria-label="browse specimens">
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #primarytypesTabActive#" id="1" role="tab" aria-controls="primarytypesPanel" #primarytypesTabAria# aria-label="Browse Primary Types">Primary Types</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #featuredTabActive#" id="2" role="tab" aria-controls="featuredPanel" #featuredTabAria# aria-label="Browse Featured Collections">Featured Collections of Cataloged Items</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #primarytypesTabActive#" id="1" role="tab" aria-controls="primarytypesPanel" #primarytypesTabAria# aria-label="Browse Primary Types">Primary Types</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #highergeoTabActive#" id="3" role="tab" aria-controls="highergeoPanel" #highergeoTabAria# aria-label="Browse Higher Geography">Higher Geography</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #taxonomyTabActive#" id="4" role="tab" aria-controls="taxonomyPanel" #taxonomyTabAria# aria-label="Browse Taxonomy">Taxonomy</button>
 						</div>
 						<!-- Tab panes -->
 						<div class="tab-content flex-wrap d-flex mb-1">
+								<div id="featuredPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
+								<h3 class="px-2">MCZ Featured Collections of Cataloged Items</h3>
+								<cfloop query="namedGroups">
+									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT
+											displayed_media_id as media_id
+										FROM
+											underscore_relation 
+										INNER JOIN underscore_collection
+											on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+										WHERE rownum = 1 
+										and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
+									</cfquery>
+									<cfif len(#namedGroups.description#)gt 0>
+										<div class="col-12 col-md-3 px-1 float-left my-1">
+											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height: 118px;">
+												<div class="row mx-0">
+													<cfif len(images.media_id) gt 0>
+														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",titleAs="textNone")>
+															<div class="float-left" id="mediaBlock#images.media_id#">
+																#mediablock#
+															</div>
+													</cfif>
+													<div class="col float-left px-2 mt-2">
+													<cfset showTitleText = trim(collection_name)>
+														<h3 class="h5 mb-1">
+															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
+															<cfif len(showTitleText) GT 66>
+																<cfset showTitleText = "#left(showTitleText,66)#..." >
+															</cfif>#showTitleText#
+															</a>
+														</h3>
+														<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
+														<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</cfif>
+								</cfloop>
+							</div>
 							<div id="primarytypesPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
 								<h3 class="px-2">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
@@ -256,47 +297,7 @@ limitations under the License.
 									</ul>
 								</div>
 							</div>
-							<div id="featuredPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
-								<h3 class="px-2">MCZ Featured Collections of Cataloged Items</h3>
-								<cfloop query="namedGroups">
-									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT
-											displayed_media_id as media_id
-										FROM
-											underscore_relation 
-										INNER JOIN underscore_collection
-											on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										WHERE rownum = 1 
-										and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-									</cfquery>
-									<cfif len(#namedGroups.description#)gt 0>
-										<div class="col-12 col-md-3 px-1 float-left my-1">
-											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height: 118px;">
-												<div class="row mx-0">
-													<cfif len(images.media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",titleAs="textNone")>
-															<div class="float-left" id="mediaBlock#images.media_id#">
-																#mediablock#
-															</div>
-													</cfif>
-													<div class="col float-left px-2 mt-2">
-													<cfset showTitleText = trim(collection_name)>
-														<h3 class="h5 mb-1">
-															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-															<cfif len(showTitleText) GT 66>
-																<cfset showTitleText = "#left(showTitleText,66)#..." >
-															</cfif>#showTitleText#
-															</a>
-														</h3>
-														<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
-														<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
-													</div>
-												</div>
-											</div>
-										</div>
-									</cfif>
-								</cfloop>
-							</div>
+						
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
