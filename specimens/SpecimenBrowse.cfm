@@ -121,7 +121,7 @@ limitations under the License.
 		underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
 		underscore_collection.description, underscore_collection.underscore_collection_type,
 		underscore_collection.displayed_media_id
-	ORDER BY lower(underscore_collection_type, collection_name)
+	ORDER BY underscore_collection_type, lower(collection_name)
 </cfquery>
 
 <div class="container-fluid">
