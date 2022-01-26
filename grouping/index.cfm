@@ -235,7 +235,7 @@ limitations under the License.
 						</div>
 						<div class="tab-content flex-wrap d-flex mb-1">
 							<!---Fixed Search tab panel--->
-							<div id="allgroupsPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #collectionTabActive# unfocus"  #collectionTabShow#>
+							<div id="allgroupsPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #allgroupsTabActive# unfocus"  #allgroupsTabShow#>
 								<h3 class="px-2">All Collection Types</h3>
 								<p class="px-2">Collections highlight specimens that are linked via their shared history and includes collections assembled by famous naturalists, histological slide collections, and acquisitions or exchanges from other museums.</p>
 								<cfloop query="namedGroups">
