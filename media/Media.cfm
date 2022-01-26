@@ -85,9 +85,11 @@ limitations under the License.
 						<h1 class="h2 px-1 border-bottom border-dark pb-2">Edit Media 
 							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
 						</h1>
-						<div class="px-1"><h4 class="pr-3 d-inline-block">Media ID = #media_id#</h4><a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info">Media Record</a></div>
+						<div class="px-1">
+							<h4 class="pr-3 d-inline-block">Media ID = #media_id#</h4>
+							<a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info">Media Record</a>
+						</div>
 							<form name="editMedia" method="post" action="media.cfm" class="my-2">
-							<div class="border rounded bg-light float-left col-12 px-3 pb-2">
 								<input type="hidden" name="action" value="saveEdit">
 								<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 								<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
@@ -100,31 +102,13 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-7 float-left">
-										<div class="form-row mx-0 mt-3">
-											<div class="col-12">
-												<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
-												<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
-													<cfif #media.media_uri# contains #application.serverRootUrl#>
-														<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
-													</cfif>
-											</div>
-										</div>
-										<div class="form-row mx-0 mt-3">
-											<div class="col-12">
-												<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
-													<cfif len(media.preview_uri) gt 0>
-														(<a href="#media.preview_uri#" class="infoLink" target="_blank">open</a>)
-													</cfif>
-												</label>
-												<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#" class="data-entry-input">
-												<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
-											</div>
-										</div>
 										<div class="col-12 mt-4 px-0 float-left">
 											<h3 class="h5 mt-2 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 											<p class="small px-2">#media.alttag#</p>
 										</div>
 									</div>
+								</div>
+								<div class="border rounded bg-light float-left col-12 px-3 pb-2">
 									<div class="col-12 col-md-3 px-0 float-left">
 										<div class="form-row mt-3">
 											<div class="col-12 px-0">
@@ -160,7 +144,6 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-								</div>
 									<div class="col-12 px-0 float-left">
 										<div class="form-row mx-0 mt-2">
 											<div class="col-12">
@@ -259,6 +242,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+								</div>
 									<!--  TODO: Change to ajax save of form. 
 									<script>
 										$(document).ready(function() {
@@ -269,7 +253,6 @@ limitations under the License.
 										};
 									</script>
 									-->
-								</div>
 							</form>
 						</div>
 					</div>
