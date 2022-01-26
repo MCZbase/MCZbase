@@ -101,7 +101,7 @@ limitations under the License.
 								</div>
 								
 							</div>
-							<div class="col-12 col-md-8 px-2 float-left">
+							<div class="col-12 col-md-8 px-4 float-left">
 								<div class="form-row mx-0 mt-3">
 									<div class="col-12">
 										<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
