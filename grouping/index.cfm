@@ -60,7 +60,7 @@ limitations under the License.
 	<cfdefaultcase>
 		<cfset pageTitle = "Browse All Collection Types">
 		<cfif isdefined("execute")>
-			<cfset execute="collection">
+			<cfset execute="allgroups">
 		</cfif>
 	</cfdefaultcase>
 </cfswitch>
