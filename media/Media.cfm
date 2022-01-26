@@ -87,6 +87,7 @@ limitations under the License.
 						</h1>
 						<div class="px-1"><a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info">Detail Page</a></div>
 							<form name="editMedia" method="post" action="media.cfm" class="my-2">
+							<div class="col-12 float-left">
 								<div class="border rounded bg-light float-left col-12 px-3 pb-2">
 									<input type="hidden" name="action" value="saveEdit">
 									<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
@@ -160,6 +161,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+							</div>
 									<div class="col-12 px-0 float-left">
 										<div class="form-row mx-0 mt-2">
 											<div class="col-12">
