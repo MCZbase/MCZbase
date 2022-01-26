@@ -261,7 +261,7 @@ limitations under the License.
 														#mediablock#
 														</div>
 													</cfif>
-													<div class="col float-left px-2 pl-md-1 pr-md-0 mt-0">
+													<div class="col float-left px-2 pl-md-2 pr-md-0 mt-0">
 														<cfset showTitleText = trim(collection_name)>
 														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 														<cfif len(showTitleText) GT 70>
@@ -301,7 +301,7 @@ limitations under the License.
 														#mediablock#
 														</div>
 													</cfif>
-													<div class="col float-left px-2 pl-md-1 pr-md-0 mt-0">
+													<div class="col float-left px-2 pl-md-2 pr-md-0 mt-0">
 														<cfset showTitleText = trim(collection_name)>
 														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 														<cfif len(showTitleText) GT 70>
@@ -341,7 +341,7 @@ limitations under the License.
 														#mediablock#
 														</div>
 													</cfif>
-													<div class="col float-left px-2 px-md-1 mt-0">
+													<div class="col float-left px-2 px-md-2 mt-0">
 														<cfset showTitleText = trim(collection_name)>
 														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 														<cfif len(showTitleText) GT 70>
@@ -382,7 +382,7 @@ limitations under the License.
 													#mediablock#
 													</div>
 												</cfif>
-												<div class="col float-left px-2 px-md-1 mt-0">
+												<div class="col float-left px-2 px-md-2 mt-0">
 													<cfset showTitleText = trim(collection_name)>
 													<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 													<cfif len(showTitleText) GT 70>
@@ -422,7 +422,7 @@ limitations under the License.
 															#mediablock#
 															</div>
 														</cfif>
-														<div class="col float-left px-2 px-md-1 mt-0">
+														<div class="col float-left px-2 px-md-2 mt-0">
 														<cfset showTitleText = trim(collection_name)>
 															<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 															<cfif len(showTitleText) GT 70>
