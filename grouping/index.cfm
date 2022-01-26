@@ -228,10 +228,10 @@ limitations under the License.
 						<!-- Nav tabs -->
 						<div class="tab-headers tabList" role="tablist" aria-label="browse collections types">
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #allgroupsTabActive#" id="1" role="tab" aria-controls="allgroupsPanel" #allgroupsTabAria# aria-label="Browse All Collections">All Collection Types</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #collectionTabActive#" id="1" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections">Collections</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #expeditionTabActive#" id="2" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions">Expeditions</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="3" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants">Grants</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="4" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow">Workflows</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #collectionTabActive#" id="2" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections">Collections</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #expeditionTabActive#" id="3" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions">Expeditions</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="4" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants">Grants</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="5" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow">Workflows</button>
 						</div>
 						<div class="tab-content flex-wrap d-flex mb-1">
 							<!---Fixed Search tab panel--->
@@ -249,7 +249,7 @@ limitations under the License.
 										WHERE rownum = 1 
 										and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
 									</cfquery>
-									<cfif #namedGroups.underscore_collection_type# is not null>
+									
 										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-1 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:116px">
 												<div class="row h-25 mx-0">
@@ -272,10 +272,10 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-									</cfif>
+							
 								</cfloop>
 							</div>
-							<div id="collectionPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #collectionTabActive# unfocus"  #collectionTabShow#>
+							<div id="collectionPanel" role="tabpanel" aria-labelledby="1" tabindex="-1" class="col-12 px-0 mx-0 #collectionTabActive# unfocus"  #collectionTabShow#>
 								<h3 class="px-2">Collections</h3>
 								<p class="px-2">Collections highlight specimens that are linked via their shared history and includes collections assembled by famous naturalists, histological slide collections, and acquisitions or exchanges from other museums.</p>
 								<cfloop query="namedGroups">
