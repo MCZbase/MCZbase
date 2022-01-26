@@ -142,8 +142,8 @@ limitations under the License.
 								<cfset highergeoTabShow = "hidden">
 								<cfset taxonomyTabActive = "">
 								<cfset taxonomyTabShow = "hidden">
-								<cfset primarytypesTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset featuredTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset primarytypesTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
@@ -198,8 +198,8 @@ limitations under the License.
 								<cfset highergeoTabShow = "hidden">
 								<cfset taxonomyTabActive = "">
 								<cfset taxonomyTabShow = "hidden">
-								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""0"" ">
-								<cfset primarytypesTabAria = "aria-selected=""true"" tabindex=""-1"" ">
+								<cfset featuredTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset primarytypesTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfdefaultcase>
