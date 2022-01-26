@@ -169,7 +169,7 @@ limitations under the License.
 												<div id="relationships">
 													<div class="form-row col-12 px-0 mx-0">
 													<cfset i=1>
-														<cfif relns.recordcount is 0>
+													<cfif relns.recordcount is 0>
 														<!--- seed --->
 														<div id="seedMedia" style="display:none">
 															<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
@@ -184,8 +184,8 @@ limitations under the License.
 															<input type="hidden" name="related_id__0" id="related_id__0">
 														</div>
 														<!--- end seed data --->
-														</cfif>
-														<cfloop query="relns">
+													</cfif>
+													<cfloop query="relns">
 														<cfset d=media_relationship>
 														
 															<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
@@ -199,7 +199,7 @@ limitations under the License.
 																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
 																<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															<cfset i=i+1>
-														</cfloop>
+													</cfloop>
 													</div>
 													<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 px-0 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
 												</div>
