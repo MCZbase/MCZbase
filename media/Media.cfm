@@ -223,7 +223,7 @@ limitations under the License.
 																<select name="label__0" id="label__0" size="1" class="col-6 data-entry-select">
 																	<option value="delete">delete</option>
 																	<cfloop query="ctmedia_label">
-																		<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+																		<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label# 1</option>
 																	</cfloop>
 																</select>
 																<input type="text" name="label_value__0" id="label_value__0" class="col-6 data-entry-input">
