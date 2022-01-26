@@ -253,7 +253,7 @@ limitations under the License.
 									</cfquery>
 									
 										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-1 mb-1">
-											<div class="border rounded bg-white p-2 col-12 float-left" style="height:110px">
+											<div class="border rounded bg-white p-2 col-12 float-left" style="height:113px">
 												<div class="row h-25 mx-0">
 													<cfif len(images.media_id) gt 0>
 														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",titleAs="textNone")>
