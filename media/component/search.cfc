@@ -1092,10 +1092,7 @@ limitations under the License.
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
 							<cfif #l_displayAs# EQ "thumb">
-								<cfset sizeType='&width=#l_size#&height=#l_size#'>
-								<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
-								<cfset hw = 'width="100" height="100"'>
-								<cfset l_size = "100">
+							
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
 									<cfset sizeType='&width=#l_size#&height=#l_size#'>
@@ -1109,9 +1106,11 @@ limitations under the License.
 								<!--- use a preview_uri, if one was specified --->
 								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
 								<cfset displayImage = preview_uri>
-									<cfif #l_displayAs# eq "thumbTiny">
-										<cfset hw = 'width="90" height="105"'>
+									<cfif #l_displayAs# eq "thumb">
+										<cfset hw = 'width="100" height="100"'>
 										<cfset l_size = "100">
+										<cfset sizeType='&width=#l_size#&height=#l_size#'>
+										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
 									<cfelse>
 										<cfset hw = 'width="100" height="auto"'>
 									</cfif>
