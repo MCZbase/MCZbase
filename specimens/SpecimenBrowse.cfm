@@ -133,7 +133,7 @@ limitations under the License.
 					<p class="text-dark mt-0 px-3 text-justified">The Museum of Comparative Zoology (MCZ) contains over 21-million specimens in ten research collections that comprise one of the world's richest and most varied resources for studying the diversity of life. The museum serves as the primary repository for zoological specimens collected by past and present Harvard faculty-curators, staff, and associates conducting research around the world. The public can see a small percentage of our holdings on display at the Harvard Museum of Natural History, but visitors can also browse MCZ specimens and metadata online via these catagories.</p>
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<cfswitch expression="#action#">
-							<cfcase value="browseprimarytypes">
+							<cfcase value="browsefeatured">
 								<cfset primarytypesTabActive = "">
 								<cfset primarytypesTabShow = "hidden">
 								<cfset featuredTabActive = "active">
@@ -142,12 +142,12 @@ limitations under the License.
 								<cfset highergeoTabShow = "hidden">
 								<cfset taxonomyTabActive = "">
 								<cfset taxonomyTabShow = "hidden">
-								<cfset primarytypesTabAria = "aria-selected=""true"" tabindex=""-1"" ">
-								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""0"" ">
+								<cfset primarytypesTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset featuredTabAria = "aria-selected=""true"" tabindex=""0"" ">
 								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
-							<cfcase value="browsefeatured">
+							<cfcase value="browseprimarytypes">
 								<cfset primarytypesTabActive = "active">
 								<cfset primarytypesTabShow = "">
 								<cfset featuredTabActive = "">
@@ -156,8 +156,8 @@ limitations under the License.
 								<cfset highergeoTabShow = "hidden">
 								<cfset taxonomyTabActive = "">
 								<cfset taxonomyTabShow = "hidden">
-								<cfset primarytypesTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset featuredTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset primarytypesTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
