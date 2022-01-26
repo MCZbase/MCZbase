@@ -18,7 +18,7 @@ limitations under the License.
 
 -->
 <cfif not isdefined("action")>
-	<cfset action="collection">
+	<cfset action="featured">
 </cfif>
 <cfswitch expression="#action#">
 	<!--- API note: action and method seem duplicative, action is required and used to determine
@@ -52,9 +52,9 @@ limitations under the License.
 		</cfif>
 	</cfcase>
 	<cfdefaultcase>
-		<cfset pageTitle = "Browse Primary Types">
+		<cfset pageTitle = "Browse Featured Collection">
 		<cfif isdefined("execute")>
-			<cfset execute="primarytypes">
+			<cfset execute="featured">
 		</cfif>
 	</cfdefaultcase>
 </cfswitch>
@@ -190,24 +190,24 @@ limitations under the License.
 								<cfset taxonomyTabAria = "aria-selected=""true"" tabindex=""0"" ">
 							</cfcase>			
 							<cfdefaultcase>
-								<cfset primarytypesTabActive = "active">
-								<cfset primarytypesTabShow = "">
-								<cfset featuredTabActive = "">
-								<cfset featuredTabShow = "hidden">
+								<cfset primarytypesTabActive = "">
+								<cfset primarytypesTabShow = "hidden">
+								<cfset featuredTabActive = "active">
+								<cfset featuredTabShow = "">
 								<cfset highergeoTabActive = "">
 								<cfset highergeoTabShow = "hidden">
 								<cfset taxonomyTabActive = "">
 								<cfset taxonomyTabShow = "hidden">
-								<cfset primarytypesTabAria = "aria-selected=""true"" tabindex=""0"" ">
-								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset primarytypesTabAria = "aria-selected=""true"" tabindex=""-1"" ">
+								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""0"" ">
 								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfdefaultcase>
 						</cfswitch>
 						<!-- Nav tabs -->
 						<div class="tab-headers tabList" role="tablist" aria-label="browse specimens">
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #featuredTabActive#" id="2" role="tab" aria-controls="featuredPanel" #featuredTabAria# aria-label="Browse Featured Collections">Featured Collections of Cataloged Items</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #primarytypesTabActive#" id="1" role="tab" aria-controls="primarytypesPanel" #primarytypesTabAria# aria-label="Browse Primary Types">Primary Types</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #featuredTabActive#" id="1" role="tab" aria-controls="featuredPanel" #featuredTabAria# aria-label="Browse Featured Collections">Featured Collections of Cataloged Items</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #primarytypesTabActive#" id="2" role="tab" aria-controls="primarytypesPanel" #primarytypesTabAria# aria-label="Browse Primary Types">Primary Types</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #highergeoTabActive#" id="3" role="tab" aria-controls="highergeoPanel" #highergeoTabAria# aria-label="Browse Higher Geography">Higher Geography</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #taxonomyTabActive#" id="4" role="tab" aria-controls="taxonomyPanel" #taxonomyTabAria# aria-label="Browse Taxonomy">Taxonomy</button>
 						</div>
