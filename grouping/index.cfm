@@ -18,7 +18,7 @@ limitations under the License.
 
 -->
 <cfif not isdefined("action")>
-	<cfset action="collection">
+	<cfset action="allgroups">
 </cfif>
 <cfswitch expression="#action#">
 	<!--- API note: action and method seem duplicative, action is required and used to determine
@@ -27,7 +27,7 @@ limitations under the License.
 			even though it will be included in the URI parameter list when clicking on the 
 			"Link to this search" link.
 	--->
-		<cfcase value="browsecollection">
+		<cfcase value="browseallgroups">
 		<cfset pageTitle = "Browse All Collection Types">
 		<cfif isdefined("execute")>
 			<cfset execute="allgroups">
