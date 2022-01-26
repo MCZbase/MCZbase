@@ -101,7 +101,7 @@ limitations under the License.
 								</div>
 								
 							</div>
-							<div class="col-12 col-md-7 px-4 float-left">
+							<div class="col-12 col-md-6 px-4 float-left">
 								<div class="form-row mx-0 mt-3">
 									<div class="col-12">
 										<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
@@ -127,7 +127,7 @@ limitations under the License.
 									<p class="small px-2">#media.alttag#</p>
 								</div>
 							</div>
-							<div class="col-12 col-md-6 float-left">
+							<div class="col-12 col-md-4 float-left">
 								<div class="form-row mx-0 mt-3">
 									<div class="col-12 col-md-6">
 										<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
