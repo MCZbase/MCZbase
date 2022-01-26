@@ -1109,7 +1109,7 @@ limitations under the License.
 								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
 								<cfset displayImage = preview_uri>
 									<cfif #l_displayAs# eq "thumb">
-										<cfset hw = 'width="90" height="105"'>
+										<cfset hw = 'width="auto" height="100"'>
 										<cfset l_size = "100">
 									<cfelse>
 										<cfset hw = 'width="100" height="auto"'>
@@ -1134,7 +1134,7 @@ limitations under the License.
 						</cfif>
 						<div class="media_widget">	
 							<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center" title="click to open full image">
-								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
+								<img src="#displayImage#" class="col px-0" alt="#alt#" #hw#>
 							</a>
 							<cfif #l_titleAs# EQ "textNone">
 						<!---thumbTiny is used when we don't want any text below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
