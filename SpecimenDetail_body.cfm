@@ -1860,7 +1860,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			loadEventQC(#collection_object_id#, 'EventDQDiv');
 		}
 	</script>
-	<input type="button" value="QC" class="savBtn" onClick="loadEventQC(#collection_object_id#, 'EventDQDiv');">
+	<input type="button" value="QC" class="savBtn" onClick=" runTests(); ">
 	<!---  Scientific Name tests --->
 	<div id="EventDQDiv"></div>
 	<!---  Temporal tests --->
