@@ -95,7 +95,7 @@ limitations under the License.
 								<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 								<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 								<div class="col-12 float-left px-0">
-									<div class="rounded border col-12 col-md-2 px-0 float-left mt-3">
+									<div class="rounded border col-5 col-md-1 float-left mt-3">
 										<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",size="180",displayAs="thumbLg")>
 										<div id="mediaBlock#media.media_id#" class="float-left p-1 pt-3">
 											#mediaBlock#
