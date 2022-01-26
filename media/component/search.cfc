@@ -1095,7 +1095,7 @@ limitations under the License.
 						<cfif isDisplayable>
 							<cfif #l_displayAs# EQ "thumb">
 								<cfset displayImage = preview_uri>
-								<cfset hw = 'width="100" height="100"'>
+								<cfset hw = 'width="100" height="auto"'>
 								<cfset l_size = "100">
 								<cfset l_styles = 'style="max-width:100%;max-height:100%"'>
 							<cfelse>
@@ -1113,8 +1113,7 @@ limitations under the License.
 								<cfset displayImage = preview_uri>
 									<cfif #l_displayAs# eq "thumb">
 										<cfset hw = 'width="100" height="auto"'>
-										<cfset l_size = "100">
-										<cfset l_styles = "max-width: 100%; max-height: auto;">
+										<cfset l_styles = 'style="max-width:100%;max-height:100px"'>
 									<cfelse>
 										<cfset hw = 'width="100" height="auto"'>
 									</cfif>
