@@ -27,6 +27,12 @@ limitations under the License.
 			even though it will be included in the URI parameter list when clicking on the 
 			"Link to this search" link.
 	--->
+		<cfcase value="browsecollection">
+		<cfset pageTitle = "Browse All Collection Types">
+		<cfif isdefined("execute")>
+			<cfset execute="allgroups">
+		</cfif>
+	</cfcase>
 	<cfcase value="browsecollection">
 		<cfset pageTitle = "Browse Collections">
 		<cfif isdefined("execute")>
@@ -52,7 +58,7 @@ limitations under the License.
 		</cfif>
 	</cfcase>
 	<cfdefaultcase>
-		<cfset pageTitle = "Browse Collections">
+		<cfset pageTitle = "Browse All Collection Types">
 		<cfif isdefined("execute")>
 			<cfset execute="collection">
 		</cfif>
@@ -117,21 +123,43 @@ limitations under the License.
 					<p class="text-dark mt-1 text-justified small90 px-3 mb-2">The Museum of Comparative Zoology (MCZ) contains over 21-million specimens in ten research collections that comprise one of the world's richest and most varied resources for studying the diversity of life. The museum serves as the primary repository for zoological specimens collected by past and present Harvard faculty-curators, staff, and associates conducting research around the world. The public can see a small percentage of our holdings on display at the Harvard Museum of Natural History, but visitors can also browse MCZ specimens and metadata online via our Featured Collections.</p>
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<cfswitch expression="#action#">
-							<cfcase value="browsecollection">
-								<cfset collectionTabActive = "active">
-								<cfset collectionTabShow = "">
+							<cfcase value="browseallgroups">
+								<cfset allgroupsTabActive = "active">
+								<cfset allgroupsTabShow = "">
+								<cfset collectionTabActive = "">
+								<cfset collectionTabShow = "hidden">
 								<cfset expeditionTabActive = "">
 								<cfset expeditionTabShow = "hidden">
 								<cfset grantTabActive = "">
 								<cfset grantTabShow = "hidden">
 								<cfset workflowTabActive = "">
 								<cfset workflowTabShow = "hidden">
+								<cfset allgroupsTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset collectionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset expeditionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset grantTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset workflowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfcase>
+							<cfcase value="browsecollection">
+								<cfset collectionTabActive = "active">
+								<cfset collectionTabShow = "">
+								<cfset allgroupsTabActive = "">
+								<cfset allgroupsTabShow = "hidden">
+								<cfset expeditionTabActive = "">
+								<cfset expeditionTabShow = "hidden">
+								<cfset grantTabActive = "">
+								<cfset grantTabShow = "hidden">
+								<cfset workflowTabActive = "">
+								<cfset workflowTabShow = "hidden">
+								<cfset allgroupsTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset collectionTabAria = "aria-selected=""true"" tabindex=""0"" ">
 								<cfset expeditionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset grantTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset workflowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfcase value="browseexpedition">
+								<cfset allgroupsTabActive = "">
+								<cfset allgroupsTabShow = "hidden">
 								<cfset collectionTabActive = "">
 								<cfset collectionTabShow = "hidden">
 								<cfset expeditionTabActive = "active">
@@ -140,12 +168,15 @@ limitations under the License.
 								<cfset workflowTabShow = "hidden">
 								<cfset grantTabActive = "">
 								<cfset grantTabShow = "hidden">
+								<cfset allgroupsTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset collectionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset expeditionTabAria = "aria-selected=""true"" tabindex=""0"" ">
 								<cfset grantTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset workflowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfcase value="browsegrant">
+								<cfset allgroupsTabActive = "">
+								<cfset allgroupsTabShow = "hidden">
 								<cfset collectionTabActive = "">
 								<cfset collectionTabShow = "hidden">
 								<cfset expeditionTabActive = "">
@@ -154,12 +185,15 @@ limitations under the License.
 								<cfset workflowTabShow = "hidden">
 								<cfset grantTabActive = "active">
 								<cfset grantTabShow = "">
+								<cfset allgroupsTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset collectionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset expeditionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset workflowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset grantTabAria = "aria-selected=""true"" tabindex=""0"" ">
 							</cfcase>
 							<cfcase value="browseworkflow">
+								<cfset collectionTabActive = "">
+								<cfset collectionTabShow = "hidden">
 								<cfset collectionTabActive = "">
 								<cfset collectionTabShow = "hidden">
 								<cfset expeditionTabActive = "">
@@ -174,7 +208,9 @@ limitations under the License.
 								<cfset workflowTabAria = "aria-selected=""true"" tabindex=""0"" ">
 							</cfcase>			
 							<cfdefaultcase>
-								<cfset collectionTabActive = "active">
+								<cfset allgroupsTabActive = "active">
+								<cfset allgroupsTabShow = "">
+								<cfset collectionTabActive = "hidden">
 								<cfset collectionTabShow = "">
 								<cfset expeditionTabActive = "">
 								<cfset expeditionTabShow = "hidden">
@@ -182,7 +218,8 @@ limitations under the License.
 								<cfset grantTabShow = "hidden">
 								<cfset workflowTabActive = "">
 								<cfset workflowTabShow = "hidden">
-								<cfset collectionTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset allgroupsTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset collectionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset grantTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset expeditionTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset workflowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
@@ -190,7 +227,7 @@ limitations under the License.
 						</cfswitch>
 						<!-- Nav tabs -->
 						<div class="tab-headers tabList" role="tablist" aria-label="browse collections types">
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #allgroupsTabActive#" id="1" role="tab" aria-controls="allgroupsPanel" #collectionTabAria# aria-label="Browse All Collections">All Collection Types</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #allgroupsTabActive#" id="1" role="tab" aria-controls="allgroupsPanel" #allgroupsTabAria# aria-label="Browse All Collections">All Collection Types</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #collectionTabActive#" id="1" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections">Collections</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #expeditionTabActive#" id="2" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions">Expeditions</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="3" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants">Grants</button>
