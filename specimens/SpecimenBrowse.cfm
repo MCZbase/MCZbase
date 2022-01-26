@@ -443,6 +443,4 @@ var cbpFixedScrollLayout = (function() {
 })();
 </script>
 
-
-
 <cfinclude template = "/shared/_footer.cfm">
