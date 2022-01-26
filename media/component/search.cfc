@@ -1111,6 +1111,7 @@ limitations under the License.
 									<cfif #l_displayAs# eq "thumb">
 										<cfset hw = 'width="auto" height="100"'>
 										<cfset l_size = "100">
+										<cfset styles = "max-width: 100%; max-height: auto;"
 									<cfelse>
 										<cfset hw = 'width="100" height="auto"'>
 									</cfif>
@@ -1134,7 +1135,7 @@ limitations under the License.
 						</cfif>
 						<div class="media_widget">	
 							<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center" title="click to open full image">
-								<img src="#displayImage#" class="col px-0 pb-1" alt="#alt#" #hw#>
+								<img src="#displayImage#" class="col px-0 pb-1" alt="#alt#" #hw# #styles#>
 							</a>
 							<cfif #l_titleAs# EQ "textNone">
 						<!---thumbTiny is used when we don't want any text below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
