@@ -104,7 +104,7 @@ limitations under the License.
 				displayed_media_id,
 				mask_fg
 			ORDER BY
-				underscore_collection.collection_name
+				lower(underscore_collection.collection_name)
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
