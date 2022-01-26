@@ -190,16 +190,16 @@ limitations under the License.
 								<cfset taxonomyTabAria = "aria-selected=""true"" tabindex=""0"" ">
 							</cfcase>			
 							<cfdefaultcase>
-								<cfset primarytypesTabActive = "">
-								<cfset primarytypesTabShow = "hidden">
 								<cfset featuredTabActive = "active">
 								<cfset featuredTabShow = "">
+								<cfset primarytypesTabActive = "">
+								<cfset primarytypesTabShow = "hidden">
 								<cfset highergeoTabActive = "">
 								<cfset highergeoTabShow = "hidden">
 								<cfset taxonomyTabActive = "">
 								<cfset taxonomyTabShow = "hidden">
-								<cfset primarytypesTabAria = "aria-selected=""true"" tabindex=""-1"" ">
 								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""0"" ">
+								<cfset primarytypesTabAria = "aria-selected=""true"" tabindex=""-1"" ">
 								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfdefaultcase>
@@ -213,7 +213,7 @@ limitations under the License.
 						</div>
 						<!-- Tab panes -->
 						<div class="tab-content flex-wrap d-flex mb-1">
-								<div id="featuredPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
+							<div id="featuredPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
 								<h3 class="px-2">MCZ Featured Collections of Cataloged Items</h3>
 								<cfloop query="namedGroups">
 									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -254,7 +254,7 @@ limitations under the License.
 									</cfif>
 								</cfloop>
 							</div>
-							<div id="primarytypesPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
+							<div id="primarytypesPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
 								<h3 class="px-2">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
 									
@@ -297,7 +297,6 @@ limitations under the License.
 									</ul>
 								</div>
 							</div>
-						
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
