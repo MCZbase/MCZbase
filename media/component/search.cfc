@@ -1097,7 +1097,7 @@ limitations under the License.
 								<cfset displayImage = preview_uri>
 								<cfset hw = 'width="auto" height="auto"'>
 								<cfset l_size = "100">
-								<cfset l_styles = 'style="max-width:100px;max-height:100%"'>
+								<cfset l_styles = 'style="max-width:100px;max-height:100px"'>
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
 									<cfset sizeType='&width=#l_size#&height=#l_size#'>
