@@ -1044,11 +1044,13 @@ limitations under the License.
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 	<cfargument name="titleAs" type="string" required="no" default="textFull">
+	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:auto">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
+	<cfset l_styles = #arguments.styles#>
 	<cfset l_titleAs = #arguments.titleAs#>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
@@ -1095,7 +1097,7 @@ limitations under the License.
 								<cfset displayImage = preview_uri>
 								<cfset hw = 'width="100" height="100"'>
 								<cfset l_size = "100">
-								<cfset styles = 'style="max-width:100%;max-height:100%"'
+								<cfset l_styles = 'style="max-width:100%;max-height:100%"'
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
 									<cfset sizeType='&width=#l_size#&height=#l_size#'>
@@ -1112,7 +1114,7 @@ limitations under the License.
 									<cfif #l_displayAs# eq "thumb">
 										<cfset hw = 'width="auto" height="100"'>
 										<cfset l_size = "100">
-										<cfset styles = "max-width: 100%; max-height: auto;"
+										<cfset l_styles = "max-width: 100%; max-height: auto;"
 									<cfelse>
 										<cfset hw = 'width="100" height="auto"'>
 									</cfif>
@@ -1136,7 +1138,7 @@ limitations under the License.
 						</cfif>
 						<div class="media_widget">	
 							<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center" title="click to open full image">
-								<img src="#displayImage#" class="col px-0 pb-1" alt="#alt#" #hw# #styles#>
+								<img src="#displayImage#" class="col px-0 pb-1" alt="#alt#" #hw# styles="#l_styles#">
 							</a>
 							<cfif #l_titleAs# EQ "textNone">
 						<!---thumbTiny is used when we don't want any text below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
