@@ -231,7 +231,9 @@ limitations under the License.
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #collectionTabActive#" id="2" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections">Collections</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #expeditionTabActive#" id="3" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions">Expeditions</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="4" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants">Grants</button>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="5" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow">Workflows</button>
+							</cfif>
 						</div>
 						<div class="tab-content flex-wrap d-flex mb-1">
 							<!---Fixed Search tab panel--->
