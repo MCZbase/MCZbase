@@ -1092,8 +1092,9 @@ limitations under the License.
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
 							<cfif #l_displayAs# EQ "thumb">
-								<cfset displayImage = preview_uri>
-								<cfset hw = 'width="100"'>
+								<cfset sizeType='&width=#l_size#&height=#l_size#'>
+									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
+								<cfset hw = 'width="100" height="100"'>
 								<cfset l_size = "100">
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
