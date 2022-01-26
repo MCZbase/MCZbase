@@ -89,13 +89,7 @@ limitations under the License.
 							<h4 class="pr-3 d-inline-block">Media ID = #media_id#</h4>
 							<a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info">Media Record</a>
 						</div>
-						<style>
-							.media_widget {}
-							.media_widget a {
-								float:right;
-								display: inline;
-							}
-						</style>
+			
 							<form name="editMedia" method="post" action="media.cfm" class="my-2">
 								<input type="hidden" name="action" value="saveEdit">
 								<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
