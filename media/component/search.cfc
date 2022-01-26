@@ -1043,11 +1043,13 @@ limitations under the License.
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
+	<cfargument name="titleAs" type="string" required="no" default="textFull">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
+	<cfset l_titleAs = #arguments.titleAs#>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
 		<cfoutput>
@@ -1134,7 +1136,7 @@ limitations under the License.
 							<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center" title="click to open full image">
 								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
 							</a>
-							<cfif #l_displayAs# EQ "thumbTiny">
+							<cfif #l_titleAs# EQ "textNone">
 						<!---thumbTiny is used when we don't want any text below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 							<cfelse>
 							<div class="mt-0 col-12 pb-1 px-0">
@@ -1159,17 +1161,17 @@ limitations under the License.
 									<cfif len(showTitleText) EQ 0>
 										<cfset showTitleText = "Unlinked Media Object">
 									</cfif>
-									<cfif #l_displayAs# EQ "thumb"><!---This is for use WITHOUT a size so that the images will appear at their intrinsic ratio, which means the thumbnails may not be the same heights in the responsive containers  (affects floats/stacking)--->
+									<cfif #l_displayAs# EQ "textMid"><!---This is for use WITHOUT a size so that the images will appear at their intrinsic ratio, which means the thumbnails may not be the same heights in the responsive containers  (affects floats/stacking)--->
 										<cfif len(showTitleText) GT 100>
 											<cfset showTitleText = "#left(showTitleText,100)#..." >
 										</cfif>
 									</cfif>
-									<cfif #l_displayAs# EQ "thumbSm"><!---This is for use with a size so that the images will appear in a gray square and be the same height for floats/stacking (e.g., specimen details page)--->
+									<cfif #l_displayAs# EQ "thumbShort"><!---This is for use with a size so that the images will appear in a gray square and be the same height for floats/stacking (e.g., specimen details page)--->
 										<cfif len(showTitleText) GT 50>
 											<cfset showTitleText = "#left(showTitleText,50)#..." >
 										</cfif>
 									</cfif>
-									<cfif #l_displayAs# EQ "thumbLg"><!---This is for use with a size so that the images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
+									<cfif #l_displayAs# EQ "thumbFull"><!---This is for use with a size so that the images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
 										<cfif len(showTitleText) GT 250>
 											<cfset showTitleText = "#left(showTitleText,250)#..." >
 										</cfif>
