@@ -162,7 +162,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 px-0 float-left">
 										<div class="form-row mx-0 mt-2">
-											<div class="col-12 px-0">
+											<div class="col-12">
 												<h2>
 													<label for="relationships" class="mb-1 mt-2 data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
 												</h2>
