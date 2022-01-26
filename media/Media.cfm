@@ -121,12 +121,12 @@ limitations under the License.
 												<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 											</div>
 										</div>
-										<div class="col-12 mt-4 float-left">
+										<div class="col-12 mt-4 px-0 float-left">
 											<h3 class="h5 mt-2 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 											<p class="small px-2">#media.alttag#</p>
 										</div>
 									</div>
-									<div class="col-12 col-md-3 float-left">
+									<div class="col-12 col-md-3 px-0 float-left">
 										<div class="form-row mx-0 mt-3">
 											<div class="col-12 px-0">
 												<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
