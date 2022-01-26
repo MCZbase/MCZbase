@@ -88,20 +88,20 @@ limitations under the License.
 						<div class="px-1"><a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info">Detail Page</a></div>
 					<form name="editMedia" method="post" action="media.cfm" class="my-2">
 						
-						<div class="border rounded bg-light float-left col-12 px-4 pb-2">
+						<div class="border rounded bg-light float-left col-12 px-2 pb-2">
 							<input type="hidden" name="action" value="saveEdit">
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 							
-							<div class="rounded border col-12 col-md-2 float-left px-2 mt-2 py-1">
+							<div class="rounded border col-12 col-md-2 float-left mt-2 py-1">
 								<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",size="180",displayAs="thumbLg")>
 								<div id="mediaBlock#media.media_id#" class="px-2 mt-3 float-left">
 									#mediaBlock#
 								</div>
 								
 							</div>
-							<div class="col-12 col-md-6 px-4 float-left">
+							<div class="col-12 col-md-7 float-left">
 								<div class="form-row mx-0 mt-3">
 									<div class="col-12">
 										<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
@@ -127,9 +127,9 @@ limitations under the License.
 									<p class="small px-2">#media.alttag#</p>
 								</div>
 							</div>
-							<div class="col-12 col-md-4 float-left">
+							<div class="col-12 col-md-5 float-left">
 								<div class="form-row mx-0 mt-3">
-									<div class="col-12 col-md-6">
+									<div class="col-12">
 										<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
 										<select name="mime_type" id="mime_type" class="data-entry-select">
 											<cfloop query="ctmime_type">
