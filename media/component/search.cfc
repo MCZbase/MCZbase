@@ -1093,7 +1093,7 @@ limitations under the License.
 						<cfif isDisplayable>
 							<cfif #l_displayAs# EQ "thumb">
 								<cfset sizeType='&width=#l_size#&height=#l_size#'>
-									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
+								<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
 								<cfset hw = 'width="100" height="100"'>
 								<cfset l_size = "100">
 							<cfelse>
