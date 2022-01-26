@@ -1112,7 +1112,7 @@ limitations under the License.
 								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
 								<cfset displayImage = preview_uri>
 									<cfif #l_displayAs# eq "thumb">
-										<cfset hw = 'width="auto" height="auto"'>
+										<cfset hw = 'width="100" height="auto"'>
 										<cfset l_size = "100">
 										<cfset l_styles = "max-width: 100%; max-height: auto;">
 									<cfelse>
