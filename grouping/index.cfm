@@ -293,10 +293,10 @@ limitations under the License.
 									</cfquery>
 									<cfif #namedGroups.underscore_collection_type# eq 'collection'>
 										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-1 mb-1">
-											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:116px">
+											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:113px">
 												<div class="row h-25 mx-0">
 													<cfif len(images.media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
+														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",titleAs="textNone")>
 														<div class="float-left" id="mediaBlock#images.media_id#">
 														#mediablock#
 														</div>
@@ -336,8 +336,8 @@ limitations under the License.
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:116px">
 												<div class="row h-25 mx-0">
 													<cfif len(images.media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
-														<div class="float-left bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
+														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",titleAs="textNone")>
+														<div class="float-left bg-light border rounded" id="mediaBlock#images.media_id#">
 														#mediablock#
 														</div>
 													</cfif>
