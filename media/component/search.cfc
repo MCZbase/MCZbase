@@ -1092,7 +1092,9 @@ limitations under the License.
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
 							<cfif #l_displayAs# EQ "thumb">
-							
+								<cfset displayImage = preview_uri>
+								<cfset hw = 'width="100"'>
+								<cfset l_size = "100">
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
 									<cfset sizeType='&width=#l_size#&height=#l_size#'>
@@ -1107,10 +1109,8 @@ limitations under the License.
 								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
 								<cfset displayImage = preview_uri>
 									<cfif #l_displayAs# eq "thumb">
-										<cfset hw = 'width="100" height="100"'>
+										<cfset hw = 'width="90" height="105"'>
 										<cfset l_size = "100">
-										<cfset sizeType='&width=#l_size#&height=#l_size#'>
-										<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
 									<cfelse>
 										<cfset hw = 'width="100" height="auto"'>
 									</cfif>
@@ -1161,7 +1161,7 @@ limitations under the License.
 									<cfif len(showTitleText) EQ 0>
 										<cfset showTitleText = "Unlinked Media Object">
 									</cfif>
-									<cfif #l_displayAs# EQ "textMid"><!---This is for use WITHOUT a size so that the images will appear at their intrinsic ratio, which means the thumbnails may not be the same heights in the responsive containers  (affects floats/stacking)--->
+									<cfif #l_displayAs# EQ "textCaption"><!---This is for use WITHOUT a size so that the images will appear at their intrinsic ratio, which means the thumbnails may not be the same heights in the responsive containers  (affects floats/stacking)--->
 										<cfif len(showTitleText) GT 100>
 											<cfset showTitleText = "#left(showTitleText,100)#..." >
 										</cfif>
