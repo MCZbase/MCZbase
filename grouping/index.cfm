@@ -30,7 +30,7 @@ limitations under the License.
 	</cfif>
 	GROUP BY
 		underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
-	ORDER BY underscore_collection.collection_name
+	ORDER BY upper(underscore_collection.collection_name)
 </cfquery>
 
 <cfoutput>
