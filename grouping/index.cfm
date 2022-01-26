@@ -264,8 +264,8 @@ limitations under the License.
 													<div class="col float-left px-2 pl-md-2 pr-md-0 mt-0">
 														<cfset showTitleText = trim(collection_name)>
 														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-														<cfif len(showTitleText) GT 50>
-															<cfset showTitleText = "#left(showTitleText,50)#..." >
+														<cfif len(showTitleText) GT 70>
+															<cfset showTitleText = "#left(showTitleText,70)#..." >
 														</cfif>#showTitleText#
 														</a></h3>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
@@ -304,8 +304,8 @@ limitations under the License.
 													<div class="col float-left px-2 pl-md-2 pr-md-0 mt-0">
 														<cfset showTitleText = trim(collection_name)>
 														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-														<cfif len(showTitleText) GT 50>
-															<cfset showTitleText = "#left(showTitleText,50)#..." >
+														<cfif len(showTitleText) GT 70>
+															<cfset showTitleText = "#left(showTitleText,70)#..." >
 														</cfif>#showTitleText#
 														</a></h3>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
@@ -344,8 +344,8 @@ limitations under the License.
 													<div class="col float-left px-2 px-md-2 mt-0">
 														<cfset showTitleText = trim(collection_name)>
 														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-														<cfif len(showTitleText) GT 50>
-															<cfset showTitleText = "#left(showTitleText,50)#..." >
+														<cfif len(showTitleText) GT 70>
+															<cfset showTitleText = "#left(showTitleText,70)#..." >
 														</cfif>#showTitleText#
 														</a></h3>
 														<p>#namedGroups.description#</p>
@@ -385,8 +385,8 @@ limitations under the License.
 												<div class="col float-left px-2 px-md-2 mt-0">
 													<cfset showTitleText = trim(collection_name)>
 													<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-													<cfif len(showTitleText) GT 50>
-														<cfset showTitleText = "#left(showTitleText,50)#..." >
+													<cfif len(showTitleText) GT 70>
+														<cfset showTitleText = "#left(showTitleText,70)#..." >
 													</cfif>#showTitleText#
 													</a></h3>
 													<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
@@ -425,8 +425,8 @@ limitations under the License.
 														<div class="col float-left px-2 px-md-2 mt-0">
 														<cfset showTitleText = trim(collection_name)>
 															<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-															<cfif len(showTitleText) GT 50>
-																<cfset showTitleText = "#left(showTitleText,50)#..." >
+															<cfif len(showTitleText) GT 70>
+																<cfset showTitleText = "#left(showTitleText,70)#..." >
 															</cfif>#showTitleText#
 															</a></h3>
 															<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
