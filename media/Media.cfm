@@ -215,11 +215,11 @@ limitations under the License.
 													<cfif labels.recordcount is 0>
 														<!--- seed --->
 														<div id="seedLabel" style="display:none;">
-															<div id="labelsDiv__0" class="form-row mx-0 col-12">
+															<div id="labelsDiv__0">
 																<input type="hidden" id="media_label_id__0" name="media_label_id__0">
 																<cfset d="">
 																<label for="label__#i#" class='sr-only'>Media Label</label>
-																<select name="label__0" id="label__0" size="1" class="col-6 data-entry-select">
+																<select name="label__0" id="label__0" size="1" class="data-entry-select custom-select col-6">
 																	<option value="delete">delete</option>
 																	<cfloop query="ctmedia_label">
 																		<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
