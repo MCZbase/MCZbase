@@ -171,7 +171,7 @@ limitations under the License.
 													<cfset i=1>
 													<cfif relns.recordcount is 0>
 														<!--- seed --->
-														<div id="seedMedia" style="display:none">
+														<div id="seedMedia" class="form-row mx-0" style="display:none">
 															<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 															<cfset d="">
 															<select name="relationship__0" id="relationship__0" class="data-entry-select custom-select col-6" size="1"  onchange="pickedRelationship(this.id)">
