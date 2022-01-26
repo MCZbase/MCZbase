@@ -377,7 +377,7 @@ limitations under the License.
 										<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:116px">
 											<div class="row h-25 mx-0">
 												<cfif len(images.media_id) gt 0>
-													<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
+													<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",titleAs="textNone")>
 													<div class="float-left bg-light border rounded" id="mediaBlock#images.media_id#" style="width: 100px;">
 													#mediablock#
 													</div>
@@ -417,7 +417,7 @@ limitations under the License.
 												<div class="border rounded bg-white py-2 col-12 px-2 float-left">
 													<div class="row h-25 mx-0">
 														<cfif len(images.media_id) gt 0>
-															<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",size="105",displayAs="thumbTiny")>
+															<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",titleAs="textNone")>
 															<div class="float-left" id="mediaBlock#images.media_id#" style="width: auto;">
 															#mediablock#
 															</div>
