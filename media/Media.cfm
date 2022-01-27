@@ -103,7 +103,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-7 float-left">
-										<div class="col-12 mt-4 px-0 float-left">
+										<div class="col-12 mt-2 px-0 float-left">
 											<h3 class="h4 mt-3 px-2">Caption</h3>
 											<p class="small90 px-2">#media.caption#</p>
 											<h3 class="h4 mt-3 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
