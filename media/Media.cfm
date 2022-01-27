@@ -102,7 +102,7 @@ limitations under the License.
 											#mediaBlock#
 										</div>
 									</div>
-									<div class="col-12 float-left">
+									<div class="col-12 col-md-10 float-left">
 										<div class="col-12 mt-2 px-0 float-left">
 											<h3 class="h5 mt-3 mb-1 px-2">Caption</h3>
 											<p class="small90 px-2">#media.caption#</p>
