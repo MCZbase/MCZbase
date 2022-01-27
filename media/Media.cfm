@@ -130,7 +130,7 @@ limitations under the License.
 									</div><!---end col-12 col-md-6 inside of col-11--->
 								</div><!---end col-md-11 col-6--->
 							</div><!---end col-12 (img, caption, text, preview URI and Media URI)--->
-							<div class="border rounded d-flex bg-light">
+							<div class="border rounded d-flex bg-light pb-3">
 								<div class="col-12 col-md-12 float-left">
 									<div class="form-row mt-3">
 										<div class="col-6 col-md-5 px-3">
