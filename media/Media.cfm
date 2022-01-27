@@ -209,7 +209,7 @@ limitations under the License.
 																			<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																		</cfloop>
 																	</select>
-																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-12">
+																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
 																<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															<cfset i=i+1>
 														</div>
