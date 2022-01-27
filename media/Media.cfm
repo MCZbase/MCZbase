@@ -140,7 +140,7 @@ limitations under the License.
 								
 									<div class="col-12 col-md-10 px-0 float-left">
 										<div class="form-row mt-3">
-											<div class="col-6 col-md-5 px-3">
+											<div class="col-6 col-md-5">
 												<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
 												<select name="mime_type" id="mime_type" class="data-entry-select">
 													<cfloop query="ctmime_type">
