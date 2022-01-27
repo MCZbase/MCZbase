@@ -258,13 +258,13 @@ limitations under the License.
 															<div id="labelsDiv__#i#" class="col-12 form-row mx-0">		
 																<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 																	<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-																	<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-6">
+																	<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-6 float-left">
 																		<option value="delete">delete</option>
 																		<cfloop query="ctmedia_label">
 																			<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																		</cfloop>
 																	</select>
-																	<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
+																	<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-6 float-left">
 															</div>
 															<cfset i=i+1>
 														</cfloop>
@@ -272,7 +272,7 @@ limitations under the License.
 													</div>
 												</div>	
 											</div>
-									
+										</div>
 										<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
 									<div class="col-12 px-0 float-left">
 										<div class="form-row mx-0 mt-2 mb-4">
