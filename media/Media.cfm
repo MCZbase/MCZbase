@@ -110,7 +110,6 @@ limitations under the License.
 											<p class="small90 px-2">#media.caption#</p>
 											<h3 class="h5 mt-3 mb-1 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 											<p class="small90 mb-2 px-2">#media.alttag#</p>
-											<p class="mb-0 px-2 font-italic small">Both assembled from available data</p>
 										</div>
 							
 									<div class="col-12 col-md-6 px-1 float-left">
