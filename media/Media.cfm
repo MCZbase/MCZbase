@@ -220,7 +220,7 @@ limitations under the License.
 												</div>
 										</div>	
 
-										<div class="form-row mx-0 mt-2">
+						
 											<div class="col-6 float-left">	
 												<h2>
 													<label for="labels" class="h2 mb-1 mt-2 px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span>
