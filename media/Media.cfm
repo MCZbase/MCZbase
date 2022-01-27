@@ -113,8 +113,13 @@ limitations under the License.
 											<p class="mb-0 px-2 font-italic small">Both assembled from available data</p>
 										</div>
 									</div>
-								</div>
-								<div class="col-12 col-md-10 px-1 float-left">
+									<div class="rounded border col-5 col-md-1 float-left my-3">
+										<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textLinks")>
+										<div id="mediaBlock#media.media_id#" class="float-left pt-3">
+											#mediaBlock#
+										</div>
+									</div>
+									<div class="col-12 col-md-10 px-1 float-left">
 										<div class="form-row mx-0 mt-3">	
 											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
@@ -132,6 +137,8 @@ limitations under the License.
 											<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 										</div>
 									</div>
+								</div>
+							
 								<div class="border rounded d-flex bg-light">
 								<div class="float-left col-12 pb-2">
 								
