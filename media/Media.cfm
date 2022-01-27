@@ -277,7 +277,7 @@ limitations under the License.
 													</div>
 												</div>	
 											</div>
-											</div>
+										</div></div>
 										</div>
 										<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
 									<div class="col-12 px-0 float-left">
