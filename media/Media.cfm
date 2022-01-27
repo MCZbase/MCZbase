@@ -218,7 +218,7 @@ limitations under the License.
 													</cfloop>
 													<span class="infoLink h5 box-shadow-0 d-block col-6 col-md-2 px-0 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
 												</div>
-											</div>	
+										</div>	
 
 										<div class="form-row mx-0 mt-2">
 											<div class="col-6 float-left">	
@@ -265,8 +265,8 @@ limitations under the License.
 														<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 													</div>
 												</div>	
-	
-									</div>
+											</div>
+									
 										<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
 									<div class="col-12 px-0 float-left">
 										<div class="form-row mx-0 mt-2 mb-4">
