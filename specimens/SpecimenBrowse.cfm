@@ -231,7 +231,7 @@ limitations under the License.
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height: 118px;">
 												<div class="row mx-0">
 													<cfif len(images.media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",titleAs="textNone")>
+														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",captionAs="textNone")>
 															<div class="float-left" id="mediaBlock#images.media_id#">
 																#mediablock#
 															</div>
