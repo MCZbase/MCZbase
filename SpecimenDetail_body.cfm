@@ -1862,9 +1862,9 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 	</script>
 	<input type="button" value="QC" class="savBtn" onClick=" runTests(); ">
 	<!---  Scientific Name tests --->
-	<div id="EventDQDiv"></div>
-	<!---  Temporal tests --->
 	<div id="NameDQDiv"></div>
+	<!---  Temporal tests --->
+	<div id="EventDQDiv"></div>
 </cfif>
 </cfoutput>
 <cf_customizeIFrame>
