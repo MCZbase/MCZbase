@@ -1140,7 +1140,24 @@ limitations under the License.
 								<img src="#displayImage#" alt="#alt#" #hw# #l_styles#>
 							</a>
 							<cfif #l_captionAs# EQ "textNone">
-						<!---textNone is used when we don't want any text below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
+						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
+							<cfelseif #l_caption# EQ "textLinks">
+							<!--- textLinks is used when only the links are desired under the thumbnail--->
+							<div class="mt-0 col-12 pb-1 px-0">
+								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<span class="d-inline">(<a target="_blank" href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>
+									</cfif>
+									(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
+									<cfif NOT isDisplayable>
+										#media_type# (#mime_type#)
+										(<a class="" target="_blank" href="#media_uri#">media file</a>)
+									<cfelse>
+										(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
+										(<a class="" target="_blank" href="#media_uri#">full</a>)
+									</cfif>
+								</p>
+							</div>
 							<cfelse>
 							<div class="mt-0 col-12 pb-1 px-0">
 								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
