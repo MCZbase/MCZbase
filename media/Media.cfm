@@ -193,7 +193,7 @@ limitations under the License.
 																	<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																</cfloop>
 															</select>
-															<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-12">
+															<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
 															<input type="hidden" name="related_id__0" id="related_id__0">
 														</div>
 														<!--- end seed data --->
