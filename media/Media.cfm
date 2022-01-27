@@ -177,7 +177,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="col-12 float-left">
-									<div class="col-12 col-md-12 px-0 float-left">
+									<div class="col-12 col-md-6 px-0 float-left">
 										<div class="form-row mx-0 mt-3">
 											<div class="col-6 float-left">
 												<h2>
@@ -247,6 +247,7 @@ limitations under the License.
 																<input type="text" name="label_value__0" id="label_value__0" class="col-6 data-entry-input">
 															</div>
 														<!--- end labels seed --->
+														</div>
 													</cfif>
 													<div class="form-row col-12 px-0 mx-0">
 														<cfloop query="labels">
@@ -270,6 +271,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+								</div>
 										<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
 									<div class="col-12 px-0 float-left">
 										<div class="form-row mx-0 mt-2 mb-4">
@@ -280,7 +282,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								</div>
+						
 									<!--  TODO: Change to ajax save of form. 
 									<script>
 										$(document).ready(function() {
@@ -295,7 +297,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-			</div>
+
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------------------------------->
