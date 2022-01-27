@@ -112,7 +112,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								<div class="border rounded bg-light">
+								<div class="border rounded d-flex bg-light">
 								<div class="float-left col-12 pb-2">
 									<div class="col-12 col-md-6 px-1 float-left">
 										<div class="form-row mx-0 mt-3">	
