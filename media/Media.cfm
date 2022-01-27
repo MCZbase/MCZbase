@@ -133,7 +133,7 @@ limitations under the License.
 							<div class="border rounded d-flex bg-light pb-3 pt-1 mt-2">
 								<div class="col-12 col-md-12 float-left">
 									<div class="form-row mt-2 mb-0">
-										<div class="col-6 col-md-5 px-3">
+										<div class="col-6 col-md-5 col-xl-3 px-3">
 											<label for="mime_type" class="h5 mb-0 mt-1 data-entry-label">MIME Type</label>
 											<select name="mime_type" id="mime_type" class="data-entry-select">
 												<cfloop query="ctmime_type">
@@ -141,7 +141,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div><!---end col-6 col-xl-5--->
-										<div class="col-6 col-md-5 px-3">
+										<div class="col-6 col-md-5 col-xl-3 px-3">
 											<label for="media_type" class="h5 mb-0 mt-1 data-entry-label">Media Type</label>
 											<select name="media_type" id="media_type" class="data-entry-select">
 											<cfloop query="ctmedia_type">
