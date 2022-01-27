@@ -118,7 +118,7 @@ limitations under the License.
 										</div><!---end form-row--->
 									</div><!---end col-12 col-md-6 inside of col-11--->
 									<div class="col-12 col-xl-6 px-1 float-left">
-										<div class="form-row mx-0 mt-2">
+										<div class="form-row mx-0 mt-1">
 										<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
 											<cfif len(media.preview_uri) gt 0>
 												(<a href="#media.preview_uri#" class="infoLink" target="_blank">open</a>)
