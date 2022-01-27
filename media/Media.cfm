@@ -95,6 +95,25 @@ limitations under the License.
 								<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 								<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 								<input type="hidden" id="media_id" name="media_id" value="#media_id#">
+							<div class="col-12 col-md-10 px-1 float-left">
+										<div class="form-row mx-0 mt-3">	
+											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
+											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
+											<cfif #media.media_uri# contains #application.serverRootUrl#>
+												<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
+											</cfif>
+										</div>
+										<div class="form-row mx-0 mt-3">
+											<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
+												<cfif len(media.preview_uri) gt 0>
+													(<a href="#media.preview_uri#" class="infoLink" target="_blank">open</a>)
+												</cfif>
+											</label>
+											<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#" class="data-entry-input">
+											<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
+										</div>
+									</div>
+								</div>
 								<div class="col-12 float-left px-0">
 									<div class="rounded border col-5 col-md-1 float-left my-3">
 										<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textLinks")>
@@ -114,24 +133,7 @@ limitations under the License.
 								</div>
 								<div class="border rounded d-flex bg-light">
 								<div class="float-left col-12 pb-2">
-									<div class="col-12 col-md-6 px-1 float-left">
-										<div class="form-row mx-0 mt-3">	
-											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
-											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
-											<cfif #media.media_uri# contains #application.serverRootUrl#>
-												<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
-											</cfif>
-										</div>
-										<div class="form-row mx-0 mt-3">
-											<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
-												<cfif len(media.preview_uri) gt 0>
-													(<a href="#media.preview_uri#" class="infoLink" target="_blank">open</a>)
-												</cfif>
-											</label>
-											<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#" class="data-entry-input">
-											<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
-										</div>
-									</div>
+								
 									<div class="col-12 col-md-5 float-left">
 										<div class="form-row mt-3">
 											<div class="col-6 col-md-5 px-3">
