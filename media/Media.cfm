@@ -56,7 +56,7 @@ limitations under the License.
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
 				mczbase.get_media_descriptor(media_id) as alttag 
-			from media 
+			from media, 	MCZBASE.get_media_title(media.media_id) as caption
 			where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 		<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -105,9 +105,9 @@ limitations under the License.
 									<div class="col-12 col-md-7 float-left">
 										<div class="col-12 mt-4 px-0 float-left">
 											<h3 class="h5 mt-2 px-2">Caption</h3>
-											<cfset mediaCaption= GET_MEDIA_TITLE(#media.media_id#)>
+											
 												<div id="mediaCaption#media.media_id#" class="float-left pt-3">
-													#mediaCaption#
+													#media.caption#
 												</div>
 											<h3 class="h5 mt-2 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 											<p class="small px-2">#media.alttag#</p>
