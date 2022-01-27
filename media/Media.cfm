@@ -131,7 +131,7 @@ limitations under the License.
 											<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 										</div>
 									</div>
-									<div class="col-12 col-md-5 col-offset-1 float-left">
+									<div class="col-12 col-md-5 col-md-offset-1 float-left">
 										<div class="form-row mt-3">
 											<div class="col-6 col-xl-5 px-0">
 												<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
@@ -151,7 +151,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="form-row mt-3">
-											<div class="col-6 px-0">
+											<div class="col-6 col-xl-5 px-0">
 												<label for="media_license_id" class="h5 mb-1 mt-2 data-entry-label">License (<span class="infoLink" onclick="popupDefine();">Define</span>)</label>
 												<select name="media_license_id" id="media_license_id" class="data-entry-select">
 													<option value="">NONE</option>
@@ -160,7 +160,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-6 px-0">
+											<div class="col-6 col-xl-5 px-0">
 												<label for="mask_media_fg" class="h5 mb-1 mt-2 data-entry-label">Media Record Visibility</label>
 												<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
 													<cfif #media.mask_media_fg# eq 1 >
