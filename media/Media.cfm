@@ -101,23 +101,23 @@ limitations under the License.
 										#mediaBlock#
 									</div><!---end image block--->
 								</div><!---end col-md-1 col-5 (image block)--->
-								<div class="col-7 col-md-9 col-lg-10 col-xl-11 mb-3 float-left">
+								<div class="col-7 col-md-9 col-lg-10 col-xl-11 mb-2 float-left">
 									<div class="col-12 px-0 float-left">
 										<h3 class="h5 mb-1 px-2">Caption</h3>
 										<p class="small90 px-2">#media.caption#</p>
 										<h3 class="h5 mt-3 mb-1 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 										<p class="small90 mb-2 px-2">#media.alttag#</p>
 									</div><!---end col-12 inside of col-11--->
-									<div class="col-12 col-md-6 px-1 float-left">
-									<div class="form-row mx-0 mt-2">	
-										<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
-										<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
-										<cfif #media.media_uri# contains #application.serverRootUrl#>
-											<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
-										</cfif>
-									</div><!---end form-row--->
-								</div><!---end col-12 col-md-6 inside of col-11--->
-									<div class="col-12 col-md-6 px-1 float-left">
+									<div class="col-12 col-xl-6 px-1 float-left">
+										<div class="form-row mx-0 mt-2">	
+											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
+											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
+											<cfif #media.media_uri# contains #application.serverRootUrl#>
+												<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
+											</cfif>
+										</div><!---end form-row--->
+									</div><!---end col-12 col-md-6 inside of col-11--->
+									<div class="col-12 col-xl-6 px-1 float-left">
 										<div class="form-row mx-0 mt-2">
 										<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
 											<cfif len(media.preview_uri) gt 0>
