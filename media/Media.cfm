@@ -132,9 +132,9 @@ limitations under the License.
 							</div><!---end col-12 (img, caption, text, preview URI and Media URI)--->
 							<div class="border rounded d-flex bg-light pb-3">
 								<div class="col-12 col-md-12 float-left">
-									<div class="form-row mt-3">
+									<div class="form-row mt-2">
 										<div class="col-6 col-md-5 px-3">
-											<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
+											<label for="mime_type" class="h5 mb-1 mt-1 data-entry-label">MIME Type</label>
 											<select name="mime_type" id="mime_type" class="data-entry-select">
 												<cfloop query="ctmime_type">
 													<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
@@ -142,7 +142,7 @@ limitations under the License.
 											</select>
 										</div><!---end col-6 col-xl-5--->
 										<div class="col-6 col-md-5 px-3">
-											<label for="media_type" class="h5 mb-1 mt-2 data-entry-label">Media Type</label>
+											<label for="media_type" class="h5 mb-1 mt-1 data-entry-label">Media Type</label>
 											<select name="media_type" id="media_type" class="data-entry-select">
 											<cfloop query="ctmedia_type">
 												<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
