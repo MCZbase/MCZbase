@@ -112,10 +112,7 @@ limitations under the License.
 											<p class="small90 mb-2 px-2">#media.alttag#</p>
 											<p class="mb-0 px-2 font-italic small">Both assembled from available data</p>
 										</div>
-									</div>
-									<div class="col-5 col-md-1 float-left my-3">
-								
-									</div>
+							
 									<div class="col-12 col-md-5 float-left">
 										<div class="form-row mx-0 mt-3">	
 											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
