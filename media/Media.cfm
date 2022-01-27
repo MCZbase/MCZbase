@@ -223,7 +223,8 @@ limitations under the License.
 														<cfset i=i+1>
 													</cfloop>
 													<span class="infoLink h5 box-shadow-0 d-block col-6 col-md-2 px-0 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
-												</div>					
+												</div>
+											</div>
 											<div class="col-6 float-left">	
 												<h2>
 													<label for="labels" class="h2 mb-1 mt-2 px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span>
