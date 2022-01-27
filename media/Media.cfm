@@ -174,9 +174,9 @@ limitations under the License.
 										</div>
 									</div><!---end form-row--->
 								<!---col-12 (mime type, media type, license, visibility)--->
-								<div class="col-12 px-0 float-left">
-									<div class="form-row mx-xl-1 mt-3">
-										<div class="col-12 col-md-6 px-xl-2 float-left">
+								<div class="col-12 float-left">
+									<div class="form-row mt-3">
+										<div class="col-12 col-sm-12 col-md-6 col-xl-6 float-left">
 											<h2>
 												<label for="relationships" class="mb-1 mt-2 data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
 											</h2>
@@ -216,7 +216,7 @@ limitations under the License.
 												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
 											</div><!---End id relationships--->
 										</div><!---end col-6--->
-										<div class="col-12 col-md-6 px-xl-2 float-left">	
+										<div class="col-12 col-sm-12 col-md-6 col-xl-6 float-left">	
 											<h2>
 												<label for="labels" class="h2 mb-1 mt-2 px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
 												</label>
