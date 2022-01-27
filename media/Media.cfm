@@ -100,12 +100,12 @@ limitations under the License.
 								<div class="col-12 float-left">
 									<div class="rounded border col-5 col-md-1 float-left mb-3">
 										<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textLinks")>
-										<div id="mediaBlock#media.media_id#" class="float-left pt-1">
+										<div id="mediaBlock#media.media_id#" class="float-left pt-3">
 											#mediaBlock#
 										</div>
 									</div>
 									<div class="col-12 col-md-11 float-left">
-										<div class="col-12 mt-2 px-0 float-left">
+										<div class="col-12 mt-0 px-0 float-left">
 											<h3 class="h5 mt-2 mb-1 px-2">Caption</h3>
 											<p class="small90 px-2">#media.caption#</p>
 											<h3 class="h5 mt-3 mb-1 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
