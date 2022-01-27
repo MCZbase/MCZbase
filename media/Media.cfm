@@ -112,7 +112,8 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								<div class="border rounded bg-light float-left col-12 pb-2">
+								<div class="border rounded bg-light">
+								<div class="float-left col-12 pb-2">
 									<div class="col-12 col-md-6 px-1 float-left">
 										<div class="form-row mx-0 mt-3">	
 											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
@@ -174,6 +175,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+								</div>
 								<div class="col-12 float-left">
 									<div class="col-12 col-md-6 px-0 float-left">
 										<div class="form-row mx-0 mt-3">
@@ -181,7 +183,7 @@ limitations under the License.
 												<h2>
 													<label for="relationships" class="mb-1 mt-2 data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
 												</h2>
-												<div id="relationships">
+													<div id="relationships">
 													<cfset i=1>
 													<cfif relns.recordcount is 0>
 														<!--- seed --->
