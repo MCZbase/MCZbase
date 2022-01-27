@@ -80,8 +80,8 @@ limitations under the License.
 		<cfset relns=getMediaRelations(#media_id#)>
 		<cfoutput>
 			<div class="container">
-				<div class="row mb-4">
-					<div class="col-12 mb-2">
+				<div class="row">
+					<div class="col-12 my-3">
 						<h1 class="h2 px-1 border-bottom border-dark pb-2">Edit Media 
 							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
 						</h1>
