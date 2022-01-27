@@ -152,7 +152,7 @@ limitations under the License.
 									</div><!---end form-row--->
 									<div class="form-row mt-2">
 										<div class="col-6 col-md-9 col-xl-5 px-3">
-											<label for="media_license_id" class="h5 mb-0 mt-2 data-entry-label">License (<a href="#auto_host#/info/ctDocumentation.cfm?table=ctmedia_label&field=undefined"  class="infoLink" target="_blank">Define</a>)</label>
+											<label for="media_license_id" class="h5 mb-0 mt-2 data-entry-label">License (<a href="#media.auto_host#/info/ctDocumentation.cfm?table=ctmedia_label&field=undefined"  class="infoLink" target="_blank">Define</a>)</label>
 											<select name="media_license_id" id="media_license_id" class=" reqdClr data-entry-select">
 												<option value="">NONE</option>
 												<cfloop query="ctmedia_license">
