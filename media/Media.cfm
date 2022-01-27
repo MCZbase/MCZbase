@@ -175,8 +175,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-								</div>
-								<div class="col-12 float-left">
+								
 									<div class="col-12 col-md-6 px-0 float-left">
 										<div class="form-row mx-0 mt-3">
 											<div class="col-6 float-left">
@@ -272,6 +271,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
+			</div>
 										<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
 									<div class="col-12 px-0 float-left">
 										<div class="form-row mx-0 mt-2 mb-4">
