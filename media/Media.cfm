@@ -112,26 +112,22 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="border rounded bg-light float-left col-12 px-3 pb-2">
-									<div class="col-6">
-										<div class="form-row mx-0 mt-3">
-											<div class="col-12 col-md-6">
-												<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
-												<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
-													<cfif #media.media_uri# contains #application.serverRootUrl#>
-														<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
-													</cfif>
-											</div>
+									<div class="col-12 col-md-6">
+										<div class="form-row mx-0 mt-3">	
+											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
+											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
+											<cfif #media.media_uri# contains #application.serverRootUrl#>
+												<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
+											</cfif>
 										</div>
 										<div class="form-row mx-0 mt-3">
-											<div class="col-12 col-md-6">
-												<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
-													<cfif len(media.preview_uri) gt 0>
-														(<a href="#media.preview_uri#" class="infoLink" target="_blank">open</a>)
-													</cfif>
-												</label>
-												<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#" class="data-entry-input">
-												<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
-											</div>
+											<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
+												<cfif len(media.preview_uri) gt 0>
+													(<a href="#media.preview_uri#" class="infoLink" target="_blank">open</a>)
+												</cfif>
+											</label>
+											<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#" class="data-entry-input">
+											<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 										</div>
 									</div>
 									<div class="col-12 col-md-3 px-0 float-left">
