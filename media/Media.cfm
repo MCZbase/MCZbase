@@ -187,13 +187,13 @@ limitations under the License.
 													<div id="seedMedia" style="display:none">
 														<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 														<cfset d="">
-														<select name="relationship__0" id="relationship__0" class="data-entry-select custom-select col-6" size="1"  onchange="pickedRelationship(this.id)">
+														<select name="relationship__0" id="relationship__0" class="data-entry-select custom-select col-5" size="1"  onchange="pickedRelationship(this.id)">
 															<option value="delete">delete</option>
 															<cfloop query="ctmedia_relationship">
 																<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 															</cfloop>
 														</select>
-														<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input form-control col-6">
+														<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input form-control col-7">
 														<input type="hidden" name="related_id__0" id="related_id__0">
 													</div><!--- end id seedMedia --->
 												</cfif>
@@ -213,7 +213,7 @@ limitations under the License.
 													</div>
 													<cfset i=i+1>
 												</cfloop>
-												<span class="infoLink h5 box-shadow-0 d-block col-6 col-md-2 px-0 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
+												<span class="infoLink h5 box-shadow-0 d-block col-6 col-md-2 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
 											</div><!---End id relationships--->
 										</div><!---end col-6--->
 										<div class="col-6 px-xl-2 float-left">	
@@ -229,13 +229,13 @@ limitations under the License.
 														<input type="hidden" id="media_label_id__0" name="media_label_id__0">
 														<cfset d="">
 														<label for="label__#i#" class='sr-only'>Media Label</label>
-														<select name="label__0" id="label__0" size="1" class="data-entry-select custom-select float-left col-6">
+														<select name="label__0" id="label__0" size="1" class="data-entry-select custom-select float-left col-5">
 															<option value="delete">delete</option>
 															<cfloop query="ctmedia_label">
 																<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 															</cfloop>
 														</select>
-														<input type="text" name="label_value__0" id="label_value__0" class="form-control col-6 float-left data-entry-input">
+														<input type="text" name="label_value__0" id="label_value__0" class="form-control col-7 float-left data-entry-input">
 													</div>
 													<!--- end labels seed --->
 												</cfif>
@@ -245,13 +245,13 @@ limitations under the License.
 													<div class="form-row col-12 px-0 mx-0">		
 														<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 															<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-															<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-6 float-left">
+															<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-5 float-left">
 																<option value="delete">delete</option>
 																<cfloop query="ctmedia_label">
 																	<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																</cfloop>
 															</select>
-															<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input form-control col-6 float-left">
+															<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input form-control col-7 float-left">
 													</div>
 													<cfset i=i+1>
 												</cfloop>
