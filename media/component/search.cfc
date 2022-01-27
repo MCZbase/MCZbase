@@ -1043,7 +1043,7 @@ limitations under the License.
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
-	<cfargument name="titleAs" type="string" required="no" default="textFull">
+	<cfargument name="captionAs" type="string" required="no" default="textFull">
 	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:auto">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
@@ -1051,7 +1051,7 @@ limitations under the License.
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
 	<cfset l_styles = #arguments.styles#>
-	<cfset l_titleAs = #arguments.titleAs#>
+	<cfset l_captionAs = #arguments.captionAs#>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
 		<cfoutput>
@@ -1139,8 +1139,8 @@ limitations under the License.
 							<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center" title="click to open full image">
 								<img src="#displayImage#" alt="#alt#" #hw# #l_styles#>
 							</a>
-							<cfif #l_titleAs# EQ "textNone">
-						<!---thumbTiny is used when we don't want any text below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
+							<cfif #l_captionAs# EQ "textNone">
+						<!---textNone is used when we don't want any text below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 							<cfelse>
 							<div class="mt-0 col-12 pb-1 px-0">
 								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
@@ -1164,17 +1164,17 @@ limitations under the License.
 									<cfif len(showTitleText) EQ 0>
 										<cfset showTitleText = "Unlinked Media Object">
 									</cfif>
-									<cfif #l_displayAs# EQ "textCaption"><!---This is for use WITHOUT a size so that the images will appear at their intrinsic ratio, which means the thumbnails may not be the same heights in the responsive containers  (affects floats/stacking)--->
+									<cfif #l_captionAs# EQ "textCaption"><!---This is for use when a caption of 100 characters is needed --->
 										<cfif len(showTitleText) GT 100>
 											<cfset showTitleText = "#left(showTitleText,100)#..." >
 										</cfif>
 									</cfif>
-									<cfif #l_displayAs# EQ "thumbShort"><!---This is for use with a size so that the images will appear in a gray square and be the same height for floats/stacking (e.g., specimen details page)--->
+									<cfif #l_captionAs# EQ "textShort"><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
 										<cfif len(showTitleText) GT 50>
 											<cfset showTitleText = "#left(showTitleText,50)#..." >
 										</cfif>
 									</cfif>
-									<cfif #l_displayAs# EQ "thumbFull"><!---This is for use with a size so that the images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
+									<cfif #l_captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
 										<cfif len(showTitleText) GT 250>
 											<cfset showTitleText = "#left(showTitleText,250)#..." >
 										</cfif>
