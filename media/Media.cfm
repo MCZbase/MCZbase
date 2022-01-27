@@ -98,7 +98,7 @@ limitations under the License.
 							
 								</div>
 								<div class="col-12 float-left">
-									<div class="rounded border col-5 col-md-1 float-left my-3">
+									<div class="rounded border col-5 col-md-1 float-left mb-3">
 										<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textLinks")>
 										<div id="mediaBlock#media.media_id#" class="float-left pt-3">
 											#mediaBlock#
