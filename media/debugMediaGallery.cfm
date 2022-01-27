@@ -28,7 +28,7 @@
 		<div class="row">
 			<cfloop query="examples">
 				<div class="col-12 col-sm-6 col-md-4 col-xl-3">
-					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400")>
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400", captionAs="textMid")>
 					<div id="mediaBlock#media_id#">
 					#mediablock#
 					</div>
@@ -39,7 +39,7 @@
 		<div class="row">
 			<cfloop query="examples">
 				<div class="col-12 col-sm-4 col-md-2 col-xl-1">
-					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb")>
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",captionAs="textShort")>
 					<div id="mediaBlock#media_id#">
 						#mediablock#
 					</div>
@@ -50,7 +50,7 @@
 		<div class="row">
 			<cfloop query="examples">
 				<div class="col-12 col-md-6 col-xl-4">
-					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="600")>
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="600",captionAs="textFull")>
 					<div id="mediaBlock#media_id#">
 					#mediablock#
 					</div>
@@ -68,7 +68,7 @@
 			</div>
 			<div class="col-1 px-0 float-left">
 			<cfset media_id = "90914">
-				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",size="100")>
+				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",size="100",captionAs=textLinks)>
 				<div id="mediaThumbBlock#media_id#">
 					#mediablock#
 				</div>
