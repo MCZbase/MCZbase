@@ -111,7 +111,7 @@ limitations under the License.
 									<div class="col-12 col-xl-6 px-1 float-left">
 										<div class="form-row mx-0 mt-1">	
 											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
-											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input form-control small">
+											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input form-control small reqdClr">
 											<cfif #media.media_uri# contains #application.serverRootUrl#>
 												<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
 											</cfif>
@@ -124,7 +124,7 @@ limitations under the License.
 												(<a href="#media.preview_uri#" class="infoLink" target="_blank">open</a>)
 											</cfif>
 										</label>
-										<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#" class="data-entry-input form-control small">
+										<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#" class="data-entry-input form-control small reqdClr">
 										<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 										</div><!---end form-row--->
 									</div><!---end col-12 col-md-6 inside of col-11--->
