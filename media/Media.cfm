@@ -193,14 +193,14 @@ limitations under the License.
 																	<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																</cfloop>
 															</select>
-															<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
+															<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-12">
 															<input type="hidden" name="related_id__0" id="related_id__0">
 														</div>
 														<!--- end seed data --->
 													</cfif>
 													<cfloop query="relns">
 														<cfset d=media_relationship>
-														<div class="form-row col-6 px-0 mx-0">
+														<div class="form-row col-12 px-0 mx-0">
 															<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 																<label class="sr-only" for="relationship__#i#">Relationship</label>
 																<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-6">
@@ -209,7 +209,7 @@ limitations under the License.
 																			<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																		</cfloop>
 																	</select>
-																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
+																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-12">
 																<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															<cfset i=i+1>
 														</div>
