@@ -151,7 +151,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="form-row mt-3">
-											<div class="col-6 col-md-5 px-3">
+											<div class="col-6 col-md-7 px-3">
 												<label for="media_license_id" class="h5 mb-1 mt-2 data-entry-label">License (<span class="infoLink" onclick="popupDefine();">Define</span>)</label>
 												<select name="media_license_id" id="media_license_id" class="data-entry-select">
 													<option value="">NONE</option>
