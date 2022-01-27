@@ -96,7 +96,23 @@ limitations under the License.
 								<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 								<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 								<div class="col-12 float-left px-0">
-									<div class="form-row mx-0 mt-3">
+									<div class="rounded border col-5 col-md-1 float-left my-3">
+										<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textLinks")>
+										<div id="mediaBlock#media.media_id#" class="float-left pt-3">
+											#mediaBlock#
+										</div>
+									</div>
+									<div class="col-12 col-md-7 float-left">
+										<div class="col-12 mt-2 px-0 float-left">
+											<h3 class="h4 mt-3 px-2">Caption</h3>
+											<p class="small90 px-2">#media.caption#</p>
+											<h3 class="h4 mt-3 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
+											<p class="small90 px-2">#media.alttag#</p>
+										</div>
+									</div>
+								</div>
+								<div class="border rounded bg-light float-left col-12 px-3 pb-2">
+																		<div class="form-row mx-0 mt-3">
 											<div class="col-12">
 												<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 												<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
@@ -116,22 +132,6 @@ limitations under the License.
 												<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 											</div>
 										</div>
-									<div class="rounded border col-5 col-md-1 float-left my-3">
-										<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textLinks")>
-										<div id="mediaBlock#media.media_id#" class="float-left pt-3">
-											#mediaBlock#
-										</div>
-									</div>
-									<div class="col-12 col-md-7 float-left">
-										<div class="col-12 mt-2 px-0 float-left">
-											<h3 class="h4 mt-3 px-2">Caption</h3>
-											<p class="small90 px-2">#media.caption#</p>
-											<h3 class="h4 mt-3 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
-											<p class="small90 px-2">#media.alttag#</p>
-										</div>
-									</div>
-								</div>
-								<div class="border rounded bg-light float-left col-12 px-3 pb-2">
 									<div class="col-12 col-md-3 px-0 float-left">
 										<div class="form-row mt-3">
 											<div class="col-12 px-0">
