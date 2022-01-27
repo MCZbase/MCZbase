@@ -276,7 +276,7 @@ limitations under the License.
 														<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 													</div>
 												</div>	
-												
+											</div>
 											</div>
 										</div>
 										<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
