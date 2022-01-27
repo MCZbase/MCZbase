@@ -152,7 +152,7 @@ limitations under the License.
 									</div><!---end form-row--->
 									<div class="form-row mt-2">
 										<div class="col-6 col-md-9 col-xl-7 px-3">
-											<label for="media_license_id" class="h5 mb-1 mt-2 data-entry-label">License (<span class="infoLink" onclick="popupDefine();">Define</span>)</label>
+											<label for="media_license_id" class="h5 mb-0 mt-2 data-entry-label">License (<span class="infoLink" onclick="popupDefine();">Define</span>)</label>
 											<select name="media_license_id" id="media_license_id" class="data-entry-select">
 												<option value="">NONE</option>
 												<cfloop query="ctmedia_license">
@@ -161,7 +161,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-6 col-xl-3 col-md-3 px-3">
-											<label for="mask_media_fg" class="h5 mb-1 mt-2 data-entry-label">Media Visibility</label>
+											<label for="mask_media_fg" class="h5 mb-0 mt-2 data-entry-label">Media Visibility</label>
 											<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
 												<cfif #media.mask_media_fg# eq 1 >
 													<option value="0">Public</option>
