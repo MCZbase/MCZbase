@@ -97,7 +97,7 @@ limitations under the License.
 								<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 								<div class="col-12 float-left px-0">
 									<div class="rounded border col-5 col-md-1 float-left mt-3">
-										<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textFull")>
+										<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textLinks")>
 										<div id="mediaBlock#media.media_id#" class="float-left pt-3">
 											#mediaBlock#
 										</div>

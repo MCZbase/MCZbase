@@ -1191,7 +1191,7 @@ limitations under the License.
 											<cfset showTitleText = "#left(showTitleText,50)#..." >
 										</cfif>
 									</cfif>
-									<cfif #l_captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
+									<cfif #l_captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
 										<cfif len(showTitleText) GT 250>
 											<cfset showTitleText = "#left(showTitleText,250)#..." >
 										</cfif>
