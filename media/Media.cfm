@@ -94,7 +94,7 @@ limitations under the License.
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
-							<div class="col-12 float-left">
+							<div class="col-12 px-0 float-left">
 								<div class="rounded border col-5 col-md-1 float-left mb-3">
 									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textLinks")>
 									<div id="mediaBlock#media.media_id#" class="float-left pt-3">
@@ -173,7 +173,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div><!---end form-row--->
-								</div><!---col-12 (mime type, media type, license, visibility)--->
+								<!---col-12 (mime type, media type, license, visibility)--->
 								<div class="col-12 px-0 float-left">
 									<div class="form-row mx-xl-1 mt-3">
 										<div class="col-6 px-xl-2 float-left">
