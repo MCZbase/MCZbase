@@ -1141,7 +1141,7 @@ limitations under the License.
 							</a>
 							<cfif #l_captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
-							<cfelseif #l_caption# EQ "textLinks">
+							<cfelseif #l_captionAs# EQ "textLinks">
 							<!--- textLinks is used when only the links are desired under the thumbnail--->
 							<div class="mt-0 col-12 pb-1 px-0">
 								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
