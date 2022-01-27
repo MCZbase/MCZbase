@@ -79,7 +79,7 @@ limitations under the License.
 		</cfquery>
 		<cfset relns=getMediaRelations(#media_id#)>
 		<cfoutput>
-			<div class="container">
+			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12 my-3">
 						<h1 class="h2 px-1 border-bottom border-dark pb-2">Edit Media 
