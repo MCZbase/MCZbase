@@ -101,7 +101,7 @@ limitations under the License.
 										#mediaBlock#
 									</div><!---end image block--->
 								</div><!---end col-md-1 col-5 (image block)--->
-								<div class="col-7 col-md-9 col-lg-10 col-xl-11 mb-2 float-left">
+								<div class="col-auto float-left">
 									<div class="col-12 px-0 float-left">
 										<h3 class="h5 mb-0 px-2">Caption</h3>
 										<p class="small90 px-2">#media.caption#</p>
