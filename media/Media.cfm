@@ -81,7 +81,7 @@ limitations under the License.
 		<cfoutput>
 			<div class="container">
 				<div class="row">
-					<div class="col-12 px-0 my-3">
+					<div class="col-12 px-md-0 my-3">
 						<h1 class="h2 px-1 border-bottom border-dark pb-2">Edit Media 
 							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
 						</h1>
@@ -95,7 +95,7 @@ limitations under the License.
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 							<div class="col-12 px-0 float-left">
-								<div class="rounded border col-5 col-md-3 col-lg-2 col-xl-1 float-left mb-3">
+								<div class="rounded border col float-left mb-3" style="width:110px;">
 									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textLinks")>
 									<div id="mediaBlock#media.media_id#" class="float-left pt-3">
 										#mediaBlock#
