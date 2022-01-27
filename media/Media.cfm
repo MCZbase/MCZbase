@@ -204,7 +204,7 @@ limitations under the License.
 																	<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																</cfloop>
 															</select>
-															<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
+															<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input form-control col-6">
 															<input type="hidden" name="related_id__0" id="related_id__0">
 														</div>
 														<!--- end seed data --->
@@ -260,7 +260,7 @@ limitations under the License.
 															<cfset d=media_label>
 														<div class="form-row col-12 px-0 mx-0">
 															<div id="labelsDiv__#i#" class="col-12 form-row mx-0">		
-																<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
+																<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 																	<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
 																	<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-6 float-left">
 																		<option value="delete">delete</option>
