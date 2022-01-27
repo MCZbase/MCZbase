@@ -105,7 +105,7 @@ limitations under the License.
 									<div class="col-12 col-md-7 float-left">
 										<div class="col-12 mt-4 px-0 float-left">
 											<h3 class="h5 mt-2 px-2">Caption</h3>
-											<cfset mediaCaption= get_MEDIA_TITLE("#media.media_id#")>
+											<cfset mediaCaption= GET_MEDIA_TITLE(#media.media_id#)>
 												<div id="mediaCaption#media.media_id#" class="float-left pt-3">
 													#mediaCaption#
 												</div>
