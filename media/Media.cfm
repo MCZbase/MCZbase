@@ -131,9 +131,9 @@ limitations under the License.
 											<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 										</div>
 									</div>
-									<div class="col-12 col-md-5 ml-auto float-left">
+									<div class="col-12 col-md-5 col-offset-1 float-left">
 										<div class="form-row mt-3">
-											<div class="col-6 px-0">
+											<div class="col-6 col-xl-5 px-0">
 												<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
 												<select name="mime_type" id="mime_type" class="data-entry-select">
 													<cfloop query="ctmime_type">
@@ -141,7 +141,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-6 px-0">
+											<div class="col-6 col-xl-5 px-0">
 												<label for="media_type" class="h5 mb-1 mt-2 data-entry-label">Media Type</label>
 												<select name="media_type" id="media_type" class="data-entry-select">
 												<cfloop query="ctmedia_type">
