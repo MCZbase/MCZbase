@@ -211,7 +211,7 @@ limitations under the License.
 														<div class="form-row col-12 px-0 mx-0">
 															<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 																<label class="sr-only" for="relationship__#i#">Relationship</label>
-																<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-5">
+																<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select float-left col-5">
 																		<option value="delete">delete</option>
 																		<cfloop query="ctmedia_relationship">
 																			<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
@@ -241,13 +241,13 @@ limitations under the License.
 																<input type="hidden" id="media_label_id__0" name="media_label_id__0">
 																<cfset d="">
 																<label for="label__#i#" class='sr-only'>Media Label</label>
-																<select name="label__0" id="label__0" size="1" class="data-entry-select custom-select col-6">
+																<select name="label__0" id="label__0" size="1" class="data-entry-select custom-select float-left col-6">
 																	<option value="delete">delete</option>
 																	<cfloop query="ctmedia_label">
 																		<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																	</cfloop>
 																</select>
-																<input type="text" name="label_value__0" id="label_value__0" class="form-control col-6 data-entry-input">
+																<input type="text" name="label_value__0" id="label_value__0" class="form-control col-6 float-left data-entry-input">
 															</div>
 														<!--- end labels seed --->
 														</div>
@@ -264,7 +264,7 @@ limitations under the License.
 																			<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																		</cfloop>
 																	</select>
-																	<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input custom-select col-6 float-left">
+																	<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input form-control col-6 float-left">
 															</div>
 															<cfset i=i+1>
 														</cfloop>
