@@ -107,7 +107,7 @@ limitations under the License.
 											<h3 class="h5 mt-2 px-2">Caption</h3>
 											
 												<div id="mediaCaption#media.media_id#" class="float-left pt-3">
-													#media.caption#
+													<p class="small px-2">#media.caption#</p>
 												</div>
 											<h3 class="h5 mt-2 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 											<p class="small px-2">#media.alttag#</p>
