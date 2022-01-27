@@ -184,11 +184,14 @@ limitations under the License.
 								
 									<div class="col-12 col-md-12 px-0 float-left">
 										<div class="form-row mx-0 mt-3">
+											
+											
+											
 											<div class="col-6 float-left">
 												<h2>
 													<label for="relationships" class="mb-1 mt-2 data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
 												</h2>
-													<div id="relationships">
+												<div id="relationships">
 													<cfset i=1>
 													<cfif relns.recordcount is 0>
 														<!--- seed --->
@@ -224,7 +227,7 @@ limitations under the License.
 													</cfloop>
 													<span class="infoLink h5 box-shadow-0 d-block col-6 col-md-2 px-0 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
 												</div>
-										</div>	
+											</div>	
 
 						
 											<div class="col-6 float-left">	
@@ -252,9 +255,10 @@ limitations under the License.
 														<!--- end labels seed --->
 														</div>
 													</cfif>
-													<div class="form-row col-12 px-0 mx-0">
+													
 														<cfloop query="labels">
 															<cfset d=media_label>
+														<div class="form-row col-12 px-0 mx-0">
 															<div id="labelsDiv__#i#" class="col-12 form-row mx-0">		
 																<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 																	<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
@@ -266,6 +270,7 @@ limitations under the License.
 																	</select>
 																	<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input form-control col-6 float-left">
 															</div>
+														</div>
 															<cfset i=i+1>
 														</cfloop>
 														<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
