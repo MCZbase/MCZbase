@@ -218,7 +218,7 @@ limitations under the License.
 													</cfloop>
 													<span class="infoLink h5 box-shadow-0 d-block col-6 col-md-2 px-0 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
 												</div>
-										</div>	
+									
 
 						
 											<div class="col-6 float-left">	
