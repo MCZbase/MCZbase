@@ -241,66 +241,45 @@ limitations under the License.
 								<h3 class="px-2">All Collection Types</h3>
 								
 								<cfloop query="namedGroups">
-									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT
-											displayed_media_id as media_id, underscore_collection.underscore_collection_type
-										FROM
-											underscore_relation 
-										INNER JOIN underscore_collection
-											on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										WHERE rownum = 1 
-										and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-									</cfquery>
-										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-1 mb-1">
-											<div class="border rounded bg-white p-2 col-12 float-left" style="height:115px">
-												<div class="row h-25 mx-0">
-													<cfif len(images.media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",titleAs="textNone")>
-														<div class="float-left" id="mediaBlock#images.media_id#">
-															#mediablock#
-														</div>
-													</cfif>
-													<div class="col float-left px-2 pl-md-2 pr-md-0 mt-0">
-														<cfset showTitleText = trim(collection_name)>
-														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-															<cfif len(showTitleText) GT 70>
-																<cfset showTitleText = "#left(showTitleText,70)#..." >
-															</cfif>#showTitleText#
-														</a></h3>
-														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
-														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
-														<cfif namedGroups.mask_fg EQ 1>
-															<!--- Users must be notified when hidden named groups are visible to them, otherwise they will think private information is public --->
-															<p class="smaller">[Hidden]</p>
-														</cfif>
+									<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-1 mb-1">
+										<div class="border rounded bg-white p-2 col-12 float-left" style="height:115px">
+											<div class="row h-25 mx-0">
+												<cfif len(namedGroups.displayed_media_id) gt 0>
+													<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="thumb",titleAs="textNone")>
+													<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
+														#mediablock#
 													</div>
+												</cfif>
+												<div class="col float-left px-2 pl-md-2 pr-md-0 mt-0">
+													<cfset showTitleText = trim(collection_name)>
+													<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
+														<cfif len(showTitleText) GT 70>
+															<cfset showTitleText = "#left(showTitleText,70)#..." >
+														</cfif>#showTitleText#
+													</a></h3>
+													<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
+													<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
+													<cfif namedGroups.mask_fg EQ 1>
+														<!--- Users must be notified when hidden named groups are visible to them, otherwise they will think private information is public --->
+														<p class="smaller">[Hidden]</p>
+													</cfif>
 												</div>
 											</div>
 										</div>
-							
+									</div>
 								</cfloop>
 							</div>
 							<div id="collectionPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #collectionTabActive# unfocus"  #collectionTabShow#>
 								<h3 class="px-2">Collections</h3>
 								<p class="px-2">Collections highlight specimens that are linked via their shared history and includes collections assembled by famous naturalists, histological slide collections, and acquisitions or exchanges from other museums.</p>
 								<cfloop query="namedGroups">
-									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT
-											displayed_media_id as media_id, underscore_collection.underscore_collection_type
-										FROM
-											underscore_relation 
-										INNER JOIN underscore_collection
-											on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										WHERE rownum = 1 
-										and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-									</cfquery>
 									<cfif #namedGroups.underscore_collection_type# eq 'collection'>
 										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-1 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:115px">
 												<div class="row h-25 mx-0">
-													<cfif len(images.media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",titleAs="textNone")>
-														<div class="float-left" id="mediaBlock#images.media_id#">
+													<cfif len(namedGroups.displayed_media_id) gt 0>
+														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="thumb",titleAs="textNone")>
+														<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
 															#mediablock#
 														</div>
 													</cfif>
@@ -327,23 +306,13 @@ limitations under the License.
 								<h3 class="px-2">Expeditions</h3>
 								<p class="px-2">Expeditions feature specimens collected during specific voyages undertaken for the purpose of scientific exploration.</p>
 								<cfloop query="namedGroups">
-									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT
-											displayed_media_id as media_id
-										FROM
-											underscore_relation 
-										INNER JOIN underscore_collection
-											on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										WHERE rownum = 1 
-										and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-									</cfquery>
 									<cfif #namedGroups.underscore_collection_type# eq 'expedition'>
 										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-2 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:115px">
 												<div class="row h-25 mx-0">
-													<cfif len(images.media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",titleAs="textNone")>
-														<div class="float-left" id="mediaBlock#images.media_id#">
+													<cfif len(namedGroups.displayed_media_id) gt 0>
+														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="thumb",titleAs="textNone")>
+														<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
 															#mediablock#
 														</div>
 													</cfif>
@@ -371,23 +340,13 @@ limitations under the License.
 								<h3 class="px-2">Grants</h3>
 								<p class="px-2">Grants showcase specimens used in funded work and includes digitization projects that enrich digital specimen data and make MCZ holdings more accessible to researchers around the world.</p>
 								<cfloop query="namedGroups">
-									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT
-											displayed_media_id as media_id
-										FROM
-											underscore_relation 
-										INNER JOIN underscore_collection
-											on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										WHERE rownum = 1 
-										and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-									</cfquery>
 									<cfif #namedGroups.underscore_collection_type# eq 'grant'>
 										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-2 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:115px">
 												<div class="row h-25 mx-0">
-													<cfif len(images.media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",titleAs="textNone")>
-														<div class="float-left" id="mediaBlock#images.media_id#">
+													<cfif len(namedGroups.displayed_media_id) gt 0>
+														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="thumb",titleAs="textNone")>
+														<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
 															#mediablock#
 														</div>
 													</cfif>
@@ -414,23 +373,13 @@ limitations under the License.
 								<div id="workflowPanel" role="tabpanel" aria-labelledby="5" tabindex="-1" class="col-12 px-0 mx-0 #workflowTabActive# unfocus"  #workflowTabShow#>
 									<h3 class="px-2">Workflow</h3>
 									<cfloop query="namedGroups">
-										<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT
-												displayed_media_id as media_id
-											FROM
-												underscore_relation 
-											INNER JOIN underscore_collection
-												on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-											WHERE rownum = 1 
-											and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
-										</cfquery>
 										<cfif #namedGroups.underscore_collection_type# eq 'workflow'>
 											<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-2 mb-1">
 												<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height:115px">
 													<div class="row h-25 mx-0">
-														<cfif len(images.media_id) gt 0>
-															<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",titleAs="textNone")>
-															<div class="float-left" id="mediaBlock#images.media_id#">
+														<cfif len(namedGroups.displayed_media_id) gt 0>
+															<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="thumb",titleAs="textNone")>
+															<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
 																#mediablock#
 															</div>
 														</cfif>
