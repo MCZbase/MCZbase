@@ -277,7 +277,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-										</div></div>
+										</div></div></div>
 									<!--  TODO: Change to ajax save of form. 
 									<script>
 										$(document).ready(function() {
