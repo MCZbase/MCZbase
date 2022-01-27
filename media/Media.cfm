@@ -215,7 +215,7 @@ limitations under the License.
 												</cfloop>
 												<span class="infoLink h5 box-shadow-0 d-block col-6 col-md-2 px-0 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
 											</div><!---End id relationships--->
-										</div><!---end col-6--->
+							
 										<div class="col-6 px-xl-2 float-left">	
 											<h2>
 												<label for="labels" class="h2 mb-1 mt-2 px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
@@ -257,7 +257,7 @@ limitations under the License.
 												</cfloop>
 													<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 												</div><!---end id labels--->
-										</div><!---end col-6--->	
+							
 									</div><!---end form-row Relationships and labels--->
 								</div><!---end col-12--->
 									<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
