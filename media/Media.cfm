@@ -138,7 +138,7 @@ limitations under the License.
 								<div class="border rounded d-flex bg-light">
 								<div class="float-left col-12 pb-2">
 								
-									<div class="col-12 col-md-5 float-left">
+									<div class="col-12 col-md-12 float-left">
 										<div class="form-row mt-3">
 											<div class="col-6 col-md-5 px-3">
 												<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
