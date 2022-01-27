@@ -184,9 +184,6 @@ limitations under the License.
 								
 									<div class="col-12 col-md-12 px-0 float-left">
 										<div class="form-row mx-0 mt-3">
-											
-											
-											
 											<div class="col-6 float-left">
 												<h2>
 													<label for="relationships" class="mb-1 mt-2 data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
@@ -213,7 +210,7 @@ limitations under the License.
 														<cfset d=media_relationship>
 														<div class="form-row col-12 px-0 mx-0">
 															<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-																<label class="sr-only" for="relationship__#i#">Relationship</label>
+																<label for="relationship__#i#"  class="sr-only">Relationship</label>
 																<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select float-left col-5">
 																		<option value="delete">delete</option>
 																		<cfloop query="ctmedia_relationship">
@@ -226,10 +223,7 @@ limitations under the License.
 														</div>
 													</cfloop>
 													<span class="infoLink h5 box-shadow-0 d-block col-6 col-md-2 px-0 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
-												</div>
-											</div>	
-
-						
+												</div>					
 											<div class="col-6 float-left">	
 												<h2>
 													<label for="labels" class="h2 mb-1 mt-2 px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span>
@@ -259,7 +253,7 @@ limitations under the License.
 														<cfloop query="labels">
 															<cfset d=media_label>
 														<div class="form-row col-12 px-0 mx-0">
-															<div id="labelsDiv__#i#" class="col-12 form-row mx-0">		
+															<div id="labelsDiv__#i#" class="col-12">		
 																<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 																	<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
 																	<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-6 float-left">
