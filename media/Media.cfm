@@ -108,12 +108,12 @@ limitations under the License.
 											<p class="small90 px-2">#media.caption#</p>
 											<h3 class="h5 mt-3 mb-1 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 											<p class="small90 mb-2 px-2">#media.alttag#</p>
-											<p class="mb-0 px-3 font-italic small">Both assembled from available data</p>
+											<p class="mb-0 px-2 font-italic small">Both assembled from available data</p>
 										</div>
 									</div>
 								</div>
-								<div class="border rounded bg-light float-left col-12 px-3 pb-2">
-									<div class="col-12 col-md-6">
+								<div class="border rounded bg-light float-left col-12 pb-2">
+									<div class="col-12 col-md-6 float-left">
 										<div class="form-row mx-0 mt-3">	
 											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
@@ -131,9 +131,8 @@ limitations under the License.
 											<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 										</div>
 									</div>
-									<div class="col-12 col-md-3 px-0 float-left">
+									<div class="col-12 col-md-3 float-left">
 										<div class="form-row mt-3">
-											<div class="col-12 px-0">
 												<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
 												<select name="mime_type" id="mime_type" class="data-entry-select">
 													<cfloop query="ctmime_type">
@@ -163,7 +162,7 @@ limitations under the License.
 														<option value="1">Hidden</option>
 													</cfif>
 												</select>
-											</div>
+					
 										</div>
 									</div>
 									<div class="col-12 px-0 float-left">
