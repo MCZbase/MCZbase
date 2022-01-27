@@ -108,7 +108,7 @@ limitations under the License.
 										<h3 class="h5 mt-2 mb-0 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 										<p class="small90 mb-2 px-2">#media.alttag#</p>
 									</div><!---end col-12 inside of col-11--->
-									<div class="col-12 col-xl-6 px-1 pr-xl-2 float-left">
+									<div class="col-12 col-xl-6 px-0 px-xl-2 float-left">
 										<div class="form-row mx-0 mt-1">	
 											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input small reqdClr">
@@ -117,7 +117,7 @@ limitations under the License.
 											</cfif>
 										</div><!---end form-row--->
 									</div><!---end col-12 col-md-6 inside of col-11--->
-									<div class="col-12 col-xl-6 px-1 pl-xl-2 float-left">
+									<div class="col-12 col-xl-6 px-0 px-xl-2 float-left">
 										<div class="form-row mx-0 mt-1">
 										<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
 											<cfif len(media.preview_uri) gt 0>
