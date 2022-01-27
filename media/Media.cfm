@@ -81,7 +81,7 @@ limitations under the License.
 		<cfoutput>
 			<div class="container">
 				<div class="row mb-4">
-					<div class="col-12 mb-4">
+					<div class="col-12 mb-2">
 						<h1 class="h2 px-1 border-bottom border-dark pb-2">Edit Media 
 							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
 						</h1>
