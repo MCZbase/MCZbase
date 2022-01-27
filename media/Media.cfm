@@ -131,7 +131,7 @@ limitations under the License.
 											<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 										</div>
 									</div>
-									<div class="col-12 col-md-6 float-left">
+									<div class="col-12 col-md-5 ml-auto float-left">
 										<div class="form-row mt-3">
 											<div class="col-6 px-0">
 												<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
