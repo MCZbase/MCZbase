@@ -132,7 +132,6 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="border rounded d-flex bg-light">
-							<div class="float-left col-12 pb-2">
 								<div class="col-12 col-md-12 px-0 float-left">
 									<div class="form-row mt-3">
 										<div class="col-6 col-md-5 px-3">
@@ -142,7 +141,7 @@ limitations under the License.
 													<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
 												</cfloop>
 											</select>
-										</div>
+										</div><!---end col-6 col-xl-5--->
 										<div class="col-6 col-md-5 px-3">
 											<label for="media_type" class="h5 mb-1 mt-2 data-entry-label">Media Type</label>
 											<select name="media_type" id="media_type" class="data-entry-select">
@@ -150,8 +149,8 @@ limitations under the License.
 												<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
 											</cfloop>
 											</select>
-										</div>
-									</div>
+										</div><!---end col-6 col-xl-5--->
+									</div><!---end form-row--->
 									<div class="form-row mt-3">
 										<div class="col-6 col-md-9 px-3">
 											<label for="media_license_id" class="h5 mb-1 mt-2 data-entry-label">License (<span class="infoLink" onclick="popupDefine();">Define</span>)</label>
@@ -175,9 +174,9 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-								</div>
+								</div><!---col-12--->
 
-								<div class="col-12 col-md-12 px-0 float-left">
+								<div class="col-12 px-0 float-left">
 									<div class="form-row mx-xl-1 mt-3">
 										<div class="col-6 px-xl-2 float-left">
 											<h2>
@@ -198,8 +197,7 @@ limitations under the License.
 														</select>
 														<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input form-control col-6">
 														<input type="hidden" name="related_id__0" id="related_id__0">
-													</div>
-													<!--- end seed data --->
+													</div><!--- end id seedMedia --->
 												</cfif>
 												<cfloop query="relns">
 													<cfset d=media_relationship>
@@ -217,9 +215,9 @@ limitations under the License.
 													</div>
 													<cfset i=i+1>
 												</cfloop>
-										<span class="infoLink h5 box-shadow-0 d-block col-6 col-md-2 px-0 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
-									</div>
-										</div>
+												<span class="infoLink h5 box-shadow-0 d-block col-6 col-md-2 px-0 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
+											</div><!---End id relationships--->
+										</div><!---end col-6--->
 										<div class="col-6 px-xl-2 float-left">	
 											<h2>
 												<label for="labels" class="h2 mb-1 mt-2 px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
@@ -260,10 +258,10 @@ limitations under the License.
 													<cfset i=i+1>
 												</cfloop>
 													<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
-												</div>
-											</div>	
-										</div>
-									</div>
+												</div><!---end id labels--->
+										</div><!---end col-6--->	
+									</div><!---end form-row--->
+								</div><!---end col-12--->
 									<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
 								<!--  TODO: Change to ajax save of form. 
 								<script>
@@ -275,8 +273,9 @@ limitations under the License.
 									};
 								</script>
 								-->
+							</div>
 						</form>
-					</div>
+					</div><!---end col-12--->
 					<div class="col-12 px-0 float-left">
 						<div class="form-row mx-0 mt-2 mb-4">
 							<div class="col-12 float-left">
