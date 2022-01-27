@@ -113,7 +113,7 @@ limitations under the License.
 											<p class="mb-0 px-2 font-italic small">Both assembled from available data</p>
 										</div>
 							
-									<div class="col-12 col-md-5 float-left">
+									<div class="col-12 col-md-6 float-left">
 										<div class="form-row mx-0 mt-3">	
 											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
@@ -122,7 +122,7 @@ limitations under the License.
 											</cfif>
 										</div>
 										</div>
-										<div class="col-12 col-md-5 float-left">
+										<div class="col-12 col-md-6 float-left">
 											<div class="form-row mx-0 mt-3">
 											<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
 												<cfif len(media.preview_uri) gt 0>
