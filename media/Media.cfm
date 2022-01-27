@@ -99,25 +99,24 @@ limitations under the License.
 									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textLinks")>
 									<div id="mediaBlock#media.media_id#" class="float-left pt-3">
 										#mediaBlock#
-									</div>
-								</div>
-								<div class="col-12 col-md-11 mb-3 float-left">
+									</div><!---end image block--->
+								</div><!---end col-md-1 col-5 (image block)--->
+								<div class="col-6 col-md-11 mb-3 float-left">
 									<div class="col-12 px-0 float-left">
 										<h3 class="h5 mb-1 px-2">Caption</h3>
 										<p class="small90 px-2">#media.caption#</p>
 										<h3 class="h5 mt-3 mb-1 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 										<p class="small90 mb-2 px-2">#media.alttag#</p>
-									</div>
-
-								<div class="col-12 col-md-6 px-1 float-left">
+									</div><!---end col-12 inside of col-11--->
+									<div class="col-12 col-md-6 px-1 float-left">
 									<div class="form-row mx-0 mt-2">	
 										<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 										<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
 										<cfif #media.media_uri# contains #application.serverRootUrl#>
 											<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
 										</cfif>
-									</div>
-									</div>
+									</div><!---end form-row--->
+								</div><!---end col-12 col-md-6 inside of col-11--->
 									<div class="col-12 col-md-6 px-1 float-left">
 										<div class="form-row mx-0 mt-2">
 										<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
@@ -127,12 +126,12 @@ limitations under the License.
 										</label>
 										<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#" class="data-entry-input">
 										<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
-										</div>
-									</div>
-								</div>
-							</div>
+										</div><!---end form-row--->
+									</div><!---end col-12 col-md-6 inside of col-11--->
+								</div><!---end col-md-11 col-6--->
+							</div><!---end col-12 (img, caption, text, preview URI and Media URI)--->
 							<div class="border rounded d-flex bg-light">
-								<div class="col-12 col-md-12 px-0 float-left">
+								<div class="col-12 col-md-12 float-left">
 									<div class="form-row mt-3">
 										<div class="col-6 col-md-5 px-3">
 											<label for="mime_type" class="h5 mb-1 mt-2 data-entry-label">MIME Type</label>
@@ -173,9 +172,8 @@ limitations under the License.
 												</cfif>
 											</select>
 										</div>
-									</div>
-								</div><!---col-12--->
-
+									</div><!---end form-row--->
+								</div><!---col-12 (mime type, media type, license, visibility)--->
 								<div class="col-12 px-0 float-left">
 									<div class="form-row mx-xl-1 mt-3">
 										<div class="col-6 px-xl-2 float-left">
@@ -260,7 +258,7 @@ limitations under the License.
 													<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 												</div><!---end id labels--->
 										</div><!---end col-6--->	
-									</div><!---end form-row--->
+									</div><!---end form-row Relationships and labels--->
 								</div><!---end col-12--->
 									<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
 								<!--  TODO: Change to ajax save of form. 
