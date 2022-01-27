@@ -221,7 +221,7 @@ limitations under the License.
 											</div>	
 
 										<div class="form-row mx-0 mt-2">
-											<div class="col-12 px-0">	
+											<div class="col-6 float-left">	
 												<h2>
 													<label for="labels" class="h2 mb-1 mt-2 px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span>
 													</label>
@@ -267,7 +267,6 @@ limitations under the License.
 												</div>	
 	
 									</div>
-								</div>
 										<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
 									<div class="col-12 px-0 float-left">
 										<div class="form-row mx-0 mt-2 mb-4">
@@ -278,7 +277,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-						
+								</div>
 									<!--  TODO: Change to ajax save of form. 
 									<script>
 										$(document).ready(function() {
