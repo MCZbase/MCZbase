@@ -104,9 +104,9 @@ limitations under the License.
 											#mediaBlock#
 										</div>
 									</div>
-									<div class="col-12 col-md-11 float-left">
-										<div class="col-12 mt-0 px-0 float-left">
-											<h3 class="h5 mt-2 mb-1 px-2">Caption</h3>
+									<div class="col-12 col-md-11 my-3 float-left">
+										<div class="col-12 px-0 float-left">
+											<h3 class="h5 mb-1 px-2">Caption</h3>
 											<p class="small90 px-2">#media.caption#</p>
 											<h3 class="h5 mt-3 mb-1 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
 											<p class="small90 mb-2 px-2">#media.alttag#</p>
