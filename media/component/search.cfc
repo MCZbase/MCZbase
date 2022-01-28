@@ -1117,7 +1117,7 @@ limitations under the License.
 										<cfset hw = 'width="auto" height="100"'>
 									</cfif>
 							<cfelse>
-								<cfset l_styles = "max-width:150px;max-height:auto;">
+								<cfset l_styles = "max-width:150px;max-height:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/Image-x-generic.svg">
@@ -1138,7 +1138,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<div class="media_widget">	
-							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active text-center" title="click to open full image">
+							<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center" title="click to open full image">
 								<img src="#displayImage#" alt="#alt#" #hw# style="#l_styles#">
 							</a>
 							<cfif #l_captionAs# EQ "textNone">

@@ -30,7 +30,7 @@
 			<cfloop query="examples">
 				<div class="col-12 col-sm-6 col-md-4 px-1 col-xl-3 mt-5 bg-light">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textMid")>
-					<div id="mediaBlock#media_id#" class="border rounded">
+					<div id="mediaBlock#media_id#" class="border rounded mb-1">
 					#mediablock#
 					</div>
 				</div>
@@ -42,7 +42,7 @@
 			<cfloop query="examples">
 				<div class="col-12 col-sm-4 col-md-2 px-1 col-xl-2 mt-5" style="background-color:aquamarine">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",captionAs="textShort")>
-					<div id="mediaBlock#media_id#" class="border rounded">
+					<div id="mediaBlock#media_id#" class="border rounded mb-1">
 						#mediablock#
 					</div>
 				</div>
@@ -53,7 +53,7 @@
 			<cfloop query="examples">
 				<div class="col-12 col-md-6 col-xl-4 px-1 mt-5" style="background-color:aliciablue">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="600",captionAs="textFull")>
-					<div id="mediaBlock#media_id#" class="border rounded">
+					<div id="mediaBlock#media_id#" class="border rounded mb-1">
 					#mediablock#
 					</div>
 				</div>
@@ -64,14 +64,14 @@
 			<div class="col-10 float-left mt-5 px-1" style="background-color:lemonchiffon">
 			<cfset media_id = "1333">
 				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full",size="1000")>
-				<div id="mediaFullBlock#media_id#" class="border rounded">
+				<div id="mediaFullBlock#media_id#" class="border rounded mb-1">
 					#mediablock#
 				</div>
 			</div>
 			<div class="col-1 px-0 float-left mt-5 px-1" style="background-color:peachpuff">
 			<cfset media_id = "90914">
 				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",size="100",captionAs="textLinks")>
-				<div id="mediaThumbBlock#media_id#" class="border rounded">
+				<div id="mediaThumbBlock#media_id#" class="border rounded mb-1">
 					#mediablock#
 				</div>
 			</div>	
