@@ -50,7 +50,7 @@
 		</div>
 
 		<div class="row">
-			<div class="container-fluid mt-5"><h4 class="mb-0"> Background blue.  These examples are set with size="600" captionAs="textFull" (still truncated to 250 chars)in getMediaBlockHtml().  </h4></div>
+			<div class="container-fluid mt-5"><h4 class="mb-0"> Background blue.  These examples are set with size="600" captionAs="textFull" (still truncated to 250 chars)in getMediaBlockHtml(). Includes license info. </h4></div>
 			<cfloop query="examples">
 				<div class="col-12 col-md-6 col-xl-4 px-1 mt-5" style="background-color:aliceblue">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="600",captionAs="textFull")>
@@ -64,14 +64,14 @@
 		<div class="row">
 			<div class="col-10 float-left mt-5 px-1" style="background-color:lemonchiffon">
 			<cfset media_id = "1333">
-				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full",size="1000",captionAs="textShort")>
+				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full",size="1000",captionAs="textFull")>
 				<div id="mediaFullBlock#media_id#" class="border rounded mb-1">
 					#mediablock#
 				</div>
 			</div>
 		</div>
 		<div class="row">
-		<div class="container-fluid mt-5"><h4 class="mb-0"> Background peach.  This example is the intrinsic size of the thumbnail (displayAs="thumb") with only the links --captionAs="textLinks".  </h4></div>
+		<div class="container-fluid my-5"><h4 class="mb-0"> Background peach.  This example is the intrinsic size of the thumbnail (displayAs="thumb") with only the links --captionAs="textLinks".  </h4></div>
 			<div class="col-1 px-0 float-left mt-5 px-1" style="background-color:peachpuff">
 			<cfset media_id = "90914">
 				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",captionAs="textLinks")>
