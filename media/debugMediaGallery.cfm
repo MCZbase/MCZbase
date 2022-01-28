@@ -72,16 +72,16 @@
 			</div>
 		</div>
 		<div class="row mb-3">
-		<div class="container-fluid my-5"><h4 class="mb-0"> Background peach.  This example is the intrinsic size of the thumbnail (displayAs="thumb") with only the links --captionAs="textLinks".  </h4></div>
-			<div class="col-1 px-0 float-left mt-5" style="background-color:peachpuff">
-			<cfset media_id = "90914">
-				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",captionAs="textLinks")>
-				<div id="mediaThumbBlock#media_id#" class="border rounded">
-					#mediablock#
-				</div>
-			</div>	
+			<div class="container-fluid my-5"><h4 class="mb-0"> Background peach.  This example is the intrinsic size of the thumbnail (displayAs="thumb") with only the links --captionAs="textLinks".  </h4></div>
+				<div class="col-1 px-0 float-left mt-5" style="background-color:peachpuff">
+					<cfset media_id = "90914">
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",captionAs="textLinks")>
+					<div id="mediaThumbBlock#media_id#" class="border rounded">
+						#mediablock#
+					</div>
+				</div>	
+			</div>
 		</div>
-
 	</div>
 </cfoutput>
 
