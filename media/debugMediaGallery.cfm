@@ -64,7 +64,7 @@
 		<div class="row">
 			<div class="col-10 float-left mt-5 px-1" style="background-color:lemonchiffon">
 			<cfset media_id = "1333">
-				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full",size="1000")>
+				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full",size="1000",captionAs="textShort")>
 				<div id="mediaFullBlock#media_id#" class="border rounded mb-1">
 					#mediablock#
 				</div>
