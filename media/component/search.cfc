@@ -1115,7 +1115,7 @@ limitations under the License.
 										<cfset hw = 'width="auto" height="auto"'>
 										<cfset l_styles = "max-width:150px;max-height:100px;">
 									<cfelse>
-										<cfset hw = 'width="150" height="auto"'><!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait  --->
+										<cfset hw = 'width="150" height="auto"'><!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --->
 									</cfif>
 							<cfelse>
 								<cfset l_styles = "max-width:125px;max-height:auto;margin: .75rem 0 .5rem 0;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
@@ -1146,7 +1146,7 @@ limitations under the License.
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 							<cfelseif #l_captionAs# EQ "textLinks">
 							<!--- textLinks is used when only the links are desired under the thumbnail--->
-							<div class="mt-0 col-12 pb-1 px-0">
+							<div class="mt-0 col-12 pb-1 px-0 mt-1">
 								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<span class="d-inline">(<a target="_blank" href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>
