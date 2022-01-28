@@ -1110,12 +1110,12 @@ limitations under the License.
 								<!--- use a preview_uri, if one was specified --->
 								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
 								<cfset displayImage = preview_uri>
-									<cfset l_size = (#l_size#)/2>
+								<!---	<cfset l_size = (#l_size#)/2>--->
 									<cfif #l_displayAs# eq "thumb">
 										<cfset hw = 'width="auto" height="auto"'>
 										<cfset l_styles = "max-width:150px;max-height:100px;">
 									<cfelse>
-										<cfset hw = 'width="#l_size#" height="auto"'>
+										<cfset hw = 'width="100%" height="auto"'>
 									</cfif>
 							<cfelse>
 								<cfset l_styles = "max-width:125px;max-height:auto;margin: .75rem 0 .5rem 0;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
