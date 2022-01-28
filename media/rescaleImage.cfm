@@ -32,12 +32,15 @@ Streams directly to response without use of CFFileServelet
 	<cfset fitWidth = 500>
 </cfif>
 <cfset mimeType = "image/png">
+<cfif NOT isdefined("use_thumb") OR len(use_thumb) EQ 0>
+	<cfset use_thumb = "false">
+</cfif>
 <cfif NOT isdefined("media_id") OR len(media_id) EQ 0>
 	<cfset target = "#Application.webDirectory#/shared/images/missing_image_icon_298822.png">
 <cfelse>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
 		SELECT
-			media_type, mime_type, media_uri,
+			media_type, mime_type, media_uri, preview_uri,
 			MCZBASE.get_medialabel(media.media_id,'width') as width
 		FROM media
 		WHERE
@@ -52,10 +55,17 @@ Streams directly to response without use of CFFileServelet
 					<cflocation URL="#media.media_uri#">
 					<cfabort>
 				<cfelse>
-					<!--- setup to rescale --->
-					<cfset target = replace(media_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-					<cfset target = replace(media_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-					<cfset mimeType = "#mime_type#">
+					<cfif use_thumb EQ "true">
+						<cfset target = replace(preview_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+						<cfset target = replace(preview_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+						<!--- TODO: identify mime type from preview.  --->
+						<cfset mimeType = "#mime_type#">
+					<cfelse>
+						<!--- setup to rescale --->
+						<cfset target = replace(media_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+						<cfset target = replace(media_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+						<cfset mimeType = "#mime_type#">
+					</cfif>
 				</cfif>
 			<cfelse>
 				<cfif media_type EQ 'image'>

@@ -1053,6 +1053,12 @@ limitations under the License.
 	<cfset l_styles = #arguments.styles#>
 	<cfset l_captionAs = #arguments.captionAs#>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
+	<cfif l_displayAs EQ "fixedSmallThumb">
+		<cfif l_size GT 150>
+			<cfset l_size = 150>
+		</cfif>
+		<cfset l_captionAs = "textNone">
+	</cfif>
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
 		<cfoutput>
 			<cftry>
@@ -1093,7 +1099,17 @@ limitations under the License.
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
-							<cfif #l_displayAs# EQ "thumb">
+							<cfif #l_displayAs# EQ "fixedSmallThumb">
+								<cfif host EQ "mczbase.mcz.harvard.edu">
+									<cfset hw = 'height="#l_size#px;" width="#l_size#px;"'>
+									<cfset sizeType='&width=#l_size#&height=#l_size#'>
+									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeType#">
+								<cfelse>
+									<cfset displayImage = preview_uri>
+									<cfset hw = 'width="auto" height="auto"'>
+									<cfset l_styles = "max-width:#l_size#px;max-height:#l_size#px;">
+								</cfif>
+							<cfelseif #l_displayAs# EQ "thumb">
 								<cfset displayImage = preview_uri>
 								<cfset hw = 'width="auto" height="auto"'>
 								<cfset l_styles = "max-width:150px;max-height:100px;">
@@ -1139,6 +1155,11 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<div class="media_widget">	
+							<cfif #l_captionAs# EQ "textNone">
+								<cfset linkTarget = "/media/#media.media_id#">
+							<cfelse>
+								<cfset linkTarget = "#media.media_uri#">
+							</cfif>
 							<a href="#media.media_uri#" target="_blank" class="d-block w-100 active text-center" title="click to open full image">
 								<img src="#displayImage#" alt="#alt#" #hw# style="#l_styles#">
 							</a>
