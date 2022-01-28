@@ -50,8 +50,9 @@
 		</div>
 
 		<div class="row">
+			<div class="container-fluid mt-5"><h4 class="mb-0"> Background blue.  These examples are set with size="600" captionAs="textFull" (still truncated to 250 chars)in getMediaBlockHtml().  </h4></div>
 			<cfloop query="examples">
-				<div class="col-12 col-md-6 col-xl-4 px-1 mt-5" style="background-color:aliciablue">
+				<div class="col-12 col-md-6 col-xl-4 px-1 mt-5" style="background-color:aliceblue">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="600",captionAs="textFull")>
 					<div id="mediaBlock#media_id#" class="border rounded mb-1">
 					#mediablock#
