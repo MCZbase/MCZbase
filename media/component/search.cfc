@@ -1117,7 +1117,7 @@ limitations under the License.
 										<cfset hw = 'width="auto" height="100"'>
 									</cfif>
 							<cfelse>
-								<cfset l_styles = "max-width:125px;max-height:auto;padding: .75rem 0 0 0;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
+								<cfset l_styles = "max-width:125px;max-height:auto;padding: .75rem 0 .5rem 0;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/Image-x-generic.svg">
