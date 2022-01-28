@@ -26,7 +26,10 @@
 			)
 		</cfquery>
 		<div class="row">
+			<h4> Background light gray.  These examples are set with a size attribute (e.g., size="400") and a captionAs attribute (e.g., textMid) to getMediaBlockHtml(). The placeholder images are given a maximum width, which keeps them thumbnail size even if the container is larger and the size of the shared drive images are larger.  It is possible to allow these placeholder images to fill the container they are in by increasing the max-width (<cfset l_styles = "max-width:150px;max-height:auto;">) on line 1121 of media/components/search.cfc. </h4>
 			<cfloop query="examples">
+				
+	
 				<div class="col-12 col-sm-6 col-md-4 col-xl-3 mt-5 bg-light">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textMid")>
 					<div id="mediaBlock#media_id#">
