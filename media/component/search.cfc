@@ -1129,6 +1129,8 @@ limitations under the License.
 									<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
 								<cfelseif media_type is "3D model">
 									<cfset displayImage =  "/shared/images/Airy-3d.svg">
+								<cfelseif displayImage = "spectrometer data">
+									<cfset displayImage = "/shared/images/spec_thumb.jpg">
 								<cfelse>
 									<cfset displayImage =  "/shared/images/Image-x-generic.svg">
 									<!---nothing was working for mime type--->
