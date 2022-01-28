@@ -1138,7 +1138,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<div class="media_widget">	
-							<a href="#media.media_uri#" target="_blank" class="d-block my-0 w-100 active text-center" title="click to open full image">
+							<a href="#media.media_uri#" target="_blank" class="d-block py-2 w-100 active text-center" title="click to open full image">
 								<img src="#displayImage#" alt="#alt#" #hw# style="#l_styles#">
 							</a>
 							<cfif #l_captionAs# EQ "textNone">
