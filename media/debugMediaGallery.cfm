@@ -66,9 +66,9 @@
 					#mediablock#
 				</div>
 			</div>
-			<div class="col-1 px-0 float-left mt-5">
+			<div class="col-1 px-0 float-left mt-5 bg-danger">
 			<cfset media_id = "90914">
-				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",size="100",captionAs=textLinks)>
+				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",size="100",captionAs="textLinks")>
 				<div id="mediaThumbBlock#media_id#">
 					#mediablock#
 				</div>
