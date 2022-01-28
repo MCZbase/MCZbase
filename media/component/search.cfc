@@ -1107,11 +1107,11 @@ limitations under the License.
 								</cfif>
 							</cfif>
 						<cfelse>
-							<cfif len(preview_uri) GT 0>
+							<cfif len(preview_uri) GT 0  and not isDefined(#size#)>
 								<!--- use a preview_uri, if one was specified --->
 								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
 								<cfset displayImage = preview_uri>
-									<cfif #l_displayAs# eq "thumb" and #size# is null>
+									<cfif #l_displayAs# eq "thumb">
 										<cfset hw = 'width="auto" height="auto"'>
 										<cfset l_styles = 'max-width:150px;max-height:100px;'>
 									<cfelse>
