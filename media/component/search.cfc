@@ -1160,7 +1160,7 @@ limitations under the License.
 							<cfelse>
 								<cfset linkTarget = "#media.media_uri#">
 							</cfif>
-							<a href="#media.media_uri#" target="_blank" class="d-block w-100 active text-center" title="click to open full image">
+							<a href="#linkTarget#" target="_blank" class="d-block w-100 active text-center" title="click to access media">
 								<img src="#displayImage#" alt="#alt#" #hw# style="#l_styles#">
 							</a>
 							<cfif #l_captionAs# EQ "textNone">
