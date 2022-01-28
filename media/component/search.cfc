@@ -1162,7 +1162,7 @@ limitations under the License.
 								</p>
 							</div>
 							<cfelse>
-							<div class="mt-0 col-12 pb-1 px-0">
+							<div class="mt-0 col-12 pb-1 px-0 mt-1">
 								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<span class="d-inline">(<a target="_blank" href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>
