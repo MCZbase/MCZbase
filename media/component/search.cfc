@@ -1129,7 +1129,7 @@ limitations under the License.
 								<cfelseif media_type is "text">
 									<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
 								<cfelseif media_type is "3D model">
-									<cfset displayImage =  "/shared/images/Airy-3d.svg">
+									<cfset displayImage =  "/shared/images/model_3d.svg">
 								<cfelseif media_type is "spectrometer data">
 									<cfset displayImage = "/shared/images/Sine_waves_different_frequencies.svg">
 								<cfelse>
