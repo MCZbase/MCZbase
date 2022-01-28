@@ -1,0 +1,973 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 1280 160"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="colorband-edit.svg">
+  <metadata
+     id="metadata238">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Gnuplot</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs236">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4496">
+  	<stop id="stop380nm" offset="0.000000" style="stop-color:#05000D;" />
+  	<stop id="stop381nm" offset="0.002632" style="stop-color:#06000F;" />
+  	<stop id="stop382nm" offset="0.005263" style="stop-color:#060010;" />
+  	<stop id="stop383nm" offset="0.007895" style="stop-color:#070012;" />
+  	<stop id="stop384nm" offset="0.010526" style="stop-color:#080013;" />
+  	<stop id="stop385nm" offset="0.013158" style="stop-color:#090015;" />
+  	<stop id="stop386nm" offset="0.015789" style="stop-color:#0A0017;" />
+  	<stop id="stop387nm" offset="0.018421" style="stop-color:#0B0018;" />
+  	<stop id="stop388nm" offset="0.021053" style="stop-color:#0C001A;" />
+  	<stop id="stop389nm" offset="0.023684" style="stop-color:#0D001B;" />
+  	<stop id="stop390nm" offset="0.026316" style="stop-color:#0E001D;" />
+  	<stop id="stop391nm" offset="0.028947" style="stop-color:#0F001F;" />
+  	<stop id="stop392nm" offset="0.031579" style="stop-color:#100020;" />
+  	<stop id="stop393nm" offset="0.034211" style="stop-color:#110022;" />
+  	<stop id="stop394nm" offset="0.036842" style="stop-color:#130024;" />
+  	<stop id="stop395nm" offset="0.039474" style="stop-color:#140026;" />
+  	<stop id="stop396nm" offset="0.042105" style="stop-color:#150028;" />
+  	<stop id="stop397nm" offset="0.044737" style="stop-color:#160029;" />
+  	<stop id="stop398nm" offset="0.047368" style="stop-color:#17002B;" />
+  	<stop id="stop399nm" offset="0.050000" style="stop-color:#18002D;" />
+  	<stop id="stop400nm" offset="0.052632" style="stop-color:#1A002F;" />
+  	<stop id="stop401nm" offset="0.055263" style="stop-color:#1B0032;" />
+  	<stop id="stop402nm" offset="0.057895" style="stop-color:#1C0034;" />
+  	<stop id="stop403nm" offset="0.060526" style="stop-color:#1E0036;" />
+  	<stop id="stop404nm" offset="0.063158" style="stop-color:#1F0039;" />
+  	<stop id="stop405nm" offset="0.065789" style="stop-color:#21003B;" />
+  	<stop id="stop406nm" offset="0.068421" style="stop-color:#22003E;" />
+  	<stop id="stop407nm" offset="0.071053" style="stop-color:#240040;" />
+  	<stop id="stop408nm" offset="0.073684" style="stop-color:#250043;" />
+  	<stop id="stop409nm" offset="0.076316" style="stop-color:#270046;" />
+  	<stop id="stop410nm" offset="0.078947" style="stop-color:#290049;" />
+  	<stop id="stop411nm" offset="0.081579" style="stop-color:#2A004C;" />
+  	<stop id="stop412nm" offset="0.084211" style="stop-color:#2C004F;" />
+  	<stop id="stop413nm" offset="0.086842" style="stop-color:#2E0053;" />
+  	<stop id="stop414nm" offset="0.089474" style="stop-color:#2F0056;" />
+  	<stop id="stop415nm" offset="0.092105" style="stop-color:#31005A;" />
+  	<stop id="stop416nm" offset="0.094737" style="stop-color:#33005D;" />
+  	<stop id="stop417nm" offset="0.097368" style="stop-color:#350061;" />
+  	<stop id="stop418nm" offset="0.100000" style="stop-color:#360064;" />
+  	<stop id="stop419nm" offset="0.102632" style="stop-color:#380068;" />
+  	<stop id="stop420nm" offset="0.105263" style="stop-color:#3A006C;" />
+  	<stop id="stop421nm" offset="0.107895" style="stop-color:#3B0070;" />
+  	<stop id="stop422nm" offset="0.110526" style="stop-color:#3D0074;" />
+  	<stop id="stop423nm" offset="0.113158" style="stop-color:#3F0078;" />
+  	<stop id="stop424nm" offset="0.115789" style="stop-color:#40007C;" />
+  	<stop id="stop425nm" offset="0.118421" style="stop-color:#410080;" />
+  	<stop id="stop426nm" offset="0.121053" style="stop-color:#430084;" />
+  	<stop id="stop427nm" offset="0.123684" style="stop-color:#440088;" />
+  	<stop id="stop428nm" offset="0.126316" style="stop-color:#45008D;" />
+  	<stop id="stop429nm" offset="0.128947" style="stop-color:#460091;" />
+  	<stop id="stop430nm" offset="0.131579" style="stop-color:#470095;" />
+  	<stop id="stop431nm" offset="0.134211" style="stop-color:#480099;" />
+  	<stop id="stop432nm" offset="0.136842" style="stop-color:#49009D;" />
+  	<stop id="stop433nm" offset="0.139474" style="stop-color:#4900A2;" />
+  	<stop id="stop434nm" offset="0.142105" style="stop-color:#4A00A6;" />
+  	<stop id="stop435nm" offset="0.144737" style="stop-color:#4A00AA;" />
+  	<stop id="stop436nm" offset="0.147368" style="stop-color:#4A00AF;" />
+  	<stop id="stop437nm" offset="0.150000" style="stop-color:#4A01B3;" />
+  	<stop id="stop438nm" offset="0.152632" style="stop-color:#4A01B7;" />
+  	<stop id="stop439nm" offset="0.155263" style="stop-color:#4A01BB;" />
+  	<stop id="stop440nm" offset="0.157895" style="stop-color:#4A02C0;" />
+  	<stop id="stop441nm" offset="0.160526" style="stop-color:#4903C4;" />
+  	<stop id="stop442nm" offset="0.163158" style="stop-color:#4804C8;" />
+  	<stop id="stop443nm" offset="0.165789" style="stop-color:#4706CC;" />
+  	<stop id="stop444nm" offset="0.168421" style="stop-color:#4609CF;" />
+  	<stop id="stop445nm" offset="0.171053" style="stop-color:#450CD3;" />
+  	<stop id="stop446nm" offset="0.173684" style="stop-color:#430FD6;" />
+  	<stop id="stop447nm" offset="0.176316" style="stop-color:#4113D9;" />
+  	<stop id="stop448nm" offset="0.178947" style="stop-color:#3F17DB;" />
+  	<stop id="stop449nm" offset="0.181579" style="stop-color:#3D1BDD;" />
+  	<stop id="stop450nm" offset="0.184211" style="stop-color:#3B1FDE;" />
+  	<stop id="stop451nm" offset="0.186842" style="stop-color:#3824DF;" />
+  	<stop id="stop452nm" offset="0.189474" style="stop-color:#3528DF;" />
+  	<stop id="stop453nm" offset="0.192105" style="stop-color:#322DDE;" />
+  	<stop id="stop454nm" offset="0.194737" style="stop-color:#2F31DD;" />
+  	<stop id="stop455nm" offset="0.197368" style="stop-color:#2C36DC;" />
+  	<stop id="stop456nm" offset="0.200000" style="stop-color:#283AD9;" />
+  	<stop id="stop457nm" offset="0.202632" style="stop-color:#253FD7;" />
+  	<stop id="stop458nm" offset="0.205263" style="stop-color:#2143D4;" />
+  	<stop id="stop459nm" offset="0.207895" style="stop-color:#1E47D0;" />
+  	<stop id="stop460nm" offset="0.210526" style="stop-color:#1A4BCC;" />
+  	<stop id="stop461nm" offset="0.213158" style="stop-color:#174FC8;" />
+  	<stop id="stop462nm" offset="0.215789" style="stop-color:#1452C4;" />
+  	<stop id="stop463nm" offset="0.218421" style="stop-color:#1156C0;" />
+  	<stop id="stop464nm" offset="0.221053" style="stop-color:#0D59BD;" />
+  	<stop id="stop465nm" offset="0.223684" style="stop-color:#0A5CB9;" />
+  	<stop id="stop466nm" offset="0.226316" style="stop-color:#085FB5;" />
+  	<stop id="stop467nm" offset="0.228947" style="stop-color:#0662B2;" />
+  	<stop id="stop468nm" offset="0.231579" style="stop-color:#0464AF;" />
+  	<stop id="stop469nm" offset="0.234211" style="stop-color:#0367AD;" />
+  	<stop id="stop470nm" offset="0.236842" style="stop-color:#026AAA;" />
+  	<stop id="stop471nm" offset="0.239474" style="stop-color:#016CA8;" />
+  	<stop id="stop472nm" offset="0.242105" style="stop-color:#016EA7;" />
+  	<stop id="stop473nm" offset="0.244737" style="stop-color:#0171A5;" />
+  	<stop id="stop474nm" offset="0.247368" style="stop-color:#0073A4;" />
+  	<stop id="stop475nm" offset="0.250000" style="stop-color:#0075A3;" />
+  	<stop id="stop476nm" offset="0.252632" style="stop-color:#0078A2;" />
+  	<stop id="stop477nm" offset="0.255263" style="stop-color:#007AA1;" />
+  	<stop id="stop478nm" offset="0.257895" style="stop-color:#007CA0;" />
+  	<stop id="stop479nm" offset="0.260526" style="stop-color:#007E9F;" />
+  	<stop id="stop480nm" offset="0.263158" style="stop-color:#00819E;" />
+  	<stop id="stop481nm" offset="0.265789" style="stop-color:#00839D;" />
+  	<stop id="stop482nm" offset="0.268421" style="stop-color:#00859D;" />
+  	<stop id="stop483nm" offset="0.271053" style="stop-color:#00889C;" />
+  	<stop id="stop484nm" offset="0.273684" style="stop-color:#008A9B;" />
+  	<stop id="stop485nm" offset="0.276316" style="stop-color:#008C9A;" />
+  	<stop id="stop486nm" offset="0.278947" style="stop-color:#008F9A;" />
+  	<stop id="stop487nm" offset="0.281579" style="stop-color:#009199;" />
+  	<stop id="stop488nm" offset="0.284211" style="stop-color:#009398;" />
+  	<stop id="stop489nm" offset="0.286842" style="stop-color:#009697;" />
+  	<stop id="stop490nm" offset="0.289474" style="stop-color:#009897;" />
+  	<stop id="stop491nm" offset="0.292105" style="stop-color:#009B96;" />
+  	<stop id="stop492nm" offset="0.294737" style="stop-color:#009D95;" />
+  	<stop id="stop493nm" offset="0.297368" style="stop-color:#00A094;" />
+  	<stop id="stop494nm" offset="0.300000" style="stop-color:#00A293;" />
+  	<stop id="stop495nm" offset="0.302632" style="stop-color:#00A593;" />
+  	<stop id="stop496nm" offset="0.305263" style="stop-color:#00A792;" />
+  	<stop id="stop497nm" offset="0.307895" style="stop-color:#00AA91;" />
+  	<stop id="stop498nm" offset="0.310526" style="stop-color:#00AC90;" />
+  	<stop id="stop499nm" offset="0.313158" style="stop-color:#00AF8F;" />
+  	<stop id="stop500nm" offset="0.315789" style="stop-color:#00B18E;" />
+  	<stop id="stop501nm" offset="0.318421" style="stop-color:#00B48E;" />
+  	<stop id="stop502nm" offset="0.321053" style="stop-color:#00B68D;" />
+  	<stop id="stop503nm" offset="0.323684" style="stop-color:#00B98C;" />
+  	<stop id="stop504nm" offset="0.326316" style="stop-color:#00BC8B;" />
+  	<stop id="stop505nm" offset="0.328947" style="stop-color:#00BE8A;" />
+  	<stop id="stop506nm" offset="0.331579" style="stop-color:#00C189;" />
+  	<stop id="stop507nm" offset="0.334211" style="stop-color:#00C388;" />
+  	<stop id="stop508nm" offset="0.336842" style="stop-color:#00C686;" />
+  	<stop id="stop509nm" offset="0.339474" style="stop-color:#00C885;" />
+  	<stop id="stop510nm" offset="0.342105" style="stop-color:#00CA84;" />
+  	<stop id="stop511nm" offset="0.344737" style="stop-color:#00CD82;" />
+  	<stop id="stop512nm" offset="0.347368" style="stop-color:#00CF81;" />
+  	<stop id="stop513nm" offset="0.350000" style="stop-color:#00D17F;" />
+  	<stop id="stop514nm" offset="0.352632" style="stop-color:#00D47E;" />
+  	<stop id="stop515nm" offset="0.355263" style="stop-color:#00D67C;" />
+  	<stop id="stop516nm" offset="0.357895" style="stop-color:#00D87A;" />
+  	<stop id="stop517nm" offset="0.360526" style="stop-color:#00DA78;" />
+  	<stop id="stop518nm" offset="0.363158" style="stop-color:#00DC76;" />
+  	<stop id="stop519nm" offset="0.365789" style="stop-color:#00DE74;" />
+  	<stop id="stop520nm" offset="0.368421" style="stop-color:#00E072;" />
+  	<stop id="stop521nm" offset="0.371053" style="stop-color:#01E270;" />
+  	<stop id="stop522nm" offset="0.373684" style="stop-color:#01E36E;" />
+  	<stop id="stop523nm" offset="0.376316" style="stop-color:#01E56B;" />
+  	<stop id="stop524nm" offset="0.378947" style="stop-color:#02E668;" />
+  	<stop id="stop525nm" offset="0.381579" style="stop-color:#03E866;" />
+  	<stop id="stop526nm" offset="0.384211" style="stop-color:#05E963;" />
+  	<stop id="stop527nm" offset="0.386842" style="stop-color:#07EB60;" />
+  	<stop id="stop528nm" offset="0.389474" style="stop-color:#0AEC5D;" />
+  	<stop id="stop529nm" offset="0.392105" style="stop-color:#0EED59;" />
+  	<stop id="stop530nm" offset="0.394737" style="stop-color:#12EE56;" />
+  	<stop id="stop531nm" offset="0.397368" style="stop-color:#16EF52;" />
+  	<stop id="stop532nm" offset="0.400000" style="stop-color:#1BF04F;" />
+  	<stop id="stop533nm" offset="0.402632" style="stop-color:#20F14B;" />
+  	<stop id="stop534nm" offset="0.405263" style="stop-color:#25F247;" />
+  	<stop id="stop535nm" offset="0.407895" style="stop-color:#2AF243;" />
+  	<stop id="stop536nm" offset="0.410526" style="stop-color:#30F33E;" />
+  	<stop id="stop537nm" offset="0.413158" style="stop-color:#36F33A;" />
+  	<stop id="stop538nm" offset="0.415789" style="stop-color:#3CF336;" />
+  	<stop id="stop539nm" offset="0.418421" style="stop-color:#42F331;" />
+  	<stop id="stop540nm" offset="0.421053" style="stop-color:#49F42D;" />
+  	<stop id="stop541nm" offset="0.423684" style="stop-color:#4FF329;" />
+  	<stop id="stop542nm" offset="0.426316" style="stop-color:#55F324;" />
+  	<stop id="stop543nm" offset="0.428947" style="stop-color:#5CF320;" />
+  	<stop id="stop544nm" offset="0.431579" style="stop-color:#62F31C;" />
+  	<stop id="stop545nm" offset="0.434211" style="stop-color:#68F218;" />
+  	<stop id="stop546nm" offset="0.436842" style="stop-color:#6EF214;" />
+  	<stop id="stop547nm" offset="0.439474" style="stop-color:#74F111;" />
+  	<stop id="stop548nm" offset="0.442105" style="stop-color:#7AF00D;" />
+  	<stop id="stop549nm" offset="0.444737" style="stop-color:#7FF00A;" />
+  	<stop id="stop550nm" offset="0.447368" style="stop-color:#85EF07;" />
+  	<stop id="stop551nm" offset="0.450000" style="stop-color:#8AEE05;" />
+  	<stop id="stop552nm" offset="0.452632" style="stop-color:#8FED04;" />
+  	<stop id="stop553nm" offset="0.455263" style="stop-color:#94EC03;" />
+  	<stop id="stop554nm" offset="0.457895" style="stop-color:#99EB02;" />
+  	<stop id="stop555nm" offset="0.460526" style="stop-color:#9DEA01;" />
+  	<stop id="stop556nm" offset="0.463158" style="stop-color:#A2E801;" />
+  	<stop id="stop557nm" offset="0.465789" style="stop-color:#A6E701;" />
+  	<stop id="stop558nm" offset="0.468421" style="stop-color:#AAE600;" />
+  	<stop id="stop559nm" offset="0.471053" style="stop-color:#AEE500;" />
+  	<stop id="stop560nm" offset="0.473684" style="stop-color:#B2E300;" />
+  	<stop id="stop561nm" offset="0.476316" style="stop-color:#B6E200;" />
+  	<stop id="stop562nm" offset="0.478947" style="stop-color:#B9E000;" />
+  	<stop id="stop563nm" offset="0.481579" style="stop-color:#BDDF00;" />
+  	<stop id="stop564nm" offset="0.484211" style="stop-color:#C0DD00;" />
+  	<stop id="stop565nm" offset="0.486842" style="stop-color:#C4DC00;" />
+  	<stop id="stop566nm" offset="0.489474" style="stop-color:#C7DA00;" />
+  	<stop id="stop567nm" offset="0.492105" style="stop-color:#CAD800;" />
+  	<stop id="stop568nm" offset="0.494737" style="stop-color:#CDD700;" />
+  	<stop id="stop569nm" offset="0.497368" style="stop-color:#D0D500;" />
+  	<stop id="stop570nm" offset="0.500000" style="stop-color:#D3D300;" />
+  	<stop id="stop571nm" offset="0.502632" style="stop-color:#D6D100;" />
+  	<stop id="stop572nm" offset="0.505263" style="stop-color:#D9CF00;" />
+  	<stop id="stop573nm" offset="0.507895" style="stop-color:#DCCD00;" />
+  	<stop id="stop574nm" offset="0.510526" style="stop-color:#DECB00;" />
+  	<stop id="stop575nm" offset="0.513158" style="stop-color:#E1C900;" />
+  	<stop id="stop576nm" offset="0.515789" style="stop-color:#E3C700;" />
+  	<stop id="stop577nm" offset="0.518421" style="stop-color:#E6C400;" />
+  	<stop id="stop578nm" offset="0.521053" style="stop-color:#E8C200;" />
+  	<stop id="stop579nm" offset="0.523684" style="stop-color:#EAC000;" />
+  	<stop id="stop580nm" offset="0.526316" style="stop-color:#EDBD00;" />
+  	<stop id="stop581nm" offset="0.528947" style="stop-color:#EFBB00;" />
+  	<stop id="stop582nm" offset="0.531579" style="stop-color:#F0B800;" />
+  	<stop id="stop583nm" offset="0.534211" style="stop-color:#F2B600;" />
+  	<stop id="stop584nm" offset="0.536842" style="stop-color:#F4B300;" />
+  	<stop id="stop585nm" offset="0.539474" style="stop-color:#F5B000;" />
+  	<stop id="stop586nm" offset="0.542105" style="stop-color:#F7AE00;" />
+  	<stop id="stop587nm" offset="0.544737" style="stop-color:#F8AB00;" />
+  	<stop id="stop588nm" offset="0.547368" style="stop-color:#F9A800;" />
+  	<stop id="stop589nm" offset="0.550000" style="stop-color:#FAA500;" />
+  	<stop id="stop590nm" offset="0.552632" style="stop-color:#FBA200;" />
+  	<stop id="stop591nm" offset="0.555263" style="stop-color:#FC9F00;" />
+  	<stop id="stop592nm" offset="0.557895" style="stop-color:#FC9C00;" />
+  	<stop id="stop593nm" offset="0.560526" style="stop-color:#FD9900;" />
+  	<stop id="stop594nm" offset="0.563158" style="stop-color:#FD9600;" />
+  	<stop id="stop595nm" offset="0.565789" style="stop-color:#FE9300;" />
+  	<stop id="stop596nm" offset="0.568421" style="stop-color:#FE9000;" />
+  	<stop id="stop597nm" offset="0.571053" style="stop-color:#FE8D00;" />
+  	<stop id="stop598nm" offset="0.573684" style="stop-color:#FE8900;" />
+  	<stop id="stop599nm" offset="0.576316" style="stop-color:#FF8600;" />
+  	<stop id="stop600nm" offset="0.578947" style="stop-color:#FF8300;" />
+  	<stop id="stop601nm" offset="0.581579" style="stop-color:#FF8000;" />
+  	<stop id="stop602nm" offset="0.584211" style="stop-color:#FF7C00;" />
+  	<stop id="stop603nm" offset="0.586842" style="stop-color:#FF7900;" />
+  	<stop id="stop604nm" offset="0.589474" style="stop-color:#FF7600;" />
+  	<stop id="stop605nm" offset="0.592105" style="stop-color:#FF7300;" />
+  	<stop id="stop606nm" offset="0.594737" style="stop-color:#FF6F00;" />
+  	<stop id="stop607nm" offset="0.597368" style="stop-color:#FF6C00;" />
+  	<stop id="stop608nm" offset="0.600000" style="stop-color:#FF6900;" />
+  	<stop id="stop609nm" offset="0.602632" style="stop-color:#FE6500;" />
+  	<stop id="stop610nm" offset="0.605263" style="stop-color:#FE6200;" />
+  	<stop id="stop611nm" offset="0.607895" style="stop-color:#FE5F00;" />
+  	<stop id="stop612nm" offset="0.610526" style="stop-color:#FE5C00;" />
+  	<stop id="stop613nm" offset="0.613158" style="stop-color:#FD5800;" />
+  	<stop id="stop614nm" offset="0.615789" style="stop-color:#FD5500;" />
+  	<stop id="stop615nm" offset="0.618421" style="stop-color:#FC5200;" />
+  	<stop id="stop616nm" offset="0.621053" style="stop-color:#FB4F00;" />
+  	<stop id="stop617nm" offset="0.623684" style="stop-color:#FA4B00;" />
+  	<stop id="stop618nm" offset="0.626316" style="stop-color:#F94800;" />
+  	<stop id="stop619nm" offset="0.628947" style="stop-color:#F84500;" />
+  	<stop id="stop620nm" offset="0.631579" style="stop-color:#F74200;" />
+  	<stop id="stop621nm" offset="0.634211" style="stop-color:#F53F00;" />
+  	<stop id="stop622nm" offset="0.636842" style="stop-color:#F43C00;" />
+  	<stop id="stop623nm" offset="0.639474" style="stop-color:#F23800;" />
+  	<stop id="stop624nm" offset="0.642105" style="stop-color:#F03500;" />
+  	<stop id="stop625nm" offset="0.644737" style="stop-color:#EE3200;" />
+  	<stop id="stop626nm" offset="0.647368" style="stop-color:#EC2F00;" />
+  	<stop id="stop627nm" offset="0.650000" style="stop-color:#EA2C00;" />
+  	<stop id="stop628nm" offset="0.652632" style="stop-color:#E82900;" />
+  	<stop id="stop629nm" offset="0.655263" style="stop-color:#E52700;" />
+  	<stop id="stop630nm" offset="0.657895" style="stop-color:#E32401;" />
+  	<stop id="stop631nm" offset="0.660526" style="stop-color:#E02101;" />
+  	<stop id="stop632nm" offset="0.663158" style="stop-color:#DD1E01;" />
+  	<stop id="stop633nm" offset="0.665789" style="stop-color:#DA1B01;" />
+  	<stop id="stop634nm" offset="0.668421" style="stop-color:#D81801;" />
+  	<stop id="stop635nm" offset="0.671053" style="stop-color:#D51602;" />
+  	<stop id="stop636nm" offset="0.673684" style="stop-color:#D21302;" />
+  	<stop id="stop637nm" offset="0.676316" style="stop-color:#CF1102;" />
+  	<stop id="stop638nm" offset="0.678947" style="stop-color:#CC0E02;" />
+  	<stop id="stop639nm" offset="0.681579" style="stop-color:#C80C03;" />
+  	<stop id="stop640nm" offset="0.684211" style="stop-color:#C50903;" />
+  	<stop id="stop641nm" offset="0.686842" style="stop-color:#C20704;" />
+  	<stop id="stop642nm" offset="0.689474" style="stop-color:#BF0604;" />
+  	<stop id="stop643nm" offset="0.692105" style="stop-color:#BC0404;" />
+  	<stop id="stop644nm" offset="0.694737" style="stop-color:#B80304;" />
+  	<stop id="stop645nm" offset="0.697368" style="stop-color:#B50205;" />
+  	<stop id="stop646nm" offset="0.700000" style="stop-color:#B20205;" />
+  	<stop id="stop647nm" offset="0.702632" style="stop-color:#AE0105;" />
+  	<stop id="stop648nm" offset="0.705263" style="stop-color:#AB0105;" />
+  	<stop id="stop649nm" offset="0.707895" style="stop-color:#A80106;" />
+  	<stop id="stop650nm" offset="0.710526" style="stop-color:#A50006;" />
+  	<stop id="stop651nm" offset="0.713158" style="stop-color:#A10006;" />
+  	<stop id="stop652nm" offset="0.715789" style="stop-color:#9E0006;" />
+  	<stop id="stop653nm" offset="0.718421" style="stop-color:#9B0006;" />
+  	<stop id="stop654nm" offset="0.721053" style="stop-color:#980006;" />
+  	<stop id="stop655nm" offset="0.723684" style="stop-color:#940006;" />
+  	<stop id="stop656nm" offset="0.726316" style="stop-color:#910006;" />
+  	<stop id="stop657nm" offset="0.728947" style="stop-color:#8E0006;" />
+  	<stop id="stop658nm" offset="0.731579" style="stop-color:#8B0006;" />
+  	<stop id="stop659nm" offset="0.734211" style="stop-color:#880006;" />
+  	<stop id="stop660nm" offset="0.736842" style="stop-color:#850005;" />
+  	<stop id="stop661nm" offset="0.739474" style="stop-color:#820005;" />
+  	<stop id="stop662nm" offset="0.742105" style="stop-color:#7F0005;" />
+  	<stop id="stop663nm" offset="0.744737" style="stop-color:#7C0005;" />
+  	<stop id="stop664nm" offset="0.747368" style="stop-color:#790005;" />
+  	<stop id="stop665nm" offset="0.750000" style="stop-color:#760005;" />
+  	<stop id="stop666nm" offset="0.752632" style="stop-color:#730005;" />
+  	<stop id="stop667nm" offset="0.755263" style="stop-color:#700005;" />
+  	<stop id="stop668nm" offset="0.757895" style="stop-color:#6D0004;" />
+  	<stop id="stop669nm" offset="0.760526" style="stop-color:#6B0004;" />
+  	<stop id="stop670nm" offset="0.763158" style="stop-color:#680004;" />
+  	<stop id="stop671nm" offset="0.765789" style="stop-color:#650004;" />
+  	<stop id="stop672nm" offset="0.768421" style="stop-color:#630004;" />
+  	<stop id="stop673nm" offset="0.771053" style="stop-color:#600004;" />
+  	<stop id="stop674nm" offset="0.773684" style="stop-color:#5E0003;" />
+  	<stop id="stop675nm" offset="0.776316" style="stop-color:#5B0003;" />
+  	<stop id="stop676nm" offset="0.778947" style="stop-color:#590003;" />
+  	<stop id="stop677nm" offset="0.781579" style="stop-color:#560003;" />
+  	<stop id="stop678nm" offset="0.784211" style="stop-color:#540003;" />
+  	<stop id="stop679nm" offset="0.786842" style="stop-color:#520003;" />
+  	<stop id="stop680nm" offset="0.789474" style="stop-color:#500003;" />
+  	<stop id="stop681nm" offset="0.792105" style="stop-color:#4D0003;" />
+  	<stop id="stop682nm" offset="0.794737" style="stop-color:#4B0002;" />
+  	<stop id="stop683nm" offset="0.797368" style="stop-color:#490002;" />
+  	<stop id="stop684nm" offset="0.800000" style="stop-color:#470002;" />
+  	<stop id="stop685nm" offset="0.802632" style="stop-color:#450002;" />
+  	<stop id="stop686nm" offset="0.805263" style="stop-color:#430002;" />
+  	<stop id="stop687nm" offset="0.807895" style="stop-color:#410002;" />
+  	<stop id="stop688nm" offset="0.810526" style="stop-color:#3F0002;" />
+  	<stop id="stop689nm" offset="0.813158" style="stop-color:#3D0002;" />
+  	<stop id="stop690nm" offset="0.815789" style="stop-color:#3B0002;" />
+  	<stop id="stop691nm" offset="0.818421" style="stop-color:#390002;" />
+  	<stop id="stop692nm" offset="0.821053" style="stop-color:#370001;" />
+  	<stop id="stop693nm" offset="0.823684" style="stop-color:#360001;" />
+  	<stop id="stop694nm" offset="0.826316" style="stop-color:#340001;" />
+  	<stop id="stop695nm" offset="0.828947" style="stop-color:#320001;" />
+  	<stop id="stop696nm" offset="0.831579" style="stop-color:#310001;" />
+  	<stop id="stop697nm" offset="0.834211" style="stop-color:#2F0001;" />
+  	<stop id="stop698nm" offset="0.836842" style="stop-color:#2E0001;" />
+  	<stop id="stop699nm" offset="0.839474" style="stop-color:#2C0001;" />
+  	<stop id="stop700nm" offset="0.842105" style="stop-color:#2B0001;" />
+  	<stop id="stop701nm" offset="0.844737" style="stop-color:#290001;" />
+  	<stop id="stop702nm" offset="0.847368" style="stop-color:#280001;" />
+  	<stop id="stop703nm" offset="0.850000" style="stop-color:#260001;" />
+  	<stop id="stop704nm" offset="0.852632" style="stop-color:#250001;" />
+  	<stop id="stop705nm" offset="0.855263" style="stop-color:#240001;" />
+  	<stop id="stop706nm" offset="0.857895" style="stop-color:#230001;" />
+  	<stop id="stop707nm" offset="0.860526" style="stop-color:#210001;" />
+  	<stop id="stop708nm" offset="0.863158" style="stop-color:#200001;" />
+  	<stop id="stop709nm" offset="0.865789" style="stop-color:#1F0001;" />
+  	<stop id="stop710nm" offset="0.868421" style="stop-color:#1E0001;" />
+  	<stop id="stop711nm" offset="0.871053" style="stop-color:#1D0000;" />
+  	<stop id="stop712nm" offset="0.873684" style="stop-color:#1C0000;" />
+  	<stop id="stop713nm" offset="0.876316" style="stop-color:#1B0000;" />
+  	<stop id="stop714nm" offset="0.878947" style="stop-color:#1A0000;" />
+  	<stop id="stop715nm" offset="0.881579" style="stop-color:#190000;" />
+  	<stop id="stop716nm" offset="0.884211" style="stop-color:#180000;" />
+  	<stop id="stop717nm" offset="0.886842" style="stop-color:#170000;" />
+  	<stop id="stop718nm" offset="0.889474" style="stop-color:#160000;" />
+  	<stop id="stop719nm" offset="0.892105" style="stop-color:#150000;" />
+  	<stop id="stop720nm" offset="0.894737" style="stop-color:#140000;" />
+  	<stop id="stop721nm" offset="0.897368" style="stop-color:#130000;" />
+  	<stop id="stop722nm" offset="0.900000" style="stop-color:#120000;" />
+  	<stop id="stop723nm" offset="0.902632" style="stop-color:#110000;" />
+  	<stop id="stop724nm" offset="0.905263" style="stop-color:#100000;" />
+  	<stop id="stop725nm" offset="0.907895" style="stop-color:#100000;" />
+  	<stop id="stop726nm" offset="0.910526" style="stop-color:#0F0000;" />
+  	<stop id="stop727nm" offset="0.913158" style="stop-color:#0E0000;" />
+  	<stop id="stop728nm" offset="0.915789" style="stop-color:#0D0000;" />
+  	<stop id="stop729nm" offset="0.918421" style="stop-color:#0D0000;" />
+  	<stop id="stop730nm" offset="0.921053" style="stop-color:#0C0000;" />
+  	<stop id="stop731nm" offset="0.923684" style="stop-color:#0B0000;" />
+  	<stop id="stop732nm" offset="0.926316" style="stop-color:#0A0000;" />
+  	<stop id="stop733nm" offset="0.928947" style="stop-color:#0A0000;" />
+  	<stop id="stop734nm" offset="0.931579" style="stop-color:#090000;" />
+  	<stop id="stop735nm" offset="0.934211" style="stop-color:#090000;" />
+  	<stop id="stop736nm" offset="0.936842" style="stop-color:#080000;" />
+  	<stop id="stop737nm" offset="0.939474" style="stop-color:#070000;" />
+  	<stop id="stop738nm" offset="0.942105" style="stop-color:#070000;" />
+  	<stop id="stop739nm" offset="0.944737" style="stop-color:#070000;" />
+  	<stop id="stop740nm" offset="0.947368" style="stop-color:#060000;" />
+  	<stop id="stop741nm" offset="0.950000" style="stop-color:#060000;" />
+  	<stop id="stop742nm" offset="0.952632" style="stop-color:#050000;" />
+  	<stop id="stop743nm" offset="0.955263" style="stop-color:#050000;" />
+  	<stop id="stop744nm" offset="0.957895" style="stop-color:#050000;" />
+  	<stop id="stop745nm" offset="0.960526" style="stop-color:#040000;" />
+  	<stop id="stop746nm" offset="0.963158" style="stop-color:#040000;" />
+  	<stop id="stop747nm" offset="0.965789" style="stop-color:#040000;" />
+  	<stop id="stop748nm" offset="0.968421" style="stop-color:#030000;" />
+  	<stop id="stop749nm" offset="0.971053" style="stop-color:#030000;" />
+  	<stop id="stop750nm" offset="0.973684" style="stop-color:#030000;" />
+  	<stop id="stop751nm" offset="0.976316" style="stop-color:#030000;" />
+  	<stop id="stop752nm" offset="0.978947" style="stop-color:#030000;" />
+  	<stop id="stop753nm" offset="0.981579" style="stop-color:#020000;" />
+  	<stop id="stop754nm" offset="0.984211" style="stop-color:#020000;" />
+  	<stop id="stop755nm" offset="0.986842" style="stop-color:#020000;" />
+  	<stop id="stop756nm" offset="0.989474" style="stop-color:#020000;" />
+  	<stop id="stop757nm" offset="0.992105" style="stop-color:#020000;" />
+  	<stop id="stop758nm" offset="0.994737" style="stop-color:#010000;" />
+  	<stop id="stop759nm" offset="0.997368" style="stop-color:#010000;" />
+  	<stop id="stop760nm" offset="1.000000" style="stop-color:#010000;" />
+    </linearGradient>
+    <defs
+       id="defs11">
+      <circle
+         stroke-width="0.5"
+         r="0.5"
+         id="gpDot" />
+      <path
+         d="M-1,0 h2 M0,-1 v2"
+         stroke="currentColor"
+         stroke-width="0.222"
+         id="gpPt0" />
+      <path
+         d="M-1,-1 L1,1 M1,-1 L-1,1"
+         stroke="currentColor"
+         stroke-width="0.222"
+         id="gpPt1" />
+      <path
+         d="M-1,0 L1,0 M0,-1 L0,1 M-1,-1 L1,1 M-1,1 L1,-1"
+         stroke="currentColor"
+         stroke-width="0.222"
+         id="gpPt2" />
+      <rect
+         height="2"
+         width="2"
+         y="-1"
+         x="-1"
+         stroke="currentColor"
+         stroke-width="0.222"
+         id="gpPt3" />
+      <rect
+         height="2"
+         width="2"
+         y="-1"
+         x="-1"
+         fill="currentColor"
+         stroke="currentColor"
+         stroke-width="0.222"
+         id="gpPt4" />
+      <circle
+         r="1"
+         cy="0"
+         cx="0"
+         stroke="currentColor"
+         stroke-width="0.222"
+         id="gpPt5" />
+      <use
+         stroke="none"
+         fill="currentColor"
+         id="gpPt6"
+         xlink:href="#gpPt5" />
+      <path
+         d="M0,-1.33 L-1.33,0.67 L1.33,0.67 z"
+         stroke="currentColor"
+         stroke-width="0.222"
+         id="gpPt7" />
+      <use
+         stroke="none"
+         fill="currentColor"
+         id="gpPt8"
+         xlink:href="#gpPt7" />
+      <use
+         transform="rotate(180)"
+         stroke="currentColor"
+         id="gpPt9"
+         xlink:href="#gpPt7" />
+      <use
+         stroke="none"
+         fill="currentColor"
+         id="gpPt10"
+         xlink:href="#gpPt9" />
+      <use
+         transform="rotate(45)"
+         stroke="currentColor"
+         id="gpPt11"
+         xlink:href="#gpPt3" />
+      <use
+         stroke="none"
+         fill="currentColor"
+         id="gpPt12"
+         xlink:href="#gpPt11" />
+      <path
+         d="M0,1.330 L1.265,0.411 L0.782,-1.067 L-0.782,-1.076 L-1.265,0.411 z"
+         stroke="currentColor"
+         stroke-width="0.222"
+         id="gpPt13" />
+      <use
+         stroke="none"
+         fill="currentColor"
+         id="gpPt14"
+         xlink:href="#gpPt13" />
+      <filter
+         width="1"
+         height="1"
+         y="0"
+         x="0"
+         filterUnits="objectBoundingBox"
+         id="textbox">
+        <feFlood
+           id="feFlood30"
+           result="bgnd"
+           flood-opacity="1"
+           flood-color="white" />
+        <feComposite
+           id="feComposite32"
+           operator="atop"
+           in2="bgnd"
+           in="SourceGraphic" />
+      </filter>
+      <filter
+         width="1"
+         height="1"
+         y="0"
+         x="0"
+         filterUnits="objectBoundingBox"
+         id="greybox">
+        <feFlood
+           id="feFlood35"
+           result="grey"
+           flood-opacity="1"
+           flood-color="lightgrey" />
+        <feComposite
+           id="feComposite37"
+           operator="atop"
+           in2="grey"
+           in="SourceGraphic" />
+      </filter>
+    </defs>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4496"
+       id="linearGradient4502"
+       x1="-0.5"
+       y1="68.05"
+       x2="1280.4"
+       y2="68.05"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1061"
+     inkscape:window-height="526"
+     id="namedview234"
+     showgrid="false"
+     inkscape:zoom="0.3109375"
+     inkscape:cx="640"
+     inkscape:cy="80"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
+  <title
+     id="title4">Gnuplot</title>
+  <desc
+     id="desc6">Produced by GNUPLOT 5.1 patchlevel 0 </desc>
+  <rect
+     style="fill:none"
+     id="rect9"
+     height="160"
+     width="1280"
+     y="0"
+     x="0" />
+  <g
+     style="color:#ffffff;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g39" />
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g41">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path43"
+       d="m 0,136 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g45"
+       font-size="12.00"
+       transform="translate(67.4,157.9)">
+      <text
+         id="text47">
+        <tspan
+           style="font-family:Arial"
+           id="tspan49">400</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g51">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path53"
+       d="m 101,136 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g55"
+       font-size="12.00"
+       transform="translate(235.8,157.9)">
+      <text
+         id="text57">
+        <tspan
+           style="font-family:Arial"
+           id="tspan59">450</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g61">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path63"
+       d="m 269.5,136 0,4.5 m 33.6,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g65"
+       font-size="12.00"
+       transform="translate(404.2,157.9)">
+      <text
+         id="text67">
+        <tspan
+           style="font-family:Arial"
+           id="tspan69">500</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g71">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path73"
+       d="m 437.9,136 0,4.5 m 33.6,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g75"
+       font-size="12.00"
+       transform="translate(572.6,157.9)">
+      <text
+         id="text77">
+        <tspan
+           style="font-family:Arial"
+           id="tspan79">550</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g81">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path83"
+       d="m 606.3,136 0,4.5 m 33.7,-4.5 0,4.5 m 33.6,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g85"
+       font-size="12.00"
+       transform="translate(741,157.9)">
+      <text
+         id="text87">
+        <tspan
+           style="font-family:Arial"
+           id="tspan89">600</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g91">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path93"
+       d="m 774.7,136 0,4.5 m 33.7,-4.5 0,4.5 m 33.6,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g95"
+       font-size="12.00"
+       transform="translate(909.4,157.9)">
+      <text
+         id="text97">
+        <tspan
+           style="font-family:Arial"
+           id="tspan99">650</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g101">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path103"
+       d="m 943.1,136 0,4.5 m 33.7,-4.5 0,4.5 m 33.6,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g105"
+       font-size="12.00"
+       transform="translate(1077.8,157.9)">
+      <text
+         id="text107">
+        <tspan
+           style="font-family:Arial"
+           id="tspan109">700</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g111">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path113"
+       d="m 1111.5,136 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.6,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g115"
+       font-size="12.00"
+       transform="translate(1246.2,157.9)">
+      <text
+         id="text117">
+        <tspan
+           style="font-family:Arial"
+           id="tspan119">750</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g121">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path123"
+       d="m 1279.9,136 0,4.5" />
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g125">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path127"
+       d="M 0,0.1 0,136 1279.9,136 1279.9,0.1 0,0.1 Z" />
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g129" />
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g138">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path140"
+       d="m 0,136 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g142"
+       font-size="12.00"
+       transform="translate(67.4,157.9)">
+      <text
+         id="text144">
+        <tspan
+           style="font-family:Arial"
+           id="tspan146">400</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g148">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path150"
+       d="m 101,136 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g152"
+       font-size="12.00"
+       transform="translate(235.8,157.9)">
+      <text
+         id="text154">
+        <tspan
+           style="font-family:Arial"
+           id="tspan156">450</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g158">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path160"
+       d="m 269.5,136 0,4.5 m 33.6,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g162"
+       font-size="12.00"
+       transform="translate(404.2,157.9)">
+      <text
+         id="text164">
+        <tspan
+           style="font-family:Arial"
+           id="tspan166">500</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g168">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path170"
+       d="m 437.9,136 0,4.5 m 33.6,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g172"
+       font-size="12.00"
+       transform="translate(572.6,157.9)">
+      <text
+         id="text174">
+        <tspan
+           style="font-family:Arial"
+           id="tspan176">550</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g178">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path180"
+       d="m 606.3,136 0,4.5 m 33.7,-4.5 0,4.5 m 33.6,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g182"
+       font-size="12.00"
+       transform="translate(741,157.9)">
+      <text
+         id="text184">
+        <tspan
+           style="font-family:Arial"
+           id="tspan186">600</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g188">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path190"
+       d="m 774.7,136 0,4.5 m 33.7,-4.5 0,4.5 m 33.6,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g192"
+       font-size="12.00"
+       transform="translate(909.4,157.9)">
+      <text
+         id="text194">
+        <tspan
+           style="font-family:Arial"
+           id="tspan196">650</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g198">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path200"
+       d="m 943.1,136 0,4.5 m 33.7,-4.5 0,4.5 m 33.6,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g202"
+       font-size="12.00"
+       transform="translate(1077.8,157.9)">
+      <text
+         id="text204">
+        <tspan
+           style="font-family:Arial"
+           id="tspan206">700</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g208">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path210"
+       d="m 1111.5,136 0,4.5 m 33.7,-4.5 0,4.5 m 33.7,-4.5 0,4.5 m 33.6,-4.5 0,4.5 m 33.7,-4.5 0,9" />
+    <g
+       style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none"
+       id="g212"
+       font-size="12.00"
+       transform="translate(1246.2,157.9)">
+      <text
+         id="text214">
+        <tspan
+           style="font-family:Arial"
+           id="tspan216">750</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g218">
+    <path
+       style="stroke:#000000"
+       inkscape:connector-curvature="0"
+       id="path220"
+       d="m 1279.9,136 0,4.5" />
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g222" />
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g224" />
+  <g
+     style="color:#000000;fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g226" />
+  <g
+     style="color:#000000;fill:url(#linearGradient4502);stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;fill-opacity:1"
+     id="g228">
+    <path
+       style="stroke:#000000;fill-opacity:1;fill:url(#linearGradient4502)"
+       inkscape:connector-curvature="0"
+       id="path230"
+       d="M 0,0.1 0,136 1279.9,136 1279.9,0.1 0,0.1 Z" />
+  </g>
+  <g
+     style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter"
+     id="g232" />
+</svg>
