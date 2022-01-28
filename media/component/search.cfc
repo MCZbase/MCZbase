@@ -1106,7 +1106,7 @@ limitations under the License.
 								</cfif>
 							</cfif>
 						<cfelse>
-							<cfif len(preview_uri) GT 0  and len(l_size) lt 0>
+							<cfif len(preview_uri) GT 0>
 								<!--- use a preview_uri, if one was specified --->
 								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
 								<cfset displayImage = preview_uri>
