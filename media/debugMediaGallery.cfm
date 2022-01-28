@@ -22,7 +22,7 @@
 				select max(media_id) from media_labels
 				where media_label = 'height'
 				group by label_value
-				having count(*) > 100
+				having count(*) > 500
 			)
 		</cfquery>
 		<div class="row">
