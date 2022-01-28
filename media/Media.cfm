@@ -103,9 +103,9 @@ limitations under the License.
 								</div><!---end col-md-1 col-5 (image block)--->
 								<div class="col-12 col-sm-12 col-md-10 pb-4 pb-xl-2 px-0 px-md-2 float-left">
 									<div class="col-12 px-0 float-left">
-										<h3 class="h5 mb-0 px-2">Caption</h3>
+										<h3 class="h5 mb-0 px-2">Media Caption</h3>
 										<p class="small90 px-2">#media.caption#</p>
-										<h3 class="h5 mt-2 mb-0 px-2" title="alternative text for vision impaired users">Alternative text for vision impaired users:</h3>
+										<h3 class="h5 mt-2 mb-0 px-2" title="alternative text for vision impaired users">Alternative Text for Vision Impaired Users</h3>
 										<p class="small90 mb-2 px-2">#media.alttag#</p>
 									</div><!---end col-12 inside of col-11--->
 									<div class="col-12 col-xl-6 px-0 px-xl-2 float-left">
