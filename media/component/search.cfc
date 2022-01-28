@@ -1155,6 +1155,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<div class="media_widget">	
+							<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
 							<cfif #l_captionAs# EQ "textNone">
 								<cfset linkTarget = "/media/#media.media_id#">
 							<cfelse>
