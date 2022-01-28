@@ -65,7 +65,7 @@
 			<div class="container-fluid"><h4> Background yellow.  One large image size="1000". captionAs="textShort" (50 chars)</h4></div>
 			<div class="col-10 float-left mt-5 px-1" style="background-color:lemonchiffon">
 			<cfset media_id = "1334">
-				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="1000",captionAs="textShort")>
+				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full",size="1000",captionAs="textShort")>
 				<div id="mediaFullBlock#media_id#" class="border rounded mb-1">
 					#mediablock#
 				</div>
