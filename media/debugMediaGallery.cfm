@@ -38,7 +38,7 @@
 
 		<div class="row">
 			<cfloop query="examples">
-				<div class="col-12 col-sm-4 col-md-2 col-xl-2 mt-5 bg-dark">
+				<div class="col-12 col-sm-4 col-md-2 col-xl-2 mt-5 bg-dark" style="min-height:200px;">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",captionAs="textShort")>
 					<div id="mediaBlock#media_id#">
 						#mediablock#
