@@ -1096,7 +1096,7 @@ limitations under the License.
 							<cfif #l_displayAs# EQ "thumb">
 								<cfset displayImage = preview_uri>
 								<cfset hw = 'width="auto" height="auto"'>
-								<cfset l_styles = "max-width:150px;max-height:100px;padding: .75rem 0;">
+								<cfset l_styles = "max-width:150px;max-height:100px;padding: .75rem 0 0 0;">
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
 									<cfset sizeType='&width=#l_size#&height=#l_size#'>
@@ -1117,7 +1117,7 @@ limitations under the License.
 										<cfset hw = 'width="auto" height="100"'>
 									</cfif>
 							<cfelse>
-								<cfset l_styles = "max-width:125px;max-height:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
+								<cfset l_styles = "max-width:125px;max-height:auto;padding: .75rem 0 0 0;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/Image-x-generic.svg">
