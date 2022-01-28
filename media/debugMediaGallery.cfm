@@ -69,6 +69,8 @@
 					#mediablock#
 				</div>
 			</div>
+		</div>
+		<div class="row">
 			<div class="col-1 px-0 float-left mt-5 px-1" style="background-color:peachpuff">
 			<cfset media_id = "90914">
 				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",size="100",captionAs="textLinks")>
