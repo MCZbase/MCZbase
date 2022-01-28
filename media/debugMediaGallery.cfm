@@ -62,10 +62,10 @@
 		</div>
 		
 		<div class="row">
-			<div class="container-fluid"><h4> Background yellow. If displayAs="full" is used, it goes to our default size of 600px wide. Instead the image size="1000" is put in the getMediaBlockHtml attribute. The captionAs="textShort" (50 chars)</h4></div>
+			<div class="container-fluid"><h4> Background yellow. If displayAs="full" is used, it goes to our default size of 600px wide. Instead the image size="800" is put in the getMediaBlockHtml attribute. The captionAs="textShort" (50 chars)</h4></div>
 			<div class="col-10 float-left mt-5" style="background-color:lemonchiffon">
 			<cfset media_id = "1334">
-				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="1000",captionAs="textShort")>
+				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="800",captionAs="textShort")>
 				<div id="mediaFullBlock#media_id#" class="border rounded">
 					#mediablock#
 				</div>
