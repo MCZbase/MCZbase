@@ -1130,7 +1130,7 @@ limitations under the License.
 								<cfelseif media_type is "3D model">
 									<cfset displayImage =  "/shared/images/Airy-3d.svg">
 								<cfelseif media_type is "spectrometer data">
-									<cfset displayImage = "/shared/images/Linear_visible_spectrum_CIECAM02.svg">
+									<cfset displayImage = "/shared/images/Sine_waves_different_frequencies.svg">
 								<cfelse>
 									<cfset displayImage =  "/shared/images/Image-x-generic.svg">
 									<!---nothing was working for mime type--->
