@@ -1118,6 +1118,7 @@ limitations under the License.
 										<cfset hw = 'width="auto" height="100"'>
 									</cfif>
 							<cfelse>
+								<cfset l_styles = 'style="max-width:200px;max-height:auto"'>
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/Image-x-generic.svg">
