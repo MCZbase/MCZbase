@@ -28,9 +28,9 @@
 		<div class="row">
 			<div class="container-fluid"><h4> Background light gray.  These examples are set with a size attribute (e.g., size="400") and a captionAs attribute (e.g., textMid) to getMediaBlockHtml(). The image is sized to 400px wide and high. The placeholder images are given a maximum width, which keeps them thumbnail size even if the container is larger and the size of the shared drive images are larger.  It is possible to allow these placeholder images to fill the container they are in by increasing the max-width (<cfset l_styles = "max-width:150px;max-height:auto;">--auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much) on line 1121 of media/components/search.cfc. </h4></div>
 			<cfloop query="examples">
-				<div class="col-12 col-sm-6 col-md-4 col-xl-3 mt-5 bg-light">
+				<div class="col-12 col-sm-6 col-md-4 px-1 col-xl-3 mt-5 bg-light">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textMid")>
-					<div id="mediaBlock#media_id#">
+					<div id="mediaBlock#media_id#" class="border rounded">
 					#mediablock#
 					</div>
 				</div>
@@ -42,7 +42,7 @@
 			<cfloop query="examples">
 				<div class="col-12 col-sm-4 col-md-2 px-1 col-xl-2 mt-5" style="background-color:aquamarine">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",captionAs="textShort")>
-					<div id="mediaBlock#media_id#" class="border">
+					<div id="mediaBlock#media_id#" class="border rounded">
 						#mediablock#
 					</div>
 				</div>
@@ -51,9 +51,9 @@
 
 		<div class="row">
 			<cfloop query="examples">
-				<div class="col-12 col-md-6 col-xl-4 mt-5" style="background-color:aliciablue">
+				<div class="col-12 col-md-6 col-xl-4 px-1 mt-5" style="background-color:aliciablue">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="600",captionAs="textFull")>
-					<div id="mediaBlock#media_id#">
+					<div id="mediaBlock#media_id#" class="border rounded">
 					#mediablock#
 					</div>
 				</div>
@@ -61,17 +61,17 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-10 float-left mt-5 border" style="background-color:lemonchiffon">
+			<div class="col-10 float-left mt-5 px-1" style="background-color:lemonchiffon">
 			<cfset media_id = "1333">
 				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full",size="1000")>
-				<div id="mediaFullBlock#media_id#">
+				<div id="mediaFullBlock#media_id#" class="border rounded">
 					#mediablock#
 				</div>
 			</div>
-			<div class="col-1 px-0 float-left mt-5" style="background-color:peachpuff">
+			<div class="col-1 px-0 float-left mt-5 px-1" style="background-color:peachpuff">
 			<cfset media_id = "90914">
 				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="thumb",size="100",captionAs="textLinks")>
-				<div id="mediaThumbBlock#media_id#">
+				<div id="mediaThumbBlock#media_id#" class="border rounded">
 					#mediablock#
 				</div>
 			</div>	
