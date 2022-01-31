@@ -1856,8 +1856,8 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 	<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
 	<script>
 		function runTests() {
-			loadNameQC(#collection_object_id#, 'NameDQDiv');
-			loadEventQC(#collection_object_id#, 'EventDQDiv');
+			loadNameQC(#collection_object_id#, "", "NameDQDiv");
+			loadEventQC(#collection_object_id#, "EventDQDiv");
 		}
 	</script>
 	<input type="button" value="QC" class="savBtn" onClick=" runTests(); ">
