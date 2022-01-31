@@ -5620,6 +5620,7 @@ Annotation to report problematic data concerning #annotated.guid#
 						taxonid
 					FROM DIGIR_QUERY.digir_filtered_flat
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+				</cfquery>
 			<cfdefaultcase>
 				<cfthrow message="Unknown target type for taxon report. Should be FLAT or TAXONOMY">
 			</cfdefaultcase>
