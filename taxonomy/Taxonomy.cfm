@@ -1052,8 +1052,8 @@ limitations under the License.
 								>
 						</div>
 					</section>
-					<section class="mt-2 float-left col-12 col-md-6 pl-md-1 pl-0 pr-0">
-						<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
+					<section class="mt-2 col-12 px-0">
+						<div class="p-3 border bg-light rounded mt-2">
 							<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
 							<script>
 								function runTests() {
