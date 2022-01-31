@@ -430,20 +430,7 @@ function highlight(findIn,replaceThis) {
 								</cfif>
 							</ul>
 						</cfif>
-						<cfset mrel=get_Media_rel_summary(#media_id#)>
-						<cfif mrel.recordcount gt 0>
-							<ul>
-							<cfloop query="mrel">
-								<li>#media_relationship#
-									<cfif len(#link#) gt 0>
-										<a href="#link#" target="_blank">#link_text#</a>
-									<cfelse>
-										#link_text#
-									</cfif>
-								</li>
-							</cfloop>
-							</ul>
-						</cfif>
+		
 						<cfif isdefined("kw.keywords") and len(kw.keywords) gt 0>
 							<cfif isdefined("keyword") and len(keyword) gt 0>
 								<cfset kwds=kw.keywords>
