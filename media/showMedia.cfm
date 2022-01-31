@@ -142,10 +142,10 @@ function highlight(findIn,replaceThis) {
 			FROM media
 				left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
 				<cfif number_of_relations EQ 0>
-				   left join media_relations media_relations0 on media.media_id=media_relations0.media_id
+					left join media_relations media_relations0 on media.media_id=media_relations0.media_id
 				<cfelseif number_of_relations GT 0>
 					<cfloop from="1" to="#number_of_relations#" index="n">
-		    			left join media_relations media_relations#n# on media.media_id=media_relations#n#.media_id 
+						left join media_relations media_relations#n# on media.media_id=media_relations#n#.media_id 
 					</cfloop>
 				</cfif>
 				<cfloop from="1" to="#number_of_labels#" index="n">
@@ -192,7 +192,7 @@ function highlight(findIn,replaceThis) {
 						<cfif len(#thisRelatedItem#) gt 0>
 							AND upper(media_relation_summary(media_relations#n#.media_relations_id)) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(thisRelatedItem)#%">
 						</cfif>
-			    		<cfif len(#thisRelatedKey#) gt 0>
+						<cfif len(#thisRelatedKey#) gt 0>
 							AND media_relations#n#.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRelatedKey#">
 						</cfif>
 					</cfloop>
@@ -264,9 +264,8 @@ function highlight(findIn,replaceThis) {
 <main id="content" class="container mt-5">
 	<section class="row">
 		<div class="col-12">
-			<div class="col-3"><h1>Media</h1></div>
-			<div class="col-9 text-left"><button class="btn btn-xs btn-primary ml-auto">Media Viewer</button></div>
-			
+			<div class="col-3 float-left"><h1>Media</h1></div>
+			<div class="col-9 float-left"><button class="btn btn-xs btn-primary ml-auto">Media Viewer</button></div>
 		</div>
 	<cfsavecontent variable="pager">
 		<cfset Result_Per_Page=10>
