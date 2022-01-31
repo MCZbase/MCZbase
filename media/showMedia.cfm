@@ -370,7 +370,7 @@ function highlight(findIn,replaceThis) {
 
 			<cfset mp=getMediaPreview(preview_uri,media_type)>
 
-						<a href="#media_uri#" target="_blank"><img src="#mp#" alt="#altText#" style="max-width:250px;max-height:250px;"></a>
+						<a href="#media_uri#" target="_blank"><img src="" alt="#altText#" style="max-width:250px;max-height:250px;"></a>
 						<br><span style='font-size:small'>#media_type#&nbsp;(#mime_type#)</span>
 						<cfif len(display) gt 0>
 							<br><span style='font-size:small'>License: <a href="#uri#" target="_blank" class="external">#display#</a></span>
