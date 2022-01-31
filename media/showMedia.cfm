@@ -33,4 +33,4 @@
 </main>
 	
 	
-<cfinclude template = "/shared/_header.cfm">
+<cfinclude template = "/shared/_footer.cfm">
