@@ -3,8 +3,9 @@
 <cfinclude template = "/shared/_header.cfm">
 <cfset media_id = 1333>
 <cfquery name="findMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-	select distinct 
+	SELECT distinct 
 		media.media_id
+	FROM media
 	WHERE media.media_id = '#media_id#'
 
 </cfquery>	
