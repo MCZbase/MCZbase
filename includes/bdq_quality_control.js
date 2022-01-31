@@ -146,11 +146,11 @@ function loadNameQC(collection_object_id,taxon_name_id,targetid){
    var target = "";
    console.log(collection_object_id);
    console.log(taxon_name_id);
-	if (collection_object_id && collection_object_id.length > 0) { 
-		target_id = collection_object_id;
+	if (collection_object_id && String(collection_object_id).length > 0) { 
+		target_id = String(collection_object_id);
 		target = "FLAT";
-	} else if (taxon_name_id && taxon_name_id.length > 0) {
-		target_id = taxon_name_id;
+	} else if (taxon_name_id && String(taxon_name_id).length > 0) {
+		target_id = String(taxon_name_id);
 		target = "TAXONOMY";
 	} else { 
 		$("#" + targetid).html("Error: Neither a collection_object_id nor a taxon_name_id was provided." );
