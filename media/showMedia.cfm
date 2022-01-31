@@ -368,7 +368,7 @@ function highlight(findIn,replaceThis) {
 			</div>				
 		</div>			
 
-			<cfset mp=hello>
+			<cfset mp='hello'>
 
 				
 						<cfif #media_type# eq "image">
