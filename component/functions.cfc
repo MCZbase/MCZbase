@@ -5607,7 +5607,8 @@ Annotation to report problematic data concerning #annotated.guid#
 						basisofrecord,
 						kingdom, phylum, phylclass, phylorder, family, genus,
 						scientific_name, author_text,
-						taxonid
+						taxonid,
+						scientificnameid
 					FROM DIGIR_QUERY.digir_filtered_flat
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
@@ -5618,7 +5619,8 @@ Annotation to report problematic data concerning #annotated.guid#
 						'' as basisofrecord,
 						kingdom, phylum, phylclass, phylorder, family, genus,
 						scientific_name, author_text,
-						taxonid
+						taxonid,
+						scientificnameid
 					FROM taxonomy
 					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
@@ -5643,6 +5645,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset scientific_name = queryrow.scientific_name>
 			<cfset author_text = queryrow.author_text>
 			<cfset taxonid = queryrow.taxonid>
+			<cfset scientificnameid = queryrow.scientificnameid>
 
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.DwCSciNameDQ" name="dwcSciNameDQ">
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.SciNameSourceAuthority" name="sciNameSourceAuthority">
