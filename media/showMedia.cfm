@@ -430,7 +430,7 @@ function highlight(findIn,replaceThis) {
 								</cfif>
 							</ul>
 						</cfif>
-						<cfset mrel=getMediaRelations(#media_id#)>
+						<cfset mrel=get_Media_rel_summary(#media_id#)>
 						<cfif mrel.recordcount gt 0>
 							<ul>
 							<cfloop query="mrel">
