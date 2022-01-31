@@ -723,7 +723,7 @@
 #pager#
  </div>
 </cfoutput>
-
+				</div></div>
 </cfif>
 		</div>
 	</section>
