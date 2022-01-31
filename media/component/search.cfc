@@ -1054,8 +1054,8 @@ limitations under the License.
 	<cfset l_captionAs = #arguments.captionAs#>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfif l_displayAs EQ "fixedSmallThumb">
-		<cfif l_size GT 150>
-			<cfset l_size = 150>
+		<cfif l_size GT 100>
+			<cfset l_size = 100>
 		</cfif>
 		<cfset l_captionAs = "textNone">
 	</cfif>
