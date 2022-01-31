@@ -544,6 +544,13 @@
 	</cfif>
 	<tr #iif(rownum MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
 		<td>
+			
+				<cfif len(findIDs.media_id) gt 0>
+					<cfset mediablock= getMediaBlockHtml(media_id="#findIDs.media_id#",displayAs="full",size="400",captionAs="textFull")>
+						<div class="float-left" id="mediaBlock#findIDs.media_id#">
+							#mediablock#
+						</div>
+				</cfif>
 			<cfset mp=getMediaPreview(preview_uri,media_type)>
             <table>
 				<tr>
