@@ -34,18 +34,16 @@
 <!----------------------------------------------------------------------------------------->
 <cfif action is "search">
 <cfoutput>
-
-
 <cfscript>
-    function highlight(findIn,replaceThis) {
-    	foundAt=FindNoCase(replaceThis,findIn);
-    	endAt=FindNoCase(replaceThis,findIn)+len(replaceThis);
-    	if(foundAt gt 0) {
-    		findIn=Insert('</span>', findIn, endAt-1);
-    		findIn=Insert('<span style="background-color:yellow">', findIn, foundAt-1);
-    	}
-    	return findIn;
-    }
+function highlight(findIn,replaceThis) {
+	foundAt=FindNoCase(replaceThis,findIn);
+	endAt=FindNoCase(replaceThis,findIn)+len(replaceThis);
+	if(foundAt gt 0) {
+		findIn=Insert('</span>', findIn, endAt-1);
+		findIn=Insert('<span style="background-color:yellow">', findIn, foundAt-1);
+	}
+	return findIn;
+}
 </cfscript>
 	<cfif isdefined("srchType") and srchType is "key">
 		<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
@@ -340,6 +338,15 @@
 				and media_label <> 'internal remarks'
 			</cfif>
 	</cfquery>
+	<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT
+		media.media_id
+	FROM
+		media
+		left join media_relations on media_relations.media_id = media.media_id
+	WHERE
+		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+</cfquery>
 	<cfquery name="labels" dbtype="query">
 		select media_label,label_value 
 		from labels_raw 
@@ -381,7 +388,7 @@
 			</div>				
 		</div>			
 
-			<cfset mp=getMediaPreview(preview_uri,media_type)>
+			
             <table>
 				<tr>
 					<td align="middle" style="padding-right:20px;width:300px;">
@@ -428,7 +435,7 @@
 									</li>
 								</cfloop>
 								<cfif len(credit) gt 0>
-								    <li>credit: #credit#</li>
+									<li>credit: #credit#</li>
 								</cfif>
 							</ul>
 						</cfif>
@@ -437,12 +444,12 @@
 							<ul>
 							<cfloop query="mrel">
 								<li>#media_relationship#
-				                    <cfif len(#link#) gt 0>
-				                        <a href="#link#" target="_blank">#link_text#</a>
-				                    <cfelse>
+									<cfif len(#link#) gt 0>
+										<a href="#link#" target="_blank">#link_text#</a>
+									<cfelse>
 										#link_text#
 									</cfif>
-				             </li>
+								</li>
 							</cfloop>
 							</ul>
 						</cfif>
@@ -455,7 +462,7 @@
 							<cfelse>
 								<cfset kwds=kw.keywords>
 							</cfif>
-							<div style="font-size:small;max-width:55em;margin-left:0em;margin-top:1em;border:1px solid black;padding:4px;">
+							<div style="">
 								<strong>Keywords:</strong> #kwds#
 							</div>
 						</cfif>
@@ -518,8 +525,8 @@
 			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
 		                   	<p>
 								#media_type# (#mime_type#)
-			                   	<br><a href="/media/#media_id#">Media Details</a>
-								<br>#alt#
+								<a href="/media/#media_id#">Media Details</a>
+								#alt#
 							</p>
 						</div>
 					</cfloop>
