@@ -497,10 +497,6 @@
 	<cfset rownum=1>
 	<cfif url.offset is 0><cfset url.offset=1></cfif>
 
-
-
-<table width="100%;" class="mediaTableRes">
-
 <cfloop query="findIDs" startrow="#URL.offset#" endrow="#limit#">
 	<cfquery name="labels_raw"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
@@ -512,10 +508,10 @@
 			left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
 		where
 			media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-         and media_label <> 'credit'  -- obtained in the findIDs query.
-		   <cfif oneOfUs EQ 0>
-		    	and media_label <> 'internal remarks'
-		   </cfif>
+			and media_label <> 'credit'  -- obtained in the findIDs query.
+			<cfif oneOfUs EQ 0>
+				and media_label <> 'internal remarks'
+			</cfif>
 	</cfquery>
 	<cfquery name="labels" dbtype="query">
 		select media_label,label_value 
@@ -547,96 +543,90 @@
 		</cfif>
 		<cfset alt=desc.label_value>
 	</cfif>
-	<tr #iif(rownum MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-		<td>
-			
+		<div class="col-12 px-0">
+			<div class="col-12 col-md-5 float-left">
 				<cfif len(findIDs.media_id) gt 0>
 					<cfset mediablock= getMediaBlockHtml(media_id="#findIDs.media_id#",displayAs="full",size="400",captionAs="textFull")>
-						<div class="float-left" id="mediaBlock#findIDs.media_id#">
-							#mediablock#
-						</div>
+					<div class="float-left" id="mediaBlock#findIDs.media_id#">
+						#mediablock#
+					</div>
 				</cfif>
-			<cfset mp=getMediaPreview(preview_uri,media_type)>
-            <table>
-				<tr>
-					<td align="middle" style="padding-right:20px;width:300px;">
-						<a href="#media_uri#" target="_blank"><img src="#mp#" alt="#altText#" style="max-width:250px;max-height:250px;"></a>
-						<br><span style='font-size:small'>#media_type#&nbsp;(#mime_type#)</span>
-						<cfif len(display) gt 0>
-							<br><span style='font-size:small'>License: <a href="#uri#" target="_blank" class="external">#display#</a></span>
+			</div>				
+		</div>			
+		<div class="col-12 col-md-5 float-left">
+			<a href="#media_uri#" target="_blank"><img src="#mp#" alt="#altText#" style="max-width:250px;max-height:250px;"></a>
+			<br><span style='font-size:small'>#media_type#&nbsp;(#mime_type#)</span>
+			<cfif len(display) gt 0>
+				<br><span style='font-size:small'>License: <a href="#uri#" target="_blank" class="external">#display#</a></span>
+			<cfelse>
+				<br><span style='font-size:small'>unlicensed</span>
+			</cfif>
+			<cfif #media_type# eq "image">
+				<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#">Related images</a></span>
+			</cfif>
+			<cfif #media_type# eq "audio">
+				<!--- check for a transcript, link if present --->
+				<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						transcript.media_uri as transcript_uri,
+						transcript.media_id as trainscript_media_id
+					FROM
+						media_relations
+						left join media transcript on media_relations.related_primary_key = transcript.media_id
+					WHERE
+						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+						and media_relationship = 'transcript for audio media'
+						and MCZBASE.is_media_encumbered(transcript.media_id) < 1
+				</cfquery>
+				<cfif checkforTranscript.recordcount GT 0>
+					<cfloop query="checkForTranscript">
+						<br><span style='font-size:small'><a href="#transcript_uri#">View Transcript</a></span>
+					</cfloop>
+				</cfif>
+			</cfif>
+			<cfif len(desc.label_value) gt 0>
+				<ul><li>#desc.label_value#</li></ul>
+			</cfif>
+			<cfif labels.recordcount gt 0>
+				<ul>
+					<cfloop query="labels">
+						<li>
+							#media_label#: #label_value#
+						</li>
+					</cfloop>
+					<cfif len(credit) gt 0>
+						<li>credit: #credit#</li>
+					</cfif>
+				</ul>
+			</cfif>
+			<cfset mrel=getMediaRelations(#media_id#)>
+			<cfif mrel.recordcount gt 0>
+				<ul>
+				<cfloop query="mrel">
+					<li>#media_relationship#
+						<cfif len(#link#) gt 0>
+							<a href="#link#" target="_blank">#link_text#</a>
 						<cfelse>
-							<br><span style='font-size:small'>unlicensed</span>
+							#link_text#
 						</cfif>
-						<cfif #media_type# eq "image">
-							<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#">Related images</a></span>
-						</cfif>
-						<cfif #media_type# eq "audio">
-							<!--- check for a transcript, link if present --->
-							<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									transcript.media_uri as transcript_uri,
-									transcript.media_id as trainscript_media_id
-								FROM
-									media_relations
-									left join media transcript on media_relations.related_primary_key = transcript.media_id
-								WHERE
-									media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
-									and media_relationship = 'transcript for audio media'
-									and MCZBASE.is_media_encumbered(transcript.media_id) < 1
-							</cfquery>
-							<cfif checkforTranscript.recordcount GT 0>
-								<cfloop query="checkForTranscript">
-									<br><span style='font-size:small'><a href="#transcript_uri#">View Transcript</a></span>
-								</cfloop>
-							</cfif>
-						</cfif>
-					</td>
-					<td>
-						<cfif len(desc.label_value) gt 0>
-							<ul><li>#desc.label_value#</li></ul>
-						</cfif>
-						<cfif labels.recordcount gt 0>
-							<ul>
-								<cfloop query="labels">
-									<li>
-										#media_label#: #label_value#
-									</li>
-								</cfloop>
-								<cfif len(credit) gt 0>
-								    <li>credit: #credit#</li>
-								</cfif>
-							</ul>
-						</cfif>
-						<cfset mrel=getMediaRelations(#media_id#)>
-						<cfif mrel.recordcount gt 0>
-							<ul>
-							<cfloop query="mrel">
-								<li>#media_relationship#
-				                    <cfif len(#link#) gt 0>
-				                        <a href="#link#" target="_blank">#link_text#</a>
-				                    <cfelse>
-										#link_text#
-									</cfif>
-				             </li>
-							</cfloop>
-							</ul>
-						</cfif>
-						<cfif isdefined("kw.keywords") and len(kw.keywords) gt 0>
-							<cfif isdefined("keyword") and len(keyword) gt 0>
-								<cfset kwds=kw.keywords>
-								<cfloop list="#keyword#" index="k" delimiters=",;: ">
-									<cfset kwds=highlight(kwds,k)>
-								</cfloop>
-							<cfelse>
-								<cfset kwds=kw.keywords>
-							</cfif>
-							<div style="font-size:small;max-width:55em;margin-left:0em;margin-top:1em;border:1px solid black;padding:4px;">
-								<strong>Keywords:</strong> #kwds#
-							</div>
-						</cfif>
-					</td>
-				</tr>
-			</table>
+					</li>
+				</cfloop>
+				</ul>
+			</cfif>
+			<cfif isdefined("kw.keywords") and len(kw.keywords) gt 0>
+				<cfif isdefined("keyword") and len(keyword) gt 0>
+					<cfset kwds=kw.keywords>
+					<cfloop list="#keyword#" index="k" delimiters=",;: ">
+						<cfset kwds=highlight(kwds,k)>
+					</cfloop>
+				<cfelse>
+					<cfset kwds=kw.keywords>
+				</cfif>
+				<div style="font-size:small;max-width:55em;margin-left:0em;margin-top:1em;border:1px solid black;padding:4px;">
+					<strong>Keywords:</strong> #kwds#
+				</div>
+			</cfif>
+		</div>
 			<cfquery name="tag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) n 
 				from tag 
@@ -647,11 +637,11 @@
 				<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
 			</cfif>
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-		        <div class="mediaEdit"><a href="/media.cfm?action=edit&media_id=#media_id#">[ edit ]</a>
-                    <a href="/TAG.cfm?media_id=#media_id#">[ add or edit TAGs ]</a></div>
-		    </cfif>
-		    <cfif tag.n gt 0>
-                <div class="mediaEdit"><a href="/showTAG.cfm?media_id=#media_id#">[ View #tag.n# TAGs ]</a></div>
+				<div class="mediaEdit"><a href="/media.cfm?action=edit&media_id=#media_id#">[ edit ]</a>
+					<a href="/TAG.cfm?media_id=#media_id#">[ add or edit TAGs ]</a></div>
+			</cfif>
+			<cfif tag.n gt 0>
+				<div class="mediaEdit"><a href="/showTAG.cfm?media_id=#media_id#">[ View #tag.n# TAGs ]</a></div>
 			</cfif>
 			<cfquery name="relM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
@@ -684,7 +674,7 @@
 					<div class="thumb_spcr">&nbsp;</div>
 					<cfloop query="relM">
 						<cfset puri=getMediaPreview(preview_uri,media_type)>
-		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select
 									media_label,
 									label_value
@@ -700,32 +690,25 @@
 						<cfif desc.recordcount is 1>
 							<cfset alt=desc.label_value>
 						</cfif>
-		               <div class="one_thumb">
-			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
-		                   	<p>
+						<div class="one_thumb">
+							<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
+							<p>
 								#media_type# (#mime_type#)
-			                   	<br><a href="/media/#media_id#">Media Details</a>
+								<br><a href="/media/#media_id#">Media Details</a>
 								<br>#alt#
 							</p>
 						</div>
+						<div class="mediaPager">
+							#pager#
+						</div>
 					</cfloop>
-					<div class="thumb_spcr">&nbsp;</div>
 				</div>
 			</cfif>
-		</td>
-	</tr>
 	<cfset rownum=rownum+1>
 </cfloop>
-</table>
 
-
-     <div class="mediaPager">
-#pager#
- </div>
 </cfoutput>
-				</div></div>
 </cfif>
-		</div>
 	</section>
 </main>
 <!---
@@ -759,7 +742,7 @@
 		<div class="col-12 col-md-6">
 		metadata
 		</div>
-	</section>
+
 
 	<section class="row">
 		<div class="col-12">
@@ -775,7 +758,7 @@
 			</div>
 		</div>
 	</section>
-</main>--->
+--->
 	
 	
 <cfinclude template = "/shared/_footer.cfm">
