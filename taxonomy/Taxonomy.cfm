@@ -1052,7 +1052,7 @@ limitations under the License.
 								>
 						</div>
 					</section>
-					<section class="mt-2 col-12 px-0">
+					<section class="mt-2 float-left col-12 px-0">
 						<div class="p-3 border bg-light rounded mt-2">
 							<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
 							<script>
@@ -1060,7 +1060,7 @@ limitations under the License.
 									loadNameQC("", #getTaxa.taxon_name_id#, "NameDQDiv");
 								}
 							</script>
-							<input type="button" value="QC" class="savBtn" onClick=" runTests(); ">
+							<input type="button" value="QC" class="btn btn-xs btn-secondary" onClick=" runTests(); ">
 							<!---  Scientific Name tests --->
 							<div id="NameDQDiv"></div>
 						</div>
