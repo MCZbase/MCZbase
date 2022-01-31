@@ -2,15 +2,20 @@
 <cfset pageTitle = "Media Record">
 <cfinclude template = "/shared/_header.cfm">
 	
-	
+<cfset media_id = 1333>
 <main id="content" class="container mt-5">
 	<section class="row">
 		<div class="col-12">
 			<h1>Media</h1>
-			<button></button>
+			<button class="btn btn-xs btn-primary">Media Viewer</button>
 		</div>
 		<div class="col-12 col-md-6">
-		image and caption
+			<cfif len(media_id) gt 0>
+				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="full",captionAs="textFull")>
+				<div class="float-left" id="mediaBlock#media_id#">
+					#mediablock#
+				</div>
+			</cfif>
 		</div>
 		<div class="col-12 col-md-6">
 		metadata
