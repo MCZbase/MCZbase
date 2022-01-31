@@ -1109,7 +1109,7 @@ limitations under the License.
 									<cfset hw = 'width="auto" height="auto"'>
 									<cfset l_styles = "max-width:#l_size#px;max-height:#l_size#px;">
 								</cfif>
-							<cfelseif #l_displayAs# EQ "thumb" or #l_displayAs# EQ "fixedsmallThumb">
+							<cfelseif #l_displayAs# EQ "thumb">
 								<cfset displayImage = preview_uri>
 								<cfset hw = 'width="auto" height="auto"'>
 								<cfset l_styles = "max-width:150px;max-height:100px;">
