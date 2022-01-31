@@ -158,7 +158,7 @@ function loadNameQC(collection_object_id,taxon_name_id,targetid){
 			method: "getNameQCReport",
 			returnformat: "json",
 			target_id: target_id,
-			target: target;
+			target: target
 		}, 
 		success: function (datareturn) { 
 		data = JSON.parse(datareturn);
