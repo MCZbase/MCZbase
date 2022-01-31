@@ -368,15 +368,9 @@ function highlight(findIn,replaceThis) {
 			</div>				
 		</div>			
 
-			<cfset mp=getMediaPreview(preview_uri,media_type)>
+			<cfset mp=hello>
 
-						<a href="#media_uri#" target="_blank"><img src="" alt="#altText#" style="max-width:250px;max-height:250px;"></a>
-						<br><span style='font-size:small'>#media_type#&nbsp;(#mime_type#)</span>
-						<cfif len(display) gt 0>
-							<br><span style='font-size:small'>License: <a href="#uri#" target="_blank" class="external">#display#</a></span>
-						<cfelse>
-					<span style='font-size:small'>unlicensed</span>
-						</cfif>
+				
 						<cfif #media_type# eq "image">
 							<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#">Related images</a></span>
 						</cfif>
