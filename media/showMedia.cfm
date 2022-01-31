@@ -446,8 +446,13 @@
 			<cfset q=listappend(q,"#key#=#url[key]#","&")>
 		 </cfif>
 	</cfloop>
-        <br><br>
-         <h3>Media Search Results</h3>
+<main id="content" class="container mt-5">
+	<section class="row">
+		<div class="col-12">
+			<div class="col-3"><h1>Media</h1></div>
+			<div class="col-9 text-left"><button class="btn btn-xs btn-primary ml-auto">Media Viewer</button></div>
+			
+		</div>
 	<cfsavecontent variable="pager">
 		<cfset Result_Per_Page=10>
 		<cfset Total_Records=findIDs.recordcount>
@@ -720,16 +725,11 @@
 </cfoutput>
 
 </cfif>
-                        </div>
-
-<!---
-<main id="content" class="container mt-5">
-	<section class="row">
-		<div class="col-12">
-			<div class="col-3"><h1>Media</h1></div>
-			<div class="col-9 text-left"><button class="btn btn-xs btn-primary ml-auto">Media Viewer</button></div>
-			
 		</div>
+	</section>
+</main>
+<!---
+
 		<div class="col-12 col-md-6">
 			<cfloop query="findMedia">
 				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
