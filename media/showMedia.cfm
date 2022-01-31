@@ -3,14 +3,14 @@
 <cfinclude template = "/shared/_header.cfm">
 <cfset title="Media">
 <cfset metaDesc="Locate Media, including audio (sound recordings), video (movies), and images (pictures) of specimens, collecting sites, habitat, collectors, and more.">
-<cfif isdefined("url.collection_object_id")>
+<!---<cfif isdefined("url.collection_object_id")>
 <cfset action="search">
 <cfset relationship__1="cataloged_item">
 <cfset url.relationship__1="cataloged_item">
 <cfset related_primary_key__1="#url.collection_object_id#">
 <cfset url.related_primary_key__1="#url.collection_object_id#">
 <cfset specID="#url.collection_object_id#">
-</cfif>
+</cfif>--->
 <script type='text/javascript' src='/includes/media.js'></script>
 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 	<cfoutput>
