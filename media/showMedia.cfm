@@ -3,14 +3,14 @@
 <cfinclude template = "/shared/_header.cfm">
 <cfset title="Media">
 <cfset metaDesc="Locate Media, including audio (sound recordings), video (movies), and images (pictures) of specimens, collecting sites, habitat, collectors, and more.">
-<!---<cfif isdefined("url.collection_object_id")>
+<cfif isdefined("url.collection_object_id")>
 <cfset action="search">
 <cfset relationship__1="cataloged_item">
 <cfset url.relationship__1="cataloged_item">
 <cfset related_primary_key__1="#url.collection_object_id#">
 <cfset url.related_primary_key__1="#url.collection_object_id#">
 <cfset specID="#url.collection_object_id#">
-</cfif>--->
+</cfif>
 <script type='text/javascript' src='/includes/media.js'></script>
 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 	<cfoutput>
@@ -19,18 +19,11 @@
 </cfif>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
-	<cfset isClicky = "likeLink">
 <cfelse>
 	<cfset oneOfUs = 0>
-	<cfset isClicky = "">
 </cfif>
 
 <!----------------------------------------------------------------------------------------->
-<cfif #action# is "nothing">
-<cfoutput>
-
-</cfoutput>
-</cfif>
 <!----------------------------------------------------------------------------------------->
 <cfif action is "search">
 <cfoutput>
@@ -121,11 +114,11 @@ function highlight(findIn,replaceThis) {
 				<cfset number_of_relations=1>
 			</cfif>
 		</cfif>
-	   <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 			<cfif isdefined("unlinked") and unlinked EQ "true">
 				<cfset number_of_relations = 0 >
-      	</cfif>
-      </cfif>
+			</cfif>
+		</cfif>
 		<cfif not isdefined("number_of_labels")>
 			<cfif (isdefined("label") and len(label) gt 0) or (isdefined("label__1") and len(label__1) gt 0)>
 				<cfset number_of_labels=1>
@@ -177,22 +170,22 @@ function highlight(findIn,replaceThis) {
 					AND media.media_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">)
 				</cfif>
 				<cfif number_of_relations EQ 0>
-           		<cfset n = 0>
+				<cfset n = 0>
 					AND media_relations0.media_id is null
 				<cfelseif number_of_relations GT 0>
 					<cfloop from="1" to="#number_of_relations#" index="n">
 						<cftry>
-				        <cfset thisRelationship = #evaluate("relationship__" & n)#>
-						   <cfcatch><cfset thisRelationship = ""></cfcatch>
-		   			</cftry>
-		    			<cftry>
-		        			<cfset thisRelatedItem = #evaluate("related_value__" & n)#>
-			    			<cfcatch><cfset thisRelatedItem = ""></cfcatch>
-		    			</cftry>
-		    			<cftry>
-		         		<cfset thisRelatedKey = #evaluate("related_primary_key__" & n)#>
-			   	 		<cfcatch><cfset thisRelatedKey = ""></cfcatch>
-		    			</cftry>
+							<cfset thisRelationship = #evaluate("relationship__" & n)#>
+							<cfcatch><cfset thisRelationship = ""></cfcatch>
+						</cftry>
+						<cftry>
+						<cfset thisRelatedItem = #evaluate("related_value__" & n)#>
+							<cfcatch><cfset thisRelatedItem = ""></cfcatch>
+						</cftry>
+						<cftry>
+							<cfset thisRelatedKey = #evaluate("related_primary_key__" & n)#>
+							<cfcatch><cfset thisRelatedKey = ""></cfcatch>
+						</cftry>
 						<cfif len(#thisRelationship#) gt 0>
 							AND media_relations#n#.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#thisRelationship#%">
 						</cfif>
@@ -256,9 +249,6 @@ function highlight(findIn,replaceThis) {
 				<br>
 			</cfif>
 		</cfif>
-	<!---   	<cfif not isdefined("createSpecimenMediaShown")>
-			<a href="#h#">[ Create media ]</a>
-		</cfif>--->
 	</cfif>
 	<cfset q="">
 	<cfloop list="#StructKeyList(form)#" index="key">
@@ -380,15 +370,13 @@ function highlight(findIn,replaceThis) {
 		</div>			
 
 			<cfset mp=getMediaPreview(preview_uri,media_type)>
-            <table>
-				<tr>
-					<td align="middle" style="padding-right:20px;width:300px;">
+
 						<a href="#media_uri#" target="_blank"><img src="#mp#" alt="#altText#" style="max-width:250px;max-height:250px;"></a>
 						<br><span style='font-size:small'>#media_type#&nbsp;(#mime_type#)</span>
 						<cfif len(display) gt 0>
 							<br><span style='font-size:small'>License: <a href="#uri#" target="_blank" class="external">#display#</a></span>
 						<cfelse>
-							<br><span style='font-size:small'>unlicensed</span>
+					<span style='font-size:small'>unlicensed</span>
 						</cfif>
 						<cfif #media_type# eq "image">
 							<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#">Related images</a></span>
@@ -413,8 +401,6 @@ function highlight(findIn,replaceThis) {
 								</cfloop>
 							</cfif>
 						</cfif>
-					</td>
-					<td>
 						<cfif len(desc.label_value) gt 0>
 							<ul><li>#desc.label_value#</li></ul>
 						</cfif>
@@ -444,9 +430,7 @@ function highlight(findIn,replaceThis) {
 								<strong>Keywords:</strong> #kwds#
 							</div>
 						</cfif>
-					</td>
-				</tr>
-			</table>
+
 			<cfif media_type is "multi-page document">
 				<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
 			</cfif>
@@ -479,7 +463,7 @@ function highlight(findIn,replaceThis) {
 					 and media.media_id != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 			<cfif relM.recordcount gt 0>
-				<br>Related Media
+				Related Media
 				<div class="thumbs">
 					<cfloop query="relM">
 						<cfset puri=getMediaPreview(preview_uri,media_type)>
@@ -510,11 +494,8 @@ function highlight(findIn,replaceThis) {
 					</cfloop>
 				</div>
 			</cfif>
-		</td>
-	</tr>
 	<cfset rownum=rownum+1>
 </cfloop>
-</table>
 
 
 <div class="mediaPager">
