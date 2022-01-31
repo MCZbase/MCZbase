@@ -5619,8 +5619,8 @@ Annotation to report problematic data concerning #annotated.guid#
 						kingdom, phylum, phylclass, phylorder, family, genus,
 						scientific_name, author_text,
 						taxonid
-					FROM DIGIR_QUERY.digir_filtered_flat
-					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+					FROM taxonomy
+					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
 			<cfdefaultcase>
@@ -5629,7 +5629,7 @@ Annotation to report problematic data concerning #annotated.guid#
 		</cfswitch>
 		<cfif queryrow.recordcount is 1>
 			<cfset result.status="success">
-			<cfset result.collection_object_id=collection_object_id>
+			<!--- cfset result.collection_object_id=target_id  ---><!--- unused?  --->
 			<cfset result.guid=queryrow.guid>
 			<cfset result.error="">
 
