@@ -146,7 +146,7 @@
 				<cfset media_id = listgetat(rdurl,gPos+1,"/")>
 				<cfset action="search">
 			</cfif>
-			<cfinclude template="/MediaSearch.cfm">
+			<cfinclude template="/findMedia.cfm">
 			<cfcatch>
 				<cfinclude template="/errors/404.cfm">
 			</cfcatch>

@@ -1,8 +1,8 @@
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfset pageTitle = "Media Record">
 <cfinclude template = "/shared/_header.cfm">
-<cfset media_id = '1333'>
-<cfquery name="findMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+
+<cfquery name="findMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 	SELECT distinct 
 		media.media_id
 	FROM media
