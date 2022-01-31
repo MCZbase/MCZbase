@@ -1,38 +1,22 @@
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfset pageTitle = "Media Record">
 <cfinclude template = "/shared/_header.cfm">
-
 <cfset title="Media">
 <cfset metaDesc="Locate Media, including audio (sound recordings), video (movies), and images (pictures) of specimens, collecting sites, habitat, collectors, and more.">
-
-<cfif isdefined("url.collection_object_id")>
-     <!---
-    	<cflocation url="MediaSearch.cfm?action=search&relationship__1=cataloged_item&related_primary_key__1=#url.collection_object_id#&specID=#url.collection_object_id#" addtoken="false" statusCode="303" >
-     --->
-     <cfset action="search">
-     <cfset relationship__1="cataloged_item">
-     <cfset url.relationship__1="cataloged_item">
-     <cfset related_primary_key__1="#url.collection_object_id#">
-     <cfset url.related_primary_key__1="#url.collection_object_id#">
-     <cfset specID="#url.collection_object_id#">
-</cfif>
-
-<div class="basic_search_box" style="padding-bottom:5em;">
+<!---<cfif isdefined("url.collection_object_id")>
+<cfset action="search">
+<cfset relationship__1="cataloged_item">
+<cfset url.relationship__1="cataloged_item">
+<cfset related_primary_key__1="#url.collection_object_id#">
+<cfset url.related_primary_key__1="#url.collection_object_id#">
+<cfset specID="#url.collection_object_id#">
+</cfif>--->
 <script type='text/javascript' src='/includes/media.js'></script>
 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-
-	<cfif isdefined("specID") and len(specID) gt 0>
-         <cfset createSpecimenMediaShown="true">
-		<cfoutput>
-			<a class="toplinks" href="/media.cfm?action=newMedia&collection_object_id=#specID#">[ Create Specimen media ]</a>
-		</cfoutput>
-	<cfelse>
-		<cfoutput>
-    		<a class="toplinks" href="/media.cfm?action=newMedia">[ Create Media ]</a>
-		</cfoutput>
-	</cfif>
+	<cfoutput>
+		<a class="toplinks" href="/media.cfm?action=newMedia">[ Create Media ]</a>
+	</cfoutput>
 </cfif>
-
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
 	<cfset isClicky = "likeLink">
@@ -44,7 +28,7 @@
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "nothing">
 	<cfoutput>
-    <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 		select media_relationship from ctmedia_relationship 
 		<cfif oneOfUs EQ 0>
 			where media_relationship not like 'document%' and media_relationship not like '%permit'
@@ -65,144 +49,12 @@
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
 
-    <br>
-    <h2 class="wikilink">Search Media
-      <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-        <img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;">
-      </cfif>
-    </h2>
-
-<form name="newMedia" method="post" action="">
-  <div class="greenbox">
-    <a name="kwFrm"></a>
-  <p style="font-size: 14px;padding-bottom: 1em;">
-      This form may not find very recent changes. You can use the also use the <a href="##relFrm">relational search form</a> below.
-      </p>
-      <input type="hidden" name="action" value="search">
-      <input type="hidden" name="srchType" value="key">
-      <label for="keyword">Keyword</label>
-      <input type="text" name="keyword" id="keyword" size="40">
-      <span class="rdoCtl">Match Any
-      <input type="radio" name="kwType" value="any">
-      </span> <span class="rdoCtl">Match All
-      <input type="radio" name="kwType" value="all" checked="checked">
-      </span> <span class="rdoCtl">Match Phrase
-      <input type="radio" name="kwType" value="phrase">
-      </span>
-
-     <div style="margin: .5em 0 .5em 0;">
-      <label for="media_uri">Media URI</label>
-     <input type="text" name="media_uri" id="media_uri" size="90">
-     </div>
-      <div style="width: 100px;margin: .5em 0;">
-        <label for="tag">Require TAG?</label>
-        <input type="checkbox" id="tag" name="tag" value="1">
-      </div>
-
-      <div style="width: 420px;margin-top:.5em;">
-        <div style="display: inline; width: 200px; float:left;">
-          <label for="mime_type">MIME Type</label>
-          <select name="mime_type" id="mime_type" multiple="multiple" size="5">
-            <option value="" selected="selected">Anything</option>
-            <cfloop query="ctmime_type">
-              <option value="#mime_type#">#mime_type#</option>
-            </cfloop>
-          </select>
-        </div>
-        <div style="display: inline; width: 200px;margin-bottom: 1em;">
-          <label for="media_type">Media Type</label>
-          <select name="media_type" id="media_type" multiple="multiple" size="5" >
-            <option value="" selected="selected">Anything</option>
-            <cfloop query="ctmedia_type">
-              <option value="#media_type#">#media_type#</option>
-            </cfloop>
-          </select>
-        </div>
-      </div>
-    </div>
-
-      <div style="clear: both;">
-        <input type="submit" value="Search" class="schBtn">&nbsp;&nbsp;
-        <input type="reset" value="Reset Form" class="clrBtn">
-      </div>
-    </form>
- <br>
-
-    <form name="newMedia" method="post" action="">
-          <div class="greenbox">
-    <a name="relFrm"></a>
-    <div> <p style="font-size: 14px;padding-bottom: 1em;">You can use the also use the <a href="##kwFrm">keyword search form</a> above.</p> </div>
-      <input type="hidden" name="action" value="search">
-      <input type="hidden" name="srchType" value="full">
-      <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
-      <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
-       <div style="float:left;width: 750px;margin-bottom: .25em;">
-      <label for="media_uri">Media URI</label>
-      <input type="text" name="media_uri" id="media_uri" size="90">
-      </div>
-      <div style="float:left;width: 250px;padding-top:.25em;">
-      <label for="mime_type">MIME Type</label>
-      <select name="mime_type" id="mime_type">
-        <option value=""></option>
-        <cfloop query="ctmime_type">
-          <option value="#mime_type#">#mime_type#</option>
-        </cfloop>
-      </select>
-      </div>
-       <div style="float:left;width: 200px;">
-      <label for="media_type">Media Type</label>
-      <select name="media_type" id="media_type">
-        <option value=""></option>
-        <cfloop query="ctmedia_type">
-          <option value="#media_type#">#media_type#</option>
-        </cfloop>
-      </select>
-      </div>
-     	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-          <div style="float:left;width: 150px;">
-           <span>
-               <label for "unlinked">Limit to Media not yet linked to any record.</label>
-               <input type="checkbox" name="unlinked" id="unlinked" value="true">
-           </span>
-           </div>
-        </cfif>
-      <div style="clear: both;padding-top: .5em;">
-      <label for="relationships">Media Relationships</label>
-      <div id="relationships" class="relationship_dd">
-        <select name="relationship__1" id="relationship__1" size="1" style="width: 200px;">
-          <option value=""></option>
-          <cfloop query="ctmedia_relationship">
-            <option value="#media_relationship#">#media_relationship#</option>
-          </cfloop>
-        </select>: &nbsp;<input type="text" name="related_value__1" id="related_value__1" size="70">
-        <input type="hidden" name="related_id__1" id="related_id__1">
-        <br>
-        <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
-        </div>
-      <label for="labels" style="margin-top: .5em">Media Labels</label>
-      <div id="labels" class="relationship_dd">
-        <div id="labelsDiv__1">
-          <select name="label__1" id="label__1" size="1" style="width: 200px;">
-            <option value=""></option>
-            <cfloop query="ctmedia_label">
-              <option value="#media_label#">#media_label#</option>
-            </cfloop>
-          </select>:&nbsp;
-          <input type="text" name="label_value__1" id="label_value__1" size="70">
-        </div>
-        <span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span> </div>
-         </div>
-      <input type="submit"
-				value="Search"
-				class="schBtn">&nbsp;&nbsp;
-      <input type="reset"
-				value="Reset Form"
-				class="clrBtn">
-
-       </form>
-
-
-  </cfoutput>
+	<h2 class="wikilink">Search Media
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;">
+		</cfif>
+	</h2>
+</cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------------->
 <cfif action is "search">
@@ -635,22 +487,12 @@
 					</td>
 				</tr>
 			</table>
-			<cfquery name="tag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select count(*) n 
-				from tag 
-				where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-			</cfquery>
-			<br>
 			<cfif media_type is "multi-page document">
 				<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
 			</cfif>
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 		        <div class="mediaEdit"><a href="/media.cfm?action=edit&media_id=#media_id#">[ edit ]</a>
-                    <a href="/TAG.cfm?media_id=#media_id#">[ add or edit TAGs ]</a></div>
 		    </cfif>
-		    <cfif tag.n gt 0>
-                <div class="mediaEdit"><a href="/showTAG.cfm?media_id=#media_id#">[ View #tag.n# TAGs ]</a></div>
-			</cfif>
 			<cfquery name="relM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					media.media_id,
@@ -679,7 +521,6 @@
 			<cfif relM.recordcount gt 0>
 				<br>Related Media
 				<div class="thumbs">
-					<div class="thumb_spcr">&nbsp;</div>
 					<cfloop query="relM">
 						<cfset puri=getMediaPreview(preview_uri,media_type)>
 		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -707,7 +548,6 @@
 							</p>
 						</div>
 					</cfloop>
-					<div class="thumb_spcr">&nbsp;</div>
 				</div>
 			</cfif>
 		</td>
