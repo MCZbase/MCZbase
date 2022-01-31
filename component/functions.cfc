@@ -5629,7 +5629,7 @@ Annotation to report problematic data concerning #annotated.guid#
 		</cfswitch>
 		<cfif queryrow.recordcount is 1>
 			<cfset result.status="success">
-			<!--- cfset result.collection_object_id=target_id  ---><!--- unused?  --->
+			<cfset result.target_id=target_id >
 			<cfset result.guid=queryrow.guid>
 			<cfset result.error="">
 
@@ -5762,12 +5762,12 @@ Annotation to report problematic data concerning #annotated.guid#
 
 		<cfelse>
 			<cfset result.status="fail">
-			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.target_id=target_id>
 			<cfset result.error="record not found">
 		</cfif>
     <cfcatch>
 			<cfset result.status="fail">
-			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.target_id=target_id>
 			<cfset line = cfcatch.tagcontext[1].line>
 			<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
     </cfcatch>
