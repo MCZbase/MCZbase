@@ -5699,6 +5699,8 @@ Annotation to report problematic data concerning #annotated.guid#
 
 			<!--- amendment phase --->
 
+			<cftry>
+			<!--- TODO: Throwing null pointer exception from lookupTaxon(String taxon, String author, boolean marineOnly) in WoRMSService --->
 			<!---  @Provides("431467d6-9b4b-48fa-a197-cd5379f5e889") --->
 			<cfset dqResponse = dwcSciNameDQ.amendmentTaxonidFromTaxon( taxonid, kingdom, phylum, phylclass, phylorder, family, genus, "", scientific_name, author_text, "", "", "", "", "", "", scientificnameid, "", "",wormsAuthority) >
 			<cfset r.label = "lookup taxonID for taxon" >
@@ -5713,6 +5715,10 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset amendment["431467d6-9b4b-48fa-a197-cd5379f5e889"] = r >
 			<cfset r=structNew()>
+			<cfcatch>
+			<cfset r=structNew()>
+			</cfcatch>
+			</cftry>
 
 			<!--- post-amendment phase --->
 
@@ -5753,7 +5759,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset ostamendment["81cc974d-43cc-4c0f-a5e0-afa23b455aa3"] = r >
+			<cfset postamendment["81cc974d-43cc-4c0f-a5e0-afa23b455aa3"] = r >
 
 			<!--- Add results from phases to result to return --->
 
