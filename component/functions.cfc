@@ -5686,7 +5686,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("81cc974d-43cc-4c0f-a5e0-afa23b455aa3") --->
-			<cfset dqResponse = dwcSciNameDQ.validationOrderNotfound(order,wormsAuthority) >
+			<cfset dqResponse = dwcSciNameDQ.validationOrderNotfound(phylorder,wormsAuthority) >
 			<cfset r.label = "dwc:order is known to WoRMS" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -5744,7 +5744,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 	
 			<!--- @Provides("81cc974d-43cc-4c0f-a5e0-afa23b455aa3") --->
-			<cfset dqResponse = dwcSciNameDQ.validationOrderNotfound(order,wormsAuthority) >
+			<cfset dqResponse = dwcSciNameDQ.validationOrderNotfound(phylorder,wormsAuthority) >
 			<cfset r.label = "dwc:order is known to WoRMS" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -5817,7 +5817,7 @@ Annotation to report problematic data concerning #annotated.guid#
 
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventTG2DQ" name="eventDateQC"> <!--- Deprecated --->
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCOtherDateDQ" name="dwcOtherDateQC">
-			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventDQ" name="dwcEventQC">
+			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventDQ" name="dwcEventDQ">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides">
 			<!--- Obtain mechanism from annotation on class --->
@@ -5927,7 +5927,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
-			<cfset dqResponse = dwcEventQC.validationEventdateEmpty(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateEmpty(eventDate) >
 			<cfset r.label = "dwc:eventDate contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -5947,7 +5947,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
-			<cfset dqResponse = dwcEventQC.validationEventdateOutofrange(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateOutofrange(eventDate) >
 			<cfset r.label = "dwc:eventDate is in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -5977,7 +5977,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
-			<cfset dqResponse = dwcEventQC.validationYearEmpty(year) >
+			<cfset dqResponse = dwcEventDQ.validationYearEmpty(year) >
 			<cfset r.label = "dwc:startDayOfYear is in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -6154,7 +6154,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!---  @Provides("47ff73ba-0028-4f79-9ce1-ee7008d66498") --->
-			<cfset dqResponse =  dwcEventQC.validationDayNotstandard(day) >
+			<cfset dqResponse =  dwcEventDQ.validationDayNotstandard(day) >
 			<cfset r.label = "dwc:day in standard format" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -6204,7 +6204,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
-			<cfset dqResponse = dwcEventQC.validationEventdateEmpty(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateEmpty(eventDate) >
 			<cfset r.label = "dwc:eventDate contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -6224,7 +6224,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
-			<cfset dqResponse = dwcEventQC.validationEventdateOutofrange(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateOutofrange(eventDate) >
 			<cfset r.label = "dwc:eventDate is in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -6254,7 +6254,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
-			<cfset dqResponse = dwcEventQC.validationYearEmpty(year) >
+			<cfset dqResponse = dwcEventDQ.validationYearEmpty(year) >
 			<cfset r.label = "dwc:startDayOfYear is in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
