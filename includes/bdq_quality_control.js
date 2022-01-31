@@ -142,6 +142,10 @@ console.log(postkey);
  * @param targetid the id of an element in the DOM of which to replace the content with the results.
  */
 function loadNameQC(collection_object_id,taxon_name_id,targetid){
+   var target_id = "";
+   var target = "";
+   console.log(collection_object_id);
+   console.log(taxon_name_id);
 	if (collection_object_id && collection_object_id.length > 0) { 
 		target_id = collection_object_id;
 		target = "FLAT";
