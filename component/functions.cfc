@@ -5601,7 +5601,7 @@ Annotation to report problematic data concerning #annotated.guid#
 	<cfset postamendment=structNew()><!--- post-amendment phase measures and validations --->
 	<cftry>
 		<cfswitch expression="#ucase(target)#">
-			<cfcase value="FLAT"></cfcase>
+			<cfcase value="FLAT">
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT guid, 
 						basisofrecord,
@@ -5611,7 +5611,8 @@ Annotation to report problematic data concerning #annotated.guid#
 					FROM DIGIR_QUERY.digir_filtered_flat
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
-			<cfcase value="TAXONOMY"></cfcase>
+			</cfcase>
+			<cfcase value="TAXONOMY">
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT taxon_name_id as guid, 
 						'' as basisofrecord,
@@ -5621,6 +5622,7 @@ Annotation to report problematic data concerning #annotated.guid#
 					FROM DIGIR_QUERY.digir_filtered_flat
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
+			</cfcase>
 			<cfdefaultcase>
 				<cfthrow message="Unknown target type for taxon report. Should be FLAT or TAXONOMY">
 			</cfdefaultcase>
