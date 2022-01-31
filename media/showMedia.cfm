@@ -388,7 +388,7 @@ function highlight(findIn,replaceThis) {
 			</div>				
 		</div>			
 
-			
+			<cfset mp=getMediaPreview(preview_uri,media_type)>
             <table>
 				<tr>
 					<td align="middle" style="padding-right:20px;width:300px;">
