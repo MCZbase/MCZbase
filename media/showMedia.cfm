@@ -6,7 +6,7 @@
 	SELECT distinct 
 		media.media_id
 	FROM media
-	WHERE media.media_id = '#media_id#'
+	WHERE media.media_id = '1333'
 </cfquery>	
 
 <main id="content" class="container mt-5">
