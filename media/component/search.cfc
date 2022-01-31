@@ -1131,7 +1131,7 @@ limitations under the License.
 										<cfset hw = 'width="auto" height="auto"'>
 										<cfset l_styles = "max-width:150px;max-height:100px;">
 									<cfelse>
-										<cfset hw = 'width="85" height="100"'><!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --->
+										<cfset hw = 'width="80" height="100"'><!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --->
 									</cfif>
 							<cfelse>
 								<cfset l_styles = "max-width:125px;max-height:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
