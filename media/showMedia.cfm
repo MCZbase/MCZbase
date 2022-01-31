@@ -333,20 +333,11 @@ function highlight(findIn,replaceThis) {
 			left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
 		where
 			media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-			and media_label <> 'credit'  -- obtained in the findIDs query.
+			and media_label <> 'credit'
 			<cfif oneOfUs EQ 0>
 				and media_label <> 'internal remarks'
 			</cfif>
 	</cfquery>
-	<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT
-		media.media_id
-	FROM
-		media
-		left join media_relations on media_relations.media_id = media.media_id
-	WHERE
-		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-</cfquery>
 	<cfquery name="labels" dbtype="query">
 		select media_label,label_value 
 		from labels_raw 
@@ -435,7 +426,7 @@ function highlight(findIn,replaceThis) {
 									</li>
 								</cfloop>
 								<cfif len(credit) gt 0>
-									<li>credit: #credit#</li>
+								<li>credit: #credit#</li>
 								</cfif>
 							</ul>
 						</cfif>
