@@ -267,243 +267,221 @@ function highlight(findIn,replaceThis) {
 			<div class="col-3 float-left"><h1>Media</h1></div>
 			<div class="col-9 float-left"><button class="btn btn-xs btn-primary ml-auto">Media Viewer</button></div>
 		</div>
-	<cfsavecontent variable="pager">
-		<cfset Result_Per_Page=10>
-		<cfset Total_Records=findIDs.recordcount>
-		<cfparam name="URL.offset" default="0">
-		<cfparam name="limit" default="1">
-		<cfset limit=URL.offset+Result_Per_Page>
-		<cfset start_result=URL.offset+1>
+			<cfsavecontent variable="pager">
+				<cfset Result_Per_Page=10>
+				<cfset Total_Records=findIDs.recordcount>
+				<cfparam name="URL.offset" default="0">
+				<cfparam name="limit" default="1">
+				<cfset limit=URL.offset+Result_Per_Page>
+				<cfset start_result=URL.offset+1>
+				<cfif findIDs.recordcount gt 1>
+					Showing results #start_result# -
+					<cfif limit GT Total_Records> #Total_Records# <cfelse> #limit# </cfif> of #Total_Records#
 
-		<cfif findIDs.recordcount gt 1>
-
-			Showing results #start_result# -
-			<cfif limit GT Total_Records> #Total_Records# <cfelse> #limit# </cfif> of #Total_Records#
-
-			<cfset URL.offset=URL.offset+1>
-			<cfif Total_Records GT Result_Per_Page>
-				<br>
-				<cfif URL.offset GT Result_Per_Page>
-					<cfset prev_link=URL.offset-Result_Per_Page-1>
-					<a href="#cgi.script_name#?offset=#prev_link#&#q#">PREV</a>
-				</cfif>
-				<cfset Total_Pages=ceiling(Total_Records/Result_Per_Page)>
-				<cfloop index="i" from="1" to="#Total_Pages#">
-					<cfset j=i-1>
-					<cfset offset_value=j*Result_Per_Page>
-					<cfif offset_value EQ URL.offset-1 >
-						#i#
-					<cfelse>
-						<a href="#cgi.script_name#?offset=#offset_value#&#q#">#i#</a>
+					<cfset URL.offset=URL.offset+1>
+					<cfif Total_Records GT Result_Per_Page>
+						<br>
+						<cfif URL.offset GT Result_Per_Page>
+							<cfset prev_link=URL.offset-Result_Per_Page-1>
+							<a href="#cgi.script_name#?offset=#prev_link#&#q#">PREV</a>
+						</cfif>
+						<cfset Total_Pages=ceiling(Total_Records/Result_Per_Page)>
+						<cfloop index="i" from="1" to="#Total_Pages#">
+							<cfset j=i-1>
+							<cfset offset_value=j*Result_Per_Page>
+							<cfif offset_value EQ URL.offset-1 >
+								#i#
+							<cfelse>
+								<a href="#cgi.script_name#?offset=#offset_value#&#q#">#i#</a>
+							</cfif>
+						</cfloop>
+						<cfif limit LT Total_Records>
+							<cfset next_link=URL.offset+Result_Per_Page-1>
+							<a href="#cgi.script_name#?offset=#next_link#&#q#">NEXT</a>
+						</cfif>
 					</cfif>
-				</cfloop>
-				<cfif limit LT Total_Records>
-					<cfset next_link=URL.offset+Result_Per_Page-1>
-					<a href="#cgi.script_name#?offset=#next_link#&#q#">NEXT</a>
 				</cfif>
-			</cfif>
-
-		</cfif>
-	</cfsavecontent>
-     <div class="mediaPager">
-	#pager#
-   </div>
+			</cfsavecontent>
+	<div class="mediaPager">
+		#pager#
+	</div>
 	<cfset rownum=1>
 	<cfif url.offset is 0><cfset url.offset=1></cfif>
-
-<cfloop query="findIDs" startrow="#URL.offset#" endrow="#limit#">
-	<cfquery name="labels_raw"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select
-			media_label,
-			label_value,
-			agent_name
-		from
-			media_labels
-			left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
-		where
-			media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-			and media_label <> 'credit'
-			<cfif oneOfUs EQ 0>
-				and media_label <> 'internal remarks'
+		<cfloop query="findIDs" startrow="#URL.offset#" endrow="#limit#">
+			<cfquery name="labels_raw"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					media_label,
+					label_value,
+					agent_name
+				from
+					media_labels
+					left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
+				where
+					media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					and media_label <> 'credit'
+					<cfif oneOfUs EQ 0>
+						and media_label <> 'internal remarks'
+					</cfif>
+			</cfquery>
+			<cfquery name="labels" dbtype="query">
+				select media_label,label_value 
+				from labels_raw 
+				where media_label != 'description'
+			</cfquery>
+			<cfquery name="desc" dbtype="query">
+				select label_value 
+				from labels_raw 
+				where media_label='description'
+			</cfquery>
+			<cfif isdefined("findIDs.keywords")>
+				<cfquery name="kw" dbtype="query">
+					select keywords 
+					from findIDs 
+					where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				</cfquery>
 			</cfif>
-	</cfquery>
-	<cfquery name="labels" dbtype="query">
-		select media_label,label_value 
-		from labels_raw 
-		where media_label != 'description'
-	</cfquery>
-	<cfquery name="desc" dbtype="query">
-		select label_value 
-		from labels_raw 
-		where media_label='description'
-	</cfquery>
-	<cfif isdefined("findIDs.keywords")>
-		<cfquery name="kw" dbtype="query">
-			select keywords 
-			from findIDs 
-			where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		</cfquery>
-	</cfif>
-	<cfset alt="#media_uri#">
-	<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select mczbase.get_media_descriptor(media_id) media_descriptor from media 
-		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
-	</cfquery> 
-	<cfset altText = alt.media_descriptor>
-	<cfif desc.recordcount is 1>
-		<cfif findIDs.recordcount is 1>
-			<cfset title = desc.label_value>
-			<cfset metaDesc = "#desc.label_value# for #media_type# (#mime_type#)">
-		</cfif>
-		<cfset alt=desc.label_value>
-	</cfif>
-		<div class="col-12 px-0">
-			<div class="col-12 col-md-5">
-				<cfif len(findIDs.media_id) gt 0>
+			<cfset alt="#media_uri#">
+			<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select mczbase.get_media_descriptor(media_id) media_descriptor from media 
+				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+			</cfquery> 
+			<cfset altText = alt.media_descriptor>
+			<cfif desc.recordcount is 1>
+				<cfif findIDs.recordcount is 1>
+					<cfset title = desc.label_value>
+					<cfset metaDesc = "#desc.label_value# for #media_type# (#mime_type#)">
+				</cfif>
+				<cfset alt=desc.label_value>
+			</cfif>
+			<div class="col-12 px-0">
+				<div class="col-12 col-md-5">
+					<cfif len(findIDs.media_id) gt 0>
 					<cfset mediablock= getMediaBlockHtml(media_id="#findIDs.media_id#",displayAs="full",size="400",captionAs="textFull")>
 						<div class="float-left" id="mediaBlock#findIDs.media_id#">
 							#mediablock#
 						</div>
-				</cfif>
-			</div>				
-		</div>			
-
-			<cfset mp=getMediaPreview(preview_uri,media_type)>
-
-						<a href="#media_uri#" target="_blank"><img src="#mp#" alt="#altText#" style="max-width:250px;max-height:250px;"></a>
-						<br><span style='font-size:small'>#media_type#&nbsp;(#mime_type#)</span>
-						<cfif len(display) gt 0>
-							<br><span style='font-size:small'>License: <a href="#uri#" target="_blank" class="external">#display#</a></span>
-						<cfelse>
-					<span style='font-size:small'>unlicensed</span>
-						</cfif>
-						<cfif #media_type# eq "image">
-							<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#">Related images</a></span>
-						</cfif>
-						<cfif #media_type# eq "audio">
-							<!--- check for a transcript, link if present --->
-							<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									transcript.media_uri as transcript_uri,
-									transcript.media_id as trainscript_media_id
-								FROM
-									media_relations
-									left join media transcript on media_relations.related_primary_key = transcript.media_id
-								WHERE
-									media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
-									and media_relationship = 'transcript for audio media'
-									and MCZBASE.is_media_encumbered(transcript.media_id) < 1
-							</cfquery>
-							<cfif checkforTranscript.recordcount GT 0>
-								<cfloop query="checkForTranscript">
-									<br><span style='font-size:small'><a href="#transcript_uri#">View Transcript</a></span>
-								</cfloop>
-							</cfif>
-						</cfif>
-						<cfif len(desc.label_value) gt 0>
-							<ul><li>#desc.label_value#</li></ul>
-						</cfif>
-						<cfif labels.recordcount gt 0>
-							<ul>
-								<cfloop query="labels">
-									<li>
-										#media_label#: #label_value#
-									</li>
-								</cfloop>
-								<cfif len(credit) gt 0>
-								<li>credit: #credit#</li>
-								</cfif>
-							</ul>
-						</cfif>
-		
-						<cfif isdefined("kw.keywords") and len(kw.keywords) gt 0>
-							<cfif isdefined("keyword") and len(keyword) gt 0>
-								<cfset kwds=kw.keywords>
-								<cfloop list="#keyword#" index="k" delimiters=",;: ">
-									<cfset kwds=highlight(kwds,k)>
-								</cfloop>
-							<cfelse>
-								<cfset kwds=kw.keywords>
-							</cfif>
-							<div style="">
-								<strong>Keywords:</strong> #kwds#
-							</div>
-						</cfif>
-
-			<cfif media_type is "multi-page document">
-				<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
-			</cfif>
-			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-		        <div class="mediaEdit"><a href="/media.cfm?action=edit&media_id=#media_id#">[ edit ]</a>
-		    </cfif>
-			<cfquery name="relM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
-					media.media_id,
-					media.media_type,
-					media.mime_type,
-					media.preview_uri,
-					media.media_uri
-				from
-					media,
-					media_relations
-				where
-					media.media_id=media_relations.related_primary_key and
-					media_relationship like '% media'
-					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					and media.media_id != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-				UNION
-				select media.media_id, media.media_type,
-					media.mime_type, media.preview_uri, media.media_uri
-				from media, media_relations
-				where
-					media.media_id=media_relations.media_id and
-					media_relationship like '% media' and
-					media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					 and media.media_id != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-			</cfquery>
-			<cfif relM.recordcount gt 0>
-				Related Media
-				<div class="thumbs">
-					<cfloop query="relM">
-						<cfset puri=getMediaPreview(preview_uri,media_type)>
-		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select
-									media_label,
-									label_value
-								from
-									media_labels
-								where
-									media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							</cfquery>
-						<cfquery name="desc" dbtype="query">
-							select label_value from labels where media_label='description'
+					</cfif>
+				</div>				
+				<div class="col-12 col-md-7">
+					<!---<cfif #media_type# eq "audio">
+						<!--- check for a transcript, link if present --->
+						<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT
+								transcript.media_uri as transcript_uri,
+								transcript.media_id as trainscript_media_id
+							FROM
+								media_relations
+								left join media transcript on media_relations.related_primary_key = transcript.media_id
+							WHERE
+								media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+								and media_relationship = 'transcript for audio media'
+								and MCZBASE.is_media_encumbered(transcript.media_id) < 1
 						</cfquery>
-						<cfset alt="Media Preview Image">
-						<cfif desc.recordcount is 1>
-							<cfset alt=desc.label_value>
+						<cfif checkforTranscript.recordcount GT 0>
+							<cfloop query="checkForTranscript">
+								<br><span style='font-size:small'><a href="#transcript_uri#">View Transcript</a></span>
+							</cfloop>
 						</cfif>
-		               <div class="one_thumb">
-			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
-		                   	<p>
-								#media_type# (#mime_type#)
-								<a href="/media/#media_id#">Media Details</a>
-								#alt#
-							</p>
+					</cfif>--->
+					<cfif len(desc.label_value) gt 0>
+						<ul><li>#desc.label_value#</li></ul>
+					</cfif>
+					<cfif labels.recordcount gt 0>
+						<ul>
+							<cfloop query="labels">
+								<li>
+									#media_label#: #label_value#
+								</li>
+							</cfloop>
+							<cfif len(credit) gt 0>
+							<li>credit: #credit#</li>
+							</cfif>
+						</ul>
+					</cfif>
+					<cfif isdefined("kw.keywords") and len(kw.keywords) gt 0>
+						<cfif isdefined("keyword") and len(keyword) gt 0>
+							<cfset kwds=kw.keywords>
+							<cfloop list="#keyword#" index="k" delimiters=",;: ">
+								<cfset kwds=highlight(kwds,k)>
+							</cfloop>
+						<cfelse>
+							<cfset kwds=kw.keywords>
+						</cfif>
+						<div style="">
+							<strong>Keywords:</strong> #kwds#
 						</div>
-					</cfloop>
+					</cfif>
+					<cfif media_type is "multi-page document">
+						<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
+					</cfif>
+					<cfquery name="relM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select
+							media.media_id,
+							media.media_type,
+							media.mime_type,
+							media.preview_uri,
+							media.media_uri
+						from
+							media,
+							media_relations
+						where
+							media.media_id=media_relations.related_primary_key and
+							media_relationship like '% media'
+							and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							and media.media_id != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						UNION
+						select media.media_id, media.media_type,
+							media.mime_type, media.preview_uri, media.media_uri
+						from media, media_relations
+						where
+							media.media_id=media_relations.media_id and
+							media_relationship like '% media' and
+							media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							 and media.media_id != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					</cfquery>
+					<cfif relM.recordcount gt 0>
+						Related Media
+						<div class="thumbs">
+							<cfloop query="relM">
+								<cfset puri=getMediaPreview(preview_uri,media_type)>
+								<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select
+											media_label,
+											label_value
+										from
+											media_labels
+										where
+											media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+									</cfquery>
+								<cfquery name="desc" dbtype="query">
+									select label_value from labels where media_label='description'
+								</cfquery>
+								<cfset alt="Media Preview Image">
+								<cfif desc.recordcount is 1>
+									<cfset alt=desc.label_value>
+								</cfif>
+								<div class="one_thumb">
+									<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
+									<p>
+										#media_type# (#mime_type#)
+										<a href="/media/#media_id#">Media Details</a>
+										#alt#
+									</p>
+								</div>
+							</cfloop>
+						</div>
+					</cfif>
 				</div>
-			</cfif>
-	<cfset rownum=rownum+1>
-</cfloop>
-
-
-<div class="mediaPager">
-#pager#
- </div>
-</cfoutput>
-</cfif>
+				<div class="mediaPager">
+					#pager#
+				</div>
+				<cfset rownum=rownum+1>
+			</div>
+		</cfloop>
+	</cfif>
 	</section>
 </main>
+</cfoutput>
 <!---
 
 		<div class="col-12 col-md-6">
