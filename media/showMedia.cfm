@@ -238,7 +238,7 @@ function highlight(findIn,replaceThis) {
 				Note: This form will return a maximum of 500 records.
 			</div>
 		</cfif>
-		<a href="/MediaSearch.cfm">[ Media Search ]</a>
+		<a href="/MediaSearch.cfm" class="btn btn-xs btn-primary">Media Search</a>
 	</cfif>
 	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 		<cfset h="/media.cfm?action=newMedia">
@@ -305,9 +305,9 @@ function highlight(findIn,replaceThis) {
 
 		</cfif>
 	</cfsavecontent>
-     <div class="mediaPager">
-	#pager#
-   </div>
+		<div class="mediaPager">
+			#pager#
+		</div>
 	<cfset rownum=1>
 	<cfif url.offset is 0><cfset url.offset=1></cfif>
 
@@ -366,70 +366,65 @@ function highlight(findIn,replaceThis) {
 						</div>
 				</cfif>
 			</div>				
-		</div>			
+			<div class="col-12 col-md-7">
+				<cfif #media_type# eq "image">
+					<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#"></a></span>
+				</cfif>
+				<cfif #media_type# eq "audio">
+					<!--- check for a transcript, link if present --->
+					<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							transcript.media_uri as transcript_uri,
+							transcript.media_id as trainscript_media_id
+						FROM
+							media_relations
+							left join media transcript on media_relations.related_primary_key = transcript.media_id
+						WHERE
+							media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+							and media_relationship = 'transcript for audio media'
+							and MCZBASE.is_media_encumbered(transcript.media_id) < 1
+					</cfquery>
+					<cfif checkforTranscript.recordcount GT 0>
+						<cfloop query="checkForTranscript">
+							<br><span style='font-size:small'><a href="#transcript_uri#">View Transcript</a></span>
+						</cfloop>
+					</cfif>
+				</cfif>
+				<cfif len(desc.label_value) gt 0>
+					<ul><li>#desc.label_value#</li></ul>
+				</cfif>
+				<cfif labels.recordcount gt 0>
+					<ul>
+						<cfloop query="labels">
+							<li>
+								#media_label#: #label_value#
+							</li>
+						</cfloop>
+						<cfif len(credit) gt 0>
+						<li>credit: #credit#</li>
+						</cfif>
+					</ul>
+				</cfif>
 
-			<cfset mp='hello'>
+				<cfif isdefined("kw.keywords") and len(kw.keywords) gt 0>
+					<cfif isdefined("keyword") and len(keyword) gt 0>
+						<cfset kwds=kw.keywords>
+						<cfloop list="#keyword#" index="k" delimiters=",;: ">
+							<cfset kwds=highlight(kwds,k)>
+						</cfloop>
+					<cfelse>
+						<cfset kwds=kw.keywords>
+					</cfif>
+					<div style="">
+						<strong>Keywords:</strong> #kwds#
+					</div>
+				</cfif>
 
-				
-						<cfif #media_type# eq "image">
-							<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#">Related images</a></span>
-						</cfif>
-						<cfif #media_type# eq "audio">
-							<!--- check for a transcript, link if present --->
-							<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									transcript.media_uri as transcript_uri,
-									transcript.media_id as trainscript_media_id
-								FROM
-									media_relations
-									left join media transcript on media_relations.related_primary_key = transcript.media_id
-								WHERE
-									media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
-									and media_relationship = 'transcript for audio media'
-									and MCZBASE.is_media_encumbered(transcript.media_id) < 1
-							</cfquery>
-							<cfif checkforTranscript.recordcount GT 0>
-								<cfloop query="checkForTranscript">
-									<br><span style='font-size:small'><a href="#transcript_uri#">View Transcript</a></span>
-								</cfloop>
-							</cfif>
-						</cfif>
-						<cfif len(desc.label_value) gt 0>
-							<ul><li>#desc.label_value#</li></ul>
-						</cfif>
-						<cfif labels.recordcount gt 0>
-							<ul>
-								<cfloop query="labels">
-									<li>
-										#media_label#: #label_value#
-									</li>
-								</cfloop>
-								<cfif len(credit) gt 0>
-								<li>credit: #credit#</li>
-								</cfif>
-							</ul>
-						</cfif>
-		
-						<cfif isdefined("kw.keywords") and len(kw.keywords) gt 0>
-							<cfif isdefined("keyword") and len(keyword) gt 0>
-								<cfset kwds=kw.keywords>
-								<cfloop list="#keyword#" index="k" delimiters=",;: ">
-									<cfset kwds=highlight(kwds,k)>
-								</cfloop>
-							<cfelse>
-								<cfset kwds=kw.keywords>
-							</cfif>
-							<div style="">
-								<strong>Keywords:</strong> #kwds#
-							</div>
-						</cfif>
-
-			<cfif media_type is "multi-page document">
-				<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
-			</cfif>
-			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-		        <div class="mediaEdit"><a href="/media.cfm?action=edit&media_id=#media_id#">[ edit ]</a>
-		    </cfif>
+				<cfif media_type is "multi-page document">
+					<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
+				</cfif>
+			</div>
+			<div class="col-12 px-0">
 			<cfquery name="relM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					media.media_id,
@@ -487,13 +482,13 @@ function highlight(findIn,replaceThis) {
 					</cfloop>
 				</div>
 			</cfif>
+			</div>
+		</div>
 	<cfset rownum=rownum+1>
 </cfloop>
-
-
 <div class="mediaPager">
 #pager#
- </div>
+</div>
 </cfoutput>
 </cfif>
 	</section>
