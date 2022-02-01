@@ -323,7 +323,7 @@
 				   left join media_relations media_relations0 on media.media_id=media_relations0.media_id
 				<cfelseif number_of_relations GT 0>
 					<cfloop from="1" to="#number_of_relations#" index="n">
-		    			left join media_relations media_relations#n# on media.media_id=media_relations#n#.media_id 
+					left join media_relations media_relations#n# on media.media_id=media_relations#n#.media_id 
 					</cfloop>
 				</cfif>
 				<cfloop from="1" to="#number_of_labels#" index="n">
