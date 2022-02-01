@@ -544,13 +544,23 @@
             <table>
 				<tr>
 					<td align="middle" style="padding-right:20px;width:300px;">
-						<a href="#media_uri#" target="_blank"><img src="#mp#" alt="#altText#" style="max-width:250px;max-height:250px;"></a>
-						<br><span style='font-size:small'>#media_type#&nbsp;(#mime_type#)</span>
+		<!---				<a href="#media_uri#" target="_blank"><img src="#mp#" alt="#altText#" style="max-width:250px;max-height:250px;"></a>--->
+							<div class="row">
+				<div class="col-12 col-md-5">
+					<cfif len(findIDs.media_id) gt 0>
+						<cfset mediablock= getMediaBlockHtml(media_id="#findIDs.media_id#",displayAs="full",size="400",captionAs="textFull")>
+							<div class="float-left" id="mediaBlock#findIDs.media_id#">
+								#mediablock#
+							</div>
+					</cfif>
+						
+			
+<!---						<br><span style='font-size:small'>#media_type#&nbsp;(#mime_type#)</span>
 						<cfif len(display) gt 0>
 							<br><span style='font-size:small'>License: <a href="#uri#" target="_blank" class="external">#display#</a></span>
 						<cfelse>
 							<br><span style='font-size:small'>unlicensed</span>
-						</cfif>
+						</cfif>--->
 						<cfif #media_type# eq "image">
 							<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#">Related images</a></span>
 						</cfif>
@@ -574,7 +584,10 @@
 								</cfloop>
 							</cfif>
 						</cfif>
+							</div>	
+						
 					</td>
+					<div class="col-12 col-md-7">		
 					<td>
 						<cfif len(desc.label_value) gt 0>
 							<ul><li>#desc.label_value#</li></ul>
@@ -619,6 +632,8 @@
 							</div>
 						</cfif>
 					</td>
+									</div>
+								</div>
 				</tr>
 			</table>
 			<cfquery name="tag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
