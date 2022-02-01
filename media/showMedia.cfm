@@ -1,42 +1,220 @@
-<cfinclude template="/media/component/search.cfc" runOnce="true">
-<cfset pageTitle = "Media Record">
-<cfinclude template = "/shared/_header.cfm">
 <cfset title="Media">
 <cfset metaDesc="Locate Media, including audio (sound recordings), video (movies), and images (pictures) of specimens, collecting sites, habitat, collectors, and more.">
+<cfinclude template="/includes/_header.cfm">
 <cfif isdefined("url.collection_object_id")>
-<cfset action="search">
-<cfset relationship__1="cataloged_item">
-<cfset url.relationship__1="cataloged_item">
-<cfset related_primary_key__1="#url.collection_object_id#">
-<cfset url.related_primary_key__1="#url.collection_object_id#">
-<cfset specID="#url.collection_object_id#">
+     <!---
+    	<cflocation url="MediaSearch.cfm?action=search&relationship__1=cataloged_item&related_primary_key__1=#url.collection_object_id#&specID=#url.collection_object_id#" addtoken="false" statusCode="303" >
+     --->
+     <cfset action="search">
+     <cfset relationship__1="cataloged_item">
+     <cfset url.relationship__1="cataloged_item">
+     <cfset related_primary_key__1="#url.collection_object_id#">
+     <cfset url.related_primary_key__1="#url.collection_object_id#">
+     <cfset specID="#url.collection_object_id#">
 </cfif>
+
+<div class="basic_search_box" style="padding-bottom:5em;">
 <script type='text/javascript' src='/includes/media.js'></script>
 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-	<cfoutput>
-		<a class="toplinks" href="/media.cfm?action=newMedia">[ Create Media ]</a>
-	</cfoutput>
+
+	<cfif isdefined("specID") and len(specID) gt 0>
+         <cfset createSpecimenMediaShown="true">
+		<cfoutput>
+			<a class="toplinks" href="/media.cfm?action=newMedia&collection_object_id=#specID#">[ Create Specimen media ]</a>
+		</cfoutput>
+	<cfelse>
+		<cfoutput>
+    		<a class="toplinks" href="/media.cfm?action=newMedia">[ Create Media ]</a>
+		</cfoutput>
+	</cfif>
 </cfif>
+
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
+	<cfset isClicky = "likeLink">
 <cfelse>
 	<cfset oneOfUs = 0>
+	<cfset isClicky = "">
 </cfif>
 
 <!----------------------------------------------------------------------------------------->
+<cfif #action# is "nothing">
+	<cfoutput>
+    <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+		select media_relationship from ctmedia_relationship 
+		<cfif oneOfUs EQ 0>
+			where media_relationship not like 'document%' and media_relationship not like '%permit'
+		</cfif>
+		order by media_relationship
+	</cfquery>
+	<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+		select media_label from ctmedia_label 
+		<cfif oneOfUs EQ 0>
+			where media_label <> 'internal remarks'
+		</cfif> 
+		order by media_label
+	</cfquery>
+	<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+		select media_type from ctmedia_type order by media_type
+	</cfquery>
+	<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+		select mime_type from ctmime_type order by mime_type
+	</cfquery>
+
+    <br>
+    <h2 class="wikilink">Search Media
+      <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+        <img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;">
+      </cfif>
+    </h2>
+
+<form name="newMedia" method="post" action="">
+  <div class="greenbox">
+    <a name="kwFrm"></a>
+  <p style="font-size: 14px;padding-bottom: 1em;">
+      This form may not find very recent changes. You can use the also use the <a href="##relFrm">relational search form</a> below.
+      </p>
+      <input type="hidden" name="action" value="search">
+      <input type="hidden" name="srchType" value="key">
+      <label for="keyword">Keyword</label>
+      <input type="text" name="keyword" id="keyword" size="40">
+      <span class="rdoCtl">Match Any
+      <input type="radio" name="kwType" value="any">
+      </span> <span class="rdoCtl">Match All
+      <input type="radio" name="kwType" value="all" checked="checked">
+      </span> <span class="rdoCtl">Match Phrase
+      <input type="radio" name="kwType" value="phrase">
+      </span>
+
+     <div style="margin: .5em 0 .5em 0;">
+      <label for="media_uri">Media URI</label>
+     <input type="text" name="media_uri" id="media_uri" size="90">
+     </div>
+      <div style="width: 100px;margin: .5em 0;">
+        <label for="tag">Require TAG?</label>
+        <input type="checkbox" id="tag" name="tag" value="1">
+      </div>
+
+      <div style="width: 420px;margin-top:.5em;">
+        <div style="display: inline; width: 200px; float:left;">
+          <label for="mime_type">MIME Type</label>
+          <select name="mime_type" id="mime_type" multiple="multiple" size="5">
+            <option value="" selected="selected">Anything</option>
+            <cfloop query="ctmime_type">
+              <option value="#mime_type#">#mime_type#</option>
+            </cfloop>
+          </select>
+        </div>
+        <div style="display: inline; width: 200px;margin-bottom: 1em;">
+          <label for="media_type">Media Type</label>
+          <select name="media_type" id="media_type" multiple="multiple" size="5" >
+            <option value="" selected="selected">Anything</option>
+            <cfloop query="ctmedia_type">
+              <option value="#media_type#">#media_type#</option>
+            </cfloop>
+          </select>
+        </div>
+      </div>
+    </div>
+
+      <div style="clear: both;">
+        <input type="submit" value="Search" class="schBtn">&nbsp;&nbsp;
+        <input type="reset" value="Reset Form" class="clrBtn">
+      </div>
+    </form>
+ <br>
+
+    <form name="newMedia" method="post" action="">
+          <div class="greenbox">
+    <a name="relFrm"></a>
+    <div> <p style="font-size: 14px;padding-bottom: 1em;">You can use the also use the <a href="##kwFrm">keyword search form</a> above.</p> </div>
+      <input type="hidden" name="action" value="search">
+      <input type="hidden" name="srchType" value="full">
+      <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
+      <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
+       <div style="float:left;width: 750px;margin-bottom: .25em;">
+      <label for="media_uri">Media URI</label>
+      <input type="text" name="media_uri" id="media_uri" size="90">
+      </div>
+      <div style="float:left;width: 250px;padding-top:.25em;">
+      <label for="mime_type">MIME Type</label>
+      <select name="mime_type" id="mime_type">
+        <option value=""></option>
+        <cfloop query="ctmime_type">
+          <option value="#mime_type#">#mime_type#</option>
+        </cfloop>
+      </select>
+      </div>
+       <div style="float:left;width: 200px;">
+      <label for="media_type">Media Type</label>
+      <select name="media_type" id="media_type">
+        <option value=""></option>
+        <cfloop query="ctmedia_type">
+          <option value="#media_type#">#media_type#</option>
+        </cfloop>
+      </select>
+      </div>
+     	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+          <div style="float:left;width: 150px;">
+           <span>
+               <label for "unlinked">Limit to Media not yet linked to any record.</label>
+               <input type="checkbox" name="unlinked" id="unlinked" value="true">
+           </span>
+           </div>
+        </cfif>
+      <div style="clear: both;padding-top: .5em;">
+      <label for="relationships">Media Relationships</label>
+      <div id="relationships" class="relationship_dd">
+        <select name="relationship__1" id="relationship__1" size="1" style="width: 200px;">
+          <option value=""></option>
+          <cfloop query="ctmedia_relationship">
+            <option value="#media_relationship#">#media_relationship#</option>
+          </cfloop>
+        </select>: &nbsp;<input type="text" name="related_value__1" id="related_value__1" size="70">
+        <input type="hidden" name="related_id__1" id="related_id__1">
+        <br>
+        <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
+        </div>
+      <label for="labels" style="margin-top: .5em">Media Labels</label>
+      <div id="labels" class="relationship_dd">
+        <div id="labelsDiv__1">
+          <select name="label__1" id="label__1" size="1" style="width: 200px;">
+            <option value=""></option>
+            <cfloop query="ctmedia_label">
+              <option value="#media_label#">#media_label#</option>
+            </cfloop>
+          </select>:&nbsp;
+          <input type="text" name="label_value__1" id="label_value__1" size="70">
+        </div>
+        <span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span> </div>
+         </div>
+      <input type="submit"
+				value="Search"
+				class="schBtn">&nbsp;&nbsp;
+      <input type="reset"
+				value="Reset Form"
+				class="clrBtn">
+
+       </form>
+
+
+  </cfoutput>
+</cfif>
 <!----------------------------------------------------------------------------------------->
 <cfif action is "search">
 <cfoutput>
+
+
 <cfscript>
-function highlight(findIn,replaceThis) {
-	foundAt=FindNoCase(replaceThis,findIn);
-	endAt=FindNoCase(replaceThis,findIn)+len(replaceThis);
-	if(foundAt gt 0) {
-		findIn=Insert('</span>', findIn, endAt-1);
-		findIn=Insert('<span style="background-color:yellow">', findIn, foundAt-1);
-	}
-	return findIn;
-}
+    function highlight(findIn,replaceThis) {
+    	foundAt=FindNoCase(replaceThis,findIn);
+    	endAt=FindNoCase(replaceThis,findIn)+len(replaceThis);
+    	if(foundAt gt 0) {
+    		findIn=Insert('</span>', findIn, endAt-1);
+    		findIn=Insert('<span style="background-color:yellow">', findIn, foundAt-1);
+    	}
+    	return findIn;
+    }
 </cfscript>
 	<cfif isdefined("srchType") and srchType is "key">
 		<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
@@ -114,11 +292,11 @@ function highlight(findIn,replaceThis) {
 				<cfset number_of_relations=1>
 			</cfif>
 		</cfif>
-		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+	   <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 			<cfif isdefined("unlinked") and unlinked EQ "true">
 				<cfset number_of_relations = 0 >
-			</cfif>
-		</cfif>
+      	</cfif>
+      </cfif>
 		<cfif not isdefined("number_of_labels")>
 			<cfif (isdefined("label") and len(label) gt 0) or (isdefined("label__1") and len(label__1) gt 0)>
 				<cfset number_of_labels=1>
@@ -142,10 +320,10 @@ function highlight(findIn,replaceThis) {
 			FROM media
 				left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
 				<cfif number_of_relations EQ 0>
-					left join media_relations media_relations0 on media.media_id=media_relations0.media_id
+				   left join media_relations media_relations0 on media.media_id=media_relations0.media_id
 				<cfelseif number_of_relations GT 0>
 					<cfloop from="1" to="#number_of_relations#" index="n">
-						left join media_relations media_relations#n# on media.media_id=media_relations#n#.media_id 
+		    			left join media_relations media_relations#n# on media.media_id=media_relations#n#.media_id 
 					</cfloop>
 				</cfif>
 				<cfloop from="1" to="#number_of_labels#" index="n">
@@ -170,29 +348,29 @@ function highlight(findIn,replaceThis) {
 					AND media.media_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">)
 				</cfif>
 				<cfif number_of_relations EQ 0>
-				<cfset n = 0>
+           		<cfset n = 0>
 					AND media_relations0.media_id is null
 				<cfelseif number_of_relations GT 0>
 					<cfloop from="1" to="#number_of_relations#" index="n">
 						<cftry>
-							<cfset thisRelationship = #evaluate("relationship__" & n)#>
-							<cfcatch><cfset thisRelationship = ""></cfcatch>
-						</cftry>
-						<cftry>
-						<cfset thisRelatedItem = #evaluate("related_value__" & n)#>
-							<cfcatch><cfset thisRelatedItem = ""></cfcatch>
-						</cftry>
-						<cftry>
-							<cfset thisRelatedKey = #evaluate("related_primary_key__" & n)#>
-							<cfcatch><cfset thisRelatedKey = ""></cfcatch>
-						</cftry>
+				        <cfset thisRelationship = #evaluate("relationship__" & n)#>
+						   <cfcatch><cfset thisRelationship = ""></cfcatch>
+		   			</cftry>
+		    			<cftry>
+		        			<cfset thisRelatedItem = #evaluate("related_value__" & n)#>
+			    			<cfcatch><cfset thisRelatedItem = ""></cfcatch>
+		    			</cftry>
+		    			<cftry>
+		         		<cfset thisRelatedKey = #evaluate("related_primary_key__" & n)#>
+			   	 		<cfcatch><cfset thisRelatedKey = ""></cfcatch>
+		    			</cftry>
 						<cfif len(#thisRelationship#) gt 0>
 							AND media_relations#n#.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#thisRelationship#%">
 						</cfif>
 						<cfif len(#thisRelatedItem#) gt 0>
 							AND upper(media_relation_summary(media_relations#n#.media_relations_id)) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(thisRelatedItem)#%">
 						</cfif>
-						<cfif len(#thisRelatedKey#) gt 0>
+			    		<cfif len(#thisRelatedKey#) gt 0>
 							AND media_relations#n#.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRelatedKey#">
 						</cfif>
 					</cfloop>
@@ -238,7 +416,7 @@ function highlight(findIn,replaceThis) {
 				Note: This form will return a maximum of 500 records.
 			</div>
 		</cfif>
-		<a href="/MediaSearch.cfm" class="btn btn-xs btn-primary">Media Search</a>
+		<a href="/MediaSearch.cfm">[ Media Search ]</a>
 	</cfif>
 	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 		<cfset h="/media.cfm?action=newMedia">
@@ -249,6 +427,9 @@ function highlight(findIn,replaceThis) {
 				<br>
 			</cfif>
 		</cfif>
+	<!---   	<cfif not isdefined("createSpecimenMediaShown")>
+			<a href="#h#">[ Create media ]</a>
+		</cfif>--->
 	</cfif>
 	<cfset q="">
 	<cfloop list="#StructKeyList(form)#" index="key">
@@ -261,12 +442,8 @@ function highlight(findIn,replaceThis) {
 			<cfset q=listappend(q,"#key#=#url[key]#","&")>
 		 </cfif>
 	</cfloop>
-<main id="content" class="container mt-5">
-	<section class="row">
-		<div class="col-12">
-			<div class="col-3 float-left"><h1>Media</h1></div>
-			<div class="col-9 float-left"><button class="btn btn-xs btn-primary ml-auto">Media Viewer</button></div>
-		</div>
+        <br><br>
+         <h3>Media Search Results</h3>
 	<cfsavecontent variable="pager">
 		<cfset Result_Per_Page=10>
 		<cfset Total_Records=findIDs.recordcount>
@@ -305,11 +482,15 @@ function highlight(findIn,replaceThis) {
 
 		</cfif>
 	</cfsavecontent>
-		<div class="mediaPager">
-			#pager#
-		</div>
+     <div class="mediaPager">
+	#pager#
+   </div>
 	<cfset rownum=1>
 	<cfif url.offset is 0><cfset url.offset=1></cfif>
+
+
+
+<table width="100%;" class="mediaTableRes">
 
 <cfloop query="findIDs" startrow="#URL.offset#" endrow="#limit#">
 	<cfquery name="labels_raw"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -322,10 +503,10 @@ function highlight(findIn,replaceThis) {
 			left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
 		where
 			media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-			and media_label <> 'credit'
-			<cfif oneOfUs EQ 0>
-				and media_label <> 'internal remarks'
-			</cfif>
+         and media_label <> 'credit'  -- obtained in the findIDs query.
+		   <cfif oneOfUs EQ 0>
+		    	and media_label <> 'internal remarks'
+		   </cfif>
 	</cfquery>
 	<cfquery name="labels" dbtype="query">
 		select media_label,label_value 
@@ -357,197 +538,176 @@ function highlight(findIn,replaceThis) {
 		</cfif>
 		<cfset alt=desc.label_value>
 	</cfif>
-		<div class="col-12 px-0">
-			<div class="row">
-				<div class="col-12 col-md-5">
-					<cfif len(findIDs.media_id) gt 0>
-						<cfset mediablock= getMediaBlockHtml(media_id="#findIDs.media_id#",displayAs="full",size="400",captionAs="textFull")>
-							<div class="float-left" id="mediaBlock#findIDs.media_id#">
-								#mediablock#
-							</div>
-					</cfif>
-				</div>				
-				<div class="col-12 col-md-7">
-					<cfif #media_type# eq "image">
-						<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#"></a></span>
-					</cfif>
-					<cfif #media_type# eq "audio">
-						<!--- check for a transcript, link if present --->
-						<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT
-								transcript.media_uri as transcript_uri,
-								transcript.media_id as trainscript_media_id
-							FROM
-								media_relations
-								left join media transcript on media_relations.related_primary_key = transcript.media_id
-							WHERE
-								media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
-								and media_relationship = 'transcript for audio media'
-								and MCZBASE.is_media_encumbered(transcript.media_id) < 1
-						</cfquery>
-						<cfif checkforTranscript.recordcount GT 0>
-							<cfloop query="checkForTranscript">
-								<br><span style='font-size:small'><a href="#transcript_uri#">View Transcript</a></span>
-							</cfloop>
-						</cfif>
-					</cfif>
-					<cfif len(desc.label_value) gt 0>
-						<ul class="list-group"><li class="list-group-item">#desc.label_value#</li></ul>
-					</cfif>
-					<cfif labels.recordcount gt 0>
-						<ul class="list-group">
-							<cfloop query="labels">
-								<li class="list-group-item">
-									#media_label#: #label_value#
-								</li>
-							</cfloop>
-							<cfif len(credit) gt 0>
-							<li class="list-group-item">credit: #credit#</li>
-							</cfif>
-						</ul>
-					</cfif>
-
-					<cfif isdefined("kw.keywords") and len(kw.keywords) gt 0>
-						<cfif isdefined("keyword") and len(keyword) gt 0>
-							<cfset kwds=kw.keywords>
-							<cfloop list="#keyword#" index="k" delimiters=",;: ">
-								<cfset kwds=highlight(kwds,k)>
-							</cfloop>
+	<tr #iif(rownum MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+		<td>
+			<cfset mp=getMediaPreview(preview_uri,media_type)>
+            <table>
+				<tr>
+					<td align="middle" style="padding-right:20px;width:300px;">
+						<a href="#media_uri#" target="_blank"><img src="#mp#" alt="#altText#" style="max-width:250px;max-height:250px;"></a>
+						<br><span style='font-size:small'>#media_type#&nbsp;(#mime_type#)</span>
+						<cfif len(display) gt 0>
+							<br><span style='font-size:small'>License: <a href="#uri#" target="_blank" class="external">#display#</a></span>
 						<cfelse>
-							<cfset kwds=kw.keywords>
+							<br><span style='font-size:small'>unlicensed</span>
 						</cfif>
-						<div style="">
-							<strong>Keywords:</strong> #kwds#
-						</div>
-					</cfif>
-
-					<cfif media_type is "multi-page document">
-						<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
-					</cfif>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 px-0 related">
-				<cfquery name="relM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select
-						media.media_id,
-						media.media_type,
-						media.mime_type,
-						media.preview_uri,
-						media.media_uri
-					from
-						media,
-						media_relations
-					where
-						media.media_id=media_relations.related_primary_key and
-						media_relationship like '% media'
-						and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-						and media.media_id != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					UNION
-					select media.media_id, media.media_type,
-						media.mime_type, media.preview_uri, media.media_uri
-					from media, media_relations
-					where
-						media.media_id=media_relations.media_id and
-						media_relationship like '% media' and
-						media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-						 and media.media_id != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-				</cfquery>
-				<cfif relM.recordcount gt 0>
-					Related Media
-					<div class="thumbs">
-						<cfloop query="relM">
-							<cfset puri=getMediaPreview(preview_uri,media_type)>
-							<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select
-										media_label,
-										label_value
-									from
-										media_labels
-									where
-										media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-								</cfquery>
-							<cfquery name="desc" dbtype="query">
-								select label_value from labels where media_label='description'
+						<cfif #media_type# eq "image">
+							<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#">Related images</a></span>
+						</cfif>
+						<cfif #media_type# eq "audio">
+							<!--- check for a transcript, link if present --->
+							<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									transcript.media_uri as transcript_uri,
+									transcript.media_id as trainscript_media_id
+								FROM
+									media_relations
+									left join media transcript on media_relations.related_primary_key = transcript.media_id
+								WHERE
+									media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+									and media_relationship = 'transcript for audio media'
+									and MCZBASE.is_media_encumbered(transcript.media_id) < 1
 							</cfquery>
-							<cfset alt="Media Preview Image">
-							<cfif desc.recordcount is 1>
-								<cfset alt=desc.label_value>
+							<cfif checkforTranscript.recordcount GT 0>
+								<cfloop query="checkForTranscript">
+									<br><span style='font-size:small'><a href="#transcript_uri#">View Transcript</a></span>
+								</cfloop>
 							</cfif>
-							<div class="one_thumb">
-								<a href="#media_uri#" target="_blank">
-									<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb">
-								</a>
-								<p>
-									#media_type# (#mime_type#)
-									<a href="/media/#media_id#">Media Details</a>
-									#alt#
-								</p>
+						</cfif>
+					</td>
+					<td>
+						<cfif len(desc.label_value) gt 0>
+							<ul><li>#desc.label_value#</li></ul>
+						</cfif>
+						<cfif labels.recordcount gt 0>
+							<ul>
+								<cfloop query="labels">
+									<li>
+										#media_label#: #label_value#
+									</li>
+								</cfloop>
+								<cfif len(credit) gt 0>
+								    <li>credit: #credit#</li>
+								</cfif>
+							</ul>
+						</cfif>
+						<cfset mrel=getMediaRelations(#media_id#)>
+						<cfif mrel.recordcount gt 0>
+							<ul>
+							<cfloop query="mrel">
+								<li>#media_relationship#
+				                    <cfif len(#link#) gt 0>
+				                        <a href="#link#" target="_blank">#link_text#</a>
+				                    <cfelse>
+										#link_text#
+									</cfif>
+				             </li>
+							</cfloop>
+							</ul>
+						</cfif>
+						<cfif isdefined("kw.keywords") and len(kw.keywords) gt 0>
+							<cfif isdefined("keyword") and len(keyword) gt 0>
+								<cfset kwds=kw.keywords>
+								<cfloop list="#keyword#" index="k" delimiters=",;: ">
+									<cfset kwds=highlight(kwds,k)>
+								</cfloop>
+							<cfelse>
+								<cfset kwds=kw.keywords>
+							</cfif>
+							<div style="font-size:small;max-width:55em;margin-left:0em;margin-top:1em;border:1px solid black;padding:4px;">
+								<strong>Keywords:</strong> #kwds#
 							</div>
-						</cfloop>
-					</div>
-				</cfif>
+						</cfif>
+					</td>
+				</tr>
+			</table>
+			<cfquery name="tag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select count(*) n 
+				from tag 
+				where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			</cfquery>
+			<br>
+			<cfif media_type is "multi-page document">
+				<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
+			</cfif>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+		        <div class="mediaEdit"><a href="/media.cfm?action=edit&media_id=#media_id#">[ edit ]</a>
+                    <a href="/TAG.cfm?media_id=#media_id#">[ add or edit TAGs ]</a></div>
+		    </cfif>
+		    <cfif tag.n gt 0>
+                <div class="mediaEdit"><a href="/showTAG.cfm?media_id=#media_id#">[ View #tag.n# TAGs ]</a></div>
+			</cfif>
+			<cfquery name="relM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					media.media_id,
+					media.media_type,
+					media.mime_type,
+					media.preview_uri,
+					media.media_uri
+				from
+					media,
+					media_relations
+				where
+					media.media_id=media_relations.related_primary_key and
+					media_relationship like '% media'
+					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					and media.media_id != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				UNION
+				select media.media_id, media.media_type,
+					media.mime_type, media.preview_uri, media.media_uri
+				from media, media_relations
+				where
+					media.media_id=media_relations.media_id and
+					media_relationship like '% media' and
+					media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					 and media.media_id != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			</cfquery>
+			<cfif relM.recordcount gt 0>
+				<br>Related Media
+				<div class="thumbs">
+					<div class="thumb_spcr">&nbsp;</div>
+					<cfloop query="relM">
+						<cfset puri=getMediaPreview(preview_uri,media_type)>
+		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select
+									media_label,
+									label_value
+								from
+									media_labels
+								where
+									media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							</cfquery>
+						<cfquery name="desc" dbtype="query">
+							select label_value from labels where media_label='description'
+						</cfquery>
+						<cfset alt="Media Preview Image">
+						<cfif desc.recordcount is 1>
+							<cfset alt=desc.label_value>
+						</cfif>
+		               <div class="one_thumb">
+			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
+		                   	<p>
+								#media_type# (#mime_type#)
+			                   	<br><a href="/media/#media_id#">Media Details</a>
+								<br>#alt#
+							</p>
+						</div>
+					</cfloop>
+					<div class="thumb_spcr">&nbsp;</div>
 				</div>
-			</div>
-		</div>
-		<div class="mediaPager">
-		#pager#
-		</div>
+			</cfif>
+		</td>
+	</tr>
 	<cfset rownum=rownum+1>
 </cfloop>
+</table>
 
+
+     <div class="mediaPager">
+#pager#
+ </div>
 </cfoutput>
+
 </cfif>
-	</section>
-</main>
-<!---
-
-		<div class="col-12 col-md-6">
-			<cfloop query="findMedia">
-				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT media_id,related_primary_key, collection_object_id 
-					FROM media_relations, flat 
-					WHERE media_relationship = 'shows cataloged_item' 
-					AND flat.collection_object_id = media_relations.RELATED_PRIMARY_KEY
-					AND media_id = '#findMedia.media_id#'
-				</cfquery>
-				<cfif len(#findMedia.description#)gt 0>
-					<div class="col-12 col-md-3 px-1 float-left my-1">
-						<div class="border rounded bg-white p-2 col-12 float-left">
-							<div class="row mx-0">
-								<cfif len(images.media_id) gt 0>
-									<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="full",size="400",captionAs="textFull")>
-										<div class="float-left" id="mediaBlock#images.media_id#">
-											#mediablock#
-										</div>
-								</cfif>
-							</div>
-						</div>
-					</div>
-				</cfif>
-			</cfloop>
-		</div>
-		</div>
-		<div class="col-12 col-md-6">
-		metadata
-		</div>
-
-
-	<section class="row">
-		<div class="col-12">
-			<h3 class="h4">In catalog records</h3>
-			<div class="col-12 px-0">
-				Grid search results (like showNamedCollection)
-			</div>
-		</div>
-		<div class="col-12">
-			<h3 class="h4">In transaction records</h3>
-			<div class="col-12 px-0">
-				Grid search results (like showNamedCollection)
-			</div>
-		</div>
-	</section>
---->
-	
-	
-<cfinclude template = "/shared/_footer.cfm">
+                        </div>
+<cfinclude template="/includes/_footer.cfm">
