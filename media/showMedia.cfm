@@ -39,7 +39,9 @@
 
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "nothing">
+	
 	<cfoutput>
+			<div class="container px-5">Nothing Doing</div>
     <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 		select media_relationship from ctmedia_relationship 
 		<cfif oneOfUs EQ 0>
@@ -203,7 +205,7 @@
 <!----------------------------------------------------------------------------------------->
 <cfif action is "search">
 <cfoutput>
-	<div class="container px-5">Search</div>
+	<div class="container px-5">Search action</div>
 <cfscript>
     function highlight(findIn,replaceThis) {
     	foundAt=FindNoCase(replaceThis,findIn);
