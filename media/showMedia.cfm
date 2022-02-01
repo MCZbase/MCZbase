@@ -663,7 +663,7 @@
 					 and media.media_id != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 			<cfif relM.recordcount gt 0>
-				<br>Related Media
+				<br>Related Media ()
 				<div class="thumbs">
 					<div class="thumb_spcr">&nbsp;</div>
 					<cfloop query="relM">
