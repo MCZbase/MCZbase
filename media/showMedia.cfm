@@ -424,7 +424,7 @@ function highlight(findIn,replaceThis) {
 					<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
 				</cfif>
 			</div>
-			<div class="col-12 px-0">
+			<div class="col-12 px-0 related">
 			<cfquery name="relM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					media.media_id,
