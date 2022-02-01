@@ -391,17 +391,17 @@ function highlight(findIn,replaceThis) {
 					</cfif>
 				</cfif>
 				<cfif len(desc.label_value) gt 0>
-					<ul><li>#desc.label_value#</li></ul>
+					<ul class="list-group"><li class="list-group-item">#desc.label_value#</li></ul>
 				</cfif>
 				<cfif labels.recordcount gt 0>
-					<ul>
+					<ul class="list-group">
 						<cfloop query="labels">
-							<li>
+							<li class="list-group-item">
 								#media_label#: #label_value#
 							</li>
 						</cfloop>
 						<cfif len(credit) gt 0>
-						<li>credit: #credit#</li>
+						<li class="list-group-item">credit: #credit#</li>
 						</cfif>
 					</ul>
 				</cfif>
@@ -455,7 +455,7 @@ function highlight(findIn,replaceThis) {
 				<div class="thumbs">
 					<cfloop query="relM">
 						<cfset puri=getMediaPreview(preview_uri,media_type)>
-		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select
 									media_label,
 									label_value
@@ -471,9 +471,11 @@ function highlight(findIn,replaceThis) {
 						<cfif desc.recordcount is 1>
 							<cfset alt=desc.label_value>
 						</cfif>
-		               <div class="one_thumb">
-			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
-		                   	<p>
+						<div class="one_thumb">
+							<a href="#media_uri#" target="_blank">
+								<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb">
+							</a>
+							<p>
 								#media_type# (#mime_type#)
 								<a href="/media/#media_id#">Media Details</a>
 								#alt#
