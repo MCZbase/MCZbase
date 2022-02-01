@@ -203,8 +203,7 @@
 <!----------------------------------------------------------------------------------------->
 <cfif action is "search">
 <cfoutput>
-
-
+	<div class="container px-5">Search</div>
 <cfscript>
     function highlight(findIn,replaceThis) {
     	foundAt=FindNoCase(replaceThis,findIn);
@@ -621,11 +620,11 @@
 					</td>
 				</tr>
 			</table>
-			<cfquery name="tag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---			<cfquery name="tag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) n 
 				from tag 
 				where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-			</cfquery>
+			</cfquery>--->
 			<br>
 			<cfif media_type is "multi-page document">
 				<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
@@ -703,7 +702,7 @@
 </main>
 
 
-     <div class="mediaPager">
+<div class="mediaPager">
 #pager#
  </div>
 </cfoutput>
