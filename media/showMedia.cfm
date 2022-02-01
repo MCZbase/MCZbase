@@ -13,7 +13,7 @@
      <cfset specID="#url.collection_object_id#">
 </cfif>
 
-<div class="basic_search_box" style="padding-bottom:5em;">
+<div class="container-fluid">
 <script type='text/javascript' src='/includes/media.js'></script>
 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 
@@ -490,7 +490,7 @@
 
 
 
-<table width="100%;" class="mediaTableRes">
+<main class="container" id="content">
 
 <cfloop query="findIDs" startrow="#URL.offset#" endrow="#limit#">
 	<cfquery name="labels_raw"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -630,13 +630,13 @@
 			<cfif media_type is "multi-page document">
 				<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
 			</cfif>
-			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+<!---			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 		        <div class="mediaEdit"><a href="/media.cfm?action=edit&media_id=#media_id#">[ edit ]</a>
                     <a href="/TAG.cfm?media_id=#media_id#">[ add or edit TAGs ]</a></div>
-		    </cfif>
-		    <cfif tag.n gt 0>
+		    </cfif>--->
+<!---		    <cfif tag.n gt 0>
                 <div class="mediaEdit"><a href="/showTAG.cfm?media_id=#media_id#">[ View #tag.n# TAGs ]</a></div>
-			</cfif>
+			</cfif>--->
 			<cfquery name="relM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					media.media_id,
@@ -700,7 +700,7 @@
 	</tr>
 	<cfset rownum=rownum+1>
 </cfloop>
-</table>
+</main>
 
 
      <div class="mediaPager">
