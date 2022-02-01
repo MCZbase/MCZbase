@@ -238,7 +238,7 @@ limitations under the License.
 						<div class="tab-content flex-wrap d-flex mb-1">
 							<!---Fixed Search tab panel--->
 							<div id="allgroupsPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #allgroupsTabActive# unfocus"  #allgroupsTabShow#>
-								<h3 class="px-2">All Collection Types</h3>
+								<h3 class="px-2">All</h3>
 								
 								<cfloop query="namedGroups">
 									<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-1 mb-1">
@@ -270,7 +270,7 @@ limitations under the License.
 								</cfloop>
 							</div>
 							<div id="collectionPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #collectionTabActive# unfocus"  #collectionTabShow#>
-								<h3 class="px-2">Collections</h3>
+								<h3 class="px-2"><i class="fas fa-filter"></i> Collections</h3>
 								<p class="px-2">Collections highlight specimens that are linked via their shared history and includes collections assembled by famous naturalists, histological slide collections, and acquisitions or exchanges from other museums.</p>
 								<cfloop query="namedGroups">
 									<cfif #namedGroups.underscore_collection_type# eq 'collection'>
