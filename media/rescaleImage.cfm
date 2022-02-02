@@ -185,7 +185,7 @@ Streams directly to response without use of CFFileServelet
 <cfcatch>
 	<cfif isDefined("debug") AND len(debug) GT 0>
 		<cfdump var="#cfcatch#">
-		<cfdump var="GetReadableImageFormats()">
+		<cfdump var="#GetReadableImageFormats()#">
 		<cfabort>
 	</cfif>
 	<cfset imageSrc = "/shared/images/broken_image_icon_211476.png">
