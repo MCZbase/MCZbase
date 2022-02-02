@@ -174,7 +174,27 @@ Streams directly to response without use of CFFileServelet
 		<cfabort>
 	<cfelse>
 		<!--- Rescale the image to fit the provided width --->
-		<cfimage source="#source#" name="targetImage">
+		<cftry>
+			<cfimage source="#source#" name="targetImage">
+		<cfcatch>
+			<!--- Fail gracefully --->
+			<cfif media_type is "image">
+				<cfset displayImage = "#Application.webDirectory#/shared/images/Image-x-generic.png">
+			<cfelseif media_type is "audio">
+				<cfset displayImage =  "#Application.webDirectory#/shared/images/Gnome-audio-volume-medium.png">
+			<cfelseif media_type IS "video">
+				<cfset displayImage =  "#Application.webDirectory#/shared/images/Gnome-media-playback-start.png">
+			<cfelseif media_type is "text">
+				<cfset displayImage =  "#Application.webDirectory#/shared/images/Gnome-text-x-generic.png">
+			<cfelseif media_type is "3D model">
+				<cfset displayImage =  "#Application.webDirectory#/shared/images/model_3d.png">
+			<cfelseif media_type is "spectrometer data">
+				<cfset displayImage = "#Application.webDirectory#/shared/images/Sine_waves_different_frequencies.png">
+			<cfelse>
+				<cfset displayImage =  "#Application.webDirectory#/shared/images/Image-x-generic.png">
+			</cfif>
+			<cfimage name="sourceImage" source="#source#">
+		</cfcatch>
 		<cfset ImageSetAntialiasing(targetImage,"on")>
 		<cfset ImageScaleToFit(targetImage,#fitWidth#,"","highestPerformance")>
 		<cfset response = getPageContext().getFusionContext().getResponse()>
