@@ -35,18 +35,34 @@ Streams directly to response without use of CFFileServelet
 <cfif NOT isdefined("use_thumb") OR len(use_thumb) EQ 0>
 	<cfset use_thumb = "false">
 </cfif>
+<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
+	SELECT
+		media_type, mime_type, media_uri, preview_uri,
+		MCZBASE.get_medialabel(media.media_id,'width') as width
+	FROM media
+	WHERE
+		media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		AND MCZBASE.is_media_encumbered(media_id)  < 1 
+</cfquery>
 <cfif NOT isdefined("media_id") OR len(media_id) EQ 0>
-	<cfset target = "#Application.webDirectory#/shared/images/missing_image_icon_298822.png">
+	<!---<cfset target = "#Application.webDirectory#/shared/images/missing_image_icon_298822.png">--->
+	<cfif media_type is "image">
+		<cfset displayImage = "#Application.webDirectory#/shared/images/Image-x-generic.svg">
+	<cfelseif media_type is "audio">
+		<cfset displayImage =  "#Application.webDirectory#/shared/images/Gnome-audio-volume-medium.svg">
+	<cfelseif media_type IS "video">
+		<cfset displayImage =  "#Application.webDirectory#/shared/images/Gnome-media-playback-start.svg">
+	<cfelseif media_type is "text">
+		<cfset displayImage =  "#Application.webDirectory#/shared/images/Gnome-text-x-generic.svg">
+	<cfelseif media_type is "3D model">
+		<cfset displayImage =  "#Application.webDirectory#/shared/images/model_3d.svg">
+	<cfelseif media_type is "spectrometer data">
+		<cfset displayImage = "#Application.webDirectory#/shared/images/Sine_waves_different_frequencies.svg">
+	<cfelse>
+		<cfset displayImage =  "#Application.webDirectory#/shared/images/Image-x-generic.svg">
+		<!---nothing was working for mime type--->
+	</cfif>
 <cfelse>
-	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
-		SELECT
-			media_type, mime_type, media_uri, preview_uri,
-			MCZBASE.get_medialabel(media.media_id,'width') as width
-		FROM media
-		WHERE
-			media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-			AND MCZBASE.is_media_encumbered(media_id)  < 1 
-	</cfquery>
 	<cfif media.recordcount EQ 1>
 		<cfloop query="media">
 			<cfif mime_type EQ 'image/jpeg' OR mime_type EQ 'image/png'>
