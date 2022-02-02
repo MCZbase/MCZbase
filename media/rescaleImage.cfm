@@ -147,6 +147,7 @@ Streams directly to response without use of CFFileServelet
 						<cfabort>
 					</cfif>
 				</cfcatch>
+				</cftry>
 			</cfif>
 
 			<cfif failed>
