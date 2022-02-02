@@ -232,7 +232,7 @@ limitations under the License.
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #expeditionTabActive#" id="3" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions"><i class="fas fa-filter text-secondary"></i> Expeditions</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="4" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants"><i class="fas fa-filter text-secondary"></i> Grants</button>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="5" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow"><img src="/shared/images/filter-3-line.svg" class="w-auto"><i class="fas fa-filter text-secondary"></i> Workflows</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="5" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow"><img src="/shared/images/filter-3-line.svg" style="width:30px;"><!---<i class="fas fa-filter text-secondary"></i>---> Workflows</button>
 							</cfif>
 						</div>
 						<div class="tab-content flex-wrap d-flex mb-1">
