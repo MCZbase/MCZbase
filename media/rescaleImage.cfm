@@ -60,6 +60,7 @@ Streams directly to response without use of CFFileServelet
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfif media.recordcount EQ 1>
+		<cfset media_type = media.media_type>
 		<cfloop query="media">
 			<cfif mime_type EQ 'image/jpeg' OR mime_type EQ 'image/png'>
 				<cfif len(media.width) GT 0 and media.width GT 0 AND fitWidth GT media.width AND len(fitHeight) EQ 0 >
@@ -117,6 +118,7 @@ Streams directly to response without use of CFFileServelet
 			</cfif>
 		</cfloop>
 	<cfelse>
+		<cfset media_type = "none">
 		<!--- no matching media file found --->
 		<cfset source = "#Application.webDirectory#/shared/images/missing_image_icon_298822.png">
 	</cfif>
