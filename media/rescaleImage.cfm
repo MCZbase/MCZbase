@@ -180,6 +180,12 @@ Streams directly to response without use of CFFileServelet
 			<cfimage source="#source#" name="targetImage">
 		<cfcatch>
 			<!--- Fail gracefully --->
+			<cfif lcase(background_color) EQ "white">
+				<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/white_background.png">
+			<cfelse>
+				<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
+			</cfif>
+			<cfset ImageResize(targetImage,#fitWidth#,#fitHeight#,"highestPerformance") >
 			<cfif media_type is "image">
 				<cfset source = "#Application.webDirectory#/shared/images/Image-x-generic.png">
 			<cfelseif media_type is "audio">
@@ -196,6 +202,19 @@ Streams directly to response without use of CFFileServelet
 				<cfset source =  "#Application.webDirectory#/shared/images/Image-x-generic.png">
 			</cfif>
 			<cfimage name="sourceImage" source="#source#">
+			<cfset sourceWidth = ImageGetWidth(sourceImage)>
+			<cfset ulx = (fitWidth - sourceWidth)/2>
+			<cfif ulx LT 1 ><cfset ulx = 1></cfif>
+			<cfset sourceHeight = ImageGetHeight(sourceImage)>
+			<cfif #fitHeight# lt '500'>
+				<cfset uly = 1>
+			<cfelse>
+				<cfset uly = (fitHeight - sourceHeight)/2>
+			</cfif>
+			<cfif uly LT 1 >
+				<cfset uly = 1>
+			</cfif>
+			<cfset ImagePaste(targetImage,sourceImage,ulx,uly)>
 		</cfcatch>
 		</cftry>
 		<cfset ImageSetAntialiasing(targetImage,"on")>
