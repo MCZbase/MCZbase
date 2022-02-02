@@ -126,7 +126,10 @@ Streams directly to response without use of CFFileServelet
 		<cfelse>
 			<cfset uly = (fitHeight - sourceHeight)/2>
 		</cfif>
-		<cfif uly LT 1 ><cfset uly = 1></cfif>
+		<cfif uly LT 1 >
+			<cfset uly = 1>
+				<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
+			</cfif>
 		<cfset ImagePaste(targetImage,sourceImage,ulx,uly)>
 		<cfset response = getPageContext().getFusionContext().getResponse()>
 		<cfheader name="Content-Type" value="image/jpeg">
