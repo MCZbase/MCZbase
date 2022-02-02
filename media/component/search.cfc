@@ -1151,7 +1151,7 @@ limitations under the License.
 								<cfelse>
 									<cfset displayImage =  "/shared/images/Image-x-generic.svg">--->
 									<!---nothing was working for mime type--->
-								</cfif>
+								<!---</cfif>--->
 							</cfif>
 						</cfif>
 						<div class="media_widget">	
