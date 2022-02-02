@@ -208,6 +208,9 @@ Streams directly to response without use of CFFileServelet
 <cfcatch>
 	<cfif isDefined("debug") AND len(debug) GT 0>
 		<cfdump var="#cfcatch#">
+		<cfif isDefined("source")>
+			<cfdump var="#source#">
+		</cfif>
 		<cfdump var="#GetReadableImageFormats()#">
 		<cfabort>
 	</cfif>
