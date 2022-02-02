@@ -133,20 +133,38 @@ Streams directly to response without use of CFFileServelet
 			<cfimage name="sourceImage" source="#source#">
 		<cfcatch>
 			<!--- Fail gracefully --->
-			<cfif media_type is "image">
-				<cfset source = "#Application.webDirectory#/shared/images/Image-x-generic.png">
-			<cfelseif media_type is "audio">
-				<cfset source =  "#Application.webDirectory#/shared/images/Gnome-audio-volume-medium.png">
-			<cfelseif media_type IS "video">
-				<cfset source =  "#Application.webDirectory#/shared/images/Gnome-media-playback-start.png">
-			<cfelseif media_type is "text">
-				<cfset source =  "#Application.webDirectory#/shared/images/Gnome-text-x-generic.png">
-			<cfelseif media_type is "3D model">
-				<cfset source =  "#Application.webDirectory#/shared/images/model_3d.png">
-			<cfelseif media_type is "spectrometer data">
-				<cfset source = "#Application.webDirectory#/shared/images/Sine_waves_different_frequencies.png">
-			<cfelse>
-				<cfset source =  "#Application.webDirectory#/shared/images/Image-x-generic.png">
+			<cfset failed = true>
+			<cfif findNoCase("javax.net.ssl.SSLHandshakeException",cfcatch.detail) GT 0>
+				<!--- cfimage source likely an https with a certificate authority too new for coldfusion --->
+				<!--- obtain with curl, using -k option for insecure download --->
+				<cftry>
+					<cfexecute name="curl" arguments = "#source# -k" timeout="10" variable="filestream">
+					<cfimage name="sourceImage" source="#filestream#">
+				<cfcatch>
+					<!--- unable to retrieve and use --->
+					<cfif isDefined("debug") AND len(debug) GT 0>
+						<cfdump var="#cfcatch#">
+						</cfabort>
+					</cfif>
+				</cfcatch>
+			</cfif>
+
+			<cfif failed>
+				<cfif media_type is "image">
+					<cfset source = "#Application.webDirectory#/shared/images/Image-x-generic.png">
+				<cfelseif media_type is "audio">
+					<cfset source =  "#Application.webDirectory#/shared/images/Gnome-audio-volume-medium.png">
+				<cfelseif media_type IS "video">
+					<cfset source =  "#Application.webDirectory#/shared/images/Gnome-media-playback-start.png">
+				<cfelseif media_type is "text">
+					<cfset source =  "#Application.webDirectory#/shared/images/Gnome-text-x-generic.png">
+				<cfelseif media_type is "3D model">
+					<cfset source =  "#Application.webDirectory#/shared/images/model_3d.png">
+				<cfelseif media_type is "spectrometer data">
+					<cfset source = "#Application.webDirectory#/shared/images/Sine_waves_different_frequencies.png">
+				<cfelse>
+					<cfset source =  "#Application.webDirectory#/shared/images/Image-x-generic.png">
+				</cfif>
 			</cfif>
 			<cfimage name="sourceImage" source="#source#">
 		</cfcatch>
