@@ -228,11 +228,11 @@ limitations under the License.
 						<!-- Nav tabs -->
 						<div class="tab-headers tabList" role="tablist" aria-label="browse collections types">
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #allgroupsTabActive#" id="1" role="tab" aria-controls="allgroupsPanel" #allgroupsTabAria# aria-label="Browse All Collections">All</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #collectionTabActive#" id="2" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections"><img src="/shared/images/filter-3-line.svg" style="width:20px;">  Collections</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #expeditionTabActive#" id="3" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions"><img src="/shared/images/filter-3-line.svg" style="width:20px;"> Expeditions</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="4" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants"><img src="/shared/images/filter-3-line.svg" style="width:20px;"></i> Grants</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #collectionTabActive#" id="2" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections"><img src="/shared/images/filter-3-line.svg" style="width:18px;">  Collections</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #expeditionTabActive#" id="3" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions"><img src="/shared/images/filter-3-line.svg" style="width:18px;"> Expeditions</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="4" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants"><img src="/shared/images/filter-3-line.svg" style="width:18px;"></i> Grants</button>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="5" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow"><img src="/shared/images/filter-3-line.svg" style="width:20px;"><!---<i class="fas fa-filter text-secondary"></i>---> Workflows</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="5" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow"><img src="/shared/images/filter-3-line.svg" style="width:18px;"><!---<i class="fas fa-filter text-secondary"></i>---> Workflows</button>
 							</cfif>
 						</div>
 						<div class="tab-content flex-wrap d-flex mb-1">
