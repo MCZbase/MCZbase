@@ -144,7 +144,7 @@ Streams directly to response without use of CFFileServelet
 					<!--- unable to retrieve and use --->
 					<cfif isDefined("debug") AND len(debug) GT 0>
 						<cfdump var="#cfcatch#">
-						</cfabort>
+						<cfabort>
 					</cfif>
 				</cfcatch>
 			</cfif>
