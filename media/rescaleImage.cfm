@@ -93,8 +93,9 @@ Streams directly to response without use of CFFileServelet
 					<cfset source = "">
 					<cfif use_thumb EQ "true">
 						<cfif len(media.preview_uri) GT 0>
-						<cfset source = replace(preview_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-						<cfset source = replace(preview_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+							<cfset source = replace(preview_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+							<cfset source = replace(preview_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+						</cfif>
 					</cfif>
 					<cfif len(source) EQ 0>
 						<!--- icons for other media types --->
