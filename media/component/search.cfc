@@ -1102,7 +1102,7 @@ limitations under the License.
 							<cfif #l_displayAs# EQ "fixedSmallThumb">
 								<cfif host EQ "mczbase.mcz.harvard.edu">
 									<cfset hw = 'height="#l_size#px;" width="#l_size#px;"'>
-									<cfset sizeType='&width=#l_size#&height=#l_size#'>
+									<cfset sizeType='&width=#l_size#&height=#l_size#&background_color=white'>
 									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeType#">
 								<cfelse>
 									<cfset displayImage = preview_uri>
