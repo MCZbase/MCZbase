@@ -195,6 +195,7 @@ Streams directly to response without use of CFFileServelet
 			</cfif>
 			<cfimage name="sourceImage" source="#source#">
 		</cfcatch>
+		</cftry>
 		<cfset ImageSetAntialiasing(targetImage,"on")>
 		<cfset ImageScaleToFit(targetImage,#fitWidth#,"","highestPerformance")>
 		<cfset response = getPageContext().getFusionContext().getResponse()>
