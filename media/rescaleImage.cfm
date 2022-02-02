@@ -68,14 +68,14 @@ Streams directly to response without use of CFFileServelet
 					<cfabort>
 				<cfelse>
 					<cfif use_thumb EQ "true">
-						<cfset target = replace(preview_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-						<cfset target = replace(preview_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+						<cfset source = replace(preview_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+						<cfset source = replace(preview_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
 						<!--- TODO: identify mime type from preview.  --->
 						<cfset mimeType = "#mime_type#">
 					<cfelse>
 						<!--- setup to rescale --->
-						<cfset target = replace(media_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-						<cfset target = replace(media_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+						<cfset source = replace(media_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+						<cfset source = replace(media_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
 						<cfset mimeType = "#mime_type#">
 					</cfif>
 				</cfif>
@@ -86,18 +86,36 @@ Streams directly to response without use of CFFileServelet
 						<cflocation URL="#media.media_uri#">
 						<cfabort>
 					<cfelse>
-						<cfset target = "#Application.webDirectory#/shared/images/noExternalImage.png">
+						<cfset source = "#Application.webDirectory#/shared/images/noExternalImage.png">
 					</cfif>
 				<cfelse>
 					<!--- not an image file --->
-					<!--- TODO: icons for other media types --->
-					<cfset target = "#Application.webDirectory#/shared/images/noThumbDoc.png">
-				</cfif>
+					<cfset source = "";
+					<cfif use_thumb EQ "true">
+						<cfif len(media.preview_uri) GT 0>
+						<cfset source = replace(preview_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+						<cfset source = replace(preview_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+					</cfif>
+						<!--- icons for other media types --->
+						<cfif media_type is "audio">
+							<cfset source =  "#Application.webDirectory#/shared/images/Gnome-audio-volume-medium.svg">
+						<cfelseif media_type IS "video">
+							<cfset source =  "#Application.webDirectory#/shared/images/Gnome-media-playback-start.svg">
+						<cfelseif media_type is "text">
+							<cfset source =  "#Application.webDirectory#/shared/images/Gnome-text-x-generic.svg">
+						<cfelseif media_type is "3D model">
+							<cfset source =  "#Application.webDirectory#/shared/images/model_3d.svg">
+						<cfelseif media_type is "spectrometer data">
+							<cfset source = "#Application.webDirectory#/shared/images/Sine_waves_different_frequencies.svg">
+						<cfelse>
+							<cfset source = "#Application.webDirectory#/shared/images/noThumbDoc.png">
+						</cfif>
+					</cfif>
 			</cfif>
 		</cfloop>
 	<cfelse>
 		<!--- no matching media file found --->
-		<cfset target = "#Application.webDirectory#/shared/images/missing_image_icon_298822.png">
+		<cfset source = "#Application.webDirectory#/shared/images/missing_image_icon_298822.png">
 	</cfif>
 </cfif>
 
@@ -106,14 +124,12 @@ Streams directly to response without use of CFFileServelet
 		<!--- Rescale the image to fit an image of the specified fitWidth and fitHeight, preserving the original aspect ratio of the image within the fit height/width image with a background where the aspect ratio of the original and fit targets differ --->
 		<cfif lcase(background_color) EQ "white">
 			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/white_background.png">
-		<cfelseif #fitHeight# lt '500' and len(fitHeight - sourceWidth) lt 1>
-			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
 		<cfelse>
 			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
 		</cfif>
 		<cfset ImageResize(targetImage,#fitWidth#,#fitHeight#,"highestPerformance") >
 		<cftry>
-			<cfimage name="sourceImage" source="#target#">
+			<cfimage name="sourceImage" source="#source#">
 		<cfcatch>
 			<!--- Fail gracefully --->
 			<cfif media_type is "image">
@@ -130,9 +146,8 @@ Streams directly to response without use of CFFileServelet
 				<cfset displayImage = "#Application.webDirectory#/shared/images/Sine_waves_different_frequencies.svg">
 			<cfelse>
 				<cfset displayImage =  "#Application.webDirectory#/shared/images/Image-x-generic.svg">
-				<!---nothing was working for mime type--->
 			</cfif>
-			<cfimage name="sourceImage" source="#target#">
+			<cfimage name="sourceImage" source="#source#">
 		</cfcatch>
 		</cftry>
 		<cfset ImageSetAntialiasing(sourceImage,"on")>
@@ -156,7 +171,7 @@ Streams directly to response without use of CFFileServelet
 		<cfabort>
 	<cfelse>
 		<!--- Rescale the image to fit the provided width --->
-		<cfimage source="#target#" name="targetImage">
+		<cfimage source="#source#" name="targetImage">
 		<cfset ImageSetAntialiasing(targetImage,"on")>
 		<cfset ImageScaleToFit(targetImage,#fitWidth#,"","highestPerformance")>
 		<cfset response = getPageContext().getFusionContext().getResponse()>
