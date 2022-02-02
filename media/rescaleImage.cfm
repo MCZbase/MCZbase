@@ -110,7 +110,9 @@ Streams directly to response without use of CFFileServelet
 		<!--- Rescale the image to fit an image of the specified fitWidth and fitHeight, preserving the original aspect ratio of the image within the fit height/width image with a background where the aspect ratio of the original and fit targets differ --->
 		<cfif #fitHeight# lt '500'>
 			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/white_background.png">
-		<cfelseif len(fitWidth - sourceWidth) lt 1>
+		<cfelseif #fitHeight# lt '500' and len(fitHeight - sourceWidth) lt 1>
+			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
+		<cfelse>
 			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
 		</cfif>
 		<cfset ImageResize(targetImage,#fitWidth#,#fitHeight#,"highestPerformance") >
