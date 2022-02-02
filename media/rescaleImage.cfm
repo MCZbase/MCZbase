@@ -92,8 +92,11 @@ Streams directly to response without use of CFFileServelet
 <cftry>
 	<cfif len(fitHeight) GT 0>
 		<!--- Rescale the image to fit an image of the specified fitWidth and fitHeight, preserving the original aspect ratio of the image within the fit height/width image with a background where the aspect ratio of the original and fit targets differ --->
-		<!---<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">--->
-		<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/white_background.png">
+		<cfif use_thumb = "true">
+			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/white_background.png">
+		<cfelse>
+			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
+		</cfelse>
 		<cfset ImageResize(targetImage,#fitWidth#,#fitHeight#,"highestPerformance") >
 		<cfimage name="sourceImage" source="#target#">
 		<cfset ImageSetAntialiasing(sourceImage,"on")>
@@ -102,7 +105,11 @@ Streams directly to response without use of CFFileServelet
 		<cfset ulx = (fitWidth - sourceWidth)/2>
 		<cfif ulx LT 1 ><cfset ulx = 1></cfif>
 		<cfset sourceHeight = ImageGetHeight(sourceImage)>
-		<cfset uly = (fitHeight - sourceHeight)/-1>
+		<cfif use_thumb = "true">
+			<cfset uly = (fitHeight - sourceHeight)/-1>
+		<cfelse>
+			<cfset uly = (fitHeight - sourceHeight)/2>
+		</cfif>
 		<cfif uly LT 1 ><cfset uly = 1></cfif>
 		<cfset ImagePaste(targetImage,sourceImage,ulx,uly)>
 		<cfset response = getPageContext().getFusionContext().getResponse()>
