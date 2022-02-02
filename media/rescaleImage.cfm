@@ -96,7 +96,7 @@ Streams directly to response without use of CFFileServelet
 			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/white_background.png">
 		<cfelse>
 			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
-		</cfelse>
+		</cfif>
 		<cfset ImageResize(targetImage,#fitWidth#,#fitHeight#,"highestPerformance") >
 		<cfimage name="sourceImage" source="#target#">
 		<cfset ImageSetAntialiasing(sourceImage,"on")>
