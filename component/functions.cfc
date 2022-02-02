@@ -5603,7 +5603,7 @@ Annotation to report problematic data concerning #annotated.guid#
 		<cfswitch expression="#ucase(target)#">
 			<cfcase value="FLAT">
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT guid, 
+					SELECT guid as item_label, 
 						basisofrecord,
 						kingdom, phylum, phylclass, phylorder, family, genus,
 						scientific_name, author_text,
@@ -5615,7 +5615,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			</cfcase>
 			<cfcase value="TAXONOMY">
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT taxon_name_id as guid, 
+					SELECT scientific_name as item_label, 
 						'' as basisofrecord,
 						kingdom, phylum, phylclass, phylorder, family, genus,
 						scientific_name, author_text,
@@ -5632,7 +5632,7 @@ Annotation to report problematic data concerning #annotated.guid#
 		<cfif queryrow.recordcount is 1>
 			<cfset result.status="success">
 			<cfset result.target_id=target_id >
-			<cfset result.guid=queryrow.guid>
+			<cfset result.guid=queryrow.item_label>
 			<cfset result.error="">
 
 			<!--- store local copies of query results to use in pre-amendment phase and overwrite in ammendment phase  --->
