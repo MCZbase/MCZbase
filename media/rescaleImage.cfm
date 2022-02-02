@@ -140,6 +140,7 @@ Streams directly to response without use of CFFileServelet
 				<cftry>
 					<cfexecute name="curl" arguments = "#source# -k" timeout="10" variable="filestream">
 					<cfset filestream = ToBase64(filestream)>
+					<!--- TODO: Failing with or without ToBase64, add ?debug=true to get dump --->
 					<cfimage name="sourceImage" source="#filestream#">
 				<cfcatch>
 					<!--- unable to retrieve and use --->
