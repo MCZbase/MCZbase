@@ -482,9 +482,9 @@
 
 		</cfif>
 	</cfsavecontent>
-     <div class="mediaPager">
+	<div class="mediaPager">
 	#pager#
-   </div>
+	</div>
 	<cfset rownum=1>
 	<cfif url.offset is 0><cfset url.offset=1></cfif>
 
@@ -562,7 +562,7 @@
 							<br><span style='font-size:small'>unlicensed</span>
 						</cfif>--->
 						<cfif #media_type# eq "image">
-							<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#">Related images</a></span>
+							<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#">Related images (this)</a></span>
 						</cfif>
 						<cfif #media_type# eq "audio">
 							<!--- check for a transcript, link if present --->
@@ -636,22 +636,22 @@
 								</div>
 				</tr>
 			</table>
-			<cfquery name="tag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---			<cfquery name="tag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) n 
 				from tag 
 				where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-			</cfquery>
+			</cfquery>--->
 			<br>
 			<cfif media_type is "multi-page document">
 				<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
 			</cfif>
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 		        <div class="mediaEdit"><a href="/media.cfm?action=edit&media_id=#media_id#">[ edit ]</a>
-                    <a href="/TAG.cfm?media_id=#media_id#">[ add or edit TAGs ]</a></div>
+               <!---     <a href="/TAG.cfm?media_id=#media_id#">[ add or edit TAGs ]</a>---></div>
 		    </cfif>
-		    <cfif tag.n gt 0>
+<!---		    <cfif tag.n gt 0>
                 <div class="mediaEdit"><a href="/showTAG.cfm?media_id=#media_id#">[ View #tag.n# TAGs ]</a></div>
-			</cfif>
+			</cfif>--->
 			<cfquery name="relM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					media.media_id,
@@ -678,7 +678,7 @@
 					 and media.media_id != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 			<cfif relM.recordcount gt 0>
-				<br>Related Media
+				<br>Related Media (here)
 				<div class="thumbs">
 					<div class="thumb_spcr">&nbsp;</div>
 					<cfloop query="relM">
