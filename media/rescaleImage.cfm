@@ -139,6 +139,7 @@ Streams directly to response without use of CFFileServelet
 				<!--- obtain with curl, using -k option for insecure download --->
 				<cftry>
 					<cfexecute name="curl" arguments = "#source# -k" timeout="10" variable="filestream">
+					<cfset filestream = Base64(filestream)>
 					<cfimage name="sourceImage" source="#filestream#">
 				<cfcatch>
 					<!--- unable to retrieve and use --->
