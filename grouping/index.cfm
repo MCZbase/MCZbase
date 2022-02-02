@@ -276,7 +276,7 @@ limitations under the License.
 										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-1 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:115px">
 												<div class="row h-25 mx-0">
-													<cfif len(namedGroups.displayed_media_id) gt 0>
+													<cfif len(namedGroups.displayed_media_id) gt 1>
 														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",size="100",captionAs="textNone")>
 														<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
 															#mediablock#
@@ -376,7 +376,7 @@ limitations under the License.
 											<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-2 mb-1">
 												<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height:115px">
 													<div class="row h-25 mx-0">
-														<cfif len(namedGroups.displayed_media_id) gt 0>
+														<cfif len(namedGroups.displayed_media_id) gt 1>
 															<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",captionAs="textNone")>
 															<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
 																#mediablock#
