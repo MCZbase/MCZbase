@@ -81,14 +81,10 @@ Streams directly to response without use of CFFileServelet
 					</cfif>
 				</cfif>
 			<cfelse>
-				<cfif media_type EQ 'image'>
-					<cfif len(media.width) GT 0 and media.width GT 0 AND fitWidth GT media.width>
-						<!--- just deliver the image --->
-						<cflocation URL="#media.media_uri#">
-						<cfabort>
-					<cfelse>
-						<cfset source = "#Application.webDirectory#/shared/images/noExternalImage.png">
-					</cfif>
+				<cfif media_type EQ 'image' AND len(media.width) GT 0 AND media.width GT 0 AND fitWidth GT media.width>
+					<!--- just deliver the image --->
+					<cflocation URL="#media.media_uri#">
+					<cfabort>
 				<cfelse>
 					<!--- not an image file --->
 					<cfset source = "">
