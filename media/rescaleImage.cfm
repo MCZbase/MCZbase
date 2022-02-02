@@ -102,7 +102,7 @@ Streams directly to response without use of CFFileServelet
 		<cfset ulx = (fitWidth - sourceWidth)/2>
 		<cfif ulx LT 1 ><cfset ulx = 1></cfif>
 		<cfset sourceHeight = ImageGetHeight(sourceImage)>
-		<cfset uly = (fitHeight - sourceHeight)/1>
+		<cfset uly = (fitHeight - sourceHeight)/-1>
 		<cfif uly LT 1 ><cfset uly = 1></cfif>
 		<cfset ImagePaste(targetImage,sourceImage,ulx,uly)>
 		<cfset response = getPageContext().getFusionContext().getResponse()>
