@@ -228,11 +228,11 @@ limitations under the License.
 						<!-- Nav tabs -->
 						<div class="tab-headers tabList" role="tablist" aria-label="browse collections types">
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #allgroupsTabActive#" id="1" role="tab" aria-controls="allgroupsPanel" #allgroupsTabAria# aria-label="Browse All Collections">All</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #collectionTabActive#" id="2" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections"><i class="fas fa-filter"></i> Collections</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #expeditionTabActive#" id="3" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions"><i class="fas fa-filter"></i> Expeditions</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="4" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants"><i class="fas fa-filter"></i> Grants</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #collectionTabActive#" id="2" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections"><i class="fas fa-filter text-secondary"></i>  Collections</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #expeditionTabActive#" id="3" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions"><i class="fas fa-filter text-secondary"></i> Expeditions</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="4" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants"><i class="fas fa-filter text-secondary"></i> Grants</button>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="5" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow"><i class="fas fa-filter"></i> Workflows</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="5" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow"><i class="fas fa-filter text-secondary"></i> Workflows</button>
 							</cfif>
 						</div>
 						<div class="tab-content flex-wrap d-flex mb-1">
