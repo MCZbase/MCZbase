@@ -20,6 +20,7 @@ limitations under the License.
 Streams directly to response without use of CFFileServelet
 
 --->
+<!--- Setup default conditions --->
 <cfset fitHeight = "">
 <cfif isdefined("width") AND len(width) GT 0 and IsNumeric(width)>
 	<cfset fitWidth = width>
@@ -35,24 +36,19 @@ Streams directly to response without use of CFFileServelet
 <cfif NOT isdefined("use_thumb") OR len(use_thumb) EQ 0>
 	<cfset use_thumb = "false">
 </cfif>
+<cfif NOT isdefined("background_color") OR len(background_color) EQ 0>
+	<cfset background_color = "grey">
+</cfif>
+
+
 <cfif NOT isdefined("media_id") OR len(media_id) EQ 0>
-	<!---<cfset target = "#Application.webDirectory#/shared/images/missing_image_icon_298822.png">--->
-	<cfif media_type is "image">
-		<cfset displayImage = "#Application.webDirectory#/shared/images/Image-x-generic.svg">
-	<cfelseif media_type is "audio">
-		<cfset displayImage =  "#Application.webDirectory#/shared/images/Gnome-audio-volume-medium.svg">
-	<cfelseif media_type IS "video">
-		<cfset displayImage =  "#Application.webDirectory#/shared/images/Gnome-media-playback-start.svg">
-	<cfelseif media_type is "text">
-		<cfset displayImage =  "#Application.webDirectory#/shared/images/Gnome-text-x-generic.svg">
-	<cfelseif media_type is "3D model">
-		<cfset displayImage =  "#Application.webDirectory#/shared/images/model_3d.svg">
-	<cfelseif media_type is "spectrometer data">
-		<cfset displayImage = "#Application.webDirectory#/shared/images/Sine_waves_different_frequencies.svg">
-	<cfelse>
-		<cfset displayImage =  "#Application.webDirectory#/shared/images/Image-x-generic.svg">
-		<!---nothing was working for mime type--->
-	</cfif>
+	<!---
+		Bad request to rescaleImage.cfm, media_id is required, but rather than throwing an exception, as rescaleImage.cfm is 
+      expected to be invoked from within an img tag as the src, fail gracefully by returning an image.
+	--->
+	<cfset imageSrc = "/shared/images/broken_image_icon_211476.png">
+	<cflocation URL="#Application.serverRootUrl##imageSrc#">
+	<cfabort>
 <cfelse>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
 		SELECT
@@ -108,7 +104,7 @@ Streams directly to response without use of CFFileServelet
 <cftry>
 	<cfif len(fitHeight) GT 0>
 		<!--- Rescale the image to fit an image of the specified fitWidth and fitHeight, preserving the original aspect ratio of the image within the fit height/width image with a background where the aspect ratio of the original and fit targets differ --->
-		<cfif #fitHeight# lt '500'>
+		<cfif lcase(background_color) EQ "white">
 			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/white_background.png">
 		<cfelseif #fitHeight# lt '500' and len(fitHeight - sourceWidth) lt 1>
 			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
@@ -116,7 +112,29 @@ Streams directly to response without use of CFFileServelet
 			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
 		</cfif>
 		<cfset ImageResize(targetImage,#fitWidth#,#fitHeight#,"highestPerformance") >
-		<cfimage name="sourceImage" source="#target#">
+		<cftry>
+			<cfimage name="sourceImage" source="#target#">
+		<cfcatch>
+			<!--- Fail gracefully --->
+			<cfif media_type is "image">
+				<cfset displayImage = "#Application.webDirectory#/shared/images/Image-x-generic.svg">
+			<cfelseif media_type is "audio">
+				<cfset displayImage =  "#Application.webDirectory#/shared/images/Gnome-audio-volume-medium.svg">
+			<cfelseif media_type IS "video">
+				<cfset displayImage =  "#Application.webDirectory#/shared/images/Gnome-media-playback-start.svg">
+			<cfelseif media_type is "text">
+				<cfset displayImage =  "#Application.webDirectory#/shared/images/Gnome-text-x-generic.svg">
+			<cfelseif media_type is "3D model">
+				<cfset displayImage =  "#Application.webDirectory#/shared/images/model_3d.svg">
+			<cfelseif media_type is "spectrometer data">
+				<cfset displayImage = "#Application.webDirectory#/shared/images/Sine_waves_different_frequencies.svg">
+			<cfelse>
+				<cfset displayImage =  "#Application.webDirectory#/shared/images/Image-x-generic.svg">
+				<!---nothing was working for mime type--->
+			</cfif>
+			<cfimage name="sourceImage" source="#target#">
+		</cfcatch>
+		</cftry>
 		<cfset ImageSetAntialiasing(sourceImage,"on")>
 		<cfset ImageScaleToFit(sourceImage,#fitWidth#,#fitHeight#,"highestPerformance")>
 		<cfset sourceWidth = ImageGetWidth(sourceImage)>
@@ -124,8 +142,7 @@ Streams directly to response without use of CFFileServelet
 		<cfif ulx LT 1 ><cfset ulx = 1></cfif>
 		<cfset sourceHeight = ImageGetHeight(sourceImage)>
 		<cfif #fitHeight# lt '500'>
-			<cfset uly = (fitHeight - sourceHeight)/-1>
-			
+			<cfset uly = 1>
 		<cfelse>
 			<cfset uly = (fitHeight - sourceHeight)/2>
 		</cfif>
@@ -150,9 +167,11 @@ Streams directly to response without use of CFFileServelet
 <cfcatch>
 	<cfif isDefined("debug") AND len(debug) GT 0>
 		<cfdump var="#cfcatch#">
+		<cfdump var="GetReadableImageFormats()">
 		<cfabort>
 	</cfif>
 	<cfset imageSrc = "/shared/images/broken_image_icon_211476.png">
 	<cflocation URL="#Application.serverRootUrl##imageSrc#">
 </cfcatch>
 </cftry>
+
