@@ -1136,7 +1136,7 @@ limitations under the License.
 							<cfelse>
 								<cfset l_styles = "max-width:125px;max-height:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
 								<!--- pick placeholder --->
-<!---								<cfif media_type is "image">
+								<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/Image-x-generic.svg">
 								<cfelseif media_type is "audio">
 									<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
@@ -1149,9 +1149,9 @@ limitations under the License.
 								<cfelseif media_type is "spectrometer data">
 									<cfset displayImage = "/shared/images/Sine_waves_different_frequencies.svg">
 								<cfelse>
-									<cfset displayImage =  "/shared/images/Image-x-generic.svg">--->
+									<cfset displayImage =  "/shared/images/Image-x-generic.svg">
 									<!---nothing was working for mime type--->
-								<!---</cfif>--->
+								</cfif>
 							</cfif>
 						</cfif>
 						<div class="media_widget">	
