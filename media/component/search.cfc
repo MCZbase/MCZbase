@@ -1100,15 +1100,9 @@ limitations under the License.
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
 							<cfif #l_displayAs# EQ "fixedSmallThumb">
-								<cfif host EQ "mczbase.mcz.harvard.edu">
-									<cfset hw = 'height="#l_size#px;" width="#l_size#px;"'>
-									<cfset sizeType='&width=#l_size#&height=#l_size#&background_color=white'>
-									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeType#">
-								<cfelse>
-									<cfset displayImage = preview_uri>
-									<cfset hw = 'width="auto" height="auto"'>
-									<cfset l_styles = "max-width:#l_size#px;max-height:#l_size#px;">
-								</cfif>
+								<cfset hw = 'height="#l_size#px;" width="#l_size#px;"'>
+								<cfset sizeType='&width=#l_size#&height=#l_size#&background_color=white'>
+								<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeType#">
 							<cfelseif #l_displayAs# EQ "thumb">
 								<cfset displayImage = preview_uri>
 								<cfset hw = 'width="auto" height="auto"'>
@@ -1123,16 +1117,22 @@ limitations under the License.
 							</cfif>
 						<cfelse>
 							<cfif len(preview_uri) GT 0>
-								<!--- use a preview_uri, if one was specified --->
-								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
-								<cfset displayImage = preview_uri>
-								<!---	<cfset l_size = (#l_size#)/2>--->
+								<cfif #l_displayAs# EQ "fixedSmallThumb">
+									<cfset hw = 'height="#l_size#px;" width="#l_size#px;"'>
+									<cfset sizeType='&width=#l_size#&height=#l_size#&background_color=white'>
+									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeType#">
+								<cfelse>
+									<!--- use a preview_uri, if one was specified --->
+									<!--- TODO: change test to regex on http... with some sort of is this an image test --->
+									<cfset displayImage = preview_uri>
+									<!---	<cfset l_size = (#l_size#)/2>--->
 									<cfif #l_displayAs# eq "thumb">
 										<cfset hw = 'width="auto" height="auto"'>
 										<cfset l_styles = "max-width:150px;max-height:100px;">
 									<cfelse>
 										<cfset hw = 'width="80" height="100"'><!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --->
 									</cfif>
+								</cfif>
 							<cfelse>
 								<cfset l_styles = "max-width:125px;max-height:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
 								<!--- pick placeholder --->
