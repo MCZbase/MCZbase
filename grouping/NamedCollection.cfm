@@ -1031,7 +1031,7 @@ limitations under the License.
 									{ text: 'Order', datafield: 'phylorder', width:110, hideable: true, hidden: getColHidProp('phylorder', true) },
 									{ text: 'Family', datafield: 'family', width:110, hideable: true, hidden: getColHidProp('family', false) },
 									{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:200, hideable: true, hidden: getColHidProp('othercatalognumbers', true) },
-									{ text: 'Collector', datafield: 'collector', width:110, hideable: true, hidden: getColHidProp('collector', false) },
+									{ text: 'Collector', datafield: 'collectors', width:110, hideable: true, hidden: getColHidProp('collector', false) },
 									{ text: 'Date Collected', datafield: 'date_collected', width:150, hideable: true, hidden: getColHidProp('date_collected', false) },
 									{ text: 'Verbatim Date', datafield: 'verbatim_date', width:150, hideable: true, hidden: getColHidProp('verbatim_date', true) },
 									{ text: 'Higher Geography', datafield: 'higher_geog', width:350, hideable: true, hidden: getColHidProp('higher_geog', true) },
