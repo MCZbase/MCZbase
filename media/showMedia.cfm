@@ -9,12 +9,6 @@
 <cfinclude template="/shared/_header.cfm">
 
 <script type='text/javascript' src='/shared/js/media.js'></script>
-<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-	<cfset oneOfUs = 1>
-<cfelse>
-	<cfset oneOfUs = 0>
-</cfif>
-<cfif action is "search">
 <cfoutput>
 <main class="container border-danger" id="content">
 	<div class="row">
@@ -436,5 +430,4 @@
 	</div>
 </main>
 </cfoutput>
-</cfif>
 <cfinclude template="/shared/_footer.cfm">
