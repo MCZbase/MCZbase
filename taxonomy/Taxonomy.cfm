@@ -1052,19 +1052,21 @@ limitations under the License.
 								>
 						</div>
 					</section>
-					<section class="mt-2 float-left col-12 px-0">
-						<div class="p-3 border bg-light rounded mt-2">
-							<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
-							<script>
-								function runTests() {
-									loadNameQC("", #getTaxa.taxon_name_id#, "NameDQDiv");
-								}
-							</script>
-							<input type="button" value="QC" class="btn btn-xs btn-secondary" onClick=" runTests(); ">
-							<!---  Scientific Name tests --->
-							<div id="NameDQDiv"></div>
-						</div>
-					</section>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"collops")>
+						<section class="mt-2 float-left col-12 px-0">
+							<div class="p-3 border bg-light rounded mt-2">
+								<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
+								<script>
+									function runTests() {
+										loadNameQC("", #getTaxa.taxon_name_id#, "NameDQDiv");
+									}
+								</script>
+								<input type="button" value="QC" class="btn btn-xs btn-secondary" onClick=" runTests(); ">
+								<!---  Scientific Name tests --->
+								<div id="NameDQDiv"></div>
+							</div>
+						</section>
+					</cfif>
 				</div>
 			</div>
 		</main>
