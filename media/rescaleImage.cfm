@@ -71,13 +71,11 @@ Streams directly to response without use of CFFileServelet
 					<cfif use_thumb EQ "true">
 						<cfset source = replace(preview_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
 						<cfset source = replace(preview_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-						<cfset source = replace(preview_uri,'http://ids.lib.harvard.edu/ids/view/','https://ids.lib.harvard.edu/ids/view/') >
 						<cfset mimeType = "#mime_type#">
 					<cfelse>
 						<!--- setup to rescale --->
 						<cfset source = replace(media_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
 						<cfset source = replace(media_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-						<cfset source = replace(media_uri,'http://ids.lib.harvard.edu/ids/view/','https://ids.lib.harvard.edu/ids/view/') >
 						<cfset mimeType = "#mime_type#">
 					</cfif>
 				</cfif>
@@ -93,7 +91,6 @@ Streams directly to response without use of CFFileServelet
 						<cfif len(media.preview_uri) GT 0>
 							<cfset source = replace(preview_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
 							<cfset source = replace(preview_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-							<cfset source = replace(preview_uri,'http://ids.lib.harvard.edu/ids/view/','https://ids.lib.harvard.edu/ids/view/') >
 						</cfif>
 					</cfif>
 					<cfif len(source) EQ 0>
@@ -143,7 +140,7 @@ Streams directly to response without use of CFFileServelet
 					<!--- download resource, if we haven't allready --->
 					<cfset filename= "cache_#media_id#_preview_uri.img">
 					<cfif NOT FileExists("#Application.webDirectory#/temp/#filename#")>
-						<cfexecute name="curl" arguments="-k -o #Application.webDirectory#/temp/#filename# #source#" timeout="10" variable="filestream">
+						<cfexecute name="curl" arguments="-L -k -o #Application.webDirectory#/temp/#filename# #source#" timeout="10" variable="filestream">
 					</cfif>
 					<cftry>
 						<cfimage name="sourceImage" source="#Application.webDirectory#/temp/#filename#">
