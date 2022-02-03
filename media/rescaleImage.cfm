@@ -168,8 +168,8 @@ Streams directly to response without use of CFFileServelet
 				<cfelse>
 					<cfset source =  "#Application.webDirectory#/shared/images/Image-x-generic.png">
 				</cfif>
+				<cfimage name="sourceImage" source="#source#">
 			</cfif>
-			<cfimage name="sourceImage" source="#source#">
 		</cfcatch>
 		</cftry>
 		<cfset ImageSetAntialiasing(sourceImage,"on")>
