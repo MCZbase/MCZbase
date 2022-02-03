@@ -24,8 +24,8 @@
 			</cfquery>
 			<cfloop query="findIDs">
 				<cfif len(images.media_id) gt 0>
-					<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",captionAs="textNone")>
-						<div class="float-left" id="mediaBlock#images.media_id#">
+					<cfset mediablock= getMediaBlockHtml(media_id="#findIDs.media_id#",displayAs="thumb",captionAs="textNone")>
+						<div class="float-left" id="mediaBlock#findIDs.media_id#">
 							#mediablock#
 						</div>
 				</cfif>
