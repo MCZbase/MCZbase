@@ -1028,16 +1028,24 @@ limitations under the License.
 <!--- function getMediaBlockHtml safely (with use of is_media_encumbered) display an html block
  serving as an arbitrary media display widget on any MCZbase page in a conistent manner.
  Appropriately handles media objects of all types, displaying appropriate metadata and thumbnail
- or larger image for the requested context.
+ or larger image for the requested context.   Responsibility for delivering the desired image is
+ split between this function, and where it is invoked by this function in an img tag, 
+ /media/rescaleImage.cfm?media_id=.
 
- WARNING: Do not make copies of this function and use elsewhere, include this function 
+ WARNING: Do not make copies of this function and use elsewhere, include this function and use it.
 
  @param media_id the media_id of the media record to display a media widget for.
  @param size the size, an integer for pixel size of the image tag to include in the widget, image tags are
    always square, with the image fitted into this square preserving its aspect ratio within this 
    square, so size specifies both the height and width of the img tag in the returned html block,
    default is 600.
- @param displayAs the mode in which to display this media block, default is full.
+ @param displayAs the mode in which to display this media block, default is full, allowed values are
+   full, fixedSmallThumb (which always returns a square image fitted to the specified size), and thumb
+   (which returns a thumbnail with its original aspect ratio). 
+ @param captionAs the caption which should be shown, allowed values are textFull, textNone (no caption
+   shown, image is linked to media record instead of the media_uri resource), textLinks (caption is 
+   limited to links without descriptive text, image is linked to the media_uri resource).
+ @parm styles a css value to use for style="" in the image tag.. 
 ---> 
 <cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
@@ -1134,23 +1142,31 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							<cfelse>
-								<cfset l_styles = "max-width:125px;max-height:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
-								<!--- pick placeholder --->
-								<cfif media_type is "image">
-									<cfset displayImage = "/shared/images/Image-x-generic.svg">
-								<cfelseif media_type is "audio">
-									<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
-								<cfelseif media_type IS "video">
-									<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
-								<cfelseif media_type is "text">
-									<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
-								<cfelseif media_type is "3D model">
-									<cfset displayImage =  "/shared/images/model_3d.svg">
-								<cfelseif media_type is "spectrometer data">
-									<cfset displayImage = "/shared/images/Sine_waves_different_frequencies.svg">
-								<cfelse>
-									<cfset displayImage =  "/shared/images/Image-x-generic.svg">
-									<!---nothing was working for mime type--->
+								<cfif #l_displayAs# EQ "fixedSmallThumb">
+									<!--- leave it to logic in media/rescaleImage.cfm to work out correct icon and rescale it to fit desired size --->
+									<cfset hw = 'height="#l_size#px;" width="#l_size#px;"'>
+									<cfset sizeType='&width=#l_size#&height=#l_size#&background_color=white'>
+									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeType#">
+								</cfelse>
+									<!--- fall back on an svg image of an appropriate generic icon --->
+									<cfset l_styles = "max-width:125px;max-height:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
+									<!--- pick placeholder --->
+									<cfif media_type is "image">
+										<cfset displayImage = "/shared/images/Image-x-generic.svg">
+									<cfelseif media_type is "audio">
+										<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
+									<cfelseif media_type IS "video">
+										<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
+									<cfelseif media_type is "text">
+										<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
+									<cfelseif media_type is "3D model">
+										<cfset displayImage =  "/shared/images/model_3d.svg">
+									<cfelseif media_type is "spectrometer data">
+										<cfset displayImage = "/shared/images/Sine_waves_different_frequencies.svg">
+									<cfelse>
+										<cfset displayImage =  "/shared/images/Image-x-generic.svg">
+										<!---nothing was working for mime type--->
+									</cfif>
 								</cfif>
 							</cfif>
 						</cfif>
@@ -1165,72 +1181,72 @@ limitations under the License.
 								<img src="#displayImage#" alt="#alt#" #hw# style="#l_styles#">
 							</a>
 							<cfif #l_captionAs# EQ "textNone">
-						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
+								<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 							<cfelseif #l_captionAs# EQ "textLinks">
-							<!--- textLinks is used when only the links are desired under the thumbnail--->
-							<div class="mt-0 col-12 pb-1 px-0 mt-1">
-								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<span class="d-inline">(<a target="_blank" href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>
-									</cfif>
-									(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
-									<cfif NOT isDisplayable>
-										#media_type# (#mime_type#)
-										(<a class="" target="_blank" href="#media_uri#">media file</a>)
-									<cfelse>
-										(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
-										(<a class="" target="_blank" href="#media_uri#">full</a>)
-									</cfif>
-								</p>
-							</div>
-							<cfelse>
-							<div class="mt-0 col-12 pb-1 px-0 mt-1">
-								<p class="text-center px-1 pb-1 mb-0 smaller col-12">
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<span class="d-inline">(<a target="_blank" href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>
-									</cfif>
-									(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
-									<cfif NOT isDisplayable>
-										#media_type# (#mime_type#)
-										(<a class="" target="_blank" href="#media_uri#">media file</a>)
-									<cfelse>
-										(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
-										(<a class="" target="_blank" href="#media_uri#">full</a>)
-									</cfif>
-								</p>
-								<div class="pb-1">
-									<cfset showTitleText = trim(title)>
-									<cfif len(showTitleText) EQ 0>
-										<cfset showTitleText = trim(subject)>
-									</cfif>
-									<cfif len(showTitleText) EQ 0>
-										<cfset showTitleText = "Unlinked Media Object">
-									</cfif>
-									<cfif #l_captionAs# EQ "textCaption"><!---This is for use when a caption of 100 characters is needed --->
-										<cfif len(showTitleText) GT 100>
-											<cfset showTitleText = "#left(showTitleText,100)#..." >
+								<!--- textLinks is used when only the links are desired under the thumbnail--->
+								<div class="mt-0 col-12 pb-1 px-0 mt-1">
+									<p class="text-center px-1 pb-1 mb-0 smaller col-12">
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<span class="d-inline">(<a target="_blank" href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>
 										</cfif>
-									</cfif>
-									<cfif #l_captionAs# EQ "textShort"><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
-										<cfif len(showTitleText) GT 50>
-											<cfset showTitleText = "#left(showTitleText,50)#..." >
+										(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
+										<cfif NOT isDisplayable>
+											#media_type# (#mime_type#)
+											(<a class="" target="_blank" href="#media_uri#">media file</a>)
+										<cfelse>
+											(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
+											(<a class="" target="_blank" href="#media_uri#">full</a>)
 										</cfif>
-									</cfif>
-									<cfif #l_captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
-										<cfif len(showTitleText) GT 250>
-											<cfset showTitleText = "#left(showTitleText,250)#..." >
-										</cfif>
-									</cfif>
-									<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
-									<cfif len(#license_uri#) gt 0>
-										<cfif #l_captionAs# EQ "TextFull">
-										<p class="text-center col-12 p-0 my-0 smaller">
-											<a href="#license_uri#">#license_display#</a>
-										</p>											
-										</cfif>
-									</cfif>
+									</p>
 								</div>
-							</div>
+							<cfelse>
+								<div class="mt-0 col-12 pb-1 px-0 mt-1">
+									<p class="text-center px-1 pb-1 mb-0 smaller col-12">
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<span class="d-inline">(<a target="_blank" href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>
+										</cfif>
+										(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
+										<cfif NOT isDisplayable>
+											#media_type# (#mime_type#)
+											(<a class="" target="_blank" href="#media_uri#">media file</a>)
+										<cfelse>
+											(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
+											(<a class="" target="_blank" href="#media_uri#">full</a>)
+										</cfif>
+									</p>
+									<div class="pb-1">
+										<cfset showTitleText = trim(title)>
+										<cfif len(showTitleText) EQ 0>
+											<cfset showTitleText = trim(subject)>
+										</cfif>
+										<cfif len(showTitleText) EQ 0>
+											<cfset showTitleText = "Unlinked Media Object">
+										</cfif>
+										<cfif #l_captionAs# EQ "textCaption"><!---This is for use when a caption of 100 characters is needed --->
+											<cfif len(showTitleText) GT 100>
+												<cfset showTitleText = "#left(showTitleText,100)#..." >
+											</cfif>
+										</cfif>
+										<cfif #l_captionAs# EQ "textShort"><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
+											<cfif len(showTitleText) GT 50>
+												<cfset showTitleText = "#left(showTitleText,50)#..." >
+											</cfif>
+										</cfif>
+										<cfif #l_captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
+											<cfif len(showTitleText) GT 250>
+												<cfset showTitleText = "#left(showTitleText,250)#..." >
+											</cfif>
+										</cfif>
+										<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
+										<cfif len(#license_uri#) gt 0>
+											<cfif #l_captionAs# EQ "TextFull">
+											<p class="text-center col-12 p-0 my-0 smaller">
+												<a href="#license_uri#">#license_display#</a>
+											</p>											
+											</cfif>
+										</cfif>
+									</div>
+								</div>
 							</cfif>
 						</div>
 					</cfloop>
