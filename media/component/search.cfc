@@ -1147,7 +1147,7 @@ limitations under the License.
 									<cfset hw = 'height="#l_size#px;" width="#l_size#px;"'>
 									<cfset sizeType='&width=#l_size#&height=#l_size#&background_color=white'>
 									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeType#">
-								</cfelse>
+								<cfelse>
 									<!--- fall back on an svg image of an appropriate generic icon --->
 									<cfset l_styles = "max-width:125px;max-height:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
 									<!--- pick placeholder --->
