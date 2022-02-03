@@ -146,7 +146,11 @@
 				<cfset media_id = listgetat(rdurl,gPos+1,"/")>
 				<cfset action="search">
 			</cfif>
-			<cfinclude template="/media/showMedia.cfm">
+			<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
+				<cfinclude template="/media/showMedia.cfm">
+			<cfelse>
+				<cfinclude template="/MediaSearch.cfm">
+			</cfif>
 			<cfcatch>
 				<cfinclude template="/errors/404.cfm">
 			</cfcatch>
