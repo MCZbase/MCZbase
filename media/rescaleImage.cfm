@@ -141,6 +141,7 @@ Streams directly to response without use of CFFileServelet
 					<cfset filename = "cache_#media_id#_preview_uri.img">
 					<cfexecute name="curl" arguments="-k -o #Application.webDirectory#/temp/#filename# #source#" timeout="10" variable="filestream">
 					<cfimage name="sourceImage" source="#Application.webDirectory#/temp/#filename#">
+					<cfset failed = false>
 				<cfcatch>
 					<!--- unable to retrieve and use --->
 					<cfif isDefined("debug") AND len(debug) GT 0>
