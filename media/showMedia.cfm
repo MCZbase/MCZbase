@@ -616,8 +616,7 @@
 								<strong>Keywords:</strong> #kwds#
 							</div>
 						</cfif>
-				
-									</div>
+				</div>
 			</div>
 			<cfif media_type is "multi-page document">
 				<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
@@ -625,7 +624,6 @@
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 				<div class="mediaEdit"><a href="/media.cfm?action=edit&media_id=#media_id#">[ edit ]</a>
 			</cfif>
-
 			<cfquery name="relM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					media.media_id,
@@ -657,15 +655,15 @@
 					<div class="thumb_spcr">&nbsp;</div>
 					<cfloop query="relM">
 						<cfset puri=getMediaPreview(preview_uri,media_type)>
-		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select
-									media_label,
-									label_value
-								from
-									media_labels
-								where
-									media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							</cfquery>
+						<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select
+								media_label,
+								label_value
+							from
+								media_labels
+							where
+								media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						</cfquery>
 						<cfquery name="desc" dbtype="query">
 							select label_value from labels where media_label='description'
 						</cfquery>
@@ -673,11 +671,11 @@
 						<cfif desc.recordcount is 1>
 							<cfset alt=desc.label_value>
 						</cfif>
-		               <div class="one_thumb">
-			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
-		                   	<p>
+						<div class="one_thumb bg-info">
+							<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
+							<p>
 								#media_type# (#mime_type#)
-			                   	<br><a href="/media/#media_id#">Media Details</a>
+								<br><a href="/media/#media_id#">Media Details</a>
 								<br>#alt#
 							</p>
 						</div>
