@@ -139,8 +139,8 @@ Streams directly to response without use of CFFileServelet
 				<!--- obtain with curl, using -k option for insecure download --->
 				<cftry>
 					<!--- download resource, if we haven't allready --->
-					<cfset filename = "cache_#media_id#_preview_uri.img">
-					<cfif NOT FileExists("#Application.webDirectory#/temp/#filename#">
+					<cfset filename= "cache_#media_id#_preview_uri.img">
+					<cfif NOT FileExists("#Application.webDirectory#/temp/#filename#")>
 						<cfexecute name="curl" arguments="-k -o #Application.webDirectory#/temp/#filename# #source#" timeout="10" variable="filestream">
 					</cfif>
 					<cftry>
