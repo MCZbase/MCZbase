@@ -137,16 +137,32 @@ console.log(postkey);
  * make an ajax call on getNameQCReportFlat(), take the results, and place them in 
  * human readable form as html as the content of the target div.
  * @param collection_object_id of the collection object to run the TDWG BDQ TG2 NAME tests on.
+ * @param taxon_name_id of the taxonomy record to run the TDWG BDQ TG2 NAME tests on, used if
+ *   collection_object_id is empty.
  * @param targetid the id of an element in the DOM of which to replace the content with the results.
  */
-function loadNameQC(collection_object_id,targetid){
+function loadNameQC(collection_object_id,taxon_name_id,targetid){
+   var target_id = "";
+   var target = "";
+   console.log(collection_object_id);
+   console.log(taxon_name_id);
+	if (collection_object_id && String(collection_object_id).length > 0) { 
+		target_id = String(collection_object_id);
+		target = "FLAT";
+	} else if (taxon_name_id && String(taxon_name_id).length > 0) {
+		target_id = String(taxon_name_id);
+		target = "TAXONOMY";
+	} else { 
+		$("#" + targetid).html("Error: Neither a collection_object_id nor a taxon_name_id was provided." );
+	}
 	$.ajax({
 		url: "/component/functions.cfc",
 		type: "get",
 		data: {
-			method: "getNameQCReportFlat",
+			method: "getNameQCReport",
 			returnformat: "json",
-			collection_object_id	:collection_object_id
+			target_id: target_id,
+			target: target
 		}, 
 		success: function (datareturn) { 
 		data = JSON.parse(datareturn);

@@ -5589,9 +5589,10 @@ Annotation to report problematic data concerning #annotated.guid#
 
 
 <!-------------------------------------------->
-<!--- obtain QC report concerning Taxon Name terms on a record from flat --->
-<cffunction name="getNameQCReportFlat" access="remote">
-	<cfargument name="collection_object_id" type="string" required="yes">
+<!--- obtain QC report concerning Taxon Name terms on a record from flat or from taxonomy --->
+<cffunction name="getNameQCReport" access="remote">
+	<cfargument name="target_id" type="string" required="yes">
+	<cfargument name="target" type="string" required="yes">
 
 	<cfset result=structNew()> <!--- overall result to return --->
 	<cfset r=structNew()><!--- temporary result for an individual test, create new after each test --->
@@ -5599,34 +5600,60 @@ Annotation to report problematic data concerning #annotated.guid#
 	<cfset amendment=structNew()><!--- amendment phase --->
 	<cfset postamendment=structNew()><!--- post-amendment phase measures and validations --->
 	<cftry>
-		<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select guid, basisofrecord,
-                kingdom, phylum, phylclass, phylorder, family, genus,
-                scientific_name, author_text,
-					 taxonid
-            from DIGIR_QUERY.digir_filtered_flat
-            where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-		</cfquery>
-		<cfif flatrow.recordcount is 1>
+		<cfswitch expression="#ucase(target)#">
+			<cfcase value="FLAT">
+				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT guid as item_label, 
+						basisofrecord,
+						kingdom, phylum, phylclass, phylorder, family, genus,
+						scientific_name, author_text,
+						taxonid,
+						scientificnameid
+					FROM DIGIR_QUERY.digir_filtered_flat
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+				</cfquery>
+			</cfcase>
+			<cfcase value="TAXONOMY">
+				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT scientific_name as item_label, 
+						'' as basisofrecord,
+						kingdom, phylum, phylclass, phylorder, family, genus,
+						scientific_name, author_text,
+						taxonid,
+						scientificnameid
+					FROM taxonomy
+					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+				</cfquery>
+			</cfcase>
+			<cfdefaultcase>
+				<cfthrow message="Unknown target type for taxon report. Should be FLAT or TAXONOMY">
+			</cfdefaultcase>
+		</cfswitch>
+		<cfif queryrow.recordcount is 1>
 			<cfset result.status="success">
-			<cfset result.collection_object_id=collection_object_id>
-			<cfset result.guid=flatrow.guid>
+			<cfset result.target_id=target_id >
+			<cfset result.guid=queryrow.item_label>
 			<cfset result.error="">
 
 			<!--- store local copies of query results to use in pre-amendment phase and overwrite in ammendment phase  --->
-			<cfset kingdom = flatrow.kingdom>
-			<cfset phylum = flatrow.phylum>
-			<cfset phylclass = flatrow.phylclass>
-			<cfset phylorder = flatrow.phylorder>
-			<cfset family = flatrow.family>
-			<cfset genus = flatrow.genus>
-			<cfset scientific_name = flatrow.scientific_name>
-			<cfset author_text = flatrow.author_text>
-			<cfset taxonid = flatrow.taxonid>
+			<cfset kingdom = queryrow.kingdom>
+			<cfset phylum = queryrow.phylum>
+			<cfset phylclass = queryrow.phylclass>
+			<cfset phylorder = queryrow.phylorder>
+			<cfset family = queryrow.family>
+			<cfset genus = queryrow.genus>
+			<cfset scientific_name = queryrow.scientific_name>
+			<cfset author_text = queryrow.author_text>
+			<cfset taxonid = queryrow.taxonid>
+			<cfset scientificnameid = queryrow.scientificnameid>
 
+			<cfobject type="Java" class="org.filteredpush.qc.sciname.DwCSciNameDQ" name="dwcSciNameDQ">
+			<cfobject type="Java" class="org.filteredpush.qc.sciname.SciNameSourceAuthority" name="sciNameSourceAuthority">
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.DwCSciNameDQ" name="dwcSciNameDQ">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides">
+
+			<cfset wormsAuthority = sciNameSourceAuthority.init("WORMS")>
 
 			<!--- pre-amendment phase --->
 			<!--- TODO: Provide metadata from annotations --->
@@ -5651,9 +5678,47 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset preamendment["401bf207-9a55-4dff-88a5-abcd58ad97fa"] = r >
 			<cfset r=structNew()>
 
+			<!--- @Provides("3667556d-d8f5-454c-922b-af8af38f613c") --->
+			<cfset dqResponse = dwcSciNameDQ.validationFamilyNotfound(family,wormsAuthority) >
+			<cfset r.label = "dwc:family is known to WoRMS" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["3667556d-d8f5-454c-922b-af8af38f613c"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("81cc974d-43cc-4c0f-a5e0-afa23b455aa3") --->
+			<cfset dqResponse = dwcSciNameDQ.validationOrderNotfound(phylorder,wormsAuthority) >
+			<cfset r.label = "dwc:order is known to WoRMS" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["81cc974d-43cc-4c0f-a5e0-afa23b455aa3"] = r >
+
 			<!--- amendment phase --->
 
-				<!--- TODO: Add tests --->
+			<cftry>
+			<!--- TODO: Throwing null pointer exception from lookupTaxon(String taxon, String author, boolean marineOnly) in WoRMSService --->
+			<!---  @Provides("431467d6-9b4b-48fa-a197-cd5379f5e889") --->
+			<cfset dqResponse = dwcSciNameDQ.amendmentTaxonidFromTaxon( taxonid, kingdom, phylum, phylclass, phylorder, family, genus, "", scientific_name, author_text, "", "", "", "", "", "", scientificnameid, "", "",wormsAuthority) >
+			<cfset r.label = "lookup taxonID for taxon" >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset taxonid = dqResponse.getValue().getObject().get("dwc:taxonID") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["431467d6-9b4b-48fa-a197-cd5379f5e889"] = r >
+			<cfset r=structNew()>
+			<cfcatch>
+			<cfset r=structNew()>
+			</cfcatch>
+			</cftry>
 
 			<!--- post-amendment phase --->
 
@@ -5676,7 +5741,26 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["401bf207-9a55-4dff-88a5-abcd58ad97fa"] = r >
 			<cfset r=structNew()>
+
+			<!--- @Provides("3667556d-d8f5-454c-922b-af8af38f613c") --->
+			<cfset dqResponse = dwcSciNameDQ.validationFamilyNotfound(family,wormsAuthority) >
+			<cfset r.label = "dwc:family is known to WoRMS" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["3667556d-d8f5-454c-922b-af8af38f613c"] = r >
+			<cfset r=structNew()>
 	
+			<!--- @Provides("81cc974d-43cc-4c0f-a5e0-afa23b455aa3") --->
+			<cfset dqResponse = dwcSciNameDQ.validationOrderNotfound(phylorder,wormsAuthority) >
+			<cfset r.label = "dwc:order is known to WoRMS" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["81cc974d-43cc-4c0f-a5e0-afa23b455aa3"] = r >
+
 			<!--- Add results from phases to result to return --->
 
 			<cfset result["preamendment"] = preamendment >
@@ -5687,12 +5771,12 @@ Annotation to report problematic data concerning #annotated.guid#
 
 		<cfelse>
 			<cfset result.status="fail">
-			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.target_id=target_id>
 			<cfset result.error="record not found">
 		</cfif>
     <cfcatch>
 			<cfset result.status="fail">
-			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.target_id=target_id>
 			<cfset line = cfcatch.tagcontext[1].line>
 			<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
     </cfcatch>
@@ -5742,7 +5826,7 @@ Annotation to report problematic data concerning #annotated.guid#
 
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventTG2DQ" name="eventDateQC"> <!--- Deprecated --->
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCOtherDateDQ" name="dwcOtherDateQC">
-			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventDQ" name="dwcEventQC">
+			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventDQ" name="dwcEventDQ">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides">
 			<!--- Obtain mechanism from annotation on class --->
@@ -5765,7 +5849,7 @@ Annotation to report problematic data concerning #annotated.guid#
 
 			--->
 
-			<cfset dqResponse = eventDateQC.measureEventdatePrecisioninseconds(eventDate) >
+			<cfset dqResponse = dwcEventDQ.measureEventdatePrecisioninseconds(eventDate) >
 			<cfset r.label = "dwc:eventDate precision in seconds" >
 			<cfset r.type = "MEASURE" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -5802,7 +5886,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!---  @Provides("47ff73ba-0028-4f79-9ce1-ee7008d66498") --->
-			<cfset dqResponse =  eventDateQC.validationDayNotstandard(day) >
+			<cfset dqResponse =  dwcEventDQ.validationDayNotstandard(day) >
 			<cfset r.label = "dwc:day in standard format" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -5852,7 +5936,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
-			<cfset dqResponse = dwcEventQC.validationEventdateEmpty(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateEmpty(eventDate) >
 			<cfset r.label = "dwc:eventDate contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -5872,7 +5956,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
-			<cfset dqResponse = dwcEventQC.validationEventdateOutofrange(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateOutofrange(eventDate) >
 			<cfset r.label = "dwc:eventDate is in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -5902,7 +5986,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
-			<cfset dqResponse = dwcEventQC.validationYearEmpty(year) >
+			<cfset dqResponse = dwcEventDQ.validationYearEmpty(year) >
 			<cfset r.label = "dwc:startDayOfYear is in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -6042,7 +6126,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<!--- post-amendment phase --->
 
 			<!--- @Provides("56b6c695-adf1-418e-95d2-da04cad7be53") --->
-			<cfset dqResponse = eventDateQC.measureEventdatePrecisioninseconds(eventDate) >
+			<cfset dqResponse = dwcEventDQ.measureEventdatePrecisioninseconds(eventDate) >
 			<cfset r.label = "dwc:eventDate precision in seconds" >
 			<cfset r.type = "MEASURE" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -6079,7 +6163,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!---  @Provides("47ff73ba-0028-4f79-9ce1-ee7008d66498") --->
-			<cfset dqResponse =  eventDateQC.validationDayNotstandard(day) >
+			<cfset dqResponse =  dwcEventDQ.validationDayNotstandard(day) >
 			<cfset r.label = "dwc:day in standard format" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -6129,7 +6213,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
-			<cfset dqResponse = dwcEventQC.validationEventdateEmpty(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateEmpty(eventDate) >
 			<cfset r.label = "dwc:eventDate contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -6149,7 +6233,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
-			<cfset dqResponse = dwcEventQC.validationEventdateOutofrange(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateOutofrange(eventDate) >
 			<cfset r.label = "dwc:eventDate is in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -6179,7 +6263,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
-			<cfset dqResponse = dwcEventQC.validationYearEmpty(year) >
+			<cfset dqResponse = dwcEventDQ.validationYearEmpty(year) >
 			<cfset r.label = "dwc:startDayOfYear is in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
