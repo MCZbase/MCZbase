@@ -11,7 +11,7 @@
 	<div class="row">
 		<div class="col-12 mt-4 border-success">
 		<h1 class="h4 mt-4">Media Record</h1>
-			<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct 
 						media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
 						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as uri, 
@@ -21,7 +21,7 @@
 					From
 						media
 					WHERE 
-						media.media_id = "1333"
+						media.media_id = '1333'
 
 			</cfquery>
 			<cfloop query="findIDs" startrow="#URL.offset#" endrow="#limit#">
@@ -70,9 +70,16 @@
 					</cfif>
 					<cfset alt=desc.label_value>
 				</cfif>
-				<div class="row striped">	
-				<cfset mp=getMediaPreview(preview_uri,media_type)>
-				<div class="row image_metadata"
+				<div class="row image_metadata">
+					<div class="col-6">
+					<cfif len(images.media_id) gt 0>
+						<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",captionAs="textNone")>
+						<div class="float-left" id="mediaBlock#images.media_id#">
+							#mediablock#
+						</div>
+					</cfif>
+					</div>
+					<div class="col-6">
 					<a href="#media_uri#" target="_blank"><img src="#mp#" alt="#altText#" style="max-width:250px;max-height:250px;"></a>
 					<span style='font-size:small'>#media_type#&nbsp;(#mime_type#)</span>
 					<cfif len(display) gt 0>
@@ -145,8 +152,7 @@
 									<strong>Keywords:</strong> #kwds#
 								</div>
 							</cfif>
-					</div>
-				</div>
+
 				<cfif media_type is "multi-page document">
 					<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
 				</cfif>
@@ -209,7 +215,8 @@
 								</p>
 							</div>
 						</cfloop>
-						<div class="thumb_spcr">&nbsp;</div>
+									</div>
+				</div>
 					</div>
 				</cfif>
 				<cfset rownum=rownum+1>
