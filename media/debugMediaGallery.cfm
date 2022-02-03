@@ -26,11 +26,32 @@
 			)
 		</cfquery>
 		<div class="row">
-			<div class="container-fluid mt-5"><h4> Background light gray.  These examples are set with a size attribute (e.g., <strong>size="400"</strong>) and a captionAs attribute (e.g., <strong>textMid</strong>) to getMediaBlockHtml(). The image is sized to 400px wide and high and has a gray background where it doesn't fit the square. The preview_URI will be shown as is (sizewise).  The placeholder images are given a maximum width, which keeps them thumbnail size of 125px even if the container is larger and the size of the shared drive images are 400px. The thumbnail for spectrometer data (an SVG) could be better.  I couldn't find many public domain SVGs. Shrinking the container will shrink the caption and should be done with the "size". It is possible to allow these placeholder images to fill the container they are in by increasing the max-width (<cfset l_styles = "max-width:150px;max-height:auto;">--auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much) on line 1121 of media/components/search.cfc. I figured out that italics cannot be in the description label or it breaks the html.</h4>
+			<div class="container-fluid mt-5">
+				<h4> 
+				Background light gray.  These examples are set with a size attribute (e.g., <strong>size="400"</strong>) and a captionAs attribute (e.g., <strong>textMid</strong>) to getMediaBlockHtml(). The image is sized to 400px wide and high and has a gray background where it doesn't fit the square. The preview_URI will be shown as is (sizewise).  The placeholder images are given a maximum width, which keeps them thumbnail size of 125px even if the container is larger and the size of the shared drive images are 400px. The thumbnail for spectrometer data (an SVG) could be better.  I couldn't find many public domain SVGs. Shrinking the container will shrink the caption and should be done with the "size". It is possible to allow these placeholder images to fill the container they are in by increasing the max-width (<cfset l_styles = "max-width:150px;max-height:auto;">--auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much) on line 1121 of media/components/search.cfc. I figured out that italics cannot be in the description label or it breaks the html.
+				</h4>
+				<code>&lt;cfset mediablock= getMediaBlockHtml(media_id="##media_id##",size="400",captionAs="textMid")&gt;</code>
 			</div>
 			<cfloop query="examples">
 				<div class="col-12 col-sm-6 col-md-4 col-xl-3 mt-5 bg-light">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textMid")>
+					<div id="mediaBlock#media_id#" class="border rounded">
+					#mediablock#
+					</div>
+				</div>
+			</cfloop>
+		</div>
+
+		<div class="row">
+			<div class="container-fluid mt-5">
+				<h4>
+					fixedSmallThumb, no caption
+				</h4>
+				<code>&lt;cfset mediablock= getMediaBlockHtml(media_id="##media_id##",displayAs="fixedSmallThumb",size="100", captionAs="textNone")&gt;</code>
+			</div>
+			<cfloop query="examples">
+				<div class="col-12 col-sm-6 col-md-4 col-xl-3 mt-5 bg-light">
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="fixedSmallThumb",size="100", captionAs="textNone")>
 					<div id="mediaBlock#media_id#" class="border rounded">
 					#mediablock#
 					</div>
