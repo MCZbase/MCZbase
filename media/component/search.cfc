@@ -1065,7 +1065,6 @@ limitations under the License.
 		<cfif l_size GT 100>
 			<cfset l_size = 100>
 		</cfif>
-		<cfset l_captionAs = "textNone">
 	</cfif>
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
 		<cfoutput>
