@@ -494,9 +494,10 @@
 
 
 
-<main class="container bg-light" id="content">
+
 
 <cfloop query="findIDs" startrow="#URL.offset#" endrow="#limit#">
+	<main class="container bg-light" id="content">
 	<cfquery name="labels_raw"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			media_label,
