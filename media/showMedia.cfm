@@ -631,10 +631,12 @@
 			<cfif media_type is "multi-page document">
 				<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
 			</cfif>
-<!---			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 		        <div class="mediaEdit"><a href="/media.cfm?action=edit&media_id=#media_id#">[ edit ]</a>
+					<!---
                     <a href="/TAG.cfm?media_id=#media_id#">[ add or edit TAGs ]</a></div>
-		    </cfif>--->
+					--->
+		    </cfif>
 <!---		    <cfif tag.n gt 0>
                 <div class="mediaEdit"><a href="/showTAG.cfm?media_id=#media_id#">[ View #tag.n# TAGs ]</a></div>
 			</cfif>--->
