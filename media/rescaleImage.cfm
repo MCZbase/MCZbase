@@ -71,12 +71,13 @@ Streams directly to response without use of CFFileServelet
 					<cfif use_thumb EQ "true">
 						<cfset source = replace(preview_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
 						<cfset source = replace(preview_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-						<!--- TODO: identify mime type from preview.  --->
+						<cfset source = replace(preview_uri,'http://ids.lib.harvard.edu/ids/view/','https://ids.lib.harvard.edu/ids/view/') >
 						<cfset mimeType = "#mime_type#">
 					<cfelse>
 						<!--- setup to rescale --->
 						<cfset source = replace(media_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
 						<cfset source = replace(media_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+						<cfset source = replace(media_uri,'http://ids.lib.harvard.edu/ids/view/','https://ids.lib.harvard.edu/ids/view/') >
 						<cfset mimeType = "#mime_type#">
 					</cfif>
 				</cfif>
@@ -92,6 +93,7 @@ Streams directly to response without use of CFFileServelet
 						<cfif len(media.preview_uri) GT 0>
 							<cfset source = replace(preview_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
 							<cfset source = replace(preview_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+							<cfset source = replace(preview_uri,'http://ids.lib.harvard.edu/ids/view/','https://ids.lib.harvard.edu/ids/view/') >
 						</cfif>
 					</cfif>
 					<cfif len(source) EQ 0>
