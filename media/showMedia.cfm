@@ -22,7 +22,9 @@
 </cfif>
 
 <div class="container-fluid">
+<script type='text/javascript' src='/includes/media.js'></script>
 <script type='text/javascript' src='/media/js/media.js'></script>
+<cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 
 	<cfif isdefined("specID") and len(specID) gt 0>
@@ -39,10 +41,8 @@
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
-	<cfset isClicky = "likeLink">
 <cfelse>
 	<cfset oneOfUs = 0>
-	<cfset isClicky = "">
 </cfif>
 
 <!----------------------------------------------------------------------------------------->
@@ -78,7 +78,7 @@
 	</h2>
 
 <form name="newMedia" method="post" action="">
-  <div class="greenbox border-danger">
+  <div class=" border-danger">
     <a name="kwFrm"></a>
   <p style="font-size: 14px;padding-bottom: 1em;">
       This form may not find very recent changes. You can use the also use the <a href="##relFrm">relational search form</a> below.
