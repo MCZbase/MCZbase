@@ -301,11 +301,11 @@
 				<cfset number_of_relations=1>
 			</cfif>
 		</cfif>
-	   <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 			<cfif isdefined("unlinked") and unlinked EQ "true">
 				<cfset number_of_relations = 0 >
-      	</cfif>
-      </cfif>
+		</cfif>
+		</cfif>
 		<cfif not isdefined("number_of_labels")>
 			<cfif (isdefined("label") and len(label) gt 0) or (isdefined("label__1") and len(label__1) gt 0)>
 				<cfset number_of_labels=1>
@@ -411,7 +411,6 @@
 		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 			Not seeing something you just loaded? Come back in an hour when the cache has refreshed.
 		</cfif>
-
 		<cfabort>
 	<cfelseif findIDs.recordcount is 1 and not listfindnocase(cgi.REDIRECT_URL,'media',"/") and not  isdefined("specID") >
 		<cfheader statuscode="301" statustext="Moved permanently">
@@ -436,9 +435,6 @@
 				<br>
 			</cfif>
 		</cfif>
-	<!---   	<cfif not isdefined("createSpecimenMediaShown")>
-			<a href="#h#">[ Create media ]</a>
-		</cfif>--->
 	</cfif>
 	<cfset q="">
 	<cfloop list="#StructKeyList(form)#" index="key">
@@ -452,8 +448,8 @@
 		 </cfif>
 	</cfloop>
 <main class="container" id="content">
-<div class="mt-4 row">
-	<div class="col-12">
+<div class="row">
+	<div class="col-12 mt-4">
 	<h3>Media Search Results</h3>
 	<cfsavecontent variable="pager">
 		<cfset Result_Per_Page=10>
@@ -462,12 +458,9 @@
 		<cfparam name="limit" default="1">
 		<cfset limit=URL.offset+Result_Per_Page>
 		<cfset start_result=URL.offset+1>
-
 		<cfif findIDs.recordcount gt 1>
-
 			Showing results #start_result# -
 			<cfif limit GT Total_Records> #Total_Records# <cfelse> #limit# </cfif> of #Total_Records#
-
 			<cfset URL.offset=URL.offset+1>
 			<cfif Total_Records GT Result_Per_Page>
 				<br>
@@ -493,9 +486,9 @@
 
 		</cfif>
 	</cfsavecontent>
-     <div class="mediaPager">
+	<div class="mediaPager">
 	#pager#
-   </div>
+	</div>
 	<cfset rownum=1>
 	<cfif url.offset is 0><cfset url.offset=1></cfif>
 
@@ -552,7 +545,7 @@
 	<tr #iif(rownum MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
 		<td>
 			<cfset mp=getMediaPreview(preview_uri,media_type)>
-            <table>
+			<table bordercolor="red">
 				<tr>
 					<td align="middle" style="padding-right:20px;width:300px;">
 						<a href="#media_uri#" target="_blank"><img src="#mp#" alt="#altText#" style="max-width:250px;max-height:250px;"></a>
@@ -607,12 +600,12 @@
 							<ul>
 							<cfloop query="mrel">
 								<li>#media_relationship#
-				                    <cfif len(#link#) gt 0>
-				                        <a href="#link#" target="_blank">#link_text#</a>
-				                    <cfelse>
+									<cfif len(#link#) gt 0>
+										<a href="#link#" target="_blank">#link_text#</a>
+									<cfelse>
 										#link_text#
 									</cfif>
-				             </li>
+								</li>
 							</cfloop>
 							</ul>
 						</cfif>
@@ -632,24 +625,13 @@
 					</td>
 				</tr>
 			</table>
-<!---			<cfquery name="tag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select count(*) n 
-				from tag 
-				where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-			</cfquery>--->
-			<br>
 			<cfif media_type is "multi-page document">
 				<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
 			</cfif>
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-		        <div class="mediaEdit"><a href="/media.cfm?action=edit&media_id=#media_id#">[ edit ]</a>
-					<!---
-                    <a href="/TAG.cfm?media_id=#media_id#">[ add or edit TAGs ]</a></div>
-					--->
-		    </cfif>
-<!---		    <cfif tag.n gt 0>
-                <div class="mediaEdit"><a href="/showTAG.cfm?media_id=#media_id#">[ View #tag.n# TAGs ]</a></div>
-			</cfif>--->
+				<div class="mediaEdit"><a href="/media.cfm?action=edit&media_id=#media_id#">[ edit ]</a>
+			</cfif>
+
 			<cfquery name="relM" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					media.media_id,
@@ -720,9 +702,9 @@
 #pager#
  </div>
 </cfoutput>
-				</div>
-				</div>
-				</main>
+	</div>
+	</div>
+	</main>
 </cfif>
                         </div>
 <cfinclude template="/includes/_footer.cfm">
