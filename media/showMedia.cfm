@@ -8,6 +8,7 @@
 
 <cfset metaDesc="Locate Media, including audio (sound recordings), video (movies), and images (pictures) of specimens, collecting sites, habitat, collectors, and more.">
 <cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
 <cfif isdefined("url.collection_object_id")>
 	<!--- TODO: See warning above, if requested with a collection_object_id, should redirect to the media search, need to confirm that it supports this api call: --->
      <!---
