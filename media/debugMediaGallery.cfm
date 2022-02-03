@@ -45,13 +45,13 @@
 		<div class="row">
 			<div class="container-fluid mt-5">
 				<h4>
-					fixedSmallThumb, no caption
+					fixedSmallThumb, textMid caption (for debugging mime types, likely want to use captionAs="textNone")
 				</h4>
-				<code>&lt;cfset mediablock= getMediaBlockHtml(media_id="##media_id##",displayAs="fixedSmallThumb",size="100", captionAs="textNone")&gt;</code>
+				<code>&lt;cfset mediablock= getMediaBlockHtml(media_id="##media_id##",displayAs="fixedSmallThumb",size="100", captionAs="textMid")&gt;</code>
 			</div>
 			<cfloop query="examples">
 				<div class="col-12 col-sm-6 col-md-4 col-xl-3 mt-5 bg-light">
-					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="fixedSmallThumb",size="100", captionAs="textNone")>
+					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="fixedSmallThumb",size="100", captionAs="textMid")>
 					<div id="mediaBlock#media_id#" class="border rounded">
 					#mediablock#
 					</div>
