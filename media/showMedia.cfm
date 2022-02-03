@@ -214,15 +214,16 @@
 									<br>#alt#
 								</p>
 							</div>
+						</div>
+	</div>
+</main>
 						</cfloop>
-									</div>
-				</div>
+							</div>
 					</div>
 				</cfif>
 				<cfset rownum=rownum+1>
 			</cfloop>
-		</div>
-	</div>
-</main>
+					</div>
+						</main>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
