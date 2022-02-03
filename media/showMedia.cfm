@@ -494,7 +494,7 @@
 
 
 
-<main class="container" id="content">
+<main class="container bg-light" id="content">
 
 <cfloop query="findIDs" startrow="#URL.offset#" endrow="#limit#">
 	<cfquery name="labels_raw"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -507,10 +507,10 @@
 			left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
 		where
 			media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-         and media_label <> 'credit'  -- obtained in the findIDs query.
-		   <cfif oneOfUs EQ 0>
-		    	and media_label <> 'internal remarks'
-		   </cfif>
+			and media_label <> 'credit'
+		<cfif oneOfUs EQ 0>
+			and media_label <> 'internal remarks'
+		</cfif>
 	</cfquery>
 	<cfquery name="labels" dbtype="query">
 		select media_label,label_value 
