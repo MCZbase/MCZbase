@@ -49,7 +49,7 @@
 <cfif #action# is "nothing">
 	
 	<cfoutput>
-			<div class="container px-5">Nothing Doing</div>
+			<div class="container px-5">Nothing--/media/showMedia.cfm Edit Media form</div>
     <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 		select media_relationship from ctmedia_relationship 
 		<cfif oneOfUs EQ 0>
@@ -213,7 +213,7 @@
 <!----------------------------------------------------------------------------------------->
 <cfif action is "search">
 <cfoutput>
-	<div class="container px-5">Search action</div>
+<div class="container px-5">Search action</div>
 <cfscript>
     function highlight(findIn,replaceThis) {
     	foundAt=FindNoCase(replaceThis,findIn);
@@ -451,8 +451,10 @@
 			<cfset q=listappend(q,"#key#=#url[key]#","&")>
 		 </cfif>
 	</cfloop>
-        <br><br>
-         <h3>Media Search Results</h3>
+<main class="container" id="content">
+<div class="mt-4 row">
+	<div class="col-12">
+	<h3>Media Search Results</h3>
 	<cfsavecontent variable="pager">
 		<cfset Result_Per_Page=10>
 		<cfset Total_Records=findIDs.recordcount>
@@ -718,7 +720,9 @@
 #pager#
  </div>
 </cfoutput>
-
+				</div>
+				</div>
+				</main>
 </cfif>
                         </div>
 <cfinclude template="/includes/_footer.cfm">
