@@ -149,7 +149,7 @@
 			<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
 				<cfinclude template="/media/showMedia.cfm">
 			<cfelse>
-				<cfinclude template="/MediaSearch.cfm">
+				<cfinclude template="/findMedia.cfm">
 			</cfif>
 			<cfcatch>
 				<cfinclude template="/errors/404.cfm">

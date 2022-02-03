@@ -6,6 +6,7 @@
 <!--- TODO: Any api call for more than one image needs to be redirected to either the media search, to show the list of matching images there, or to a new redesigned media gallery which would allow the display of multiple images in larger than thumbnail size along with their metadata --->
 <cfinclude template="/shared/_header.cfm">
 <script type='text/javascript' src='/shared/js/media.js'></script>
+<cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfoutput>
 <main class="container border-danger" id="content">
 	<div class="row">
