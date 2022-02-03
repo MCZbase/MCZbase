@@ -7,7 +7,7 @@
 <!--- TODO: Any api call for more than one image needs to be redirected to either the media search, to show the list of matching images there, or to a new redesigned media gallery which would allow the display of multiple images in larger than thumbnail size along with their metadata --->
 
 <cfset metaDesc="Locate Media, including audio (sound recordings), video (movies), and images (pictures) of specimens, collecting sites, habitat, collectors, and more.">
-<cfinclude template="/shared/_header.cfm">
+<cfinclude template="/includes/_header.cfm">
 <cfif isdefined("url.collection_object_id")>
 	<!--- TODO: See warning above, if requested with a collection_object_id, should redirect to the media search, need to confirm that it supports this api call: --->
      <!---
@@ -23,8 +23,6 @@
 
 <div class="container-fluid">
 <script type='text/javascript' src='/includes/media.js'></script>
-<script type='text/javascript' src='/media/js/media.js'></script>
-<cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 
 	<cfif isdefined("specID") and len(specID) gt 0>
@@ -41,8 +39,10 @@
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
+	<cfset isClicky = "likeLink">
 <cfelse>
 	<cfset oneOfUs = 0>
+	<cfset isClicky = "">
 </cfif>
 
 <!----------------------------------------------------------------------------------------->
@@ -50,7 +50,7 @@
 	
 	<cfoutput>
 			<div class="container px-5 editMediaform">Nothing--/media/showMedia.cfm Edit Media form</div>
-	<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 		select media_relationship from ctmedia_relationship 
 		<cfif oneOfUs EQ 0>
 			where media_relationship not like 'document%' and media_relationship not like '%permit'
@@ -71,14 +71,15 @@
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
 
-	<h2 class="wikilink">Search Media
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;">
-	</cfif>
-	</h2>
+    <br>
+    <h2 class="wikilink">Search Media
+      <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+        <img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;">
+      </cfif>
+    </h2>
 
 <form name="newMedia" method="post" action="">
-  <div class=" border-danger">
+  <div class="greenbox">
     <a name="kwFrm"></a>
   <p style="font-size: 14px;padding-bottom: 1em;">
       This form may not find very recent changes. You can use the also use the <a href="##relFrm">relational search form</a> below.
@@ -698,4 +699,4 @@
 	</main>
 </cfif>
                         </div>
-<cfinclude template="/shared/_footer.cfm">
+<cfinclude template="/includes/_footer.cfm">
