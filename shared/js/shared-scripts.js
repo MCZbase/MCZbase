@@ -617,6 +617,7 @@ function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex)
 	var maxZIndex = getMaxZIndex();
 	$("#"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
 };
+
 /** function createRowDetailsDialogNoBlanks works as createRowDetailsDialog, but leaves out fields 
   for which there is no value in the specified rowIndex.
 
@@ -1515,4 +1516,58 @@ function goImageByNumber(counter, imageMetadataArray, media_img, media_des, deta
 	$("#"+image_counter).val(currentCounter);
 	$("#"+media_des).html(currentImageMetadataRecord.alt);
 	return currentCounter;
+}
+
+/** Ajax reload method to accompany getMediaBlockHtml backing method 
+ * load an html block to display an image with metadata as a media widget,
+ * replaces the html of targetDiv with the response from the backing method,
+ * uses the default values for optional parameters.
+ *
+ * @param media_id the media object for which to return a media widget.
+ * @param targetDiv the id div for which to replace the html with the returned
+ *   media widget, as in an ajax refresh of the display of a media record, with
+ *   no leading # selector.
+ * @See getMediaBlock getMediaBlockHtml(media_id, targetDiv, displayAs, captionAs, size)
+ *   for more control on what is returned.
+ * @See backing method getMediaBlockHtml in /media/component/search for details.
+ */
+function getMediaBlockHtml(media_id,targetDiv) {
+	getMediaBlockHtml(media_id,targetDiv,"full","textFull","600");
+}
+
+/** Ajax reload method to accompany getMediaBlockHtml backing method 
+ * load an html block to display an image with metadata as a media widget,
+ * replaces the html of targetDiv with the response from the backing method.
+ *
+ * @param media_id the media object for which to return a media widget.
+ * @param targetDiv the id div for which to replace the html with the returned
+ *   media widget, as in an ajax refresh of the display of a media record, with
+ *   no leading # selector.
+ * @param displayAs how the image is to be displayed: full, thumb, fixedSmallThumb
+ * @param captionAs what information is to be displayed as a caption: 
+ *   textFull, textLinks, textNone.
+ * @param size an integer for the pixel height and width of the returned image.
+ * @See backing method getMediaBlockHtml in /media/component/search for details.
+ */
+function getMediaBlockHtml(media_id, targetDiv, displayAs, captionAs, size) { 
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/media/component/search.cfc",
+		data: { 
+			method : "getMediaBlockHtml",
+			media_id : media_id,
+			displayAs : displayAs,
+			captionAs : captionAs,
+			size : size,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			$('#' + targetDiv).html(result);
+		}
+	});
 }

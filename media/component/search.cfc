@@ -1036,7 +1036,7 @@ limitations under the License.
 
  @param media_id the media_id of the media record to display a media widget for.
  @param size the size, an integer for pixel size of the image tag to include in the widget, image tags are
-   always square, with the image fitted into this square preserving its aspect ratio within this 
+   always square (except for thumb), with the image fitted into this square preserving its aspect ratio within this 
    square, so size specifies both the height and width of the img tag in the returned html block,
    default is 600.
  @param displayAs the mode in which to display this media block, default is full, allowed values are
@@ -1045,7 +1045,7 @@ limitations under the License.
  @param captionAs the caption which should be shown, allowed values are textFull, textNone (no caption
    shown, image is linked to media record instead of the media_uri resource), textLinks (caption is 
    limited to links without descriptive text, image is linked to the media_uri resource).
- @parm styles a css value to use for style="" in the image tag.. 
+ @parm styles a css value to use for style="" in the image tag, probably required if thumb is specified.
 ---> 
 <cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">

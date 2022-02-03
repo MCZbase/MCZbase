@@ -83,30 +83,6 @@ function removeMedia(media_id,form) {
 		dataType: "html"
 	});
 };
-function getMediaBlockHtml(media_id,targetDiv) {
-	// TODO: Add support for displayAs and captionAs
-	jQuery.ajax(
-	{
-		dataType: "json",
-		url: "/media/component/search.cfc",
-		data: { 
-			method : "getMediaBlockHtml",
-			media_id : media_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		error: function (jqXHR, status, message) {
-			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-		},
-		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are images";
-				$('#' + targetDiv).html(message);
-			}
-		}
-	}
-	)
-};
 
 
 /** loadMedia populate an html block with the media 
