@@ -22,7 +22,7 @@
 						media.media_id = '1333'
 
 			</cfquery>
-			<cfloop query="findIDs" startrow="#URL.offset#" endrow="#limit#">
+			<cfloop query="findIDs">
 				<cfquery name="labels_raw"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
 						media_label,
