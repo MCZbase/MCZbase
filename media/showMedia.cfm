@@ -21,10 +21,14 @@
 						media
 					WHERE 
 						media.media_id = '1333'
-
 			</cfquery>
 			<cfloop query="findIDs">
-			#media_id#
+				<cfif len(images.media_id) gt 0>
+					<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",captionAs="textNone")>
+						<div class="float-left" id="mediaBlock#images.media_id#">
+							#mediablock#
+						</div>
+				</cfif>
 			</cfloop>
 		</div>
 	</div>
