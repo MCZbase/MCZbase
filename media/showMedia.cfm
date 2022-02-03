@@ -216,7 +216,7 @@
 <main class="container border-danger" id="content">
 	<div class="row">
 		<div class="col-12 mt-4 border-success">
-		<h3>Media Search Results</h3>
+		<h1 class="mt-4">Media Search Results</h1>
 			<cfscript>
 			function highlight(findIn,replaceThis) {
 				foundAt=FindNoCase(replaceThis,findIn);
