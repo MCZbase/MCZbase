@@ -20,7 +20,7 @@
 					From
 						media
 					WHERE 
-						media.media_id = '1333'
+						media.media_id = '#media_id#'
 			</cfquery>
 			<cfloop query="findIDs">
 				<cfif len(images.media_id) gt 0>
