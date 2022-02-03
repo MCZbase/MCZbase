@@ -7,7 +7,7 @@
 <!--- TODO: Any api call for more than one image needs to be redirected to either the media search, to show the list of matching images there, or to a new redesigned media gallery which would allow the display of multiple images in larger than thumbnail size along with their metadata --->
 
 <cfset metaDesc="Locate Media, including audio (sound recordings), video (movies), and images (pictures) of specimens, collecting sites, habitat, collectors, and more.">
-<cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
 <cfif isdefined("url.collection_object_id")>
 	<!--- TODO: See warning above, if requested with a collection_object_id, should redirect to the media search, need to confirm that it supports this api call: --->
      <!---
@@ -22,7 +22,7 @@
 </cfif>
 
 <div class="container-fluid">
-<script type='text/javascript' src='/includes/media.js'></script>
+<script type='text/javascript' src='/media/js/media.js'></script>
 <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 
 	<cfif isdefined("specID") and len(specID) gt 0>
@@ -698,4 +698,4 @@
 	</main>
 </cfif>
                         </div>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
