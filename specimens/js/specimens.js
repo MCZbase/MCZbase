@@ -84,6 +84,7 @@ function removeMedia(media_id,form) {
 	});
 };
 function getMediaBlockHtml(media_id,targetDiv) {
+	// TODO: Add support for displayAs and captionAs
 	jQuery.ajax(
 	{
 		dataType: "json",
