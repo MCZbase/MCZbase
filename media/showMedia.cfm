@@ -213,9 +213,9 @@
 <!----------------------------------------------------------------------------------------->
 <cfif action is "search">
 <cfoutput>
-<main class="container" id="content">
+<main class="container border-danger" id="content">
 	<div class="row">
-		<div class="col-12 mt-4">
+		<div class="col-12 mt-4 border-success">
 		<h3>Media Search Results</h3>
 			<cfscript>
 			function highlight(findIn,replaceThis) {
@@ -541,8 +541,7 @@
 		</cfif>
 		<cfset alt=desc.label_value>
 	</cfif>
-	<tr #iif(rownum MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-		<td>
+<div class="row striped">	
 			<cfset mp=getMediaPreview(preview_uri,media_type)>
 			<div class="row image_metadata"
 				<a href="#media_uri#" target="_blank"><img src="#mp#" alt="#altText#" style="max-width:250px;max-height:250px;"></a>
@@ -617,9 +616,9 @@
 								<strong>Keywords:</strong> #kwds#
 							</div>
 						</cfif>
-					</td>
-				</tr>
-			</table>
+				
+									</div>
+			</div>
 			<cfif media_type is "multi-page document">
 				<a href="/document.cfm?media_id=#media_id#">[ view as document ]</a>
 			</cfif>
