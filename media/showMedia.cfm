@@ -25,11 +25,6 @@
 			</cfquery>
 			<cfloop query="findIDs">
 			#media_id#
-						</cfloop>
-							</div>
-					</div>
-				</cfif>
-				<cfset rownum=rownum+1>
 			</cfloop>
 		</div>
 	</div>
