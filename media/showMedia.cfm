@@ -49,8 +49,8 @@
 <cfif #action# is "nothing">
 	
 	<cfoutput>
-			<div class="container px-5">Nothing--/media/showMedia.cfm Edit Media form</div>
-    <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			<div class="container px-5 editMediaform">Nothing--/media/showMedia.cfm Edit Media form</div>
+	<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 		select media_relationship from ctmedia_relationship 
 		<cfif oneOfUs EQ 0>
 			where media_relationship not like 'document%' and media_relationship not like '%permit'
@@ -71,15 +71,14 @@
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
 
-    <br>
-    <h2 class="wikilink">Search Media
-      <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-        <img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;">
-      </cfif>
-    </h2>
+	<h2 class="wikilink">Search Media
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		<img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;">
+	</cfif>
+	</h2>
 
 <form name="newMedia" method="post" action="">
-  <div class="greenbox">
+  <div class="greenbox border-danger">
     <a name="kwFrm"></a>
   <p style="font-size: 14px;padding-bottom: 1em;">
       This form may not find very recent changes. You can use the also use the <a href="##relFrm">relational search form</a> below.
@@ -135,7 +134,7 @@
  <br>
 
     <form name="newMedia" method="post" action="">
-          <div class="greenbox">
+          <div class="greenbox bg-primary">
     <a name="relFrm"></a>
     <div> <p style="font-size: 14px;padding-bottom: 1em;">You can use the also use the <a href="##kwFrm">keyword search form</a> above.</p> </div>
       <input type="hidden" name="action" value="search">
