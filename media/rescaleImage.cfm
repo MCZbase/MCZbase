@@ -138,10 +138,9 @@ Streams directly to response without use of CFFileServelet
 				<!--- cfimage source likely an https with a certificate authority too new for coldfusion --->
 				<!--- obtain with curl, using -k option for insecure download --->
 				<cftry>
-					<cfexecute name="curl" arguments = "#source# -k" timeout="10" variable="filestream">
-					<cfset filestream = ToBase64(filestream)>
-					<!--- TODO: Failing with or without ToBase64, add ?debug=true to get dump --->
-					<cfimage name="sourceImage" source="#filestream#">
+					<cfset filename = "cache_#media_id#_preview_uri.img">
+					<cfexecute name="curl" arguments="-k -o #Application.webDirectory#/temp/#filename# #source#" timeout="10" variable="filestream">
+					<cfimage name="sourceImage" source="#Application.webDirectory#/temp/#filename#">
 				<cfcatch>
 					<!--- unable to retrieve and use --->
 					<cfif isDefined("debug") AND len(debug) GT 0>
