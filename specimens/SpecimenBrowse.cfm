@@ -317,7 +317,9 @@ limitations under the License.
 										<cfset continent = "[No Value]">
 										<cfset continentLookup = "NULL">
 									</cfif>
-									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white"><a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">#continent# </a>
+									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white">
+										<a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">#continent# </a>
+										(#continents.ct#)
 									</li>
 									<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 										SELECT count(flat.collection_object_id) ct, geog_auth_rec.country
