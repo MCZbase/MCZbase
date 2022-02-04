@@ -147,8 +147,7 @@ Streams directly to response without use of CFFileServelet
 						<cfset failed = false>
 					<cfcatch>
 						<!--- that didn't work, clean up --->
-					<!---	<cffile action="delete" file="#Application.webDirectory#/temp/#filename#">--->
-							<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
+						<cffile action="delete" file="#Application.webDirectory#/temp/#filename#">
 					</cfcatch>
 					</cftry>
 				<cfcatch>
@@ -163,7 +162,8 @@ Streams directly to response without use of CFFileServelet
 
 			<cfif failed>
 				<cfif media_type is "image">
-					<cfset source = "#Application.webDirectory#/shared/images/Image-x-generic.png">
+					<!---<cfset source = "#Application.webDirectory#/shared/images/Image-x-generic.png">--->
+					<cfset source = "#Application.webDirectory#/shared/images/tag-placeholder.png">
 				<cfelseif media_type is "audio">
 					<cfset source =  "#Application.webDirectory#/shared/images/Gnome-audio-volume-medium.png">
 				<cfelseif media_type IS "video">
