@@ -356,7 +356,7 @@ limitations under the License.
 										<cfset regionVal = ocean_regions.ocean_region>
 										<cfset regionLookup = ocean_regions.ocean_region>
 										<cfif len(regionVal) EQ 0> 
-											<cfset regionVal = "[No Country Value]">
+											<cfset regionVal = "[No Ocean Region Value]">
 											<cfset regionLookup = "NULL">
 										</cfif>
 										<!--- TODO: Support ocean_region in specimen search API --->
