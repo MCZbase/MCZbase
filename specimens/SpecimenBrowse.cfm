@@ -2,7 +2,7 @@
 <!--
 specimens/SpecimenBrowse.cfm
 
-Copyright 2020 President and Fellows of Harvard College
+Copyright 2020-2022 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,41 +21,22 @@ limitations under the License.
 	<cfset action="featured">
 </cfif>
 <cfswitch expression="#action#">
-	<!--- API note: action and method seem duplicative, action is required and used to determine
-			which tab to show, method invokes target backing method in form submission, but when 
-			invoking this page with execute=true method does not need to be included in the call
-			even though it will be included in the URI parameter list when clicking on the 
-			"Link to this search" link.
-	--->
 	<cfcase value="browseprimarytypes">
 		<cfset pageTitle = "Browse Primary Types">
-		<cfif isdefined("execute")>
-			<cfset execute="primarytypes">
-		</cfif>
 	</cfcase>
 	<cfcase value="browsefeatured">
 		<cfset pageTitle = "Browse Featured Collections">
-		<cfif isdefined("execute")>
-			<cfset execute="featured">
-		</cfif>
 	</cfcase>
 	<cfcase value="browsehighergeo">
 		<cfset pageTitle = "Browse Higher Geography">
-		<cfif isdefined("execute")>
-			<cfset execute="highergeo">
-		</cfif>
 	</cfcase>
+	<cfcase value="browseislands">
+		<cfset pageTitle = "Browse Islands">
 	<cfcase value="browsetaxonomy">
 		<cfset pageTitle = "Browse Taxonomy">
-		<cfif isdefined("execute")>
-			<cfset execute="taxonomy">
-		</cfif>
 	</cfcase>
 	<cfdefaultcase>
 		<cfset pageTitle = "Browse Featured Collection">
-		<cfif isdefined("execute")>
-			<cfset execute="featured">
-		</cfif>
 	</cfdefaultcase>
 </cfswitch>
 <cfinclude template = "/shared/_header.cfm">
@@ -134,6 +115,18 @@ limitations under the License.
 	ORDER BY geog_auth_rec.continent_ocean
 </cfquery>
 
+<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+	SELECT count(flat.collection_object_id) ct, geog_auth_rec.island_group
+	FROM
+		geog_auth_rec
+		JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+			on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
+	WHERE
+		island_group is not null or island is not null
+	GROUP BY geog_auth_rec.island_group
+	ORDER BY geog_auth_rec.island_group
+</cfquery>
+
 <div class="container-fluid">
 	<div class="row mx-0 mb-4">
 	<h1 class="px-2 mt-4 mb-0 w-100 text-center">Browse MCZ Specimens by Category</h1>	
@@ -156,6 +149,9 @@ limitations under the License.
 								<cfset primarytypesTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset islandTabActive = "">
+								<cfset islandTabShow = "hidden">
+								<cfset islandTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfcase value="browseprimarytypes">
 								<cfset primarytypesTabActive = "active">
@@ -170,6 +166,9 @@ limitations under the License.
 								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset islandTabActive = "">
+								<cfset islandTabShow = "hidden">
+								<cfset islandTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfcase value="browsehighergeo">
 								<cfset primarytypesTabActive = "">
@@ -184,6 +183,9 @@ limitations under the License.
 								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset taxonomyTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset islandTabActive = "">
+								<cfset islandTabShow = "hidden">
+								<cfset islandTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfcase value="browsetaxonomy">
 								<cfset primarytypesTabActive = "">
@@ -198,6 +200,26 @@ limitations under the License.
 								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset taxonomyTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset islandTabActive = "">
+								<cfset islandTabShow = "hidden">
+								<cfset islandTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfcase>			
+							<cfcase value="browseislands">
+								<cfset primarytypesTabActive = "">
+								<cfset primarytypesTabShow = "hidden">
+								<cfset featuredTabActive = "">
+								<cfset featuredTabShow = "hidden">
+								<cfset highergeoTabActive = "">
+								<cfset highergeoTabShow = "hidden">
+								<cfset taxonomyTabActive = "">
+								<cfset taxonomyTabShow = "hidden">
+								<cfset primarytypesTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset featuredTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset islandTabActive = "active">
+								<cfset islandTabShow = "">
+								<cfset islandTabAria = "aria-selected=""true"" tabindex=""0"" ">
 							</cfcase>			
 							<cfdefaultcase>
 								<cfset featuredTabActive = "active">
@@ -212,6 +234,9 @@ limitations under the License.
 								<cfset primarytypesTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset highergeoTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 								<cfset taxonomyTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset islandTabActive = "">
+								<cfset islandTabShow = "hidden">
+								<cfset islandTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfdefaultcase>
 						</cfswitch>
 						<!-- Nav tabs -->
@@ -364,6 +389,48 @@ limitations under the License.
 										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&higher_geog=#continentLookupCleaned#%#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) </li>
 									</cfloop>
 									</cfif>
+								</cfloop>
+								</ul>
+							</div>
+							<div id="islandsPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandsTabActive# unfocus"  #islandsTabShow#>
+								<h3 class="px-2">Browse By Islands</h3>
+								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
+								<cfloop query="island_groups">
+									<cfset group = island_groups.island_group>
+									<cfset groupLookup = island_groups.island_group>
+									<cfif len(group) EQ 0> 
+										<cfset group = "[No Island Group]">
+										<cfset groupLookup = "NULL">
+									</cfif>
+									<!--- TODO: Support island/island_group in specimen search API --->
+									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white">
+										<a href="#specimenSearch#&higher_geog=#island_groups.island_group#">#group# </a>
+										(#island_groups.ct#)
+									</li>
+									<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+										SELECT count(flat.collection_object_id) ct, geog_auth_rec.island
+										FROM 
+											geog_auth_rec 
+											JOIN <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+												on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
+										WHERE
+											<cfif len(island_groups.island_group) EQ 0>
+												geog_auth_rec.island_group IS NULL
+											<cfelse> 
+												geog_auth_rec.continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR value="#island_groups.island_group#">
+											</cfif>
+										GROUP BY geog_auth_rec.island
+										ORDER BY geog_auth_rec.island
+									</cfquery>
+									<cfloop query="islands">
+										<cfset islandVal = islands.island>
+										<cfset islandLookup = islands.islands>
+										<cfif len(islandVal) EQ 0> 
+											<cfset islandVal = "[No Island Value]">
+											<cfset islandLookup = "NULL">
+										</cfif>
+										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </li>
+									</cfloop>
 								</cfloop>
 								</ul>
 							</div>
