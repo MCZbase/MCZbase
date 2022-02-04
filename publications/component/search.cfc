@@ -188,6 +188,21 @@ Function getTypeStatusSearchAutocomplete.  Search for type status values, return
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
+		<cfset row = StructNew()>
+		<cfset row["id"] = "any">
+		<cfset row["value"] = "Any" >
+		<cfset data[i]  = row>
+		<cfset i = i + 1>
+		<cfset row = StructNew()>
+		<cfset row["id"] = "any type">
+		<cfset row["value"] = "Any Type" >
+		<cfset data[i]  = row>
+		<cfset i = i + 1>
+		<cfset row = StructNew()>
+		<cfset row["id"] = "any primary">
+		<cfset row["value"] = "Any Primary Type" >
+		<cfset data[i]  = row>
+		<cfset i = i + 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.type_status#">

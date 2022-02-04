@@ -306,7 +306,7 @@ limitations under the License.
 											<!--- TODO: Support specimen search for any primary type --->
 											<cfif NOT lastCollection EQ primaryTypes.collection>
 												<li class="list-group-item bg-white float-left px-1 mb-2 w-100 font-weight-bold">
-													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_Status=Any%20Type"> #primaryTypes.collection# </a> 
+													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_Status=any%20primary"> #primaryTypes.collection# </a> 
 												</li>
 											</cfif>
 											<li class="list-group-item col-3 float-left px-1 mb-2">

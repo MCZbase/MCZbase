@@ -1143,7 +1143,36 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	</cfif>
 	<cfif isDefined("type_status") AND len(type_status) GT 0>
 		<cfset field = '"field": "citations_type_status"'>
-		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#type_status#",separator="#separator#",nestDepth="#nest#")>
+		<!--- handle special case values, any, any type, any primary --->
+		<cfset type_status_value = type_status>
+		<cfif type_status = "any">
+			<cfset type_status_value = "NOT NULL">
+		<cfelseif type_status = "any type">
+			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
+				SELECT type_status 
+				FROM ctcitation_type_status 
+				WHERE category = 'Primary' OR category = 'Secondary'
+			</cfquery>
+			<cfset type_status_value = "">
+			<cfset typeseparator = "">
+			<cfloop query="types">
+				<cfset type_status_value = "#type_status_value##typeseparator##types.type_status#">
+				<cfset typeseparator = ",">
+			</cfloop>
+		<cfelseif type_status = "any primary">
+			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
+				SELECT type_status 
+				FROM ctcitation_type_status 
+				WHERE category = 'Primary'
+			</cfquery>
+			<cfset type_status_value = "">
+			<cfset typeseparator = "">
+			<cfloop query="types">
+				<cfset type_status_value = "#type_status_value##typeseparator##types.type_status#">
+				<cfset typeseparator = ",">
+			</cfloop>
+		</cfif>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#type_status_value#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
