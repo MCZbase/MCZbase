@@ -93,9 +93,7 @@ limitations under the License.
 		<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
 			AND underscore_collection.mask_fg = 0
 		</cfif>
-		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-			AND underscore_collection_type is not null
-		<cfelse>
+		<cfif NOT isdefined("session.roles") AND listfindnocase(session.roles,"manage_specimens") EQ 0>
 			AND underscore_collection.underscore_collection_type <> 'workflow'
 		</cfif>
 	GROUP BY
