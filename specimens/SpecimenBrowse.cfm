@@ -314,20 +314,15 @@ limitations under the License.
 								</cfquery>
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
-										<cfquery name="country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-										select sum(ct) as ct, country 
-										from (
-											select count(*) ct, flat.country
-											from geog_auth_rec
-												left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-													on geog_auth_rec.country = flat.country
-											where flat.continent_ocean = '#continental.continent_ocean#'
-											and geog_auth_rec.continent_ocean = flat.continent_ocean
-											and flat.country is not null
-											group by flat.country
-											) 
-										group by  country
-										order by ct desc
+									<cfquery name="country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+										SELECT count(flat.collection_object_id) ct, geog_auth_rec_id.country
+										FROM geog_auth_rec 
+											left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+												on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
+										WHERE geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
+												and geog_auth_rec.country is not null
+										GROUP BY geog_auth_rec.country
+										ORDER BY geog_auth_rec.country
 									</cfquery>
 									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white"><a href="#specimenSearch#&higher_geog=#continental.continent_ocean#">#continental.continent_ocean# </a>
 <!---										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")><cfif len(country1.ct)gt 0>(#continental.ct#)</cfif></cfif>--->
