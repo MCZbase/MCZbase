@@ -329,7 +329,7 @@ limitations under the License.
 										GROUP BY geog_auth_rec.country
 										ORDER BY geog_auth_rec.country
 									</cfquery>
-									<cfloop query="countrie">
+									<cfloop query="countries">
 										<cfset country = countries.country_ocean>
 										<cfset countryLookup = countries.country_ocean>
 										<cfif len(country) EQ 0> 
