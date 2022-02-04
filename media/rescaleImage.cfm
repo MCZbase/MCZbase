@@ -125,7 +125,7 @@ Streams directly to response without use of CFFileServelet
 		<cfif lcase(background_color) EQ "white">
 			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/tag-placeholder.png">
 		<cfelse>
-			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
+			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/tag-placeholder.png">
 		</cfif>
 		<cfset ImageResize(targetImage,#fitWidth#,#fitHeight#,"highestPerformance") >
 		<cftry>
