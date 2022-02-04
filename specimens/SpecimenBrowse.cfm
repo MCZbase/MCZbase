@@ -400,7 +400,7 @@ limitations under the License.
 								</cfloop>
 								</ul>
 							</div>
-							<div id="islandsPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandsTabActive# unfocus"  #islandsTabShow#>
+							<div id="islandsPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 								<h3 class="px-2">Browse By Islands</h3>
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="island_groups">
