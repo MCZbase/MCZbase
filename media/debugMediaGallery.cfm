@@ -52,7 +52,7 @@
 			<cfloop query="examples">
 				<div class="col-12 col-sm-6 col-md-4 col-xl-3 mt-5 bg-light">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",displayAs="fixedSmallThumb",size="100", captionAs="textMid")>
-					<div id="mediaBlock#media_id#" class="border rounded">
+					<div id="mediaBlock#media_id#" class="border pt-2 rounded">
 					#mediablock#
 					</div>
 				</div>
