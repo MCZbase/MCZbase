@@ -1052,14 +1052,16 @@ limitations under the License.
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 	<cfargument name="captionAs" type="string" required="no" default="textFull">
-	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:auto">
+	<cfargument name="background" type="string" required="no" default="bg-light">
+<!---	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:auto">--->
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
-	<cfset l_styles = #arguments.styles#>
+<!---	<cfset l_styles = #arguments.styles#>--->
 	<cfset l_captionAs = #arguments.captionAs#>
+	<cfset l_background = #arguments.background#>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfif l_displayAs EQ "fixedSmallThumb">
 		<cfif l_size GT 100>
@@ -1107,13 +1109,14 @@ limitations under the License.
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
 							<cfif #l_displayAs# EQ "fixedSmallThumb">
-								<cfset hw = 'height="#l_size#px;" width="#l_size#px;"'>
-								<cfset sizeType='&width=#l_size#&height=#l_size#&background_color=white'>
+								<cfset hw = 'height="#l_size#" width="#l_size#"'>
+								<cfset sizeType='&width=#l_size#&height=#l_size#'>
+								<cfset #l_background# ='bg-light'>
 								<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeType#">
 							<cfelseif #l_displayAs# EQ "thumb">
 								<cfset displayImage = preview_uri>
 								<cfset hw = 'width="auto" height="auto"'>
-								<cfset l_styles = "max-width:150px;max-height:100px;">
+						<!---		<cfset l_styles = "max-width:150px;max-height:100px;">--->
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
 									<cfset sizeType='&width=#l_size#&height=#l_size#'>
@@ -1125,8 +1128,9 @@ limitations under the License.
 						<cfelse>
 							<cfif len(preview_uri) GT 0>
 								<cfif #l_displayAs# EQ "fixedSmallThumb">
-									<cfset hw = 'height="#l_size#px;" width="#l_size#px;"'>
-									<cfset sizeType='&width=#l_size#&height=#l_size#&background_color=white'>
+									<cfset hw = 'height="#l_size#" width="#l_size#"'>
+									<cfset sizeType='&width=#l_size#&height=#l_size#'>
+									<cfset #l_background#="bg-light">
 									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeType#">
 								<cfelse>
 									<!--- use a preview_uri, if one was specified --->
@@ -1135,7 +1139,7 @@ limitations under the License.
 									<!---	<cfset l_size = (#l_size#)/2>--->
 									<cfif #l_displayAs# eq "thumb">
 										<cfset hw = 'width="auto" height="auto"'>
-										<cfset l_styles = "max-width:150px;max-height:100px;">
+										<!---<cfset l_styles = "max-width:150px;max-height:100px;">--->
 									<cfelse>
 										<cfset hw = 'width="80" height="100"'><!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --->
 									</cfif>
@@ -1144,11 +1148,12 @@ limitations under the License.
 								<cfif #l_displayAs# EQ "fixedSmallThumb">
 									<!--- leave it to logic in media/rescaleImage.cfm to work out correct icon and rescale it to fit desired size --->
 									<cfset hw = 'height="#l_size#px;" width="#l_size#px;"'>
-									<cfset sizeType='&width=#l_size#&height=#l_size#&background_color=white'>
+									<cfset sizeType='&width=#l_size#&height=#l_size#'>
+									<cfset #l_background#="bg-white">
 									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeType#">
 								<cfelse>
 									<!--- fall back on an svg image of an appropriate generic icon --->
-									<cfset l_styles = "max-width:125px;max-height:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
+									<!---<cfset l_styles = "max-width:125px;max-height:auto;">---><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
 									<!--- pick placeholder --->
 									<cfif media_type is "image">
 										<cfset displayImage = "/shared/images/Image-x-generic.svg">
@@ -1177,7 +1182,7 @@ limitations under the License.
 								<cfset linkTarget = "#media.media_uri#">
 							</cfif>
 							<a href="#linkTarget#" target="_blank" class="d-block w-100 active text-center" title="click to access media">
-								<img src="#displayImage#" alt="#alt#" #hw# style="#l_styles#">
+								<img src="#displayImage#" alt="#alt#" #hw# class="#l_background#">
 							</a>
 							<cfif #l_captionAs# EQ "textNone">
 								<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
