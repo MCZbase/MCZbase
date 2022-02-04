@@ -214,7 +214,7 @@ Streams directly to response without use of CFFileServelet
 			</cfif>
 			<cfset ImageResize(targetImage,#fitWidth#,#fitHeight#,"highestPerformance") >
 			<cfif media_type is "image">
-				<cfset source = "#Application.webDirectory#/shared/images/Image-x-generic.png">
+				<cfset source = "#Application.webDirectory#/shared/images/tag-placeholder.png">
 			<cfelseif media_type is "audio">
 				<cfset source =  "#Application.webDirectory#/shared/images/Gnome-audio-volume-medium.png">
 			<cfelseif media_type IS "video">
@@ -226,7 +226,7 @@ Streams directly to response without use of CFFileServelet
 			<cfelseif media_type is "spectrometer data">
 				<cfset source = "#Application.webDirectory#/shared/images/Sine_waves_different_frequencies.png">
 			<cfelse>
-				<cfset source =  "#Application.webDirectory#/shared/images/Image-x-generic.png">
+				<cfset source =  "#Application.webDirectory#/shared/images/tag-placeholder.png">
 			</cfif>
 			<cfimage name="sourceImage" source="#source#">
 			<cfset sourceWidth = ImageGetWidth(sourceImage)>
