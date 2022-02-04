@@ -124,6 +124,16 @@ limitations under the License.
 	ORDER BY underscore_collection_type, lower(collection_name)
 </cfquery>
 
+<cfquery name="continents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+	SELECT count(flat.collection_object_id) ct, geog_auth_rec.continent_ocean
+	FROM
+		geog_auth_rec
+		JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+			on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
+	GROUP BY geog_auth_rec.continent_ocean
+	ORDER BY geog_auth_rec.continent_ocean
+</cfquery>
+
 <div class="container-fluid">
 	<div class="row mx-0 mb-4">
 	<h1 class="px-2 mt-4 mb-0 w-100 text-center">Browse MCZ Specimens by Category</h1>	
@@ -299,36 +309,34 @@ limitations under the License.
 							</div>
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
-								<cfquery name="continental" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-									SELECT count(*) ct, continent_ocean
-									FROM
-										geog_auth_rec
-									WHERE 
-										continent_ocean is not null
-										and continent_ocean not like '%/%'
-										and continent_ocean not like '%[no higher geography data]%'
-									GROUP BY 
-										continent_ocean
-									ORDER BY
-										continent_ocean
-								</cfquery>
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
-								<cfloop query="continental">
-									<cfquery name="country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+								<cfloop query="continents">
+									<cfset continent = continents.continent_ocean>
+									<cfset continentLookup = continents.continent_ocean>
+									<cfif len(continent) EQ 0> 
+										<cfset continent = "[No Value]">
+										<cfset continentLookup = "NULL">
+									</cfif>
+									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white"><a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">#continent# </a>
+									</li>
+									<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 										SELECT count(flat.collection_object_id) ct, geog_auth_rec.country
-										FROM geog_auth_rec 
-											left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+										FROM 
+											geog_auth_rec 
+											JOIN <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 												on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
-										WHERE geog_auth_rec.continent_ocean = '#continental.continent_ocean#'
-												and geog_auth_rec.country is not null
+										WHERE geog_auth_rec.continent_ocean = '#continents.continent_ocean#'
 										GROUP BY geog_auth_rec.country
 										ORDER BY geog_auth_rec.country
 									</cfquery>
-									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white"><a href="#specimenSearch#&higher_geog=#continental.continent_ocean#">#continental.continent_ocean# </a>
-<!---										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")><cfif len(country1.ct)gt 0>(#continental.ct#)</cfif></cfif>--->
-									</li>
-									<cfloop query="country">
-										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#country.country#">#country.country#</a> (#country.ct#) </li>
+									<cfloop query="countrie">
+										<cfset country = countries.country_ocean>
+										<cfset countryLookup = countries.country_ocean>
+										<cfif len(country) EQ 0> 
+											<cfset country = "[No Value]">
+											<cfset countryLookup = "NULL">
+										</cfif>
+										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#countryLookup#">#country#</a> (#country.ct#) </li>
 									</cfloop>
 								</cfloop>
 								</ul>
