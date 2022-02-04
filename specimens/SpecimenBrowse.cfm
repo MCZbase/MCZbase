@@ -314,9 +314,10 @@ limitations under the License.
 									<cfset continent = continents.continent_ocean>
 									<cfset continentLookup = continents.continent_ocean>
 									<cfif len(continent) EQ 0> 
-										<cfset continent = "[No Value]">
+										<cfset continent = "[No Continent Value]">
 										<cfset continentLookup = "NULL">
 									</cfif>
+									<!--- TODO: Support continent in specimen search API --->
 									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white">
 										<a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">#continent# </a>
 										(#continents.ct#)
@@ -335,11 +336,34 @@ limitations under the License.
 										<cfset countryVal = countries.country>
 										<cfset countryLookup = countries.country>
 										<cfif len(countryVal) EQ 0> 
-											<cfset countryVal = "[No Value]">
+											<cfset countryVal = "[No Country Value]">
 											<cfset countryLookup = "NULL">
 										</cfif>
 										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) </li>
 									</cfloop>
+									<cfif FindNoCase("ocean",continents.continent) GT 0>
+										<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+											SELECT count(flat.collection_object_id) ct, geog_auth_rec.ocean_region
+											FROM 
+												geog_auth_rec 
+												JOIN <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+													on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
+											WHERE geog_auth_rec.continent_ocean = '#continents.continent_ocean#'
+											GROUP BY geog_auth_rec.ocean_region
+											ORDER BY geog_auth_rec.ocean_region
+										</cfquery>
+										<cfloop query="ocean_regions">
+										<cfset regionVal = ocean_regions.ocean_region>
+										<cfset regionLookup = ocean_regions.ocean_region>
+										<cfif len(regionVal) EQ 0> 
+											<cfset regionVal = "[No Country Value]">
+											<cfset regionLookup = "NULL">
+										</cfif>
+										<!--- TODO: Support ocean_region in specimen search API --->
+										<cfif continentLookup EQ "NULL"><cfset continentLookupCleaned=""><cfelse><cfset continentLookupCleaned=continentLookup></cfif>
+										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&higher_geog=#continentLookupCleaned#%#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) </li>
+									</cfloop>
+									</cfif>
 								</cfloop>
 								</ul>
 							</div>
