@@ -32,6 +32,7 @@ limitations under the License.
 	</cfcase>
 	<cfcase value="browseislands">
 		<cfset pageTitle = "Browse Islands">
+	</cfcase>
 	<cfcase value="browsetaxonomy">
 		<cfset pageTitle = "Browse Taxonomy">
 	</cfcase>
