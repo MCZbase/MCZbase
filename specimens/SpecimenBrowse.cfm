@@ -418,7 +418,7 @@ limitations under the License.
 											<cfif len(island_groups.island_group) EQ 0>
 												geog_auth_rec.island_group IS NULL
 											<cfelse> 
-												geog_auth_rec.continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR value="#island_groups.island_group#">
+												geog_auth_rec.continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
 											</cfif>
 										GROUP BY geog_auth_rec.island
 										ORDER BY geog_auth_rec.island
