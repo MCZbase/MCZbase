@@ -1182,7 +1182,7 @@ limitations under the License.
 								<cfset linkTarget = "#media.media_uri#">
 							</cfif>
 							<a href="#linkTarget#" target="_blank" class="d-block w-100 active text-center" title="click to access media">
-								<img src="#displayImage#" alt="#alt#" #hw# styles="#l_styles#" class="#l_background#">
+								<img src="#displayImage#" alt="#alt#" #hw# style="#l_styles#" class="#l_background#">
 							</a>
 							<cfif #l_captionAs# EQ "textNone">
 								<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
