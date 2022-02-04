@@ -341,7 +341,7 @@ limitations under the License.
 										</cfif>
 										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) </li>
 									</cfloop>
-									<cfif FindNoCase("ocean",continents.continent) GT 0>
+									<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
 										<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 											SELECT count(flat.collection_object_id) ct, geog_auth_rec.ocean_region
 											FROM 
