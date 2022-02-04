@@ -175,7 +175,8 @@ Streams directly to response without use of CFFileServelet
 				<cfelseif media_type is "spectrometer data">
 					<cfset source = "#Application.webDirectory#/shared/images/Sine_waves_different_frequencies.png">
 				<cfelse>
-					<cfset source =  "#Application.webDirectory#/shared/images/Image-x-generic.png">
+					<!---<cfset source =  "#Application.webDirectory#/shared/images/Image-x-generic.png">--->
+					<cfset source = "#Application.webDirectory#/shared/images/tag-placeholder.png">
 				</cfif>
 				<cfimage name="sourceImage" source="#source#">
 			</cfif>
