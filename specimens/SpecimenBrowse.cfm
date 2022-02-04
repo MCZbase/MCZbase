@@ -85,8 +85,8 @@ limitations under the License.
 		underscore_collection.displayed_media_id
 	FROM
 		underscore_collection 
-		LEFT JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-		LEFT JOIN <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+		JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+		JOIN <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 			on underscore_relation.collection_object_id = flat.collection_object_id
 	WHERE
 		underscore_collection.underscore_collection_id IS NOT NULL
@@ -250,23 +250,13 @@ limitations under the License.
 							<div id="featuredPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
 								<h3 class="px-2">MCZ Featured Collections of Cataloged Items</h3>
 								<cfloop query="namedGroups">
-									<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT
-											displayed_media_id as media_id
-										FROM
-											underscore_relation 
-										INNER JOIN underscore_collection
-											on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										WHERE rownum = 1 
-										and underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#namedGroups.underscore_collection_id#">
-									</cfquery>
 									<cfif len(#namedGroups.description#)gt 0>
 										<div class="col-12 col-md-3 px-1 float-left my-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height: 118px;">
 												<div class="row mx-0">
-													<cfif len(images.media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb",captionAs="textNone")>
-															<div class="float-left" id="mediaBlock#images.media_id#">
+													<cfif len(namedGroups.displayed_media_id) gt 0>
+														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="thumb",captionAs="textNone")>
+															<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
 																#mediablock#
 															</div>
 													</cfif>
@@ -292,42 +282,34 @@ limitations under the License.
 								<h3 class="px-2">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
 									
-										<cfquery name="collectionID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-											SELECT collection
-											FROM
-												collection
-											where collection is not null
-											and collection != 'Herpetology Observations'
-											and collection != 'Special Collections'
-											and collection != 'MCZ Collections'
-											and collection != 'Cryogenic'
-											GROUP BY
-												collection
-											ORDER BY 
-												collection asc
-										</cfquery>
 										<ul class="d-flex flex-wrap px-1">
-										<cfloop query="collectionID">	
-											<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
-												SELECT collection, collection_id, toptypestatus, count(*) as ct
-												FROM
-													<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
-												WHERE
-													toptypestatuskind = 'Primary'
-													and collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collectionID.collection#">
-												GROUP BY
-													collection, collection_id, toptypestatus
-												order by ct desc
-											</cfquery>
+										<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
+											SELECT collection, collection_id, toptypestatus, count(collection_object_id) as ct
+											FROM
+												<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+											WHERE
+												toptypestatuskind = 'Primary'
+												and collection is not null
+												and collection != 'Herpetology Observations'
+												and collection != 'Special Collections'
+												and collection != 'MCZ Collections'
+												and collection != 'Cryogenic'
+											GROUP BY
+												collection, collection_id, toptypestatus
+											order by collection, toptypestatus
+										</cfquery>
+										<cfset lastCollection = "">
+										<cfloop query="primaryTypes">
 											<!--- TODO: Support specimen search for any primary type --->
-											<li class="list-group-item bg-white float-left px-1 mb-2 w-100 font-weight-bold">
-												<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_Status=Any%20Type"> #collection# </a> 
-											</li>
-											<cfloop query="primaryTypes">
-												<li class="list-group-item col-3 float-left px-1 mb-2">
-													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#"> #collection# #toptypestatus#</a> (#ct#)
+											<cfif NOT lastCollection EQ primaryTypes.collection>
+												<li class="list-group-item bg-white float-left px-1 mb-2 w-100 font-weight-bold">
+													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_Status=Any%20Type"> #primaryTypes.collection# </a> 
 												</li>
-											</cfloop>
+											</cfif>
+											<li class="list-group-item col-3 float-left px-1 mb-2">
+												<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#primaryTypes.toptypestatus#"> #primaryTypes.collection# #primaryTypes.toptypestatus#</a> (#ct#)
+											</li>
+											<cfset lastCollection = primaryTypes.collection>
 										</cfloop>
 									</ul>
 								</div>
