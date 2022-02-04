@@ -315,7 +315,7 @@ limitations under the License.
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
 									<cfquery name="country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-										SELECT count(flat.collection_object_id) ct, geog_auth_rec_id.country
+										SELECT count(flat.collection_object_id) ct, geog_auth_rec.country
 										FROM geog_auth_rec 
 											left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 												on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
