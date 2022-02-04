@@ -154,11 +154,7 @@
         </cfloop>
       </select>
       </div>
-       <div style="float:left;width: 150px;">
-      <label for="tag">Require TAG?</label>
-      <input type="checkbox" id="tag" name="tag" value="1">
-      </div>
-	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+     	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
           <div style="float:left;width: 150px;">
            <span>
                <label for "unlinked">Limit to Media not yet linked to any record.</label>
@@ -249,7 +245,12 @@
 						<cfset orSep = "">
 						AND (
 						<cfloop list="#keyword#" index="i" delimiters=",;: ">
-							#orSep# upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(i))#%">
+							<cfswitch expression="#orSep#">
+								<cfcase value="OR">OR</cfcase>
+								<cfcase value="AND">AND</cfcase>
+								<cfdefaultcase></cfdefaultcase>
+							</cfswitch>
+							upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(i))#%">
 							<cfif kwType is "any">
 								<cfset orSep = "OR">
 							<cfelse>
@@ -553,6 +554,26 @@
 						<cfif #media_type# eq "image">
 							<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#">Related images</a></span>
 						</cfif>
+						<cfif #media_type# eq "audio">
+							<!--- check for a transcript, link if present --->
+							<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									transcript.media_uri as transcript_uri,
+									transcript.media_id as trainscript_media_id
+								FROM
+									media_relations
+									left join media transcript on media_relations.related_primary_key = transcript.media_id
+								WHERE
+									media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+									and media_relationship = 'transcript for audio media'
+									and MCZBASE.is_media_encumbered(transcript.media_id) < 1
+							</cfquery>
+							<cfif checkforTranscript.recordcount GT 0>
+								<cfloop query="checkForTranscript">
+									<br><span style='font-size:small'><a href="#transcript_uri#">View Transcript</a></span>
+								</cfloop>
+							</cfif>
+						</cfif>
 					</td>
 					<td>
 						<cfif len(desc.label_value) gt 0>
@@ -576,11 +597,11 @@
 							<cfloop query="mrel">
 								<li>#media_relationship#
 				                    <cfif len(#link#) gt 0>
-				                        <a href="#link#" target="_blank">#summary#</a>
+				                        <a href="#link#" target="_blank">#link_text#</a>
 				                    <cfelse>
-										#summary#
+										#link_text#
 									</cfif>
-				                </li>
+				             </li>
 							</cfloop>
 							</ul>
 						</cfif>
