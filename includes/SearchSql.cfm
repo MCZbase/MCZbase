@@ -1562,7 +1562,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	<cfelseif #type_status# is "Any Type">
 		<cfset basQual = " #basQual# AND upper(#session.flatTableName#.TYPESTATUS) LIKE '%TYPE%'">
 	<cfelseif #type_status# is "any primary">
-		<cfset basQual = " #basQual# AND #session.flatTableName#.TYPESTATUS IN (select type_status from ctcitation_type_status where category = 'Primary') ">
+		<cfset basQual = " #basQual# AND #session.flatTableName#.TOPTYPESTATUSKIND = 'Primary' ">
 	<cfelseif #type_status# is "Type?" or #type_status# is "Type" or #type_status# is "Type (ms)">
 		<cfset basQual = " #basQual# AND #session.flatTableName#.TYPESTATUS LIKE '%#type_status# %'">
 	<cfelse>
