@@ -107,25 +107,22 @@ limitations under the License.
 </cfquery>
 
 <cfquery name="continents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-	SELECT count(flat.collection_object_id) ct, geog_auth_rec.continent_ocean
-	FROM
-		geog_auth_rec
-		JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-			on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
-	GROUP BY geog_auth_rec.continent_ocean
-	ORDER BY geog_auth_rec.continent_ocean
+	SELECT sum(coll_obj_count) as ct, continent_ocean
+	FROM cf_geog_cat_item_counts
+	WHERE
+		target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+	GROUP BY continent_ocean
+	ORDER BY continent_ocean
 </cfquery>
 
 <cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-	SELECT count(flat.collection_object_id) ct, geog_auth_rec.island_group
-	FROM
-		geog_auth_rec
-		JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-			on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
+	SELECT sum(coll_obj_count) as ct, island_group
+	FROM cf_geog_cat_item_counts
 	WHERE
-		geog_auth_rec.island_group is not null or geog_auth_rec.island is not null
-	GROUP BY geog_auth_rec.island_group
-	ORDER BY geog_auth_rec.island_group
+		(island_group IS NOT NULL OR island IS NOT NULL) AND 
+		target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+	GROUP BY island_group
+	ORDER BY island_group
 </cfquery>
 
 <div class="container-fluid">
@@ -351,19 +348,19 @@ limitations under the License.
 										(#continents.ct#)
 									</li>
 									<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-										SELECT count(flat.collection_object_id) ct, geog_auth_rec.country
+										SELECT sum(coll_obj_count) ct, country
 										FROM 
-											geog_auth_rec 
-											JOIN <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-												on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
+											cf_geog_cat_item_counts 
 										WHERE
+											target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+											AND
 											<cfif len(continents.continent_ocean) EQ 0>
-												geog_auth_rec.continent_ocean IS NULL
+												continent_ocean IS NULL
 											<cfelse> 
-												geog_auth_rec.continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
+												continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
 											</cfif>
-										GROUP BY geog_auth_rec.country
-										ORDER BY geog_auth_rec.country
+										GROUP BY country
+										ORDER BY country
 									</cfquery>
 									<cfloop query="countries">
 										<cfset countryVal = countries.country>
@@ -376,15 +373,17 @@ limitations under the License.
 									</cfloop>
 									<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
 										<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-											SELECT count(flat.collection_object_id) ct, geog_auth_rec.ocean_region
+											SELECT sum(coll_obj_count) ct, ocean_region
 											FROM 
-												geog_auth_rec 
-												JOIN <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-													on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
-											WHERE 
-												geog_auth_rec.continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
-											GROUP BY geog_auth_rec.ocean_region
-											ORDER BY geog_auth_rec.ocean_region
+												cf_geog_cat_item_counts 
+											WHERE
+												ocean_region IS NOT NULL 
+												AND
+												target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+												AND
+												continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
+											GROUP BY ocean_region
+											ORDER BY ocean_region
 										</cfquery>
 										<cfloop query="ocean_regions">
 										<cfset regionVal = ocean_regions.ocean_region>
@@ -417,19 +416,19 @@ limitations under the License.
 										(#island_groups.ct#)
 									</li>
 									<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-										SELECT count(flat.collection_object_id) ct, geog_auth_rec.island
+										SELECT sum(coll_obj_count) ct, island
 										FROM 
-											geog_auth_rec 
-											JOIN <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-												on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
+											cf_geog_cat_item_counts 
 										WHERE
+											target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+											AND
 											<cfif len(island_groups.island_group) EQ 0>
-												geog_auth_rec.island_group IS NULL
+												island_group IS NULL
 											<cfelse> 
-												geog_auth_rec.island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
+												island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
 											</cfif>
-										GROUP BY geog_auth_rec.island
-										ORDER BY geog_auth_rec.island
+										GROUP BY island
+										ORDER BY island
 									</cfquery>
 									<cfloop query="islands">
 										<cfset islandVal = islands.island>
