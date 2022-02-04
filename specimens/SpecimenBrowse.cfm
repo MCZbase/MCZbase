@@ -303,7 +303,6 @@ limitations under the License.
 											and collection != 'Herpetology Observations'
 											and collection != 'Special Collections'
 											and collection != 'MCZ Collections'
-											and collection != 'Cryogenic'
 											GROUP BY
 												collection
 											ORDER BY 
