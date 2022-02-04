@@ -314,7 +314,7 @@ limitations under the License.
 								</cfquery>
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continental">
-										<!---<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+										<cfquery name="country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 										select sum(ct) as ct, country 
 										from (
 											select count(*) ct, flat.country
@@ -323,26 +323,17 @@ limitations under the License.
 													on geog_auth_rec.country = flat.country
 											where flat.continent_ocean = '#continental.continent_ocean#'
 											and geog_auth_rec.continent_ocean = flat.continent_ocean
-												and flat.country not like '%/%'
 											and flat.country is not null
 											group by flat.country
 											) 
 										group by  country
 										order by ct desc
-									</cfquery>--->
-									<cfquery name="country1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-										SELECT count(*) ct, country
-										FROM geog_auth_rec
-										WHERE continent_ocean = '#continental.continent_ocean#'
-										AND country not like '%/%'
-										GROUP BY country
-										ORDER BY ct desc
 									</cfquery>
 									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white"><a href="#specimenSearch#&higher_geog=#continental.continent_ocean#">#continental.continent_ocean# </a>
 <!---										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")><cfif len(country1.ct)gt 0>(#continental.ct#)</cfif></cfif>--->
 									</li>
-									<cfloop query="country1">
-										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#country1.country#">#country1.country#</a> </li>
+									<cfloop query="country">
+										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#country.country#">#country.country#</a> (#country.ct#) </li>
 									</cfloop>
 								</cfloop>
 								</ul>
