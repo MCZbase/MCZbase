@@ -466,12 +466,54 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="form-row mb-2">
-											</div>
-											<div class="form-row mb-2">
-												<div class="col-12 col-md-2">
+												<div class="col-12 col-md-4">
 													<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
 													<label for="higher_geog" class="data-entry-label">Any Geographic Element</label>
 													<input type="text" class="data-entry-input" name="higher_geog" id="higher_geog" value="#higher_geog#">
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="ocean_region" class="data-entry-label">Ocean Region</label>
+													<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
+													<input type="text" class="data-entry-input" id="ocean_region" name="ocean_region" value="#ocean_region#">
+													<script>
+														jQuery(document).ready(function() {
+															makeGeogSearchAutocomplete('ocean_region','ocean_region');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="ocean_subregion" class="data-entry-label">Ocean Sub-Region</label>
+													<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
+													<input type="text" class="data-entry-input" id="ocean_subregion" name="ocean_subregion" value="#ocean_subregion#">
+													<script>
+														jQuery(document).ready(function() {
+															makeGeogSearchAutocomplete('ocean_subregion','ocean_subregion');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<label for="sea" class="data-entry-label">Sea</label>
+													<cfif not isdefined("sea")><cfset sea=""></cfif>
+													<input type="text" class="data-entry-input" id="sea" name="sea" value="#sea#">
+													<script>
+														jQuery(document).ready(function() {
+															makeGeogSearchAutocomplete('sea','sea');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+												</div>
+											</div>
+											<div class="form-row mb-2">
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
+													<label for="continent_ocean" class="data-entry-label">Continent/Ocean</label>
+													<input type="text" class="data-entry-input" name="continent_ocean" id="continent_ocean" value="#continent_ocean#">
+													<script>
+														jQuery(document).ready(function() {
+															makeGeogSearchAutocomplete('continent_ocean','continent_ocean');
+														});
+													</script>
 												</div>
 												<div class="col-12 col-md-2">
 													<label for="country" class="data-entry-label">Country</label>

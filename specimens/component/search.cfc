@@ -861,6 +861,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="scientific_name" type="string" required="no">
 	<cfargument name="taxon_name_id" type="string" required="no">
 	<cfargument name="higher_geog" type="string" required="no">
+	<cfargument name="continent_ocean" type="string" required="no">
+	<cfargument name="ocean_region" type="string" required="no">
+	<cfargument name="ocean_subregion" type="string" required="no">
+	<cfargument name="sea" type="string" required="no">
 	<cfargument name="country" type="string" required="no">
 	<cfargument name="state_prov" type="string" required="no">
 	<cfargument name="county" type="string" required="no">
@@ -1188,6 +1192,34 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("higher_geog") AND len(higher_geog) GT 0>
 		<cfset field = '"field": "higher_geog"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#higher_geog#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("continent_ocean") AND len(continent_ocean) GT 0>
+		<cfset field = '"field": "continent_ocean"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#continent_ocean#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("ocean_region") AND len(ocean_region) GT 0>
+		<cfset field = '"field": "ocean_region"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#ocean_region#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("ocean_subregion") AND len(ocean_subregion) GT 0>
+		<cfset field = '"field": "ocean_subregion"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#ocean_subregion#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("sea") AND len(sea) GT 0>
+		<cfset field = '"field": "sea"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#sea#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>

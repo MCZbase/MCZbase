@@ -354,7 +354,7 @@ limitations under the License.
 											<cfset countryVal = "[No Country Value]">
 											<cfset countryLookup = "NULL">
 										</cfif>
-										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) </li>
+										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) </li>
 									</cfloop>
 									<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
 										<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
@@ -377,9 +377,7 @@ limitations under the License.
 											<cfset regionVal = "[No Ocean Region Value]">
 											<cfset regionLookup = "NULL">
 										</cfif>
-										<!--- TODO: Support ocean_region in specimen search API --->
-										<cfif continentLookup EQ "NULL"><cfset continentLookupCleaned=""><cfelse><cfset continentLookupCleaned=continentLookup></cfif>
-										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&higher_geog=#continentLookupCleaned#%#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) </li>
+										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) </li>
 									</cfloop>
 									</cfif>
 								</cfloop>
@@ -422,7 +420,7 @@ limitations under the License.
 											<cfset islandVal = "[No Island Value]">
 											<cfset islandLookup = "NULL">
 										</cfif>
-										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </li>
+										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </li>
 									</cfloop>
 								</cfloop>
 								</ul>
