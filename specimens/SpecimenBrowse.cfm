@@ -432,7 +432,7 @@ limitations under the License.
 									</cfquery>
 									<cfloop query="islands">
 										<cfset islandVal = islands.island>
-										<cfset islandLookup = islands.islands>
+										<cfset islandLookup = islands.island>
 										<cfif len(islandVal) EQ 0> 
 											<cfset islandVal = "[No Island Value]">
 											<cfset islandLookup = "NULL">
