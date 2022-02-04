@@ -427,12 +427,15 @@ limitations under the License.
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<ul class="d-flex px-1 flex-wrap">
+									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white">Phyla</li>
 									<cfloop query="phyla">
 										<li class="list-group-item col-2 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
 									</cfloop>
+									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white">Orders with no value for Phylum</li>
 									<cfloop query="notphyla">
 										<li class="list-group-item col-2 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
 									</cfloop>
+									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white">Taxon records with no value for Kingdom</li>
 									<cfloop query="notkingdoms">
 										<li class="list-group-item col-2 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
 									</cfloop>
