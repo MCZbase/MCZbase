@@ -123,7 +123,7 @@ limitations under the License.
 		JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 			on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
 	WHERE
-		island_group is not null or island is not null
+		geog_auth_rec.island_group is not null or geog_auth_rec.island is not null
 	GROUP BY geog_auth_rec.island_group
 	ORDER BY geog_auth_rec.island_group
 </cfquery>
@@ -260,7 +260,7 @@ limitations under the License.
 										INNER JOIN underscore_collection
 											on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 										WHERE rownum = 1 
-										and underscore_relation.underscore_collection_id = #namedGroups.underscore_collection_id#
+										and underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#namedGroups.underscore_collection_id#">
 									</cfquery>
 									<cfif len(#namedGroups.description#)gt 0>
 										<div class="col-12 col-md-3 px-1 float-left my-1">
@@ -316,13 +316,14 @@ limitations under the License.
 													<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 												WHERE
 													toptypestatuskind = 'Primary'
-													and collection = '#collectionID.collection#'
+													and collection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collectionID.collection#">
 												GROUP BY
 													collection, collection_id, toptypestatus
 												order by ct desc
 											</cfquery>
+											<!--- TODO: Support specimen search for any primary type --->
 											<li class="list-group-item bg-white float-left px-1 mb-2 w-100 font-weight-bold">
-												<a href="##"> #collection# </a> 
+												<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_Status=Any%20Type"> #collection# </a> 
 											</li>
 											<cfloop query="primaryTypes">
 												<li class="list-group-item col-3 float-left px-1 mb-2">
@@ -354,7 +355,12 @@ limitations under the License.
 											geog_auth_rec 
 											JOIN <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 												on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
-										WHERE geog_auth_rec.continent_ocean = '#continents.continent_ocean#'
+										WHERE
+											<cfif len(continents.continent_ocean) EQ 0>
+												geog_auth_rec.continent_ocean IS NULL
+											<cfelse> 
+												geog_auth_rec.continent_ocean = <cfsqlparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
+											</cfif>
 										GROUP BY geog_auth_rec.country
 										ORDER BY geog_auth_rec.country
 									</cfquery>
@@ -374,7 +380,8 @@ limitations under the License.
 												geog_auth_rec 
 												JOIN <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 													on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
-											WHERE geog_auth_rec.continent_ocean = '#continents.continent_ocean#'
+											WHERE 
+												geog_auth_rec.continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
 											GROUP BY geog_auth_rec.ocean_region
 											ORDER BY geog_auth_rec.ocean_region
 										</cfquery>
@@ -418,7 +425,7 @@ limitations under the License.
 											<cfif len(island_groups.island_group) EQ 0>
 												geog_auth_rec.island_group IS NULL
 											<cfelse> 
-												geog_auth_rec.continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
+												geog_auth_rec.island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
 											</cfif>
 										GROUP BY geog_auth_rec.island
 										ORDER BY geog_auth_rec.island
