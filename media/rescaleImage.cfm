@@ -186,7 +186,7 @@ Streams directly to response without use of CFFileServelet
 		<cfset ulx = (fitWidth - sourceWidth)/2>
 		<cfif ulx LT 1 ><cfset ulx = 1></cfif>
 		<cfset sourceHeight = ImageGetHeight(sourceImage)>
-		<cfif #fitHeight# lt '500'>
+		<cfif #fitHeight# gt '1'>
 			<cfset uly = 1>
 		<cfelse>
 			<cfset uly = (fitHeight - sourceHeight)/2>
