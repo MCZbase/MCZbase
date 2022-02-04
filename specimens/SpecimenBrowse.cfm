@@ -330,13 +330,13 @@ limitations under the License.
 										ORDER BY geog_auth_rec.country
 									</cfquery>
 									<cfloop query="countries">
-										<cfset country = countries.country>
+										<cfset countryVal = countries.country>
 										<cfset countryLookup = countries.country>
-										<cfif len(country) EQ 0> 
-											<cfset country = "[No Value]">
+										<cfif len(countryVal) EQ 0> 
+											<cfset countryVal = "[No Value]">
 											<cfset countryLookup = "NULL">
 										</cfif>
-										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#countryLookup#">#country#</a> (#countries.ct#) </li>
+										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) </li>
 									</cfloop>
 								</cfloop>
 								</ul>
