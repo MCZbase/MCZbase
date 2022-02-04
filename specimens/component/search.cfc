@@ -1145,9 +1145,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset field = '"field": "citations_type_status"'>
 		<!--- handle special case values, any, any type, any primary --->
 		<cfset type_status_value = type_status>
-		<cfif type_status = "any">
+		<cfif lcase(type_status) EQ "any">
 			<cfset type_status_value = "NOT NULL">
-		<cfelseif type_status = "any type">
+		<cfelseif lcase(type_status) = "any type">
 			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
 				SELECT type_status 
 				FROM ctcitation_type_status 
@@ -1159,7 +1159,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfset type_status_value = "#type_status_value##typeseparator##types.type_status#">
 				<cfset typeseparator = ",">
 			</cfloop>
-		<cfelseif type_status = "any primary">
+		<cfelseif lcase(type_status) EQ "any primary">
 			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
 				SELECT type_status 
 				FROM ctcitation_type_status 
