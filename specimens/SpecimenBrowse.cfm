@@ -336,7 +336,7 @@ limitations under the License.
 											<cfset country = "[No Value]">
 											<cfset countryLookup = "NULL">
 										</cfif>
-										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#countryLookup#">#country#</a> (#country.ct#) </li>
+										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&country=#countryLookup#">#country#</a> (#countries.ct#) </li>
 									</cfloop>
 								</cfloop>
 								</ul>
