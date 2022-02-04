@@ -245,6 +245,7 @@ limitations under the License.
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #featuredTabActive#" id="1" role="tab" aria-controls="featuredPanel" #featuredTabAria# aria-label="Browse Featured Collections">Featured Collections of Cataloged Items</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #primarytypesTabActive#" id="2" role="tab" aria-controls="primarytypesPanel" #primarytypesTabAria# aria-label="Browse Primary Types">Primary Types</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #highergeoTabActive#" id="3" role="tab" aria-controls="highergeoPanel" #highergeoTabAria# aria-label="Browse Higher Geography">Higher Geography</button>
+							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #islandTabActive#" id="3" role="tab" aria-controls="islandPanel" #islandTabAria# aria-label="Browse Specimens by Islands and Island Groups">Islands</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #taxonomyTabActive#" id="4" role="tab" aria-controls="taxonomyPanel" #taxonomyTabAria# aria-label="Browse Taxonomy">Taxonomy</button>
 						</div>
 						<!-- Tab panes -->
@@ -400,7 +401,7 @@ limitations under the License.
 								</cfloop>
 								</ul>
 							</div>
-							<div id="islandsPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
+							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 								<h3 class="px-2">Browse By Islands</h3>
 								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="island_groups">
