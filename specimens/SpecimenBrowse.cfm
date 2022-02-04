@@ -70,7 +70,12 @@ limitations under the License.
 	order by scientific_name
 </cfquery> 
 
-<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+<!--- temporary code for testing production/redesign links on redesign branch --->
+<cfif not isDefined("links_for")>
+	<cfset links_for = "redesign">
+</cfif>
+<!--- end temporary code, but also remove links_for clause in next line.--->
+<cfif links_for EQ "redesign" AND findNoCase('redesign',Session.gitBranch) GT 0>
 	<cfset specimenSearch="/Specimens.cfm?execute=true&action=fixedSearch">
 <cfelse>
 	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
