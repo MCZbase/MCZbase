@@ -36,9 +36,9 @@ Streams directly to response without use of CFFileServelet
 <cfif NOT isdefined("use_thumb") OR len(use_thumb) EQ 0>
 	<cfset use_thumb = "false">
 </cfif>
-<!---<cfif NOT isdefined("background_color") OR len(background_color) EQ 0>
+<cfif NOT isdefined("background_color") OR len(background_color) EQ 0>
 	<cfset background_color = "grey">
-</cfif>--->
+</cfif>
 
 
 <cfif NOT isdefined("media_id") OR len(media_id) EQ 0>
@@ -122,11 +122,11 @@ Streams directly to response without use of CFFileServelet
 <cftry>
 	<cfif len(fitHeight) GT 0>
 		<!--- Rescale the image to fit an image of the specified fitWidth and fitHeight, preserving the original aspect ratio of the image within the fit height/width image with a background where the aspect ratio of the original and fit targets differ --->
-<!---		<cfif lcase(background_color) EQ "white">
+		<cfif lcase(background_color) EQ "white">
 			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/white_background.png">
 		<cfelse>
 			<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
-		</cfif>--->
+		</cfif>
 		<cfset ImageResize(targetImage,#fitWidth#,#fitHeight#,"highestPerformance") >
 		<cftry>
 			<cfimage name="sourceImage" source="#source#">
@@ -205,11 +205,11 @@ Streams directly to response without use of CFFileServelet
 			<cfimage source="#source#" name="targetImage">
 		<cfcatch>
 			<!--- Fail gracefully --->
-<!---			<cfif lcase(background_color) EQ "white">
+			<cfif lcase(background_color) EQ "white">
 				<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/white_background.png">
 			<cfelse>
 				<cfimage name="targetImage" source="#Application.webDirectory#/shared/images/grey_background.jpg">
-			</cfif>--->
+			</cfif>
 			<cfset ImageResize(targetImage,#fitWidth#,#fitHeight#,"highestPerformance") >
 			<cfif media_type is "image">
 				<cfset source = "#Application.webDirectory#/shared/images/Image-x-generic.png">
