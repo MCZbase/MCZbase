@@ -359,7 +359,7 @@ limitations under the License.
 											<cfif len(continents.continent_ocean) EQ 0>
 												geog_auth_rec.continent_ocean IS NULL
 											<cfelse> 
-												geog_auth_rec.continent_ocean = <cfsqlparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
+												geog_auth_rec.continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
 											</cfif>
 										GROUP BY geog_auth_rec.country
 										ORDER BY geog_auth_rec.country
