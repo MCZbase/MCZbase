@@ -1532,7 +1532,7 @@ function goImageByNumber(counter, imageMetadataArray, media_img, media_des, deta
  * @See backing method getMediaBlockHtml in /media/component/search for details.
  */
 function getMediaBlockHtml(media_id,targetDiv) {
-	getMediaBlockHtml(media_id,targetDiv,"full","textFull","600");
+	getMediaBlockHtml(media_id,targetDiv,"full","textFull","600","white");
 }
 
 /** Ajax reload method to accompany getMediaBlockHtml backing method 
@@ -1547,9 +1547,10 @@ function getMediaBlockHtml(media_id,targetDiv) {
  * @param captionAs what information is to be displayed as a caption: 
  *   textFull, textLinks, textNone.
  * @param size an integer for the pixel height and width of the returned image.
+ * @param background_color the background color to use if fixedSmallThumb is specified.
  * @See backing method getMediaBlockHtml in /media/component/search for details.
  */
-function getMediaBlockHtml(media_id, targetDiv, displayAs, captionAs, size) { 
+function getMediaBlockHtml(media_id, targetDiv, displayAs, captionAs, size, background_color) { 
 	jQuery.ajax(
 	{
 		dataType: "json",
@@ -1560,6 +1561,7 @@ function getMediaBlockHtml(media_id, targetDiv, displayAs, captionAs, size) {
 			displayAs : displayAs,
 			captionAs : captionAs,
 			size : size,
+			background_color : background_color,
 			returnformat : "json",
 			queryformat : 'column'
 		},
