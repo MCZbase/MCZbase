@@ -244,7 +244,7 @@ limitations under the License.
 										<div class="border rounded bg-white p-2 col-12 float-left" style="height:115px">
 											<div class="row h-25 mx-0">
 												<cfif len(namedGroups.displayed_media_id) gt 0>
-													<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background="bg-light",captionAs="textNone")>
+													<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
 													<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
 														#mediablock#
 													</div>
@@ -277,7 +277,7 @@ limitations under the License.
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:115px">
 												<div class="row h-25 mx-0">
 													<cfif len(namedGroups.displayed_media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",size="100",captionAs="textNone")>
+														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
 														<div class="float-left border" id="mediaBlock#namedGroups.displayed_media_id#">
 															#mediablock#
 														</div>
@@ -310,7 +310,7 @@ limitations under the License.
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:115px">
 												<div class="row h-25 mx-0">
 													<cfif len(namedGroups.displayed_media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",size="100",captionAs="textNone")>
+														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
 														<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
 															#mediablock#
 														</div>
@@ -344,7 +344,7 @@ limitations under the License.
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:115px">
 												<div class="row h-25 mx-0">
 													<cfif len(namedGroups.displayed_media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",size="100",captionAs="textNone")>
+														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
 														<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
 															#mediablock#
 														</div>
@@ -377,7 +377,7 @@ limitations under the License.
 												<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height:115px">
 													<div class="row h-25 mx-0">
 														<cfif len(namedGroups.displayed_media_id) gt 1>
-															<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",captionAs="textNone")>
+															<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb", background_color="white", size="100",captionAs="textNone")>
 															<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
 																#mediablock#
 															</div>

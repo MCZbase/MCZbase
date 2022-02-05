@@ -119,6 +119,13 @@ Streams directly to response without use of CFFileServelet
 	</cfif>
 </cfif>
 
+<!--- 
+	NOTE WEll:  
+	source is the original image file from media_uri, or its thumbnail from preview_uri or its replacement generic icon.
+	targetImage is a square grey or white image that is the target into which source is pasted to obtain a square or other specified aspect ratio return image.
+--->
+
+
 <cftry>
 	<cfif len(fitHeight) GT 0>
 		<!--- Rescale the image to fit an image of the specified fitWidth and fitHeight, preserving the original aspect ratio of the image within the fit height/width image with a background where the aspect ratio of the original and fit targets differ --->
@@ -186,12 +193,15 @@ Streams directly to response without use of CFFileServelet
 		<cfset ulx = (fitWidth - sourceWidth)/2>
 		<cfif ulx LT 1 ><cfset ulx = 1></cfif>
 		<cfset sourceHeight = ImageGetHeight(sourceImage)>
-		<cfif #fitHeight# lt '30'>
+		<cfif #fitHeight# lt '300'>
+			<!--- place the sourceImage(thumbnail) at the top of the targetImage(background square) --->
 			<cfset uly = 1>
 		<cfelse>
+			<!--- vertically center the sourceImage(thumbnail) in the targetImage(background square) --->
 			<cfset uly = (fitHeight - sourceHeight)/2>
 		</cfif>
 		<cfif uly LT 1 >
+			<!--- place the sourceImage(thumbnail) at the top of the targetImage(background square) --->
 			<cfset uly = 1>
 		</cfif>
 		<cfset ImagePaste(targetImage,sourceImage,ulx,uly)>
@@ -231,12 +241,15 @@ Streams directly to response without use of CFFileServelet
 			<cfset ulx = (fitWidth - sourceWidth)/2>
 			<cfif ulx LT 1 ><cfset ulx = 1></cfif>
 			<cfset sourceHeight = ImageGetHeight(sourceImage)>
-			<cfif #fitHeight# lt '30'>
+			<cfif #fitHeight# lt '300'>
+				<!--- place the sourceImage(thumbnail) at the top of the targetImage(background square) --->
 				<cfset uly = 1>
 			<cfelse>
 				<cfset uly = (fitHeight - sourceHeight)/2>
+				<!--- vertically center the sourceImage(thumbnail) in the targetImage(background square) --->
 			</cfif>
 			<cfif uly LT 1 >
+				<!--- place the sourceImage(thumbnail) at the top of the targetImage(background square) --->
 				<cfset uly = 1>
 			</cfif>
 			<cfset ImagePaste(targetImage,sourceImage,ulx,uly)>

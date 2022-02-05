@@ -1045,6 +1045,10 @@ limitations under the License.
  @param captionAs the caption which should be shown, allowed values are textFull, textNone (no caption
    shown, image is linked to media record instead of the media_uri resource), textLinks (caption is 
    limited to links without descriptive text, image is linked to the media_uri resource).
+ @param background_class a value for the class of the image tag, <img class="{background}", intended
+   for setting the background color for transparent images.
+ @param background_color white or grey, the background color of the non-transparent image produced in 
+   displayAs fixedSmallThumb, only applies to fixedSmallTnumb
  @parm styles a css value to use for style="" in the image tag, probably required if thumb is specified.
 ---> 
 <cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
@@ -1052,7 +1056,8 @@ limitations under the License.
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 	<cfargument name="captionAs" type="string" required="no" default="textFull">
-	<cfargument name="background" type="string" required="no" default="bg-light">
+	<cfargument name="background_class" type="string" required="no" default="bg-light">
+	<cfargument name="background_color" type="string" required="no" default="grey">
 	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:auto">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
@@ -1061,7 +1066,8 @@ limitations under the License.
 	<cfset l_size = #arguments.size#>
 	<cfset l_styles = #arguments.styles#>
 	<cfset l_captionAs = #arguments.captionAs#>
-	<cfset l_background = #arguments.background#>
+	<cfset l_background_class = #arguments.background_class#>
+	<cfset l_background_color = #arguments.background_color#>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfif l_displayAs EQ "fixedSmallThumb">
 		<cfif l_size GT 100>
@@ -1108,35 +1114,35 @@ limitations under the License.
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
+							<!--- the resource specified by media_uri should be an image that can be displayed in a browser with img src=media_uri --->
 							<cfif #l_displayAs# EQ "fixedSmallThumb">
 								<cfset hw = 'height="#l_size#" width="#l_size#"'>
-								<cfset sizeType='&width=#l_size#&height=#l_size#'>
-								<cfset #l_background# ='bg-light'>
-								<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeType#">
+								<cfset sizeParameters='&width=#l_size#&height=#l_size#'>
+								<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters#&background_color=#l_background_color#">
 							<cfelseif #l_displayAs# EQ "thumb">
 								<cfset displayImage = preview_uri>
 								<cfset hw = 'width="auto" height="auto"'>
 								<cfset l_styles = "max-width:150px;max-height:100px;">
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
-									<cfset sizeType='&width=#l_size#&height=#l_size#'>
-									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
+									<cfset sizeParameters='&width=#l_size#&height=#l_size#'>
+									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeParameters#">
 								<cfelse>
 									<cfset displayImage = media_uri>
 								</cfif>
 							</cfif>
 						<cfelse>
+							<!--- the resource specified by media_uri is not one that can be used in an image tag as img src="media_uri", we need to provide an alternative --->
 							<cfif len(preview_uri) GT 0>
+							 	<!--- there is a preview_uri, use that --->
 								<cfif #l_displayAs# EQ "fixedSmallThumb">
 									<cfset hw = 'height="#l_size#" width="#l_size#"'>
-									<cfset sizeType='&width=#l_size#&height=#l_size#'>
-									<cfset #l_background#="bg-light">
-									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeType#">
+									<cfset sizeParameters='&width=#l_size#&height=#l_size#'>
+									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters#&background_color=#l_background_color#">
 								<cfelse>
 									<!--- use a preview_uri, if one was specified --->
 									<!--- TODO: change test to regex on http... with some sort of is this an image test --->
 									<cfset displayImage = preview_uri>
-									<!---	<cfset l_size = (#l_size#)/2>--->
 									<cfif #l_displayAs# eq "thumb">
 										<cfset hw = 'width="auto" height="auto"'>
 										<cfset l_styles = "max-width:150px;max-height:100px;">
@@ -1148,9 +1154,8 @@ limitations under the License.
 								<cfif #l_displayAs# EQ "fixedSmallThumb">
 									<!--- leave it to logic in media/rescaleImage.cfm to work out correct icon and rescale it to fit desired size --->
 									<cfset hw = 'height="#l_size#px;" width="#l_size#px;"'>
-									<cfset sizeType='&width=#l_size#&height=#l_size#'>
-									<cfset #l_background#="bg-white">
-									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeType#">
+									<cfset sizeParameters='&width=#l_size#&height=#l_size#'>
+									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters#&background_color=#l_background_color#">
 								<cfelse>
 									<!--- fall back on an svg image of an appropriate generic icon --->
 									<cfset l_styles = "max-width:125px;max-height:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
@@ -1169,7 +1174,7 @@ limitations under the License.
 										<cfset displayImage = "/shared/images/Sine_waves_different_frequencies.svg">
 									<cfelse>
 										<cfset displayImage =  "/shared/images/tag-placeholder.svg">
-										<!---nothing was working for mime type--->
+										<!--- media_type is not on the known list --->
 									</cfif>
 								</cfif>
 							</cfif>
@@ -1182,7 +1187,7 @@ limitations under the License.
 								<cfset linkTarget = "#media.media_uri#">
 							</cfif>
 							<a href="#linkTarget#" target="_blank" class="d-block w-100 active text-center" title="click to access media">
-								<img src="#displayImage#" alt="#alt#" #hw# style="#l_styles#" class="#l_background#">
+								<img src="#displayImage#" alt="#alt#" #hw# style="#l_styles#" class="#l_background_class#">
 							</a>
 							<cfif #l_captionAs# EQ "textNone">
 								<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
