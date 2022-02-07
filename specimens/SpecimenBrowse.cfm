@@ -321,7 +321,7 @@ limitations under the License.
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<table class="table table-striped">
-								<tr class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
+								<tr class="list-group list-group-horizontal col-12 px-0 d-flex flex-wrap pb-2">
 								<cfloop query="continents">
 									<cfset continent = continents.continent_ocean>
 									<cfset continentLookup = continents.continent_ocean>
@@ -389,7 +389,7 @@ limitations under the License.
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-2">Browse By Islands</h3>
 								<table class="table table-striped">
-									<tr class="col-12 px-0 d-flex flex-wrap pb-2">
+									<tr class="list-group list-group-horizontal col-12 px-0 d-flex flex-wrap pb-2">
 									<cfloop query="island_groups">
 										<cfset group = island_groups.island_group>
 										<cfset groupLookup = island_groups.island_group>
@@ -424,7 +424,7 @@ limitations under the License.
 												<cfset islandVal = "[No Island Value]">
 												<cfset islandLookup = "NULL">
 											</cfif>
-											<td class="col-12 col-md-6 col-xl-4"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
+											<td class="list-group-item col-12 col-md-6 col-xl-4"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
 										</cfloop>
 									</cfloop>
 									</tr>
@@ -433,18 +433,18 @@ limitations under the License.
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<table class="table table-striped">
-									<tr class=" col-12 px-0 d-flex flex-wrap pb-2 d-flex flex-wrap">
+									<tr class="list-group list-group-horizontal col-12 px-0 d-flex flex-wrap pb-2 d-flex flex-wrap">
 										<td class="w-100 mt-2 border font-weight-bold bg-white">Phyla</td>
 										<cfloop query="phyla">
-											<td class="col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</td>
+											<td class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</td>
 										</cfloop>
 										<td class="w-100 mt-2 border font-weight-bold bg-white">Orders with no value for Phylum</td>
 										<cfloop query="notphyla">
-											<td class="col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</td>
+											<td class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</td>
 										</cfloop>
 										<td class="w-100 mt-2 font-weight-bold border bg-white">Taxon records with no value for Kingdom</td>
 										<cfloop query="notkingdoms">
-											<td class="col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</td>
+											<td class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</td>
 										</cfloop>
 									</tr>
 								</table>
