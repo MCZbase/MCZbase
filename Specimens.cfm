@@ -572,6 +572,7 @@ limitations under the License.
 															makeSpecLocalitySearchAutocomplete('spec_locality',);
 														});
 													</script>
+												</div>
 											</div>
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-3">
