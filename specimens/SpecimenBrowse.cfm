@@ -245,8 +245,8 @@ limitations under the License.
 							<button class="col-12 px-0 col-sm-3 px-0 col-xl-auto px-xl-5 my-1 my-md-0 #featuredTabActive#" id="1" role="tab" aria-controls="featuredPanel" #featuredTabAria# aria-label="Browse Featured Collections">Featured Collections of<br> Cataloged Items</button>
 							<button class="col-12 px-0 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #primarytypesTabActive#" id="2" role="tab" aria-controls="primarytypesPanel" #primarytypesTabAria# aria-label="Browse Primary Types">Primary<br> Types</button>
 							<button class="col-12 px-0 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #highergeoTabActive#" id="3" role="tab" aria-controls="highergeoPanel" #highergeoTabAria# aria-label="Browse Higher Geography">Higher<br> Geography</button>
-							<button class="col-12 px-0 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #islandTabActive#" id="3" role="tab" aria-controls="islandPanel" #islandTabAria# aria-label="Browse Specimens by Islands and Island Groups">Islands<br></button>
-							<button class="col-12 px-0 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #taxonomyTabActive#" id="4" role="tab" aria-controls="taxonomyPanel" #taxonomyTabAria# aria-label="Browse Taxonomy">Taxonomy<br></button>
+							<button class="col-12 px-0 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #islandTabActive#" id="3" role="tab" aria-controls="islandPanel" #islandTabAria# aria-label="Browse Specimens by Islands and Island Groups">Islands<br>&nbsp;&nbsp;</button>
+							<button class="col-12 px-0 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #taxonomyTabActive#" id="4" role="tab" aria-controls="taxonomyPanel" #taxonomyTabAria# aria-label="Browse Taxonomy">Taxonomy<br>&nbsp;&nbsp;</button>
 						</div>
 						<!-- Tab panes -->
 						<div class="tab-content flex-wrap d-flex mb-1">
