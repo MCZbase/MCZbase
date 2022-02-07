@@ -255,10 +255,10 @@ limitations under the License.
 								<cfloop query="namedGroups">
 									<cfif len(#namedGroups.description#)gt 0>
 										<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 float-left my-1">
-											<div class="border-white rounded bg-white p-2 col-12 float-left" style="height:118px;">
+											<div class="border-white rounded bg-white p-2 col-12 float-left" style="height:117px;">
 												<div class="row mx-0">
 													<cfif len(namedGroups.displayed_media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="grey",size="100",captionAs="textNone")>
+														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
 															<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
 																#mediablock#
 															</div>
@@ -285,7 +285,7 @@ limitations under the License.
 								<h3 class="px-2">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
 									<table class="table table-striped">
-										<tr class="d-flex flex-wrap px-1">
+										<tr class="list-group list-group-horizontal d-flex flex-wrap px-1">
 										<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 											SELECT collection, collection_id, toptypestatus, count(collection_object_id) as ct
 											FROM
@@ -305,11 +305,11 @@ limitations under the License.
 										<cfloop query="primaryTypes">
 											<!--- TODO: Support specimen search for any primary type --->
 											<cfif NOT lastCollection EQ primaryTypes.collection>
-												<td class="list-group-item bg-white float-left px-1 mb-2 w-100 font-weight-bold">
+												<td class="list-group-item bg-white border-white float-left px-2 mb-2 w-100 font-weight-bold">
 													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_Status=any%20primary"> #primaryTypes.collection# </a> 
 												</td>
 											</cfif>
-											<td class="list-group-item col-12 col-md-6 col-xl-4 float-left px-1 mb-2">
+											<td class="list-group-item col-12 col-md-6 col-xl-4 float-left px-2 mb-2">
 												<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#primaryTypes.toptypestatus#"> #primaryTypes.collection# #primaryTypes.toptypestatus#</a> (#ct#)
 											</td>
 											<cfset lastCollection = primaryTypes.collection>
