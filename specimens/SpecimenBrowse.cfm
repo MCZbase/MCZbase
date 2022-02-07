@@ -284,8 +284,8 @@ limitations under the License.
 							<div id="primarytypesPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
 								<h3 class="px-2">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
-									
-										<ul class="d-flex flex-wrap px-1">
+									<table class="table table-striped">
+										<tr class="d-flex flex-wrap px-1">
 										<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 											SELECT collection, collection_id, toptypestatus, count(collection_object_id) as ct
 											FROM
@@ -305,16 +305,17 @@ limitations under the License.
 										<cfloop query="primaryTypes">
 											<!--- TODO: Support specimen search for any primary type --->
 											<cfif NOT lastCollection EQ primaryTypes.collection>
-												<li class="list-group-item bg-white float-left px-1 mb-2 w-100 font-weight-bold">
+												<td class="list-group-item bg-white float-left px-1 mb-2 w-100 font-weight-bold">
 													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_Status=any%20primary"> #primaryTypes.collection# </a> 
-												</li>
+												</td>
 											</cfif>
-											<li class="list-group-item col-3 float-left px-1 mb-2">
+											<td class="list-group-item col-3 float-left px-1 mb-2">
 												<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#primaryTypes.toptypestatus#"> #primaryTypes.collection# #primaryTypes.toptypestatus#</a> (#ct#)
-											</li>
+											</td>
 											<cfset lastCollection = primaryTypes.collection>
 										</cfloop>
-									</ul>
+									</tr>
+								</table>
 								</div>
 							</div>
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
@@ -388,7 +389,7 @@ limitations under the License.
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-2">Browse By Islands</h3>
 								<table class="table table-striped">
-									<tr class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
+									<tr class="col-12 px-0 d-flex flex-wrap pb-2">
 									<cfloop query="island_groups">
 										<cfset group = island_groups.island_group>
 										<cfset groupLookup = island_groups.island_group>
@@ -397,7 +398,7 @@ limitations under the License.
 											<cfset groupLookup = "NULL">
 										</cfif>
 										<!--- TODO: Support island/island_group in specimen search API --->
-										<td class="w-100 list-group-item border mt-2 font-weight-bold bg-white">
+										<td class="w-100 border mt-2 font-weight-bold bg-white">
 											<a href="#specimenSearch#&higher_geog=#island_groups.island_group#">#group# </a>
 											(#island_groups.ct#)
 										</td>
@@ -423,7 +424,7 @@ limitations under the License.
 												<cfset islandVal = "[No Island Value]">
 												<cfset islandLookup = "NULL">
 											</cfif>
-											<td class="list-group-item col-12 col-md-6 col-xl-4"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
+											<td class="col-12 col-md-6 col-xl-4"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
 										</cfloop>
 									</cfloop>
 									</tr>
