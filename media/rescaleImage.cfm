@@ -20,6 +20,42 @@ limitations under the License.
 Streams directly to response without use of CFFileServelet
 
 --->
+<!--- 
+
+Expectations: Will always deliver an image file, unless debug=true is specified, in which case html may be delivered.
+
+API
+
+*** planned, not yet implemented ***
+
+@param media_id  required, the media id to display, if none is given, returns an error icon image.
+
+@param display = {media|preview}, default media
+	if media: tries to use the media_uri, if this is not displayable, falls back to (a) 
+		preview_uri if the requested size is small, if requested size is not small
+		or no preview_uri is available, then (b) falls back to a generic icon based on the media_type.
+	if preview: uses the preview_uri, if this is not specified, then falls back to
+		a generic icon based on the media type.
+
+@param width width of the image to return in pixels, height depends on the value of aspectRatio.
+
+@param aspectRatio {original|square} default square
+	if square, returns an image where width=height={pixels specified in width parameter} and 
+		the the original image (media_uri, preview_uri, or fallback icon) is placed within that 
+		square filling its entire height or width, with extra space on top/bottom or left right
+		filled with the background color specified in background.
+	if original, returns an image where width={pixels specified in width parameter} and height=
+		height of the original image scaled by the ratio of its width to the specified width 
+		(retaining the aspect ratio of the original image (media_uri, preview_uri, or fallback icon)
+
+@param background = {grey|white} default grey
+	the background color to fill a square image outside the bounds of the aspect ratio of the
+	original image (media_uri, preview_uri, or fallback icon).
+	the background parameter is ignored if aspect ratio is original. 
+
+@param debug, if true, will dump exceptions as html instead of returning an error image.
+
+---->
 <!--- Setup default conditions --->
 <cfset fitHeight = "">
 <cfif isdefined("width") AND len(width) GT 0 and IsNumeric(width)>
