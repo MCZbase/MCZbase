@@ -423,7 +423,7 @@ limitations under the License.
 											<cfset islandVal = "[No Island Value]">
 											<cfset islandLookup = "NULL">
 										</cfif>
-										<td class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
+										<td class="list-group-item col-12 col-md-6 col-xl-4"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
 									</cfloop>
 								</cfloop>
 								</tr>
@@ -434,15 +434,15 @@ limitations under the License.
 								<ul class="d-flex px-1 flex-wrap">
 									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white">Phyla</li>
 									<cfloop query="phyla">
-										<li class="list-group-item col-2 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
+										<li class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
 									</cfloop>
-									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white">Orders with no value for Phylum</li>
+									<li class="w-100 list-group-item mt-2 border font-weight-bold bg-white">Orders with no value for Phylum</li>
 									<cfloop query="notphyla">
-										<li class="list-group-item col-2 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
+										<li class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
 									</cfloop>
-									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white">Taxon records with no value for Kingdom</li>
+									<li class="w-100 list-group-item mt-2 font-weight-bold border bg-white">Taxon records with no value for Kingdom</li>
 									<cfloop query="notkingdoms">
-										<li class="list-group-item col-2 px-1 float-left w-100 h-auto" style="word-wrap:break-word;"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
+										<li class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
 									</cfloop>
 								</ul>
 							</div>
