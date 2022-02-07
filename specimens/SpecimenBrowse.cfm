@@ -241,7 +241,7 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>
 						<!-- Nav tabs -->
-						<div class="tab-headers tabList" role="tablist" aria-label="browse specimens">
+						<div class="tab-headers tabList px-0 px-md-3" role="tablist" aria-label="browse specimens">
 							<button class="col-12 px-1 col-sm-3 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 #featuredTabActive#" id="1" role="tab" aria-controls="featuredPanel" #featuredTabAria# aria-label="Browse Featured Collections">Featured Collections of<br> Cataloged Items</button>
 							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #primarytypesTabActive#" id="2" role="tab" aria-controls="primarytypesPanel" #primarytypesTabAria# aria-label="Browse Primary Types">Primary<br> Types</button>
 							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 #highergeoTabActive#" id="3" role="tab" aria-controls="highergeoPanel" #highergeoTabAria# aria-label="Browse Higher Geography">Higher<br> Geography</button>
@@ -254,7 +254,7 @@ limitations under the License.
 								<h3 class="px-2">MCZ Featured Collections of Cataloged Items</h3>
 								<cfloop query="namedGroups">
 									<cfif len(#namedGroups.description#)gt 0>
-										<div class="col-12 col-md-3 px-1 float-left my-1">
+										<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 float-left my-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height: 118px;">
 												<div class="row mx-0">
 													<cfif len(namedGroups.displayed_media_id) gt 0>
