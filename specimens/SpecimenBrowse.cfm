@@ -388,7 +388,7 @@ limitations under the License.
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-2">Browse By Islands</h3>
-								<table class="table table-striped">
+								<table class="table">
 									<tr class="list-group list-group-horizontal border-bottom col-12 px-0 d-flex flex-wrap pb-2">
 									<cfloop query="island_groups">
 										<cfset group = island_groups.island_group>
