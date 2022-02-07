@@ -309,7 +309,7 @@ limitations under the License.
 													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_Status=any%20primary"> #primaryTypes.collection# </a> 
 												</td>
 											</cfif>
-											<td class="list-group-item col-3 float-left px-1 mb-2">
+											<td class="list-group-item col-12 col-md-6 col-xl-4 float-left px-1 mb-2">
 												<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#primaryTypes.toptypestatus#"> #primaryTypes.collection# #primaryTypes.toptypestatus#</a> (#ct#)
 											</td>
 											<cfset lastCollection = primaryTypes.collection>
