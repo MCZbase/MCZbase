@@ -432,18 +432,18 @@ limitations under the License.
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<table class="table table-striped">
-									<tr class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2 d-flex px-0 flex-wrap">
-										<td class="w-100 list-group-item mt-2 border font-weight-bold bg-white">Phyla</td>
+									<tr class=" col-12 px-0 d-flex flex-wrap pb-2 d-flex flex-wrap">
+										<td class="w-100 mt-2 border font-weight-bold bg-white">Phyla</td>
 										<cfloop query="phyla">
-											<td class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</td>
+											<td class="col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</td>
 										</cfloop>
-										<td class="w-100 list-group-item mt-2 border font-weight-bold bg-white">Orders with no value for Phylum</td>
+										<td class="w-100 mt-2 border font-weight-bold bg-white">Orders with no value for Phylum</td>
 										<cfloop query="notphyla">
 											<td class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</td>
 										</cfloop>
-										<td class="w-100 list-group-item mt-2 font-weight-bold border bg-white">Taxon records with no value for Kingdom</td>
+										<td class="w-100 mt-2 font-weight-bold border bg-white">Taxon records with no value for Kingdom</td>
 										<cfloop query="notkingdoms">
-											<td class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</td>
+											<td class=" col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</td>
 										</cfloop>
 									</tr>
 								</table>
