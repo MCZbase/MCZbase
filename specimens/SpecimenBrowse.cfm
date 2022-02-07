@@ -282,7 +282,7 @@ limitations under the License.
 								</cfloop>
 							</div>
 							<div id="primarytypesPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
-								<h3 class="px-2">Primary Types</h3>			
+								<h3 class="px-3">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
 									<table class="table table-striped">
 										<tr class="list-group list-group-horizontal d-flex flex-wrap px-1">
@@ -309,7 +309,7 @@ limitations under the License.
 													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_Status=any%20primary"> #primaryTypes.collection# </a> 
 												</td>
 											</cfif>
-											<td class="list-group-item col-12 col-md-6 col-xl-4 float-left px-2 mb-2">
+											<td class="list-group-item col-12 col-md-6 col-xl-3 float-left px-2 mb-2">
 												<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#primaryTypes.toptypestatus#"> #primaryTypes.collection# #primaryTypes.toptypestatus#</a> (#ct#)
 											</td>
 											<cfset lastCollection = primaryTypes.collection>
