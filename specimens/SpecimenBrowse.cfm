@@ -389,7 +389,7 @@ limitations under the License.
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-2">Browse By Islands</h3>
 								<table class="table table-striped">
-									<tr class="list-group list-group-horizontal col-12 px-0 d-flex flex-wrap pb-2">
+									<tr class="list-group list-group-horizontal border-bottom col-12 px-0 d-flex flex-wrap pb-2">
 									<cfloop query="island_groups">
 										<cfset group = island_groups.island_group>
 										<cfset groupLookup = island_groups.island_group>
@@ -398,7 +398,7 @@ limitations under the License.
 											<cfset groupLookup = "NULL">
 										</cfif>
 										<!--- TODO: Support island/island_group in specimen search API --->
-										<td class="w-100 border-white pb-2 mt-2 font-weight-bold bg-white">
+										<td class="w-100 border-none pb-2 mt-2 font-weight-bold bg-white">
 											<a href="#specimenSearch#&higher_geog=#island_groups.island_group#">#group# </a>
 											(#island_groups.ct#)
 										</td>
@@ -424,7 +424,7 @@ limitations under the License.
 												<cfset islandVal = "[No Island Value]">
 												<cfset islandLookup = "NULL">
 											</cfif>
-											<td class="list-group-item col-12 col-md-6 py-2 col-xl-4"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
+											<td class="list-group-item border-none col-12 col-md-6 py-2 col-xl-4"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
 										</cfloop>
 									</cfloop>
 									</tr>
