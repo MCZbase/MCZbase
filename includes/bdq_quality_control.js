@@ -240,6 +240,9 @@ console.log(postkey);
 
 				// Iterate through amendments (would need to obtain acted upon/consulted annotations on terms to fully present as changes to terms).
 				// Could extract change terms from values and present in term centric rather than test centric view.
+				if (JQuery.isEmptyObject(amend)) { 
+					displayamendments = displayamendments + "<li><span>None</span></li>";
+				}
 				for (var k in amend) { 
 					var key = amend[k];
 					if (key.status == 'FILLED_IN') { 		
