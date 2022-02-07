@@ -240,9 +240,7 @@ console.log(postkey);
 
 				// Iterate through amendments (would need to obtain acted upon/consulted annotations on terms to fully present as changes to terms).
 				// Could extract change terms from values and present in term centric rather than test centric view.
-				if (JQuery.isEmptyObject(amend)) { 
-					displayamendments = displayamendments + "<li><span>None</span></li>";
-				}
+				var amendmentCount = 0;
 				for (var k in amend) { 
 					var key = amend[k];
 					if (key.status == 'FILLED_IN') { 		
@@ -253,6 +251,10 @@ console.log(postkey);
   						cs=""; ce="";
 					}
 					displayamendments = displayamendments + "<li><span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></li>";
+					amendmentCount++;
+				}
+				if (amendmentCount==0) { 
+					displayamendments = displayamendments + "<li><span>None</span></li>";
 				}
 
 				// Iterate through post-amendment tests to calculate postpass.
