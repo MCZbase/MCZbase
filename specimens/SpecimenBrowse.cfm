@@ -387,64 +387,66 @@ limitations under the License.
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-2">Browse By Islands</h3>
-							<table class="table table-striped">
-								<tr class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
-								<cfloop query="island_groups">
-									<cfset group = island_groups.island_group>
-									<cfset groupLookup = island_groups.island_group>
-									<cfif len(group) EQ 0> 
-										<cfset group = "[No Island Group]">
-										<cfset groupLookup = "NULL">
-									</cfif>
-									<!--- TODO: Support island/island_group in specimen search API --->
-									<td class="w-100 list-group-item border mt-2 font-weight-bold bg-white">
-										<a href="#specimenSearch#&higher_geog=#island_groups.island_group#">#group# </a>
-										(#island_groups.ct#)
-									</td>
-									<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-										SELECT sum(coll_obj_count) ct, island
-										FROM 
-											cf_geog_cat_item_counts 
-										WHERE
-											target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
-											AND
-											<cfif len(island_groups.island_group) EQ 0>
-												island_group IS NULL
-											<cfelse> 
-												island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
-											</cfif>
-										GROUP BY island
-										ORDER BY island
-									</cfquery>
-									<cfloop query="islands">
-										<cfset islandVal = islands.island>
-										<cfset islandLookup = islands.island>
-										<cfif len(islandVal) EQ 0> 
-											<cfset islandVal = "[No Island Value]">
-											<cfset islandLookup = "NULL">
+								<table class="table table-striped">
+									<tr class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
+									<cfloop query="island_groups">
+										<cfset group = island_groups.island_group>
+										<cfset groupLookup = island_groups.island_group>
+										<cfif len(group) EQ 0> 
+											<cfset group = "[No Island Group]">
+											<cfset groupLookup = "NULL">
 										</cfif>
-										<td class="list-group-item col-12 col-md-6 col-xl-4"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
+										<!--- TODO: Support island/island_group in specimen search API --->
+										<td class="w-100 list-group-item border mt-2 font-weight-bold bg-white">
+											<a href="#specimenSearch#&higher_geog=#island_groups.island_group#">#group# </a>
+											(#island_groups.ct#)
+										</td>
+										<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+											SELECT sum(coll_obj_count) ct, island
+											FROM 
+												cf_geog_cat_item_counts 
+											WHERE
+												target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+												AND
+												<cfif len(island_groups.island_group) EQ 0>
+													island_group IS NULL
+												<cfelse> 
+													island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
+												</cfif>
+											GROUP BY island
+											ORDER BY island
+										</cfquery>
+										<cfloop query="islands">
+											<cfset islandVal = islands.island>
+											<cfset islandLookup = islands.island>
+											<cfif len(islandVal) EQ 0> 
+												<cfset islandVal = "[No Island Value]">
+												<cfset islandLookup = "NULL">
+											</cfif>
+											<td class="list-group-item col-12 col-md-6 col-xl-4"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
+										</cfloop>
 									</cfloop>
-								</cfloop>
-								</tr>
-							</table>
+									</tr>
+								</table>
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
-								<ul class="d-flex px-1 flex-wrap">
-									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white">Phyla</li>
-									<cfloop query="phyla">
-										<li class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</li>
-									</cfloop>
-									<li class="w-100 list-group-item mt-2 border font-weight-bold bg-white">Orders with no value for Phylum</li>
-									<cfloop query="notphyla">
-										<li class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
-									</cfloop>
-									<li class="w-100 list-group-item mt-2 font-weight-bold border bg-white">Taxon records with no value for Kingdom</li>
-									<cfloop query="notkingdoms">
-										<li class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
-									</cfloop>
-								</ul>
+								<table class="table table-striped">
+									<tr class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2 d-flex px-0 flex-wrap">
+										<td class="w-100 list-group-item mt-2 border font-weight-bold bg-white">Phyla</td>
+										<cfloop query="phyla">
+											<td class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</td>
+										</cfloop>
+										<td class="w-100 list-group-item mt-2 border font-weight-bold bg-white">Orders with no value for Phylum</td>
+										<cfloop query="notphyla">
+											<td class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</td>
+										</cfloop>
+										<td class="w-100 list-group-item mt-2 font-weight-bold border bg-white">Taxon records with no value for Kingdom</td>
+										<cfloop query="notkingdoms">
+											<td class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</td>
+										</cfloop>
+									</tr>
+								</table>
 							</div>
 						</div>
 					</div>
