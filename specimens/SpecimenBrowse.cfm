@@ -319,8 +319,8 @@ limitations under the License.
 							</div>
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
-								<table>
-								<tr class="table table-striped list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
+								<table class="table table-striped">
+								<tr class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continents">
 									<cfset continent = continents.continent_ocean>
 									<cfset continentLookup = continents.continent_ocean>
@@ -382,11 +382,13 @@ limitations under the License.
 									</cfloop>
 									</cfif>
 								</cfloop>
-											</tr></table>
+								</tr>
+							</table>
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
-								<h3 class="px-2">Browse By Islands</h3>
-								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
+							<h3 class="px-2">Browse By Islands</h3>
+							<table class="table table-striped">
+								<tr class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="island_groups">
 									<cfset group = island_groups.island_group>
 									<cfset groupLookup = island_groups.island_group>
@@ -395,10 +397,10 @@ limitations under the License.
 										<cfset groupLookup = "NULL">
 									</cfif>
 									<!--- TODO: Support island/island_group in specimen search API --->
-									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white">
+									<td class="w-100 list-group-item mt-2 font-weight-bold bg-white">
 										<a href="#specimenSearch#&higher_geog=#island_groups.island_group#">#group# </a>
 										(#island_groups.ct#)
-									</li>
+									</td>
 									<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 										SELECT sum(coll_obj_count) ct, island
 										FROM 
@@ -421,10 +423,11 @@ limitations under the License.
 											<cfset islandVal = "[No Island Value]">
 											<cfset islandLookup = "NULL">
 										</cfif>
-										<li class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </li>
+										<td class="list-group-item col-6 col-xl-2 col-md-3"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
 									</cfloop>
 								</cfloop>
-								</ul>
+								</tr>
+							</table>
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
