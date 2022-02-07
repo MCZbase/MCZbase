@@ -206,30 +206,6 @@ limitations under the License.
 			</div>
 		</section>
 	</div>
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
-		<div class="container-fluid">
-			<section class="row" id="QCSection">
-				<div class="col-12 px-2">
-					<!---  Include the TDWG BDQ TG2 test integration --->
-					<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
-					<script>
-						function runTests() {
-							loadNameQC(#collection_object_id#, "", "NameDQDiv");
-							loadEventQC(#collection_object_id#, "EventDQDiv");
-						}
-					</script>
-					<input type="button" value="QC" class="savBtn" onClick=" runTests(); ">
-					<!---  Scientific Name tests --->
-					<div id="NameDQDiv"></div>
-					<!---  Spatial tests (not added yet) --->
-					<div id="SpatialDQDiv"></div>
-					<!---  Temporal tests --->
-					<div id="EventDQDiv"></div>
-				</div>					
-				</div>					
-			</section><!-- end QCSection --->
-		</div>
-	</cfif>
 	<div class="container-fluid">
 		<section class="row" id="resultSetNavigationSection">
 			<div class="col-12 px-2">
@@ -280,5 +256,32 @@ limitations under the License.
 </cfoutput>
 <!--- (4) Bulk of the specimen page is provided on SpecimenDetailBody.cfm --->
 <cfinclude template="/specimens/SpecimenDetailBody.cfm">
+<!--- (4a) QC section, which might better go into SpecimenDetailBody.cfm --->
+<cfoutput>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
+		<div class="container-fluid">
+			<section class="row" id="QCSection">
+				<div class="col-12 px-2">
+					<!---  Include the TDWG BDQ TG2 test integration --->
+					<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
+					<script>
+						function runTests() {
+							loadNameQC(#collection_object_id#, "", "NameDQDiv");
+							loadEventQC(#collection_object_id#, "EventDQDiv");
+						}
+					</script>
+					<input type="button" value="QC" class="btn btn-secondary btn-xs" onClick=" runTests(); ">
+					<!---  Scientific Name tests --->
+					<div id="NameDQDiv"></div>
+					<!---  Spatial tests (not added yet) --->
+					<div id="SpatialDQDiv"></div>
+					<!---  Temporal tests --->
+					<div id="EventDQDiv"></div>
+				</div>					
+				</div>					
+			</section><!-- end QCSection --->
+		</div>
+	</cfif>
+</cfoutput>
 <!--- (5) Finish up with the page footer --->
 <cfinclude template="/shared/_footer.cfm">
