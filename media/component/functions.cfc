@@ -19,9 +19,8 @@ Backing methods for managing media
 
 --->
 <cfcomponent>
-
-<cfinclude template = "/shared/functionLib.cfm">
-
+<cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!--- ** method createMedia creates a new media record. 
   * @param media_uri the media_uri to create, must be unique, will produce error if a media record 
@@ -199,5 +198,7 @@ Backing methods for managing media
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
+		
 
 </cfcomponent>

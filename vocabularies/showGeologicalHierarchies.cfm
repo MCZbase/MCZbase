@@ -52,23 +52,23 @@ limitations under the License.
 </cfquery>
 <main class="container py-3" id="content" >
 	<cfoutput>
-		<div class="row mx-0 border rounded my-2 pt-2 px-2">
+		<div class="row mx-0  my-2 pt-2 px-2">
 			<cfquery name="types"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
 				SELECT distinct type 
 				FROM ctgeology_attribute
 			</cfquery>
-			<nav class="navbar navbar-expand-md navbar-light">
-				<ul class="navbar-nav">
+
+				<ul class="nav nav-tabs">
 					<cfloop query="types">
-						<li class="nav-item">
-							<a class="nav-link" href="/vocabularies/showGeologicalHierarchies.cfm?type=#types.type#">List #types.type# Terms</a>
+						<li class="nav-item border-top border-right mr-1 border-left rounded">
+							<a class="nav-link btn-link text-capitalize" href="/vocabularies/showGeologicalHierarchies.cfm?type=#types.type#">List #types.type# Terms</a>
 						</li>
 					</cfloop>
-					<li class="nav-item">
-						<a class="nav-link" href="/vocabularies/showGeologicalHierarchies.cfm">List All Terms</a>
+					<li class="nav-item border-top mr-1 border-right border-left rounded">
+						<a class="nav-link btn-link" href="/vocabularies/showGeologicalHierarchies.cfm">List All Terms</a>
 					</li>
 				</ul>
-			</nav>
+		
 			<cfset typetext = "">
 			<cfif type NEQ "all">
 				<cfset typetext = ": #encodeForHtml(type)#">

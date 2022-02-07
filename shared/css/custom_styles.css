@@ -171,6 +171,7 @@ h1.h4 {
 .btn-link, .helpText, .fas-info {
 	color: #036ee0 !important;
 }
+
 span.caps {
 	text-transform: capitalize;
 }
@@ -1014,24 +1015,23 @@ div#users-contain table td, div#users-contain table th {
 	border: none;
 	background-color: transparent;
 }
-ul.list-unstyled li.list-group-item {
+
+
+
+ul.sd li.list-group-item {
 	margin-bottom: 0;
 	border-bottom: 1px solid #ccc;
 }
-ul.list-unstyled li.list-group-item:last-child {
-	margin-bottom: 0;
-	border-radius: 0;
-	border-bottom: 1px solid #ccc;
-}
-/*Not sure if this is a mistake or is used somewhere. This would be the last 2 of parent and nested groups*/
-/*ul > li.list-group-item:nth-last-of-type(-n+2) {
+ul.sd li.list-group-item:nth-last-of-type(2) {
 	border-bottom: none;
-}*/
-ul > li.list-group-item:nth-last-of-type(-n+1) {
-	border-bottom: none;
-/*	padding-bottom: .5rem;*/
 	background-color:transparent;
 }
+ul.sd li.list-group-item:last-child {
+	margin-bottom: 0;
+	border-radius: 0;
+	border-bottom: 1px solid transparent;
+}
+
 .jqx-widget-header {
 	background-color: #deebec !important;
 	/*	padding: .15em 0;*/
@@ -1129,7 +1129,7 @@ table.inputTable tr {
 .card-header:first-child {
 	border-radius: .25rem .25rem 0 0;
 }
-.search-box {
+.search-box, .add-form {
 	background-color: #f5f5f5;
 	margin-top: 1rem;
 	padding-bottom: .25rem;
@@ -1137,7 +1137,7 @@ table.inputTable tr {
 	border-radius: .5rem;
 	border: 2px solid #3E6F7D;
 }
-.search-box-header {
+.search-box-header, .add-form-header {
 	background-color: #3e6f7d;
 	padding: .15rem 1rem .1rem 1.65rem;
 	margin-top: -1px;
@@ -1757,7 +1757,9 @@ tr.line-top:first-child {
 	margin-bottom: .5rem;
 	/* Caution, this directive will have unexpected side effects such as hiding badge spans */
 }
-
+.card-body li.list-group-item span.sd:last-child {
+	display:none;
+}
 input#readMore_check_id {
 	display: none;
 }
@@ -2233,10 +2235,112 @@ div.vslider-item[aria-hidden="true"]{
 	background-color: lightgrey;
 	border-radius: 10px;
 }
-.media_widget {
-	background-color: #444444;
-	padding: 1rem;
-	
+
+.secondary-red {
+	color: #dc4c35;
+}
+.darkest-red {
+	color: #a51c30;
+}
+.darker-pink {
+	color: #d64c59;
+}
+.reddish {
+	color: #e0112e;
+}
+.dark-orange {
+	color: #e17160;
+}
+.red {
+	color: #f51d06;
+}
+
+
+.cbp-scroller > nav {
+	position: fixed;
+	z-index: 9999;
+	right: 100px;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.cbp-scroller > nav a {
+	display: block;
+	position: relative;
+	color: transparent;
+	height: 50px;
+}
+
+.cbp-scroller > nav a:after {
+	content: '';
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	border: 4px solid #fff;
+	bottom:20px;
+}
+
+.cbp-scroller > nav a:hover:after {
+	background: rgba(255,255,255,0.6);
+}
+
+.cbp-scroller > nav a.cbp-current:after {
+	background: #fff;
+}
+
+/* background-attachment does the trick */
+.cbp-scroller section {
+	position: relative;
+	background-position: top center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+}
+#section1 {
+	background-color: #f1f3f340;
+	padding-top: .5rem;
+	padding-bottom: .75rem;
+	border-radius: .2rem;
+}
+#section2 {
+	background-color: #d9f1f340;
+	padding-top: .5rem;
+	padding-bottom: 1.75rem; 
+	border-radius: .2rem;
+}
+#section3 {
+	background-color: #f1f3f340;
+	padding-top: .5rem;
+	padding-bottom: 1.5rem; 
+	border-radius: .2rem;
+}
+#section4 {
+	background-color: #d9f1f340;
+	padding-top: .5rem;
+	padding-bottom: 1.5rem; 
+	border-radius: .2rem;
+}
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: #7F7D7D;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+#myBtn:hover {
+  background-color: #555;
 }
 
 /****************end all screen styles*********************/

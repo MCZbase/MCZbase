@@ -226,3 +226,4 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 	}
 
 }
+

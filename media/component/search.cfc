@@ -18,7 +18,9 @@ limitations under the License.
 --->
 <cfcomponent>
 <cf_rolecheck>
-<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfif NOT isDefined("reportError")>
+	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+</cfif>
 
 <!--- function getMedia search for media returning json suitable for a jqxgrid --->
 <cffunction name="getMedia" access="remote" returntype="any" returnformat="json">
@@ -1026,28 +1028,53 @@ limitations under the License.
 <!--- function getMediaBlockHtml safely (with use of is_media_encumbered) display an html block
  serving as an arbitrary media display widget on any MCZbase page in a conistent manner.
  Appropriately handles media objects of all types, displaying appropriate metadata and thumbnail
- or larger image for the requested context.
+ or larger image for the requested context.   Responsibility for delivering the desired image is
+ split between this function, and where it is invoked by this function in an img tag, 
+ /media/rescaleImage.cfm?media_id=.
 
- WARNING: Do not make copies of this function and use elsewhere, include this function 
+ WARNING: Do not make copies of this function and use elsewhere, include this function and use it.
 
  @param media_id the media_id of the media record to display a media widget for.
  @param size the size, an integer for pixel size of the image tag to include in the widget, image tags are
-   always square, with the image fitted into this square preserving its aspect ratio within this 
+   always square (except for thumb), with the image fitted into this square preserving its aspect ratio within this 
    square, so size specifies both the height and width of the img tag in the returned html block,
    default is 600.
- @param displayAs the mode in which to display this media block, default is full.
+ @param displayAs the mode in which to display this media block, default is full, allowed values are
+   full, fixedSmallThumb (which always returns a square image fitted to the specified size), and thumb
+   (which returns a thumbnail with its original aspect ratio). 
+ @param captionAs the caption which should be shown, allowed values are textFull, textNone (no caption
+   shown, image is linked to media record instead of the media_uri resource), textLinks (caption is 
+   limited to links without descriptive text, image is linked to the media_uri resource).
+ @param background_class a value for the class of the image tag, <img class="{background}", intended
+   for setting the background color for transparent images.
+ @param background_color white or grey, the background color of the non-transparent image produced in 
+   displayAs fixedSmallThumb, only applies to fixedSmallTnumb
+ @parm styles a css value to use for style="" in the image tag, probably required if thumb is specified.
 ---> 
 <cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
+	<cfargument name="captionAs" type="string" required="no" default="textFull">
+	<cfargument name="background_class" type="string" required="no" default="bg-light">
+	<cfargument name="background_color" type="string" required="no" default="grey">
+	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:auto">
 
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
-
-	<cfthread name="mediaWidgetThread">
+	<cfset l_styles = #arguments.styles#>
+	<cfset l_captionAs = #arguments.captionAs#>
+	<cfset l_background_class = #arguments.background_class#>
+	<cfset l_background_color = #arguments.background_color#>
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
+	<cfif l_displayAs EQ "fixedSmallThumb">
+		<cfif l_size GT 100>
+			<cfset l_size = 100>
+		</cfif>
+	</cfif>
+	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
@@ -1083,54 +1110,153 @@ limitations under the License.
 						<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 							<cfset isDisplayable = true>
 						</cfif>
+
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 						<cfset hw = 'height="100%" width="100%"'>
 						<cfif isDisplayable>
-							<cfif #l_displayAs# EQ "thumb">
+							<!--- the resource specified by media_uri should be an image that can be displayed in a browser with img src=media_uri --->
+							<cfif #l_displayAs# EQ "fixedSmallThumb">
+								<cfset hw = 'height="#l_size#" width="#l_size#"'>
+								<cfset sizeParameters='&width=#l_size#&height=#l_size#'>
+								<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters#&background_color=#l_background_color#">
+							<cfelseif #l_displayAs# EQ "thumb">
 								<cfset displayImage = preview_uri>
-								<cfset l_size = "100">
-								<cfset hw = 'width="100%"'>
+								<cfset hw = 'width="auto" height="auto"'>
+								<cfset l_styles = "max-width:150px;max-height:100px;">
 							<cfelse>
 								<cfif host EQ "mczbase.mcz.harvard.edu">
-									<cfset hw = 'height="#l_size#px" width="#l_size#px"'>
-									<cfset sizeType='&width=#l_size#&height=#l_size#'>
-									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeType#">
+									<cfset sizeParameters='&width=#l_size#&height=#l_size#'>
+									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeParameters#">
 								<cfelse>
 									<cfset displayImage = media_uri>
 								</cfif>
 							</cfif>
 						<cfelse>
-							<!--- pick placeholder --->
-							<cfif media_type is "image">
-								<cfset displayImage = "/shared/images/noThumbnailImage.png">
-							<cfelseif media_type is "audio">
-								<cfset displayImage =  "/shared/images/noThumbnailAudio.png">
-							<cfelseif media_type IS "audio">
-								<cfset displayImage =  "/shared/images/noThumbnailVideo.png">
-							<cfelseif media_type is "text">
-								<cfset displayImage =  "/shared/images/noThumbDoc.png">
-							<cfelseif media_type is "3D model">
-								<cfset displayImage =  "/shared/images/3dmodel.png">
+							<!--- the resource specified by media_uri is not one that can be used in an image tag as img src="media_uri", we need to provide an alternative --->
+							<cfif len(preview_uri) GT 0>
+							 	<!--- there is a preview_uri, use that --->
+								<cfif #l_displayAs# EQ "fixedSmallThumb">
+									<cfset hw = 'height="#l_size#" width="#l_size#"'>
+									<cfset sizeParameters='&width=#l_size#&height=#l_size#'>
+									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters#&background_color=#l_background_color#">
+								<cfelse>
+									<!--- use a preview_uri, if one was specified --->
+									<!--- TODO: change test to regex on http... with some sort of is this an image test --->
+									<cfset displayImage = preview_uri>
+									<cfif #l_displayAs# eq "thumb">
+										<cfset hw = 'width="auto" height="auto"'>
+										<cfset l_styles = "max-width:150px;max-height:100px;">
+									<cfelse>
+										<cfset hw = 'width="80" height="100"'><!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --->
+									</cfif>
+								</cfif>
 							<cfelse>
-								<cfset displayImage =  "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
+								<cfif #l_displayAs# EQ "fixedSmallThumb">
+									<!--- leave it to logic in media/rescaleImage.cfm to work out correct icon and rescale it to fit desired size --->
+									<cfset hw = 'height="#l_size#px;" width="#l_size#px;"'>
+									<cfset sizeParameters='&width=#l_size#&height=#l_size#'>
+									<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters#&background_color=#l_background_color#">
+								<cfelse>
+									<!--- fall back on an svg image of an appropriate generic icon --->
+									<cfset l_styles = "max-width:125px;max-height:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
+									<!--- pick placeholder --->
+									<cfif media_type is "image">
+										<cfset displayImage = "/shared/images/tag-placeholder.png">
+									<cfelseif media_type is "audio">
+										<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
+									<cfelseif media_type IS "video">
+										<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
+									<cfelseif media_type is "text">
+										<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
+									<cfelseif media_type is "3D model">
+										<cfset displayImage =  "/shared/images/model_3d.svg">
+									<cfelseif media_type is "spectrometer data">
+										<cfset displayImage = "/shared/images/Sine_waves_different_frequencies.svg">
+									<cfelse>
+										<cfset displayImage =  "/shared/images/tag-placeholder.svg">
+										<!--- media_type is not on the known list --->
+									</cfif>
+								</cfif>
 							</cfif>
 						</cfif>
-						<div class="media_widget" style="width: #l_size#px;">	
-							<a href="#media.media_uri#" target="_blank" class="d-block my-1 w-100 active" title="click to open full image">
-								<img src="#displayImage#" class="mx-auto" alt="#alt#" #hw#>
+						<div class="media_widget">	
+							<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
+							<cfif #l_captionAs# EQ "textNone">
+								<cfset linkTarget = "/media/#media.media_id#">
+							<cfelse>
+								<cfset linkTarget = "#media.media_uri#">
+							</cfif>
+							<a href="#linkTarget#" target="_blank" class="d-block w-100 active text-center" title="click to access media">
+								<img src="#displayImage#" alt="#alt#" #hw# style="#l_styles#" class="#l_background_class#">
 							</a>
-							<p class="mt-2 bg-light small caption-lg">
-								(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
-								<cfif NOT isDisplayable>
-									#media_type# (#mime_type#)
-									(<a class="" target="_blank" href="#media_uri#">media file</a>)
-								<cfelse>
-									(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
-									(<a class="" target="_blank" href="#media_uri#">full</a>)
-								</cfif>
-							</p>
-							<p class="mt-2 bg-light small caption-lg">#title#</p>
-							<p class="mt-2 bg-light small caption-lg"><a href="#license_uri#">#license_display#</a></p>
+							<cfif #l_captionAs# EQ "textNone">
+								<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
+							<cfelseif #l_captionAs# EQ "textLinks">
+								<!--- textLinks is used when only the links are desired under the thumbnail--->
+								<div class="mt-0 col-12 pb-1 px-0 mt-1">
+									<p class="text-center px-1 pb-1 mb-0 smaller col-12">
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<span class="d-inline">(<a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>
+										</cfif>
+										(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
+										<cfif NOT isDisplayable>
+											#media_type# (#mime_type#)
+											(<a class="" target="_blank" href="#media_uri#">media file</a>)
+										<cfelse>
+											(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
+											(<a class="" target="_blank" href="#media_uri#">full</a>)
+										</cfif>
+									</p>
+								</div>
+							<cfelse>
+								<div class="mt-0 col-12 pb-1 px-0 mt-1">
+									<p class="text-center px-1 pb-1 mb-0 smaller col-12">
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<span class="d-inline">(<a target="_blank" href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>
+										</cfif>
+										(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
+										<cfif NOT isDisplayable>
+											#media_type# (#mime_type#)
+											(<a class="" target="_blank" href="#media_uri#">media file</a>)
+										<cfelse>
+											(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
+											(<a class="" target="_blank" href="#media_uri#">full</a>)
+										</cfif>
+									</p>
+									<div class="pb-1">
+										<cfset showTitleText = trim(title)>
+										<cfif len(showTitleText) EQ 0>
+											<cfset showTitleText = trim(subject)>
+										</cfif>
+										<cfif len(showTitleText) EQ 0>
+											<cfset showTitleText = "Unlinked Media Object">
+										</cfif>
+										<cfif #l_captionAs# EQ "textCaption"><!---This is for use when a caption of 100 characters is needed --->
+											<cfif len(showTitleText) GT 100>
+												<cfset showTitleText = "#left(showTitleText,100)#..." >
+											</cfif>
+										</cfif>
+										<cfif #l_captionAs# EQ "textShort"><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
+											<cfif len(showTitleText) GT 50>
+												<cfset showTitleText = "#left(showTitleText,50)#..." >
+											</cfif>
+										</cfif>
+										<cfif #l_captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
+											<cfif len(showTitleText) GT 250>
+												<cfset showTitleText = "#left(showTitleText,250)#..." >
+											</cfif>
+										</cfif>
+										<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
+										<cfif len(#license_uri#) gt 0>
+											<cfif #l_captionAs# EQ "TextFull">
+											<p class="text-center col-12 p-0 my-0 smaller">
+												<a href="#license_uri#">#license_display#</a>
+											</p>											
+											</cfif>
+										</cfif>
+									</div>
+								</div>
+							</cfif>
 						</div>
 					</cfloop>
 				</cfif>
@@ -1144,8 +1270,10 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="mediaWidgetThread" />
-	<cfreturn mediaWidgetThread.output>
+	<cfthread action="join" name="mediaWidgetThread#tn#" />
+	<cfreturn cfthread["mediaWidgetThread#tn#"].output>
 </cffunction>
+
+
 
 </cfcomponent>

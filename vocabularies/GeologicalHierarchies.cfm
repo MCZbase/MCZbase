@@ -44,13 +44,15 @@ limitations under the License.
 		</cfquery>
 		<cfoutput>
 			<main class="container py-3" id="content" >
-				<section class="row border rounded my-2">
-					<h1 class="h2">Manage Geological Controlled Vocabularies</h1>
-					<cfset navBlock = getGeologyNavigationHtml()>
-					#navBlock#
+				<section class="row mt-2">
+					<div class="col-12 px-0">
+						<h1 class="h2 px-2">Manage Geological Controlled Vocabularies</h1>
+						<cfset navBlock = getGeologyNavigationHtml()>
+						#navBlock#
+					</div>
 				</section>
-				<section class="row border rounded my-2 mt-1">
-					<div class="col-12 pt-2">
+				<section class="row border rounded">
+					<div class="col-12 pt-3">
 						<ul>
 							<cfloop query="types">
 								<li>#types.type# encompasses #types.attrib_ct# attribute values.</li>
@@ -65,7 +67,7 @@ limitations under the License.
 	<cfcase value="edit">
 		<main class="container py-3" id="content" >
 			<cfoutput>
-				<div class="row mx-0 border rounded my-2 pt-2">
+				<div class="row mx-0 pt-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
 					<section class="col-12" title="Edit Geological Atribute">
@@ -354,7 +356,7 @@ limitations under the License.
 	<cfcase value="addNew">
 		<main class="container py-3" id="content" >
 			<cfoutput>
-				<div class="row mx-0 border rounded my-2 pt-2">
+				<div class="row mx-0 my-2 pt-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
 					<cfset formBlock = getAddGeologyAttributeHtml ()>
@@ -373,7 +375,7 @@ limitations under the License.
 	<cfcase value="organize">
 		<main class="container py-3" id="content" >
 			<cfoutput>
-				<div class="row mx-0 border rounded my-2 pt-2">
+				<div class="row mx-0 my-2 pt-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
 					<cfset organizeBlock = getGeologyMakeTreeHtml()>
@@ -395,15 +397,15 @@ limitations under the License.
 		</cfif>
 		<main class="container py-3" id="content" >
 			<cfoutput>
-				<div class="row mx-0 border rounded my-2 pt-2 px-2">
+				<div class="row mx-0 my-2 pt-2 px-2">
 					<cfset navBlock = getGeologyNavigationHtml()>
 					#navBlock#
-					<section class="accordion col-12 w-100" id="editSection"> 
-						<div class="card mb-2 bg-light">
+					<section class="accordion col-12 px-0" id="editSection"> 
+						<div class="card bg-light">
 							<div class="card-header">
 								<h2 class="h4 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##editCardBodyWrap" aria-expanded="false" aria-controls="editCardBodyWrap">
-											Edit Hierarchy
+											Add New/Edit Hierarchy
 									</button>
 								</h2>
 							</div>
@@ -452,7 +454,7 @@ limitations under the License.
 						};
 					</script>
 					<cfset attributesBlock = getGeologyAttributeTreeHtml(type="#type#")>
-					<section class="col-12" title="Geological Atribute" id="attributesSection">
+					<section class="col-12 border rounded" title="Geological Atribute" id="attributesSection">
 						#attributesBlock#
 					</section>
 				</div>

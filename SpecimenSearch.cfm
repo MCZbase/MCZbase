@@ -1224,6 +1224,7 @@
 					<option value=""></option>
 					<option value="any">Any</option>
 					<option value="any type">Any TYPE</option>
+					<option value="any primary">Any Primary Type</option>
 					<cfloop query="ctTypeStatus">
 						<option value="#ctTypeStatus.type_status#">#ctTypeStatus.type_status#</option>
 					</cfloop>

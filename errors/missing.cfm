@@ -146,7 +146,13 @@
 				<cfset media_id = listgetat(rdurl,gPos+1,"/")>
 				<cfset action="search">
 			</cfif>
-			<cfinclude template="/MediaSearch.cfm">
+			<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
+				<cfinclude template="/media/showMedia.cfm">
+			<cfelse>
+				<!--- WARNING: /production must continue to use /MediaSearch.cfm until it's API and functionality has been entirely replaced by working code.  --->
+				<!--- WARNING: this is the redirect for /media/{media_id} which MUST go to the media details page for the media object.  --->
+				<cfinclude template="/MediaSearch.cfm">
+			</cfif>
 			<cfcatch>
 				<cfinclude template="/errors/404.cfm">
 			</cfcatch>

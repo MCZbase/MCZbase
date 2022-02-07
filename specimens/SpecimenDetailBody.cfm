@@ -35,6 +35,8 @@ limitations under the License.
 </cfoutput> 
 <!--- Include the template that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
+<cfinclude template="/media/component/search.cfc" runOnce="true">
+<cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
 <!--- query one is needed for the metadata block and one.collection_object_id is used for the counts on media and part headers --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
 	SELECT distinct
@@ -74,6 +76,15 @@ limitations under the License.
 	where 
 		media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#" >
 </cfquery>
+<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT
+		media.media_id
+	FROM
+		media
+		left join media_relations on media_relations.media_id = media.media_id
+	WHERE
+		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+</cfquery>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		specimen_part.collection_object_id part_id
@@ -87,7 +98,7 @@ limitations under the License.
 	select count(*) as ct from rparts
 </cfquery>
 <cfoutput>
-	<div class="container-lg d-none d-lg-block mb-2 my-lg-1">
+	<div class="container-lg d-none d-lg-block mb-1 my-lg-1">
 		<div class="row">
 			<cfif #oneOfUs# eq 1>
 				<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto">
@@ -158,7 +169,7 @@ limitations under the License.
 							<div id="mediaDialog"></div>
 							<script>
 								function reloadMedia() { 
-									// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+									// invoke specimen/component/public.cfc function getMediaHTML via ajax and repopulate the media block.
 									loadMedia(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
@@ -169,14 +180,21 @@ limitations under the License.
 										<span class="text-success font-weight-light">(#mediaCount.ct#)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_media")>
-										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
+										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
 							</div>
 							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
-								<div class="card-body w-100 px-2 py-1 mb-1 float-left" id="mediaCardBody">
-									<cfset block = getMediaHTML(collection_object_id = "#collection_object_id#")>
-									#block#
+								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
+									<cfloop query="images">
+										<div class="col-12 px-1 col-md-6 mb-1 px-3 px-md-2 py-1 float-left">
+											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
+											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textShort")>
+											<div id="mediaBlock#images.media_id#">
+												#mediaBlock#
+											</div>
+										</div>
+									</cfloop>
 								</div>
 							</div>
 						</div>
@@ -230,51 +248,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-							
-					<!----------------------------- images ----------------------------------> 
-					<div class="accordion" id="accordionIm">
-						<div class="card mb-2 bg-light">
-							<div id="imagesDialog"></div>
-							<script>
-								function reloadImages() { 
-								
-									loadImages(#collection_object_id#,'imagesCardBody');
-								}
-							</script>
-							<cfset blockident = getImagesHTML(collection_object_id = "#collection_object_id#")>
-							<div class="card-header" id="heading1">
-								<cfif len(#blockident#) gt 10> 
-									<h3 class="h4 my-0" tabindex="0">
-										<button type="button" class="headerLnk text-left w-100" href="##" data-toggle="collapse" data-target="##imagesPane" aria-expanded="true" aria-controls="imagesPane">
-											Images
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="##" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditImagesDialog(#collection_object_id#,'imagesDialog','#guid#',reloadImages)">
-												Edit
-											</a>
-										</cfif>
-									</h3>
-								<cfelse>
-									<h3 class="h4 my-0" tabindex="0">
-										<button type="button" class="headerLnk text-left w-100 h-100" href="##" data-toggle="collapse" data-target="##imagesPane" aria-controls="imagesPane">
-											Images
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="##" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditImagesDialog(#collection_object_id#,'imagesDialog','#guid#',reloadImages)">
-												Add
-											</a>
-										</cfif>
-									</h3>
-								</cfif>
-							</div>
-							<div id="imagesPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionIm">
-								<div class="card-body py-1 mb-1 w-100 float-left" id="imagesCardBody">
-									#blockident#
-									<div id="imagesHTML"></div>
-								</div>
-							</div>
-						</div>
-					</div>
 					<!----------------------------- Citations new ----------------------------------> 
 					<div class="accordion" id="accordionCitations">
 						<div class="card mb-2 bg-light">
@@ -287,29 +260,14 @@ limitations under the License.
 							</script>
 							<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingCitations">
-								<cfif len(#blockcit#) gt 10> 
-									<h3 class="h4 my-0">
-										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" data-toggle="collapse" data-target="##citationsPane" aria-controls="citationsPane">
-											Citations
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" role="button" class="anchorFocus btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
-												Edit
-											</a>
-										</cfif>
-									</h3>
-								<cfelse>
-									<h3 class="h4 my-0">
-										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" data-toggle="collapse" data-target="##citationsPane" aria-controls="citationsPane">
-											Citations
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" role="button" class="anchorFocus btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
-												Add
-											</a>
-										</cfif>
-									</h3>
-								</cfif>
+								<h3 class="h4 my-0 text-dark">
+									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##citationsPane" aria-expanded="true" aria-controls="citationsPane">
+										Citations
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Add/Remove</a>
+									</cfif>
+								</h3>
 							</div>
 							<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
 								<div class="card-body py-1 mb-1 float-left" id="citationsCardBody">
@@ -606,169 +564,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<!--- TODO: Fix broken nesting, cause unclear, could be remnant of bad paste???? --->
-					<!--- cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail) --->
-						<!--- TODO: Fix broken nesting, cause unclear, could be remnant of bad paste???? --->
-						<cfif oneOfUs is 1>
-							<div class="accordion" id="accordionMetadata">
-								
-								<!--------------------  Project / Usage ------------------------------------>
-								
-								<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT 
-										project_name, project.project_id project_id 
-									FROM
-										project left join project_trans on project.project_id = project_trans.project_id
-									WHERE
-										project_trans.transaction_id = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
-									GROUP BY project_name, project.project_id
-								</cfquery>
-								<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT 
-										project_name, project.project_id 
-									FROM 
-										loan_item,
-										project,
-										project_trans,
-										specimen_part 
-									WHERE 
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> AND
-										loan_item.transaction_id=project_trans.transaction_id AND
-										project_trans.project_id=project.project_id AND
-										specimen_part.collection_object_id = loan_item.collection_object_id 
-									GROUP BY 
-										project_name, project.project_id
-								</cfquery>
-								<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT 
-										loan_item.collection_object_id 
-									FROM 
-										loan_item,specimen_part 
-									WHERE 
-										loan_item.collection_object_id=specimen_part.collection_object_id AND
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-								</cfquery>
-								<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT 
-										distinct loan_number, loan_type, loan_status, loan.transaction_id 
-									FROM
-										specimen_part left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
-										left join loan on loan_item.transaction_id = loan.transaction_id
-									WHERE
-										loan_number is not null AND
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-								</cfquery>
-								<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT 
-										deacc_item.collection_object_id 
-									FROM
-										specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
-									WHERE
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-								</cfquery>
-								<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT 
-										distinct deacc_number, deacc_type, deaccession.transaction_id 
-									FROM
-										specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
-										left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-									where
-										deacc_number is not null AND
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-								</cfquery>
-								<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
-									<cfloop query="isProj">
-										<li class="list-group-item"><h5 class="mb-0 d-inline-block">Contributed By Project:</h5>
-											<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#">#isProj.project_name#</a> </li>
-									</cfloop>
-									<cfloop query="isLoan">
-										<li class="list-group-item"><h5 class="mb-0 d-inline-block">Used By Project:</h5> 
-											<a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> </li>
-									</cfloop>
-									<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
-										<li class="list-group-item">
-											<h5 class="mb-0 d-inline-block">Loan History:</h5>
-											<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
-							target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
-											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<cfloop query="loanList">
-													<ul class="d-block">
-														<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</li>
-													</ul>
-												</cfloop>
-											</cfif>
-										</li>
-									</cfif>
-									<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
-										<li class="list-group-item">
-											<h5 class="mb-1 d-inline-block">Deaccessions: </h5>
-											<a href="/Transactions.cfm?action=findDeaccessions&execute=true&specimen_guid=MCZ:#one.collection_cde#:#one.cat_num#"
-												target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
-											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<cfloop query="deaccessionList">
-													<ul class="d-block">
-														<li class="d-block"> <a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a></li>
-													</ul>
-												</cfloop>
-											</cfif>
-										</h3>
-									</div>
-									<div id="MetadataPane" class="collapse show" aria-labelledby="headingMetadata" data-parent="##accordionMetadata">
-										<div class="card-body py-2 mb-2 float-left" id="metadataCardBody">
-											#blockMeta#
-										</div>
-									</div>
-								</div>
-							</div>
-							<!---
-							<div class="card mb-2">
-								<div class="card-header pt-1 float-left w-100">
-									<h3 class="h4 my-0 mx-2 pb-1 float-left">
-									Metadata
-									</h3>
-								</div>
-								<div class="card-body mb-2 float-left">
-									<ul class="list-group pl-0 pt-1">
-										<cfquery name="collObJRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collObjRemarks_result">
-											SELECT 
-												coll_object_remark.coll_object_remarks
-											FROM cataloged_item
-												left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
-												left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
-											WHERE
-												cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-											UNION
-											SELECT 
-												coll_object_remark.coll_object_remarks
-											FROM cataloged_item
-												left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
-												left join coll_object_remark on specimen_part.collection_object_id = coll_object_remark.collection_object_id
-											WHERE
-												cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-										</cfquery>
-										<cfloop query="collObjRemarks">
-											<cfif len(#one.coll_object_remarks#) gt 0>
-												<li class="list-group-item">Remarks: #one.coll_object_remarks# </li>
-											</cfif>
-										</cfloop>
-										<li class="list-group-item"> Entered By: #one.EnteredBy# on #dateformat(one.coll_object_entered_date,"yyyy-mm-dd")# </li>
-										<cfif #one.EditedBy# is not "unknown" OR len(#one.last_edit_date#) is not 0>
-											<li class="list-group-item"> Last Edited By: #one.EditedBy# on #dateformat(one.last_edit_date,"yyyy-mm-dd")# </li>
-										</cfif>
-										<cfif len(#one.flags#) is not 0>
-											<li class="list-group-item"> Missing (flags): #one.flags# </li>
-										</cfif>
-										<cfif len(#one.encumbranceDetail#) is not 0>
-											<li class="list-group-item"> Encumbrances: #replace(one.encumbranceDetail,";","<br>","all")# </li>
-										</cfif>
-									</ul>
-								</div>
-							</div>
-							--->
-						</cfif>
-						<!--- TODO: indentation needs to be fixed /cfif tag for test for one of us added in what may be the correct place --->
-						</cfif>
-					</cfif>
 				</div>
 				<!--- end of column 3 --->
 				<cfif oneOfUs is 1>

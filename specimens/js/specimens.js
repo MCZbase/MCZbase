@@ -17,45 +17,144 @@ function checkFormValidity(form) {
 		}
 	return result;
 };
+/** loadMedia populate an html block with the media 
+ * @param media_id 
+ * @param form 
+ **/
 
-/** loadIdentification populate an html block with the identification 
-* history for a cataloged item.
-* @param identification_id 
-* @param form
-**/
-function loadIdentification(identification_id,form) {
-	jQuery.ajax({
+
+/** updateMedia function 
+ * @method getMedia in functions.cfc
+ * @param media_id
+ * @param targetDiv the id
+ **/
+function loadMedia(media_id,targetDivId) {
+	jQuery.ajax(
+	{
+		dataType: "json",
 		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getIdentificationHtml",
-			identification_id: identification_id,
+		data: { 
+			method : "getMedia",
+			media_id : media_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
 		},
 		success: function (result) {
-			$("#identificationHTML").html(result);
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are media";
+				$('#' + targetDiv).html(message);
+			}
+		}
+	}
+	)
+};
+function loadMedia(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getMediaHTML",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing identification");
+			handleFail(jqXHR,textStatus,error,"loading media");
 		},
 		dataType: "html"
 	});
 };
-
-
-function getMediaBlockHtml(media_id) {
+function removeMedia(media_id,form) {
 	jQuery.ajax({
-		url: "/media/component/shared.cfc",
+		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getMediaBlockHtml",
+			method : "removeMedia",
 			media_id: media_id,
 		},
 		success: function (result) {
-			$("#MediaBlockHtml").html(result);
+			$("#mediaHTML").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"removing media");
 		},
 		dataType: "html"
 	});
+};
+
+
+/** loadMedia populate an html block with the media 
+ * @param collection_object_id identifying the cataloged item
+ * @param targetDivId the id for the div in the dom, without a leading #
+ *  selector, for which to replace the html content with the identification 
+ *  history.
+ **/
+//function getMediaBlock(media_id,displayAs) { 
+//	jQuery.ajax({
+//		url: "/media/component/search.cfc",
+//		data : {
+//			method : "getMediaBlockHtml",
+//			media_id: media_id,
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"loading media");
+//		},
+//		dataType: "html"
+//	}
+//	)
+//}
+/**openEditMediaDialog (plural) open a dialog for editing 
+ * media objects for a cataloged item.
+ * @param collection_object_id for the cataloged_item for which to edit media.
+ * @param dialogId the id in the dom for the div to turn into the dialog without 
+ *  a leading # selector.
+ * @param guid the guid of the specimen to display in the dialog title
+ * @param callback a callback function to invoke on closing the dialog.
+ **/
+function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Media for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditMediaHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
+		},
+		dataType: "html"
+	},
+	)
+};
+function updateMedia(media_id,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/media/component/search.cfc",
+		data: { 
+			method : "getMediaHtml",
+			media_id : media_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are Media";
+	
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
 };
 /** updateIdentifications function 
  * @method getIdentification in functions.cfc
@@ -85,7 +184,6 @@ function updateIdentifications(identification_id,targetDiv) {
 	},
 	)
 };
-
 /** loadIdentifications populate an html block with the identification 
  * history for a cataloged item.
  * @param collection_object_id identifying the cataloged item for which 
@@ -110,7 +208,6 @@ function loadIdentifications(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 };
-
 /** updateIdentifications function 
  * @method updateOID in functions.cfc
  * @param identification_id
@@ -140,7 +237,6 @@ function updateIdentifications(identification_id,targetDiv) {
 	},
 	)
 };
-
 /** openEditIdentificationsDialog (plural) open a dialog for editing 
  * identifications for a cataloged item.
  * @param collection_object_id for the cataloged_item for which to edit identifications.
@@ -167,103 +263,19 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 		dataType: "html"
 	});
 };
-
-
-
-
-
-
-
-
-/** TEST loadIdentification populate an html block with the identification 
-* history for a cataloged item.
-* @param identification_id 
-* @param form
-**/
-function loadImages(media_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getImagesHtml",
-			identification_id: media_id,
-		},
-		success: function (result) {
-			$("#imagesHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing images");
-		},
-		dataType: "html"
-	});
-};
-
-/** TEST updateImages function 
- * @method getIdentification in functions.cfc
- * @param identification_id
- * @param targetDiv the id
- **/
-function updateImages(media_id,targetDiv) {
-	jQuery.ajax(
-	{
-		dataType: "json",
-		url: "/transactions/component/functions.cfc",
-		data: { 
-			method : "getImages",
-			identification_id : media_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		error: function (jqXHR, status, message) {
-			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-		},
-		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are images";
-				$('#' + targetDiv).html(message);
-			}
-		}
-	},
-	)
-};
-
-/** TEST loadIdentifications populate an html block with the identification 
- * history for a cataloged item.
- * @param collection_object_id identifying the cataloged item for which 
- *  to list the identification history.
- * @param targetDivId the id for the div in the dom, without a leading #
- *  selector, for which to replace the html content with the identification 
- *  history.
- **/
-function loadImages(collection_object_id,targetDivId) { 
-	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
-		data : {
-			method : "getImagesHTML",
-			collection_object_id: collection_object_id
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading images");
-		},
-		dataType: "html"
-	});
-};
-
-/** TEST updateIdentifications function 
+/** updateIdentifications function 
  * @method updateOID in functions.cfc
  * @param identification_id
  * @param targetDiv the id
  **/
-function updateImages(media_id,targetDiv) {
+function updateIdentifications(identification_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
 		url: "/transactions/component/functions.cfc",
 		data: { 
-			method : "updateIIOID",
-			media_id : media_id,
+			method : "updateOID",
+			identification_id : idenification_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
@@ -272,7 +284,7 @@ function updateImages(media_id,targetDiv) {
 		},
 		success: function (result) {
 			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are images";
+				var message  = "There are identifications";
 	
 				$('#' + targetDiv).html(message);
 			}
@@ -280,54 +292,6 @@ function updateImages(media_id,targetDiv) {
 	},
 	)
 };
-
-/** TEST openEditImagesDialog (plural) open a dialog for editing 
- * identifications for a cataloged item.
- * @param collection_object_id for the cataloged_item for which to edit identifications.
- * @param dialogId the id in the dom for the div to turn into the dialog without 
- *  a leading # selector.
- * @param guid the guid of the specimen to display in the dialog title
- * @param callback a callback function to invoke on closing the dialog.
- */
-function openEditImagesDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Images for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditImagesHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit images dialog");
-		},
-		dataType: "html"
-	});
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /** loadOtherID populate an html block with the other IDs for a cataloged item.
 * @param collection_object_id identifying the cataloged item for which 
 *  to list the identification history.
@@ -437,132 +401,23 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 
 
 
-function loadMedia(media_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getMediaHtml",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#mediaHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
-		},
-		dataType: "html"
-	});
-};
-function removeMedia(media_id,form) {
+function removeCitation(cited_taxon_name_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "removeMedia",
-			media_id: media_id,
+			publication_id: publication_id,
+			cited_taxon_name_id: cited_taxon_name_id,
 		},
 		success: function (result) {
-			$("#mediaHTML").html(result);
+			$("#citationsHTML").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
+			handleFail(jqXHR,textStatus,error,"removing citations");
 		},
 		dataType: "html"
 	});
 };
-
-/** updateIdentifications function 
- * @method updateOID in functions.cfc
- * @param identification_id
- * @param targetDiv the id
- **/
-function updateIdentifications(identification_id,targetDiv) {
-	jQuery.ajax(
-	{
-		dataType: "json",
-		url: "/transactions/component/functions.cfc",
-		data: { 
-			method : "updateOID",
-			identification_id : idenification_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		error: function (jqXHR, status, message) {
-			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-		},
-		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are identifications";
-	
-				$('#' + targetDiv).html(message);
-			}
-		}
-	},
-	)
-};
-/** loadMedia populate an html block with the media 
- * @param collection_object_id 
- * @param targetDivId 
- **/
-function loadMedia(collection_object_id,targetDivId) { 
-	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
-		data : {
-			method : "getMediaHTML",
-			collection_object_id: collection_object_id
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading media");
-		},
-		dataType: "html"
-	});
-};
-
-
-function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Media for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditMediaHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
-		},
-		dataType: "html"
-	});
-};
-function openEditMediaDetailsDialog(media_id,dialogId,guid,callback) {
-	var title = "Edit Media for Item";
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditMediaDetailsHTML",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
-		},
-		dataType: "html"
-	});
-};
-
-
-
-
-
-
 
 
 function loadCitations(collection_object_id,targetDivId) { 
@@ -582,28 +437,12 @@ function loadCitations(collection_object_id,targetDivId) {
 	});
 }
 
-function loadCitation(collection_object_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getCitationHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#citationHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing citation");
-		},
-		dataType: "html"
-	});
-};
-
 function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Citations for " + guid;
 	createCitationEditDialog(dialogId,title,callback);
 	jQuery.ajax({
-		url: "/specimens/Citations.cfm",
+		//url: "/specimens/Citations.cfm",
+		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getEditCitationHTML",
 			collection_object_id: collection_object_id,
@@ -617,6 +456,58 @@ function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
+
+function getCatalogedItemCitation (id,type) {
+	var collection_id = document.getElementById('collection').value;
+	var el = document.getElementById(id);
+	el.className='red';
+	var theNum = el.value;
+	jQuery.getJSON("/specimens/component/functions.cfc",
+		{
+			method : "getCatalogedItemCitation",
+			collection_id : collection_id,
+			theNum : theNum,
+			type : type,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		success_getCatalogedItemCitation
+	);
+}
+
+function success_getCatalogedItemCitation (r) {
+	var result=r.DATA;
+	//alert(result);
+	if (r.ROWCOUNT > 1){
+		alert('Multiple matches.');
+	} else {
+		if (r.ROWCOUNT==1) {
+			var scientific_name=result.SCIENTIFIC_NAME[0];
+			var collection_object_id=result.COLLECTION_OBJECT_ID[0];
+			var cat_num=result.CAT_NUM[0];
+			if (collection_object_id < 0) {
+				alert('error: ' + scientific_name);
+			} else {
+				var sn = document.getElementById('scientific_name');
+				var co = document.getElementById('collection_object_id');
+				var c = document.getElementById('collection');
+				var cn = document.getElementById('cat_num');
+				cn.className='reqdClr';
+				if (document.getElementById('custom_id')) {
+					var cusn = document.getElementById('custom_id');
+					cusn.className='';
+				}
+				co.value=collection_object_id;
+				sn.value=scientific_name;
+				cn.value=cat_num;
+				//c.style.background='#8BFEB9';
+				//cn.style.background='#8BFEB9';
+			}
+		} else {
+			alert('Specimen not found.');
+		}
+	}
+}
 
 function loadParts(collection_object_id,targetDivId) { 
 	jQuery.ajax({
@@ -706,6 +597,7 @@ function showLLFormat(orig_units) {
 			}
 		}
 	}
+
 function addIdentAgentToForm (id,name,formid) {
 	if (typeof id == "undefined") {
 		id = "";
@@ -763,8 +655,6 @@ function addIdentAgentToForm (id,name,formid) {
 	});
 }
 
-
-
 function openEditRelationsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Relationships for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -783,6 +673,7 @@ function openEditRelationsDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
+
 function loadAttributes(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -799,6 +690,7 @@ function loadAttributes(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
+
 function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Attributes for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -817,6 +709,7 @@ function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
+
 function loadLocality(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -833,6 +726,7 @@ function loadLocality(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
+
 function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Locality and Collecting Event for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -851,6 +745,7 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
+
 function loadTransactions(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -867,6 +762,7 @@ function loadTransactions(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
+
 function openEditTransactionsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Transactions for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -885,6 +781,7 @@ function openEditTransactionsDialog(collection_object_id,dialogId,guid,callback)
 		dataType: "html"
 	});
 };
+
 function loadCollectors(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -901,6 +798,7 @@ function loadCollectors(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
+
 function openEditCollectorsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Collectors and Preparators for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -919,6 +817,7 @@ function openEditCollectorsDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
+
 function createSpecimenEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
 	var x=1;
@@ -970,6 +869,7 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 	});
 	thedialog.dialog('open');
 }
+
 function createCitationEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
 	var x=1;
@@ -1018,6 +918,7 @@ function createCitationEditDialog(dialogId,title,closecallback) {
 	});
 	thedialog.dialog('open');
 }
+
 function openItemConditionHistoryDialog(collection_object_id, dialogId) { 
 	var title = "Part/Preparation Condition History.";
 	var content = '<div id="'+dialogId+'_div">Loading....</div>';

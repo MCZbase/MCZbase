@@ -503,7 +503,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 			ORDER BY ordinal
 		</cfquery>
 		<cfoutput>
-			<section class="col-12 border rounded" title="Add Geological Atribute">
+			<section class="col-12 border-bottom border-right border-left rounded border-top" title="Add Geological Atribute">
 				<h2 class="h3">Add New Geological Attribute Value:</h2>
 				<form name="insertGeolAttrForm" id="insertGeolAttrForm" onsubmit="return noenter(event);" >
 					<div class="form-row mb-2">
@@ -526,11 +526,11 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 								<option value="1">yes</option>
 							</select>
 						</div>
-						<div class="col-12">
+						<div class="col-12 my-2">
 							<label for="description" class="data-entry-label">Description</label>
 							<input type="text" name="description" id="description" class="data-entry-input">
 						</div>
-						<div class="col-12">
+						<div class="col-12 mb-2">
 							<input type="submit" value="Insert Term" class="btn btn-xs btn-primary">
 							<div id="addFeedbackDiv"></div>
 						</div>
@@ -565,27 +565,28 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 			FROM ctgeology_attribute
 		</cfquery>
 		<cfoutput>
-			<nav class="navbar navbar-expand-md navbar-light">
-				<ul class="navbar-nav">
+
+				<ul class="nav nav-tabs" role="tablist" id="geol-tabs">
 					<cfloop query="types">
-						<li class="nav-item">
-							<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">List/Edit #types.type# Terms</a>
+						<li class="nav-item border mr-2 rounded" role="presentation">
+							<a class="nav-link px-2 py-1 d-block text-capitalize btn-xs btn-secondary" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=list&type=#types.type#">#types.type# Terms</a>
 						</li>
 					</cfloop>
-					<li class="nav-item">
-						<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a>
+				
+					<li class="nav-item mr-2 border rounded" role="presentation">
+						<a class="nav-link px-2 py-1 d-block btn-xs btn-secondary" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=list">List/Edit All Terms</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a>
+					<li class="nav-item border mr-2 rounded" role="presentation">
+						<a class="nav-link btn-xs btn-secondary px-2 py-1 d-block" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=addNew">Add New Term</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a>
+					<li class="nav-item border mr-2 rounded" role="presentation">
+						<a class="nav-link btn-xs btn-secondary px-2 py-1 d-block" role="button" href="/vocabularies/GeologicalHierarchies.cfm?action=organize">Organize Hiearchically</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage types and categories</a>
+					<li class="nav-item border mr-2 rounded" role="presentation">
+						<a class="nav-link btn-xs px-2 py-1 btn-secondary d-block" role="button" href="/CodeTableEditor.cfm?action=edit&tbl=CTGEOLOGY_ATTRIBUTES">Manage types and categories</a>
 					</li>
 				</ul>
-			</nav>
+		
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="geoNavThread" />
@@ -618,7 +619,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 			ORDER BY ordinal, attribute, attribute_value
 		</cfquery>
 		<cfoutput>
-			<section class="col-12" title="Relate Geological Atributes">
+			<section class="col-12 border-top border-right border-left border-bottom rounded" title="Relate Geological Attributes">
 				<h2 class="h3">Link terms into Hierarchies</h2>
 				<form name="rel" id="newRelationshipForm" onsubmit="return noenter(event);">
 					<div class="form-row mb-2">
@@ -633,7 +634,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 							</select>
 						</div>
 						<div class="col-12 col-md-6 col-xl-6">
-							<label for="child">Child Term</label>
+							<label for="child" class="data-entry-label">Child Term</label>
 							<select name="child" id="child" class="data-entry-select reqdClr" required>
 								<option value=""></option>
 								<cfloop query="terms">
@@ -641,7 +642,7 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12">
+						<div class="col-12 mt-2 pb-2">
 							<input type="submit" id="addRelationshipButton" value="Create Relationship" class="btn btn-xs btn-primary">
 							<div id="addRelationshipFeedback"></div>
 						</div>

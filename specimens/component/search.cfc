@@ -861,6 +861,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="scientific_name" type="string" required="no">
 	<cfargument name="taxon_name_id" type="string" required="no">
 	<cfargument name="higher_geog" type="string" required="no">
+	<cfargument name="continent_ocean" type="string" required="no">
+	<cfargument name="ocean_region" type="string" required="no">
+	<cfargument name="ocean_subregion" type="string" required="no">
+	<cfargument name="sea" type="string" required="no">
 	<cfargument name="country" type="string" required="no">
 	<cfargument name="state_prov" type="string" required="no">
 	<cfargument name="county" type="string" required="no">
@@ -1143,7 +1147,36 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	</cfif>
 	<cfif isDefined("type_status") AND len(type_status) GT 0>
 		<cfset field = '"field": "citations_type_status"'>
-		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#type_status#",separator="#separator#",nestDepth="#nest#")>
+		<!--- handle special case values, any, any type, any primary --->
+		<cfset type_status_value = type_status>
+		<cfif lcase(type_status) EQ "any">
+			<cfset type_status_value = "NOT NULL">
+		<cfelseif lcase(type_status) EQ "any type">
+			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
+				SELECT type_status 
+				FROM ctcitation_type_status 
+				WHERE category = 'Primary' OR category = 'Secondary'
+			</cfquery>
+			<cfset type_status_value = "">
+			<cfset typeseparator = "">
+			<cfloop query="types">
+				<cfset type_status_value = "#type_status_value##typeseparator##types.type_status#">
+				<cfset typeseparator = ",">
+			</cfloop>
+		<cfelseif lcase(type_status) EQ "any primary">
+			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
+				SELECT type_status 
+				FROM ctcitation_type_status 
+				WHERE category = 'Primary'
+			</cfquery>
+			<cfset type_status_value = "">
+			<cfset typeseparator = "">
+			<cfloop query="types">
+				<cfset type_status_value = "#type_status_value##typeseparator##types.type_status#">
+				<cfset typeseparator = ",">
+			</cfloop>
+		</cfif>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#type_status_value#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -1159,6 +1192,34 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("higher_geog") AND len(higher_geog) GT 0>
 		<cfset field = '"field": "higher_geog"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#higher_geog#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("continent_ocean") AND len(continent_ocean) GT 0>
+		<cfset field = '"field": "continent_ocean"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#continent_ocean#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("ocean_region") AND len(ocean_region) GT 0>
+		<cfset field = '"field": "ocean_region"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#ocean_region#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("ocean_subregion") AND len(ocean_subregion) GT 0>
+		<cfset field = '"field": "ocean_subregion"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#ocean_subregion#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("sea") AND len(sea) GT 0>
+		<cfset field = '"field": "sea"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#sea#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -2102,5 +2163,4 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfheader name="Content-Type" value="text/csv">
 <cfoutput>#retval#</cfoutput>
 </cffunction>
-
 </cfcomponent>
