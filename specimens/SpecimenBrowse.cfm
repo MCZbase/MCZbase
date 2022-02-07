@@ -354,7 +354,7 @@ limitations under the License.
 											<cfset countryVal = "[No Country Value]">
 											<cfset countryLookup = "NULL">
 										</cfif>
-										<li class="list-group-item col-12 col-md-6 col-xl-2 col-md-3"><a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) </li>
+										<li class="list-group-item col-12 col-md-6 col-xl-3 col-md-3"><a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) </li>
 									</cfloop>
 									<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
 										<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
