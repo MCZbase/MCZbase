@@ -282,7 +282,7 @@ limitations under the License.
 								</cfloop>
 							</div>
 							<div id="primarytypesPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
-								<h3 class="px-3">Primary Types</h3>			
+								<h3 class="px-2">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
 									<table class="table table-striped">
 										<tr class="list-group list-group-horizontal d-flex flex-wrap px-1">
