@@ -284,7 +284,7 @@ limitations under the License.
 							<div id="primarytypesPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
 								<h3 class="px-2">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
-									<table class="table table-striped">
+									<table class="table table-borderless">
 										<tr class="list-group list-group-horizontal d-flex flex-wrap px-1">
 										<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 											SELECT collection, collection_id, toptypestatus, count(collection_object_id) as ct
@@ -320,7 +320,7 @@ limitations under the License.
 							</div>
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
-								<table class="table table-striped">
+								<table class="table table-borderless">
 								<tr class="list-group list-group-horizontal col-12 px-0 d-flex flex-wrap pb-2">
 								<cfloop query="continents">
 									<cfset continent = continents.continent_ocean>
@@ -388,8 +388,8 @@ limitations under the License.
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-2">Browse By Islands</h3>
-								<table class="table">
-									<tr class="list-group list-group-horizontal border-bottom col-12 px-0 d-flex flex-wrap pb-2">
+								<table class="table table-borderless">
+									<tr class="list-group list-group-horizontal col-12 px-0 d-flex flex-wrap pb-2">
 									<cfloop query="island_groups">
 										<cfset group = island_groups.island_group>
 										<cfset groupLookup = island_groups.island_group>
@@ -398,7 +398,7 @@ limitations under the License.
 											<cfset groupLookup = "NULL">
 										</cfif>
 										<!--- TODO: Support island/island_group in specimen search API --->
-										<td class="w-100 border-light pb-2 mt-2 font-weight-bold bg-white">
+										<td class="w-100 border-white pb-2 mt-2 font-weight-bold bg-white">
 											<a href="#specimenSearch#&higher_geog=#island_groups.island_group#">#group# </a>
 											(#island_groups.ct#)
 										</td>
@@ -424,7 +424,7 @@ limitations under the License.
 												<cfset islandVal = "[No Island Value]">
 												<cfset islandLookup = "NULL">
 											</cfif>
-											<td class="list-group-item border-light col-12 col-md-6 py-2 col-xl-4"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
+											<td class="list-group-item col-12 col-md-6 py-2 col-xl-4"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
 										</cfloop>
 									</cfloop>
 									</tr>
