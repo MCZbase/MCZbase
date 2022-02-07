@@ -870,6 +870,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="county" type="string" required="no">
 	<cfargument name="island" type="string" required="no">
 	<cfargument name="island_group" type="string" required="no">
+	<cfargument name="spec_locality" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
 	<cfargument name="verbatim_date" type="string" required="no">
@@ -1255,6 +1256,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("island") AND len(island) GT 0>
 		<cfset field = '"field": "island"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("spec_locality") AND len(spec_locality) GT 0>
+		<cfset field = '"field": "spec_locality"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#spec_locality#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
