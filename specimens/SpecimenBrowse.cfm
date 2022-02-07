@@ -255,7 +255,7 @@ limitations under the License.
 								<cfloop query="namedGroups">
 									<cfif len(#namedGroups.description#)gt 0>
 										<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 float-left my-1">
-											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height: 118px;">
+											<div class="border-white rounded bg-white p-2 col-12 float-left">
 												<div class="row mx-0">
 													<cfif len(namedGroups.displayed_media_id) gt 0>
 														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
@@ -265,7 +265,7 @@ limitations under the License.
 													</cfif>
 													<div class="col float-left px-2 mt-2">
 													<cfset showTitleText = trim(collection_name)>
-														<h3 class="text-truncate h5 mb-1 class">
+														<h3 class="text-truncate h5 mb-1">
 															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 															<cfif len(showTitleText) GT 66>
 																<cfset showTitleText = "#left(showTitleText,66)#..." >
@@ -398,7 +398,7 @@ limitations under the License.
 											<cfset groupLookup = "NULL">
 										</cfif>
 										<!--- TODO: Support island/island_group in specimen search API --->
-										<td class="w-100 border mt-2 font-weight-bold bg-white">
+										<td class="w-100 border-white mt-2 font-weight-bold bg-white">
 											<a href="#specimenSearch#&higher_geog=#island_groups.island_group#">#group# </a>
 											(#island_groups.ct#)
 										</td>
@@ -434,15 +434,15 @@ limitations under the License.
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<table class="table table-striped">
 									<tr class="list-group list-group-horizontal col-12 px-0 d-flex flex-wrap pb-2 d-flex flex-wrap">
-										<td class="w-100 mt-2 border font-weight-bold bg-white">Phyla</td>
+										<td class="w-100 mt-2 border-white font-weight-bold bg-white">Phyla</td>
 										<cfloop query="phyla">
 											<td class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</td>
 										</cfloop>
-										<td class="w-100 mt-2 border font-weight-bold bg-white">Orders with no value for Phylum</td>
+										<td class="w-100 mt-2 border-white font-weight-bold bg-white">Orders with no value for Phylum</td>
 										<cfloop query="notphyla">
 											<td class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</td>
 										</cfloop>
-										<td class="w-100 mt-2 font-weight-bold border bg-white">Taxon records with no value for Kingdom</td>
+										<td class="w-100 mt-2 font-weight-bold border-white bg-white">Taxon records with no value for Kingdom</td>
 										<cfloop query="notkingdoms">
 											<td class="list-group-item col-12 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</td>
 										</cfloop>
