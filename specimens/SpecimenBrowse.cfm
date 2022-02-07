@@ -436,15 +436,15 @@ limitations under the License.
 									<tr class="list-group list-group-horizontal col-12 px-0 d-flex flex-wrap pb-2 d-flex flex-wrap">
 										<td class="w-100 mt-2 border-white pb-2 mt-2 font-weight-bold bg-white">Phyla</td>
 										<cfloop query="phyla">
-											<td class="list-group-item col-12 pt-2 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</td>
+											<td class="list-group-item col-12 pt-2 col-md-6 pb-1 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</td>
 										</cfloop>
 										<td class="w-100 mt-2 border-white pb-2 mt-2 font-weight-bold bg-white">Orders with no value for Phylum</td>
 										<cfloop query="notphyla">
-											<td class="list-group-item col-12 pt-2 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</td>
+											<td class="list-group-item col-12 pt-2 col-md-6 pb-1 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</td>
 										</cfloop>
 										<td class="w-100 mt-2 font-weight-bold border-white pb-2 mt-2 bg-white">Taxon records with no value for Kingdom</td>
 										<cfloop query="notkingdoms">
-											<td class="list-group-item col-12 col-md-6 pt-2 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</td>
+											<td class="list-group-item col-12 col-md-6 pt-2 pb-1 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</td>
 										</cfloop>
 									</tr>
 								</table>
