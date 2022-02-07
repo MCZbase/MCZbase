@@ -251,7 +251,7 @@ limitations under the License.
 						<!-- Tab panes -->
 						<div class="tab-content flex-wrap d-flex mb-1">
 							<div id="featuredPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
-								<h3 class="px-2">MCZ Featured Collections of Cataloged Items</h3>
+								<h2 class="px-2 h3">MCZ Featured Collections of Cataloged Items</h2>
 								<cfloop query="namedGroups">
 									<cfif len(#namedGroups.description#)gt 0>
 										<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 float-left my-1">
@@ -265,7 +265,7 @@ limitations under the License.
 													</cfif>
 													<div class="col float-left px-2 mt-2">
 													<cfset showTitleText = trim(collection_name)>
-														<h3 class="h5 mb-1">
+														<h3 class="text-truncate h5 mb-1 class">
 															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 															<cfif len(showTitleText) GT 66>
 																<cfset showTitleText = "#left(showTitleText,66)#..." >
