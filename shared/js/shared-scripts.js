@@ -1141,6 +1141,35 @@ function makeTaxonSearchAutocomplete(fieldId, targetRank) {
 	};
 };
 
+
+/** makeSpecLocalitySearchAutocomplete make an input control into a picker for a spec_locality field.
+ *  Prefixes the selected value with an = for exact match search, and is
+ *  intended as a picker for spec_locality search fields.
+ * @param fieldId the id for the input without a leading # selector.
+**/
+function makeSpecLocalitySearchAutocomplete(fieldId) { 
+	jQuery("#"+fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/localities/component/search.cfc",
+				data: { term: request.term, method: 'getSpecLocalityAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a spec_locality search autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val("=" + result.item.value);
+		},
+		minLength: 3
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+	};
+};
+
 /** makeCountrySearchAutocomplete make an input control into a picker for a country field.
  *  This version of the function prefixes the selected value with an = for exact match search, and is
  *  intended as a picker for country search fields.
