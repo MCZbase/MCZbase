@@ -1863,6 +1863,8 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 	<input type="button" value="QC" class="savBtn" onClick=" runTests(); ">
 	<!---  Scientific Name tests --->
 	<div id="NameDQDiv"></div>
+	<!---  Spatial tests (not added yet) --->
+	<div id="SpatialDQDiv"></div>
 	<!---  Temporal tests --->
 	<div id="EventDQDiv"></div>
 </cfif>
