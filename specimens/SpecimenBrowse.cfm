@@ -305,11 +305,11 @@ limitations under the License.
 										<cfloop query="primaryTypes">
 											<!--- TODO: Support specimen search for any primary type --->
 											<cfif NOT lastCollection EQ primaryTypes.collection>
-												<td class="list-group-item bg-white border-white float-left px-2 mb-2 w-100 font-weight-bold">
+												<td class="bg-white border-white float-left px-2 mb-2 w-100 font-weight-bold">
 													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_Status=any%20primary"> #primaryTypes.collection# </a> 
 												</td>
 											</cfif>
-											<td class="list-group-item col-12 col-md-6 col-xl-3 float-left px-2 mb-2">
+											<td class="col-12 col-md-6 col-xl-3 float-left px-2 mb-2">
 												<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#primaryTypes.toptypestatus#"> #primaryTypes.collection# #primaryTypes.toptypestatus#</a> (#ct#)
 											</td>
 											<cfset lastCollection = primaryTypes.collection>
