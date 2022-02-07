@@ -432,7 +432,7 @@ limitations under the License.
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
-								<table class="table table-striped">
+								<table class="table table-borderless">
 									<tr class="list-group list-group-horizontal col-12 px-0 d-flex flex-wrap pb-2 d-flex flex-wrap">
 										<td class="w-100 mt-2 border-white pb-2 mt-2 font-weight-bold bg-white">Phyla</td>
 										<cfloop query="phyla">
