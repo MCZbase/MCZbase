@@ -468,8 +468,18 @@ limitations under the License.
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-4">
 													<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
-													<label for="higher_geog" class="data-entry-label">Any Geographic Element</label>
+													<label for="higher_geog" class="data-entry-label">Higher Geography</label>
 													<input type="text" class="data-entry-input" name="higher_geog" id="higher_geog" value="#higher_geog#">
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
+													<label for="continent_ocean" class="data-entry-label">Continent/Ocean</label>
+													<input type="text" class="data-entry-input" name="continent_ocean" id="continent_ocean" value="#continent_ocean#">
+													<script>
+														jQuery(document).ready(function() {
+															makeGeogSearchAutocomplete('continent_ocean','continent_ocean');
+														});
+													</script>
 												</div>
 												<div class="col-12 col-md-2">
 													<label for="ocean_region" class="data-entry-label">Ocean Region</label>
@@ -501,20 +511,8 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="col-12 col-md-2">
-												</div>
 											</div>
 											<div class="form-row mb-2">
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
-													<label for="continent_ocean" class="data-entry-label">Continent/Ocean</label>
-													<input type="text" class="data-entry-input" name="continent_ocean" id="continent_ocean" value="#continent_ocean#">
-													<script>
-														jQuery(document).ready(function() {
-															makeGeogSearchAutocomplete('continent_ocean','continent_ocean');
-														});
-													</script>
-												</div>
 												<div class="col-12 col-md-2">
 													<label for="country" class="data-entry-label">Country</label>
 													<cfif not isdefined("country")><cfset country=""></cfif>
@@ -565,6 +563,15 @@ limitations under the License.
 														});
 													</script>
 												</div>
+												<div class="col-12 col-md-2">
+													<label for="spec_locality" class="data-entry-label">Specific Locality</label>
+													<cfif not isdefined("spec_locality")><cfset spec_locality=""></cfif>
+													<input type="text" class="data-entry-input" id="spec_locality" name="spec_locality" value="#spec_locality#">
+													<script>
+														jQuery(document).ready(function() {
+															makeSpecLocalitySearchAutocomplete('spec_locality',);
+														});
+													</script>
 											</div>
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-3">
