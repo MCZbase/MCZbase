@@ -319,7 +319,8 @@ limitations under the License.
 							</div>
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
-								<ul class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
+								<table>
+								<tr class="table table-striped list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="continents">
 									<cfset continent = continents.continent_ocean>
 									<cfset continentLookup = continents.continent_ocean>
@@ -328,10 +329,10 @@ limitations under the License.
 										<cfset continentLookup = "NULL">
 									</cfif>
 									<!--- TODO: Support continent in specimen search API --->
-									<li class="w-100 list-group-item mt-2 font-weight-bold bg-white">
+									<td class="w-100 list-group-item mt-2 font-weight-bold bg-white">
 										<a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">#continent# </a>
 										(#continents.ct#)
-									</li>
+									</td>
 									<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 										SELECT sum(coll_obj_count) ct, country
 										FROM 
@@ -354,7 +355,7 @@ limitations under the License.
 											<cfset countryVal = "[No Country Value]">
 											<cfset countryLookup = "NULL">
 										</cfif>
-										<li class="list-group-item col-12 col-md-6 col-xl-4"><a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) </li>
+										<td class="list-group-item col-12 col-md-6 col-xl-4"><a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) </td>
 									</cfloop>
 									<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
 										<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
@@ -377,11 +378,11 @@ limitations under the License.
 											<cfset regionVal = "[No Ocean Region Value]">
 											<cfset regionLookup = "NULL">
 										</cfif>
-										<li class="list-group-item  col-12 col-md-6 col-xl-4"><a href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) </li>
+										<td class="list-group-item  col-12 col-md-6 col-xl-4"><a href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) </td>
 									</cfloop>
 									</cfif>
 								</cfloop>
-								</ul>
+											</tr></table>
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 								<h3 class="px-2">Browse By Islands</h3>
