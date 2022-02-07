@@ -329,7 +329,7 @@ limitations under the License.
 										<cfset continentLookup = "NULL">
 									</cfif>
 									<!--- TODO: Support continent in specimen search API --->
-									<td class="w-100 list-group-item mt-2 font-weight-bold bg-white">
+									<td class="w-100 list-group-item border mt-2 font-weight-bold bg-white">
 										<a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">#continent# </a>
 										(#continents.ct#)
 									</td>
@@ -387,8 +387,8 @@ limitations under the License.
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-2">Browse By Islands</h3>
-							<table class="">
-								<tr class="table table-striped list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
+							<table class="table table-striped">
+								<tr class="list-group col-12 px-0 list-group-horizontal d-flex flex-wrap pb-2">
 								<cfloop query="island_groups">
 									<cfset group = island_groups.island_group>
 									<cfset groupLookup = island_groups.island_group>
@@ -397,7 +397,7 @@ limitations under the License.
 										<cfset groupLookup = "NULL">
 									</cfif>
 									<!--- TODO: Support island/island_group in specimen search API --->
-									<td class="w-100 list-group-item mt-2 font-weight-bold bg-white">
+									<td class="w-100 list-group-item border mt-2 font-weight-bold bg-white">
 										<a href="#specimenSearch#&higher_geog=#island_groups.island_group#">#group# </a>
 										(#island_groups.ct#)
 									</td>
