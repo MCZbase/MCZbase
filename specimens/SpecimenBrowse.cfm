@@ -255,7 +255,7 @@ limitations under the License.
 								<cfloop query="namedGroups">
 									<cfif len(#namedGroups.description#)gt 0>
 										<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 float-left my-1">
-											<div class="border-white rounded bg-white p-2 col-12 float-left" style="height:117px;">
+											<div class="border rounded bg-white p-2 col-12 float-left" style="height:117px;">
 												<div class="row mx-0">
 													<cfif len(namedGroups.displayed_media_id) gt 0>
 														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
