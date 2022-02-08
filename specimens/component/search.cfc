@@ -92,6 +92,7 @@ limitations under the License.
 			<!--- consume the exception --->
 		</cfcatch>
 		</cftry>
+	</cfif>
 	<cfreturn result>
 </cffunction>
 
