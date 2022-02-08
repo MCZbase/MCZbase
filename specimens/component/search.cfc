@@ -51,7 +51,7 @@ limitations under the License.
 				<cfset searchText = "=#searchText#" >
 			<cfelseif refind("^[0-9]{4}$",searchText) EQ 1>
 				<!--- yyyy --->
-				<cfset searchText = "=#searchText#" >
+				<cfset searchText = "=#searchText#-01-01/#searchText#-12-31" >
 			<cfelseif refind("^[0-9]{4}/[0-9]{4}$",searchText) EQ 1>
 				<!--- yyyy/yyyy --->
 				<cfset yearbits = ListToArray(searchText,'/')>
