@@ -3909,6 +3909,7 @@ limitations under the License.
 
 	<cfthread name="getLoanPrintHtmlThread">
 		<cftry>
+			<cfset notOKMessage = "">
 			<cfquery name="loanDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select loan_type 
 				from loan
@@ -3934,9 +3935,16 @@ limitations under the License.
 				select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
 			</cfquery>
 			<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
-				<cfset okToprint = true>
+				<cfset okToPrint = true>
 			<cfelse>
-				<cfset okToprint = false>
+				<cfif inhouse.c GT 1>
+					<cfset notOKMessage = "there can be only one in-house contact.">
+				<cfelseif outside.c GT 1>
+					<cfset notOKMessage = "there can be only one received by agent.">
+				<cfelse>
+					<cfset notOKMessage = "a required agent role is missing.">
+				</cfif>
+				<cfset okToPrint = false>
 			</cfif>
 	
 			<cfoutput>
@@ -3949,6 +3957,8 @@ limitations under the License.
 					--->
 					<cfif okToPrint  >
 						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header" target="_blank">MCZ Invoice Header</a></li>
+					<cfelse>
+						<li>Invoice unavailable: #notOKMessage#</li>
 					</cfif>
 					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_loan_header" target="_blank">Header Copy for MCZ Files</a></li>
 					<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
