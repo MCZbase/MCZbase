@@ -432,22 +432,44 @@ limitations under the License.
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
-								<table class="table table-borderless">
-									<tr class="list-group list-group-horizontal col-12 px-0 d-flex flex-wrap pb-2 d-flex flex-wrap">
-										<td class="w-100 mt-2 border-white pb-2 mt-2 font-weight-bold bg-white">Phyla</td>
-										<cfloop query="phyla">
-											<td class="list-group-item col-12 py-2 col-md-6 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=#phylum#">#phylum#</a> (#ct#)</td>
-										</cfloop>
-										<td class="w-100 mt-2 border-white pb-2 mt-2 font-weight-bold bg-white">Orders with no value for Phylum</td>
-										<cfloop query="notphyla">
-											<td class="list-group-item col-12 py-2 col-md-6 pb-1 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</td>
-										</cfloop>
-										<td class="w-100 mt-2 font-weight-bold border-white pb-2 mt-2 bg-white">Taxon records with no value for Kingdom</td>
-										<cfloop query="notkingdoms">
-											<td class="list-group-item col-12 col-md-6 pt-2 py-1 col-xl-4 text-truncate"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</td>
-										</cfloop>
-									</tr>
-								</table>
+									<ul class="list-group list-group-flush">
+										<li class="list-group-item">
+											<a href="##phylum" class="list-group-item">Phyla</a>
+											<div class="collapse show" id="phylum">
+												<ul class="list-group">
+													<cfloop query="phyla">
+														<li class="list-group-item">
+															<a href="#specimenSearch#&phylum=#phylum#" data-toggle="collapse" class="" aria-expanded="true">#phylum# (#ct#)</a> 
+														</li>
+													</cfloop>
+												</ul>
+											</div>
+										</li>
+										<li class="list-group-item">
+											<a class="list-group-item" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
+											<div class="collapse" id="notphylum">
+												<cfloop query="notphyla">
+													<ul class="list-group">
+														<li class="list-group-item">
+															<a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder# (#ct#)</a> 
+														</li>
+													</ul>
+												</cfloop>
+											</div>
+										</li>
+										<li class="list-group-item">
+											<a class="list-group-item" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
+											<div class="collapse" id="notkingdom" >
+												<ul class="list-group">
+													<cfloop query="notkingdoms">
+														<div class="list-group-item"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
+														</div>
+													</cfloop>
+												</ul>
+											</div>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
