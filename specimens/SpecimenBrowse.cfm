@@ -259,7 +259,7 @@ limitations under the License.
 												<div class="row mx-0">
 													<cfif len(namedGroups.displayed_media_id) gt 0>
 														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
-															<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
+															<div class="float-right" id="mediaBlock#namedGroups.displayed_media_id#">
 																#mediablock#
 															</div>
 													</cfif>
