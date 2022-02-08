@@ -20,14 +20,16 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true">
 
-/** Given a string that may be a search term for a date or a date range, reformat it to 
+<!---
+ ** Given a string that may be a search term for a date or a date range, reformat it to 
  *  fit the expectations of a date search, e.g. change "2020" to "2020-01-01/2020-12-31"
  *  handles yyyy-mm-dd, yyyy-mm, yyyy, yyyy, yyyy-mm-dd/yyyy-mm-dd, yyyy/yyyy, yyyy-mm-dd/yyyy
  *    yyyy/yyyy-mm-dd, yyyy-mm/yyyy-mm, yyyy-mm/yyyy-mm, yyyy-mm-dd/yyyy-mm, yyyy-mm/yyyy-mm-dd
  * 
  * @param searchText the string to convert, if possible
  * @return searchText, expanded if possible, or any empty string if an exception occurs.
- */
+ *
+--->
 <cffunction name="reformatDateSearchTerm" access="remote" returntype="any" returnformat="json">
 	<cfargument name="searchText" type="string" required="yes">
 
