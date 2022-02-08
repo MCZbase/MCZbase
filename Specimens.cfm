@@ -701,6 +701,21 @@ limitations under the License.
 														<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
 														<input type="text" name="deaccession_number" class="data-entry-input" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#deaccession_number#" >
 													</div>
+													<!--- TODO: Move from manage transactions section --->
+													<div class="col-12 col-md-2">
+														<cfif not isdefined("coll_object_entered_date")>
+															<cfset coll_object_entered_date="">
+														</cfif>
+														<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
+														<input type="text" name="coll_object_entered_date" class="data-entry-input" id="coll_object_entered_date" placeholder="Dyyyy-n-Col" value="#coll_object_entered_date#" >
+													</div>
+													<div class="col-12 col-md-2">
+														<cfif not isdefined("last_edit_date")>
+															<cfset last_edit_date="">
+														</cfif>
+														<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
+														<input type="text" name="last_edit_date" class="data-entry-input" id="last_edit_date" placeholder="Dyyyy-n-Col" value="#last_edit_date#" >
+													</div>
 												</div>
 											</cfif>
 											<div class="form-row my-3">
