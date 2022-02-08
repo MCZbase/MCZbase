@@ -3941,7 +3941,7 @@ limitations under the License.
 					<cfset notOKMessage = "there can be only one received by agent.">
 				<cfelse>
 					<cfset notOKMessage = "a required agent role is missing.">
-				</cfelse>
+				</cfif>
 				<cfset okToPrint = true>
 			<cfelse>
 				<cfset okToPrint = false>
