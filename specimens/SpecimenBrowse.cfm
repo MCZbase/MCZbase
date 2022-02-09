@@ -440,6 +440,8 @@ limitations under the License.
 									}
 									li {
 										column-count: 3;
+										width: 33%;
+										margin-top: 1rem;
 									}
 
 									a {
