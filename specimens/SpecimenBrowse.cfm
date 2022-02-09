@@ -437,13 +437,13 @@ limitations under the License.
 										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4 float-left">
 											<a href="##phylum" class="list-group-item bg-white w-100 px-2" data-toggle="collapse">Phyla</a>
 											<div class="collapse show" id="phylum">
-												<ul class="list-group">
-													<cfloop query="phyla">
+												<cfloop query="phyla">
+													<ul class="list-group">
 														<li class="list-group-item px-5">
 															<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
 														</li>
-													</cfloop>
-												</ul>
+													</ul>
+												</cfloop>
 											</div>
 										</li>
 										</div>
