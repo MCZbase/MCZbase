@@ -435,6 +435,7 @@ limitations under the License.
 								<style>
 								ol {
 									display:flex;
+									
 									flex-flow: column wrap; /* direction: column */
 									height: auto; /* need to specify height :-( */
 								}
@@ -446,13 +447,17 @@ limitations under the License.
 									display: inline-block;
 									padding-right: 35px;
 								}
+									@media only screen and (max-width: 600px) {
+										li {
+											column-count:2;
+										}}
 								</style>
 								<div class="col-12">
 									<ul class="list-group">
 										<li class="list-group-item">
 											<a class="bg-white w-100 p-2" href="##phylum" data-toggle="collapse">Phylum</a>
-											<div class="collapse" id="phylum">
-												<ol >
+											<div class="collapse w-100" style="clear:both;" id="phylum">
+												<ol>
 												<cfloop query="phyla">
 													<li class="border-red">
 														<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
