@@ -443,10 +443,15 @@ limitations under the License.
 										display: inline-block;
 										padding-right: 35px;
 									}
-									@media only screen and (max-width: 600px) {
+									@media only screen and (max-width: 991px) {
 									  ol.flow {
 										height:600px;
 										 column-count: 2;
+									  }
+									@media only screen and (max-width: 600px) {
+									  ol.flow {
+										height:700px;
+										 column-count: 1;
 									  }
 									}
 								</style>
