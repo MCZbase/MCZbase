@@ -437,7 +437,9 @@ limitations under the License.
 										display: flex;
 										flex-flow: column wrap;
 										height: auto;
-										max-height: auto;
+									}
+									ul.flow ~ ul.flow {
+										flex-flow: row wrap;
 									}
 									a.thisflow {
 										display: inline-block;
@@ -446,20 +448,21 @@ limitations under the License.
 									ul.flow li {
 										width: 33%;
 									}
+									
 									@media only screen and (max-width: 600px) {
 										ul.flow li {
 											width: 100%;
 										}
 									}
-									@media only screen and (max-width: 1200px) {
+									@media only screen and (max-width: 900px) {
 										ul.flow li {
-											width: 60%;
+											width: 50%;
 										}
 									}
 								</style>
 								<div class="col-12">
-									<ul class="list-group list-unstyled">
-										<li class="list-group-item">
+									<ul class="flow" style="list-style: none">
+										<li class="" style="list-style: none;">
 											<a class="thisflow bg-white w-100 p-2" href="##phylum" data-toggle="collapse">Phylum</a>
 											<div class="collapse" id="phylum">
 												<ul class="flow">
