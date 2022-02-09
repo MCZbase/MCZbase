@@ -453,7 +453,7 @@ limitations under the License.
 										}}
 								</style>
 								<div class="col-12">
-									<ul class="list-group">
+									<ul class="list-group" style="display:flex;flex-flow:column wrap;height:auto;">
 										<li class="list-group-item">
 											<a class="bg-white w-100 p-2" href="##phylum" data-toggle="collapse">Phylum</a>
 											<div class="collapse w-100" style="clear:both;" id="phylum">
