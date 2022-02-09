@@ -439,20 +439,22 @@ limitations under the License.
 										height: 300px; /* need to specify height :-( */
 										column-count: 5;
 									}
-									ol.flow li {
-										
-									}
-
 									ol.flow li a {
 										display: inline-block;
 										padding-right: 35px;
+									}
+									@media only screen and (max-width: 600px) {
+									  ol.flow {
+										height:600px;
+										 column-count: 2;
+									  }
 									}
 								</style>
 								<div class="col-12">
 									<div class="border w-100 my-2">
 											<a class="bg-white border-bottom w-100 d-flex px-3 py-2" style="height:2rem;"  href="##phylum" data-toggle="collapse">Phylum</a>
 											<div class="collapse w-100" id="phylum">
-												<ol class="flow">
+												<ol class="flow pt-2">
 												<cfloop query="phyla">
 													<li>
 														<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
@@ -464,7 +466,7 @@ limitations under the License.
 									<div class="border my-2 w-100">
 											<a class="bg-white border-bottom w-100 d-flex px-3 py-2" style="height:2rem;" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
 											<div class="collapse" id="notphylum">
-												<ol class="flow">
+												<ol class="flow pt-2">
 													<cfloop query="notphyla">
 														<li>
 															<a class="" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder# (#ct#)</a> 
@@ -476,7 +478,7 @@ limitations under the License.
 									<div class="border my-1 w-100">
 											<a class="bg-white w-100 border-bottom d-flex px-3 py-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 											<div class="collapse" id="notkingdom" >
-												<ol class="flow">
+												<ol class="flow pt-2">
 												<cfloop query="notkingdoms">
 													<li><a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
 													</li>
