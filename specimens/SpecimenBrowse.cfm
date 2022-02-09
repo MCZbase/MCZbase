@@ -438,7 +438,7 @@ limitations under the License.
 										flex-flow: column wrap; /* direction: column */
 										height: auto; /* need to specify height :-( */
 									}
-									li {
+									ol li {
 										column-count: 3;
 										width: 33%;
 										margin-top: 1rem;
