@@ -443,7 +443,6 @@ limitations under the License.
 										max-height: auto; /* override max-height of the column direction */
 									}
 									li {
-										width: 150px;
 										column-count: 3;
 									}
 
@@ -453,8 +452,8 @@ limitations under the License.
 									}
 								</style>
 								<div class="col-12">
-									<ul class="" style="width:100%;">
-										<li class="list-group-item">
+									<div class="flex-row w-100">
+										<div class="list-group-item">
 											<a class="bg-white w-100 p-2" href="##phylum" data-toggle="collapse">Phylum</a>
 											<div class="collapse w-100" style="clear:both;" id="phylum">
 												<ol class="flow">
@@ -465,8 +464,8 @@ limitations under the License.
 												</cfloop>
 												</ol>
 											</div>
-										</li>
-										<li class="list-group-item">
+										</div>
+										<div class="list-group-item">
 											<a class="bg-white w-100 p-2" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
 											<div class="collapse" id="notphylum">
 												<ol class="flow">
@@ -477,8 +476,8 @@ limitations under the License.
 													</cfloop>
 												</ol>
 											</div>
-										</li>
-										<li class="list-group-item">
+										</div>
+										<div class="list-group-item">
 											<a class="bg-white w-100 p-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 											<div class="collapse" id="notkingdom" >
 												<ol class="flow">
@@ -488,8 +487,8 @@ limitations under the License.
 												</cfloop>
 												</ol>
 											</div>
-										</li>
-									</ul>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
