@@ -438,10 +438,6 @@ limitations under the License.
 										flex-flow: column wrap; /* direction: column */
 										height: 350px; /* need to specify height :-( */
 										column-count: 5;
-										column-gap: 40px;
-										column-rule-style: solid;
-										column-rule-width: 1px;
-										column-rule-color: lightblue;
 									}
 									ol.flow li a {
 										display: inline-block;
@@ -473,7 +469,7 @@ limitations under the License.
 											</div>
 										</div>
 									<div class="border my-2 w-100">
-											<a class="bg-white border-bottom w-100 d-flex px-3 py-2" style="height:2rem;" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
+											<a class="bg-white border-bottom w-100 d-flex px-3 py-2" style="height:2rem;" href="##notphylum" data-toggle="collapse">Orders &ndash; no Phylum value</a>
 											<div class="collapse" id="notphylum">
 												<ol class="flow pt-2">
 													<cfloop query="notphyla">
