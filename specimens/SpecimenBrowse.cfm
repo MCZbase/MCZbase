@@ -434,20 +434,20 @@ limitations under the License.
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<div class="col-12">
 									<ul class="list-group list-group-flush">
-										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4">
-											<a href="##phylum" class="list-group-item bg-white w-100 px-2">Phyla</a>
+										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4 float-left">
+											<a href="##phylum" class="list-group-item bg-white w-100 px-2" data-toggle="collapse">Phyla</a>
 											<div class="collapse show" id="phylum">
 												<ul class="list-group">
 													<cfloop query="phyla">
 														<li class="list-group-item px-5">
-															<a href="#specimenSearch#&phylum=#phylum#" data-toggle="collapse"  id="phylum" aria-expanded="true">#phylum# (#ct#)</a> 
+															<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
 														</li>
 													</cfloop>
 												</ul>
 											</div>
 										</li>
 										</div>
-										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4">
+										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4 float-left">
 											<a class="list-group-item bg-white w-100 px-2" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
 											<div class="collapse" id="notphylum">
 												<cfloop query="notphyla">
