@@ -436,14 +436,15 @@ limitations under the License.
 								ol {
 									display:flex;
 									flex-flow: column wrap; /* direction: column */
-									height: 100px; /* need to specify height :-( */
+									height: auto; /* need to specify height :-( */
+									width:100%;
 								}
 								ol ~ ol {
 									flex-flow: row wrap; /* direction: row */
 									max-height: auto; /* override max-height of the column direction */
 								}
 								li {
-									width: 150px;
+									width: 33%;
 								}
 
 								a {
@@ -468,13 +469,13 @@ limitations under the License.
 										<li class="list-group-item">
 											<a class="bg-white w-100 p-2" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
 											<div class="collapse" id="notphylum">
-												<ul class="flow">
+												<ol class="flow">
 													<cfloop query="notphyla">
 														<li class="">
 															<a class="thisflow" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder# (#ct#)</a> 
 														</li>
 													</cfloop>
-												</ul>
+												</ol>
 											</div>
 										</li>
 										<li class="list-group-item">
