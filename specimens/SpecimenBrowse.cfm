@@ -444,14 +444,14 @@ limitations under the License.
 										margin-top: 1rem;
 									}
 
-									ol.flow a {
+									ol.flow li a {
 										display: inline-block;
 										padding-right: 35px;
 									}
 								</style>
 								<div class="col-12">
-									<div class="flex-row w-100">
-										<div  class="flex-row w-100">
+									<div class="border my-1 w-100">
+										<div  class=" w-100">
 											<a class="bg-white w-100 p-2" href="##phylum" data-toggle="collapse">Phylum</a>
 											<div class="collapse w-100" id="phylum">
 												<ol class="flow">
@@ -463,24 +463,24 @@ limitations under the License.
 												</ol>
 											</div>
 										</div>
-										<div  class="flex-row w-100">
+										<div class="border my-y w-100">
 											<a class="bg-white w-100 p-2" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
 											<div class="collapse" id="notphylum">
 												<ol class="flow">
 													<cfloop query="notphyla">
 														<li>
-															<a class="thisflow" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder# (#ct#)</a> 
+															<a class="" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder# (#ct#)</a> 
 														</li>
 													</cfloop>
 												</ol>
 											</div>
 										</div>
-										<div  class="flex-row w-100">
+										<div  class="border my-1 w-100">
 											<a class="bg-white w-100 p-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 											<div class="collapse" id="notkingdom" >
 												<ol class="flow">
 												<cfloop query="notkingdoms">
-													<li><a class="thisflow" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
+													<li><a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
 													</li>
 												</cfloop>
 												</ol>
