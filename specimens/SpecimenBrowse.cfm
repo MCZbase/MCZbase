@@ -433,18 +433,18 @@ limitations under the License.
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<style>
-									ol {
+									ol.flow {
 										display:flex;
 										flex-flow: column wrap; /* direction: column */
 										height: auto; /* need to specify height :-( */
 									}
-									ol li {
+									ol.flow li {
 										column-count: 3;
 										width: 33%;
 										margin-top: 1rem;
 									}
 
-									a {
+									ol.flow a {
 										display: inline-block;
 										padding-right: 35px;
 									}
