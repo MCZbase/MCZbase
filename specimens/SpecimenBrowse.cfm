@@ -437,14 +437,9 @@ limitations under the License.
 									display:flex;
 									flex-flow: column wrap; /* direction: column */
 									height: auto; /* need to specify height :-( */
-									width:100%;
-								}
-								ol ~ ol {
-									flex-flow: row wrap; /* direction: row */
-									max-height: auto; /* override max-height of the column direction */
 								}
 								li {
-									width: 33%;
+									column-count: 3;
 								}
 
 								a {
