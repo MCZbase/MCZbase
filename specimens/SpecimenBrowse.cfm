@@ -435,21 +435,21 @@ limitations under the License.
 								
 								<div class="col-12">
 									<ul class="list-group list-group-flush col-12">
-										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4 float-left">
+										<li class="list-group-item col-12 float-left">
 											<a class="list-group-item bg-white w-100 px-2" href="##phylum" data-toggle="collapse">Phyla</a>
 											<cfset cols=3>
 											<cfset totalRows=ceiling(phyla.RecordCount/3)>
 											<div class="collapse" id="phylum">
 												<cfloop from = "1" to = "#totalRows#" index = "thisRow">
-												<ul class="list-group list-group-horizontal">
 													<cfloop from="1" to="#cols#" index="thisCol">
+														<ul class="col-3">
 														<cfloop query="phyla">
-															<li class="list-group-item px-5">
+															<li class="border-red">
 																<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
 															</li>
 														</cfloop>
+														</ul>
 													</cfloop>
-												</ul>
 												</cfloop>
 											</div>
 										</li>
