@@ -432,8 +432,9 @@ limitations under the License.
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
+								<div class="col-12">
 									<ul class="list-group list-group-flush">
-										<li class="list-group-item">
+										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4">
 											<a href="##phylum" class="list-group-item bg-white w-100 px-2">Phyla</a>
 											<div class="collapse show" id="phylum">
 												<ul class="list-group">
@@ -445,7 +446,8 @@ limitations under the License.
 												</ul>
 											</div>
 										</li>
-										<li class="list-group-item">
+										</div>
+										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4">
 											<a class="list-group-item bg-white w-100 px-2" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
 											<div class="collapse" id="notphylum">
 												<cfloop query="notphyla">
@@ -457,7 +459,7 @@ limitations under the License.
 												</cfloop>
 											</div>
 										</li>
-										<li class="list-group-item">
+										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4">
 											<a class="list-group-item bg-white w-100 px-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 											<div class="collapse" id="notkingdom" >
 												<ul class="list-group">
