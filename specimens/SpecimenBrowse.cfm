@@ -442,10 +442,12 @@ limitations under the License.
 											<div class="collapse" id="phylum">
 												<cfloop from = "1" to = "#totalRows#" index = "thisRow">
 												<ul class="list-group list-group-horizontal">
-													<cfloop query="phyla" from="1" to="#cols#" index="thisCol">
-														<li class="list-group-item px-5">
-															<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
-														</li>
+													<cfloop from="1" to="#cols#" index="thisCol">
+														<cfloop query="phyla"></cfloop>
+															<li class="list-group-item px-5">
+																<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
+															</li>
+														</cfloop>
 													</cfloop>
 												</ul>
 												</cfloop>
