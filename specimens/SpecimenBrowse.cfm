@@ -448,6 +448,7 @@ limitations under the License.
 										height:650px;
 										 column-count: 2;
 									  }
+									}
 									@media only screen and (max-width: 600px) {
 									  ol.flow {
 										height:1300px;
@@ -481,16 +482,16 @@ limitations under the License.
 											</div>
 										</div>
 									<div class="border my-1 w-100">
-											<a class="bg-white w-100 border-bottom d-flex px-3 py-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
-											<div class="collapse" id="notkingdom" >
-												<ol class="flow pt-2">
-												<cfloop query="notkingdoms">
-													<li><a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
-													</li>
-												</cfloop>
-												</ol>
-											</div>
+										<a class="bg-white w-100 border-bottom d-flex px-3 py-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
+										<div class="collapse" id="notkingdom" >
+											<ol class="flow pt-2">
+											<cfloop query="notkingdoms">
+												<li><a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
+												</li>
+											</cfloop>
+											</ol>
 										</div>
+									</div>
 								</div>
 							</div>
 						</div>
