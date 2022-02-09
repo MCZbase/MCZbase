@@ -438,6 +438,10 @@ limitations under the License.
 										flex-flow: column wrap; /* direction: column */
 										height: 350px; /* need to specify height :-( */
 										column-count: 5;
+										column-gap: 40px;
+										column-rule-style: solid;
+										column-rule-width: 1px;
+										column-rule-color: lightblue;
 									}
 									ol.flow li a {
 										display: inline-block;
