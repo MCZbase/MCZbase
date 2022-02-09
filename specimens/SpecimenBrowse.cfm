@@ -449,7 +449,7 @@ limitations under the License.
 									padding-right: 35px;
 								}
 									@media only screen and (max-width: 600px) {
-										li {
+										ol.flow li {
 											column-count:2;
 										}}
 								</style>
