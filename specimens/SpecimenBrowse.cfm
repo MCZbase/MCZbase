@@ -437,9 +437,10 @@ limitations under the License.
 										display:flex;
 										flex-flow: column wrap; /* direction: column */
 										height: 300px; /* need to specify height :-( */
+										column-count: 5;
 									}
 									ol.flow li {
-										column-count: 4;
+										
 									}
 
 									ol.flow li a {
