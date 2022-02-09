@@ -440,8 +440,6 @@ limitations under the License.
 									}
 									ol.flow li {
 										column-count: 3;
-										width: 33%;
-										margin-top: 1rem;
 									}
 
 									ol.flow li a {
@@ -450,9 +448,8 @@ limitations under the License.
 									}
 								</style>
 								<div class="col-12">
-									<div class="border my-1 w-100">
-										<div  class=" w-100">
-											<a class="bg-white w-100 p-2" href="##phylum" data-toggle="collapse">Phylum</a>
+									<div class="border w-100 my-1">
+											<a class="bg-white w-100 d-flex px-3 py-2" style="height:2rem;"  href="##phylum" data-toggle="collapse">Phylum</a>
 											<div class="collapse w-100" id="phylum">
 												<ol class="flow">
 												<cfloop query="phyla">
@@ -463,8 +460,8 @@ limitations under the License.
 												</ol>
 											</div>
 										</div>
-										<div class="border my-y w-100">
-											<a class="bg-white w-100 p-2" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
+									<div class="border my-1 w-100">
+											<a class="bg-white w-100 d-flex px-3 py-2" style="height:2rem;" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
 											<div class="collapse" id="notphylum">
 												<ol class="flow">
 													<cfloop query="notphyla">
@@ -475,8 +472,8 @@ limitations under the License.
 												</ol>
 											</div>
 										</div>
-										<div  class="border my-1 w-100">
-											<a class="bg-white w-100 p-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
+									<div class="border my-1 w-100">
+											<a class="bg-white w-100 d-flex px-3 py-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 											<div class="collapse" id="notkingdom" >
 												<ol class="flow">
 												<cfloop query="notkingdoms">
@@ -486,7 +483,6 @@ limitations under the License.
 												</ol>
 											</div>
 										</div>
-									</div>
 								</div>
 							</div>
 						</div>
