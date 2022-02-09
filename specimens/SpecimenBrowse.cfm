@@ -433,28 +433,26 @@ limitations under the License.
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<style>
-								ol.flow {
-									display:flex;
-									
-									flex-flow: column wrap; /* direction: column */
-									height: auto; /* need to specify height :-( */
-								}
-							
-								ol.flow li {
-									column-count: 3;
-								}
+									ol {
+										display:flex;
+										flex-flow: column wrap; /* direction: column */
+										height: 100px; /* need to specify height :-( */
+									}
+									ol ~ ol {
+										flex-flow: row wrap; /* direction: row */
+										max-height: auto; /* override max-height of the column direction */
+									}
+									li {
+										width: 150px;
+									}
 
-								a {
-									display: inline-block;
-									padding-right: 35px;
-								}
-									@media only screen and (max-width: 600px) {
-										ol.flow li {
-											column-count:2;
-										}}
+									a {
+										display: inline-block;
+										padding-right: 35px;
+									}
 								</style>
 								<div class="col-12">
-									<ul class="list-group">
+									<ul class="" style="width:100%;">
 										<li class="list-group-item">
 											<a class="bg-white w-100 p-2" href="##phylum" data-toggle="collapse">Phylum</a>
 											<div class="collapse w-100" style="clear:both;" id="phylum">
