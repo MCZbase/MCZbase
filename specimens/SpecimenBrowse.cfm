@@ -438,10 +438,6 @@ limitations under the License.
 										flex-flow: column wrap; /* direction: column */
 										height: 100px; /* need to specify height :-( */
 									}
-									ul ~ ol {
-										flex-flow: row wrap; /* direction: row */
-										max-height: auto; /* override max-height of the column direction */
-									}
 									li {
 										column-count: 3;
 									}
@@ -453,9 +449,9 @@ limitations under the License.
 								</style>
 								<div class="col-12">
 									<div class="flex-row w-100">
-										<div class="list-group-item">
+										<div  class="flex-row w-100">
 											<a class="bg-white w-100 p-2" href="##phylum" data-toggle="collapse">Phylum</a>
-											<div class="collapse w-100" style="clear:both;" id="phylum">
+											<div class="collapse w-100" id="phylum">
 												<ol class="flow">
 												<cfloop query="phyla">
 													<li>
@@ -465,7 +461,7 @@ limitations under the License.
 												</ol>
 											</div>
 										</div>
-										<div class="list-group-item">
+										<div  class="flex-row w-100">
 											<a class="bg-white w-100 p-2" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
 											<div class="collapse" id="notphylum">
 												<ol class="flow">
@@ -477,7 +473,7 @@ limitations under the License.
 												</ol>
 											</div>
 										</div>
-										<div class="list-group-item">
+										<div  class="flex-row w-100">
 											<a class="bg-white w-100 p-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 											<div class="collapse" id="notkingdom" >
 												<ol class="flow">
