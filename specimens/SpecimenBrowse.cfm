@@ -433,14 +433,14 @@ limitations under the License.
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<style>
-								ol {
+								ol.flow {
 									display:flex;
 									
 									flex-flow: column wrap; /* direction: column */
 									height: auto; /* need to specify height :-( */
 								}
 							
-								li.flow {
+								ol.flow li {
 									column-count: 3;
 								}
 
@@ -458,9 +458,9 @@ limitations under the License.
 										<li class="list-group-item">
 											<a class="bg-white w-100 p-2" href="##phylum" data-toggle="collapse">Phylum</a>
 											<div class="collapse w-100" style="clear:both;" id="phylum">
-												<ol>
+												<ol class="flow">
 												<cfloop query="phyla">
-													<li class="flow">
+													<li>
 														<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
 													</li>
 												</cfloop>
@@ -470,9 +470,9 @@ limitations under the License.
 										<li class="list-group-item">
 											<a class="bg-white w-100 p-2" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
 											<div class="collapse" id="notphylum">
-												<ol>
+												<ol class="flow">
 													<cfloop query="notphyla">
-														<li  class="flow">
+														<li>
 															<a class="thisflow" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder# (#ct#)</a> 
 														</li>
 													</cfloop>
@@ -482,9 +482,9 @@ limitations under the License.
 										<li class="list-group-item">
 											<a class="bg-white w-100 p-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 											<div class="collapse" id="notkingdom" >
-												<ol>
+												<ol class="flow">
 												<cfloop query="notkingdoms">
-													<li class="flow"><a class="thisflow" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
+													<li><a class="thisflow" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
 													</li>
 												</cfloop>
 												</ol>
