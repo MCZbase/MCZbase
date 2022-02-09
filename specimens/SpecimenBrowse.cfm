@@ -431,7 +431,7 @@ limitations under the License.
 								</table>
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
-								<h3 class="px-2">Browse by Higher Taxonomy</h3>
+								<h3 class="px-3">Browse by Higher Taxonomy</h3>
 								<style>
 									ol.flow {
 										display:flex;
