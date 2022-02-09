@@ -444,6 +444,7 @@ limitations under the License.
 									}
 									li {
 										width: 150px;
+										column-count: 3;
 									}
 
 									a {
