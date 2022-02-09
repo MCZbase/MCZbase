@@ -436,23 +436,31 @@ limitations under the License.
 									ul.flow {
 										display: flex;
 										flex-flow: column wrap;
-										height: 100px;
-									}
-									ul.flow {
-										flex-flow: row wrap;
+										height: auto;
 										max-height: auto;
-									}
-									ul.flow li {
-										width: 33%;
 									}
 									a.thisflow {
 										display: inline-block;
 										padding-right:35px;
 									}
+									ul.flow li {
+										width: 33%;
+									}
+									@media only screen and (max-width: 600px) {
+										ul.flow li {
+											width: 100%;
+										}
+									}
+									@media only screen and (max-width: 1200px) {
+										ul.flow li {
+											width: 60%;
+										}
+									}
 								</style>
 								<div class="col-12">
-									<ul class="">
-										<li class="">
+									<ul class="list-group list-unstyled">
+										<li class="list-group-item">
+											<a class="thisflow bg-white w-100 p-2" href="##phylum" data-toggle="collapse">Phylum</a>
 											<div class="collapse" id="phylum">
 												<ul class="flow">
 												<cfloop query="phyla">
@@ -463,8 +471,8 @@ limitations under the License.
 												</ul>
 											</div>
 										</li>
-										<li class="">
-											<a class="thisflow" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
+										<li class="list-group-item">
+											<a class="thisflow bg-white w-100 p-2" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
 											<div class="collapse" id="notphylum">
 												<ul class="flow">
 													<cfloop query="notphyla">
@@ -475,8 +483,8 @@ limitations under the License.
 												</ul>
 											</div>
 										</li>
-										<li class="">
-											<a class="thisflow bg-white w-100 px-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
+										<li class="list-group-item">
+											<a class="thisflow bg-white w-100 p-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 											<div class="collapse" id="notkingdom" >
 												<ul class="flow">
 												<cfloop query="notkingdoms">
