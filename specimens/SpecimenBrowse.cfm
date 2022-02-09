@@ -432,25 +432,35 @@ limitations under the License.
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
-								
+								<style>
+									ul {
+										display: flex;
+										flex-flow: column wrap;
+										height: 100px;
+									}
+									ul ~ ul {
+										flex-flow: row wrap;
+										max-height: auto;
+									}
+									ul li {
+										width: 33%;
+									}
+									a {
+										display: inline-block;
+										padding-right:35px;
+									}
+								</style>
 								<div class="col-12">
 									<ul class="list-group list-group-flush col-12">
 										<li class="list-group-item col-12 float-left">
-											<a class="list-group-item bg-white w-100 px-2" href="##phylum" data-toggle="collapse">Phyla</a>
-											<cfset cols=3>
-											<cfset totalRows=ceiling(phyla.RecordCount/3)>
 											<div class="collapse" id="phylum">
-												<cfloop from = "1" to = "#totalRows#" index = "thisRow">
-													<cfloop from="1" to="#cols#" index="thisCol">
-														<ul class="col-3">
-														<cfloop query="phyla">
-															<li class="border-red">
-																<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
-															</li>
-														</cfloop>
-														</ul>
-													</cfloop>
+												<ul class="col-3">
+												<cfloop query="phyla">
+													<li class="border-red">
+														<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
+													</li>
 												</cfloop>
+												</ul>
 											</div>
 										</li>
 										<li class="list-group-item col-12 float-left">
