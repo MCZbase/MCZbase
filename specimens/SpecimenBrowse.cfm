@@ -450,7 +450,7 @@ limitations under the License.
 									  }
 									@media only screen and (max-width: 600px) {
 									  ol.flow {
-										height:900px;
+										height:1190px;
 										 column-count: 1;
 									  }
 									}
