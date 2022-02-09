@@ -436,7 +436,7 @@ limitations under the License.
 									ol.flow {
 										display:flex;
 										flex-flow: column wrap; /* direction: column */
-										height: 300px; /* need to specify height :-( */
+										height: 350px; /* need to specify height :-( */
 										column-count: 5;
 									}
 									ol.flow li a {
@@ -445,12 +445,12 @@ limitations under the License.
 									}
 									@media only screen and (max-width: 991px) {
 									  ol.flow {
-										height:600px;
+										height:650px;
 										 column-count: 2;
 									  }
 									@media only screen and (max-width: 600px) {
 									  ol.flow {
-										height:700px;
+										height:900px;
 										 column-count: 1;
 									  }
 									}
