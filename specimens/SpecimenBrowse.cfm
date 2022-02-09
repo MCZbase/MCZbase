@@ -459,7 +459,7 @@ limitations under the License.
 												</cfloop>
 											</div>
 										</li>
-										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4">
+										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4 float-left">
 											<a class="list-group-item bg-white w-100 px-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 											<div class="collapse" id="notkingdom" >
 												<ul class="list-group">
