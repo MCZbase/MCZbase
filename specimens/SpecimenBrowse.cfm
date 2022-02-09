@@ -462,12 +462,12 @@ limitations under the License.
 										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4 float-left">
 											<a class="list-group-item bg-white w-100 px-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 											<div class="collapse" id="notkingdom" >
+												<cfloop query="notkingdoms">
 												<ul class="list-group">
-													<cfloop query="notkingdoms">
-														<li class="list-group-item px-5"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
-														</li>
-													</cfloop>
+													<li class="list-group-item px-5"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
+													</li>
 												</ul>
+												</cfloop>
 											</div>
 										</li>
 									</ul>
