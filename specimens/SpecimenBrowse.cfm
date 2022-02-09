@@ -433,11 +433,11 @@ limitations under the License.
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<div class="col-12">
-									<ul class="list-group list-group-flush">
+									<ul class="list-group list-group-flush col-12">
 										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4 float-left">
 											<a class="list-group-item bg-white w-100 px-2" href="##phylum" data-toggle="collapse">Phyla</a>
 											<div class="collapse" id="phylum">
-												<ul class="list-group">
+												<ul class="list-group list-group-horizontal">
 													<cfloop query="phyla">
 														<li class="list-group-item px-5">
 															<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
@@ -446,10 +446,10 @@ limitations under the License.
 												</ul>
 											</div>
 										</li>
-										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4 float-left">
+										<li class="list-group-item col-12 float-left">
 											<a class="list-group-item bg-white w-100 px-2" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
 											<div class="collapse" id="notphylum">
-												<ul class="list-group">
+												<ul class="list-group list-group-horizontal">
 													<cfloop query="notphyla">
 														<li class="list-group-item px-5">
 															<a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder# (#ct#)</a> 
@@ -458,10 +458,10 @@ limitations under the License.
 												</ul>
 											</div>
 										</li>
-										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4 float-left">
+										<li class="list-group-item col-12 float-left">
 											<a class="list-group-item bg-white w-100 px-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 											<div class="collapse" id="notkingdom" >
-												<ul class="list-group">
+												<ul class="list-group d-flex flex-column">
 												<cfloop query="notkingdoms">
 													<li class="list-group-item px-5"><a href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
 													</li>
