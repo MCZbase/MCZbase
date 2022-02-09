@@ -443,7 +443,7 @@ limitations under the License.
 												<cfloop from = "1" to = "#totalRows#" index = "thisRow">
 												<ul class="list-group list-group-horizontal">
 													<cfloop from="1" to="#cols#" index="thisCol">
-														<cfloop query="phyla"></cfloop>
+														<cfloop query="phyla">
 															<li class="list-group-item px-5">
 																<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
 															</li>
