@@ -436,7 +436,7 @@ limitations under the License.
 									ol {
 										display:flex;
 										flex-flow: column wrap; /* direction: column */
-										height: 100px; /* need to specify height :-( */
+										height: auto; /* need to specify height :-( */
 									}
 									li {
 										column-count: 3;
