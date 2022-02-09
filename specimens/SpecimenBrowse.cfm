@@ -433,49 +433,40 @@ limitations under the License.
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<style>
-									ul.flow {
-										display: flex;
-										flex-flow: column wrap;
-										height: auto;
-									}
-									ul.flow ~ ul.flow {
-										flex-flow: row wrap;
-									}
-									a.thisflow {
-										display: inline-block;
-										padding-right:35px;
-									}
-									ul.flow li {
-										width: 33%;
-									}
-									
-									@media only screen and (max-width: 600px) {
-										ul.flow li {
-											width: 100%;
-										}
-									}
-									@media only screen and (max-width: 900px) {
-										ul.flow li {
-											width: 50%;
-										}
-									}
+								ol {
+									display:flex;
+									flex-flow: column wrap; /* direction: column */
+									height: 100px; /* need to specify height :-( */
+								}
+								ol ~ ol {
+									flex-flow: row wrap; /* direction: row */
+									max-height: auto; /* override max-height of the column direction */
+								}
+								li {
+									width: 150px;
+								}
+
+								a {
+									display: inline-block;
+									padding-right: 35px;
+								}
 								</style>
 								<div class="col-12">
-									<ul class="flow" style="list-style: none">
-										<li class="" style="list-style: none;">
-											<a class="thisflow bg-white w-100 p-2" href="##phylum" data-toggle="collapse">Phylum</a>
+									<ul class="list-group">
+										<li class="list-group-item">
+											<a class="bg-white w-100 p-2" href="##phylum" data-toggle="collapse">Phylum</a>
 											<div class="collapse" id="phylum">
-												<ul class="flow">
+												<ol >
 												<cfloop query="phyla">
 													<li class="border-red">
 														<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
 													</li>
 												</cfloop>
-												</ul>
+												</ol>
 											</div>
 										</li>
 										<li class="list-group-item">
-											<a class="thisflow bg-white w-100 p-2" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
+											<a class="bg-white w-100 p-2" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
 											<div class="collapse" id="notphylum">
 												<ul class="flow">
 													<cfloop query="notphyla">
@@ -487,14 +478,14 @@ limitations under the License.
 											</div>
 										</li>
 										<li class="list-group-item">
-											<a class="thisflow bg-white w-100 p-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
+											<a class="bg-white w-100 p-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 											<div class="collapse" id="notkingdom" >
-												<ul class="flow">
+												<ol class="flow">
 												<cfloop query="notkingdoms">
 													<li class=""><a class="thisflow" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
 													</li>
 												</cfloop>
-												</ul>
+												</ol>
 											</div>
 										</li>
 									</ul>
