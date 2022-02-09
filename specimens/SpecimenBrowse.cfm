@@ -433,16 +433,16 @@ limitations under the License.
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<style>
-									ul.flow1 {
+									ul.flow {
 										display: flex;
 										flex-flow: column wrap;
 										height: 100px;
 									}
-									ul.flow1 ~ ul.flow2 {
+									ul.flow {
 										flex-flow: row wrap;
 										max-height: auto;
 									}
-									ul.flow2 li {
+									ul.flow li {
 										width: 33%;
 									}
 									a.thisflow {
@@ -451,10 +451,10 @@ limitations under the License.
 									}
 								</style>
 								<div class="col-12">
-									<ul class="flow1">
+									<ul class="">
 										<li class="">
 											<div class="collapse" id="phylum">
-												<ul class="flow2">
+												<ul class="flow">
 												<cfloop query="phyla">
 													<li class="border-red">
 														<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
@@ -466,7 +466,7 @@ limitations under the License.
 										<li class="">
 											<a class="thisflow" href="##notphylum" data-toggle="collapse">Orders with no value for Phylum</a>
 											<div class="collapse" id="notphylum">
-												<ul class="flow2">
+												<ul class="flow">
 													<cfloop query="notphyla">
 														<li class="">
 															<a class="thisflow" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder# (#ct#)</a> 
@@ -478,7 +478,7 @@ limitations under the License.
 										<li class="">
 											<a class="thisflow bg-white w-100 px-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 											<div class="collapse" id="notkingdom" >
-												<ul class="flow2">
+												<ul class="flow">
 												<cfloop query="notkingdoms">
 													<li class=""><a class="thisflow" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
 													</li>
