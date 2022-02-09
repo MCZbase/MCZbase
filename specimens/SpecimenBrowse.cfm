@@ -438,7 +438,7 @@ limitations under the License.
 										flex-flow: column wrap; /* direction: column */
 										height: 100px; /* need to specify height :-( */
 									}
-									ol ~ ol {
+									ul ~ ol {
 										flex-flow: row wrap; /* direction: row */
 										max-height: auto; /* override max-height of the column direction */
 									}
