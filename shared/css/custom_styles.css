@@ -2406,34 +2406,7 @@ and also iPads specifically.
 		border-bottom: 1px solid #aaa;
 	}
 }
-@media only screen and (max-width: 600px) {
-	ol.flow {
-	height:1300px;
-	 column-count: 1;
-	}
-	ol.flow-islandgroups {
-	height:550px;
-	column-count: 1;
-	}
-	ol.flow-manyislandgroups {
-	height: 5500px;
-	column-count: 1;
-	}
-}
-@media only screen and (max-width: 750px) {
-	ol.flow {
-	height:1300px;
-	 column-count: 1;
-	}
-	ol.flow-islandgroups {
-	height:100px;
-	column-count: 2;
-	}
-	ol.flow-manyislandgroups {
-	height: 5000px;
-	column-count: 2;
-	}
-}
+
 @media only screen and (max-width: 1350px) {
 	ol.flow {
 	height:1300px;
@@ -2466,7 +2439,7 @@ and also iPads specifically.
 	 column-count: 2;
 	}
 	ol.flow-islandgroups {
-	height:200px;
+	height:100px;
 	 column-count: 2;
 	}
 	ol.flow-manyislandgroups {
@@ -2474,6 +2447,35 @@ and also iPads specifically.
 	column-count: 1;
 	}
 }
+@media only screen and (max-width: 750px) {
+	ol.flow {
+	height:1300px;
+	 column-count: 1;
+	}
+	ol.flow-islandgroups {
+	height:100px;
+	column-count: 2;
+	}
+	ol.flow-manyislandgroups {
+	height: 5000px;
+	column-count: 2;
+	}
+}
+@media only screen and (max-width: 600px) {
+	ol.flow {
+	height:1300px;
+	 column-count: 1;
+	}
+	ol.flow-islandgroups {
+	height:100px;
+	column-count: 1;
+	}
+	ol.flow-manyislandgroups {
+	height: 5500px;
+	column-count: 1;
+	}
+}
+
 @media (min-width:1060px) and (max-width: 1459px) {
 	form#regForm.tab {
 		display: none;
