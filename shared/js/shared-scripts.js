@@ -1168,9 +1168,9 @@ function makeCTFieldSearchAutocomplete(fieldId,codetable) {
 			event.preventDefault();
 			$('#'+fieldId).val("=" + result.item.value);
 		},
-		minLength: 3
+		minLength: 1
 	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+		return $("<li>").append( "<span>" + item.value + "</span>").appendTo( ul );
 	};
 };
 
