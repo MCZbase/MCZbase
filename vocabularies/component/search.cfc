@@ -153,8 +153,8 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 			FROM
 				sys.user_tab_columns
 			WHERE
-				table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR value="CT#ucase(codetable)#"> and
-				column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR value="#ucase(codetable)#">
+				table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="CT#ucase(codetable)#"> and
+				column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(codetable)#"> and
 				datatype = 'VARCHAR2'
 		</cfquery>
 		<cfif getCTField.recordcount NEQ 1>
