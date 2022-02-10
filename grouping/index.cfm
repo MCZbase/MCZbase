@@ -245,11 +245,11 @@ limitations under the License.
 											<div class="row h-25 mx-0">
 												<div class="col float-right px-2 pl-md-2 pr-md-0 mt-0">
 													<cfset showTitleText = trim(collection_name)>
-													<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-														<cfif len(showTitleText) GT 70>
-															<cfset showTitleText = "#left(showTitleText,70)#..." >
-														</cfif>#showTitleText#
-													</a></h3>
+													<h3 class="h5 mb-1 text-truncate">
+														<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
+														#showTitleText#
+														</a>
+													</h3>
 													<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 													<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
 													<cfif namedGroups.mask_fg EQ 1>
@@ -278,11 +278,11 @@ limitations under the License.
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 pl-md-2 pr-md-0 mt-0">
 														<cfset showTitleText = trim(collection_name)>
-														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-															<cfif len(showTitleText) GT 58>
-																<cfset showTitleText = "#left(showTitleText,58)#..." >
-															</cfif>#showTitleText#
-														</a></h3>
+														<h3 class="h5 mb-1 text-truncate">
+															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
+															#showTitleText#
+															</a>
+														</h3>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
 														<cfif namedGroups.mask_fg EQ 1>
@@ -311,11 +311,11 @@ limitations under the License.
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 px-md-2 mt-0">
 														<cfset showTitleText = trim(collection_name)>
-														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-															<cfif len(showTitleText) GT 60>
-																<cfset showTitleText = "#left(showTitleText,60)#..." >
-															</cfif>#showTitleText#
-														</a></h3>
+														<h3 class="h5 mb-1 text-truncate">
+															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
+															#showTitleText#
+															</a>
+														</h3>
 														<p>#namedGroups.description#</p>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
@@ -345,11 +345,11 @@ limitations under the License.
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 px-md-2 mt-0">
 														<cfset showTitleText = trim(collection_name)>
-														<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-															<cfif len(showTitleText) GT 60>
-																<cfset showTitleText = "#left(showTitleText,60)#..." >
-															</cfif>#showTitleText#
-														</a></h3>
+														<h3 class="h5 mb-1 text-truncate">
+															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
+															#showTitleText#
+															</a>
+														</h3>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
 														<cfif namedGroups.mask_fg EQ 1>
@@ -384,11 +384,11 @@ limitations under the License.
 														</cfif>
 														<div class="col float-right px-2 px-md-2 mt-0">
 															<cfset showTitleText = trim(collection_name)>
-															<h3 class="h5 mb-1"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-																<cfif len(showTitleText) GT 60>
-																	<cfset showTitleText = "#left(showTitleText,60)#..." >
-																</cfif>#showTitleText#
-															</a></h3>
+															<h3 class="h5 mb-1 text-truncate">
+																<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
+																#showTitleText#
+																</a>
+															</h3>
 															<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 															<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
 															<cfif namedGroups.mask_fg EQ 1>
