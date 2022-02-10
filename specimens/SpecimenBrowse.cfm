@@ -418,7 +418,7 @@ limitations under the License.
 												ORDER BY island
 											</cfquery>
 											
-											<cfif #islandgroup_#i## = 195>
+											<cfif #i# = "195">
 												<cfset islandValues = "flow-manyislandgroups">
 											<cfelse>
 												<cfset islandValues = "flow-islandgroups">
