@@ -17,6 +17,7 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---   Function getCollEventNumberSeries  --->
 <cffunction name="getCollEventNumberSeries" access="remote" returntype="any" returnformat="json">
