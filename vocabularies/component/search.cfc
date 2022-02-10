@@ -88,10 +88,11 @@ limitations under the License.
 </cffunction>
 
 <!---
-Function getJournalAutocomplete.  Search for journals by name with a substring match on any name, returning json suitable for jquery-ui autocomplete.
+Function getJournalAutocomplete.  Search for journals by name with a substring match on any name, 
+   returning json suitable for jquery-ui autocomplete.
 
 @param term journal name to search for.
-@return a json structure containing id and value, with matching journals with matched name in both value id.
+@return a json structure containing id and value, with matching journals with matched name in both value and id.
 --->
 <cffunction name="getJournalAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -109,7 +110,7 @@ Function getJournalAutocomplete.  Search for journals by name with a substring m
 			WHERE
 				upper(journal_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 		</cfquery>
-	<cfset rows = search_result.recordcount>
+		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
@@ -117,6 +118,67 @@ Function getJournalAutocomplete.  Search for journals by name with a substring m
 			<cfset row["value"] = "#search.value#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+Function getCTAutocomplete.  Search for values in code tables, returning json suitable for jquery-ui autocomplete.
+
+@param term to search for.
+@param codetable the name of the codetable to search for, without the leading CT.
+@return a json structure containing id and value, with matching with matched value in both value and id.
+--->
+<cffunction name="getCTAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfargument name="codetable" type="string" required="yes">
+
+	<!--- perform wildcard search anywhere in target field --->
+	<cfset name = "%#term#%"> 
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="getCTField" datasource="uam_god">
+			SELECT
+				table_name, column_name
+			FROM
+				sys.user_tab_columns
+			WHERE
+				table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR value="CT#ucase(codetable)#"> and
+				column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR value="#ucase(codetable)#">
+				datatype = 'VARCHAR2'
+		</cfquery>
+		<cfif getCTField.recordcount NEQ 1>
+			<cfthrow message="Error, unsupported code table for this autocomplete, CT{codetable} must have PK {codetable}.">
+		</cfif>
+		<cfloop query="getCTField">
+   	   <cfset rows = 0>
+			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+				SELECT 
+					#getCTField.column_name# value
+				FROM 
+					#getCTField.table_name#
+				WHERE
+					upper(#getCTField.column_name#) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+			</cfquery>
+			<cfset rows = search_result.recordcount>
+			<cfset i = 1>
+			<cfloop query="search">
+				<cfset row = StructNew()>
+				<cfset row["id"] = "#search.value#">
+				<cfset row["value"] = "#search.value#" >
+				<cfset data[i]  = row>
+				<cfset i = i + 1>
+			</cfloop>
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
