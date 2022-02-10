@@ -418,7 +418,9 @@ limitations under the License.
 												ORDER BY island
 											</cfquery>
 											
-											<cfif len(group) EQ 0 or group eq 'West Indies'> 
+											<cfif len(group) EQ 0> 
+												<cfset islandValues = "flow-manyislandgroups">
+											<cfelseif  group eq 'West Indies'>
 												<cfset islandValues = "flow-manyislandgroups">
 											<cfelse>
 												<cfset islandValues = "flow-islandgroups">
