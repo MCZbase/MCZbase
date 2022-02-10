@@ -388,8 +388,7 @@ limitations under the License.
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-2">Browse By Islands</h3>
-								<table class="table table-borderless">
-									<tr class="list-group list-group-horizontal col-12 px-0 d-flex flex-wrap pb-2">
+								<div class="col-12">
 									<cfloop query="island_groups">
 										<cfset group = island_groups.island_group>
 										<cfset groupLookup = island_groups.island_group>
@@ -398,65 +397,69 @@ limitations under the License.
 											<cfset groupLookup = "NULL">
 										</cfif>
 										<!--- TODO: Support island/island_group in specimen search API --->
-										<td class="w-100 border-white rounded pb-2 mt-2 font-weight-bold bg-white">
-											<a href="#specimenSearch#&higher_geog=#island_groups.island_group#">#group# </a>
-											(#island_groups.ct#)
-										</td>
-										<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-											SELECT sum(coll_obj_count) ct, island
-											FROM 
-												cf_geog_cat_item_counts 
-											WHERE
-												target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
-												AND
-												<cfif len(island_groups.island_group) EQ 0>
-													island_group IS NULL
-												<cfelse> 
-													island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
-												</cfif>
-											GROUP BY island
-											ORDER BY island
-										</cfquery>
-										<cfloop query="islands">
-											<cfset islandVal = islands.island>
-											<cfset islandLookup = islands.island>
-											<cfif len(islandVal) EQ 0> 
-												<cfset islandVal = "[No Island Value]">
-												<cfset islandLookup = "NULL">
-											</cfif>
-											<td class="list-group-item col-12 col-md-6 py-2 col-xl-4"><a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal#</a> (#islands.ct#) </td>
-										</cfloop>
-									</cfloop>
-									</tr>
-								</table>
-							</div>
-							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
-								<h3 class="px-3">Browse by Higher Taxonomy</h3>
-								<div class="col-12">
-									<div class="border w-100 my-2">
-											<a class="bg-white border-bottom w-100 d-flex px-3 py-2" style="height:2rem;"  href="##phylum" data-toggle="collapse">Phylum</a>
-											<div class="collapse w-100" id="phylum">
+										<div class="border w-100 my-2">
+											<a class="bg-white text-dark border-bottom w-100 d-flex px-3 py-2" style="height:2rem;" href="##islandgroup" data-toggle="collapse">Island Group: </a><a href="#specimenSearch#&higher_geog=#island_groups.island_group#">#group# (#island_groups.ct#)</a>
+											<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+												SELECT sum(coll_obj_count) ct, island
+												FROM 
+													cf_geog_cat_item_counts 
+												WHERE
+													target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+													AND
+													<cfif len(island_groups.island_group) EQ 0>
+														island_group IS NULL
+													<cfelse> 
+														island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
+													</cfif>
+												GROUP BY island
+												ORDER BY island
+											</cfquery>
+											<div class="collapse w-100" id="islandgroup">
 												<ol class="flow pt-2">
-												<cfloop query="phyla">
-													<li>
-														<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
+												<cfloop query="islands">
+													<cfset islandVal = islands.island>
+													<cfset islandLookup = islands.island>
+													<cfif len(islandVal) EQ 0> 
+														<cfset islandVal = "[No Island Value]">
+														<cfset islandLookup = "NULL">
+													</cfif>
+													<li>	
+													<a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal# (#islands.ct#)</a>
 													</li>
 												</cfloop>
 												</ol>
 											</div>
 										</div>
-									<div class="border my-2 w-100">
-											<a class="bg-white border-bottom w-100 d-flex px-3 py-2" style="height:2rem;" href="##notphylum" data-toggle="collapse">Orders &ndash; no Phylum value</a>
-											<div class="collapse" id="notphylum">
-												<ol class="flow pt-2">
-													<cfloop query="notphyla">
-														<li>
-															<a class="" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder# (#ct#)</a> 
-														</li>
-													</cfloop>
-												</ol>
-											</div>
+									</cfloop>
+								</div>
+							</div>
+							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
+								<h3 class="px-3">Browse by Higher Taxonomy</h3>
+								<div class="col-12">
+									<div class="border w-100 my-2">
+										<a class="bg-white border-bottom w-100 d-flex px-3 py-2" style="height:2rem;"  href="##phylum" data-toggle="collapse">Phylum</a>
+										<div class="collapse w-100" id="phylum">
+											<ol class="flow pt-2">
+											<cfloop query="phyla">
+												<li>
+													<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
+												</li>
+											</cfloop>
+											</ol>
 										</div>
+									</div>
+									<div class="border my-2 w-100">
+										<a class="bg-white border-bottom w-100 d-flex px-3 py-2" style="height:2rem;" href="##notphylum" data-toggle="collapse">Orders &ndash; no Phylum value</a>
+										<div class="collapse" id="notphylum">
+											<ol class="flow pt-2">
+												<cfloop query="notphyla">
+													<li>
+														<a class="" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder# (#ct#)</a> 
+													</li>
+												</cfloop>
+											</ol>
+										</div>
+									</div>
 									<div class="border my-1 w-100">
 										<a class="bg-white w-100 border-bottom d-flex px-3 py-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
 										<div class="collapse" id="notkingdom" >
@@ -477,79 +480,5 @@ limitations under the License.
 		</cfoutput>
 	</div>
 </div>
-									
-									
-									
-<script>
-	/**
- * cbpFixedScrollLayout.js v1.0.0
- * http://www.codrops.com
- *
- * Licensed under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
- * 
- * Copyright 2013, Codrops
- * http://www.codrops.com
- */
-var cbpFixedScrollLayout = (function() {
-
-	// cache and initialize some values
-	var config = {
-		// the cbp-fbscroller´s sections
-		$sections : $( '#cbp-scroller > section' ),
-		// the navigation links
-		$navlinks : $( '#cbp-scroller > nav:first > a' ),
-		// index of current link / section
-		currentLink : 0,
-		// the body element
-		$body : $( 'container-fluid' ),
-		// the body animation speed
-		animspeed : 650,
-		// the body animation easing (jquery easing)
-		animeasing : 'easeInOutExpo'
-	};
-
-	function init() {
-
-		// click on a navigation link: the body is scrolled to the position of the respective section
-		config.$navlinks.on( 'click', function() {
-			scrollAnim( config.$sections.eq( $( this ).index() ).offset().top );
-			return false;
-		} );
-
-		// 2 waypoints defined:
-		// First one when we scroll down: the current navigation link gets updated. 
-		// A `new section´ is reached when it occupies more than 70% of the viewport
-		// Second one when we scroll up: the current navigation link gets updated. 
-		// A `new section´ is reached when it occupies more than 70% of the viewport
-		config.$sections.waypoint( function( direction ) {
-			if( direction === 'down' ) { changeNav( $( this ) ); }
-		}, { offset: '30%' } ).waypoint( function( direction ) {
-			if( direction === 'up' ) { changeNav( $( this ) ); }
-		}, { offset: '-30%' } );
-
-		// on window resize: the body is scrolled to the position of the current section
-		$( window ).on( 'debouncedresize', function() {
-			scrollAnim( config.$sections.eq( config.currentLink ).offset().top );
-		} );
-		
-	}
-
-	// update the current navigation link
-	function changeNav( $section ) {
-		config.$navlinks.eq( config.currentLink ).removeClass( 'cbp-current' );
-		config.currentLink = $section.index( 'section' );
-		config.$navlinks.eq( config.currentLink ).addClass( 'cbp-current' );
-	}
-
-	// function to scroll / animate the body
-	function scrollAnim( top ) {
-		config.$body.stop().animate( { scrollTop : top }, config.animspeed, config.animeasing );
-	}
-
-	return { init : init };
-
-})();
-</script>
 
 <cfinclude template = "/shared/_footer.cfm">
