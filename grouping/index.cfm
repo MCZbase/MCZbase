@@ -241,11 +241,11 @@ limitations under the License.
 								<h3 class="px-2">All</h3>
 								<cfloop query="namedGroups">
 									<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-1 mb-1">
-										<div class="border rounded bg-white p-2 col-12 float-left" style="height:115px">
+										<div class="border rounded bg-white p-2 col-12 float-left" style="height:117px">
 											<div class="row h-25 mx-0">
 												<div class="col float-right px-2 pl-md-2 pr-md-0 mt-0">
 													<cfset showTitleText = trim(collection_name)>
-													<h3 class="h5 mb-1 text-truncate">
+													<h3 class="h5 mb-1 text-truncate pr-1">
 														<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 														#showTitleText#
 														</a>
@@ -274,11 +274,11 @@ limitations under the License.
 								<cfloop query="namedGroups">
 									<cfif #namedGroups.underscore_collection_type# eq 'collection'>
 										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-1 mb-1">
-											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:115px">
+											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:117px">
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 pl-md-2 pr-md-0 mt-0">
 														<cfset showTitleText = trim(collection_name)>
-														<h3 class="h5 mb-1 text-truncate">
+														<h3 class="h5 mb-1 text-truncate pr-1">
 															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 															#showTitleText#
 															</a>
@@ -307,11 +307,11 @@ limitations under the License.
 								<cfloop query="namedGroups">
 									<cfif #namedGroups.underscore_collection_type# eq 'expedition'>
 										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-2 mb-1">
-											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:115px">
+											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:117px">
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 px-md-2 mt-0">
 														<cfset showTitleText = trim(collection_name)>
-														<h3 class="h5 mb-1 text-truncate">
+														<h3 class="h5 mb-1 text-truncate pr-1">
 															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 															#showTitleText#
 															</a>
@@ -341,11 +341,11 @@ limitations under the License.
 								<cfloop query="namedGroups">
 									<cfif #namedGroups.underscore_collection_type# eq 'grant'>
 										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-2 mb-1">
-											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:115px">
+											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:117px">
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 px-md-2 mt-0">
 														<cfset showTitleText = trim(collection_name)>
-														<h3 class="h5 mb-1 text-truncate">
+														<h3 class="h5 mb-1 text-truncate pr-1">
 															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 															#showTitleText#
 															</a>
@@ -374,7 +374,7 @@ limitations under the License.
 									<cfloop query="namedGroups">
 										<cfif #namedGroups.underscore_collection_type# eq 'workflow'>
 											<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-2 mb-1">
-												<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height:115px">
+												<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height:117px">
 													<div class="row h-25 mx-0">
 														<cfif len(namedGroups.displayed_media_id) gt 1>
 															<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb", background_color="white", size="100",captionAs="textNone")>
@@ -384,7 +384,7 @@ limitations under the License.
 														</cfif>
 														<div class="col float-right px-2 px-md-2 mt-0">
 															<cfset showTitleText = trim(collection_name)>
-															<h3 class="h5 mb-1 text-truncate">
+															<h3 class="h5 mb-1 text-truncate pr-1">
 																<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 																#showTitleText#
 																</a>
