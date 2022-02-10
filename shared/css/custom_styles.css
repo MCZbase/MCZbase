@@ -2353,6 +2353,16 @@ ol.flow li a {
 	display: inline-block;
 	padding-right: 35px;
 }
+ol.flow-islandgroups {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 200px; /* need to specify height :-( */
+	column-count: 5;
+}
+ol.flow-islandgroups li a {
+	display: inline-block;
+	padding-right: 35px;
+}
 
 
 /****************end all screen styles*********************/
@@ -2386,10 +2396,14 @@ and also iPads specifically.
 	}
 }
 @media only screen and (max-width: 600px) {
-  ol.flow {
+	ol.flow {
 	height:1300px;
 	 column-count: 1;
-  }
+	}
+	ol.flow-islandgroups {
+	height:250px;
+	column-count: 2;
+	}
 }
 @media only screen and (max-width: 990px) {
 	input#searchText.form-control {
@@ -2404,10 +2418,14 @@ and also iPads specifically.
 	.containFlex4 {
 		column-count: 2;
 	}*/
-	  ol.flow {
+	ol.flow {
 	height:650px;
 	 column-count: 2;
-  }
+	}
+	ol.flow-islandgroups {
+	height:600px;
+	 column-count: 3;
+	}
 }
 @media (min-width:1060px) and (max-width: 1459px) {
 	form#regForm.tab {
