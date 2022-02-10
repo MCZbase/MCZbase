@@ -400,7 +400,7 @@ limitations under the License.
 										<!--- TODO: Support island/island_group in specimen search API --->
 												<!---</a><a href="#specimenSearch#&higher_geog=#island_groups.island_group#">---> 
 										<div class="border w-100 my-2">
-											<a class="bg-white text-dark border-bottom w-100 d-flex px-3 py-2" style="height:2rem;" href="##islandgroup[i]" data-toggle="collapse">#group# (#island_groups.ct#)</a>
+											<a class="bg-white text-dark border-bottom w-100 d-flex px-3 py-2" style="height:2rem;" href="##islandgroup_#i#" data-toggle="collapse">#group# (#island_groups.ct#)</a>
 											<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 												SELECT sum(coll_obj_count) ct, island
 												FROM 
@@ -416,7 +416,7 @@ limitations under the License.
 												GROUP BY island
 												ORDER BY island
 											</cfquery>
-											<div class="collapse w-100" id="islandgroup[i]">
+											<div class="collapse w-100" id="islandgroup_#i#">
 												<ol class="flow-islandgroups pt-2">
 													<cfloop query="islands">
 														<cfset islandVal = islands.island>
