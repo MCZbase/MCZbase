@@ -217,7 +217,7 @@ API
 				<cfelseif media_type is "spectrometer data">
 					<cfset source = "#Application.webDirectory#/shared/images/Sine_waves_different_frequencies.png">
 				<cfelse>
-					<cfset source =  "#Application.webDirectory#/shared/images/generic_img_mtn.png">
+					<cfset source =  "#Application.webDirectory#/shared/images/generic_img_mtns.png">
 				</cfif>
 				<cfimage name="sourceImage" source="#source#">
 			</cfif>
