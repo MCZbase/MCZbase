@@ -2426,7 +2426,7 @@ and also iPads specifically.
 	 column-count: 1;
 	}
 	ol.flow-islandgroups {
-	height:250px;
+	height:100px;
 	column-count: 2;
 	}
 	ol.flow-manyislandgroups {
@@ -2466,8 +2466,8 @@ and also iPads specifically.
 	 column-count: 2;
 	}
 	ol.flow-islandgroups {
-	height:600px;
-	 column-count: 3;
+	height:200px;
+	 column-count: 2;
 	}
 	ol.flow-manyislandgroups {
 	height:7000px;
