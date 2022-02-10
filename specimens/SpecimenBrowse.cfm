@@ -390,6 +390,7 @@ limitations under the License.
 							<h3 class="px-3">Browse By Islands</h3>
 								<div class="col-12">
 									<cfset i=1>
+									
 									<cfloop query="island_groups">
 										<cfset group = island_groups.island_group>
 										<cfset groupLookup = island_groups.island_group>
@@ -417,7 +418,7 @@ limitations under the License.
 												ORDER BY island
 											</cfquery>
 											<div class="collapse w-100" id="islandgroup_#i#">
-												<ol class="flow-islandgroups pt-2">
+												<ol class="<cfif len(island_groups.islandVal) gt 10000>flow-manyislandgroups<cfelse>flow-islandgroups</cfif> pt-2">
 													<cfloop query="islands">
 														<cfset islandVal = islands.island>
 														<cfset islandLookup = islands.island>
