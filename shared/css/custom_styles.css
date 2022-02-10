@@ -2343,6 +2343,18 @@ div.vslider-item[aria-hidden="true"]{
   background-color: #555;
 }
 
+ol.flow {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 350px; /* need to specify height :-( */
+	column-count: 5;
+}
+ol.flow li a {
+	display: inline-block;
+	padding-right: 35px;
+}
+
+
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
@@ -2373,6 +2385,12 @@ and also iPads specifically.
 		border-bottom: 1px solid #aaa;
 	}
 }
+@media only screen and (max-width: 600px) {
+  ol.flow {
+	height:1300px;
+	 column-count: 1;
+  }
+}
 @media only screen and (max-width: 990px) {
 	input#searchText.form-control {
 		min-width: auto;
@@ -2386,6 +2404,10 @@ and also iPads specifically.
 	.containFlex4 {
 		column-count: 2;
 	}*/
+	  ol.flow {
+	height:650px;
+	 column-count: 2;
+  }
 }
 @media (min-width:1060px) and (max-width: 1459px) {
 	form#regForm.tab {
