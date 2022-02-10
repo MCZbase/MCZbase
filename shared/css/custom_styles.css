@@ -2428,23 +2428,19 @@ and also iPads specifically.
 	h1 {
 		margin-bottom: 0;
 	}
-/*	.containFlex2 {
-		column-count: 1;
-	}
-	.containFlex4 {
-		column-count: 2;
-	}*/
 	ol.flow {
 	height:650px;
 	 column-count: 2;
 	}
 	ol.flow-islandgroups {
 	height:100px;
-	 column-count: 2;
+	column-count: 2;
+	overflow:scroll;
 	}
 	ol.flow-manyislandgroups {
 	height:7000px;
 	column-count: 1;
+	overflow:scroll;
 	}
 }
 @media only screen and (max-width: 750px) {
@@ -2455,10 +2451,12 @@ and also iPads specifically.
 	ol.flow-islandgroups {
 	height:100px;
 	column-count: 2;
+	overflow:scroll;
 	}
 	ol.flow-manyislandgroups {
 	height: 5000px;
 	column-count: 2;
+	overflow:scroll;
 	}
 }
 @media only screen and (max-width: 600px) {
@@ -2469,14 +2467,16 @@ and also iPads specifically.
 	ol.flow-islandgroups {
 	height:100px;
 	column-count: 1;
+	overflow:scroll;
 	}
 	ol.flow-manyislandgroups {
 	height: 7500px;
 	column-count: 2;
-		overflow:scroll;
+	overflow:scroll;
 	}
 	ol.flow-manyislandgroups li {
-		max-width: 200px;
+	max-width: 200px;
+
 	}
 }
 
