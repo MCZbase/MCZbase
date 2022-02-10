@@ -389,6 +389,7 @@ limitations under the License.
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-3">Browse By Islands</h3>
 								<div class="col-12">
+									<cfset i=1>
 									<cfloop query="island_groups">
 										<cfset group = island_groups.island_group>
 										<cfset groupLookup = island_groups.island_group>
@@ -399,7 +400,7 @@ limitations under the License.
 										<!--- TODO: Support island/island_group in specimen search API --->
 												<!---</a><a href="#specimenSearch#&higher_geog=#island_groups.island_group#">---> 
 										<div class="border w-100 my-2">
-											<a class="bg-white text-dark border-bottom w-100 d-flex px-3 py-2" style="height:2rem;" href="##islandgroup" data-toggle="collapse">#group# (#island_groups.ct#)</a>
+											<a class="bg-white text-dark border-bottom w-100 d-flex px-3 py-2" style="height:2rem;" href="##islandgroup[i]" data-toggle="collapse">#group# (#island_groups.ct#)</a>
 											<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 												SELECT sum(coll_obj_count) ct, island
 												FROM 
@@ -415,7 +416,7 @@ limitations under the License.
 												GROUP BY island
 												ORDER BY island
 											</cfquery>
-											<div class="collapse w-100" id="islandgroup">
+											<div class="collapse w-100" id="islandgroup[i]">
 												<ol class="flow-islandgroups pt-2">
 													<cfloop query="islands">
 														<cfset islandVal = islands.island>
@@ -431,6 +432,7 @@ limitations under the License.
 												</ol>
 											</div>
 										</div>
+										<cfset i= i+1>
 									</cfloop>
 								</div>
 							</div>
