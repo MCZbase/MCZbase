@@ -387,7 +387,7 @@ limitations under the License.
 							</table>
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
-							<h3 class="px-2">Browse By Islands</h3>
+							<h3 class="px-3">Browse By Islands</h3>
 								<div class="col-12">
 									<cfloop query="island_groups">
 										<cfset group = island_groups.island_group>
@@ -416,18 +416,18 @@ limitations under the License.
 												ORDER BY island
 											</cfquery>
 											<div class="collapse w-100" id="islandgroup">
-												<ol class="flow pt-2">
-												<cfloop query="islands">
-													<cfset islandVal = islands.island>
-													<cfset islandLookup = islands.island>
-													<cfif len(islandVal) EQ 0> 
-														<cfset islandVal = "[No Island Value]">
-														<cfset islandLookup = "NULL">
-													</cfif>
-													<li>	
-													<a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal# (#islands.ct#)</a>
-													</li>
-												</cfloop>
+												<ol class="flow-islandgroups pt-2">
+													<cfloop query="islands">
+														<cfset islandVal = islands.island>
+														<cfset islandLookup = islands.island>
+														<cfif len(islandVal) EQ 0> 
+															<cfset islandVal = "[No Island Value]">
+															<cfset islandLookup = "NULL">
+														</cfif>
+														<li>	
+														<a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal# (#islands.ct#)</a>
+														</li>
+													</cfloop>
 												</ol>
 											</div>
 										</div>

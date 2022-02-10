@@ -2356,13 +2356,14 @@ ol.flow li a {
 ol.flow-islandgroups {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 200px; /* need to specify height :-( */
-	column-count: 5;
+	height: 100px; /* need to specify height :-( */
+	column-count: 4;
 }
 ol.flow-islandgroups li a {
 	display: inline-block;
 	padding-right: 35px;
 }
+
 
 
 /****************end all screen styles*********************/
@@ -2404,6 +2405,10 @@ and also iPads specifically.
 	height:250px;
 	column-count: 2;
 	}
+	ol.flow-noislandgroups {
+	height:250px;
+	column-count: 2;
+	}
 }
 @media only screen and (max-width: 990px) {
 	input#searchText.form-control {
@@ -2423,6 +2428,10 @@ and also iPads specifically.
 	 column-count: 2;
 	}
 	ol.flow-islandgroups {
+	height:600px;
+	 column-count: 3;
+	}
+	ol.flow-noislandgroups {
 	height:600px;
 	 column-count: 3;
 	}
