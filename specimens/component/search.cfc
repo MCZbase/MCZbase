@@ -20,6 +20,84 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true">
 
+<!---
+ ** Given a string that may be a search term for a date or a date range, reformat it to 
+ *  fit the expectations of a date search, e.g. change "2020" to "2020-01-01/2020-12-31"
+ *  handles yyyy-mm-dd, yyyy-mm, yyyy, yyyy, yyyy-mm-dd/yyyy-mm-dd, yyyy/yyyy, yyyy-mm-dd/yyyy
+ *    yyyy/yyyy-mm-dd, yyyy-mm/yyyy-mm, yyyy-mm/yyyy-mm, yyyy-mm-dd/yyyy-mm, yyyy-mm/yyyy-mm-dd
+ * 
+ * @param searchText the string to convert, if possible
+ * @return searchText, expanded if possible, or any empty string if an exception occurs.
+ *
+--->
+<cffunction name="reformatDateSearchTerm" access="remote" returntype="any" returnformat="json">
+	<cfargument name="searchText" type="string" required="yes">
+
+	<cfset result = "">
+	<cfif len(trim(searchText)) GT 0>
+		<cftry>
+			<cfif refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",searchText) EQ 1>
+				<!--- yyyy-mm-dd --->
+				<cfset searchText = "=#searchText#" >
+			<cfelseif refind("^>[0-9]{4}-[0-9]{2}-[0-9]{2}$",searchText) EQ 1>
+				<cfif 1 EQ 0><!--- fix syntax highlighting ---></cfif>
+				<!--- LT yyyy-mm-dd --->
+				<cfset searchText = "=#searchText#" >
+			<cfelseif refind("^<[0-9]{4}-[0-9]{2}-[0-9]{2}$",searchText) EQ 1>
+				<!--- GT yyyy-mm-dd --->
+				<cfset searchText = "=#searchText#" >
+			<cfelseif refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}/[0-9]{4}-[0-9]{2}-[0-9]{2}$",searchText) EQ 1>
+				<!--- yyyy-mm-dd/yyyy-mm-dd --->
+				<cfset searchText = "=#searchText#" >
+			<cfelseif refind("^[0-9]{4}$",searchText) EQ 1>
+				<!--- yyyy --->
+				<cfset searchText = "=#searchText#-01-01/#searchText#-12-31" >
+			<cfelseif refind("^[0-9]{4}/[0-9]{4}$",searchText) EQ 1>
+				<!--- yyyy/yyyy --->
+				<cfset yearbits = ListToArray(searchText,'/')>
+				<cfset searchText = "=#yearbits[1]#-01-01/#yearbits[2]#-12-31" >
+			<cfelseif refind("^[0-9]{4}-[0-9]{2}-0-9{2}/[0-9]{4}$",searchText) EQ 1>
+				<!--- yyyy-mm-dd/yyyy --->
+				<cfset yearbits = ListToArray(searchText,'/')>
+				<cfset searchText = "=#yearbits[1]#/#yearbits[2]#-12-31" >
+			<cfelseif refind("^[0-9]{4}/[0-9]{4}-[0-9]{2}-[0-9]{2}$",searchText) EQ 1>
+				<!--- yyyy/yyyy-mm-dd --->
+				<cfset yearbits = ListToArray(searchText,'/')>
+				<cfset searchText = "=#yearbits[1]#-01-01/#yearbits[2]#" >
+			<cfelseif refind("^[0-9]{4}-[0-9]{2}/[0-9]{4}-[0-9]{2}-[0-9]{2}$",searchText) EQ 1>
+				<!--- yyyy-mm/yyyy-mm-dd --->
+				<cfset datebits = ListToArray(searchText,'/')>
+				<cfset searchText = "=#datebits[1]#-01/#datebits[2]#" >
+			<cfelse>
+				<!--- cases where we need to know last day of month to expand --->
+				<cfset isoformatter = createObject("java","java.text.SimpleDateFormat")>
+				<cfset isoformatter.init("yyyy-MM-dd")>
+
+				<cfif refind("^[0-9]{4}-[0-9]{2}$",searchText) EQ 1>
+					<!--- yyyy-mm --->
+					<cfset endDay = DaysInMonth(isoformatter.parse("#searchText#-01"))>
+					<cfset searchText = "=#searchText#-01/#searchText#-#endDay#" >
+				<cfelseif refind("^[0-9]{4}-[0-9]{2}/[0-9]{4}-[0-9]{2}$",searchText) EQ 1>
+					<!--- yyyy-mm/yyyy-mm --->
+					<cfset datebits = ListToArray(searchText,'/')>
+					<cfset endDay2 = DaysInMonth(isoformatter.parse("#datebits[2]#-01"))>
+					<cfset searchText = "=#datebits[1]#-01/#datebits[2]#-#endDay2#" >
+				<cfelseif refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}/[0-9]{4}-[0-9]{2}$",searchText) EQ 1>
+					<!--- yyyy-mm-dd/yyyy-mm --->
+					<cfset datebits = ListToArray(searchText,'/')>
+					<cfset endDay2 = DaysInMonth(isoformatter.parse("#datebits[2]#-01"))>
+					<cfset searchText = "=#datebits[1]#/#datebits[2]#-#endDay2#" >
+				</cfif>
+			</cfif>
+			<cfset result = searchText>
+		<cfcatch>
+			<!--- consume the exception --->
+		</cfcatch>
+		</cftry>
+	</cfif>
+	<cfreturn result>
+</cffunction>
+
 <!--- functions to assist in parsing catalog number ranges --->
 <cfscript>
 /**
@@ -663,6 +741,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfset matched = true>
 					<cfset field = '"field": "#searchFields.column_alias#"'>
 					<cfif searchFields.data_type IS 'DATE'>
+						<cfset searchText = reformatDateSearchTerm(searchText="#searchText#") >
+						<!---
 						<cfset isoformatter = createObject("java","java.text.SimpleDateFormat")>
 						<cfset isoformatter.init("yyyy-MM-dd")>
 						<cfif refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",searchText) EQ 1>
@@ -693,6 +773,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 							<cfset endDay2 = DaysInMonth(isoformatter.parse("#datebits[2]#-01"))>
 							<cfset searchText = "=#datebits[1]#-01/#datebits[2]#-#endDay2#" >
 						</cfif>
+						--->
 					</cfif>
 					<!--- Warning: only searchText may be passed directly from the user here, join and field must be known good values ---> 
 					<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#",dataType="#searchFields.data_type#")>
@@ -845,6 +926,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="collection" type="string" required="no">
 	<cfargument name="cat_num" type="string" required="no">
+	<cfargument name="coll_object_entered_date" type="string" required="no">
+	<cfargument name="last_edit_date" type="string" required="no">
 	<cfargument name="other_id_type" type="string" required="no">
 	<cfargument name="part_name" type="string" required="no">
 	<cfargument name="preserve_method" type="string" required="no">
@@ -874,6 +957,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
 	<cfargument name="verbatim_date" type="string" required="no">
+	<cfargument name="date_began_date" type="string" required="no">
+	<cfargument name="date_ended_date" type="string" required="no">
 	<cfargument name="loan_number" type="string" required="no">
 	<cfargument name="accession_number" type="string" required="no">
 	<cfargument name="deaccession_number" type="string" required="no">
@@ -1052,6 +1137,22 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset nest = nest + 1>
 		</cfif>
 	</cfif>
+	<cfif isDefined("coll_object_entered_date") AND len(coll_object_entered_date) GT 0>
+		<cfset field = '"field": "coll_object_entered_date"'>
+		<cfset searchText = reformatDateSearchTerm(searchText="#coll_object_entered_date#") >
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("last_edit_date") AND len(last_edit_date) GT 0>
+		<cfset field = '"field": "last_edit_date"'>
+		<cfset searchText = reformatDateSearchTerm(searchText="#last_edit_date#") >
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
 	<cfif isDefined("part_name") AND len(part_name) GT 0>
 		<cfset field = '"field": "part_name"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#part_name#",separator="#separator#",nestDepth="#nest#")>
@@ -1062,6 +1163,22 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("verbatim_date") AND len(verbatim_date) GT 0>
 		<cfset field = '"field": "verbatim_date"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#verbatim_date#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("date_began_date") AND len(date_began_date) GT 0>
+		<cfset field = '"field": "date_began_date"'>
+		<cfset searchText = reformatDateSearchTerm(searchText="#date_began_date#") >
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("date_ended_date") AND len(date_ended_date) GT 0>
+		<cfset field = '"field": "date_ended_date"'>
+		<cfset searchText = reformatDateSearchTerm(searchText="#date_ended_date#") >
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
