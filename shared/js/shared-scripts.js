@@ -1141,6 +1141,38 @@ function makeTaxonSearchAutocomplete(fieldId, targetRank) {
 	};
 };
 
+/** makeCTFieldSearchAutocomplete make an input control into a picker for a code table 
+ *  where the code table name matches the field name.
+ *  Prefixes the selected value with an = for exact match search, and is
+ *  intended as a picker for code table controlled search fields.
+ * @param fieldId the id for the input without a leading # selector.
+ * @param codetable the name of the codetable and field without a leading CT.
+**/
+function makeCTFieldSearchAutocomplete(fieldId,codetable) { 
+	jQuery("#"+fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/vocabularies/component/search.cfc",
+				data: { 
+					term: request.term, 
+					codetable: codetable, 
+					method: 'getCTAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a code table search autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val("=" + result.item.value);
+		},
+		minLength: 1
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + "</span>").appendTo( ul );
+	};
+};
 
 /** makeSpecLocalitySearchAutocomplete make an input control into a picker for a spec_locality field.
  *  Prefixes the selected value with an = for exact match search, and is
