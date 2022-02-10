@@ -399,12 +399,12 @@ limitations under the License.
 											<cfset groupLookup = "NULL">
 										</cfif>
 										<!--- TODO: Support island/island_group in specimen search API --->
-												<!---</a><a href="#specimenSearch#&higher_geog=#island_groups.island_group#">---> 
-										<div class="border w-100 my-2">
+												<!---</a>---> 
+										<div class="border rounded w-100 my-2"><h4 class="collapsebar">
 											<button type="button" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="true" aria-controls="islandgroup_#i#">
-												<a class="w-100 d-flex px-3 py-2">#group# (#island_groups.ct#)</a>
+												<a class="w-100 d-flex px-3 py-2" href="#specimenSearch#&higher_geog=#island_groups.island_group#">#group# (#island_groups.ct#)</a>
 										</button>
-										
+											</h4>
 											<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 												SELECT sum(coll_obj_count) ct, island
 												FROM 
