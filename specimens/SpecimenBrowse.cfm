@@ -255,15 +255,9 @@ limitations under the License.
 								<cfloop query="namedGroups">
 									<cfif len(#namedGroups.description#)gt 0>
 										<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 float-left my-1">
-											<div class="border rounded bg-white p-2 col-12 float-left" style="height:117px;">
+											<div class="border rounded bg-white p-2 col-12 float-right" style="height:117px;">
 												<div class="row mx-0">
-													<cfif len(namedGroups.displayed_media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
-															<div class="float-left" id="mediaBlock#namedGroups.displayed_media_id#">
-																#mediablock#
-															</div>
-													</cfif>
-													<div class="col float-left px-2 mt-2">
+													<div class="col float-right px-2 mt-2">
 													<cfset showTitleText = trim(collection_name)>
 														<h3 class="text-truncate h5 mb-1">
 															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
@@ -275,6 +269,12 @@ limitations under the License.
 														<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
 														<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
 													</div>
+													<cfif len(namedGroups.displayed_media_id) gt 0>
+														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
+															<div class="float-right" id="mediaBlock#namedGroups.displayed_media_id#">
+																#mediablock#
+															</div>
+													</cfif>
 												</div>
 											</div>
 										</div>
