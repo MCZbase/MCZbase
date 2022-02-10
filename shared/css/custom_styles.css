@@ -2471,8 +2471,9 @@ and also iPads specifically.
 	column-count: 1;
 	}
 	ol.flow-manyislandgroups {
-	height: 5500px;
-	column-count: 1;
+	height: 7500px;
+	column-count: 2;
+		overflow:scroll;
 	}
 }
 
