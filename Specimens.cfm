@@ -654,7 +654,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-2">
 													<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
-													<label class="data-entry-label" for="when">Verbatim Date</label>
+													<label class="data-entry-label" for="when">Verbatim Collecting Date</label>
 													<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#verbatim_date#">
 												</div>
 											</div>
