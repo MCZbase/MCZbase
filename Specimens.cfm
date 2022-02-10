@@ -575,7 +575,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="form-row mb-2">
-												<div class="col-12 col-md-3">
+												<div class="col-12 col-md-2">
 													<label for="collector" class="data-entry-label">Collector</label>
 													<cfif not isdefined("collector")>
 														<cfset collector="">
@@ -638,20 +638,24 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="col-12 col-md-3">
-													<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
-													<label class="data-entry-label" for="when">Verbatim Date</label>
-													<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#verbatim_date#">
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("date_began_date")>
+														<cfset date_began_date="">
+													</cfif>
+													<label for="date_began_date" class="data-entry-label">Collecting Date Begin</label>
+													<input type="text" name="date_began_date" class="data-entry-input" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#date_began_date#" >
 												</div>
 												<div class="col-12 col-md-2">
-													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-														<label class="data-entry-label" for="debug">Debug</label>
-														<select title="debug" name="debug" id="dbug" class="data-entry-select">
-															<option value=""></option>
-															<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-															<option value="true" #selected#>Debug JSON</option>
-														</select>
+													<cfif not isdefined("date_ended_date")>
+														<cfset date_ended_date="">
 													</cfif>
+													<label for="date_ended_date" class="data-entry-label">Collecting Date End</label>
+													<input type="text" name="date_ended_date" class="data-entry-input" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#date_ended_date#" >
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
+													<label class="data-entry-label" for="when">Verbatim Collecting Date</label>
+													<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#verbatim_date#">
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
@@ -700,6 +704,31 @@ limitations under the License.
 														</cfif>
 														<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
 														<input type="text" name="deaccession_number" class="data-entry-input" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#deaccession_number#" >
+													</div>
+													<!--- TODO: Move from manage transactions section --->
+													<div class="col-12 col-md-2">
+														<cfif not isdefined("coll_object_entered_date")>
+															<cfset coll_object_entered_date="">
+														</cfif>
+														<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
+														<input type="text" name="coll_object_entered_date" class="data-entry-input" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#coll_object_entered_date#" >
+													</div>
+													<div class="col-12 col-md-2">
+														<cfif not isdefined("last_edit_date")>
+															<cfset last_edit_date="">
+														</cfif>
+														<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
+														<input type="text" name="last_edit_date" class="data-entry-input" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#last_edit_date#" >
+													</div>
+													<div class="col-12 col-md-2">
+														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+															<label class="data-entry-label" for="debug">Debug</label>
+															<select title="debug" name="debug" id="dbug" class="data-entry-select">
+																<option value=""></option>
+																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+																<option value="true" #selected#>Debug JSON</option>
+															</select>
+														</cfif>
 													</div>
 												</div>
 											</cfif>
