@@ -422,7 +422,7 @@ limitations under the License.
 												ORDER BY island
 											</cfquery>
 											
-											<cfif (#i# eq island_groups.recordCount OR #i# eq "192")> 
+											<cfif #i# eq island_groups.recordCount> 
 												<cfset islandValues = "flow-manyislandgroups">
 											<cfelse>
 												<cfset islandValues = "flow-islandgroups">
