@@ -305,7 +305,7 @@ limitations under the License.
 										<cfloop query="primaryTypes">
 											<!--- TODO: Support specimen search for any primary type --->
 											<cfif NOT lastCollection EQ primaryTypes.collection>
-												<td class="list-group-item bg-white border-white float-left px-2 pb-2 w-100 font-weight-bold">
+												<td class="list-group-item bg-white rounded border-white float-left px-2 pb-2 w-100 font-weight-bold">
 													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_Status=any%20primary"> #primaryTypes.collection# </a> 
 												</td>
 											</cfif>
@@ -330,7 +330,7 @@ limitations under the License.
 										<cfset continentLookup = "NULL">
 									</cfif>
 									<!--- TODO: Support continent in specimen search API --->
-									<td class="w-100 list-group-item border-white pb-2 mt-2 font-weight-bold bg-white">
+									<td class="w-100 list-group-item rounded border-white pb-2 mt-2 font-weight-bold bg-white">
 										<a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">#continent# </a>
 										(#continents.ct#)
 									</td>
@@ -398,7 +398,7 @@ limitations under the License.
 											<cfset groupLookup = "NULL">
 										</cfif>
 										<!--- TODO: Support island/island_group in specimen search API --->
-										<td class="w-100 border-white pb-2 mt-2 font-weight-bold bg-white">
+										<td class="w-100 border-white rounded pb-2 mt-2 font-weight-bold bg-white">
 											<a href="#specimenSearch#&higher_geog=#island_groups.island_group#">#group# </a>
 											(#island_groups.ct#)
 										</td>
@@ -432,30 +432,6 @@ limitations under the License.
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-3">Browse by Higher Taxonomy</h3>
-								<style>
-									ol.flow {
-										display:flex;
-										flex-flow: column wrap; /* direction: column */
-										height: 350px; /* need to specify height :-( */
-										column-count: 5;
-									}
-									ol.flow li a {
-										display: inline-block;
-										padding-right: 35px;
-									}
-									@media only screen and (max-width: 991px) {
-									  ol.flow {
-										height:650px;
-										 column-count: 2;
-									  }
-									}
-									@media only screen and (max-width: 600px) {
-									  ol.flow {
-										height:1300px;
-										 column-count: 1;
-									  }
-									}
-								</style>
 								<div class="col-12">
 									<div class="border w-100 my-2">
 											<a class="bg-white border-bottom w-100 d-flex px-3 py-2" style="height:2rem;"  href="##phylum" data-toggle="collapse">Phylum</a>
