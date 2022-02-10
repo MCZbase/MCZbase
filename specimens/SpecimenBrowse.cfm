@@ -420,8 +420,6 @@ limitations under the License.
 											
 											<cfif len(group) EQ 0> 
 												<cfset islandValues = "flow-manyislandgroups">
-											<cfelseif  group eq 'West Indies'>
-												<cfset islandValues = "flow-manyislandgroups">
 											<cfelse>
 												<cfset islandValues = "flow-islandgroups">
 											</cfif>
