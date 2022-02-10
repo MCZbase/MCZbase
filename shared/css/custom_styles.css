@@ -2412,11 +2412,39 @@ and also iPads specifically.
 	 column-count: 1;
 	}
 	ol.flow-islandgroups {
+	height:550px;
+	column-count: 1;
+	}
+	ol.flow-manyislandgroups {
+	height: 5500px;
+	column-count: 1;
+	}
+}
+@media only screen and (max-width: 750px) {
+	ol.flow {
+	height:1300px;
+	 column-count: 1;
+	}
+	ol.flow-islandgroups {
 	height:250px;
 	column-count: 2;
 	}
 	ol.flow-manyislandgroups {
 	height: 5000px;
+	column-count: 2;
+	}
+}
+@media only screen and (max-width: 1350px) {
+	ol.flow {
+	height:1300px;
+	 column-count: 1;
+	}
+	ol.flow-islandgroups {
+	height:250px;
+	column-count: 2;
+	}
+	ol.flow-manyislandgroups {
+	height: 3500px;
 	column-count: 2;
 	}
 }
