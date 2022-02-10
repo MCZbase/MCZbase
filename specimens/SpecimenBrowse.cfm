@@ -418,7 +418,7 @@ limitations under the License.
 												ORDER BY island
 											</cfquery>
 											<div class="collapse w-100" id="islandgroup_#i#">
-												<ol class="<cfif len(island_groups.islandVal) gt 10000>flow-manyislandgroups<cfelse>flow-islandgroups</cfif> pt-2">
+												<ol class="<cfif len(#island_groups.islandVal#) gt 10000>flow-manyislandgroups<cfelse>flow-islandgroups</cfif> pt-2">
 													<cfloop query="islands">
 														<cfset islandVal = islands.island>
 														<cfset islandLookup = islands.island>
