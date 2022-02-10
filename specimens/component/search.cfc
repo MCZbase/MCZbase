@@ -1167,9 +1167,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
 	</cfif>
-	<cfif isDefined("date_ended_date") AND len(date_ended_date) GT 0>
-		<cfset field = '"field": "date_ended_date"'>
-		<cfset searchText = reformatDateSearchTerm(searchText="#date_ended_date#") >
+	<cfif isDefined("date_began_date") AND len(date_began_date) GT 0>
+		<cfset field = '"field": "date_began_date"'>
+		<cfset searchText = reformatDateSearchTerm(searchText="#date_began_date#") >
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
