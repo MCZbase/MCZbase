@@ -2434,6 +2434,10 @@ and also iPads specifically.
 	height: 3500px;
 	column-count: 2;
 	}
+	.bars {
+	column-count: 2;
+	height: 3600px;
+}
 }
 @media only screen and (max-width: 990px) {
 	input#searchText.form-control {
@@ -2456,6 +2460,10 @@ and also iPads specifically.
 	column-count: 1;
 	overflow:scroll;
 	}
+	.bars {
+	column-count: 2;
+	height: 3600px;
+}
 }
 @media only screen and (max-width: 750px) {
 	ol.flow {
@@ -2472,6 +2480,10 @@ and also iPads specifically.
 	column-count: 2;
 	overflow:scroll;
 	}
+	.bars {
+	column-count: 0;
+	height: auto;
+}
 }
 @media only screen and (max-width: 600px) {
 	ol.flow {
@@ -2490,8 +2502,11 @@ and also iPads specifically.
 	}
 	ol.flow-manyislandgroups li {
 	max-width: 200px;
-
 	}
+	.bars {
+	column-count: 0;
+	height: auto;
+}
 }
 
 @media (min-width:1060px) and (max-width: 1459px) {
