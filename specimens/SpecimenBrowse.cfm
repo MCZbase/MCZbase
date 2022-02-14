@@ -403,7 +403,7 @@ limitations under the License.
 										<div class="w-100 my-2">
 											<h4 class="collapsebar mb-0">
 												<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="true" aria-controls="islandgroup_#i#">
-												#group# <a class="w-100 d-inline px-3 py-1" href="#specimenSearch#&higher_geog=#island_groups.island_group#">(#island_groups.ct#)</a>
+												#group# <cfif len(group) gt 0><a class="w-100 d-inline px-3 py-1" href="#specimenSearch#&higher_geog=#island_groups.island_group#">(#island_groups.ct#)</a><cfelse>#group# (#island_groups.ct#)</cfif>
 												</button>
 											</h4>
 											<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
