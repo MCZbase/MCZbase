@@ -388,7 +388,7 @@ limitations under the License.
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-3">Browse By Islands</h3>
-								<div class="col-12">
+								<div class="bars col-6 px-1">
 									<cfset i=1>
 									
 									<cfloop query="island_groups">
@@ -400,7 +400,7 @@ limitations under the License.
 										</cfif>
 										<!--- TODO: Support island/island_group in specimen search API --->
 												<!---</a>---> 
-										<div class="bars my-2">
+										<div class="w-100 my-2">
 											<h4 class="collapsebar mb-0">
 												<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="true" aria-controls="islandgroup_#i#">
 												#group# <cfif len(group) gt 0><a class="w-100 d-inline px-3 py-1" href="#specimenSearch#&higher_geog=#island_groups.island_group#">(#island_groups.ct#)</a><cfelse>#group# (#island_groups.ct#)</cfif>
