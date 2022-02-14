@@ -2356,7 +2356,7 @@ ol.flow li a {
 ol.flow-islandgroups {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 100px; /* need to specify height :-( */
+	height: auto; /* need to specify height :-( */
 	column-count: 4;
 }
 ol.flow-islandgroups li a {
@@ -2373,20 +2373,8 @@ ol.flow-manyislandgroups li a {
 	display: inline-block;
 	padding-right: 35px;
 }
-ol.flow-manyislandgroupsSm {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: 500px; /* need to specify height :-( */
-	column-count: 6;
-}
-ol.flow-manyislandgroupsSm li a {
-	display: inline-block;
-	padding-right: 35px;
-}
-.bars {
-	column-count: 4;
-	height: 1800px;
-}
+
+
 
 
 
@@ -2434,10 +2422,7 @@ and also iPads specifically.
 	height: 3500px;
 	column-count: 2;
 	}
-	.bars {
-	column-count: 2;
-	height: 3600px;
-}
+
 }
 @media only screen and (max-width: 990px) {
 	input#searchText.form-control {
@@ -2460,10 +2445,7 @@ and also iPads specifically.
 	column-count: 1;
 	overflow:scroll;
 	}
-	.bars {
-	column-count: 2;
-	height: 3600px;
-}
+
 }
 @media only screen and (max-width: 750px) {
 	ol.flow {
@@ -2480,10 +2462,7 @@ and also iPads specifically.
 	column-count: 2;
 	overflow:scroll;
 	}
-	.bars {
-	column-count: 1;
-	height: auto;
-}
+
 }
 @media only screen and (max-width: 600px) {
 	ol.flow {
@@ -2503,10 +2482,6 @@ and also iPads specifically.
 	ol.flow-manyislandgroups li {
 	max-width: 200px;
 	}
-	.bars {
-	column-count: 1;
-	height: auto;
-}
 }
 
 @media (min-width:1060px) and (max-width: 1459px) {
