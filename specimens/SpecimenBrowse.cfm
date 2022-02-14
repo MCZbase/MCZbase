@@ -358,7 +358,7 @@ limitations under the License.
 												</cfif>
 												<li>
 													<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#">#countryVal#</a> 
-													(#countries.ct)
+													(#countries.ct#)
 												</li>
 											</cfloop>
 											</ol>
