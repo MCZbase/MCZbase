@@ -2481,7 +2481,7 @@ and also iPads specifically.
 	overflow:scroll;
 	}
 	.bars {
-	column-count: 0;
+	column-count: 1;
 	height: auto;
 }
 }
@@ -2504,7 +2504,7 @@ and also iPads specifically.
 	max-width: 200px;
 	}
 	.bars {
-	column-count: 0;
+	column-count: 1;
 	height: auto;
 }
 }
