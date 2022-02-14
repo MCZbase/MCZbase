@@ -392,7 +392,7 @@ limitations under the License.
 									<cfset totalRows=500>
 									
 									<cfset i=1>
-									<cfloop query="island_groups" from="1" to="#totalRows#" index="i">
+									<cfloop query="island_groups" from="1" to="#totalRows#" index="#i#">
 										
 										<cfset group = island_groups.island_group>
 										<cfset groupLookup = island_groups.island_group>
