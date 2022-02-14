@@ -393,7 +393,7 @@ limitations under the License.
 									<cfset totalCol2 gt totalCol1>
 										#totalCol2#
 									<cfset i=1>
-									<cfloop query="island_groups" from="1" to="#totalCol1#" index="thisCol">
+									<cfloop query="island_groups" from="1" to="#totalCol1#" index="#i#">
 										#totalCol2#
 										<cfset group = island_groups.island_group>
 										<cfset groupLookup = island_groups.island_group>
