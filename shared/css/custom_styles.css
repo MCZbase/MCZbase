@@ -2383,6 +2383,10 @@ ol.flow-manyislandgroupsSm li a {
 	display: inline-block;
 	padding-right: 35px;
 }
+.collapsebar {
+	column-count: 2;
+	height: 1000px;
+}
 
 
 
