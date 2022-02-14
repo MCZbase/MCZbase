@@ -451,8 +451,10 @@ limitations under the License.
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-3">Browse by Higher Taxonomy</h3>
 								<div class="col-12">
-									<div class="border w-100 my-2">
-										<a class="bg-white border-bottom w-100 d-flex px-3 py-2" style="height:2rem;"  href="##phylum" data-toggle="collapse">Phylum</a>
+									<div class="w-100 my-2">
+										<h4 class="collapsebar">
+											<button class="border rounded headerLnk py-1 text-left w-100" data-target="##phylum" data-toggle="collapse" aria-expanded="false" aria-controls="phylum">Phylum</button>
+										</h4>
 										<div class="collapse w-100" id="phylum">
 											<ol class="flow pt-2">
 											<cfloop query="phyla">
@@ -463,8 +465,10 @@ limitations under the License.
 											</ol>
 										</div>
 									</div>
-									<div class="border my-2 w-100">
-										<a class="bg-white border-bottom w-100 d-flex px-3 py-2" style="height:2rem;" href="##notphylum" data-toggle="collapse">Orders &ndash; no Phylum value</a>
+									<div class="my-2 w-100">
+										<h4 class="collapsebar">
+											<button class="border rounded headerLnk py-1 text-left w-100" data-target="##notphylum" data-toggle="collapse" aria-expanded="false" aria-controls="notphylum">Orders &ndash; no Phylum value</button>
+										</h4>
 										<div class="collapse" id="notphylum">
 											<ol class="flow pt-2">
 												<cfloop query="notphyla">
@@ -475,8 +479,10 @@ limitations under the License.
 											</ol>
 										</div>
 									</div>
-									<div class="border my-1 w-100">
-										<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##notkingdom" aria-expanded="false" aria-controls="notkingdom">Taxon records with no value for Kingdom</button>
+									<div class="my-1 w-100">
+										<h4 class="collapsebar">
+											<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##notkingdom" aria-expanded="false" aria-controls="notkingdom">Taxon records with no value for Kingdom</button>
+										</h4>
 										<div class="collapse" id="notkingdom" >
 											<ol class="flow pt-2">
 											<cfloop query="notkingdoms">
