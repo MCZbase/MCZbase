@@ -329,7 +329,7 @@ limitations under the License.
 											<cfset continentLookup = "NULL">
 										</cfif>
 										<!--- TODO: Support continent in specimen search API --->
-										<h4 class="collapsebar my-1"> class="w-100 list-group-item rounded border-white pb-2 mt-2 font-weight-bold bg-white">
+										<h4 class="collapsebar my-1">
 											<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##continent" aria-expanded="false" aria-controls="continent">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">(#continents.ct#)</a> </button>
 										</h4>
 										<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
