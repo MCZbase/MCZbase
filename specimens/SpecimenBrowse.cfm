@@ -390,7 +390,7 @@ limitations under the License.
 							<h3 class="px-3">Browse By Islands</h3>
 								<div class="col-12 px-0">
 									<cfset totalRows=500>
-									
+									<cfif #i# lt 129>
 									<cfset i=1>
 									<cfloop query="island_groups">
 										
@@ -407,6 +407,7 @@ limitations under the License.
 									</cfif>
 									<div class="#isnogroup#">
 										<!--- TODO: Support island/island_group in specimen search API --->
+										
 										<div class="w-100 my-2">
 											<h4 class="collapsebar mb-0">
 												<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="false" aria-controls="islandgroup_#i#">
@@ -435,7 +436,7 @@ limitations under the License.
 											<cfelse>
 												<cfset islandValues = "flow-islandgroups">
 											</cfif>
-										
+								
 											<div class="collapse w-100" id="islandgroup_#i#">
 												<ol class=" pt-2 #islandValues#">
 													<cfloop query="islands">
@@ -452,9 +453,78 @@ limitations under the License.
 												</ol>
 											</div>
 										</div>
+									
 									</div>
 										<cfset i= i+1>
 									</cfloop>
+									<cfelse>
+									<cfset j=1>
+									<cfloop query="island_groups">
+										
+										<cfset group = island_groups.island_group>
+										<cfset groupLookup = island_groups.island_group>
+										<cfif len(group) EQ 0> 
+											<cfset group = "[No Island Group]">
+											<cfset groupLookup = "NULL">
+										</cfif>
+									<cfif #i# eq island_groups.recordCount>
+										<cfset isnogroup = "col-12">
+									<cfelse>
+										<cfset isnogroup ="col-12 col-md-6">
+									</cfif>
+									<div class="#isnogroup#">
+										<!--- TODO: Support island/island_group in specimen search API --->
+										
+										<div class="w-100 my-2">
+											<h4 class="collapsebar mb-0">
+												<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##islandgroup_#j#" aria-expanded="false" aria-controls="islandgroup_#j#">
+													#group# &nbsp;&nbsp;
+													<a class="w-100 d-inline px-3 py-1" href="#specimenSearch#&higher_geog=#island_groups.island_group#">(#island_groups.ct#)</a>
+												</button>
+											</h4>
+											<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+												SELECT sum(coll_obj_count) ct, island
+												FROM 
+													cf_geog_cat_item_counts 
+												WHERE
+													target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+													AND
+													<cfif len(island_groups.island_group) EQ 0>
+														island_group IS NULL
+													<cfelse> 
+														island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
+													</cfif>
+												GROUP BY island
+												ORDER BY island
+											</cfquery>
+											
+											<cfif #j# eq island_groups.recordCount> 
+												<cfset islandValues = "flow-manyislandgroups">
+											<cfelse>
+												<cfset islandValues = "flow-islandgroups">
+											</cfif>
+								
+											<div class="collapse w-100" id="islandgroup_#j#">
+												<ol class=" pt-2 #islandValues#">
+													<cfloop query="islands">
+														<cfset islandVal = islands.island>
+														<cfset islandLookup = islands.island>
+														<cfif len(islandVal) EQ 0> 
+															<cfset islandVal = "[No Island Value]">
+															<cfset islandLookup = "NULL">
+														</cfif>
+														<li>	
+														<a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal# (#islands.ct#)</a>
+														</li>
+													</cfloop>
+												</ol>
+											</div>
+										</div>
+									
+									</div>
+										<cfset j= j+1>
+									</cfloop>
+									</cfif>
 								</div>
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
