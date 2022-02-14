@@ -2373,6 +2373,16 @@ ol.flow-manyislandgroups li a {
 	display: inline-block;
 	padding-right: 35px;
 }
+ol.flow-manyislandgroupsSm {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 500px; /* need to specify height :-( */
+	column-count: 6;
+}
+ol.flow-manyislandgroupsSm li a {
+	display: inline-block;
+	padding-right: 35px;
+}
 
 
 
