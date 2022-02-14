@@ -391,8 +391,8 @@ limitations under the License.
 								<div class="col-12 px-0">
 									<cfset totalRows=500>
 									
-									<cfset i=1>
-									<cfloop query="island_groups" from="1" to="500" index="#j#">
+									
+									<cfloop query="island_groups" from="1" to="500" index="i">
 										
 										<cfset group = island_groups.island_group>
 										<cfset groupLookup = island_groups.island_group>
