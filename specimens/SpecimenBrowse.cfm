@@ -476,11 +476,13 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="border my-1 w-100">
-										<a class="bg-white w-100 border-bottom d-flex px-3 py-2" href="##notkingdom" data-toggle="collapse">Taxon records with no value for Kingdom</a>
+										<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##notkingdom" aria-expanded="false" aria-controls="notkingdom">Taxon records with no value for Kingdom</button>
 										<div class="collapse" id="notkingdom" >
 											<ol class="flow pt-2">
 											<cfloop query="notkingdoms">
-												<li><a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
+												<li>
+													
+													<a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
 												</li>
 											</cfloop>
 											</ol>
