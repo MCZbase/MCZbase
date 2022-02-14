@@ -389,10 +389,10 @@ limitations under the License.
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-3">Browse By Islands</h3>
 								<div class="col-12 px-0">
-									<cfset totalCol1=50>
+									<cfset totalRows=500>
 									
 									<cfset i=1>
-									<cfloop query="island_groups">
+									<cfloop query="island_groups" from="1" to="#totalRows#" index="i">
 										
 										<cfset group = island_groups.island_group>
 										<cfset groupLookup = island_groups.island_group>
@@ -406,7 +406,6 @@ limitations under the License.
 										<cfset isnogroup ="col-12 col-md-6">
 									</cfif>
 									<div class="#isnogroup#">
-										<cfif currentrow mod totalCol1 is 0>
 										<!--- TODO: Support island/island_group in specimen search API --->
 										<div class="w-100 my-2">
 											<h4 class="collapsebar mb-0">
@@ -453,9 +452,6 @@ limitations under the License.
 												</ol>
 											</div>
 										</div>
-										<cfelseif currentrow is recordcount>
-												test		
-										</cfif>
 										<cfset i= i+1>
 									</div>
 									</cfloop>
