@@ -381,18 +381,21 @@ limitations under the License.
 											</cfquery>
 											<cfloop query="ocean_regions">
 												<div class="collapse w-100" id="islandgroup_#i#">
-													<ol class=" pt-2 #islandValues#">
+													<ol class=" pt-2">
 														<cfset regionVal = ocean_regions.ocean_region>
 														<cfset regionLookup = ocean_regions.ocean_region>
 														<cfif len(regionVal) EQ 0> 
 															<cfset regionVal = "[No Ocean Region Value]">
 															<cfset regionLookup = "NULL">
 														</cfif>
-															<li class="list-group-item col-12 py-2 col-md-6 col-xl-4"><a href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) 
-															</li>
+														<li class="list-group-item col-12 py-2 col-md-6 col-xl-4"><a href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) 
+														</li>
+													</ol>
 											</cfloop>
 										</cfif>
+										<cfset i= i+1>
 									</cfloop>
+								
 								</div>
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
