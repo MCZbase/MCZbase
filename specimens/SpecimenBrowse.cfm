@@ -390,7 +390,7 @@ limitations under the License.
 							<h3 class="px-3">Browse By Islands</h3>
 								<div class="col-12 px-0">
 									<cfset totalRows=500>
-									<cfif #i# lt 129>
+									<cfif isdefined(i) and #i# lt 129>
 									<cfset i=1>
 									<cfloop query="island_groups">
 										
