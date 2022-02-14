@@ -388,21 +388,22 @@ limitations under the License.
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-3">Browse By Islands</h3>
-				
 								<div class="col-12 px-1">
 									<cfset i=1>
 									<cfloop query="island_groups">
-									<cfif #i# eq island_groups.recordCount>
-									Do this
-									<cfelse>
 										<cfset group = island_groups.island_group>
 										<cfset groupLookup = island_groups.island_group>
 										<cfif len(group) EQ 0> 
 											<cfset group = "[No Island Group]">
 											<cfset groupLookup = "NULL">
 										</cfif>
+									<cfif #i# eq island_groups.recordCount>
+										<cfset isnogroup = "col-12">
+									<cfelse>
+										<cfset isnogroup ="col-12 col-md-6">
+									</cfif>
+									<div class="#isnogroup#">
 										<!--- TODO: Support island/island_group in specimen search API --->
-												<!---</a>---> 
 										<div class="w-100 my-2">
 											<h4 class="collapsebar mb-0">
 												<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="false" aria-controls="islandgroup_#i#">
@@ -448,10 +449,9 @@ limitations under the License.
 											</div>
 										</div>
 										<cfset i= i+1>
-									</cfif>
+									</div>
 									</cfloop>
 								</div>
-					
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-3">Browse by Higher Taxonomy</h3>
