@@ -364,7 +364,6 @@ limitations under the License.
 													</ol>
 												</div>
 											</div>
-										</cfif>
 										<cfelse>
 											<div class="w-100" id="ocean_#i#">
 												<h4 class="collapsebar my-2">
