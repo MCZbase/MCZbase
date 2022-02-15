@@ -334,7 +334,7 @@ limitations under the License.
 											</button>
 										</h4>
 										<div class="collapse w-100" id="cont-ocean_#i#">
-											<ol class="flow">
+											<ol class="<cfif continents.ct gt 80>flow<cfelse></cfif>">
 												<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 													SELECT sum(coll_obj_count) ct, country
 													FROM 
