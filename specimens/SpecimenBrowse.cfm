@@ -407,15 +407,15 @@ limitations under the License.
 											<cfif #i# eq island_groups.recordCount>
 												<cfset isnogroup = "col-12">
 											<cfelse>
-												<cfset isnogroup ="islandgroups">
+												<cfset isnogroup ="col-12">
 											</cfif>
 											<div class="#isnogroup#">
 										<!--- TODO: Support island/island_group in specimen search API --->
 										<div class="w-100 my-2">
 											<h4 class="collapsebar mb-0">
-												<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="false" aria-controls="islandgroup_#i#">
+												<button type="button" class="border rounded headerLnk py-1 text-left w-100 float-left" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="false" aria-controls="islandgroup_#i#">
 													#group# &nbsp;&nbsp;
-													<a class="w-100 d-inline py-1 text-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
+													<a class="w-auto d-inline py-1 float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
 												</button>
 											</h4>
 											<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
