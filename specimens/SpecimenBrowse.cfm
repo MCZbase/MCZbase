@@ -437,7 +437,7 @@ limitations under the License.
 											<cfif #i# eq island_groups.recordCount> 
 												<cfset islandValues = "flow-manyislandgroups">
 											<cfelse>
-												<cfset islandValues = "flow-islandgroups">
+												<cfset islandValues = "">
 											</cfif>
 								
 											<div class="collapse w-100" id="islandgroup_#i#">
