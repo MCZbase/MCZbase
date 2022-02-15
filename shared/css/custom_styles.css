@@ -2414,6 +2414,10 @@ and also iPads specifically.
 	height:1300px;
 	 column-count: 1;
 	}
+	ol.taxaflow {
+	height:700px;
+	 column-count: 1;
+	}
 	ol.flow-islandgroups {
 	height:250px;
 	column-count: 2;
@@ -2432,6 +2436,10 @@ and also iPads specifically.
 		margin-bottom: 0;
 	}
 	ol.flow {
+	height:550px;
+	 column-count: 2;
+	}
+	ol.taxaflow {
 	height:650px;
 	 column-count: 2;
 	}
@@ -2450,6 +2458,10 @@ and also iPads specifically.
 @media only screen and (max-width: 750px) {
 	ol.flow {
 	height:1300px;
+	 column-count: 1;
+	}
+	ol.taxaflow {
+	height:800px;
 	 column-count: 1;
 	}
 	ol.flow-islandgroups {

@@ -358,7 +358,7 @@ limitations under the License.
 														<cfset countryLookup = "NULL">
 													</cfif>
 													<li class="">
-														<a class="w-100 d-inline py-1" href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) 
+														<a class="w-100 d-inline py-1" href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank">#countryVal#</a> (#countries.ct#) 
 													</li>
 												</cfloop>
 												<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
@@ -383,7 +383,7 @@ limitations under the License.
 															<cfset regionLookup = "NULL">
 														</cfif>
 														<li class="">
-															<a class="w-100 d-inline py-1" href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal# </a> (#ocean_regions.ct#)
+															<a class="w-100 d-inline py-1" href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#" target="_blank">#regionVal# </a> (#ocean_regions.ct#)
 														</li> 
 														</cfloop>
 												</cfif>
@@ -415,7 +415,7 @@ limitations under the License.
 											<h4 class="collapsebar mb-0">
 												<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="false" aria-controls="islandgroup_#i#">
 													#group# &nbsp;&nbsp;
-													<a class="w-100 d-inline py-1" href="#specimenSearch#&higher_geog=#island_groups.island_group#">(#island_groups.ct#)</a>
+													<a class="w-100 d-inline py-1" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
 												</button>
 											</h4>
 											<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
@@ -450,7 +450,7 @@ limitations under the License.
 															<cfset islandLookup = "NULL">
 														</cfif>
 														<li>	
-														<a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#">#islandVal# </a>(#islands.ct#)
+														<a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#" target="_blank">#islandVal# </a>(#islands.ct#)
 														</li>
 													</cfloop>
 												</ol>
@@ -470,7 +470,7 @@ limitations under the License.
 											<button class="border rounded headerLnk py-1 text-left w-100" data-target="##phylum" data-toggle="collapse" aria-expanded="false" aria-controls="phylum">Phylum</button>
 										</h4>
 										<div class="collapse w-100" id="phylum">
-											<ol class="flow pt-2">
+											<ol class="taxaflow pt-2">
 											<cfloop query="phyla">
 												<li>
 													<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
@@ -484,7 +484,7 @@ limitations under the License.
 											<button class="border rounded headerLnk py-1 text-left w-100" data-target="##notphylum" data-toggle="collapse" aria-expanded="false" aria-controls="notphylum">Orders &ndash; no Phylum value</button>
 										</h4>
 										<div class="collapse" id="notphylum">
-											<ol class="flow pt-2">
+											<ol class="taxaflow pt-2">
 												<cfloop query="notphyla">
 													<li>
 														<a class="" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder# (#ct#)</a> 
@@ -498,7 +498,7 @@ limitations under the License.
 											<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##notkingdom" aria-expanded="false" aria-controls="notkingdom">Taxon records with no value for Kingdom</button>
 										</h4>
 										<div class="collapse" id="notkingdom" >
-											<ol class="flow pt-2">
+											<ol class="pt-2">
 											<cfloop query="notkingdoms">
 												<li>
 													
