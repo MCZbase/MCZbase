@@ -412,7 +412,7 @@ limitations under the License.
 											<div class="#isnogroup#">
 										<!--- TODO: Support island/island_group in specimen search API --->
 										<div class="w-100 my-2">
-											<h4 class="collapsebar mb-0">
+											<h4 class="collapsebar w-100 mt-1 mb-2 float-left">
 												<button type="button" class="border rounded headerLnk py-1 text-left w-100 float-left" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="false" aria-controls="islandgroup_#i#">
 													#group# &nbsp;&nbsp;
 													<a class="w-auto d-inline py-1 float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
