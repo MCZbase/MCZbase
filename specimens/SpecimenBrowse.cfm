@@ -334,60 +334,60 @@ limitations under the License.
 											</button>
 										</h4>
 										<div class="collapse w-100" id="cont-ocean_#i#">
-											<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-												SELECT sum(coll_obj_count) ct, country
-												FROM 
-													cf_geog_cat_item_counts 
-												WHERE
-													target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
-													AND
-													<cfif len(continents.continent_ocean) EQ 0>
-														continent_ocean IS NULL
-													<cfelse> 
-														continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
-													</cfif>
-												GROUP BY country
-												ORDER BY country
-											</cfquery>
-											<cfloop query="countries">
-												<cfset countryVal = countries.country>
-												<cfset countryLookup = countries.country>
-												<cfif len(countryVal) EQ 0> 
-													<cfset countryVal = "[No Country Value]">
-													<cfset countryLookup = "NULL">
-												</cfif>
-												<li class="list-group-item col-12 py-2 col-md-6 col-xl-4">
-													<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) 
-												</li>
-											</cfloop>
-											<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
-												<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-													SELECT sum(coll_obj_count) ct, ocean_region
+											<ol class="flow">
+												<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+													SELECT sum(coll_obj_count) ct, country
 													FROM 
 														cf_geog_cat_item_counts 
 													WHERE
-														ocean_region IS NOT NULL 
-														AND
 														target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
 														AND
-														continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
-													GROUP BY ocean_region
-													ORDER BY ocean_region
+														<cfif len(continents.continent_ocean) EQ 0>
+															continent_ocean IS NULL
+														<cfelse> 
+															continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
+														</cfif>
+													GROUP BY country
+													ORDER BY country
 												</cfquery>
-												<ol>
-													<cfloop query="ocean_regions">
-													<cfset regionVal = ocean_regions.ocean_region>
-													<cfset regionLookup = ocean_regions.ocean_region>
-													<cfif len(regionVal) EQ 0> 
-														<cfset regionVal = "[No Ocean Region Value]">
-														<cfset regionLookup = "NULL">
+												<cfloop query="countries">
+													<cfset countryVal = countries.country>
+													<cfset countryLookup = countries.country>
+													<cfif len(countryVal) EQ 0> 
+														<cfset countryVal = "[No Country Value]">
+														<cfset countryLookup = "NULL">
 													</cfif>
 													<li class="list-group-item col-12 py-2 col-md-6 col-xl-4">
-														<a href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) 
+														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) 
 													</li>
-													</cfloop>
-												</ol>
-											</cfif>
+												</cfloop>
+												<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
+													<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+														SELECT sum(coll_obj_count) ct, ocean_region
+														FROM 
+															cf_geog_cat_item_counts 
+														WHERE
+															ocean_region IS NOT NULL 
+															AND
+															target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+															AND
+															continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
+														GROUP BY ocean_region
+														ORDER BY ocean_region
+													</cfquery>
+														<cfloop query="ocean_regions">
+														<cfset regionVal = ocean_regions.ocean_region>
+														<cfset regionLookup = ocean_regions.ocean_region>
+														<cfif len(regionVal) EQ 0> 
+															<cfset regionVal = "[No Ocean Region Value]">
+															<cfset regionLookup = "NULL">
+														</cfif>
+														<li class="list-group-item col-12 py-2 col-md-6 col-xl-4">
+															<a href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) 
+														</li>
+														</cfloop>
+												</cfif>
+											</ol>
 										</div>
 										<cfset i=i+1>
 									</cfloop>
