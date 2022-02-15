@@ -320,18 +320,19 @@ limitations under the License.
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<div class="w-100">
 								<cfloop query="continents">
-									<cfset continent = continents.continent_ocean>
-									<cfset continentLookup = continents.continent_ocean>
-									<cfif len(continent) EQ 0> 
-										<cfset continent = "[No Continent Value]">
-										<cfset continentLookup = "NULL">
-									</cfif>
-									<!--- TODO: Support continent in specimen search API --->
-									<cfset i="1">
-									<h4 class="collapsebar my-2">
-										<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##cont-ocean_#i#" aria-expanded="false" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">(#continents.ct#) </a>
-										</button>
-									</h4>
+								<cfset continent = continents.continent_ocean>
+								<cfset continentLookup = continents.continent_ocean>
+								<cfif len(continent) EQ 0> 
+									<cfset continent = "[No Continent Value]">
+									<cfset continentLookup = "NULL">
+								</cfif>
+								<!--- TODO: Support continent in specimen search API --->
+								<cfset i="1">
+								<h4 class="collapsebar my-2">
+									<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##cont-ocean_#i#" aria-expanded="false" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">(#continents.ct#) </a>
+									</button>
+								</h4>
+								<div class="collapse w-100" id="cont-ocean_#i#">
 									<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 										SELECT sum(coll_obj_count) ct, country
 										FROM 
@@ -356,7 +357,6 @@ limitations under the License.
 										</cfif>
 										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4"><a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) </li>
 									</cfloop>
-									
 									<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
 										<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 											SELECT sum(coll_obj_count) ct, ocean_region
@@ -371,6 +371,7 @@ limitations under the License.
 											GROUP BY ocean_region
 											ORDER BY ocean_region
 										</cfquery>
+									
 										<ol>
 											<cfloop query="ocean_regions">
 											<cfset regionVal = ocean_regions.ocean_region>
@@ -382,7 +383,9 @@ limitations under the License.
 											<li class="list-group-item col-12 py-2 col-md-6 col-xl-4"><a href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) </li>
 											</cfloop>
 										</ol>
+										</div>
 									</cfif>
+								</div>
 								</cfloop>
 								</div>
 							</div>
