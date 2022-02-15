@@ -2394,6 +2394,10 @@ ol.flow-manyislandgroups li a {
 	.w-350 {
 		width: 100%;
 	}
+	ol.taxaflow {
+	height:600px;
+	column-count: 3;
+	}
 }
 /* 
 Max width before this PARTICULAR table gets nasty
