@@ -334,7 +334,7 @@ limitations under the License.
 											</button>
 										</h4>
 										<div class="collapse w-100" id="cont-ocean_#i#">
-											<ol class=" mt-2 <cfif continents.ct gt 1000>flow<cfelse></cfif>">
+											<ol class="<cfif continents.ct gt 1000>flow<cfelse></cfif>">
 												<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 													SELECT sum(coll_obj_count) ct, country
 													FROM 
@@ -358,7 +358,7 @@ limitations under the License.
 														<cfset countryLookup = "NULL">
 													</cfif>
 													<li class="">
-														<a class="w-100 d-inline py-1" href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank">#countryVal#</a> (#countries.ct#) 
+														<a class="w-100 d-inline" href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank">#countryVal#</a> (#countries.ct#) 
 													</li>
 												</cfloop>
 												<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
