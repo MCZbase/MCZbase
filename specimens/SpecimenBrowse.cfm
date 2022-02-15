@@ -348,6 +348,7 @@ limitations under the License.
 										GROUP BY country
 										ORDER BY country
 									</cfquery>
+								<div class="collapse w-100" id="cont-ocean_#i#">
 									<ol class="flow">
 									<cfloop query="countries">
 										<cfset countryVal = countries.country>
@@ -383,6 +384,7 @@ limitations under the License.
 										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4"><a href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) </li>
 									</cfloop>
 									</ol>
+								</div>
 									</cfif>
 								</cfloop>
 							
