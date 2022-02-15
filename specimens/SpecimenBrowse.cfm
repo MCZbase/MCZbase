@@ -357,7 +357,7 @@ limitations under the License.
 														<cfset countryVal = "[No Country Value]">
 														<cfset countryLookup = "NULL">
 													</cfif>
-													<li class="list-group-item col-12 py-2 col-md-6 col-xl-4">
+													<li class="">
 														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) 
 													</li>
 												</cfloop>
@@ -382,7 +382,7 @@ limitations under the License.
 															<cfset regionVal = "[No Ocean Region Value]">
 															<cfset regionLookup = "NULL">
 														</cfif>
-														<li class="list-group-item col-12 py-2 col-md-6 col-xl-4">
+														<li class="">
 															<a href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) 
 														</li>
 														</cfloop>
