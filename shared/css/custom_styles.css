@@ -2489,21 +2489,21 @@ and also iPads specifically.
 }
 @media only screen and (max-width: 600px) {
 	ol.flow {
-	height:1300px;
+	height:auto;
 	 column-count: 1;
 	}
 	ol.taxaflow {
-	height:1300px;
+	height:auto;
 	 column-count: 1;
 	}
 	ol.flow-islandgroups {
-	height:100px;
+	height:auto;
 	column-count: 1;
 	overflow:scroll;
 	}
 	ol.flow-manyislandgroups {
-	height: 7500px;
-	column-count: 2;
+	height: auto;
+	column-count: 1;
 	overflow:scroll;
 	}
 	ol.flow-manyislandgroups li {
