@@ -329,12 +329,12 @@ limitations under the License.
 										</cfif>
 										<!--- TODO: Support continent in specimen search API --->
 										
-										<h4 class="collapsebar my-2">
+										<h4 class="collapsebar w-100 my-2 float-left">
 											<button type="button" class="border rounded headerLnk py-1 text-left float-left w-100" data-toggle="collapse" data-target="##cont-ocean_#i#" aria-expanded="false" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#" target="_blank" class="float-right">(#continents.ct# records) </a>
 											</button>
 										</h4>
 										<div class="collapse w-100" id="cont-ocean_#i#">
-											<ol class="<cfif continents.ct gt 1000>flow<cfelse></cfif>">
+											<ol class=" mt-2 <cfif continents.ct gt 1000>flow<cfelse></cfif>">
 												<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 													SELECT sum(coll_obj_count) ct, country
 													FROM 
