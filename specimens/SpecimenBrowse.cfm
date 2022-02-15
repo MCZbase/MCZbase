@@ -383,6 +383,7 @@ limitations under the License.
 										</cfif>
 										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4"><a href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal#</a> (#ocean_regions.ct#) </li>
 									</cfloop>
+									<cfset i=i+1>
 									</ol>
 								</div>
 									</cfif>
