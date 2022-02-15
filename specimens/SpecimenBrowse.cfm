@@ -407,7 +407,7 @@ limitations under the License.
 											<cfif #i# eq island_groups.recordCount>
 												<cfset isnogroup = "col-12">
 											<cfelse>
-												<cfset isnogroup ="col-12 col-md-6">
+												<cfset isnogroup ="islandgroups">
 											</cfif>
 											<div class="#isnogroup#">
 										<!--- TODO: Support island/island_group in specimen search API --->

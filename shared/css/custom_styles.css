@@ -2344,16 +2344,7 @@ div.vslider-item[aria-hidden="true"]{
 }
 
 
-ol.flow-islandgroups {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: auto; /* need to specify height :-( */
-	column-count: 4;
-}
-ol.flow-islandgroups li a {
-	display: inline-block;
-	padding-right: 3px;
-}
+
 
 
 
@@ -2404,6 +2395,16 @@ ol.flow-manyislandgroups {
 	column-count: 6;
 }
 ol.flow-manyislandgroups li a {
+	display: inline-block;
+	padding-right: 3px;
+}
+.islandgroups {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: auto; /* need to specify height :-( */
+	column-count: 4;
+}
+.islandgroups li a {
 	display: inline-block;
 	padding-right: 3px;
 }
