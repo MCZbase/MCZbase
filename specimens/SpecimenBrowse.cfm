@@ -319,6 +319,7 @@ limitations under the License.
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<div class="w-100">
+									<cfset i="1">
 									<cfloop query="continents">
 										<cfset continent = continents.continent_ocean>
 										<cfset continentLookup = continents.continent_ocean>
@@ -327,7 +328,7 @@ limitations under the License.
 											<cfset continentLookup = "NULL">
 										</cfif>
 										<!--- TODO: Support continent in specimen search API --->
-										<cfset i="1">
+										
 										<h4 class="collapsebar my-2">
 											<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##cont-ocean_#i#" aria-expanded="false" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">(#continents.ct#) </a>
 											</button>
@@ -388,6 +389,7 @@ limitations under the License.
 												</ol>
 											</cfif>
 										</div>
+										<cfset i=i+1>
 									</cfloop>
 								</div>
 							</div>
