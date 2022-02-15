@@ -383,8 +383,8 @@ limitations under the License.
 															<cfset regionLookup = "NULL">
 														</cfif>
 														<li class="">
-															<a class="w-100 d-inline py-1" href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal# </a>
-														</li> (#ocean_regions.ct#)
+															<a class="w-100 d-inline py-1" href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#">#regionVal# </a> (#ocean_regions.ct#)
+														</li> 
 														</cfloop>
 												</cfif>
 											</ol>
