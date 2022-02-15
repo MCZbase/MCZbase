@@ -2343,16 +2343,7 @@ div.vslider-item[aria-hidden="true"]{
   background-color: #555;
 }
 
-ol.flow {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: 350px; /* need to specify height :-( */
-	column-count: 5;
-}
-ol.flow li a {
-	display: inline-block;
-	padding-right: 3px;
-}
+
 ol.flow-islandgroups {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
@@ -2385,6 +2376,16 @@ ol.flow-islandgroups li a {
 	.w-350 {
 		width: 100%;
 	}
+ol.flow {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 450px; /* need to specify height :-( */
+	column-count: 4;
+}
+ol.flow li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 ol.taxaflow {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
