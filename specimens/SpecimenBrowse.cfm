@@ -328,22 +328,6 @@ limitations under the License.
 										<cfset continentLookup = "NULL">
 									</cfif>
 									<!--- TODO: Support continent in specimen search API --->
-									
-									<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-										SELECT sum(coll_obj_count) ct, country
-										FROM 
-											cf_geog_cat_item_counts 
-										WHERE
-											target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
-											AND
-											<cfif len(continents.continent_ocean) EQ 0>
-												continent_ocean IS NULL
-											<cfelse> 
-												continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
-											</cfif>
-										GROUP BY country
-										ORDER BY country
-									</cfquery>
 										<cfif FindNoCase("continent",continents.continent_ocean) GT 0>
 											<div class="w-100" id="cont_#i#">
 												<h4 class="collapsebar my-2">
@@ -351,6 +335,21 @@ limitations under the License.
 												</h4>
 												<div class="collapse w-100" id="cont_#i#">
 													<ol class="flow">
+													<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+														SELECT sum(coll_obj_count) ct, country
+														FROM 
+															cf_geog_cat_item_counts 
+														WHERE
+															target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+															AND
+															<cfif len(continents.continent_ocean) EQ 0>
+																continent_ocean IS NULL
+															<cfelse> 
+																continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
+															</cfif>
+														GROUP BY country
+														ORDER BY country
+													</cfquery>
 														<cfset j=1>
 														<cfloop query="countries">
 															<cfset countryVal = countries.country>
