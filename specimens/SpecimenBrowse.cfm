@@ -284,8 +284,7 @@ limitations under the License.
 							<div id="primarytypesPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
 								<h3 class="px-2">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">
-									<table class="table table-borderless">
-										<tr class="list-group list-group-horizontal d-flex flex-wrap px-1">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap px-1">
 										<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 											SELECT collection, collection_id, toptypestatus, count(collection_object_id) as ct
 											FROM
@@ -305,23 +304,22 @@ limitations under the License.
 										<cfloop query="primaryTypes">
 											<!--- TODO: Support specimen search for any primary type --->
 											<cfif NOT lastCollection EQ primaryTypes.collection>
-												<td class="list-group-item bg-white rounded border-white float-left px-2 pb-2 w-100 font-weight-bold">
+												<li class="list-group-item bg-white rounded border-white float-left px-2 pb-2 w-100 font-weight-bold">
 													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_Status=any%20primary"> #primaryTypes.collection# </a> 
-												</td>
+												</li>
 											</cfif>
-											<td class="list-group-item col-12 col-md-6 col-xl-3 float-left px-2 py-2 mb-2">
+											<li class="list-group-item col-12 col-md-6 col-xl-3 float-left px-2 py-2 mb-2">
 												<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#primaryTypes.toptypestatus#"> #primaryTypes.collection# #primaryTypes.toptypestatus#</a> (#ct#)
-											</td>
+											</li>
 											<cfset lastCollection = primaryTypes.collection>
 										</cfloop>
-									</tr>
-								</table>
+									</ul>
 								</div>
 							</div>
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<div class="table table-borderless">
-								<ol class="list-group list-group-horizontal col-12 px-0 d-flex flex-wrap pb-2">
+								
 								<cfloop query="continents">
 									<cfset continent = continents.continent_ocean>
 									<cfset continentLookup = continents.continent_ocean>
@@ -330,10 +328,11 @@ limitations under the License.
 										<cfset continentLookup = "NULL">
 									</cfif>
 									<!--- TODO: Support continent in specimen search API --->
-									<li class="w-100 list-group-item rounded border-white pb-2 mt-2 font-weight-bold bg-white">
-										<button><a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">#continent# </a></button>
-										(#continents.ct#)
-									</li>
+									<cfset i="1">
+									<h4 class="collapsebar my-2">
+										<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##cont-ocean_#i#" aria-expanded="false" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">(#continents.ct#) </a></button>
+										
+									</h4>
 									<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 										SELECT sum(coll_obj_count) ct, country
 										FROM 
@@ -349,6 +348,7 @@ limitations under the License.
 										GROUP BY country
 										ORDER BY country
 									</cfquery>
+									<ol class="flow">
 									<cfloop query="countries">
 										<cfset countryVal = countries.country>
 										<cfset countryLookup = countries.country>
@@ -358,6 +358,7 @@ limitations under the License.
 										</cfif>
 										<li class="list-group-item col-12 py-2 col-md-6 col-xl-4"><a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#">#countryVal#</a> (#countries.ct#) </li>
 									</cfloop>
+									
 									<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
 										<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 											SELECT sum(coll_obj_count) ct, ocean_region
