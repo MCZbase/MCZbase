@@ -441,7 +441,7 @@ limitations under the License.
 											</cfif>
 								
 											<div class="collapse w-100" id="islandgroup_#i#">
-												<ol class=" pt-2 #islandValues#">
+												<ol class=" pt-2 <cfif continents.ct gt 1000>#islandValues#<cfelse></cfif>">
 													<cfloop query="islands">
 														<cfset islandVal = islands.island>
 														<cfset islandLookup = islands.island>
