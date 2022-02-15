@@ -320,7 +320,7 @@ limitations under the License.
 								<h3 class="px-2">Browse by Higher Geography</h3>
 								<div class="col-12 px-0">
 								<cfset i="1">
-								<cfloop query="continents">
+							
 									<cfset continent = continents.continent_ocean>
 									<cfset continentLookup = continents.continent_ocean>
 									<cfif len(continent) EQ 0> 
@@ -328,7 +328,7 @@ limitations under the License.
 										<cfset continentLookup = "NULL">
 									</cfif>
 									<!--- TODO: Support continent in specimen search API --->
-										<cfif FindNoCase("continent",continents.continent_ocean) GT 0>
+									
 											<div class="w-100" id="cont_#i#">
 												<h4 class="collapsebar my-2">
 													<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##cont_#i#" aria-expanded="false" aria-controls="cont_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">(#continents.ct#) </a></button>
@@ -364,7 +364,7 @@ limitations under the License.
 													</ol>
 												</div>
 											</div>
-										<cfelse>
+								
 											<div class="w-100" id="ocean_#i#">
 												<h4 class="collapsebar my-2">
 													<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##ocean_#i#" aria-expanded="false" aria-controls="ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">(#continents.ct#) </a></button>
@@ -399,9 +399,7 @@ limitations under the License.
 													</ol>
 												</div>
 											</div>
-										</cfif>
-									<cfset i=i+1>
-								</cfloop>
+						
 								</div>
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
