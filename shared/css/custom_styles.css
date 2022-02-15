@@ -2379,7 +2379,7 @@ ol.flow-islandgroups li a {
 ol.flow {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 450px; /* need to specify height :-( */
+	height: 550px; /* need to specify height :-( */
 	column-count: 4;
 }
 ol.flow li a {

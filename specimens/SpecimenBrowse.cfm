@@ -330,7 +330,7 @@ limitations under the License.
 										<!--- TODO: Support continent in specimen search API --->
 										
 										<h4 class="collapsebar my-2">
-											<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##cont-ocean_#i#" aria-expanded="false" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#">(#continents.ct#) </a>
+											<button type="button" class="border rounded headerLnk py-1 text-left float-left w-100" data-toggle="collapse" data-target="##cont-ocean_#i#" aria-expanded="false" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#" target="_blank" class="float-right">(#continents.ct# records) </a>
 											</button>
 										</h4>
 										<div class="collapse w-100" id="cont-ocean_#i#">
@@ -415,7 +415,7 @@ limitations under the License.
 											<h4 class="collapsebar mb-0">
 												<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="false" aria-controls="islandgroup_#i#">
 													#group# &nbsp;&nbsp;
-													<a class="w-100 d-inline py-1" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
+													<a class="w-100 d-inline py-1 text-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
 												</button>
 											</h4>
 											<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
@@ -487,7 +487,7 @@ limitations under the License.
 											<ol class="taxaflow pt-2">
 												<cfloop query="notphyla">
 													<li>
-														<a class="" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder# (#ct#)</a> 
+														<a class="" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#" target="_blank">#kingdom#:#phylorder# (#ct#)</a> 
 													</li>
 												</cfloop>
 											</ol>
@@ -502,7 +502,7 @@ limitations under the License.
 											<cfloop query="notkingdoms">
 												<li>
 													
-													<a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name# (#ct#)</a>
+													<a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#" target="_blank">#scientific_name# (#ct#)</a>
 												</li>
 											</cfloop>
 											</ol>
