@@ -333,8 +333,8 @@ limitations under the License.
 												<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##cont-ocean_#i#" aria-expanded="false" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#" target="_blank" class="float-right">(#continents.ct# records) </a>
 												</button>
 											</h4>
-											<div class="collapse w-100" id="cont-ocean_#i#">
-												<ol class=" pt-2 <cfif continents.ct gt 1000>flow<cfelse></cfif>">
+											<div class="collapse pt-2 w-100" id="cont-ocean_#i#">
+												<ol class="<cfif continents.ct gt 1000>flow<cfelse></cfif>">
 													<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 														SELECT sum(coll_obj_count) ct, country
 														FROM 
@@ -441,8 +441,8 @@ limitations under the License.
 												<cfset islandValues = "">
 											</cfif>
 								
-											<div class="collapse w-100" id="islandgroup_#i#">
-												<ol class="#islandValues# pt-2">
+											<div class="collapse w-100 pt-2" id="islandgroup_#i#">
+												<ol class="#islandValues#">
 													<cfloop query="islands">
 														<cfset islandVal = islands.island>
 														<cfset islandLookup = islands.island>
