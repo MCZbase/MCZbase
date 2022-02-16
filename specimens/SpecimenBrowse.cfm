@@ -434,7 +434,6 @@ limitations under the License.
 												GROUP BY island
 												ORDER BY island
 											</cfquery>
-											<cfset j=1>
 											<cfloop query="islands">
 												<div class="collapse w-100 pt-2" id="islandgroup_#i#">
 													<cfif len(islands.ct) gt 500> 
@@ -456,7 +455,6 @@ limitations under the License.
 															</cfloop>
 														</ol>
 													</div>
-												<cfset j=j+1>
 											</cfloop>
 										</div>
 									</div>
