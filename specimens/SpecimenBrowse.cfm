@@ -84,7 +84,7 @@ limitations under the License.
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	SELECT
 		count(flat.collection_object_id) ct, 
-		underscore_collection.collection_name, underscore_collection.html_description,
+		underscore_collection.collection_name, 
 		underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
 		underscore_collection.description, underscore_collection.underscore_collection_type,
 		underscore_collection.displayed_media_id
@@ -105,7 +105,7 @@ limitations under the License.
 		underscore_collection.collection_name, 
 		underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
 		underscore_collection.description, underscore_collection.underscore_collection_type,
-		underscore_collection.displayed_media_id, underscore_collection.html_description
+		underscore_collection.displayed_media_id
 	ORDER BY underscore_collection_type, lower(collection_name)
 </cfquery>
 
@@ -253,7 +253,7 @@ limitations under the License.
 							<div id="featuredPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
 								<h2 class="px-2 h3">MCZ Featured Collections of Cataloged Items</h2>
 								<cfloop query="namedGroups">
-									<cfif len(#namedGroups.description#)gt 0 OR len(#namedGroups.html_description#) gt 0>
+									<cfif len(#namedGroups.collection_name#)gt 0>
 										<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 float-left my-1">
 											<div class="border rounded bg-white p-2 col-12 float-right" style="height:117px;">
 												<div class="row mx-0">
