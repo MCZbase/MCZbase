@@ -438,14 +438,15 @@ limitations under the License.
 										
 								
 											<div class="collapse w-100 pt-2" id="islandgroup_#i#">
-											<cfif len(islands.ct) gt 500> 
-												<cfset islandValues = "flow-manyislandgroups">
-											<cfelse>
-												<cfset islandValues = "">
-											</cfif>
+									
 												<ol class="#islandValues#">
 													<cfset j=1>
 													<cfloop query="islands">
+														<cfif len(islands.ct) gt 500> 
+															<cfset islandValues = "flow-manyislandgroups">
+														<cfelse>
+															<cfset islandValues = "">
+														</cfif>
 														<cfset islandVal = islands.island>
 														<cfset islandLookup = islands.island>
 														<cfif len(islandVal) EQ 0> 
