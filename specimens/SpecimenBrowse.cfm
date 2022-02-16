@@ -317,8 +317,8 @@ limitations under the License.
 								</div>
 							</div>
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
-								<h3 class="px-2">Browse by Higher Geography</h3>
-								<div class="w-100">
+								<h3 class="px-3">Browse by Higher Geography</h3>
+								<div class="col-12 px-0">
 									<cfset i="1">
 									<cfloop query="continents">
 										<cfset continent = continents.continent_ocean>
