@@ -437,7 +437,7 @@ limitations under the License.
 									
 								
 											<div class="collapse w-100" id="islandgroup_#i#">
-												<ol class="<cfif continents.ct gt 9000>flow-manyislandgroups<cfelse></cfif>">
+												<ol class="<cfif continents.ct gt 90000>flow-manyislandgroups<cfelse></cfif>">
 													<cfloop query="islands">
 														<cfset islandVal = islands.island>
 														<cfset islandLookup = islands.island>
