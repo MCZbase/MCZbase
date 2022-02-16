@@ -253,7 +253,7 @@ limitations under the License.
 							<div id="featuredPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
 								<h2 class="px-2 h3">MCZ Featured Collections of Cataloged Items</h2>
 								<cfloop query="namedGroups">
-									<cfif len(#namedGroups.description#)gt 0>
+									<cfif len(#namedGroups.description#)gt 0 OR len(#namedGropus.html_description#) gt 0>
 										<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 float-left my-1">
 											<div class="border rounded bg-white p-2 col-12 float-right" style="height:117px;">
 												<div class="row mx-0">
