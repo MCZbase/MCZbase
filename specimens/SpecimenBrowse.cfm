@@ -435,14 +435,16 @@ limitations under the License.
 												ORDER BY island
 											</cfquery>
 											
-											<cfif len(islands.ct) gt 50> 
+										
+								
+											<div class="collapse w-100 pt-2" id="islandgroup_#i#">
+											<cfif len(islands.ct) gt 500> 
 												<cfset islandValues = "flow-manyislandgroups">
 											<cfelse>
 												<cfset islandValues = "">
 											</cfif>
-								
-											<div class="collapse w-100 pt-2" id="islandgroup_#i#">
 												<ol class="#islandValues#">
+													<cfset j=1>
 													<cfloop query="islands">
 														<cfset islandVal = islands.island>
 														<cfset islandLookup = islands.island>
@@ -453,6 +455,7 @@ limitations under the License.
 														<li>	
 														<a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#" target="_blank">#islandVal# </a>(#islands.ct#)
 														</li>
+													<cfset j=j+1>
 													</cfloop>
 												</ol>
 											</div>
