@@ -451,7 +451,7 @@ limitations under the License.
 											</cfquery>
 											<cfloop query="islandct">
 												<div class="collapse w-100 pt-2" id="islandgroup_#i#">
-													<cfif len(islands.ct) gt 500> 
+													<cfif len(islandct.ct) gt 500> 
 														<cfset islandValues = "flow-manyislandgroups">
 													<cfelse>
 														<cfset islandValues = "">
