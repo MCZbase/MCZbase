@@ -105,7 +105,7 @@ limitations under the License.
 		underscore_collection.collection_name, 
 		underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
 		underscore_collection.description, underscore_collection.underscore_collection_type,
-		underscore_collection.displayed_media_id
+		underscore_collection.displayed_media_id, underscore_collection.html_description
 	ORDER BY underscore_collection_type, lower(collection_name)
 </cfquery>
 
