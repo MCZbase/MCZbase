@@ -329,7 +329,7 @@ limitations under the License.
 										</cfif>
 										<!--- TODO: Support continent in specimen search API --->
 										
-										<h4 class="collapsebar w-100 mt-1 mb-2 float-left">
+										<h4 class="collapsebar w-100 mt-1 mb-2">
 											<button type="button" class="border rounded headerLnk py-1 text-left float-left w-100" data-toggle="collapse" data-target="##cont-ocean_#i#" aria-expanded="false" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#" target="_blank" class="float-right">(#continents.ct# records) </a>
 											</button>
 										</h4>
@@ -412,8 +412,8 @@ limitations under the License.
 											<div class="#isnogroup#">
 										<!--- TODO: Support island/island_group in specimen search API --->
 										<div class="w-100 my-2">
-											<h4 class="collapsebar w-100 mt-1 mb-2 float-left">
-												<button type="button" class="border rounded headerLnk py-1 text-left w-100 float-left" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="false" aria-controls="islandgroup_#i#">
+											<h4 class="collapsebar w-100 mt-1 mb-2">
+												<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="false" aria-controls="islandgroup_#i#">
 													#group# &nbsp;&nbsp;
 													<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
 												</button>
