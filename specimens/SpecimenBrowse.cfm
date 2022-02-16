@@ -84,7 +84,7 @@ limitations under the License.
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	SELECT
 		count(flat.collection_object_id) ct, 
-		underscore_collection.collection_name, 
+		underscore_collection.collection_name, underscore_collection.html_description,
 		underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
 		underscore_collection.description, underscore_collection.underscore_collection_type,
 		underscore_collection.displayed_media_id
