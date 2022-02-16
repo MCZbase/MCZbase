@@ -334,7 +334,7 @@ limitations under the License.
 												</button>
 											</h4>
 											<div class="collapse w-100" id="cont-ocean_#i#">
-												<ol class="<cfif continents.ct gt 1000>flow<cfelse></cfif>">
+												<ol class=" pt-2 <cfif continents.ct gt 1000>flow<cfelse></cfif>">
 													<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 														SELECT sum(coll_obj_count) ct, country
 														FROM 
@@ -442,7 +442,7 @@ limitations under the License.
 											</cfif>
 								
 											<div class="collapse w-100" id="islandgroup_#i#">
-												<ol class="#islandValues#">
+												<ol class="#islandValues# pt-2">
 													<cfloop query="islands">
 														<cfset islandVal = islands.island>
 														<cfset islandLookup = islands.island>
