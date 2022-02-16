@@ -434,36 +434,33 @@ limitations under the License.
 												GROUP BY island
 												ORDER BY island
 											</cfquery>
-											
-										
-								
-											<div class="collapse w-100 pt-2" id="islandgroup_#i#">
-									
-												<ol>
-													<cfset j=1>
-													<cfloop query="islands">
-														<cfif len(islands.ct) gt 500> 
-															<cfset islandValues = "flow-manyislandgroups">
-														<cfelse>
-															<cfset islandValues = "">
-														</cfif>
-														<cfset islandVal = islands.island>
-														<cfset islandLookup = islands.island>
-														<cfif len(islandVal) EQ 0> 
-															<cfset islandVal = "[No Island Value]">
-															<cfset islandLookup = "NULL">
-														</cfif>
-														<li class="#islandValues#">	
-														<a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#" target="_blank">#islandVal# </a>(#islands.ct#)
-														</li>
-													<cfset j=j+1>
-													</cfloop>
-												</ol>
-											</div>
+											<cfset j=1>
+											<cfloop query="islands">
+												<div class="collapse w-100 pt-2" id="islandgroup_#i#">
+													<cfif len(islands.ct) gt 500> 
+														<cfset islandValues = "flow-manyislandgroups">
+													<cfelse>
+														<cfset islandValues = "">
+													</cfif>
+														<ol class="#islandValues#">
+															<cfloop query="islands">
+																<cfset islandVal = islands.island>
+																<cfset islandLookup = islands.island>
+																<cfif len(islandVal) EQ 0> 
+																	<cfset islandVal = "[No Island Value]">
+																	<cfset islandLookup = "NULL">
+																</cfif>
+																<li>	
+																<a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#" target="_blank">#islandVal# </a>(#islands.ct#)
+																</li>
+															</cfloop>
+														</ol>
+													</div>
+												<cfset j=j+1>
+											</cfloop>
 										</div>
-									
 									</div>
-										<cfset i= i+1>
+									<cfset i= i+1>
 									</cfloop>
 								</div>
 							</div>
