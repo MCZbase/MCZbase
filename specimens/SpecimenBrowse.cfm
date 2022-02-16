@@ -434,7 +434,22 @@ limitations under the License.
 												GROUP BY island
 												ORDER BY island
 											</cfquery>
-											<cfloop query="islands">
+											<cfquery name="islandct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+												SELECT sum(coll_obj_count) ct, island
+												FROM 
+													cf_geog_cat_item_counts 
+												WHERE
+													target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+													AND
+													<cfif len(island_groups.island_group) EQ 0>
+														island_group IS NULL
+													<cfelse> 
+														island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
+													</cfif>
+												GROUP BY island
+												ORDER BY island
+											</cfquery>
+											<cfloop query="islandct">
 												<div class="collapse w-100 pt-2" id="islandgroup_#i#">
 													<cfif len(islands.ct) gt 500> 
 														<cfset islandValues = "flow-manyislandgroups">
