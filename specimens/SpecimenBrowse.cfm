@@ -439,7 +439,7 @@ limitations under the License.
 								
 											<div class="collapse w-100 pt-2" id="islandgroup_#i#">
 									
-												<ol class="#islandValues#">
+												<ol>
 													<cfset j=1>
 													<cfloop query="islands">
 														<cfif len(islands.ct) gt 500> 
@@ -453,7 +453,7 @@ limitations under the License.
 															<cfset islandVal = "[No Island Value]">
 															<cfset islandLookup = "NULL">
 														</cfif>
-														<li>	
+														<li class="#islandValues#">	
 														<a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#" target="_blank">#islandVal# </a>(#islands.ct#)
 														</li>
 													<cfset j=j+1>
