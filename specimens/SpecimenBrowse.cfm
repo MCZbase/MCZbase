@@ -329,8 +329,8 @@ limitations under the License.
 										</cfif>
 										<!--- TODO: Support continent in specimen search API --->
 										
-										<h4 class="collapsebar w-100 mt-1 mb-2">
-											<button type="button" class="border rounded headerLnk py-1 text-left float-left w-100" data-toggle="collapse" data-target="##cont-ocean_#i#" aria-expanded="false" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#" target="_blank" class="float-right">(#continents.ct# records) </a>
+										<h4 class="collapsebar w-100 my-1">
+											<button type="button" class="border rounded headerLnk text-left float-left w-100" style="padding-top:2px;padding-bottom:2px;" data-toggle="collapse" data-target="##cont-ocean_#i#" aria-expanded="false" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#" target="_blank" class="float-right">(#continents.ct# records) </a>
 											</button>
 										</h4>
 										<div class="collapse w-100" id="cont-ocean_#i#">
@@ -358,7 +358,7 @@ limitations under the License.
 														<cfset countryLookup = "NULL">
 													</cfif>
 													<li class="">
-														<a class="w-100 d-inline" href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank">#countryVal#</a> (#countries.ct#) 
+														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank">#countryVal#</a> (#countries.ct#) 
 													</li>
 												</cfloop>
 												<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
@@ -383,7 +383,7 @@ limitations under the License.
 															<cfset regionLookup = "NULL">
 														</cfif>
 														<li class="">
-															<a class="w-100 d-inline py-1" href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#" target="_blank">#regionVal# </a> (#ocean_regions.ct#)
+															<a href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#" target="_blank">#regionVal# </a> (#ocean_regions.ct#)
 														</li> 
 														</cfloop>
 												</cfif>
@@ -412,7 +412,7 @@ limitations under the License.
 											<div class="#isnogroup#">
 										<!--- TODO: Support island/island_group in specimen search API --->
 										<div class="w-100 my-2">
-											<h4 class="collapsebar w-100 mt-1 mb-1">
+											<h4 class="collapsebar w-100 my-1">
 												<button type="button" class="border rounded headerLnk text-left w-100" style="padding-top:2px;padding-bottom:2px;" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="false" aria-controls="islandgroup_#i#">
 													#group# &nbsp;&nbsp;
 													<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
