@@ -441,8 +441,7 @@ limitations under the License.
 												FROM 
 													cf_geog_cat_item_counts 
 												WHERE
-													island is not null and
-												island_group is not null and
+													island_group is not null and
 													island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
 												ORDER BY island
 											</cfquery>
