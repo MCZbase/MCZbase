@@ -2428,6 +2428,19 @@ and also iPads specifically.
 }
 
 @media only screen and (max-width: 1379px) {
+ol.flowXS {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 190px; /* need to specify height :-( */
+	column-count: 4;
+}
+ol.flowXS li {
+	width: 200px;
+}
+ol.flowXS li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
