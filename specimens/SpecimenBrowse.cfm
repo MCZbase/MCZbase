@@ -447,6 +447,8 @@ limitations under the License.
 											</cfquery>
 											<cfif len(islands_count.island) gt 20> 
 												<cfset islandValues = "flow-islandgroups">
+											<cfelseif #i# gt island_groups.recordCount>
+												<cfset islandValues = "flow-islandgroups">
 											<cfelse>
 												<cfset islandValues = "">
 											</cfif>
