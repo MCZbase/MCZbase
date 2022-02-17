@@ -2363,11 +2363,11 @@ div.vslider-item[aria-hidden="true"]{
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 160px; /* need to specify height :-( */
+	height: 212px; /* need to specify height :-( */
 	column-count: 5;
 }
 ol.flowXS li {
-	width: 200px;
+	width: 313px;
 }
 ol.flowXS li a {
 	display: inline-block;
