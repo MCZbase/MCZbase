@@ -445,7 +445,8 @@ limitations under the License.
 													island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
 												ORDER BY island
 											</cfquery>
-											<cfif len(islands_count.island) eq recordCount> 
+												
+											<cfif #i# eq islands_count.recordCount> 
 												<cfset islandValues = "flow-islandgroups">
 											<cfelseif #i# eq island_groups.recordCount>
 												<cfset islandValues = "flow-islandgroups">
