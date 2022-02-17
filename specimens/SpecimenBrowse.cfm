@@ -436,17 +436,8 @@ limitations under the License.
 												GROUP BY island
 												ORDER BY island
 											</cfquery>
-											<cfquery name="islands_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-												SELECT distinct island 
-												FROM 
-													cf_geog_cat_item_counts 
-												WHERE
-													island_group is not null and
-													island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
-												ORDER BY island
-											</cfquery>
-												
-											<cfif #i# eq islands_count.recordCount> 
+
+											<cfif #i# eq island_groups.recordCount> 
 												<cfset islandValues = "flow-islandgroups">
 											<cfelse>
 												<cfset islandValues = "">
