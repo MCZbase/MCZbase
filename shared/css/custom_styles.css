@@ -2376,11 +2376,11 @@ ol.flowXS li a {
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 160px; /* need to specify height :-( */
+	height: 218px; /* need to specify height :-( */
 	column-count: 5;
 }
 ol.flowSm li {
-	width: 200px;
+	width: 320px;
 }
 ol.flowSm li a {
 	display: inline-block;
