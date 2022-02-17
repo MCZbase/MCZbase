@@ -437,7 +437,7 @@ limitations under the License.
 												ORDER BY island
 											</cfquery>
 											<cfquery name="islands_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-												SELECT distinct island ct, 
+												SELECT distinct island ct 
 												FROM 
 													cf_geog_cat_item_counts 
 												WHERE
