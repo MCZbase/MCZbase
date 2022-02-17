@@ -334,7 +334,20 @@ limitations under the License.
 												</button>
 											</h4>
 											<div class="collapse pt-2 w-100" id="cont-ocean_#i#">
-												<ol class="<cfif continents.ct gt 1000>flow<cfelse></cfif>">
+											<cfif countries.recordCount gt 800> 
+												<cfset geogValues = "flowXL">
+											<cfelseif countries.recordCount gt 501 and countries.recordCount lt 799>
+												<cfset geogValues = "flowLg">
+											<cfelseif countries.recordCount gt 301 and countries.recordCount lt 500>
+												<cfset geogValues = "flowMd">
+											<cfelseif countries.recordCount gt 101 and countries.recordCount lt 300>
+												<cfset geogValues = "flowSm"><!---Example West Indies in islands--->
+											<cfelseif countries.recordCount gt 39 and countries.recordCount lt 100>
+												<cfset geogValues = "flowSm">
+											<cfelse>	
+												<cfset geogValues = "">
+											</cfif>
+												<ol class="#geogValues#">
 													<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 														SELECT sum(coll_obj_count) ct, country
 														FROM 
@@ -350,6 +363,7 @@ limitations under the License.
 														GROUP BY country
 														ORDER BY country
 													</cfquery>
+
 													<cfloop query="countries">
 														<cfset countryVal = countries.country>
 														<cfset countryLookup = countries.country>
@@ -395,9 +409,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
-							<h3 class="px-3">Browse By Islands</h3>
-								
-							
+							<h3 class="px-3">Browse By Islands</h3>	
 								<div class="col-12 px-0">
 									<cfset i=1>
 									<cfloop query="island_groups">
@@ -444,7 +456,7 @@ limitations under the License.
 											<cfelseif islands.recordCount gt 301 and islands.recordCount lt 500>
 												<cfset islandValues = "flowMd">
 											<cfelseif islands.recordCount gt 101 and islands.recordCount lt 300>
-												<cfset islandValues = "flowSm">
+												<cfset islandValues = "flowSm"><!---Example West Indies in islands--->
 											<cfelseif islands.recordCount gt 39 and islands.recordCount lt 100>
 												<cfset islandValues = "flowSm">
 											<cfelse>	
