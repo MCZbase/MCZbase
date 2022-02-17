@@ -396,6 +396,8 @@ limitations under the License.
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-3">Browse By Islands</h3>
+								
+							
 								<div class="col-12 px-0">
 									<cfset i=1>
 									<cfloop query="island_groups">
@@ -434,8 +436,21 @@ limitations under the License.
 												GROUP BY island
 												ORDER BY island
 											</cfquery>
-											
-											<cfif #i# eq island_groups.recordCount> 
+											<cfquery name="islands_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+												SELECT distinct island
+												FROM 
+													cf_geog_cat_item_counts 
+												WHERE
+													target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+													AND
+													<cfif len(island_groups.island_group) EQ 0>
+														island_group IS NULL
+													<cfelse> 
+														island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
+													</cfif>
+												ORDER BY island
+											</cfquery>
+											<cfif len(islands_count.recordCount gt 50> 
 												<cfset islandValues = "flow-islandgroups">
 											<cfelse>
 												<cfset islandValues = "">
