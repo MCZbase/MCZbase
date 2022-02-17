@@ -436,20 +436,7 @@ limitations under the License.
 												GROUP BY island
 												ORDER BY island
 											</cfquery>
-											<cfquery name="islands_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-												SELECT distinct island
-												FROM 
-													cf_geog_cat_item_counts 
-												WHERE
-													target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
-													AND
-													<cfif len(island_groups.island_group) EQ 0>
-														island_group IS NULL
-													<cfelse> 
-														island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
-													</cfif>
-												ORDER BY island
-											</cfquery>
+
 											<cfif len(islands_count.recordCount) gt 30> 
 												<cfset islandValues = "flow-islandgroups">
 											<cfelse>
@@ -457,7 +444,17 @@ limitations under the License.
 											</cfif>
 											<div class="collapse w-100 pt-2" id="islandgroup_#i#">
 												<ol class="#islandValues#">
-													<cfloop query="islands">
+												<cfloop query="islands">
+													<cfquery name="islands_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+														SELECT distinct island
+														FROM 
+															cf_geog_cat_item_counts 
+														WHERE
+															target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+															AND
+															island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
+														ORDER BY island
+													</cfquery>
 														<cfset islandVal = islands.island>
 														<cfset islandLookup = islands.island>
 														<cfif len(islandVal) EQ 0> 
