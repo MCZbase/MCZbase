@@ -410,7 +410,7 @@ limitations under the License.
 											<cfelse>
 												<cfset isnogroup ="col-12">
 											</cfif>
-											<div class="#isnogroup#">
+									<div class="#isnogroup#">
 										<!--- TODO: Support island/island_group in specimen search API --->
 										<div class="w-100 my-2">
 											<h4 class="collapsebar w-100 my-1">
@@ -440,9 +440,8 @@ limitations under the License.
 											<cfelse>
 												<cfset islandValues = "">
 											</cfif>
-								
 											<div class="collapse w-100 pt-2" id="islandgroup_#i#">
-												<ol class="#islandValues#">
+												<div class="#islandValues#">
 													<cfloop query="islands">
 														<cfset islandVal = islands.island>
 														<cfset islandLookup = islands.island>
@@ -450,11 +449,11 @@ limitations under the License.
 															<cfset islandVal = "[No Island Value]">
 															<cfset islandLookup = "NULL">
 														</cfif>
-														<li>	
+														
 														<a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#" target="_blank">#islandVal# </a>(#islands.ct#)
-														</li>
+														
 													</cfloop>
-												</ol>
+												</div>
 											</div>
 										</div>
 									
