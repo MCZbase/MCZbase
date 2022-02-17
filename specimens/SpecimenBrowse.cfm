@@ -436,7 +436,7 @@ limitations under the License.
 											</cfquery>
 											
 											<cfif #i# eq island_groups.recordCount> 
-												<cfset islandValues = "flow-manyislandgroups">
+												<cfset islandValues = "islandgroups">
 											<cfelse>
 												<cfset islandValues = "">
 											</cfif>
@@ -450,7 +450,7 @@ limitations under the License.
 															<cfset islandLookup = "NULL">
 														</cfif>
 														
-														<a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#" target="_blank">#islandVal# </a>(#islands.ct#)
+														<a class="" href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#" target="_blank">#islandVal# </a>(#islands.ct#)
 														
 													</cfloop>
 												</div>
