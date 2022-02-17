@@ -500,7 +500,7 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-9">
 										<label for="description" id="description_label" class="data-entry-label">Overview (<span id="length_description">0 characters, 4000 left</span>)</label>
-										<textarea id="description" name="description" class="data-entry-textarea mt-0"
+										<textarea id="description" name="description" class="reqdClr data-entry-textarea mt-0"
 												onkeyup="countCharsLeft('description',4000,'length_description');"
 												rows="3" aria-labelledby="description_label" ></textarea>
 									</div>
@@ -510,7 +510,7 @@ limitations under the License.
 										});
 									</script>
 									<div class="col-12 col-md-3">
-										<label for="underscore_collection_type" class="data-entry-label" id="underscore_collection_type_label">Type</label>
+										<label for="underscore_collection_type" class="reqdClr data-entry-label" id="underscore_collection_type_label">Type</label>
 										<select name="underscore_collection_type" id="underscore_collection_type" class="data-entry-select reqdClr" required>
 											<option value="" selected="selected"></option>
 											<cfloop query="ctunderscore_collection_type">
@@ -692,7 +692,7 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-9">
 										<label for="description" id="description_label" class="data-entry-label">Overview (<span id="length_description"></span>)</label>
-										<textarea id="description" name="description" class="data-entry-textarea mt-0 autogrow"
+										<textarea id="description" name="description" class="reqdClr data-entry-textarea mt-0 autogrow"
 												onkeyup="countCharsLeft('description',4000,'length_description');"
 												rows="3" aria-labelledby="description_label" >#encodeForHtml(description)#</textarea>
 									</div>
@@ -707,8 +707,8 @@ limitations under the License.
 									</script>
 									<div class="col-12 col-md-3">
 										<cfset current_type = "#underscore_collection_type#">
-										<label for="underscore_collection_type" class="data-entry-label" id="underscore_collection_type_label">Type</label>
-										<select name="underscore_collection_type" id="underscore_collection_type" class="data-entry-select">
+										<label for="underscore_collection_type" class="reqClr data-entry-label" id="underscore_collection_type_label">Type</label>
+										<select name="underscore_collection_type" id="underscore_collection_type" class="reqdClr data-entry-select">
 											<cfloop query="ctunderscore_collection_type">
 												<cfif current_type EQ ctunderscore_collection_type.underscore_collection_type>
 													<cfset sel='selected="selected"'>
