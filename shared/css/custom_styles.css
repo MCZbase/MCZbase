@@ -2590,7 +2590,8 @@ ol.flowXL {
 	column-count: 2;
 }
 ol.flowXL li {
-	width: 290px;
+	width: 275px;
+	overflow-wrap: break-word;
 }
 ol.flowXL li a {
 	display: inline-block;
