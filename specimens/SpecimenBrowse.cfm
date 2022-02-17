@@ -439,9 +439,13 @@ limitations under the License.
 
 											<cfif islands.recordCount gt 800> 
 												<cfset islandValues = "flowXL">
-											<cfelseif islands.recordCount gt 500 and islands.recordCount lt 799>
+											<cfelseif islands.recordCount gt 501 and islands.recordCount lt 799>
+												<cfset islandValues = "flowLg">
+											<cfelseif islands.recordCount gt 301 and islands.recordCount lt 500>
 												<cfset islandValues = "flowMd">
-											<cfelseif islands.recordCount gt 200 and islands.recordCount lt 499>
+											<cfelseif islands.recordCount gt 101 and islands.recordCount lt 300>
+												<cfset islandValues = "flowSm">
+											<cfelseif islands.recordCount gt 39 and islands.recordCount lt 100>
 												<cfset islandValues = "flowSm">
 											<cfelse>	
 												<cfset islandValues = "">
