@@ -2370,7 +2370,7 @@ div.vslider-item[aria-hidden="true"]{
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 350px; /* need to specify height :-( */
+	height: 160px; /* need to specify height :-( */
 	column-count: 5;
 }
 ol.flowSm li {
@@ -2434,12 +2434,12 @@ and also iPads specifically.
 	}
 }
 
-@media only screen and (max-width: 1350px) {
+@media only screen and (max-width: 1379px) {
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 350px; /* need to specify height :-( */
-	column-count: 5;
+	height: 190px; /* need to specify height :-( */
+	column-count: 4;
 }
 ol.flowSm li {
 	width: 200px;
@@ -2499,7 +2499,7 @@ ol.flowXL li a {
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 350px; /* need to specify height :-( */
+	height: 273px; /* need to specify height :-( */
 	column-count: 3;
 }
 ol.flowSm li {
@@ -2554,7 +2554,7 @@ ol.flowXL li a {
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 500px; /* need to specify height :-( */
+	height: 400px; /* need to specify height :-( */
 	column-count: 2;
 }
 ol.flowSm li {
