@@ -2357,13 +2357,6 @@ div.vslider-item[aria-hidden="true"]{
 /* Device styles below ***********/
 /*********************************/
 @media only screen and (min-width: 1380px) {
-/*	.cbp-spmenu-push-toleft {
-		width: 81%;
-		left: 19%;
-		-webkit-transition: all 0.3s ease;
-		-moz-transition: all 0.3s ease;
-		transition: all 0.3s ease;
-	}*/
 	.w-350 {
 		width: 100%;
 	}
@@ -2477,8 +2470,8 @@ ol.flowLg li a {
 ol.flowXL {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 2560px; /* need to specify height :-( */
-	column-count: 6;
+	height: 3879px; /* need to specify height :-( */
+	column-count: 4;
 }
 ol.flowXL li {
 	width: 200px;
@@ -2542,7 +2535,7 @@ ol.flowXL {
 	column-count: 3;
 }
 ol.flowXL li {
-	width: 200px;
+	width: 175px;
 }
 ol.flowXL li a {
 	display: inline-block;
@@ -2593,11 +2586,11 @@ ol.flowLg li a {
 ol.flowXL {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 7000px; /* need to specify height :-( */
+	height: 7780px; /* need to specify height :-( */
 	column-count: 2;
 }
 ol.flowXL li {
-	width: 200px;
+	width: 300px;
 }
 ol.flowXL li a {
 	display: inline-block;
