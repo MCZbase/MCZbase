@@ -436,7 +436,7 @@ limitations under the License.
 											</cfquery>
 											
 											<cfif #i# eq island_groups.recordCount> 
-												<cfset islandValues = "flow-manyislandgroups">
+												<cfset islandValues = "flow-islandgroups">
 											<cfelse>
 												<cfset islandValues = "">
 											</cfif>
