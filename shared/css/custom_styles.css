@@ -2360,6 +2360,19 @@ div.vslider-item[aria-hidden="true"]{
 	.w-350 {
 		width: 100%;
 	}
+ol.flowXS {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 160px; /* need to specify height :-( */
+	column-count: 5;
+}
+ol.flowXS li {
+	width: 200px;
+}
+ol.flowXS li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
@@ -2502,6 +2515,19 @@ ol.flowXL li a {
 	h1 {
 		margin-bottom: 0;
 	}
+ol.flowXS {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 273px; /* need to specify height :-( */
+	column-count: 3;
+}
+ol.flowXS li {
+	width: 200px;
+}
+ol.flowXS li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
@@ -2557,6 +2583,19 @@ ol.flowXL li a {
 
 }
 @media only screen and (max-width: 750px) {
+ol.flowXS {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 400px; /* need to specify height :-( */
+	column-count: 2;
+}
+ol.flowXS li {
+	width: 200px;
+}
+ol.flowXS li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
@@ -2613,6 +2652,19 @@ ol.flowXL li a {
 
 }
 @media only screen and (max-width: 600px) {
+ol.flowXS {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: auto; /* need to specify height :-( */
+	column-count: 1;
+}
+ol.flowXS li {
+	width: auto;
+}
+ol.flowXS li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
