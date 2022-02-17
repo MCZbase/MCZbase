@@ -437,12 +437,12 @@ limitations under the License.
 												ORDER BY island
 											</cfquery>
 											<cfquery name="islands_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-												SELECT distinct island ct 
+												SELECT distinct island 
 												FROM 
 													cf_geog_cat_item_counts 
 												WHERE
-													target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
-													AND
+													island is not null and
+												island group is not null and
 													island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
 												ORDER BY island
 											</cfquery>
