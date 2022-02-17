@@ -2394,6 +2394,9 @@ ol.flow-manyislandgroups {
 	height: 2560px; /* need to specify height :-( */
 	column-count: 6;
 }
+ol.flow-manyislandgroups li {
+	width: 200px;
+}
 ol.flow-manyislandgroups li a {
 	display: inline-block;
 	padding-right: 3px;
