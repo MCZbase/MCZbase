@@ -2367,39 +2367,58 @@ div.vslider-item[aria-hidden="true"]{
 	.w-350 {
 		width: 100%;
 	}
-ol.flow {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: 550px; /* need to specify height :-( */
-	column-count: 4;
-}
-ol.flow li a {
-	display: inline-block;
-	padding-right: 3px;
-}
-ol.taxaflow {
+ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 350px; /* need to specify height :-( */
 	column-count: 5;
 }
-ol.taxaflow li a {
+ol.flowSm li {
+	width: 200px;
+}
+ol.flowSm li a {
 	display: inline-block;
 	padding-right: 3px;
 }
-}
-ol.flow-islandgroups {
+ol.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 2560px; /* need to specify height :-( */
 	column-count: 6;
 }
-ol.flow-islandgroups li {
+ol.flowMd li {
 	width: 200px;
 }
-ol.flow-islandgroups li a {
+ol.flowMd li a {
 	display: inline-block;
 	padding-right: 3px;
+}	
+ol.flowLg {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 2560px; /* need to specify height :-( */
+	column-count: 6;
+}
+ol.flowLg li {
+	width: 200px;
+}
+ol.flowLg li a {
+	display: inline-block;
+	padding-right: 3px;
+}	
+ol.flowXL {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 2560px; /* need to specify height :-( */
+	column-count: 6;
+}
+ol.flowXL li {
+	width: 200px;
+}
+ol.flowXL li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 }
 /* 
 Max width before this PARTICULAR table gets nasty
@@ -2416,18 +2435,58 @@ and also iPads specifically.
 }
 
 @media only screen and (max-width: 1350px) {
-	ol.flow {
-	height:1300px;
-	column-count: 1;
-	}
-	ol.taxaflow {
-	height:700px;
-	column-count: 2;
-	}
-	ol.flow-islandgroups {
-	height: 5200px;
-	column-count: 3;
-	}
+ol.flowSm {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 350px; /* need to specify height :-( */
+	column-count: 5;
+}
+ol.flowSm li {
+	width: 200px;
+}
+ol.flowSm li a {
+	display: inline-block;
+	padding-right: 3px;
+}
+ol.flowMd {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 2560px; /* need to specify height :-( */
+	column-count: 6;
+}
+ol.flowMd li {
+	width: 200px;
+}
+ol.flowMd li a {
+	display: inline-block;
+	padding-right: 3px;
+}	
+ol.flowLg {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 2560px; /* need to specify height :-( */
+	column-count: 6;
+}
+ol.flowLg li {
+	width: 200px;
+}
+ol.flowLg li a {
+	display: inline-block;
+	padding-right: 3px;
+}	
+ol.flowXL {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 2560px; /* need to specify height :-( */
+	column-count: 6;
+}
+ol.flowXL li {
+	width: 200px;
+}
+ol.flowXL li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 
 }
 @media only screen and (max-width: 990px) {
@@ -2437,55 +2496,168 @@ and also iPads specifically.
 	h1 {
 		margin-bottom: 0;
 	}
-	ol.flow {
-	height:550px;
-	 column-count: 2;
-	}
-	ol.taxaflow {
-	height:650px;
-	 column-count: 2;
-	}
-	
-	ol.flow-islandgroups {
-	height:7580px;
-	column-count: 2;
-	overflow:scroll;
-	}
+ol.flowSm {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 350px; /* need to specify height :-( */
+	column-count: 3;
+}
+ol.flowSm li {
+	width: 200px;
+}
+ol.flowSm li a {
+	display: inline-block;
+	padding-right: 3px;
+}
+ol.flowMd {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 1000px; /* need to specify height :-( */
+	column-count: 3;
+}
+ol.flowMd li {
+	width: 200px;
+}
+ol.flowMd li a {
+	display: inline-block;
+	padding-right: 3px;
+}	
+ol.flowLg {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 2560px; /* need to specify height :-( */
+	column-count: 3;
+}
+ol.flowLg li {
+	width: 200px;
+}
+ol.flowLg li a {
+	display: inline-block;
+	padding-right: 3px;
+}	
+ol.flowXL {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 6000px; /* need to specify height :-( */
+	column-count: 3;
+}
+ol.flowXL li {
+	width: 200px;
+}
+ol.flowXL li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 
 }
 @media only screen and (max-width: 750px) {
-	ol.flow {
-	height:1370px;
-	 column-count: 2;
-	}
-	ol.taxaflow {
-	height:800px;
-	 column-count: 2;
-	}
-	ol.flow-islandgroups {
-	height: 7900px;
+ol.flowSm {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 500px; /* need to specify height :-( */
 	column-count: 2;
-	overflow:scroll;
-	}
+}
+ol.flowSm li {
+	width: 200px;
+}
+ol.flowSm li a {
+	display: inline-block;
+	padding-right: 3px;
+}
+ol.flowMd {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 1000px; /* need to specify height :-( */
+	column-count: 2;
+}
+ol.flowMd li {
+	width: 200px;
+}
+ol.flowMd li a {
+	display: inline-block;
+	padding-right: 3px;
+}	
+ol.flowLg {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 5000px; /* need to specify height :-( */
+	column-count: 2;
+}
+ol.flowLg li {
+	width: 200px;
+}
+ol.flowLg li a {
+	display: inline-block;
+	padding-right: 3px;
+}	
+ol.flowXL {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 7000px; /* need to specify height :-( */
+	column-count: 2;
+}
+ol.flowXL li {
+	width: 200px;
+}
+ol.flowXL li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 
 }
 @media only screen and (max-width: 600px) {
-	ol.flow {
-	height:auto;
-	 column-count: 1;
-	}
-	ol.taxaflow {
-	height:auto;
-	 column-count: 1;
-	}
-	ol.flow-islandgroups {
-	height: auto;
+ol.flowSm {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: auto; /* need to specify height :-( */
 	column-count: 1;
-	overflow:scroll;
-	}
-	ol.flow-islandgroups li {
-	max-width: 200px;
-	}
+}
+ol.flowSm li {
+	width: auto;
+}
+ol.flowSm li a {
+	display: inline-block;
+	padding-right: 3px;
+}
+ol.flowMd {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: auto; /* need to specify height :-( */
+	column-count: 1;
+}
+ol.flowMd li {
+	width: auto;
+}
+ol.flowMd li a {
+	display: inline-block;
+	padding-right: 3px;
+}	
+ol.flowLg {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: auto; /* need to specify height :-( */
+	column-count: 1;
+}
+ol.flowLg li {
+	width: auto;
+}
+ol.flowLg li a {
+	display: inline-block;
+	padding-right: 3px;
+}	
+ol.flowXL {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: auto; /* need to specify height :-( */
+	column-count: 1;
+}
+ol.flowXL li {
+	width: auto;
+}
+ol.flowXL li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 }
 
 @media (min-width:1060px) and (max-width: 1459px) {
