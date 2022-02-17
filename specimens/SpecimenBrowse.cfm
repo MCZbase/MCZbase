@@ -349,15 +349,15 @@ limitations under the License.
 												</button>
 											</h4>
 											<div class="collapse pt-2 w-100" id="cont-ocean_#i#">
-											<cfif countries.recordCount gt 800> 
+											<cfif countries.recordCount gt 300> 
 												<cfset geogValues = "flowXL">
-											<cfelseif countries.recordCount gt 501 and countries.recordCount lt 799>
+											<cfelseif countries.recordCount gt 151 and countries.recordCount lt 299>
 												<cfset geogValues = "flowLg">
-											<cfelseif countries.recordCount gt 301 and countries.recordCount lt 500>
+											<cfelseif countries.recordCount gt 80 and countries.recordCount lt 150>
 												<cfset geogValues = "flowMd">
-											<cfelseif countries.recordCount gt 81 and countries.recordCount lt 300>
+											<cfelseif countries.recordCount gt 40 and countries.recordCount lt 79>
 												<cfset geogValues = "flowSm"><!---Example West Indies in islands--->
-											<cfelseif countries.recordCount gt 40 and countries.recordCount lt 80>
+											<cfelseif countries.recordCount gt 20 and countries.recordCount lt 39>
 												<cfset geogValues = "flowXS">
 											<cfelse>	
 												<cfset geogValues = "">
