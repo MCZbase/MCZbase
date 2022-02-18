@@ -325,8 +325,8 @@ limitations under the License.
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type# 	<cfif namedGroups.mask_fg EQ 1>
 															[Hidden]
-														</cfif></p>
-													
+														</cfif>
+														</p>
 													</div>
 													<cfif len(namedGroups.displayed_media_id) gt 0>
 														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
@@ -383,12 +383,6 @@ limitations under the License.
 											<div class="col-12 col-md-6 col-xl-3 float-left px-1 mt-2 mb-1">
 												<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height:117px">
 													<div class="row h-25 mx-0">
-														<cfif len(namedGroups.displayed_media_id) gt 1>
-															<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb", background_color="white", size="100",captionAs="textNone")>
-															<div class="float-right" id="mediaBlock#namedGroups.displayed_media_id#">
-																#mediablock#
-															</div>
-														</cfif>
 														<div class="col float-right px-2 px-md-2 mt-0">
 															<cfset showTitleText = trim(collection_name)>
 															<h3 class="h5 mb-1 text-truncate1 pr-1">
@@ -401,6 +395,12 @@ limitations under the License.
 															<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 															<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type# <cfif namedGroups.mask_fg EQ 1>[Hidden]</cfif></p>
 														</div>
+														<cfif len(namedGroups.displayed_media_id) gt 1>
+															<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb", background_color="white", size="100",captionAs="textNone")>
+															<div class="float-right" id="mediaBlock#namedGroups.displayed_media_id#">
+																#mediablock#
+															</div>
+														</cfif>
 													</div>
 												</div>
 											</div>
