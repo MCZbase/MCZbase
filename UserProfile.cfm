@@ -234,7 +234,7 @@ limitations under the License.
 					<h4> <a href="/saveSearch.cfm?action=manage">Manage your Saved Searches</a><br>
 						<small>Click "Save Search" from Specimen Results to save a search.</small> </h4>
 						<cfif isInv.allow is 1>
-							You've been invited to become an Operator. Password restrictions apply.
+							You&apos;ve been invited to become an Operator. Password restrictions apply.
 							This form does not change your password (you may do so <a href="/ChangePassword.cfm">here</a>),
 							but will provide information about the suitability of your password. You may need to change your password in order to successfully complete this form.
 							<form name="getUserData" method="post" action="/UserProfile.cfm" onSubmit="return noenter();">
@@ -321,7 +321,7 @@ limitations under the License.
 								SCIENTIFIC_NAME, CUSTOMOTHERIDENTIFIER, CHRONOLOGICAL_EXTENT, MAX_ERROR_IN_METERS, SHOWOBSERVATIONS,
 								COLLECTION_IDS, EXCLUSIVE_COLLECTION_ID, LOAN_REQUEST_COLL_ID, MISCELLANEOUS, LOCALITY,
 								RESULTCOLUMNLIST, PW_CHANGE_DATE, LAST_LOGIN, SPECSRCHPREFS, FANCYCOID, RESULT_SORT, 
-								BLOCK_SUGGEST, LOCSRCHPREFS, REPORTPREFS
+								BLOCK_SUGGEST, LOCSRCHPREFS, REPORTPREFS, SPECIMENS_DEFAULT_ACTION
 						 	FROM cf_users 
 							WHERE 
 								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >

@@ -4718,10 +4718,32 @@
 	<cftry>
 			<cfquery name="up" datasource="cf_dbuser">
 				UPDATE cf_users SET
-					block_suggest = #onoff#
-				WHERE username = '#session.username#'
+					block_suggest = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#onoff#">
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset session.block_suggest = onoff>
+		<cfset result="success">
+	<cfcatch>
+		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">
+	</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
+<!----------------------------------------------------------------------------------------->
+<cffunction name="changeSpecimensDefaultAction" access="remote">
+	<cfargument name="specimens_default_action" type="string" required="yes">
+	<cftry>
+			<cfquery name="updatespecdefact" datasource="cf_dbuser" result="result_updatespecdefact">
+				UPDATE cf_users SET
+					specimens_default_action = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimens_default_action#">
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="getspecdefact" datasource="cf_dbuser" result="result_updatespecdefact">
+				SELECT specimens_default_action
+				FROM cf_users 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset session.specimens_default_action = getspecdefact.specimens_default_action>
 		<cfset result="success">
 	<cfcatch>
 		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">
@@ -4735,8 +4757,8 @@
 	<cftry>
 			<cfquery name="up" datasource="cf_dbuser">
 				UPDATE cf_users SET
-					displayrows = #tgt#
-				WHERE username = '#session.username#'
+					displayrows = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tgt#">
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset session.displayrows = "#tgt#">
 		<cfset result="success">
