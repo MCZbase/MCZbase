@@ -362,7 +362,7 @@ limitations under the License.
 											<cfelse>	
 												<cfset geogValues = "">
 											</cfif>
-												<ol class="#geogValues# px-2">
+												<ol class="#geogValues# px-4">
 													<cfloop query="countries">
 														<cfset countryVal = countries.country>
 														<cfset countryLookup = countries.country>
@@ -462,7 +462,7 @@ limitations under the License.
 												<cfset islandValues = "">
 											</cfif>
 											<div class="collapse w-100 pt-2" id="islandgroup_#i#">
-												<ol class="#islandValues# px-2">
+												<ol class="#islandValues# px-4">
 												<cfloop query="islands">
 														<cfset islandVal = islands.island>
 														<cfset islandLookup = islands.island>
@@ -491,7 +491,7 @@ limitations under the License.
 											<button class="border rounded headerLnk py-1 text-left w-100" data-target="##phylum" data-toggle="collapse" aria-expanded="false" aria-controls="phylum">Phylum</button>
 										</h4>
 										<div class="collapse w-100" id="phylum">
-											<ol class="taxaflow pt-2 px-2">
+											<ol class="taxaflow pt-2">
 											<cfloop query="phyla">
 												<li>
 													<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
@@ -505,7 +505,7 @@ limitations under the License.
 											<button class="border rounded headerLnk py-1 text-left w-100" data-target="##notphylum" data-toggle="collapse" aria-expanded="false" aria-controls="notphylum">Orders &ndash; no Phylum value</button>
 										</h4>
 										<div class="collapse" id="notphylum">
-											<ol class="taxaflow pt-2 px-2">
+											<ol class="taxaflow pt-2">
 												<cfloop query="notphyla">
 													<li>
 														<a class="" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#" target="_blank">#kingdom#:#phylorder# (#ct#)</a> 
@@ -522,7 +522,6 @@ limitations under the License.
 											<ol class="pt-2">
 											<cfloop query="notkingdoms">
 												<li>
-													
 													<a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#" target="_blank">#scientific_name# (#ct#)</a>
 												</li>
 											</cfloop>
