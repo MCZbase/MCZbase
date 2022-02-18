@@ -2699,7 +2699,7 @@ ol.flowNone li a {
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 468px; /* need to specify height :-( */
+	height: 510px; /* need to specify height :-( */
 	column-count: 2;
 }
 ol.flowXS li {
