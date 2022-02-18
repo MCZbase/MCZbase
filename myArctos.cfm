@@ -119,7 +119,6 @@
 	<cfquery name="getPrefs" datasource="cf_dbuser">
 		select * 
 		from cf_users
-			left join user_loan_request on cf_users.user_id = user_loan_request.user_id
 		where  
 			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		order by cf_users.user_id
