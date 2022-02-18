@@ -2592,7 +2592,7 @@ ol.flowXL li a {
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 273px; /* need to specify height :-( */
+	height: 450px; /* need to specify height :-( */
 	column-count: 3;
 }
 ol.flowXS li {
@@ -2619,7 +2619,7 @@ ol.flowSm li a {
 ol.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 1000px; /* need to specify height :-( */
+	height: 1010px; /* need to specify height :-( */
 	column-count: 3;
 }
 ol.flowMd li {
@@ -2661,7 +2661,7 @@ ol.flowXL li a {
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 400px; /* need to specify height :-( */
+	height: 468px; /* need to specify height :-( */
 	column-count: 2;
 }
 ol.flowXS li {
