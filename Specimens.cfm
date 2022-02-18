@@ -39,7 +39,7 @@ limitations under the License.
 
 <cfif not isdefined("action")>
 	<!--- set the default tab based on user preferences --->
-	<cfif isDefined("session.specimens_default_action") AND len(session.specimens_default_action) GT 0)>
+	<cfif isDefined("session.specimens_default_action") AND len(session.specimens_default_action) GT 0 >
 		<cfset action=session.specimens_default_action>
 	</cfif>
 	<cfif not isdefined("action") OR len(action) EQ 0 OR NOT ListContains("fixedSearch,keywordSearch,builderSearch",action)>
