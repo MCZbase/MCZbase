@@ -2344,19 +2344,6 @@ div.vslider-item[aria-hidden="true"]{
 #myBtn:hover {
   background-color: #555;
 }
-
-h3.line-clamp {
-	display:-webkit-box;
-	-webkit-line-clamp: 3;
-	-webkit-box-orient:vertical;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 200px;
-  /* Beginning of string */
-  direction: rtl;
-  text-align: left;
-}
 .text-truncate-container {
     width: 250px;
 }
