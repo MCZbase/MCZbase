@@ -315,7 +315,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
-								<h3 class="px-3">Browse by Higher Geography</h3>
+								<h3 class="px-2">Browse by Higher Geography</h3>
 								<div class="col-12 px-0 px-md-2">
 									<cfset i="1">
 									<cfloop query="continents">
@@ -406,7 +406,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
-							<h3 class="px-3">Browse By Islands</h3>	
+							<h3 class="px-2">Browse By Islands</h3>	
 								<div class="col-12 px-0 px-md-2">
 									<cfset i=1>
 									<cfloop query="island_groups">
@@ -476,7 +476,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
-								<h3 class="px-3">Browse by Higher Taxonomy</h3>
+								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<div class="col-12 px-0 px-md-2">
 									<div class="w-100 my-2">
 										<h4 class="collapsebar">
