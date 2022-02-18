@@ -2609,8 +2609,8 @@ ol.flowXL li a {
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 450px; /* need to specify height :-( */
-	column-count: 3;
+	height: 506px;
+	column-count: 2;
 }
 ol.flowXS li {
 	width: 200px;
