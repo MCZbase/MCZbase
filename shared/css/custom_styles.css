@@ -2786,6 +2786,9 @@ ol.flowNone li a {
 	display: inline-block;
 	padding-right: 3px;
 }
+	.tab-content {
+		margin-top: -2px;
+	}
 }
 @media only screen and (max-width: 600px) {
 ol.flowXS {
