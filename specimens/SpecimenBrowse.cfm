@@ -343,7 +343,7 @@ limitations under the License.
 										</cfquery>
 										<div class="my-2 w-100">
 											<h4 class="collapsebar w-100 my-1">
-												<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse show" data-target="##cont-ocean_#i#" aria-expanded="true" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#" target="_blank" class="float-right">(#continents.ct# records) </a>
+												<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##cont-ocean_#i#" aria-expanded="false" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#" target="_blank" class="float-right">(#continents.ct# records) </a>
 												</button>
 											</h4>
 											<div class="collapse pt-2 w-100" id="cont-ocean_#i#">
