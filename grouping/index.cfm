@@ -321,7 +321,6 @@ limitations under the License.
 																</a>
 															</p>
 														</h3>
-														<p>#namedGroups.description#</p>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type# 	<cfif namedGroups.mask_fg EQ 1>
 															[Hidden]
