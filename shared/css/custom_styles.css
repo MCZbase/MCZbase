@@ -2459,11 +2459,11 @@ ol.flowXS li a {
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 326px; /* need to specify height :-( */
+	height: 375px; /* need to specify height :-( */
 	column-count: 4;
 }
 ol.flowSm li {
-	width: 320px;
+	width: 318px;
 }
 ol.flowSm li a {
 	display: inline-block;
@@ -2502,7 +2502,7 @@ ol.flowXL {
 	column-count: 5;
 }
 ol.flowXL li {
-	width: 200px;
+	width: 260px;
 }
 ol.flowXL li a {
 	display: inline-block;
@@ -2514,11 +2514,11 @@ ol.flowXL li a {
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 190px; /* need to specify height :-( */
-	column-count: 4;
+	height: 315px; /* need to specify height :-( */
+	column-count: 3;
 }
 ol.flowXS li {
-	width: 200px;
+	width: 210px;
 }
 ol.flowXS li a {
 	display: inline-block;
