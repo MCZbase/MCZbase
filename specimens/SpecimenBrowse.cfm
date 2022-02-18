@@ -362,7 +362,7 @@ limitations under the License.
 											<cfelse>	
 												<cfset geogValues = "">
 											</cfif>
-												<ol class="#geogValues#">
+												<ol class="#geogValues# px-1">
 													<cfloop query="countries">
 														<cfset countryVal = countries.country>
 														<cfset countryLookup = countries.country>
@@ -462,7 +462,7 @@ limitations under the License.
 												<cfset islandValues = "">
 											</cfif>
 											<div class="collapse w-100 pt-2" id="islandgroup_#i#">
-												<ol class="#islandValues#">
+												<ol class="#islandValues# px-1">
 												<cfloop query="islands">
 														<cfset islandVal = islands.island>
 														<cfset islandLookup = islands.island>
@@ -505,7 +505,7 @@ limitations under the License.
 											<button class="border rounded headerLnk py-1 text-left w-100" data-target="##notphylum" data-toggle="collapse" aria-expanded="false" aria-controls="notphylum">Orders &ndash; no Phylum value</button>
 										</h4>
 										<div class="collapse" id="notphylum">
-											<ol class="taxaflow pt-2">
+											<ol class="taxaflow pt-2 px-1">
 												<cfloop query="notphyla">
 													<li>
 														<a class="" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#" target="_blank">#kingdom#:#phylorder# (#ct#)</a> 
