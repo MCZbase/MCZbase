@@ -2344,19 +2344,10 @@ div.vslider-item[aria-hidden="true"]{
 #myBtn:hover {
   background-color: #555;
 }
-.text-truncate-container {
-    width: 250px;
-}
-.text-truncate-container p {
-    -webkit-line-clamp: 3;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
 .text-truncate1 {
-	    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    line-height: 1.5em;
+    height: 3em;       /* height is 2x line-height, so two lines will display */
+    overflow: hidden;  /* prevents extra lines from being visible */
 }
 
 
