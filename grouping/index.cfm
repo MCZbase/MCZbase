@@ -285,8 +285,8 @@ limitations under the License.
 																	#showTitleText#
 																</a>
 															</h3>
-<!---														<cfelse>
-																<h3 class="h5 mb-1 text-truncate pr-1">
+														<cfelse>#showTitleText#
+														<!---		<h3 class="h5 mb-1 text-truncate pr-1">
 																	<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 																		#showTitleText#
 																	</a>															
