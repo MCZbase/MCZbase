@@ -2882,6 +2882,10 @@ ol.flowNone li a {
 	display: inline-block;
 	padding-right: 3px;
 }
+.tab-content {
+	margin-top: 6px;
+}
+	
 }
 
 @media (min-width:1060px) and (max-width: 1459px) {
