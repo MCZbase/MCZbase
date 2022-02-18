@@ -227,12 +227,12 @@ limitations under the License.
 						</cfswitch>
 						<!-- Nav tabs -->
 						<div class="tab-headers tabList" role="tablist" aria-label="browse collections types">
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #allgroupsTabActive#" id="1" role="tab" aria-controls="allgroupsPanel" #allgroupsTabAria# aria-label="Browse All Collections">All</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #collectionTabActive#" id="2" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections"><img src="/shared/images/filter-3-line.svg" width="14">  Collections</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #expeditionTabActive#" id="3" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions"><img src="/shared/images/filter-3-line.svg" width="14"> Expeditions</button>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #grantTabActive#" id="4" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants"><img src="/shared/images/filter-3-line.svg" width="14"></i> Grants</button>
+							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #allgroupsTabActive#" id="1" role="tab" aria-controls="allgroupsPanel" #allgroupsTabAria# aria-label="Browse All Collections">All</button>
+							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #collectionTabActive#" id="2" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections"><img src="/shared/images/filter-3-line.svg" width="14">  Collections</button>
+							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #expeditionTabActive#" id="3" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions"><img src="/shared/images/filter-3-line.svg" width="14"> Expeditions</button>
+							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #grantTabActive#" id="4" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants"><img src="/shared/images/filter-3-line.svg" width="14"></i> Grants</button>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #workflowTabActive#" id="5" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow"><img src="/shared/images/filter-3-line.svg" width="14"> Workflows</button>
+							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #workflowTabActive#" id="5" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow"><img src="/shared/images/filter-3-line.svg" width="14"> Workflows</button>
 							</cfif>
 						</div>
 						<div class="tab-content flex-wrap d-flex mb-1">
@@ -274,7 +274,7 @@ limitations under the License.
 								<p class="px-2">Collections highlight specimens that are linked via their shared history and includes collections assembled by famous naturalists, histological slide collections, and acquisitions or exchanges from other museums.</p>
 								<cfloop query="namedGroups">
 									<cfif #namedGroups.underscore_collection_type# eq 'collection'>
-										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-1 mb-1">
+										<div class="col-12 col-md-6 col-xl-3 float-left px-1 mt-1 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:117px">
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 pl-md-2 pr-md-0 mt-0">
@@ -286,10 +286,9 @@ limitations under the License.
 															</p>
 														</h3>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
-														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
-														<cfif namedGroups.mask_fg EQ 1>
-															<p class="smaller">[Hidden]</p>
-														</cfif>
+														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type# 	<cfif namedGroups.mask_fg EQ 1>
+															[Hidden]
+														</cfif></p>
 													</div>
 													<cfif len(namedGroups.displayed_media_id) gt 0>
 														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
@@ -308,7 +307,7 @@ limitations under the License.
 								<p class="px-2">Expeditions feature specimens collected during specific voyages undertaken for the purpose of scientific exploration.</p>
 								<cfloop query="namedGroups">
 									<cfif #namedGroups.underscore_collection_type# eq 'expedition'>
-										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-2 mb-1">
+										<div class="col-12 col-md-6 col-xl-3 float-left px-1 mt-2 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:117px">
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 px-md-2 mt-0">
@@ -321,10 +320,10 @@ limitations under the License.
 														</h3>
 														<p>#namedGroups.description#</p>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
-														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
-														<cfif namedGroups.mask_fg EQ 1>
-															<p class="smaller">[Hidden]</p>
-														</cfif>
+														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type# 	<cfif namedGroups.mask_fg EQ 1>
+															[Hidden]
+														</cfif></p>
+													
 													</div>
 													<cfif len(namedGroups.displayed_media_id) gt 0>
 														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
@@ -343,7 +342,7 @@ limitations under the License.
 								<p class="px-2">Grants showcase specimens used in funded work and includes digitization projects that enrich digital specimen data and make MCZ holdings more accessible to researchers around the world.</p>
 								<cfloop query="namedGroups">
 									<cfif #namedGroups.underscore_collection_type# eq 'grant'>
-										<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-2 mb-1">
+										<div class="col-12 col-md-6 col-xl-3 float-left px-1 mt-2 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:117px">
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 px-md-2 mt-0">
@@ -356,10 +355,10 @@ limitations under the License.
 															</p>
 														</h3>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
-														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
-														<cfif namedGroups.mask_fg EQ 1>
-															<p class="smaller">[Hidden]</p>
-														</cfif>
+														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type# 	<cfif namedGroups.mask_fg EQ 1>
+														[Hidden]
+														</cfif></p>
+													
 													</div>
 													<cfif len(namedGroups.displayed_media_id) gt 0>
 														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
@@ -378,7 +377,7 @@ limitations under the License.
 									<h3 class="px-2">Workflow</h3>
 									<cfloop query="namedGroups">
 										<cfif #namedGroups.underscore_collection_type# eq 'workflow'>
-											<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-2 mb-1">
+											<div class="col-12 col-md-6 col-xl-3 float-left px-1 mt-2 mb-1">
 												<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height:117px">
 													<div class="row h-25 mx-0">
 														<cfif len(namedGroups.displayed_media_id) gt 1>
