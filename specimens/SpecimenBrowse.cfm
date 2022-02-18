@@ -249,7 +249,7 @@ limitations under the License.
 							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #taxonomyTabActive#" id="4" role="tab" aria-controls="taxonomyPanel" #taxonomyTabAria# aria-label="Browse Taxonomy">Higher <br>Taxonomy</button>
 						</div>
 						<!-- Tab panes -->
-						<div class="tab-content flex-wrap d-flex mb-1">
+						<div class="tab-content flex-wrap d-flex">
 							<div id="featuredPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
 								<h2 class="px-2 h3">MCZ Featured Collections of Cataloged Items</h2>
 								<cfloop query="namedGroups">
