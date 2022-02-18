@@ -54,7 +54,7 @@ function blockSuggest (onoff) {
 			}
 		);
 }
-function changeSpecimensDefaultActon (specimens_default_action) {
+function changeSpecimensDefaultAction (specimens_default_action) {
 	$.getJSON("/component/functions.cfc",
 			{
 				method : "changeSpecimensDefaultAction",
