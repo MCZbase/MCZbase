@@ -20,25 +20,23 @@ limitations under the License.
 <cfif not isdefined("action")>
 	<cfset action="featured">
 </cfif>
+<!--- Switch page title based on selected action --->
 <cfswitch expression="#action#">
 	<cfcase value="browseprimarytypes">
-		<cfset pageTitle = "Browse Primary Types">
+		<cfset pageTitle = "Browse Specimens: Primary Types">
 	</cfcase>
 	<cfcase value="browsefeatured">
-		<cfset pageTitle = "Browse Featured Collections">
+		<cfset pageTitle = "Browse Specimens: Featured Collections">
 	</cfcase>
 	<cfcase value="browsehighergeo">
-		<cfset pageTitle = "Browse Higher Geography">
+		<cfset pageTitle = "Browse Specimens: Higher Geography">
 	</cfcase>
 	<cfcase value="browseislands">
-		<cfset pageTitle = "Browse Islands">
+		<cfset pageTitle = "Browse Specimens: Islands">
 	</cfcase>
 	<cfcase value="browsetaxonomy">
-		<cfset pageTitle = "Browse Taxonomy">
+		<cfset pageTitle = "Browse Specimens: Taxonomy">
 	</cfcase>
-	<cfdefaultcase>
-		<cfset pageTitle = "Browse Featured Collection">
-	</cfdefaultcase>
 </cfswitch>
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
