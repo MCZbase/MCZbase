@@ -118,7 +118,7 @@ limitations under the License.
 	<div class="container-fluid">
 		<div class="row mx-0 mb-4">
 
-			<main class="col-12 col-md-12 px-5 py-2 mb-3 float-left mt-0">
+			<main class="col-12 col-md-12 px-0 px-xl-5 py-2 mb-3 float-left mt-0">
 				<div class="mx-5 px-0 mt-0">
 					<p class="text-dark mt-1 text-justified small90 px-3 mb-2">The Museum of Comparative Zoology (MCZ) contains over 21-million specimens in ten research collections that comprise one of the world&apos;s richest and most varied resources for studying the diversity of life. The museum serves as the primary repository for zoological specimens collected by past and present Harvard faculty-curators, staff, and associates conducting research around the world. The public can see a small percentage of our holdings on display at the Harvard Museum of Natural History, but visitors can also browse MCZ specimens and metadata online via our Featured Collections.</p>
 					<div class="tabs card-header tab-card-header px-2 pt-3">
@@ -378,7 +378,7 @@ limitations under the License.
 									<h3 class="px-2">Workflow</h3>
 									<cfloop query="namedGroups">
 										<cfif #namedGroups.underscore_collection_type# eq 'workflow'>
-											<div class="col-12 col-md-6 col-xl-3 float-left px-1 mt-2 mb-1">
+											<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-2 mb-1">
 												<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height:117px">
 													<div class="row h-25 mx-0">
 														<cfif len(namedGroups.displayed_media_id) gt 1>
