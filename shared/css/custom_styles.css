@@ -2345,25 +2345,17 @@ div.vslider-item[aria-hidden="true"]{
   background-color: #555;
 }
 .text-truncate1 {
-  --max-lines: 3;
-  position: relative;
-  max-height: calc(var(--lh) * var(--max-lines));
+  background-color: #fff;
+  box-shadow: 2px 2px 10px #246756;
+  padding: 2em;
+  width: 200px;
+}
+
+.text-truncate1 p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
   overflow: hidden;
-  padding-right: 1rem; /* space for ellipsis */
-}
-.text-truncate1::before {
-  position: absolute;
-  content: "...";
-  inset-block-end: 0; /* "bottom" */
-  inset-inline-end: 0; /* "right" */
-}
-.text-truncate1::after {
-  content: "";
-  position: absolute;
-  inset-inline-end: 0; /* "right" */
-  width: 1rem;
-  height: 1rem;
-  background: white;
 }
 /****************end all screen styles*********************/
 /**********************************************************/

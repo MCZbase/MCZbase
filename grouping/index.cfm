@@ -246,9 +246,10 @@ limitations under the License.
 												<div class="col float-right px-2 pl-md-2 pr-md-0 mt-0">
 													<cfset showTitleText = trim(collection_name)>
 													<h3 class="h5 mb-1 text-truncate1 pr-1">
-														<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
+														<p><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 														#showTitleText#
 														</a>
+														</p>
 													</h3>
 													<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 													<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
@@ -279,9 +280,10 @@ limitations under the License.
 													<div class="col float-right px-2 pl-md-2 pr-md-0 mt-0">
 														<cfset showTitleText = trim(collection_name)>
 														<h3 class="h5 mb-1 text-truncate1 pr-1">
-															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
+															<p><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 															#showTitleText#
 															</a>
+															</p>
 														</h3>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 														<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
@@ -312,9 +314,10 @@ limitations under the License.
 													<div class="col float-right px-2 px-md-2 mt-0">
 														<cfset showTitleText = trim(collection_name)>
 														<h3 class="h5 mb-1 text-truncate1 pr-1">
-															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
+															<p><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 															#showTitleText#
 															</a>
+															</p>
 														</h3>
 														<p>#namedGroups.description#</p>
 														<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
@@ -345,8 +348,8 @@ limitations under the License.
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 px-md-2 mt-0">
 														<cfset showTitleText = trim(collection_name)>
-														<h3 class="h5 mb-1 text-truncate-container pr-1">
-															<p class="text-truncate1 mb-0">
+														<h3 class="h5 mb-1 text-truncate1 pr-1">
+															<p>
 																<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 																#showTitleText#
 																</a>
@@ -387,9 +390,11 @@ limitations under the License.
 														<div class="col float-right px-2 px-md-2 mt-0">
 															<cfset showTitleText = trim(collection_name)>
 															<h3 class="h5 mb-1 text-truncate1 pr-1">
+																<p>
 																<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 																#showTitleText#
 																</a>
+																</p>
 															</h3>
 															<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 															<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
