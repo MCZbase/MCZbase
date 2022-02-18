@@ -281,11 +281,12 @@ limitations under the License.
 														<cfif len(showTitleText) LT 100>
 															<h3 class="h5 mb-1 pr-1">
 																<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-																	<cfset showTitleText = "#left(showTitleText,100)#..." >
+																
 																	#showTitleText#
 																</a>
 															</h3>
 														<cfelse>
+																<cfset showTitleText = "#left(showTitleText,100)#..." >
 															<h3 class="h5 mb-1 pr-1">
 																<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 																	#showTitleText#
