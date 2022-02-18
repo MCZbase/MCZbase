@@ -357,10 +357,10 @@ limitations under the License.
 													<cfset geogValues = "flowMd">
 												<cfelseif countries.recordCount gte 50 and countries.recordCount lt 89>
 													<cfset geogValues = "flowSm"><!---Example West Indies in islands--->
-												<cfelse>
+												<cfelse countries.recordCount gte 0 and countries.recordCount lt 49>
 													<cfset geogValues = "flowXS">
 												</cfif>
-												<ol class="#geogValues#">
+												<ol class="#geogValues# px-0 px-md-4 mx-1">
 												<cfloop query="countries">
 													<cfset countryVal = countries.country>
 													<cfset countryLookup = countries.country>
@@ -457,7 +457,7 @@ limitations under the License.
 												<cfelseif islands.recordCount gt 20 and islands.recordCount lt 49>
 													<cfset islandValues = "flowSm">
 												<cfelse>	
-													<cfset islandValues = "">
+													<cfset islandValues = "flowNone">
 												</cfif>
 												<div class="collapse w-100 pt-2" id="islandgroup_#i#">
 													<ol class="#islandValues#">

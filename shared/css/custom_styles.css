@@ -2508,6 +2508,19 @@ ol.flowXL li a {
 	display: inline-block;
 	padding-right: 3px;
 }
+ol.flowNone {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: auto; /* need to specify height :-( */
+	column-count: 1;
+}
+ol.flowNone li {
+	width: 100%;
+}
+ol.flowNone li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 }
 
 @media only screen and (max-width: 1379px) {
@@ -2655,7 +2668,19 @@ ol.flowXL li a {
 	display: inline-block;
 	padding-right: 3px;
 }
-
+ol.flowNone {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: auto; /* need to specify height :-( */
+	column-count: 1;
+}
+ol.flowNone li {
+	width: 100%;
+}
+ol.flowNone li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 }
 @media only screen and (max-width: 750px) {
 ol.flowXS {
@@ -2724,7 +2749,19 @@ ol.flowXL li a {
 	display: inline-block;
 	padding-right: 3px;
 }
-
+ol.flowNone {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: auto; /* need to specify height :-( */
+	column-count: 1;
+}
+ol.flowNone li {
+	width: 100%;
+}
+ol.flowNone li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 }
 @media only screen and (max-width: 600px) {
 ol.flowXS {
@@ -2789,6 +2826,19 @@ ol.flowXL li {
 	width: 100%;
 }
 ol.flowXL li a {
+	display: inline-block;
+	padding-right: 3px;
+}
+ol.flowNone {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: auto; /* need to specify height :-( */
+	column-count: 1;
+}
+ol.flowNone li {
+	width: 100%;
+}
+ol.flowNone li a {
 	display: inline-block;
 	padding-right: 3px;
 }
