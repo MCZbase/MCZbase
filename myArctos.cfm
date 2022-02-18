@@ -119,7 +119,6 @@
 	<cfquery name="getPrefs" datasource="cf_dbuser">
 		select * 
 		from cf_users
-			left join user_loan_request on cf_users.user_id = user_loan_request.user_id
 		where  
 			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		order by cf_users.user_id
@@ -272,6 +271,9 @@
    <h3 class="arctosSet">MCZbase Settings <span style="font-size: 13px;font-weight: 500">(settings related to how you see search results)</span></h3>
 	<form method="post" action="myArctos.cfm" name="dlForm" class="userdataForm">
 		<label for="specimens_default_action">Default tab for Specimen Search</label>
+		<cfif not isDefined("session.specimens_default_action")>
+			<cfset session.specimens_default_action = "fixedSearch">
+		</cfif>
 		<select name="specimens_default_action" id="specimens_default_action" onchange="changeSpecimensDefaultAction(this.value)">
 			<option value="fixedSearch" <cfif session.specimens_default_action EQ "fixedSearch"> selected="selected" </cfif>>Basic Search</option>
 			<option value="keywordSearch" <cfif session.specimens_default_action EQ "keywordSearch"> selected="selected" </cfif>>Keyword Search</option>
