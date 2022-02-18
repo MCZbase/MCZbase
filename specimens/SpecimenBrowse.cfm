@@ -351,13 +351,13 @@ limitations under the License.
 											<div class="collapse pt-2 w-100" id="cont-ocean_#i#">
 											<cfif countries.recordCount gte 300> 
 												<cfset geogValues = "flowXL">
-											<cfelseif countries.recordCount gte 501 and countries.recordCount lt 799>
+											<cfelseif countries.recordCount gte 251 and countries.recordCount lt 299>
 												<cfset geogValues = "flowLg">
-											<cfelseif countries.recordCount gte 301 and countries.recordCount lt 500>
+											<cfelseif countries.recordCount gte 90 and countries.recordCount lt 250>
 												<cfset geogValues = "flowMd">
-											<cfelseif countries.recordCount gte 101 and countries.recordCount lt 300>
+											<cfelseif countries.recordCount gte 50 and countries.recordCount lt 89>
 												<cfset geogValues = "flowSm"><!---Example West Indies in islands--->
-											<cfelseif countries.recordCount gte 39 and countries.recordCount lt 100>
+											<cfelseif countries.recordCount gte 20 and countries.recordCount lt 49>
 												<cfset geogValues = "flowXS">
 											<cfelse>	
 												<cfset geogValues = "">
