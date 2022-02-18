@@ -2457,11 +2457,12 @@ ol.flowXS li a {
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 320px; /* need to specify height :-( */
-	column-count: 4;
+	height: 435px; /* need to specify height :-( */
+	column-count: 3;
 }
 ol.flowSm li {
 	width: 200px;
+	overflow-wrap: anywhere;
 }
 ol.flowSm li a {
 	display: inline-block;
@@ -2531,11 +2532,12 @@ ol.flowXS li a {
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 273px; /* need to specify height :-( */
-	column-count: 3;
+	height: 720px; /* need to specify height :-( */
+	column-count: 2;
 }
 ol.flowSm li {
-	width: 200px;
+	width: 240px;
+	overflow-wrap: anywhere;
 }
 ol.flowSm li a {
 	display: inline-block;
@@ -2599,7 +2601,7 @@ ol.flowXS li a {
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 400px; /* need to specify height :-( */
+	height: 610px; /* need to specify height :-( */
 	column-count: 2;
 }
 ol.flowSm li {
