@@ -1819,6 +1819,7 @@ input#readMore_check_id {
 	background-color: #f5f5f5;
 	margin-bottom: 2px;
 	padding: 1rem;
+	margin-top: 0;
 }
 .tab-card-header {
 	background-color: #3E6F7D;
@@ -1847,7 +1848,7 @@ input#readMore_check_id {
 	color: black;
 	background-color: #f5f5f5;
 	border-top: 3px solid white;
-	border-bottom: 3px solid #f5f5f5;
+	border-bottom: 4px solid #f5f5f5;
 	cursor: pointer;
 	box-shadow: none;
 	border-right: 1px solid #96ECED;
