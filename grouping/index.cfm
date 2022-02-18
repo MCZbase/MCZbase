@@ -227,7 +227,7 @@ limitations under the License.
 						</cfswitch>
 						<!-- Nav tabs -->
 						<div class="tab-headers tabList" role="tablist" aria-label="browse collections types">
-							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #allgroupsTabActive#" id="1" role="tab" aria-controls="allgroupsPanel" #allgroupsTabAria# aria-label="Browse All Collections">All</button>
+							<button class="col-12 col-md-auto px-md-4 px-xl-5 my-1 my-md-0 #allgroupsTabActive#" id="1" role="tab" aria-controls="allgroupsPanel" #allgroupsTabAria# aria-label="Browse All Collections">All</button>
 							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #collectionTabActive#" id="2" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections"><img src="/shared/images/filter-3-line.svg" width="14">  Collections</button>
 							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #expeditionTabActive#" id="3" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions"><img src="/shared/images/filter-3-line.svg" width="14"> Expeditions</button>
 							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #grantTabActive#" id="4" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants"><img src="/shared/images/filter-3-line.svg" width="14"></i> Grants</button>
