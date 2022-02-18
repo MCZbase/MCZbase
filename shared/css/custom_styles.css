@@ -2356,7 +2356,7 @@ div.vslider-item[aria-hidden="true"]{
 /*********************************/
 /* Device styles below ***********/
 /*********************************/
-@media only screen and (min-width: 1380px) {
+@media only screen and (min-width: 1499px) {
 	.w-350 {
 		width: 100%;
 	}
@@ -2367,7 +2367,7 @@ ol.flowXS {
 	column-count: 5;
 }
 ol.flowXS li {
-	width: 313px;
+	width: 290px;
 }
 ol.flowXS li a {
 	display: inline-block;
@@ -2438,6 +2438,76 @@ and also iPads specifically.
 		background-color: #deebec;
 		border-bottom: 1px solid #aaa;
 	}
+}
+@media only screen and (max-width: 1498px) {
+	.w-350 {
+		width: 100%;
+	}
+ol.flowXS {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 212px; /* need to specify height :-( */
+	column-count: 5;
+}
+ol.flowXS li {
+	width: 290px;
+}
+ol.flowXS li a {
+	display: inline-block;
+	padding-right: 3px;
+}
+ol.flowSm {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 326px; /* need to specify height :-( */
+	column-count: 4;
+}
+ol.flowSm li {
+	width: 320px;
+}
+ol.flowSm li a {
+	display: inline-block;
+	padding-right: 3px;
+}
+ol.flowMd {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 550px; /* need to specify height :-( */
+	column-count: 4;
+}
+ol.flowMd li {
+	width: 200px;
+}
+ol.flowMd li a {
+	display: inline-block;
+	padding-right: 3px;
+}	
+ol.flowLg {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 2560px; /* need to specify height :-( */
+	column-count: 6;
+}
+ol.flowLg li {
+	width: 200px;
+}
+ol.flowLg li a {
+	display: inline-block;
+	padding-right: 3px;
+}	
+ol.flowXL {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 3036px; /* need to specify height :-( */
+	column-count: 5;
+}
+ol.flowXL li {
+	width: 200px;
+}
+ol.flowXL li a {
+	display: inline-block;
+	padding-right: 3px;
+}
 }
 
 @media only screen and (max-width: 1379px) {
