@@ -278,8 +278,8 @@ limitations under the License.
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 pl-md-2 pr-md-0 mt-0">
 														<cfset showTitleText = trim(collection_name)>
-														<cfif len(showTitleText) GT 70>
-															<h3 class="h5 mb-1 text-truncate pr-1">
+														<cfif len(showTitleText) GT 90>
+															<h3 class="h5 mb-1 pr-1">
 																<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 																	<cfset showTitleText = "#left(showTitleText,70)#..." >
 																	#showTitleText#
