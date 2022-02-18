@@ -252,10 +252,11 @@
 	<cfset session.meta_description=''>
 	<cfset temp=cfid & '_' & cftoken & '_' & RandRange(0, 9999)>
 	<cfset session.SpecSrchTab="SpecSrch" & temp>
-	<cfset session.MediaSrchTab="MediaSrch" & temp> <!-- Doris' edit -->
+	<cfset session.MediaSrchTab="MediaSrch" & temp>
 	<cfset session.TaxSrchTab="TaxSrch" & temp>
 	<cfset session.exclusive_collection_id="">
 	<cfset session.mczmediafail=0>
+	<cfset session.specimens_default_action="fixedSearch">
 	<!--- determine which git branch is currently checked out --->
 	<cftry>
 		<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
@@ -296,6 +297,7 @@
 		<cfset session.displayrows = "#getPrefs.displayRows#">
 		<cfset session.showObservations = "#getPrefs.showObservations#">
 		<cfset session.resultcolumnlist = "#getPrefs.resultcolumnlist#">
+		<cfset session.specimens_default_action = "#getPrefs.specimens_default_action#">
 		<cfif len(getPrefs.fancyCOID) gt 0>
 			<cfset session.fancyCOID = getPrefs.fancyCOID>
 		<cfelse>

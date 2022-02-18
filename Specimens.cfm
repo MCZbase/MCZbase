@@ -38,7 +38,13 @@ limitations under the License.
 <!--- **** End temporary block ******************************************************************************** --->
 
 <cfif not isdefined("action")>
-	<cfset action="fixedSearch">
+	<!--- set the default tab based on user preferences --->
+	<cfif isDefined("session.specimens_default_action") and len(session.specimens_default_action) GT 0)> 
+		<cfset action=session.specimens_default_action>
+	</cfif>
+	<cfif not isdefined("action") OR len(action) EQ 0 OR NOT ListContains("fixedSearch,keywordSearch,builderSearch",action)>
+		<cfset action="fixedSearch">
+	</cfif>
 </cfif>
 <cfswitch expression="#action#">
 	<!--- API note: action and method seem duplicative, action is required and used to determine

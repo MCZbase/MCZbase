@@ -54,6 +54,23 @@ function blockSuggest (onoff) {
 			}
 		);
 }
+function changeSpecimensDefaultActon (specimens_default_action) {
+	$.getJSON("/component/functions.cfc",
+			{
+				method : "changeSpecimensDefaultAction",
+				specimens_default_action : specimens_default_action,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			function(r) {
+				if (r == 'success') {
+					$('#browseArctos').html('Default Tab for the Specimen Search changed.');
+				} else {
+					alert('An error occured! \n ' + r);
+				}	
+			}
+		);
+}
 function changekillRows (onoff) {
 	jQuery.getJSON("/component/functions.cfc",
 		{
