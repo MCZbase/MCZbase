@@ -2733,9 +2733,7 @@ ol.flowXS {
 	height: auto; /* need to specify height :-( */
 	column-count: 1;
 }
-ol.flowXS li {
-	width: auto;
-}
+
 ol.flowXS li a {
 	display: inline-block;
 	padding-right: 3px;
@@ -2746,9 +2744,7 @@ ol.flowSm {
 	height: auto; /* need to specify height :-( */
 	column-count: 1;
 }
-ol.flowSm li {
-	width: auto;
-}
+
 ol.flowSm li a {
 	display: inline-block;
 	padding-right: 3px;
@@ -2759,9 +2755,7 @@ ol.flowMd {
 	height: auto; /* need to specify height :-( */
 	column-count: 1;
 }
-ol.flowMd li {
-	width: auto;
-}
+
 ol.flowMd li a {
 	display: inline-block;
 	padding-right: 3px;
@@ -2772,9 +2766,7 @@ ol.flowLg {
 	height: auto; /* need to specify height :-( */
 	column-count: 1;
 }
-ol.flowLg li {
-	width: auto;
-}
+
 ol.flowLg li a {
 	display: inline-block;
 	padding-right: 3px;
@@ -2785,9 +2777,7 @@ ol.flowXL {
 	height: auto; /* need to specify height :-( */
 	column-count: 1;
 }
-ol.flowXL li {
-	width: auto;
-}
+
 ol.flowXL li a {
 	display: inline-block;
 	padding-right: 3px;
