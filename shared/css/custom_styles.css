@@ -2888,7 +2888,7 @@ ol.flowNone li a {
 .tab-headers button[aria-selected='true'] {
     color: black;
     background-color: #f5f5f5;
-    border-top: 3px solid white;
+    border-top: 3px solid rgb(38 143 255 / 50%);
     border-bottom: 4px solid #f5f5f5;
     cursor: pointer;
     box-shadow: none;
