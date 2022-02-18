@@ -407,7 +407,7 @@ limitations under the License.
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-3">Browse By Islands</h3>	
-								<div class="col-12 px-0">
+								<div class="col-12 px-0 px-md-2">
 									<cfset i=1>
 									<cfloop query="island_groups">
 										<cfset group = island_groups.island_group>
@@ -416,12 +416,7 @@ limitations under the License.
 											<cfset group = "[No Island Group]">
 											<cfset groupLookup = "NULL">
 										</cfif>
-										<cfif #i# eq island_groups.recordCount>
-											<cfset isnogroup = "col-12">
-										<cfelse>
-											<cfset isnogroup ="col-12">
-										</cfif>
-										<div class="#isnogroup#">
+
 											<!--- TODO: Support island/island_group in specimen search API --->
 											<div class="w-100 my-2">
 												<h4 class="collapsebar w-100 my-1">
@@ -475,7 +470,7 @@ limitations under the License.
 													</ol>
 												</div>
 										</div>
-										</div>
+									
 										<cfset i= i+1>
 									</cfloop>
 								</div>
