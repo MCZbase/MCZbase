@@ -2471,11 +2471,12 @@ ol.flowSm li a {
 ol.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 700px; /* need to specify height :-( */
+	height: 777px; /* need to specify height :-( */
 	column-count: 3;
 }
 ol.flowMd li {
 	width: 200px;
+	overflow-wrap:anywhere;
 }
 ol.flowMd li a {
 	display: inline-block;
