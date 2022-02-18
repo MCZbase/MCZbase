@@ -2353,6 +2353,11 @@ div.vslider-item[aria-hidden="true"]{
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+.text-truncate1 {
+	    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 
 

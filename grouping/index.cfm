@@ -393,7 +393,7 @@ limitations under the License.
 														<div class="col float-right px-2 px-md-2 mt-0">
 															<cfset showTitleText = trim(collection_name)>
 															<h3 class="h5 mb-1 text-truncate-container pr-1">
-																<p class="text-truncate">
+																<p class="text-truncate1">
 																	<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 																	#showTitleText#
 																	</a>
