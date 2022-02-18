@@ -856,8 +856,6 @@ $(document).ready(function() {
 			$('a.nav-link.active').removeClass('active');
 			$(this).parentsUntil('ul.navbar-nav li.active').addClass('active');
 			$(this).addClass('active');
-        //    $(this).attr('aria-current', 'page');
-			document.title = $(this).text().trim();
 		}
 	});
 });
