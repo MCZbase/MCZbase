@@ -18,7 +18,7 @@ limitations under the License.
 
 -->
 <cfif not isdefined("action")>
-	<cfset action="featured">
+	<cfset action="browsefeatured">
 </cfif>
 <!--- Switch page title based on selected action --->
 <cfswitch expression="#action#">
