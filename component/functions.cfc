@@ -4733,12 +4733,17 @@
 <cffunction name="changeSpecimensDefaultAction" access="remote">
 	<cfargument name="specimens_default_action" type="string" required="yes">
 	<cftry>
-			<cfquery name="up" datasource="cf_dbuser">
+			<cfquery name="updatespecdefact" datasource="cf_dbuser" result="result_updatespecdefact">
 				UPDATE cf_users SET
 					specimens_default_action = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimens_default_action#">
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset session.block_suggest = onoff>
+			<cfquery name="getspecdefact" datasource="cf_dbuser" result="result_updatespecdefact">
+				SELECT specimens_default_action
+				FROM cf_users 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset session.specimens_default_action = getspecdefact.specimens_default_action>
 		<cfset result="success">
 	<cfcatch>
 		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">
