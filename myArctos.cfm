@@ -236,7 +236,7 @@
 		<p style="margin-bottom: 1em;margin-top:.35em;">
 			A profile is required to download data.<br>
 			You cannot recover a lost password unless you enter an email address.<br>
-			Personal information will never be shared with anyone, and we'll never send you spam.</p>
+			Personal information will never be shared with anyone, and we&apos;ll never send you spam.</p>
 
 		<ul class="nobull">
             <li><label for="first_name">First Name</label>
@@ -269,8 +269,14 @@
 	</cfquery>
 
 
-                <h3 class="arctosSet">MCZbase Settings <span style="font-size: 13px;font-weight: 500">(settings related to how you see search results)</span></h3>
+   <h3 class="arctosSet">MCZbase Settings <span style="font-size: 13px;font-weight: 500">(settings related to how you see search results)</span></h3>
 	<form method="post" action="myArctos.cfm" name="dlForm" class="userdataForm">
+		<label for="specimens_default_action">Default tab for Specimen Search</label>
+		<select name="specimens_default_action" id="specimens_default_action" onchange="changeSpecimensDefaultAction(this.value)">
+			<option value="fixedSearch" <cfif session.specimens_default_action EQ "fixedSearch"> selected="selected" </cfif>>Basic Search</option>
+			<option value="keywordSearch" <cfif session.specimens_default_action EQ "keywordSearch"> selected="selected" </cfif>>Keyword Search</option>
+			<option value="builderSearch" <cfif session.specimens_default_action EQ "builderSearch"> selected="selected" </cfif>>Search Builder</option>
+		</select>
 		<label for="block_suggest">Suggest Browse</label>
 		<select name="block_suggest" id="block_suggest" onchange="blockSuggest(this.value)">
 			<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>

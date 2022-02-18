@@ -856,8 +856,7 @@ $(document).ready(function() {
 			$('a.nav-link.active').removeClass('active');
 			$(this).parentsUntil('ul.navbar-nav li.active').addClass('active');
 			$(this).addClass('active');
-        //    $(this).attr('aria-current', 'page');
-			document.title = $(this).text().trim();
+			// WARNING: Do Not overwrite document.title here, it is set above composing the pageTitle parameter with text common to all MCZbase pages.
 		}
 	});
 });
