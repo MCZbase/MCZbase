@@ -2345,19 +2345,26 @@ div.vslider-item[aria-hidden="true"]{
   background-color: #555;
 }
 .text-truncate1 {
-	line-height: 1.5em;
-	height: 3em;/* height is 2x line-height, so two lines will display */
-	overflow: hidden;/* prevents extra lines from being visible */
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: 100%;
+  --max-lines: 3;
+  position: relative;
+  max-height: calc(var(--lh) * var(--max-lines));
+  overflow: hidden;
+  padding-right: 1rem; /* space for ellipsis */
 }
-
-
-
-
-
-
+.text-truncate1::before {
+  position: absolute;
+  content: "...";
+  inset-block-end: 0; /* "bottom" */
+  inset-inline-end: 0; /* "right" */
+}
+.text-truncate1::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: 0; /* "right" */
+  width: 1rem;
+  height: 1rem;
+  background: white;
+}
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
