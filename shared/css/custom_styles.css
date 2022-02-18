@@ -2885,7 +2885,7 @@ ol.flowNone li a {
 .tab-content {
 	margin-top: 6px;
 }
-	
+	.active {border: 3px solid blue;}	
 }
 
 @media (min-width:1060px) and (max-width: 1459px) {
