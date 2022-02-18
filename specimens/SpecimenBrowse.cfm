@@ -490,7 +490,20 @@ limitations under the License.
 											<button class="border rounded headerLnk py-1 text-left w-100" data-target="##phylum" data-toggle="collapse" aria-expanded="false" aria-controls="phylum">Phylum</button>
 										</h4>
 										<div class="collapse w-100" id="phylum">
-											<ol class="taxaflow pt-2">
+											<cfif phyla.recordCount gte 300> 
+												<cfset phylaValues = "flowXL">
+											<cfelseif phyla.recordCount gte 251 and phyla.recordCount lt 299>
+												<cfset phylaValues = "flowLg">
+											<cfelseif phyla.recordCount gte 90 and phyla.recordCount lt 250>
+												<cfset phylaValues = "flowMd">
+											<cfelseif phyla.recordCount gte 50 and phyla.recordCount lt 89>
+												<cfset phylaValues = "flowSm"><!---Example West Indies in islands--->
+											<cfelseif phyla.recordCount gt 20 and phyla.recordCount lt 49>
+												<cfset phylaValues = "flowXS">
+											<cfelse>	
+												<cfset phylaValues = "flowNone">
+											</cfif>
+											<ol class="#phylaValues# pt-2">
 											<cfloop query="phyla">
 												<li>
 													<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
@@ -504,7 +517,20 @@ limitations under the License.
 											<button class="border rounded headerLnk py-1 text-left w-100" data-target="##notphylum" data-toggle="collapse" aria-expanded="false" aria-controls="notphylum">Orders &ndash; no Phylum value</button>
 										</h4>
 										<div class="collapse" id="notphylum">
-											<ol class="taxaflow pt-2">
+											<cfif notphyla.recordCount gte 300> 
+												<cfset taxaValues = "flowXL">
+											<cfelseif notphyla.recordCount gte 251 and notphyla.recordCount lt 299>
+												<cfset taxaValues = "flowLg">
+											<cfelseif notphyla.recordCount gte 90 and notphyla.recordCount lt 250>
+												<cfset geogValues = "flowMd">
+											<cfelseif notphyla.recordCount gte 50 and notphyla.recordCount lt 89>
+												<cfset taxaValues = "flowSm"><!---Example West Indies in islands--->
+											<cfelseif notphyla.recordCount gt 20 and notphyla.recordCount lt 49>
+												<cfset taxaValues = "flowXS">
+											<cfelse>	
+												<cfset taxaValues = "flowNone">
+											</cfif>
+											<ol class="#taxaValues# pt-2">
 												<cfloop query="notphyla">
 													<li>
 														<a class="" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#" target="_blank">#kingdom#:#phylorder# (#ct#)</a> 
@@ -518,7 +544,20 @@ limitations under the License.
 											<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##notkingdom" aria-expanded="false" aria-controls="notkingdom">Taxon records with no value for Kingdom</button>
 										</h4>
 										<div class="collapse" id="notkingdom" >
-											<ol class="pt-2">
+											<cfif notkingdoms.recordCount gte 300> 
+												<cfset notkValues = "flowXL">
+											<cfelseif notkingdoms.recordCount gte 251 and notkingdoms.recordCount lt 299>
+												<cfset notkValues = "flowLg">
+											<cfelseif notkingdoms.recordCount gte 90 and notkingdoms.recordCount lt 250>
+												<cfset geogValues = "flowMd">
+											<cfelseif notkingdoms.recordCount gte 50 and notkingdoms.recordCount lt 89>
+												<cfset notkValues = "flowSm"><!---Example West Indies in islands--->
+											<cfelseif notkingdoms.recordCount gt 20 and notkingdoms.recordCount lt 49>
+												<cfset notkValues = "flowXS">
+											<cfelse>	
+												<cfset notkValues = "flowNone">
+											</cfif>
+											<ol class="#notkValues# pt-2">
 											<cfloop query="notkingdoms">
 												<li>
 													<a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#" target="_blank">#scientific_name# (#ct#)</a>
