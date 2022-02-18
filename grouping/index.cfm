@@ -378,7 +378,7 @@ limitations under the License.
 									<h3 class="px-2">Workflow</h3>
 									<cfloop query="namedGroups">
 										<cfif #namedGroups.underscore_collection_type# eq 'workflow'>
-											<div class="col-12 col-md-4 col-xl-3 float-left px-1 mt-2 mb-1">
+											<div class="col-12 col-md-6 col-xl-3 float-left px-1 mt-2 mb-1">
 												<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height:117px">
 													<div class="row h-25 mx-0">
 														<cfif len(namedGroups.displayed_media_id) gt 1>
