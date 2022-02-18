@@ -2575,6 +2575,8 @@ ol.flowLg {
 }
 ol.flowLg li {
 	width: 200px;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowLg li a {
 	display: inline-block;
@@ -2588,6 +2590,8 @@ ol.flowXL {
 }
 ol.flowXL li {
 	width: 200px;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowXL li a {
 	display: inline-block;
@@ -2610,6 +2614,8 @@ ol.flowXS {
 }
 ol.flowXS li {
 	width: 200px;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowXS li a {
 	display: inline-block;
@@ -2624,6 +2630,7 @@ ol.flowSm {
 ol.flowSm li {
 	width: 240px;
 	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowSm li a {
 	display: inline-block;
@@ -2637,6 +2644,8 @@ ol.flowMd {
 }
 ol.flowMd li {
 	width: 200px;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowMd li a {
 	display: inline-block;
@@ -2663,6 +2672,8 @@ ol.flowXL {
 }
 ol.flowXL li {
 	width: 175px;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowXL li a {
 	display: inline-block;
@@ -2676,6 +2687,8 @@ ol.flowNone {
 }
 ol.flowNone li {
 	width: 100%;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowNone li a {
 	display: inline-block;
@@ -2691,6 +2704,8 @@ ol.flowXS {
 }
 ol.flowXS li {
 	width: 200px;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowXS li a {
 	display: inline-block;
@@ -2704,6 +2719,8 @@ ol.flowSm {
 }
 ol.flowSm li {
 	width: 200px;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowSm li a {
 	display: inline-block;
@@ -2717,6 +2734,8 @@ ol.flowMd {
 }
 ol.flowMd li {
 	width: 200px;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowMd li a {
 	display: inline-block;
@@ -2730,6 +2749,8 @@ ol.flowLg {
 }
 ol.flowLg li {
 	width: 200px;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowLg li a {
 	display: inline-block;
@@ -2743,7 +2764,8 @@ ol.flowXL {
 }
 ol.flowXL li {
 	width: 275px;
-	overflow-wrap: break-word;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowXL li a {
 	display: inline-block;
@@ -2757,6 +2779,8 @@ ol.flowNone {
 }
 ol.flowNone li {
 	width: 100%;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowNone li a {
 	display: inline-block;
@@ -2772,6 +2796,8 @@ ol.flowXS {
 }
 ol.flowXS li {
 	width: 100%;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowXS li a {
 	display: inline-block;
@@ -2785,6 +2811,8 @@ ol.flowSm {
 }
 ol.flowSm li {
 	width: 100%;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowSm li a {
 	display: inline-block;
@@ -2798,6 +2826,8 @@ ol.flowMd {
 }
 ol.flowMd li {
 	width: 100%;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowMd li a {
 	display: inline-block;
@@ -2811,6 +2841,8 @@ ol.flowLg {
 }
 ol.flowLg li {
 	width: 100%;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowLg li a {
 	display: inline-block;
@@ -2824,6 +2856,8 @@ ol.flowXL {
 }
 ol.flowXL li {
 	width: 100%;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowXL li a {
 	display: inline-block;
@@ -2837,6 +2871,8 @@ ol.flowNone {
 }
 ol.flowNone li {
 	width: 100%;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowNone li a {
 	display: inline-block;
