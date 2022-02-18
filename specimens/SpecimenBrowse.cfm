@@ -318,7 +318,7 @@ limitations under the License.
 							</div>
 							<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 								<h3 class="px-3">Browse by Higher Geography</h3>
-								<div class="col-12">
+								<div class="col-12 px-0 px-md-2">
 									<cfset i="1">
 									<cfloop query="continents">
 										<cfset continent = continents.continent_ocean>
@@ -484,7 +484,7 @@ limitations under the License.
 							</div>
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-3">Browse by Higher Taxonomy</h3>
-								<div class="col-12">
+								<div class="col-12 px-0 px-md-2">
 									<div class="w-100 my-2">
 										<h4 class="collapsebar">
 											<button class="border rounded headerLnk py-1 text-left w-100" data-target="##phylum" data-toggle="collapse" aria-expanded="false" aria-controls="phylum">Phylum</button>
