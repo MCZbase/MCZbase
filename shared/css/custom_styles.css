@@ -2357,7 +2357,15 @@ h3.line-clamp {
   direction: rtl;
   text-align: left;
 }
-
+.text-truncate-container {
+    width: 250px;
+}
+.text-truncate-container a {
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 
 
 
