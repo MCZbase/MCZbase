@@ -4718,7 +4718,7 @@
 	<cftry>
 			<cfquery name="up" datasource="cf_dbuser">
 				UPDATE cf_users SET
-					block_suggest = <cfsqlparam cfsqltype="CF_SQL_DECIMAL" value="#onoff#">
+					block_suggest = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#onoff#">
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset session.block_suggest = onoff>
