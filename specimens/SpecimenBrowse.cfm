@@ -363,7 +363,7 @@ limitations under the License.
 												<cfset geogValues = "">
 											</cfif>
 						
-												<ol class="#geogValues# px-4">
+												<ol class="#geogValues# px-4 mx-1">
 													<cfloop query="countries">
 														<cfset countryVal = countries.country>
 														<cfset countryLookup = countries.country>
@@ -449,21 +449,23 @@ limitations under the License.
 												ORDER BY island
 											</cfquery>
 
-											<cfif islands.recordCount gt 800> 
+											<cfif islands.recordCount gt 300> 
 												<cfset islandValues = "flowXL">
-											<cfelseif islands.recordCount gt 501 and islands.recordCount lt 799>
+											<cfelseif islands.recordCount gt 251 and islands.recordCount lt 299>
 												<cfset islandValues = "flowLg">
-											<cfelseif islands.recordCount gt 301 and islands.recordCount lt 500>
+											<cfelseif islands.recordCount gt 90 and islands.recordCount lt 250>
 												<cfset islandValues = "flowMd">
-											<cfelseif islands.recordCount gt 101 and islands.recordCount lt 300>
+											<cfelseif islands.recordCount gt 50 and islands.recordCount lt 89>
 												<cfset islandValues = "flowSm"><!---Example West Indies in islands--->
-											<cfelseif islands.recordCount gt 39 and islands.recordCount lt 100>
+											<cfelseif islands.recordCount gt 20 and islands.recordCount lt 49>
 												<cfset islandValues = "flowSm">
 											<cfelse>	
 												<cfset islandValues = "">
 											</cfif>
+												
+							
 											<div class="collapse w-100 pt-2" id="islandgroup_#i#">
-												<ol class="#islandValues# px-4">
+												<ol class="#islandValues# px-4 mx-1">
 												<cfloop query="islands">
 														<cfset islandVal = islands.island>
 														<cfset islandLookup = islands.island>
