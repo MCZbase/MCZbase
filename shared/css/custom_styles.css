@@ -2345,9 +2345,12 @@ div.vslider-item[aria-hidden="true"]{
   background-color: #555;
 }
 .text-truncate1 {
-    line-height: 1.5em;
-    height: 3em;       /* height is 2x line-height, so two lines will display */
-    overflow: hidden;  /* prevents extra lines from being visible */
+	line-height: 1.5em;
+	height: 3em;/* height is 2x line-height, so two lines will display */
+	overflow: hidden;/* prevents extra lines from being visible */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 
