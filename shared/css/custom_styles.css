@@ -2347,7 +2347,7 @@ div.vslider-item[aria-hidden="true"]{
 .text-truncate1 {
   background-color: #fff;
 /*  padding: 2em;*/
-  width: 200px;
+  width: auto;
 }
 
 .text-truncate1 p {
