@@ -2360,7 +2360,7 @@ h3.line-clamp {
 .text-truncate-container {
     width: 250px;
 }
-.text-truncate-container a {
+.text-truncate-container p {
     -webkit-line-clamp: 3;
     display: -webkit-box;
     -webkit-box-orient: vertical;

@@ -246,9 +246,11 @@ limitations under the License.
 												<div class="col float-right px-2 pl-md-2 pr-md-0 mt-0">
 													<cfset showTitleText = trim(collection_name)>
 													<h3 class="h5 mb-1 text-truncate-container pr-1">
-														<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-														#showTitleText#
-														</a>
+														<p class="text-truncate">
+															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
+															#showTitleText#
+															</a>
+														</p>
 													</h3>
 													<p class="mb-1 small">#namedGroups.ct# Cataloged Items</p>
 													<p class="font-italic text-capitalize mb-0 smaller">Type: #namedGroups.underscore_collection_type#</p>
