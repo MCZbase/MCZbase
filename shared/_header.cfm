@@ -315,7 +315,7 @@ limitations under the License.
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown" style="min-width: 14em; border-radius: .2rem;">
 								<li> 	
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 										<a class="dropdown-item" href="/grouping/index.cfm">Featured Collections</a>
 									</cfif>
 									<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
