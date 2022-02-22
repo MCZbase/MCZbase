@@ -5718,7 +5718,7 @@ TODO: List.listOf() too new, fix in library.
 			<!--- post-amendment phase --->
 
 			<!--- @Provides("6ce2b2b4-6afe-4d13-82a0-390d31ade01c") --->
-			<cfset dqResponse = dwcSciNameDQ.validationCountryEmpty(country) >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountryEmpty(country) >
 			<cfset r.label = "dwc:country contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
