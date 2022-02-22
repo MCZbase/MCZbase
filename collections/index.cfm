@@ -100,21 +100,21 @@ limitations under the License.
 									</cfquery>
 									<cfset icount = caticount.internal_count>
 									<cfset totalinternal = totalinternal + icount>
-									<td><a href="/SpecimenSearch.cfm?Specimens.cfm?execute=true&action=fixedSearch&collection_id=#collection_id#">#icount#</a></td>
+									<td><a href="/Specimens.cfm?execute=true&action=fixedSearch&collection_id=#collection_id#">#icount#</a></td>
 	
 									<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
 										select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
 									</cfquery>
 									<cfset pcount = catcount.cnt>
 									<cfset totalpublic = totalpublic + pcount>
-									<td><a href="/SpecimenSearch.cfm?Specimens.cfm?execute=true&action=fixedSearch&collection_id=#collection_id#">#pcount#</a></td>
+									<td><a href="/Specimens.cfm?execute=true&action=fixedSearch&collection_id=#collection_id#">#pcount#</a></td>
 	
 									<td>#icount-pcount#</td>
 								<cfelse>
 									<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
 										select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
 									</cfquery>
-									<td><a href="/SpecimenSearch.cfm?Specimens.cfm?execute=true&action=fixedSearch&collection_id=#collection_id#">#catcount.cnt#</a></td>
+									<td><a href="/Specimens.cfm?execute=true&action=fixedSearch&collection_id=#collection_id#">#catcount.cnt#</a></td>
 									<cfset totalpublic = totalpublic + catcount.cnt>
 								</cfif>
 							</tr>
