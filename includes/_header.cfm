@@ -138,23 +138,21 @@
 					<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Browse</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown" style="min-width: 14em; border-radius: .2rem;">
 						<li> 	
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
-								<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
-								<a class="dropdown-item" href="/grouping/index.cfm">Featured Collections</a>
-								<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-									<cfif targetMenu EQ "production">
-										<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-									<cfelse>
-										<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-									</cfif>
+							<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
+							<a class="dropdown-item" href="/grouping/index.cfm">Featured Collections</a>
+							<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
+								<cfif targetMenu EQ "production">
+									<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
+								<cfelse>
+									<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
 								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-									<cfif targetMenu EQ "production">
-										<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit Bulkloader</a>
-									<cfelse>
-										<a class="dropdown-item bg-warning" href="/Bulkloader/browseBulk.cfm">Browse and Edit Bulkloader</a>
-									</cfif>
+							</cfif>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+								<cfif targetMenu EQ "production">
+									<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit Bulkloader</a>
+								<cfelse>
+									<a class="dropdown-item bg-warning" href="/Bulkloader/browseBulk.cfm">Browse and Edit Bulkloader</a>
 								</cfif>
 							</cfif>
 						 </li>
