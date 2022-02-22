@@ -387,7 +387,7 @@
 				<br><br>To meet federal regulations regarding importation and clearance of international shipments, researchers returning MCZ material must:<br>
 				<ul>
 					<li>Provide the name of the courier (e.g., FedEx, DHL, trackable post), the Airway Bill number, and an
-						invoice of contents (scientific names and number of specimens of each) to the MCZ Curatorial
+						invoice of contents (scientific names, countries of origin, and number of specimens of each) to the MCZ Curatorial
 						Associate <strong>at least 72 hours in advance of any shipment.</strong></li>
 					<li>Include <strong>USFWS CLEARANCE REQUIRED</strong> on the International waybill AND in red on all sides of the
 						outside of the package. (Note: Scientific research specimens, not restricted, Special Provision A180
