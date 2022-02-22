@@ -5611,6 +5611,170 @@ Annotation to report problematic data concerning #annotated.guid#
 
 
 <!-------------------------------------------->
+<!--- obtain QC report concerning Geospatial terms on a record from flat or from locality --->
+<cffunction name="getSpaceQCReport" access="remote">
+	<cfargument name="target_id" type="string" required="yes">
+	<cfargument name="target" type="string" required="yes">
+
+	<cfset result=structNew()> <!--- overall result to return --->
+	<cfset r=structNew()><!--- temporary result for an individual test, create new after each test --->
+	<cfset preamendment=structNew()><!--- pre-amendment phase measures and validations --->
+	<cfset amendment=structNew()><!--- amendment phase --->
+	<cfset postamendment=structNew()><!--- post-amendment phase measures and validations --->
+	<cftry>
+		<cfswitch expression="#ucase(target)#">
+			<cfcase value="FLAT">
+				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT guid as item_label, 
+						basisofrecord,
+						highergeographyid,
+						continent, country, countrycode,
+						spec_locality as locality,
+						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
+						verbatimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
+						max_depth_in_m, min_depth_in_m, max_elev_in_m, min_elev_in_m,
+						waterbody, island_group, island
+					FROM DIGIR_QUERY.digir_filtered_flat
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+				</cfquery>
+			</cfcase>
+			<cfcase value="LOCALITY">
+				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT locality_id as item_label, 
+						'' as basisofrecord,
+						highergeographyid,
+						continent, country, countrycode, state_prov, county,
+						spec_locality as locality, 
+						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
+						verbatimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
+						max_depth_in_m, min_depth_in_m, max_elev_in_m, min_elev_in_m,
+						waterbody, island_group, island
+					FROM locality 
+						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+						left join lat_long on 
+					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+				</cfquery>
+			</cfcase>
+			<cfdefaultcase>
+				<cfthrow message="Unknown target type for geospatial report. Should be FLAT or LOCALITY">
+			</cfdefaultcase>
+		</cfswitch>
+		<cfif queryrow.recordcount is 1>
+			<cfset result.status="success">
+			<cfset result.target_id=target_id >
+			<cfset result.guid=queryrow.item_label>
+			<cfset result.error="">
+
+			<!--- store local copies of query results to use in pre-amendment phase and overwrite in ammendment phase  --->
+			<cfset country = queryrow.country>
+			<cfset countrycode = queryrow.countrycode>
+
+			<cfobject type="Java" class="org.filteredpush.qc.georeference.DwCGeoRefDQ" name="dwcGeoRefDQ">
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides">
+			<!--- Obtain mechanism from annotation on class --->
+			<cfset result.mechanism = dwcGeoRefDQ.getClass().getAnnotation(Mechanism.getClass()).label() >
+
+			<!--- pre-amendment phase --->
+			<!--- TODO: Provide metadata from annotations --->
+
+			<!--- @Provides("6ce2b2b4-6afe-4d13-82a0-390d31ade01c") --->
+			<cfset dqResponse = dwcGeoRefDQ.validationCountryEmpty(country) >
+			<cfset r.label = "dwc:country contains a value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["6ce2b2b4-6afe-4d13-82a0-390d31ade01c"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("853b79a2-b314-44a2-ae46-34a1e7ed85e4") --->
+			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeEmpty(countrycode) >
+			<cfset r.label = "dwc:countryCode contains a value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["853b79a2-b314-44a2-ae46-34a1e7ed85e4"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe") --->
+<!---
+TODO: List.listOf() too new, fix in library.
+			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeNotstandard(countrycode) >
+			<cfset r.label = "dwc:countryCode is a standard value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["0493bcfb-652e-4d17-815b-b0cce0742fbe"] = r >
+			<cfset r=structNew()>
+--->
+
+
+			<!--- amendment phase --->
+
+
+			<!--- post-amendment phase --->
+
+			<!--- @Provides("6ce2b2b4-6afe-4d13-82a0-390d31ade01c") --->
+			<cfset dqResponse = dwcGeoRefDQ.validationCountryEmpty(country) >
+			<cfset r.label = "dwc:country contains a value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["6ce2b2b4-6afe-4d13-82a0-390d31ade01c"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("853b79a2-b314-44a2-ae46-34a1e7ed85e4") --->
+			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeEmpty(countrycode) >
+			<cfset r.label = "dwc:countryCode contains a value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["853b79a2-b314-44a2-ae46-34a1e7ed85e4"] = r >
+			<cfset r=structNew()>
+
+<!---
+TODO: List.listOf() too new, fix in library.
+			<!--- @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe") --->
+			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeNotstandard(countrycode) >
+			<cfset r.label = "dwc:countryCode is a standard value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["0493bcfb-652e-4d17-815b-b0cce0742fbe"] = r >
+			<cfset r=structNew()>
+--->
+
+			<!--- Add results from phases to result to return --->
+
+			<cfset result["preamendment"] = preamendment >
+
+			<cfset result["amendment"] = amendment >
+
+			<cfset result["postamendment"] = postamendment >
+
+		<cfelse>
+			<cfset result.status="fail">
+			<cfset result.target_id=target_id>
+			<cfset result.error="record not found">
+		</cfif>
+    <cfcatch>
+			<cfset result.status="fail">
+			<cfset result.target_id=target_id>
+			<cfset line = cfcatch.tagcontext[1].line>
+			<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
+    </cfcatch>
+	</cftry>
+    <cfreturn serializeJSON(result) >
+</cffunction>
+
+
+<!-------------------------------------------->
 <!--- obtain QC report concerning Taxon Name terms on a record from flat or from taxonomy --->
 <cffunction name="getNameQCReport" access="remote">
 	<cfargument name="target_id" type="string" required="yes">
@@ -5674,6 +5838,8 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.DwCSciNameDQ" name="dwcSciNameDQ">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides">
+			<!--- Obtain mechanism from annotation on class --->
+			<cfset result.mechanism = dwcSciNameDQ.getClass().getAnnotation(Mechanism.getClass()).label() >
 
 			<cfset wormsAuthority = sciNameSourceAuthority.init("WORMS")>
 

@@ -1857,13 +1857,14 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 	<script>
 		function runTests() {
 			loadNameQC(#collection_object_id#, "", "NameDQDiv");
+			loadSpaceQC(#collection_object_id#, "", "SpatialDQDiv");
 			loadEventQC(#collection_object_id#, "EventDQDiv");
 		}
 	</script>
 	<input type="button" value="QC" class="savBtn" onClick=" runTests(); ">
 	<!---  Scientific Name tests --->
 	<div id="NameDQDiv"></div>
-	<!---  Spatial tests (not added yet) --->
+	<!---  Spatial tests --->
 	<div id="SpatialDQDiv"></div>
 	<!---  Temporal tests --->
 	<div id="EventDQDiv"></div>
