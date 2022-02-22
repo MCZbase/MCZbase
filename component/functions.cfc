@@ -5667,6 +5667,7 @@ Annotation to report problematic data concerning #annotated.guid#
 
 			<!--- store local copies of query results to use in pre-amendment phase and overwrite in ammendment phase  --->
 			<cfset country = queryrow.country>
+			<cfset countrycode = queryrow.countrycode>
 
 			<cfobject type="Java" class="org.filteredpush.qc.georeference.DwCGeoRefDQ" name="dwcGeoRefDQ">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
