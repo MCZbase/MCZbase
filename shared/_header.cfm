@@ -327,7 +327,7 @@ limitations under the License.
 											</cfif>
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-											<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>
+											<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit Bulkloader</a>
 										</cfif>
 									</cfif>
 								 </li>
