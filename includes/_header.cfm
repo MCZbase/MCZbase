@@ -114,9 +114,9 @@
 									<cfset oldMarker = "(old)">
 								</cfif>
 								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens #oldMarker#</a>
-								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
+<!---								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
-								</cfif>
+								</cfif>--->
 								<a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
 								<a class="dropdown-item" target="_top" href="/media/findMedia.cfm">Media</a>
 								<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media (old)</a>
@@ -136,9 +136,9 @@
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 				<li class="nav-item dropdown"> 
 					<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Browse</a>
-					<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
+					<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown" style="min-width: 12em; border-radius: .2rem;">
 						<li> 	
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 								<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 								<a class="dropdown-item" href="/grouping/index.cfm">Featured Collections</a>
 								<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
