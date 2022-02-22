@@ -326,6 +326,9 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
 											</cfif>
 										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+											<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>
+										</cfif>
 									</cfif>
 								 </li>
 							</ul>
@@ -371,8 +374,7 @@ limitations under the License.
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Bulkload</div>
-										<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a>							
-										<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>
+										<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a>			
 										<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a>
 										<a class="dropdown-item" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>				
 										<a class="dropdown-item" href="/tools/PublicationStatus.cfm">Publication Staging</a>
