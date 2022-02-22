@@ -5628,7 +5628,7 @@ Annotation to report problematic data concerning #annotated.guid#
 					SELECT guid as item_label, 
 						basisofrecord,
 						highergeographyid,
-						continent, country, country_code,
+						continent, country, countrycode,
 						spec_locality as locality,
 						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
 						verbatimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
@@ -5643,7 +5643,7 @@ Annotation to report problematic data concerning #annotated.guid#
 					SELECT locality_id as item_label, 
 						'' as basisofrecord,
 						highergeographyid,
-						continent, country, country_code, state_prov, county,
+						continent, country, countrycode, state_prov, county,
 						spec_locality as locality, 
 						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
 						verbatimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
@@ -5688,8 +5688,8 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("853b79a2-b314-44a2-ae46-34a1e7ed85e4") --->
-			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeEmpty(country_code) >
-			<cfset r.label = "dwc:country contains a value" >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeEmpty(countrycode) >
+			<cfset r.label = "dwc:countryCode contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -5698,8 +5698,8 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe") --->
-			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeNotstandard(country_code) >
-			<cfset r.label = "dwc:country contains a value" >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeNotstandard(countrycode) >
+			<cfset r.label = "dwc:countryCode is a standard value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -5724,8 +5724,8 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("853b79a2-b314-44a2-ae46-34a1e7ed85e4") --->
-			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeEmpty(country_code) >
-			<cfset r.label = "dwc:country contains a value" >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeEmpty(countrycode) >
+			<cfset r.label = "dwc:countryCode contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -5734,8 +5734,8 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe") --->
-			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeNotstandard(country_code) >
-			<cfset r.label = "dwc:country contains a value" >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeNotstandard(countrycode) >
+			<cfset r.label = "dwc:countryCode is a standard value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
