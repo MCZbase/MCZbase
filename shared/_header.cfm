@@ -315,7 +315,7 @@ limitations under the License.
 							<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Browse</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
 								<li> 	
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 										<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 										<a class="dropdown-item" href="/grouping/index.cfm">Featured Collections</a>
 										<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
