@@ -5627,8 +5627,13 @@ Annotation to report problematic data concerning #annotated.guid#
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT guid as item_label, 
 						basisofrecord,
+						highergeographyid,
 						continent, country, country_code,
-						spec_locality, decimal_latitude, decimal_longitude, geodeticDatum
+						spec_locality as locality,
+						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
+						verbaimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
+						max_depth_in_m, min_depth_in_meters, max_elev_in_m, min_elev_in_m,
+						waterbody, island_group, island
 					FROM DIGIR_QUERY.digir_filtered_flat
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
@@ -5637,8 +5642,13 @@ Annotation to report problematic data concerning #annotated.guid#
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT locality_id as item_label, 
 						'' as basisofrecord,
-						continent, country, country_code,
-						spec_locality, decimal_latitude, decimal_longitude, geodeticDatum
+						highergeographyid,
+						continent, country, country_code, state_prov, county,
+						spec_locality as locality, 
+						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
+						verbaimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
+						max_depth_in_m, min_depth_in_meters, max_elev_in_m, min_elev_in_m,
+						waterbody, island_group, island
 					FROM locality 
 						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 						left join lat_long on 
