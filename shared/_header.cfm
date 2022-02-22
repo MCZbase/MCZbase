@@ -314,17 +314,14 @@ limitations under the License.
 						<li class="nav-item dropdown"> 
 							<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Browse</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
-								<li> 	
+								<li> 
+									<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
+									</cfif>
 									<a class="dropdown-item" href="/grouping/index.cfm">Featured Collections</a>
 									<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-										</cfif>
-									</cfif>
+										<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 										<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit Bulkloader</a>
 									</cfif>
