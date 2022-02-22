@@ -322,6 +322,7 @@ limitations under the License.
 									<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 										<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
+									</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 										<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit Bulkloader</a>
 									</cfif>
