@@ -103,7 +103,6 @@ limitations under the License.
 <cfif isdefined("includeJQXMoreInputs") AND includeJQXMoreInputs IS 'true'>
 	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxnumberinput.js"></script>
 </cfif>
-<script type="text/javascript" src="/media/js/media.js"></script>
 
 <script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
