@@ -324,7 +324,7 @@ limitations under the License.
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
 										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Browse Storage Locations</a>
+											<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
 										</cfif>
 									</cfif>
 								 </li>
