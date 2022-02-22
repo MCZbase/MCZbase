@@ -5632,7 +5632,7 @@ Annotation to report problematic data concerning #annotated.guid#
 						spec_locality as locality,
 						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
 						verbaimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
-						max_depth_in_m, min_depth_in_meters, max_elev_in_m, min_elev_in_m,
+						max_depth_in_m, min_depth_in_m, max_elev_in_m, min_elev_in_m,
 						waterbody, island_group, island
 					FROM DIGIR_QUERY.digir_filtered_flat
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
@@ -5647,7 +5647,7 @@ Annotation to report problematic data concerning #annotated.guid#
 						spec_locality as locality, 
 						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
 						verbaimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
-						max_depth_in_m, min_depth_in_meters, max_elev_in_m, min_elev_in_m,
+						max_depth_in_m, min_depth_in_m, max_elev_in_m, min_elev_in_m,
 						waterbody, island_group, island
 					FROM locality 
 						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
