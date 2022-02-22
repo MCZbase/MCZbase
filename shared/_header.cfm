@@ -319,12 +319,12 @@ limitations under the License.
 										<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
 										<a class="dropdown-item" href="/grouping/index.cfm">Featured Collections</a>
 										<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
-									</cfif>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
+											</cfif>
 										</cfif>
 									</cfif>
 								 </li>
