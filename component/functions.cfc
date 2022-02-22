@@ -5631,7 +5631,7 @@ Annotation to report problematic data concerning #annotated.guid#
 						continent, country, country_code,
 						spec_locality as locality,
 						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
-						verbaimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
+						verbatimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
 						max_depth_in_m, min_depth_in_m, max_elev_in_m, min_elev_in_m,
 						waterbody, island_group, island
 					FROM DIGIR_QUERY.digir_filtered_flat
@@ -5646,7 +5646,7 @@ Annotation to report problematic data concerning #annotated.guid#
 						continent, country, country_code, state_prov, county,
 						spec_locality as locality, 
 						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
-						verbaimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
+						verbatimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
 						max_depth_in_m, min_depth_in_m, max_elev_in_m, min_elev_in_m,
 						waterbody, island_group, island
 					FROM locality 
