@@ -150,7 +150,11 @@
 									</cfif>
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-									<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit Bulkloader</a>
+									<cfif targetMenu EQ "production">
+										<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit Bulkloader</a>
+									<cfelse>
+										<a class="dropdown-item bg-warning" href="/Bulkloader/browseBulk.cfm">Browse and Edit Bulkloader</a>
+									</cfif>
 								</cfif>
 							</cfif>
 						 </li>
