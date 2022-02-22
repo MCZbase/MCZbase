@@ -133,6 +133,30 @@
 					<!--- end main menu element for search --->
 	 			</li>
 			</cfif>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
+				<li class="nav-item dropdown"> 
+					<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Browse</a>
+					<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
+						<li> 	
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
+								<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
+								<a class="dropdown-item" href="/grouping/index.cfm">Featured Collections</a>
+								<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
+									<cfif targetMenu EQ "production">
+										<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
+									<cfelse>
+										<a class="dropdown-item bg-warning" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
+									</cfif>
+								</cfif>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+									<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit Bulkloader</a>
+								</cfif>
+							</cfif>
+						 </li>
+					</ul>
+				</li>
+			</cfif>
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 				<!--- begin additional main menu items to be shown to authorized users --->
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
@@ -158,7 +182,7 @@
 								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-4 text-danger">Bulkloading</div>
 									<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
-									<a class="dropdown-item" target="_top" href="/Bulkloader/browseBulk.cfm">Browse &amp; Edit</a>
+									<!---<a class="dropdown-item" target="_top" href="/Bulkloader/browseBulk.cfm">Browse &amp; Edit</a>--->
 									<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a>
 									<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
 									<a class="dropdown-item" target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a>
@@ -231,7 +255,7 @@
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" href="/grouping/NamedCollection.cfm" target="_top">Named Group</a>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-										<a class="dropdown-item" href="/ContainerBrowse.cfm" target="_top">Browse Storage Locations</a>
+							<!---		<a class="dropdown-item" href="/ContainerBrowse.cfm" target="_top">Browse Storage Locations</a>--->
 										<a class="dropdown-item" href="/findContainer.cfm" target="_top">Find Storage Location/Container</a>
 									</cfif>
 								</div>
