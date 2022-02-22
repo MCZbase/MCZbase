@@ -310,7 +310,7 @@ function loadSpaceQC(collection_object_id,locality_id,targetDivId){
 		url: "/component/functions.cfc",
 		type: "get",
 		data: {
-			method: "getSpaceQCReportFlat",
+			method: "getSpaceQCReport",
 			returnformat: "json",
 			target: target,
 			target_id	:target_id
