@@ -6005,7 +6005,6 @@ Annotation to report problematic data concerning #annotated.guid#
             	WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getacollobject.collection_object_id#">
 				</cfquery>
 			</cfcase>
-			</cfcase>
 			<cfdefaultcase>
 				<cfthrow message="Unknown target type for taxon report. Should be FLAT or TAXONOMY">
 			</cfdefaultcase>
