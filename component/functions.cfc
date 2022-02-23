@@ -5640,7 +5640,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			</cfcase>
 			<cfcase value="LOCALITY">
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT distinct locality.locality_id as item_label, 
+					SELECT distinct locality_id as item_label, 
 						'' as basisofrecord,
 						highergeographyid,
 						continent, country, countrycode,
