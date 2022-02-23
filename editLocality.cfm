@@ -485,27 +485,29 @@
 					<div style="width: 60em;postion: relative;">
 					<ul class="headercol1" style="padding-left:0;margin-left:0;float: left;text-align: left;margin-bottom: 1em;">
 						<li>
-					<h2 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h2><h3>
-						<cfif #whatSpecs.recordcount# is 0>
-							<font color="##FF0000">This Locality (#locDet.locality_id#)
-							contains no specimens. Please delete it if you don't have plans for it!</font>
-						<cfelseif #whatSpecs.recordcount# is 1>
-							<font color="##FF0000">This Locality (#locDet.locality_id#)
-
-							contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
-							<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a> in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>.</font>
-						<cfelse>
-							<font color="##FF0000">This Locality (#locDet.locality_id#)
-
-							contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a> in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>:</font>
-							<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
-								<cfloop query="whatSpecs">
-									<li style="margin-left: 1.5em;"><font color="##FF0000">#numOfSpecs# #collection#</font></li>
-								</cfloop>
-							</ul>
-
-						</cfif>
-						</h3>
+							<h2 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h2>
+							<h3>
+								<cfif #whatSpecs.recordcount# is 0>
+									<font color="##FF0000">This Locality (#locDet.locality_id#)
+									contains no specimens. Please delete it if you don't have plans for it!</font>
+								<cfelseif #whatSpecs.recordcount# is 1>
+									<font color="##FF0000">This Locality (#locDet.locality_id#)
+									contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
+									<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a></font>
+									</h3><h3>
+									in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>.
+								<cfelse>
+									<font color="##FF0000">This Locality (#locDet.locality_id#)
+									contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a></font>
+									</h3><h3>
+									in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>:</font>
+									<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
+										<cfloop query="whatSpecs">
+											<li style="margin-left: 1.5em;"><font color="##FF0000">#numOfSpecs# #collection#</font></li>
+										</cfloop>
+									</ul>
+								</cfif>
+							</h3>
 						</li>
 					</ul>
 
