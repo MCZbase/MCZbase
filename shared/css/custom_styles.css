@@ -2800,8 +2800,8 @@ ol.flowNone li a {
 .tab-content {
 	margin-top: -3px;
 }
-}
-@media only screen and (max-width: 764px) {
+}	
+@media only screen and (max-width: 768px) {
 
 .tab-content {
 	margin-top: -4px;
