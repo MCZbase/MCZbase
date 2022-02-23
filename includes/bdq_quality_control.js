@@ -24,7 +24,6 @@ function loadEventQC(collection_object_id,collecting_event_id,targetDivId){
 		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a collecting_event_id was provided." );
 	}
 	$.ajax({
-	$.ajax({
 		url: "/component/functions.cfc",
 		type: "get",
 		data: {
