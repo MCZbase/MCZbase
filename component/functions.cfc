@@ -6012,7 +6012,7 @@ Annotation to report problematic data concerning #annotated.guid#
 
 		<cfif flatrow.recordcount is 1>
 			<cfset result.status="success">
-			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.target_id=target_id>
 			<cfset result.guid=flatrow.guid>
 			<cfset result.error="">
 
