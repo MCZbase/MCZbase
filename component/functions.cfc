@@ -5640,7 +5640,7 @@ Annotation to report problematic data concerning #annotated.guid#
 			</cfcase>
 			<cfcase value="LOCALITY">
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT locality_id as item_label, 
+					SELECT locality.locality_id as item_label, 
 						'' as basisofrecord,
 						highergeographyid,
 						continent, country, countrycode, state_prov, county,
@@ -5652,7 +5652,7 @@ Annotation to report problematic data concerning #annotated.guid#
 					FROM locality 
 						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 						left join lat_long on locality.locality_id = lat_long.locality_id
-					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+					WHERE locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 						and rownum < 2
 					ORDER BY lat_long.accepted_lat_long_fg desc
 				</cfquery>
