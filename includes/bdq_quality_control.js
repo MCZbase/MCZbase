@@ -20,7 +20,7 @@ function loadEventQC(collection_object_id,targetid){
 		success: function (datareturn) { 
 		data = JSON.parse(datareturn);
 		  if (data.status == "success") { 
-				displayQCResult(data,"Event",targetDivId);
+				displayQCResult(data,"Event",targetid);
 				/*
 				// extract the phases from the returned result
 				var pre = data.preamendment;   // extract pre-amendment phase test results
@@ -295,7 +295,8 @@ console.log(postkey);
  *   selects target FLAT if a value is provided.
  * @param locality_id of the locality to run the TDWG BDQ TG2 space tests on, selects 
  *  target LOCALITY if provided and collection_object_id is null.
- * @param targetDivId the id of an element in the DOM of which to replace the content with the results.
+ * @param targetDivId the id of an element in the DOM of which to replace the content with the 
+ *  results, without a leading # selector.
  */
 function loadSpaceQC(collection_object_id,locality_id,targetDivId){
    var target_id = "";
