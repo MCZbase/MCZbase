@@ -5640,19 +5640,18 @@ Annotation to report problematic data concerning #annotated.guid#
 			</cfcase>
 			<cfcase value="LOCALITY">
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT locality_id as item_label, 
+					SELECT distinct locality_id as item_label, 
 						'' as basisofrecord,
 						highergeographyid,
-						continent, country, countrycode, state_prov, county,
-						spec_locality as locality, 
+						continent, country, countrycode,
+						spec_locality as locality,
 						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
 						verbatimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
 						max_depth_in_m, min_depth_in_m, max_elev_in_m, min_elev_in_m,
 						waterbody, island_group, island
-					FROM locality 
-						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-						left join lat_long on 
+					FROM DIGIR_QUERY.digir_filtered_flat
 					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+						and rownum < 2
 				</cfquery>
 			</cfcase>
 			<cfdefaultcase>
@@ -5969,7 +5968,8 @@ Annotation to report problematic data concerning #annotated.guid#
 <!-------------------------------------------->
 <!--- obtain QC report concerning Event terms on a record from flat --->
 <cffunction name="getEventQCReportFlat" access="remote">
-	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="target_id" type="string" required="yes">
+	<cfargument name="target" type="string" required="yes">
 
 	<cfset result=structNew()> <!--- overall result to return --->
 	<cfset r=structNew()><!--- temporary result for an individual test, create new after each test --->
@@ -5977,18 +5977,39 @@ Annotation to report problematic data concerning #annotated.guid#
 	<cfset amendment=structNew()><!--- amendment phase --->
 	<cfset postamendment=structNew()><!--- post-amendment phase measures and validations --->
 	<cftry>
-		<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select guid, basisofrecord,
-                began_date, ended_date, verbatim_date, day, month, year, dayofyear,
-                '' as endDayOfYear,
-                scientific_name, made_date
-            from DIGIR_QUERY.digir_filtered_flat
-            where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-		</cfquery>
+		<cfswitch expression="#ucase(target)#">
+			<cfcase value="FLAT">
+				<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT guid as item_label,
+						basisofrecord,
+						began_date, ended_date, verbatim_date, day, month, year, 
+						dayofyear, endDayOfYear,
+						scientific_name, made_date
+					FROM DIGIR_QUERY.digir_filtered_flat
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+				</cfquery>
+			</cfcase>
+			<cfcase value="COLLEVENT">
+				<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT collecting_event_id as item_label, 
+						'' as basisofrecord,
+						began_date, ended_date, verbatim_date, day, month, year, 
+						dayofyear, endDayOfYear,
+						scientific_name, made_date
+					FROM DIGIR_QUERY.digir_filtered_flat
+					WHERE collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+						AND rownum < 2
+				</cfquery>
+			</cfcase>
+			<cfdefaultcase>
+				<cfthrow message="Unknown target type for taxon report. Should be FLAT or TAXONOMY">
+			</cfdefaultcase>
+		</cfswitch>
+
 		<cfif flatrow.recordcount is 1>
 			<cfset result.status="success">
-			<cfset result.collection_object_id=collection_object_id>
-			<cfset result.guid=flatrow.guid>
+			<cfset result.target_id=target_id>
+			<cfset result.guid=flatrow.item_label>
 			<cfset result.error="">
 
 			<!--- store local copies of query results to use in pre-amendment phase  --->
