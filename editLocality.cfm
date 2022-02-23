@@ -1702,6 +1702,7 @@
 		</div>
 	</div>
 </cfif>
+</div>
 <div>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
 		<!---  For a small set of collections operations users, include the TDWG BDQ TG2 test integration --->
