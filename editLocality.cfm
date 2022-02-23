@@ -427,6 +427,12 @@
 		GROUP BY
 			collection.collection
   	</cfquery>
+	<cfquery name="collectingEvents" datasource="uam_god">
+		SELECT count(collecting_event_id) ct 
+		FROM collecting_event
+		WHERE
+			collecting_event.locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+	</cfquery>
 	<cfquery name="getLL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select LAT_LONG_ID,LOCALITY_ID,LAT_DEG,DEC_LAT_MIN,LAT_MIN,trim(LAT_SEC) LAT_SEC,LAT_DIR,LONG_DEG,DEC_LONG_MIN,LONG_MIN,trim(LONG_SEC) LONG_SEC,LONG_DIR,trim(DEC_LAT) DEC_LAT,trim(DEC_LONG) DEC_LONG,DATUM,to_meters(max_error_distance, max_error_units) COORDINATEUNCERTAINTYINMETERS,UTM_ZONE,UTM_EW,UTM_NS,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,FIELD_VERIFIED_FG,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,SPATIALFIT,GEOLOCATE_UNCERTAINTYPOLYGON,GEOLOCATE_SCORE,GEOLOCATE_PRECISION,GEOLOCATE_NUMRESULTS,GEOLOCATE_PARSEPATTERN,VERIFIED_BY_AGENT_ID,ERROR_POLYGON,db.agent_name as "determiner",vb.agent_name as "verifiedby"
 		 from
@@ -487,11 +493,11 @@
 							<font color="##FF0000">This Locality (#locDet.locality_id#)
 
 							contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
-							<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>.</font>
+							<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a> in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>.</font>
 						<cfelse>
 							<font color="##FF0000">This Locality (#locDet.locality_id#)
 
-							contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>:</font>
+							contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a> in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>:</font>
 							<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
 								<cfloop query="whatSpecs">
 									<li style="margin-left: 1.5em;"><font color="##FF0000">#numOfSpecs# #collection#</font></li>
@@ -1689,6 +1695,20 @@
 		</div>
 	</div>
 </cfif>
+<div>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
+		<!---  For a small set of collections operations users, include the TDWG BDQ TG2 test integration --->
+		<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
+		<script>
+			function runTests() {
+				loadSpaceQC(#locality_id#, "LOCALITY", "SpatialDQDiv");
+			}
+		</script>
+		<input type="button" value="QC" class="savBtn" onClick=" runTests(); ">
+		<!---  Spatial tests --->
+		<div id="SpatialDQDiv"></div>
+	</cfif>
+<div>
 </cfoutput>
 <cfinclude template="/includes/_footer.cfm">
 </cfif>
