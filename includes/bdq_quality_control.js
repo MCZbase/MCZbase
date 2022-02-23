@@ -186,7 +186,6 @@ function displayQCResult(data,category,targetDivId) {
 			displayprepost = displayprepost + "<tr " +rowstyle+ "><td>" + key.label + "</td><td>" + status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
 			// find matching post-amendment results for this test.
 			var postkey = post[k];
-console.log(postkey);
 			if (postkey.status == "HAS_RESULT" && postkey.value == "COMPLIANT") {
 				cs="<span style='color: green;'><strong>"; ce="</strong></span>";
 				status = "";
@@ -211,6 +210,7 @@ console.log(postkey);
 
 	// Iterate through amendments (would need to obtain acted upon/consulted annotations on terms to fully present as changes to terms).
 	// Could extract change terms from values and present in term centric rather than test centric view.
+	var amendmentCount = 0;
 	for (var k in amend) { 
 		var key = amend[k];
 		if (key.status == 'FILLED_IN') { 		
@@ -221,6 +221,10 @@ console.log(postkey);
   						cs=""; ce="";
 		}
 		displayamendments = displayamendments + "<li><span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></li>";
+		amendmentCount++;
+	}
+	if (amendmentCount==0) { 
+		displayamendments = displayamendments + "<li><span>None</span></li>";
 	}
 
 	// Iterate through post-amendment tests to calculate postpass.
