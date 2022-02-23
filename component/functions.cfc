@@ -5969,7 +5969,8 @@ Annotation to report problematic data concerning #annotated.guid#
 <!-------------------------------------------->
 <!--- obtain QC report concerning Event terms on a record from flat --->
 <cffunction name="getEventQCReportFlat" access="remote">
-	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="target_id" type="string" required="yes">
+	<cfargument name="target" type="string" required="yes">
 
 	<cfset result=structNew()> <!--- overall result to return --->
 	<cfset r=structNew()><!--- temporary result for an individual test, create new after each test --->
@@ -5977,14 +5978,39 @@ Annotation to report problematic data concerning #annotated.guid#
 	<cfset amendment=structNew()><!--- amendment phase --->
 	<cfset postamendment=structNew()><!--- post-amendment phase measures and validations --->
 	<cftry>
-		<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select guid, basisofrecord,
-                began_date, ended_date, verbatim_date, day, month, year, dayofyear,
-                '' as endDayOfYear,
-                scientific_name, made_date
-            from DIGIR_QUERY.digir_filtered_flat
-            where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-		</cfquery>
+		<cfswitch expression="#ucase(target)#">
+			<cfcase value="FLAT">
+				<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT guid, basisofrecord,
+   	             began_date, ended_date, verbatim_date, day, month, year, dayofyear,
+      	          '' as endDayOfYear,
+         	       scientific_name, made_date
+            	FROM DIGIR_QUERY.digir_filtered_flat
+            	WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+				</cfquery>
+			</cfcase>
+			<cfcase value="COLLEVENT">
+				<cfquery name="getacollobject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT collection_object_id 
+					FROM cataloged_item
+            	WHERE collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+						AND rownum < 2
+				</cfquery>
+				<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT guid, basisofrecord,
+   	             began_date, ended_date, verbatim_date, day, month, year, dayofyear,
+      	          '' as endDayOfYear,
+         	       scientific_name, made_date
+            	FROM DIGIR_QUERY.digir_filtered_flat
+            	WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getacollobject.collection_object_id#">
+				</cfquery>
+			</cfcase>
+			</cfcase>
+			<cfdefaultcase>
+				<cfthrow message="Unknown target type for taxon report. Should be FLAT or TAXONOMY">
+			</cfdefaultcase>
+		</cfswitch>
+
 		<cfif flatrow.recordcount is 1>
 			<cfset result.status="success">
 			<cfset result.collection_object_id=collection_object_id>

@@ -1143,6 +1143,21 @@ You do not have permission to create Higher Geographies
 		<input type="button" value="Create Clone" class="insBtn" onClick="document.location='#dLoc#';">
 	</cfform>
 
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
+	<!---  For a small set of collections operations users, include the TDWG BDQ TG2 test integration --->
+	<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
+	<script>
+		function runTests() {
+			loadSpaceQC("", #locDet.locality_id#, "SpatialDQDiv");
+			loadEventQC("", #locDet.collecting_event_id#, "EventDQDiv");
+		}
+	</script>
+	<input type="button" value="QC" class="savBtn" onClick=" runTests(); ">
+	<!---  Spatial tests --->
+	<div id="SpatialDQDiv"></div>
+	<!---  Temporal tests --->
+	<div id="EventDQDiv"></div>
+</cfif>
 
   </cfoutput>
              </div>

@@ -1709,7 +1709,7 @@
 		<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
 		<script>
 			function runTests() {
-				loadSpaceQC(#locality_id#, "LOCALITY", "SpatialDQDiv");
+				loadSpaceQC("", "#locality_id#", "SpatialDQDiv");
 			}
 		</script>
 		<input type="button" value="QC" class="savBtn" onClick=" runTests(); ">

@@ -5,17 +5,33 @@
  * Given an collection object id and the id of a target div into which to place results
  * make an ajax call on getEventQCReportFlat(), take the results, and place them in 
  * human readable form as html as the content of the target div.
- * @param collection_object_id of the collection object to run the TDWG BDQ TG2 event tests on.
+ * @param collection_object_id of the collection object to run the TDWG BDQ TG2 event tests on, selects
+ *   target FLAT if specified.
+ * @param collecting_event_id of the locality to run the TDWG BDQ TG2 space tests on, selects 
+ *  target COLLEVENT if provided and collection_object_id is null.
  * @param targetDivId the id of an element in the DOM of which to replace the content with the results.
  */
-function loadEventQC(collection_object_id,targetDivId){
+function loadEventQC(collection_object_id,collecting_event_id,targetDivId){
+   var target_id = "";
+   var target = "";
+	if (collection_object_id && String(collection_object_id).length > 0) { 
+		target_id = String(collection_object_id);
+		target = "FLAT";
+	} else if (collecting_event_id && String(collecting_event_id).length > 0) {
+		target_id = String(collecting_event_id);
+		target = "COLLEVENT";
+	} else { 
+		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a collecting_event_id was provided." );
+	}
+	$.ajax({
 	$.ajax({
 		url: "/component/functions.cfc",
 		type: "get",
 		data: {
 			method: "getEventQCReportFlat",
 			returnformat: "json",
-			collection_object_id: collection_object_id
+			target: target,
+			target_id: target_id
 		}, 
 		success: function (datareturn) { 
 		data = JSON.parse(datareturn);
