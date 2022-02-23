@@ -2801,7 +2801,7 @@ ol.flowNone li a {
 	margin-top: -5px;
 }
 }
-@media only screen and (max-width: 580px) {
+@media only screen and (max-width: 575px) {
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
