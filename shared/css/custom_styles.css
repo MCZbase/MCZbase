@@ -2603,7 +2603,7 @@ ol.flowXL li a {
 	padding-right: 3px;
 }
 .tab-content {
-	margin-top: -5px;
+	margin-top: -1px;
 }
 
 }
@@ -2703,7 +2703,7 @@ ol.flowNone li a {
 	padding-right: 3px;
 }
 .tab-content {
-	margin-top: -5px;
+	margin-top: -1px;
 }
 }
 @media only screen and (max-width: 750px) {
