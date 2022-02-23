@@ -5699,8 +5699,6 @@ Annotation to report problematic data concerning #annotated.guid#
 			<cfset r=structNew()>
 
 			<!--- @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe") --->
-<!---
-TODO: List.listOf() too new, fix in library.
 			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeNotstandard(countrycode) >
 			<cfset r.label = "dwc:countryCode is a standard value" >
 			<cfset r.type = "VALIDATION" >
@@ -5709,7 +5707,6 @@ TODO: List.listOf() too new, fix in library.
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["0493bcfb-652e-4d17-815b-b0cce0742fbe"] = r >
 			<cfset r=structNew()>
---->
 
 
 			<!--- amendment phase --->
@@ -5737,8 +5734,6 @@ TODO: List.listOf() too new, fix in library.
 			<cfset postamendment["853b79a2-b314-44a2-ae46-34a1e7ed85e4"] = r >
 			<cfset r=structNew()>
 
-<!---
-TODO: List.listOf() too new, fix in library.
 			<!--- @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe") --->
 			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeNotstandard(countrycode) >
 			<cfset r.label = "dwc:countryCode is a standard value" >
@@ -5748,7 +5743,6 @@ TODO: List.listOf() too new, fix in library.
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["0493bcfb-652e-4d17-815b-b0cce0742fbe"] = r >
 			<cfset r=structNew()>
---->
 
 			<!--- Add results from phases to result to return --->
 
