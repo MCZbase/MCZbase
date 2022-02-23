@@ -114,10 +114,10 @@ function loadSpaceQC(collection_object_id,locality_id,targetDivId){
 		target_id = String(collection_object_id);
 		target = "FLAT";
 	} else if (locality_id && String(locality_id).length > 0) {
-		target_id = String(taxon_name_id);
+		target_id = String(locality_id);
 		target = "LOCALITY";
 	} else { 
-		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a taxon_name_id was provided." );
+		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a locality_id was provided." );
 	}
 	$.ajax({
 		url: "/component/functions.cfc",
