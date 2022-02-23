@@ -5652,7 +5652,6 @@ Annotation to report problematic data concerning #annotated.guid#
 					FROM DIGIR_QUERY.digir_filtered_flat
 					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 						and rownum < 2
-					ORDER BY lat_long.accepted_lat_long_fg desc
 				</cfquery>
 			</cfcase>
 			<cfdefaultcase>
