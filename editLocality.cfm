@@ -1575,38 +1575,40 @@
 	</cfif>
         <h4 style="margin: 1.5em 0 .5em 0">Create Geology Determination</h4>
 	<table class="newRec">
-		<tr><td>
-
-	<form name="newGeolDet" method="post" action="editLocality.cfm">
+		<tr>
+			<td>
+			<form name="newGeolDet" method="post" action="editLocality.cfm">
             <input type="hidden" name="Action" value="AddGeol">
             <input type="hidden" name="locality_id" value="#locDet.locality_id#">
-			<label for="geology_attribute">Geology Attribute</label>
-			<select name="geology_attribute" id="geology_attribute" class="reqdClr" onchange="populateGeology(this.id)">
-				<option value=""></option>
-				<cfloop query="ctgeology_attribute">
-					<option value="#geology_attribute#">#geology_attribute#</option>
-				</cfloop>
-			</select>
-			<label for="geo_att_value">Value</label>
-			<select name="geo_att_value" id="geo_att_value" class="reqdClr"></select>
-			<label for="geo_att_determiner">Determiner</label>
-			<input type="text" name="geo_att_determiner" id="geo_att_determiner" size="40"
+				<label for="geology_attribute">Geology Attribute</label>
+				<select name="geology_attribute" id="geology_attribute" class="reqdClr" onchange="populateGeology(this.id)">
+					<option value=""></option>
+					<cfloop query="ctgeology_attribute">
+						<option value="#geology_attribute#">#geology_attribute#</option>
+					</cfloop>
+				</select>
+				<label for="geo_att_value">Value</label>
+				<select name="geo_att_value" id="geo_att_value" class="reqdClr"></select>
+				<label for="geo_att_determiner">Determiner</label>
+				<input type="text" name="geo_att_determiner" id="geo_att_determiner" size="40"
 						onchange="getAgent('geo_att_determiner_id','geo_att_determiner','newGeolDet',this.value); return false;"
 		 				onKeyPress="return noenter(event);">
-			<input type="hidden" name="geo_att_determiner_id" id="geo_att_determiner_id">
-			<label for="geo_att_determined_date">Determined Date</label>
-			<input type="text" name="geo_att_determined_date" id="geo_att_determined_date">
-			<label for="geo_att_determined_method">Determination Method</label>
-			<input type="text" name="geo_att_determined_method" id="geo_att_determined_method" size="60">
-			<label for="geo_att_remark">Remark</label>
-			<input type="text" name="geo_att_remark" id="geo_att_remark" size="60">
-			<br>
-			<input type="submit"
+				<input type="hidden" name="geo_att_determiner_id" id="geo_att_determiner_id">
+				<label for="geo_att_determined_date">Determined Date</label>
+				<input type="text" name="geo_att_determined_date" id="geo_att_determined_date">
+				<label for="geo_att_determined_method">Determination Method</label>
+				<input type="text" name="geo_att_determined_method" id="geo_att_determined_method" size="60">
+				<label for="geo_att_remark">Remark</label>
+				<input type="text" name="geo_att_remark" id="geo_att_remark" size="60">
+				<br>
+				<input type="submit"
 					value="Create Determination"
 					class="insBtn"
 					onmouseover="this.className='insBtn btnhov'"
 					onmouseout="this.className='insBtn'">
-			</td></tr>
+			</form>
+			</td>
+		</tr>
 	</table>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
@@ -1627,14 +1629,16 @@
          media_relations.related_primary_key = #locality_id#
 	</cfquery>
 	<cfif media.recordcount gt 0>
-    <div class="detailCell">
-		<div class="detailLabel">Media
-		<cfquery name="wrlCount" dbtype="query">
-			select * from media where mime_type = 'model/vrml'
-		</cfquery>
-		<cfif wrlCount.recordcount gt 0>
-			<br><span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
-		</cfif>
+		<div class="detailCell">
+			<div class="detailLabel">
+				Media
+				<cfquery name="wrlCount" dbtype="query">
+					select * from media where mime_type = 'model/vrml'
+				</cfquery>
+				<cfif wrlCount.recordcount gt 0>
+					<br>
+					<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
+				</cfif>
 		 		<!---cfif oneOfUs is 1>
 				 <cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT count(*) c
@@ -1656,7 +1660,8 @@
 						Confirm Image IDs
 					</span>
 				</CFIF>
-			</cfif--->
+				</cfif--->
+			</div>
 		</div>
 		<div class="detailBlock">
             <span class="detailData">
