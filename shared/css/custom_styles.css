@@ -2706,8 +2706,8 @@ ol.flowNone li a {
 	margin-top: 0px;
 }
 }
-@media only screen and (max-width: 764px) {
-ol.flowXS {
+@media only screen and (max-width: 800px){
+	ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 510px; /* need to specify height :-( */
@@ -2797,6 +2797,9 @@ ol.flowNone li a {
 	display: inline-block;
 	padding-right: 3px;
 }
+}
+@media only screen and (max-width: 764px) {
+
 .tab-content {
 	margin-top: -4px;
 }
