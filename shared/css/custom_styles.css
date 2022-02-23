@@ -2703,10 +2703,10 @@ ol.flowNone li a {
 	padding-right: 3px;
 }
 .tab-content {
-	margin-top: -1px;
+	margin-top: 0px;
 }
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 764px) {
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
@@ -2798,7 +2798,7 @@ ol.flowNone li a {
 	padding-right: 3px;
 }
 .tab-content {
-	margin-top: -5px;
+	margin-top: -4px;
 }
 }
 @media only screen and (max-width: 575px) {
