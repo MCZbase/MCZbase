@@ -2602,6 +2602,9 @@ ol.flowXL li a {
 	display: inline-block;
 	padding-right: 3px;
 }
+.tab-content {
+	margin-top: -5px;
+}
 
 }
 @media only screen and (max-width: 990px) {
@@ -2699,6 +2702,9 @@ ol.flowNone li a {
 	display: inline-block;
 	padding-right: 3px;
 }
+.tab-content {
+	margin-top: -5px;
+}
 }
 @media only screen and (max-width: 750px) {
 ol.flowXS {
@@ -2791,9 +2797,9 @@ ol.flowNone li a {
 	display: inline-block;
 	padding-right: 3px;
 }
-	.tab-content {
-		margin-top: -2px;
-	}
+.tab-content {
+	margin-top: -5px;
+}
 }
 @media only screen and (max-width: 580px) {
 ol.flowXS {
