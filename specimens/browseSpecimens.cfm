@@ -345,6 +345,7 @@ limitations under the License.
 												</button>
 											</h4>
 											<div class="collapse pt-2 w-100" id="cont-ocean_#i#">
+												<!---for newpaper flow within higher geography--->
 												<cfif countries.recordCount gte 300> 
 													<cfset geogValues = "flowXL">
 												<cfelseif countries.recordCount gte 251 and countries.recordCount lt 299>
@@ -438,7 +439,7 @@ limitations under the License.
 													GROUP BY island
 													ORDER BY island
 												</cfquery>
-
+												<!---for newpaper flow within islands--->
 												<cfif islands.recordCount gte 300> 
 													<cfset islandValues = "flowXL">
 												<cfelseif islands.recordCount gte 251 and islands.recordCount lt 299>
@@ -483,6 +484,7 @@ limitations under the License.
 											<button class="border rounded headerLnk py-1 text-left w-100" data-target="##phylum" data-toggle="collapse" aria-expanded="false" aria-controls="phylum">Phylum</button>
 										</h4>
 										<div class="collapse w-100" id="phylum">
+											<!---for newpaper flow within taxonomy (phylum)--->
 											<cfif phyla.recordCount gte 300> 
 												<cfset phylaValues = "flowXL">
 											<cfelseif phyla.recordCount gte 251 and phyla.recordCount lt 299>
@@ -510,6 +512,7 @@ limitations under the License.
 											<button class="border rounded headerLnk py-1 text-left w-100" data-target="##notphylum" data-toggle="collapse" aria-expanded="false" aria-controls="notphylum">Orders &ndash; no Phylum value</button>
 										</h4>
 										<div class="collapse" id="notphylum">
+											<!---for newpaper flow within taxonomy (notphylum)--->
 											<cfif notphyla.recordCount gte 300> 
 												<cfset taxaValues = "flowXL">
 											<cfelseif notphyla.recordCount gte 251 and notphyla.recordCount lt 299>
@@ -536,6 +539,7 @@ limitations under the License.
 										<h4 class="collapsebar">
 											<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##notkingdom" aria-expanded="false" aria-controls="notkingdom">Taxon records with no value for Kingdom</button>
 										</h4>
+										<!---for newpaper flow within taxonomy (notKingdom)--->
 										<div class="collapse" id="notkingdom" >
 											<cfif notkingdoms.recordCount gte 300> 
 												<cfset notkValues = "flowXL">
@@ -565,6 +569,7 @@ limitations under the License.
 					</div>
 				</div>
 			</main>
+			<!---for keeping the 1st accordion open on page load--->
 			<script>
 				$('##islandgroup_1').collapse('show')
 				$('##cont-ocean_1').collapse('show')
