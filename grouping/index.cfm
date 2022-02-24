@@ -240,7 +240,7 @@ limitations under the License.
 							<div id="allgroupsPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #allgroupsTabActive# unfocus"  #allgroupsTabShow#>
 								<h3 class="px-2">All</h3>
 								<cfloop query="namedGroups">
-									<div class="col-12 col-md-6 col-xl-3 float-left px-1 mt-1 mb-1">
+									<div class="col-12 col-sm-6 col-md-6 col-xl-3 float-left px-1 mt-1 mb-1">
 										<div class="border rounded bg-white p-2 col-12 float-left" style="height:117px">
 											<div class="row h-25 mx-0">
 												<div class="col float-right px-2 pl-md-2 pr-md-0 mt-0">
