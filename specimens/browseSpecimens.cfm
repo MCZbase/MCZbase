@@ -126,7 +126,7 @@ limitations under the License.
 	ORDER BY island_group
 </cfquery>
 
-<div class="container-fluid px-xl-5">
+<div class="container-fluid px-xl-5 pb-5">
 	<div class="row mx-md-0 mb-4">
 	<h1 class="px-2 mt-4 mb-0 w-100 text-center">Browse MCZ Specimens by Category</h1>	
 		<cfoutput>
@@ -257,11 +257,9 @@ limitations under the License.
 												<div class="row mx-0">
 													<div class="col float-right px-2 mt-2">
 													<cfset showTitleText = trim(collection_name)>
-														<h3 class="text-truncate h5 mb-1">
+														<h3 class="text-truncate1 h5 mb-1">
 															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-															<cfif len(showTitleText) GT 66>
-																<cfset showTitleText = "#left(showTitleText,66)#..." >
-															</cfif>#showTitleText#
+															#showTitleText#
 															</a>
 														</h3>
 														<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
