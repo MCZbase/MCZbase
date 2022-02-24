@@ -2379,6 +2379,7 @@ ol.flowXS {
 }
 ol.flowXS li {
 	width: 290px;
+	padding-right:1rem;
 }
 ol.flowXS li a {
 	display: inline-block;
@@ -2391,7 +2392,8 @@ ol.flowSm {
 	column-count: 4;
 }
 ol.flowSm li {
-	width: 352px;
+	width: 312px;
+	padding-right: 1rem;
 }
 ol.flowSm li a {
 	display: inline-block;
@@ -2404,7 +2406,7 @@ ol.flowMd {
 	column-count: 4;
 }
 ol.flowMd li {
-	width: 200px;
+	width: 245px;
 }
 ol.flowMd li a {
 	display: inline-block;
@@ -2418,6 +2420,7 @@ ol.flowLg {
 }
 ol.flowLg li {
 	width: 200px;
+	padding-right: 1rem;
 }
 ol.flowLg li a {
 	display: inline-block;
@@ -2431,6 +2434,7 @@ ol.flowXL {
 }
 ol.flowXL li {
 	width: 200px;
+	padding-right: 1rem;
 }
 ol.flowXL li a {
 	display: inline-block;
@@ -2462,6 +2466,7 @@ ol.flowXS {
 }
 ol.flowXS li {
 	width: 290px;
+	padding-right: 1rem;
 }
 ol.flowXS li a {
 	display: inline-block;
@@ -2475,6 +2480,7 @@ ol.flowSm {
 }
 ol.flowSm li {
 	width: 318px;
+	padding-right: 1rem;
 }
 ol.flowSm li a {
 	display: inline-block;
@@ -2488,6 +2494,7 @@ ol.flowMd {
 }
 ol.flowMd li {
 	width: 200px;
+	padding-right: 1rem;
 }
 ol.flowMd li a {
 	display: inline-block;
@@ -2501,6 +2508,7 @@ ol.flowLg {
 }
 ol.flowLg li {
 	width: 200px;
+	padding-right: 1rem;
 }
 ol.flowLg li a {
 	display: inline-block;
@@ -2514,6 +2522,7 @@ ol.flowXL {
 }
 ol.flowXL li {
 	width: 260px;
+	padding-right: 1rem;
 }
 ol.flowXL li a {
 	display: inline-block;
@@ -2543,6 +2552,7 @@ ol.flowXS {
 }
 ol.flowXS li {
 	width: 210px;
+	padding-right: 1rem;
 }
 ol.flowXS li a {
 	display: inline-block;
