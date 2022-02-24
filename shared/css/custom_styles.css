@@ -2374,8 +2374,8 @@ div.vslider-item[aria-hidden="true"]{
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 212px; /* need to specify height :-( */
-	column-count: 5;
+	height: 215px; /* need to specify height :-( */
+	column-count: 4;
 }
 ol.flowXS li {
 	width: 290px;
@@ -2457,8 +2457,8 @@ and also iPads specifically.
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 212px; /* need to specify height :-( */
-	column-count: 5;
+	height: 215px; /* need to specify height :-( */
+	column-count: 4;
 }
 ol.flowXS li {
 	width: 290px;
@@ -2551,7 +2551,7 @@ ol.flowXS li a {
 ol.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 495px; /* need to specify height :-( */
+	height: 501px; /* need to specify height :-( */
 	column-count: 3;
 }
 ol.flowSm li {
@@ -2627,7 +2627,7 @@ ol.flowXS {
 	column-count: 2;
 }
 ol.flowXS li {
-	width: 200px;
+	width: 210px;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
