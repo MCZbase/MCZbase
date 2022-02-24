@@ -473,9 +473,7 @@ limitations under the License.
 									</cfloop>
 								</div>
 							</div>
-							<script>
-								$('##islandgroup_1').collapse('show')
-							</script>
+
 
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
@@ -570,5 +568,9 @@ limitations under the License.
 		</cfoutput>
 	</div>
 </div>
-
+<script>
+	$('##islandgroup_1').collapse('show')
+	$('##cont-ocean_1').collapse('show')
+	$('##phylum').collapse('show')
+</script>
 <cfinclude template = "/shared/_footer.cfm">
