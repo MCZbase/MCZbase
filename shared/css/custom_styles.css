@@ -2350,7 +2350,7 @@ div.vslider-item[aria-hidden="true"]{
   width: auto;
 }
 
-.text-truncate1 p {
+.text-truncate1 p, .text-truncate1 h3 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;  
@@ -2924,7 +2924,7 @@ text-truncate1 {
   width: auto;
 }
 
-.text-truncate1 p {
+ p.text-truncate1 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;  

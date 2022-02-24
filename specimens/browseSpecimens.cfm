@@ -255,9 +255,9 @@ limitations under the License.
 										<div class="col-12 col-sm-6 col-md-6 col-xl-4 px-1 float-left my-1">
 											<div class="border rounded bg-white p-2 col-12 float-right" style="height:117px;">
 												<div class="row mx-0">
-													<div class="col float-right px-2 mt-2">
+													<div class="col text-truncate1 float-right px-2 mt-2">
 													<cfset showTitleText = trim(collection_name)>
-														<h3 class="text-truncate1 h5 mb-1">
+														<h3 class="h5 mb-1">
 															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
 															#showTitleText#
 															</a>
