@@ -1853,7 +1853,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 </cfif>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
 	<!---  For a small set of collections operations users, include the TDWG BDQ TG2 test integration --->
-	<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
+	<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 	<script>
 		function runTests() {
 			loadNameQC(#collection_object_id#, "", "NameDQDiv");
