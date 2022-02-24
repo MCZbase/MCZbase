@@ -275,7 +275,7 @@ limitations under the License.
 								<p class="px-2">Collections highlight specimens that are linked via their shared history and includes collections assembled by famous naturalists, histological slide collections, and acquisitions or exchanges from other museums.</p>
 								<cfloop query="namedGroups">
 									<cfif #namedGroups.underscore_collection_type# eq 'collection'>
-										<div class="col-12 col-md-6 col-xl-3 float-left px-1 mt-1 mb-1">
+										<div class="col-12 col-sm-6 col-md-6 col-xl-4 float-left px-1 mt-1 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:117px">
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 pl-md-2 pr-md-0 mt-0">
@@ -309,7 +309,7 @@ limitations under the License.
 								<p class="px-2">Expeditions feature specimens collected during specific voyages undertaken for the purpose of scientific exploration.</p>
 								<cfloop query="namedGroups">
 									<cfif #namedGroups.underscore_collection_type# eq 'expedition'>
-										<div class="col-12 col-md-6 col-xl-3 float-left px-1 mt-2 mb-1">
+										<div class="col-12 col-sm-6 col-md-6 col-xl-4 float-left px-1 mt-1 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:117px">
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 px-md-2 mt-0">
@@ -344,7 +344,7 @@ limitations under the License.
 								<p class="px-2">Grants showcase specimens used in funded work and includes digitization projects that enrich digital specimen data and make MCZ holdings more accessible to researchers around the world.</p>
 								<cfloop query="namedGroups">
 									<cfif #namedGroups.underscore_collection_type# eq 'grant'>
-										<div class="col-12 col-md-6 col-xl-3 float-left px-1 mt-2 mb-1">
+										<div class="col-12 col-sm-6 col-md-6 col-xl-4 float-left px-1 mt-1 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:117px">
 												<div class="row h-25 mx-0">
 													<div class="col float-right px-2 px-md-2 mt-0">
@@ -379,7 +379,7 @@ limitations under the License.
 									<h3 class="px-2">Workflow</h3>
 									<cfloop query="namedGroups">
 										<cfif #namedGroups.underscore_collection_type# eq 'workflow'>
-											<div class="col-12 col-md-6 col-xl-3 float-left px-1 mt-2 mb-1">
+											<div class="col-12 col-sm-6 col-md-6 col-xl-4 float-left px-1 mt-1 mb-1">
 												<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height:117px">
 													<div class="row h-25 mx-0">
 														<div class="col float-right px-2 px-md-2 mt-0">
