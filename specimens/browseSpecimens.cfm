@@ -474,7 +474,7 @@ limitations under the License.
 								</div>
 							</div>
 							<script>
-								$('##islandgroup_#i#').collapse({
+								$('##islandgroup_1').collapse({
 									toggle: false
 								})
 							</script>
