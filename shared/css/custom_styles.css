@@ -2392,7 +2392,7 @@ ol.flowSm {
 	column-count: 4;
 }
 ol.flowSm li {
-	width: 312px;
+	width: 300px;
 	padding-right: 1rem;
 }
 ol.flowSm li a {
