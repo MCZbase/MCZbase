@@ -565,12 +565,13 @@ limitations under the License.
 					</div>
 				</div>
 			</main>
+			<script>
+				$('##islandgroup_1').collapse('show')
+				$('##cont-ocean_1').collapse('show')
+				$('##phylum').collapse('show')
+			</script>
 		</cfoutput>
 	</div>
 </div>
-<script>
-	$('##islandgroup_1').collapse('show')
-	$('##cont-ocean_1').collapse('show')
-	$('##phylum').collapse('show')
-</script>
+
 <cfinclude template = "/shared/_footer.cfm">
