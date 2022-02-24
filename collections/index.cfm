@@ -37,10 +37,10 @@ limitations under the License.
 	order by collection.collection
 </cfquery>
 <cfoutput>
-	<main class="container my-3" id="content">
+	<main class="container-xl my-3" id="content">
 		<section class="row" >
 			<div class="col-12 mt-3">
-				<h1 class="h2 px-1">MCZbase Holdings</h1>
+				<h1 class="h2 px-2">MCZbase Holdings</h1>
 				<table class="table table-responsive table-striped d-lg-table sortable" id="t">
 					<thead>
 						<tr>
@@ -138,7 +138,7 @@ limitations under the License.
 				</table>
 			</div>
 			<div class="col-12">
-				<p>All names in MCZbase are disclaimed for nomenclatural purposes.</p>
+				<p class="px-2">All names in MCZbase are disclaimed for nomenclatural purposes.</p>
 			</div>
 		</section>
 	</main>
