@@ -2361,6 +2361,12 @@ div.vslider-item[aria-hidden="true"]{
 /*********************************/
 /* Device styles below ***********/
 /*********************************/
+@media only screen and (min-width: 2499px) {
+	.container-wide {
+		padding-right: 20rem;
+		padding-left: 20rem;
+	}
+}
 @media only screen and (min-width: 1499px) {
 	.w-350 {
 		width: 100%;
