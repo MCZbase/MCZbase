@@ -1,6 +1,6 @@
 <cfset pageTitle = "Browse Specimen Data">
 <!--
-specimens/SpecimenBrowse.cfm
+specimens/browseSpecimens.cfm
 
 Copyright 2020-2022 President and Fellows of Harvard College
 
