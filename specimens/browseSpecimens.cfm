@@ -415,7 +415,6 @@ limitations under the License.
 											<cfset group = "[No Island Group]">
 											<cfset groupLookup = "NULL">
 										</cfif>
-
 											<!--- TODO: Support island/island_group in specimen search API --->
 											<div class="w-100 my-2">
 												<h4 class="collapsebar w-100 my-1">
@@ -474,6 +473,12 @@ limitations under the License.
 									</cfloop>
 								</div>
 							</div>
+							<script>
+								$('##islandgroup_#i#').collapse({
+									toggle: false
+								})
+							</script>
+
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<div class="col-12 px-0 px-md-2">
