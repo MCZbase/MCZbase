@@ -474,9 +474,7 @@ limitations under the License.
 								</div>
 							</div>
 							<script>
-								$('##islandgroup_1').collapse({
-									toggle: false
-								})
+								$('##islandgroup_1').collapse('show')
 							</script>
 
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
