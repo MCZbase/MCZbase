@@ -268,7 +268,7 @@ limitations under the License.
 						function runTests() {
 							loadNameQC(#collection_object_id#, "", "NameDQDiv");
 							loadSpaceQC(#collection_object_id#, "", "SpatialDQDiv");
-							loadEventQC(#collection_object_id#, "EventDQDiv");
+							loadEventQC(#collection_object_id#, "", "EventDQDiv");
 						}
 					</script>
 					<input type="button" value="QC" class="btn btn-secondary btn-xs" onClick=" runTests(); ">

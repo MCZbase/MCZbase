@@ -427,6 +427,12 @@
 		GROUP BY
 			collection.collection
   	</cfquery>
+	<cfquery name="collectingEvents" datasource="uam_god">
+		SELECT count(collecting_event_id) ct 
+		FROM collecting_event
+		WHERE
+			collecting_event.locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+	</cfquery>
 	<cfquery name="getLL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select LAT_LONG_ID,LOCALITY_ID,LAT_DEG,DEC_LAT_MIN,LAT_MIN,trim(LAT_SEC) LAT_SEC,LAT_DIR,LONG_DEG,DEC_LONG_MIN,LONG_MIN,trim(LONG_SEC) LONG_SEC,LONG_DIR,trim(DEC_LAT) DEC_LAT,trim(DEC_LONG) DEC_LONG,DATUM,to_meters(max_error_distance, max_error_units) COORDINATEUNCERTAINTYINMETERS,UTM_ZONE,UTM_EW,UTM_NS,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,FIELD_VERIFIED_FG,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,SPATIALFIT,GEOLOCATE_UNCERTAINTYPOLYGON,GEOLOCATE_SCORE,GEOLOCATE_PRECISION,GEOLOCATE_NUMRESULTS,GEOLOCATE_PARSEPATTERN,VERIFIED_BY_AGENT_ID,ERROR_POLYGON,db.agent_name as "determiner",vb.agent_name as "verifiedby"
 		 from
@@ -479,27 +485,29 @@
 					<div style="width: 60em;postion: relative;">
 					<ul class="headercol1" style="padding-left:0;margin-left:0;float: left;text-align: left;margin-bottom: 1em;">
 						<li>
-					<h2 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h2><h3>
-						<cfif #whatSpecs.recordcount# is 0>
-							<font color="##FF0000">This Locality (#locDet.locality_id#)
-							contains no specimens. Please delete it if you don't have plans for it!</font>
-						<cfelseif #whatSpecs.recordcount# is 1>
-							<font color="##FF0000">This Locality (#locDet.locality_id#)
-
-							contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
-							<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>.</font>
-						<cfelse>
-							<font color="##FF0000">This Locality (#locDet.locality_id#)
-
-							contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>:</font>
-							<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
-								<cfloop query="whatSpecs">
-									<li style="margin-left: 1.5em;"><font color="##FF0000">#numOfSpecs# #collection#</font></li>
-								</cfloop>
-							</ul>
-
-						</cfif>
-						</h3>
+							<h2 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h2>
+							<h3>
+								<cfif #whatSpecs.recordcount# is 0>
+									<font color="##FF0000">This Locality (#locDet.locality_id#)
+									contains no specimens. Please delete it if you don't have plans for it!</font>
+								<cfelseif #whatSpecs.recordcount# is 1>
+									<font color="##FF0000">This Locality (#locDet.locality_id#)
+									contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
+									<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a></font>
+									</h3><h3>
+									in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>.
+								<cfelse>
+									<font color="##FF0000">This Locality (#locDet.locality_id#)
+									contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a></font>
+									</h3><h3>
+									in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>:</font>
+									<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
+										<cfloop query="whatSpecs">
+											<li style="margin-left: 1.5em;"><font color="##FF0000">#numOfSpecs# #collection#</font></li>
+										</cfloop>
+									</ul>
+								</cfif>
+							</h3>
 						</li>
 					</ul>
 
@@ -1567,38 +1575,40 @@
 	</cfif>
         <h4 style="margin: 1.5em 0 .5em 0">Create Geology Determination</h4>
 	<table class="newRec">
-		<tr><td>
-
-	<form name="newGeolDet" method="post" action="editLocality.cfm">
+		<tr>
+			<td>
+			<form name="newGeolDet" method="post" action="editLocality.cfm">
             <input type="hidden" name="Action" value="AddGeol">
             <input type="hidden" name="locality_id" value="#locDet.locality_id#">
-			<label for="geology_attribute">Geology Attribute</label>
-			<select name="geology_attribute" id="geology_attribute" class="reqdClr" onchange="populateGeology(this.id)">
-				<option value=""></option>
-				<cfloop query="ctgeology_attribute">
-					<option value="#geology_attribute#">#geology_attribute#</option>
-				</cfloop>
-			</select>
-			<label for="geo_att_value">Value</label>
-			<select name="geo_att_value" id="geo_att_value" class="reqdClr"></select>
-			<label for="geo_att_determiner">Determiner</label>
-			<input type="text" name="geo_att_determiner" id="geo_att_determiner" size="40"
+				<label for="geology_attribute">Geology Attribute</label>
+				<select name="geology_attribute" id="geology_attribute" class="reqdClr" onchange="populateGeology(this.id)">
+					<option value=""></option>
+					<cfloop query="ctgeology_attribute">
+						<option value="#geology_attribute#">#geology_attribute#</option>
+					</cfloop>
+				</select>
+				<label for="geo_att_value">Value</label>
+				<select name="geo_att_value" id="geo_att_value" class="reqdClr"></select>
+				<label for="geo_att_determiner">Determiner</label>
+				<input type="text" name="geo_att_determiner" id="geo_att_determiner" size="40"
 						onchange="getAgent('geo_att_determiner_id','geo_att_determiner','newGeolDet',this.value); return false;"
 		 				onKeyPress="return noenter(event);">
-			<input type="hidden" name="geo_att_determiner_id" id="geo_att_determiner_id">
-			<label for="geo_att_determined_date">Determined Date</label>
-			<input type="text" name="geo_att_determined_date" id="geo_att_determined_date">
-			<label for="geo_att_determined_method">Determination Method</label>
-			<input type="text" name="geo_att_determined_method" id="geo_att_determined_method" size="60">
-			<label for="geo_att_remark">Remark</label>
-			<input type="text" name="geo_att_remark" id="geo_att_remark" size="60">
-			<br>
-			<input type="submit"
+				<input type="hidden" name="geo_att_determiner_id" id="geo_att_determiner_id">
+				<label for="geo_att_determined_date">Determined Date</label>
+				<input type="text" name="geo_att_determined_date" id="geo_att_determined_date">
+				<label for="geo_att_determined_method">Determination Method</label>
+				<input type="text" name="geo_att_determined_method" id="geo_att_determined_method" size="60">
+				<label for="geo_att_remark">Remark</label>
+				<input type="text" name="geo_att_remark" id="geo_att_remark" size="60">
+				<br>
+				<input type="submit"
 					value="Create Determination"
 					class="insBtn"
 					onmouseover="this.className='insBtn btnhov'"
 					onmouseout="this.className='insBtn'">
-			</td></tr>
+			</form>
+			</td>
+		</tr>
 	</table>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
@@ -1619,14 +1629,16 @@
          media_relations.related_primary_key = #locality_id#
 	</cfquery>
 	<cfif media.recordcount gt 0>
-    <div class="detailCell">
-		<div class="detailLabel">Media
-		<cfquery name="wrlCount" dbtype="query">
-			select * from media where mime_type = 'model/vrml'
-		</cfquery>
-		<cfif wrlCount.recordcount gt 0>
-			<br><span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
-		</cfif>
+		<div class="detailCell">
+			<div class="detailLabel">
+				Media
+				<cfquery name="wrlCount" dbtype="query">
+					select * from media where mime_type = 'model/vrml'
+				</cfquery>
+				<cfif wrlCount.recordcount gt 0>
+					<br>
+					<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
+				</cfif>
 		 		<!---cfif oneOfUs is 1>
 				 <cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT count(*) c
@@ -1648,7 +1660,8 @@
 						Confirm Image IDs
 					</span>
 				</CFIF>
-			</cfif--->
+				</cfif--->
+			</div>
 		</div>
 		<div class="detailBlock">
             <span class="detailData">
@@ -1689,6 +1702,21 @@
 		</div>
 	</div>
 </cfif>
+</div>
+<div>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
+		<!---  For a small set of collections operations users, include the TDWG BDQ TG2 test integration --->
+		<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
+		<script>
+			function runTests() {
+				loadSpaceQC("", "#locality_id#", "SpatialDQDiv");
+			}
+		</script>
+		<input type="button" value="QC" class="savBtn" onClick=" runTests(); ">
+		<!---  Spatial tests --->
+		<div id="SpatialDQDiv"></div>
+	</cfif>
+<div>
 </cfoutput>
 <cfinclude template="/includes/_footer.cfm">
 </cfif>
