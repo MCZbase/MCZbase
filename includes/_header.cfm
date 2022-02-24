@@ -115,7 +115,7 @@
 								</cfif>
 								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens #oldMarker#</a>
 								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
-									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
+									<a class="dropdown-item" href="/specimens/browseSpecimens.cfm">Browse Specimens</a>
 								</cfif>
 								<a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
 								<a class="dropdown-item" target="_top" href="/media/findMedia.cfm">Media</a>

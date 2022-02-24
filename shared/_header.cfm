@@ -280,7 +280,7 @@ limitations under the License.
 								</cfif>
 								<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens #oldMarker#</a> <!--- old --->
 								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
-									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens</a>
+									<a class="dropdown-item" href="/specimens/browseSpecimens.cfm">Browse Specimens</a>
 								</cfif>
 								<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
 								<a class="dropdown-item" href="/media/findMedia.cfm">Media</a>
