@@ -2918,6 +2918,19 @@ ol.flowNone li a {
     border-left: 1px solid #96EcED;
     outline: 0;
 }
+text-truncate1 {
+  background-color: transparent;
+/*  padding: 2em;*/
+  width: auto;
+}
+
+.text-truncate1 p {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
+}
 
 @media (min-width:1060px) and (max-width: 1459px) {
 	form#regForm.tab {
