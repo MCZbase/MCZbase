@@ -130,7 +130,7 @@ limitations under the License.
 	<div class="row mx-md-0 mb-4">
 	<h1 class="px-2 mt-4 mb-0 w-100 text-center">Browse MCZ Specimens by Category</h1>	
 		<cfoutput>
-			<main class="col-12 col-md-12 px-0 px-sm-2 py-2 mb-3 float-left mt-1">
+			<main class="col-12 px-0 px-sm-2 py-2 mb-3 float-left mt-1">
 				<div class="container-fluid px-2 px-md-0 px-lg-2 mt-0">
 					<p class="text-dark mt-0 px-0 px-md-3 text-justified">The Museum of Comparative Zoology (MCZ) contains over 21-million specimens in ten research collections that comprise one of the world&apos;s richest and most varied resources for studying the diversity of life. The museum serves as the primary repository for zoological specimens collected by past and present Harvard faculty-curators, staff, and associates conducting research around the world. The public can see a small percentage of our holdings on display at the Harvard Museum of Natural History, but visitors can also browse MCZ specimens and metadata online via these catagories.</p>
 					<div class="tabs card-header tab-card-header px-2 pt-3">
@@ -252,7 +252,7 @@ limitations under the License.
 								<h2 class="px-2 h3">MCZ Featured Collections of Cataloged Items</h2>
 								<cfloop query="namedGroups">
 									<cfif len(#namedGroups.collection_name#)gt 0>
-										<div class="col-12 col-sm-6 col-md-4 col-xl-3 px-1 float-left my-1">
+										<div class="col-12 col-sm-6 col-md-6 col-xl-3 px-1 float-left my-1">
 											<div class="border rounded bg-white p-2 col-12 float-right" style="height:117px;">
 												<div class="row mx-0">
 													<div class="col float-right px-2 mt-2">
