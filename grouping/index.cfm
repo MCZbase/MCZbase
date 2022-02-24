@@ -243,7 +243,7 @@ limitations under the License.
 									<div class="col-12 col-sm-6 col-md-6 col-xl-4 float-left px-1 mt-1 mb-1">
 										<div class="border rounded bg-white p-2 col-12 float-left" style="height:117px">
 											<div class="row h-25 mx-0">
-												<div class="col text-truncate1 float-right px-2 pl-md-2 pr-md-0 mt-0">
+												<div class="col text-truncate1 float-right px-2 pl-md-2 pr-md-0 mt-md-1">
 													<cfset showTitleText = trim(collection_name)>
 													<h3 class="h5 mb-1 pr-1">
 														<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
@@ -276,7 +276,7 @@ limitations under the License.
 										<div class="col-12 col-sm-6 col-md-6 col-xl-4 float-left px-1 mt-1 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:117px">
 												<div class="row h-25 mx-0">
-													<div class="col text-truncate1 float-right px-2 pl-md-2 pr-md-0 mt-0">
+													<div class="col text-truncate1 float-right px-2 pl-md-2 pr-md-0 mt-md-1">
 														<cfset showTitleText = trim(collection_name)>
 														<h3 class="h5 mb-1 pr-1">
 															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
@@ -309,7 +309,7 @@ limitations under the License.
 										<div class="col-12 col-sm-6 col-md-6 col-xl-4 float-left px-1 mt-1 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:117px">
 												<div class="row h-25 mx-0">
-													<div class="col text-truncate1 float-right px-2 px-md-2 mt-0">
+													<div class="col text-truncate1 float-right px-2 px-md-2 mt-md-1">
 														<cfset showTitleText = trim(collection_name)>
 														<h3 class="h5 mb-1 pr-1">
 															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
@@ -342,7 +342,7 @@ limitations under the License.
 										<div class="col-12 col-sm-6 col-md-6 col-xl-4 float-left px-1 mt-1 mb-1">
 											<div class="border rounded bg-white p-2 col-12 float-left" style="min-height:117px">
 												<div class="row h-25 mx-0">
-													<div class="col text-truncate1 float-right px-2 px-md-2 mt-0">
+													<div class="col text-truncate1 float-right px-2 px-md-2 mt-md-1">
 														<cfset showTitleText = trim(collection_name)>
 														<h3 class="h5 mb-1 pr-1">
 															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
@@ -375,7 +375,7 @@ limitations under the License.
 											<div class="col-12 col-sm-6 col-md-6 col-xl-4 float-left px-1 mt-1 mb-1">
 												<div class="border rounded bg-white py-2 col-12 px-2 float-left" style="min-height:117px">
 													<div class="row h-25 mx-0">
-														<div class="col text-truncate1 float-right px-2 px-md-2 mt-0">
+														<div class="col text-truncate1 float-right px-2 px-md-2 mt-md-1">
 															<cfset showTitleText = trim(collection_name)>
 															<h3 class="h5 mb-1 pr-1">
 																<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
