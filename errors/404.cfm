@@ -93,7 +93,7 @@
 				</cfif>
 			</cfif>
 			<p>
-				If you followed a link from within Arctos, please <a class="" href="/info/bugs.cfm">submit a bug report</a>
+				If you followed a link from within MCZbase, please <a class="" href="/info/bugs.cfm">submit a bug report</a>
 				containing any information that might help us resolve this issue.
 			</p>
 			<p>
