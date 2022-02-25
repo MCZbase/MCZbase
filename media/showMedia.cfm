@@ -13,16 +13,16 @@
 		<div class="col-12 mt-4 ">
 			<h1 class="h2 mt-4 pb-1 mb-3 border-bottom">Media Record</h1>
 			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct 
-						media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
-						MCZBASE.is_media_encumbered(media.media_id) hideMedia,
-						MCZBASE.get_media_credit(media.media_id) as credit, 
-						mczbase.get_media_descriptor(media_id) as alttag
-					From
-						media
-					WHERE 
-						media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
-						AND MCZBASE.is_media_encumbered(media_id)  < 1 
+				select distinct 
+					media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
+					MCZBASE.is_media_encumbered(media.media_id) hideMedia,
+					MCZBASE.get_media_credit(media.media_id) as credit, 
+					mczbase.get_media_descriptor(media_id) as alttag
+				From
+					media
+				WHERE 
+					media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+					AND MCZBASE.is_media_encumbered(media_id)  < 1 
 			</cfquery>
 			<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
@@ -44,6 +44,30 @@
 					media_keywords
 				WHERE
 					media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+			</cfquery>
+			<cfquery name="mediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT source_media.media_id source_media_id, 
+					source_media.auto_filename source_filename,
+					source_media.media_uri source_media_uri,
+					media_relations.media_relationship,
+					MCZBASE.get_media_descriptor(source_media.media_id) source_alt
+				FROM
+					media_relations
+					left join media source_media on media_relations.media_id = source_media.media_id
+				WHERE
+					related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					and media_relationship like '%media'
+			</cfquery>
+			<cfquery name="thisRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT flat.cat_num,media_relations.media_id, 
+					media_relations.media_relationship,
+					MCZBASE.get_media_descriptor(source_media.media_id) source_alt
+				FROM
+					media_relations
+					left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on media_relations.media_id = flat.media_id
+				WHERE
+					related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					and media_relationship like '%media'
 			</cfquery>
 			<cfloop query="media">
 				<cfif len(media.media_id) gt 0>
