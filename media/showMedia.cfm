@@ -23,12 +23,24 @@
 						media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 						AND MCZBASE.is_media_encumbered(media_id)  < 1 
 			</cfquery>
+			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct 
+					media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
+					MCZBASE.is_media_encumbered(media.media_id) hideMedia,
+					MCZBASE.get_media_credit(media.media_id) as credit 
+				From
+					media_labels
+				WHERE 
+					media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+					AND MCZBASE.is_media_encumbered(media_id)  < 1 
+			</cfquery>
 			<cfloop query="media">
 				<cfif len(media.media_id) gt 0>
-					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textFull")>
-						<div class="float-left" id="mediaBlock#media.media_id#">
+					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="full",size="600",captionAs="textNone")>
+						<div class="float-left col-6" id="mediaBlock#media.media_id#">
 							#mediablock#
 						</div>
+					
 				</cfif>
 			</cfloop>
 		</div>
