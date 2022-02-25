@@ -47,7 +47,7 @@
 	<!--- we don't have a redirect, and it's not on our hitlist, so 404 --->
 <main class="container" id="content">
 	<div class="row">
-		<div class="col-12 pt-3">
+		<div class="col-8 mx-auto pt-5">
 			<cfheader statuscode="404" statustext="Not found">
 			<cfset title="404: not found">
 			<h1 class="h2">
@@ -113,8 +113,9 @@
 						<i>Example: #Application.serverRootUrl#/guid/MCZ:Mamm:1</i>
 					</li>
 				</ul>
-				Some specimens are restricted. You may <a href="/contact.cfm"><b>contact us</b></a> for more information.
-				Occasionally, a specimen is recataloged. You may be able to find them by using Other Identifiers in Specimen Search.
+			</p>
+			<p> Some specimens are restricted. You may <a href="/contact.cfm"><b>contact us</b></a> for more information.
+				Occasionally, a specimen is recataloged. You may be able to find them by using <i>Other Identifiers</i> in Specimen Search.
 			</p>
 			<cfif isGuid is false>
 				<cfset sub="Dead Link">
@@ -142,14 +143,14 @@
 				<hr><cfdump var="#cgi#">
 			</cfmail>
 			</cfif>
-			 <p>A message has been sent to the site administrator.</p>
+			<p>A message has been sent to the site administrator.</p>
 			<cfcatch>
-				<p>Error in sending mail to the site administrator.</p>
+			<p>Error in sending mail to the site administrator.</p>
 			</cfcatch>
 			</cftry>
-			 <p>
+			<p>
 				Use the menu in the header to continue navigating MCZbase.
-			 </p>
+			</p>
 		</div>
 	</div>
 </main>
