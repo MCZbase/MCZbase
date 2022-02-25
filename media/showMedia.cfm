@@ -58,26 +58,41 @@
 					related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relationship like '%media'
 			</cfquery>
-			<cfquery name="RelatedData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select media_uri, mime_type, media_type, media_id,
+			<cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT media_uri, mime_type, media_type, media_id,
 					get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
 					nvl(MCZBASE.GET_MAXHEIGHTMEDIASET(media_id), get_medialabel(media_id,'height')) maxheightinset,
-					nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
+					nvl(
+						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
 						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
 						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
 						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
 						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
 						, 'Unrelated image') mrstr
-				from MEDIA
-				where media_id= <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_DECIMAL" >
-				AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+				FROM MEDIA
+				WHERE media_id= <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+					AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+			</cfquery>
+			<cfloop query="m" endrow="1">
+			<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select mczbase.get_media_descriptor(media_id) media_descriptor 
+				from media 
+				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+			</cfquery> 
+			<cfset altText = alt.media_descriptor>
+			<cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+				select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid 
+				from media_relations
+					left join cataloged_item on related_primary_key = collection_object_id
+				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					and media_relationship = 'shows cataloged_item'
 			</cfquery>
 			<cfloop query="media">
 				<cfif len(media.media_id) gt 0>
 					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 					<div class="float-left" id="mediaBlock#media.media_id#">
 						#mediablock#
-						<span class="text-center d-block py-2">cat num, name, aspect etc.</span>
+						<span class="text-center d-block py-2">#relatedGuid#, name, aspect etc.</span>
 					</div>
 				</cfif>
 				<div class="float-left col-6">
@@ -88,7 +103,7 @@
 						<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
 						</cfloop>
 						<li class="list-group-item">Keywords: #keywords.keywords#</li>
-						<li class="list-group-item">Alt Text: #media.alttag#</li>
+						<li class="list-group-item">Alt Text: #m.alttag#</li>
 					</ul>
 				</div>
 			</cfloop>
