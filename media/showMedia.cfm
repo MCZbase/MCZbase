@@ -59,9 +59,7 @@
 						<cfloop query="labels">
 						<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
 						</cfloop>
-						<cfloop query="keywords">
 						<li class="list-group-item">Keywords: #keywords.keywords#</li>
-						</cfloop>
 						<li class="list-group-item">Alt Text: #media.alttag#</li>
 					</ul>
 				</div>
