@@ -12,7 +12,7 @@
 	<div class="row">
 		<div class="col-12 mt-4 ">
 			<h1 class="h2 mt-4 pb-1 mb-3 border-bottom">Media Record</h1>
-			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct 
 					media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
 					MCZBASE.is_media_encumbered(media.media_id) hideMedia,
@@ -57,7 +57,7 @@
 				WHERE
 					related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relationship like '%media'
-			</cfquery>
+			</cfquery>--->
 			<cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT media_uri, mime_type, media_type, media_id,
 					get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
@@ -87,16 +87,16 @@
 				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and media_relationship = 'shows cataloged_item'
 			</cfquery>
-			<cfloop query="media">
+			<cfloop query="m">
 				<cfif len(media.media_id) gt 0>
 					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 					<div class="float-left" id="mediaBlock#media.media_id#">
 						#mediablock#
-						<span class="text-center d-block py-2">#relatedGuid#, name, aspect etc.</span>
+						<span class="text-center d-block py-2">#m.relatedGuid#, name, aspect etc.</span>
 					</div>
 				</cfif>
 				<div class="float-left col-6">
-					<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
+					<h2 class="h3 px-2">Media ID = #m.media_id#</h2>
 					<h3 class="text-decoration-underline px-2">Metadata</h3>
 					<ul class="list-group">
 						<cfloop query="labels">
