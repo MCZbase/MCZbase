@@ -58,15 +58,19 @@
 					related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relationship like '%media'
 			</cfquery>
-			<cfquery name="thisRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT flat.cat_num,media_relations.media_id, 
-					media_relations.media_relationship
-				FROM
-					media_relations
-					left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on media_relations.media_id = flat.media_id
-				WHERE
-					related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and media_relationship like '%media'
+			<cfquery name="RelatedData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select media_uri, mime_type, media_type, media_id,
+					get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
+					nvl(MCZBASE.GET_MAXHEIGHTMEDIASET(media_id), get_medialabel(media_id,'height')) maxheightinset,
+					nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
+						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
+						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
+						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
+						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
+						, 'Unrelated image') mrstr
+				from MEDIA
+				where media_id= <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_DECIMAL" >
+				AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 			</cfquery>
 			<cfloop query="media">
 				<cfif len(media.media_id) gt 0>
