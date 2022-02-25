@@ -64,19 +64,12 @@
 					related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relationship like '%media'
 			</cfquery>
-			<cfquery name="RelatedData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select media_uri, mime_type, media_type, media_id,
-					get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
-					nvl(MCZBASE.GET_MAXHEIGHTMEDIASET(media_id), get_medialabel(media_id,'height')) maxheightinset,
-					nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
-						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
-						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
-						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
-						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
-						, 'Unrelated image') mrstr
-				from MEDIA
-						where media_id= <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
-						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+			<cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+				select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid 
+				from media_relations
+					left join cataloged_item on related_primary_key = collection_object_id
+				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					and media_relationship = 'shows cataloged_item'
 			</cfquery>
 			<cfloop query="media">
 				<cfif len(media.media_id) gt 0>
