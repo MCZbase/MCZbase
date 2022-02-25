@@ -45,15 +45,12 @@
 		</cfif>
 	</cfloop>
 	<!--- we don't have a redirect, and it's not on our hitlist, so 404 --->
-<div class="basic_box">
+<div class="container">
 	<cfheader statuscode="404" statustext="Not found">
 	<cfset title="404: not found">
-	<h2>
+	<h1 class="h2">
 		404! The page you tried to access does not exist.
-	</h2>
-        <style>
-            ul {list-style: none;}
-        </style>
+	</h1>
 	<script type="text/javascript">
 		var GOOG_FIXURL_LANG = 'en';
 		var GOOG_FIXURL_SITE = 'http://arctos.database.museum/';
@@ -69,7 +66,7 @@
 					queryformat : 'column'
 				},
 				function (d) {
-		  			document.location='#cgi.REDIRECT_URL#';
+					document.location='#cgi.REDIRECT_URL#';
 				}
 			);
 		}
@@ -94,24 +91,24 @@
 		</cfif>
 	</cfif>
 	<p>
-        If you followed a link from within Arctos, please <a href="/info/bugs.cfm"><b>submit a bug report</b></a>
-	 	containing any information that might help us resolve this issue.
+		If you followed a link from within Arctos, please <a href="/info/bugs.cfm"><b>submit a bug report</b></a>
+		containing any information that might help us resolve this issue.
 	</p>
 	<p>
 		If you followed an external link, please use your back button and tell the webmaster that
-        something is broken, or <a href="/info/bugs.cfm"><b>submit a bug report</b></a> telling us how you got this error.
+		something is broken, or <a class="font-weight-bold" href="/info/bugs.cfm">submit a bug report</a> telling us how you got this error.
 	</p>
-<div style="margin: .5em 1.25em">
-        <p><b><a href="/TaxonomySearch">Search for Taxon Names here</a></b></p>
-        <p><b><a href="/SpecimenUsage">Search for Projects and Publications here</a></b></p>
-        </div>
+	<ul class="list-group">
+		<li class="font-weight-bold list-group-item"><a href="/TaxonomySearch">&#9642;  Search for Taxon Names here</a></li>
+		<li class="font-weight-bold list-group-item"><a href="/SpecimenUsage">&#9642;  Search for Projects and Publications here</a></li>
+	</ul>
 	<p>
 		If you're trying to find specimens, you may:
-		<ul class="geol_hier">
-            <li style="padding-bottom: .5em;"><a href="/SpecimenSearch"><b>Search for them</b></a></li>
+		<ul class="list-group">
+			<li class="list-group-item"><a href="/SpecimenSearch"><b>Search for them</b></a></li>
 			<li>Access them by URLs of the format:
-				<ul>
-					<li>
+				<ul class="list-group">
+					<li class="list-group-item">
 						#Application.serverRootUrl#/guid/{institution}:{collection}:{catnum}
 						<br>Example: #Application.serverRootUrl#/guid/MCZ:Mamm:1
 						<br>&nbsp;
@@ -119,9 +116,8 @@
 				</ul>
 			</li>
 		</ul>
-        Some specimens are restricted. You may <a href="/contact.cfm"><b>contact us</b></a> for more information.
-		<p>
-			Occasionally, a specimen is recataloged. You may be able to find them by using Other Identifiers in Specimen Search.
+		Some specimens are restricted. You may <a href="/contact.cfm"><b>contact us</b></a> for more information.
+		Occasionally, a specimen is recataloged. You may be able to find them by using Other Identifiers in Specimen Search.
 		</p>
 	</p>
 	<cfif isGuid is false>
