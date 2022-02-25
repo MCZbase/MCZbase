@@ -94,7 +94,9 @@
 						<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
 						</cfloop>
 						<li class="list-group-item">Keywords: #keywords.keywords#</li>
-						<li class="list-group-item">Alt Text: #alt.media_descriptor#</li>
+						<cfloop query="alt">
+							<li class="list-group-item">Alt Text: #alt.media_descriptor#</li>
+						</cfquery>
 					</ul>
 				</div>
 			</cfloop>
