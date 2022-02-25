@@ -96,6 +96,24 @@
 	</div>
 </main>--->
 <section>
+	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct 
+					media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
+					MCZBASE.is_media_encumbered(media.media_id) hideMedia,
+					MCZBASE.get_media_credit(media.media_id) as credit, 
+					mczbase.get_media_descriptor(media_id) as alttag,
+					nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
+						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
+						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
+						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
+						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
+						, 'Unrelated image') mrstr
+				From
+					media
+				WHERE 
+					media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+					AND MCZBASE.is_media_encumbered(media_id)  < 1 
+			</cfquery>
  <cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_uri, mime_type, media_type, media_id,
 		get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
