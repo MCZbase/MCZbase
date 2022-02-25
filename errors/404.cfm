@@ -45,116 +45,114 @@
 		</cfif>
 	</cfloop>
 	<!--- we don't have a redirect, and it's not on our hitlist, so 404 --->
-<div class="container">
-	<cfheader statuscode="404" statustext="Not found">
-	<cfset title="404: not found">
-	<h1 class="h2">
-		404! The page you tried to access does not exist.
-	</h1>
-	<script type="text/javascript">
-		var GOOG_FIXURL_LANG = 'en';
-		var GOOG_FIXURL_SITE = 'http://arctos.database.museum/';
-	</script>
-	<script type="text/javascript" src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>
-	<script type="text/javascript" language="javascript">
-		function changeCollection () {
-			jQuery.getJSON("/component/functions.cfc",
-				{
-					method : "changeexclusive_collection_id",
-					tgt : '',
-					returnformat : "json",
-					queryformat : 'column'
-				},
-				function (d) {
-					document.location='#cgi.REDIRECT_URL#';
+<main class="container" id="content">
+	<div class="row">
+		<div class="col-12 pt-3">
+			<cfheader statuscode="404" statustext="Not found">
+			<cfset title="404: not found">
+			<h1 class="h2">
+				404! The page you tried to access does not exist.
+			</h1>
+			<script type="text/javascript">
+				var GOOG_FIXURL_LANG = 'en';
+				var GOOG_FIXURL_SITE = 'http://arctos.database.museum/';
+			</script>
+			<script type="text/javascript" src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>
+			<script type="text/javascript" language="javascript">
+				function changeCollection () {
+					jQuery.getJSON("/component/functions.cfc",
+						{
+							method : "changeexclusive_collection_id",
+							tgt : '',
+							returnformat : "json",
+							queryformat : 'column'
+						},
+						function (d) {
+							document.location='#cgi.REDIRECT_URL#';
+						}
+					);
 				}
-			);
-		}
-	</script>
-	<cfset isGuid=false>
-	<cfif len(cgi.REDIRECT_URL) gt 0 and cgi.redirect_url contains "guid">
-		<cfset isGuid=true>
-		<cfif session.dbuser is not "pub_usr_all_all">
-			<cfquery name="yourcollid" datasource="cf_dbuser">
-				select collection
-				from cf_collection
-				where DBUSERNAME=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
-			</cfquery>
-			<p>
-				<cfif len(session.roles) gt 0 and session.roles is not "public">
-					If you are an operator, you may have to log out or ask your supervisor for more access.
+			</script>
+			<cfset isGuid=false>
+			<cfif len(cgi.REDIRECT_URL) gt 0 and cgi.redirect_url contains "guid">
+				<cfset isGuid=true>
+				<cfif session.dbuser is not "pub_usr_all_all">
+					<cfquery name="yourcollid" datasource="cf_dbuser">
+						select collection
+						from cf_collection
+						where DBUSERNAME=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+					</cfquery>
+					<p>
+						<cfif len(session.roles) gt 0 and session.roles is not "public">
+							If you are an operator, you may have to log out or ask your supervisor for more access.
+						</cfif>
+						You are accessing Arctos through the #yourcollid.collection# portal, and cannot access specimen data in
+						other collections. You may
+						<span class="likeLink" onclick="changeCollection()">try again in the public portal</span>.
+					</p>
 				</cfif>
-				You are accessing Arctos through the #yourcollid.collection# portal, and cannot access specimen data in
-				other collections. You may
-				<span class="likeLink" onclick="changeCollection()">try again in the public portal</span>.
+			</cfif>
+			<p>
+				If you followed a link from within Arctos, please <a href="/info/bugs.cfm"><b>submit a bug report</b></a>
+				containing any information that might help us resolve this issue.
 			</p>
-		</cfif>
-	</cfif>
-	<p>
-		If you followed a link from within Arctos, please <a href="/info/bugs.cfm"><b>submit a bug report</b></a>
-		containing any information that might help us resolve this issue.
-	</p>
-	<p>
-		If you followed an external link, please use your back button and tell the webmaster that
-		something is broken, or <a class="font-weight-bold" href="/info/bugs.cfm">submit a bug report</a> telling us how you got this error.
-	</p>
-	<ul class="list-group">
-		<li class="font-weight-bold list-group-item"><a href="/TaxonomySearch">&##9642;  Search for Taxon Names here</a></li>
-		<li class="font-weight-bold list-group-item"><a href="/SpecimenUsage">&##9642;  Search for Projects and Publications here</a></li>
-	</ul>
-	<p>
-		If you're trying to find specimens, you may:
-		<ul class="list-group">
-			<li class="list-group-item"><a href="/SpecimenSearch"><b>Search for them</b></a></li>
-			<li>Access them by URLs of the format:
-				<ul class="list-group">
-					<li class="list-group-item">
-						#Application.serverRootUrl#/guid/{institution}:{collection}:{catnum}
-						<br>Example: #Application.serverRootUrl#/guid/MCZ:Mamm:1
-						<br>&nbsp;
+			<p>
+				If you followed an external link, please use your back button and tell the webmaster that
+				something is broken, or <a class="font-weight-bold" href="/info/bugs.cfm">submit a bug report</a> telling us how you got this error.
+				<ul class="list-group px-4">
+					<li class="font-weight-bold"><a href="/TaxonomySearch"> Search for Taxon Names here</a></li>
+					<li class="font-weight-bold"><a href="/SpecimenUsage"> Search for Projects and Publications here</a></li>
+				</ul>
+			</p>
+			<p>
+				If you're trying to find specimens, you may:
+				<ul class="list-group px-4">
+					<li class=""><a href="/SpecimenSearch"><b>Search for them</b></a></li>
+					<li>Access them by URLs of the format:
+						#Application.serverRootUrl#/guid/{institution}:{collection}:{catnum}<br>
+						<i>Example: #Application.serverRootUrl#/guid/MCZ:Mamm:1</i>
 					</li>
 				</ul>
-			</li>
-		</ul>
-		Some specimens are restricted. You may <a href="/contact.cfm"><b>contact us</b></a> for more information.
-		Occasionally, a specimen is recataloged. You may be able to find them by using Other Identifiers in Specimen Search.
-		</p>
-	</p>
-	<cfif isGuid is false>
-		<cfset sub="Dead Link">
-		<cfset frm="dead.link">
-	<cfelse>
-		<cfset sub="Missing GUID">
-		<cfset frm="dead.guid">
-	</cfif>
-	<cftry>
-	<cfif frm NEQ "dead.link">
-	<cfmail subject="#sub#" to="#Application.PageProblemEmail#" from="#frm#@#application.fromEmail#" type="html">
-		A user found a dead link! The referring site was #cgi.HTTP_REFERER#.
-		<cfif isdefined("CGI.script_name")>
-			<br>The missing page is #Replace(CGI.script_name, "/", "")#
-		</cfif>
-		<cfif isdefined("cgi.REDIRECT_URL")>
-			<br>cgi.REDIRECT_URL: #cgi.REDIRECT_URL#
-		</cfif>
-		<cfif isdefined("session.username")>
-			<br>The username is #session.username#
-		</cfif>
-		<br>The IP requesting the dead link was <a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a>
-		 - <a href="http://mczbase.mcz.harvard.edu/Admin/blacklist.cfm?action=ins&ip=#ipaddress#">blacklist</a>
-		<br>This message was generated by #cgi.CF_TEMPLATE_PATH#.
-		<hr><cfdump var="#cgi#">
-	</cfmail>
-	</cfif>
-	 <p>A message has been sent to the site administrator.</p>
-	<cfcatch>
-		<p>Error in sending mail to the site administrator.</p>
-	</cfcatch>
-	</cftry>
-	 <p>
-	 	Use the tabs in the header to continue navigating Arctos.
-	 </p>
-        </div>
+				Some specimens are restricted. You may <a href="/contact.cfm"><b>contact us</b></a> for more information.
+				Occasionally, a specimen is recataloged. You may be able to find them by using Other Identifiers in Specimen Search.
+			</p>
+			<cfif isGuid is false>
+				<cfset sub="Dead Link">
+				<cfset frm="dead.link">
+			<cfelse>
+				<cfset sub="Missing GUID">
+				<cfset frm="dead.guid">
+			</cfif>
+			<cftry>
+			<cfif frm NEQ "dead.link">
+			<cfmail subject="#sub#" to="#Application.PageProblemEmail#" from="#frm#@#application.fromEmail#" type="html">
+				A user found a dead link! The referring site was #cgi.HTTP_REFERER#.
+				<cfif isdefined("CGI.script_name")>
+					<br>The missing page is #Replace(CGI.script_name, "/", "")#
+				</cfif>
+				<cfif isdefined("cgi.REDIRECT_URL")>
+					<br>cgi.REDIRECT_URL: #cgi.REDIRECT_URL#
+				</cfif>
+				<cfif isdefined("session.username")>
+					<br>The username is #session.username#
+				</cfif>
+				<br>The IP requesting the dead link was <a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a>
+				 - <a href="http://mczbase.mcz.harvard.edu/Admin/blacklist.cfm?action=ins&ip=#ipaddress#">blacklist</a>
+				<br>This message was generated by #cgi.CF_TEMPLATE_PATH#.
+				<hr><cfdump var="#cgi#">
+			</cfmail>
+			</cfif>
+			 <p>A message has been sent to the site administrator.</p>
+			<cfcatch>
+				<p>Error in sending mail to the site administrator.</p>
+			</cfcatch>
+			</cftry>
+			 <p>
+				Use the menu in the header to continue navigating MCZbase.
+			 </p>
+		</div>
+	</div>
+</main>
 </cfoutput>
 <cfif headerPath IS "includes">
 	<cfinclude template="/includes/_footer.cfm">
