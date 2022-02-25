@@ -62,9 +62,7 @@
 						<cfloop query="keywords">
 						<li class="list-group-item">Keywords: #keywords.keywords#</li>
 						</cfloop>
-						<cfloop query="media">
 						<li class="list-group-item">Alt Text: #media.alttag#</li>
-						</cfloop>
 					</ul>
 				</div>
 			</cfloop>
