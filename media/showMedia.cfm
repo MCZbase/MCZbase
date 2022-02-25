@@ -60,8 +60,7 @@
 			</cfquery>
 			<cfquery name="thisRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT flat.cat_num,media_relations.media_id, 
-					media_relations.media_relationship,
-					MCZBASE.get_media_descriptor(source_media.media_id) source_alt
+					media_relations.media_relationship
 				FROM
 					media_relations
 					left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on media_relations.media_id = flat.media_id
