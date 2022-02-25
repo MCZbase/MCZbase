@@ -51,6 +51,11 @@
 				WHERE
 					media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 			</cfquery>
+			<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select mczbase.get_media_descriptor(media_id) media_descriptor 
+				from media 
+				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media.media_id#"> 
+			</cfquery> 
 			<cfquery name="mediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT source_media.media_id source_media_id, 
 					source_media.auto_filename source_filename,
@@ -74,11 +79,7 @@
 					where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relationship = 'shows cataloged_item'
 				</cfquery>
-				<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select mczbase.get_media_descriptor(media_id) media_descriptor 
-					from media 
-					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media.media_id#"> 
-				</cfquery> 
+
 				<cfif len(media.media_id) gt 0>
 					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 					<div class="float-left" id="mediaBlock#media.media_id#">
@@ -94,14 +95,14 @@
 						<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
 						</cfloop>
 						<li class="list-group-item">Keywords: #keywords.keywords#</li>
-
+						<cfloop query="alt">
+							<li class="list-group-item">Alt Text: #alt.media_descriptor#</li>
+						</cfquery>
 					</ul>
 				</div>
 			</cfloop>
 			<ul>
-			<cfloop query="alt">
-				<li class="list-group-item">Alt Text: #alt.media_descriptor#</li>
-			</cfquery>
+
 			</ul>
 		</div>
 	</div>
