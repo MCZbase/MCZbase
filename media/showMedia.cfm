@@ -23,7 +23,7 @@
 						media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 						AND MCZBASE.is_media_encumbered(media_id)  < 1 
 			</cfquery>
-			<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					media_label,
 					label_value,
@@ -41,16 +41,16 @@
 							#mediablock#
 						</div>
 				</cfif>
-				<div class="float-left px-4">
-					<h2>Media ID = #media.media_id#</h2>
-					<h2 class="h3 text-decoration-underline">Metadata</h2>
-					<ul class="list-group">
-						<cfloop query="labels">
-							<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
-						</cfloop>
-					</ul>
-				</div>
 			</cfloop>
+			<div class="float-left px-4">
+				<h2>Media ID = #media.media_id#</h2>
+				<h2 class="h3 text-decoration-underline">Metadata</h2>
+				<ul class="list-group">
+					<cfloop query="labels">
+						<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
+					</cfloop>
+				</ul>
+			</div>
 		</div>
 	</div>
 </main>
