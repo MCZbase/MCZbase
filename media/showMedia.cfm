@@ -43,10 +43,11 @@
 					</div>
 				</cfif>
 					<div class="float-left col-6">
-						<h2 class="h3">Media ID: #media.media_id#</h2>
-						<ul>
+						<h2 class="h3">Media ID = #media.media_id#</h2>
+						<h3 class="text-decoration-underline">Metadata</h3>
+						<ul class="list-group">
 							<cfloop query="labels">
-									<li>#labels.media_label#: #labels.label_value#</li>
+							<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
 							</cfloop>
 						</ul>
 					</div>
