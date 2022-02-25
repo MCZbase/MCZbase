@@ -50,6 +50,7 @@
 					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 					<div class="float-left" id="mediaBlock#media.media_id#">
 						#mediablock#
+						<span class="text-center d-block py-2">cat num, name, aspect etc.</span>
 					</div>
 				</cfif>
 				<div class="float-left col-6">
