@@ -37,17 +37,19 @@
 			</cfquery>
 			<cfloop query="media">
 				<cfif len(media.media_id) gt 0>
-					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="600",captionAs="textNone")>
-						<div class="float-left" id="mediaBlock#media.media_id#">
-							#mediablock#
-						</div>
+					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textNone")>
+					<div class="float-left col-6" id="mediaBlock#media.media_id#">
+						#mediablock#
+					</div>
 				</cfif>
-					
-					<cfloop query="labels">
-				
-							#labels.media_label#: #labels.label_value#
-						</div>
-					</cfloop>
+					<div class="float-left col-6">
+						<ul>
+							<cfloop query="labels">
+									<li>#labels.media_label#: #labels.label_value#</li>
+								</div>
+							</cfloop>
+						</ul>
+					</div>
 			</cfloop>
 		</div>
 	</div>
