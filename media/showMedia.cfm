@@ -9,9 +9,9 @@
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfoutput>
 <main class="container" id="content">
-	<div class="row border-bottom">
+	<div class="row">
 		<div class="col-12 mt-4 ">
-		<h1 class="h2 mt-4">Media Record</h1>
+		<h1 class="h2 mt-4 pb-1 border-bottom">Media Record</h1>
 			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct 
 						media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
@@ -43,8 +43,8 @@
 					</div>
 				</cfif>
 					<div class="float-left col-6">
-						<h2 class="h3">Media ID = #media.media_id#</h2>
-						<h3 class="text-decoration-underline">Metadata</h3>
+						<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
+						<h3 class="text-decoration-underline px-2">Metadata</h3>
 						<ul class="list-group">
 							<cfloop query="labels">
 							<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
