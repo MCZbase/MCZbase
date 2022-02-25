@@ -70,7 +70,7 @@
 				select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid 
 				from media_relations
 					left join cataloged_item on related_primary_key = collection_object_id
-				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relationship = 'shows cataloged_item'
 			</cfquery>
 				<cfif len(media.media_id) gt 0>
