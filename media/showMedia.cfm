@@ -37,17 +37,21 @@
 			</cfquery>
 			<cfloop query="media">
 				<cfif len(media.media_id) gt 0>
-					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="600",captionAs="textNone")>
+					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textNone")>
 						<div class="float-left" id="mediaBlock#media.media_id#">
 							#mediablock#
 						</div>
 				</cfif>
-					<div class="float-left" id="labelBlock#media.media_id#">
+					<div class="float-left px-4" id="labelBlock#media.media_id#">
+						<h2>Media ID = #media.media_id#</h2>
+						<cfif len(#labels.recordCount)gt 0>
+						<h2 class="h3 text-decoration-underline">Metadata</h2>
 						<ul class="list-group">
 							<cfloop query="labels">
 								<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
 							</cfloop>
 						</ul>
+						</cfif>
 					</div>
 			</cfloop>
 		</div>
