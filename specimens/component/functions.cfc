@@ -2266,7 +2266,7 @@ limitations under the License.
 												<form name="newPart">
 													<input type="hidden" name="Action" value="newPart">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-													<table class="table table-responsive table-light border-0 col-12 px-0 mb-2">
+													<table class="table table-light border-0 col-12 px-0 mb-2">
 														<tr>
 															<td class="border-0"><div align="right">Part Name: </div></td>
 															<td class="border-0"><input type="text" name="part_name" id="part_name" class="reqdClr"
@@ -2279,7 +2279,8 @@ limitations under the License.
 																	<cfloop query="ctPreserveMethod">
 																		<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
 																	</cfloop>
-																</select></td>
+																</select>
+															</td>
 														</tr>
 														<tr>
 															<td class="border-0"><div align="right">Count:</div></td>
@@ -2307,12 +2308,14 @@ limitations under the License.
 														</tr>
 														<tr>
 															<td class="border-0" style="width: 200px;"><div align="right">Remarks:</div></td>
-															<td><input type="text" name="coll_object_remarks" size="50"></td>
+															<td class="border-0"><input type="text" name="coll_object_remarks" size="50"></td>
 														</tr>
 														<tr>
-															<td colspan="2"><div align="center">
+															<td colspan="2" class="border-0">
+																<div align="center">
 																	<input type="submit" value="Create" class="btn btn-xs btn-primary">
-																</div></td>
+																</div>
+															</td>
 														</tr>
 													</table>
 												</form>
