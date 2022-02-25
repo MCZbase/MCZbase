@@ -100,14 +100,14 @@
 				If you followed an external link, please use your back button and tell the webmaster that
 				something is broken, or <a class="" href="/info/bugs.cfm">submit a bug report</a> telling us how you got this error.
 				<ul class="list-group px-5">
-					<li class="pb-1"><a href="/TaxonomySearch"> Search for Taxon Names here</a></li>
-					<li class="pb-1"><a href="/SpecimenUsage"> Search for Projects and Publications here</a></li>
+					<li class="pb-1"><a href="/TaxonomySearch"> Search for Taxon Names (search form)</a></li>
+					<li class="pb-1"><a href="/SpecimenUsage"> Search for Projects and Publications (search form)</a></li>
 				</ul>
 			</p>
 			<p>
 				If you're trying to find specimens, you may:
 				<ul class="list-group px-5">
-					<li class="pb-1"><a href="/SpecimenSearch"><b>Search for them</b></a></li>
+					<li class="pb-1"><a href="/SpecimenSearch">Search for specimens (search form)</a></li>
 					<li class="pb-1">Access them by URLs of the format:
 						#Application.serverRootUrl#/guid/{institution}:{collection}:{catnum}<br>
 						Example: <i><a href="#Application.serverRootUrl#/guid/MCZ:Mamm:1">#Application.serverRootUrl#/guid/MCZ:Mamm:1</a></i>
