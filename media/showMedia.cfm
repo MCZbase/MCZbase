@@ -82,7 +82,7 @@
 				</cfif>
 				<div class="float-left col-6">
 					<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
-					<h3 class="text-decoration-underline px-2">Metadata</h3>
+					<h3 class="border-bottom px-2">Metadata</h3>
 					<ul class="list-group">
 						<cfloop query="labels">
 						<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
