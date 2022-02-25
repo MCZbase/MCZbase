@@ -11,7 +11,6 @@
 <main class="container" id="content">
 	<div class="row">
 		<div class="col-12 mt-4 ">
-			<div class="container">
 			<h1 class="h2 mt-4 pb-1 border-bottom">Media Record</h1>
 			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct 
@@ -36,6 +35,15 @@
 				WHERE
 					media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
+			<cfquery name="keywords"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					media_id,
+					keywords
+				FROM
+					media_keywords
+				WHERE
+					media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			</cfquery>
 			<cfloop query="media">
 				<cfif len(media.media_id) gt 0>
 					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textNone")>
@@ -43,17 +51,19 @@
 						#mediablock#
 					</div>
 				</cfif>
-					<div class="float-left col-6">
-						<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
-						<h3 class="text-decoration-underline px-2">Metadata</h3>
-						<ul class="list-group">
-							<cfloop query="labels">
-							<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
-							</cfloop>
-						</ul>
-					</div>
+				<div class="float-left col-6">
+					<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
+					<h3 class="text-decoration-underline px-2">Metadata</h3>
+					<ul class="list-group">
+						<cfloop query="labels">
+						<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
+						</cfloop>
+						<cfloop query="keywords">
+						<li class="list-group-item">Keywords: #keywords.keywords#</li>
+						</cfloop>
+					</ul>
+				</div>
 			</cfloop>
-			</div>
 		</div>
 	</div>
 </main>
