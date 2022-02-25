@@ -24,18 +24,7 @@
 					media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 					AND MCZBASE.is_media_encumbered(media_id)  < 1 
 			</cfquery>
-			<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					media_label,
-					label_value,
-					agent_name,
-					media_label_id 
-				FROM
-					media_labels
-					left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
-				WHERE
-					media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-			</cfquery>
+			
 			<cfquery name="keywords"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					media_id,
@@ -86,6 +75,18 @@
 					left join cataloged_item on related_primary_key = collection_object_id
 				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and media_relationship = 'shows cataloged_item'
+			</cfquery>
+			<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					media_label,
+					label_value,
+					agent_name,
+					media_label_id 
+				FROM
+					media_labels
+					left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
+				WHERE
+					media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 			<cfloop query="m">
 				<cfif len(media.media_id) gt 0>
