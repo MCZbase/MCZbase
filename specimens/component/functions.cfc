@@ -2274,16 +2274,16 @@ limitations under the License.
 																	onkeypress="return noenter(event);"></td>
 														</tr>
 														<tr>
-															<td><div align="right">Preserve Method: </div></td>
-															<td><select name="preserve_method" size="1"  class="reqdClr">
+															<td class="border-0"><div align="right">Preserve Method: </div></td>
+															<td class="border-0"><select name="preserve_method" size="1"  class="reqdClr">
 																	<cfloop query="ctPreserveMethod">
 																		<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
 																	</cfloop>
 																</select></td>
 														</tr>
 														<tr>
-															<td><div align="right">Count:</div></td>
-															<td><select name="lot_count_modifier" size="1">
+															<td class="border-0"><div align="right">Count:</div></td>
+															<td class="border-0"><select name="lot_count_modifier" size="1">
 																	<option value=""></option>
 																	<cfloop query="ctModifiers">
 																		<option value="#ctModifiers.modifier#">#ctModifiers.modifier#</option>
@@ -2292,19 +2292,21 @@ limitations under the License.
 																<input type="text" name="lot_count" class="reqdClr" size="2"></td>
 														</tr>
 														<tr>
-															<td><div align="right">Disposition:</div></td>
-															<td><select name="coll_obj_disposition" size="1"  class="reqdClr">
+															<td class="border-0"><div align="right">Disposition:</div></td>
+															<td class="border-0">
+																<select name="coll_obj_disposition" size="1"  class="reqdClr">
 																	<cfloop query="ctDisp">
 																		<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 																	</cfloop>
-																</select></td>
+																</select>
+															</td>
 														</tr>
 														<tr>
-															<td><div align="right">Condition:</div></td>
-															<td><input type="text" name="condition" class="reqdClr"></td>
+															<td class="border-0"><div align="right">Condition:</div></td>
+															<td class="border-0"><input type="text" name="condition" class="reqdClr"></td>
 														</tr>
 														<tr>
-															<td style="width: 200px;"><div align="right">Remarks:</div></td>
+															<td class="border-0" style="width: 200px;"><div align="right">Remarks:</div></td>
 															<td><input type="text" name="coll_object_remarks" size="50"></td>
 														</tr>
 														<tr>
