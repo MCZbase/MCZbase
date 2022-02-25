@@ -12,7 +12,7 @@
 	<div class="row">
 		<div class="col-12 mt-4 ">
 			<h1 class="h2 mt-4 pb-1 mb-3 border-bottom">Media Record</h1>
-<!---			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct 
 					media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
 					MCZBASE.is_media_encumbered(media.media_id) hideMedia,
@@ -46,7 +46,7 @@
 				WHERE
 					related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relationship like '%media'
-			</cfquery>--->
+			</cfquery>
 			<cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT media_uri, mime_type, media_type, media_id,
 					get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
