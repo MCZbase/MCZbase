@@ -67,9 +67,10 @@
 
 			<cfloop query="media">
 			<cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-				select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid 
+				select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid, scientific_name 
 				from media_relations
 					left join cataloged_item on related_primary_key = collection_object_id
+					left join identification on identification.identification_id = cataloged_item.identification_id
 				where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relationship = 'shows cataloged_item'
 			</cfquery>
@@ -77,7 +78,7 @@
 					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 					<div class="float-left" id="mediaBlock#media.media_id#">
 						#mediablock#
-						<span class="text-center d-block py-2">#mcrguid.relatedGuid# name, aspect etc.</span>
+						<span class="text-center d-block py-2">#mcrguid.relatedGuid#, #scientific_name#, aspect etc.</span>
 					</div>
 				</cfif>
 				<div class="float-left col-6">
