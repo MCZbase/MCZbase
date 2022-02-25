@@ -17,7 +17,6 @@
 					media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
 					MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 					MCZBASE.get_media_credit(media.media_id) as credit, 
-					mczbase.get_media_descriptor(media_id) as alttag,
 					nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
 						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
 						MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
@@ -56,20 +55,6 @@
 				from media 
 				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media.media_id#"> 
 			</cfquery> 
-			<cfquery name="mediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT source_media.media_id source_media_id, 
-					source_media.auto_filename source_filename,
-					source_media.media_uri source_media_uri,
-					media_relations.media_relationship,
-					MCZBASE.get_media_descriptor(source_media.media_id) source_alt
-				FROM
-					media_relations
-					left join media source_media on media_relations.media_id = source_media.media_id
-				WHERE
-					related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and media_relationship like '%media'
-			</cfquery>
-
 			<cfloop query="media">
 				<cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid, scientific_name 
@@ -79,7 +64,19 @@
 					where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relationship = 'shows cataloged_item'
 				</cfquery>
-
+				<cfquery name="mediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT source_media.media_id source_media_id, 
+						source_media.auto_filename source_filename,
+						source_media.media_uri source_media_uri,
+						media_relations.media_relationship,
+						MCZBASE.get_media_descriptor(source_media.media_id) source_alt
+					FROM
+						media_relations
+						left join media source_media on media_relations.media_id = source_media.media_id
+					WHERE
+						related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and media_relationship like '%media'
+				</cfquery>
 				<cfif len(media.media_id) gt 0>
 					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 					<div class="float-left" id="mediaBlock#media.media_id#">
@@ -96,7 +93,7 @@
 						</cfloop>
 						<li class="list-group-item">Keywords: #keywords.keywords#</li>
 						<cfloop query="alt">
-							<li class="list-group-item">Alt Text: #alt.media_descriptor#</li>
+							<li class="list-group-item">Alt Text: #media_relations.source_alt#</li>
 						</cfquery>
 					</ul>
 				</div>
