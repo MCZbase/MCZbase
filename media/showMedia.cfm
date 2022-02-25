@@ -23,7 +23,7 @@
 						media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 						AND MCZBASE.is_media_encumbered(media_id)  < 1 
 			</cfquery>
-			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					media_label,
 					label_value,
@@ -31,26 +31,24 @@
 					media_label_id
 				FROM
 					media_labels
+					left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
 				WHERE
-					media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 			<cfloop query="media">
 				<cfif len(media.media_id) gt 0>
-					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textNone")>
+					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="600",captionAs="textNone")>
 						<div class="float-left" id="mediaBlock#media.media_id#">
 							#mediablock#
 						</div>
 				</cfif>
-			</cfloop>
-			<div class="float-left px-4">
-				<h2>Media ID = #media.media_id#</h2>
-				<h2 class="h3 text-decoration-underline">Metadata</h2>
-				<ul class="list-group">
+					
 					<cfloop query="labels">
-						<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
+				
+							#labels.media_label#: #labels.label_value#
+						</div>
 					</cfloop>
-				</ul>
-			</div>
+			</cfloop>
 		</div>
 	</div>
 </main>
