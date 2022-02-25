@@ -89,7 +89,7 @@
 						<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
 						</cfloop>
 						<li class="list-group-item">Keywords: #keywords.keywords#</li>
-						<li class="list-group-item">Alt Text: #media.alttag#</li>
+						<li class="list-group-item">Alt Text: #media_relations.source_alt#</li>
 					</ul>
 				</div>
 			</cfloop>
