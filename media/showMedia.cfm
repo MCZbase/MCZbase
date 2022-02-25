@@ -64,14 +64,15 @@
 					related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relationship like '%media'
 			</cfquery>
-			<cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-				select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid 
-				from media_relations
-					left join cataloged_item on related_primary_key = collection_object_id
-				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and media_relationship = 'shows cataloged_item'
-			</cfquery>
+			
 			<cfloop query="media">
+				<cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+					select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid 
+					from media_relations
+						left join cataloged_item on related_primary_key = collection_object_id
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and media_relationship = 'shows cataloged_item'
+				</cfquery>
 				<cfif len(media.media_id) gt 0>
 					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 					<div class="float-left" id="mediaBlock#media.media_id#">
