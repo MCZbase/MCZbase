@@ -93,7 +93,7 @@
 				</cfif>
 			</cfif>
 			<p>
-				If you followed a link from within Arctos, please <a class="font-weight-bold" href="/info/bugs.cfm">submit a bug report</a>
+				If you followed a link from within Arctos, please <a class="" href="/info/bugs.cfm">submit a bug report</a>
 				containing any information that might help us resolve this issue.
 			</p>
 			<p>
@@ -114,7 +114,7 @@
 					</li>
 				</ul>
 			</p>
-			<p> Some specimens are restricted. You may <a href="/contact.cfm"><b>contact us</b></a> for more information.
+			<p> Some specimens are restricted. You may <a href="/contact.cfm">contact us</a> for more information.
 				Occasionally, a specimen is recataloged. You may be able to find them by using <i>Other Identifiers</i> in Specimen Search.
 			</p>
 			<cfif isGuid is false>
