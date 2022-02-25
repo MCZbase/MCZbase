@@ -70,7 +70,7 @@
 				select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid, scientific_name 
 				from media_relations
 					left join cataloged_item on related_primary_key = collection_object_id
-					left join identification on identification.identification_id = cataloged_item.identification_id
+					left join identification on identification.collection_object_id = cataloged_item.collection_object_id
 				where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relationship = 'shows cataloged_item'
 			</cfquery>
