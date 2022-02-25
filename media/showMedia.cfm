@@ -95,6 +95,7 @@
 		</div>
 	</div>
 </main>--->
+<cfoutput>
 <section>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct 
@@ -143,43 +144,8 @@
 		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			and media_relationship = 'shows cataloged_item'
 	</cfquery>
-    <cfset relatedItemA="">
-    <cfset guidOfRelatedSpecimen="">
-    <cfset relatedItemEndA="">
-    <cfloop query="mcrguid" endrow="1">
-      <!--- Get the guid and formulated it as a hyperlink for the first related cataloged_item.   --->
-      <!--- If the media object shows no cataloged_item, then the link isn't added  --->
-      <!--- If the media object shows more than one cataloged item, then the link here is only to the first one.  --->
-      <cfset relatedItemA="<a href='/guid/#relatedGuid#'>">
-      <cfset guidOfRelatedSpecimen="#relatedGuid#">
-      <cfset relatedItemEndA="</a>">
     </cfloop>
 
-    <!---  Determine scaling information for the set of images from the selected image --->
-    <cfset im_hw='style="width:#PVWIDTH#px; "'>
-    <cfset mdstop=#m.maxheightinset# * 0.5>
-    <cfset scaledwidth=#PVWIDTH#>
-    <cfset scalefactor = 0.5>
-    <cfif len(trim(m.height)) && len(trim(m.width)) >
-      <cfset scalefactor = PVWIDTH/#m.width#>
-      <cfif scalefactor GT 1 >
-        <!--- Some images (e.g. label crops) are smaller than PVWidth, and this works poorly with
-		        other large images in the same set, so force the maximum scale factor to 1. --->
-        <cfset scalefactor = 1>
-      </cfif>
-      <cfset scaledheight = Round(#m.height# * #scalefactor#)  >
-      <cfset scaledwidth = Round(#m.width# * #scalefactor#) >
-      <cfset mdstop =  Round(#m.maxheightinset# * #scalefactor#)>
-      <cfset origheight = Round(#m.maxheightinset#)>
-
-
-      <cfset im_hw = 'style=" height:#scaledheight#px; width:#PVWIDTH#px;"'>
-    </cfif>
-    <cfif len(guidOfRelatedSpecimen)>
-      <cfset relatedItem="#guidOfRelatedSpecimen#">
-      <cfelse>
-      <cfset relatedItem="#mrstr#">
-    </cfif>
 
     <cfoutput>
       <div id="mediacontain">
