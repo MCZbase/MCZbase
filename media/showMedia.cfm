@@ -41,17 +41,15 @@
 							#mediablock#
 						</div>
 				</cfif>
-					<div class="float-left px-4" id="labelBlock#media.media_id#">
-						<h2>Media ID = #media.media_id#</h2>
-						<cfif len(#labels.recordCount)gt 0>
-							<h2 class="h3 text-decoration-underline">Metadata</h2>
-							<ul class="list-group">
-								<cfloop query="labels">
-									<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
-								</cfloop>
-							</ul>
-						</cfif>
-					</div>
+				<div class="float-left px-4">
+					<h2>Media ID = #media.media_id#</h2>
+					<h2 class="h3 text-decoration-underline">Metadata</h2>
+					<ul class="list-group">
+						<cfloop query="labels">
+							<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
+						</cfloop>
+					</ul>
+				</div>
 			</cfloop>
 		</div>
 	</div>
