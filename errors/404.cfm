@@ -86,7 +86,7 @@
 						<cfif len(session.roles) gt 0 and session.roles is not "public">
 							If you are an operator, you may have to log out or ask your supervisor for more access.
 						</cfif>
-						You are accessing Arctos through the #yourcollid.collection# portal, and cannot access specimen data in
+						You are accessing MCZbase through the #yourcollid.collection# portal, and cannot access specimen data in
 						other collections. You may
 						<span class="likeLink" onclick="changeCollection()">try again in the public portal</span>.
 					</p>
