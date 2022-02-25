@@ -36,7 +36,7 @@
 			</cfquery>
 			<cfloop query="media">
 				<cfif len(media.media_id) gt 0>
-					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="full",size="600",captionAs="textNone")>
+					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="600",captionAs="textNone")>
 						<div class="float-left col-6" id="mediaBlock#media.media_id#">
 							#mediablock#
 						</div>
