@@ -11,7 +11,8 @@
 <main class="container" id="content">
 	<div class="row">
 		<div class="col-12 mt-4 ">
-		<h1 class="h2 mt-4 pb-1 border-bottom">Media Record</h1>
+			<div class="container">
+			<h1 class="h2 mt-4 pb-1 border-bottom">Media Record</h1>
 			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct 
 						media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
@@ -52,6 +53,7 @@
 						</ul>
 					</div>
 			</cfloop>
+			</div>
 		</div>
 	</div>
 </main>
