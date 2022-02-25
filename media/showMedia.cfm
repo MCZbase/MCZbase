@@ -31,9 +31,8 @@
 					media_label_id
 				FROM
 					media_labels
-					left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
 				WHERE
-					media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 			</cfquery>
 			<cfloop query="media">
 				<cfif len(media.media_id) gt 0>
@@ -45,12 +44,12 @@
 					<div class="float-left px-4" id="labelBlock#media.media_id#">
 						<h2>Media ID = #media.media_id#</h2>
 						<cfif len(#labels.recordCount)gt 0>
-						<h2 class="h3 text-decoration-underline">Metadata</h2>
-						<ul class="list-group">
-							<cfloop query="labels">
-								<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
-							</cfloop>
-						</ul>
+							<h2 class="h3 text-decoration-underline">Metadata</h2>
+							<ul class="list-group">
+								<cfloop query="labels">
+									<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
+								</cfloop>
+							</ul>
 						</cfif>
 					</div>
 			</cfloop>
