@@ -99,8 +99,8 @@
 		something is broken, or <a class="font-weight-bold" href="/info/bugs.cfm">submit a bug report</a> telling us how you got this error.
 	</p>
 	<ul class="list-group">
-		<li class="font-weight-bold list-group-item"><a href="/TaxonomySearch">&#9642;  Search for Taxon Names here</a></li>
-		<li class="font-weight-bold list-group-item"><a href="/SpecimenUsage">&#9642;  Search for Projects and Publications here</a></li>
+		<li class="font-weight-bold list-group-item"><a href="/TaxonomySearch">&##9642;  Search for Taxon Names here</a></li>
+		<li class="font-weight-bold list-group-item"><a href="/SpecimenUsage">&##9642;  Search for Projects and Publications here</a></li>
 	</ul>
 	<p>
 		If you're trying to find specimens, you may:
