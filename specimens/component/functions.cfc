@@ -1812,7 +1812,7 @@ limitations under the License.
 														<cfif len(display_value) gt 0>
 															<a class="external" href="##" target="_blank">#display_value#</a>
 															<cfelse>
-#display_value#
+															#display_value#
 														</cfif>
 													</li>
 												</cfloop>
@@ -2257,7 +2257,7 @@ limitations under the License.
 								<div id="accordionNewPart">
 									<div class="card">
 										<div class="card-header pt-1" id="headingNewPart">
-											<h1 class="my-0 px-1 pb-1">
+											<h1 class="my-0 px-1">
 												<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseNewPart" aria-expanded="true" aria-controls="collapseNewPart"> <span class="h4">Add Specimen Part</span> </button>
 											</h1>
 										</div>
@@ -2268,8 +2268,8 @@ limitations under the License.
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 													<table class="table table-responsive table-light border-0 col-12 px-0 mb-2">
 														<tr>
-															<td class=""><div align="right">Part Name: </div></td>
-															<td class=""><input type="text" name="part_name" id="part_name" class="reqdClr"
+															<td class="border-0"><div align="right">Part Name: </div></td>
+															<td class="border-0"><input type="text" name="part_name" id="part_name" class="reqdClr"
 																	onchange="findPart(this.id,this.value,'#collcode.collection_cde#');"
 																	onkeypress="return noenter(event);"></td>
 														</tr>
