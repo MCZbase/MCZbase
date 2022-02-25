@@ -16,7 +16,8 @@
 					select distinct 
 						media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
 						MCZBASE.is_media_encumbered(media.media_id) hideMedia,
-						MCZBASE.get_media_credit(media.media_id) as credit 
+						MCZBASE.get_media_credit(media.media_id) as credit, 
+						mczbase.get_media_descriptor(media_id) as alttag
 					From
 						media
 					WHERE 
@@ -28,8 +29,7 @@
 					media_label,
 					label_value,
 					agent_name,
-					media_label_id,
-					mczbase.get_media_descriptor(media_id) as alttag 
+					media_label_id 
 				FROM
 					media_labels
 					left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
@@ -43,7 +43,7 @@
 				FROM
 					media_keywords
 				WHERE
-					media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 			</cfquery>
 			<cfloop query="media">
 				<cfif len(media.media_id) gt 0>
@@ -63,7 +63,7 @@
 						<li class="list-group-item">Keywords: #keywords.keywords#</li>
 						</cfloop>
 						<cfloop query="media">
-						<li class="list-group-item">Alt Text: #alttag#</li>
+						<li class="list-group-item">Alt Text: #media.alttag#</li>
 						</cfloop>
 					</ul>
 				</div>
