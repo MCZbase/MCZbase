@@ -42,12 +42,13 @@
 							#mediablock#
 						</div>
 				</cfif>
-					
-					<cfloop query="labels">
-						<div class="float-left" id="mediaBlock#media.media_id#">
-							#labels.media_label# #labels.label_value#
-						</div>
-					</cfloop>
+					<div class="float-left" id="labelBlock#media.media_id#">
+						<ul class="list-group">
+							<cfloop query="labels">
+								<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
+							</cfloop>
+						</ul>
+					</div>
 			</cfloop>
 		</div>
 	</div>
