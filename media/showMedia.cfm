@@ -95,7 +95,7 @@
 		</div>
 	</div>
 </main>--->
-<cfoutput>
+
 <section>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct 
@@ -147,7 +147,6 @@
     </cfloop>
 
 
-    <cfoutput>
       <div id="mediacontain">
       <div class="media_head">
         <h3>Selected image related to #relatedItemA##relatedItem##relatedItemEndA#</h3>
@@ -166,7 +165,6 @@
         <p class="tipbox instruction1">Mouse over image to see zoom window, scroll wheel zooms in and out. <a href="##otherimages">Select other images of same specimen below</a>.</p>
         <div id="multizoomdescription" class="media_meta"> <a href="/media/#m.media_id#">Media Record</a> </div>
     </div>
-      <cfoutput> </cfoutput> </cfoutput>
     <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	 select * from (
 	   select distinct collection_object_id as pk, guid,
@@ -198,14 +196,12 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	   ) ffquery order by sortorder
 	</cfquery>
     <cfif ff.recordcount EQ 0>
-      <cfoutput>
         <div class ="media_id">
         <div class="backlink"><div>
             <h3>Image is not associated with specimens.</h3>
          <br/><br/>
         </div>
         </div>
-      </cfoutput>
     </cfif>
     <cfloop query='ff'>
       <cfif ff.media_relationship eq "shows agent" and  listcontainsnocase(session.roles,"coldfusion_user")>
@@ -219,7 +215,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
               <cfset backlink="#ff.specimendetailurl#">
            </cfif>
       </cfif>
-      <cfoutput>
         <div class ="media_id">
         <div class="backlink">#backlink#</div>
          <h3><i>#ff.name#</i></h3>
@@ -229,7 +224,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
           <p class="tclass"><span class="type">#ff.typestatus#</span></p>
         </cfif>
         </div>
-      </cfoutput>
       <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct media.media_id, preview_uri, media.media_uri,
                get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -249,12 +243,10 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				to_number(get_medialabel(media.media_id,'height')
 				) desc
    	    </cfquery>
-      <cfoutput>
         <a name="otherimages"></a>
         <div class="media_thumbs">
     		<h4>Other images related to #relatedItemA##relatedItem##relatedItemEndA#</h4>
 			<div class="multizoom1 thumbs">
-      </cfoutput>
       <cfset counter=0>
       <cfloop query="relm">
         <cfif len(trim(relm.height)) && len(trim(relm.width)) >
@@ -310,22 +302,20 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
            <cfset data_content= "#labellist#">
            <!--- one height doesn't work yet --->
            <cfset datalinks="<h3 class='img_ct'>Image #counter# of #relm.recordcount#</h3><div class='full'><a href='#relm.media_uri#'>Full Image </a></div><div class='full'><a href='#license_uri#' class='full'>#license#</a></div>">
-           <cfoutput><a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
-		     data-title="#datalinks# #datatitle# #data_content#"><img src="#relm.preview_uri#" alt="#altText#">#counter#</a></cfoutput>
+       <a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
+		     data-title="#datalinks# #datatitle# #data_content#"><img src="#relm.preview_uri#" alt="#altText#">#counter#</a>
         </cfif> <!--- end are relm.height and relm.width non null --->
       </cfloop> <!--- end loop through relm to show any images for media relations of current related cataloged_item --->
       <!--- if any related images, show their thumbnails --->
       <cfif relm.recordcount gt 1>
-        <cfoutput>
+
           </div>
 
           <!-- end multizooom thumbs -->
           <p class="tipbox instruction2">Click to select from the #relm.RecordCount# images of this specimen.</p>
           </div>
           <!-- end media_thumbs -->
-        </cfoutput>
         <cfelse>
-        <cfoutput>
           </div>
 
           <!-- end multizooom thumbs -->
