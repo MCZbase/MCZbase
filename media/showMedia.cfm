@@ -28,7 +28,8 @@
 					media_label,
 					label_value,
 					agent_name,
-					media_label_id
+					media_label_id,
+					mczbase.get_media_descriptor(media_id) as alttag 
 				FROM
 					media_labels
 					left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
@@ -60,6 +61,9 @@
 						</cfloop>
 						<cfloop query="keywords">
 						<li class="list-group-item">Keywords: #keywords.keywords#</li>
+						</cfloop>
+						<cfloop query="media">
+						<li class="list-group-item">Alt Text: #alttag#</li>
 						</cfloop>
 					</ul>
 				</div>
