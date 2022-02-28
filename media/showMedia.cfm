@@ -80,7 +80,13 @@
 					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 					<div class="float-left" id="mediaBlock#media.media_id#">
 						#mediablock#
-						<span class="text-center d-block py-2">#thisguid.specGuid#, Current ID: #thisguid.scientific_name#</span>
+						<div class="text-center d-block py-2">
+							<ul class="list-group">
+								<li class="list-group-item">#thisguid.specGuid#</li>
+								<li class="list-group-item">Current ID: #thisguid.scientific_name#</li>
+								<li class="list-group-item">Locality: #thisguid.higher_geog#, #thisguid.spec_locality#</li>
+							</ul>
+						</div>
 					</div>
 				</cfif>
 				<div class="float-left col-6">
