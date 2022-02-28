@@ -65,11 +65,12 @@
 					and media_relationship like '%media'
 			</cfquery>
 			<cfloop query="media">
-				<cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-					select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid, scientific_name
+				<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+					select distinct 'MCZ:'||collection_cde||':'||cat_num as specGuid, scientific_name
 					from media_relations
 						left join cataloged_item on related_primary_key = collection_object_id
 						left join identification on identification.collection_object_id = cataloged_item.collection_object_id
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> FLAT on cataloged_item.collection_object_id = flat.collection_object_id
 					where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relationship = 'shows cataloged_item'
 					and identification.accepted_id_fg = 1
@@ -79,7 +80,7 @@
 					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 					<div class="float-left" id="mediaBlock#media.media_id#">
 						#mediablock#
-						<span class="text-center d-block py-2">#mcrguid.relatedGuid#, Current ID: #mcrguid.scientific_name#</span>
+						<span class="text-center d-block py-2">#thisguid.specGuid#, Current ID: #thisguid.scientific_name#</span>
 					</div>
 				</cfif>
 				<div class="float-left col-6">
@@ -94,12 +95,6 @@
 					</ul>
 				</div>
 			</cfloop>
-					<cfloop query=''>
-					<h3><i>#ff.name#</i></h3>
-					<p>#ff.geography# #ff.geology#</p>
-					<p>#ff.coll# </p>
-					<p class="tclass"><span class="type">#ff.typestatus#</span></p>
-				</cfloop>
 		</div>
 	</div>
 </main>
