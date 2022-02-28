@@ -178,7 +178,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
                    AND MCZBASE.is_media_encumbered(media.media_id)  < 1
         order by (
-				case media.media_id when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#m.media_id#"> then 0 else 1 end) ,
+				case media.media_id when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> then 0 else 1 end) ,
 				to_number(get_medialabel(media.media_id,'height')
 				) desc
    	    </cfquery>
