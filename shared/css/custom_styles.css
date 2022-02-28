@@ -2402,8 +2402,8 @@ ol.flowSm li a {
 ol.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 550px; /* need to specify height :-( */
-	column-count: 4;
+	height: 610px; /* need to specify height :-( */
+	column-count: 3;
 }
 ol.flowMd li {
 	width: 245px;
