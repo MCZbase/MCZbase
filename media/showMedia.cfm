@@ -93,10 +93,7 @@
 					</ul>
 				</div>
 			</cfloop>
-		</div>
-	</div>
-</main>
- <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					 <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	 select * from (
 	   select distinct collection_object_id as pk, guid,
             typestatus, SCIENTIFIC_NAME name,
@@ -137,5 +134,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         </cfif>
         </div>
 	 </cfloop>
+		</div>
+	</div>
+</main>
+
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
