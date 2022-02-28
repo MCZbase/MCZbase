@@ -105,7 +105,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			1 as sortorder
        from media_relations
 	       left join  <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> on related_primary_key = collection_object_id
-	   where media_id = 1333
+	   where media_id = '1333'
 			and ( media_relationship = 'shows cataloged_item')
 	   union
 	   select distinct agent.agent_id as pk, '' as guid,
@@ -119,7 +119,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	   from media_relations
 	      left join agent on related_primary_key = agent.agent_id
 	      left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
-	   where  media_id = 1333
+	   where  media_id = '1333'
 			and ( media_relationship = 'shows agent')
 	   ) ffquery order by sortorder
 	</cfquery>
