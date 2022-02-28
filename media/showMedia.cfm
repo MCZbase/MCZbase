@@ -66,7 +66,7 @@
 			</cfquery>
 			<cfloop query="media">
 				<cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-					select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid, scientific_name, higher_geog
+					select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid, scientific_name
 					from media_relations
 						left join cataloged_item on related_primary_key = collection_object_id
 						left join identification on identification.collection_object_id = cataloged_item.collection_object_id
