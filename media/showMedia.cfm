@@ -72,12 +72,14 @@
 						left join identification on identification.collection_object_id = cataloged_item.collection_object_id
 					where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relationship = 'shows cataloged_item'
+					and identification.accepted_id_fg = 1
 				</cfquery>
+				
 				<cfif len(media.media_id) gt 0>
 					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 					<div class="float-left" id="mediaBlock#media.media_id#">
 						#mediablock#
-						<span class="text-center d-block py-2">#mcrguid.relatedGuid#, #mcrguid.scientific_name#</span>
+						<span class="text-center d-block py-2">#mcrguid.relatedGuid#, Current ID: #mcrguid.scientific_name#</span>
 					</div>
 				</cfif>
 				<div class="float-left col-6">
