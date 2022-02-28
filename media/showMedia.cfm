@@ -70,7 +70,7 @@
 					from media_relations
 						left join cataloged_item on related_primary_key = collection_object_id
 						left join identification on identification.collection_object_id = cataloged_item.collection_object_id
-						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> FLAT on cataloged_item.collection_object_id = flat.collection_object_id
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT ff <cfelse>FILTERED_FLAT ff</cfif> on cataloged_item.collection_object_id = ff.collection_object_id
 					where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relationship = 'shows cataloged_item'
 					and identification.accepted_id_fg = 1
