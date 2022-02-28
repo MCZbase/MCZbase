@@ -126,19 +126,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			and ( media_relationship = 'shows agent')
 	   ) ffquery order by sortorder
 	</cfquery>
-    <cfif ff.recordcount EQ 0>
-      <!--- Gracefully fail if not associated with a specimen --->
 
-        <div class ="media_id">
-        <div class="backlink"><div>
-            <h3>Image is not associated with specimens.</h3>
-         <br/><br/>
-          <!--- end media_id --->
-        </div>
-        <!--- end layoutbox --->
-        </div>
-
-    </cfif>
     <cfloop query='ff'>
         <div class ="media_id">
          <h3><i>#ff.name#</i></h3>
