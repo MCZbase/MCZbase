@@ -51,7 +51,7 @@
 					left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
 				where  media_id = '1333'
 						and ( media_relationship = 'shows agent')
-					) ffquery order by sortorder
+					) 
 			</cfquery>
 			<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
