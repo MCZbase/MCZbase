@@ -115,19 +115,13 @@
 						<li class="list-group-item">Alt Text: #media.alttag#</li>
 					</ul>
 				</div>
-					<cfloop query='ff'>
-        <div class ="media_id">
-         <h3><i>#ff.name#</i></h3>
-   			<p>#ff.geography# #ff.geology#</p>
-        	<p>#ff.coll# </p>
-        	<cfif len(trim(#ff.typestatus#))>
-          <p class="tclass"><span class="type">#ff.typestatus#</span></p>
-        </cfif>
-        </div>
-	 </cfloop>
-			</cfloop>
-
-    
+				<cfloop query='ff'>
+					<h3><i>#ff.name#</i></h3>
+					<p>#ff.geography# #ff.geology#</p>
+					<p>#ff.coll# </p>
+					<p class="tclass"><span class="type">#ff.typestatus#</span></p>
+				</cfloop>
+	</cfloop>
 		</div>
 	</div>
 </main>
