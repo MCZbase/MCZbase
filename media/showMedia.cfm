@@ -96,7 +96,7 @@
 		</div>
 	</div>
 </main>
-				  <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+ <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	 select * from (
 	   select distinct collection_object_id as pk, guid,
             typestatus, SCIENTIFIC_NAME name,
@@ -122,7 +122,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	   from media_relations
 	      left join agent on related_primary_key = agent.agent_id
 	      left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
-	   where  media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#m.media_id#">
+	   where  media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 			and ( media_relationship = 'shows agent')
 	   ) ffquery order by sortorder
 	</cfquery>
