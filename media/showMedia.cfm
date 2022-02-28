@@ -80,7 +80,7 @@
 					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 					<div class="float-left" id="mediaBlock#media.media_id#">
 						#mediablock#
-						<div class="text-center d-block py-2">
+						<div class="text-center d-block py-0">
 							<ul class="list-group">
 								<li class="list-group-item">#thisguid.specGuid#</li>
 								<li class="list-group-item">Current ID: #thisguid.scientific_name#</li>
