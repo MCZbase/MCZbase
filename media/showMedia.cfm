@@ -136,6 +136,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
           <p class="tclass"><span class="type">#ff.typestatus#</span></p>
         </cfif>
         </div>
-
+	 </cfloop>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
