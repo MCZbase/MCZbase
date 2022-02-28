@@ -2407,6 +2407,8 @@ ol.flowMd {
 }
 ol.flowMd li {
 	width: 245px;
+	list-style-position:inside;
+	padding-right: 1rem;
 }
 ol.flowMd li a {
 	display: inline-block;
