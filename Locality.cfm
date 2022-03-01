@@ -1145,7 +1145,7 @@ You do not have permission to create Higher Geographies
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
 	<!---  For a small set of collections operations users, include the TDWG BDQ TG2 test integration --->
-	<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
+	<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 	<script>
 		function runTests() {
 			loadSpaceQC("", #locDet.locality_id#, "SpatialDQDiv");
