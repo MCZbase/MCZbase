@@ -24,7 +24,7 @@ function loadEventQC(collection_object_id,collecting_event_id,targetDivId){
 		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a collecting_event_id was provided." );
 	}
 	$.ajax({
-		url: "/component/functions.cfc",
+		url: "/dataquality/component/functions.cfc",
 		type: "get",
 		data: {
 			method: "getEventQCReportFlat",
@@ -72,7 +72,7 @@ function loadNameQC(collection_object_id,taxon_name_id,targetDivId){
 		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a taxon_name_id was provided." );
 	}
 	$.ajax({
-		url: "/component/functions.cfc",
+		url: "/dataquality/component/functions.cfc",
 		type: "get",
 		data: {
 			method: "getNameQCReport",
@@ -120,7 +120,7 @@ function loadSpaceQC(collection_object_id,locality_id,targetDivId){
 		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a locality_id was provided." );
 	}
 	$.ajax({
-		url: "/component/functions.cfc",
+		url: "/dataquality/component/functions.cfc",
 		type: "get",
 		data: {
 			method: "getSpaceQCReport",
