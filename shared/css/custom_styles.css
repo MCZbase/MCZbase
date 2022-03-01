@@ -2379,7 +2379,7 @@ ol.flowXS {
 }
 ol.flowXS li {
 	width: 290px;
-	padding-right:1rem;
+	padding-right: .5rem;
 }
 ol.flowXS li a {
 	display: inline-block;
@@ -2393,7 +2393,7 @@ ol.flowSm {
 }
 ol.flowSm li {
 	width: 300px;
-	padding-right: 1rem;
+	padding-right: .5rem;
 }
 ol.flowSm li a {
 	display: inline-block;
@@ -2402,13 +2402,13 @@ ol.flowSm li a {
 ol.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 610px; /* need to specify height :-( */
+	height: 660px; /* need to specify height :-( */
 	column-count: 3;
 }
 ol.flowMd li {
 	width: 245px;
 	list-style-position:inside;
-	padding-right: 1rem;
+	padding-right: .5rem;
 }
 ol.flowMd li a {
 	display: inline-block;
@@ -2422,7 +2422,7 @@ ol.flowLg {
 }
 ol.flowLg li {
 	width: 200px;
-	padding-right: 1rem;
+	padding-right: .5rem;
 }
 ol.flowLg li a {
 	display: inline-block;
@@ -2436,7 +2436,7 @@ ol.flowXL {
 }
 ol.flowXL li {
 	width: 200px;
-	padding-right: 1rem;
+	padding-right: .5rem;
 }
 ol.flowXL li a {
 	display: inline-block;
@@ -2482,7 +2482,7 @@ ol.flowSm {
 }
 ol.flowSm li {
 	width: 318px;
-	padding-right: 1rem;
+	padding-right: .5rem;
 }
 ol.flowSm li a {
 	display: inline-block;
@@ -2496,7 +2496,7 @@ ol.flowMd {
 }
 ol.flowMd li {
 	width: 200px;
-	padding-right: 1rem;
+	padding-right: .5rem;
 }
 ol.flowMd li a {
 	display: inline-block;
@@ -2510,7 +2510,7 @@ ol.flowLg {
 }
 ol.flowLg li {
 	width: 200px;
-	padding-right: 1rem;
+	padding-right: .5rem;
 }
 ol.flowLg li a {
 	display: inline-block;
@@ -2524,7 +2524,7 @@ ol.flowXL {
 }
 ol.flowXL li {
 	width: 260px;
-	padding-right: 1rem;
+	padding-right: .5rem;
 }
 ol.flowXL li a {
 	display: inline-block;
@@ -2554,7 +2554,7 @@ ol.flowXS {
 }
 ol.flowXS li {
 	width: 210px;
-	padding-right: 1rem;
+	padding-right: .5rem;
 }
 ol.flowXS li a {
 	display: inline-block;

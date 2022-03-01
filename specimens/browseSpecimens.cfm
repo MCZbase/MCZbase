@@ -359,7 +359,7 @@ limitations under the License.
 												<cfelse>	
 													<cfset geogValues = "flowNone">
 												</cfif>
-												<ol class="#geogValues# px-0 px-md-4 mx-1">
+												<ol class="#geogValues# px-0 px-md-2 mx-1">
 												<cfloop query="countries">
 													<cfset countryVal = countries.country>
 													<cfset countryLookup = countries.country>
