@@ -2439,6 +2439,8 @@ ol.flowXL {
 ol.flowXL li {
 	width: 200px;
 	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowXL li a {
 	padding-right: 3px;
@@ -2713,6 +2715,8 @@ ol.flowLg {
 }
 ol.flowLg li {
 	width: 200px;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowLg li a {
 	padding-right: 3px;
