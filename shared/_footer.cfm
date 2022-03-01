@@ -50,4 +50,6 @@ limitations under the License.
 
 
 </footer>
-</body></html>
+<a id="back2Top" title="Back to top" href="#">&#10148;</a>
+</body>
+</html>
