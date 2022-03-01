@@ -2442,6 +2442,19 @@ ol.flowXL li a {
 	/*display: inline-flex;*/
 	padding-right: 3px;
 }
+ol.flowNone {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: auto; /* need to specify height :-( */
+	column-count: 1;
+}
+ol.flowNone li {
+	width: 100%;
+}
+ol.flowNone li a {
+/*	display: inline-flex;*/
+	padding-right: 3px;
+}
 }
 /* 
 Max width before this PARTICULAR table gets nasty
@@ -2623,7 +2636,19 @@ ol.flowXL li a {
 .tab-content {
 	margin-top: -1px;
 }
-
+ol.flowNone {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: auto; /* need to specify height :-( */
+	column-count: 1;
+}
+ol.flowNone li {
+	width: 100%;
+}
+ol.flowNone li a {
+/*	display: inline-flex;*/
+	padding-right: 3px;
+}
 }
 @media only screen and (max-width: 990px) {
 	input#searchText.form-control {
