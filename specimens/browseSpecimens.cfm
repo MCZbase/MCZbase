@@ -348,13 +348,13 @@ limitations under the License.
 												<!---for newpaper flow within higher geography--->
 												<cfif countries.recordCount gte 300> 
 													<cfset geogValues = "flowXL">
-												<cfelseif countries.recordCount gte 251 and countries.recordCount lt 299>
+												<cfelseif countries.recordCount gte 251 and countries.recordCount lte 299>
 													<cfset geogValues = "flowLg">
-												<cfelseif countries.recordCount gte 90 and countries.recordCount lt 250>
+												<cfelseif countries.recordCount gte 90 and countries.recordCount lte 250>
 													<cfset geogValues = "flowMd">
-												<cfelseif countries.recordCount gte 50 and countries.recordCount lt 89>
+												<cfelseif countries.recordCount gte 50 and countries.recordCount lte 89>
 													<cfset geogValues = "flowSm"><!---Example West Indies in islands--->
-												<cfelseif countries.recordCount gt 20 and countries.recordCount lt 49>
+												<cfelseif countries.recordCount gt 20 and countries.recordCount lte 49>
 													<cfset geogValues = "flowXS">
 												<cfelse>	
 													<cfset geogValues = "flowNone">
@@ -442,13 +442,13 @@ limitations under the License.
 												<!---for newpaper flow within islands--->
 												<cfif islands.recordCount gte 300> 
 													<cfset islandValues = "flowXL">
-												<cfelseif islands.recordCount gte 251 and islands.recordCount lt 299>
+												<cfelseif islands.recordCount gte 251 and islands.recordCount lte 299>
 													<cfset islandValues = "flowLg">
-												<cfelseif islands.recordCount gte 90 and islands.recordCount lt 250>
+												<cfelseif islands.recordCount gte 90 and islands.recordCount lte 250>
 													<cfset islandValues = "flowMd">
-												<cfelseif islands.recordCount gte 50 and islands.recordCount lt 89>
+												<cfelseif islands.recordCount gte 50 and islands.recordCount lte 89>
 													<cfset islandValues = "flowSm"><!---Example West Indies in islands--->
-												<cfelseif islands.recordCount gte 20 and islands.recordCount lt 49>
+												<cfelseif islands.recordCount gte 20 and islands.recordCount lte 49>
 													<cfset islandValues = "flowXS">
 												<cfelse>	
 													<cfset islandValues = "flowNone">
