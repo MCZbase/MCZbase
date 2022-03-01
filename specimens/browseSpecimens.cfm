@@ -498,7 +498,7 @@ limitations under the License.
 											<cfelse>	
 												<cfset phylaValues = "flowNone">
 											</cfif>
-											<ol class="#phylaValues# pt-2">
+											<ol class="#phylaValues# pt-2 px-0 px-md-2 mx-1">
 											<cfloop query="phyla">
 												<li>
 													<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
@@ -526,7 +526,7 @@ limitations under the License.
 											<cfelse>	
 												<cfset taxaValues = "flowNone">
 											</cfif>
-											<ol class="#taxaValues# pt-2">
+											<ol class="#taxaValues# pt-2 px-0 px-md-2 mx-1">
 												<cfloop query="notphyla">
 													<li>
 														<a class="" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#" target="_blank">#kingdom#:#phylorder# (#ct#)</a> 
@@ -554,7 +554,7 @@ limitations under the License.
 											<cfelse>	
 												<cfset notkValues = "flowNone">
 											</cfif>
-											<ol class="#notkValues# pt-2">
+											<ol class="#notkValues# pt-2 px-0 px-md-2 mx-1">
 											<cfloop query="notkingdoms">
 												<li>
 													<a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#" target="_blank">#scientific_name# (#ct#)</a>
