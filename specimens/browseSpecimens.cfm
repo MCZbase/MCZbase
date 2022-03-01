@@ -487,13 +487,13 @@ limitations under the License.
 											<!---for newpaper flow within taxonomy (phylum)--->
 											<cfif phyla.recordCount gte 300> 
 												<cfset phylaValues = "flowXL">
-											<cfelseif phyla.recordCount gte 251 and phyla.recordCount lt 299>
+											<cfelseif phyla.recordCount gte 251 and phyla.recordCount lte 299>
 												<cfset phylaValues = "flowLg">
-											<cfelseif phyla.recordCount gte 90 and phyla.recordCount lt 250>
+											<cfelseif phyla.recordCount gte 90 and phyla.recordCount lte 250>
 												<cfset phylaValues = "flowMd">
-											<cfelseif phyla.recordCount gte 50 and phyla.recordCount lt 89>
+											<cfelseif phyla.recordCount gte 50 and phyla.recordCount lte 89>
 												<cfset phylaValues = "flowSm"><!---Example West Indies in islands--->
-											<cfelseif phyla.recordCount gt 20 and phyla.recordCount lt 49>
+											<cfelseif phyla.recordCount gt 20 and phyla.recordCount lte 49>
 												<cfset phylaValues = "flowXS">
 											<cfelse>	
 												<cfset phylaValues = "flowNone">
@@ -515,13 +515,13 @@ limitations under the License.
 											<!---for newpaper flow within taxonomy (notphylum)--->
 											<cfif notphyla.recordCount gte 300> 
 												<cfset taxaValues = "flowXL">
-											<cfelseif notphyla.recordCount gte 251 and notphyla.recordCount lt 299>
+											<cfelseif notphyla.recordCount gte 251 and notphyla.recordCount lte 299>
 												<cfset taxaValues = "flowLg">
-											<cfelseif notphyla.recordCount gte 90 and notphyla.recordCount lt 250>
+											<cfelseif notphyla.recordCount gte 90 and notphyla.recordCount lte 250>
 												<cfset geogValues = "flowMd">
-											<cfelseif notphyla.recordCount gte 50 and notphyla.recordCount lt 89>
+											<cfelseif notphyla.recordCount gte 50 and notphyla.recordCount lte 89>
 												<cfset taxaValues = "flowSm"><!---Example West Indies in islands--->
-											<cfelseif notphyla.recordCount gt 20 and notphyla.recordCount lt 49>
+											<cfelseif notphyla.recordCount gt 20 and notphyla.recordCount lte 49>
 												<cfset taxaValues = "flowXS">
 											<cfelse>	
 												<cfset taxaValues = "flowNone">
