@@ -300,7 +300,7 @@ limitations under the License.
 										<cfloop query="primaryTypes">
 											<!--- TODO: Support specimen search for any primary type --->
 											<cfif NOT lastCollection EQ primaryTypes.collection>
-												<li class="list-group-item bg-white rounded border-white float-left px-2 pb-2 w-100 font-weight-bold">
+												<li class="list-group-item bg-white rounded border-bottom float-left px-2 pb-2 w-100 font-weight-bold">
 													<a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_Status=any%20primary"> #primaryTypes.collection# </a> 
 												</li>
 											</cfif>
