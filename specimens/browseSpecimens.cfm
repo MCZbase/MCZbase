@@ -454,7 +454,7 @@ limitations under the License.
 													<cfset islandValues = "flowNone">
 												</cfif>
 												<div class="collapse w-100 pt-2" id="islandgroup_#i#">
-													<ol class="#islandValues#">
+													<ol class="#islandValues# px-0 px-md-2 mx-1">
 														<cfloop query="islands">
 															<cfset islandVal = islands.island>
 															<cfset islandLookup = islands.island>
