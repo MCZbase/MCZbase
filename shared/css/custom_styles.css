@@ -2346,7 +2346,6 @@ div.vslider-item[aria-hidden="true"]{
 }
 .text-truncate1 {
   background-color: transparent;
-/*  padding: 2em;*/
   width: auto;
 }
 
@@ -2380,9 +2379,10 @@ ol.flowXS {
 ol.flowXS li {
 	width: 290px;
 	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowXS li a {
-/*	display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowSm {
@@ -2394,9 +2394,10 @@ ol.flowSm {
 ol.flowSm li {
 	width: 300px;
 	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowSm li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowMd {
@@ -2409,9 +2410,9 @@ ol.flowMd li {
 	width: 245px;
 	list-style-position:inside;
 	padding-right: .5rem;
+	overflow-wrap: anywhere;
 }
 ol.flowMd li a {
-/*	display: inline-flex;*/
 	padding-right: 3px;
 }	
 ol.flowLg {
@@ -2423,9 +2424,10 @@ ol.flowLg {
 ol.flowLg li {
 	width: 200px;
 	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowLg li a {
-/*	display: inline-block;*/
 	padding-right: 3px;
 }	
 ol.flowXL {
@@ -2439,7 +2441,6 @@ ol.flowXL li {
 	padding-right: .5rem;
 }
 ol.flowXL li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowNone {
@@ -2450,9 +2451,10 @@ ol.flowNone {
 }
 ol.flowNone li {
 	width: 100%;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowNone li a {
-/*	display: inline-flex;*/
 	padding-right: 3px;
 }
 }
@@ -2482,9 +2484,10 @@ ol.flowXS {
 ol.flowXS li {
 	width: 290px;
 	padding-right: 1rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowXS li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowSm {
@@ -2496,9 +2499,10 @@ ol.flowSm {
 ol.flowSm li {
 	width: 318px;
 	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowSm li a {
-/*	display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowMd {
@@ -2510,9 +2514,10 @@ ol.flowMd {
 ol.flowMd li {
 	width: 200px;
 	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowMd li a {
-/*	display: inline-flex;*/
 	padding-right: 3px;
 }	
 ol.flowLg {
@@ -2524,9 +2529,10 @@ ol.flowLg {
 ol.flowLg li {
 	width: 200px;
 	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowLg li a {
-/*	display: inline-flex;*/
 	padding-right: 3px;
 }	
 ol.flowXL {
@@ -2538,9 +2544,10 @@ ol.flowXL {
 ol.flowXL li {
 	width: 260px;
 	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowXL li a {
-	/*display: inline-block;*/
 	padding-right: 3px;
 }
 ol.flowNone {
@@ -2551,9 +2558,10 @@ ol.flowNone {
 }
 ol.flowNone li {
 	width: 100%;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowNone li a {
-/*	display: inline-flex;*/
 	padding-right: 3px;
 }
 }
@@ -2568,9 +2576,10 @@ ol.flowXS {
 ol.flowXS li {
 	width: 210px;
 	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowXS li a {
-/*	display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowSm {
@@ -2585,7 +2594,6 @@ ol.flowSm li {
 	list-style-position:inside;
 }
 ol.flowSm li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowMd {
@@ -2600,7 +2608,6 @@ ol.flowMd li {
 	list-style-position:inside;/*makes the number go to the top of the bullet; otherwise, it vert-aligns to middle*/
 }
 ol.flowMd li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }	
 ol.flowLg {
@@ -2615,7 +2622,6 @@ ol.flowLg li {
 	list-style-position:inside;
 }
 ol.flowLg li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }	
 ol.flowXL {
@@ -2630,7 +2636,6 @@ ol.flowXL li {
 	list-style-position:inside;
 }
 ol.flowXL li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }
 .tab-content {
@@ -2644,9 +2649,10 @@ ol.flowNone {
 }
 ol.flowNone li {
 	width: 100%;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
 }
 ol.flowNone li a {
-/*	display: inline-flex;*/
 	padding-right: 3px;
 }
 }
@@ -2669,7 +2675,6 @@ ol.flowXS li {
 	list-style-position:inside;
 }
 ol.flowXS li a {
-/*	display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowSm {
@@ -2684,7 +2689,6 @@ ol.flowSm li {
 	list-style-position:inside;
 }
 ol.flowSm li a {
-	/*display: inline-block;*/
 	padding-right: 3px;
 }
 ol.flowMd {
@@ -2699,7 +2703,6 @@ ol.flowMd li {
 	list-style-position:inside;
 }
 ol.flowMd li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }	
 ol.flowLg {
@@ -2712,7 +2715,6 @@ ol.flowLg li {
 	width: 200px;
 }
 ol.flowLg li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }	
 ol.flowXL {
@@ -2727,7 +2729,6 @@ ol.flowXL li {
 	list-style-position:inside;
 }
 ol.flowXL li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowNone {
@@ -2742,7 +2743,6 @@ ol.flowNone li {
 	list-style-position:inside;
 }
 ol.flowNone li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }
 .tab-content {
@@ -2750,7 +2750,7 @@ ol.flowNone li a {
 }
 }
 @media only screen and (max-width: 800px){
-	ol.flowXS {
+ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 510px; /* need to specify height :-( */
@@ -2762,7 +2762,6 @@ ol.flowXS li {
 	list-style-position:inside;
 }
 ol.flowXS li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowSm {
@@ -2777,7 +2776,7 @@ ol.flowSm li {
 	list-style-position:inside;
 }
 ol.flowSm li a {
-	/*display: inline-flex;*/
+
 	padding-right: 3px;
 }
 ol.flowMd {
@@ -2792,7 +2791,6 @@ ol.flowMd li {
 	list-style-position:inside;
 }
 ol.flowMd li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }	
 ol.flowLg {
@@ -2807,7 +2805,6 @@ ol.flowLg li {
 	list-style-position:inside;
 }
 ol.flowLg li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }	
 ol.flowXL {
@@ -2822,7 +2819,6 @@ ol.flowXL li {
 	list-style-position:inside;
 }
 ol.flowXL li a {
-/*	display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowNone {
@@ -2837,7 +2833,6 @@ ol.flowNone li {
 	list-style-position:inside;
 }
 ol.flowNone li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }
 .tab-content {
@@ -2863,7 +2858,6 @@ ol.flowXS li {
 	list-style-position:inside;
 }
 ol.flowXS li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowSm {
@@ -2878,7 +2872,6 @@ ol.flowSm li {
 	list-style-position:inside;
 }
 ol.flowSm li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowMd {
@@ -2893,7 +2886,6 @@ ol.flowMd li {
 	list-style-position:inside;
 }
 ol.flowMd li a {
-/*	display: inline-flex;*/
 	padding-right: 3px;
 }	
 ol.flowLg {
@@ -2908,7 +2900,6 @@ ol.flowLg li {
 	list-style-position:inside;
 }
 ol.flowLg li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }	
 ol.flowXL {
@@ -2923,7 +2914,6 @@ ol.flowXL li {
 	list-style-position:inside;
 }
 ol.flowXL li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }
 ol.flowNone {
@@ -2938,7 +2928,6 @@ ol.flowNone li {
 	list-style-position:inside;
 }
 ol.flowNone li a {
-	/*display: inline-flex;*/
 	padding-right: 3px;
 }
 .tab-content {
@@ -2957,7 +2946,6 @@ ol.flowNone li a {
 }
 text-truncate1 {
   background-color: transparent;
-/*  padding: 2em;*/
   width: auto;
 }
 
