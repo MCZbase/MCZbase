@@ -429,11 +429,11 @@ limitations under the License.
 												<ul class="list-group">
 													<cfloop query="island_groups">
 															<cfif island_groups.recordCount gte 300> 
-															<cfset islandValues = "flowXL">
-														<cfelseif island_groups.recordCount gte 51 and island_groups.recordCount lte 299>
 															<cfset islandValues = "flowLg">
-														<cfelseif island_groups.recordCount gte 26 and island_groups.recordCount lte 50>
+														<cfelseif island_groups.recordCount gte 51 and island_groups.recordCount lte 299>
 															<cfset islandValues = "flowMd">
+														<cfelseif island_groups.recordCount gte 26 and island_groups.recordCount lte 50>
+															<cfset islandValues = "flowSm">
 														<cfelseif island_groups.recordCount gte 16 and island_groups.recordCount lte 25>
 															<cfset islandValues = "flowXS">
 														<cfelseif island_groups.recordCount gte 5 and island_groups.recordCount lte 15>
