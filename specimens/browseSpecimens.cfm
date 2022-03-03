@@ -448,16 +448,16 @@ limitations under the License.
 															</cfquery>
 														<cfif islands.recordCount gte 300> 
 															<cfset islandValues = "flowXL">
-														<cfelseif islands.recordCount gte 251 and islands.recordCount lte 299>
+														<cfelseif islands.recordCount gte 51 and islands.recordCount lte 299>
 															<cfset islandValues = "flowLg">
-														<cfelseif islands.recordCount gte 90 and islands.recordCount lte 250>
+														<cfelseif islands.recordCount gte 26 and islands.recordCount lte 50>
 															<cfset islandValues = "flowMd">
-														<cfelseif islands.recordCount gte 50 and islands.recordCount lte 89>
-															<cfset islandValues = "flowSm">
-														<cfelseif islands.recordCount gte 20 and islands.recordCount lte 49>
+														<cfelseif islands.recordCount gte 16 and islands.recordCount lte 25>
 															<cfset islandValues = "flowXS">
-														<cfelse>	
+														<cfelseif islands.recordCount gte 5 and islands.recordCount lte 15>
 															<cfset islandValues = "flowXXS">
+														<cfelse>	
+															<cfset islandValues = "flowNone">
 														</cfif>
 															<ol class="#islandValues#">
 																<cfloop query="islands">
