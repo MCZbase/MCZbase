@@ -446,7 +446,7 @@ limitations under the License.
 															GROUP BY island
 															ORDER BY island
 															</cfquery>
-															<ol>
+															<ol class="flowSm">
 																<cfloop query="islands">
 																	<cfset islandVal = islands.island>
 																	<cfset islandLookup = islands.island>
