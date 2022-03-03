@@ -455,9 +455,11 @@ limitations under the License.
 															<ol>
 																<li>#islandVal#</li>
 															</ol>
-															<cfset i=i+1>
-															</cfloop>
 														</li>
+															<cfset i=i+1>
+															
+															</cfloop>
+													
 													</ol>
 												</cfloop>
 											</div>
