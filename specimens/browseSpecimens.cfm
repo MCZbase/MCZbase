@@ -588,7 +588,7 @@ limitations under the License.
 			</main>
 			<!---for keeping the 1st accordion open on page load--->
 			<script>
-				$('##islandgroup_1').collapse('show')
+		//$('##islandgroup_1').collapse('show')
 				$('##cont-ocean_1').collapse('show')
 				$('##phylum').collapse('show')
 			</script>
