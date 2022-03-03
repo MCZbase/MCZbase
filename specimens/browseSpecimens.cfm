@@ -443,7 +443,7 @@ limitations under the License.
 													<cfloop query="island_groups">
 														<li class="">
 															<h4 class="collapsebar w-100 my-1">
-																<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#j#" aria-expanded="false" aria-controls="islandsgroup_#j#">
+																<button type="button" class="border rounded bg-white py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#j#" aria-expanded="false" aria-controls="islandsgroup_#j#">
 																	#island_groups.island_group# &nbsp;&nbsp;
 																	<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank"></a>
 																</button>
