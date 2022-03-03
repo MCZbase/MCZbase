@@ -106,8 +106,15 @@ limitations under the License.
 		underscore_collection.displayed_media_id
 	ORDER BY underscore_collection_type, lower(collection_name)
 </cfquery>
-
 <cfquery name="continents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+	SELECT sum(coll_obj_count) as ct, continent_ocean
+	FROM cf_geog_cat_item_counts
+	WHERE
+		target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+	GROUP BY continent_ocean
+	ORDER BY continent_ocean
+</cfquery>
+<cfquery name="continent_islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 	SELECT continent_ocean
 	FROM cf_geog_cat_item_counts
 	WHERE
@@ -413,11 +420,12 @@ limitations under the License.
 											<cfset group = "[No Island Group]">
 											<cfset groupLookup = "NULL">
 										</cfif>
+										<cfset h = 1>
 										<cfloop query="continents">
 											<h4 class="collapsebar w-100 my-1">
-												<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="false" aria-controls="islandgroup_#i#">
-													#continents.continent_ocean# &nbsp;&nbsp;
-													<a class="float-right" href="#specimenSearch#&higher_geog=#continents.continent_ocean#" target="_blank"></a>
+												<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##continent_islands_#h#" aria-expanded="false" aria-controls="continent_islands_#h#">
+													#continent_islands.continent_ocean# &nbsp;&nbsp;
+													<a class="float-right" href="#specimenSearch#&higher_geog=#continent_islands.continent_ocean#" target="_blank"></a>
 												</button>
 											</h4>
 											<cfset i=1>
@@ -430,8 +438,6 @@ limitations under the License.
 												</cfif>
 													<!--- TODO: Support island/island_group in specimen search API --->
 													<div class="w-100 my-2">
-
-														
 														<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 															SELECT sum(coll_obj_count) ct, island
 															FROM 
@@ -461,8 +467,8 @@ limitations under the License.
 														<cfelse>	
 															<cfset islandValues = "flowNone">
 														</cfif>
-														<div class="collapse w-100 pt-2" id="islandgroup_#i#">
-															<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="false" aria-controls="islandgroup_#i#">
+														<div class="collapse w-100 pt-2" id="continent_islands_#i#">
+															<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##continent_islands_#h#" aria-expanded="false" aria-controls="continent_islands_#h#">
 																#group# &nbsp;&nbsp;
 																<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct# records)</a>
 															</button>
@@ -484,6 +490,7 @@ limitations under the License.
 
 												<cfset i= i+1>
 											</cfloop>
+										<cfset h= h+1>
 										</cfloop>
 								</div>
 							</div>
