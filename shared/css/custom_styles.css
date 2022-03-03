@@ -2943,10 +2943,10 @@ ol.flowSm li, ul.flowMd li {
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowSm li a {
+ol.flowSm li a, ul.flowSm li a {
 	padding-right: 3px;
 }
-ol.flowMd {
+ol.flowMd, ul.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: auto; /* need to specify height :-( */
