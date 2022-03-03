@@ -2738,7 +2738,7 @@ ol.flowMd, ul.flowMd {
 	column-count: 3;
 }
 ol.flowMd li, ul.flowMd li {
-	width: auto;
+	width: 50%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
