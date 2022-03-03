@@ -117,7 +117,7 @@ limitations under the License.
 </cfquery>
 
 <cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-	SELECT sum(coll_obj_count) as ct, island_group
+	SELECT sum(coll_obj_count) as ct, continent_ocean,island_group, island
 	FROM cf_geog_cat_item_counts
 	WHERE
 		(island_group IS NOT NULL OR island IS NOT NULL) AND 
@@ -125,7 +125,6 @@ limitations under the License.
 	GROUP BY island_group
 	ORDER BY island_group
 </cfquery>
-
 <div class="container-fluid px-xl-5 pb-5">
 	<div class="row mx-md-0 mb-4">
 	<h1 class="px-2 mt-4 mb-0 w-100 text-center">Browse MCZ Specimens by Category</h1>	
