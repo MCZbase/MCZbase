@@ -439,7 +439,7 @@ limitations under the License.
 															GROUP BY island_group
 															ORDER BY island_group
 															</cfquery>
-															<cfloop class="island_groups">
+															<cfloop query="island_groups">
 															<ol>
 																<li>#island_groups#</li>
 															</ol>
