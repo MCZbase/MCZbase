@@ -407,7 +407,7 @@ limitations under the License.
 								<h3 class="px-2">Browse By Islands</h3>	
 								<div class="col-12 px-0 px-md-2">
 									<cfset j=1>
-										<cfloop query="continents">
+										<cfloop query="continent_islands">
 											<h4 class="collapsebar w-100 my-1">
 												<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##continent_islands_#j#" aria-expanded="false" aria-controls="continent_islands_#j#">
 													#continent_islands.continent_ocean# &nbsp;&nbsp;
