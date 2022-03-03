@@ -118,7 +118,7 @@ limitations under the License.
 	SELECT continent_ocean
 	FROM cf_geog_cat_item_counts
 	WHERE
-		continent_ocean is not null and
+		continent_ocean is not null and island_group is not null and
 		target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
 	GROUP BY continent_ocean
 	ORDER BY continent_ocean
