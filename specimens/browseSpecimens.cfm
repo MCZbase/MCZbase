@@ -426,22 +426,22 @@ limitations under the License.
 													GROUP BY island_group
 													ORDER BY island_group
 												</cfquery>
-												<ul class="list-group">
+												<cfif island_groups.recordCount gte 300> 
+													<cfset islandValues = "flowLg">
+												<cfelseif island_groups.recordCount gte 51 and island_groups.recordCount lte 299>
+													<cfset islandValues = "flowMd">
+												<cfelseif island_groups.recordCount gte 26 and island_groups.recordCount lte 50>
+													<cfset islandValues = "flowSm">
+												<cfelseif island_groups.recordCount gte 16 and island_groups.recordCount lte 25>
+													<cfset islandValues = "flowXS">
+												<cfelseif island_groups.recordCount gte 5 and island_groups.recordCount lte 15>
+													<cfset islandValues = "flowXXS">
+												<cfelse>	
+													<cfset islandValues = "flowNone pb-3">
+												</cfif>
+												<ul class="list-group #islandValues#">
 													<cfloop query="island_groups">
-															<cfif island_groups.recordCount gte 300> 
-															<cfset islandValues = "flowLg">
-														<cfelseif island_groups.recordCount gte 51 and island_groups.recordCount lte 299>
-															<cfset islandValues = "flowMd">
-														<cfelseif island_groups.recordCount gte 26 and island_groups.recordCount lte 50>
-															<cfset islandValues = "flowSm">
-														<cfelseif island_groups.recordCount gte 16 and island_groups.recordCount lte 25>
-															<cfset islandValues = "flowXS">
-														<cfelseif island_groups.recordCount gte 5 and island_groups.recordCount lte 15>
-															<cfset islandValues = "flowXXS">
-														<cfelse>	
-															<cfset islandValues = "flowNone pb-3">
-														</cfif>
-														<li class="list-group-item #islandValues#">#island_groups.island_group#
+														<li class="list-group-item">#island_groups.island_group#
 															<cfset i=1>
 															<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 															SELECT sum(coll_obj_count) ct, island
