@@ -406,6 +406,7 @@ limitations under the License.
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-2">Browse By Islands</h3>	
 								<div class="col-12 px-0 px-md-2">
+									<cfset h=1>
 										<cfloop query="continents">
 											<h4 class="collapsebar w-100 my-1">
 												<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##continent_islands_#h#" aria-expanded="false" aria-controls="continent_islands_#h#">
@@ -485,6 +486,7 @@ limitations under the License.
 													<cfset i= i+1>
 												</cfloop>
 											</div>
+										<cfset h=h+1>
 									</cfloop>
 								</div>
 							</div>
