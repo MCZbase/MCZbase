@@ -425,7 +425,7 @@ limitations under the License.
 													</button>
 												</h4>
 												<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-													SELECT sum(coll_obj_count) ct, island
+													SELECT sum(coll_obj_count) ct, island_group
 													FROM 
 														cf_geog_cat_item_counts 
 													WHERE
@@ -434,10 +434,10 @@ limitations under the License.
 														<cfif len(island_groups.island_group) EQ 0>
 															island_group IS NULL
 														<cfelse> 
-															island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
+															continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.continent_ocean#">
 														</cfif>
-													GROUP BY island
-													ORDER BY island
+													GROUP BY island_group
+													ORDER BY island_group
 												</cfquery>
 												<!---for newpaper flow within islands--->
 												<cfif islands.recordCount gte 300> 
