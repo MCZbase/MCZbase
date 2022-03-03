@@ -446,14 +446,14 @@ limitations under the License.
 															ORDER BY island
 															</cfquery>
 															<cfloop query="islands">
-															<cfset islandVal = islands.island>
-															<cfset islandLookup = islands.island>
-															<cfif len(islandVal) EQ 0> 
-																<cfset islandVal = "[No Island Value]">
-																<cfset islandLookup = "NULL">
-															</cfif>
+																<cfset islandVal = islands.island>
+																<cfset islandLookup = islands.island>
+																<cfif len(islandVal) EQ 0> 
+																	<cfset islandVal = "[No Island Value]">
+																	<cfset islandLookup = "NULL">
+																</cfif>
 															<ol>
-																<li>#islands.islandVal#</li>
+																<li>#islandVal#</li>
 															</ol>
 															<cfset i=i+1>
 															</cfloop>
