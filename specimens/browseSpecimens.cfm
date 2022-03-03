@@ -406,8 +406,6 @@ limitations under the License.
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-2">Browse By Islands</h3>	
 								<div class="col-12 px-0 px-md-2">
-
-										<cfset h = 1>
 										<cfloop query="continents">
 											<h4 class="collapsebar w-100 my-1">
 												<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##continent_islands_#h#" aria-expanded="false" aria-controls="continent_islands_#h#">
@@ -415,8 +413,7 @@ limitations under the License.
 													<a class="float-right" href="#specimenSearch#&higher_geog=#continent_islands.continent_ocean#" target="_blank"></a>
 												</button>
 											</h4>
-										
-										
+											<div class="collapse w-100 pt-2" id="continent_islands_#i#">
 												<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 													SELECT sum(coll_obj_count) as ct, island_group
 													FROM cf_geog_cat_item_counts
@@ -435,7 +432,7 @@ limitations under the License.
 												<cfset i=1>
 												<cfloop query="island_groups">
 													<!--- TODO: Support island/island_group in specimen search API --->
-												<h3 class="">#group#</h3>	
+													<h3 class="">#group#</h3>	
 													<div class="w-100 my-2">
 														<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 															SELECT sum(coll_obj_count) ct, island
@@ -466,7 +463,7 @@ limitations under the License.
 														<cfelse>	
 															<cfset islandValues = "flowNone">
 														</cfif>
-														<div class="collapse w-100 pt-2" id="continent_islands_#i#">
+														
 															<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##continent_islands_#h#" aria-expanded="false" aria-controls="continent_islands_#h#">
 																#group# &nbsp;&nbsp;
 																<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct# records)</a>
@@ -485,13 +482,10 @@ limitations under the License.
 																</cfloop>
 															</ol>
 														</div>
-												</div>
-
-												<cfset i= i+1>
-												
-											</cfloop>
-										<cfset h= h+1>
-										</cfloop>
+													<cfset i= i+1>
+												</cfloop>
+											</div>
+									</cfloop>
 								</div>
 							</div>
 
