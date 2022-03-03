@@ -406,16 +406,16 @@ limitations under the License.
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-2">Browse By Islands</h3>	
 								<div class="col-12 px-0 px-md-2">
-									<cfset h=1>
+									<cfset j=1>
 										<cfloop query="continents">
 											<h4 class="collapsebar w-100 my-1">
-												<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##continent_islands_#h#" aria-expanded="false" aria-controls="continent_islands_#h#">
+												<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##continent_islands_#j#" aria-expanded="false" aria-controls="continent_islands_#j#">
 													#continent_islands.continent_ocean# &nbsp;&nbsp;
 													<a class="float-right" href="#specimenSearch#&higher_geog=#continent_islands.continent_ocean#" target="_blank"></a>
 												</button>
 											</h4>
-											<div class="collapse w-100 pt-2" id="continent_islands_#i#">
-												<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+											<div class="collapse w-100 pt-2" id="continent_islands_#j#">
+<!---												<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 													SELECT sum(coll_obj_count) as ct, island_group
 													FROM cf_geog_cat_item_counts
 													WHERE
@@ -431,8 +431,9 @@ limitations under the License.
 													<cfset groupLookup = "NULL">
 												</cfif>
 												<cfset i=1>
-												<cfloop query="island_groups">
-													<!--- TODO: Support island/island_group in specimen search API --->
+<!--- TODO: Support island/island_group in specimen search API --->
+											<!---	<cfloop query="island_groups">
+													
 													<h3 class="">#group#</h3>	
 													<div class="w-100 my-2">
 														<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
@@ -451,7 +452,7 @@ limitations under the License.
 															ORDER BY island
 														</cfquery>
 														<!---for newpaper flow within islands--->
-														<cfif islands.recordCount gte 300> 
+												<!---		<cfif islands.recordCount gte 300> 
 															<cfset islandValues = "flowXL">
 														<cfelseif islands.recordCount gte 251 and islands.recordCount lte 299>
 															<cfset islandValues = "flowLg">
@@ -459,7 +460,7 @@ limitations under the License.
 															<cfset islandValues = "flowMd">
 														<cfelseif islands.recordCount gte 50 and islands.recordCount lte 89>
 															<cfset islandValues = "flowSm"><!---Example West Indies in islands--->
-														<cfelseif islands.recordCount gte 20 and islands.recordCount lte 49>
+													<!---	<cfelseif islands.recordCount gte 20 and islands.recordCount lte 49>
 															<cfset islandValues = "flowXS">
 														<cfelse>	
 															<cfset islandValues = "flowNone">
@@ -484,9 +485,9 @@ limitations under the License.
 															</ol>
 														</div>
 													<cfset i= i+1>
-												</cfloop>
+												</cfloop>--->
 											</div>
-										<cfset h=h+1>
+										<cfset j=j+1>
 									</cfloop>
 								</div>
 							</div>
