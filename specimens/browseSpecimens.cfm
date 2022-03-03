@@ -430,18 +430,24 @@ limitations under the License.
 													<ul>
 														<li>#island_groups.island_group#
 															<cfset i=1>
-															<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-															SELECT sum(coll_obj_count) as ct, island_group
-															FROM cf_geog_cat_item_counts
+															<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+															SELECT sum(coll_obj_count) ct, island
+															FROM 
+																cf_geog_cat_item_counts 
 															WHERE
-																(island_group IS NOT NULL OR island IS NOT NULL) AND 
 																target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
-															GROUP BY island_group
-															ORDER BY island_group
+																AND
+																<cfif len(island_groups.island_group) EQ 0>
+																	island_group IS NULL
+																<cfelse> 
+																	island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
+																</cfif>
+															GROUP BY island
+															ORDER BY island
 															</cfquery>
-															<cfloop query="island_groups">
+															<cfloop query="islands">
 															<ol>
-																<li>#island_groups#</li>
+																<li>#islands.island#</li>
 															</ol>
 															<cfset i=i+1>
 															</cfloop>
