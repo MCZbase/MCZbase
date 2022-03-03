@@ -439,15 +439,15 @@ limitations under the License.
 												<cfelse>	
 													<cfset islandValues = "flowNone pb-3">
 												</cfif>
-												<ul class="#islandValues# px-0">
 													<cfloop query="island_groups">
+														<h4 class="collapsebar w-100 my-1">
+															<button type="button" class="border rounded bg-white py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#j#" aria-expanded="false" aria-controls="islandsgroup_#j#">
+																#island_groups.island_group# &nbsp;&nbsp;
+																<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank"></a>
+															</button>
+														</h4>
+														<ul class="#islandValues# px-0">
 														<li class="">
-															<h4 class="collapsebar w-100 my-1">
-																<button type="button" class="border rounded bg-white py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#j#" aria-expanded="false" aria-controls="islandsgroup_#j#">
-																	#island_groups.island_group# &nbsp;&nbsp;
-																	<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank"></a>
-																</button>
-															</h4>
 															<cfset i=1>
 															<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 															SELECT sum(coll_obj_count) ct, island
