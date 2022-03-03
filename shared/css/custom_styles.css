@@ -2352,11 +2352,11 @@ div.vslider-item[aria-hidden="true"]{
 ol.flowXXS,ul.flowXXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 115px; /* need to specify height :-( */
+	height: 600px; /* need to specify height :-( */
 	column-count: 4;
 }
 ol.flowXXS li, ul.flowXXS li {
-	width: 250px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
