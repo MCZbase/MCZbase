@@ -456,14 +456,14 @@ limitations under the License.
 												<div class="collapse w-100 pt-2" id="islandgroup_#i#">
 													<ol class="#islandValues# px-0 px-md-2 mx-1">
 														<cfloop query="islands">
-															<cfset islandVal = islands.island>
-															<cfset islandLookup = islands.island>
+															<cfset islandVal = islands.island_group>
+															<cfset islandLookup = islands.island_group>
 															<cfif len(islandVal) EQ 0> 
-																<cfset islandVal = "[No Island Value]">
+																<cfset islandVal = "[No Island Group Value]">
 																<cfset islandLookup = "NULL">
 															</cfif>
 															<li>	
-															<a href="#specimenSearch#&island_group=#groupLookup#&island=#islandLookup#" target="_blank">#islandVal# </a>(#islands.ct#)
+															<a href="#specimenSearch#&island_group=#groupLookup#&island_group=#islandLookup#" target="_blank">#islandVal# </a>(#islands.ct#)
 															</li>
 														</cfloop>
 													</ol>
