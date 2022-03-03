@@ -439,9 +439,9 @@ limitations under the License.
 												<cfelse>	
 													<cfset islandValues = "flowNone pb-3">
 												</cfif>
-												<ol class="#islandValues#">
+												<ol class="#islandValues# px-0">
 													<cfloop query="island_groups">
-														<li class="list-group-item">#island_groups.island_group#
+														<li class="">#island_groups.island_group#
 															<cfset i=1>
 															<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 															SELECT sum(coll_obj_count) ct, island
