@@ -426,10 +426,10 @@ limitations under the License.
 													GROUP BY island_group
 													ORDER BY island_group
 												</cfquery>
-													<ul>
+													<ul class="list-group list-group-horizontal">
 												<cfloop query="island_groups">
 												
-														<li>#island_groups.island_group#
+														<li class="list-group-item">#island_groups.island_group#
 															<cfset i=1>
 															<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 															SELECT sum(coll_obj_count) ct, island
