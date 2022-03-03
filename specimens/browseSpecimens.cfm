@@ -471,7 +471,7 @@ limitations under the License.
 												<cfelse>	
 													<cfset islandsValues = "flowNone pb-2">
 												</cfif>
-															<ol class="#islandsValues#">
+															<ol class="">
 																<cfloop query="islands">
 																	<cfset islandVal = islands.island>
 																	<cfset islandLookup = islands.island>
