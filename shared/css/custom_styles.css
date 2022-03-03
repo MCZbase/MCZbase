@@ -2356,7 +2356,7 @@ ol.flowXXS,ul.flowXXS {
 	column-count: 4;
 }
 ol.flowXXS li, ul.flowXXS li {
-	width: auto;
+	width: 25%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2371,7 +2371,7 @@ ol.flowXS, ul.flowXS {
 	column-count: 4;
 }
 ol.flowXS li,ul.flowXS li {
-	width: auto;
+	width: 25%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2386,7 +2386,7 @@ ol.flowSm, ul.flowSm {
 	column-count: 4;
 }
 ol.flowSm li,ul.flowSm li {
-	width: auto;
+	width: 25%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2401,7 +2401,7 @@ ol.flowMd,ul.flowMd {
 	column-count: 3;
 }
 ol.flowMd li, ul.flowMd li {
-	width: auto;
+	width: 33%;
 	list-style-position:inside;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
@@ -2413,10 +2413,10 @@ ol.flowLg ,ul.flowLg{
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 2560px; /* need to specify height :-( */
-	column-count: 6;
+	column-count: 5;
 }
 ol.flowLg li,ul.flowLg li {
-	width: auto;
+	width: 20%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2431,7 +2431,7 @@ ol.flowXL,ul.flowXL {
 	column-count: 5;
 }
 ol.flowXL li,ul.flowXL li {
-	width: auto;
+	width: 20%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2478,7 +2478,7 @@ ol.flowXXS, ul.flowXXS {
 	column-count: 4;
 }
 ol.flowXXS li, ul.flowXXS li {
-	width: auto;
+	width: 25%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2493,7 +2493,7 @@ ol.flowXS, ul.flowXS {
 	column-count: 4;
 }
 ol.flowXS li, ul.flowXS li {
-	width: auto;
+	width: 25%;
 	padding-right: 1rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2508,7 +2508,7 @@ ol.flowSm,ul.flowSm {
 	column-count: 4;
 }
 ol.flowSm li,ul.flowSm li {
-	width: auto;
+	width: 25%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2523,7 +2523,7 @@ ol.flowMd, ul.flowMd {
 	column-count: 4;
 }
 ol.flowMd li,ul.flowMd li{
-	width: auto;
+	width: 25%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2535,10 +2535,10 @@ ol.flowLg,ul.flowLg {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 2560px; /* need to specify height :-( */
-	column-count: 6;
+	column-count: 5;
 }
 ol.flowLg li,ul.flowLg li {
-	width: auto;
+	width: 20%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2553,7 +2553,7 @@ ol.flowXL, ul.flowXL {
 	column-count: 5;
 }
 ol.flowXL li,ul.flowXL li {
-	width: auto;
+	width: 20%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2584,7 +2584,7 @@ ol.flowXXS, ul.flowXXS {
 	column-count: 4;
 }
 ol.flowXXS li, ul.flowXXS li {
-	width: auto;
+	width: 25%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2599,7 +2599,7 @@ ol.flowXS, ul.flowXS {
 	column-count: 3;
 }
 ol.flowXS li , ul.flowXS li{
-	width: auto;
+	width: 33%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2614,7 +2614,7 @@ ol.flowSm, ul.flowSm {
 	column-count: 3;
 }
 ol.flowSm li, ul.flowSm li {
-	width: auto;
+	width: 33%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2628,7 +2628,7 @@ ol.flowMd, ul.flowMd {
 	column-count: 3;
 }
 ol.flowMd li , ul.flowMd li {
-	width: auto;
+	width: 33%;
 	overflow-wrap:anywhere;
 	list-style-position:inside;/*makes the number go to the top of the bullet; otherwise, it vert-aligns to middle*/
 }
@@ -2639,10 +2639,10 @@ ol.flowLg, ul.flowLg {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 2560px; /* need to specify height :-( */
-	column-count: 6;
+	column-count: 5;
 }
 ol.flowLg li, ul.flowLg li {
-	width: auto;
+	width: 20%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2656,7 +2656,7 @@ ol.flowXL {
 	column-count: 4;
 }
 ol.flowXL li, ul.flowXL li {
-	width: auto;
+	width: 25%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2695,7 +2695,7 @@ ol.flowXXS,ul.flowXXS {
 	column-count: 4;
 }
 ol.flowXXS li, ul.flowXXS li {
-	width: auto;
+	width: 25%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2710,7 +2710,7 @@ ol.flowXS,ul.flowXS {
 	column-count: 2;
 }
 ol.flowXS li, ul.flowXS li {
-	width: auto;
+	width: 50%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2724,7 +2724,7 @@ ol.flowSm, ul.flowSm {
 	column-count: 2;
 }
 ol.flowSm li, ul.flowSm li{
-	width: auto;
+	width: 50%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2735,7 +2735,7 @@ ol.flowMd, ul.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 1010px; /* need to specify height :-( */
-	column-count: 3;
+	column-count: 2;
 }
 ol.flowMd li, ul.flowMd li {
 	width: 50%;
@@ -2752,7 +2752,7 @@ ol.flowLg, ul.flowLg {
 	column-count: 3;
 }
 ol.flowLg li, ul.flowLg li {
-	width: auto;
+	width: 33%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2766,7 +2766,7 @@ ol.flowXL, ul.flowXL {
 	column-count: 3;
 }
 ol.flowXL li, ul.flowXL li {
-	width: auto;
+	width: 33%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2799,7 +2799,7 @@ ol.flowXXS, ul.flowXXS{
 	column-count: 4;
 }
 ol.flowXXS li, ul.flowXXS li {
-	width: auto;
+	width: 25%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2814,7 +2814,7 @@ ol.flowXS, ul.flowXS {
 	column-count: 2;
 }
 ol.flowXS li, ul.flowXS li {
-	width: auto;
+	width: 50%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2828,7 +2828,7 @@ ol.flowSm,ul.flowSm  {
 	column-count: 2;
 }
 ol.flowSm li, ul.flowSm li {
-	width: auto;
+	width: 50%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2857,7 +2857,7 @@ ol.flowLg, ul.flowLg {
 	column-count: 2;
 }
 ol.flowLg li, ul.flowLg li {
-	width: auto;
+	width: 50%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2871,7 +2871,7 @@ ol.flowXL, ul.flowXL {
 	column-count: 2;
 }
 ol.flowXL li, ul.flowXL li {
-	width: auto;
+	width: 50%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2910,7 +2910,7 @@ ol.flowXXS, ul.flowXXS {
 	column-count: 4;
 }
 ol.flowXXS li, ul.flowXXS li {
-	width: 250px;
+	width: 25%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
