@@ -122,8 +122,8 @@ limitations under the License.
 	WHERE
 		(island_group IS NOT NULL OR island IS NOT NULL) AND 
 		target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
-	GROUP BY island_group
-	ORDER BY island_group
+	GROUP BY continent_ocean,island_group, island
+	ORDER BY continent_ocean,island_group;
 </cfquery>
 <div class="container-fluid px-xl-5 pb-5">
 	<div class="row mx-md-0 mb-4">
