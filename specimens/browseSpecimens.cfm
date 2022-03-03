@@ -120,10 +120,10 @@ limitations under the License.
 	SELECT sum(coll_obj_count) as ct, continent_ocean,island_group, island
 	FROM cf_geog_cat_item_counts
 	WHERE
-		(island_group IS NOT NULL OR island IS NOT NULL) AND 
+		(island_group IS NOT NULL) AND continent_ocean is not null and
 		target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
 	GROUP BY continent_ocean,island_group, island
-	ORDER BY continent_ocean,island_group;
+	ORDER BY continent_ocean,island_group
 </cfquery>
 <div class="container-fluid px-xl-5 pb-5">
 	<div class="row mx-md-0 mb-4">
