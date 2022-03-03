@@ -458,8 +458,20 @@ limitations under the License.
 															GROUP BY island
 															ORDER BY island
 															</cfquery>
-											
-															<ol class="#islandValues#">
+												<cfif islands.recordCount gte 300> 
+													<cfset islandsValues = "flowLg">
+												<cfelseif islands.recordCount gte 51 and islands.recordCount lte 299>
+													<cfset islandsValues = "flowMd">
+												<cfelseif islands.recordCount gte 34 and islands.recordCount lte 50>
+													<cfset islandsValues = "flowSm">
+												<cfelseif islands.recordCount gte 21 and islands.recordCount lte 33>
+													<cfset islandsValues = "flowXS">
+												<cfelseif islands.recordCount gte 10 and islands.recordCount lte 20>
+													<cfset islandsValues = "flowXXS">
+												<cfelse>	
+													<cfset islandsValues = "flowNone pb-2">
+												</cfif>
+															<ol class="#islandsValues#">
 																<cfloop query="islands">
 																	<cfset islandVal = islands.island>
 																	<cfset islandLookup = islands.island>
