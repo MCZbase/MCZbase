@@ -439,7 +439,7 @@ limitations under the License.
 												<cfelse>	
 													<cfset islandValues = "flowNone pb-3">
 												</cfif>
-												<ul class="list-group #islandValues#">
+												<ul class="#islandValues#">
 													<cfloop query="island_groups">
 														<li class="list-group-item">#island_groups.island_group#
 															<cfset i=1>
