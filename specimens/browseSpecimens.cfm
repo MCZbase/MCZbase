@@ -438,16 +438,16 @@ limitations under the License.
 												<cfelse>	
 													<cfset islandValues = "flowNone pb-3">
 												</cfif>
+												<cfset k=1>
 												<cfloop query="island_groups">
 													<h4 class="collapsebar w-100 my-1">
-														<button type="button" class="border rounded bg-white py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#j#" aria-expanded="false" aria-controls="islandsgroup_#j#">
+														<button type="button" class="border rounded bg-white py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#k#" aria-expanded="false" aria-controls="islandsgroup_#k#">
 															#island_groups.island_group# &nbsp;&nbsp;
 															<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank"></a>
 														</button>
 													</h4>
-													<ul class="#islandValues# px-0">
+													<ul class="#islandValues# px-0 list-unstyled">
 														<li class="">
-															<cfset i=1>
 															<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 															SELECT sum(coll_obj_count) ct, island
 															FROM 
@@ -463,8 +463,9 @@ limitations under the License.
 															GROUP BY island
 															ORDER BY island
 															</cfquery>
-															<div class="collapse w-100 pt-2" id="islandsgroup_#j#">
+															<div class="collapse w-100 pt-2" id="islandsgroup_#k#">
 																<ol class="">
+																	<cfset i=1>
 																	<cfloop query="islands">
 																		<cfset islandVal = islands.island>
 																		<cfset islandLookup = islands.island>
@@ -479,6 +480,7 @@ limitations under the License.
 															</div>
 														</li>
 													</ul>
+												<cfset k=k+1>
 												</cfloop>
 										<cfset j=j+1>
 									</cfloop>
