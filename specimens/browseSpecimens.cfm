@@ -461,7 +461,7 @@ limitations under the License.
 												GROUP BY island
 												ORDER BY island
 												</cfquery>
-												<div class="collapse w-100 float-left pt-2" id="islandsgroup_#k#">
+												<div class="collapse col-4 float-left pt-2" id="islandsgroup_#k#">
 													<ol class="">
 														<cfset i=1>
 														<cfloop query="islands">
