@@ -2371,7 +2371,7 @@ ol.flowXS, ul.flowXS {
 	column-count: 4;
 }
 ol.flowXS li,ul.flowXS li {
-	width: 290px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2386,7 +2386,7 @@ ol.flowSm, ul.flowSm {
 	column-count: 4;
 }
 ol.flowSm li,ul.flowSm li {
-	width: 300px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2401,7 +2401,7 @@ ol.flowMd,ul.flowMd {
 	column-count: 3;
 }
 ol.flowMd li, ul.flowMd li {
-	width: 245px;
+	width: auto;
 	list-style-position:inside;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
@@ -2416,7 +2416,7 @@ ol.flowLg ,ul.flowLg{
 	column-count: 6;
 }
 ol.flowLg li,ul.flowLg li {
-	width: 200px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2431,7 +2431,7 @@ ol.flowXL,ul.flowXL {
 	column-count: 5;
 }
 ol.flowXL li,ul.flowXL li {
-	width: 200px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2478,7 +2478,7 @@ ol.flowXXS, ul.flowXXS {
 	column-count: 4;
 }
 ol.flowXXS li, ul.flowXXS li {
-	width: 250px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2493,7 +2493,7 @@ ol.flowXS, ul.flowXS {
 	column-count: 4;
 }
 ol.flowXS li, ul.flowXS li {
-	width: 290px;
+	width: auto;
 	padding-right: 1rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2508,7 +2508,7 @@ ol.flowSm,ul.flowSm {
 	column-count: 4;
 }
 ol.flowSm li,ul.flowSm li {
-	width: 318px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2523,7 +2523,7 @@ ol.flowMd, ul.flowMd {
 	column-count: 4;
 }
 ol.flowMd li,ul.flowMd li{
-	width: 200px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2538,7 +2538,7 @@ ol.flowLg,ul.flowLg {
 	column-count: 6;
 }
 ol.flowLg li,ul.flowLg li {
-	width: 200px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2553,7 +2553,7 @@ ol.flowXL, ul.flowXL {
 	column-count: 5;
 }
 ol.flowXL li,ul.flowXL li {
-	width: 260px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2584,7 +2584,7 @@ ol.flowXXS, ul.flowXXS {
 	column-count: 4;
 }
 ol.flowXXS li, ul.flowXXS li {
-	width: 250px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2599,7 +2599,7 @@ ol.flowXS, ul.flowXS {
 	column-count: 3;
 }
 ol.flowXS li , ul.flowXS li{
-	width: 210px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2614,7 +2614,7 @@ ol.flowSm, ul.flowSm {
 	column-count: 3;
 }
 ol.flowSm li, ul.flowSm li {
-	width: 200px;
+	width: auto;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2628,7 +2628,7 @@ ol.flowMd, ul.flowMd {
 	column-count: 3;
 }
 ol.flowMd li , ul.flowMd li {
-	width: 200px;
+	width: auto;
 	overflow-wrap:anywhere;
 	list-style-position:inside;/*makes the number go to the top of the bullet; otherwise, it vert-aligns to middle*/
 }
@@ -2642,7 +2642,7 @@ ol.flowLg, ul.flowLg {
 	column-count: 6;
 }
 ol.flowLg li, ul.flowLg li {
-	width: 200px;
+	width: auto;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2656,7 +2656,7 @@ ol.flowXL {
 	column-count: 4;
 }
 ol.flowXL li, ul.flowXL li {
-	width: 200px;
+	width: auto;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2695,7 +2695,7 @@ ol.flowXXS,ul.flowXXS {
 	column-count: 4;
 }
 ol.flowXXS li, ul.flowXXS li {
-	width: 250px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2709,8 +2709,8 @@ ol.flowXS,ul.flowXS {
 	height: 506px;
 	column-count: 2;
 }
-ol.flowXS li {
-	width: 210px;
+ol.flowXS li, ul.flowXS li {
+	width: auto;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2724,7 +2724,7 @@ ol.flowSm, ul.flowSm {
 	column-count: 2;
 }
 ol.flowSm li, ul.flowSm li{
-	width: 240px;
+	width: auto;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2738,25 +2738,25 @@ ol.flowMd, ul.flowMd {
 	column-count: 3;
 }
 ol.flowMd li, ul.flowMd li {
-	width: 200px;
+	width: auto;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
 ol.flowMd li a, ul.flowMd li a {
 	padding-right: 3px;
 }	
-ol.flowLg, ull.flowLg {
+ol.flowLg, ul.flowLg {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 2560px; /* need to specify height :-( */
 	column-count: 3;
 }
 ol.flowLg li, ul.flowLg li {
-	width: 200px;
+	width: auto;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowLg li a, ull.flowLg li a {
+ol.flowLg li a, ul.flowLg li a {
 	padding-right: 3px;
 }	
 ol.flowXL, ul.flowXL {
@@ -2766,7 +2766,7 @@ ol.flowXL, ul.flowXL {
 	column-count: 3;
 }
 ol.flowXL li, ul.flowXL li {
-	width: 175px;
+	width: auto;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2799,7 +2799,7 @@ ol.flowXXS, ul.flowXXS{
 	column-count: 4;
 }
 ol.flowXXS li, ul.flowXXS li {
-	width: 250px;
+	width: auto;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2814,7 +2814,7 @@ ol.flowXS, ul.flowXS {
 	column-count: 2;
 }
 ol.flowXS li, ul.flowXS li {
-	width: 200px;
+	width: auto;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2828,7 +2828,7 @@ ol.flowSm,ul.flowSm  {
 	column-count: 2;
 }
 ol.flowSm li, ul.flowSm li {
-	width: 200px;
+	width: auto;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2843,7 +2843,7 @@ ol.flowMd, ul.flowMd {
 	column-count: 2;
 }
 ol.flowMd li, ul.flowMd li {
-	width: 200px;
+	width: auto;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2857,7 +2857,7 @@ ol.flowLg, ul.flowLg {
 	column-count: 2;
 }
 ol.flowLg li, ul.flowLg li {
-	width: 200px;
+	width: auto;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2871,7 +2871,7 @@ ol.flowXL, ul.flowXL {
 	column-count: 2;
 }
 ol.flowXL li, ul.flowXL li {
-	width: 275px;
+	width: auto;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
