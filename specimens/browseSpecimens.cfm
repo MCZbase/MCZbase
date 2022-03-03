@@ -113,8 +113,8 @@ limitations under the License.
 	WHERE
 		island_group IS NOT NULL AND continent_ocean is not null and
 		target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
-	GROUP BY continent, island_group
-	ORDER BY continent, island_group
+	GROUP BY continent_ocean, island_group
+	ORDER BY continent_ocean, island_group
 </cfquery>
 
 <cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
