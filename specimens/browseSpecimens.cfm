@@ -409,6 +409,7 @@ limitations under the License.
 									<cfset i=1>
 									
 									<cfloop query="island_groups">
+										<cfset continent = island_groups.continent_ocean>
 										<cfset group = island_groups.island_group>
 										<cfset groupLookup = island_groups.island_group>
 										<cfif len(group) EQ 0> 
@@ -419,8 +420,8 @@ limitations under the License.
 											<div class="w-100 my-2">
 												<h4 class="collapsebar w-100 my-1">
 													<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandgroup_#i#" aria-expanded="false" aria-controls="islandgroup_#i#">
-														#group# &nbsp;&nbsp;
-														<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct# records)</a>
+														#island_groups.continent_ocean# &nbsp;&nbsp;
+														<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.continent_ocean#" target="_blank">(#island_groups.ct# records)</a>
 													</button>
 												</h4>
 												<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
