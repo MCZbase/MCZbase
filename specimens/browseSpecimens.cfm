@@ -124,15 +124,7 @@ limitations under the License.
 	ORDER BY continent_ocean
 </cfquery>
 
-<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-	SELECT sum(coll_obj_count) as ct, island_group
-	FROM cf_geog_cat_item_counts
-	WHERE
-		(island_group IS NOT NULL OR island IS NOT NULL) AND 
-		target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
-	GROUP BY island_group
-	ORDER BY island_group
-</cfquery>
+
 <div class="container-fluid px-xl-5 pb-5">
 	<div class="row mx-md-0 mb-4">
 	<h1 class="px-2 mt-4 mb-0 w-100 text-center">Browse MCZ Specimens by Category</h1>	
@@ -414,12 +406,7 @@ limitations under the License.
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 							<h3 class="px-2">Browse By Islands</h3>	
 								<div class="col-12 px-0 px-md-2">
-									<cfset group = island_groups.island_group>
-										<cfset groupLookup = island_groups.island_group>
-										<cfif len(group) EQ 0> 
-											<cfset group = "[No Island Group]">
-											<cfset groupLookup = "NULL">
-										</cfif>
+
 										<cfset h = 1>
 										<cfloop query="continents">
 											<h4 class="collapsebar w-100 my-1">
@@ -430,6 +417,15 @@ limitations under the License.
 											</h4>
 											<cfset i=1>
 											<cfloop query="island_groups">
+												<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+													SELECT sum(coll_obj_count) as ct, island_group
+													FROM cf_geog_cat_item_counts
+													WHERE
+														(island_group IS NOT NULL OR island IS NOT NULL) AND 
+														target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+													GROUP BY island_group
+													ORDER BY island_group
+												</cfquery>
 												<cfset group = island_groups.island_group>
 												<cfset groupLookup = island_groups.island_group>
 												<cfif len(group) EQ 0> 
@@ -437,6 +433,7 @@ limitations under the License.
 													<cfset groupLookup = "NULL">
 												</cfif>
 													<!--- TODO: Support island/island_group in specimen search API --->
+												<h3 class="">#group#</h3>	
 													<div class="w-100 my-2">
 														<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 															SELECT sum(coll_obj_count) ct, island
