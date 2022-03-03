@@ -428,13 +428,13 @@ limitations under the License.
 												</cfquery>
 												<cfif island_groups.recordCount gte 23> 
 													<cfset islandValues = "flowLg">
-												<cfelseif island_groups.recordCount gte 17 and island_groups.recordCount lte 22>
+												<cfelseif island_groups.recordCount gte 67 and island_groups.recordCount lte 22>
 													<cfset islandValues = "flowMd">
-												<cfelseif island_groups.recordCount gte 11 and island_groups.recordCount lte 16>
+												<cfelseif island_groups.recordCount gte 47 and island_groups.recordCount lte 66>
 													<cfset islandValues = "flowSm">
-												<cfelseif island_groups.recordCount gte 6 and island_groups.recordCount lte 10>
+												<cfelseif island_groups.recordCount gte 36 and island_groups.recordCount lte 46>
 													<cfset islandValues = "flowXS">
-												<cfelseif island_groups.recordCount gte 3 and island_groups.recordCount lte 5>
+												<cfelseif island_groups.recordCount gte 15 and island_groups.recordCount lte 35>
 													<cfset islandValues = "flowXXS">
 												<cfelse>	
 													<cfset islandValues = "flowNone pb-3">
