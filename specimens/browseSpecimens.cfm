@@ -415,7 +415,16 @@ limitations under the License.
 												</button>
 											</h4>
 											<div class="collapse w-100 pt-2" id="continent_islands_#j#">
-test
+											<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+													SELECT sum(coll_obj_count) as ct, island_group
+													FROM cf_geog_cat_item_counts
+													WHERE
+														(island_group IS NOT NULL OR island IS NOT NULL) AND 
+														target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+													GROUP BY island_group
+													ORDER BY island_group
+												</cfquery>
+											#island_groups.island_group#
 											</div>
 										<cfset j=j+1>
 									</cfloop>
