@@ -426,8 +426,9 @@ limitations under the License.
 													GROUP BY island_group
 													ORDER BY island_group
 												</cfquery>
-												<cfloop query="island_groups">
 													<ul>
+												<cfloop query="island_groups">
+												
 														<li>#island_groups.island_group#
 															<cfset i=1>
 															<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
@@ -445,23 +446,21 @@ limitations under the License.
 															GROUP BY island
 															ORDER BY island
 															</cfquery>
-															<cfloop query="islands">
-																<cfset islandVal = islands.island>
-																<cfset islandLookup = islands.island>
-																<cfif len(islandVal) EQ 0> 
-																	<cfset islandVal = "[No Island Value]">
-																	<cfset islandLookup = "NULL">
-																</cfif>
 															<ol>
-																<li>#islandVal#</li>
+																<cfloop query="islands">
+																	<cfset islandVal = islands.island>
+																	<cfset islandLookup = islands.island>
+																	<cfif len(islandVal) EQ 0> 
+																		<cfset islandVal = "[No Island Value]">
+																		<cfset islandLookup = "NULL">
+																	</cfif>
+																	<li>#islandVal#</li>
+																<cfset i=i+1>
+																</cfloop>
 															</ol>
 														</li>
-															<cfset i=i+1>
-															
-															</cfloop>
-													
-													</ol>
-												</cfloop>
+													</cfloop>
+												</ul>
 											</div>
 										<cfset j=j+1>
 									</cfloop>
