@@ -1015,9 +1015,6 @@ div#users-contain table td, div#users-contain table th {
 	border: none;
 	background-color: transparent;
 }
-
-
-
 ul.sd li.list-group-item {
 	margin-bottom: 0;
 	border-bottom: 1px solid #ccc;
@@ -1687,22 +1684,6 @@ tr.line-top:first-child {
 .smaller {
 	font-size: .7em !important;
 }
-/*.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before {
-	font-family: "Font Awesome 5 Free";
-	font-weight: 900;
-	float: left !important;
-	content: "\f067";
-	cursor: pointer;
-}
-.card-header h3 a:before, .card-header h2 a:before  {
-	font-family: "Font Awesome 5 Free";
-	font-weight: 900;
-	content: "\f068";
-	padding-right: 5px;
-	float: left !important;
-	cursor: pointer;
-}*/
-
 .card-header h1 button.collapsed span:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
@@ -2033,30 +2014,6 @@ th {
 	height: 223px;
 	width: auto;
 }
-/*.containFlex1 {
-	column-gap: 10px;
-	flex-wrap: wrap;
-	max-width: 100%;
-	column-count: 1;
-}
-.containFlex2 {
-	column-gap: 10px;
-	flex-wrap: wrap;
-	max-width: 100%;
-	column-count: 2;
-}
-.containFlex3 {
-	column-gap: 10px;
-	flex-wrap: wrap;
-	max-width: 100%;
-	column-count: 3;
-}
-.containFlex4 {
-	column-gap: 10px;
-	flex-wrap: wrap;
-	max-width: 100%;
-	column-count: 4;
-}*/
 .accordion {
 	-webkit-column-break-inside: avoid;
 	page-break-inside: avoid;
@@ -2238,7 +2195,7 @@ div.vslider-item[aria-hidden="true"]{
 	border-radius: 10px;
 }
 
-.secondary-red {
+/*.secondary-red {
 	color: #dc4c35;
 }
 .darkest-red {
@@ -2256,8 +2213,6 @@ div.vslider-item[aria-hidden="true"]{
 .red {
 	color: #f51d06;
 }
-
-
 .cbp-scroller > nav {
 	position: fixed;
 	z-index: 9999;
@@ -2268,7 +2223,6 @@ div.vslider-item[aria-hidden="true"]{
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
 }
-
 .cbp-scroller > nav a {
 	display: block;
 	position: relative;
@@ -2292,10 +2246,10 @@ div.vslider-item[aria-hidden="true"]{
 
 .cbp-scroller > nav a.cbp-current:after {
 	background: #fff;
-}
+}*/
 
 /* background-attachment does the trick */
-.cbp-scroller section {
+/*.cbp-scroller section {
 	position: relative;
 	background-position: top center;
 	background-repeat: no-repeat;
@@ -2325,7 +2279,7 @@ div.vslider-item[aria-hidden="true"]{
 	padding-top: .5rem;
 	padding-bottom: 1.5rem; 
 	border-radius: .2rem;
-}
+}*/
 #myBtn {
   display: none;
   position: fixed;
@@ -2395,6 +2349,21 @@ div.vslider-item[aria-hidden="true"]{
 	.w-350 {
 		width: 100%;
 	}
+ol.flowXXS {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 115px; /* need to specify height :-( */
+	column-count: 4;
+}
+ol.flowXXS li {
+	width: 250px;
+	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
+}
+ol.flowXXS li a {
+	padding-right: 3px;
+}
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
@@ -2502,6 +2471,21 @@ and also iPads specifically.
 	.w-350 {
 		width: 100%;
 	}
+ol.flowXXS {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 115px; /* need to specify height :-( */
+	column-count: 4;
+}
+ol.flowXXS li {
+	width: 250px;
+	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
+}
+ol.flowXXS li a {
+	padding-right: 3px;
+}
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
@@ -2593,6 +2577,21 @@ ol.flowNone li a {
 }
 }
 @media only screen and (max-width: 1379px) {
+ol.flowXXS {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 115px; /* need to specify height :-( */
+	column-count: 4;
+}
+ol.flowXXS li {
+	width: 250px;
+	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
+}
+ol.flowXXS li a {
+	padding-right: 3px;
+}
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
@@ -2689,6 +2688,21 @@ ol.flowNone li a {
 	h1 {
 		margin-bottom: 0;
 	}
+ol.flowXXS {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 115px; /* need to specify height :-( */
+	column-count: 4;
+}
+ol.flowXXS li {
+	width: 250px;
+	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
+}
+ol.flowXXS li a {
+	padding-right: 3px;
+}
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
@@ -2778,6 +2792,21 @@ ol.flowNone li a {
 }
 }
 @media only screen and (max-width: 800px){
+ol.flowXXS {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 115px; /* need to specify height :-( */
+	column-count: 4;
+}
+ol.flowXXS li {
+	width: 250px;
+	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
+}
+ol.flowXXS li a {
+	padding-right: 3px;
+}
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
@@ -2874,6 +2903,21 @@ ol.flowNone li a {
 }
 }
 @media only screen and (max-width: 575px) {
+ol.flowXXS {
+	display:flex;
+	flex-flow: column wrap; /* direction: column */
+	height: 115px; /* need to specify height :-( */
+	column-count: 4;
+}
+ol.flowXXS li {
+	width: 250px;
+	padding-right: .5rem;
+	overflow-wrap: anywhere;
+	list-style-position:inside;
+}
+ol.flowXXS li a {
+	padding-right: 3px;
+}
 ol.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */

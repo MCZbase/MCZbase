@@ -457,7 +457,7 @@ limitations under the License.
 														<cfelseif islands.recordCount gte 20 and islands.recordCount lte 49>
 															<cfset islandValues = "flowXS">
 														<cfelse>	
-															<cfset islandValues = "flowNone">
+															<cfset islandValues = "flowXXS">
 														</cfif>
 															<ol class="#islandValues#">
 																<cfloop query="islands">
