@@ -2349,43 +2349,43 @@ div.vslider-item[aria-hidden="true"]{
 	.w-350 {
 		width: 100%;
 	}
-ol.flowXXS {
+ol.flowXXS,ul.flowXXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 115px; /* need to specify height :-( */
 	column-count: 4;
 }
-ol.flowXXS li {
+ol.flowXXS li, ul.flowXXS li {
 	width: 250px;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowXXS li a {
+ol.flowXXS li a,ul.flowXXS li a {
 	padding-right: 3px;
 }
-ol.flowXS {
+ol.flowXS, ul.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 215px; /* need to specify height :-( */
 	column-count: 4;
 }
-ol.flowXS li {
+ol.flowXS li,ul.flowXS li {
 	width: 290px;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowXS li a {
+ol.flowXS li a, ul.flowXS li a {
 	padding-right: 3px;
 }
-ol.flowSm {
+ol.flowSm, ul.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 375px; /* need to specify height :-( */
 	column-count: 4;
 }
-ol.flowSm li {
+ol.flowSm li,ul.flowSm li {
 	width: 300px;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
@@ -2394,63 +2394,63 @@ ol.flowSm li {
 ol.flowSm li a {
 	padding-right: 3px;
 }
-ol.flowMd {
+ol.flowMd,ul.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 660px; /* need to specify height :-( */
 	column-count: 3;
 }
-ol.flowMd li {
+ol.flowMd li, ul.flowMd li {
 	width: 245px;
 	list-style-position:inside;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 }
-ol.flowMd li a {
+ol.flowMd li a,ul.flowMd li a {
 	padding-right: 3px;
 }	
-ol.flowLg {
+ol.flowLg ,ul.flowLg{
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 2560px; /* need to specify height :-( */
 	column-count: 6;
 }
-ol.flowLg li {
+ol.flowLg li,ul.flowLg li {
 	width: 200px;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowLg li a {
+ol.flowLg li a,ul.flowLg li a {
 	padding-right: 3px;
 }	
-ol.flowXL {
+ol.flowXL,ul.flowXL {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 3036px; /* need to specify height :-( */
 	column-count: 5;
 }
-ol.flowXL li {
+ol.flowXL li,ul.flowXL li {
 	width: 200px;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowXL li a {
+ol.flowXL li a,ul.flowXL li a {
 	padding-right: 3px;
 }
-ol.flowNone {
+ol.flowNone,ul.flowNone {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: auto; /* need to specify height :-( */
 	column-count: 1;
 }
-ol.flowNone li {
+ol.flowNone li,ul.flowNone li {
 	width: 100%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowNone li a {
+ol.flowNone li a,ul.flowNone li a {
 	padding-right: 3px;
 }
 }
@@ -2471,182 +2471,182 @@ and also iPads specifically.
 	.w-350 {
 		width: 100%;
 	}
-ol.flowXXS {
+ol.flowXXS, ul.flowXXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 115px; /* need to specify height :-( */
 	column-count: 4;
 }
-ol.flowXXS li {
+ol.flowXXS li, ul.flowXXS li {
 	width: 250px;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowXXS li a {
+ol.flowXXS li a, ul.flowXXS li a {
 	padding-right: 3px;
 }
-ol.flowXS {
+ol.flowXS, ul.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 215px; /* need to specify height :-( */
 	column-count: 4;
 }
-ol.flowXS li {
+ol.flowXS li, ul.flowXS li {
 	width: 290px;
 	padding-right: 1rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowXS li a {
+ol.flowXS li a, ul.flowXS li a {
 	padding-right: 3px;
 }
-ol.flowSm {
+ol.flowSm,ul.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 375px; /* need to specify height :-( */
 	column-count: 4;
 }
-ol.flowSm li {
+ol.flowSm li,ul.flowSm li {
 	width: 318px;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowSm li a {
+ol.flowSm li a,ul.flowSm li a {
 	padding-right: 3px;
 }
-ol.flowMd {
+ol.flowMd, ul.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 550px; /* need to specify height :-( */
 	column-count: 4;
 }
-ol.flowMd li {
+ol.flowMd li,ul.flowMd li{
 	width: 200px;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowMd li a {
+ol.flowMd li a,ul.flowMd li a {
 	padding-right: 3px;
 }	
-ol.flowLg {
+ol.flowLg,ul.flowLg {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 2560px; /* need to specify height :-( */
 	column-count: 6;
 }
-ol.flowLg li {
+ol.flowLg li,ul.flowLg li {
 	width: 200px;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowLg li a {
+ol.flowLg li a, ul.flowLg li a {
 	padding-right: 3px;
 }	
-ol.flowXL {
+ol.flowXL, ul.flowXL {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 3036px; /* need to specify height :-( */
 	column-count: 5;
 }
-ol.flowXL li {
+ol.flowXL li,ul.flowXL li {
 	width: 260px;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowXL li a {
+ol.flowXL li a,ul.flowXL li a {
 	padding-right: 3px;
 }
-ol.flowNone {
+ol.flowNone,ul.flowNone {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: auto; /* need to specify height :-( */
 	column-count: 1;
 }
-ol.flowNone li {
+ol.flowNone li,ul.flowNone li {
 	width: 100%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowNone li a {
+ol.flowNone li a,ul.flowNone li a {
 	padding-right: 3px;
 }
 }
 @media only screen and (max-width: 1379px) {
-ol.flowXXS {
+ol.flowXXS, ul.flowXXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 115px; /* need to specify height :-( */
 	column-count: 4;
 }
-ol.flowXXS li {
+ol.flowXXS li, ul.flowXXS li {
 	width: 250px;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowXXS li a {
+ol.flowXXS li a, ul.flowXXS li a {
 	padding-right: 3px;
 }
-ol.flowXS {
+ol.flowXS, ul.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 315px; /* need to specify height :-( */
 	column-count: 3;
 }
-ol.flowXS li {
+ol.flowXS li , ul.flowXS li{
 	width: 210px;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowXS li a {
+ol.flowXS li a, ul.flowXS li a {
 	padding-right: 3px;
 }
-ol.flowSm {
+ol.flowSm, ul.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 501px; /* need to specify height :-( */
 	column-count: 3;
 }
-ol.flowSm li {
+ol.flowSm li, ul.flowSm li {
 	width: 200px;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowSm li a {
+ol.flowSm li a,ul.flowSm li a {
 	padding-right: 3px;
 }
-ol.flowMd {
+ol.flowMd, ul.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 812px; /* need to specify height :-( */
 	column-count: 3;
 }
-ol.flowMd li {
+ol.flowMd li , ul.flowMd li {
 	width: 200px;
 	overflow-wrap:anywhere;
 	list-style-position:inside;/*makes the number go to the top of the bullet; otherwise, it vert-aligns to middle*/
 }
-ol.flowMd li a {
+ol.flowMd li a, ul.flowMd li a {
 	padding-right: 3px;
 }	
-ol.flowLg {
+ol.flowLg, ul.flowLg {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 2560px; /* need to specify height :-( */
 	column-count: 6;
 }
-ol.flowLg li {
+ol.flowLg li, ul.flowLg li {
 	width: 200px;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowLg li a {
+ol.flowLg li a, ul.flowLg li a  {
 	padding-right: 3px;
 }	
 ol.flowXL {
@@ -2655,29 +2655,29 @@ ol.flowXL {
 	height: 3879px; /* need to specify height :-( */
 	column-count: 4;
 }
-ol.flowXL li {
+ol.flowXL li, ul.flowXL li {
 	width: 200px;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowXL li a {
+ol.flowXL li a, ul.flowXL li a {
 	padding-right: 3px;
 }
 .tab-content {
 	margin-top: -1px;
 }
-ol.flowNone {
+ol.flowNone, ul.flowNone {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: auto; /* need to specify height :-( */
 	column-count: 1;
 }
-ol.flowNone li {
+ol.flowNone li ,ul.flowNone li{
 	width: 100%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowNone li a {
+ol.flowNone li a, ul.flowNone li a {
 	padding-right: 3px;
 }
 }
@@ -2688,22 +2688,22 @@ ol.flowNone li a {
 	h1 {
 		margin-bottom: 0;
 	}
-ol.flowXXS {
+ol.flowXXS,ul.flowXXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 115px; /* need to specify height :-( */
 	column-count: 4;
 }
-ol.flowXXS li {
+ol.flowXXS li, ul.flowXXS li {
 	width: 250px;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowXXS li a {
+ol.flowXXS li a, ul.flowXXS li a {
 	padding-right: 3px;
 }
-ol.flowXS {
+ol.flowXS,ul.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 506px;
@@ -2714,72 +2714,72 @@ ol.flowXS li {
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowXS li a {
+ol.flowXS li a, ul.flowXS li a {
 	padding-right: 3px;
 }
-ol.flowSm {
+ol.flowSm, ul.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 720px; /* need to specify height :-( */
 	column-count: 2;
 }
-ol.flowSm li {
+ol.flowSm li, ul.flowSm li{
 	width: 240px;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowSm li a {
+ol.flowSm li a, ul.flowSm li a {
 	padding-right: 3px;
 }
-ol.flowMd {
+ol.flowMd, ul.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 1010px; /* need to specify height :-( */
 	column-count: 3;
 }
-ol.flowMd li {
+ol.flowMd li, ul.flowMd li {
 	width: 200px;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowMd li a {
+ol.flowMd li a, ul.flowMd li a {
 	padding-right: 3px;
 }	
-ol.flowLg {
+ol.flowLg, ull.flowLg {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 2560px; /* need to specify height :-( */
 	column-count: 3;
 }
-ol.flowLg li {
+ol.flowLg li, ul.flowLg li {
 	width: 200px;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowLg li a {
+ol.flowLg li a, ull.flowLg li a {
 	padding-right: 3px;
 }	
-ol.flowXL {
+ol.flowXL, ul.flowXL {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 6000px; /* need to specify height :-( */
 	column-count: 3;
 }
-ol.flowXL li {
+ol.flowXL li, ul.flowXL li {
 	width: 175px;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
-ol.flowXL li a {
+ol.flowXL li a, ul.flowXL li a {
 	padding-right: 3px;
 }
-ol.flowNone {
+ol.flowNone, ul.flowNone  {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: auto; /* need to specify height :-( */
 	column-count: 1;
 }
-ol.flowNone li {
+ol.flowNone li,ul.flowNone li {
 	width: 100%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
