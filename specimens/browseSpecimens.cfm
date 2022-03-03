@@ -426,10 +426,22 @@ limitations under the License.
 													GROUP BY island_group
 													ORDER BY island_group
 												</cfquery>
-													<ul class="list-group">
-												<cfloop query="island_groups">
-												
-														<li class="list-group-item">#island_groups.island_group#
+												<ul class="list-group">
+													<cfloop query="island_groups">
+															<cfif islands.recordCount gte 300> 
+															<cfset islandValues = "flowXL">
+														<cfelseif islands.recordCount gte 51 and islands.recordCount lte 299>
+															<cfset islandValues = "flowLg">
+														<cfelseif islands.recordCount gte 26 and islands.recordCount lte 50>
+															<cfset islandValues = "flowMd">
+														<cfelseif islands.recordCount gte 16 and islands.recordCount lte 25>
+															<cfset islandValues = "flowXS">
+														<cfelseif islands.recordCount gte 5 and islands.recordCount lte 15>
+															<cfset islandValues = "flowXXS">
+														<cfelse>	
+															<cfset islandValues = "flowNone pb-3">
+														</cfif>
+														<li class="list-group-item #islandValues#">#island_groups.island_group#
 															<cfset i=1>
 															<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 															SELECT sum(coll_obj_count) ct, island
@@ -446,19 +458,7 @@ limitations under the License.
 															GROUP BY island
 															ORDER BY island
 															</cfquery>
-														<cfif islands.recordCount gte 300> 
-															<cfset islandValues = "flowXL">
-														<cfelseif islands.recordCount gte 51 and islands.recordCount lte 299>
-															<cfset islandValues = "flowLg">
-														<cfelseif islands.recordCount gte 26 and islands.recordCount lte 50>
-															<cfset islandValues = "flowMd">
-														<cfelseif islands.recordCount gte 16 and islands.recordCount lte 25>
-															<cfset islandValues = "flowXS">
-														<cfelseif islands.recordCount gte 5 and islands.recordCount lte 15>
-															<cfset islandValues = "flowXXS">
-														<cfelse>	
-															<cfset islandValues = "flowNone">
-														</cfif>
+											
 															<ol class="#islandValues#">
 																<cfloop query="islands">
 																	<cfset islandVal = islands.island>
