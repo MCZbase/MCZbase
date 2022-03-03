@@ -420,7 +420,7 @@ limitations under the License.
 													SELECT sum(coll_obj_count) as ct, island_group
 													FROM cf_geog_cat_item_counts
 													WHERE
-														(island_group IS NOT NULL OR island IS NOT NULL) AND 
+														island_group IS NOT NULL AND 
 														target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
 														and continent_ocean = '#continent_islands.continent_ocean#'
 													GROUP BY island_group
