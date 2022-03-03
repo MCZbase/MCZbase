@@ -426,7 +426,7 @@ limitations under the License.
 													GROUP BY island_group
 													ORDER BY island_group
 												</cfquery>
-													<ul class="list-group list-group-horizontal">
+													<ul class="list-group">
 												<cfloop query="island_groups">
 												
 														<li class="list-group-item">#island_groups.island_group#
