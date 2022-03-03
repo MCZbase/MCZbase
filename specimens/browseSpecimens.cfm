@@ -407,87 +407,82 @@ limitations under the License.
 								<h3 class="px-2">Browse By Islands</h3>	
 								<div class="col-12 px-0 px-md-2">
 									<cfset j=1>
-										<cfloop query="continent_islands">
-											<h4 class="collapsebar w-100 my-1">
-												<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##continent_islands_#j#" aria-expanded="false" aria-controls="continent_islands_#j#">
-													#continent_islands.continent_ocean# &nbsp;&nbsp;
-													<a class="float-right" href="#specimenSearch#&higher_geog=#continent_islands.continent_ocean#" target="_blank"></a>
-												</button>
-											</h4>
-											<div class="collapse w-100 pt-2" id="continent_islands_#j#">
-												<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
-													SELECT sum(coll_obj_count) as ct, island_group
-													FROM cf_geog_cat_item_counts
-													WHERE
-														island_group IS NOT NULL AND 
-														target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
-														and continent_ocean = '#continent_islands.continent_ocean#'
-													GROUP BY island_group
-													ORDER BY island_group
+									<cfloop query="continent_islands">
+										<h4 class="collapsebar w-100 my-1">
+											<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##continent_islands_#j#" aria-expanded="false" aria-controls="continent_islands_#j#">
+												#continent_islands.continent_ocean# &nbsp;&nbsp;
+												<a class="float-right" href="#specimenSearch#&higher_geog=#continent_islands.continent_ocean#" target="_blank"></a>
+											</button>
+										</h4>
+										<div class="collapse w-100 pt-2" id="continent_islands_#j#">
+											<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+												SELECT sum(coll_obj_count) as ct, island_group
+												FROM cf_geog_cat_item_counts
+												WHERE
+													island_group IS NOT NULL AND 
+													target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+													and continent_ocean = '#continent_islands.continent_ocean#'
+												GROUP BY island_group
+												ORDER BY island_group
+											</cfquery>
+											<cfif island_groups.recordCount gte 23> 
+												<cfset islandValues = "flowLg">
+											<cfelseif island_groups.recordCount gte 67 and island_groups.recordCount lte 22>
+												<cfset islandValues = "flowMd">
+											<cfelseif island_groups.recordCount gte 47 and island_groups.recordCount lte 66>
+												<cfset islandValues = "flowSm">
+											<cfelseif island_groups.recordCount gte 36 and island_groups.recordCount lte 46>
+												<cfset islandValues = "flowXS">
+											<cfelseif island_groups.recordCount gte 15 and island_groups.recordCount lte 35>
+												<cfset islandValues = "flowXXS">
+											<cfelse>	
+												<cfset islandValues = "flowNone pb-3">
+											</cfif>
+											<cfset k=1>
+											<cfloop query="island_groups">
+												<h4 class="collapsebar w-100 my-1">
+													<button type="button" class="border rounded bg-white py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#k#" aria-expanded="false" aria-controls="islandsgroup_#k#">
+														#island_groups.island_group# &nbsp;&nbsp;
+														<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank"></a>
+													</button>
+												</h4>
+												<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+												SELECT sum(coll_obj_count) ct, island
+												FROM 
+													cf_geog_cat_item_counts 
+												WHERE
+													target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+													AND
+													<cfif len(island_groups.island_group) EQ 0>
+														island_group IS NULL
+													<cfelse> 
+														island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
+													</cfif>
+												GROUP BY island
+												ORDER BY island
 												</cfquery>
-												<cfif island_groups.recordCount gte 23> 
-													<cfset islandValues = "flowLg">
-												<cfelseif island_groups.recordCount gte 67 and island_groups.recordCount lte 22>
-													<cfset islandValues = "flowMd">
-												<cfelseif island_groups.recordCount gte 47 and island_groups.recordCount lte 66>
-													<cfset islandValues = "flowSm">
-												<cfelseif island_groups.recordCount gte 36 and island_groups.recordCount lte 46>
-													<cfset islandValues = "flowXS">
-												<cfelseif island_groups.recordCount gte 15 and island_groups.recordCount lte 35>
-													<cfset islandValues = "flowXXS">
-												<cfelse>	
-													<cfset islandValues = "flowNone pb-3">
-												</cfif>
-												<cfset k=1>
-												<cfloop query="island_groups">
-													<h4 class="collapsebar w-100 my-1">
-														<button type="button" class="border rounded bg-white py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#k#" aria-expanded="false" aria-controls="islandsgroup_#k#">
-															#island_groups.island_group# &nbsp;&nbsp;
-															<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank"></a>
-														</button>
-													</h4>
-													<ul class="#islandValues# px-0 list-unstyled">
-														<li class="">
-															<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-															SELECT sum(coll_obj_count) ct, island
-															FROM 
-																cf_geog_cat_item_counts 
-															WHERE
-																target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
-																AND
-																<cfif len(island_groups.island_group) EQ 0>
-																	island_group IS NULL
-																<cfelse> 
-																	island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
-																</cfif>
-															GROUP BY island
-															ORDER BY island
-															</cfquery>
-															<div class="collapse w-100 pt-2" id="islandsgroup_#k#">
-																<ol class="">
-																	<cfset i=1>
-																	<cfloop query="islands">
-																		<cfset islandVal = islands.island>
-																		<cfset islandLookup = islands.island>
-																		<cfif len(islandVal) EQ 0> 
-																			<cfset islandVal = "[No Island Value]">
-																			<cfset islandLookup = "NULL">
-																		</cfif>
-																		<li>#islandVal#</li>
-																	<cfset i=i+1>
-																	</cfloop>
-																</ol>
-															</div>
-														</li>
-													</ul>
+												<div class="collapse w-100 pt-2" id="islandsgroup_#k#">
+													<ol class="">
+														<cfset i=1>
+														<cfloop query="islands">
+															<cfset islandVal = islands.island>
+															<cfset islandLookup = islands.island>
+															<cfif len(islandVal) EQ 0> 
+																<cfset islandVal = "[No Island Value]">
+																<cfset islandLookup = "NULL">
+															</cfif>
+															<li>#islandVal#</li>
+														<cfset i=i+1>
+														</cfloop>
+													</ol>
+												</div>
 												<cfset k=k+1>
-												</cfloop>
-										<cfset j=j+1>
+											</cfloop>
+											<cfset j=j+1>
+										</div>
 									</cfloop>
 								</div>
 							</div>
-
-
 							<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 								<h3 class="px-2">Browse by Higher Taxonomy</h3>
 								<div class="col-12 px-0 px-md-2">
