@@ -415,8 +415,7 @@ limitations under the License.
 												</button>
 											</h4>
 											<div class="collapse w-100 pt-2" id="continent_islands_#j#">
-											
-											<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+												<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 													SELECT sum(coll_obj_count) as ct, island_group
 													FROM cf_geog_cat_item_counts
 													WHERE
@@ -439,14 +438,14 @@ limitations under the License.
 												<cfelse>	
 													<cfset islandValues = "flowNone pb-3">
 												</cfif>
-													<cfloop query="island_groups">
-														<h4 class="collapsebar w-100 my-1">
-															<button type="button" class="border rounded bg-white py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#j#" aria-expanded="false" aria-controls="islandsgroup_#j#">
-																#island_groups.island_group# &nbsp;&nbsp;
-																<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank"></a>
-															</button>
-														</h4>
-														<ul class="#islandValues# px-0">
+												<cfloop query="island_groups">
+													<h4 class="collapsebar w-100 my-1">
+														<button type="button" class="border rounded bg-white py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#j#" aria-expanded="false" aria-controls="islandsgroup_#j#">
+															#island_groups.island_group# &nbsp;&nbsp;
+															<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank"></a>
+														</button>
+													</h4>
+													<ul class="#islandValues# px-0">
 														<li class="">
 															<cfset i=1>
 															<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
@@ -464,36 +463,23 @@ limitations under the License.
 															GROUP BY island
 															ORDER BY island
 															</cfquery>
-												<cfif islands.recordCount gte 300> 
-													<cfset islandsValues = "flowLg">
-												<cfelseif islands.recordCount gte 131 and islands.recordCount lte 299>
-													<cfset islandsValues = "flowMd">
-												<cfelseif islands.recordCount gte 34 and islands.recordCount lte 130>
-													<cfset islandsValues = "flowSm">
-												<cfelseif islands.recordCount gte 24 and islands.recordCount lte 33>
-													<cfset islandsValues = "flowXS">
-												<cfelseif islands.recordCount gte 10 and islands.recordCount lte 23>
-													<cfset islandsValues = "flowXXS">
-												<cfelse>	
-													<cfset islandsValues = "flowNone pb-2">
-												</cfif>
-													<div class="collapse w-100 pt-2" id="islandsgroup_#j#">
-															<ol class="">
-																<cfloop query="islands">
-																	<cfset islandVal = islands.island>
-																	<cfset islandLookup = islands.island>
-																	<cfif len(islandVal) EQ 0> 
-																		<cfset islandVal = "[No Island Value]">
-																		<cfset islandLookup = "NULL">
-																	</cfif>
-																	<li>#islandVal#</li>
-																<cfset i=i+1>
-																</cfloop>
-															</ol>
+															<div class="collapse w-100 pt-2" id="islandsgroup_#j#">
+																<ol class="">
+																	<cfloop query="islands">
+																		<cfset islandVal = islands.island>
+																		<cfset islandLookup = islands.island>
+																		<cfif len(islandVal) EQ 0> 
+																			<cfset islandVal = "[No Island Value]">
+																			<cfset islandLookup = "NULL">
+																		</cfif>
+																		<li>#islandVal#</li>
+																	<cfset i=i+1>
+																	</cfloop>
+																</ol>
+															</div>
 														</li>
-													</cfloop>
-												</ul>
-											</div>
+													</ul>
+												</cfloop>
 										<cfset j=j+1>
 									</cfloop>
 								</div>
