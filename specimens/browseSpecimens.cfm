@@ -426,13 +426,13 @@ limitations under the License.
 													GROUP BY island_group
 													ORDER BY island_group
 												</cfquery>
-												<cfif island_groups.recordCount gte 81> 
+												<cfif island_groups.recordCount gte 23> 
 													<cfset islandValues = "flowLg">
-												<cfelseif island_groups.recordCount gte 60 and island_groups.recordCount lte 80>
+												<cfelseif island_groups.recordCount gte 17 and island_groups.recordCount lte 22>
 													<cfset islandValues = "flowMd">
-												<cfelseif island_groups.recordCount gte 26 and island_groups.recordCount lte 59>
+												<cfelseif island_groups.recordCount gte 11 and island_groups.recordCount lte 16>
 													<cfset islandValues = "flowSm">
-												<cfelseif island_groups.recordCount gte 6 and island_groups.recordCount lte 25>
+												<cfelseif island_groups.recordCount gte 6 and island_groups.recordCount lte 10>
 													<cfset islandValues = "flowXS">
 												<cfelseif island_groups.recordCount gte 3 and island_groups.recordCount lte 5>
 													<cfset islandValues = "flowXXS">
