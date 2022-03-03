@@ -415,8 +415,8 @@ limitations under the License.
 													<a class="float-right" href="#specimenSearch#&higher_geog=#continent_islands.continent_ocean#" target="_blank"></a>
 												</button>
 											</h4>
-											<cfset i=1>
-											<cfloop query="island_groups">
+										
+										
 												<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 													SELECT sum(coll_obj_count) as ct, island_group
 													FROM cf_geog_cat_item_counts
@@ -432,6 +432,8 @@ limitations under the License.
 													<cfset group = "[No Island Group]">
 													<cfset groupLookup = "NULL">
 												</cfif>
+												<cfset i=1>
+												<cfloop query="island_groups">
 													<!--- TODO: Support island/island_group in specimen search API --->
 												<h3 class="">#group#</h3>	
 													<div class="w-100 my-2">
@@ -486,6 +488,7 @@ limitations under the License.
 												</div>
 
 												<cfset i= i+1>
+												
 											</cfloop>
 										<cfset h= h+1>
 										</cfloop>
