@@ -345,13 +345,13 @@ limitations under the License.
 											</h4>
 											<div class="collapse pt-2 w-100" id="cont-ocean_#i#">
 												<!---for newpaper flow within higher geography--->
-												<cfif countries.recordCount gte 300> 
+												<cfif countries.recordCount gte 151> 
 													<cfset geogValues = "flowXL">
-												<cfelseif countries.recordCount gte 251 and countries.recordCount lte 299>
+												<cfelseif countries.recordCount gte 101 and countries.recordCount lte 150>
 													<cfset geogValues = "flowLg">
-												<cfelseif countries.recordCount gte 94 and countries.recordCount lte 150>
+												<cfelseif countries.recordCount gte 91 and countries.recordCount lte 100>
 													<cfset geogValues = "flowMd">
-												<cfelseif countries.recordCount gte 53 and countries.recordCount lte 93>
+												<cfelseif countries.recordCount gte 53 and countries.recordCount lte 90>
 													<cfset geogValues = "flowSm"><!---Example West Indies in islands--->
 												<cfelseif countries.recordCount gt 22 and countries.recordCount lte 52>
 													<cfset geogValues = "flowXS">
