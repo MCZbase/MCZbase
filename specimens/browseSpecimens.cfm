@@ -373,7 +373,7 @@ limitations under the License.
 														<cfset shortVal = RemoveChars(#trnc#,start,count)>
 													<cfelse>
 														<cfset shortVal =#countryVal#>
-													</cfelse>
+													</cfif>
 													<li class="">
 														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank">#shortVal#</a> (#countries.ct#) 
 													</li>
