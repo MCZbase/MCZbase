@@ -366,10 +366,14 @@ limitations under the License.
 														<cfset countryVal = "[No Country Value]">
 														<cfset countryLookup = "NULL">
 													</cfif>
-													<cfset trnc = #countryVal#>
-													<cfset start=30>
-													<cfset count= 10>
-													<cfset shortVal = RemoveChars(#trnc#,start,count)>
+													<cfif len(#countries.county#)gt 29>
+														<cfset trnc = #countryVal#>
+														<cfset start=30>
+														<cfset count= 10>
+														<cfset shortVal = RemoveChars(#trnc#,start,count)>
+													<cfelse>
+														<cfset shortVal =#countryVal#>
+													</cfelse>
 													<li class="">
 														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank">#shortVal#</a> (#countries.ct#) 
 													</li>
