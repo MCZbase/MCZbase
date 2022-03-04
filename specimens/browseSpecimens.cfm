@@ -434,7 +434,7 @@ limitations under the License.
 												GROUP BY island_group
 												ORDER BY island_group
 											</cfquery>
-											<cfif island_groups.recordCount gte 230> 
+											<cfif island_groups.recordCount gte 221> 
 												<cfset islandValues = "flowLg">
 											<cfelseif island_groups.recordCount gte 67 and island_groups.recordCount lte 220>
 												<cfset islandValues = "flowMd">
