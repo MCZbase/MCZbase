@@ -418,8 +418,6 @@ limitations under the License.
 											var tStr = document.getElementById('t').innerHTML;
 											document.getElementById('t').innerHTML = truncate(tStr, 8);
 
-											var tStr = document.getElementById('s').innerHTML;
-											document.getElementById('s').innerHTML = truncate(tStr, 8);
 										</script>
 										<cfset i=i+1>
 									</cfloop>
