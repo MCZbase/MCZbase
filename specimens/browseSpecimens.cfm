@@ -437,7 +437,7 @@ limitations under the License.
 
 											<cfset k=1>
 											<cfloop query="island_groups">
-												<h4 class="collapsebar w-100 my-1">
+												<h4 class="collapsebar w-100 mt-1 mb-2">
 													<button type="button" class="border rounded bg-white py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#k#" aria-expanded="false" aria-controls="islandsgroup_#k#">
 														#island_groups.island_group# &nbsp;&nbsp;
 														<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank"></a>
