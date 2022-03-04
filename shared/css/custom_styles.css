@@ -2504,7 +2504,7 @@ ol.flowXS li a, ul.flowXS li a {
 ol.flowSm,ul.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 375px; /* need to specify height :-( */
+	height: 385px; /* need to specify height :-( */
 	column-count: 4;
 }
 ol.flowSm li,ul.flowSm li {
