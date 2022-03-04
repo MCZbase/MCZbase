@@ -366,9 +366,9 @@ limitations under the License.
 														<cfset countryVal = "[No Country Value]">
 														<cfset countryLookup = "NULL">
 													</cfif>
-													<cfif len(countries.country)gt 45>
+													<cfif len(countries.country)gt 41>
 														<cfset trnc = #countryVal#>
-														<cfset shortVal = "#left(trnc,46)#...">
+														<cfset shortVal = "#left(trnc,42)#...">
 													<cfelse>
 														<cfset shortVal =#countryVal#>
 													</cfif>
