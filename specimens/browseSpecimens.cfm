@@ -425,7 +425,7 @@ limitations under the License.
 												<a class="float-right" href="#specimenSearch#&higher_geog=#continent_islands.continent_ocean#" target="_blank"></a>
 											</button>
 										</h4>
-										<div class="collapse w-100 py-2 px-4" id="continent_islands_#j#">
+										<div class="collapse w-100 pb-2 px-4" id="continent_islands_#j#">
 											<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
 												SELECT sum(coll_obj_count) as ct, island_group
 												FROM cf_geog_cat_item_counts
