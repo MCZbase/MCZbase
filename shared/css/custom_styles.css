@@ -2341,8 +2341,8 @@ div.vslider-item[aria-hidden="true"]{
 /*********************************/
 @media only screen and (min-width: 1599px) {
 	.container-wide {
-		padding-right: 10%;
-		padding-left: 10%;
+		padding-right: 9%;
+		padding-left: 9%;
 	}
 }
 @media only screen and (min-width: 1499px) {
@@ -2352,7 +2352,7 @@ div.vslider-item[aria-hidden="true"]{
 ol.flowXXS,ul.flowXXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 120px; /* need to specify height :-( */
+	height: 170px; /* need to specify height :-( */
 	column-count: 4;
 }
 ol.flowXXS li, ul.flowXXS li {
