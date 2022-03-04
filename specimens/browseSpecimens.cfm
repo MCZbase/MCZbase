@@ -366,6 +366,26 @@ limitations under the License.
 														<cfset countryVal = "[No Country Value]">
 														<cfset countryLookup = "NULL">
 													</cfif>
+													<script>
+														var truncate = function (fullStr, strLen, separator) {
+															if (fullStr.length <= strLen) return fullStr;
+
+															separator = separator || '...';
+
+															var sepLen = separator.length,
+																charsToShow = strLen - sepLen,
+																frontChars = Math.ceil(charsToShow/2),
+																backChars = Math.floor(charsToShow/2);
+
+															return fullStr.substr(0, frontChars) + 
+																   separator + 
+																   fullStr.substr(fullStr.length - backChars);
+														};
+
+														var tStr = document.getElementById('t').innerHTML;
+														document.getElementById('t').innerHTML = truncate(tStr, 8);
+
+													</script>
 													<li class="">
 														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank"  id="t">#countryVal#</a> (#countries.ct#) 
 													</li>
@@ -399,26 +419,7 @@ limitations under the License.
 												</ol>
 											</div>
 										</div>
-										<script>
-											var truncate = function (fullStr, strLen, separator) {
-												if (fullStr.length <= strLen) return fullStr;
 
-												separator = separator || '...';
-
-												var sepLen = separator.length,
-													charsToShow = strLen - sepLen,
-													frontChars = Math.ceil(charsToShow/2),
-													backChars = Math.floor(charsToShow/2);
-
-												return fullStr.substr(0, frontChars) + 
-													   separator + 
-													   fullStr.substr(fullStr.length - backChars);
-											};
-
-											var tStr = document.getElementById('t').innerHTML;
-											document.getElementById('t').innerHTML = truncate(tStr, 8);
-
-										</script>
 										<cfset i=i+1>
 									</cfloop>
 								</div>
