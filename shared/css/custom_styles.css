@@ -2397,11 +2397,11 @@ ol.flowSm li a {
 ol.flowMd,ul.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 810px; /* need to specify height :-( */
-	column-count: 3;
+	height: 678px; /* need to specify height :-( */
+	column-count: 4;
 }
 ol.flowMd li, ul.flowMd li {
-	width: 33%;
+	width: 25%;
 	list-style-position:inside;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
@@ -2519,7 +2519,7 @@ ol.flowSm li a,ul.flowSm li a {
 ol.flowMd, ul.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 550px; /* need to specify height :-( */
+	height: 640px; /* need to specify height :-( */
 	column-count: 4;
 }
 ol.flowMd li,ul.flowMd li{
