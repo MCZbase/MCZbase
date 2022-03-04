@@ -548,11 +548,11 @@ limitations under the License.
 												<cfset taxaValues = "flowXL">
 											<cfelseif notphyla.recordCount gte 101 and notphyla.recordCount lte 150>
 												<cfset taxaValues = "flowLg">
-											<cfelseif notphyla.recordCount gte 71 and notphyla.recordCount lte 100>
+											<cfelseif notphyla.recordCount gte 77 and notphyla.recordCount lte 100>
 												<cfset geogValues = "flowMd">
-											<cfelseif notphyla.recordCount gte 43 and notphyla.recordCount lte 70>
+											<cfelseif notphyla.recordCount gte 47 and notphyla.recordCount lte 76>
 												<cfset taxaValues = "flowSm"><!---Example West Indies in islands--->
-											<cfelseif notphyla.recordCount gte 33 and notphyla.recordCount lte 42>
+											<cfelseif notphyla.recordCount gte 33 and notphyla.recordCount lte 46>
 												<cfset taxaValues = "flowXS">
 											<cfelseif notphyla.recordCount gte 12 and notphyla.recordCount lte 32>
 												<cfset taxaValues = "flowXXS">
