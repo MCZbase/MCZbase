@@ -438,7 +438,7 @@ limitations under the License.
 											<cfset k=1>
 											<cfloop query="island_groups">
 												<h4 class="collapsebar w-100 my-1">
-													<button type="button" class="border rounded bg-white py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#k#" aria-expanded="false" aria-controls="islandsgroup_#k#">
+													<button type="button" class="border rounded bg-white py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#j#_#k#" aria-expanded="false" aria-controls="islandsgroup_#k#">
 														#island_groups.island_group# &nbsp;&nbsp;
 														<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank"></a>
 													</button>
@@ -458,7 +458,7 @@ limitations under the License.
 												GROUP BY island
 												ORDER BY island
 												</cfquery>
-												<div class="collapse w-100 pt-2" id="islandsgroup_#j#_#k#">
+												<div class="collapse w-100 pt-2" id="islandsgroup_#k#">
 													<cfif islands.recordCount gte 221> 
 														<cfset islandValues = "flowLg">
 													<cfelseif islands.recordCount gte 67 and islands.recordCount lte 220>
