@@ -370,7 +370,7 @@ limitations under the License.
 														<cfset trnc = #countryVal#>
 														<cfset start=41>
 														<cfset count= 10>
-														<cfset shortVal = "#RemoveChars(trnc,start,count)#...">
+														<cfset shortVal = "#left(trnc,start,count)#...">
 													<cfelse>
 														<cfset shortVal =#countryVal#>
 													</cfif>
