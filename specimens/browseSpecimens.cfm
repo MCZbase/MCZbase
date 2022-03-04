@@ -520,9 +520,9 @@ limitations under the License.
 												<cfset phylaValues = "flowLg">
 											<cfelseif phyla.recordCount gte 71 and phyla.recordCount lte 100>
 												<cfset phylaValues = "flowMd">
-											<cfelseif phyla.recordCount gte 53 and phyla.recordCount lte 70>
+											<cfelseif phyla.recordCount gte 43 and phyla.recordCount lte 70>
 												<cfset phylaValues = "flowSm"><!---Example West Indies in islands--->
-											<cfelseif phyla.recordCount gte 33 and phyla.recordCount lte 52>
+											<cfelseif phyla.recordCount gte 33 and phyla.recordCount lte 42>
 												<cfset phylaValues = "flowXS">
 											<cfelseif phyla.recordCount gte 12 and phyla.recordCount lte 32>
 												<cfset phylaValues = "flowXXS">
@@ -550,9 +550,9 @@ limitations under the License.
 												<cfset taxaValues = "flowLg">
 											<cfelseif notphyla.recordCount gte 71 and notphyla.recordCount lte 100>
 												<cfset geogValues = "flowMd">
-											<cfelseif notphyla.recordCount gte 53 and notphyla.recordCount lte 70>
+											<cfelseif notphyla.recordCount gte 43 and notphyla.recordCount lte 70>
 												<cfset taxaValues = "flowSm"><!---Example West Indies in islands--->
-											<cfelseif notphyla.recordCount gte 33 and notphyla.recordCount lte 52>
+											<cfelseif notphyla.recordCount gte 33 and notphyla.recordCount lte 42>
 												<cfset taxaValues = "flowXS">
 											<cfelseif notphyla.recordCount gte 12 and notphyla.recordCount lte 32>
 												<cfset taxaValues = "flowXXS">
