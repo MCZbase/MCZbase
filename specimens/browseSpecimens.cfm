@@ -461,17 +461,23 @@ limitations under the License.
 												ORDER BY island
 												</cfquery>
 												<div class="collapse w-100" id="islandsgroup_#j#_#k#">
-													<cfif islands.recordCount gte 221> 
+													<cfif phyla.recordCount gte 151> 
+														<cfset islandValues = "flowXL">
+													<cfelseif islands.recordCount gte 101 and islands.recordCount lte 150> 
 														<cfset islandValues = "flowLg">
-													<cfelseif islands.recordCount gte 67 and islands.recordCount lte 220>
+													<cfelseif islands.recordCount gte 91 and islands.recordCount lte 100>
 														<cfset islandValues = "flowMd">
-													<cfelseif islands.recordCount gte 47 and islands.recordCount lte 66>
+													<cfelseif islands.recordCount gte 53 and islands.recordCount lte 90>
 														<cfset islandValues = "flowSm">
-													<cfelseif islands.recordCount gt 36 and islands.recordCount lte 46>
+													<cfelseif islands.recordCount gte 33 and islands.recordCount lte 52>
 														<cfset islandValues = "flowXS">
+													<cfelseif islands.recordCount gte 12 and islands.recordCount lte 32>
+														<cfset islandValues = "flowXXS">
 													<cfelse>	
 														<cfset islandValues = "flowNone">
 													</cfif>
+														
+
 													<ol class="#islandValues# px-0 px-md-2 mx-1">
 														<cfset i=1>
 														<cfloop query="islands">
@@ -508,16 +514,18 @@ limitations under the License.
 										</h4>
 										<div class="collapse w-100" id="phylum">
 											<!---for newpaper flow within taxonomy (phylum)--->
-											<cfif phyla.recordCount gte 300> 
+											<cfif phyla.recordCount gte 151> 
 												<cfset phylaValues = "flowXL">
-											<cfelseif phyla.recordCount gte 251 and phyla.recordCount lte 299>
+											<cfelseif phyla.recordCount gte 101 and phyla.recordCount lte 150>
 												<cfset phylaValues = "flowLg">
-											<cfelseif phyla.recordCount gte 90 and phyla.recordCount lte 250>
+											<cfelseif phyla.recordCount gte 91 and phyla.recordCount lte 100>
 												<cfset phylaValues = "flowMd">
-											<cfelseif phyla.recordCount gte 50 and phyla.recordCount lte 89>
+											<cfelseif phyla.recordCount gte 53 and phyla.recordCount lte 90>
 												<cfset phylaValues = "flowSm"><!---Example West Indies in islands--->
-											<cfelseif phyla.recordCount gt 20 and phyla.recordCount lte 49>
+											<cfelseif phyla.recordCount gte 33 and phyla.recordCount lte 52>
 												<cfset phylaValues = "flowXS">
+											<cfelseif phyla.recordCount gte 12 and phyla.recordCount lte 32>
+												<cfset phylaValues = "flowXXS">
 											<cfelse>	
 												<cfset phylaValues = "flowNone">
 											</cfif>
@@ -536,16 +544,18 @@ limitations under the License.
 										</h4>
 										<div class="collapse" id="notphylum">
 											<!---for newpaper flow within taxonomy (notphylum)--->
-											<cfif notphyla.recordCount gte 300> 
+											<cfif notphyla.recordCount gte 151> 
 												<cfset taxaValues = "flowXL">
-											<cfelseif notphyla.recordCount gte 251 and notphyla.recordCount lte 299>
+											<cfelseif notphyla.recordCount gte 101 and notphyla.recordCount lte 150>
 												<cfset taxaValues = "flowLg">
-											<cfelseif notphyla.recordCount gte 90 and notphyla.recordCount lte 250>
+											<cfelseif notphyla.recordCount gte 91 and notphyla.recordCount lte 100>
 												<cfset geogValues = "flowMd">
-											<cfelseif notphyla.recordCount gte 50 and notphyla.recordCount lte 89>
+											<cfelseif notphyla.recordCount gte 53 and notphyla.recordCount lte 90>
 												<cfset taxaValues = "flowSm"><!---Example West Indies in islands--->
-											<cfelseif notphyla.recordCount gt 20 and notphyla.recordCount lte 49>
+											<cfelseif notphyla.recordCount gte 33 and notphyla.recordCount lte 52>
 												<cfset taxaValues = "flowXS">
+											<cfelseif notphyla.recordCount gte 12 and notphyla.recordCount lte 32>
+												<cfset taxaValues = "flowXXS">
 											<cfelse>	
 												<cfset taxaValues = "flowNone">
 											</cfif>
@@ -564,16 +574,18 @@ limitations under the License.
 										</h4>
 										<!---for newpaper flow within taxonomy (notKingdom)--->
 										<div class="collapse" id="notkingdom" >
-											<cfif notkingdoms.recordCount gte 300> 
+											<cfif notkingdoms.recordCount gte 151> 
 												<cfset notkValues = "flowXL">
-											<cfelseif notkingdoms.recordCount gte 251 and notkingdoms.recordCount lt 299>
+											<cfelseif notkingdoms.recordCount gte 101 and notkingdoms.recordCount lt 150>
 												<cfset notkValues = "flowLg">
-											<cfelseif notkingdoms.recordCount gte 90 and notkingdoms.recordCount lt 250>
+											<cfelseif notkingdoms.recordCount gte 91 and notkingdoms.recordCount lt 100>
 												<cfset geogValues = "flowMd">
-											<cfelseif notkingdoms.recordCount gte 50 and notkingdoms.recordCount lt 89>
+											<cfelseif notkingdoms.recordCount gte 53 and notkingdoms.recordCount lt 90>
 												<cfset notkValues = "flowSm"><!---Example West Indies in islands--->
-											<cfelseif notkingdoms.recordCount gt 20 and notkingdoms.recordCount lt 49>
+											<cfelseif notkingdoms.recordCount gt 33 and notkingdoms.recordCount lt 52>
 												<cfset notkValues = "flowXS">
+											<cfelseif notkingdoms.recordCount gte 12 and notkingdoms.recordCount lte 32>
+												<cfset notkValues = "flowXXS">
 											<cfelse>	
 												<cfset notkValues = "flowNone">
 											</cfif>
