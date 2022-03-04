@@ -417,7 +417,7 @@ limitations under the License.
 								<div class="col-12 px-0 px-md-2">
 									<cfset j=1>
 									<cfloop query="continent_islands">
-										<h4 class="collapsebar w-100 my-1">
+										<h4 class="collapsebar w-100 my-2">
 											<button type="button" class="border rounded py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##continent_islands_#j#" aria-expanded="false" aria-controls="continent_islands_#j#">
 												#continent_islands.continent_ocean# &nbsp;&nbsp;
 												<a class="float-right" href="#specimenSearch#&higher_geog=#continent_islands.continent_ocean#" target="_blank"></a>
@@ -437,7 +437,7 @@ limitations under the License.
 
 											<cfset k=1>
 											<cfloop query="island_groups">
-												<h4 class="collapsebar w-100 mt-1 mb-2">
+												<h4 class="collapsebar w-100 my-1">
 													<button type="button" class="border rounded bg-white py-1 headerLnk text-left w-100" data-toggle="collapse" data-target="##islandsgroup_#k#" aria-expanded="false" aria-controls="islandsgroup_#k#">
 														#island_groups.island_group# &nbsp;&nbsp;
 														<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank"></a>
