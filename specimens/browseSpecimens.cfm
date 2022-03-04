@@ -518,11 +518,11 @@ limitations under the License.
 												<cfset phylaValues = "flowXL">
 											<cfelseif phyla.recordCount gte 101 and phyla.recordCount lte 150>
 												<cfset phylaValues = "flowLg">
-											<cfelseif phyla.recordCount gte 71 and phyla.recordCount lte 100>
+											<cfelseif phyla.recordCount gte 77 and phyla.recordCount lte 100>
 												<cfset phylaValues = "flowMd">
-											<cfelseif phyla.recordCount gte 43 and phyla.recordCount lte 70>
+											<cfelseif phyla.recordCount gte 47 and phyla.recordCount lte 76>
 												<cfset phylaValues = "flowSm"><!---Example West Indies in islands--->
-											<cfelseif phyla.recordCount gte 33 and phyla.recordCount lte 42>
+											<cfelseif phyla.recordCount gte 33 and phyla.recordCount lte 46>
 												<cfset phylaValues = "flowXS">
 											<cfelseif phyla.recordCount gte 12 and phyla.recordCount lte 32>
 												<cfset phylaValues = "flowXXS">
