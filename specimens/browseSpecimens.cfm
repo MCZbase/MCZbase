@@ -434,19 +434,7 @@ limitations under the License.
 												GROUP BY island_group
 												ORDER BY island_group
 											</cfquery>
-											<cfif island_groups.recordCount gte 221> 
-												<cfset islandValues = "flowLg">
-											<cfelseif island_groups.recordCount gte 67 and island_groups.recordCount lte 220>
-												<cfset islandValues = "flowMd">
-											<cfelseif island_groups.recordCount gte 47 and island_groups.recordCount lte 66>
-												<cfset islandValues = "flowSm">
-											<cfelseif island_groups.recordCount gte 36 and island_groups.recordCount lte 46>
-												<cfset islandValues = "flowXS">
-											<cfelseif island_groups.recordCount gte 15 and island_groups.recordCount lte 35>
-												<cfset islandValues = "flowXXS">
-											<cfelse>	
-												<cfset islandValues = "flowNone pb-3">
-											</cfif>
+
 											<cfset k=1>
 											<cfloop query="island_groups">
 												<h4 class="collapsebar w-100 my-1">
@@ -471,6 +459,19 @@ limitations under the License.
 												ORDER BY island
 												</cfquery>
 												<div class="collapse w-100 pt-2" id="islandsgroup_#k#">
+													<cfif island_groups.recordCount gte 221> 
+														<cfset islandValues = "flowLg">
+													<cfelseif island_groups.recordCount gte 67 and island_groups.recordCount lte 220>
+														<cfset islandValues = "flowMd">
+													<cfelseif island_groups.recordCount gte 47 and island_groups.recordCount lte 66>
+														<cfset islandValues = "flowSm">
+													<cfelseif island_groups.recordCount gte 36 and island_groups.recordCount lte 46>
+														<cfset islandValues = "flowXS">
+													<cfelseif island_groups.recordCount gte 15 and island_groups.recordCount lte 35>
+														<cfset islandValues = "flowXXS">
+													<cfelse>	
+														<cfset islandValues = "flowNone pb-3">
+													</cfif>
 													<ol class="#islandValues# px-0 px-md-2 mx-1">
 														<cfset i=1>
 														<cfloop query="islands">
