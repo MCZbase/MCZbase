@@ -2691,11 +2691,11 @@ ol.flowNone li a, ul.flowNone li a {
 ol.flowXXS,ul.flowXXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 115px; /* need to specify height :-( */
-	column-count: 4;
+	height: 390px; /* need to specify height :-( */
+	column-count: 2;
 }
 ol.flowXXS li, ul.flowXXS li {
-	width: 25%;
+	width: 50%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2706,7 +2706,7 @@ ol.flowXXS li a, ul.flowXXS li a {
 ol.flowXS,ul.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 506px;
+	height: 543px;
 	column-count: 2;
 }
 ol.flowXS li, ul.flowXS li {
@@ -2720,7 +2720,7 @@ ol.flowXS li a, ul.flowXS li a {
 ol.flowSm, ul.flowSm {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 760px; /* need to specify height :-( */
+	height: 825px; /* need to specify height :-( */
 	column-count: 2;
 }
 ol.flowSm li, ul.flowSm li{
@@ -2734,7 +2734,7 @@ ol.flowSm li a, ul.flowSm li a {
 ol.flowMd, ul.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 1197px; /* need to specify height :-( */
+	height: 992px; /* need to specify height :-( */
 	column-count: 2;
 }
 ol.flowMd li, ul.flowMd li {
@@ -2748,11 +2748,11 @@ ol.flowMd li a, ul.flowMd li a {
 ol.flowLg, ul.flowLg {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 1200px; /* need to specify height :-( */
-	column-count: 4;
+	height: 1340px; /* need to specify height :-( */
+	column-count: 2;
 }
 ol.flowLg li, ul.flowLg li {
-	width: 25%;
+	width: 50%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2762,11 +2762,11 @@ ol.flowLg li a, ul.flowLg li a {
 ol.flowXL, ul.flowXL {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 6000px; /* need to specify height :-( */
-	column-count: 3;
+	height: 2000px; /* need to specify height :-( */
+	column-count: 2;
 }
 ol.flowXL li, ul.flowXL li {
-	width: 33%;
+	width: 50%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
