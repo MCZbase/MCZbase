@@ -2474,7 +2474,7 @@ and also iPads specifically.
 ol.flowXXS, ul.flowXXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 187px; /* need to specify height :-( */
+	height: 221px; /* need to specify height :-( */
 	column-count: 3;
 }
 ol.flowXXS li, ul.flowXXS li {
