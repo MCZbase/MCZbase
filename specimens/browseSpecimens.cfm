@@ -531,7 +531,7 @@ limitations under the License.
 											</cfif>
 											<ol class="#phylaValues# pt-2 px-0 px-md-2 mx-1">
 											<cfloop query="phyla">
-												<li>
+												<li class="border-white">
 													<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
 												</li>
 											</cfloop>
@@ -561,8 +561,8 @@ limitations under the License.
 											</cfif>
 											<ol class="#taxaValues# pt-2 px-0 px-md-2 mx-1">
 												<cfloop query="notphyla">
-													<li>
-														<a class="" href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#" target="_blank">#kingdom#:#phylorder# (#ct#)</a> 
+													<li class="border-white">
+														<a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#" target="_blank">#kingdom#:#phylorder# (#ct#)</a> 
 													</li>
 												</cfloop>
 											</ol>
