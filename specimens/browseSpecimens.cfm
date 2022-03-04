@@ -358,7 +358,7 @@ limitations under the License.
 												<cfelse>	
 													<cfset geogValues = "flowNone">
 												</cfif>
-												<ol class="#geogValues# px-0 px-md-2 mx-1" id="t">
+												<ol class="#geogValues# px-0 px-md-2 mx-1">
 												<cfloop query="countries">
 													<cfset countryVal = countries.country>
 													<cfset countryLookup = countries.country>
@@ -367,7 +367,7 @@ limitations under the License.
 														<cfset countryLookup = "NULL">
 													</cfif>
 													<li class="">
-														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank">#countryVal#</a> (#countries.ct#) 
+														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank"  id="t">#countryVal#</a> (#countries.ct#) 
 													</li>
 												</cfloop>
 												<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
@@ -418,10 +418,10 @@ limitations under the License.
 										   fullStr.substr(fullStr.length - backChars);
 								};
 
-								var tStr = document.getElementById('t').innerHTML.innerHTML;
+								var tStr = document.getElementById('t').innerHTML;
 								document.getElementById('t').innerHTML = truncate(tStr, 8);
 
-								var tStr = document.getElementById('s').innerHTML.innerHTML;
+								var tStr = document.getElementById('s').innerHTML;
 								document.getElementById('s').innerHTML = truncate(tStr, 8);
 							</script>
 							</div>
