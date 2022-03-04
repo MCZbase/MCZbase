@@ -368,9 +368,7 @@ limitations under the License.
 													</cfif>
 													<cfif len(countries.country)gt 40>
 														<cfset trnc = #countryVal#>
-														<cfset start=41>
-														<cfset count= 10>
-														<cfset shortVal = "#left(trnc,start,count)#...">
+														<cfset shortVal = "#left(trnc,41)#...">
 													<cfelse>
 														<cfset shortVal =#countryVal#>
 													</cfif>
