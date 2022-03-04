@@ -2580,11 +2580,11 @@ ol.flowNone li a,ul.flowNone li a {
 ol.flowXXS, ul.flowXXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 115px; /* need to specify height :-( */
-	column-count: 4;
+	height: 226px; /* need to specify height :-( */
+	column-count: 3;
 }
 ol.flowXXS li, ul.flowXXS li {
-	width: 25%;
+	width: 33%;
 	padding-right: .5rem;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
@@ -2595,7 +2595,7 @@ ol.flowXXS li a, ul.flowXXS li a {
 ol.flowXS, ul.flowXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 315px; /* need to specify height :-( */
+	height: 372px; /* need to specify height :-( */
 	column-count: 3;
 }
 ol.flowXS li , ul.flowXS li{
@@ -2639,10 +2639,10 @@ ol.flowLg, ul.flowLg {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 800px; /* need to specify height :-( */
-	column-count: 4;
+	column-count: 3;
 }
 ol.flowLg li, ul.flowLg li {
-	width: 25%;
+	width: 33%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
@@ -2653,10 +2653,10 @@ ol.flowXL {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
 	height: 1500px; /* need to specify height :-( */
-	column-count: 4;
+	column-count: 3;
 }
 ol.flowXL li, ul.flowXL li {
-	width: 25%;
+	width: 33%;
 	overflow-wrap: anywhere;
 	list-style-position:inside;
 }
