@@ -400,7 +400,7 @@ limitations under the License.
 															<cfset regionVal = "[No Ocean Region Value]">
 															<cfset regionLookup = "NULL">
 														</cfif>
-														<li class="">
+														<li class="border-white">
 															<a href="#specimenSearch#&continent_ocean=#continentLookup#&ocean_region=#regionLookup#" target="_blank">#regionVal# </a> (#ocean_regions.ct#)
 														</li> 
 													</cfloop>
