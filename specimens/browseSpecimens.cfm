@@ -548,9 +548,9 @@ limitations under the License.
 												<cfset taxaValues = "flowXL">
 											<cfelseif notphyla.recordCount gte 101 and notphyla.recordCount lte 150>
 												<cfset taxaValues = "flowLg">
-											<cfelseif notphyla.recordCount gte 91 and notphyla.recordCount lte 100>
+											<cfelseif notphyla.recordCount gte 71 and notphyla.recordCount lte 100>
 												<cfset geogValues = "flowMd">
-											<cfelseif notphyla.recordCount gte 53 and notphyla.recordCount lte 90>
+											<cfelseif notphyla.recordCount gte 53 and notphyla.recordCount lte 70>
 												<cfset taxaValues = "flowSm"><!---Example West Indies in islands--->
 											<cfelseif notphyla.recordCount gte 33 and notphyla.recordCount lte 52>
 												<cfset taxaValues = "flowXS">
@@ -591,7 +591,7 @@ limitations under the License.
 											</cfif>
 											<ol class="#notkValues# pt-2 px-0 px-md-2 mx-1">
 											<cfloop query="notkingdoms">
-												<li>
+												<li class="border-white">
 													<a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#" target="_blank">#scientific_name# (#ct#)</a>
 												</li>
 											</cfloop>
