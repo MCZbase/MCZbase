@@ -356,7 +356,7 @@ limitations under the License.
 												<cfelseif countries.recordCount gt 22 and countries.recordCount lte 52>
 													<cfset geogValues = "flowXS">
 												<cfelseif countries.recordCount gt 12 and countries.recordCount lte 21>
-													<cfset geogValues = "flowXS">
+													<cfset geogValues = "flowXXS">
 												<cfelse>	
 													<cfset geogValues = "flowNone">
 												</cfif>
