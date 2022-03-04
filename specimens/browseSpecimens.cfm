@@ -434,9 +434,9 @@ limitations under the License.
 												GROUP BY island_group
 												ORDER BY island_group
 											</cfquery>
-											<cfif island_groups.recordCount gte 23> 
+											<cfif island_groups.recordCount gte 230> 
 												<cfset islandValues = "flowLg">
-											<cfelseif island_groups.recordCount gte 67 and island_groups.recordCount lte 22>
+											<cfelseif island_groups.recordCount gte 67 and island_groups.recordCount lte 220>
 												<cfset islandValues = "flowMd">
 											<cfelseif island_groups.recordCount gte 47 and island_groups.recordCount lte 66>
 												<cfset islandValues = "flowSm">
@@ -471,7 +471,7 @@ limitations under the License.
 												ORDER BY island
 												</cfquery>
 												<div class="collapse w-100 pt-2" id="islandsgroup_#k#">
-													<ol class="#islandValues# border-white">
+													<ol class="#islandValues#">
 														<cfset i=1>
 														<cfloop query="islands">
 															<cfset islandVal = islands.island>
@@ -480,7 +480,7 @@ limitations under the License.
 																<cfset islandVal = "[No Island Value]">
 																<cfset islandLookup = "NULL">
 															</cfif>
-															<li>#islandVal#</li>
+															<li class="border-white">#islandVal#</li>
 														<cfset i=i+1>
 														</cfloop>
 													</ol>
