@@ -378,16 +378,16 @@ limitations under the License.
 																backChars = Math.floor(charsToShow/2);
 
 															return fullStr.substr(0, frontChars) + 
-																   separator + 
-																   fullStr.substr(fullStr.length - backChars);
+																separator + 
+																fullStr.substr(fullStr.length - backChars);
 														};
 
-														var tStr = document.getElementById('t').innerHTML;
-														document.getElementById('t').innerHTML = truncate(tStr, 8);
+														var tStr = document.getElementsByClassName('t').innerHTML;
+														document.getElementsByClassName('t').innerHTML = truncate(tStr, 8);
 
 													</script>
 													<li class="">
-														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank"  id="t">#countryVal#</a> (#countries.ct#) 
+														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank"  class="t">#countryVal#</a> (#countries.ct#) 
 													</li>
 												</cfloop>
 												<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
