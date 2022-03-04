@@ -487,7 +487,7 @@ limitations under the License.
 																<cfset islandVal = "[No Island Value]">
 																<cfset islandLookup = "NULL">
 															</cfif>
-															<li class="border-white"><a href = "#specimenSearch#&island_group=#groupLookup#&islands=#islandLookup#" target="_blank">#islandVal#</a> ()</li>
+															<li class="border-white"><a href = "#specimenSearch#&island_group=#groupLookup#&islands=#islandLookup#" target="_blank">#islandVal#</a> (#islands.ct#)</li>
 														<cfset i=i+1>
 														</cfloop>
 													</ol>
