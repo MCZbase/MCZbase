@@ -459,13 +459,13 @@ limitations under the License.
 												ORDER BY island
 												</cfquery>
 												<div class="collapse w-100 pt-2" id="islandsgroup_#k#">
-													<cfif island.recordCount gte 221> 
+													<cfif islands.recordCount gte 221> 
 														<cfset islandValues = "flowLg">
-													<cfelseif island.recordCount gte 67 and island.recordCount lte 220>
+													<cfelseif islands.recordCount gte 67 and islands.recordCount lte 220>
 														<cfset islandValues = "flowMd">
-													<cfelseif island.recordCount gte 47 and island.recordCount lte 66>
+													<cfelseif islands.recordCount gte 47 and islands.recordCount lte 66>
 														<cfset islandValues = "flowSm">
-													<cfelseif island.recordCount gt 36 and island.recordCount lte 46>
+													<cfelseif islands.recordCount gt 36 and islands.recordCount lte 46>
 														<cfset islandValues = "flowXS">
 													<cfelse>	
 														<cfset islandValues = "flowNone pb-3">
