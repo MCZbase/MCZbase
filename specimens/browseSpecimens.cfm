@@ -460,7 +460,7 @@ limitations under the License.
 												GROUP BY island
 												ORDER BY island
 												</cfquery>
-												<div class="collapse w-100 pt-1" id="islandsgroup_#j#_#k#">
+												<div class="collapse w-100" id="islandsgroup_#j#_#k#">
 													<cfif islands.recordCount gte 221> 
 														<cfset islandValues = "flowLg">
 													<cfelseif islands.recordCount gte 67 and islands.recordCount lte 220>
