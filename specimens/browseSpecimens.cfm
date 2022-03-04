@@ -372,7 +372,7 @@ limitations under the License.
 													<cfelse>
 														<cfset shortVal =#countryVal#>
 													</cfif>
-													<li class="">
+													<li class="border-white">
 														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank">#shortVal#</a> (#countries.ct#) 
 													</li>
 												</cfloop>
