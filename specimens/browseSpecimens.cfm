@@ -373,7 +373,8 @@ limitations under the License.
 														<cfset shortVal =#countryVal#>
 													</cfif>
 													<li class="border-white">
-														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank">#shortVal#</a> (#countries.ct#) 
+														<a 
+														href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank">#shortVal#</a> (#countries.ct#) 
 													</li>
 												</cfloop>
 												<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
@@ -470,7 +471,7 @@ limitations under the License.
 												ORDER BY island
 												</cfquery>
 												<div class="collapse w-100 pt-2" id="islandsgroup_#k#">
-													<ol class="">
+													<ol class="#islandValues# border-white">
 														<cfset i=1>
 														<cfloop query="islands">
 															<cfset islandVal = islands.island>

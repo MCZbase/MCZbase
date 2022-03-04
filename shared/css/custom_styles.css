@@ -2397,7 +2397,7 @@ ol.flowSm li a {
 ol.flowMd,ul.flowMd {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
-	height: 750px; /* need to specify height :-( */
+	height: 810px; /* need to specify height :-( */
 	column-count: 3;
 }
 ol.flowMd li, ul.flowMd li {
