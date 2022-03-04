@@ -532,7 +532,7 @@ limitations under the License.
 											<ol class="#phylaValues# pt-2 px-0 px-md-2 mx-1">
 											<cfloop query="phyla">
 												<li class="border-white">
-													<a href="#specimenSearch#&phylum=#phylum#">#phylum# (#ct#)</a> 
+													<a href="#specimenSearch#&phylum=#phylum#">#phylum# </a> (#ct#)
 												</li>
 											</cfloop>
 											</ol>
@@ -562,7 +562,7 @@ limitations under the License.
 											<ol class="#taxaValues# pt-2 px-0 px-md-2 mx-1">
 												<cfloop query="notphyla">
 													<li class="border-white">
-														<a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#" target="_blank">#kingdom#:#phylorder# (#ct#)</a> 
+														<a href="#specimenSearch#&phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#" target="_blank">#kingdom#:#phylorder#</a>  (#ct#)
 													</li>
 												</cfloop>
 											</ol>
@@ -592,7 +592,7 @@ limitations under the License.
 											<ol class="#notkValues# pt-2 px-0 px-md-2 mx-1">
 											<cfloop query="notkingdoms">
 												<li class="border-white">
-													<a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#" target="_blank">#scientific_name# (#ct#)</a>
+													<a class="" href="#specimenSearch#&phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#" target="_blank">#scientific_name# </a> (#ct#)
 												</li>
 											</cfloop>
 											</ol>
