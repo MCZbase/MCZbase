@@ -471,7 +471,7 @@ limitations under the License.
 												ORDER BY island
 												</cfquery>
 												<div class="collapse w-100 pt-2" id="islandsgroup_#k#">
-													<ol class="#islandValues#">
+													<ol class="#islandValues# px-0 px-md-2 mx-1">
 														<cfset i=1>
 														<cfloop query="islands">
 															<cfset islandVal = islands.island>
