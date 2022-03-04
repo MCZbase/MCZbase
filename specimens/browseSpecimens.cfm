@@ -366,28 +366,10 @@ limitations under the License.
 														<cfset countryVal = "[No Country Value]">
 														<cfset countryLookup = "NULL">
 													</cfif>
-													<script>
-														var truncate = function (fullStr, strLen, separator) {
-															if (fullStr.length <= strLen) return fullStr;
-
-															separator = separator || '...';
-
-															var sepLen = separator.length,
-																charsToShow = strLen - sepLen,
-																frontChars = Math.ceil(charsToShow/2),
-																backChars = Math.floor(charsToShow/2);
-
-															return fullStr.substr(0, frontChars) + 
-																separator + 
-																fullStr.substr(fullStr.length - backChars);
-														};
-
-														var tStr = document.getElementsByClassName('t').innerHTML;
-														document.getElementsByClassName('t').innerHTML = truncate(tStr, 8);
-
-													</script>
+													<cfset trnc = #countryVal#>
+													<cfset shortVal = mid(#trnc#, 5,11)
 													<li class="">
-														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank"  class="t">#countryVal#</a> (#countries.ct#) 
+														<a href="#specimenSearch#&continent_ocean=#continentLookup#&country=#countryLookup#" target="_blank">#countryVal#</a> (#countries.ct#) 
 													</li>
 												</cfloop>
 												<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
