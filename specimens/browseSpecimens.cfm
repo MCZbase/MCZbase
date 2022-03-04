@@ -475,6 +475,12 @@ limitations under the License.
 													<ol class="#islandValues# px-0 px-md-2 mx-1">
 														<cfset i=1>
 														<cfloop query="islands">
+															<cfset group = island_groups.island_group>
+															<cfset groupLookup = island_groups.island_group>
+															<cfif len(group) EQ 0> 
+																<cfset group = "[No Island Group]">
+																<cfset groupLookup = "NULL">
+															</cfif>
 															<cfset islandVal = islands.island>
 															<cfset islandLookup = islands.island>
 															<cfif len(islandVal) EQ 0> 
