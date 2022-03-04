@@ -358,7 +358,7 @@ limitations under the License.
 												<cfelse>	
 													<cfset geogValues = "flowNone">
 												</cfif>
-												<ol class="#geogValues# px-0 px-md-2 mx-1">
+												<ol class="#geogValues# px-0 px-md-2 mx-1" id="t">
 												<cfloop query="countries">
 													<cfset countryVal = countries.country>
 													<cfset countryLookup = countries.country>
@@ -402,6 +402,28 @@ limitations under the License.
 										<cfset i=i+1>
 									</cfloop>
 								</div>
+							<script>
+								var truncate = function (fullStr, strLen, separator) {
+									if (fullStr.length <= strLen) return fullStr;
+
+									separator = separator || '...';
+
+									var sepLen = separator.length,
+										charsToShow = strLen - sepLen,
+										frontChars = Math.ceil(charsToShow/2),
+										backChars = Math.floor(charsToShow/2);
+
+									return fullStr.substr(0, frontChars) + 
+										   separator + 
+										   fullStr.substr(fullStr.length - backChars);
+								};
+
+								var tStr = document.getElementById('t').innerHTML.innerHTML;
+								document.getElementById('t').innerHTML = truncate(tStr, 8);
+
+								var tStr = document.getElementById('s').innerHTML.innerHTML;
+								document.getElementById('s').innerHTML = truncate(tStr, 8);
+							</script>
 							</div>
 							<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 								<h3 class="px-2">Browse By Islands</h3>	
