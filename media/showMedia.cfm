@@ -75,7 +75,7 @@
 					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
 					trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
 					trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
-					specimendetailurl, media_relationship, MCZBASE.get_media_descriptor(source_media.media_id) source_alt
+					specimendetailurl, media_relationship, MCZBASE.get_media_descriptor(media.media_id) source_alt
 			   from media_relations
 				   left join  flat on related_primary_key = collection_object_id
 			   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
@@ -88,9 +88,9 @@
 							#mediablock#
 							<div class="text-center d-block py-0">
 								<ul class="list-group">
-									<li class="list-group-item">#ff.specGuid#</li>
-									<li class="list-group-item">Current ID: #ff.scientific_name#</li>
-									<li class="list-group-item">Locality: #ff.higher_geog#, #ff.spec_locality#</li>
+									<li class="list-group-item">#ff.guid#</li>
+									<li class="list-group-item">Current ID: #ff.name#</li>
+									<li class="list-group-item">Geography #geography#</li>
 								</ul>
 							</div>
 						</div>
