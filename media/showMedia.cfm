@@ -101,9 +101,9 @@ WHERE
 					<h3 class="text-decoration-underline px-2">Metadata</h3>
 					<ul class="list-group">
 						<cfloop query="labels">
-						<li class="list-group-item"><b>#labels.media_label#:</b> #labels.label_value#</li>
+						<li class="list-group-item"><span class="text-uppercase">#labels.media_label#:</span> #labels.label_value#</li>
 						</cfloop>
-						<li class="list-group-item"><b>Keywords: </b> #keywords.keywords#</li>
+						<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
 						
 <!---						<cfset columnMetadata = "[">
 							<cfset comma = "">
@@ -115,7 +115,7 @@ WHERE
 							<script>
 								var columnMetadata = JSON.parse('#columnMetadata#'); 
 							</script>--->
-						<li class="list-group-item"><b>Alt Text: </b>#thisguid.alttag2#</li>
+						<li class="list-group-item"><span class="text-uppercase">Alt Text: </span>#thisguid.alttag2#</li>
 					</ul>
 				</div>
 			</cfloop>
