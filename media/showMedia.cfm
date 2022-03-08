@@ -98,6 +98,17 @@
 						<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
 						</cfloop>
 						<li class="list-group-item">Keywords: #keywords.keywords#</li>
+						
+						<cfset columnMetadata = "[">
+							<cfset comma = "">
+							<cfloop query="thisguid">
+								<cfset columnMetadata = '#columnMetadata##comma#{"column":"#thisguid.table_name#:#thisguid.column_name#","data_type":"#thisguid.data_type#","ui_function":"#thisguid.ui_function#"}'>
+							<cfset comma = ",">
+							</cfloop>
+							<cfset columnMetadata = "#columnMetadata#]"> 
+							<script>
+								var columnMetadata = JSON.parse('#columnMetadata#'); 
+							</script>
 						<li class="list-group-item">Alt Text: #thisguid.alttag2#</li>
 					</ul>
 				</div>
