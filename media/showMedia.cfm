@@ -103,54 +103,53 @@ WHERE
 						<cfloop query="labels">
 							<li class="list-group-item"><span class="text-uppercase">#labels.media_label#:</span> #labels.label_value#</li>
 						</cfloop>
+						 <cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
+								from media_relations
+							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm.media_id#">
+								and media_relationship in ('created by agent', 'shows cataloged_item')
+           				</cfquery>
+					   <cfloop query="relations">
+						 <cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
+						   <cfset labellist = "<li>#mr_label#: #mr_value#</li>">
+						 </cfif>
+					   </cfloop>
 						<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
 						<li class="list-group-item"><span class="text-uppercase">Alt Text: </span>#thisguid.alttag2#</li>
 					</ul>
 				</div>
 			</cfloop>
-			<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				 select * from (
-				   select distinct collection_object_id as pk, guid,
-						typestatus, SCIENTIFIC_NAME name,
-			decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
-						trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
-						trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
-						specimendetailurl,
-						media_relationship,
-						1 as sortorder
-				   from media_relations
-					   left join  <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> on related_primary_key = collection_object_id
-				   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
-						and ( media_relationship = 'shows cataloged_item')
-				   union
-				   select distinct agent.agent_id as pk, '' as guid,
-						'' as typestatus, agent_name as name,
-						agent_remarks as geography,
-						'' as geology,
-						'' as coll,
-						agent_name as specimendetailurl,
-						media_relationship,
-						2 as sortorder
-				   from media_relations
-					  left join agent on related_primary_key = agent.agent_id
-					  left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
-				   where  media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-						and ( media_relationship = 'shows agent')
-				   ) ffquery order by sortorder
+		</div>
+	<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		 select * from (
+		   select distinct collection_object_id as pk, guid,
+				typestatus, SCIENTIFIC_NAME name,
+				decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
+				trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
+				trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
+				specimendetailurl,
+				media_relationship,
+				1 as sortorder
+		   from media_relations
+			   left join  <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> on related_primary_key = collection_object_id
+		   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
+				and ( media_relationship = 'shows cataloged_item')
+		   union
+		   select distinct agent.agent_id as pk, '' as guid,
+				'' as typestatus, agent_name as name,
+				agent_remarks as geography,
+				'' as geology,
+				'' as coll,
+				agent_name as specimendetailurl,
+				media_relationship,
+				2 as sortorder
+		   from media_relations
+			  left join agent on related_primary_key = agent.agent_id
+			  left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
+		   where  media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and ( media_relationship = 'shows agent')
+		   ) ffquery order by sortorder
 	</cfquery>
-    <cfif ff.recordcount EQ 0>
-      <!--- Gracefully fail if not associated with a specimen --->
-      <cfoutput>
-        <div class ="media_id">
-        <div class="backlink"><div>
-            <h3>Image is not associated with specimens.</h3>
-         <br/><br/>
-          <!--- end media_id --->
-        </div>
-        <!--- end layoutbox --->
-        </div>
-      </cfoutput>
-    </cfif>
     <cfloop query='ff'>
       <cfif ff.media_relationship eq "shows agent" and  listcontainsnocase(session.roles,"coldfusion_user")>
         <cfset backlink="<a href='/agents/Agent.cfm?agent_id=#ff.pk#'>#ff.name#</a> &mdash; agent record data">
@@ -163,17 +162,6 @@ WHERE
               <cfset backlink="#ff.specimendetailurl#">
            </cfif>
       </cfif>
-      <cfoutput>
-        <div class ="media_id">
-        <div class="backlink">#backlink#</div>
-         <h3><i>#ff.name#</i></h3>
-   			<p>#ff.geography# #geology#</p>
-        	<p>#ff.coll# </p>
-        	<cfif len(trim(#ff.typestatus#))>
-          <p class="tclass"><span class="type">#ff.typestatus#</span></p>
-        </cfif>
-        </div>
-      </cfoutput>
       <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
       <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct media.media_id, preview_uri, media.media_uri,
@@ -225,66 +213,18 @@ WHERE
            <cfloop query="labels">
              <cfset labellist = "#labellist#<li>#media_label#: #label_value#</li>">
            </cfloop>
-           <cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
-					from media_relations
-					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm.media_id#">
-					and media_relationship in ('created by agent', 'shows cataloged_item')
-           </cfquery>
-           <cfloop query="relations">
-             <cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
-               <cfset labellist = "#labellist#<li>#mr_label#: #mr_value#</li>">
-             </cfif>
-           </cfloop>
-           <cfquery name="keywords"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select keywords
-					from media_keywords
-					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm.media_id#">
-           </cfquery>
-           <cfset kwlist="">
-           <cfloop query="keywords">
-             <cfset kwlist = "#kwlist# #keywords#">
-           </cfloop>
-           <cfif len(trim(kwlist)) >
-             <cfset labellist = "#labellist#<li>keywords: #kwlist#</li>">
-           </cfif>
-           <cfset labellist="#labellist#</ul>">
            <!--- Define the metadata block that gets changed when an image is selected from the set --->
-           <cfset datatitle="
-   			<h4><a href='media/#relm.media_id#'>Media Record (metadata)</a> <span> <!---(metadata for image #counter# of #relm.recordcount#)---></a></h4>">
-           <cfset data_content= "#labellist#">
-           <!--- one height doesn't work yet --->
-           <cfset datalinks="<h3 class='img_ct'>Image #counter# of #relm.recordcount#</h3><div class='full'><a href='#relm.media_uri#'>Full Image </a></div><div class='full'><a href='#license_uri#' class='full'>#license#</a></div>">
-           <cfoutput><a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
-		     data-title="#datalinks# #datatitle# #data_content#"><img src="#relm.preview_uri#" alt="#altText#">#counter#</a></cfoutput>
+           <cfoutput>
+			   <a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
+		     data-title="#datalinks# #datatitle# #data_content#">
+				   <img src="#relm.preview_uri#" alt="#altText#">
+				   #counter#
+			   </a>
+			</cfoutput>
         </cfif> <!--- end are relm.height and relm.width non null --->
       </cfloop> <!--- end loop through relm to show any images for media relations of current related cataloged_item --->
       <!--- if any related images, show their thumbnails --->
-      <cfif relm.recordcount gt 1>
-        <cfoutput>
-          </div>
-
-          <!-- end multizooom thumbs -->
-          <p class="tipbox instruction2">Click to select from the #relm.RecordCount# images of this specimen.</p>
-          </div>
-          <!-- end media_thumbs -->
-        </cfoutput>
-        <cfelse>
-        <cfoutput>
-          </div>
-
-          <!-- end multizooom thumbs -->
-          <p class="tipbox instruction2">There is only one image of this specimen.</p>
-          </div>
-
-          </div>
-          </div>
-
-          <!-- end media_thumbs -->
-        </cfoutput>
-      </cfif> <!--- end display of thumbnails of related images --->
     </cfloop><!--- end loop through ff for related cataloged items --->
-		</div>
 	</div>
 </main>
 
