@@ -158,28 +158,28 @@ WHERE
       <cfoutput>
         <a name="otherimages"></a>
         <div class="media_thumbs">
-    		<h4>Other images related to #relatedItemA##relatedItem##relatedItemEndA#</h4>
+    		<h4>Other images related to GUID</h4>
 			<div class="multizoom1 thumbs">
       </cfoutput>
       <cfset counter=0>
-      <cfloop query="relm">
-        <cfif len(trim(relm.height)) && len(trim(relm.width)) >
-           <cfset counter++ >
-           <cfset scalefactor = PVWIDTH/#relm.width#>
-           <cfif scalefactor GT 1 >
-             <cfset scalefactor = 1>
-           </cfif>
-           <cfset scaledheight = 0 + Round(#relm.height# * #scalefactor#) >
-           <cfset scaledwidth = Round(#relm.width# * #scalefactor#)>
-           <cfoutput>
-			   <a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
-		     data-title="#datalinks# #datatitle# #data_content#">
-				   <img src="#relm.preview_uri#" alt="#altText#">
-				   #counter#
-			   </a>
-			</cfoutput>
-        </cfif> <!--- end are relm.height and relm.width non null --->
-      </cfloop> <!--- end loop through relm to show any images for media relations of current related cataloged_item --->
+			  <cfloop query="relm">
+				<cfif len(trim(relm.height)) && len(trim(relm.width)) >
+				   <cfset counter++ >
+				   <cfset scalefactor = PVWIDTH/#relm.width#>
+				   <cfif scalefactor GT 1 >
+					 <cfset scalefactor = 1>
+				   </cfif>
+				   <cfset scaledheight = 0 + Round(#relm.height# * #scalefactor#) >
+				   <cfset scaledwidth = Round(#relm.width# * #scalefactor#)>
+				   <cfoutput>
+					   <a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
+					 data-title="#datalinks# #datatitle# #data_content#">
+						   <img src="#relm.preview_uri#" alt="#altText#">
+						   #counter#
+					   </a>
+					</cfoutput>
+				</cfif> <!--- end are relm.height and relm.width non null --->
+			  </cfloop> <!--- end loop through relm to show any images for media relations of current related cataloged_item --->
       <!--- if any related images, show their thumbnails --->
     </cfloop><!--- end loop through ff for related cataloged items --->
 	</div>
