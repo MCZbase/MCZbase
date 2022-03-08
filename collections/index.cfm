@@ -37,7 +37,7 @@ limitations under the License.
 	order by collection.collection
 </cfquery>
 <cfoutput>
-	<main class="container-xl mx-auto my-3" id="content">
+	<main class="container-lg mx-auto my-3" id="content">
 		<section class="row" >
 			<div class="col-12 mt-3">
 				<h1 class="h2 px-2">MCZbase Holdings</h1>
