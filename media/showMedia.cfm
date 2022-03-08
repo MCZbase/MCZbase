@@ -121,34 +121,17 @@ WHERE
 			</cfloop>
 		</div>
 	<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		 select * from (
 		   select distinct collection_object_id as pk, guid,
 				typestatus, SCIENTIFIC_NAME name,
 				decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
 				trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
 				trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
 				specimendetailurl,
-				media_relationship,
-				1 as sortorder
+				media_relationship
 		   from media_relations
-			   left join  <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> on related_primary_key = collection_object_id
-		   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
-				and ( media_relationship = 'shows cataloged_item')
-		   union
-		   select distinct agent.agent_id as pk, '' as guid,
-				'' as typestatus, agent_name as name,
-				agent_remarks as geography,
-				'' as geology,
-				'' as coll,
-				agent_name as specimendetailurl,
-				media_relationship,
-				2 as sortorder
-		   from media_relations
-			  left join agent on related_primary_key = agent.agent_id
-			  left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
-		   where  media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				and ( media_relationship = 'shows agent')
-		   ) ffquery order by sortorder
+			   left join  flat on related_primary_key = collection_object_id
+		   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and ( media_relationship = 'shows cataloged_item');
 	</cfquery>
     <cfloop query='ff'>
       <cfif ff.media_relationship eq "shows agent" and  listcontainsnocase(session.roles,"coldfusion_user")>
