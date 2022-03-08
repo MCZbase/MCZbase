@@ -151,17 +151,13 @@
 				 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 			where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
 			   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
-					   AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+				AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 			</cfquery>
-			<a name="otherimages"></a>
 			<div class="media_thumbs">
 				<h4>Other images related to #ff.guid#</h4>
-				<div class="multizoom1 thumbs">
+				<div class="thumbs">
 				  <cfloop query="relm">
-					   <a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
-					 data-title="#datalinks# #datatitle# #data_content#">
-						   <img src="#relm.preview_uri#" alt="#altText#">
-					   </a>
+					  <img src="#relm.preview_uri#">
 				  </cfloop> <!--- end loop through relm to show any images of current related cataloged_item --->
 				</div>
 			</div>
