@@ -70,17 +70,17 @@
 						and media_relationship like '%media'
 				</cfquery>
 				<cfloop query="media">
-			<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			   select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
-					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
-					trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
-					trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
-					specimendetailurl, media_relationship, MCZBASE.get_media_descriptor(media.media_id) source_alt
-			   from media_relations
-				   left join  flat on related_primary_key = collection_object_id
-			   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and ( media_relationship = 'shows cataloged_item')
-		</cfquery>
+					<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,
+						mczbase.get_media_descriptor(media_id) as alttag2
+						from media_relations
+							left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
+							left join identification on identification.collection_object_id = cataloged_item.collection_object_id
+							left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+						where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+							and media_relationship = 'shows cataloged_item'
+						and identification.accepted_id_fg = 1
+					</cfquery>
 
 					<cfif len(media.media_id) gt 0>
 						<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
@@ -88,9 +88,9 @@
 							#mediablock#
 							<div class="text-center d-block py-0">
 								<ul class="list-group">
-									<li class="list-group-item">#ff.guid#</li>
-									<li class="list-group-item">Current ID: #ff.name#</li>
-									<li class="list-group-item">Geography #geography#</li>
+									<li class="list-group-item">#thisguid.specGuid#</li>
+									<li class="list-group-item">Current ID: #thisguid.scientific_name#</li>
+									<li class="list-group-item">Locality: #thisguid.higher_geog#, #thisguid.spec_locality#</li>
 								</ul>
 							</div>
 						</div>
@@ -114,11 +114,25 @@
 							 </cfif>
 						   </cfloop>
 							<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
-							<li class="list-group-item"><span class="text-uppercase">Alt Text: </span>#ff.source_alt#</li>
+							<li class="list-group-item"><span class="text-uppercase">Alt Text: </span>#thisguid.alttag2#</li>
 						</ul>
 					</div>
 				</cfloop>
 			</div>
+		</div>
+		<div class="row">
+			<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			   select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
+					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
+					trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
+					trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
+					specimendetailurl, media_relationship
+			   from media_relations
+				   left join  flat on related_primary_key = collection_object_id
+			   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					and ( media_relationship = 'shows cataloged_item')
+		</cfquery>
+				<div class="col-12 mt-4">#ff.guid# #ff.typestatus# #ff.name# #ff.geography#</div>
 		</div>
 			
 		<div class="row">
