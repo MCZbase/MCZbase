@@ -11,7 +11,7 @@
 <main class="container" id="content">
 	<div class="row">
 		<div class="col-12 mt-4 ">
-			<h1 class="h2 mt-4 pb-1 mb-3 border-bottom">Media Record</h1>
+			<h1 class="h2 mt-4 col-6 pb-1 mb-3 border-bottom">Media Record<button class="btn btn-xs btn-primary">viewer</button></h1>
 			<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct 
 					media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
