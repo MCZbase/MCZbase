@@ -136,7 +136,6 @@
 		</div>
 			
 		<div class="row">
-			<cfloop query='ff'>
 		  <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
 			<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct media.media_id, preview_uri, media.media_uri,
@@ -161,7 +160,6 @@
 				  </cfloop> <!--- end loop through relm to show any images of current related cataloged_item --->
 				</div>
 			</div>
-		</cfloop><!--- end loop through ff for related cataloged items --->
 		</div>
 	</main>
 </cfoutput>
