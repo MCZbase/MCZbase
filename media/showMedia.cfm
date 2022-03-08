@@ -136,7 +136,7 @@
 		</cfquery>
 			<cfloop query='ff'>
 		  <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
-		  <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct media.media_id, preview_uri, media.media_uri,
 				   get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 				   media.mime_type, media.media_type,
@@ -159,7 +159,7 @@
 			<div class="media_thumbs">
 				<h4>Other images related to GUID</h4>
 				<div class="multizoom1 thumbs">
-				<cfset counter=0>
+					<cfset counter=0>
 				  <cfloop query="relm">
 					<cfif len(trim(relm.height)) && len(trim(relm.width)) >
 					   <cfset counter++ >
@@ -175,9 +175,10 @@
 							   #counter#
 						   </a>
 					</cfif> <!--- end are relm.height and relm.width non null --->
-				  </cfloop> <!--- end loop through relm to show any images for media relations of current related cataloged_item --->
-			 <!--- if any related images, show their thumbnails --->
-			</cfloop><!--- end loop through ff for related cataloged items --->
+				  </cfloop> <!--- end loop through relm to show any images of current related cataloged_item --->
+				</div>
+			</div>
+		</cfloop><!--- end loop through ff for related cataloged items --->
 		</div>
 	</main>
 </cfoutput>
