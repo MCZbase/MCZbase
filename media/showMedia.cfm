@@ -103,14 +103,16 @@
 				</div>
 			</cfloop>
 					
-			<cfset columnMetadata = "[">
+<!---			<cfset columnMetadata = "[">
 			<cfset comma = "">
 			<cfloop query="fields">
 				<cfset columnMetadata = '#columnMetadata##comma#{"column":"#fields.table_name#:#fields.column_name#","data_type":"#fields.data_type#","ui_function":"#fields.ui_function#"}'>
-			<cfset comma = ",">
+				<cfset comma = ",">
 			</cfloop>
-			<cfset columnMetadata = "#columnMetadata#]"> <script>
-				var columnMetadata = JSON.parse('#columnMetadata#'); </script>
+			<cfset columnMetadata = "#columnMetadata#]"> 
+				<script>
+				var columnMetadata = JSON.parse('#columnMetadata#'); 
+				</script>--->
 		</div>
 	</div>
 </main>
