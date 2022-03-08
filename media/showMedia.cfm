@@ -131,7 +131,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			1 as sortorder
        from media_relations
 	       left join  <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> on related_primary_key = collection_object_id
-	   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#m.media_id#"> 
+	   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
 			and ( media_relationship = 'shows cataloged_item')
 	   union
 	   select distinct agent.agent_id as pk, '' as guid,
@@ -145,7 +145,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	   from media_relations
 	      left join agent on related_primary_key = agent.agent_id
 	      left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
-	   where  media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#m.media_id#">
+	   where  media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 			and ( media_relationship = 'shows agent')
 	   ) ffquery order by sortorder
 	</cfquery>
@@ -201,7 +201,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
                    AND MCZBASE.is_media_encumbered(media.media_id)  < 1
         order by (
-				case media.media_id when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#m.media_id#"> then 0 else 1 end) ,
+				case media.media_id when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> then 0 else 1 end) ,
 				to_number(get_medialabel(media.media_id,'height')
 				) desc
    	    </cfquery>
