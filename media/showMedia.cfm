@@ -56,7 +56,7 @@
 					source_media.auto_filename source_filename,
 					source_media.media_uri source_media_uri,
 					media_relations.media_relationship,
-					MCZBASE.get_media_descriptor(source_media.media_id) source_alt
+				
 				FROM
 					media_relations
 					left join media source_media on media_relations.media_id = source_media.media_id
@@ -65,8 +65,9 @@
 					and media_relationship like '%media'
 			</cfquery>
 			<cfloop query="media">
-				<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+				<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality
+					MCZBASE.get_media_descriptor(source_media.media_id) source_alt
 					from media_relations
 						left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
 						left join identification on identification.collection_object_id = cataloged_item.collection_object_id
@@ -82,9 +83,9 @@
 						#mediablock#
 						<div class="text-center d-block py-0">
 							<ul class="list-group">
-								<li class="list-group-item">#thisguid.specGuid#</li>
-								<li class="list-group-item">Current ID: #thisguid.scientific_name#</li>
-								<li class="list-group-item">Locality: #thisguid.higher_geog#, #thisguid.spec_locality#</li>
+								<li class="list-group-item">#fields.specGuid#</li>
+								<li class="list-group-item">Current ID: #fields.scientific_name#</li>
+								<li class="list-group-item">Locality: #fields.higher_geog#, #fields.spec_locality#</li>
 							</ul>
 						</div>
 					</div>
@@ -101,6 +102,15 @@
 					</ul>
 				</div>
 			</cfloop>
+					
+			<cfset columnMetadata = "[">
+			<cfset comma = "">
+			<cfloop query="fields">
+				<cfset columnMetadata = '#columnMetadata##comma#{"column":"#fields.table_name#:#fields.column_name#","data_type":"#fields.data_type#","ui_function":"#fields.ui_function#"}'>
+			<cfset comma = ",">
+			</cfloop>
+			<cfset columnMetadata = "#columnMetadata#]"> <script>
+				var columnMetadata = JSON.parse('#columnMetadata#'); </script>
 		</div>
 	</div>
 </main>
