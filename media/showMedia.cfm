@@ -132,7 +132,7 @@
 			   from media_relations
 				   left join  flat on related_primary_key = collection_object_id
 			   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and ( media_relationship = 'shows cataloged_item');
+					and ( media_relationship = 'shows cataloged_item')
 		</cfquery>
 				<div class="col-12">#guid#</div>
 		</div>
