@@ -33,8 +33,10 @@ WHERE
 				<h1 class="h2 mt-4 pb-1 mb-3 border-bottom float-left">Media Record</h1>
 			</div>
 			<div class="col-1 col-8">
-				<button class="btn float-left btn-xs btn-primary" onClick="location.href='MediaSet.cfm?media_id=#media_id#'">Viewer</button>
+				<button class="btn float-left btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Viewer</button>
 			</div>
+		</div>
+		<div class="col-12 mt-4">
 
 			<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
