@@ -101,53 +101,42 @@ WHERE
 					<h3 class="text-decoration-underline px-2">Metadata</h3>
 					<ul class="list-group">
 						<cfloop query="labels">
-						<li class="list-group-item"><span class="text-uppercase">#labels.media_label#:</span> #labels.label_value#</li>
+							<li class="list-group-item"><span class="text-uppercase">#labels.media_label#:</span> #labels.label_value#</li>
 						</cfloop>
 						<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
-						
-<!---						<cfset columnMetadata = "[">
-							<cfset comma = "">
-							<cfloop query="thisguid">
-								<cfset columnMetadata = '#columnMetadata##comma#{"column":"#thisguid.table_name#:#thisguid.column_name#","data_type":"#thisguid.data_type#","ui_function":"#thisguid.ui_function#"}'>
-							<cfset comma = ",">
-							</cfloop>
-							<cfset columnMetadata = "#columnMetadata#]"> 
-							<script>
-								var columnMetadata = JSON.parse('#columnMetadata#'); 
-							</script>--->
 						<li class="list-group-item"><span class="text-uppercase">Alt Text: </span>#thisguid.alttag2#</li>
 					</ul>
 				</div>
 			</cfloop>
-					    <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	 select * from (
-	   select distinct collection_object_id as pk, guid,
-            typestatus, SCIENTIFIC_NAME name,
-decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
-			trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
-            trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '',' &nbsp;&nbsp;&nbsp;&nbsp; '|| field_num) || decode(verbatim_date, null, '',' &nbsp;&nbsp;&nbsp;&nbsp; '|| verbatim_date))as coll,
-        	specimendetailurl,
-			media_relationship,
-			1 as sortorder
-       from media_relations
-	       left join  <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> on related_primary_key = collection_object_id
-	   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
-			and ( media_relationship = 'shows cataloged_item')
-	   union
-	   select distinct agent.agent_id as pk, '' as guid,
-	        '' as typestatus, agent_name as name,
-	        agent_remarks as geography,
-	        '' as geology,
-	        '' as coll,
-	        agent_name as specimendetailurl,
-	        media_relationship,
-	        2 as sortorder
-	   from media_relations
-	      left join agent on related_primary_key = agent.agent_id
-	      left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
-	   where  media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and ( media_relationship = 'shows agent')
-	   ) ffquery order by sortorder
+			<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				 select * from (
+				   select distinct collection_object_id as pk, guid,
+						typestatus, SCIENTIFIC_NAME name,
+			decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
+						trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
+						trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
+						specimendetailurl,
+						media_relationship,
+						1 as sortorder
+				   from media_relations
+					   left join  <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> on related_primary_key = collection_object_id
+				   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
+						and ( media_relationship = 'shows cataloged_item')
+				   union
+				   select distinct agent.agent_id as pk, '' as guid,
+						'' as typestatus, agent_name as name,
+						agent_remarks as geography,
+						'' as geology,
+						'' as coll,
+						agent_name as specimendetailurl,
+						media_relationship,
+						2 as sortorder
+				   from media_relations
+					  left join agent on related_primary_key = agent.agent_id
+					  left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
+				   where  media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and ( media_relationship = 'shows agent')
+				   ) ffquery order by sortorder
 	</cfquery>
     <cfif ff.recordcount EQ 0>
       <!--- Gracefully fail if not associated with a specimen --->
