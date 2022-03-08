@@ -55,7 +55,7 @@
 				SELECT source_media.media_id source_media_id, 
 					source_media.auto_filename source_filename,
 					source_media.media_uri source_media_uri,
-					media_relations.media_relationship,
+					media_relations.media_relationship
 				
 				FROM
 					media_relations
