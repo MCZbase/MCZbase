@@ -114,15 +114,11 @@
 							 </cfif>
 						   </cfloop>
 							<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
-							<li class="list-group-item"><span class="text-uppercase">Alt Text: </span>#ff.alttag2#</li>
+							<li class="list-group-item"><span class="text-uppercase">Alt Text: </span>#ff.source_alt#</li>
 						</ul>
 					</div>
 				</cfloop>
 			</div>
-		</div>
-		<div class="row">
-
-				<div class="col-12 mt-4">#ff.guid# #ff.typestatus# #ff.name# #ff.geography#</div>
 		</div>
 			
 		<div class="row">
