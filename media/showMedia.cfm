@@ -87,11 +87,11 @@
 						<div class="float-left" id="mediaBlock#media.media_id#">
 							#mediablock#
 							<div class="text-center d-block py-0">
-								<ul class="list-group">
+<!---								<ul class="list-group">
 									<li class="list-group-item">#thisguid.specGuid#</li>
 									<li class="list-group-item">Current ID: #thisguid.scientific_name#</li>
 									<li class="list-group-item">Locality: #thisguid.higher_geog#, #thisguid.spec_locality#</li>
-								</ul>
+								</ul>--->
 							</div>
 						</div>
 					</cfif>
@@ -136,7 +136,7 @@
 		</div>
 			
 		<div class="row">
-		  <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
+		  <!--- Obtain the list of related media objects, construct a list of thumbnails--->
 			<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct media.media_id, preview_uri, media.media_uri,
 				   get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -152,14 +152,6 @@
 			   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
 				AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 			</cfquery>
-			<div class="media_thumbs">
-				<h4>Other images related to #ff.guid#</h4>
-				<div class="thumbs">
-				  <cfloop query="relm">
-					  <img src="#relm.preview_uri#">
-				  </cfloop> <!--- end loop through relm to show any images of current related cataloged_item --->
-				</div>
-			</div>
 		</div>
 	</main>
 </cfoutput>
