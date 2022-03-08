@@ -134,17 +134,6 @@ WHERE
 				and ( media_relationship = 'shows cataloged_item');
 	</cfquery>
     <cfloop query='ff'>
-      <cfif ff.media_relationship eq "shows agent" and  listcontainsnocase(session.roles,"coldfusion_user")>
-        <cfset backlink="<a href='/agents/Agent.cfm?agent_id=#ff.pk#'>#ff.name#</a> &mdash; agent record data">
-      <cfelse>
-           <cfif ff.media_relationship eq "shows cataloged_item">
-              <cfset backlink="#ff.specimendetailurl# &mdash; specimen record data:">
-           <cfelseif ff.media_relationship eq "shows agent">
-              <cfset backlink="#ff.specimendetailurl# &mdash; agent record data:">
-           <cfelse>
-              <cfset backlink="#ff.specimendetailurl#">
-           </cfif>
-      </cfif>
       <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
       <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct media.media_id, preview_uri, media.media_uri,
@@ -180,23 +169,7 @@ WHERE
              <cfset scalefactor = 1>
            </cfif>
            <cfset scaledheight = 0 + Round(#relm.height# * #scalefactor#) >
-           <cfset scaledwidth = Round(#relm.width# * #scalefactor#) >
-
-           <!--- Obtain list of attributes and add to data-title of anchor to display metadata for each image as it is selected.  --->
-           <cfset labellist="<ul>">
-           <cfset labellist = "#labellist#<li>media: #media_type# (#mime_type#)</li>">
-           <!---<cfset labellist = "#labellist#<li>license: <a href='#license_uri#'>#license#</a></li>">--->
-           <cfset labellist = "#labellist#<li>credit: #credit#</li>" >
-           <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select media_label, label_value
-					from media_labels
-					where media_label in ('aspect', 'spectrometer', 'spectrometer reading location', 'light source', 'height', 'width')
-						and media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm.media_id#">
-           </cfquery>
-           <cfloop query="labels">
-             <cfset labellist = "#labellist#<li>#media_label#: #label_value#</li>">
-           </cfloop>
-           <!--- Define the metadata block that gets changed when an image is selected from the set --->
+           <cfset scaledwidth = Round(#relm.width# * #scalefactor#)>
            <cfoutput>
 			   <a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
 		     data-title="#datalinks# #datatitle# #data_content#">
