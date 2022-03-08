@@ -67,7 +67,7 @@
 			<cfloop query="media">
 				<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,
-					mczbase.get_media_descriptor(media_id) as alttag,
+					mczbase.get_media_descriptor(media_id) as alttag2,
 					from media_relations
 						left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
 						left join identification on identification.collection_object_id = cataloged_item.collection_object_id
@@ -98,7 +98,7 @@
 						<li class="list-group-item">#labels.media_label#: #labels.label_value#</li>
 						</cfloop>
 						<li class="list-group-item">Keywords: #keywords.keywords#</li>
-						<li class="list-group-item">Alt Text: #thisguid.alttag#</li>
+						<li class="list-group-item">Alt Text: #thisguid.alttag2#</li>
 					</ul>
 				</div>
 			</cfloop>
