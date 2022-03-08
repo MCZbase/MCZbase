@@ -28,17 +28,15 @@ WHERE
 </cfquery>
 <main class="container" id="content">
 	<div class="row">
-		<div class="col-12 mt-4 ">
-			<div class="col-11 col-md-4">
-				<h1 class="h2 mt-4 pb-1 mb-3 border-bottom float-left">Media Record</h1>
-			</div>
-			<div class="col-1 col-md-8">
-				<button class="btn float-left btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Viewer</button>
-			</div>
-		</div>
 		<div class="col-12 mt-4">
-
-			<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<h1 class="h2 mt-4 pb-1 mb-3 border-bottom float-left">
+				Media Record 
+				<button class="btn float-left btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Viewer</button>
+			</h1>
+		</div>
+	</div>
+		<div class="col-12 mt-4">
+			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					media_label,
 					label_value,
@@ -50,7 +48,7 @@ WHERE
 				WHERE
 					media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
-			<cfquery name="keywords"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="keywords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					media_id,
 					keywords
