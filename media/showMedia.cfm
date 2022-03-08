@@ -120,6 +120,7 @@ WHERE
 				</div>
 			</cfloop>
 		</div>
+	</div>
 	<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		   select distinct collection_object_id as pk, guid,
 				typestatus, SCIENTIFIC_NAME name,
