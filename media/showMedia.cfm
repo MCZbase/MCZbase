@@ -132,7 +132,7 @@
 			   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and ( media_relationship = 'shows cataloged_item')
 		</cfquery>
-				<div class="col-12">#ff.guid#</div>
+				<div class="col-12 mt-4"></div>
 		</div>
 			
 		<div class="row">
@@ -152,14 +152,10 @@
 			where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
 			   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
 					   AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-			order by (
-					case media.media_id when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> then 0 else 1 end) ,
-					to_number(get_medialabel(media.media_id,'height')
-					) desc
 			</cfquery>
 			<a name="otherimages"></a>
 			<div class="media_thumbs">
-				<h4>Other images related to GUID</h4>
+				<h4>Other images related to #ff.guid#</h4>
 				<div class="multizoom1 thumbs">
 					<cfset counter=0>
 				  <cfloop query="relm">
