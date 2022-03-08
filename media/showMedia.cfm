@@ -132,7 +132,7 @@
 			   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and ( media_relationship = 'shows cataloged_item')
 		</cfquery>
-				<div class="col-12 mt-4"></div>
+				<div class="col-12 mt-4">#guid# #typestatus# #scientific_name# #continent_ocean# #state_prov#</div>
 		</div>
 			
 		<div class="row">
