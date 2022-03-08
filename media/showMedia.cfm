@@ -134,6 +134,10 @@
 			   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and ( media_relationship = 'shows cataloged_item');
 		</cfquery>
+				<div class="col-12">#guid#</div>
+		</div>
+			
+		<div class="row">
 			<cfloop query='ff'>
 		  <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
 			<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
