@@ -232,7 +232,8 @@
 										{ text: 'Verbatim Date', datafield: 'verbatim_date', width:'150', filtertype: 'input' },
 										{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
 										{ text: 'Full Taxon Name', datafield: 'full_taxon_name', width:'350', filtertype: 'input' },
-										{ text: 'Media ID', datafield: 'media_id', width:'350', filtertype: 'input' }
+										{ text: 'Media ID', datafield: 'media_id', width:'350', filtertype: 'input' },
+										{ text: 'Images', datafield: 'imagurl', width:'350', filtertype: 'input' }
 									],
 									rendergridrows: function (obj) {
 										return obj.data;
