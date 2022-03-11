@@ -206,14 +206,14 @@
 								// initialize jqxGrid
 								$("##specimenjqxgrid").jqxGrid(
 								{
-									width: getWidth('Grid'),
+									width: '100%',
 									height: '250',
 									source: dataAdapter,
 									rowdetails: true,
 									rowdetailstemplate: {rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'>
 										ready: function () {
-											$("#grid").jqxGrid('showrowdetails', 0);
-											$("#grid").jqxGrid('showrowdetails', 1);
+											$("##grid").jqxGrid('showrowdetails', 0);
+											$("##grid").jqxGrid('showrowdetails', 1);
 										},
 									initrowdetails: initrowdetails,
 									filterable: true,
