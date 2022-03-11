@@ -163,7 +163,7 @@
 					<div class="container-fluid">
 						<h2 class="h3">Specimen Records</h2>
 							<div class="row">
-								<div class="col-12 px-1 mb-5">
+								<div class="col-12 px-0 mb-5">
 									<div class="row mt-0 mx-0"> 
 										<div id="specimenjqxgrid"></div>
 									</div>
