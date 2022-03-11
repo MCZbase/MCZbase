@@ -202,35 +202,6 @@
 										$("##specimenjqxgrid").jqxGrid('updatebounddata','filter');
 									}
 								};
-									var initrowdetails = function (index, parentElement, gridElement, datarecord) {
-									var tabsdiv = null;
-									var information = null;
-									var notes = null;
-									tabsdiv = $($(parentElement).children()[0]);
-									if (tabsdiv != null) {
-										information = tabsdiv.find('.information');
-										notes = tabsdiv.find('.notes');
-										var title = tabsdiv.find('.title');
-										title.text(datarecord.imageurl);
-										var container = $('<div style="margin: 5px;"></div>')
-										container.appendTo($(information));
-										var photocolumn = $('<div style="float: left; width: 15%;"></div>');
-										var leftcolumn = $('<div style="float: left; width: 45%;"></div>');
-										var rightcolumn = $('<div style="float: left; width: 40%;"></div>');
-										container.append(photocolumn);
-										container.append(leftcolumn);
-										container.append(rightcolumn);
-										var photo = $("<div class='jqx-rc-all' style='margin: 10px;'><b>Photo:</b></div>");
-										var image = $("<div style='margin-top: 10px;'></div>");
-										var imageurl = '../../images/' + datarecord.imageurl.toLowerCase() + '.png';
-										var img = $('<img height="60" src="' + imageurl + '"/>');
-										image.append(img);
-										image.appendTo(photo);
-										photocolumn.append(photo);
-										var notescontainer = $('<div style="white-space: normal; margin: 5px;"><span>' + datarecord.notes + '</span></div>');
-										$(notes).append(notescontainer);
-										$(tabsdiv).jqxTabs({ width: 750, height: 170});
-									}
 								}
 								var dataAdapter = new $.jqx.dataAdapter(source);
 								// initialize jqxGrid
@@ -240,12 +211,6 @@
 									height: '250',
 									source: dataAdapter,
 									rowdetails: true,
-									rowdetailstemplate: {rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'>
-										ready: function () {
-											$("##grid").jqxGrid('showrowdetails', 0);
-											$("##grid").jqxGrid('showrowdetails', 1);
-										},
-									initrowdetails: initrowdetails,
 									filterable: true,
 									showfilterrow: false,
 									sortable: true,
