@@ -69,7 +69,7 @@
 				</cfquery>
 				<cfloop query="media">
 					<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality
+						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,flat.imageurl
 						from media_relations
 							left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
 							left join identification on identification.collection_object_id = cataloged_item.collection_object_id
@@ -182,7 +182,8 @@
 										{ name: 'verbatim_date', type: 'string' },
 										{ name: 'higher_geog', type: 'string' },
 										{ name: 'media_id', type: 'string' },
-										{ name: 'full_taxon_name', type: 'string' }
+										{ name: 'full_taxon_name', type: 'string' },
+										{ name: 'imageurl',type: 'string'}
 									],
 									url: '/media/component/search.cfc?method=getSpecimensInMedia&smallerfieldlist=true&collection_object_id=#ff.pk#&media_id=#media.media_id#',
 									timeout: 30000,  // units not specified, miliseconds? 

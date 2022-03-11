@@ -1382,7 +1382,8 @@ imgStyleClass=value
 				flat.higher_geog, 
 				flat.spec_locality,
 				media_relations.media_id,
-				flat.othercatalognumbers, 
+				flat.othercatalognumbers,
+				flat.imageurl,
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 					flat.cabinets, 
 				</cfif>
