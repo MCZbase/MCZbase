@@ -108,11 +108,11 @@
 								where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 									and media_relationship in ('created by agent', 'shows cataloged_item')
 							</cfquery>
-						   <cfloop query="relations">
-							 <cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
-							   <cfset labellist = "<li>#mr_label#: #mr_value#</li>">
-							 </cfif>
-						   </cfloop>
+							<cfloop query="relations">
+								<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
+									<cfset labellist = "<li>#mr_label#: #mr_value#</li>">
+								</cfif>
+							</cfloop>
 							<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
 							<li class="list-group-item border p-2"><span class="text-uppercase">Alt Text: </span>#thisguid.alttag2#</li>
 						</ul>
@@ -122,14 +122,14 @@
 		</div>
 		<div class="row">
 			<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			   select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
-					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
-					trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
-					trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
-					specimendetailurl, media_relationship
-			   from media_relations
-				   left join  flat on related_primary_key = collection_object_id
-			   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+			select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
+				decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
+				trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
+				trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
+				specimendetailurl, media_relationship
+			from media_relations
+				left join  flat on related_primary_key = collection_object_id
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and ( media_relationship = 'shows cataloged_item')
 		</cfquery>
 				<div class="col-12 mt-4">#ff.guid# #ff.typestatus# #ff.name# #ff.geography#</div>
@@ -188,7 +188,7 @@
 										{ name: 'name', type: 'string' },
 										{ name: 'geography', type: 'string' }
 									],
-									url: '/media/component/search.cfc?method=getSpecimensInMedia&smallerfieldlist=true&media_id=#relm.media_id#',
+									url: '/media/component/search.cfc?method=getSpecimensInMedia&smallerfieldlist=true&collection_object_id=#collection_object_id#',
 									timeout: 30000,  // units not specified, miliseconds? 
 									loadError: function(jqXHR, textStatus, error) { 
 										handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
