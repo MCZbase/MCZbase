@@ -157,6 +157,7 @@
 			
 				<section class="spec-table row mx-0">
 					<div class="container-fluid">
+						<h2 class="h3">Specimen Records</h2>
 							<div class="row">
 								<div class="col-12 px-1 mb-3">
 									<div class="row mt-0 mx-0"> 
@@ -246,19 +247,7 @@
 								namestring = namestring.replace(/[^A-Za-z]/g,'');
 							});
 						</script>
-						<div class="col-12 my-2">
-							<h2 class="float-left">Specimen Records </h2>
-							<div id="btnContainer" class="ml-3 float-left"></div>
-						</div>
-						<div class="container-fluid">
-							<div class="row">
-								<div class="col-12 px-1 mb-3">
-									<div class="row mt-0 mx-0"> 
-										<div id="specimenjqxgrid"></div>
-									</div>
-								</div>
-							</div>
-						</div>
+
 						<!---end specimen grid---> 
 					</section>	
 				
