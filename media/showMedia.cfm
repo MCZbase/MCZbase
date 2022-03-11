@@ -79,10 +79,29 @@
 							and media_relationship = 'shows cataloged_item'
 						and identification.accepted_id_fg = 1
 					</cfquery>
-					<cfquery name="alttag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-						select MCZBASE.get_media_descriptor(media_id) alttag2 from media where alttag2 like '%#thisguid.specGuid#%'
-						
+					<cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select media_uri, mime_type, media_type, media_id,
+							get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
+							nvl(MCZBASE.GET_MAXHEIGHTMEDIASET(media_id), get_medialabel(media_id,'height')) maxheightinset,
+							nvl(
+								MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
+								MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
+								MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
+								MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
+								MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
+							, 'Unrelated image') mrstr
+						from MEDIA
+							where media_id= <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+								AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
+					<cfloop query="m" endrow="1">
+						<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select mczbase.get_media_descriptor(media_id) media_descriptor 
+							from media 
+							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+						</cfquery> 
+						<cfset altText = alt.media_descriptor>
+					</cfloop>
 					<cfif len(media.media_id) gt 0>
 						<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 						<div class="float-left" id="mediaBlock#media.media_id#">
