@@ -76,7 +76,7 @@
 							left join identification on identification.collection_object_id = cataloged_item.collection_object_id
 							left join flat on cataloged_item.collection_object_id = flat.collection_object_id
 							left join media media1 on media1.media_id = media_relations.media_id
-						where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							and media_relationship = 'shows cataloged_item'
 						and identification.accepted_id_fg = 1
 					</cfquery>
