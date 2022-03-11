@@ -127,7 +127,7 @@
 								</cfif>
 							</cfloop>
 							<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
-							<li class="list-group-item border p-2"><span class="text-uppercase">Alt Text: </span>#altText#</li>
+							<li class="list-group-item border p-2"><span class="text-uppercase">Alt Text: </span>#m.altText#</li>
 						</ul>
 					</div>
 				</cfloop>
