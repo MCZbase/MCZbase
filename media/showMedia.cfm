@@ -69,8 +69,7 @@
 				</cfquery>
 				<cfloop query="media">
 					<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,
-						MCZBASE.get_media_descriptor(media1.media_id) alttag2
+						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality
 						from media_relations
 							left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
 							left join identification on identification.collection_object_id = cataloged_item.collection_object_id
@@ -211,7 +210,7 @@
 									autoheight: 'true',
 									source: dataAdapter,
 									filterable: true,
-									showfilterrow: true,
+									showfilterrow: false,
 									sortable: true,
 									pageable: true,
 									virtualmode: true,
