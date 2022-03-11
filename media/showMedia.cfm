@@ -70,11 +70,12 @@
 				<cfloop query="media">
 					<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,
-						MCZBASE.get_media_descriptor(media_relations.media_id) source_alttag2
+						MCZBASE.get_media_descriptor(media.media_id) source_alttag2
 						from media_relations
 							left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
 							left join identification on identification.collection_object_id = cataloged_item.collection_object_id
 							left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+							left join media on media.media_id = media_relations.media_id
 						where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 							and media_relationship = 'shows cataloged_item'
 						and identification.accepted_id_fg = 1
