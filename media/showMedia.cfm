@@ -202,15 +202,13 @@
 										$("##specimenjqxgrid").jqxGrid('updatebounddata','filter');
 									}
 								};
-								}
 								var dataAdapter = new $.jqx.dataAdapter(source);
 								// initialize jqxGrid
 								$("##specimenjqxgrid").jqxGrid(
 								{
 									width: '100%',
-									height: '250',
+									autoheight: 'true',
 									source: dataAdapter,
-									rowdetails: true,
 									filterable: true,
 									showfilterrow: false,
 									sortable: true,
