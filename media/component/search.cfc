@@ -1426,6 +1426,7 @@ imgStyleClass=value
 				INNER JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on media_relations.related_primary_key = flat.collection_object_id
 			WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+							nd ( media_relationship = 'shows cataloged_item')
 				<cfif isdefined("filterscount") AND filterscount GT 0>
 					<cfloop index="i" from='0' to='#filterscount#'>
 						<cfif isdefined("filterdatafield"&i) AND (isdefined("filtervalue"&i) OR isdefined("filtercondition"&i))>

@@ -132,7 +132,7 @@
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and ( media_relationship = 'shows cataloged_item')
 		</cfquery>
-				<div class="col-12 mt-4"><p class="mb-0">Catalog Number: #ff.guid#</p>
+				<div class="col-12 mt-4 pb-3"><p class="mb-0">Catalog Number: #ff.guid#</p>
 					<p class="mb-0">Type Status: #ff.typestatus#</p>
 					<p class="mb-0">Scientific Name: #ff.name#</p>
 					<p class="mb-0">Location Collected: #ff.geography#</p> 
@@ -163,7 +163,7 @@
 					<div class="container-fluid">
 						<h2 class="h3">Specimen Records</h2>
 							<div class="row">
-								<div class="col-12 px-1 mb-3">
+								<div class="col-12 px-1 mb-5">
 									<div class="row mt-0 mx-0"> 
 										<div id="specimenjqxgrid"></div>
 									</div>
