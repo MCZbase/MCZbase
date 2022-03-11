@@ -294,7 +294,7 @@ sho err
 			  	<cfset stat=listappend(stat,"Attribute Date is required",";")>
 			</cfif>
 			<cfquery name="attDet1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT agent_id FROM agent_name WHERE agent_name = '#determiner#'
+				SELECT distinct agent_id FROM agent_name WHERE agent_name = '#determiner#'
 			</cfquery>
 			<cfif #attDet1.recordcount# is not 1>
 				<cfset stat=listappend(stat,"Attribute Determiner (#determiner#) was not found or has multiple matches",";")>
