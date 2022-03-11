@@ -67,7 +67,6 @@
 						left join media source_media on media_relations.media_id = source_media.media_id
 					WHERE
 						related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-						and media_relationship like '%media'
 				</cfquery>
 				<cfloop query="media">
 					<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
