@@ -70,6 +70,7 @@
 				<cfloop query="media">
 					<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,
+						MCZBASE.get_media_descriptor(media1.media_id) alttag2
 						from media_relations
 							left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
 							left join identification on identification.collection_object_id = cataloged_item.collection_object_id
@@ -79,29 +80,7 @@
 							and media_relationship = 'shows cataloged_item'
 						and identification.accepted_id_fg = 1
 					</cfquery>
-					<cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select media_uri, mime_type, media_type, media_id,
-							get_medialabel(media2.media_id,'height') height, get_medialabel(media2.media_id,'width') width,
-							nvl(MCZBASE.GET_MAXHEIGHTMEDIASET(media2.media_id), get_medialabel(media2.media_id,'height')) maxheightinset,
-							nvl(
-								MCZBASE.GET_MEDIA_REL_SUMMARY(media2.media_id, 'shows cataloged_item') ||
-								MCZBASE.GET_MEDIA_REL_SUMMARY(media2.media_id, 'shows publication') ||
-								MCZBASE.GET_MEDIA_REL_SUMMARY(media2.media_id, 'shows collecting_event') ||
-								MCZBASE.GET_MEDIA_REL_SUMMARY(media2.media_id, 'shows agent') ||
-								MCZBASE.GET_MEDIA_REL_SUMMARY(media2.media_id, 'shows locality')
-							, 'Unrelated image') mrstr
-						from MEDIA media2
-							where media2.media_id= <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
-								AND MCZBASE.is_media_encumbered(media2.media_id)  < 1
-					</cfquery>
-					<cfloop query="m" endrow="1">
-						<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select mczbase.get_media_descriptor(media_id) media_descriptor 
-							from media 
-							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
-						</cfquery> 
-						<cfset altText = alt.media_descriptor>
-					</cfloop>
+
 					<cfif len(media.media_id) gt 0>
 						<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 						<div class="float-left" id="mediaBlock#media.media_id#">
@@ -127,7 +106,7 @@
 								</cfif>
 							</cfloop>
 							<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
-							<li class="list-group-item border p-2"><span class="text-uppercase">Alt Text: </span>#m.altText#</li>
+							<li class="list-group-item border p-2"><span class="text-uppercase">Alt Text: </span>#thisguid.alttag2#</li>
 						</ul>
 					</div>
 				</cfloop>
