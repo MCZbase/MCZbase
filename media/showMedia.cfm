@@ -139,12 +139,12 @@
 		  <!--- Obtain the list of related media objects, construct a list of thumbnails--->
 			<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct media.media_id, preview_uri, media.media_uri,
-				   get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-				   media.mime_type, media.media_type,
-				   CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-							   ctmedia_license.uri as license_uri,
-							   mczbase.get_media_credit(media.media_id) as credit,
-						   MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+				get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+				media.mime_type, media.media_type,
+				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
+					ctmedia_license.uri as license_uri,
+					mczbase.get_media_credit(media.media_id) as credit,
+					MCZBASE.is_media_encumbered(media.media_id) as hideMedia
 			from media_relations
 				 left join media on media_relations.media_id = media.media_id
 				 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
@@ -166,7 +166,6 @@
 								</div>
 							</div>
 						</div>
-
 						<!--- Specimen grid (code loads grid into id = "specimenjqxgrid" div) along with search handlers --->
 						<script type="text/javascript">
 							var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -189,7 +188,7 @@
 										{ name: 'name', type: 'string' },
 										{ name: 'geography', type: 'string' }
 									],
-									url: '/media/component/search.cfc?method=getSpecimensInMedia&smallerfieldlist=true&media_id=#media.media_id#',
+									url: '/media/component/search.cfc?method=getSpecimensInMedia&smallerfieldlist=true&media_id=#relm.media_id#',
 									timeout: 30000,  // units not specified, miliseconds? 
 									loadError: function(jqXHR, textStatus, error) { 
 										handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
