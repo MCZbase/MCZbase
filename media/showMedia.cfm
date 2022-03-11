@@ -182,11 +182,12 @@
 									datatype: "json",
 									datafields:
 									[
-										{ name: 'pk', type: 'string' },
 										{ name: 'guid', type: 'string' },
-										{ name: 'typestatus', type: 'string' },
-										{ name: 'name', type: 'string' },
-										{ name: 'geography', type: 'string' }
+										{ name: 'scientific_name', type: 'string' },
+										{ name: 'verbatim_data', type: 'string' },
+										{ name: 'higher_geog', type: 'string' },
+										{ name: 'media_id', type: 'string' },
+										{ name: 'full_taxon_name', type: 'string' }
 									],
 									url: '/media/component/search.cfc?method=getSpecimensInMedia&smallerfieldlist=true&collection_object_id=#ff.pk#&media_id=#media.media_id#',
 									timeout: 30000,  // units not specified, miliseconds? 
@@ -230,11 +231,12 @@
 									selectionmode: 'multiplecelladvanced',
 									pageable: true,
 									columns: [
-										{ text: 'pk', datafield: 'pk', width:'180', filtertype: 'input', cellsalign: 'left',cellsrenderer: cellsrenderer },
-										{ text: 'GUID', datafield: 'guid', width:'250', filtertype: 'input' },
-										{ text: 'Type Status', datafield: 'typestatus', width:'150', filtertype: 'input' },
-										{ text: 'Name', datafield: 'name', width:'350', filtertype: 'input' },
-										{ text: 'Geography', datafield: 'geography', width:'350', filtertype: 'input' }
+										{ text: 'GUID', datafield: 'guid', width:'180', filtertype: 'input', cellsalign: 'left',cellsrenderer: cellsrenderer },
+										{ text: 'Scientific Name', datafield: 'Scientific_name', width:'250', filtertype: 'input' },
+										{ text: 'Verbatim Date', datafield: 'verbatim_date', width:'150', filtertype: 'input' },
+										{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
+										{ text: 'Full Taxon Name', datafield: 'full_taxon_name', width:'350', filtertype: 'input' },
+										{ text: 'Media ID', datafield: 'media_id', width:'350', filtertype: 'input' }
 									],
 									rendergridrows: function (obj) {
 										return obj.data;
