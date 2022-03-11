@@ -184,7 +184,7 @@
 									[
 										{ name: 'guid', type: 'string' },
 										{ name: 'scientific_name', type: 'string' },
-										{ name: 'verbatim_data', type: 'string' },
+										{ name: 'verbatim_date', type: 'string' },
 										{ name: 'higher_geog', type: 'string' },
 										{ name: 'media_id', type: 'string' },
 										{ name: 'full_taxon_name', type: 'string' }
@@ -232,7 +232,7 @@
 									pageable: true,
 									columns: [
 										{ text: 'GUID', datafield: 'guid', width:'180', filtertype: 'input', cellsalign: 'left',cellsrenderer: cellsrenderer },
-										{ text: 'Scientific Name', datafield: 'Scientific_name', width:'250', filtertype: 'input' },
+										{ text: 'Scientific Name', datafield: 'scientific_name', width:'250', filtertype: 'input' },
 										{ text: 'Verbatim Date', datafield: 'verbatim_date', width:'150', filtertype: 'input' },
 										{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
 										{ text: 'Full Taxon Name', datafield: 'full_taxon_name', width:'350', filtertype: 'input' },
