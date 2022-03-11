@@ -188,7 +188,7 @@
 										{ name: 'name', type: 'string' },
 										{ name: 'geography', type: 'string' }
 									],
-									url: '/media/component/search.cfc?method=getSpecimensInMedia&smallerfieldlist=true&collection_object_id=#collection_object_id#',
+									url: '/media/component/search.cfc?method=getSpecimensInMedia&smallerfieldlist=true&collection_object_id=#ff.pk#',
 									timeout: 30000,  // units not specified, miliseconds? 
 									loadError: function(jqXHR, textStatus, error) { 
 										handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
