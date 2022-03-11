@@ -153,6 +153,116 @@
 				AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 			</cfquery>
 		</div>
+		<section>
+			
+				<section class="spec-table row mx-0">
+					<div class="container-fluid">
+							<div class="row">
+								<div class="col-12 px-1 mb-3">
+									<div class="row mt-0 mx-0"> 
+										<div id="specimenjqxgrid"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!--- Specimen grid (code loads grid into id = "specimenjqxgrid" div) along with search handlers --->
+						<script type="text/javascript">
+							var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								if (value > 1) {
+									return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
+								}
+								else {
+									return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
+								}
+							}
+							$(document).ready(function () {
+								var source =
+								{
+									datatype: "json",
+									datafields:
+									[
+										{ name: 'pk', type: 'string' },
+										{ name: 'guid', type: 'string' },
+										{ name: 'typestatus', type: 'string' },
+										{ name: 'name', type: 'string' },
+										{ name: 'geography', type: 'string' }
+									],
+									url: '/media/component/search.cfc?method=getSpecimensInMedia&smallerfieldlist=true&media_id=#media_id#',
+									timeout: 30000,  // units not specified, miliseconds? 
+									loadError: function(jqXHR, textStatus, error) { 
+										handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
+									},
+									beforeprocessing: function (data) {
+										source.totalrecords = #ff.recordcount#;
+										//if (data != null && data.length > 0) {
+										//	source.totalrecords = data[0].recordcount;
+										//}
+									},
+									sort: function () {
+										$("##specimenjqxgrid").jqxGrid('updatebounddata','sort');
+									},
+									filter: function () {
+										$("##specimenjqxgrid").jqxGrid('updatebounddata','filter');
+									}
+								};
+								var dataAdapter = new $.jqx.dataAdapter(source);
+								// initialize jqxGrid
+								$("##specimenjqxgrid").jqxGrid(
+								{
+									width: '100%',
+									autoheight: 'true',
+									source: dataAdapter,
+									filterable: true,
+									showfilterrow: true,
+									sortable: true,
+									pageable: true,
+									virtualmode: true,
+									editable: false,
+									pagesize: '5',
+									pagesizeoptions: ['5','10','15','20','50','100'],
+									columnsresize: false,
+									autoshowfiltericon: false,
+									autoshowcolumnsmenubutton: false,
+									altrows: true,
+									showtoolbar: false,
+									enabletooltips: true,
+									selectionmode: 'multiplecelladvanced',
+									pageable: true,
+									columns: [
+										{ text: 'pk', datafield: 'pk', width:'180', filtertype: 'input', cellsalign: 'left',cellsrenderer: cellsrenderer },
+										{ text: 'GUID', datafield: 'guid', width:'250', filtertype: 'input' },
+										{ text: 'Type Status', datafield: 'typestatus', width:'150', filtertype: 'input' },
+										{ text: 'Name', datafield: 'name', width:'350', filtertype: 'input' },
+										{ text: 'Geography', datafield: 'geography', width:'350', filtertype: 'input' }
+									],
+									rendergridrows: function (obj) {
+										return obj.data;
+									}
+								});
+								var now = new Date();
+								var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+								var namestring = "#pageTitle#";
+								namestring = namestring.replace(/[^A-Za-z]/g,'');
+							});
+						</script>
+						<div class="col-12 my-2">
+							<h2 class="float-left">Specimen Records </h2>
+							<div id="btnContainer" class="ml-3 float-left"></div>
+						</div>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12 px-1 mb-3">
+									<div class="row mt-0 mx-0"> 
+										<div id="specimenjqxgrid"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!---end specimen grid---> 
+					</section>	
+				
+		</section>
 	</main>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
