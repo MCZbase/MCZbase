@@ -61,7 +61,7 @@
 						source_media.auto_filename source_filename,
 						source_media.media_uri source_media_uri,
 						media_relations.media_relationship,
-						MCZBASE.get_media_descriptor(source_media.media_id) source_alt
+						MCZBASE.get_media_descriptor(source_media.media_id) source_alttag2
 					FROM
 						media_relations
 						left join media source_media on media_relations.media_id = source_media.media_id
@@ -70,8 +70,7 @@
 				</cfquery>
 				<cfloop query="media">
 					<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,
-						mczbase.get_media_descriptor(media_id) as alttag2
+						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality
 						from media_relations
 							left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
 							left join identification on identification.collection_object_id = cataloged_item.collection_object_id
