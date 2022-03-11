@@ -45,16 +45,16 @@
 						media_labels
 						left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
 					WHERE
-						media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						media_labels.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
 				<cfquery name="keywords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						media_id,
+						media_keywords.media_id,
 						keywords
 					FROM
 						media_keywords
 					WHERE
-						media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
 				<cfquery name="mediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT source_media.media_id source_media_id, 
@@ -65,18 +65,18 @@
 						media_relations
 						left join media source_media on media_relations.media_id = source_media.media_id
 					WHERE
-						related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
 				<cfloop query="media">
 					<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,
-						MCZBASE.get_media_descriptor(media1.media_id) alttag2
+						MCZBASE.get_media_descriptor(media_id) alttag2
 						from media_relations
 							left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
 							left join identification on identification.collection_object_id = cataloged_item.collection_object_id
 							left join flat on cataloged_item.collection_object_id = flat.collection_object_id
 							left join media media1 on media1.media_id = media_relations.media_id
-						where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							and media_relationship = 'shows cataloged_item'
 						and identification.accepted_id_fg = 1
 					</cfquery>
