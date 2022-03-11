@@ -70,7 +70,6 @@
 				<cfloop query="media">
 					<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,
-						MCZBASE.get_media_descriptor(media1.media_id) alttag2
 						from media_relations
 							left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
 							left join identification on identification.collection_object_id = cataloged_item.collection_object_id
@@ -80,7 +79,10 @@
 							and media_relationship = 'shows cataloged_item'
 						and identification.accepted_id_fg = 1
 					</cfquery>
-
+					<cfquery name="alttag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+						select MCZBASE.get_media_descriptor(media_id) alttag2 from media where alttag2 like '%#thisguid.specGuid#%'
+						
+					</cfquery>
 					<cfif len(media.media_id) gt 0>
 						<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 						<div class="float-left" id="mediaBlock#media.media_id#">
@@ -106,7 +108,7 @@
 								</cfif>
 							</cfloop>
 							<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
-							<li class="list-group-item border p-2"><span class="text-uppercase">Alt Text: </span>#thisguid.alttag2#</li>
+							<li class="list-group-item border p-2"><span class="text-uppercase">Alt Text: </span>#alttag.alttag2#</li>
 						</ul>
 					</div>
 				</cfloop>
