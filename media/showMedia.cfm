@@ -162,6 +162,7 @@
 				</div>
 			<!--- Specimen grid (code loads grid into id = "specimenjqxgrid" div) along with search handlers --->
 			<script type="text/javascript">
+				
 					var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						if (value > 1) {
 							return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
@@ -242,7 +243,7 @@
 								{ text: 'Verbatim Date', datafield: 'verbatim_date', width:'150', filtertype: 'input' },
 								{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
 								{ text: 'Full Taxon Name', datafield: 'full_taxon_name', width:'350', filtertype: 'input' },
-								{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer },
+								{text: 'Preview URI', datafield: 'preview_uri', width: 100, cellsrenderer: thumbCellRenderer },
 								{ text: 'Media URI', datafield: 'media_uri', width:'350', filtertype: 'input' }
 							],
 							rendergridrows: function (obj) {
