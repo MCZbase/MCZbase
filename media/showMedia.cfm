@@ -120,7 +120,7 @@
 				specimendetailurl, media_relationship
 			from media_relations
 				left join flat on related_primary_key = collection_object_id
-			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and (media_relations.media_relationship = 'shows cataloged_item')
 		</cfquery>
 				<div class="col-12 mt-4 pb-3"><p class="mb-0">CATALOG NUMBER: #ff.guid#</p>
