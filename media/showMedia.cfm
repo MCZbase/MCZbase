@@ -169,7 +169,19 @@
 						else {
 							return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
 						}
-					}
+						
+					};
+					var thumbCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						var puri = rowData['preview_uri'];
+						var muri = rowData['media_uri'];
+						var alt = rowData['ac_description'];
+						if (puri != "") { 
+							return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" target="_blank" href="'+ muri + '"><img src="'+puri+'" alt="'+alt+'" width="100%"></a></span>';
+						} else { 
+							return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+						}
+					};
 					$(document).ready(function () {
 						var source =
 						{
@@ -180,7 +192,8 @@
 								{ name: 'scientific_name', type: 'string' },
 								{ name: 'verbatim_date', type: 'string' },
 								{ name: 'higher_geog', type: 'string' },
-								{ name: 'full_taxon_name', type: 'string' }
+								{ name: 'full_taxon_name', type: 'string' },
+								{ name: 'preview_uri', type: 'string' },
 							],
 							url: '/media/component/search.cfc?method=getSpecimensInMedia&smallerfieldlist=true&collection_object_id=#ff.pk#&media_id=#media.media_id#',
 							timeout: 30000,  // units not specified, miliseconds? 
@@ -228,7 +241,8 @@
 								{ text: 'Scientific Name', datafield: 'scientific_name', width:'250', filtertype: 'input' },
 								{ text: 'Verbatim Date', datafield: 'verbatim_date', width:'150', filtertype: 'input' },
 								{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
-								{ text: 'Full Taxon Name', datafield: 'full_taxon_name', width:'350', filtertype: 'input' }
+								{ text: 'Full Taxon Name', datafield: 'full_taxon_name', width:'350', filtertype: 'input' },
+								{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer },
 							],
 							rendergridrows: function (obj) {
 								return obj.data;
