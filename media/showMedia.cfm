@@ -170,7 +170,7 @@
 							return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
 						}
 						
-					};
+					}
 					var thumbCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						var puri = rowData['preview_uri'];
@@ -181,7 +181,7 @@
 						} else { 
 							return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 						}
-					};
+					}
 					$(document).ready(function () {
 						var source =
 						{
