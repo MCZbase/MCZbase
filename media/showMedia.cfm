@@ -171,7 +171,6 @@
 						}
 						
 					}
-
 					$(document).ready(function () {
 						var source =
 						{
