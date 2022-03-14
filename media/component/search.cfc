@@ -1431,7 +1431,7 @@ imgStyleClass=value
 				INNER JOIN media 
 					on media.media_id = media_relations.media_id
 			WHERE (media_relations.media_relationship = 'shows cataloged_item')
-				 
+				and media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				<cfif isdefined("filterscount") AND filterscount GT 0>
 					<cfloop index="i" from='0' to='#filterscount#'>
 						<cfif isdefined("filterdatafield"&i) AND (isdefined("filtervalue"&i) OR isdefined("filtercondition"&i))>
