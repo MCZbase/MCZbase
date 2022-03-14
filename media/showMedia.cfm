@@ -241,7 +241,7 @@
 								{ text: 'Verbatim Date', datafield: 'verbatim_date', width:'150', filtertype: 'input' },
 								{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
 								{ text: 'Full Taxon Name', datafield: 'full_taxon_name', width:'350', filtertype: 'input' },
-								{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer },
+								{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer }
 							],
 							rendergridrows: function (obj) {
 								return obj.data;
