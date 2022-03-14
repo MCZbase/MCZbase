@@ -124,29 +124,35 @@
 					and (media_relations.media_relationship = 'shows cataloged_item')
 		</cfquery>
 			<cfloop query="ff">
-		<div class="tab-card-header">
-				<div class="col-12 mt-4 pb-3"><p class="mb-0">CATALOG NUMBER(s): #ff.guid#</p>
-					<p class="mb-0">TYPE STATUS: <cfif len(ff.typestatus) gt 0>#ff.typestatus#<cfelse>none</cfif></p>
-					<p class="mb-0">SCIENTIFIC NAME: #ff.name#</p>
-					<p class="mb-0">LOCATION COLLECTED: #ff.geography#</p> 
-					<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct media.media_id, preview_uri, media.media_uri,
-						get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-						media.mime_type, media.media_type,
-						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-							ctmedia_license.uri as license_uri,
-							mczbase.get_media_credit(media.media_id) as credit,
-							MCZBASE.is_media_encumbered(media.media_id) as hideMedia
-					from media_relations
-						 left join media on media_relations.media_id = media.media_id
-						 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-					where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-					   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
-						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-					</cfquery>
-					<cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop>
+				<div class="search-box">
+					<div class="search-box-header">
+						<h1 class="h3 text-white">Specimen Records with this Media</h1>
+					</div>
+					<div class="row">
+						<div class="col-12 mt-4 pb-3">
+							<p class="mb-0">CATALOG NUMBER(s): #ff.guid#</p>
+							<p class="mb-0">TYPE STATUS: <cfif len(ff.typestatus) gt 0>#ff.typestatus#<cfelse>none</cfif></p>
+							<p class="mb-0">SCIENTIFIC NAME: #ff.name#</p>
+							<p class="mb-0">LOCATION COLLECTED: #ff.geography#</p> 
+							<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct media.media_id, preview_uri, media.media_uri,
+							get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+							media.mime_type, media.media_type,
+							CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
+								ctmedia_license.uri as license_uri,
+								mczbase.get_media_credit(media.media_id) as credit,
+								MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+						from media_relations
+							 left join media on media_relations.media_id = media.media_id
+							 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+						where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
+						   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
+							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+						</cfquery>
+						<cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop>
+						</div>
+					</div>
 				</div>
-			</div>
 			</cfloop>
 		</div>
 		
