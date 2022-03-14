@@ -220,7 +220,8 @@
 						$("##specimenjqxgrid").jqxGrid(
 						{
 							width: '100%',
-							autoheight: 'true',
+							autoheight: 'false',
+							height: '250px';
 							source: dataAdapter,
 							filterable: true,
 							showfilterrow: false,
