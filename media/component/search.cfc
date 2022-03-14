@@ -1383,7 +1383,7 @@ imgStyleClass=value
 				flat.spec_locality,
 				media_relations.media_id,
 				flat.othercatalognumbers,
-				media.media_preview,
+				media.preview_uri,
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 					flat.cabinets, 
 				</cfif>
