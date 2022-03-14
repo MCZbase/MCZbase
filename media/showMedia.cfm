@@ -171,6 +171,16 @@
 						}
 						
 					};
+					var thumbCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##specimenjqxgrid").jqxGrid('getrowdata',row);
+						var puri = rowData['preview_uri'];
+						var muri = rowData['media_uri'];
+						if (puri != "") { 
+							return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" target="_blank" href="'+ muri + '"><img src="'+puri+'" width="100%"></a></span>';
+						} else { 
+							return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+						}
+					};
 					$(document).ready(function () {
 						var source =
 						{
@@ -231,7 +241,7 @@
 								{ text: 'Verbatim Date', datafield: 'verbatim_date', width:'150', filtertype: 'input' },
 								{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
 								{ text: 'Full Taxon Name', datafield: 'full_taxon_name', width:'350', filtertype: 'input' },
-								{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: 'true' },
+								{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer },
 							],
 							rendergridrows: function (obj) {
 								return obj.data;
