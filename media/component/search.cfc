@@ -1383,6 +1383,7 @@ imgStyleClass=value
 				flat.spec_locality,
 				media_relations.media_id,
 				flat.othercatalognumbers,
+				media.media_preview,
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 					flat.cabinets, 
 				</cfif>
@@ -1425,6 +1426,8 @@ imgStyleClass=value
 				media_relations 
 				INNER JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on media_relations.related_primary_key = flat.collection_object_id
+				INNER JOIN media
+					on media.media_id = media_relations.media_id
 			WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 					and (media_relations.media_relationship = 'shows cataloged_item')
 				<cfif isdefined("filterscount") AND filterscount GT 0>
