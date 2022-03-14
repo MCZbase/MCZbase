@@ -221,7 +221,7 @@
 						{
 							width: '100%',
 							autoheight: 'false',
-							height: '250px',
+							height: '250',
 							source: dataAdapter,
 							filterable: true,
 							showfilterrow: false,
