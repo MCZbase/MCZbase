@@ -178,8 +178,8 @@
 						if (imgurls != "") { 
 							$.each(imgurls,function(i){
 								for(var index = 0; index < imgurls.length; index++) {
-									//console.log(imgurls[index]);
-									return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" target="_blank" href="'+ imgurls + '"><img src="'+imgurls+'" width="100%"></a></span>';
+									console.log(imgurls[index]);
+									//return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" //target="_blank" href="'+ imgurls + '"><img src="'+imgurls+'" width="100%"></a></span>';
 						} else { 
 							return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 						}
