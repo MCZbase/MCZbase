@@ -181,8 +181,7 @@
 										{ name: 'scientific_name', type: 'string' },
 										{ name: 'verbatim_date', type: 'string' },
 										{ name: 'higher_geog', type: 'string' },
-										{ name: 'full_taxon_name', type: 'string' },
-										{ name: 'imageurl',type: 'string'}
+										{ name: 'full_taxon_name', type: 'string' }
 									],
 									url: '/media/component/search.cfc?method=getSpecimensInMedia&smallerfieldlist=true&collection_object_id=#ff.pk#&media_id=#media.media_id#',
 									timeout: 30000,  // units not specified, miliseconds? 
@@ -230,8 +229,7 @@
 										{ text: 'Scientific Name', datafield: 'scientific_name', width:'250', filtertype: 'input' },
 										{ text: 'Verbatim Date', datafield: 'verbatim_date', width:'150', filtertype: 'input' },
 										{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
-										{ text: 'Full Taxon Name', datafield: 'full_taxon_name', width:'350', filtertype: 'input' },
-										{ text: 'Images', datafield: 'imageurl', width:'350', filtertype: 'input' }
+										{ text: 'Full Taxon Name', datafield: 'full_taxon_name', width:'350', filtertype: 'input' }
 									],
 									rendergridrows: function (obj) {
 										return obj.data;
