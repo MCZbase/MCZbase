@@ -13,7 +13,7 @@
 		media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
 		MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 		MCZBASE.get_media_credit(media.media_id) as credit, 
-	<!---	mczbase.get_media_descriptor(media_id) as alttag,--->
+		mczbase.get_media_descriptor(media_id) as alttag,
 		nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
@@ -75,7 +75,7 @@
 							left join identification on identification.collection_object_id = cataloged_item.collection_object_id
 							left join flat on cataloged_item.collection_object_id = flat.collection_object_id
 							left join media media1 on media1.media_id = media_relations.media_id
-						where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							and media_relationship = 'shows cataloged_item'
 						and identification.accepted_id_fg = 1
 					</cfquery>
@@ -105,7 +105,7 @@
 								</cfif>
 							</cfloop>
 							<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
-						<!---	<li class="list-group-item border p-2"><span class="text-uppercase">Alt Text: </span>#media.alttag#</li>--->
+							<li class="list-group-item border p-2"><span class="text-uppercase">Alt Text: </span>#media.alttag#</li>
 						</ul>
 					</div>
 				</cfloop>
@@ -149,100 +149,100 @@
 			</cfquery>
 		</div>
 			
-		<section class="spec-table row mx-0">
-			<div class="container-fluid">
-				<h2 class="h3">Specimen Records</h2>
-					<div class="row">
-						<div class="col-12 px-0 mb-5">
-							<div class="row mt-0 mx-0"> 
-								<div id="specimenjqxgrid"></div>
+			<section class="spec-table row mx-0">
+				<div class="container-fluid">
+					<h2 class="h3">Specimen Records</h2>
+						<div class="row">
+							<div class="col-12 px-0 mb-5">
+								<div class="row mt-0 mx-0"> 
+									<div id="specimenjqxgrid"></div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<!--- Specimen grid (code loads grid into id = "specimenjqxgrid" div) along with search handlers --->
-				<script type="text/javascript">
-					var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						if (value > 1) {
-							return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
-						}
-						else {
-							return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
-						}
-					}
-					$(document).ready(function () {
-						var source =
-						{
-							datatype: "json",
-							datafields:
-							[
-								{ name: 'guid', type: 'string' },
-								{ name: 'scientific_name', type: 'string' },
-								{ name: 'verbatim_date', type: 'string' },
-								{ name: 'higher_geog', type: 'string' },
-								{ name: 'full_taxon_name', type: 'string' }
-							],
-							url: '/media/component/search.cfc?method=getSpecimensInMedia&smallerfieldlist=true&collection_object_id=#ff.pk#&media_id=#media.media_id#',
-							timeout: 30000,  // units not specified, miliseconds? 
-							loadError: function(jqXHR, textStatus, error) { 
-								handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
-							},
-							beforeprocessing: function (data) {
-								source.totalrecords = #ff.recordcount#;
-								//if (data != null && data.length > 0) {
-								//	source.totalrecords = data[0].recordcount;
-								//}
-							},
-							sort: function () {
-								$("##specimenjqxgrid").jqxGrid('updatebounddata','sort');
-							},
-							filter: function () {
-								$("##specimenjqxgrid").jqxGrid('updatebounddata','filter');
+					<!--- Specimen grid (code loads grid into id = "specimenjqxgrid" div) along with search handlers --->
+					<script type="text/javascript">
+						var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+							if (value > 1) {
+								return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
 							}
-						};
-						var dataAdapter = new $.jqx.dataAdapter(source);
-						// initialize jqxGrid
-						$("##specimenjqxgrid").jqxGrid(
-						{
-							width: '100%',
-							autoheight: 'true',
-							source: dataAdapter,
-							filterable: true,
-							showfilterrow: false,
-							sortable: true,
-							pageable: true,
-							virtualmode: true,
-							editable: false,
-							pagesize: '5',
-							pagesizeoptions: ['5','10','15','20','50','100'],
-							columnsresize: false,
-							autoshowfiltericon: false,
-							autoshowcolumnsmenubutton: false,
-							altrows: true,
-							showtoolbar: false,
-							enabletooltips: true,
-							selectionmode: 'multiplecelladvanced',
-							pageable: true,
-							columns: [
-								{ text: 'GUID', datafield: 'guid', width:'180', filtertype: 'input', cellsalign: 'left',cellsrenderer: cellsrenderer },
-								{ text: 'Scientific Name', datafield: 'scientific_name', width:'250', filtertype: 'input' },
-								{ text: 'Verbatim Date', datafield: 'verbatim_date', width:'150', filtertype: 'input' },
-								{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
-								{ text: 'Full Taxon Name', datafield: 'full_taxon_name', width:'350', filtertype: 'input' }
-							],
-							rendergridrows: function (obj) {
-								return obj.data;
+							else {
+								return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
 							}
+						}
+						$(document).ready(function () {
+							var source =
+							{
+								datatype: "json",
+								datafields:
+								[
+									{ name: 'guid', type: 'string' },
+									{ name: 'scientific_name', type: 'string' },
+									{ name: 'verbatim_date', type: 'string' },
+									{ name: 'higher_geog', type: 'string' },
+									{ name: 'full_taxon_name', type: 'string' }
+								],
+								url: '/media/component/search.cfc?method=getSpecimensInMedia&smallerfieldlist=true&collection_object_id=#ff.pk#&media_id=#media.media_id#',
+								timeout: 30000,  // units not specified, miliseconds? 
+								loadError: function(jqXHR, textStatus, error) { 
+									handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
+								},
+								beforeprocessing: function (data) {
+									source.totalrecords = #ff.recordcount#;
+									//if (data != null && data.length > 0) {
+									//	source.totalrecords = data[0].recordcount;
+									//}
+								},
+								sort: function () {
+									$("##specimenjqxgrid").jqxGrid('updatebounddata','sort');
+								},
+								filter: function () {
+									$("##specimenjqxgrid").jqxGrid('updatebounddata','filter');
+								}
+							};
+							var dataAdapter = new $.jqx.dataAdapter(source);
+							// initialize jqxGrid
+							$("##specimenjqxgrid").jqxGrid(
+							{
+								width: '100%',
+								autoheight: 'true',
+								source: dataAdapter,
+								filterable: true,
+								showfilterrow: false,
+								sortable: true,
+								pageable: true,
+								virtualmode: true,
+								editable: false,
+								pagesize: '5',
+								pagesizeoptions: ['5','10','15','20','50','100'],
+								columnsresize: false,
+								autoshowfiltericon: false,
+								autoshowcolumnsmenubutton: false,
+								altrows: true,
+								showtoolbar: false,
+								enabletooltips: true,
+								selectionmode: 'multiplecelladvanced',
+								pageable: true,
+								columns: [
+									{ text: 'GUID', datafield: 'guid', width:'180', filtertype: 'input', cellsalign: 'left',cellsrenderer: cellsrenderer },
+									{ text: 'Scientific Name', datafield: 'scientific_name', width:'250', filtertype: 'input' },
+									{ text: 'Verbatim Date', datafield: 'verbatim_date', width:'150', filtertype: 'input' },
+									{ text: 'Higher Geography', datafield: 'higher_geog', width:'350', filtertype: 'input' },
+									{ text: 'Full Taxon Name', datafield: 'full_taxon_name', width:'350', filtertype: 'input' }
+								],
+								rendergridrows: function (obj) {
+									return obj.data;
+								}
+							});
+							var now = new Date();
+							var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+							var namestring = "#pageTitle#";
+							namestring = namestring.replace(/[^A-Za-z]/g,'');
 						});
-						var now = new Date();
-						var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-						var namestring = "#pageTitle#";
-						namestring = namestring.replace(/[^A-Za-z]/g,'');
-					});
-				</script>
+					</script>
 
-				<!---end specimen grid---> 
-			</section>	
+					<!---end specimen grid---> 
+				</section>	
 	</main>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
