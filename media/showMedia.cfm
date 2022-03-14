@@ -123,13 +123,16 @@
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and (media_relations.media_relationship = 'shows cataloged_item')
 		</cfquery>
-			<div class="col-12 mt-4 pb-3"><p class="mb-0">CATALOG NUMBER(s): #ff.guid#</p>
-				<p class="mb-0">TYPE STATUS: #ff.typestatus#</p>
-				<p class="mb-0">SCIENTIFIC NAME: #ff.name#</p>
-				<p class="mb-0">LOCATION COLLECTED: #ff.geography#</p> 
-			</div>
+			<cfloop query="ff">
+				<div class="col-12 mt-4 pb-3"><p class="mb-0">CATALOG NUMBER(s): #ff.guid#</p>
+					<p class="mb-0">TYPE STATUS: #ff.typestatus#</p>
+					<p class="mb-0">SCIENTIFIC NAME: #ff.name#</p>
+					<p class="mb-0">LOCATION COLLECTED: #ff.geography#</p> 
+				</div>
+			</cfloop>
 		</div>
-				</cfloop>
+		
+		</cfloop>
 		<div class="row">
 			<!--- Obtain the list of related media objects, construct a list of thumbnails--->
 			<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
