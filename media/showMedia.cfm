@@ -257,37 +257,6 @@
 						namestring = namestring.replace(/[^A-Za-z]/g,'');
 					});
 				</script>
-				<script>
-					$("##specimenjqxgrid").bind("bindingcomplete", function (event) {
-						WrapText();
-					});
-					function WrapText() {
-						for (i = 0; i <= 10; i++) {
-							WrapRow(i);
-						}
-					}
-					function WrapRow(number) {
-						var currentRow = '##row' + number + 'jqxgrid';
-						var arr = $(currentRow + ' .jqx-grid-cell-workgroup span');
-						var hOfRow = $(currentRow).height();
-						var hOfSpan = $(arr[1]).height();
-						var hToIncrease = hOfSpan - hOfRow;
-						if (hToIncrease > 0) {
-							hToIncrease += 5;
-							IncreaseSize('##jqxgrid', hToIncrease);
-							IncreaseSize('##contentjqxgrid', hToIncrease);
-							IncreaseSize(currentRow, hToIncrease);
-							MoveDown('##pager', hToIncrease);
-						}
-					}
-					function IncreaseSize(element, pixels) {
-						var current = $(element).height();
-						$(element).height(current + pixels);
-					}
-					function MoveDown(element, pixels) {
-						$(element).css('top', '+=' + pixels);
-					}
-			</script>
 			<!---end specimen grid---> 
 		</section>	
 	</main>
