@@ -220,15 +220,16 @@
 						$("##specimenjqxgrid").jqxGrid(
 						{
 							width: '100%',
-							autoheight: 'false',
-							height: '250',
+							autoheight: 'true',
 							source: dataAdapter,
 							filterable: true,
 							showfilterrow: false,
 							sortable: true,
+							pageable: true,
 							virtualmode: true,
 							editable: false,
-							rowsheight: '250',
+							pagesize: '5',
+							pagesizeoptions: ['5','10','15','20','50','100'],
 							columnsresize: false,
 							autoshowfiltericon: false,
 							autoshowcolumnsmenubutton: false,
@@ -236,7 +237,7 @@
 							showtoolbar: false,
 							enabletooltips: true,
 							selectionmode: 'multiplecelladvanced',
-							pageable: false,
+							pageable: true,
 							columns: [
 								{ text: 'GUID', datafield: 'guid', width:'180', filtertype: 'input', cellsalign: 'left',cellsrenderer: cellsrenderer },
 								{ text: 'Scientific Name', datafield: 'scientific_name', width:'250', filtertype: 'input' },
@@ -257,6 +258,7 @@
 						namestring = namestring.replace(/[^A-Za-z]/g,'');
 					});
 				</script>
+
 			<!---end specimen grid---> 
 		</section>	
 	</main>
