@@ -144,11 +144,12 @@
 					   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
-					<cfloop query="relm"><img src="#relm.preview_uri#"></cfloop>
+					<cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop>
 				</div>
+			</div>
 			</cfloop>
 		</div>
-		</div>
+		
 		</cfloop>
 
 	</main>
