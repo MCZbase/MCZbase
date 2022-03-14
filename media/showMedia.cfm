@@ -228,6 +228,7 @@
 							sortable: true,
 							virtualmode: true,
 							editable: false,
+							rowsheight: '250',
 							columnsresize: false,
 							autoshowfiltericon: false,
 							autoshowcolumnsmenubutton: false,
