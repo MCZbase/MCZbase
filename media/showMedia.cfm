@@ -123,17 +123,18 @@
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and (media_relations.media_relationship = 'shows cataloged_item')
 		</cfquery>
-			<cfloop query="ff">
+			
 				<div class="search-box">
 					<div class="search-box-header">
 						<h1 class="h3 text-white">Specimen Records with this Media</h1>
 					</div>
-					<div class="row">
-						<div class="col-12 mt-4 pb-3">
-							<p class="mb-0">CATALOG NUMBER(s): #ff.guid#</p>
-							<p class="mb-0">TYPE STATUS: <cfif len(ff.typestatus) gt 0>#ff.typestatus#<cfelse>none</cfif></p>
-							<p class="mb-0">SCIENTIFIC NAME: #ff.name#</p>
-							<p class="mb-0">LOCATION COLLECTED: #ff.geography#</p> 
+					<cfloop query="ff">
+					<div class="row mx-0">
+						<div class="col-11 mt-4 pb-3">
+							<p class="mb-0"><span class="font-weight-bold">Catalog Item</span>: #ff.guid#</p>
+							<p class="mb-0"><span class="font-weight-bold">Type Status:</span> <cfif len(ff.typestatus) gt 0>#ff.typestatus#<cfelse>none</cfif></p>
+							<p class="mb-0"><span class="font-weight-bold">Scientific Name:</span> #ff.name#</p>
+							<p class="mb-0"><span class="font-weight-bold">Location:</span> #ff.geography#</p> 
 							<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
 							get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -152,8 +153,9 @@
 						<cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop>
 						</div>
 					</div>
+					</cfloop>
 				</div>
-			</cfloop>
+			
 		</div>
 		
 		</cfloop>
