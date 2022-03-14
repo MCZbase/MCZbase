@@ -170,7 +170,7 @@
 							return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
 						}
 						
-					}
+					};
 					$(document).ready(function () {
 						var source =
 						{
