@@ -174,12 +174,10 @@
 					};
 					var thumbCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##specimenjqxgrid").jqxGrid('getrowdata',row);
-						var imgurls = rowData['imageurl'].val().split("|")
-						if (imgurls != "") { 
-							$.each(imgurls,function(i){
-								for(var index = 0; index < imgurls.length; index++) {
-									console.log(imgurls[index]);
-									//return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" //target="_blank" href="'+ imgurls + '"><img src="'+imgurls+'" width="100%"></a></span>';
+						var puri = rowData['preview_uri'];
+						var muri = rowData['media_uri'];
+						if (puri != "") { 
+							return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" target="_blank" href="'+ muri + '"><img src="'+puri+'" width="100%"></a></span>';
 						} else { 
 							return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 						}
