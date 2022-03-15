@@ -179,73 +179,7 @@
 				</div>
 			</div>
 					
-				
-			<div class="row mx-0">
-				<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct transaction_id as pk, transaction_type,
-					specimendetailurl, media_relationship
-				from media_relations
-					left join flat on related_primary_key = collection_object_id
-				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-						and (media_relations.media_relationship lik '%doc%')
-				</cfquery>
-				<cfif len(tt.guid) gt 0>
-				<h1 class="h3 w-100 mb-0">Transaction Records with this Media</h1>
-				<div class="row mx-0">
-					<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct media.media_id, preview_uri, media.media_uri,
-						get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-						media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-							ctmedia_license.uri as license_uri,
-							mczbase.get_media_credit(media.media_id) as credit,
-							MCZBASE.is_media_encumbered(media.media_id) as hideMedia
-					from media_relations
-						 left join media on media_relations.media_id = media.media_id
-						 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-					where (media_relationship like '%doc%' or media_relationship = 'shows agent')
-						AND related_primary_key = <cfqueryparam value=#tt.pk# CFSQLType="CF_SQL_DECIMAL" >
-						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-				</cfquery>
-					<table class="search-box table mt-1 w-100">
-						<thead class="search-box-header mt-1">
-							<tr class="text-white">
-								<th>Transaction ID</th>
-								<th>Transaction Type</th>
-								<th>Year</th>
-								<th>Location&nbsp;Data</th>
-								<th>Image&nbsp;Thumbnail(s)</th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfloop query="tt">
-								<tr>
-									<td style="width: 10%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#tt.guid#">#tt.guid#</a></td>
-									<cfif len(tt.typestatus) gt 0>
-										<td>#tt.typestatus#</td>
-										<cfelse>
-										<td>none</td>
-									</cfif>
-									<td>#tt.name#</td>
-									<td style="min-width: 120px;">#tt.geography#</td>
-									<td style="width:60%;">
-										<cfloop query="relm">
-											<div class="border-white float-left px-2 pt-2" style="width:112px;">
-											<cfif len(media.media_id) gt 0>
-												<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
-												<div class="float-left" id="mediaBlock#relm.media_id#"> #mediablock# </div>
-											</cfif>
-											</div>
-										</cfloop>
-									</td>
-								</tr>
-							</cfloop>
-						</tbody>
-					</table>
-				<cfelse>
-						
-				</cfif>
-				</div>
+
 			</div>
 		</cfloop>
 	</main>
