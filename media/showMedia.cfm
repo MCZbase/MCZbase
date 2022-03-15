@@ -177,10 +177,7 @@
 					
 			<div class="row mx-0">
 				<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct transaction_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
-					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
-					trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
-					trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
+				select distinct transaction_id as pk, transaction_type,
 					specimendetailurl, media_relationship
 				from media_relations
 					left join flat on related_primary_key = collection_object_id
@@ -215,16 +212,16 @@
 							</tr>
 						</thead>
 						<tbody>
-							<cfloop query="ff">
+							<cfloop query="tt">
 								<tr>
-									<td style="width: 10%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#ff.guid#">#ff.guid#</a></td>
-									<cfif len(ff.typestatus) gt 0>
-										<td>#ff.typestatus#</td>
+									<td style="width: 10%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#tt.guid#">#tt.guid#</a></td>
+									<cfif len(tt.typestatus) gt 0>
+										<td>#tt.typestatus#</td>
 										<cfelse>
 										<td>none</td>
 									</cfif>
-									<td>#ff.name#</td>
-									<td style="min-width: 120px;">#ff.geography#</td>
+									<td>#tt.name#</td>
+									<td style="min-width: 120px;">#tt.geography#</td>
 									<td style="width:60%;">
 										<cfloop query="relm">
 											<div class="border-white float-left px-2 pt-2" style="width:112px;">
