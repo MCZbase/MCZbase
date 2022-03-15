@@ -124,9 +124,9 @@
 					and (media_relations.media_relationship = 'shows cataloged_item')
 		</cfquery>
 			
-				<div class="search-box">
-					<div class="search-box-header">
-						<h1 class="h3 text-white">Specimen Records with this Media</h1>
+<!---				<div class="search-box">
+					<div class="search-box-header">--->
+						<h1 class="h3">Specimen Records with this Media</h1>
 					</div>
 					<cfloop query="ff">
 					<div class="row mx-0">
@@ -154,7 +154,7 @@
 					<!---	</div>--->
 					<table class="search-box table">
 						<thead class="search-box-header">
-							<tr>
+							<tr class="text-white">
 								<th>Catalog Item</th><th>Type Status</th><th>Scientific Name</th><th>Location</th>
 							</tr>
 						</thead>
