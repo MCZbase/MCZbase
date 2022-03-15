@@ -139,7 +139,7 @@
 					<table class="search-box table mt-1 w-100">
 						<thead class="search-box-header mt-1">
 							<tr class="text-white">
-								<th>Catalog&nbsp;Item for Specimen</th>
+								<th>Catalog&nbsp;Item</th>
 								<th>Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</th>
 								<th>Scientific&nbsp;Name</th>
 								<th>Location&nbsp;Data</th>
@@ -149,7 +149,7 @@
 						<tbody>
 							<cfloop query="ff">
 								<tr>
-									<td><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#ff.guid#">#ff.guid#</a></td>
+									<td style="width: 10%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#ff.guid#">#ff.guid#</a></td>
 									<cfif len(ff.typestatus) gt 0>
 										<td>#ff.typestatus#</td>
 										<cfelse>
