@@ -143,7 +143,7 @@
 						<table class="search-box table">
 							<thead class="search-box-header">
 								<tr class="text-white">
-									<th>Catalog Item</th><th>Type Status</th><th>Scientific Name</th><th>Location</th>
+									<th>Catalog Item</th><th>Type Status</th><th>Scientific Name</th><th>Location</th><th>Image Thumbnail</th>
 								</tr>
 							</thead>
 							<tbody>
