@@ -160,7 +160,7 @@
 									<td>
 										<cfloop query="relm">
 											<cfif len(media.media_id) gt 0>
-												<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size='100',captionAs="textLinks")>
+												<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
 												<div class="float-left" id="mediaBlock#relm.media_id#"> #mediablock# </div>
 											</cfif>
 <!---											<a href="#relm.media_uri#">
