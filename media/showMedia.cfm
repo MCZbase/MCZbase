@@ -122,7 +122,7 @@
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and (media_relations.media_relationship = 'shows cataloged_item')
 			</cfquery>
-			<h1 class="h3 w-100">Specimen Records with this Media</h1>
+			<h1 class="h3 w-100 mb-0">Specimen Records with this Media</h1>
 			<div class="row mx-0">
 				<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct media.media_id, preview_uri, media.media_uri,
@@ -139,7 +139,7 @@
 						AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 				</cfquery>
-				<table class="search-box table w-100">
+				<table class="search-box table w-100 mb-4">
 					<thead class="search-box-header">
 						<tr class="text-white">
 							<th>Catalog Item</th><th>Type Status</th><th>Scientific Name</th><th>Location</th><th>Image Thumbnail(s)</th>
