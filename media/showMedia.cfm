@@ -157,7 +157,7 @@
 									</cfif>
 									<td>#ff.name#</td>
 									<td style="min-width: 120px;">#ff.geography#</td>
-									<td style="width:100%;">
+									<td style="width:60%;">
 										<cfloop query="relm">
 											<div class="border-white float-left px-2 pt-2" style="width:112px;">
 											<cfif len(media.media_id) gt 0>
