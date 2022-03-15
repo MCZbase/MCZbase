@@ -152,9 +152,24 @@
 						</cfquery>
 						<cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop>
 						</div>
+					<table class="search-box table">
+						<thead>
+							<tr>
+								<th>Catalog Item</th><th>Type Status</th><th>Scientific Name</th><th>Location</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>#ff.guid#</td><td>#ff.typestatus#</td><td>#ff.name#</td><td>#ff.geography#</td>
+							</tr>
+						</tbody>
+
+					</table>
 					</div>
 					</cfloop>
 				</div>
+						
+
 			
 		</div>
 		
