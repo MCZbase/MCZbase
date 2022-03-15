@@ -151,13 +151,13 @@
 								<tr>
 									<td><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#ff.guid#">#ff.guid#</a></td>
 									<cfif len(ff.typestatus) gt 0>
-										<td style="width: 20%">#ff.typestatus#</td>
+										<td>#ff.typestatus#</td>
 										<cfelse>
 										<td>none</td>
 									</cfif>
 									<td>#ff.name#</td>
-									<td style="width: 20%">#ff.geography#</td>
-									<td>
+									<td style="">#ff.geography#</td>
+									<td style="width:100%;">
 										<cfloop query="relm">
 											<div class="border-white float-left px-2 pt-2" style="width:112px;">
 											<cfif len(media.media_id) gt 0>
