@@ -47,7 +47,7 @@
 						left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
 					WHERE
 						media_labels.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-				</cfquery>
+					</cfquery>
 					<cfquery name="keywords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						media_keywords.media_id,
@@ -56,7 +56,7 @@
 						media_keywords
 					WHERE
 						media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-				</cfquery>
+					</cfquery>
 					<cfquery name="mediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT source_media.media_id source_media_id, 
 						source_media.auto_filename source_filename,
@@ -78,7 +78,7 @@
 					where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						and (media_relationship = 'shows cataloged_item')
 					and identification.accepted_id_fg = 1
-				</cfquery>
+					</cfquery>
 					<cfif len(media.media_id) gt 0>
 						<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 						<div class="float-left" id="mediaBlock#media.media_id#"> #mediablock# </div>
@@ -175,11 +175,7 @@
 					</table>
 				<cfelse>
 				nothing	
-				</cfif>
-				</div>
-			</div>
-					
-
+			</cfif>
 			</div>
 		</cfloop>
 	</main>
