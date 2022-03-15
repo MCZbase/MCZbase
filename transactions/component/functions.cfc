@@ -3841,16 +3841,16 @@ limitations under the License.
 				<p>Links to available reports:</p>
 				<ul>
 					<cfif inhouse.c is 1 and authorized.c GT 0 >
-						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_header">MCZ Gift/Exchange Deaccession Header</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_header" target="_blank">MCZ Gift/Exchange Deaccession Header</a></li>
 					</cfif>
-					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_deaccession_header">Header Copy for MCZ Files</a></li>
+					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_deaccession_header" target="_blank">Header Copy for MCZ Files</a></li>
 					<cfif inhouse.c is 1 and authorized.c GT 0 >
-						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_discarded_header">MCZ Discarded Deaccession Header</a></li>
-						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_items">MCZ Deaccession Items</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_discarded_header" target="_blank">MCZ Discarded Deaccession Header</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_items" target="_blank">MCZ Deaccession Items</a></li>
 						<!--- only show Object header if deaccession is of type other or transfer or internal transfer--->
 						<cfif deaccDetails.deacc_type EQ "#MAGIC_TTYPE_OTHER#" OR deaccDetails.deacc_type EQ "#MAGIC_DTYPE_TRANSFER#" OR deaccDetails.deacc_type EQ "#MAGIC_DTYPE_INTERNALTRANSFER#" >
 							<!--- report is actually the same as the gift/exchange header, it is a general purpose deaccession report (except for discards).  --->
-							<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_header">MCZ Object Deaccession Header</a></li>
+							<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_header" target="_blank">MCZ Object Deaccession Header</a></li>
 						</cfif>
 					</cfif>
 					<li><a href="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</a></li>
@@ -3880,9 +3880,9 @@ limitations under the License.
 				<h2 class="h2">Print Borrow Paperwork</h2> 
 				<p>Links to available reports:</p>
 				<ul>
-					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Return Receipt Header</a></li>
-					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_borrow_header">Header for MCZ Files</a></li>
-            	<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrow_items">MCZ Return Receipt Items</a></li>
+					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header" target="_blank">MCZ Return Receipt Header</a></li>
+					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_borrow_header" target="_blank">Header for MCZ Files</a></li>
+            	<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrow_items" target="_blank">MCZ Return Receipt Items</a></li>
 				</ul>
    			<div class="p-1 border border-warning" style="width: 25rem;">
 					<strong>The return shipment must be entered and marked 'Printed on invoice' (make sure that you don't have the shipment to the MCZ marked as 'Printed on invoice', or else the addresses will show up in the wrong places on the return receipt header).</strong>
