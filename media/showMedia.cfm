@@ -150,7 +150,7 @@
 								<tr>
 									<td>#ff.guid#</td><td>#ff.typestatus#</td><td>#ff.name#</td><td>#ff.geography#</td>
 								</tr>
-								<tr><cfloop query="relm"><td colspan="4"><img src="#relm.preview_uri#" class="mr-2"></td></cfloop></tr>
+								<tr><cfloop query="relm"><td><img src="#relm.preview_uri#" class="mr-2"></td></cfloop></tr>
 							</tbody>
 						</table>
 					</div>
