@@ -179,7 +179,7 @@
 				</div>
 			</div>
 					
-					
+				
 			<div class="row mx-0">
 				<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct transaction_id as pk, transaction_type,
@@ -189,6 +189,7 @@
 				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						and (media_relations.media_relationship lik '%doc%')
 				</cfquery>
+				<cfif len(tt.guid) gt 0>
 				<h1 class="h3 w-100 mb-0">Transaction Records with this Media</h1>
 				<div class="row mx-0">
 					<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -241,6 +242,9 @@
 							</cfloop>
 						</tbody>
 					</table>
+				<cfelse>
+						
+				</cfif>
 				</div>
 			</div>
 		</cfloop>
