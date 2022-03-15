@@ -130,7 +130,7 @@
 					</div>
 					<cfloop query="ff">
 					<div class="row mx-0">
-						<div class="col-11 mt-4 pb-3">
+<!---						<div class="col-11 mt-4 pb-3">
 							<p class="mb-0"><span class="font-weight-bold">Catalog Item</span>: #ff.guid#</p>
 							<p class="mb-0"><span class="font-weight-bold">Type Status:</span> <cfif len(ff.typestatus) gt 0>#ff.typestatus#<cfelse>none</cfif></p>
 							<p class="mb-0"><span class="font-weight-bold">Scientific Name:</span> #ff.name#</p>
@@ -151,9 +151,9 @@
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 						</cfquery>
 						<cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop>
-						</div>
+						</div>--->
 					<table class="search-box table">
-						<thead>
+						<thead class="search-box-header">
 							<tr>
 								<th>Catalog Item</th><th>Type Status</th><th>Scientific Name</th><th>Location</th>
 							</tr>
@@ -162,6 +162,7 @@
 							<tr>
 								<td>#ff.guid#</td><td>#ff.typestatus#</td><td>#ff.name#</td><td>#ff.geography#</td>
 							</tr>
+							<tr><cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop></tr>
 						</tbody>
 
 					</table>
