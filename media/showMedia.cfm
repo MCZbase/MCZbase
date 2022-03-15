@@ -139,8 +139,8 @@
 						AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 				</cfquery>
-				<table class="search-box table w-100 mb-4">
-					<thead class="search-box-header">
+				<table class="search-box table w-100">
+					<thead class="search-box-header mt-1">
 						<tr class="text-white">
 							<th>Catalog Item</th><th>Type Status</th><th>Scientific Name</th><th>Location</th><th>Image Thumbnail(s)</th>
 						</tr>
