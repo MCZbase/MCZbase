@@ -148,7 +148,7 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>#ff.guid#</td><td style="width: 250px">#ff.typestatus#</td><td>#ff.name#</td><td style="width: 250px;">#ff.geography#</td><td><cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop></td>
+									<td>#ff.guid#</td><td style="width: 20%">#ff.typestatus#</td><td>#ff.name#</td><td style="width: 250px;">#ff.geography#</td><td><cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop></td>
 								</tr>
 							</tbody>
 						</table>
