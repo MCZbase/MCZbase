@@ -148,7 +148,7 @@
 					<tbody>
 						<cfloop query="ff">
 						<tr>
-							<td>#ff.guid#</td><cfif len(ff.typestatus) gt 0><td style="width: 20%">#ff.typestatus#</td><cfelse><td>none</td></cfif><td>#ff.name#</td><td style="width: 20%">#ff.geography#</td><td><cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop></td>
+							<td><a href="#relm.media_uri#">#ff.guid#</a></td><cfif len(ff.typestatus) gt 0><td style="width: 20%">#ff.typestatus#</td><cfelse><td>none</td></cfif><td>#ff.name#</td><td style="width: 20%">#ff.geography#</td><td><cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop></td>
 						</tr>
 						</cfloop>
 					</tbody>
