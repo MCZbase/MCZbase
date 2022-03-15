@@ -178,8 +178,8 @@
 			</cfif>
 			</div>
 						
-						
-			<div class="row mx-0">
+					<!---This is where I left off.  I need to connect media to transactions--->	
+<!---			<div class="row mx-0">
 			<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select 
 						mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id2,
@@ -249,7 +249,7 @@
 				<cfelse>
 				nothing	
 			</cfif>
-			</div>
+			</div>--->
 		</cfloop>
 	</main>
 </cfoutput>
