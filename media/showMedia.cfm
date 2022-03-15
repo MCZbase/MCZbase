@@ -156,7 +156,7 @@
 										<td>none</td>
 									</cfif>
 									<td>#ff.name#</td>
-									<td style="">#ff.geography#</td>
+									<td style="min-width: 120px;">#ff.geography#</td>
 									<td style="width:100%;">
 										<cfloop query="relm">
 											<div class="border-white float-left px-2 pt-2" style="width:112px;">
