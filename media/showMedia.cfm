@@ -148,9 +148,8 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>#ff.guid#</td><td>#ff.typestatus#</td><td>#ff.name#</td><td>#ff.geography#</td>
+									<td>#ff.guid#</td><td>#ff.typestatus#</td><td>#ff.name#</td><td>#ff.geography#</td><td><cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop></td>
 								</tr>
-								<tr><cfloop query="relm"><td><img src="#relm.preview_uri#" class="mr-2"></td></cfloop></tr>
 							</tbody>
 						</table>
 					</div>
