@@ -139,8 +139,8 @@
 					<table class="search-box table mt-1 w-100">
 						<thead class="search-box-header mt-1">
 							<tr class="text-white">
-								<th>Catalog&nbsp;Item</th>
-								<th>Type&nbsp;Status</th>
+								<th>Catalog&nbsp;Item for Specimen</th>
+								<th>Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</th>
 								<th>Scientific&nbsp;Name</th>
 								<th>Location&nbsp;Data</th>
 								<th>Image&nbsp;Thumbnail(s)</th>
