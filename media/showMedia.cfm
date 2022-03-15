@@ -136,6 +136,7 @@
 						AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 				</cfquery>
+				<cfif len(ff.guid) gt 0>
 					<table class="search-box table mt-1 w-100">
 						<thead class="search-box-header mt-1">
 							<tr class="text-white">
@@ -171,6 +172,9 @@
 							</cfloop>
 						</tbody>
 					</table>
+				<cfelse>
+					
+				</cfif>
 				</div>
 			</div>
 					
