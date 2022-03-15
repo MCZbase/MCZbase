@@ -119,6 +119,7 @@
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and (media_relations.media_relationship = '%doc%')
 			</cfquery>
+			<cfif len(ff.guid) gt 0>
 				<h1 class="h3 w-100 mb-0">Specimen Records with this Media</h1>
 				<div class="row mx-0">
 					<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -136,7 +137,7 @@
 						AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 				</cfquery>
-				<cfif len(ff.guid) gt 0>
+			
 					<table class="search-box table mt-1 w-100">
 						<thead class="search-box-header mt-1">
 							<tr class="text-white">
