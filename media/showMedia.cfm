@@ -149,7 +149,7 @@
 						<tbody>
 							<cfloop query="ff">
 								<tr>
-									<td><a href="#ff.auto_protocol#/#ff.auto_host#/guid/#ff.guid#">#ff.guid#</a></td>
+									<td><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#ff.guid#">#ff.guid#</a></td>
 									<cfif len(ff.typestatus) gt 0>
 										<td style="width: 20%">#ff.typestatus#</td>
 										<cfelse>
