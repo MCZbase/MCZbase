@@ -143,12 +143,12 @@
 						<table class="search-box table">
 							<thead class="search-box-header">
 								<tr class="text-white">
-									<th>Catalog Item</th><th>Type Status</th><th>Scientific Name</th><th>Location</th><th>Image Thumbnail</th>
+									<th>Catalog Item</th><th>Type Status</th><th>Scientific Name</th><th>Location</th><th>Image Thumbnail(s)</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td>#ff.guid#</td><td>#ff.typestatus#</td><td>#ff.name#</td><td>#ff.geography#</td><td><cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop></td>
+									<td>#ff.guid#</td><td style="width: 250px">#ff.typestatus#</td><td>#ff.name#</td><td style="width: 250px;">#ff.geography#</td><td><cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop></td>
 								</tr>
 							</tbody>
 						</table>
