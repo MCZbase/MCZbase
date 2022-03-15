@@ -139,11 +139,11 @@
 					<table class="search-box table mt-1 w-100">
 						<thead class="search-box-header mt-1">
 							<tr class="text-white">
-								<th>Catalog Item</th>
-								<th>Type Status</th>
-								<th>Scientific Name</th>
-								<th>Location</th>
-								<th>Image Thumbnail(s)</th>
+								<th>Catalog&nbsp;Item</th>
+								<th>Type&nbsp;Status</th>
+								<th>Scientific&nbsp;Name</th>
+								<th>Location&nbsp;Data</th>
+								<th>Image&nbsp;Thumbnail(s)</th>
 							</tr>
 						</thead>
 						<tbody>
