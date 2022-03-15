@@ -76,7 +76,7 @@
 						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
 						left join media media1 on media1.media_id = media_relations.media_id
 					where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-						and (media_relationship = 'shows cataloged_item' OR media_relationship = 'ledger entry for cataloged_item')
+						and (media_relationship = 'shows cataloged_item')
 					and identification.accepted_id_fg = 1
 				</cfquery>
 					<cfif len(media.media_id) gt 0>
@@ -117,7 +117,7 @@
 			from media_relations
 				left join flat on related_primary_key = collection_object_id
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					and (media_relations.media_relationship = 'shows cataloged_item')
+					and (media_relations.media_relationship = '%doc%')
 			</cfquery>
 				<h1 class="h3 w-100 mb-0">Specimen Records with this Media</h1>
 				<div class="row mx-0">
@@ -185,7 +185,7 @@
 				from media_relations
 					left join flat on related_primary_key = collection_object_id
 				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-						and (media_relations.media_relationship = 'shows %doc%')
+						and (media_relations.media_relationship lik '%doc%')
 				</cfquery>
 				<h1 class="h3 w-100 mb-0">Transaction Records with this Media</h1>
 				<div class="row mx-0">
@@ -200,7 +200,7 @@
 					from media_relations
 						 left join media on media_relations.media_id = media.media_id
 						 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-					where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
+					where (media_relationship like '%doc%' or media_relationship = 'shows agent')
 						AND related_primary_key = <cfqueryparam value=#tt.pk# CFSQLType="CF_SQL_DECIMAL" >
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 				</cfquery>
