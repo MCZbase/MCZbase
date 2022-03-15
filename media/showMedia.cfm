@@ -26,7 +26,9 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
+
 	<main class="container" id="content">
+	<cfloop query="media">
 		<div class="row">
 			<div class="col-12 mt-4">
 				<h1 class="h2 mt-4 pb-1 mb-3 pb-3 border-bottom">
@@ -67,48 +69,45 @@
 					WHERE
 						media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
-				<cfloop query="media">
-					<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,flat.imageurl
-						from media_relations
-							left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
-							left join identification on identification.collection_object_id = cataloged_item.collection_object_id
-							left join flat on cataloged_item.collection_object_id = flat.collection_object_id
-							left join media media1 on media1.media_id = media_relations.media_id
-						where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and media_relationship = 'shows cataloged_item'
-						and identification.accepted_id_fg = 1
-					</cfquery>
-
-					<cfif len(media.media_id) gt 0>
-						<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
-						<div class="float-left" id="mediaBlock#media.media_id#">
-							#mediablock#
-						</div>
-					</cfif>
-					<div class="float-left col-6">
-						<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
-						<h3 class="text-decoration-underline px-2">Metadata</h3>
-						<ul class="list-group">
-							<cfloop query="labels">
-								<li class="list-group-item"><span class="text-uppercase">#labels.media_label#:</span> #labels.label_value#</li>
-							</cfloop>
-							 <cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
-									from media_relations
-								where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-									and media_relationship in ('created by agent', 'shows cataloged_item')
-							</cfquery>
-							<cfloop query="relations">
-								<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
-									<cfset labellist = "<li>#mr_label#: #mr_value#</li>">
-								</cfif>
-							</cfloop>
-							<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
-							<li class="list-group-item border p-2"><span class="text-uppercase">Alt Text: </span>#media.alttag#</li>
-						</ul>
+				<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+					select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,flat.imageurl
+					from media_relations
+						left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
+						left join identification on identification.collection_object_id = cataloged_item.collection_object_id
+						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+						left join media media1 on media1.media_id = media_relations.media_id
+					where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						and media_relationship = 'shows cataloged_item'
+					and identification.accepted_id_fg = 1
+				</cfquery>
+				<cfif len(media.media_id) gt 0>
+					<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
+					<div class="float-left" id="mediaBlock#media.media_id#">
+						#mediablock#
 					</div>
-			
+				</cfif>
+				<div class="float-left col-6">
+					<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
+					<h3 class="text-decoration-underline px-2">Metadata</h3>
+					<ul class="list-group">
+						<cfloop query="labels">
+							<li class="list-group-item"><span class="text-uppercase">#labels.media_label#:</span> #labels.label_value#</li>
+						</cfloop>
+						 <cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
+								from media_relations
+							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+								and media_relationship in ('created by agent', 'shows cataloged_item')
+						</cfquery>
+						<cfloop query="relations">
+							<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
+								<cfset labellist = "<li>#mr_label#: #mr_value#</li>">
+							</cfif>
+						</cfloop>
+						<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
+						<li class="list-group-item border p-2"><span class="text-uppercase">Alt Text: </span>#media.alttag#</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -122,60 +121,42 @@
 				left join flat on related_primary_key = collection_object_id
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and (media_relations.media_relationship = 'shows cataloged_item')
-		</cfquery>
-			
-<!---				<div class="search-box">
-					<div class="search-box-header">--->
-						<h1 class="h3">Specimen Records with this Media</h1>
-					</div>
-					<cfloop query="ff">
+			</cfquery>
+			<h1 class="h3">Specimen Records with this Media</h1>
+			<cfloop query="ff">
 					<div class="row mx-0">
-				<!---		<div class="col-11 mt-4 pb-3">--->
-<!---							<p class="mb-0"><span class="font-weight-bold">Catalog Item</span>: #ff.guid#</p>
-							<p class="mb-0"><span class="font-weight-bold">Type Status:</span> <cfif len(ff.typestatus) gt 0>#ff.typestatus#<cfelse>none</cfif></p>
-							<p class="mb-0"><span class="font-weight-bold">Scientific Name:</span> #ff.name#</p>
-							<p class="mb-0"><span class="font-weight-bold">Location:</span> #ff.geography#</p> --->
-							<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct media.media_id, preview_uri, media.media_uri,
-							get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-							media.mime_type, media.media_type,
-							CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-								ctmedia_license.uri as license_uri,
-								mczbase.get_media_credit(media.media_id) as credit,
-								MCZBASE.is_media_encumbered(media.media_id) as hideMedia
-						from media_relations
-							 left join media on media_relations.media_id = media.media_id
-							 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-						where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-						   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
-							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+						<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select distinct media.media_id, preview_uri, media.media_uri,
+								get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+								media.mime_type, media.media_type,
+								CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
+									ctmedia_license.uri as license_uri,
+									mczbase.get_media_credit(media.media_id) as credit,
+									MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+							from media_relations
+								 left join media on media_relations.media_id = media.media_id
+								 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+							where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
+								AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
+								AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 						</cfquery>
-						<cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop>
-					<!---	</div>--->
-					<table class="search-box table">
-						<thead class="search-box-header">
-							<tr class="text-white">
-								<th>Catalog Item</th><th>Type Status</th><th>Scientific Name</th><th>Location</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>#ff.guid#</td><td>#ff.typestatus#</td><td>#ff.name#</td><td>#ff.geography#</td>
-							</tr>
-							<tr><cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop></tr>
-						</tbody>
-
-					</table>
+						<table class="search-box table">
+							<thead class="search-box-header">
+								<tr class="text-white">
+									<th>Catalog Item</th><th>Type Status</th><th>Scientific Name</th><th>Location</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>#ff.guid#</td><td>#ff.typestatus#</td><td>#ff.name#</td><td>#ff.geography#</td>
+								</tr>
+								<tr><td colspan="4"><cfloop query="relm"><img src="#relm.preview_uri#" class="mr-2"></cfloop></td></tr>
+							</tbody>
+						</table>
 					</div>
-					</cfloop>
-				</div>
-						
-
-			
+			</cfloop>
 		</div>
-		
-		</cfloop>
-
+	</cfloop>
 	</main>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
