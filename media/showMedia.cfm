@@ -174,7 +174,7 @@
 						</tbody>
 					</table>
 				<cfelse>
-					
+				nothing	
 				</cfif>
 				</div>
 			</div>
