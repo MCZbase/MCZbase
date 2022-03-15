@@ -124,7 +124,7 @@
 					<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct media.media_id, preview_uri, media.media_uri,
 						get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-						media.mime_type, media.media_type,media.host
+						media.mime_type, media.media_type,media.auto_protocol,media.auto_host,
 						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
 							ctmedia_license.uri as license_uri,
 							mczbase.get_media_credit(media.media_id) as credit,
