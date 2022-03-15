@@ -159,13 +159,12 @@
 									<td style="width: 20%">#ff.geography#</td>
 									<td>
 										<cfloop query="relm">
+											<div class="border" style="width:112px;">
 											<cfif len(media.media_id) gt 0>
 												<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
 												<div class="float-left" id="mediaBlock#relm.media_id#"> #mediablock# </div>
 											</cfif>
-<!---											<a href="#relm.media_uri#">
-												<img src="#relm.preview_uri#" class="mr-2" style="height: 100px;">
-											</a>--->
+											</div>
 										</cfloop>
 									</td>
 								</tr>
