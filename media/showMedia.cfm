@@ -182,20 +182,15 @@
 			<div class="row mx-0">
 			<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select 
-						mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
+						mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id2,
 						mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
 						p.permit_type, p.permit_num, p.permit_title, p.specific_type,
 						ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
 					from
-						cataloged_item li
-							left join specimen_part sp on li.collection_object_id = sp.collection_object_id
-							left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
-							left join accn on ci.accn_id = accn.transaction_id
-							left join permit_trans on accn.transaction_id = permit_trans.transaction_id
 						left join permit p on permit_trans.permit_id = p.permit_id
 						left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
 					where 
-						media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+						media_id2 = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
 			</cfquery>
 			<cfif len(tt.guid) gt 0>
 				<h1 class="h3 w-100 mb-0">Transaction Records with this Media</h1>
