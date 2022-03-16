@@ -196,46 +196,12 @@
 							 left join media on media_relations.media_id = media.media_id
 						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tt.transaction_id#">
 						</cfquery>
-						<table class="search-box table table-responsive mt-1 w-100">
-							<thead class="search-box-header mt-1">
-								<tr class="text-white">
-									<th>Accession&nbsp;ID</th>
-									<th>Received&nbsp;Date</th>
-									<th>Accession&nbsp;Type</th>
-									<th>Estimated&nbsp;Count</th>
-								</tr>
-							</thead>
-							<tbody>
-								<cfloop query="tt">
-									<tr>
-										<td style="width: 10%;">#tt.transaction_id#</td>
-										<cfif len(tt.typestatus) gt 0>
-											<td>#tt.received_date#</td>
-											<cfelse>
-											<td>none</td>
-										</cfif>
-										<td>#tt.accn_type#</td>
-										<td style="min-width: 120px;">#tt.estimated_count#</td>
-										<td style="">
-											<cfloop query="relm2">
-												<div class="border-white float-left px-2 pt-2" style="width:112px;">
-												<cfif len(media.media_id) gt 0>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
-													<div class="float-left" id="mediaBlock#relm2.media_id#"> #mediablock# </div>
-												</cfif>
-												</div>
-											</cfloop>
-										</td>
-									</tr>
-								</cfloop>
-							</tbody>
-						</table>
+
 					</div>
 				</div>
 			</cfloop>
 			</div>
 		</div>
 	</main>
-					</div>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
