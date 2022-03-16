@@ -139,52 +139,49 @@
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
 					<table class="search-box table table-responsive mt-1 w-100">
-							<thead class="search-box-header mt-1">
-								<tr class="text-white">
-									<th>Catalog&nbsp;Item</th>
-									<th>Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</th>
-									<th>Scientific&nbsp;Name</th>
-									<th>Location&nbsp;Data</th>
-									<th>Image&nbsp;Thumbnail(s)</th>
-								</tr>
-							</thead>
-							<tbody>
-								<cfloop query="ff">
-									<tr>
-										<td style="width: 10%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#ff.guid#">#ff.guid#</a></td>
-										<cfif len(ff.typestatus) gt 0>
-											<td>#ff.typestatus#</td>
-											<cfelse>
-											<td>None</td>
-										</cfif>
-										<td>#ff.name#</td>
-										<td style="min-width: 120px;">#ff.geography#</td>
-										<td style="width:60%;">
-											<cfloop query="relm">
-												<div class="border-light float-left px-2 pt-2" style="width:112px;">
-												<cfif len(media.media_id) gt 0>
-													<cfif relm.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
-													<cfelse>	
-														<cfset activeimg = "border-light">
-													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
-													<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#"> #mediablock# </div>
+						<thead class="search-box-header mt-1">
+							<tr class="text-white">
+								<th>Catalog&nbsp;Item</th>
+								<th>Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</th>
+								<th>Scientific&nbsp;Name</th>
+								<th>Location&nbsp;Data</th>
+								<th>Image&nbsp;Thumbnail(s)</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="ff">
+								<tr>
+									<td style="width: 10%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#ff.guid#">#ff.guid#</a></td>
+									<cfif len(ff.typestatus) gt 0>
+										<td>#ff.typestatus#</td>
+										<cfelse>
+										<td>None</td>
+									</cfif>
+									<td>#ff.name#</td>
+									<td style="min-width: 120px;">#ff.geography#</td>
+									<td style="width:60%;">
+										<cfloop query="relm">
+											<div class="border-light float-left px-2 pt-2" style="width:112px;">
+											<cfif len(media.media_id) gt 0>
+												<cfif relm.media_id eq '#media.media_id#'> 
+													<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
+												<cfelse>	
+													<cfset activeimg = "border-light">
 												</cfif>
-												</div>
-											</cfloop>
-										</td>
-									</tr>
-								</cfloop>
-							</tbody>
-						</table>
+												<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+												<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#"> #mediablock# </div>
+											</cfif>
+											</div>
+										</cfloop>
+									</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
 				<cfelse>
-					<div class="row mx-0">
-						<div class="col-12 px-0">
-							<h3 class="mt-5">Not associated with other records</h3>
-						</div>
-					</div>
+					<h3 class="mt-5 w-100">Not associated with Specimen Records</h3>
 				</cfif>
+				</div>
 				<div class="row mx-0">
 					<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
@@ -245,6 +242,7 @@
 					</cfif>
 				</div>
 			</cfloop>
+			</div>
 			</div>
 		</div>
 	</main>
