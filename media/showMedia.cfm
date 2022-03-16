@@ -199,12 +199,15 @@
 						<table class="search-box table table-responsive mt-1 w-100">
 							<thead class="search-box-header mt-1">
 								<tr class="text-white">
-									<th>#tt.transaction_id#</th>
-									<th>#relm2.media_id#</th>
+									<th>Accession&nbsp;ID</th>
+									<th>Media&nbsp;ID</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr><td>test</td></tr>
+								<tr>
+									<td>#tt.transaction_id#</td>
+									<td>#relm2.media_id#</td>
+								</tr>
 							</tbody>
 						</table>
 							
