@@ -184,7 +184,7 @@
 				<div class="row mx-0">
 					<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
-								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count
+								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status
 							from
 								accn
 								left join media_relations on media_relations.related_primary_key = accn.transaction_id
@@ -207,16 +207,20 @@
 							<thead class="search-box-header mt-1">
 								<tr class="text-white">
 									<th>Accession&nbsp;ID</th>
-									<th>Media&nbsp;ID</th>
+									<th>Collection</th>
 									<th>Accession&nbsp;Type</th>
+									<th>Accession&nbsp;Number</th>
+									<th>Accession&nbsp;Status</th>
 									<th>Image&nbsp;Thumbnail(s)</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<td>#tt.transaction_id#</td>
-									<td>#relm2.media_id#</td>
+									<td>#accn_num_suffix#</td>
 									<td>#tt.accn_type#</td>
+									<td>#tt.accn_number#</td>
+									<td>#tt.accn_status#</td>
 									<td style="width:60%;">
 										<cfloop query="relm2">
 											<div class="border-light float-left px-2 pt-2" style="width:112px;">
