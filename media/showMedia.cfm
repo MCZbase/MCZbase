@@ -122,6 +122,7 @@
 			<cfif len(ff.guid) gt 0>
 				<h1 class="h3 w-100 mb-0">Specimen Records with this Media</h1>
 				<div class="row mx-0">
+					<div class="col-12 pb-4">
 					<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct media.media_id, preview_uri, media.media_uri,
 						get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -137,7 +138,6 @@
 						AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 				</cfquery>
-			
 					<table class="search-box table mt-1 w-100">
 						<thead class="search-box-header mt-1">
 							<tr class="text-white">
@@ -155,7 +155,7 @@
 									<cfif len(ff.typestatus) gt 0>
 										<td>#ff.typestatus#</td>
 										<cfelse>
-										<td>none</td>
+										<td>None</td>
 									</cfif>
 									<td>#ff.name#</td>
 									<td style="min-width: 120px;">#ff.geography#</td>
@@ -173,10 +173,12 @@
 							</cfloop>
 						</tbody>
 					</table>
-				<cfelse>
-				nothing	
+			<cfelse>
+				<h3>Not associated with other records</h3>
+		
+					</div>
+				</div>
 			</cfif>
-			</div>
 						
 					<!---This is where I left off.  I need to connect media to transactions--->	
 <!---			<div class="row mx-0">
