@@ -163,13 +163,9 @@
 											<cfloop query="relm">
 												<div class="border-light float-left px-2 pt-2" style="width:112px;">
 												<cfif len(media.media_id) gt 0>
-													<cfif relm.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
-													<cfelse>	
-														<cfset activeimg = "border-light">
-													</cfif>
+							
 													<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
-													<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#"> #mediablock# </div>
+													<div class="float-left" id="mediaBlock#relm.media_id#"> #mediablock# </div>
 												</cfif>
 												</div>
 											</cfloop>
