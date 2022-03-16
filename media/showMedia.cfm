@@ -185,8 +185,10 @@
 						from
 							accn
 							left join media_relations on media_relations.related_primary_key = accn.transaction_id
+							left join flat on accn.transaction_id = flat.accn_id
 						where 
 							media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+							and media_relations.media_relationship = 'documents accn'
 				</cfquery>
 				<cfif len(tt.guid) gt 0>
 					<h1 class="h3 w-100 mb-0">Transaction Records with this Media</h1>
