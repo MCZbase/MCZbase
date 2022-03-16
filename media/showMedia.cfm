@@ -244,7 +244,7 @@
 							</tbody>
 						</table>
 					<cfelse>
-					nothing	
+				
 				</cfif>
 				</div>
 			</cfloop>
