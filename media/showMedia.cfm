@@ -197,6 +197,7 @@
 						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tt.transaction_id#">
 						</cfquery>
 						#tt.transaction_id#
+							#relm2.media_id#
 					</div>
 				</div>
 			</cfloop>
