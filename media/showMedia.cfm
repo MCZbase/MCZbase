@@ -187,7 +187,7 @@
 							media_relations.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_DECIMAL" >
 							and media_relations.media_relationship = 'documents accn'
 				</cfquery>
-				<cfif len(tt.transaction_id) gt 0>
+			<!---	<cfif len(tt.transaction_id) gt 0>--->
 					<h1 class="h3 w-100 mb-0">Accn Records with this Media</h1>
 					<div class="row mx-0">
 						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -238,11 +238,11 @@
 								</cfloop>
 							</tbody>
 						</table>
-					<cfelse>
+<!---					<cfelse>
 				
-				</cfif>
+				</cfif>--->
 				</div>
-			</div>
+				</div>
 			</cfloop>
 			</div>
 		</div>
