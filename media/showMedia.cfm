@@ -110,7 +110,7 @@
 					</div>
 				</div>
 				<div class="row mx-0">
-					<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
 					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
 					trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
@@ -123,8 +123,7 @@
 				</cfquery>
 				<cfif len(ff.guid) gt 0>
 					<h1 class="h3 w-100 mt-4 mb-0">Specimen Records with this Media</h1>
-
-						<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
 							get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
@@ -139,7 +138,7 @@
 							AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
-						<table class="search-box table table-responsive mt-1 w-100">
+					<table class="search-box table table-responsive mt-1 w-100">
 							<thead class="search-box-header mt-1">
 								<tr class="text-white">
 									<th>Catalog&nbsp;Item</th>
@@ -177,8 +176,7 @@
 				<cfelse>
 					<h3 class="mt-5">Not associated with other records</h3>
 				</cfif>
-						<!---This is where I left off.  I need to connect media to transactions--->	
-			<div class="row mx-0">
+				<div class="row mx-0">
 				<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select 
 							accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count
@@ -244,6 +242,7 @@
 				
 				</cfif>
 				</div>
+			</div>
 			</cfloop>
 			</div>
 		</div>
