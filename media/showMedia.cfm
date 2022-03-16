@@ -187,7 +187,7 @@
 							media_relations.media_id = <cfqueryparam value='1300116' CFSQLType="CF_SQL_DECIMAL" >
 							and media_relations.media_relationship = 'documents accn'
 				</cfquery>
-				<cfif len(tt.transaction_id) gt 0>
+	
 					<h1 class="h3 w-100 mb-0">Accn Records with this Media</h1>
 					<div class="row mx-0">
 						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -195,7 +195,7 @@
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host
 						from media_relations
 							 left join media on media_relations.media_id = media.media_id
-						where related_primary_key = <cfqueryparam value='101199' CFSQLType="CF_SQL_DECIMAL" >
+						where related_primary_key = '101199'
 						</cfquery>
 						<table class="search-box table mt-1 w-100">
 							<thead class="search-box-header mt-1">
@@ -232,9 +232,9 @@
 								</cfloop>
 							</tbody>
 						</table>
-					<cfelse>
 				
-				</cfif>
+				
+		
 				</div>
 			</div>
 			</cfloop>
