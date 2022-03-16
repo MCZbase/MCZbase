@@ -196,7 +196,7 @@
 							 left join media on media_relations.media_id = media.media_id
 						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tt.transaction_id#">
 						</cfquery>
-
+						#tt.transaction_id#
 					</div>
 				</div>
 			</cfloop>
