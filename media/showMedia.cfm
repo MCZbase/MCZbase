@@ -202,7 +202,7 @@
 									<th>Accession&nbsp;ID</th>
 									<th>Media&nbsp;ID</th>
 									<th>Accession&nbsp;Type</th>
-									
+									<th>Image&nbsp;Thumbnail(s)</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -210,6 +210,16 @@
 									<td>#tt.transaction_id#</td>
 									<td>#relm2.media_id#</td>
 									<td>#tt.accn_type#</td>
+									<td style="width:60%;">
+										<cfloop query="relm">
+											<div class="border-light float-left px-2 pt-2" style="width:112px;">
+											<cfif len(tt.transaction_id) gt 0>
+												<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+												<div class="float-left" id="mediaBlock#relm2.media_id#"> #mediablock# </div>
+											</cfif>
+											</div>
+										</cfloop>
+									</td>
 								</tr>
 							</tbody>
 						</table>
