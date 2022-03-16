@@ -37,7 +37,7 @@
 							<button class="btn float-right btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Viewer</button>
 						</h1>
 					</div>
-					<div class="col-12 mt-4">
+					<div class="col-12 mt-2">
 						<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							media_label,
@@ -85,7 +85,7 @@
 							<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 							<div class="float-left" id="mediaBlock#media.media_id#"> #mediablock# </div>
 						</cfif>
-						<div class="float-left col-6">
+						<div class="float-left col-12 px-0 col-md-6 px-md-4">
 							<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
 							<h3 class="text-decoration-underline px-2">Metadata</h3>
 							<ul class="list-group">
@@ -122,7 +122,7 @@
 						and (media_relations.media_relationship = 'shows cataloged_item')
 				</cfquery>
 				<cfif len(ff.guid) gt 0>
-					<h1 class="h3 w-100 mb-0">Specimen Records with this Media</h1>
+					<h1 class="h3 w-100 mt-4 mb-0">Specimen Records with this Media</h1>
 
 						<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
