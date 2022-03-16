@@ -181,7 +181,7 @@
 			<div class="row mx-0">
 				<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select 
-							cataloged_item.accn_id, accn.transaction_id
+							cataloged_item.accn_id, accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, cataloged_item.collection_cde
 						from
 							accn
 							left join cataloged_item on cataloged_item.accn_id = accn.transaction_id
@@ -193,7 +193,7 @@
 				<cfif len(tt.guid) gt 0>
 					<h1 class="h3 w-100 mb-0">Transaction Records with this Media</h1>
 					<div class="row mx-0">
-						<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
 							get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
@@ -212,30 +212,30 @@
 						<table class="search-box table mt-1 w-100">
 							<thead class="search-box-header mt-1">
 								<tr class="text-white">
-									<th>Catalog&nbsp;Item</th>
-									<th>Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</th>
-									<th>Scientific&nbsp;Name</th>
-									<th>Location&nbsp;Data</th>
-									<th>Image&nbsp;Thumbnail(s)</th>
+									<th>Accession&nbsp;ID</th>
+									<th>Received&nbsp;Date</th>
+									<th>Accession&nbsp;Type</th>
+									<th>Estimated&nbsp;Count</th>
+									<th>Collection</th>
 								</tr>
 							</thead>
 							<tbody>
 								<cfloop query="tt">
 									<tr>
-										<td style="width: 10%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#tt.guid#">#tt.guid#</a></td>
+										<td style="width: 10%;"><a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#tt.transaction_id#">#tt.transaction_id#</a></td>
 										<cfif len(tt.typestatus) gt 0>
-											<td>#tt.typestatus#</td>
+											<td>#tt.received_date#</td>
 											<cfelse>
 											<td>none</td>
 										</cfif>
-										<td>#tt.name#</td>
-										<td style="min-width: 120px;">#tt.geography#</td>
+										<td>#tt.accn_type#</td>
+										<td style="min-width: 120px;">#tt.estimated_count#</td>
 										<td style="width:60%;">
-											<cfloop query="relm">
+											<cfloop query="relm2">
 												<div class="border-white float-left px-2 pt-2" style="width:112px;">
 												<cfif len(media.media_id) gt 0>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
-													<div class="float-left" id="mediaBlock#relm.media_id#"> #mediablock# </div>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+													<div class="float-left" id="mediaBlock#relm2.media_id#"> #mediablock# </div>
 												</cfif>
 												</div>
 											</cfloop>
