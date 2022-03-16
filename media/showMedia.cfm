@@ -179,7 +179,7 @@
 						</tbody>
 					</table>
 				<cfelse>
-					<h3 class="h4 mt-5 w-100">Not associated with Specimen Records</h3>
+					<h3 class="h4 mt-5 w-100 font-italic">Not associated with Specimen Records</h3>
 				</cfif>
 				</div>
 				<div class="row mx-0">
