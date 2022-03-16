@@ -181,12 +181,10 @@
 			<div class="row mx-0">
 				<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select 
-							cataloged_item.accn_id, accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, cataloged_item.collection_cde
+							accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count
 						from
 							accn
-							left join cataloged_item on cataloged_item.accn_id = accn.transaction_id
-							left join media_relations on media_relations.related_primary_key = cataloged_item.collection_object_id
-							left join flat on media_relations.related_primary_key = flat.collection_object_id
+							left join media_relations on media_relations.related_primary_key = accn.transaction_id
 						where 
 							media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
 				</cfquery>
