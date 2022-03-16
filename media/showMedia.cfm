@@ -189,9 +189,11 @@
 							from
 								accn
 								left join media_relations on media_relations.related_primary_key = accn.transaction_id
+								left join trans_agent on accn.tranaction_ID = trans_agent.transaction_id
 							where 
 								media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 								and media_relations.media_relationship = 'documents accn'
+								and trans_agent.trans_agent_role = 'received from'
 					</cfquery>
 					<cfif len(tt.transaction_id) gt 0>
 						<h1 class="h3 w-100 mb-0 px-2">Accn Records with this Media</h1>
