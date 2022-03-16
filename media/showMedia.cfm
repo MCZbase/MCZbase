@@ -195,7 +195,7 @@
 					</cfquery>
 					<cfif len(tt.transaction_id) gt 0>
 						<h1 class="h3 w-100 mb-0 px-2">Accn Records with this Media</h1>
-						<div class="row mx-0">
+						<div class="col-12 px-0">
 						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -235,10 +235,7 @@
 								</tbody>
 							</table>
 						</div>
-					<cfelse>
-						
-						
-						
+					<cfelse>						
 					</cfif>
 				</div>
 			</cfloop>
