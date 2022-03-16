@@ -201,12 +201,15 @@
 								<tr class="text-white">
 									<th>Accession&nbsp;ID</th>
 									<th>Media&nbsp;ID</th>
+									<th>Accession&nbsp;Type</th>
+									
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<td>#tt.transaction_id#</td>
 									<td>#relm2.media_id#</td>
+									<td>#tt.accn_type#</td>
 								</tr>
 							</tbody>
 						</table>
