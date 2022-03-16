@@ -236,5 +236,6 @@
 			</div>
 		</div>
 	</main>
+					</div>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
