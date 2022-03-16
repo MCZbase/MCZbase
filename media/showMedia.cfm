@@ -208,7 +208,7 @@
 							<tbody>
 								<cfloop query="tt">
 									<tr>
-										<td style="width: 10%;"><a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#tt.transaction_id#">#tt.transaction_id#</a></td>
+										<td style="width: 10%;">#tt.transaction_id#</td>
 										<cfif len(tt.typestatus) gt 0>
 											<td>#tt.received_date#</td>
 											<cfelse>
