@@ -192,9 +192,10 @@
 								media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 								and media_relations.media_relationship = 'documents accn'
 					</cfquery>
-					<h1 class="h3 w-100 mb-0">Accn Records with this Media</h1>
-					<div class="row mx-0">
-						<cfif len(tt.transaction_id) gt 0>
+					<cfif len(tt.transaction_id) gt 0>
+						<h1 class="h3 w-100 mb-0">Accn Records with this Media</h1>
+						<div class="row mx-0">
+				
 						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -229,10 +230,11 @@
 								</tr>
 							</tbody>
 						</table>
-						<cfelse>
+					<cfelse>
 						
-						</cfif>
-					</div>
+						
+						</div>
+					</cfif>
 				</div>
 			</cfloop>
 			</div>
