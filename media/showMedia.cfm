@@ -164,7 +164,7 @@
 												<div class="border-light float-left px-2 pt-2" style="width:112px;">
 												<cfif len(media.media_id) gt 0>
 													<cfif relm.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border">
+														<cfset activeimg = "border-warning border-left">
 													<cfelse>	
 														<cfset activeimg = "border-none">
 													</cfif>
