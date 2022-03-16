@@ -83,7 +83,7 @@
 						</cfquery>
 						<cfif len(media.media_id) gt 0>
 							<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
-							<div class="float-left" id="mediaBlock#media.media_id#"> #mediablock# </div>
+							<div class="float-left bg-light h-100" id="mediaBlock#media.media_id#"> #mediablock# </div>
 						</cfif>
 						<div class="float-left col-12 px-0 col-xl-6 px-xl-4">
 							<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
@@ -175,7 +175,7 @@
 							</tbody>
 						</table>
 				<cfelse>
-					<h3>Not associated with other records</h3>
+					<h3 class="mt-5">Not associated with other records</h3>
 				</cfif>
 						<!---This is where I left off.  I need to connect media to transactions--->	
 			<div class="row mx-0">
