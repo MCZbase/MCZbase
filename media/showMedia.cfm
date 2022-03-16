@@ -122,7 +122,7 @@
 						and (media_relations.media_relationship = 'shows cataloged_item')
 				</cfquery>
 				<cfif len(ff.guid) gt 0>
-					<h1 class="h3 w-100 mt-4 mb-0">Specimen Records with this Media</h1>
+					<h1 class="h3 w-100 mt-4 mb-0 px-2">Specimen Records with this Media</h1>
 					<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
 							get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -194,9 +194,8 @@
 								and media_relations.media_relationship = 'documents accn'
 					</cfquery>
 					<cfif len(tt.transaction_id) gt 0>
-						<h1 class="h3 w-100 mb-0">Accn Records with this Media</h1>
+						<h1 class="h3 w-100 mb-0 px-2">Accn Records with this Media</h1>
 						<div class="row mx-0">
-				
 						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -204,41 +203,42 @@
 							 left join media on media_relations.media_id = media.media_id
 						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tt.transaction_id#">
 						</cfquery>
-						<table class="search-box table table-responsive mt-1 w-100">
-							<thead class="search-box-header mt-1">
-								<tr class="text-white">
-									<th>Accession&nbsp;ID</th>
-									<th>Collection</th>
-									<th>Accession&nbsp;Type</th>
-									<th>Accession&nbsp;Number</th>
-									<th>Accession&nbsp;Status</th>
-									<th>Image&nbsp;Thumbnail(s)</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>#tt.transaction_id#</td>
-									<td>#tt.accn_num_suffix#</td>
-									<td>#tt.accn_type#</td>
-									<td>#tt.accn_number#</td>
-									<td>#tt.accn_status#</td>
-									<td style="width:60%;">
-										<cfloop query="relm2">
-											<div class="border-light float-left px-2 pt-2" style="width:112px;">
-											<cfif len(tt.transaction_id) gt 0>
-												<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
-												<div class="float-left" id="mediaBlock#relm2.media_id#"> #mediablock# </div>
-											</cfif>
-											</div>
-										</cfloop>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+							<table class="search-box table table-responsive mt-1 w-100">
+								<thead class="search-box-header mt-1">
+									<tr class="text-white">
+										<th>Accession&nbsp;ID</th>
+										<th>Collection</th>
+										<th>Accession&nbsp;Type</th>
+										<th>Accession&nbsp;Number</th>
+										<th>Accession&nbsp;Status</th>
+										<th>Image&nbsp;Thumbnail(s)</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>#tt.transaction_id#</td>
+										<td>#tt.accn_num_suffix#</td>
+										<td>#tt.accn_type#</td>
+										<td>#tt.accn_number#</td>
+										<td>#tt.accn_status#</td>
+										<td style="width:60%;">
+											<cfloop query="relm2">
+												<div class="border-light float-left px-2 pt-2" style="width:112px;">
+												<cfif len(tt.transaction_id) gt 0>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+													<div class="float-left" id="mediaBlock#relm2.media_id#"> #mediablock# </div>
+												</cfif>
+												</div>
+											</cfloop>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					<cfelse>
 						
 						
-						</div>
+						
 					</cfif>
 				</div>
 			</cfloop>
