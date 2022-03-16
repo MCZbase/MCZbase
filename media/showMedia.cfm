@@ -185,7 +185,7 @@
 				<div class="row mx-0">
 					<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
-								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status,get_transAgents(transaction_id)
+								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status,trans_agent.agent_id,get_transAgents(#accn.transaction_id#,0,'preferred')
 							from
 								accn
 								left join media_relations on media_relations.related_primary_key = accn.transaction_id
