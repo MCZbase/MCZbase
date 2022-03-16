@@ -184,24 +184,18 @@
 							accn
 							left join media_relations on media_relations.related_primary_key = accn.transaction_id
 						where 
-							media_relations.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_DECIMAL" >
+							media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
 							and media_relations.media_relationship = 'documents accn'
 				</cfquery>
-			<!---	<cfif len(tt.transaction_id) gt 0>--->
+				<cfif len(tt.transaction_id) gt 0>
 					<h1 class="h3 w-100 mb-0">Accn Records with this Media</h1>
 					<div class="row mx-0">
 						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
-							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-							CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-								ctmedia_license.uri as license_uri,
-								mczbase.get_media_credit(media.media_id) as credit,
-								MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+							media.mime_type, media.media_type, media.auto_protocol, media.auto_host
 						from media_relations
 							 left join media on media_relations.media_id = media.media_id
-							 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 						where related_primary_key = <cfqueryparam value=#tt.transaction_id# CFSQLType="CF_SQL_DECIMAL" >
-							AND MCZBASE.is_media_encumbered(media_id)  < 1
 						</cfquery>
 						<table class="search-box table mt-1 w-100">
 							<thead class="search-box-header mt-1">
@@ -238,11 +232,11 @@
 								</cfloop>
 							</tbody>
 						</table>
-<!---					<cfelse>
+					<cfelse>
 				
-				</cfif>--->
+				</cfif>
 				</div>
-				</div>
+			</div>
 			</cfloop>
 			</div>
 		</div>
