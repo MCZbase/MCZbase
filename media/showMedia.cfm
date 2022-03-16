@@ -196,8 +196,18 @@
 							 left join media on media_relations.media_id = media.media_id
 						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tt.transaction_id#">
 						</cfquery>
-						#tt.transaction_id#
-							#relm2.media_id#
+						<table class="search-box table table-responsive mt-1 w-100">
+							<thead class="search-box-header mt-1">
+								<tr class="text-white">
+									<th>#tt.transaction_id#</th>
+									<th>#relm2.media_id#</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr><td>test</td></tr>
+							</tbody>
+						</table>
+							
 					</div>
 				</div>
 			</cfloop>
