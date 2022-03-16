@@ -163,7 +163,7 @@
 											<cfloop query="relm">
 												<div class="border-light float-left px-2 pt-2" style="width:112px;">
 												<cfif len(media.media_id) gt 0>
-													<cfif #media_id# eq relm.media_id>
+													<cfif len(media.media_id) eq len(relm.media_id)>
 														<cfset activeimg = "border:1px solid ##ffc107">
 															<cfelse>
 														<cfset activeimg = "">
