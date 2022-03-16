@@ -162,7 +162,7 @@
 										<td style="min-width: 120px;">#ff.geography#</td>
 										<td style="width:60%;">
 											<cfloop query="relm">
-												<div class="border-white float-left px-2 pt-2" style="width:112px;">
+												<div class="border-light float-left px-2 pt-2" style="width:112px;">
 												<cfif len(media.media_id) gt 0>
 													<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
 													<div class="float-left" id="mediaBlock#relm.media_id#"> #mediablock# </div>
@@ -178,18 +178,17 @@
 					<h3>Not associated with other records</h3>
 				</cfif>
 						<!---This is where I left off.  I need to connect media to transactions--->	
-	<!---			<div class="row mx-0">
+			<div class="row mx-0">
 				<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select 
-							mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id2,
-							mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-							p.permit_type, p.permit_num, p.permit_title, p.specific_type,
-							ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
+							cataloged_item.accn_id, accn.transaction_id
 						from
-							left join permit p on permit_trans.permit_id = p.permit_id
-							left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
+							accn
+							left join cataloged_item on cataloged_item.accn_id = accn.transaction_id
+							left join media_relations on media_relations.related_primary_key = cataloged_item.collection_object_id
+							left join flat on related_primary_key = collection_object_id
 						where 
-							media_id2 = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+							media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
 				</cfquery>
 				<cfif len(tt.guid) gt 0>
 					<h1 class="h3 w-100 mb-0">Transaction Records with this Media</h1>
@@ -206,7 +205,7 @@
 							 left join media on media_relations.media_id = media.media_id
 							 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 						where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-							AND related_primary_key = <cfqueryparam value=#tt.pk# CFSQLType="CF_SQL_DECIMAL" >
+							AND related_primary_key = <cfqueryparam value=#tt.transaction_id# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
 
@@ -248,7 +247,7 @@
 					<cfelse>
 					nothing	
 				</cfif>
-				</div>--->
+				</div>
 			</cfloop>
 			</div>
 		</div>
