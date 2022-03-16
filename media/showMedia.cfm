@@ -85,7 +85,7 @@
 							<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textLinks")>
 							<div class="float-left" id="mediaBlock#media.media_id#"> #mediablock# </div>
 						</cfif>
-						<div class="float-left col-12 px-0 col-md-6 px-md-4">
+						<div class="float-left col-12 px-0 col-xl-6 px-xl-4">
 							<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
 							<h3 class="text-decoration-underline px-2">Metadata</h3>
 							<ul class="list-group">
