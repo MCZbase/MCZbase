@@ -184,7 +184,7 @@
 								accn
 								left join media_relations on media_relations.related_primary_key = accn.transaction_id
 							where 
-								media_relations.media_id = <cfqueryparam value='#media_id#' CFSQLType="CF_SQL_DECIMAL" >
+								media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 								and media_relations.media_relationship = 'documents accn'
 					</cfquery>
 					<h1 class="h3 w-100 mb-0">Accn Records with this Media</h1>
@@ -194,7 +194,7 @@
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host
 						from media_relations
 							 left join media on media_relations.media_id = media.media_id
-						where related_primary_key = <cfqueryparam value='#tt.transaction_id#' CFSQLType="CF_SQL_DECIMAL" >
+						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tt.transaction_id#">
 						</cfquery>
 						<table class="search-box table table-responsive mt-1 w-100">
 							<thead class="search-box-header mt-1">
@@ -216,7 +216,7 @@
 										</cfif>
 										<td>#tt.accn_type#</td>
 										<td style="min-width: 120px;">#tt.estimated_count#</td>
-										<td style="width:60%;">
+										<td style="">
 											<cfloop query="relm2">
 												<div class="border-white float-left px-2 pt-2" style="width:112px;">
 												<cfif len(media.media_id) gt 0>
