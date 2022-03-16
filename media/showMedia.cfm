@@ -189,7 +189,7 @@
 							from
 								accn
 								left join media_relations on media_relations.related_primary_key = accn.transaction_id
-								left join trans_agent on accn.tranaction_ID = trans_agent.transaction_id
+								left join trans_agent on accn.transaction_ID = trans_agent.transaction_id
 							where 
 								media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 								and media_relations.media_relationship = 'documents accn'
