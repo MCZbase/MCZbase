@@ -177,17 +177,16 @@
 					<h3 class="mt-5">Not associated with other records</h3>
 				</cfif>
 				<div class="row mx-0">
-				<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select 
-							accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count
-						from
-							accn
-							left join media_relations on media_relations.related_primary_key = accn.transaction_id
-						where 
-							media_relations.media_id = <cfqueryparam value='1300116' CFSQLType="CF_SQL_DECIMAL" >
-							and media_relations.media_relationship = 'documents accn'
-				</cfquery>
-	
+					<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select 
+								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count
+							from
+								accn
+								left join media_relations on media_relations.related_primary_key = accn.transaction_id
+							where 
+								media_relations.media_id = <cfqueryparam value='1300116' CFSQLType="CF_SQL_DECIMAL" >
+								and media_relations.media_relationship = 'documents accn'
+					</cfquery>
 					<h1 class="h3 w-100 mb-0">Accn Records with this Media</h1>
 					<div class="row mx-0">
 						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -197,7 +196,7 @@
 							 left join media on media_relations.media_id = media.media_id
 						where related_primary_key = '101199'
 						</cfquery>
-						<table class="search-box table mt-1 w-100">
+						<table class="search-box table table-responsive mt-1 w-100">
 							<thead class="search-box-header mt-1">
 								<tr class="text-white">
 									<th>Accession&nbsp;ID</th>
@@ -232,11 +231,8 @@
 								</cfloop>
 							</tbody>
 						</table>
-				
-				
-		
+					</div>
 				</div>
-			</div>
 			</cfloop>
 			</div>
 		</div>
