@@ -179,7 +179,11 @@
 							</tbody>
 						</table>
 				<cfelse>
-					<h3 class="mt-5">Not associated with other records</h3>
+					<div class="row mx-0">
+						<div class="col-12 px-0">
+							<h3 class="mt-5">Not associated with other records</h3>
+						</div>
+					</div>
 				</cfif>
 				<div class="row mx-0">
 					<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
