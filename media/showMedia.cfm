@@ -185,7 +185,7 @@
 				<div class="row mx-0">
 					<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
-								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status,trans_agent.agent_id,get_transAgents(agent_id,0,'preferred')
+								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status,trans_agent.agent_id,get_transAgents(agent_id,0,'preferred') as received_agent
 							from
 								accn
 								left join media_relations on media_relations.related_primary_key = accn.transaction_id
@@ -224,7 +224,7 @@
 										<td>#tt.accn_type#</td>
 										<td>#tt.accn_number#</td>
 										<td>#tt.accn_status#</td>
-										<td>#tt.agent_id#</td>
+										<td>#tt.received_agent#</td>
 										<td style="width:60%;">
 											<cfloop query="relm2">
 												<div class="border-light float-left px-2 pt-2" style="width:112px;">
