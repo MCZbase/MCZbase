@@ -186,7 +186,7 @@
 							accn
 							left join cataloged_item on cataloged_item.accn_id = accn.transaction_id
 							left join media_relations on media_relations.related_primary_key = cataloged_item.collection_object_id
-							left join flat on related_primary_key = collection_object_id
+							left join flat on media_relations.related_primary_key = cataloged_item.collection_object_id
 						where 
 							media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
 				</cfquery>
