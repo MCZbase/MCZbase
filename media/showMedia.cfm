@@ -203,7 +203,6 @@
 									<th>Received&nbsp;Date</th>
 									<th>Accession&nbsp;Type</th>
 									<th>Estimated&nbsp;Count</th>
-									<th>Collection</th>
 								</tr>
 							</thead>
 							<tbody>
