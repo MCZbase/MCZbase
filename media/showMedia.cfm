@@ -217,7 +217,7 @@
 							<tbody>
 								<tr>
 									<td>#tt.transaction_id#</td>
-									<td>#accn_num_suffix#</td>
+									<td>#accn.num_suffix#</td>
 									<td>#tt.accn_type#</td>
 									<td>#tt.accn_number#</td>
 									<td>#tt.accn_status#</td>
