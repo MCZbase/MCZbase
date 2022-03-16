@@ -224,7 +224,7 @@
 										<td>#tt.accn_type#</td>
 										<td>#tt.accn_number#</td>
 										<td>#tt.accn_status#</td>
-										<td>#tt.received_agent#</td>
+										<td style="width:10%">#tt.received_agent#</td>
 										<td style="width:60%;">
 											<cfloop query="relm2">
 												<div class="border-light float-left px-2 pt-2" style="width:112px;">
