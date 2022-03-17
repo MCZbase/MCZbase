@@ -250,17 +250,17 @@
 							
 				<div class="row mx-0">
 					<cfquery name="ce" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collecting_event.collecting_event_id from collecting_event left join media_relations on media_relations.related_primary_key = collecting_event.collecting_event_id
+						select collecting_event.collecting_event_id 
+						from collecting_event 
+							left join media_relations on media_relations.related_primary_key = collecting_event.collecting_event_id
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-						and media_relations.media_relationship = 'shows collecting_event'
-						and trans_agent.trans_agent_role = 'received from'
+							and media_relations.media_relationship = 'shows collecting_event'
 					</cfquery>
 					<cfif len(tt.transaction_id) gt 0>
 						<h1 class="h3 w-100 mb-0 px-2">Accn Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct media.media_id, preview_uri, media.media_uri,
-							media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
 						from media_relations
 							 left join media on media_relations.media_id = media.media_id
 						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ce.collecting_event_id#">
@@ -269,7 +269,6 @@
 								<thead class="search-box-header mt-1">
 									<tr class="text-white">
 										<th>Collecting&nbsp;Event&nbsp;ID</th>
-
 									</tr>
 								</thead>
 								<tbody>
@@ -278,7 +277,7 @@
 										<td style="width:60%;">
 											<cfloop query="relm3">
 												<div class="border-light float-left px-2 pt-2" style="width:112px;">
-												<cfif len(tt.transaction_id) gt 0>
+												<cfif len(ce.collecting_event_id) gt 0>
 													<cfif relm3.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
 													<cfelse>	
