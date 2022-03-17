@@ -471,7 +471,7 @@
 													<cfelse>	
 														<cfset activeimg = "border-light">
 													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textMid")>
 													<div class="float-left #activeimg#" id="mediaBlock#relm3.media_id#"> #mediablock# </div>
 												</cfif>
 												</div>
