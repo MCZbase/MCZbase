@@ -353,7 +353,7 @@
 													<cfelse>	
 														<cfset activeimg = "border-light">
 													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm4.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm4.media_id#",displayAs="thumb",size='100',captionAs="textMid")>
 													<div class="float-left #activeimg#" id="mediaBlock#relm4.media_id#"> #mediablock# </div>
 												</cfif>
 												</div>
@@ -366,23 +366,23 @@
 					<cfelse>						
 					</cfif>
 				</div>
-							
+				<!---Borrow records--->			
 				<div class="row mx-0">
 					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collecting_event.collecting_event_id, collecting_event.locality_id, collecting_event.verbatim_date, collecting_event.verbatim_locality, collecting_event.collecting_source
-						from collecting_event 
+						select borrow.transaction_id, borrow.lenders_trans_num_cde, borrow.received_date, borrow.due_date, borrow.lenders_loan_date, borrow.borrow_status
+						from borrow 
 							left join media_relations on media_relations.related_primary_key = collecting_event.collecting_event_id
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and media_relations.media_relationship = 'shows collecting_event'
+							and media_relations.media_relationship = 'documents borrow'
 					</cfquery>
-					<cfif len(borrow.collecting_event_id) gt 0>
+					<cfif len(borrow.transaction_id) gt 0>
 						<h1 class="h3 w-100 mb-0 px-2">Collecting Event Records with this Media</h1>
 						<div class="col-12 px-0">
-						<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
 						from media_relations
 							 left join media on media_relations.media_id = media.media_id
-						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ce.collecting_event_id#">
+						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrow.transaction_id#">
 						</cfquery>
 							<table class="search-box table table-responsive mt-1 w-100">
 								<thead class="search-box-header mt-1">
@@ -398,22 +398,23 @@
 								</thead>
 								<tbody>
 									<tr>
-										<td>#ce.collecting_event_id#</td>
-										<td>#ce.locality_id#</td>
-										<td>#ce.verbatim_date#</td>
-										<td>#ce.verbatim_locality#</td>
-										<td>#ce.collecting_source#</td>
+										<td>#borrow.transaction_id#</td>
+										<td>#borrow.lenders_trans_num_cde#</td>
+										<td>#borrow.received_date#</td>
+										<td>#borrow.due_date#</td>
+										<td>#borrow.lenders_loan_date#</td>
+										<td>#borrow.borrow_status#</td>
 										<td style="width:60%;">
-											<cfloop query="relm3">
+											<cfloop query="relm5">
 												<div class="border-light float-left px-2 pt-2" style="width:112px;">
-												<cfif len(ce.collecting_event_id) gt 0>
-													<cfif relm3.media_id eq '#media.media_id#'> 
+												<cfif len(borrow.transaction_id) gt 0>
+													<cfif relm5.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
 													<cfelse>	
 														<cfset activeimg = "border-light">
 													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
-													<div class="float-left #activeimg#" id="mediaBlock#relm3.media_id#"> #mediablock# </div>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm5.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+													<div class="float-left #activeimg#" id="mediaBlock#relm5.media_id#"> #mediablock# </div>
 												</cfif>
 												</div>
 											</cfloop>
@@ -425,7 +426,7 @@
 					<cfelse>						
 					</cfif>
 				</div>
-							
+				<!---Deaccession records--->			
 				<div class="row mx-0">
 					<cfquery name="deaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select collecting_event.collecting_event_id, collecting_event.locality_id, collecting_event.verbatim_date, collecting_event.verbatim_locality, collecting_event.collecting_source
