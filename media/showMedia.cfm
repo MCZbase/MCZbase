@@ -213,7 +213,7 @@
 										<th>Accession&nbsp;Type</th>
 										<th>Accession&nbsp;Number</th>
 										<th>Accession&nbsp;Status</th>
-										<th>Received&nbsp;From</th>
+										<th>Agents&nbsp;Involved</th>
 										<th>Image&nbsp;Thumbnail(s)</th>
 									</tr>
 								</thead>
@@ -229,8 +229,63 @@
 											<cfloop query="relm2">
 												<div class="border-light float-left px-2 pt-2" style="width:112px;">
 												<cfif len(tt.transaction_id) gt 0>
+													<cfif relm.media_id eq '#media.media_id#'> 
+														<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
+													<cfelse>	
+														<cfset activeimg = "border-light">
+													</cfif>
 													<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
-													<div class="float-left" id="mediaBlock#relm2.media_id#"> #mediablock# </div>
+													<div class="float-left #activeimg#" id="mediaBlock#relm2.media_id#"> #mediablock# </div>
+												</cfif>
+												</div>
+											</cfloop>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					<cfelse>						
+					</cfif>
+				</div>
+							
+				<div class="row mx-0">
+					<cfquery name="ce" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select collecting_event.collecting_event_id from collecting_event left join media_relations on media_relations.related_primary_key = collecting_event.collecting_event_id
+						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						and media_relations.media_relationship = 'shows collecting_event'
+						and trans_agent.trans_agent_role = 'received from'
+					</cfquery>
+					<cfif len(tt.transaction_id) gt 0>
+						<h1 class="h3 w-100 mb-0 px-2">Accn Records with this Media</h1>
+						<div class="col-12 px-0">
+						<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct media.media_id, preview_uri, media.media_uri,
+							media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+						from media_relations
+							 left join media on media_relations.media_id = media.media_id
+						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ce.collecting_event_id#">
+						</cfquery>
+							<table class="search-box table table-responsive mt-1 w-100">
+								<thead class="search-box-header mt-1">
+									<tr class="text-white">
+										<th>Collecting&nbsp;Event&nbsp;ID</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>#ce.collecting_event_id#</td>
+										<td style="width:60%;">
+											<cfloop query="relm3">
+												<div class="border-light float-left px-2 pt-2" style="width:112px;">
+												<cfif len(tt.transaction_id) gt 0>
+													<cfif relm.media_id eq '#media.media_id#'> 
+														<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
+													<cfelse>	
+														<cfset activeimg = "border-light">
+													</cfif>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+													<div class="float-left #activeimg#" id="mediaBlock#relm3.media_id#"> #mediablock# </div>
 												</cfif>
 												</div>
 											</cfloop>
