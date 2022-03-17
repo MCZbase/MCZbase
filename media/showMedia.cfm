@@ -105,7 +105,10 @@
 										<cfset labellist = "<li>#mr_label#: #mr_value#</li>">
 									</cfif>
 								</cfloop>
-								<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
+								<cfif len(keywords.keywords) gt 0>
+									<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
+								<cfelse>
+								</cfif>
 								<li class="list-group-item border p-2"><span class="text-uppercase">Alt Text: </span>#media.alttag#</li>
 							</ul>
 						</div>
@@ -182,7 +185,7 @@
 						</tbody>
 					</table>
 				<cfelse>
-					<h3 class="h4 mt-5 w-100 px-4 font-italic">Not associated with Specimen Records</h3>
+					<h3 class="h4 mt-3 w-100 px-4 font-italic">Not associated with Specimen Records</h3>
 				</cfif>
 				</div>
 				<!--- accn records --->
