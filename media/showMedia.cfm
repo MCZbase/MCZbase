@@ -313,7 +313,7 @@
 						from permit
 							left join media_relations on media_relations.related_primary_key = permit.permit_id
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and (media_relations.media_relationship = 'shows permit' and media_relations.media_relationship = 'documents for permit')
+							and (media_relations.media_relationship = 'shows permit' OR media_relations.media_relationship = 'documents for permit')
 					</cfquery>
 					<cfif len(permit.permit_id) gt 0>
 						<h1 class="h3 w-100 mb-0 px-2">Permit Records with this Media</h1>
