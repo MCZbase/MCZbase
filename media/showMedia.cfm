@@ -290,12 +290,12 @@
 										<td>#ce.collecting_source#</td>
 										<td style="width:60%;">
 											<cfloop query="relm3">
-												<div class="border-light float-left px-2 pt-2" style="width:112px;">
+												<div class="border-light float-left px-2 pt-2" style="width:112px;height: 170px">
 												<cfif len(ce.collecting_event_id) gt 0>
 													<cfif relm3.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
+														<cfset activeimg = "border-warning border-left border-right border-bottom px-1 border-top">
 													<cfelse>	
-														<cfset activeimg = "border-light">
+														<cfset activeimg = "border-light px-1">
 													</cfif>
 													<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 													<div class="float-left #activeimg#" id="mediaBlock#relm3.media_id#"> #mediablock# </div>
@@ -431,51 +431,52 @@
 				<!---Deaccession records--->			
 				<div class="row mx-0">
 					<cfquery name="deaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collecting_event.collecting_event_id, collecting_event.locality_id, collecting_event.verbatim_date, collecting_event.verbatim_locality, collecting_event.collecting_source
-						from collecting_event 
-							left join media_relations on media_relations.related_primary_key = collecting_event.collecting_event_id
+						select *
+						from deaccession 
+							left join media_relations on media_relations.related_primary_key = deaccession.transaction_id
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and (media_relations.media_relationship = 'shows collecting_event' OR media_relations.media_relationship= 'shows handwriting of agent')
+							and (media_relations.media_relationship = 'documents deaccession')
 					</cfquery>
 					<cfif len(deaccession.collecting_event_id) gt 0>
-						<h1 class="h3 w-100 mb-0 px-2">Collecting Event Records with this Media</h1>
+						<h1 class="h3 w-100 mb-0 px-2">Deaccession Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
 						from media_relations
 							 left join media on media_relations.media_id = media.media_id
-						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ce.collecting_event_id#">
+						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deaccession.transaction_id#">
 						</cfquery>
 							<table class="search-box table table-responsive mt-1 w-100">
 								<thead class="search-box-header mt-1">
 									<tr class="text-white">
-										<th>Collecting&nbsp;Event&nbsp;ID</th>
-										<th>Locality&nbsp;ID</th>
-										<th>Verbatim&nbsp;Date</th>
-										<th>Verbatim&nbsp;Locality</th>
-										<th>Collecting&nbsp;Source</th>
+										<th>Deaccession&nbsp;Number</th>
+										<th>Deaccesion&nbsp;Type</th>
+										<th>Deaccession&nbsp;Status</th>
+										<th>Deaccession&nbsp;Reason</th>
+										<th>Method</th>
 										<th>Image&nbsp;Thumbnail(s)</th>
 										
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td>#ce.collecting_event_id#</td>
-										<td>#ce.locality_id#</td>
-										<td>#ce.verbatim_date#</td>
-										<td>#ce.verbatim_locality#</td>
-										<td>#ce.collecting_source#</td>
+										<td>#deaccession.transaction_id#</td>
+										<td>#deaccession.deacc_number#</td>
+										<td>#deaccession.deacc_type#</td>
+										<td>#deaccession.deacc_status#</td>
+										<td>#deaccession.deacc_reason#</td>
+										<td>#deaccession.method#</td>
 										<td style="width:60%;">
-											<cfloop query="relm3">
-												<div class="border-light float-left px-2 pt-2" style="width:112px;">
-												<cfif len(ce.collecting_event_id) gt 0>
+											<cfloop query="relm6">
+												<div class="border-light float-left px-2 pt-2" style="width:112px;height: 170px">
+												<cfif len(deaccession.transaction_id) gt 0>
 													<cfif relm3.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
+														<cfset activeimg = "border-warning border-left border-right px-1 border-bottom border-top">
 													<cfelse>	
-														<cfset activeimg = "border-light">
+														<cfset activeimg = "border-light px-1">
 													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textMid")>
-													<div class="float-left #activeimg#" id="mediaBlock#relm3.media_id#"> #mediablock# </div>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm6.media_id#",displayAs="thumb",size='100',captionAs="textMid")>
+													<div class="float-left #activeimg#" id="mediaBlock#relm6.media_id#"> #mediablock# </div>
 												</cfif>
 												</div>
 											</cfloop>
