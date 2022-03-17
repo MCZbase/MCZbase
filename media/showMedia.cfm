@@ -109,6 +109,7 @@
 						</div>
 					</div>
 				</div>
+				<!---specimen records--->
 				<div class="row mx-0">
 				<cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
@@ -182,6 +183,7 @@
 					<h3 class="h4 mt-5 w-100 font-italic">Not associated with Specimen Records</h3>
 				</cfif>
 				</div>
+				<!--- accn records --->
 				<div class="row mx-0">
 					<cfquery name="tt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
@@ -247,7 +249,7 @@
 					<cfelse>						
 					</cfif>
 				</div>
-							
+				<!--- collecting event records --->
 				<div class="row mx-0">
 					<cfquery name="ce" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select collecting_event.collecting_event_id, collecting_event.locality_id, collecting_event.verbatim_date, collecting_event.verbatim_locality, collecting_event.collecting_source
@@ -306,7 +308,7 @@
 					<cfelse>						
 					</cfif>
 				</div>
-							
+				<!---Permit records--->
 				<div class="row mx-0">
 					<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select permit.permit_id, permit.issued_date, permit.permit_num, permit.permit_type, permit.permit_remarks
@@ -327,14 +329,12 @@
 							<table class="search-box table table-responsive mt-1 w-100">
 								<thead class="search-box-header mt-1">
 									<tr class="text-white">
-										<th>Title</th>
-										<th>Number (with Link)</th>
-										<th>Issued</th>
-										<th>Category</th>
-										<th>Specific Type</th>
-										<th>Issued By</th>
-										<tr>Issued To</tr>
-										
+										<th>Permit&nbsp;ID</th>
+										<th>Issued&nbsp;Date</th>
+										<th>Permit&nbsp;Number</th>
+										<th>Permit&nbsp;Type</th>
+										<th>Permit&nbsp;Remarks</th>
+										<th>Image Thumbnail(s)</th>
 									</tr>
 								</thead>
 								<tbody>
