@@ -231,7 +231,7 @@
 										<td style="width:10%">#tt.received_agent#</td>
 										<td style="width:60%;">
 											<cfloop query="relm2">
-												<div class="border-light float-left px-0 pt-2" style="width:112px;height:202px">
+												<div class="border-light float-left mx-1 px-0 pt-2" style="width:112px;height:205px">
 												<cfif len(tt.transaction_id) gt 0>
 													<cfif relm2.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning border-left px-1 border-right border-bottom border-top">
@@ -290,7 +290,7 @@
 										<td>#ce.collecting_source#</td>
 										<td style="width:60%;">
 											<cfloop query="relm3">
-												<div class="border-light float-left px-2 pt-2" style="width:112px;height: 170px">
+												<div class="border-light float-left px-0 pt-2" style="width:112px;height: 205px">
 												<cfif len(ce.collecting_event_id) gt 0>
 													<cfif relm3.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning border-left border-right border-bottom px-1 border-top">
