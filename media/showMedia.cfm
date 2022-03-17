@@ -82,7 +82,7 @@
 						and identification.accepted_id_fg = 1
 						</cfquery>
 						<cfif len(media.media_id) gt 0>
-						<div class="border-light float-left px-2 pt-2" style="font-size: 1.35rem;width:402px;">
+						<div class="border-light float-left px-2 pt-2" style="font-size: 1.25rem;width:402px;">
 							<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull")>
 							<div class="float-left bg-light h-100" id="mediaBlock#media.media_id#"> #mediablock# </div>
 						</div>
