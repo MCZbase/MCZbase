@@ -169,7 +169,7 @@
 												<cfelse>	
 													<cfset activeimg = "border-light">
 												</cfif>
-												<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+												<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size='100',captionAs="textShort")>
 												<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#"> #mediablock# </div>
 											</cfif>
 											</div>
@@ -236,7 +236,7 @@
 													<cfelse>	
 														<cfset activeimg = "border-light">
 													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="fixedSmallThumb",size='100',captionAs="textShort")>
 													<div class="float-left #activeimg#" id="mediaBlock#relm2.media_id#"> #mediablock# </div>
 												</cfif>
 												</div>
@@ -295,7 +295,7 @@
 													<cfelse>	
 														<cfset activeimg = "border-light">
 													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="fixedSmallThumb",size='100',captionAs="textShort")>
 													<div class="float-left #activeimg#" id="mediaBlock#relm3.media_id#"> #mediablock# </div>
 												</cfif>
 												</div>
