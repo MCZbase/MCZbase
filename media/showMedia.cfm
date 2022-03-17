@@ -256,7 +256,7 @@
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							and media_relations.media_relationship = 'shows collecting_event'
 					</cfquery>
-					<cfif len(ce.collecting_event_id) gt 0 AND listfindnocase(session.roles,"manage_specimens") EQ 0>
+					<cfif len(ce.collecting_event_id) gt 0>
 						<h1 class="h3 w-100 mb-0 px-2">Collecting Event Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
