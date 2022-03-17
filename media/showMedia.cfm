@@ -164,12 +164,12 @@
 									<td style="min-width: 120px;">#ff.geography#</td>
 									<td style="width:60%;">
 										<cfloop query="relm">
-											<div class="border-light float-left px-2 pt-2" style="width:112px;height:170px;">
+											<div class="border-light float-left px-2 pt-2" style="width:112px;height:190px;">
 											<cfif len(media.media_id) gt 0>
 												<cfif relm.media_id eq '#media.media_id#'> 
-													<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
+													<cfset activeimg = "border-warning border-left px-1 border-right border-bottom border-top">
 												<cfelse>	
-													<cfset activeimg = "border-light">
+													<cfset activeimg = "border-light px-1">
 												</cfif>
 												<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 												<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#"> #mediablock# </div>
