@@ -229,7 +229,7 @@
 											<cfloop query="relm2">
 												<div class="border-light float-left px-2 pt-2" style="width:112px;">
 												<cfif len(tt.transaction_id) gt 0>
-													<cfif relm.media_id eq '#media.media_id#'> 
+													<cfif relm2.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
 													<cfelse>	
 														<cfset activeimg = "border-light">
@@ -279,7 +279,7 @@
 											<cfloop query="relm3">
 												<div class="border-light float-left px-2 pt-2" style="width:112px;">
 												<cfif len(tt.transaction_id) gt 0>
-													<cfif relm.media_id eq '#media.media_id#'> 
+													<cfif relm3.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
 													<cfelse>	
 														<cfset activeimg = "border-light">
