@@ -250,7 +250,7 @@
 							
 				<div class="row mx-0">
 					<cfquery name="ce" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collecting_event.collecting_event_id 
+						select collecting_event.collecting_event_id, collecting_event.locality_id, collecting_event.verbatim_date, collecting_event.verbatim_locality, collecting_event.collecting_source
 						from collecting_event 
 							left join media_relations on media_relations.related_primary_key = collecting_event.collecting_event_id
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -269,11 +269,21 @@
 								<thead class="search-box-header mt-1">
 									<tr class="text-white">
 										<th>Collecting&nbsp;Event&nbsp;ID</th>
+										<th>Locality&nbsp;ID</th>
+										<th>Verbatim&nbsp;Date</th>
+										<th>Verbatim&nbsp;Locality</th>
+										<th>Collecting&nbsp;Source</th>
+										<th>Image&nbsp;Thumbnail(s)</th>
+										
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
 										<td>#ce.collecting_event_id#</td>
+										<td>#ce.locality_id#</td>
+										<td>#ce.verbatim_date#</td>
+										<td>#ce.verbatim_locality#</td>
+										<td>#ce.collecting_source#</td>
 										<td style="width:60%;">
 											<cfloop query="relm3">
 												<div class="border-light float-left px-2 pt-2" style="width:112px;">
