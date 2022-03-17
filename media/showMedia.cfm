@@ -376,7 +376,7 @@
 							and media_relations.media_relationship = 'documents borrow'
 					</cfquery>
 					<cfif len(borrow.transaction_id) gt 0>
-						<h1 class="h3 w-100 mb-0 px-2">Collecting Event Records with this Media</h1>
+						<h1 class="h3 w-100 mb-0 px-2">Borrow Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -413,7 +413,7 @@
 													<cfelse>	
 														<cfset activeimg = "border-light">
 													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm5.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm5.media_id#",displayAs="fixedSmallThumb",size='100',captionAs="textLinks")>
 													<div class="float-left #activeimg#" id="mediaBlock#relm5.media_id#"> #mediablock# </div>
 												</cfif>
 												</div>
