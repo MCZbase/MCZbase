@@ -231,12 +231,12 @@
 										<td style="width:10%">#tt.received_agent#</td>
 										<td style="width:60%;">
 											<cfloop query="relm2">
-												<div class="border-light float-left px-2 pt-2" style="width:112px;">
+												<div class="border-light float-left px-0 pt-2" style="width:112px;height:190px">
 												<cfif len(tt.transaction_id) gt 0>
 													<cfif relm2.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
+														<cfset activeimg = "border-warning border-left px-1 border-right border-bottom border-top">
 													<cfelse>	
-														<cfset activeimg = "border-light">
+														<cfset activeimg = "border-light px-1">
 													</cfif>
 													<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 													<div class="float-left #activeimg#" id="mediaBlock#relm2.media_id#"> #mediablock# </div>
