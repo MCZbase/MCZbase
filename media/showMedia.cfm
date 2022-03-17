@@ -348,7 +348,7 @@
 										<td>#permit.permit_remarks#</td>
 										<td style="width:60%;">
 											<cfloop query="relm4">
-												<div class="border-light float-left px-2 pt-2" style="width:112px;">
+												<div class="border-light float-left px-0 mx-1 pt-2" style="width:112px;height: 205px;">
 												<cfif len(permit.permit_id) gt 0>
 													<cfif relm4.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning border-left border-right border-bottom border-top px-1">
