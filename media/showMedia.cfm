@@ -349,11 +349,11 @@
 												<div class="border-light float-left px-2 pt-2" style="width:112px;">
 												<cfif len(permit.permit_id) gt 0>
 													<cfif relm4.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
+														<cfset activeimg = "border-warning border-left border-right border-bottom border-top px-1">
 													<cfelse>	
 														<cfset activeimg = "border-light">
 													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm4.media_id#",displayAs="thumb",size='100',captionAs="textMid")>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm4.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 													<div class="float-left #activeimg#" id="mediaBlock#relm4.media_id#"> #mediablock# </div>
 												</cfif>
 												</div>
@@ -409,11 +409,11 @@
 												<div class="border-light float-left px-2 pt-2" style="width:112px;">
 												<cfif len(borrow.transaction_id) gt 0>
 													<cfif relm5.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning border-left border-right border-bottom border-top">
+														<cfset activeimg = "border-warning border-left border-right border-bottom border-top px-1">
 													<cfelse>	
 														<cfset activeimg = "border-light">
 													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm5.media_id#",displayAs="fixedSmallThumb",size='100',captionAs="textLinks")>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm5.media_id#",displayAs="fixedSmallThumb",size='100',captionAs="textShort")>
 													<div class="float-left #activeimg#" id="mediaBlock#relm5.media_id#"> #mediablock# </div>
 												</cfif>
 												</div>
