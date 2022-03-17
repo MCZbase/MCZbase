@@ -437,7 +437,7 @@
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							and (media_relations.media_relationship = 'documents deaccession')
 					</cfquery>
-					<cfif len(deaccession.collecting_event_id) gt 0>
+					<cfif len(deaccession.transaction_id) gt 0>
 						<h1 class="h3 w-100 mb-0 px-2">Deaccession Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
