@@ -371,7 +371,7 @@
 					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select borrow.transaction_id, borrow.lenders_trans_num_cde, borrow.received_date, borrow.due_date, borrow.lenders_loan_date, borrow.borrow_status
 						from borrow 
-							left join media_relations on media_relations.related_primary_key = collecting_event.collecting_event_id
+							left join media_relations on media_relations.related_primary_key = borrow.transaction_id
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							and media_relations.media_relationship = 'documents borrow'
 					</cfquery>
