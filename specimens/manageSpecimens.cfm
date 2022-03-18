@@ -53,7 +53,7 @@ limitations under the License.
 								Collecting Events
 							</li>
 							<li class='list-group-item'>
-								<a href='/specimens/changeQueryLocalities.cfm?result_id=#encodeForUrl(result_id)#"' class='btn btn-secondary btn-xs' target='_blank'>Localities</a>
+								<a href='/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#"' class='btn btn-secondary btn-xs' target='_blank'>Localities</a>
 							</li>
 							<li class='list-group-item'>
 								Encumbrances
@@ -125,7 +125,9 @@ Print Any Report
 --->
 						</ul>
 
-						<p>#results.ct# cataloged item records</p>
+						<p>Manage #results.ct# cataloged item records</p>
+
+						<h2 class="h3">These records are in these Collections</h2>
 						<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 							SELECT count(*) ct, 
 								collection_cde, 
@@ -135,37 +137,42 @@ Print Any Report
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							GROUP BY collection_cde, collection_id
 						</cfquery>
-						<ul>
+						<ol class="flowXS">
 							<cfloop query="collections">
-								<li>#collections.collection_cde# #collections.ct#</li>
+								<li class="flowXS" style="list-style-type: none;">#collections.collection_cde# #collections.ct#</li>
 							</cfloop>
-						</ul>
+						</ol>
+
+						<h2 class="h3">These records are in these Countries</h2>
 						<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 							SELECT count(*) ct, 
-								country
+								nvl(continent_ocean,'[no continent/ocean]'), nvl(country,'[no country]')
 							FROM user_search_table
 								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-							GROUP BY country
+							GROUP BY 
+								continent_ocean, country
 						</cfquery>
-						<ul>
+						<ol class="flowXS">
 							<cfloop query="countries">
-								<li>#countries.country# #countries.ct#</li>
+								<li class="flowXS" style="list-style-type: none;">#contries.continent_ocean#:#countries.country# #countries.ct#</li>
 							</cfloop>
-						</ul>
+						</ol>
+
+						<h2 class="h3">These records are in these Families</h2>
 						<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 							SELECT count(*) ct, 
-								phylorder, family
+								nvl(phylorder,'[no order]'), nvl(family,'[no family]'),
 							FROM user_search_table
 								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							GROUP BY phylorder, family
 						</cfquery>
-						<ul>
+						<ol class="flowXS">
 							<cfloop query="families">
-								<li>#families.phylorder#:#families.family# #families.ct#</li>
+								<li class="flowXS" style="list-style-type: none;">#families.phylorder#:#families.family# #families.ct#</li>
 							</cfloop>
-						</ul>
+						</ol>
 					</div>
 				</div>
 			</div>
