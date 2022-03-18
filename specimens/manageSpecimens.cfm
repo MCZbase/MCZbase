@@ -137,11 +137,11 @@ Print Any Report
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							GROUP BY collection_cde, collection_id
 						</cfquery>
-						<ol class="flowXS">
+						<ul>
 							<cfloop query="collections">
-								<li class="flowXS" style="list-style-type: none;">#collections.collection_cde# #collections.ct#</li>
+								<li style="list-style-type: circle; display: inline;">#collections.collection_cde# #collections.ct#</li>
 							</cfloop>
-						</ol>
+						</ul>
 
 						<h2 class="h3">These records are in these Countries</h2>
 						<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
@@ -153,11 +153,11 @@ Print Any Report
 							GROUP BY 
 								continent_ocean, country
 						</cfquery>
-						<ol class="flowXS">
+						<ul>
 							<cfloop query="countries">
-								<li class="flowXS" style="list-style-type: none;">#countries.continent_ocean#:#countries.country# #countries.ct#</li>
+								<li style="list-style-type: circle; display: inline;">#countries.continent_ocean#:#countries.country# #countries.ct#</li>
 							</cfloop>
-						</ol>
+						</ul>
 
 						<h2 class="h3">These records are in these Families</h2>
 						<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
@@ -168,11 +168,11 @@ Print Any Report
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							GROUP BY phylorder, family
 						</cfquery>
-						<ol class="flowXS">
+						<ul>
 							<cfloop query="families">
-								<li class="flowXS" style="list-style-type: none;">#families.phylorder#:#families.family# #families.ct#</li>
+								<li style="list-style-type: circle; display: inline;">#families.phylorder#:#families.family# #families.ct#</li>
 							</cfloop>
-						</ol>
+						</ul>
 					</div>
 				</div>
 			</div>
