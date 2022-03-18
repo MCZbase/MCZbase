@@ -155,7 +155,7 @@ Print Any Report
 						</cfquery>
 						<ol class="flowXS">
 							<cfloop query="countries">
-								<li class="flowXS" style="list-style-type: none;">#contries.continent_ocean#:#countries.country# #countries.ct#</li>
+								<li class="flowXS" style="list-style-type: none;">#countries.continent_ocean#:#countries.country# #countries.ct#</li>
 							</cfloop>
 						</ol>
 
