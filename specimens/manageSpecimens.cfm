@@ -53,8 +53,33 @@ limitations under the License.
 						</cfquery>
 						<ul>
 							<cfloop query="collections">
-								<li>#collections.collection_cde# #collections.ct#	
-								</li>
+								<li>#collections.collection_cde# #collections.ct#</li>
+							</cfloop>
+						</ul>
+						<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
+							SELECT count(*) ct, 
+								country
+							FROM user_search_table
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+							GROUP BY country
+						</cfquery>
+						<ul>
+							<cfloop query="countries">
+								<li>#countries.country# #countries.ct#</li>
+							</cfloop>
+						</ul>
+						<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
+							SELECT count(*) ct, 
+								phylorder, family
+							FROM user_search_table
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+							GROUP BY phylorder, family
+						</cfquery>
+						<ul>
+							<cfloop query="families">
+								<li>#families.phylorder#:#families.family# #families.ct#</li>
 							</cfloop>
 						</ul>
 					</div>
