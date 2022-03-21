@@ -917,12 +917,12 @@ libraries found in github.com/filteredpush/ repositories.
 
 		<cfelse>
 			<cfset result.status="fail">
-			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.target_id=target_id>
 			<cfset result.error="record not found">
 		</cfif>
     <cfcatch>
 			<cfset result.status="fail">
-			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.target_id=target_id>
 			<cfset line = cfcatch.tagcontext[1].line>
 			<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
     </cfcatch>
