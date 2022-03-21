@@ -107,7 +107,7 @@ option:hover {
 	padding: .25rem .5rem;
 	outline: #ccc auto 1px;
 }
-dfn {color:green; font-size: .90rem}
+dfn {color:green;}
 select:focus {
 	outline-offset: 0;
 	outline: 0;
