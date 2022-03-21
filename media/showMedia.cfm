@@ -165,7 +165,7 @@
 									</cfif>
 									<td>#ff.name#</td>
 									<td style="min-width: 120px;">#ff.geography#</td>
-									<td style="width:60%;">
+									<td style="width:60%; padding-left: 0;">
 										<cfloop query="relm">
 											<div class="border-light float-left px-0 pt-2" style="width:112px;height:190px;">
 											<cfif len(media.media_id) gt 0>
@@ -232,7 +232,7 @@
 										<td>#tt.accn_number#</td>
 										<td>#tt.accn_status#</td>
 										<td style="width:10%">#tt.received_agent#</td>
-										<td style="width:60%;">
+										<td style="width:60%; padding-left:0;">
 											<cfloop query="relm2">
 												<div class="border-light float-left mx-1 px-0 pt-2" style="width:112px;height:205px">
 												<cfif len(tt.transaction_id) gt 0>
@@ -291,7 +291,7 @@
 										<td>#ce.verbatim_date#</td>
 										<td>#ce.verbatim_locality#</td>
 										<td>#ce.collecting_source#</td>
-										<td style="width:60%;">
+										<td style="width:60%;padding-left: 0;">
 											<cfloop query="relm3">
 												<div class="border-light float-left px-0 pt-2" style="width:112px;height: 205px">
 												<cfif len(ce.collecting_event_id) gt 0>
@@ -349,7 +349,7 @@
 										<td>#permit.permit_num#</td>
 										<td>#permit.permit_type#</td>
 										<td>#permit.permit_remarks#</td>
-										<td style="width:60%;">
+										<td style="width:60%; padding-left: 0;">
 											<cfloop query="relm4">
 												<div class="border-light float-left px-0 mx-1 pt-2" style="width:112px;height: 205px;">
 												<cfif len(permit.permit_id) gt 0>
@@ -469,7 +469,7 @@
 										<td>#deaccession.deacc_status#</td>
 										<td>#deaccession.deacc_reason#</td>
 										<td>#deaccession.method#</td>
-										<td style="width:60%;">
+										<td style="width:60%; padding-left: 0;">
 											<cfloop query="relm6">
 												<div class="border-light float-left px-2 pt-2" style="width:112px;height: 170px">
 												<cfif len(deaccession.transaction_id) gt 0>
