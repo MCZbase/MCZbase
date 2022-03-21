@@ -1286,7 +1286,7 @@ imgStyleClass=value
 											<cfset showTitleText = trim(subject)>
 										</cfif>
 										<cfif len(showTitleText) EQ 0>
-											<cfset showTitleText = "Unlinked Media Object">
+											<cfset showTitleText = "Externally Sourced Media Object">
 										</cfif>
 										<cfif #l_captionAs# EQ "textCaption"><!---This is for use when a caption of 100 characters is needed --->
 											<cfif len(showTitleText) GT 100>
