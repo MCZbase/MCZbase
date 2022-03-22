@@ -67,6 +67,9 @@
 	</cfcase>
 
 	<cfcase value ="updateLocality">
+		<cfoutput>
+			<h2 class="h2">Change locality for specimens [in #encodeForHtml(result_id)#]</h2>
+		</cfoutput>
 		<cfquery name="collEvents" dbtype="query">
 			select distinct collecting_event_id from specimenList
 		</cfquery>
@@ -208,7 +211,7 @@
 	select distinct family from specimenList
 </cfquery>
 
-<br><b>Specimens Being Changed:</b>
+<h2 class="h2">Specimens Being Changed: #specimenList.recordcount#</h2>
 <cfoutput>
 		<table width="95%">
 		<form name="filterResults">
