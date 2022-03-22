@@ -1,4 +1,4 @@
-<cfinclude template="includes/_header.cfm">
+<cfinclude template="/includes/_header.cfm">
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided for result set on which to change localities.">
@@ -286,4 +286,4 @@
 </table>
 
 
-<cfinclude template="includes/_footer.cfm">
+<cfinclude template="/includes/_footer.cfm">
