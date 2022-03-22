@@ -53,7 +53,7 @@
 		<cfset showLocality=1>
 		<cfset showEvent=0>
 		<cfoutput>
-			<h3>Find new locality</h3>
+			<h2 class="h3">Find new locality for specimens [in #encodeForHtml(result_id)#]</h2>
 			<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
 				<input type="hidden" name="Action" value="findLocality">
 				<input type="hidden" name="result_id" value="#result_id#">
@@ -64,14 +64,14 @@
 					<input type="hidden" name="filterFamily" value="#filterFamily#">
 				</cfif>
 				<cfset showSpecimenCounts = false>
-				<cfinclude template="/includes/frmFindLocation_guts.cfm">
+				<cfinclude template="/localities/searchLocationForm.cfm">
 			</form>
 		</cfoutput>
 	</cfcase>
 
 	<cfcase value ="updateLocality">
 		<cfoutput>
-			<h2 class="h2">Change locality for specimens [in #encodeForHtml(result_id)#]</h2>
+			<h2 class="h2">Changed locality for specimens [in #encodeForHtml(result_id)#]</h2>
 		</cfoutput>
 		<cfquery name="collEvents" dbtype="query">
 			select distinct collecting_event_id from specimenList
