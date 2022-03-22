@@ -41,6 +41,9 @@
 	ORDER BY
 		phylorder, family
 </cfquery>
+<cfif specimenList.recordcount EQ 0>
+	<cfthrow message = "No records found on which to change localities with record_id #encodeForHtml(result_id)# in user_search_table.">
+</cfif>
 
 <!--------------------------------------------------------------------------------------------------->
 

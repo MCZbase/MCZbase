@@ -53,7 +53,7 @@ limitations under the License.
 								Collecting Events
 							</li>
 							<li class='list-group-item'>
-								<a href='/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#"' class='btn btn-secondary btn-xs' target='_blank'>Localities</a>
+								<a href='/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#' class='btn btn-secondary btn-xs' target='_blank'>Localities</a>
 							</li>
 							<li class='list-group-item'>
 								Encumbrances
