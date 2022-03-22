@@ -211,8 +211,8 @@
 	select distinct family from specimenList
 </cfquery>
 
-<h2 class="h2">Specimens Being Changed: #specimenList.recordcount#</h2>
 <cfoutput>
+	<h2 class="h3">Specimens Being Changed: #specimenList.recordcount#</h2>
 		<table width="95%">
 		<form name="filterResults">
 		<input type="hidden" name="result_id" value="#result_id#">
