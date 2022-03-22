@@ -1,4 +1,4 @@
-<cfinclude template="includes/_header.cfm">
+<cfinclude template="/includes/_header.cfm">
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided for result set on which to change localities.">
@@ -33,7 +33,7 @@
 		user_search_table
 	WHERE
 		result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+		AND locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 		AND collecting_event.locality_id = locality.locality_id
 		AND cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 		AND cataloged_item.collection_object_id = flat.collection_object_id
@@ -42,7 +42,7 @@
 		AND identification.accepted_id_fg = 1
 		AND cataloged_item.collection_object_id = user_search_table.collection_object_id
 		<cfif isdefined("filterOrder") and len(#filterOrder#) GT 0>
-			and flat.phylorder in (<cfqueryparm cfsqltype="CF_SQL_VARCHAR" value="#filterOrder#" list="true">)
+			and flat.phylorder in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filterOrder#" list="true">)
 		</cfif>
 		<cfif isdefined("filterFamily") and len(#filterFamily#) GT 0>
 			and flat.family in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#listqualify(filterFamily, "'")#" list="true">)
@@ -286,4 +286,4 @@
 </table>
 
 
-<cfinclude template="includes/_footer.cfm">
+<cfinclude template="/includes/_footer.cfm">
