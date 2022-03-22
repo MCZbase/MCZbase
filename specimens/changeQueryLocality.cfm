@@ -42,7 +42,7 @@
 		AND identification.accepted_id_fg = 1
 		AND cataloged_item.collection_object_id = user_search_table.collection_object_id
 		<cfif isdefined("filterOrder") and len(#filterOrder#) GT 0>
-			and flat.phylorder in (<cfqueryparm cfsqltype="CF_SQL_VARCHAR" value="#filterOrder#" list="true">)
+			and flat.phylorder in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filterOrder#" list="true">)
 		</cfif>
 		<cfif isdefined("filterFamily") and len(#filterFamily#) GT 0>
 			and flat.family in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#listqualify(filterFamily, "'")#" list="true">)
