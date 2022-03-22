@@ -14,7 +14,7 @@
 		cataloged_item.cat_num,
 		cataloged_item.collecting_event_id,
 		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
-		identification.scientific_name,
+		flat.scientific_name,
 		locality.locality_id,
 		locality.spec_locality,
 		geog_auth_rec.higher_geog,
@@ -23,24 +23,15 @@
 		flat.phylorder,
 		flat.family
 	FROM
-		identification,
-		collecting_event,
-		locality,
-		geog_auth_rec,
-		cataloged_item,
-		collection,
-		flat,
 		user_search_table
+		left join cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+		left join collection on  cataloged_item.collection_id = collection.collection_id
+		left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+		left join locality on collecting_event.locality_id = locality.locality_id
+		left join geog_auth_rec on  locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+		left join flat on cataloged_item.collection_object_id = flat.collection_object_id
 	WHERE
 		result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-		AND locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-		AND collecting_event.locality_id = locality.locality_id
-		AND cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-		AND cataloged_item.collection_object_id = flat.collection_object_id
-		AND cataloged_item.collection_object_id = identification.collection_object_id
-		AND cataloged_item.collection_id = collection.collection_id
-		AND identification.accepted_id_fg = 1
-		AND cataloged_item.collection_object_id = user_search_table.collection_object_id
 		<cfif isdefined("filterOrder") and len(#filterOrder#) GT 0>
 			and flat.phylorder in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filterOrder#" list="true">)
 		</cfif>
