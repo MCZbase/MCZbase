@@ -101,7 +101,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:country contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["6ce2b2b4-6afe-4d13-82a0-390d31ade01c"] = r >
 			<cfset r=structNew()>
@@ -111,7 +111,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:countryCode contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["853b79a2-b314-44a2-ae46-34a1e7ed85e4"] = r >
 			<cfset r=structNew()>
@@ -121,7 +121,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:countryCode is a standard value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["0493bcfb-652e-4d17-815b-b0cce0742fbe"] = r >
 			<cfset r=structNew()>
@@ -137,7 +137,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:country contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["6ce2b2b4-6afe-4d13-82a0-390d31ade01c"] = r >
 			<cfset r=structNew()>
@@ -147,7 +147,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:countryCode contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["853b79a2-b314-44a2-ae46-34a1e7ed85e4"] = r >
 			<cfset r=structNew()>
@@ -157,7 +157,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:countryCode is a standard value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["0493bcfb-652e-4d17-815b-b0cce0742fbe"] = r >
 			<cfset r=structNew()>
@@ -269,7 +269,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:scientificName contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["7c4b9498-a8d9-4ebb-85f1-9f200c788595"] = r >
 			<cfset r=structNew()>
@@ -279,7 +279,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:taxonId contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["401bf207-9a55-4dff-88a5-abcd58ad97fa"] = r >
 			<cfset r=structNew()>
@@ -289,7 +289,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:family is known to WoRMS" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["3667556d-d8f5-454c-922b-af8af38f613c"] = r >
 			<cfset r=structNew()>
@@ -299,7 +299,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:order is known to WoRMS" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["81cc974d-43cc-4c0f-a5e0-afa23b455aa3"] = r >
 
@@ -333,7 +333,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:scientificName contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["7c4b9498-a8d9-4ebb-85f1-9f200c788595"] = r >
 			<cfset r=structNew()>
@@ -343,7 +343,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:taxonId contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["401bf207-9a55-4dff-88a5-abcd58ad97fa"] = r >
 			<cfset r=structNew()>
@@ -353,7 +353,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:family is known to WoRMS" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["3667556d-d8f5-454c-922b-af8af38f613c"] = r >
 			<cfset r=structNew()>
@@ -363,7 +363,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:order is known to WoRMS" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["81cc974d-43cc-4c0f-a5e0-afa23b455aa3"] = r >
 
@@ -459,22 +459,21 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset month=ToString(flatrow.month) >
 			<cfset day=ToString(flatrow.day) >
 
-			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventTG2DQ" name="eventDateQC"> <!--- Deprecated --->
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCOtherDateDQ" name="dwcOtherDateQC">
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventDQ" name="dwcEventDQ">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides">
 			<!--- Obtain mechanism from annotation on class --->
-			<cfset result.mechanism = eventDateQC.getClass().getAnnotation(Mechanism.getClass()).label() >
+			<cfset result.mechanism = dwcEventDQ.getClass().getAnnotation(Mechanism.getClass()).label() >
 
 			<!--- pre-amendment phase --->
 
 			<!--- @Provides("56b6c695-adf1-418e-95d2-da04cad7be53") --->
 			<!--- TODO: Provide metadata from annotations --->
 			<!---
-			eventDateQC.getClass().getMethod('measureEventdatePrecisioninseconds',String.class).getAnnotation(Provides.getClass()).label();
+			dwcEventDQ.getClass().getMethod('measureEventdatePrecisioninseconds',String.class).getAnnotation(Provides.getClass()).label();
 
-			<cfset methodArray = eventDateQC.getClass().getMethods() >
+			<cfset methodArray = dwcEventDQ.getClass().getMethods() >
 
 			<cfloop from="0" to="#arraylen(methodArray)#" index="i">
 				<cfset method = methodArray[i]>
@@ -488,7 +487,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:eventDate precision in seconds" >
 			<cfset r.type = "MEASURE" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT">
+			<cfif r.status eq "RUN_HAS_RESULT">
 				<cfset r.value = dqResponse.getValue().getObject() >
 				<cfset days = Round(r.value / 60 / 60 / 24)>
 				<cfif days EQ 1><cfset s=""><cfelse><cfset s="s"></cfif>
@@ -505,7 +504,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:dateIdentified in standard format" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["66269bdd-9271-4e76-b25c-7ab81eebe1d8"] = r >
 			<cfset r=structNew()>
@@ -515,7 +514,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:dateIdentified in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["dc8aae4b-134f-4d75-8a71-c4186239178e"] = r >
 			<cfset r=structNew()>
@@ -525,47 +524,47 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:day in standard format" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["47ff73ba-0028-4f79-9ce1-ee7008d66498"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f") --->
-			<cfset dqResponse = eventDateQC.validationDayOutofrange(year, month, day) >
+			<cfset dqResponse = dwcEventDQ.validationDayOutofrange(year, month, day) >
 			<cfset r.label = "dwc:day in range for month and year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
 			<cfset r=structNew()>
 
 			<!---  @Provides("9a39d88c-7eee-46df-b32a-c109f9f81fb8") --->
-			<cfset dqResponse =eventDateQC.validationEnddayofyearOutofrange(year, endDayOfYear) >
+			<cfset dqResponse =dwcEventDQ.validationEnddayofyearOutofrange(endDayOfYear, eventDate) >
 			<cfset r.label = "dwc:endDayOfYear in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["9a39d88c-7eee-46df-b32a-c109f9f81fb8"] = r >
 			<cfset r=structNew()>
 
 			<!---  @Provides("41267642-60ff-4116-90eb-499fee2cd83f") --->
-			<cfset dqResponse = eventDateQC.validationEventEmpty(startDayOfYear,eventDate,year,verbatimEventDate,month,day,endDayOfYear) >
+			<cfset dqResponse = dwcEventDQ.validationEventTemporalEmpty(eventDate,verbatimEventDate,year,month,day,startDayOfYear,endDayOfYear) >
 			<cfset r.label = "dwc:Event terms contain some value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["41267642-60ff-4116-90eb-499fee2cd83f"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f")  --->
-			<cfset dqResponse = eventDateQC.validationEventInconsistent(startDayOfYear,eventDate,year,month,day,endDayOfYear) >
+			<cfset dqResponse = dwcEventDQ.validationEventInconsistent(eventDate,year,month,day,startDayOfYear,endDayOfYear) >
 			<cfset r.label = "dwc:Event terms are consistent" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
 			<cfset r=structNew()>
@@ -575,17 +574,17 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:eventDate contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["f51e15a6-a67d-4729-9c28-3766299d2985"] = r >
 			<cfset r=structNew()>
 
 			<!---  @Provides("4f2bf8fd-fc5c-493f-a44c-e7b16153c803") --->
-			<cfset dqResponse = eventDateQC.validationEventdateNotstandard(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateNotstandard(eventDate) >
 			<cfset r.label = "dwc:eventDate is in standard form" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["4f2bf8fd-fc5c-493f-a44c-e7b16153c803"] = r >
 			<cfset r=structNew()>
@@ -595,27 +594,27 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:eventDate is in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["3cff4dc4-72e9-4abe-9bf3-8a30f1618432"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("01c6dafa-0886-4b7e-9881-2c3018c98bdc") --->
-			<cfset dqResponse = eventDateQC.validationMonthNotstandard(month) >
+			<cfset dqResponse = dwcEventDQ.validationMonthNotstandard(month) >
 			<cfset r.label = "dwc:month is in standard form" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["01c6dafa-0886-4b7e-9881-2c3018c98bdc"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("85803c7e-2a5a-42e1-b8d3-299a44cafc46") --->
-			<cfset dqResponse = eventDateQC.validationStartdayofyearOutofrange(startDayOfYear,year) >
+			<cfset dqResponse = dwcEventDQ.validationStartdayofyearOutofrange(startDayOfYear,eventDate) >
 			<cfset r.label = "dwc:startDayOfYear is in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["85803c7e-2a5a-42e1-b8d3-299a44cafc46"] = r >
 			<cfset r=structNew()>
@@ -625,7 +624,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:startDayOfYear is in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
 			<cfset r=structNew()>
@@ -648,7 +647,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("b129fa4d-b25b-43f7-9645-5ed4d44b357b") --->
-			<cfset dqResponse = eventDateQC.amendmentDayStandardized(day) >
+			<cfset dqResponse = dwcEventDQ.amendmentDayStandardized(day) >
 			<cfset r.label = "standardize dwc:day" >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -663,7 +662,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("2e371d57-1eb3-4fe3-8a61-dff43ced50cf") --->
-			<cfset dqResponse = eventDateQC.amendmentMonthStandardized(month) >
+			<cfset dqResponse = dwcEventDQ.amendmentMonthStandardized(month) >
 			<cfset r.label = "standardize dwc:month" >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -678,7 +677,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("6d0a0c10-5e4a-4759-b448-88932f399812") --->
-			<cfset dqResponse = eventDateQC.amendmentEventdateFromVerbatim(eventDate, verbatimEventDate) >
+			<cfset dqResponse = dwcEventDQ.amendmentEventdateFromVerbatim(eventDate, verbatimEventDate) >
 			<cfset r.label = "fill in dwc:eventDate from dwc:verbatimEventDate " >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -692,23 +691,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset amendment["6d0a0c10-5e4a-4759-b448-88932f399812"] = r >
 			<cfset r=structNew()>
 
-			<!--- @Provides("3892f432-ddd0-4a0a-b713-f2e2ecbd879d") --->
-			<cfset dqResponse = eventDateQC.amendmentEventdateFromYearmonthday(eventDate, year, month, day) >
-			<cfset r.label = "fill in dwc:eventDate from dwc:year, dwc:month, and dwc:day " >
-			<cfset r.type = "AMENDMENT" >
-			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status EQ "FILLED_IN">
-				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
-				<cfset r.value = dqResponse.getValue().getObject().toString() >
-			<cfelse>
-				<cfset r.value = "">
-			</cfif>
-			<cfset r.comment = dqResponse.getComment() >
-			<cfset amendment["3892f432-ddd0-4a0a-b713-f2e2ecbd879d"] = r >
-			<cfset r=structNew()>
-
 			<!---  @Provides("eb0a44fa-241c-4d64-98df-ad4aa837307b") --->
-			<cfset dqResponse = eventDateQC.amendmentEventdateFromYearstartdayofyearenddayofyear(eventDate, startDayOfYear, year, endDayOfYear) >
+			<cfset dqResponse = dwcEventDQ.amendmentEventdateFromYearstartdayofyearenddayofyear(eventDate, year, startDayOfYear, endDayOfYear) >
 			<cfset r.label = "fill in dwc:eventDate from dwc:year, dwc:startDayOfYear and dwc:endDayOfYear" >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -722,8 +706,23 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset amendment["eb0a44fa-241c-4d64-98df-ad4aa837307b"] = r >
 			<cfset r=structNew()>
 
+			<!--- @Provides("3892f432-ddd0-4a0a-b713-f2e2ecbd879d") --->
+			<cfset dqResponse = dwcEventDQ.amendmentEventdateFromYearmonthday(eventDate, year, month, day) >
+			<cfset r.label = "fill in dwc:eventDate from dwc:year, dwc:month, and dwc:day " >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status EQ "FILLED_IN">
+				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["3892f432-ddd0-4a0a-b713-f2e2ecbd879d"] = r >
+			<cfset r=structNew()>
+
 			<!--- @Provides("718dfc3c-cb52-4fca-b8e2-0e722f375da7") --->
-			<cfset dqResponse = eventDateQC.amendmentEventdateStandardized(eventDate) >
+			<cfset dqResponse = dwcEventDQ.amendmentEventdateStandardized(eventDate) >
 			<cfset r.label = "standardize dwc:eventDate " >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -738,7 +737,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("710fe118-17e1-440f-b428-88ba3f547d6d") --->
-			<cfset dqResponse = eventDateQC.amendmentEventFromEventdate(eventDate, startDayOfYear,year,month,day,endDayOfYear) >
+			<cfset dqResponse = dwcEventDQ.amendmentEventFromEventdate(eventDate, year,month,day, startDayOfYear, endDayOfYear) >
 			<cfset r.label = "fill in other Event terms from dwc:eventDate" >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -765,7 +764,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:eventDate precision in seconds" >
 			<cfset r.type = "MEASURE" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT">
+			<cfif r.status eq "RUN_HAS_RESULT">
 				<cfset r.value = dqResponse.getValue().getObject() >
 				<cfset days = Round(r.value / 60 / 60 / 24)>
 				<cfif days EQ 1><cfset s=""><cfelse><cfset s="s"></cfif>
@@ -782,7 +781,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:dateIdentified in standard format" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["66269bdd-9271-4e76-b25c-7ab81eebe1d8"] = r >
 			<cfset r=structNew()>
@@ -792,7 +791,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:dateIdentified in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["dc8aae4b-134f-4d75-8a71-c4186239178e"] = r >
 			<cfset r=structNew()>
@@ -802,47 +801,47 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:day in standard format" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["47ff73ba-0028-4f79-9ce1-ee7008d66498"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f") --->
-			<cfset dqResponse = eventDateQC.validationDayOutofrange(year, month, day) >
+			<cfset dqResponse = dwcEventDQ.validationDayOutofrange(year, month, day) >
 			<cfset r.label = "dwc:day in range for month and year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
 			<cfset r=structNew()>
 
 			<!---  @Provides("9a39d88c-7eee-46df-b32a-c109f9f81fb8") --->
-			<cfset dqResponse =eventDateQC.validationEnddayofyearOutofrange(year, endDayOfYear) >
+			<cfset dqResponse =dwcEventDQ.validationEnddayofyearOutofrange(endDayOfYear, eventDate) >
 			<cfset r.label = "dwc:endDayOfYear in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["9a39d88c-7eee-46df-b32a-c109f9f81fb8"] = r >
 			<cfset r=structNew()>
 
 			<!---  @Provides("41267642-60ff-4116-90eb-499fee2cd83f") --->
-			<cfset dqResponse = eventDateQC.validationEventEmpty(startDayOfYear,eventDate,year,verbatimEventDate,month,day,endDayOfYear) >
+			<cfset dqResponse = dwcEventDQ.validationEventTemporalEmpty(eventDate,verbatimEventDate,year,month,day,startDayOfYear, endDayOfYear) >
 			<cfset r.label = "dwc:Event terms contain some value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["41267642-60ff-4116-90eb-499fee2cd83f"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f")  --->
-			<cfset dqResponse = eventDateQC.validationEventInconsistent(startDayOfYear,eventDate,year,month,day,endDayOfYear) >
+			<cfset dqResponse = dwcEventDQ.validationEventInconsistent(eventDate,year,month,day,startDayOfYear, endDayOfYear) >
 			<cfset r.label = "dwc:Event terms are consistent" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
 			<cfset r=structNew()>
@@ -852,17 +851,17 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:eventDate contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["f51e15a6-a67d-4729-9c28-3766299d2985"] = r >
 			<cfset r=structNew()>
 
 			<!---  @Provides("4f2bf8fd-fc5c-493f-a44c-e7b16153c803") --->
-			<cfset dqResponse = eventDateQC.validationEventdateNotstandard(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateNotstandard(eventDate) >
 			<cfset r.label = "dwc:eventDate is in standard form" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["4f2bf8fd-fc5c-493f-a44c-e7b16153c803"] = r >
 			<cfset r=structNew()>
@@ -872,27 +871,27 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:eventDate is in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["3cff4dc4-72e9-4abe-9bf3-8a30f1618432"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("01c6dafa-0886-4b7e-9881-2c3018c98bdc") --->
-			<cfset dqResponse = eventDateQC.validationMonthNotstandard(month) >
+			<cfset dqResponse = dwcEventDQ.validationMonthNotstandard(month) >
 			<cfset r.label = "dwc:month is in standard form" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["01c6dafa-0886-4b7e-9881-2c3018c98bdc"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("85803c7e-2a5a-42e1-b8d3-299a44cafc46") --->
-			<cfset dqResponse = eventDateQC.validationStartdayofyearOutofrange(startDayOfYear,year) >
+			<cfset dqResponse = dwcEventDQ.validationStartdayofyearOutofrange(startDayOfYear,eventDate) >
 			<cfset r.label = "dwc:startDayOfYear is in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["85803c7e-2a5a-42e1-b8d3-299a44cafc46"] = r >
 			<cfset r=structNew()>
@@ -902,7 +901,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "dwc:startDayOfYear is in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
 			<cfset r=structNew()>
@@ -917,12 +916,12 @@ libraries found in github.com/filteredpush/ repositories.
 
 		<cfelse>
 			<cfset result.status="fail">
-			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.target_id=target_id>
 			<cfset result.error="record not found">
 		</cfif>
     <cfcatch>
 			<cfset result.status="fail">
-			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.target_id=target_id>
 			<cfset line = cfcatch.tagcontext[1].line>
 			<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
     </cfcatch>

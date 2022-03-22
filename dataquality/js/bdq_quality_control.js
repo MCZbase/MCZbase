@@ -182,12 +182,12 @@ function displayQCResult(data,category,targetDivId) {
 		counter ++;
 		if (counter % 2 == 0) { rowstyle = ""; } else { rowstyle = "style='background-color: #f2f2f2;'"; }
 		var key = pre[k];
-		if (key.status == "HAS_RESULT" && key.value == "COMPLIANT") {
+		if (key.status == "RUN_HAS_RESULT" && key.value == "COMPLIANT") {
 			prepass = prepass + 1;
 			cs="<span style='color: green;'><strong>"; ce="</strong></span>";
 			status = "";  // don't show status when there is a result
 		} else { 
-			if (key.status == "HAS_RESULT" && key.value == "NOT_COMPLIANT") {
+			if (key.status == "RUN_HAS_RESULT" && key.value == "NOT_COMPLIANT") {
 				cs="<span style='color: red;'><strong>"; ce="</strong></span>";
 				status = "";  // don't show status when there is a result
 			} else { 
@@ -201,11 +201,11 @@ function displayQCResult(data,category,targetDivId) {
 			displayprepost = displayprepost + "<tr " +rowstyle+ "><td>" + key.label + "</td><td>" + status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
 			// find matching post-amendment results for this test.
 			var postkey = post[k];
-			if (postkey.status == "HAS_RESULT" && postkey.value == "COMPLIANT") {
+			if (postkey.status == "RUN_HAS_RESULT" && postkey.value == "COMPLIANT") {
 				cs="<span style='color: green;'><strong>"; ce="</strong></span>";
 				status = "";
 			} else { 
-				if (postkey.status == "HAS_RESULT" && postkey.value == "NOT_COMPLIANT") {
+				if (postkey.status == "RUN_HAS_RESULT" && postkey.value == "NOT_COMPLIANT") {
 					cs="<span style='color: red;'><strong>"; ce="</strong></span>";
 					status = "";
 				} else { 
@@ -228,12 +228,16 @@ function displayQCResult(data,category,targetDivId) {
 	var amendmentCount = 0;
 	for (var k in amend) { 
 		var key = amend[k];
-		if (key.status == 'FILLED_IN') { 		
-  						cs="<span style='color: blue;'><strong>"; ce="</strong></span>";
-		} else if (key.status == 'CHANGED') { 		
-  						cs="<span style='color: red;'><strong>"; ce="</strong></span>";
+		if (key.status == 'AMENDED') {
+			var commentbit = key.comment;
+			commentbit = commentbit.toUpperCase();
+			if (commentbit.includes('FILLED IN')) {   		
+  					cs="<span style='color: blue;'><strong>"; ce="</strong></span>";
+			} else { 		
+  					cs="<span style='color: red;'><strong>"; ce="</strong></span>";
+			}
 		} else { 
-  						cs=""; ce="";
+  				cs=""; ce="";
 		}
 		displayamendments = displayamendments + "<li><span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></li>";
 		amendmentCount++;
@@ -245,7 +249,7 @@ function displayQCResult(data,category,targetDivId) {
 	// Iterate through post-amendment tests to calculate postpass.
 	for (var k in post) { 
 		var key = post[k];
-		if (key.status == "HAS_RESULT" && key.value == "COMPLIANT") { 
+		if (key.status == "RUN_HAS_RESULT" && key.value == "COMPLIANT") { 
 			postpass = postpass + 1;
 		}
 	}
