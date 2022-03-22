@@ -139,7 +139,7 @@ Print Any Report
 						</cfquery>
 						<ul>
 							<cfloop query="collections">
-								<li style="list-style-type: circle; display: inline;">#collections.collection_cde# #collections.ct#</li>
+								<li class="pr-1" style="list-style-type: circle; display: inline;">#collections.collection_cde# (#collections.ct#);</li>
 							</cfloop>
 						</ul>
 
@@ -155,7 +155,7 @@ Print Any Report
 						</cfquery>
 						<ul>
 							<cfloop query="countries">
-								<li style="list-style-type: circle; display: inline;">#countries.continent_ocean#:#countries.country# #countries.ct#</li>
+								<li class="pr-1" style="list-style-type: circle; display: inline;">#countries.continent_ocean#:#countries.country# (#countries.ct#);</li>
 							</cfloop>
 						</ul>
 
@@ -170,7 +170,7 @@ Print Any Report
 						</cfquery>
 						<ul>
 							<cfloop query="families">
-								<li style="list-style-type: circle; display: inline;">#families.phylorder#:#families.family# #families.ct#</li>
+								<li class="pr-1" style="list-style-type: circle; display: inline;">#families.phylorder#:#families.family# (#families.ct#);</li>
 							</cfloop>
 						</ul>
 					</div>
