@@ -33,7 +33,7 @@
 		user_search_table
 	WHERE
 		result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+		AND locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 		AND collecting_event.locality_id = locality.locality_id
 		AND cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 		AND cataloged_item.collection_object_id = flat.collection_object_id
