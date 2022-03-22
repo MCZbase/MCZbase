@@ -4,7 +4,7 @@
 	<cfthrow message = "No result_id provided for result set on which to change localities.">
 </cfif>
 <cfif not isDefined("action") OR len(action) EQ 0>
-	<cfset action="entry">
+	<cfset action="entryPoint">
 </cfif>
 
 <!--- For all actions, obtain data from the list of specimens specified by the result_id --->
