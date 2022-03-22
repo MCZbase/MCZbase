@@ -229,7 +229,9 @@ function displayQCResult(data,category,targetDivId) {
 	for (var k in amend) { 
 		var key = amend[k];
 		if (key.status == 'AMENDED') {
-			if (key.comment.includes('FILLED IN') || key.comment.includes('filled in') {   		
+			var commentbit = key.comment;
+			commentbit = commentbit.toUpperCase();
+			if (commentbit.includes('FILLED IN')) {   		
   					cs="<span style='color: blue;'><strong>"; ce="</strong></span>";
 			} else { 		
   					cs="<span style='color: red;'><strong>"; ce="</strong></span>";
