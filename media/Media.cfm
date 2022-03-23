@@ -162,7 +162,7 @@ limitations under the License.
 											</div>
 										</div><!---end col-12 (img, caption, text, preview URI and Media URI)--->
 										<div class="form-row mt-2 mx-0">
-											<h3 class="h4 mt-2 mb-0 px-2" title="alternative text for vision impaired users">Alternative Text for Vision Impaired Users</h3>
+											<h3 class="h5 mt-2 mb-0 font-italic px-2" title="alternative text for vision impaired users">Alternative Text for Vision Impaired Users</h3>
 											<p class="small90 mb-2 px-2">#media.alttag#</p>
 										</div>
 									</div>
