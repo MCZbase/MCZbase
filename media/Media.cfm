@@ -125,8 +125,7 @@ limitations under the License.
 										<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#" class="data-entry-input small reqdClr">
 										<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 										</div><!---end form-row--->
-									</div><!---end col-12 col-md-6 inside of col-11--->
-									<div class="form-row mt-2 mb-0">
+										<div class="form-row mt-2 mb-0">
 										<div class="col-6 col-md-5 col-xl-3 px-3">
 											<label for="mime_type" class="h5 mb-0 mt-1 data-entry-label">MIME Type</label>
 											<select name="mime_type" id="mime_type" class="data-entry-select reqdClr">
@@ -144,12 +143,7 @@ limitations under the License.
 											</select>
 										</div><!---end col-6 col-xl-5--->
 									</div><!---end form-row--->
-								</div><!---end col-md-11 col-6--->
-							</div><!---end col-12 (img, caption, text, preview URI and Media URI)--->
-							<div class="border rounded d-flex bg-light pb-3 pt-1 mt-2">
-								<div class="col-12 col-md-12 float-left">
-									
-									<div class="form-row mt-2">
+									</div><!---end col-md-11 col-6--->
 										<div class="col-6 col-md-9 col-xl-5 px-3">
 											<label for="media_license_id" class="h5 mb-0 mt-2 data-entry-label">License (<a href="/info/ctDocumentation.cfm?table=ctmedia_label&field=undefined" onclick="getCtDoc('ctmedia_label');" class="infoLink" target="_blank">Define</a>)</label>
 											<select name="media_license_id" id="media_license_id" class=" reqdClr data-entry-select">
@@ -171,7 +165,8 @@ limitations under the License.
 												</cfif>
 											</select>
 										</div>
-									</div><!---end form-row--->
+								</div><!---end col-12 (img, caption, text, preview URI and Media URI)--->
+								<div class="col-12 col-md-12 float-left">
 									<!---col-12 (mime type, media type, license, visibility)--->
 									<div class="col-12 float-left">
 									<div class="form-row mt-3">
