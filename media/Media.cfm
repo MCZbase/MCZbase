@@ -117,15 +117,14 @@ limitations under the License.
 											</cfif>
 										</div><!---end form-row--->
 										<div class="form-row mx-0 mt-2">
-										<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
-											<cfif len(media.preview_uri) gt 0>
-												(<a href="#media.preview_uri#" class="infoLink" target="_blank">open</a>)
-											</cfif>
-										</label>
-										<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#" class="data-entry-input small reqdClr">
-										<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
+											<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
+												<cfif len(media.preview_uri) gt 0>
+													(<a href="#media.preview_uri#" class="infoLink" target="_blank">open</a>)
+												</cfif>
+											</label>
+											<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#" class="data-entry-input small reqdClr"><!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 										</div><!---end form-row--->
-										<div class="form-row mt-2 mb-0">
+										<div class="row mt-2 mx-0">
 											<div class="col-6 col-md-5 col-xl-3 px-3">
 												<label for="mime_type" class="h5 mb-0 mt-1 data-entry-label">MIME Type</label>
 												<select name="mime_type" id="mime_type" class="data-entry-select reqdClr">
@@ -143,8 +142,8 @@ limitations under the License.
 												</select>
 											</div><!---end col-6 col-xl-5--->
 										</div><!---end form-row--->
-										<div class="form-row mt-2">
-											<div class="col-6 col-md-9 col-xl-5 px-3">
+										<div class="row mt-2">
+											<div class="col-6 col-md-9 col-xl-5">
 												<label for="media_license_id" class="h5 mb-0 mt-2 data-entry-label">License (<a href="/info/ctDocumentation.cfm?table=ctmedia_label&field=undefined" onclick="getCtDoc('ctmedia_label');" class="infoLink" target="_blank">Define</a>)</label>
 												<select name="media_license_id" id="media_license_id" class=" reqdClr data-entry-select">
 													<option value="">NONE</option>
@@ -155,7 +154,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="form-row mt-2 mx-0">
-											<div class="col-6 col-xl-2 col-md-3 px-3">
+											<div class="col-6 col-xl-2 col-md-3 px-0">
 											<label for="mask_media_fg" class="h5 mb-0 mt-2 data-entry-label">Media Visibility</label>
 											<select name="mask_media_fg" value="mask_media_fg" class="reqdClr data-entry-select">
 												<cfif #media.mask_media_fg# eq 1 >
