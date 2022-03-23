@@ -1295,7 +1295,7 @@ imgStyleClass=value
 										</cfif>
 										<cfif #l_captionAs# EQ "textShort"><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
 											<cfif len(showTitleText) GT 60>
-												<cfset showTitleText = "#left(showTitleText,0)#..." >
+												<cfset showTitleText = "#left(showTitleText,60)#..." >
 											</cfif>
 										</cfif>
 										<cfif #l_captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
