@@ -188,9 +188,9 @@
 											<div class="border-light float-left px-0 pt-2" style="width:112px;height:190px;">
 											<cfif len(media.media_id) gt 0>
 												<cfif relm.media_id eq '#media.media_id#'> 
-													<cfset activeimg = "border-warning border-left px-1 border-right border-bottom border-top">
+													<cfset activeimg = "border-warning border-left px-1 pt-2 border-right border-bottom border-top">
 												<cfelse>	
-													<cfset activeimg = "border-light px-1">
+													<cfset activeimg = "border-light px-1 pt-2">
 												</cfif>
 												<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 												<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#"> #mediablock# </div>
@@ -255,9 +255,9 @@
 												<div class="border-light float-left mx-1 px-0 pt-2" style="width:112px;height:205px">
 												<cfif len(tt.transaction_id) gt 0>
 													<cfif relm2.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning border-left px-1 border-right border-bottom border-top">
+														<cfset activeimg = "border-warning border-left px-1 pt-2 border-right border-bottom border-top">
 													<cfelse>	
-														<cfset activeimg = "border-light px-1">
+														<cfset activeimg = "border-light px-1 pt-2">
 													</cfif>
 													<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 													<div class="float-left #activeimg#" id="mediaBlock#relm2.media_id#"> #mediablock# </div>
