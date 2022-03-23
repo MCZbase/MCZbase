@@ -37,7 +37,7 @@
 							<button class="btn float-right btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Media Viewer</button>
 						</h1>
 					</div>
-					<div class="col-12 mt-2 mb-3">
+					<div class="col-12 mt-2 mb-2">
 						<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							media_label,
