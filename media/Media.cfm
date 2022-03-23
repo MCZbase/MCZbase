@@ -95,7 +95,7 @@ limitations under the License.
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 							<div class="col-12 px-0 float-left">
-								<div class="rounded border col-2 float-left mb-3 pt-3 pb-2">
+								<div class="rounded border col-12 col-md-2 float-left mb-3 pt-3 pb-2">
 									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="full",size="300",captionAs="textFull")>
 									<div id="mediaBlock#media.media_id#" class="float-left pt-1">
 										#mediaBlock#
@@ -127,7 +127,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div><!---end col-6 col-xl-5--->
-											<div class="col-6 col-md-5 col-xl-3 px-3">
+											<div class="col-6 col-md-5 col-xl-3 pl-3">
 												<label for="media_type" class="h5 mb-0 mt-1 data-entry-label">Media Type</label>
 												<select name="media_type" id="media_type" class="data-entry-select reqdClr">
 												<cfloop query="ctmedia_type">
@@ -137,7 +137,7 @@ limitations under the License.
 											</div><!---end col-6 col-xl-5--->
 										</div><!---end form-row--->
 										<div class="row mt-2">
-											<div class="col-6 col-md-9 col-xl-5">
+											<div class="col-12 col-md-9 col-xl-5">
 												<label for="media_license_id" class="h5 mb-0 mt-2 data-entry-label">License (<a href="/info/ctDocumentation.cfm?table=ctmedia_label&field=undefined" onclick="getCtDoc('ctmedia_label');" class="infoLink" target="_blank">Define</a>)</label>
 												<select name="media_license_id" id="media_license_id" class=" reqdClr data-entry-select">
 													<option value="">NONE</option>
@@ -148,7 +148,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="form-row mt-2 mx-0">
-											<div class="col-6 col-xl-2 col-md-3 px-0">
+											<div class="col-12 col-md-6 col-xl-2 col-md-3 px-0">
 												<label for="mask_media_fg" class="h5 mb-0 mt-2 data-entry-label">Media Visibility</label>
 												<select name="mask_media_fg" value="mask_media_fg" class="reqdClr data-entry-select">
 													<cfif #media.mask_media_fg# eq 1 >
@@ -161,10 +161,12 @@ limitations under the License.
 												</select>
 											</div>
 										</div><!---end col-12 (img, caption, text, preview URI and Media URI)--->
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<div class="form-row mt-2 mx-0">
 											<h3 class="h5 mt-2 mb-0 font-italic px-2" title="alternative text for vision impaired users">Alternative Text for Vision Impaired Users</h3>
 											<p class="small90 mb-2 px-2">#media.alttag#</p>
 										</div>
+										</cfif>
 									</div>
 								</div>
 								<div class="col-12 col-md-12 px-0 float-left">
@@ -173,7 +175,7 @@ limitations under the License.
 									<div class="row mt-3">
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pr-lg-2 float-left">
 											<h2>
-												<label for="relationships" class="mb-1 mt-2 data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
+												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
 											</h2>
 											<div id="relationships">
 												<cfset i=1>
@@ -213,7 +215,7 @@ limitations under the License.
 										</div><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
 											<h2>
-												<label for="labels" class="h2 mb-1 mt-2 px-2 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
+												<label for="labels" class="h2 mb-1 mt-2 px-1 data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
 												</label>
 											</h2>
 											<div id="labels">
