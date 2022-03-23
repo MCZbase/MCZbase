@@ -82,14 +82,14 @@
 						and identification.accepted_id_fg = 1
 						</cfquery>
 						<cfif len(media.media_id) gt 0>
-						<div class="border-light float-left px-2 pt-2" style="font-size: 1.25rem;width:402px;">
+						<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
 							<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull")>
-							<div class="float-left bg-light h-100" id="mediaBlock#media.media_id#"> #mediablock# </div>
+							<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 						</div>
 						</cfif>
 						<div class="float-left col-12 px-0 col-xl-6 px-xl-4">
 							<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
-							<h3 class="text-underline px-2">Metadata</h3>
+							<h3 class="px-2 h4 mb-0" style="text-decoration:underline">Metadata</h3>
 							<ul class="list-group">
 								<cfloop query="labels">
 									<li class="list-group-item"><span class="text-uppercase">#labels.media_label#:</span> #labels.label_value#</li>
@@ -109,7 +109,7 @@
 									<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
 								<cfelse>
 								</cfif>
-								<li class="list-group-item border p-2"><span class="text-uppercase">Alt Text: </span>#media.alttag#</li>
+								<li class="list-group-item ml-2 border p-2"><span class="text-uppercase">Alt Text: </span>#media.alttag#</li>
 							</ul>
 						</div>
 					</div>
