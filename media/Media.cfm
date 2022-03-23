@@ -102,7 +102,7 @@ limitations under the License.
 									</div><!---end image block--->
 								</div><!---end col-md-1 col-5 (image block)--->
 								<div class="col-12 col-md-9 col-xl-10 pb-4 pb-xl-2 px-0 px-md-2 float-left">
-									<div class="col-12 col-xl-6 px-0 px-xl-2 float-left">
+									<div class="col-12 col-xl-8 px-0 px-xl-2 float-left">
 										<div class="form-row mx-0 mt-2">	
 											<label for="media_uri" class="h5 mb-1 mt-0 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input small reqdClr">
