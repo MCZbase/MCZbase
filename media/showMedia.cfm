@@ -183,7 +183,7 @@
 									</cfif>
 									<td>#ff.name#</td>
 									<td style="min-width: 120px;">#ff.geography#</td>
-									<td style="width:57%; padding-left: 0.5rem;">
+									<td style="width:57%; padding-left: 0.75rem;">
 										<cfloop query="relm">
 											<div class="border-light float-left px-0 pt-2" style="width:112px;height:190px;">
 											<cfif len(media.media_id) gt 0>
@@ -244,13 +244,13 @@
 								</thead>
 								<tbody>
 									<tr>
-										<td>#tt.transaction_id#</td>
+										<td><a href="##">#tt.transaction_id#</a></td>
 										<td>#tt.accn_num_suffix#</td>
 										<td>#tt.accn_type#</td>
 										<td>#tt.accn_number#</td>
 										<td>#tt.accn_status#</td>
 										<td style="width:10%">#tt.received_agent#</td>
-										<td style="width:57%; padding-left:0;">
+										<td style="width:57%; padding-left:0.75rem;">
 											<cfloop query="relm2">
 												<div class="border-light float-left mx-1 px-0 pt-2" style="width:112px;height:205px">
 												<cfif len(tt.transaction_id) gt 0>
