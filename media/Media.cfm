@@ -100,8 +100,6 @@ limitations under the License.
 									<div id="mediaBlock#media.media_id#" class="float-left pt-1">
 										#mediaBlock#
 									</div><!---end image block--->
-									<h3 class="h4 mt-2 mb-0 px-2" title="alternative text for vision impaired users">Alternative Text for Vision Impaired Users</h3>
-									<p class="small90 mb-2 px-2">#media.alttag#</p>
 								</div><!---end col-md-1 col-5 (image block)--->
 								<div class="col-12 col-sm-12 col-md-10 pb-4 pb-xl-2 px-0 px-md-2 float-left">
 									<div class="col-12 col-xl-6 px-0 px-xl-2 float-left">
@@ -151,18 +149,22 @@ limitations under the License.
 										</div>
 										<div class="form-row mt-2 mx-0">
 											<div class="col-6 col-xl-2 col-md-3 px-0">
-											<label for="mask_media_fg" class="h5 mb-0 mt-2 data-entry-label">Media Visibility</label>
-											<select name="mask_media_fg" value="mask_media_fg" class="reqdClr data-entry-select">
-												<cfif #media.mask_media_fg# eq 1 >
-													<option value="0">Public</option>
-													<option value="1" selected="selected">Hidden</option>
-												<cfelse>
-													<option value="0" selected="selected">Public</option>
-													<option value="1">Hidden</option>
-												</cfif>
-											</select>
-										</div>
+												<label for="mask_media_fg" class="h5 mb-0 mt-2 data-entry-label">Media Visibility</label>
+												<select name="mask_media_fg" value="mask_media_fg" class="reqdClr data-entry-select">
+													<cfif #media.mask_media_fg# eq 1 >
+														<option value="0">Public</option>
+														<option value="1" selected="selected">Hidden</option>
+													<cfelse>
+														<option value="0" selected="selected">Public</option>
+														<option value="1">Hidden</option>
+													</cfif>
+												</select>
+											</div>
 										</div><!---end col-12 (img, caption, text, preview URI and Media URI)--->
+										<div class="form-row mt-2 mx-0">
+											<h3 class="h4 mt-2 mb-0 px-2" title="alternative text for vision impaired users">Alternative Text for Vision Impaired Users</h3>
+											<p class="small90 mb-2 px-2">#media.alttag#</p>
+										</div>
 									</div>
 								</div>
 								<div class="col-12 col-md-12 px-0 float-left">
