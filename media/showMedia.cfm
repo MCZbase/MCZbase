@@ -93,7 +93,7 @@
 							<table class="table table-responsive">
 								<tr>
 								<cfloop query="labels">
-									<td class="list-group-item"><span class="text-uppercase">#labels.media_label#:</span> #labels.label_value#</td>
+									<td class="list-group-item"><span class="text-uppercase">#labels.media_label#:</span></td><td> #labels.label_value#</td>
 								</cfloop>
 								</tr>
 								<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -109,13 +109,13 @@
 								</cfloop>
 								<cfif len(keywords.keywords) gt 0>
 								<tr>
-									<td class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</td>
+									<td class="list-group-item"><span class="text-uppercase">Keywords: </span></td><td> #keywords.keywords#</td>
 								</tr>
 								<cfelse>
 								</cfif>
 								<cfif listcontainsnocase(session.roles,"manage_media")>
 								<tr>
-									<td class="list-group-item ml-2 border mt-2 p-2"><span class="text-uppercase">Alt Text: </span>#media.alttag#</td>
+									<td class="list-group-item ml-2 border mt-2 p-2"><span class="text-uppercase">Alt Text: </span></td><td>#media.alttag#</td>
 								</tr>
 								</cfif>
 							</table>
