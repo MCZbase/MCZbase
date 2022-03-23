@@ -183,7 +183,7 @@
 									<td style="min-width: 120px;">#ff.geography#</td>
 									<td style="width:57%; padding-left: 0.75rem;">
 										<cfloop query="relm">
-											<div class="border-light float-left px-0 pt-1 py-1 h-auto" style="width:112px;">
+											<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 209px">
 											<cfif len(media.media_id) gt 0>
 												<cfif relm.media_id eq '#media.media_id#'> 
 													<cfset activeimg = "border-warning border-left px-1 pt-2 border-right border-bottom border-top">
