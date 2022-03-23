@@ -95,16 +95,16 @@ limitations under the License.
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 							<div class="col-12 px-0 float-left">
-								<div class="rounded border col-12 col-md-2 float-left mb-3 pt-3 pb-2">
+								<div class="rounded border col-12 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
 									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="full",size="300",captionAs="textFull")>
 									<div id="mediaBlock#media.media_id#" class="float-left pt-1">
 										#mediaBlock#
 									</div><!---end image block--->
 								</div><!---end col-md-1 col-5 (image block)--->
-								<div class="col-12 col-sm-12 col-md-10 pb-4 pb-xl-2 px-0 px-md-2 float-left">
+								<div class="col-12 col-md-9 col-xl-10 pb-4 pb-xl-2 px-0 px-md-2 float-left">
 									<div class="col-12 col-xl-6 px-0 px-xl-2 float-left">
 										<div class="form-row mx-0 mt-2">	
-											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
+											<label for="media_uri" class="h5 mb-1 mt-0 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input small reqdClr">
 											<cfif #media.media_uri# contains #application.serverRootUrl#>
 												<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
