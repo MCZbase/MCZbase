@@ -123,7 +123,7 @@
 									<cfelse>
 									</cfif>
 									<cfif listcontainsnocase(session.roles,"manage_media")>
-									<tr class="list-group-item ml-2 border mt-2 p-2">
+									<tr class="border mt-2 p-2">
 										<th scope="row"><span class="text-uppercase">Alt Text: </span></th><td>#media.alttag#</td>
 									</tr>
 									</cfif>
