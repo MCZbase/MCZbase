@@ -109,14 +109,14 @@ limitations under the License.
 										<p class="small90 mb-2 px-2">#media.alttag#</p>
 									</div><!---end col-12 inside of col-11--->
 									<div class="col-12 col-xl-6 px-0 px-xl-2 float-left">
-										<div class="form-row mx-0 mt-1">	
+										<div class="form-row mx-0 mt-2">	
 											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input small reqdClr">
 											<cfif #media.media_uri# contains #application.serverRootUrl#>
 												<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
 											</cfif>
 										</div><!---end form-row--->
-										<div class="form-row mx-0 mt-1">
+										<div class="form-row mx-0 mt-2">
 										<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
 											<cfif len(media.preview_uri) gt 0>
 												(<a href="#media.preview_uri#" class="infoLink" target="_blank">open</a>)
@@ -126,34 +126,36 @@ limitations under the License.
 										<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 										</div><!---end form-row--->
 										<div class="form-row mt-2 mb-0">
-										<div class="col-6 col-md-5 col-xl-3 px-3">
-											<label for="mime_type" class="h5 mb-0 mt-1 data-entry-label">MIME Type</label>
-											<select name="mime_type" id="mime_type" class="data-entry-select reqdClr">
-												<cfloop query="ctmime_type">
-													<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
+											<div class="col-6 col-md-5 col-xl-3 px-3">
+												<label for="mime_type" class="h5 mb-0 mt-1 data-entry-label">MIME Type</label>
+												<select name="mime_type" id="mime_type" class="data-entry-select reqdClr">
+													<cfloop query="ctmime_type">
+														<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
+													</cfloop>
+												</select>
+											</div><!---end col-6 col-xl-5--->
+											<div class="col-6 col-md-5 col-xl-3 px-3">
+												<label for="media_type" class="h5 mb-0 mt-1 data-entry-label">Media Type</label>
+												<select name="media_type" id="media_type" class="data-entry-select reqdClr">
+												<cfloop query="ctmedia_type">
+													<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
 												</cfloop>
-											</select>
-										</div><!---end col-6 col-xl-5--->
-										<div class="col-6 col-md-5 col-xl-3 px-3">
-											<label for="media_type" class="h5 mb-0 mt-1 data-entry-label">Media Type</label>
-											<select name="media_type" id="media_type" class="data-entry-select reqdClr">
-											<cfloop query="ctmedia_type">
-												<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
-											</cfloop>
-											</select>
-										</div><!---end col-6 col-xl-5--->
-									</div><!---end form-row--->
-									</div><!---end col-md-11 col-6--->
-										<div class="col-6 col-md-9 col-xl-5 px-3">
-											<label for="media_license_id" class="h5 mb-0 mt-2 data-entry-label">License (<a href="/info/ctDocumentation.cfm?table=ctmedia_label&field=undefined" onclick="getCtDoc('ctmedia_label');" class="infoLink" target="_blank">Define</a>)</label>
-											<select name="media_license_id" id="media_license_id" class=" reqdClr data-entry-select">
-												<option value="">NONE</option>
-												<cfloop query="ctmedia_license">
-												<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
-												</cfloop>
-											</select>
+												</select>
+											</div><!---end col-6 col-xl-5--->
+										</div><!---end form-row--->
+										<div class="form-row mt-2">
+											<div class="col-6 col-md-9 col-xl-5 px-3">
+												<label for="media_license_id" class="h5 mb-0 mt-2 data-entry-label">License (<a href="/info/ctDocumentation.cfm?table=ctmedia_label&field=undefined" onclick="getCtDoc('ctmedia_label');" class="infoLink" target="_blank">Define</a>)</label>
+												<select name="media_license_id" id="media_license_id" class=" reqdClr data-entry-select">
+													<option value="">NONE</option>
+													<cfloop query="ctmedia_license">
+													<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
+													</cfloop>
+												</select>
+											</div>
 										</div>
-										<div class="col-6 col-xl-2 col-md-3 px-3">
+										<div class="form-row mt-2 mx-0">
+											<div class="col-6 col-xl-2 col-md-3 px-3">
 											<label for="mask_media_fg" class="h5 mb-0 mt-2 data-entry-label">Media Visibility</label>
 											<select name="mask_media_fg" value="mask_media_fg" class="reqdClr data-entry-select">
 												<cfif #media.mask_media_fg# eq 1 >
@@ -165,7 +167,9 @@ limitations under the License.
 												</cfif>
 											</select>
 										</div>
-								</div><!---end col-12 (img, caption, text, preview URI and Media URI)--->
+										</div><!---end col-12 (img, caption, text, preview URI and Media URI)--->
+									</div>
+								</div>
 								<div class="col-12 col-md-12 float-left">
 									<!---col-12 (mime type, media type, license, visibility)--->
 									<div class="col-12 float-left">
