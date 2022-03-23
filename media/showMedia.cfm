@@ -91,33 +91,41 @@
 							<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
 							<h3 class="px-2 h4 mb-0" style="text-decoration:underline">Metadata</h3>
 							<table class="table table-responsive">
+							  <thead>
 								<tr>
-								<cfloop query="labels">
-									<td class="list-group-item"><span class="text-uppercase">#labels.media_label#:</span></td><td> #labels.label_value#</td>
-								</cfloop>
+								  <th scope="col">Label</th>
+								  <th scope="col">Value</th>
 								</tr>
-								<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
-									from media_relations
-								where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-									and media_relationship in ('created by agent', 'shows cataloged_item')
-							</cfquery>
-								<cfloop query="relations">
-									<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
-										<cfset labellist = "<li>#mr_label#: #mr_value#</li>">
+							  </thead>
+								<tbody>
+									<tr>
+									<cfloop query="labels">
+										<th scope="row"><span class="text-uppercase">#labels.media_label#:</span></th><td> #labels.label_value#</td>
+									</cfloop>
+									</tr>
+									<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
+										from media_relations
+									where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+										and media_relationship in ('created by agent', 'shows cataloged_item')
+									</cfquery>
+									<cfloop query="relations">
+										<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
+											<cfset labellist = "<li>#mr_label#: #mr_value#</li>">
+										</cfif>
+									</cfloop>
+									<cfif len(keywords.keywords) gt 0>
+									<tr>
+										<th scope="row"><span class="text-uppercase">Keywords: </span></th><td> #keywords.keywords#</td>
+									</tr>
+									<cfelse>
 									</cfif>
-								</cfloop>
-								<cfif len(keywords.keywords) gt 0>
-								<tr>
-									<td class="list-group-item"><span class="text-uppercase">Keywords: </span></td><td> #keywords.keywords#</td>
-								</tr>
-								<cfelse>
-								</cfif>
-								<cfif listcontainsnocase(session.roles,"manage_media")>
-								<tr>
-									<td class="list-group-item ml-2 border mt-2 p-2"><span class="text-uppercase">Alt Text: </span></td><td>#media.alttag#</td>
-								</tr>
-								</cfif>
+									<cfif listcontainsnocase(session.roles,"manage_media")>
+									<tr class="list-group-item ml-2 border mt-2 p-2">
+										<th scope="row"><span class="text-uppercase">Alt Text: </span></th><td>#media.alttag#</td>
+									</tr>
+									</cfif>
+								</tbody>
 							</table>
 						</div>
 					</div>
