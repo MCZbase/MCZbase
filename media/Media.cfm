@@ -95,19 +95,15 @@ limitations under the License.
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 							<div class="col-12 px-0 float-left">
-								<div class="rounded border col float-left mb-3 pt-3 pb-2">
+								<div class="rounded border col-2 float-left mb-3 pt-3 pb-2">
 									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="full",size="300",captionAs="textFull")>
 									<div id="mediaBlock#media.media_id#" class="float-left pt-1">
 										#mediaBlock#
 									</div><!---end image block--->
+									<h3 class="h4 mt-2 mb-0 px-2" title="alternative text for vision impaired users">Alternative Text for Vision Impaired Users</h3>
+									<p class="small90 mb-2 px-2">#media.alttag#</p>
 								</div><!---end col-md-1 col-5 (image block)--->
 								<div class="col-12 col-sm-12 col-md-10 pb-4 pb-xl-2 px-0 px-md-2 float-left">
-									<div class="col-12 px-0 float-left">
-										<h3 class="h4 mb-0 px-2">Media Caption</h3>
-										<p class="small90 px-2">#media.caption#</p>
-										<h3 class="h4 mt-2 mb-0 px-2" title="alternative text for vision impaired users">Alternative Text for Vision Impaired Users</h3>
-										<p class="small90 mb-2 px-2">#media.alttag#</p>
-									</div><!---end col-12 inside of col-11--->
 									<div class="col-12 col-xl-6 px-0 px-xl-2 float-left">
 										<div class="form-row mx-0 mt-2">	
 											<label for="media_uri" class="h5 mb-1 mt-2 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
