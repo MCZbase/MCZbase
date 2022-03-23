@@ -109,7 +109,9 @@
 									<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
 								<cfelse>
 								</cfif>
-								<li class="list-group-item ml-2 border p-2"><span class="text-uppercase">Alt Text: </span>#media.alttag#</li>
+								<cfif listcontainsnocase(session.roles,"manage_media")>
+								<li class="list-group-item ml-2 border mt-2 p-2"><span class="text-uppercase">Alt Text: </span>#media.alttag#</li>
+								</cfif>
 							</ul>
 						</div>
 					</div>
