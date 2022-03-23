@@ -120,7 +120,7 @@ limitations under the License.
 										</div><!---end form-row--->
 										<div class="row mt-2 mx-0">
 											<div class="col-6 col-md-5 col-xl-4 px-0">
-												<label for="mime_type" class="h5 mb-0 mt-1 data-entry-label">MIME Type</label>
+												<label for="mime_type" class="h5 mb-1 mt-1 data-entry-label">MIME Type</label>
 												<select name="mime_type" id="mime_type" class="data-entry-select reqdClr">
 													<cfloop query="ctmime_type">
 														<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
@@ -162,7 +162,7 @@ limitations under the License.
 											</div>
 										</div><!---end col-12 (img, caption, text, preview URI and Media URI)--->
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<div class="form-row mt-2 mx-0">
+											<div class="form-row mt-2">
 												<div class="col-12 px-0">
 													<h3 class="h5 mt-2 mb-0 font-italic px-2" title="alternative text for vision impaired users">Alternative Text for Vision Impaired Users</h3>
 													<p class="small90 mb-2 px-2">#media.alttag#</p>
