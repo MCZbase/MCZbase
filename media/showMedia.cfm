@@ -89,7 +89,7 @@
 						</cfif>
 						<div class="float-left col-12 px-0 col-xl-6 px-xl-4">
 							<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
-							<h3 class="text-decoration-underline px-2">Metadata</h3>
+							<h3 class="text-underline px-2">Metadata</h3>
 							<ul class="list-group">
 								<cfloop query="labels">
 									<li class="list-group-item"><span class="text-uppercase">#labels.media_label#:</span> #labels.label_value#</li>
@@ -296,7 +296,7 @@
 												<div class="border-light float-left px-0 pt-2" style="width:112px;height: 205px">
 												<cfif len(ce.collecting_event_id) gt 0>
 													<cfif relm3.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning border-left border-right border-bottom px-1 border-top">
+														<cfset activeimg = "border-warning border-left border-right border-bottom pt-1 px-1 border-top">
 													<cfelse>	
 														<cfset activeimg = "border-light px-1">
 													</cfif>

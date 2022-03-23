@@ -96,16 +96,16 @@ limitations under the License.
 							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 							<div class="col-12 px-0 float-left">
 								<div class="rounded border col float-left mb-3 pt-3 pb-2" style="width: 132px;">
-									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textLinks")>
+									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",size="200",captionAs="textFull")>
 									<div id="mediaBlock#media.media_id#" class="float-left pt-1">
 										#mediaBlock#
 									</div><!---end image block--->
 								</div><!---end col-md-1 col-5 (image block)--->
 								<div class="col-12 col-sm-12 col-md-10 pb-4 pb-xl-2 px-0 px-md-2 float-left">
 									<div class="col-12 px-0 float-left">
-										<h3 class="h5 mb-0 px-2">Media Caption</h3>
+										<h3 class="h4 mb-0 px-2">Media Caption</h3>
 										<p class="small90 px-2">#media.caption#</p>
-										<h3 class="h5 mt-2 mb-0 px-2" title="alternative text for vision impaired users">Alternative Text for Vision Impaired Users</h3>
+										<h3 class="h4 mt-2 mb-0 px-2" title="alternative text for vision impaired users">Alternative Text for Vision Impaired Users</h3>
 										<p class="small90 mb-2 px-2">#media.alttag#</p>
 									</div><!---end col-12 inside of col-11--->
 									<div class="col-12 col-xl-6 px-0 px-xl-2 float-left">
@@ -116,8 +116,6 @@ limitations under the License.
 												<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
 											</cfif>
 										</div><!---end form-row--->
-									</div><!---end col-12 col-md-6 inside of col-11--->
-									<div class="col-12 col-xl-6 px-0 px-xl-2 float-left">
 										<div class="form-row mx-0 mt-1">
 										<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
 											<cfif len(media.preview_uri) gt 0>
@@ -128,10 +126,6 @@ limitations under the License.
 										<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 										</div><!---end form-row--->
 									</div><!---end col-12 col-md-6 inside of col-11--->
-								</div><!---end col-md-11 col-6--->
-							</div><!---end col-12 (img, caption, text, preview URI and Media URI)--->
-							<div class="border rounded d-flex bg-light pb-3 pt-1 mt-2">
-								<div class="col-12 col-md-12 float-left">
 									<div class="form-row mt-2 mb-0">
 										<div class="col-6 col-md-5 col-xl-3 px-3">
 											<label for="mime_type" class="h5 mb-0 mt-1 data-entry-label">MIME Type</label>
@@ -150,6 +144,11 @@ limitations under the License.
 											</select>
 										</div><!---end col-6 col-xl-5--->
 									</div><!---end form-row--->
+								</div><!---end col-md-11 col-6--->
+							</div><!---end col-12 (img, caption, text, preview URI and Media URI)--->
+							<div class="border rounded d-flex bg-light pb-3 pt-1 mt-2">
+								<div class="col-12 col-md-12 float-left">
+									
 									<div class="form-row mt-2">
 										<div class="col-6 col-md-9 col-xl-5 px-3">
 											<label for="media_license_id" class="h5 mb-0 mt-2 data-entry-label">License (<a href="/info/ctDocumentation.cfm?table=ctmedia_label&field=undefined" onclick="getCtDoc('ctmedia_label');" class="infoLink" target="_blank">Define</a>)</label>
