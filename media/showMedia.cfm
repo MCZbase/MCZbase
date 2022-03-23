@@ -37,7 +37,7 @@
 							<button class="btn float-right btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Media Viewer</button>
 						</h1>
 					</div>
-					<div class="col-12 mt-2">
+					<div class="col-12 mt-2 mb-3">
 						<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							media_label,
@@ -144,7 +144,7 @@
 						and (media_relations.media_relationship = 'shows cataloged_item')
 				</cfquery>
 				<cfif len(ff.guid) gt 0>
-					<h1 class="h3 w-100 mt-4 mb-0 px-2">Specimen Records with this Media</h1>
+					<h1 class="h3 w-100 my-0 px-2">Specimen Records with this Media</h1>
 					<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
 							get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -219,7 +219,7 @@
 								and trans_agent.trans_agent_role = 'received from'
 					</cfquery>
 					<cfif len(tt.transaction_id) gt 0>
-						<h1 class="h3 w-100 mb-0 px-2">Accn Records with this Media</h1>
+						<h1 class="h3 w-100 my-0 px-2">Accn Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
@@ -280,7 +280,7 @@
 							and media_relations.media_relationship = 'shows collecting_event'
 					</cfquery>
 					<cfif len(ce.collecting_event_id) gt 0>
-						<h1 class="h3 w-100 mb-0 px-2">Collecting Event Records with this Media</h1>
+						<h1 class="h3 w-100 my-0 px-2">Collecting Event Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -339,7 +339,7 @@
 							and (media_relations.media_relationship = 'shows permit' OR media_relations.media_relationship = 'documents for permit')
 					</cfquery>
 					<cfif len(permit.permit_id) gt 0>
-						<h1 class="h3 w-100 mb-0 px-2">Permit Records with this Media</h1>
+						<h1 class="h3 w-100 my-0 px-2">Permit Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -397,7 +397,7 @@
 							and media_relations.media_relationship = 'documents borrow'
 					</cfquery>
 					<cfif len(borrow.transaction_id) gt 0>
-						<h1 class="h3 w-100 mb-0 px-2">Borrow Records with this Media</h1>
+						<h1 class="h3 w-100 my-0 px-2">Borrow Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -457,7 +457,7 @@
 							and (media_relations.media_relationship = 'documents deaccession')
 					</cfquery>
 					<cfif len(deaccession.transaction_id) gt 0>
-						<h1 class="h3 w-100 mb-0 px-2">Deaccession Records with this Media</h1>
+						<h1 class="h3 w-100 my-0 px-2">Deaccession Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
