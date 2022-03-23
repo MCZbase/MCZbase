@@ -358,7 +358,7 @@ limitations under the License.
 						<div id="labels" class="graydot" style="padding: .5em .25em;">
 						<cfset i=1>
 							<cfloop>
-								<div id="labelsDiv__#i#">
+								<div id="labelsDiv__#i#" class="form-row mx-0 px-0 col-12">
 								<select name="label__#i#" id="label__#i#" size="1">
 								<option value="delete">Select label...</option>
 								<cfloop query="ctmedia_label">
