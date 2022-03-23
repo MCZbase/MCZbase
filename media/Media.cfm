@@ -170,7 +170,17 @@ limitations under the License.
 											</div>
 										</cfif>
 									</div>
+									<div class="col-12 px-0 float-left">
+										<div class="form-row mx-0 mt-2 mb-4">
+											<div class="col-12 float-left">
+											<!---  TODO: Change to ajax save of form. ---->
+												<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary">
+											</div>
+										</div>
+									</div>
 								</div>
+							</form>
+							<form>
 								<div class="col-12 col-md-12 px-0 float-left">
 									<!---col-12 (mime type, media type, license, visibility)--->
 									<div class="col-12 float-left">
@@ -273,14 +283,7 @@ limitations under the License.
 							</div>
 						</form>
 					</div><!---end col-12--->
-					<div class="col-12 px-0 float-left">
-						<div class="form-row mx-0 mt-2 mb-4">
-							<div class="col-12 float-left">
-								<!---  TODO: Change to ajax save of form. ---->
-								<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary">
-							</div>
-						</div>
-					</div>
+				
 				</div>
 			</div>
 		</div>
