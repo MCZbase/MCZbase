@@ -34,7 +34,7 @@
 				<div class="row">
 					<div class="col-12 mt-4">
 						<h1 class="h2 mt-4 pb-1 mb-3 pb-3 border-bottom"> Media Record
-							<button class="btn float-right btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Viewer</button>
+							<button class="btn float-right btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Media Viewer</button>
 						</h1>
 					</div>
 					<div class="col-12 mt-2">
@@ -91,20 +91,18 @@
 							<h2 class="h3 px-2 mt-0">Media ID = #media.media_id#</h2>
 							<h3 class="mx-2 h4 mb-1 border-dark w-auto float-left" style="text-decoration:underline">Metadata</h3>
 							<table class="table border-none">
-							  <thead>
-								<tr>
-								  <th scope="col">Label</th>
-								  <th scope="col">Value</th>
-								</tr>
-							  </thead>
+								<thead>
+									<tr>
+										<th scope="col">Label</th>
+										<th scope="col">Value</th>
+									</tr>
+								</thead>
 								<tbody>
-							
 									<cfloop query="labels">
 									<tr>
 										<th scope="row"><span class="text-uppercase">#labels.media_label#:</span></th><td> #labels.label_value#</td>
 									</tr>
 									</cfloop>
-									
 									<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
 										from media_relations
@@ -185,10 +183,10 @@
 									<td style="min-width: 120px;">#ff.geography#</td>
 									<td style="width:57%; padding-left: 0.75rem;">
 										<cfloop query="relm">
-											<div class="border-light float-left px-0 pt-2" style="width:112px;height:190px;">
+											<div class="border-light float-left px-0 pt-1" style="width:112px;height:auto;">
 											<cfif len(media.media_id) gt 0>
 												<cfif relm.media_id eq '#media.media_id#'> 
-													<cfset activeimg = "border-warning border-left px-1 pt-2 border-right border-bottom border-top">
+													<cfset activeimg = "border-warning border-left px-1 pt-1 border-right border-bottom border-top">
 												<cfelse>	
 													<cfset activeimg = "border-light px-1 pt-2">
 												</cfif>
