@@ -97,7 +97,7 @@ limitations under the License.
 							<div class="col-12 px-0 float-left">
 								<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
 									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="full",size="300",captionAs="textFull")>
-									<div id="mediaBlock#media.media_id#" class="float-left pt-1">
+									<div id="mediaBlock#media.media_id#" class="mx-auto text-center pt-1">
 										#mediaBlock#
 									</div><!---end image block--->
 								</div><!---end col-md-1 col-5 (image block)--->
