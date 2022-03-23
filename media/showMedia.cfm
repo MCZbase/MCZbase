@@ -90,7 +90,7 @@
 						<div class="float-left col-12 px-0 col-xl-6 px-xl-4">
 							<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
 							<h3 class="px-2 h4 mb-0" style="text-decoration:underline">Metadata</h3>
-							<table class="table table-responsive">
+							<table class="table border-none">
 							  <thead>
 								<tr>
 								  <th scope="col">Label</th>
@@ -98,11 +98,13 @@
 								</tr>
 							  </thead>
 								<tbody>
-									<tr>
+							
 									<cfloop query="labels">
+									<tr>
 										<th scope="row"><span class="text-uppercase">#labels.media_label#:</span></th><td> #labels.label_value#</td>
-									</cfloop>
 									</tr>
+									</cfloop>
+									
 									<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
 										from media_relations
