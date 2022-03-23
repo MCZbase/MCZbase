@@ -250,7 +250,7 @@
 										<td style="width:10%">#tt.received_agent#</td>
 										<td style="width:57%; padding-left:0.75rem;">
 											<cfloop query="relm2">
-												<div class="border-light float-left mx-1 px-0 py-1 h-auto" style="width:112px;">
+												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 209px">
 												<cfif len(tt.transaction_id) gt 0>
 													<cfif relm2.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning border-left px-1 pt-2 border-right border-bottom border-top">
@@ -309,7 +309,7 @@
 										<td>#ce.collecting_source#</td>
 										<td style="width:57%;padding-left: .5rem;">
 											<cfloop query="relm3">
-												<div class="border-light float-left px-0 py-1 h-auto" style="width:112px;">
+												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 209px">
 												<cfif len(ce.collecting_event_id) gt 0>
 													<cfif relm3.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning border-left border-right border-bottom pt-1 px-1 border-top">
@@ -367,7 +367,7 @@
 										<td>#permit.permit_remarks#</td>
 										<td style="width:57%; padding-left: .5rem;">
 											<cfloop query="relm4">
-												<div class="border-light float-left px-0 mx-1 h-auto py-1" style="width:112px;">
+												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 209px">
 												<cfif len(permit.permit_id) gt 0>
 													<cfif relm4.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning border-left pt-2 border-right border-bottom border-top px-1">
@@ -427,7 +427,7 @@
 										<td>#borrow.borrow_status#</td>
 										<td style="width:60%;padding-left: .5rem;">
 											<cfloop query="relm5">
-												<div class="border-light float-left px-2 h-auto py-1" style="width:112px;">
+												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 209px">
 												<cfif len(borrow.transaction_id) gt 0>
 													<cfif relm5.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning border-left border-right pt-2 border-bottom border-top px-1">
@@ -487,7 +487,7 @@
 										<td>#deaccession.method#</td>
 										<td style="width:57%; padding-left: 0.5rem;">
 											<cfloop query="relm6">
-												<div class="border-light float-left px-2 pt-2" style="width:112px;height: 170px">
+												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 209px">
 												<cfif len(deaccession.transaction_id) gt 0>
 													<cfif relm3.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning border-left border-right px-1 border-bottom border-top">
