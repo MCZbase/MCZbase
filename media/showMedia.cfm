@@ -90,10 +90,12 @@
 						<div class="float-left col-12 px-0 col-xl-6 px-xl-4">
 							<h2 class="h3 px-2">Media ID = #media.media_id#</h2>
 							<h3 class="px-2 h4 mb-0" style="text-decoration:underline">Metadata</h3>
-							<ul class="list-group">
+							<table class="table table-responsive">
+								<tr>
 								<cfloop query="labels">
-									<li class="list-group-item"><span class="text-uppercase">#labels.media_label#:</span> #labels.label_value#</li>
+									<td class="list-group-item"><span class="text-uppercase">#labels.media_label#:</span> #labels.label_value#</td>
 								</cfloop>
+								</tr>
 								<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
 									from media_relations
@@ -106,13 +108,17 @@
 									</cfif>
 								</cfloop>
 								<cfif len(keywords.keywords) gt 0>
-									<li class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</li>
+								<tr>
+									<td class="list-group-item"><span class="text-uppercase">Keywords: </span> #keywords.keywords#</td>
+								</tr>
 								<cfelse>
 								</cfif>
 								<cfif listcontainsnocase(session.roles,"manage_media")>
-								<li class="list-group-item ml-2 border mt-2 p-2"><span class="text-uppercase">Alt Text: </span>#media.alttag#</li>
+								<tr>
+									<td class="list-group-item ml-2 border mt-2 p-2"><span class="text-uppercase">Alt Text: </span>#media.alttag#</td>
+								</tr>
 								</cfif>
-							</ul>
+							</table>
 						</div>
 					</div>
 				</div>
