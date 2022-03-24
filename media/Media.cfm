@@ -209,9 +209,9 @@ limitations under the License.
 											<table class="table">
 												<thead>
 													<tr class="col-12">
-														<th class="small col-3">Name</th>
-														<th class="small col-8">Value</th>
-														<th class="small">Action</th>
+														<th class="small px-1 col-3">Name</th>
+														<th class="small px-1 col-8">Value</th>
+														<th class="small px-1">Action</th>
 													</tr>
 												</thead>
 												<tbody>
