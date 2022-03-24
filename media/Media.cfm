@@ -206,7 +206,37 @@ limitations under the License.
 														<input type="hidden" name="related_id__0" id="related_id__0">
 													</div><!--- end id seedMedia --->
 												</cfif>
-												<cfloop query="relns">
+											<table>
+												<thead>
+													<tr>
+														<th>Name</th>
+														<th>Value</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<cfloop query="relns">
+															<cfset d=media_relationship>
+															<td class="">
+																<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
+																	<label for="relationship__#i#"  class="sr-only">Relationship</label>
+																	<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select float-left col-5">
+																			<option value="delete">delete</option>
+																			<cfloop query="ctmedia_relationship">
+																				<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+																			</cfloop>
+																		</select>
+																	<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-7 float-left">
+																	<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
+															</td>
+															<cfset i=i+1>
+														</cfloop>
+													</tr>
+												</tbody>
+											</table>
+											
+								<!---				<cfloop query="relns">
 													<cfset d=media_relationship>
 													<div class="form-row col-12 px-0 mx-0">
 														<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
@@ -221,7 +251,7 @@ limitations under the License.
 															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 													</div>
 													<cfset i=i+1>
-												</cfloop>
+												</cfloop>--->
 												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
 											</div><!---End id relationships--->
 										</div><!---end col-6--->
