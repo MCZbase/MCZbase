@@ -235,11 +235,11 @@ limitations under the License.
 																	</cfloop>
 																</select>
 															</td>
-															<td class="p-1 border-1">
+															<td class="p-1 border-0">
 																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input px-1">
 																<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															</td>
-															<td class="p-1 border-1">
+															<td class="p-1 border-0">
 																<button class="btn btn-danger btn-xs"> X </button>
 																<button class="btn btn-warning btn-xs">Edit</button>
 															</td>
