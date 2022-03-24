@@ -233,7 +233,7 @@ limitations under the License.
 																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input">
 																<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															</td>
-															<td><button>Remove</button></td>
+															<td><button class="btn btn-warning btn-xs">Remove</button></td>
 														</tr>
 													<cfset i=i+1>
 												</cfloop>
