@@ -239,9 +239,10 @@ limitations under the License.
 																<button class="btn btn-warning btn-xs">Edit</button>
 															</td>
 														</tr>
-														<button class="float-right text-right my-1 btn btn-xs btn-secondary" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</button>
+													
 													<cfset i=i+1>
 												</cfloop>
+												<button class="float-right text-right my-1 btn btn-xs btn-secondary" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</button>
 												</tbody>
 											</table>
 											
