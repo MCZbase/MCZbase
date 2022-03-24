@@ -215,9 +215,10 @@ limitations under the License.
 													</tr>
 												</thead>
 												<tbody>
-													<tr>
-														<cfloop query="relns">
-															<cfset d=media_relationship>
+												
+												<cfloop query="relns">
+													<cfset d=media_relationship>
+														<tr>
 															<td class="">
 																<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 																	<label for="relationship__#i#"  class="sr-only">Relationship</label>
@@ -230,9 +231,10 @@ limitations under the License.
 																	<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-7 float-left">
 																	<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															</td>
-															<cfset i=i+1>
-														</cfloop>
-													</tr>
+														</tr>
+													<cfset i=i+1>
+												</cfloop>
+													
 												</tbody>
 											</table>
 											

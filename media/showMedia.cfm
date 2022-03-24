@@ -111,7 +111,7 @@
 									</cfquery>
 									<cfloop query="relations">
 										<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
-											<cfset labellist = "<li>#mr_label#: #mr_value#</li>">
+											<cfset labellist = "<th scope='row'><span class='text-uppercase'>#mr_label#:</span></th><td> #mr_value#</td>">
 										</cfif>
 									</cfloop>
 									<cfif len(keywords.keywords) gt 0>
