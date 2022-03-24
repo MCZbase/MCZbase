@@ -242,7 +242,7 @@ limitations under the License.
 													
 													<cfset i=i+1>
 												</cfloop>
-												<button class="float-right text-right my-1 btn btn-xs btn-secondary" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</button>
+												<a class="float-right text-right my-1 btn btn-xs btn-secondary" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</a>
 												</tbody>
 											</table>
 											
