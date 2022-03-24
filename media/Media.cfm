@@ -206,7 +206,7 @@ limitations under the License.
 														<input type="hidden" name="related_id__0" id="related_id__0">
 													</div><!--- end id seedMedia --->
 												</cfif>
-											<table>
+											<table class="table">
 												<thead>
 													<tr>
 														<th class="small px-2">Name</th>
