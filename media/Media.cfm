@@ -209,9 +209,9 @@ limitations under the License.
 											<table class="table">
 												<thead>
 													<tr class="col-12">
-														<th class="small px-1 col-3">Name</th>
-														<th class="small px-1 col-8">Value</th>
-														<th class="small px-1">Action</th>
+														<th class="small text-center col-3">Name</th>
+														<th class="small text-center col-8">Value</th>
+														<th class="small text-center">Action</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -219,7 +219,7 @@ limitations under the License.
 												<cfloop query="relns">
 													<cfset d=media_relationship>
 														<tr>
-															<td class="">
+															<td class="px-1">
 																<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 																<label for="relationship__#i#"  class="sr-only">Relationship</label>
 																<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select">
@@ -229,11 +229,11 @@ limitations under the License.
 																	</cfloop>
 																</select>
 															</td>
-															<td>
-																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input">
+															<td class="px-1">
+																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input px-1">
 																<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															</td>
-															<td><button class="btn btn-warning btn-xs">Remove</button></td>
+															<td class="px-1"><button class="btn btn-warning btn-xs">Remove</button></td>
 														</tr>
 													<cfset i=i+1>
 												</cfloop>
