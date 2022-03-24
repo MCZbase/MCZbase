@@ -215,7 +215,7 @@ limitations under the License.
 														<th class="small text-center">Action</th>
 													</tr>
 												</thead>
-										<tbody>
+											<tbody>
 												
 												<cfloop query="relns">
 													<cfset d=media_relationship>
@@ -239,11 +239,12 @@ limitations under the License.
 																<button class="btn btn-warning btn-xs">Edit</button>
 															</td>
 														</tr>
-													
 													<cfset i=i+1>
 												</cfloop>
-												<a class="float-right text-right my-1 btn btn-xs btn-secondary" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</a>
 												</tbody>
+											</table>
+											<table>
+												<a class="float-right text-right my-1 btn btn-xs btn-secondary" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</a>
 											</table>
 											
 								<!---				<cfloop query="relns">
