@@ -193,18 +193,24 @@ limitations under the License.
 												<cfset i=1>
 												<cfif relns.recordcount is 0>
 													<!--- seed --->
-													<div id="seedMedia" style="display:none">
+													<table id="seedMedia" style="display:none">
 														<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 														<cfset d="">
-														<select name="relationship__0" id="relationship__0" class="data-entry-select  col-5" size="1"  onchange="pickedRelationship(this.id)">
-															<option value="delete">delete</option>
-															<cfloop query="ctmedia_relationship">
-																<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
-															</cfloop>
-														</select>
-														<input type="text" name="related_value__0" id="related_value__0" class="data-entry-inputcol-7">
-														<input type="hidden" name="related_id__0" id="related_id__0">
-													</div><!--- end id seedMedia --->
+														<tr>
+															<td>
+																<select name="relationship__0" id="relationship__0" class="data-entry-select  col-5" size="1"  onchange="pickedRelationship(this.id)">
+																<option value="delete">delete</option>
+																	<cfloop query="ctmedia_relationship">
+																		<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+																	</cfloop>
+																</select>
+															</td>
+															<td>
+																<input type="text" name="related_value__0" id="related_value__0" class="data-entry-inputcol-7">
+																<input type="hidden" name="related_id__0" id="related_id__0">
+															</td>
+														</tr>
+													</table><!--- end id seedMedia --->
 												</cfif>
 											<table class="table">
 												<thead>
@@ -233,7 +239,7 @@ limitations under the License.
 																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input px-1">
 																<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															</td>
-															<td class="px-1"><button class="btn btn-warning btn-xs">Remove</button></td>
+															<td class="px-1"><button class="btn btn-danger btn-xs">Remove</button><button class="btn btn-warning btn-xs">Remove</button></td>
 														</tr>
 													<cfset i=i+1>
 												</cfloop>
