@@ -208,10 +208,10 @@ limitations under the License.
 												</cfif>
 											<table class="table">
 												<thead>
-													<tr>
-														<th class="small px-2">Name</th>
-														<th class="small px-2">Value</th>
-														<th class="small px-2">Action</th>
+													<tr class="col-12">
+														<th class="small col-3">Name</th>
+														<th class="small col-8">Value</th>
+														<th class="small">Action</th>
 													</tr>
 												</thead>
 												<tbody>
