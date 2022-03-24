@@ -240,7 +240,7 @@ limitations under the License.
 																<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															</td>
 															<td class="px-1">
-																<button class="btn btn-danger btn-xs"> - </button>
+																<button class="btn btn-danger btn-xs"> X </button>
 																<button class="btn btn-warning btn-xs">Edit</button>
 															</td>
 														</tr>
