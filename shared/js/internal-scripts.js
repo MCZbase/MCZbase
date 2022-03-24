@@ -272,6 +272,7 @@ function addRelationTo (n,targetId) {
 	nDiv.appendChild(c);
 
 	var n1=n-1;
+	var nDiv = document.createElement('td');
 	var inpName='related_value__' + n1;
 	var nInp = document.getElementById(inpName).cloneNode(true);
 	nInp.name="related_value__" + n;
