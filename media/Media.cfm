@@ -265,7 +265,7 @@ limitations under the License.
 													</div>
 													<cfset i=i+1>
 												</cfloop>--->
-												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
+												<button class="col-12 text-right my-1 btn btn-xs btn-secondary" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</button>
 											</div><!---End id relationships--->
 										</div><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
