@@ -216,7 +216,7 @@ limitations under the License.
 												<thead>
 													<tr class="col-12">
 														<th class="small text-center col-3">Name</th>
-														<th class="small text-center col-8">Value</th>
+														<th class="small text-center col-7">Value</th>
 														<th class="small text-center">Action</th>
 													</tr>
 												</thead>
@@ -239,7 +239,10 @@ limitations under the License.
 																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input px-1">
 																<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															</td>
-															<td class="px-1"><button class="btn btn-danger btn-xs">Remove</button><button class="btn btn-warning btn-xs">Remove</button></td>
+															<td class="px-1">
+																<button class="btn btn-danger btn-xs"> - </button>
+																<button class="btn btn-warning btn-xs">Edit</button>
+															</td>
 														</tr>
 													<cfset i=i+1>
 												</cfloop>
