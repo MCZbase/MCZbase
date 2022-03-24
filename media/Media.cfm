@@ -72,11 +72,6 @@ limitations under the License.
 				media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
-		<cfquery name="tag"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select count(*) c 
-			from tag 
-			where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		</cfquery>
 		<cfset relns=getMediaRelations(#media_id#)>
 		<cfoutput>
 			<div class="container-fluid container-xl">
@@ -244,6 +239,7 @@ limitations under the License.
 																<button class="btn btn-warning btn-xs">Edit</button>
 															</td>
 														</tr>
+														<button class="float-right text-right my-1 btn btn-xs btn-secondary" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</button>
 													<cfset i=i+1>
 												</cfloop>
 												</tbody>
@@ -265,7 +261,7 @@ limitations under the License.
 													</div>
 													<cfset i=i+1>
 												</cfloop>--->
-												<button class="float-right text-right my-1 btn btn-xs btn-secondary" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</button>
+									
 											</div><!---End id relationships--->
 										</div><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
