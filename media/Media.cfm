@@ -197,15 +197,16 @@ limitations under the License.
 														loadRelationships(#getRelations.media_id#,'relationshipsDiv');
 													});
 												</script>
-
-												<label for="media_relations" class="data-entry-label float-left mt-2">Add New Relationship</label>
-												<select name="media_relations" id="new_media_relationship" size="1" class="data-entry-select my-1">
-													<cfloop query="ctmedia_relationship">
-														<option value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
-													</cfloop>
-												</select>
-												<input type="button" value="Add" class="btn btn-xs btn-secondary text-center" onclick="newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipsDiv');">
-												<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-7">
+												<div class="col-12">
+													<label for="media_relations" class="data-entry-label float-left mt-2">Add New Relationship</label>
+													<select name="media_relations" id="new_media_relationship" size="1" class="data-entry-select col-3 my-1">
+														<cfloop query="ctmedia_relationship">
+															<option value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
+														</cfloop>
+													</select>
+													<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-7">
+													<input type="button" value="Add" class="btn btn-xs btn-secondary text-center" onclick="newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipsDiv');">
+												</div>
 											</section>
 
 											<div id="relationships">
