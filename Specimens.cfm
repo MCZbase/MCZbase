@@ -1688,7 +1688,7 @@ limitations under the License.
 					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") >
 						<!--- manage temporaraly only visible for global admin --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank">Manage</a>');
+							$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
 						<cfelse>
 							$('##fixedmanageButton').html('');
 						</cfif>
@@ -1861,7 +1861,7 @@ limitations under the License.
 					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") >
 						<!--- manage temporaraly only visible for global admin --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'" target="_blank">Manage</a>');
+							$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
 						<cfelse>
 							$('##keywordmanageButton').html('');
 						</cfif>
@@ -2030,7 +2030,7 @@ limitations under the License.
 					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") >
 						<!--- manage temporaraly only visible for global admin --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'" target="_blank">Manage</a>');
+							$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
 						<cfelse>
 							$('##buildermanageButton').html('');
 						</cfif>
