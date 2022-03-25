@@ -256,10 +256,18 @@ function addRelation (n) {
   */
 function addRelationTo (n,targetId) {
 	var pDiv=document.getElementById(targetId);
-	var nDiv = document.createElement('tr');
+	var nDiv = document.createElement('table');
 	nDiv.id='relationshipDiv__' + n;
 	pDiv.appendChild(nDiv);
 	var n1=n-1;
+	
+	var tdName='relationship__' + n1;
+	var nTD = document.getElementById(tdName).cloneNode(true);
+	nTD.name="relationship__" + n;
+	nTD.id="relationship__" + n;
+	nTD.value='';
+	nTD.appendChild(nTD);
+	
 	var selName='relationship__' + n1;
 	var nSel = document.getElementById(selName).cloneNode(true);
 	nSel.name="relationship__" + n;
