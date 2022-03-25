@@ -187,9 +187,9 @@ limitations under the License.
 									<div class="row mt-3">
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pr-lg-2 float-left">
 											<h2>
-												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold">Media Relationships | <span class="text-dark font-weight-normal" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
+												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold">Media Relationships | <span class="text-dark font-weight-normal" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
 											</h2>
-											<p>Click the buttons to create and delete row(s) for the table.</p>
+											<p></p>
 											<section>
 												<div id="relationshipsDiv">Loading....</div>
 												<script>
@@ -205,7 +205,7 @@ limitations under the License.
 																<option value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
 															</cfloop>
 														</select>
-														<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input float-left col-7 my-1">
+														<input type="text" name="related_value__i" id="related_value__0" value=" " class="data-entry-input float-left col-7 my-1">
 														<input type="button" value="Add" class="btn btn-xs btn-secondary float-left my-1" onclick="newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipsDiv');">
 													</div>
 												</div>
