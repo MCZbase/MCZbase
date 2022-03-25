@@ -217,7 +217,7 @@
 						FROM collector 
 						WHERE
 							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getObjects.collection_object_id#">
-							collector_role='p'
+							and collector_role='p'
 					</cfquery>
 					<cfquery name="insOne" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						insert into collector (
