@@ -59,6 +59,7 @@ limitations under the License.
 			from media
 			where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
+
 		<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				media_label,
@@ -194,7 +195,7 @@ limitations under the License.
 													<div id="relationshipsDiv">Loading....</div>
 													<script>
 														$(document).ready(function(){
-															loadRelationships(#getRelationships.media_relations_id#,'relationshipsDiv');
+															loadRelationships(#getMediaRelations.media_id#,'relationshipsDiv');
 														});
 													</script>
 													<label for="media_relations" class="data-entry-label float-left mt-2">Add New Relationship</label>
