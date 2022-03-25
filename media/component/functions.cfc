@@ -284,7 +284,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 @return a block of html listing habitats, if any, with edit/delete controls.
 --->
 <cffunction name="getRelationshipsHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="media_relations_id" type="numeric" required="yes">
+	<cfargument name="media_id" type="numeric" required="yes">
 	<cfargument name="target" type="string" required="yes">
 	<cfthread name="getRelationshipsHtmlThread">
 		<cftry>
@@ -296,10 +296,10 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 			<cfoutput>
 				<cfset i=1>
 				<cfif media_relations.recordcount gt 0>
-					<cfloop query="habitat">
+					<cfloop query="media_relations">
 						<ul class="mx-0 px-4 my-2 list-style-disc"><li class="mx-0 mb-1">
 							<label id="label_media_relations_#i#" value="#media_relationship#" class="w-50 float-left border-white px-2">#media_relationship#</label>
-							<button value="Remove" class="btn btn-xs btn-warning ml-1 mb-1 float-left" onClick=" confirmDialog('Remove <b>#media_relationship#</b> relationship entry from this media record?','Remove relationship?', function() { deleteRelationship(#taxon_habitat_id#,#taxon_name_id#,'#target#'); } ); " 
+							<button value="Remove" class="btn btn-xs btn-warning ml-1 mb-1 float-left" onClick=" confirmDialog('Remove <b>#media_relationship#</b> relationship entry from this media record?','Remove relationship?', function() { deleteRelationship(#media_relations_id#,#media_id#,'#target#'); } ); " 
 								id="relationshipDeleteButton_#i#">Remove</button>
 							</li>
 						</ul>
