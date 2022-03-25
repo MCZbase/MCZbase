@@ -59,7 +59,7 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller" id="agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input name="name" id="name" class="reqdClr form-control form-control-sm data-entry-input rounded-right" value="" aria-label="Agent to use as the collector or preparator." >
+									<input name="name" id="name" class="reqdClr form-control form-control-sm data-entry-input rounded-right" value="" aria-label="Agent to use as the collector or preparator." required >
 									<input type="hidden" name="agent_id" id="agent_id" value="" >
 								</div>
 								<script>
@@ -70,7 +70,7 @@
 							</div>
 							<div class="col-12 col-md-4 col-lg-3">
 								<label for="collector_role" class="data-entry-label">Role</label>		
-	      					<select name="collector_role" id="collector_role" size="1"  class="reqdClr data-entry-select">
+	      					<select name="collector_role" id="collector_role" size="1"  class="reqdClr data-entry-select" required>
 									<option value="c">collector</option>
 									<option value="p">preparator</option>
 								</select>
