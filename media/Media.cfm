@@ -202,13 +202,13 @@ limitations under the License.
 														});
 													</script>
 													<label for="media_relations" class="data-entry-label float-left mt-2">Add New Relationship</label>
-													<select name="media_relations" id="new_media_relations" size="1" class="data-entry-select my-1 w-75 float-left">
+													<select name="media_relations" id="new_media_relationship" size="1" class="data-entry-select my-1 w-75 float-left">
 														<cfloop query="ctmedia_relationship">
 															<option value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
 														</cfloop>
 													</select>
 													<input type="button" value="Add" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
-														onclick=" newRelationship(#getMedia.taxon_name_id#,$('##new_taxon_habitat').val(),'relationsDiv'); "
+														onclick=" newRelationship(#getMedia.media_id#,$('##new_media_relationship').val(),'relationsDiv'); "
 														>
 												</div>
 											</section>
