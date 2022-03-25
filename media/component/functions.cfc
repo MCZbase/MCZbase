@@ -310,8 +310,10 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 							<label id="label_media_relations_#i#" value="#media_relationship#" class="">#media_relationship#</label>
 							</td>
 							<td>value to come</td>
-							<td class="text-center"><button value="Remove" class="btn btn-xs btn-warning pr-1" onClick=" confirmDialog('Remove <b>#media_relationship#</b> relationship entry from this media record?','Remove relationship?', function() { deleteRelationship(#media_relations_id#,#media_id#,'#target#'); } ); " 
-								id="relationshipDeleteButton_#i#">Remove</button><button class="btn btn-xs btn-secondary pl-1">Edit</button></td>
+							<td class="text-center">
+								<button value="Remove" class="btn btn-xs btn-warning mr-1" onClick=" confirmDialog('Remove <b>#media_relationship#</b> relationship entry from this media record?','Remove relationship?', function() { deleteRelationship(#media_relations_id#,#media_id#,'#target#'); } ); " 
+								id="relationshipDeleteButton_#i#">Remove</button>
+								<button class="btn btn-xs btn-secondary ml-1">Edit</button></td>
 						</tr>
 						<cfset i=i+1>
 					</cfloop>
