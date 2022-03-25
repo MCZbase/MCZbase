@@ -237,7 +237,7 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
  *   to reload, without a leading # selector.
  */
 function newCommon(taxon_name_id,common_name,target) {
-	jQuery.getJSON("/taxonomy/component/functions.cfc",
+	jQuery.getJSON("/media/component/functions.cfc",
 		{
 			method : "newCommon",
 			common_name : common_name,
@@ -264,7 +264,7 @@ function newCommon(taxon_name_id,common_name,target) {
  *   to reload, without a leading # selector.
  */
 function deleteCommonName(common_name_id,taxon_name_id,target) {
-	jQuery.getJSON("/taxonomy/component/functions.cfc",
+	jQuery.getJSON("/media/component/functions.cfc",
 		{
 			method : "deleteCommon",
 			common_name_id: common_name_id,
@@ -280,7 +280,7 @@ function deleteCommonName(common_name_id,taxon_name_id,target) {
 };
 
 function saveCommon(common_name_id, common_name, taxon_name_id, target) {
-	jQuery.getJSON("/taxonomy/component/functions.cfc",
+	jQuery.getJSON("/media/component/functions.cfc",
 		{
 			method : "saveCommon",
 			common_name : common_name,
