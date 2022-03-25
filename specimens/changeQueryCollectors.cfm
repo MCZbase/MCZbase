@@ -182,6 +182,11 @@
 							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getObjects.collection_object_id#">
 							and collector_role='c'
 					</cfquery>
+					<cfif max.recordcount EQ 0>
+						<cfset newM = 1>
+					<cfelse>
+						<cfset newM = max.m>
+					</cfif>
 					<!--- insert collector in next position --->
 					<cfquery name="insOne" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						insert into collector (
@@ -193,7 +198,7 @@
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getObjects.collection_object_id#">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
 							'c',
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#max.m#">
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newM#">
 						)
 					</cfquery>
 				</cfloop>
@@ -219,6 +224,11 @@
 							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getObjects.collection_object_id#">
 							and collector_role='p'
 					</cfquery>
+					<cfif max.recordcount EQ 0>
+						<cfset newM = 1>
+					<cfelse>
+						<cfset newM = max.m>
+					</cfif>
 					<cfquery name="insOne" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						insert into collector (
 							collection_object_id,
@@ -229,7 +239,7 @@
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getObjects.collection_object_id#">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
 							'p',
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#max.m#">
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newM#">
 						)
 					</cfquery>
 				</cfloop>
