@@ -226,6 +226,7 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 	}
 
 }
+
 function loadCommonNames(taxon_name_id,target) { 
    jQuery.ajax({
       url: "/media/component/functions.cfc",
@@ -243,6 +244,7 @@ function loadCommonNames(taxon_name_id,target) {
       dataType: "html"
    });
 }
+
 /**
  * newCommon, given a taxon and text string for a common name of the taxon
  * link the common name and reload the list of common names for the taxon.
