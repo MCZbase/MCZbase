@@ -200,7 +200,7 @@ limitations under the License.
 															newCommon(#getTaxa.taxon_name_id#,$('##new_common_name').val(),'commonNamesDiv'); 
 														};
 													</script>
-													<cfset commonBit = getCommonHtml(taxon_name_id="#getTaxa.taxon_name_id#",target="commonNamesDiv")>
+													<cfset commonBit = getCommonHtml(taxon_name_id="7319",target="commonNamesDiv")>
 													<div id="commonNamesDiv">#commonBit#</div>
 													<label for="new_common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
 													<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75" id="new_common_name">
