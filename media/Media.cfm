@@ -190,29 +190,23 @@ limitations under the License.
 												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold">Media Relationships | <span class="text-dark font-weight-normal" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
 											</h2>
 											<p>Click the buttons to create and delete row(s) for the table.</p>
+											<section>
+												<div id="relationshipsDiv">Loading....</div>
+												<script>
+													$(document).ready(function(){
+														loadRelationships(#getRelations.media_id#,'relationshipsDiv');
+													});
+												</script>
 
-											<section class="mt-2 float-left col-12 col-md-6 pl-md-1 pl-0 pr-0">
-			
-													<div id="relationshipsDiv">Loading....</div>
-													<script>
-														$(document).ready(function(){
-															loadRelationships(#getRelations.media_id#,'relationshipsDiv');
-														});
-													</script>
-													
-													<label for="media_relations" class="data-entry-label float-left mt-2">Add New Relationship</label>
-													<select name="media_relations" id="new_media_relationship" size="1" class="data-entry-select my-1 w-75 float-left">
-														<cfloop query="ctmedia_relationship">
-															<option value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
-														</cfloop>
-													</select>
-													<input type="button" value="Add" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
-														onclick=" newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipsDiv'); "
-														>
-									
+												<label for="media_relations" class="data-entry-label float-left mt-2">Add New Relationship</label>
+												<select name="media_relations" id="new_media_relationship" size="1" class="data-entry-select my-1">
+													<cfloop query="ctmedia_relationship">
+														<option value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
+													</cfloop>
+												</select>
+												<input type="button" value="Add" class="btn btn-xs btn-secondary text-center" onclick="newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipsDiv');">
 											</section>
-											
-											
+
 											<div id="relationships">
 												<cfset i=1>
 												<cfif relns.recordcount is 0>
