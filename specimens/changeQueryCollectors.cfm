@@ -39,7 +39,7 @@
 	<main class="container" id="content">
 		<section class="row" aria-labelledby="formheading">
 			<div class="col-12">
-				<h2 class="h3 pl-3 ml-2" id="formheading" >
+				<h2 class="h3" id="formheading" >
 					Add/Remove collectors for all specimens listed below
 				</h2>
 				<div>
@@ -52,7 +52,7 @@
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4 col-lg-3">
 								<span>
-									<label for="name" class="data-entry-label w-auto">Agent Name</label>
+									<label for="name" class="data-entry-label w-auto d-inline">Agent Name</label>
 									<span id="agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
 								<div class="input-group">
@@ -299,7 +299,7 @@
 							coll_order=coll_order -1
 						where	 
 							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getObjects.collection_object_id#"> and
-							coll_order > <cfqueryparam cfsqltype="CF_SQL_dECIMAL" value="#max.coll_order#">
+							coll_order > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#max.coll_order#">
 					</cfquery>
 				</cfif>
 			</cfloop>
