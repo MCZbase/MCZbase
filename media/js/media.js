@@ -227,3 +227,71 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 
 }
 
+/**
+ * newCommon, given a taxon and text string for a common name of the taxon
+ * link the common name and reload the list of common names for the taxon.
+ * 
+ * @param taxon_name_id the primary key for the taxon record to which to add the common name.
+ * @param common_name the text string to add to the taxon as a common name.
+ * @param target the id of the target div containing the list of common names 
+ *   to reload, without a leading # selector.
+ */
+function newCommon(taxon_name_id,common_name,target) {
+	jQuery.getJSON("/taxonomy/component/functions.cfc",
+		{
+			method : "newCommon",
+			common_name : common_name,
+			taxon_name_id : taxon_name_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadCommonNames(taxon_name_id,target);
+			$('#new_common_name').val("");
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"adding common name to taxon");
+	});
+};
+
+/**
+ * deleteCommonName, given common name record for a taxon delete the common name
+ * record and reload the list of common names for the taxon.
+ * 
+ * @param common_name_id the primary key value for the common name to delete.
+ * @param taxon_name_id the primary key for the taxon record for the common name.
+ * @param target the id of the target div containing the list of common names 
+ *   to reload, without a leading # selector.
+ */
+function deleteCommonName(common_name_id,taxon_name_id,target) {
+	jQuery.getJSON("/taxonomy/component/functions.cfc",
+		{
+			method : "deleteCommon",
+			common_name_id: common_name_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadCommonNames(taxon_name_id,target);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"removing common name from taxon");
+	});
+};
+
+function saveCommon(common_name_id, common_name, taxon_name_id, target) {
+	jQuery.getJSON("/taxonomy/component/functions.cfc",
+		{
+			method : "saveCommon",
+			common_name : common_name,
+			common_name_id : common_name_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadCommonNames(taxon_name_id,target);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"saving changes to common name of taxon");
+	});
+};
