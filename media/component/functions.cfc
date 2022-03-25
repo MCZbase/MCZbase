@@ -297,16 +297,17 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				<cfset i=1>
 				<cfif media_relations.recordcount gt 0>
 					<cfloop query="media_relations">
-						<ul class="mx-0 px-4 my-2 list-style-disc"><li class="mx-0 mb-1">
+						<tr class="mx-0 px-4 my-2 list-style-disc"><td class="mx-0 mb-1">
 							<label id="label_media_relations_#i#" value="#media_relationship#" class="w-50 float-left border-white px-2">#media_relationship#</label>
 							<button value="Remove" class="btn btn-xs btn-warning ml-1 mb-1 float-left" onClick=" confirmDialog('Remove <b>#media_relationship#</b> relationship entry from this media record?','Remove relationship?', function() { deleteRelationship(#media_relations_id#,#media_id#,'#target#'); } ); " 
 								id="relationshipDeleteButton_#i#">Remove</button>
-							</li>
-						</ul>
+							</td>
+							<td>value to come</td>
+						</tr>
 						<cfset i=i+1>
 					</cfloop>
 				<cfelse>
-					<ul class="px-4 list-style-disc"><li>No Relationships Entered</li></ul>
+					<tr class="px-4 list-style-disc"><td>No Relationships Entered</td></tr>
 				</cfif>
 			</cfoutput>
 		<cfcatch>

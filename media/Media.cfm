@@ -192,15 +192,22 @@ limitations under the License.
 											<p>Click the buttons to create and delete row(s) for the table.</p>
 
 											<section class="mt-2 float-left col-12 col-md-6 pl-md-1 pl-0 pr-0">
-												<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
-
-													<h2 class="h3 mt-0">Media Relationships</h2>
-													<div id="relationshipsDiv">Loading....</div>
+												<table class="table float-left pl-3 py-3 w-100 rounded">
+													<thead>
+														<tr class="col-12">
+															<th class="small text-center col-3">Name</th>
+															<th class="small text-center col-7">Value</th>
+															<th class="small text-center">Action</th>
+														</tr>
+													</thead>
+													<tbody>
+													<table id="relationshipsDiv">Loading....</table>
 													<script>
 														$(document).ready(function(){
 															loadRelationships(#getRelations.media_id#,'relationshipsDiv');
 														});
 													</script>
+													
 													<label for="media_relations" class="data-entry-label float-left mt-2">Add New Relationship</label>
 													<select name="media_relations" id="new_media_relationship" size="1" class="data-entry-select my-1 w-75 float-left">
 														<cfloop query="ctmedia_relationship">
@@ -210,7 +217,8 @@ limitations under the License.
 													<input type="button" value="Add" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
 														onclick=" newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipDiv'); "
 														>
-												</div>
+													</tbody>
+												</table>
 											</section>
 											
 											
