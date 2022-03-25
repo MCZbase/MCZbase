@@ -72,6 +72,9 @@ limitations under the License.
 				media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
+	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="7319">
+	</cfquery>
 		<cfset relns=getMediaRelations(#media_id#)>
 		<cfoutput>
 			<div class="container-fluid container-xl">
@@ -176,6 +179,7 @@ limitations under the License.
 								</div>
 							</form>
 							<form>
+
 								<div class="col-12 col-md-12 px-0 float-left">
 									<!---col-12 (mime type, media type, license, visibility)--->
 									<div class="col-12 float-left">
