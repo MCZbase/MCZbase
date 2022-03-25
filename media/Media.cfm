@@ -250,7 +250,6 @@ limitations under the License.
 												<a class="float-right text-right my-1 btn btn-xs btn-secondary" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</a>
 												</tbody>
 											</table>
-											<table>
 
 											
 								<!---				<cfloop query="relns">
