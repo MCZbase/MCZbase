@@ -205,16 +205,16 @@ limitations under the License.
 															<option value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
 														</cfloop>
 													</select>
-													<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input float-left col-7">
-													<input type="button" value="Add" class="btn btn-xs btn-secondary float-left" onclick="newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipsDiv');">
+													<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input float-left col-7 my-1">
+													<input type="button" value="Add" class="btn btn-xs btn-secondary float-left my-1" onclick="newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipsDiv');">
 												</div></div>
 											</section>
 
-											<div id="relationships">
+<!---											<div id="relationships">
 												<cfset i=1>
-												<cfif relns.recordcount is 0>
+												<cfif relns.recordcount is 0>--->
 													<!--- seed --->
-													<table id="seedMedia" style="display:none">
+													<!---<table id="seedMedia" style="display:none">
 														<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 														<cfset d="">
 														<tr>
@@ -230,8 +230,8 @@ limitations under the License.
 																<input type="hidden" name="related_id__0" id="related_id__0">
 															</td>
 														</tr>
-													</table><!--- end id seedMedia --->
-												</cfif>
+													</table>---><!--- end id seedMedia --->
+<!---												</cfif>
 											
 											
 											<table class="table">
@@ -242,9 +242,9 @@ limitations under the License.
 														<th class="small text-center">Action</th>
 													</tr>
 												</thead>
-											<tbody>
+											<tbody>--->
 													
-												<cfloop query="relns">
+<!---												<cfloop query="relns">
 													<cfset d=media_relationship>
 														<tr>
 															<td class="p-1">
@@ -270,7 +270,7 @@ limitations under the License.
 												</cfloop>
 												
 												</tbody>
-											</table>
+											</table>--->
 
 											
 								<!---				<cfloop query="relns">
