@@ -209,7 +209,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 <cffunction name="getCommonHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="target" type="string" required="yes">
 	
-	<cfset taxon_name_id = 7319>
+	<cfset taxon_name_id = 7319 >
 	<cfset localtarget = arguments.target>
 	<cfthread name="getCommonHtmlThread">
 		<cftry>
