@@ -299,7 +299,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				<table class="table float-left pl-3 py-3 w-100 rounded">
 					<thead>
 						<tr class="col-12">
-							<th class="small text-center col-3">Name</th>
+							<th class="small text-center col-2">Name</th>
 							<th class="small text-center col-7">Value</th>
 							<th class="small text-center">Action</th>
 						</tr>
@@ -311,9 +311,9 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 							</td>
 							<td>value to come</td>
 							<td class="text-center">
-								<button value="Remove" class="btn btn-xs btn-warning mr-1" onClick=" confirmDialog('Remove <b>#media_relationship#</b> relationship entry from this media record?','Remove relationship?', function() { deleteRelationship(#media_relations_id#,#media_id#,'#target#'); } ); " 
+								<button value="Remove" class="btn btn-xs float-left btn-warning mr-1" onClick=" confirmDialog('Remove <b>#media_relationship#</b> relationship entry from this media record?','Remove relationship?', function() { deleteRelationship(#media_relations_id#,#media_id#,'#target#'); } ); " 
 								id="relationshipDeleteButton_#i#">Remove</button>
-								<button class="btn btn-xs btn-secondary ml-1">Edit</button></td>
+								<button class="btn btn-xs btn-secondary float-left ml-1">Edit</button></td>
 						</tr>
 						<cfset i=i+1>
 					</cfloop>
