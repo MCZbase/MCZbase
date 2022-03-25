@@ -309,7 +309,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 						<tr class="mx-0 px-4 my-2 list-style-disc"><td class="mx-0 mb-1">
 							<label id="label_media_relations_#i#" value="#media_relationship#" class="">#media_relationship#</label>
 							</td>
-							<td>value to come</td>
+							<td>#media_relation#</td>
 							<td class="text-center">
 								<button value="Remove" class="btn btn-xs float-left btn-warning" onClick=" confirmDialog('Remove <b>#media_relationship#</b> relationship entry from this media record?','Remove relationship?', function() { deleteRelationship(#media_relations_id#,#media_id#,'#target#'); } ); " 
 								id="relationshipDeleteButton_#i#">Remove</button>
