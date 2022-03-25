@@ -299,9 +299,9 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				<table class="table float-left pl-3 py-3 w-100 rounded">
 					<thead>
 						<tr class="col-12">
-							<th class="small text-center col-3">Name</th>
+							<th class="small text-center" style="width: 152px;">Name</th>
 							<th class="small text-center col-7">Value</th>
-							<th class="small text-center">Action</th>
+							<th class="small text-center" style="width: 150px;">Action</th>
 						</tr>
 					</thead>
 					<tbody>
