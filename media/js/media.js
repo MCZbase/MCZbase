@@ -226,7 +226,23 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 	}
 
 }
-
+function loadCommonNames(taxon_name_id,target) { 
+   jQuery.ajax({
+      url: "/media/component/functions.cfc",
+      data : {
+         method : "getCommonHtml",
+         taxon_name_id: taxon_name_id,
+         target: target
+      },
+      success: function (result) {
+         $("#" + target).html(result);
+      },
+      error: function (jqXHR, textStatus, message) {
+			handleFail(jqXHR,textStatus,message,"loading common names for taxon");
+      },
+      dataType: "html"
+   });
+}
 /**
  * newCommon, given a taxon and text string for a common name of the taxon
  * link the common name and reload the list of common names for the taxon.
