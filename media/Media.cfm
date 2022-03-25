@@ -290,8 +290,8 @@ limitations under the License.
 													<cfset i=i+1>
 												</cfloop>--->
 									
-											</div><!---End id relationships--->
-										</div><!---end col-6--->
+							<!---				</div>
+										</div>---><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
 											<h2>
 												<label for="labels" class="h2 mb-1 mt-2 px-1 data-entry-label font-weight-bold">Media Labels  | <span class="font-weight-normal text-dark">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
