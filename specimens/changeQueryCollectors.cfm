@@ -77,8 +77,8 @@
 							</div>
 							<div class="col-12 col-md-4 col-lg-3">
 								<label for="coll_order" class="data-entry-label">Order</label>
-								<select name="coll_order" id="coll_order" size="1" class="reqdClr data-entry-select">
-									<option value="first">First</option>
+								<select name="coll_order" id="coll_order" size="1" class="data-entry-select">
+									<option value="first" selected >First</option>
 									<option value="last">Last</option>
 								</select>
 							</div>
@@ -182,7 +182,7 @@
 							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getObjects.collection_object_id#">
 							and collector_role='c'
 					</cfquery>
-					<cfif max.recordcount EQ 0>
+					<cfif max.recordcount EQ 0 or max.m EQ ''>
 						<cfset newM = 1>
 					<cfelse>
 						<cfset newM = max.m>
