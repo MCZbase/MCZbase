@@ -203,7 +203,7 @@ limitations under the License.
 													</script>
 													<label for="media_relations" class="data-entry-label float-left mt-2">Add New Relationship</label>
 													<select name="media_relations" id="new_media_relations" size="1" class="data-entry-select my-1 w-75 float-left">
-														<cfloop query="ctmedia_relations">
+														<cfloop query="ctmedia_relationship">
 															<option value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
 														</cfloop>
 													</select>
