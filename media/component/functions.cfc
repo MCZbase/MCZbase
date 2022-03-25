@@ -205,31 +205,31 @@ Given a habitat and a taxon_name_id, add a row from the taxon_habitat table.
 @param taxon_name_id the PK of the taxon name for which to add the matching common name.
 @return a json structure the status and the id of the new taxon_habitat row.
 --->
-<cffunction name="newHabitat" access="remote" returntype="any" returnformat="json">
-	<cfargument name="taxon_habitat" type="string" required="yes">
-	<cfargument name="taxon_name_id" type="numeric" required="yes">
+<cffunction name="newRelationship" access="remote" returntype="any" returnformat="json">
+	<cfargument name="media_relationship" type="string" required="yes">
+	<cfargument name="media_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="newHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newHabitat_result">
-				INSERT INTO taxon_habitat 
-					(taxon_habitat, taxon_name_id)
+			<cfquery name="newRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newRelationship_result">
+				INSERT INTO media_relations 
+					(media_relationship, media_id)
 				VALUES 
-					(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_habitat#">, 
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">)
+					(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship#">, 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">)
 			</cfquery>
-			<cfif newHabitat_result.recordcount eq 1>
+			<cfif newRelationship_result.recordcount eq 1>
 				<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
-					select taxon_habitat_id from taxon_habitat
-					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newHabitat_result.GENERATEDKEY#">
+					select media_relations_id from media_relations
+					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newRelationship_result.GENERATEDKEY#">
 				</cfquery>
 			<cfelse>
 				<cftransaction action="rollback">
-				<cfthrow message="Other than one row (#newHabitat_result.recordcount#) would be added, insert canceled and rolled back">
+				<cfthrow message="Other than one row (#newRelationship_result.recordcount#) would be added, insert canceled and rolled back">
 			</cfif>
 		</cftransaction>
 		<cfset row = StructNew()>
 		<cfset row["status"] = "added">
-		<cfset row["id"] = "#savePK.taxon_habitat_id#">
+		<cfset row["id"] = "#savePK.media_relations_id#">
 		<cfset data[1] = row>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
@@ -247,19 +247,19 @@ Given a taxon_habitat_id, delete the matching row from the taxon_habitat table.
 @param taxon_habitat_id the PK value for the row to remove from the taxon_habitat table.
 @return a data structure with status or an http 400 status.
 --->
-<cffunction name="deleteHabitat" access="remote" returntype="any" returnformat="json">
-	<cfargument name="taxon_habitat_id" type="numeric" required="yes">
+<cffunction name="deleteRelationship" access="remote" returntype="any" returnformat="json">
+	<cfargument name="media_relations_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="deleteHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteHabitat_result">
+			<cfquery name="deleteRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteHabitat_result">
 				DELETE FROM
-					taxon_habitat
+					media_relations
 				WHERE
-					taxon_habitat_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_habitat_id#">
+					media_relations_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relations_id#">
 			</cfquery>
 			<cfif deleteHabitat_result.recordcount NEQ 1>
 				<cftransaction action="rollback"/>
-				<cfthrow message="Other than one row (#deleteHabitat_result.recordcount#) would be deleted.  Delete canceled and rolled back">
+				<cfthrow message="Other than one row (#deleteRelationship_result.recordcount#) would be deleted.  Delete canceled and rolled back">
 			</cfif>
 		</cftransaction>
 		<cfset row = StructNew()>
@@ -283,30 +283,30 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
   into which the result is to be placed, used to specify target for reload after successful save.
 @return a block of html listing habitats, if any, with edit/delete controls.
 --->
-<cffunction name="getHabitatsHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="taxon_name_id" type="numeric" required="yes">
+<cffunction name="getRelationshipsHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="media_relations_id" type="numeric" required="yes">
 	<cfargument name="target" type="string" required="yes">
-	<cfthread name="getHabitatsHtmlThread">
+	<cfthread name="getRelationshipsHtmlThread">
 		<cftry>
-			<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select taxon_habitat, taxon_habitat_id
-				from taxon_habitat 
-				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+			<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select media_relationship, media_relations_id
+				from media_relations 
+				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 			<cfoutput>
 				<cfset i=1>
-				<cfif habitat.recordcount gt 0>
+				<cfif media_relations.recordcount gt 0>
 					<cfloop query="habitat">
 						<ul class="mx-0 px-4 my-2 list-style-disc"><li class="mx-0 mb-1">
-							<label id="label_taxon_habitat_#i#" value="#taxon_habitat#" class="w-50 float-left border-white px-2">#taxon_habitat#</label>
-							<button value="Remove" class="btn btn-xs btn-warning ml-1 mb-1 float-left" onClick=" confirmDialog('Remove <b>#taxon_habitat#</b> habitat entry from this taxon?','Remove Habitat?', function() { deleteHabitat(#taxon_habitat_id#,#taxon_name_id#,'#target#'); } ); " 
-								id="habitatDeleteButton_#i#">Remove</button>
+							<label id="label_media_relations_#i#" value="#media_relationship#" class="w-50 float-left border-white px-2">#media_relationship#</label>
+							<button value="Remove" class="btn btn-xs btn-warning ml-1 mb-1 float-left" onClick=" confirmDialog('Remove <b>#media_relationship#</b> relationship entry from this media record?','Remove relationship?', function() { deleteRelationship(#taxon_habitat_id#,#taxon_name_id#,'#target#'); } ); " 
+								id="relationshipDeleteButton_#i#">Remove</button>
 							</li>
 						</ul>
 						<cfset i=i+1>
 					</cfloop>
 				<cfelse>
-					<ul class="px-4 list-style-disc"><li>No Habitats Entered</li></ul>
+					<ul class="px-4 list-style-disc"><li>No Relationships Entered</li></ul>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
@@ -318,8 +318,8 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getHabitatsHtmlThread" />
-	<cfreturn getHabitatsHtmlThread.output>
+	<cfthread action="join" name="getRelationshipsHtmlThread" />
+	<cfreturn getRelationshipsHtmlThread.output>
 </cffunction>
 
 </cfcomponent>

@@ -72,9 +72,6 @@ limitations under the License.
 				media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
-	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from taxonomy where taxon_name_id='7319'
-	</cfquery>
 		<cfset relns=getMediaRelations(#media_id#)>
 		<cfoutput>
 			<div class="container-fluid container-xl">
@@ -192,30 +189,22 @@ limitations under the License.
 
 											<section class="mt-2 float-left col-12 col-md-6 pl-md-1 pl-0 pr-0">
 												<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
-													<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select taxon_habitat 
-														from taxon_habitat 
-														where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-													</cfquery>
 
-													<cfset usedHabitats = valueList(habitat.taxon_habitat)>
-													<h2 class="h3 mt-0">Habitat</h2>
-													<div id="habitatsDiv">Loading....</div>
+													<h2 class="h3 mt-0">Media Relationships</h2>
+													<div id="relationshipsDiv">Loading....</div>
 													<script>
 														$(document).ready(function(){
-															loadHabitats(#getTaxa.taxon_name_id#,'habitatsDiv');
+															loadRelationships(#getRelationships.media_relations_id#,'relationshipsDiv');
 														});
 													</script>
-													<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
-													<select name="taxon_habitat" id="new_taxon_habitat"size="1" class="data-entry-select my-1 w-75 float-left">
-														<cfloop query="cttaxon_habitat">
-															<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
-																<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
-															</cfif>
+													<label for="media_relations" class="data-entry-label float-left mt-2">Add New Relationship</label>
+													<select name="media_relations" id="new_media_relations" size="1" class="data-entry-select my-1 w-75 float-left">
+														<cfloop query="ctmedia_relations">
+															<option value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
 														</cfloop>
 													</select>
 													<input type="button" value="Add" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
-														onclick=" newHabitat(#getTaxa.taxon_name_id#,$('##new_taxon_habitat').val(),'habitatsDiv'); "
+														onclick=" newRelationship(#getMedia.taxon_name_id#,$('##new_taxon_habitat').val(),'relationsDiv'); "
 														>
 												</div>
 											</section>
@@ -257,7 +246,6 @@ limitations under the License.
 													
 												<cfloop query="relns">
 													<cfset d=media_relationship>
-													
 														<tr>
 															<td class="p-1">
 																<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
