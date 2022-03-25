@@ -69,21 +69,22 @@
 								</script>
 							</div>
 							<div class="col-12 col-md-4 col-lg-3">
-								<label for="collector_role">Role</label>		
-	      					<select name="collector_role" id="collector_role" size="1"  class="reqdClr">
+								<label for="collector_role" class="data-entry-label">Role</label>		
+	      					<select name="collector_role" id="collector_role" size="1"  class="reqdClr data-entry-select">
 									<option value="c">collector</option>
 									<option value="p">preparator</option>
 								</select>
 							</div>
 							<div class="col-12 col-md-4 col-lg-3">
-								<label for="coll_order">Order</label>
-								<select name="coll_order" id="coll_order" size="1" class="reqdClr">
+								<label for="coll_order" class="data-entry-label">Order</label>
+								<select name="coll_order" id="coll_order" size="1" class="reqdClr data-entry-select">
 									<option value="first">First</option>
 									<option value="last">Last</option>
 								</select>
 							</div>
 							<div class="col-12 col-md-4 col-lg-3">
-								<input type="button" 
+								<label for="insert_button" class="data-entry-label">Apply to all records in result.</label>		
+								<input type="button" id="insert_button"
 									value="Insert Agent" 
 									class="btn btn-xs btn-primary"
    								onclick="tweakColls.action.value='insertColl';submit();">
@@ -98,18 +99,21 @@
 			</div>
 			<div class="col-12">
 			<h3 class="h4">Specimens:</h3>
-			<table border="1">
-				<tr>
-					<th>Catalog Number</th>
-					<th>#session.CustomOtherIdentifier#</th>
-					<th>Accepted Scientific Name</th>
-					<th>Collectors</th>
-					<th>Preparators</th>
-					<th>Country</th>
-					<th>State</th>
-					<th>County</th>
-					<th>Quad</th>
-				</tr>
+			<table class="table table-responsive table-striped d-xl-table">
+				<thead class="thead-light">
+					<tr>
+						<th>Catalog Number</th>
+						<th>#session.CustomOtherIdentifier#</th>
+						<th>Accepted Scientific Name</th>
+						<th>Collectors</th>
+						<th>Preparators</th>
+						<th>Country</th>
+						<th>State</th>
+						<th>County</th>
+						<th>Quad</th>
+					</tr>
+				</thead>
+				<tbody>
 				<cfloop query="getColls">
     				<tr>
 						<td>MCZ:#collection_cde#:#cat_num#</td>
@@ -123,6 +127,7 @@
 						<td>#quad#&nbsp;</td>
 					</tr>
 				</cfloop>
+				</tbody>
 			</table>
 			</div>
 		</section>
