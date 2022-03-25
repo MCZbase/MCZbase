@@ -275,4 +275,4 @@
 	</cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------->
-<cfinclude template="includes/_footer.cfm">
+<cfinclude template="/includes/_footer.cfm">
