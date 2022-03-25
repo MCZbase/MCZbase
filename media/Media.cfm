@@ -198,17 +198,19 @@ limitations under the License.
 													});
 												</script>
 												<div class="row">
-												<div class="col-12">
-													<label for="media_relations" class="data-entry-label float-left mt-2">Add New Relationship</label>
-													<select name="media_relations" id="new_media_relationship" size="1" class="data-entry-select float-left col-3 my-1">
-														<cfloop query="ctmedia_relationship">
-															<option value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
-														</cfloop>
-													</select>
-													<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input float-left col-7 my-1">
-													<input type="button" value="Add" class="btn btn-xs btn-secondary float-left my-1" onclick="newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipsDiv');">
-												</div></div>
+													<div class="col-12">
+														<label for="media_relations" class="data-entry-label float-left mt-2">Add New Relationship</label>
+														<select name="media_relations" id="new_media_relationship" size="1" class="data-entry-select float-left col-3 my-1">
+															<cfloop query="ctmedia_relationship">
+																<option value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
+															</cfloop>
+														</select>
+														<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input float-left col-7 my-1">
+														<input type="button" value="Add" class="btn btn-xs btn-secondary float-left my-1" onclick="newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipsDiv');">
+													</div>
+												</div>
 											</section>
+										</div>
 
 <!---											<div id="relationships">
 												<cfset i=1>
