@@ -205,6 +205,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 												<input type="button" value="Add" class="btn btn-xs btn-secondary text-center" onclick="newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipsDiv');">
+												<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-7">
 											</section>
 
 											<div id="relationships">
