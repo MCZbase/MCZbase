@@ -208,7 +208,7 @@ limitations under the License.
 														</cfloop>
 													</select>
 													<input type="button" value="Add" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
-														onclick=" newRelationship(#getMedia.media_id#,$('##new_media_relationship').val(),'relationsDiv'); "
+														onclick=" newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipDiv'); "
 														>
 												</div>
 											</section>
