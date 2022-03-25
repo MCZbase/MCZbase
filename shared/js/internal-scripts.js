@@ -256,7 +256,7 @@ function addRelation (n) {
   */
 function addRelationTo (n,targetId) {
 	var pDiv=document.getElementById(targetId);
-	var nDiv = document.createElement('table');
+	var nDiv = document.createElement('tr');
 	nDiv.id='relationshipDiv__' + n;
 	pDiv.appendChild(nDiv);
 	var n1=n-1;

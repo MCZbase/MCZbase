@@ -225,6 +225,7 @@ limitations under the License.
 												
 												<cfloop query="relns">
 													<cfset d=media_relationship>
+														<a class="my-1 btn btn-xs btn-secondary" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</a>
 														<tr>
 															<td class="p-1">
 																<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
@@ -247,7 +248,7 @@ limitations under the License.
 														</tr>
 													<cfset i=i+1>
 												</cfloop>
-												<a class="my-1 btn btn-xs btn-secondary" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</a>
+												
 												</tbody>
 											</table>
 
