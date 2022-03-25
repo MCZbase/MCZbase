@@ -36,8 +36,8 @@
 		ORDER BY 
 			cataloged_item.collection_object_id
 	</cfquery>
-	<main class=”container” id=”content”>
-		<section class=”row” >
+	<main class="container" id="content">
+		<section class="row" >
 			<h2 class="h3">
 				Add/Remove collectors for all specimens listed below
 			</h2>
