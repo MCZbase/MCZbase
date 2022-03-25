@@ -190,29 +190,33 @@ limitations under the License.
 											</h2>
 											<p>Click the buttons to create and delete row(s) for the table.</p>
 
-											<section class="mt-2 float-left col-12 col-md-6 pl-0 pr-0 pr-md-1">
+											<section class="mt-2 float-left col-12 col-md-6 pl-md-1 pl-0 pr-0">
 												<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
-													<script>
-														function reloadCommonNames() {
-															loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv');
-														};
-														function addCommonNameAction() { 
-															newCommon(#getTaxa.taxon_name_id#,$('##new_common_name').val(),'commonNamesDiv'); 
-														};
-													</script>
-												
-													
-													<label for="new_common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
-													<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75" id="new_common_name">
-													<input type="button" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" id="newCommonNameButton" >
+													<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select taxon_habitat 
+														from taxon_habitat 
+														where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+													</cfquery>
+
+													<cfset usedHabitats = valueList(habitat.taxon_habitat)>
+													<h2 class="h3 mt-0">Habitat</h2>
+													<div id="habitatsDiv">Loading....</div>
 													<script>
 														$(document).ready(function(){
-															$('##newCommonNameButton').click( function(event){ 
-																event.preventDefault(); 
-																addCommonNameAction();
-															});
+															loadHabitats(#getTaxa.taxon_name_id#,'habitatsDiv');
 														});
 													</script>
+													<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
+													<select name="taxon_habitat" id="new_taxon_habitat"size="1" class="data-entry-select my-1 w-75 float-left">
+														<cfloop query="cttaxon_habitat">
+															<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
+																<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
+															</cfif>
+														</cfloop>
+													</select>
+													<input type="button" value="Add" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
+														onclick=" newHabitat(#getTaxa.taxon_name_id#,$('##new_taxon_habitat').val(),'habitatsDiv'); "
+														>
 												</div>
 											</section>
 											

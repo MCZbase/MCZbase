@@ -227,89 +227,69 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 
 }
 
-function loadCommonNames(7319,target) { 
-   jQuery.ajax({
-      url: "/media/component/functions.cfc",
-      data : {
-         method : "getCommonHtml",
-         taxon_name_id: taxon_name_id,
-         target: target
-      },
-      success: function (result) {
-         $("#" + target).html(result);
-      },
-      error: function (jqXHR, textStatus, message) {
-			handleFail(jqXHR,textStatus,message,"loading common names for taxon");
-      },
-      dataType: "html"
-   });
+/**
+ * newHabitat, given a taxon and text string for a habitat of the taxon
+ * link the habitat and reload the list of habitats for the taxon.
+ * 
+ * @param taxon_name_id the primary key for the taxon record to which to add the habitat.
+ * @param habitat the text string to add to the taxon as a habitat.
+ * @param target the id of the target div containing the list of habitats 
+ *   to reload, without a leading # selector.
+ */
+function newRelationship(media_id,media_relationship,target) {
+	jQuery.getJSON("/media/component/functions.cfc",
+		{
+			method : "newRelationship",
+			media_relationship : relationship,
+			media_id : media_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadHabitats(media_id,target);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"adding relationship to media");
+	});
+};
+/** given a media_relations_id remove a row from the media_relations table 
+ * and reload the relationships for a specified media record into a specified target div
+ */
+function deleteRelationship(media_relations_id,media_id,target) {
+	jQuery.getJSON("/media/component/functions.cfc",
+		{
+			method : "deleteRelationship",
+			media_relations_id : media_relations_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadRelationships(media_id,target);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"adding relationship to media");
+	});
+};
+/** given a media_relations_id and a target div, load an html description of the relationships
+ * for the specified media record.
+ * @param media_relations_id the pk of the relations table for which to look up relationships.
+ * @param target the id of the target div to contain the list of relations 
+ *   to load, without a leading # selector.
+ */
+function loadRelationships(media_id,target) { 
+	jQuery.ajax({
+	url: "/media/component/functions.cfc",
+		data : {
+			method : "getRelationshipsHtml",
+			media_id: media_id,
+			target: target
+	},
+	success: function (result) {
+		 $("#" + target).html(result);
+	},
+	error: function (jqXHR, textStatus, message) {
+		handleFail(jqXHR,textStatus,message,"loading relationships for media");
+	},
+	dataType: "html"
+	});
 }
-
-/**
- * newCommon, given a taxon and text string for a common name of the taxon
- * link the common name and reload the list of common names for the taxon.
- * 
- * @param taxon_name_id the primary key for the taxon record to which to add the common name.
- * @param common_name the text string to add to the taxon as a common name.
- * @param target the id of the target div containing the list of common names 
- *   to reload, without a leading # selector.
- */
-function newCommon(taxon_name_id,common_name,target) {
-	jQuery.getJSON("/media/component/functions.cfc",
-		{
-			method : "newCommon",
-			common_name : common_name,
-			taxon_name_id : taxon_name_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		function (result) {
-			loadCommonNames(taxon_name_id,target);
-			$('#new_common_name').val("");
-		}
-	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"adding common name to taxon");
-	});
-};
-
-/**
- * deleteCommonName, given common name record for a taxon delete the common name
- * record and reload the list of common names for the taxon.
- * 
- * @param common_name_id the primary key value for the common name to delete.
- * @param taxon_name_id the primary key for the taxon record for the common name.
- * @param target the id of the target div containing the list of common names 
- *   to reload, without a leading # selector.
- */
-function deleteCommonName(common_name_id,taxon_name_id,target) {
-	jQuery.getJSON("/media/component/functions.cfc",
-		{
-			method : "deleteCommon",
-			common_name_id: common_name_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		function (result) {
-			loadCommonNames(taxon_name_id,target);
-		}
-	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"removing common name from taxon");
-	});
-};
-
-function saveCommon(common_name_id, common_name, taxon_name_id, target) {
-	jQuery.getJSON("/media/component/functions.cfc",
-		{
-			method : "saveCommon",
-			common_name : common_name,
-			common_name_id : common_name_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		function (result) {
-			loadCommonNames(taxon_name_id,target);
-		}
-	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"saving changes to common name of taxon");
-	});
-};

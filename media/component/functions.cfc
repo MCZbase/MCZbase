@@ -200,112 +200,36 @@ Backing methods for managing media
 </cffunction>
 
 <!---
-Given a taxon_name_id retrieve, as html, an editable list of the common names for that taxon.
-@param taxon_name_id the PK of the taxon name for which to look up common names.
-@param target the id of the element in the DOM, without a leading # selector,
-  into which the result is to be placed, used to specify target for reload after successful save.
-@return a block of html listing common names, if any, with edit/delete controls.
---->
-<cffunction name="getCommonHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="target" type="string" required="yes">
-	
-	<cfset taxon_name_id = 7319 >
-	<cfset localtarget = arguments.target>
-	<cfthread name="getCommonHtmlThread">
-		<cftry>
-			<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="common_result">
-				select common_name, common_name_id
-				from common_name 
-				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-			</cfquery>
-			<cfoutput>
-				<h2 class="h3 mt-0">Common Names</h2>
-				<cfset i=1>
-				<cfif common.recordcount gt 0>
-					<cfloop query="common">
-						<form name="common#i#" class="row mx-0" action="" onClick=" function(e){e.preventDefault();};">
-							<ul class="mx-0 px-4 col-12 my-1 list-style-disc">
-								<li class="mx-0 mb-1">
-									<script>
-										function doDeleteCN_#i#(){ 
-											deleteCommonName(#common_name_id#,#taxon_name_id#,'#localtarget#');
-										};
-										function toggleCommon#i#(){
-											$('##label_common_name_#i#').toggle();
-											$('##common_name_#i#').toggle();
-											$('##commonSaveButton_#i#').toggle();
-											$('##commonEditButton_#i#').toggle();
-										};
-									</script>
-									<label id="label_common_name_#i#" value="#common_name#" class="w-50 float-left" 
-										onClick="toggleCommon#i#()">#encodeForHtml(common_name)#</label>
-									<input id="common_name_#i#" type="text" name="common_name" value="#encodeForHtml(common_name)#" 
-										class="data-entry-input w-50 float-left" style="display: none;">
-									<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" 
-										id="commonSaveButton_#i#"
-										style="display: none;">
-									<input type="button" value="Edit" class="btn btn-xs btn-primary ml-1 float-left" 
-										onClick="toggleCommon#i#()" 
-										id="commonEditButton_#i#"
-										>
-									<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" 
-										id="commonDeleteButton_#i#">
-									<script>
-										$(document).ready(function () {
-											$('##commonDeleteButton_#i#').click(function(evt){
-												evt.preventDefault();
-												confirmWarningDialog('Delete <b>#encodeForHtml(common_name)#</b> common name entry','Confirm Delete?', doDeleteCN_#i#);
-											});
-											$('##commonSaveButton_#i#').click(function(evt){
-												evt.preventDefault();
-												saveCommon(#common_name_id#,$('##common_name_#i#').val(),#taxon_name_id#,'#localtarget#');
-											});
-										});
-									</script>
-								</li>
-							</ul>
-						</form>
-						<cfset i=i+1>
-					</cfloop>
-				<cfelse>
-					<ul class="px-4 list-style-disc"><li>No Common Names Entered</li></ul>
-				</cfif>
-			</cfoutput>
-		<cfcatch>
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-			<cfabort>
-		</cfcatch>
-		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getCommonHtmlThread" />
-	<cfreturn getCommonHtmlThread.output>
-</cffunction>
-
-<!---
-Given a common name and a taxon_name_id, add a row from the (weak entity) common_name table.
-@param common_name a text string representing a common name of a taxon, together with taxon_name_id forms PK of common_name table.
+Given a habitat and a taxon_name_id, add a row from the taxon_habitat table.
+@param taxon_habitat a text string representing a habitat.
 @param taxon_name_id the PK of the taxon name for which to add the matching common name.
+@return a json structure the status and the id of the new taxon_habitat row.
 --->
-<cffunction name="newCommon" access="remote" returntype="any" returnformat="json">
-	<cfargument name="common_name" type="string" required="yes">
+<cffunction name="newHabitat" access="remote" returntype="any" returnformat="json">
+	<cfargument name="taxon_habitat" type="string" required="yes">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="newCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newCommon_result">
-				INSERT INTO common_name (
-					common_name, 
-					taxon_name_id)
-				VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#"> , 
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> 
-				)
+			<cfquery name="newHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newHabitat_result">
+				INSERT INTO taxon_habitat 
+					(taxon_habitat, taxon_name_id)
+				VALUES 
+					(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_habitat#">, 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">)
 			</cfquery>
+			<cfif newHabitat_result.recordcount eq 1>
+				<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
+					select taxon_habitat_id from taxon_habitat
+					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newHabitat_result.GENERATEDKEY#">
+				</cfquery>
+			<cfelse>
+				<cftransaction action="rollback">
+				<cfthrow message="Other than one row (#newHabitat_result.recordcount#) would be added, insert canceled and rolled back">
+			</cfif>
 		</cftransaction>
 		<cfset row = StructNew()>
 		<cfset row["status"] = "added">
+		<cfset row["id"] = "#savePK.taxon_habitat_id#">
 		<cfset data[1] = row>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
@@ -319,21 +243,23 @@ Given a common name and a taxon_name_id, add a row from the (weak entity) common
 </cffunction>
 
 <!---
-Given a common name and a taxon_name_id, delete the matching row from the common_name table.
-@param common_name_id the PK of the common name to fremove
+Given a taxon_habitat_id, delete the matching row from the taxon_habitat table.
+@param taxon_habitat_id the PK value for the row to remove from the taxon_habitat table.
+@return a data structure with status or an http 400 status.
 --->
-<cffunction name="deleteCommon" access="remote" returntype="any" returnformat="json">
-	<cfargument name="common_name_id" type="numeric" required="yes">
+<cffunction name="deleteHabitat" access="remote" returntype="any" returnformat="json">
+	<cfargument name="taxon_habitat_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="deleteCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteCommon_result">
-				DELETE FROM common_name
+			<cfquery name="deleteHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteHabitat_result">
+				DELETE FROM
+					taxon_habitat
 				WHERE
-					common_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#common_name_id#">
+					taxon_habitat_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_habitat_id#">
 			</cfquery>
-			<cfif deleteCommon_result.recordcount NEQ 1>
+			<cfif deleteHabitat_result.recordcount NEQ 1>
 				<cftransaction action="rollback"/>
-				<cfthrow message="Other than one row (#deleteCommon_result.recordcount#) would be deleted.  Delete canceled and rolled back">
+				<cfthrow message="Other than one row (#deleteHabitat_result.recordcount#) would be deleted.  Delete canceled and rolled back">
 			</cfif>
 		</cftransaction>
 		<cfset row = StructNew()>
@@ -351,41 +277,49 @@ Given a common name and a taxon_name_id, delete the matching row from the common
 </cffunction>
 
 <!---
-Given common_name_id and new common name, update a row in the common name table
-@param common_name_id the common name to update  a text string representing a common name of a taxon to update to.
-@param common_name a text string representing a common name of a taxon to update to.
+Given a taxon_name_id retrieve, as html, an editable list of the habitats for that taxon.
+@param taxon_name_id the PK of the taxon name for which to look up habitats.
+@param target the id of the element in the DOM, without a leading # selector,
+  into which the result is to be placed, used to specify target for reload after successful save.
+@return a block of html listing habitats, if any, with edit/delete controls.
 --->
-<cffunction name="saveCommon" access="remote" returntype="any" returnformat="json">
-	<cfargument name="common_name_id" type="string" required="yes">
-	<cfargument name="common_name" type="string" required="yes">
-	<cftry>
-		<cftransaction>
-			<cfquery name="saveCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="saveCommon_result">
-				UPDATE
-					common_name
-				SET
-					common_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(common_name)#">
-				WHERE
-					common_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#common_name_id#">
+<cffunction name="getHabitatsHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cfargument name="target" type="string" required="yes">
+	<cfthread name="getHabitatsHtmlThread">
+		<cftry>
+			<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select taxon_habitat, taxon_habitat_id
+				from taxon_habitat 
+				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 			</cfquery>
-			<cfif saveCommon_result.recordcount NEQ 1>
-				<cftransaction action="rollback"/>
-				<cfthrow message="Other than one row (#saveCommon_result.recordcount#) affected by update, edit canceled and rolled back">
-			</cfif>
-		</cftransaction>
-		<cfset row = StructNew()>
-		<cfset row["status"] = "saved">
-		<cfset row["newname"] = "#common_name#">
-		<cfset data[1] = row>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
+			<cfoutput>
+				<cfset i=1>
+				<cfif habitat.recordcount gt 0>
+					<cfloop query="habitat">
+						<ul class="mx-0 px-4 my-2 list-style-disc"><li class="mx-0 mb-1">
+							<label id="label_taxon_habitat_#i#" value="#taxon_habitat#" class="w-50 float-left border-white px-2">#taxon_habitat#</label>
+							<button value="Remove" class="btn btn-xs btn-warning ml-1 mb-1 float-left" onClick=" confirmDialog('Remove <b>#taxon_habitat#</b> habitat entry from this taxon?','Remove Habitat?', function() { deleteHabitat(#taxon_habitat_id#,#taxon_name_id#,'#target#'); } ); " 
+								id="habitatDeleteButton_#i#">Remove</button>
+							</li>
+						</ul>
+						<cfset i=i+1>
+					</cfloop>
+				<cfelse>
+					<ul class="px-4 list-style-disc"><li>No Habitats Entered</li></ul>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getHabitatsHtmlThread" />
+	<cfreturn getHabitatsHtmlThread.output>
 </cffunction>
 
 </cfcomponent>
