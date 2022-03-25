@@ -1,4 +1,5 @@
-<cfinclude template="/includes/_header.cfm">
+<cfset pageTitle = "Change Localities for Search Result">
+<cfinclude template="/shared/_header.cfm">
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided for result set on which to change localities.">
@@ -283,4 +284,4 @@
 </table>
 
 
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
