@@ -194,7 +194,6 @@ limitations under the License.
 														<tr>
 															<td>
 																<select name="relationship__0" id="relationship__0" class="data-entry-select  col-5" size="1"  onchange="pickedRelationship(this.id)">
-																<option value="delete">delete</option>
 																	<cfloop query="ctmedia_relationship">
 																		<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																	</cfloop>
