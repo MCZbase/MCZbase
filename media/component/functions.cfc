@@ -299,10 +299,11 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 					<cfloop query="media_relations">
 						<tr class="mx-0 px-4 my-2 list-style-disc"><td class="mx-0 mb-1">
 							<label id="label_media_relations_#i#" value="#media_relationship#" class="w-50 float-left border-white px-2">#media_relationship#</label>
-							<button value="Remove" class="btn btn-xs btn-warning ml-1 mb-1 float-left" onClick=" confirmDialog('Remove <b>#media_relationship#</b> relationship entry from this media record?','Remove relationship?', function() { deleteRelationship(#media_relations_id#,#media_id#,'#target#'); } ); " 
-								id="relationshipDeleteButton_#i#">Remove</button>
+							
 							</td>
 							<td>value to come</td>
+							<td><button value="Remove" class="btn btn-xs btn-warning ml-1 mb-1 float-left" onClick=" confirmDialog('Remove <b>#media_relationship#</b> relationship entry from this media record?','Remove relationship?', function() { deleteRelationship(#media_relations_id#,#media_id#,'#target#'); } ); " 
+								id="relationshipDeleteButton_#i#">Remove</button></td>
 						</tr>
 						<cfset i=i+1>
 					</cfloop>
