@@ -227,7 +227,7 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 
 }
 
-function loadCommonNames(taxon_name_id,target) { 
+function loadCommonNames(7319,target) { 
    jQuery.ajax({
       url: "/media/component/functions.cfc",
       data : {
