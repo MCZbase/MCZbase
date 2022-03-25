@@ -192,16 +192,8 @@ limitations under the License.
 											<p>Click the buttons to create and delete row(s) for the table.</p>
 
 											<section class="mt-2 float-left col-12 col-md-6 pl-md-1 pl-0 pr-0">
-												<table class="table float-left pl-3 py-3 w-100 rounded">
-													<thead>
-														<tr class="col-12">
-															<th class="small text-center col-3">Name</th>
-															<th class="small text-center col-7">Value</th>
-															<th class="small text-center">Action</th>
-														</tr>
-													</thead>
-													<tbody>
-													<table id="relationshipsDiv">Loading....</table>
+			
+													<div id="relationshipsDiv">Loading....</div>
 													<script>
 														$(document).ready(function(){
 															loadRelationships(#getRelations.media_id#,'relationshipsDiv');
@@ -217,8 +209,7 @@ limitations under the License.
 													<input type="button" value="Add" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
 														onclick=" newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipsDiv'); "
 														>
-													</tbody>
-												</table>
+									
 											</section>
 											
 											

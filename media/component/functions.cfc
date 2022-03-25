@@ -296,6 +296,15 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 			<cfoutput>
 				<cfset i=1>
 				<cfif media_relations.recordcount gt 0>
+				<table class="table float-left pl-3 py-3 w-100 rounded">
+					<thead>
+						<tr class="col-12">
+							<th class="small text-center col-3">Name</th>
+							<th class="small text-center col-7">Value</th>
+							<th class="small text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody>
 					<cfloop query="media_relations">
 						<tr class="mx-0 px-4 my-2 list-style-disc"><td class="mx-0 mb-1">
 							<label id="label_media_relations_#i#" value="#media_relationship#" class="w-50 float-left border-white px-2">#media_relationship#</label>
@@ -307,8 +316,12 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 						</tr>
 						<cfset i=i+1>
 					</cfloop>
+					</tr>
+				</table>
 				<cfelse>
-					<tr class="px-4 list-style-disc"><td>No Relationships Entered</td></tr>
+					<table>
+						<tr class="px-4 list-style-disc"><td>No Relationships Entered</td></tr>
+					</table>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
