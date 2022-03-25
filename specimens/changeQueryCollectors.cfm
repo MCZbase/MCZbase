@@ -37,39 +37,66 @@
 			cataloged_item.collection_object_id
 	</cfquery>
 	<main class="container" id="content">
-		<section class="row" >
-			<h2 class="h3">
-				Add/Remove collectors for all specimens listed below
-			</h2>
-			<p>Pick an agent, a role, and an order to insert or delete an agent for all records listed below. </p>
-			<p>Order is ignored for deletion.</p>
-  			<form name="tweakColls" method="post" action="/specimens/changeQueryCollectors.cfm">
-				<input type="hidden" name="result_id" value="#result_id#">
-				<input type="hidden" name="action" value="">
-				<label for="name">Name</label>
-				<input type="text" name="name" class="reqdClr" 
-					onchange="getAgent('agent_id','name','tweakColls',this.value); return false;"
-				 	onKeyPress="return noenter(event);">
-				<input type="hidden" name="agent_id">
-				<label for="collector_role">Role</label>		
-		      <select name="collector_role" size="1"  class="reqdClr">
-					<option value="c">collector</option>
-					<option value="p">preparator</option>
-				</select>
-				<label for="coll_order">Order</label>
-				<select name="coll_order" size="1" class="reqdClr">
-					<option value="first">First</option>
-					<option value="last">Last</option>
-				</select>
-				<input type="button" 
-					value="Insert Agent" 
-					class="btn btn-xs btn-primary"
-   				onclick="tweakColls.action.value='insertColl';submit();">
-				<input type="button" 
-					value="Remove Agent" 
-					class="btn btn-xs btn-warning"
-   				onclick="tweakColls.action.value='deleteColl';submit();">
-			</form>
+		<section class="row" aria-labelledby="formheading">
+			<div class="col-12">
+				<h2 class="h3 pl-3 ml-2" id="formheading" >
+					Add/Remove collectors for all specimens listed below
+				</h2>
+				<div>
+					Pick an agent, a role, and an order (ignored for delete) to insert or delete an agent for all records listed below. 
+				</div>
+				<div class="border rounded px-3 py-2">
+		  			<form name="tweakColls" method="post" action="/specimens/changeQueryCollectors.cfm">
+						<input type="hidden" name="result_id" value="#result_id#">
+						<input type="hidden" name="action" value="">
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-4 col-lg-3">
+								<span>
+									<label for="name" class="data-entry-label w-auto">Agent Name</label>
+									<span id="agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller" id="agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input name="name" id="name" class="reqdClr form-control form-control-sm data-entry-input rounded-right" value="" aria-label="Agent to use as the collector or preparator." >
+									<input type="hidden" name="agent_id" id="agent_id" value="" >
+								</div>
+								<script>
+									$(document).ready(function() {
+										$(makeRichAgentPicker('name', 'agent_id', 'agent_name_icon', 'agent_view', ''));
+									});
+								</script>
+							</div>
+							<div class="col-12 col-md-4 col-lg-3">
+								<label for="collector_role">Role</label>		
+	      					<select name="collector_role" id="collector_role" size="1"  class="reqdClr">
+									<option value="c">collector</option>
+									<option value="p">preparator</option>
+								</select>
+							</div>
+							<div class="col-12 col-md-4 col-lg-3">
+								<label for="coll_order">Order</label>
+								<select name="coll_order" id="coll_order" size="1" class="reqdClr">
+									<option value="first">First</option>
+									<option value="last">Last</option>
+								</select>
+							</div>
+							<div class="col-12 col-md-4 col-lg-3">
+								<input type="button" 
+									value="Insert Agent" 
+									class="btn btn-xs btn-primary"
+   								onclick="tweakColls.action.value='insertColl';submit();">
+								<input type="button" 
+									value="Remove Agent" 
+									class="btn btn-xs btn-warning"
+   								onclick="tweakColls.action.value='deleteColl';submit();">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="col-12">
 			<h3 class="h4">Specimens:</h3>
 			<table border="1">
 				<tr>
@@ -97,6 +124,7 @@
 					</tr>
 				</cfloop>
 			</table>
+			</div>
 		</section>
 	</main>
 </cfoutput>
