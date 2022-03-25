@@ -47,13 +47,13 @@ limitations under the License.
 								Accession
 							</li>
 							<li class='list-group-item'>
-								Agents
+								<a href='/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#' class='btn btn-secondary btn-xs' target='_blank'>Collectors/Preparators</a>
 							</li>
 							<li class='list-group-item'>
 								Collecting Events
 							</li>
 							<li class='list-group-item'>
-								<a href='/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#"' class='btn btn-secondary btn-xs' target='_blank'>Localities</a>
+								<a href='/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#' class='btn btn-secondary btn-xs' target='_blank'>Localities</a>
 							</li>
 							<li class='list-group-item'>
 								Encumbrances
@@ -86,14 +86,8 @@ limitations under the License.
 <option value="/addAccn.cfm"> works with either, collection_object_id has priority, session search table looked up, not passed. 
 Accession [Warning: No Tabs]
 				
-<option value="/multiAgent.cfm"> works only with collection_object_id 
-Agents
-
 <option value="/bulkCollEvent.cfm"> works only with collection_object_id 
 Collecting Events
-
-<option value="/bulkLocality.cfm"> works only on session_search table, passed as table_name 
-Localities [Warning: No Tabs]
 
 <option value="/Encumbrances.cfm"> works only with collection_object_id 
 Encumbrances
