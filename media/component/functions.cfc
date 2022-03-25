@@ -301,7 +301,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 						<tr class="col-12">
 							<th class="small text-center" style="width: 152px;">Name</th>
 							<th class="small text-center col-7">Value</th>
-							<th class="small text-center" style="width: 150px;">Action</th>
+							<th class="small text-center" style="width: 105px;">Action</th>
 						</tr>
 					</thead>
 					<tbody>
