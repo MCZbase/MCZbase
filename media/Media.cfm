@@ -331,7 +331,7 @@ limitations under the License.
 															</select>
 														<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-7 float-left">
 														<input class="btn btn-xs btn-secondary float-left" type="button" value="edit">
-														<input class="btn btn-xs btn-danger float-left" type="button" value="X"
+														<input class="btn btn-xs btn-danger float-left" type="button" value="X">
 													</div>
 													<cfset i=i+1>
 												</cfloop>
@@ -355,7 +355,7 @@ limitations under the License.
 						</form>
 					</div><!---end col-12--->
 				
-		
+				</div>
 			</div>
 		</div>
 		</cfoutput>
