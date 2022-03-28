@@ -251,7 +251,7 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
   * @param targetId the id of the element in the dom to which to attach the created div, 
   *   not including a leading # selector.
   */
-function addRelationTo (n,targetId) {
+function addRelation (n,targetId) {
 	var pDiv=document.getElementById(targetId);
 	var nDiv = document.createElement('div');
 	nDiv.id='relationshipDiv__' + n;
