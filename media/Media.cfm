@@ -216,17 +216,7 @@ limitations under the License.
     box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(76, 175, 80, .2)
 }	
 </style>
-<script>
-		if (false) {
-  // turn toggle switch off
-  $("#ts4").attr("checked", false);
-  $('#activate').click();
-} else {
-  // turn toggle switch off
-  $('#ts4').attr("checked", true);
-  $('#activate').click();
-}
-</script>
+
 <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select media_relationship from ctmedia_relationship order by media_relationship
 </cfquery>
@@ -511,6 +501,19 @@ limitations under the License.
 												</cfif>
 
 												<cfloop query="labels">
+													<script>
+													if (false) {
+													  // turn toggle switch off
+													  $("#ts4").attr("checked", false);
+													  var val4= parseInt($("#activate").val())+1;
+													  $('#activate').click();
+													} else {
+													  // turn toggle switch off
+													  $('#ts4').attr("checked", true);
+													  var val4= parseInt($("#activate").val())+1;
+													  $('#activate').click();
+													}
+													</script>
 													<cfset d=media_label>
 													<div class="form-row col-12 px-0 mx-0">		
 														<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
