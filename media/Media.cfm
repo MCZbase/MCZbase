@@ -73,10 +73,10 @@ limitations under the License.
 .toggle-switch .ts-helper:before {
     content: '';
     position: absolute;
-    top: -4px;
+    top: -1px;
     left: -4px;
-    width: 24px;
-    height: 24px;
+    width: 17px;
+    height: 17px;
     background: #fafafa;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .28);
     border-radius: 50%;
