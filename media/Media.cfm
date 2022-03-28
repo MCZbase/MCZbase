@@ -181,9 +181,9 @@ limitations under the License.
 							</form>
 							<form>
 
-								<div class="col-12 col-md-12 px-0 float-left">
+							<div class="col-12 col-md-12 px-0 float-left">
 									<!---col-12 (mime type, media type, license, visibility)--->
-									<div class="col-12 float-left">
+								<div class="col-12 float-left">
 									<div class="row mt-3">
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pr-lg-2 float-left">
 											<h2>
@@ -322,21 +322,21 @@ limitations under the License.
 													<cfset d=media_label>
 													<div class="form-row col-12 px-0 mx-0">		
 														<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
-															<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-															<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select  col-3 float-left">
+														<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
+														<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select  col-3 float-left">
 																<option value="delete">delete</option>
 																<cfloop query="ctmedia_label">
 																	<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																</cfloop>
 															</select>
-															<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-7 float-left">
-															<input class="btn btn-xs btn-secondary float-left" type="button" value="edit">
-															<input class="btn btn-xs btn-danger float-left" type="button" value="X"
+														<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-7 float-left">
+														<input class="btn btn-xs btn-secondary float-left" type="button" value="edit">
+														<input class="btn btn-xs btn-danger float-left" type="button" value="X"
 													</div>
 													<cfset i=i+1>
 												</cfloop>
-													<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
-												</div><!---end id labels--->
+												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+											</div><!---end id labels--->
 										</div><!---end col-6--->	
 									</div><!---end form-row Relationships and labels--->
 								</div><!---end col-12--->
@@ -351,7 +351,7 @@ limitations under the License.
 									};
 								</script>
 								-->
-							</div>
+						
 						</form>
 					</div><!---end col-12--->
 				
