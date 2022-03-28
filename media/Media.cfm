@@ -351,7 +351,7 @@ limitations under the License.
 									};
 								</script>
 								-->
-						
+								</div></div>
 						</form>
 					</div><!---end col-12--->
 				
