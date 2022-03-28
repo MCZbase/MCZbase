@@ -351,11 +351,11 @@ limitations under the License.
 									};
 								</script>
 								-->
-								</div></div>
+							</div>
 						</form>
 					</div><!---end col-12--->
 				
-				</div>
+		
 			</div>
 		</div>
 		</cfoutput>
