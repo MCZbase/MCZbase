@@ -504,14 +504,14 @@ limitations under the License.
 													<script>
 													if (false) {
 													  // turn toggle switch off
-													  $("#ts4").attr("checked", false);
-													  var val4= parseInt($("#activate").val())+1;
-													  $('#activate').click();
+													  $("##ts4").attr("checked", false);
+													  var val4= parseInt($("##activate").val())+1;
+													  $('##activate').click();
 													} else {
 													  // turn toggle switch off
-													  $('#ts4').attr("checked", true);
-													  var val4= parseInt($("#activate").val())+1;
-													  $('#activate').click();
+													  $('##ts4').attr("checked", true);
+													  var val4= parseInt($("##activate").val())+1;
+													  $('##activate').click();
 													}
 													</script>
 													<cfset d=media_label>
