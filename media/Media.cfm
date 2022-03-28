@@ -418,20 +418,11 @@ limitations under the License.
 												</cfif>
 											
 											
-										<table class="table">
-												<thead>
-													<tr class="col-12">
-														<th class="small text-center col-3">Name</th>
-														<th class="small text-center col-7">Value</th>
-														<th class="small text-center">Action</th>
-													</tr>
-												</thead>
-											<tbody>
-													
+											<div class="">
 												<cfloop query="relns">
 													<cfset d=media_relationship>
-														<tr>
-															<td class="p-1">
+														<ul>
+															<li class="p-1">
 																<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 																<label for="relationship__#i#"  class="sr-only">Relationship</label>
 																<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select">
@@ -440,22 +431,20 @@ limitations under the License.
 																		<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																	</cfloop>
 																</select>
-															</td>
-															<td class="p-1">
+															</li>
+															<li class="p-1">
 																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input px-1">
 																<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
-															</td>
-															<td class="p-1 text-center">
+															</li>
+															<li class="p-1 text-center">
 																<button class="btn btn-danger btn-xs"> X </button>
 																<button class="btn btn-warning btn-xs">Edit</button>
-															</td>
-														</tr>
+															</li>
+														</ul>
 													<cfset i=i+1>
 												</cfloop>
 												
-												</tbody>
-											</table>
-								
+												</div>
 											
 										<!---		<cfloop query="relns">
 													<cfset d=media_relationship>
