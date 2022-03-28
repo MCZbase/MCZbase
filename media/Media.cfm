@@ -504,13 +504,13 @@ limitations under the License.
 													<script>
 													if (false) {
 													  // turn toggle switch off
-													  $("##ts4").attr("checked", false);
-													  var val4= parseInt($("##activate").val())+1;
+													  $(".ts4").attr("checked", false);
+													  var activate= parseInt($("##activate").val())+1;
 													  $('##activate').click();
 													} else {
 													  // turn toggle switch off
-													  $('##ts4').attr("checked", true);
-													  var val4= parseInt($("##activate").val())+1;
+													  $('.ts4').attr("checked", true);
+													  var activate= parseInt($("##activate").val())+1;
 													  $('##activate').click();
 													}
 													</script>
@@ -526,9 +526,9 @@ limitations under the License.
 															</select>
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" disabled class="data-entry-input col-7 disabled float-left">
 													<input class="btn btn-xs btn-danger float-left" type="button" value="X">
-														<div id="activate" class="toggle-switch label_value__#i#" data-ts-color="green">
-															<label for="ts4" class="ts-label small90" name="toggle_value__#i#" id="label_value__#i#" >Edit</label>
-															<input id="ts4" type="checkbox" hidden="hidden" name="label_value__#i#" id="label_value__#i#">
+														<div id="activate__#i#" class="toggle-switch" data-ts-color="green">
+															<label for="ts4" class="ts-label small90" name="toggle_label__#i#" id="Activate_value__#i#" >Edit</label>
+															<input class="ts4" type="checkbox" hidden="hidden" name="ts4">
 															<label for="ts4" class="ts-helper"></label>
 														</div>
 														
