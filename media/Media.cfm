@@ -547,7 +547,7 @@ limitations under the License.
 													</div>
 													<cfset i=i+1>
 												</cfloop>
-												<span class="infoLink h5 box-shadow-0 d-block col-12 text-center my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-4" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 											</div><!---end id labels--->
 											<div class="col-12 px-0 float-left">
 												<input class="btn btn-xs btn-primary float-left" type="button" value="Save New">
