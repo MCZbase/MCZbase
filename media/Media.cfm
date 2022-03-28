@@ -408,27 +408,25 @@ limitations under the License.
 														<input type="hidden" name="related_id__0" id="related_id__0">
 													</div><!--- end id seedMedia --->
 												</cfif>
-												<div class="col-12 px-0">
-													<cfloop query="relns">
-														<cfset d=media_relationship>
-															<div class="form-row col-12 px-0 mx-0">	
-																<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-																<label for="relationship__#i#"  class="sr-only">Relationship</label>
-																<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select col-3 float-left">
-																	<option value="delete">delete</option>
-																	<cfloop query="ctmedia_relationship">
-																		<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
-																	</cfloop>
-																</select>
-																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-7 float-left px-1">
-																<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
-																<button class="btn btn-danger btn-xs float-left"> X </button>
-																<button class="btn btn-secondary btn-xs mx-2 float-left">Edit</button>
-															</div>
-														<cfset i=i+1>
-													</cfloop>
-													<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 
-												</div>								
+												<cfloop query="relns">
+													<cfset d=media_relationship>
+														<div class="form-row col-12 px-0 mx-0">	
+															<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
+															<label for="relationship__#i#"  class="sr-only">Relationship</label>
+															<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select col-3 float-left">
+																<option value="delete">delete</option>
+																<cfloop query="ctmedia_relationship">
+																	<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+																</cfloop>
+															</select>
+															<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-7 float-left px-1">
+															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
+															<button class="btn btn-danger btn-xs float-left"> X </button>
+															<button class="btn btn-secondary btn-xs mx-2 float-left">Edit</button>
+														</div>
+													<cfset i=i+1>
+												</cfloop>
+												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 						
 											</div>
 										</div><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
