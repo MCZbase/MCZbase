@@ -51,7 +51,7 @@ limitations under the License.
 
 .toggle-switch .ts-label {
     display: inline-block;
-    margin: 0 3px 0 6px;
+    margin: 0 1px 0 8px;
     vertical-align: top;
     -webkit-transition: color .56s cubic-bezier(.4, 0, .2, 1);
     transition: color .56s cubic-bezier(.4, 0, .2, 1)
@@ -473,7 +473,7 @@ limitations under the License.
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
 													<input class="btn btn-xs btn-danger float-left" type="button" value="X">
 														<div id="activate__#i#" class="toggle-switch" data-ts-color="green">
-															<label for="ts4__#i#" class="ts-label small90" name="label_value__#i#" id="Activate_value__#i#" >Edit></label>
+															<label for="ts4__#i#" class="ts-label small90" name="label_value__#i#" id="Activate_value__#i#" >Edit</label>
 															<input id="ts4__#i#" type="checkbox" hidden="hidden" name="ts4">
 															<label for="ts4__#i#" class="ts-helper"></label>
 														</div>
