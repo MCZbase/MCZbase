@@ -436,7 +436,7 @@ limitations under the License.
 																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input px-1">
 																<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															</li>
-															<li class="p-1 text-center col-2">
+															<li class="p-1 list-group-item col-2">
 																<button class="btn btn-danger btn-xs"> X </button>
 																<button class="btn btn-warning btn-xs">Edit</button>
 															</li>
