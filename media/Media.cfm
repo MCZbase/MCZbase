@@ -528,7 +528,11 @@ limitations under the License.
 																</cfloop>
 															</select>
 														<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-7 float-left">
-														<input class="btn btn-xs btn-secondary float-left" type="button" value="edit">
+														<div id="activate" class="toggle-switch" data-ts-color="green">
+														<label for="ts4" class="ts-label">Edit</label>
+														<input id="ts4" type="checkbox" hidden="hidden">
+														<label for="ts4" class="ts-helper"></label>
+													</div>
 														<input class="btn btn-xs btn-danger float-left" type="button" value="X">
 													</div>
 													<cfset i=i+1>
