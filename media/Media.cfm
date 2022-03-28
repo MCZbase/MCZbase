@@ -550,7 +550,7 @@ limitations under the License.
 												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-4" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 											</div><!---end id labels--->
 											<div class="col-12 px-0 float-left">
-												<input class="btn btn-xs btn-primary float-left" type="button" value="Save New">
+												<input class="btn btn-xs btn-primary float-left" type="button" value="Save Changes">
 											</div>
 										</div><!---end col-6--->	
 									</div><!---end form-row Relationships and labels--->
