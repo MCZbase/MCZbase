@@ -74,7 +74,7 @@ limitations under the License.
     content: '';
     position: absolute;
     top: -1px;
-    left: -4px;
+    left: -2px;
     width: 17px;
     height: 17px;
     background: #fafafa;
