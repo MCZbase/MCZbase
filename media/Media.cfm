@@ -523,8 +523,8 @@ limitations under the License.
 													  	$('##ts4').attr("checked", true);
 													  	var activate= parseInt($("##activate").val())+1;
 													  	$('##activate').click(function(){
-															$("##label_value").attr('disabled', 'false');
-															$("##label").attr('disabled', 'false');
+															$("##label_value").attr('disabled', 'disabled');
+															$("##label").attr('disabled', 'disabled');
 														});
 													}
 													</script>
