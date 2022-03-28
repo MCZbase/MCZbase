@@ -323,7 +323,7 @@ limitations under the License.
 													<div class="form-row col-12 px-0 mx-0">		
 														<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 															<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-															<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select  col-4 float-left">
+															<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select  col-3 float-left">
 																<option value="delete">delete</option>
 																<cfloop query="ctmedia_label">
 																	<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
