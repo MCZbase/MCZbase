@@ -511,8 +511,7 @@ limitations under the License.
 													  	var activate= parseInt($("##activate").val())+1;
 													  	$('##activate').click(function(event){
    																event.preventDefault();
-   																$('##label_value').removeAttr("disabled");
-																$("##label").removeAttr("disabled");
+   																$('.inputDisabled').removeAttr('disabled',true);
 															});														
 													} else {
 													  // turn toggle switch off
@@ -523,8 +522,7 @@ limitations under the License.
 													  	var activate= parseInt($("##activate").val())+1;
 													  	$('##activate').click(function(event){
 															event.preventDefault();
-															$("##label_value").attr('disabled');
-															$("##label").attr('disabled');
+															$('.inputDisabled').attr('disabled', false);
 														});
 													}
 													</script>
@@ -532,13 +530,13 @@ limitations under the License.
 													<div class="form-row col-12 px-0 mx-0">		
 														<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 														<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-														<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-3 float-left">
-																<option value="delete">delete</option>
-																<cfloop query="ctmedia_label">
-																	<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
-																</cfloop>
-															</select>
-													<input type="text" name="label_value__#i#" disabled="disabled" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-7 float-left">
+														<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select col-3 float-left">
+															<option value="delete">delete</option>
+															<cfloop query="ctmedia_label">
+																<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+															</cfloop>
+														</select>
+													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input inputDisabled col-7 float-left">
 													<input class="btn btn-xs btn-danger float-left" type="button" value="X">
 														<div id="activate__#i#" class="toggle-switch" data-ts-color="green">
 															<label for="ts4__#i#" class="ts-label small90" name="label_value__#i#" id="Activate_value__#i#" >Edit</label>
