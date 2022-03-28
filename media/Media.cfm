@@ -33,7 +33,200 @@ limitations under the License.
 </cfswitch>
 
 <cfinclude template = "/shared/_header.cfm">
+<style>
+	.toggle-switch {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none
+}
 
+
+.toggle-switch {
+    display: inline-block;
+    vertical-align: top;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.toggle-switch .ts-label {
+    display: inline-block;
+    margin: 0 20px 0 0;
+    vertical-align: top;
+    -webkit-transition: color .56s cubic-bezier(.4, 0, .2, 1);
+    transition: color .56s cubic-bezier(.4, 0, .2, 1)
+}
+
+.toggle-switch .ts-helper {
+    display: inline-block;
+    position: relative;
+    width: 40px;
+    height: 16px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, .26);
+    -webkit-transition: background .28s cubic-bezier(.4, 0, .2, 1);
+    transition: background .28s cubic-bezier(.4, 0, .2, 1);
+    vertical-align: middle;
+    cursor: pointer
+}
+
+.toggle-switch .ts-helper:before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: 24px;
+    height: 24px;
+    background: #fafafa;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28);
+    border-radius: 50%;
+    webkit-transition: left .28s cubic-bezier(.4, 0, .2, 1), background .28s cubic-bezier(.4, 0, .2, 1), box-shadow .28s cubic-bezier(.4, 0, .2, 1);
+    transition: left .28s cubic-bezier(.4, 0, .2, 1), background .28s cubic-bezier(.4, 0, .2, 1), box-shadow .28s cubic-bezier(.4, 0, .2, 1)
+}
+
+.toggle-switch:not(.disabled) .ts-helper:active:before {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(128, 128, 128, .1)
+}
+
+.toggle-switch input {
+    position: absolute;
+    z-index: 1;
+    width: 46px;
+    margin: 0 0 0 -4px;
+    height: 24px;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+
+.toggle-switch input:checked+.ts-helper:before {
+    left: 20px
+}
+
+.toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper {
+    background: rgba(0, 150, 136, .5)
+}
+
+.toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper:before {
+    background: #009688
+}
+
+.toggle-switch:not([data-ts-color]) input:not(:disabled):checked+.ts-helper:active:before {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 150, 136, .2)
+}
+
+.toggle-switch.disabled {
+    opacity: .6;
+    filter: alpha(opacity=60)
+}
+
+.toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper {
+    background: rgba(244, 67, 54, .5)
+}
+
+.toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper:before {
+    background: #F44336
+}
+
+.toggle-switch[data-ts-color=red] input:not(:disabled):checked+.ts-helper:active:before {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(244, 67, 54, .2)
+}
+
+.toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper {
+    background: rgba(33, 150, 243, .5)
+}
+
+.toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper:before {
+    background: #2196F3
+}
+
+.toggle-switch[data-ts-color=blue] input:not(:disabled):checked+.ts-helper:active:before {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(33, 150, 243, .2)
+}
+
+.toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper {
+    background: rgba(255, 193, 7, .5)
+}
+
+.toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper:before {
+    background: #FFC107
+}
+
+.toggle-switch[data-ts-color=amber] input:not(:disabled):checked+.ts-helper:active:before {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(255, 193, 7, .2)
+}
+
+.toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper {
+    background: rgba(186, 104, 200, .5)
+}
+
+.toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper:before {
+    background: #BA68C8
+}
+
+.toggle-switch[data-ts-color=purple] input:not(:disabled):checked+.ts-helper:active:before {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(186, 104, 200, .2)
+}
+
+.toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper {
+    background: rgba(233, 30, 99, .5)
+}
+
+.toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper:before {
+    background: #E91E63
+}
+
+.toggle-switch[data-ts-color=pink] input:not(:disabled):checked+.ts-helper:active:before {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(233, 30, 99, .2)
+}
+
+.toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper {
+    background: rgba(205, 220, 57, .5)
+}
+
+.toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper:before {
+    background: #CDDC39
+}
+
+.toggle-switch[data-ts-color=lime] input:not(:disabled):checked+.ts-helper:active:before {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(205, 220, 57, .2)
+}
+
+.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper {
+    background: rgba(0, 188, 212, .5)
+}
+
+.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper:before {
+    background: #00BCD4
+}
+
+.toggle-switch[data-ts-color=cyan] input:not(:disabled):checked+.ts-helper:active:before {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(0, 188, 212, .2)
+}
+
+.toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper {
+    background: rgba(76, 175, 80, .5)
+}
+
+.toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper:before {
+    background: #4CAF50
+}
+
+.toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper:active:before {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(76, 175, 80, .2)
+}	
+</style>
+<script>
+		if (false) {
+  // turn toggle switch off
+  $("#ts4").attr("checked", false);
+  $('#activate').click();
+} else {
+  // turn toggle switch off
+  $('#ts4').attr("checked", true);
+  $('#activate').click();
+}
+</script>
 <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select media_relationship from ctmedia_relationship order by media_relationship
 </cfquery>
@@ -320,6 +513,11 @@ limitations under the License.
 
 												<cfloop query="labels">
 													<cfset d=media_label>
+													<div id="activate" class="toggle-switch" data-ts-color="green">
+														<label for="ts4" class="ts-label">Toggle to Edit</label>
+														<input id="ts4" type="checkbox" hidden="hidden">
+														<label for="ts4" class="ts-helper"></label>
+													</div>
 													<div class="form-row col-12 px-0 mx-0">		
 														<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 														<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
