@@ -372,26 +372,7 @@ limitations under the License.
 											<h2>
 												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
 											</h2>
-<!---											<section>
-												<div id="relationshipsDiv">Loading....</div>
-												<script>
-													$(document).ready(function(){
-														loadRelationships(#getRelations.media_id#,'relationshipsDiv');
-													});
-												</script>
-												<div class="row">
-													<div class="col-12">
-														<label for="media_relations" class="data-entry-label float-left mt-2">Add New Relationship</label>
-														<select name="media_relations" id="new_media_relationship" size="1" class="data-entry-select float-left col-3 my-1">
-															<cfloop query="ctmedia_relationship">
-																<option value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
-															</cfloop>
-														</select>
-														<input type="text" name="related_value__i" id="related_value__0" value=" " class="data-entry-input float-left col-7 my-1">
-														<input type="button" value="Add" class="btn btn-xs btn-secondary float-left my-1" onclick="newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipsDiv');">
-													</div>
-												</div>
-											</section>--->
+
 											<div id="relationships">
 												<cfset i=1>
 												<cfif relns.recordcount is 0>
@@ -492,7 +473,7 @@ limitations under the License.
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
 													<input class="btn btn-xs btn-danger float-left" type="button" value="X">
 														<div id="activate__#i#" class="toggle-switch" data-ts-color="green">
-															<label for="ts4__#i#" class="ts-label small90" name="label_value__#i#" id="Activate_value__#i#" >Edit ></label>
+															<label for="ts4__#i#" class="ts-label small90" name="label_value__#i#" id="Activate_value__#i#" >Edit></label>
 															<input id="ts4__#i#" type="checkbox" hidden="hidden" name="ts4">
 															<label for="ts4__#i#" class="ts-helper"></label>
 														</div>
