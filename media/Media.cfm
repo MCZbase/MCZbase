@@ -51,7 +51,7 @@ limitations under the License.
 
 .toggle-switch .ts-label {
     display: inline-block;
-    margin: 0 20px 0 0;
+    margin: 0 8px 0 10px;
     vertical-align: top;
     -webkit-transition: color .56s cubic-bezier(.4, 0, .2, 1);
     transition: color .56s cubic-bezier(.4, 0, .2, 1)
@@ -513,11 +513,6 @@ limitations under the License.
 
 												<cfloop query="labels">
 													<cfset d=media_label>
-													<div id="activate" class="toggle-switch" data-ts-color="green">
-														<label for="ts4" class="ts-label">Toggle to Edit</label>
-														<input id="ts4" type="checkbox" hidden="hidden">
-														<label for="ts4" class="ts-helper"></label>
-													</div>
 													<div class="form-row col-12 px-0 mx-0">		
 														<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 														<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
@@ -529,10 +524,10 @@ limitations under the License.
 															</select>
 														<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-7 float-left">
 														<div id="activate" class="toggle-switch" data-ts-color="green">
-														<label for="ts4" class="ts-label">Edit</label>
-														<input id="ts4" type="checkbox" hidden="hidden">
-														<label for="ts4" class="ts-helper"></label>
-													</div>
+															<label for="ts4" class="ts-label">Edit</label>
+															<input id="ts4" type="checkbox" hidden="hidden">
+															<label for="ts4" class="ts-helper"></label>
+														</div>
 														<input class="btn btn-xs btn-danger float-left" type="button" value="X">
 													</div>
 													<cfset i=i+1>
