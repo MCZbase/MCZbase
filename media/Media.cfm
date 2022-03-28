@@ -398,31 +398,31 @@ limitations under the License.
 												<cfset i=1>
 												<cfif relns.recordcount is 0>
 													<!--- seed --->
-													<table id="seedMedia" style="display:none">
+													<div id="seedMedia" style="display:none">
 														<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 														<cfset d="">
-														<tr>
-															<td>
+														<ul class="list-group">
+															<li class="list-group-item">
 																<select name="relationship__0" id="relationship__0" class="data-entry-select  col-5" size="1"  onchange="pickedRelationship(this.id)">
 																	<cfloop query="ctmedia_relationship">
 																		<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																	</cfloop>
 																</select>
-															</td>
-															<td>
+															</li>
+															<li class="list-group-item">
 																<input type="text" name="related_value__0" id="related_value__0" class="data-entry-inputcol-7">
 																<input type="hidden" name="related_id__0" id="related_id__0">
-															</td>
-														</tr>
-													</table><!--- end id seedMedia --->
+															</li>
+														</ul>
+													</div><!--- end id seedMedia --->
 												</cfif>
 											
 											
-											<div class="">
+											<div class="col-12">
 												<cfloop query="relns">
 													<cfset d=media_relationship>
-														<ul>
-															<li class="p-1">
+														<ul class="list-group">
+															<li class="list-group-item col-3 p-1">
 																<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 																<label for="relationship__#i#"  class="sr-only">Relationship</label>
 																<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select">
@@ -432,11 +432,11 @@ limitations under the License.
 																	</cfloop>
 																</select>
 															</li>
-															<li class="p-1">
+															<li class="p-1 list-group-item col-7">
 																<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input px-1">
 																<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															</li>
-															<li class="p-1 text-center">
+															<li class="p-1 text-center col-2">
 																<button class="btn btn-danger btn-xs"> X </button>
 																<button class="btn btn-warning btn-xs">Edit</button>
 															</li>
