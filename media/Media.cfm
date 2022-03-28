@@ -429,7 +429,7 @@ limitations under the License.
 												</cfif>
 											
 											
-<!---											<table class="table">
+										<table class="table">
 												<thead>
 													<tr class="col-12">
 														<th class="small text-center col-3">Name</th>
@@ -465,10 +465,10 @@ limitations under the License.
 												</cfloop>
 												
 												</tbody>
-											</table>--->
-
+											</table>
+								</div>
 											
-												<cfloop query="relns">
+										<!---		<cfloop query="relns">
 													<cfset d=media_relationship>
 													<div class="form-row col-12 px-0 mx-0">
 														<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
@@ -483,7 +483,7 @@ limitations under the License.
 															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 													</div>
 													<cfset i=i+1>
-												</cfloop>
+												</cfloop>--->
 									
 											</div>
 										</div><!---end col-6--->
