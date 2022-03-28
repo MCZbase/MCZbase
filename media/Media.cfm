@@ -503,13 +503,15 @@ limitations under the License.
 												<cfloop query="labels">
 													<script>
 													if (false) {
-													  // turn toggle switch off
-													  $(".ts4").attr("checked", false);
-													  var activate= parseInt($("##activate").val())+1;
-													  $('##activate').click();
+													  	// turn toggle switch off
+													 	var ts4= parseInt($("##ts4").val())+1;
+													  	$("##ts4").attr("checked", false);
+													  	var activate= parseInt($("##activate").val())+1;
+													  	$('##activate').click();
 													} else {
 													  // turn toggle switch off
-													  $('.ts4').attr("checked", true);
+														var ts4= parseInt($("##ts4").val())+1;
+													  $('##ts4').attr("checked", true);
 													  var activate= parseInt($("##activate").val())+1;
 													  $('##activate').click();
 													}
