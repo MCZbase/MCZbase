@@ -504,27 +504,27 @@ limitations under the License.
 													<script>
 													if (false) {
 													  	// turn toggle switch off
-														var select_toggle= parseInt($("##select_toggle").val())+1;
-														var toggle_value = parseInt($("##toggle_value").val())+1;
+														var label= parseInt($("##label").val())+1;
+														var label_value = parseInt($("##label_value").val())+1;
 													 	var ts4= parseInt($("##ts4").val())+1;
 													  	$("##ts4").attr("checked", false);
 													  	var activate= parseInt($("##activate").val())+1;
 													  	$('##activate').click(function(){
-															$("##toggle_value").attr('disabled', 'true');
-															$("##select_toggle").attr('disabled', 'true');
+															$("##label_value").attr('disabled', 'true');
+															$("##label").attr('disabled', 'true');
 														});
 														
 													} else {
 													  // turn toggle switch off
-														var select_toggle= parseInt($("##select_toggle").val())+1;
-														var toggle_value = parseInt($("##toggle_value").val())+1;
+														var label= parseInt($("##label").val())+1;
+														var label_value = parseInt($("##label_value").val())+1;
 														
 														var ts4= parseInt($("##ts4").val())+1;
 													  	$('##ts4').attr("checked", true);
 													  	var activate= parseInt($("##activate").val())+1;
 													  	$('##activate').click(function(){
-															$("##toggle_value").attr('disabled', 'false');
-															$("##select_toggle").attr('disabled', 'false');
+															$("##label_value").attr('disabled', 'false');
+															$("##label").attr('disabled', 'false');
 														});
 													}
 													</script>
@@ -532,16 +532,16 @@ limitations under the License.
 													<div class="form-row col-12 px-0 mx-0">		
 														<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 														<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-														<select name="select_toggle__#i#" id="select_toggle__#i#" size="1" class="data-entry-select col-3 float-left">
+														<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-3 float-left">
 																<option value="delete">delete</option>
 																<cfloop query="ctmedia_label">
 																	<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																</cfloop>
 															</select>
-													<input type="text" name="toggle_value__#i#" id="toggle_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-7 float-left">
+													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-7 float-left">
 													<input class="btn btn-xs btn-danger float-left" type="button" value="X">
 														<div id="activate__#i#" class="toggle-switch" data-ts-color="green">
-															<label for="ts4__#i#" class="ts-label small90" name="toggle_label__#i#" id="Activate_value__#i#" >Edit</label>
+															<label for="ts4__#i#" class="ts-label small90" name="label_value__#i#" id="Activate_value__#i#" >Edit</label>
 															<input id="ts4__#i#" type="checkbox" hidden="hidden" name="ts4">
 															<label for="ts4__#i#" class="ts-helper"></label>
 														</div>
