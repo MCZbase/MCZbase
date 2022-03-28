@@ -383,7 +383,7 @@ limitations under the License.
 												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold">Media Relationships | <span class="text-dark font-weight-normal" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
 											</h2>
 											<p></p>
-											<section>
+<!---											<section>
 												<div id="relationshipsDiv">Loading....</div>
 												<script>
 													$(document).ready(function(){
@@ -402,12 +402,12 @@ limitations under the License.
 														<input type="button" value="Add" class="btn btn-xs btn-secondary float-left my-1" onclick="newRelationship(#getRelations.media_id#,$('##new_media_relationship').val(),'relationshipsDiv');">
 													</div>
 												</div>
-											</section>
+											</section>--->
 										</div>
 
-<!---											<div id="relationships">
+										<div id="relationships">
 												<cfset i=1>
-												<cfif relns.recordcount is 0>--->
+												<cfif relns.recordcount is 0>
 													<!--- seed --->
 													<!---<table id="seedMedia" style="display:none">
 														<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
@@ -426,7 +426,7 @@ limitations under the License.
 															</td>
 														</tr>
 													</table>---><!--- end id seedMedia --->
-<!---												</cfif>
+												</cfif>
 											
 											
 											<table class="table">
@@ -437,9 +437,9 @@ limitations under the License.
 														<th class="small text-center">Action</th>
 													</tr>
 												</thead>
-											<tbody>--->
+											<tbody>
 													
-<!---												<cfloop query="relns">
+												<cfloop query="relns">
 													<cfset d=media_relationship>
 														<tr>
 															<td class="p-1">
@@ -465,10 +465,10 @@ limitations under the License.
 												</cfloop>
 												
 												</tbody>
-											</table>--->
+											</table>
 
 											
-								<!---				<cfloop query="relns">
+												<cfloop query="relns">
 													<cfset d=media_relationship>
 													<div class="form-row col-12 px-0 mx-0">
 														<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
@@ -483,10 +483,10 @@ limitations under the License.
 															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 													</div>
 													<cfset i=i+1>
-												</cfloop>--->
+												</cfloop>
 									
-							<!---				</div>
-										</div>---><!---end col-6--->
+											</div>
+										</div><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
 											<h2>
 												<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
