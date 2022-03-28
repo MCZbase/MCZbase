@@ -502,7 +502,7 @@ limitations under the License.
 
 												<cfloop query="labels">
 													<script>
-													if (true) {
+													if ($("##ts4").attr("checked", false)) {
 													  	// turn toggle switch off
 														var label= parseInt($("##label").val())+1;
 														var label_value = parseInt($("##label_value").val())+1;
@@ -511,7 +511,7 @@ limitations under the License.
 													  	var activate= parseInt($("##activate").val())+1;
 													  	$('##activate').click(function(event){
    																event.preventDefault();
-   																$('.inputDisabled').removeAttr('disabled',true);
+   																$('.inputDisabled').removeAttr('disabled');
 															});														
 													} else {
 													  // turn toggle switch off
@@ -522,7 +522,7 @@ limitations under the License.
 													  	var activate= parseInt($("##activate").val())+1;
 													  	$('##activate').click(function(event){
 															event.preventDefault();
-															$('.inputDisabled').attr('disabled', false);
+															$('.inputDisabled').attr('disabled');
 														});
 													}
 													</script>
