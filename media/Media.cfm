@@ -509,22 +509,22 @@ limitations under the License.
 													 	var ts4= parseInt($("##ts4").val())+1;
 													  	$("##ts4").attr("checked", false);
 													  	var activate= parseInt($("##activate").val())+1;
-													  	$('##activate').click(function(){
-															$("##label_value").attr('disabled', 'true');
-															$("##label").attr('disabled', 'true');
-														});
-														
+													  	$('##activate').click(function(event){
+   																event.preventDefault();
+   																$('##label_value').removeAttr("disabled");
+																$("##label").removeAttr("disabled");
+															});														
 													} else {
 													  // turn toggle switch off
 														var label= parseInt($("##label").val())+1;
 														var label_value = parseInt($("##label_value").val())+1;
-														
 														var ts4= parseInt($("##ts4").val())+1;
 													  	$('##ts4').attr("checked", true);
 													  	var activate= parseInt($("##activate").val())+1;
-													  	$('##activate').click(function(){
-															$("##label_value").attr('disabled', 'disabled');
-															$("##label").attr('disabled', 'disabled');
+													  	$('##activate').click(function(event){
+															event.preventDefault();
+															$("##label_value").attr('disabled');
+															$("##label").attr('disabled');
 														});
 													}
 													</script>
@@ -538,7 +538,7 @@ limitations under the License.
 																	<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																</cfloop>
 															</select>
-													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-7 float-left">
+													<input type="text" name="label_value__#i#" disabled="disabled" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-7 float-left">
 													<input class="btn btn-xs btn-danger float-left" type="button" value="X">
 														<div id="activate__#i#" class="toggle-switch" data-ts-color="green">
 															<label for="ts4__#i#" class="ts-label small90" name="label_value__#i#" id="Activate_value__#i#" >Edit</label>
