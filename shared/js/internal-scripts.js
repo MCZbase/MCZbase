@@ -241,9 +241,6 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
   * @param n the serial integer that identifies the set of relationship fields.
   * @depricated
   */
-function addRelation (n) {
-	addRelationTo(n,"relationships");
-}
 
 /** Add a set of fields for entering a media relationship to a form, the fields
   * comprise inputs for relationship__{n}, related_value__{n}, and related_id__{n}
@@ -256,7 +253,7 @@ function addRelation (n) {
   */
 function addRelationTo (n,targetId) {
 	var pDiv=document.getElementById(targetId);
-	var nDiv = document.createElement('tr');
+	var nDiv = document.createElement('div');
 	nDiv.id='relationshipDiv__' + n;
 	pDiv.appendChild(nDiv);
 	var n1=n-1;
