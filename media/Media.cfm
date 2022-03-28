@@ -51,7 +51,7 @@ limitations under the License.
 
 .toggle-switch .ts-label {
     display: inline-block;
-    margin: 0 1px 0 8px;
+    margin: 0 1px 0 11px;
     vertical-align: top;
     -webkit-transition: color .56s cubic-bezier(.4, 0, .2, 1);
     transition: color .56s cubic-bezier(.4, 0, .2, 1)
