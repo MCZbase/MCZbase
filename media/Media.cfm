@@ -525,7 +525,7 @@ limitations under the License.
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" disabled class="data-entry-input col-7 disabled float-left">
 													<input class="btn btn-xs btn-danger float-left" type="button" value="X">
 														<div id="activate" class="toggle-switch" data-ts-color="green">
-															<label for="ts4" class="ts-label data-entry-label">Edit</label>
+															<label for="ts4" class="ts-label small90">Edit</label>
 															<input id="ts4" type="checkbox" hidden="hidden">
 															<label for="ts4" class="ts-helper"></label>
 														</div>
