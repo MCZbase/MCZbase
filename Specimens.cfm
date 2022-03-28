@@ -26,7 +26,6 @@ limitations under the License.
 </cfcatch>
 </cftry>
 <cfif findNoCase('redesign',gitBranch) EQ 0>
-	<!--- cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user") --->
 	<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 		<!--- logged in users now able to see redesigned specimen search on production --->
 	<cfelse>
@@ -777,6 +776,7 @@ limitations under the License.
 													</div>
 													<div id="fixedcolumnPickDialogButton"></div>
 													<div id="fixedresultDownloadButtonContainer"></div>
+													<span id="fixedmanageButton" class="d-block p-2"></span>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -919,6 +919,7 @@ limitations under the License.
 													</div>
 													<div id="keywordcolumnPickDialogButton"></div>
 													<div id="keywordresultDownloadButtonContainer"></div>
+													<span id="keywordmanageButton" class="d-block p-2"></span>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -1333,6 +1334,7 @@ limitations under the License.
 													</div>
 													<div id="buildercolumnPickDialogButton"></div>
 													<div id="builderresultDownloadButtonContainer"></div>
+													<span id="buildermanageButton" class="d-block p-2"></span>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -1564,6 +1566,7 @@ limitations under the License.
 				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$('##fixedresultCount').html('');
 				$('##fixedresultLink').html('');
+				$('##fixedmanageButton').html('');
 				/*var debug = $('##fixedSearchForm').serialize();
 				console.log(debug);*/
 				/*var datafieldlist = [ ];//add synchronous call to cf component*/
@@ -1682,6 +1685,14 @@ limitations under the License.
 						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 						fixedSearchLoaded = 1;
 					}
+					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") >
+						<!--- manage temporaraly only visible for global admin --->
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+							$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
+						<cfelse>
+							$('##fixedmanageButton').html('');
+						</cfif>
+					</cfif>
 					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 				});
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
@@ -1847,6 +1858,14 @@ limitations under the License.
 						gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
 						keywordSearchLoaded = 1;
 					}
+					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") >
+						<!--- manage temporaraly only visible for global admin --->
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+							$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
+						<cfelse>
+							$('##keywordmanageButton').html('');
+						</cfif>
+					</cfif>
 					pageLoaded('keywordsearchResultsGrid','occurrence record','keyword');
 				});
 				$('##keywordsearchResultsGrid').on('rowexpand', function (event) {
@@ -2008,6 +2027,14 @@ limitations under the License.
 						gridLoaded('buildersearchResultsGrid','occurrence record','builder');
 						builderSearchLoaded = 1;
 					}
+					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") >
+						<!--- manage temporaraly only visible for global admin --->
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+							$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
+						<cfelse>
+							$('##buildermanageButton').html('');
+						</cfif>
+					</cfif>
 					pageLoaded('buildersearchResultsGrid','occurrence record','builder');
 				});
 				$('##buildersearchResultsGrid').on('rowexpand', function (event) {

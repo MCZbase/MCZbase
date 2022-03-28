@@ -1,10 +1,11 @@
-<cfinclude template="/includes/_header.cfm">
+<cfset pageTitle = "Change Localities for Search Result">
+<cfinclude template="/shared/_header.cfm">
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided for result set on which to change localities.">
 </cfif>
 <cfif not isDefined("action") OR len(action) EQ 0>
-	<cfset action="entry">
+	<cfset action="entryPoint">
 </cfif>
 
 <!--- For all actions, obtain data from the list of specimens specified by the result_id --->
@@ -14,7 +15,7 @@
 		cataloged_item.cat_num,
 		cataloged_item.collecting_event_id,
 		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
-		identification.scientific_name,
+		flat.scientific_name,
 		locality.locality_id,
 		locality.spec_locality,
 		geog_auth_rec.higher_geog,
@@ -23,24 +24,15 @@
 		flat.phylorder,
 		flat.family
 	FROM
-		identification,
-		collecting_event,
-		locality,
-		geog_auth_rec,
-		cataloged_item,
-		collection,
-		flat,
 		user_search_table
+		left join cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+		left join collection on  cataloged_item.collection_id = collection.collection_id
+		left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+		left join locality on collecting_event.locality_id = locality.locality_id
+		left join geog_auth_rec on  locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+		left join flat on cataloged_item.collection_object_id = flat.collection_object_id
 	WHERE
 		result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-		AND locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-		AND collecting_event.locality_id = locality.locality_id
-		AND cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-		AND cataloged_item.collection_object_id = flat.collection_object_id
-		AND cataloged_item.collection_object_id = identification.collection_object_id
-		AND cataloged_item.collection_id = collection.collection_id
-		AND identification.accepted_id_fg = 1
-		AND cataloged_item.collection_object_id = user_search_table.collection_object_id
 		<cfif isdefined("filterOrder") and len(#filterOrder#) GT 0>
 			and flat.phylorder in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filterOrder#" list="true">)
 		</cfif>
@@ -50,6 +42,9 @@
 	ORDER BY
 		phylorder, family
 </cfquery>
+<cfif specimenList.recordcount EQ 0>
+	<cfthrow message = "No records found on which to change localities with record_id #encodeForHtml(result_id)# in user_search_table.">
+</cfif>
 
 <!--------------------------------------------------------------------------------------------------->
 
@@ -59,7 +54,7 @@
 		<cfset showLocality=1>
 		<cfset showEvent=0>
 		<cfoutput>
-			<h3>Find new locality</h3>
+			<h2 class="h3">Find new locality for specimens [in #encodeForHtml(result_id)#]</h2>
 			<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
 				<input type="hidden" name="Action" value="findLocality">
 				<input type="hidden" name="result_id" value="#result_id#">
@@ -70,12 +65,15 @@
 					<input type="hidden" name="filterFamily" value="#filterFamily#">
 				</cfif>
 				<cfset showSpecimenCounts = false>
-				<cfinclude template="/includes/frmFindLocation_guts.cfm">
+				<cfinclude template="/localities/searchLocationForm.cfm">
 			</form>
 		</cfoutput>
 	</cfcase>
 
 	<cfcase value ="updateLocality">
+		<cfoutput>
+			<h2 class="h2">Changed locality for specimens [in #encodeForHtml(result_id)#]</h2>
+		</cfoutput>
 		<cfquery name="collEvents" dbtype="query">
 			select distinct collecting_event_id from specimenList
 		</cfquery>
@@ -217,8 +215,8 @@
 	select distinct family from specimenList
 </cfquery>
 
-<br><b>Specimens Being Changed:</b>
 <cfoutput>
+	<h2 class="h3">Specimens Being Changed: #specimenList.recordcount#</h2>
 		<table width="95%">
 		<form name="filterResults">
 		<input type="hidden" name="result_id" value="#result_id#">
@@ -286,4 +284,4 @@
 </table>
 
 
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
