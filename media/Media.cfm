@@ -489,7 +489,7 @@ limitations under the License.
 										</div>---><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
 											<h2>
-												<label for="labels" class="h2 mb-1 mt-2 px-1 data-entry-label font-weight-bold">Media Labels  | <span class="font-weight-normal text-dark">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
+												<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
 												</label>
 											</h2>
 											<div id="labels">
@@ -523,17 +523,19 @@ limitations under the License.
 																</cfloop>
 															</select>
 														<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-7 float-left">
+													<input class="btn btn-xs btn-danger float-left" type="button" value="X">
 														<div id="activate" class="toggle-switch" data-ts-color="green">
 															<label for="ts4" class="ts-label">Edit</label>
 															<input id="ts4" type="checkbox" hidden="hidden">
 															<label for="ts4" class="ts-helper"></label>
 														</div>
-														<input class="btn btn-xs btn-danger float-left" type="button" value="X">
+														
 													</div>
 													<cfset i=i+1>
 												</cfloop>
-												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 											</div><!---end id labels--->
+											<input class="btn btn-xs btn-primary float-left" type="button" value="Save New">
 										</div><!---end col-6--->	
 									</div><!---end form-row Relationships and labels--->
 								</div><!---end col-12--->
