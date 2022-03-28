@@ -60,7 +60,7 @@ limitations under the License.
 .toggle-switch .ts-helper {
     display: inline-block;
     position: relative;
-    width: 40px;
+    width: 30px;
     height: 16px;
     border-radius: 8px;
     background: rgba(0, 0, 0, .26);
