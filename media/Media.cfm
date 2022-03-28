@@ -506,23 +506,26 @@ limitations under the License.
 													  	// turn toggle switch off
 														var select_toggle= parseInt($("##select_toggle").val())+1;
 														var toggle_value = parseInt($("##toggle_value").val())+1;
-														$("##toggle_value").attr('disabled', 'true');
-														$("##select_toggle").attr('disabled', 'true');
 													 	var ts4= parseInt($("##ts4").val())+1;
 													  	$("##ts4").attr("checked", false);
 													  	var activate= parseInt($("##activate").val())+1;
-													  	$('##activate').click();
+													  	$('##activate').click(function(){
+															$("##toggle_value").attr('disabled', 'true');
+															$("##select_toggle").attr('disabled', 'true');
+														});
 														
 													} else {
 													  // turn toggle switch off
 														var select_toggle= parseInt($("##select_toggle").val())+1;
 														var toggle_value = parseInt($("##toggle_value").val())+1;
-														$("##toggle_value").attr('disabled', 'false');
-														$("##select_toggle").attr('disabled', 'false');
+														
 														var ts4= parseInt($("##ts4").val())+1;
 													  	$('##ts4').attr("checked", true);
 													  	var activate= parseInt($("##activate").val())+1;
-													  	$('##activate').click();
+													  	$('##activate').click(function(){
+															$("##toggle_value").attr('disabled', 'false');
+															$("##select_toggle").attr('disabled', 'false');
+														});
 													}
 													</script>
 													<cfset d=media_label>
