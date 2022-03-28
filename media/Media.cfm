@@ -502,7 +502,7 @@ limitations under the License.
 
 												<cfloop query="labels">
 													<script>
-													if (false) {
+													if (true) {
 													  	// turn toggle switch off
 														var label= parseInt($("##label").val())+1;
 														var label_value = parseInt($("##label_value").val())+1;
