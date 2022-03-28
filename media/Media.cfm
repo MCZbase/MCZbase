@@ -403,8 +403,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>--->
-										</div>
-
+										
 										<div id="relationships">
 												<cfset i=1>
 												<cfif relns.recordcount is 0>
@@ -466,7 +465,7 @@ limitations under the License.
 												
 												</tbody>
 											</table>
-								</div>
+								
 											
 										<!---		<cfloop query="relns">
 													<cfset d=media_relationship>
