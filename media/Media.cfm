@@ -538,7 +538,7 @@ limitations under the License.
 																	<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																</cfloop>
 															</select>
-													<input type="text" name="toggle_value__#i#" id="toggle_value__#i#" value="#encodeForHTML(toggle_value)#" class="data-entry-input col-7 float-left">
+													<input type="text" name="toggle_value__#i#" id="toggle_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-7 float-left">
 													<input class="btn btn-xs btn-danger float-left" type="button" value="X">
 														<div id="activate__#i#" class="toggle-switch" data-ts-color="green">
 															<label for="ts4__#i#" class="ts-label small90" name="toggle_label__#i#" id="Activate_value__#i#" >Edit</label>
