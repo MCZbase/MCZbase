@@ -45,7 +45,7 @@
 		</cfif>
 	</cfloop>
 	<!--- we don't have a redirect, and it's not on our hitlist, so 404 --->
-<main class="container" id="content">
+<article class="container" id="content">
 	<div class="row">
 		<div class="col-8 mx-auto pt-5">
 			<cfheader statuscode="404" statustext="Not found">
@@ -153,7 +153,7 @@
 			</p>
 		</div>
 	</div>
-</main>
+</article>
 </cfoutput>
 <cfif headerPath IS "includes">
 	<cfinclude template="/includes/_footer.cfm">
