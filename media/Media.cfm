@@ -391,6 +391,23 @@ limitations under the License.
 													</div><!--- end id seedMedia --->
 												</cfif>
 												<cfloop query="relns">
+												<script type="text/javascript">
+													$(document).ready(function() {
+														$("##relationship__#i#").prop("disabled", true);
+														$(".slide-toggle").click(function() {
+															if (this.value=="Enable") {
+																this.value = "Disable";
+																$("##relationship__#i#").prop("disabled", false);
+																$("##relationships:select").prop("disabled", false);
+															}
+															else {
+																this.value = "Enable";
+																$("##relationship__#i#").prop("disabled", true);
+																$("##relationships:select").prop("disabled", true);
+															}
+														});
+													});
+												</script>
 													<cfset d=media_relationship>
 														<div class="form-row col-12 px-0 mx-0">	
 															<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
@@ -408,29 +425,12 @@ limitations under the License.
 														</div>
 													<cfset i=i+1>
 												</cfloop>
-												<input name="test" class="relationships" value"test">
 												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
 												<input onclick="enable_disable()" type="button"
 															class="slide-toggle" value="Enable"
 															id="myButton1">
 												</input>
-												<script type="text/javascript">
-													$(document).ready(function() {
-														$("##relationships:input").prop("disabled", true);
-														$(".slide-toggle").click(function() {
-															if (this.value=="Enable") {
-																this.value = "Disable";
-																$("##relationships:input").prop("disabled", false);
-																$("##relationships:select").prop("disabled", false);
-															}
-															else {
-																this.value = "Enable";
-																$("##relationships:input").prop("disabled", true);
-																$("##relationships:select").prop("disabled", true);
-															}
-														});
-													});
-												</script>
+
 											</form>
 										</div><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
