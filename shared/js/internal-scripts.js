@@ -257,6 +257,10 @@ function addRelation (n,targetId) {
 	nDiv.id='relationshipDiv__' + n;
 	pDiv.appendChild(nDiv);
 	var n1=n-1;
+	nDiv.classList.add('test');
+	let text = document.createTextNode('Test');
+	nDiv.appendChild(text);
+	document.body.appendChild(div)
 	
 	var selName='relationship__' + n1;
 	var nSel = document.getElementById(selName).cloneNode(true);
