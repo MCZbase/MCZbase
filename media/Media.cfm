@@ -421,16 +421,12 @@ limitations under the License.
 															<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-7 float-left px-1">
 															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															<button class="btn btn-danger btn-xs float-left"> X </button>
-															<button class="btn btn-secondary btn-xs mx-2 float-left">Edit</button>
+															<button class="btn btn-secondary btn-xs mx-2 float-left slide-toggle" onclick="enable_disable()" type="button"
+															value="Enable" id="myButton1">Edit</button>
 														</div>
 													<cfset i=i+1>
 												</cfloop>
 												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
-												<input onclick="enable_disable()" type="button"
-															class="slide-toggle" value="Enable"
-															id="myButton1">
-												</input>
-
 											</form>
 										</div><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
