@@ -255,10 +255,10 @@ function addRelation (n,targetId) {
 	var pDiv=document.getElementById(targetId);
 	var nDiv = document.createElement('div');
 	nDiv.id='relationshipDiv__' + n;
-	pDiv.appendChild(nDiv);
-	var n1=n-1;
 	cDiv.class='col-9';
-	pDiv.appendChild(nDiv);
+	pDiv.appendChild(nDiv + cDiv);
+	var n1=n-1;
+	
 	
 	var selName='relationship__' + n1;
 	var nSel = document.getElementById(selName).cloneNode(true);
