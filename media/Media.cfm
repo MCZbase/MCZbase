@@ -430,7 +430,7 @@ limitations under the License.
 														</script>
 													<cfset i=i+1>
 												</cfloop>
-												<span class="infoLink h5 box-shadow-0 d-block col-2 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
+												<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
 												<div class="col-12 px-0 float-left">
 													<input class="btn btn-xs btn-primary float-left" type="button" value="Save Relationships Changes">
 												</div>
