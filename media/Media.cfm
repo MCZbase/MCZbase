@@ -412,7 +412,7 @@ limitations under the License.
 													$(document).ready(function() {
 														$("##relationship__#i#").prop("disabled", true);
 														$("##related_value__#i#").prop("disabled", true);
-														$(".slide-toggle").click(function() {
+														$(".slide-toggle__#i#").click(function() {
 															if (this.value=="Enable") {
 																event.preventDefault();
 																this.value = "Disable";
