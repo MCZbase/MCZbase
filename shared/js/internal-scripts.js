@@ -316,9 +316,7 @@ function addLabelTo (n,targetId,buttonId) {
 	nSel.value='';
 	nDiv.appendChild(nSel);
 
-	c = document.createElement("textNode");
-	c.innerHTML="";
-	nDiv.appendChild(c);
+
 
 	var inpName='label_value__' + n1;
 	var nInp = document.getElementById(inpName).cloneNode(true);
@@ -327,6 +325,10 @@ function addLabelTo (n,targetId,buttonId) {
 	nInp.value='';
 	nDiv.appendChild(nInp);
 
+	c = document.createElement("textNode");
+	c.innerHTML="::";
+	nDiv.appendChild(c);
+	
 	var mS = document.getElementById(buttonId);
 	//pDiv.removeChild(mS);
 	mS.remove();
