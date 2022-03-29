@@ -426,7 +426,7 @@ limitations under the License.
 																$("##related_value__#i#").prop("disabled", true);
 															}
 														});
-													};
+													});
 												</script>
 													<cfset i=i+1>
 												</cfloop>
@@ -481,8 +481,8 @@ limitations under the License.
 																event.preventDefault();
    																$('.inputDisabled').attr('enabled');
 															});		
-														});
-													}
+														};
+
 													</script>
 													<cfset d=media_label>
 													<div class="form-row col-12 px-0 mx-0">		
