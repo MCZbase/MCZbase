@@ -398,12 +398,12 @@ limitations under the License.
 															if (this.value=="Enable") {
 																this.value = "Disable";
 																$("##relationship__#i#").prop("disabled", false);
-																$("##relationships:select").prop("disabled", false);
+																$("##related_value__#i#").prop("disabled", false);
 															}
 															else {
 																this.value = "Enable";
 																$("##relationship__#i#").prop("disabled", true);
-																$("##relationships:select").prop("disabled", true);
+																$("##related_value__#i#").prop("disabled", true);
 															}
 														});
 													});
@@ -422,7 +422,7 @@ limitations under the License.
 															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															<button class="btn btn-danger btn-xs float-left"> X </button>
 															<input class="btn btn-secondary btn-xs mx-2 float-left slide-toggle" onclick="enable_disable()" type="button"
-															value="Enable" id="myButton1"></input>
+															value="Enable"></input>
 														</div>
 													<cfset i=i+1>
 												</cfloop>
