@@ -416,7 +416,7 @@ limitations under the License.
 												</input>
 												<script type="text/javascript">
 													$(document).ready(function() {
-														$(".relationships :input").prop("disabled", true);
+														$("##relationships:input").prop("disabled", true);
 														$(".slide-toggle").click(function() {
 															if (this.value=="Enable") {
 																this.value = "Disable";
