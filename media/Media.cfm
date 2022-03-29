@@ -431,6 +431,9 @@ limitations under the License.
 													<cfset i=i+1>
 												</cfloop>
 												<span class="infoLink h5 box-shadow-0 d-block col-2 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
+												<div class="col-12 px-0 float-left">
+													<input class="btn btn-xs btn-primary float-left" type="button" value="Save Relationships Changes">
+												</div>
 											</div>
 										</div><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
@@ -456,33 +459,31 @@ limitations under the License.
 													</div>
 													<!--- end labels seed --->
 												</cfif>
-
 												<cfloop query="labels">
 													<script>
-													if ($("##ts4").attr("checked", false)) {
-													  	// turn toggle switch off
-														var label= parseInt($("##label").val())+1;
-														var label_value = parseInt($("##label_value").val())+1;
-													 	var ts4= parseInt($("##ts4").val())+1;
-													  	$("##ts4").attr("checked", false);
-													  	var activate= parseInt($("##activate").val())+1;
-													  	$('##activate').click(function(event){
-   																event.preventDefault();
-   																$('.inputDisabled').removeAttr('disabled');
-															});														
-													} else {
-													  // turn toggle switch off
-														var label= parseInt($("##label").val())+1;
-														var label_value = parseInt($("##label_value").val())+1;
-														var ts4= parseInt($("##ts4").val())+1;
-													  	$('##ts4').attr("checked", true);
-													  	var activate= parseInt($("##activate").val())+1;
-													  	$('##activate').click(function(event){
-																event.preventDefault();
-   																$('.inputDisabled').attr('enabled');
-															});		
-														};
-
+														if ($("##ts4").attr("checked", false)) {
+															// turn toggle switch off
+															var label= parseInt($("##label").val())+1;
+															var label_value = parseInt($("##label_value").val())+1;
+															var ts4= parseInt($("##ts4").val())+1;
+															$("##ts4").attr("checked", false);
+															var activate= parseInt($("##activate").val())+1;
+															$('##activate').click(function(event){
+																	event.preventDefault();
+																	$('.inputDisabled').removeAttr('disabled');
+																});														
+														} else {
+														  // turn toggle switch off
+															var label= parseInt($("##label").val())+1;
+															var label_value = parseInt($("##label_value").val())+1;
+															var ts4= parseInt($("##ts4").val())+1;
+															$('##ts4').attr("checked", true);
+															var activate= parseInt($("##activate").val())+1;
+															$('##activate').click(function(event){
+																	event.preventDefault();
+																	$('.inputDisabled').attr('enabled');
+																});		
+															};
 													</script>
 													<cfset d=media_label>
 													<div class="form-row col-12 px-0 mx-0">		
@@ -507,7 +508,7 @@ limitations under the License.
 												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-4" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Label (+)</span> 
 											</div><!---end id labels--->
 											<div class="col-12 px-0 float-left">
-												<input class="btn btn-xs btn-primary float-left" type="button" value="Save Changes">
+												<input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes">
 											</div>
 										</div><!---end col-6--->	
 									</div><!---end form-row Relationships and labels--->
