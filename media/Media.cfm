@@ -408,7 +408,7 @@ limitations under the License.
 														</div>
 													<cfset i=i+1>
 												</cfloop>
-												<input name="test" id="myButton1" value"test">
+												<input name="test" id="relationships" value"test">
 												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
 												<input onclick="enable_disable()" type="button"
 															class="slide-toggle" value="Enable"
