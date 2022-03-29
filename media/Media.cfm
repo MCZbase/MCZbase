@@ -357,7 +357,7 @@ limitations under the License.
 										<div class="form-row mx-0 mt-2 mb-4">
 											<div class="col-12 float-left">
 											<!---  TODO: Change to ajax save of form. ---->
-												<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary">
+												<input type="submit" value="Save Core Media Data"	class="btn btn-xs btn-primary">
 											</div>
 										</div>
 									</div>
@@ -404,7 +404,7 @@ limitations under the License.
 															</select>
 															<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-7 float-left px-1">
 															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
-															<button class="btn btn-danger btn-xs float-left"> X </button>
+															<button class="btn btn-danger btn-xs float-left small"> Remove </button>
 															<input class="btn btn-secondary btn-xs mx-2 float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
 															value="Enable"></input>
 														</div>
