@@ -257,6 +257,8 @@ function addRelation (n,targetId) {
 	nDiv.id='relationshipDiv__' + n;
 	pDiv.appendChild(nDiv);
 	var n1=n-1;
+	var c2='class="col-9"'
+	nDiv.id='relationshipDiv__' + n + c2;
 	
 	var selName='relationship__' + n1;
 	var nSel = document.getElementById(selName).cloneNode(true);
@@ -316,18 +318,12 @@ function addLabelTo (n,targetId,buttonId) {
 	nSel.value='';
 	nDiv.appendChild(nSel);
 
-
-
 	var inpName='label_value__' + n1;
 	var nInp = document.getElementById(inpName).cloneNode(true);
 	nInp.name="label_value__" + n;
 	nInp.id="label_value__" + n;
 	nInp.value='';
 	nDiv.appendChild(nInp);
-
-	c = document.createElement("textNode");
-	c.innerHTML="::";
-	nDiv.appendChild(c);
 	
 	var mS = document.getElementById(buttonId);
 	//pDiv.removeChild(mS);
