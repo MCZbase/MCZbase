@@ -253,11 +253,10 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
   */
 function addRelation (n,targetId) {
 	var pDiv=document.getElementById(targetId);
-	var nDiv = document.createElement('div');
+	var nDiv = document.createElement('form');
 	nDiv.id='relationshipDiv__' + n;
 	pDiv.appendChild(nDiv);
 	var n1=n-1;
-
 	
 	var selName='relationship__' + n1;
 	var nSel = document.getElementById(selName).cloneNode(true);
@@ -289,6 +288,7 @@ function addRelation (n,targetId) {
 	var cc=document.getElementById('number_of_relations');
 	cc.value=parseInt(cc.value)+1;
 }
+
 
 
 /** Add a set of fields for entering a media label to a form, the fields
