@@ -397,13 +397,13 @@ limitations under the License.
 														$(".slide-toggle").click(function() {
 															if (this.value=="Enable") {
 																this.value = "Disable";
-																$("##relationship__#i#").prop("disabled", false);
-																$("##related_value__#i#").prop("disabled", false);
+																$("select##relationship__#i#").prop("disabled", false);
+																$("input##related_value__#i#").prop("disabled", false);
 															}
 															else {
 																this.value = "Enable";
-																$("##relationship__#i#").prop("disabled", true);
-																$("##related_value__#i#").prop("disabled", true);
+																$("select##relationship__#i#").prop("disabled", true);
+																$("input##related_value__#i#").prop("disabled", true);
 															}
 														});
 													});
@@ -417,8 +417,8 @@ limitations under the License.
 																<cfloop query="ctmedia_relationship">
 																	<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																</cfloop>
-															</select>mm
-															<input type="text" name="related_value__#i#" id="related_value__#i#" value="related_value__#i#" class="data-entry-input col-7 float-left px-1">
+															</select>
+															<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-7 float-left px-1">
 															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															<button class="btn btn-danger btn-xs float-left"> X </button>
 															<input class="btn btn-secondary btn-xs mx-2 float-left slide-toggle" onclick="enable_disable()" type="button"
