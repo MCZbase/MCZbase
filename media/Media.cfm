@@ -408,29 +408,29 @@ limitations under the License.
 															<input class="btn btn-secondary btn-xs mx-2 float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
 															value="Enable"></input>
 														</div>
-												<script type="text/javascript">
-													$(document).ready(function() {
-														$("##relationship__#i#").prop("disabled", true);
-														$("##related_value__#i#").prop("disabled", true);
-														$(".slide-toggle__#i#").click(function() {
-															if (this.value=="Enable") {
-																event.preventDefault();
-																this.value = "Disable";
-																$("##relationship__#i#").prop("disabled", false);
-																$("##related_value__#i#").prop("disabled", false);
-															}
-															else {
-																this.value = "Enable";
-																event.preventDefault();
+														<script type="text/javascript">
+															$(document).ready(function() {
 																$("##relationship__#i#").prop("disabled", true);
 																$("##related_value__#i#").prop("disabled", true);
-															}
-														});
-													});
-												</script>
+																$(".slide-toggle__#i#").click(function() {
+																	if (this.value=="Enable") {
+																		event.preventDefault();
+																		this.value = "Disable";
+																		$("##relationship__#i#").prop("disabled", false);
+																		$("##related_value__#i#").prop("disabled", false);
+																	}
+																	else {
+																		this.value = "Enable";
+																		event.preventDefault();
+																		$("##relationship__#i#").prop("disabled", true);
+																		$("##related_value__#i#").prop("disabled", true);
+																	}
+																});
+															});
+														</script>
 													<cfset i=i+1>
 												</cfloop>
-												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
+												<span class="infoLink h5 box-shadow-0 d-block col-2 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
 											</div>
 										</div><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
