@@ -397,12 +397,14 @@ limitations under the License.
 														$("##related_value__#i#").prop("disabled", true);
 														$(".slide-toggle").click(function() {
 															if (this.value=="Enable") {
+																event.preventDefault();
 																this.value = "Disable";
 																$("##relationship__#i#").prop("disabled", false);
 																$("##related_value__#i#").prop("disabled", false);
 															}
 															else {
 																this.value = "Enable";
+																event.preventDefault();
 																$("##relationship__#i#").prop("disabled", true);
 																$("##related_value__#i#").prop("disabled", true);
 															}
