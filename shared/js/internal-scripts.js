@@ -254,11 +254,10 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
 function addRelation (n,targetId) {
 	var pDiv=document.getElementById(targetId);
 	var nDiv = document.createElement('div');
-	var oDiv = document.createTextNode('class');
+	var oDiv = document.createElement('class');
 	nDiv.id='relationshipDiv__' + n;
 	oDiv.classList='col-12 form-row mx-0 px-0';
 	pDiv.appendChild(nDiv);
-	pDiv.appendChild(oDiv);
 	var n1=n-1;
 
 	
