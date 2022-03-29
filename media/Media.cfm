@@ -429,7 +429,7 @@ limitations under the License.
 													});
 													function addRelation (n,targetId) {
 	var pDiv=document.getElementById(targetId);
-	var nDiv = document.createElement('div');
+	var nDiv = document.createElement('form');
 	nDiv.id='relationshipDiv__' + n;
 	pDiv.appendChild(nDiv);
 	var n1=n-1;
