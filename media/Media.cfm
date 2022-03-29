@@ -379,7 +379,7 @@ limitations under the License.
 													<div id="seedMedia" style="display:none" class="form-row col-12 mx-0 px-0">
 														<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 														<cfset d="">
-														<select name="relationship__0" id="relationship__0" class="data-entry-select  col-5" size="1"  onchange="pickedRelationship(this.id)">
+														<select name="relationship__0" id="relationship__0" class="data-entry-select col-5" size="1"  onchange="pickedRelationship(this.id)">
 															<cfloop query="ctmedia_relationship">
 																<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 															</cfloop>
@@ -400,7 +400,7 @@ limitations under the License.
 																</cfloop>
 															</select>
 															<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6 float-left px-1">
-															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
+															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#" class="col-6 float-left px-0">
 															<button class="btn btn-warning btn-xs float-left small"> Remove </button>
 															<input class="btn btn-secondary btn-xs mx-2 float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
 															value="Enable"></input>
