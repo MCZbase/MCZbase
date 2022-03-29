@@ -271,7 +271,6 @@ limitations under the License.
 							<h4 class="pr-3 d-inline-block">Media ID = #media_id#</h4>
 							<a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info">Media Record</a>
 						</div>
-						
 						<form name="editMedia" method="post" action="media.cfm" class="my-2">
 							<input type="hidden" name="action" value="saveEdit">
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
@@ -373,7 +372,7 @@ limitations under the License.
 											<h2>
 												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
 											</h2>
-											<div id="relationships" class="col-12 float-left">
+											<div id="relationships" class="col-12 px-0 float-left">
 												<cfset i=1>
 												<cfif relns.recordcount is 0>
 													<!--- seed --->
@@ -428,12 +427,13 @@ limitations under the License.
 														</script>
 													<cfset i=i+1>
 												</cfloop>
-												<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
+											
 
 											</div>
 												<div class="col-9 px-0 float-left">
 													<input class="btn btn-xs btn-primary float-left" type="button" value="Save Relationships Changes">
 												</div>
+											<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
 										</div><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
 											<h2>
