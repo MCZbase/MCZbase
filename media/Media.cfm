@@ -426,7 +426,7 @@ limitations under the License.
 																$("##related_value__#i#").prop("disabled", true);
 															}
 														});
-													});
+													};
 												</script>
 													<cfset i=i+1>
 												</cfloop>
