@@ -420,8 +420,8 @@ limitations under the License.
 														$(".slide-toggle").click(function() {
 															if (this.value=="Enable") {
 																this.value = "Disable";
-																$("##relationships:input").prop("disabled", false);
-																$("##relationships:select").prop("disabled", false);
+																$("##relationships:input").prop("disabled", true);
+																$("##relationships:select").prop("disabled", true);
 															}
 															else {
 																this.value = "Enable";
