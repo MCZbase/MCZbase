@@ -259,7 +259,7 @@ function addRelation (n,targetId) {
 	var n1=n-1;
 	var c2='class="col-9"'
 	nDiv.id='relationshipDiv__' + n;
-	nDiv.appendChild(c2)
+	nDiv.appendChild(c2);
 	
 	var selName='relationship__' + n1;
 	var nSel = document.getElementById(selName).cloneNode(true);
