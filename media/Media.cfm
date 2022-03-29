@@ -398,13 +398,13 @@ limitations under the License.
 														$(".slide-toggle").click(function() {
 															if (this.value=="Enable") {
 																this.value = "Disable";
-																$("select##relationship__#i#").prop("disabled", false);
-																$("input##related_value__#i#").prop("disabled", false);
+																$("##relationship__#i#").prop("disabled", false);
+																$("##related_value__#i#").prop("disabled", false);
 															}
 															else {
 																this.value = "Enable";
-																$("select##relationship__#i#").prop("disabled", true);
-																$("input##related_value__#i#").prop("disabled", true);
+																$("##relationship__#i#").prop("disabled", true);
+																$("##related_value__#i#").prop("disabled", true);
 															}
 														});
 													});
