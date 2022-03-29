@@ -373,7 +373,6 @@ limitations under the License.
 											<h2>
 												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
 											</h2>
-
 											<div id="relationships" class="col-12 float-left">
 												<cfset i=1>
 												<cfif relns.recordcount is 0>
@@ -391,7 +390,6 @@ limitations under the License.
 													</div><!--- end id seedMedia --->
 												</cfif>
 												<cfloop query="relns">
-
 													<cfset d=media_relationship>
 														<div class="form-row col-12 px-0 mx-0">	
 															<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
@@ -430,7 +428,7 @@ limitations under the License.
 														</script>
 													<cfset i=i+1>
 												</cfloop>
-												<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
+												<span  style="z-index: 1" class="infoLink h5 box-shadow-0 d-block col-12 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
 
 											</div>
 												<div class="col-9 px-0 float-left">
