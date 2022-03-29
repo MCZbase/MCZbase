@@ -255,8 +255,8 @@ function addRelation (n,targetId) {
 	var pDiv=document.getElementById(targetId);
 	var nDiv = document.createElement('div');
 	nDiv.id='relationshipDiv__' + n;
-	cDiv.class='col-9';
-	pDiv.appendChild(nDiv + cDiv);
+	nDiv.class='col-9';
+	pDiv.appendChild(nDiv);
 	var n1=n-1;
 	
 	
