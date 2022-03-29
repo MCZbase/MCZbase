@@ -408,6 +408,7 @@ limitations under the License.
 														</div>
 													<cfset i=i+1>
 												</cfloop>
+												<input name="test" id="" value"test">
 												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
 												<input onclick="enable_disable()" type="button"
 															class="slide-toggle" value="Enable"
@@ -477,14 +478,9 @@ limitations under the License.
 													  	$('##ts4').attr("checked", true);
 													  	var activate= parseInt($("##activate").val())+1;
 													  	$('##activate').click(function(event){
-															<input onclick="enable_disable()" type="button"
-															class="slide-toggle" value="Disable"
-															id="myButton1">
-
-													function enable_disable() { 
-														$("##label_value :input").prop("disabled", true);
-													}
-												</script>
+																event.preventDefault();
+   																$('.inputDisabled').attr('enabled');
+															});		
 														});
 													}
 													</script>
