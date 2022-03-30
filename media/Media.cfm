@@ -401,7 +401,7 @@ limitations under the License.
 															</select>
 															<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6 float-left px-1">
 															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
-															<button class="btn btn-warning btn-xs float-left small"> Remove </button>
+															<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small"> Remove </button>
 															<input class="btn btn-secondary btn-xs mx-2 float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
 															value="Enable"></input>
 														</div>
@@ -448,7 +448,6 @@ limitations under the License.
 														<cfset d="">
 														<label for="label__#i#" class='sr-only'>Media Label</label>
 														<select name="label__0" id="label__0" size="1" class="data-entry-select float-left col-5">
-															<option value="delete">delete</option>
 															<cfloop query="ctmedia_label">
 																<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 															</cfloop>
@@ -488,7 +487,6 @@ limitations under the License.
 														<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 														<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
 														<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select col-3 float-left">
-															<option value="delete">delete</option>
 															<cfloop query="ctmedia_label">
 																<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 															</cfloop>
@@ -496,14 +494,14 @@ limitations under the License.
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
 													<input class="btn btn-xs btn-danger float-left" type="button" value="X">
 														<div id="activate__#i#" class="toggle-switch" data-ts-color="green">
-															<label for="ts4__#i#" class="ts-label small90" name="label_value__#i#" id="Activate_value__#i#" >Edit</label>
+															<label for="ts4__#i#" class="ts-label small90 sr-only" name="label_value__#i#" id="Activate_value__#i#" ></label>
 															<input id="ts4__#i#" type="checkbox" hidden="hidden" name="ts4">
 															<label for="ts4__#i#" class="ts-helper"></label>
 														</div>
 													</div>
 													<cfset i=i+1>
 												</cfloop>
-												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-4" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Label (+)</span> 
+												<span class="infoLink h5 box-shadow-0 d-block col-12 text-center my-1 pr-4" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Label (+)</span> 
 											</div><!---end id labels--->
 											<div class="col-12 px-0 float-left">
 												<input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes">
