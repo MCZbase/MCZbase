@@ -478,14 +478,12 @@ input[disabled] {color:#9e9e9e;}
 																$("##label_value__#i#").prop("disabled", true);
 																$(".slide-toggle__#i#").click(function() {
 																	if (this.value=="Edit") {
-																		event.preventDefault();
 																		this.value = "Revert";
 																		$("##label__#i#").prop("disabled", false);
 																		$("##label_value__#i#").prop("disabled", false);
 																	}
 																	else {
 																		this.value = "Edit";
-																		event.preventDefault();
 																		$("##label__#i#").prop("disabled", true);
 																		$("##label_value__#i#").prop("disabled", true);
 																	}
