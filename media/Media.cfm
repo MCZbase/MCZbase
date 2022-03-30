@@ -215,6 +215,7 @@ limitations under the License.
 .toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper:active:before {
     box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(76, 175, 80, .2)
 }	
+disabled {font-weight:300;}
 </style>
 
 <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
@@ -471,7 +472,7 @@ limitations under the License.
 													<input class="btn btn-xs btn-danger float-left" type="button" value="Delete">
 														<div id="activate__#i#" class="toggle-switch mx-2" data-ts-color="green">
 															<label for="ts4__#i#" class="ts-label small90 sr-only" name="label_value__#i#" id="Activate_value__#i#" ></label>
-															<input id="ts4__#i#" type="checkbox" hidden="hidden" name="ts4" class="chkboxSwitch">
+															<input id="ts4__#i#" type="checkbox" hidden="hidden" name="ts4">
 															<label for="ts4__#i#" class="ts-helper"></label>
 														</div>
 													</div>
