@@ -264,7 +264,7 @@ input[disabled] {color:#9e9e9e;}
 		<cfoutput>
 			<div class="container-fluid container-xl">
 				<div class="row">
-					<div class="col-12 mt-3 mb-5">
+					<div class="col-12 mt-3 pb-5">
 						<h1 class="h2 px-1 border-bottom border-dark pb-2">Edit Media 
 							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
 						</h1>
@@ -512,7 +512,7 @@ input[disabled] {color:#9e9e9e;}
 														</script>
 													<cfset i=i+1>
 												</cfloop>
-												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-5" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+												<span class="infoLink h5 box-shadow-0 d-block col-12 float-right text-left my-1 pr-5" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 											</div><!---end id labels--->
 											<div class="col-12 px-0 float-left">
 												<input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes">
