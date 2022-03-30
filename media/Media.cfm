@@ -264,7 +264,7 @@ input[disabled] {color:#9e9e9e;}
 		<cfoutput>
 			<div class="container-fluid container-xl">
 				<div class="row">
-					<div class="col-12 my-3">
+					<div class="col-12 mt-3 mb-5">
 						<h1 class="h2 px-1 border-bottom border-dark pb-2">Edit Media 
 							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
 						</h1>
