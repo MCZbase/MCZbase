@@ -403,7 +403,7 @@ input[disabled] {color:#9e9e9e;}
 															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small"> Remove </button>
 															<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
-															value="Edit" style="width:50px;"></input>
+															value="Edit"></input>
 														</div>
 														<script type="text/javascript">
 															$(document).ready(function enable_disable() {
@@ -462,17 +462,18 @@ input[disabled] {color:#9e9e9e;}
 													<div class="form-row col-12 px-0 mx-0">		
 														<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 														<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-														<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-3 float-left">
+														<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select col-3 float-left">
 															<cfloop query="ctmedia_label">
 																<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 															</cfloop>
 														</select>
-													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input col-7 float-left">
-															<button id="labelDiv__#i#" class="btn btn-danger btn-xs float-left small"> Delete </button>
-															<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="edit_revert()" type="button" value="Edit" style="width:50px;"></input>
+													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
+															<button id="relationshipDiv__#i#" class="btn btn-danger btn-xs float-left small"> Delete </button>
+															<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="edit_revert()" type="button"
+															value="Edit" style="width:50px;"></input>
 													</div>
-													<script type="text/javascript">
-															$(document).ready(function edit_revert() {
+													<script type="text/javascript">$(document).ready(function edit_revert() {
+															$(document).ready(function() {
 																$("##label__#i#").prop("disabled", true);
 																$("##label_value__#i#").prop("disabled", true);
 																$(".slide-toggle__#i#").click(function() {
@@ -490,6 +491,22 @@ input[disabled] {color:#9e9e9e;}
 																	}
 																});
 															});
+//															$(document).ready(function() {
+//																$("##label__#i#").prop("disabled", true);
+//																$("##label_value__#i#").prop("disabled", true);
+//																$("##activate__#i#").click(function() {
+//																	if ($('##ts4__#i#').prop('checked',(value == 1))) {
+//																		event.preventDefault();
+//																		$("##label__#i#").prop("disabled", false);
+//																		$("##label_value__#i#").prop("disabled", false);
+//																	}
+//																	else {
+//																		event.preventDefault();
+//																		$("##label__#i#").prop("disabled", true);
+//																		$("##label_value__#i#").prop("disabled", true);
+//																	}
+//																});
+//															});
 														</script>
 													<cfset i=i+1>
 												</cfloop>
