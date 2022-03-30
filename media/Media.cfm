@@ -215,7 +215,7 @@ limitations under the License.
 .toggle-switch[data-ts-color=green] input:not(:disabled):checked+.ts-helper:active:before {
     box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 20px rgba(76, 175, 80, .2)
 }	
-disabled {font-weight:300;}
+input[disabled] {font-weight:300;}
 </style>
 
 <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
