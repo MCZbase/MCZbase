@@ -395,7 +395,6 @@ input[disabled] {color:#9e9e9e;}
 															<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 															<label for="relationship__#i#"  class="sr-only">Relationship</label>
 															<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select col-3 float-left">
-																<option value="delete">delete</option>
 																<cfloop query="ctmedia_relationship">
 																	<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																</cfloop>
