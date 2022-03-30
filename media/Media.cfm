@@ -458,6 +458,8 @@ limitations under the License.
 												</cfif>
 												<cfloop query="labels">
 													<script>
+														$("##label__#i#").prop("disabled", true);
+															$("##label_value__#i#").prop("disabled", true);
 														if ($("##ts4").attr("checked", false)) {
 															// turn toggle switch off
 															var label= parseInt($("##label").val())+1;
@@ -467,7 +469,8 @@ limitations under the License.
 															var activate= parseInt($("##activate").val())+1;
 															$('##activate').click(function(event){
 																	event.preventDefault();
-																	$('.inputDisabled').removeAttr('disabled');
+																	$('##label__#i#').removeAttr('disabled');
+																	$('##label_value__#i#').removeAttr('disabled');
 																});														
 														} else {
 														  // turn toggle switch off
@@ -478,7 +481,8 @@ limitations under the License.
 															var activate= parseInt($("##activate").val())+1;
 															$('##activate').click(function(event){
 																	event.preventDefault();
-																	$('.inputDisabled').attr('enabled');
+																	$('##label__#i#').attr('disabled');
+																	$('##label_value__#i#').attr('disabled');
 																});		
 															};
 													</script>
@@ -492,7 +496,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
-													<input class="btn btn-xs btn-danger float-left" type="button" value="X">
+													<input class="btn btn-xs btn-danger float-left" type="button" value="Delet">
 														<div id="activate__#i#" class="toggle-switch mx-2" data-ts-color="green">
 															<label for="ts4__#i#" class="ts-label small90 sr-only" name="label_value__#i#" id="Activate_value__#i#" ></label>
 															<input id="ts4__#i#" type="checkbox" hidden="hidden" name="ts4">
