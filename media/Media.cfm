@@ -489,11 +489,9 @@ limitations under the License.
 															});
 														} else {
 														// turn toggle switch off
-														if $('input[name=ts4]').attr('checked',false) {
 															$('##ts4__#i#').attr("checked", true);
 															$('##label__#i#').attr('disabled');
-															$('##label_value__#i#').attr('disabled');
-															});		
+															$('##label_value__#i#').attr('disabled');	
 														};
 													</script>
 													<cfset i=i+1>
