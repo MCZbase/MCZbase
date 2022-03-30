@@ -308,7 +308,7 @@ function addLabelTo (n,targetId,buttonId) {
 	// Note: addLabel() conflcits with a name in an included library.
 	var pDiv=document.getElementById(targetId);
 	var nDiv = document.createElement('div');
-	nDiv.classList='form-row col-12 px-0 mx-0 relationshipDiv__' + n;
+	nDiv.classList='form-row col-12 px-0 mx-0 labelDiv__' + n;
 	pDiv.appendChild(nDiv);
 	var n1=n-1;
 	var selName='label__' + n1;
