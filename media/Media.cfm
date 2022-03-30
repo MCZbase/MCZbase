@@ -403,7 +403,7 @@ input[disabled] {color:#9e9e9e;}
 															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small"> Remove </button>
 															<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
-															value="Enable"></input>
+															value="Edit" style="width:50px;"></input>
 														</div>
 														<script type="text/javascript">
 															$(document).ready(function enable_disable() {
@@ -470,7 +470,7 @@ input[disabled] {color:#9e9e9e;}
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
 															<button id="relationshipDiv__#i#" class="btn btn-danger btn-xs float-left small"> Delete </button>
 															<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="edit_revert()" type="button"
-															value="Edit"></input>
+															value="Edit" style="width:50px;"></input>
 													</div>
 													<script type="text/javascript">$(document).ready(function edit_revert() {
 															$(document).ready(function() {
