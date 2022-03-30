@@ -480,14 +480,13 @@ limitations under the License.
 																$("##label__#i#").prop("disabled", true);
 																$("##label_value__#i#").prop("disabled", true);
 																$(".toggle_switch__#i#").click(function() {
-																	if (this.value=="Enable") {
+																	if ($('##ts4__#i#').prop('checked',(value == 1))) {
 																		event.preventDefault();
-																		this.value = "Disable";
+																		this.value = "unchecked";
 																		$("##label__#i#").prop("disabled", false);
 																		$("##label_value__#i#").prop("disabled", false);
 																	}
 																	else {
-																		this.value = "Enable";
 																		event.preventDefault();
 																		$("##label__#i#").prop("disabled", true);
 																		$("##label_value__#i#").prop("disabled", true);
