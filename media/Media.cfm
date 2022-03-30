@@ -476,9 +476,10 @@ input[disabled] {color:#9e9e9e;}
 														</div>
 													</div>
 													<script type="text/javascript">$(document).ready(function() {
+															$(document).ready(function() {
 																$("##label__#i#").prop("disabled", true);
 																$("##label_value__#i#").prop("disabled", true);
-																$(".activate__#i#").click(function() {
+																$(".slide-toggle__#i#").click(function() {
 																	if (this.value=="Enable") {
 																		event.preventDefault();
 																		this.value = "Disable";
