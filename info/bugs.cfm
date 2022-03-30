@@ -250,7 +250,8 @@
         </cfif>
         <cfset newline= Chr(13) & Chr(10)>
         <cftry>
-        <cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">@rep_platform = PC
+        <cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">
+@rep_platform = PC
 @op_sys = Linux
 @product = MCZbase
 @component = Web Interface
