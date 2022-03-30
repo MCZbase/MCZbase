@@ -481,18 +481,18 @@ limitations under the License.
 														if ($("##ts4__#i#").attr("checked", false)) {
 															// turn toggle switch off
 															$("##ts4__#i#").click(function() {
-															if (this.value=="checked") {
-															$("##ts4__#i#").attr("checked", false);
-															$('##activate__#i#').click(function(event){
-																$('##label__#i#').removeAttr('disabled');
-																$('##label_value__#i#').removeAttr('disabled');
-															});														
+																if (this.value=="checked") {
+																	$("##ts4__#i#").attr("checked", false);
+																	$('##label__#i#').removeAttr('disabled');
+																	$('##label_value__#i#').removeAttr('disabled');
+																};
+															});
 														} else {
 														// turn toggle switch off
+														if $('input[name=ts4]').attr('checked',false) {
 															$('##ts4__#i#').attr("checked", true);
-															$('##activate__#i#').click(function(event){
-																$('##label__#i#').attr('disabled');
-																$('##label_value__#i#').attr('disabled');
+															$('##label__#i#').attr('disabled');
+															$('##label_value__#i#').attr('disabled');
 															});		
 														};
 													</script>
