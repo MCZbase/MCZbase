@@ -478,7 +478,7 @@ input[disabled] {color:#9e9e9e;}
 													<script type="text/javascript">$(document).ready(function() {
 																$("##label__#i#").prop("disabled", true);
 																$("##label_value__#i#").prop("disabled", true);
-																$(".slide-toggle__#i#").click(function() {
+																$(".activate__#i#").click(function() {
 																	if (this.value=="Enable") {
 																		event.preventDefault();
 																		this.value = "Disable";
@@ -512,7 +512,7 @@ input[disabled] {color:#9e9e9e;}
 														</script>
 													<cfset i=i+1>
 												</cfloop>
-												<span class="infoLink h5 box-shadow-0 d-block col-12 text-center my-1 pr-4" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Label (+)</span> 
+												<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1 pr-4" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Label (+)</span> 
 											</div><!---end id labels--->
 											<div class="col-12 px-0 float-left">
 												<input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes">
