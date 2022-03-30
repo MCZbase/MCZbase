@@ -406,18 +406,18 @@ input[disabled] {color:#9e9e9e;}
 															value="Enable"></input>
 														</div>
 														<script type="text/javascript">
-															$(document).ready(function() {
+															$(document).ready(function enable_disable() {
 																$("##relationship__#i#").prop("disabled", true);
 																$("##related_value__#i#").prop("disabled", true);
 																$(".slide-toggle__#i#").click(function() {
-																	if (this.value=="Enable") {
+																	if (this.value=="Edit") {
 																		event.preventDefault();
-																		this.value = "Disable";
+																		this.value = "Revert";
 																		$("##relationship__#i#").prop("disabled", false);
 																		$("##related_value__#i#").prop("disabled", false);
 																	}
 																	else {
-																		this.value = "Enable";
+																		this.value = "Edit";
 																		event.preventDefault();
 																		$("##relationship__#i#").prop("disabled", true);
 																		$("##related_value__#i#").prop("disabled", true);
