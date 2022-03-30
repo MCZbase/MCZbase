@@ -471,27 +471,44 @@ input[disabled] {color:#9e9e9e;}
 													<input class="btn btn-xs btn-danger float-left" type="button" value="Delete">
 														<div id="activate__#i#" class="toggle-switch mx-2" data-ts-color="green">
 															<label for="ts4__#i#" class="ts-label small90 sr-only" name="label_value__#i#" id="Activate_value__#i#" ></label>
-															<input id="ts4__#i#" type="checkbox" hidden="hidden" name="ts4">
+															<input id="ts4__#i#" type="checkbox" hidden="hidden" name="ts4" value="Enable">
 															<label for="ts4__#i#" class="ts-helper"></label>
 														</div>
 													</div>
-													<script type="text/javascript">
-															$(document).ready(function() {
+													<script type="text/javascript">$(document).ready(function() {
 																$("##label__#i#").prop("disabled", true);
 																$("##label_value__#i#").prop("disabled", true);
-																$("##activate__#i#").click(function() {
-																	if ($('##ts4__#i#').prop('checked',(value == 1))) {
+																$(".slide-toggle__#i#").click(function() {
+																	if (this.value=="Enable") {
 																		event.preventDefault();
+																		this.value = "Disable";
 																		$("##label__#i#").prop("disabled", false);
 																		$("##label_value__#i#").prop("disabled", false);
 																	}
 																	else {
+																		this.value = "Enable";
 																		event.preventDefault();
 																		$("##label__#i#").prop("disabled", true);
 																		$("##label_value__#i#").prop("disabled", true);
 																	}
 																});
 															});
+//															$(document).ready(function() {
+//																$("##label__#i#").prop("disabled", true);
+//																$("##label_value__#i#").prop("disabled", true);
+//																$("##activate__#i#").click(function() {
+//																	if ($('##ts4__#i#').prop('checked',(value == 1))) {
+//																		event.preventDefault();
+//																		$("##label__#i#").prop("disabled", false);
+//																		$("##label_value__#i#").prop("disabled", false);
+//																	}
+//																	else {
+//																		event.preventDefault();
+//																		$("##label__#i#").prop("disabled", true);
+//																		$("##label_value__#i#").prop("disabled", true);
+//																	}
+//																});
+//															});
 														</script>
 													<cfset i=i+1>
 												</cfloop>
