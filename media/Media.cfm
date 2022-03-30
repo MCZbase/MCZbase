@@ -403,7 +403,7 @@ input[disabled] {color:#9e9e9e;}
 															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small"> Remove </button>
 															<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
-															value="Edit"></input>
+															value="Edit" style="width: 50px;"></input>
 														</div>
 														<script type="text/javascript">
 															$(document).ready(function enable_disable() {
