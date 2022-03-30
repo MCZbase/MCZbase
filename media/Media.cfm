@@ -475,24 +475,42 @@ limitations under the License.
 															<label for="ts4__#i#" class="ts-helper"></label>
 														</div>
 													</div>
-													<script>
-														$("##label__#i#").prop("disabled", true);
-														$("##label_value__#i#").prop("disabled", true);
-														if ($("##ts4__#i#").attr("checked", false)) {
-															// turn toggle switch off
-															$("##ts4__#i#").click(function() {
-																if (this.value=="checked") {
-																	$("##ts4__#i#").attr("checked", false);
-																	$('##label__#i#').removeAttr('disabled');
-																	$('##label_value__#i#').removeAttr('disabled');
-																};
+													<script type="text/javascript">
+															$(document).ready(function() {
+																$("##label__#i#").prop("disabled", true);
+																$("##label_value__#i#").prop("disabled", true);
+																$(".toggle_switch__#i#").click(function() {
+																	if (this.value=="Enable") {
+																		event.preventDefault();
+																		this.value = "Disable";
+																		$("##label__#i#").prop("disabled", false);
+																		$("##label_value__#i#").prop("disabled", false);
+																	}
+																	else {
+																		this.value = "Enable";
+																		event.preventDefault();
+																		$("##label__#i#").prop("disabled", true);
+																		$("##label_value__#i#").prop("disabled", true);
+																	}
+																});
 															});
-														} else {
-														// turn toggle switch off
-															$('##ts4__#i#').attr("checked", true);
-															$('##label__#i#').attr('disabled');
-															$('##label_value__#i#').attr('disabled');	
-														};
+														</script>
+													<script>
+//														$("##label__#i#").prop("disabled", true);
+//														$("##label_value__#i#").prop("disabled", true);
+//														if ($("##ts4__#i#").attr("checked", false)) {
+//															$("##ts4__#i#").click(function() {
+//																if (this.value=="checked") {
+//																	$("##ts4__#i#").attr("checked", false);
+//																	$('##label__#i#').removeAttr('disabled');
+//																	$('##label_value__#i#').removeAttr('disabled');
+//																};
+//															});
+//														} else {
+//															$('##ts4__#i#').attr("checked", true);
+//															$('##label__#i#').attr('disabled');
+//															$('##label_value__#i#').attr('disabled');	
+//														};
 													</script>
 													<cfset i=i+1>
 												</cfloop>
