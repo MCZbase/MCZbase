@@ -52,9 +52,16 @@ limitations under the License.
 							<li class='list-group-item'>
 								Collecting Events
 							</li>
-							<li class='list-group-item'>
-								<a href='/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#' class='btn btn-secondary btn-xs' target='_blank'>Localities</a>
-							</li>
+							<cfif findNoCase('master',Session.gitBranch) EQ 0>
+								<!--- not working yet, don't link to on production --->
+								<li class='list-group-item'>
+									<a href='/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#' class='btn btn-secondary btn-xs' target='_blank'>Localities</a>
+								</li>
+							<cfelse>
+								<li class='list-group-item'>
+									Localities
+								</li>
+							</cfif>
 							<li class='list-group-item'>
 								Encumbrances
 							</li>
@@ -73,11 +80,9 @@ limitations under the License.
 							<li class='list-group-item'>
 								Modify Parts
 							</li>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 								<li class='list-group-item'>
 									Add To Named Group
 								</li>
-							</cfif>
 							<li class='list-group-item'>
 								Print Labels
 							</li>
