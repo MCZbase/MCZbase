@@ -469,14 +469,14 @@ input[disabled] {color:#9e9e9e;}
 														</select>
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
 															<button id="labelDiv__#i#" class="btn btn-danger btn-xs float-left small"> Delete </button>
-															<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="edit_revert()" type="button"
+															<input class="btn btn-secondary btn-xs mx-2 small float-left edit-toggle__#i#" onclick="edit_revert()" type="button"
 															value="Edit" style="width:50px;"></input>
 													</div>
 													<script type="text/javascript">
 														$(document).ready(function edit_revert() {
 																$("##label__#i#").prop("disabled", true);
 																$("##label_value__#i#").prop("disabled", true);
-																$(".slide-toggle__#i#").click(function() {
+																$(".edit-toggle__#i#").click(function() {
 																	if (this.value=="Edit") {
 																		this.value = "Revert";
 																		$("##label__#i#").prop("disabled", false);
