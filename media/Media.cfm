@@ -428,11 +428,10 @@ input[disabled] {color:#9e9e9e;}
 													<cfset i=i+1>
 												</cfloop>
 												<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
-
 											</div>
-												<div class="col-9 px-0 float-left">
-													<input class="btn btn-xs btn-primary float-left" type="button" value="Save Relationships Changes">
-												</div>
+											<div class="col-9 px-0 float-left">
+												<input class="btn btn-xs btn-primary float-left" type="button" value="Save Relationships Changes">
+											</div>
 										</div><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
 											<h2>
@@ -457,7 +456,6 @@ input[disabled] {color:#9e9e9e;}
 													<!--- end labels seed --->
 												</cfif>
 												<cfloop query="labels">
-
 													<cfset d=media_label>
 													<div class="form-row col-12 px-0 mx-0">		
 														<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
@@ -467,10 +465,9 @@ input[disabled] {color:#9e9e9e;}
 																<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 															</cfloop>
 														</select>
-													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
-															<button id="labelDiv__#i#" class="btn btn-danger btn-xs float-left small"> Delete </button>
-															<input class="btn btn-secondary btn-xs mx-2 small float-left edit-toggle__#i#" onclick="edit_revert()" type="button"
-															value="Edit" style="width:50px;"></input>
+														<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
+														<button id="labelDiv__#i#" class="btn btn-danger btn-xs float-left small"> Delete </button>
+														<input class="btn btn-secondary btn-xs mx-2 small float-left edit-toggle__#i#" onclick="edit_revert()" type="button" value="Edit" style="width:50px;"></input>
 													</div>
 													<script type="text/javascript">
 														$(document).ready(function edit_revert() {
@@ -489,11 +486,10 @@ input[disabled] {color:#9e9e9e;}
 																	}
 																});
 															});
-
-														</script>
+													</script>
 													<cfset i=i+1>
 												</cfloop>
-												<span class="infoLink h5 box-shadow-0 d-block text-right my-1 pr-3" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-4" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 											</div><!---end id labels--->
 											<div class="col-12 px-0 float-left">
 												<input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes">
