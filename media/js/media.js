@@ -260,6 +260,7 @@ function deleteRelationship(media_relations_id,media_id,target) {
 		{
 			method : "deleteRelationship",
 			media_relations_id : media_relations_id,
+			media_id: media_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
