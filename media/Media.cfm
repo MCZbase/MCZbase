@@ -468,26 +468,23 @@ input[disabled] {color:#9e9e9e;}
 															</cfloop>
 														</select>
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
-													<input class="btn btn-xs btn-danger float-left small" type="button" value="Delete">
-														<div id="activate__#i#" class="toggle-switch mx-2" data-ts-color="green">
-															<label for="ts4__#i#" class="ts-label sr-only" name="label_value__#i#" id="Activate_value__#i#" ></label>
-															<input id="ts4__#i#" type="checkbox" hidden="hidden" name="ts4" value="Enable">
-															<label for="ts4__#i#" class="ts-helper"></label>
-														</div>
+															<button id="relationshipDiv__#i#" class="btn btn-danger btn-xs float-left small"> Delete </button>
+															<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="edit_revert()" type="button"
+															value="Edit"></input>
 													</div>
 													<script type="text/javascript">$(document).ready(function() {
 															$(document).ready(function() {
 																$("##label__#i#").prop("disabled", true);
 																$("##label_value__#i#").prop("disabled", true);
 																$(".slide-toggle__#i#").click(function() {
-																	if (this.value=="Enable") {
+																	if (this.value=="Edit") {
 																		event.preventDefault();
-																		this.value = "Disable";
+																		this.value = "Revert";
 																		$("##label__#i#").prop("disabled", false);
 																		$("##label_value__#i#").prop("disabled", false);
 																	}
 																	else {
-																		this.value = "Enable";
+																		this.value = "Edit";
 																		event.preventDefault();
 																		$("##label__#i#").prop("disabled", true);
 																		$("##label_value__#i#").prop("disabled", true);
