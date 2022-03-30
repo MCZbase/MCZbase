@@ -479,10 +479,9 @@ limitations under the License.
 															$(document).ready(function() {
 																$("##label__#i#").prop("disabled", true);
 																$("##label_value__#i#").prop("disabled", true);
-																$(".toggle_switch").click(function() {
+																$("##activate__#i#").click(function() {
 																	if ($('##ts4__#i#').prop('checked',(value == 1))) {
 																		event.preventDefault();
-																		this.value = "unchecked";
 																		$("##label__#i#").prop("disabled", false);
 																		$("##label_value__#i#").prop("disabled", false);
 																	}
