@@ -471,7 +471,7 @@ limitations under the License.
 													<input class="btn btn-xs btn-danger float-left" type="button" value="Delete">
 														<div id="activate__#i#" class="toggle-switch mx-2" data-ts-color="green">
 															<label for="ts4__#i#" class="ts-label small90 sr-only" name="label_value__#i#" id="Activate_value__#i#" ></label>
-															<input id="ts4__#i#" type="checkbox" hidden="hidden" name="ts4">
+															<input id="ts4__#i#" type="checkbox" hidden="hidden" name="ts4" class="chkboxSwitch">
 															<label for="ts4__#i#" class="ts-helper"></label>
 														</div>
 													</div>
@@ -479,7 +479,7 @@ limitations under the License.
 															$(document).ready(function() {
 																$("##label__#i#").prop("disabled", true);
 																$("##label_value__#i#").prop("disabled", true);
-																$(".toggle_switch__#i#").click(function() {
+																$(".toggle_switch").click(function() {
 																	if ($('##ts4__#i#').prop('checked',(value == 1))) {
 																		event.preventDefault();
 																		this.value = "unchecked";
@@ -494,23 +494,6 @@ limitations under the License.
 																});
 															});
 														</script>
-													<script>
-//														$("##label__#i#").prop("disabled", true);
-//														$("##label_value__#i#").prop("disabled", true);
-//														if ($("##ts4__#i#").attr("checked", false)) {
-//															$("##ts4__#i#").click(function() {
-//																if (this.value=="checked") {
-//																	$("##ts4__#i#").attr("checked", false);
-//																	$('##label__#i#').removeAttr('disabled');
-//																	$('##label_value__#i#').removeAttr('disabled');
-//																};
-//															});
-//														} else {
-//															$('##ts4__#i#').attr("checked", true);
-//															$('##label__#i#').attr('disabled');
-//															$('##label_value__#i#').attr('disabled');	
-//														};
-													</script>
 													<cfset i=i+1>
 												</cfloop>
 												<span class="infoLink h5 box-shadow-0 d-block col-12 text-center my-1 pr-4" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Label (+)</span> 
