@@ -468,12 +468,11 @@ input[disabled] {color:#9e9e9e;}
 															</cfloop>
 														</select>
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
-															<button id="relationshipDiv__#i#" class="btn btn-danger btn-xs float-left small"> Delete </button>
-															<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="edit_revert()" type="button"
-															value="Edit" style="width:50px;"></input>
+															<button id="labelDiv__#i#" class="btn btn-danger btn-xs float-left small"> Delete </button>
+															<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="edit_revert()" type="button" value="Edit" style="width:50px;"></input>
 													</div>
-													<script type="text/javascript">$(document).ready(function edit_revert() {
-															$(document).ready(function() {
+													<script type="text/javascript">
+															$(document).ready(function edit_revert() {
 																$("##label__#i#").prop("disabled", true);
 																$("##label_value__#i#").prop("disabled", true);
 																$(".slide-toggle__#i#").click(function() {
@@ -491,22 +490,6 @@ input[disabled] {color:#9e9e9e;}
 																	}
 																});
 															});
-//															$(document).ready(function() {
-//																$("##label__#i#").prop("disabled", true);
-//																$("##label_value__#i#").prop("disabled", true);
-//																$("##activate__#i#").click(function() {
-//																	if ($('##ts4__#i#').prop('checked',(value == 1))) {
-//																		event.preventDefault();
-//																		$("##label__#i#").prop("disabled", false);
-//																		$("##label_value__#i#").prop("disabled", false);
-//																	}
-//																	else {
-//																		event.preventDefault();
-//																		$("##label__#i#").prop("disabled", true);
-//																		$("##label_value__#i#").prop("disabled", true);
-//																	}
-//																});
-//															});
 														</script>
 													<cfset i=i+1>
 												</cfloop>
