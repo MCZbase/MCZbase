@@ -472,7 +472,7 @@ input[disabled] {color:#9e9e9e;}
 															<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="edit_revert()" type="button"
 															value="Edit"></input>
 													</div>
-													<script type="text/javascript">$(document).ready(function() {
+													<script type="text/javascript">$(document).ready(function edit_revert() {
 															$(document).ready(function() {
 																$("##label__#i#").prop("disabled", true);
 																$("##label_value__#i#").prop("disabled", true);
