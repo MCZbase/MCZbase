@@ -402,7 +402,7 @@ input[disabled] {color:#9e9e9e;}
 															<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6 float-left px-1">
 															<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 															<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small"> Remove </button>
-															<input class="btn btn-secondary btn-xs mx-2 float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
+															<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
 															value="Enable"></input>
 														</div>
 														<script type="text/javascript">
@@ -468,9 +468,9 @@ input[disabled] {color:#9e9e9e;}
 															</cfloop>
 														</select>
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
-													<input class="btn btn-xs btn-danger float-left" type="button" value="Delete">
+													<input class="btn btn-xs btn-danger float-left small" type="button" value="Delete">
 														<div id="activate__#i#" class="toggle-switch mx-2" data-ts-color="green">
-															<label for="ts4__#i#" class="ts-label small90 sr-only" name="label_value__#i#" id="Activate_value__#i#" ></label>
+															<label for="ts4__#i#" class="ts-label sr-only" name="label_value__#i#" id="Activate_value__#i#" ></label>
 															<input id="ts4__#i#" type="checkbox" hidden="hidden" name="ts4" value="Enable">
 															<label for="ts4__#i#" class="ts-helper"></label>
 														</div>
