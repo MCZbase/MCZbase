@@ -409,13 +409,24 @@ input[disabled] {color:#9e9e9e;}
 															$(document).ready(function enable_disable() {
 																$("##relationship__#i#").prop("disabled", true);
 																$("##related_value__#i#").prop("disabled", true);
+																(function () {
+																	var previous;
+																	$("select").on('focus', function () {
+																		// Store the current value on focus and on change
+																		previous = this.value;
+																	}).change(function() {
+																		// Do something with the previous value after the change
+																		alert(previous);
+																		// Make sure the previous value is updated
+																		previous = this.value;
+																	});
+																})();
 																$(".slide-toggle__#i#").click(function() {
 																	if (this.value=="Edit") {
 																		event.preventDefault();
 																		this.value = "Revert";
 																		$("##relationship__#i#").prop("disabled", false);
 																		$("##related_value__#i#").prop("disabled", false);
-
 																	}
 																	else {
 																		this.value = "Edit";
@@ -425,10 +436,7 @@ input[disabled] {color:#9e9e9e;}
 																	}
 																});
 															});
-															
-
 														</script>
-											
 													<cfset i=i+1>
 												</cfloop>
 												<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
@@ -452,14 +460,14 @@ input[disabled] {color:#9e9e9e;}
 													});
 												})();
 												
-//												function manage(relationships) {
-//													var rel = document.getElementById('relSubmit');
-//													if (relationships.input.value != '') {
-//														rel.disabled = false;
-//													} else {
-//														rel.disabled = true;
-//													}
-//												}
+												function manage(relationships) {
+													var rel = document.getElementById('relSubmit');
+													if (relationships.input.value != '') {
+														rel.disabled = false;
+													} else {
+														rel.disabled = true;
+													}
+												}
 											</script>
 										</div><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
