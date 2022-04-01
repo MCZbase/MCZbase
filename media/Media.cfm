@@ -409,7 +409,7 @@ input[disabled] {color:#9e9e9e;}
 															$(document).ready(function enable_disable() {
 																$("##relationship__#i#").prop("disabled", true);
 																$("##related_value__#i#").prop("disabled", true);
-																var previous;
+																//var previous;
 																$(".slide-toggle__#i#").click(function() {
 																	previous = this.value;
 																	if (this.value=="Edit") {
@@ -417,7 +417,7 @@ input[disabled] {color:#9e9e9e;}
 																		this.value = "Revert";
 																		$("##relationship__#i#").prop("disabled", false);
 																		$("##related_value__#i#").prop("disabled", false);
-																		 previous = this.value;
+																		// previous = this.value;
 																	}
 																	else {
 																		this.value = "Edit";
