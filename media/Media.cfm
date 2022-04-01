@@ -424,7 +424,21 @@ input[disabled] {color:#9e9e9e;}
 																	}
 																});
 															});
+															
+															(function revert() {
+																var previous;
+																$("select[name=relationship__#i#]").focus(function () {
+																	// Store the current value on focus, before it changes
+																	previous = this.value;
+																}).change(function() {
+																	// Do something with the previous value after the change
+																	document.getElementById("relationship__#i#").innerHTML = previous;
+
+																	previous = #media_relationship#;
+																});
+															})();
 														</script>
+											
 													<cfset i=i+1>
 												</cfloop>
 												<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
@@ -457,7 +471,7 @@ input[disabled] {color:#9e9e9e;}
 												</cfif>
 												<cfloop query="labels">
 													<cfset d=media_label>
-													<div class="form-row col-12 px-0 mx-0">		
+													<div class="form-row col-12 px-0 mx-0" id="labelDiv__#i#" >		
 														<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 														<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
 														<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select col-3 float-left">
@@ -466,7 +480,7 @@ input[disabled] {color:#9e9e9e;}
 															</cfloop>
 														</select>
 														<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
-														<button id="labelDiv__#i#" class="btn btn-danger btn-xs float-left small"> Delete </button>
+														<button class="btn btn-danger btn-xs float-left small"> Delete </button>
 														<input class="btn btn-secondary btn-xs mx-2 small float-left edit-toggle__#i#" onclick="edit_revert()" type="button" value="Edit" style="width:50px;"></input>
 													</div>
 													<script type="text/javascript">
