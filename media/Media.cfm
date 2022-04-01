@@ -434,7 +434,7 @@ input[disabled] {color:#9e9e9e;}
 																	// Do something with the previous value after the change
 																	document.getElementById("relationship__#i#").innerHTML = previous;
 
-																	previous = #media_relationship#;
+																	previous = '#media_relationship#';
 																});
 															})();
 														</script>
