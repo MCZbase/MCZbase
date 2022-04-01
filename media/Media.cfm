@@ -415,6 +415,21 @@ input[disabled] {color:#9e9e9e;}
 																		this.value = "Revert";
 																		$("##relationship__#i#").prop("disabled", false);
 																		$("##related_value__#i#").prop("disabled", false);
+																		function resetSelectElement(selectElement) {
+																			var options = selectElement.options;
+
+																			// Look for a default selected option
+																			for (var i=0, iLen=options.length; i<iLen; i++) {
+
+																				if (options[i].defaultSelected) {
+																					selectElement.selectedIndex = i;
+																					return;
+																				}
+																			}
+
+																			// If no option is the default, select first or none as appropriate
+																			selectElement.selectedIndex = 0; // or -1 for no option selected
+																		}
 																	}
 																	else {
 																		this.value = "Edit";
@@ -425,18 +440,7 @@ input[disabled] {color:#9e9e9e;}
 																});
 															});
 															
-															(function revert() {
-																var previous;
-																$("select[name=relationship__#i#]").focus(function () {
-																	// Store the current value on focus, before it changes
-																	previous = this.value;
-																}).change(function() {
-																	// Do something with the previous value after the change
-																	document.getElementById("relationship__#i#").innerHTML = previous;
 
-																	previous = this.value;
-																});
-															})();
 														</script>
 											
 													<cfset i=i+1>
