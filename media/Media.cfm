@@ -410,7 +410,7 @@ input[disabled] {color:#9e9e9e;}
 																$("##relationship__#i#").prop("disabled", true);
 																$("##related_value__#i#").prop("disabled", true);
 																$(".slide-toggle__#i#").click(function(
-																							 				(function () {
+																							 	
 													var previous;
 
 													$("select").on('focus', function () {
@@ -423,7 +423,7 @@ input[disabled] {color:#9e9e9e;}
 														// Make sure the previous value is updated
 														previous = this.value;
 													});
-												})();
+												
 																							 
 																							 ) {
 																	if (this.value=="Edit") {
