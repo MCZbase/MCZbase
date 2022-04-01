@@ -429,12 +429,12 @@ input[disabled] {color:#9e9e9e;}
 																var previous;
 																$("select[name=relationship__#i#]").focus(function () {
 																	// Store the current value on focus, before it changes
-																	previous = '#media_relationship#';
+																	previous = this.value;
 																}).change(function() {
 																	// Do something with the previous value after the change
 																	document.getElementById("relationship__#i#").innerHTML = previous;
 
-																	previous = '#media_relationship#';
+																	previous = this.value;
 																});
 															})();
 														</script>
