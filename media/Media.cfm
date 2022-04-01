@@ -409,7 +409,23 @@ input[disabled] {color:#9e9e9e;}
 															$(document).ready(function enable_disable() {
 																$("##relationship__#i#").prop("disabled", true);
 																$("##related_value__#i#").prop("disabled", true);
-																$(".slide-toggle__#i#").click(function() {
+																$(".slide-toggle__#i#").click(function(
+																							 				(function () {
+													var previous;
+
+													$("select").on('focus', function () {
+														// Store the current value on focus and on change
+														previous = this.value;
+													}).change(function() {
+														// Do something with the previous value after the change
+														alert(previous);
+
+														// Make sure the previous value is updated
+														previous = this.value;
+													});
+												})();
+																							 
+																							 ) {
 																	if (this.value=="Edit") {
 																		event.preventDefault();
 																		this.value = "Revert";
