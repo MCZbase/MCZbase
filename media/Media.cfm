@@ -415,8 +415,14 @@ input[disabled] {color:#9e9e9e;}
 																		this.value = "Revert";
 																		$("##relationship__#i#").prop("disabled", false);
 																		$("##related_value__#i#").prop("disabled", false);
-																		function resetSelectElement(selectElement) {
-																			var options = selectElement.options;
+
+																	}
+																	else {
+																		this.value = "Edit";
+																		event.preventDefault();
+																		$("##relationship__#i#").prop("disabled", true);
+																		$("##related_value__#i#").prop("disabled", true);
+																		var options = selectElement.options;
 
 																			// Look for a default selected option
 																			for (var i=0, iLen=options.length; i<iLen; i++) {
@@ -429,13 +435,6 @@ input[disabled] {color:#9e9e9e;}
 
 																			// If no option is the default, select first or none as appropriate
 																			selectElement.selectedIndex = 0; // or -1 for no option selected
-																		}
-																	}
-																	else {
-																		this.value = "Edit";
-																		event.preventDefault();
-																		$("##relationship__#i#").prop("disabled", true);
-																		$("##related_value__#i#").prop("disabled", true);
 																	}
 																});
 															});
