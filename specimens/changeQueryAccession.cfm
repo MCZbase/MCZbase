@@ -1,0 +1,146 @@
+<cfset pageTitle = "Change Accession for Search Result">
+<cfinclude template="/shared/_header.cfm">
+
+<cfif not isDefined("result_id") OR len(result_id) EQ 0>
+	<cfthrow message = "No result_id provided for result set on which to change accession.">
+</cfif>
+<cfif not isDefined("action") OR len(action) EQ 0>
+	<cfset action="entryPoint">
+</cfif>
+
+<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select collection, collection_id from collection order by collection
+</cfquery>
+<!--------------------------------------------------------------------------------->
+<cfif action is "entryPoint">
+<cfoutput>
+<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT
+		cataloged_item.collection_object_id,
+		cataloged_item.cat_num,
+		accn.accn_number,
+		MCZBASE.GET_COLLECTORSTYPEDNAME(cataloged_item.collection_object_id) collectors,
+		geog_auth_rec.higher_geog,
+		locality.spec_locality,
+		collecting_event.verbatim_date,
+		MCZBASE.GET_SCIENTIFIC_NAME_AUTHS(cataloged_item.collection_object_id) scientific_name,
+		collection.institution_acronym,
+		trans.institution_acronym transInst,
+		trans.transaction_id,
+		collection.collection,
+		accn_coll.collection accnColln
+	FROM
+		user_search_table 
+		JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id 
+		JOIN accn on cataloged_item.accn_id = accn.transaction_id
+		JOIN trans on accn.transaction_id = trans.transaction_id 
+		JOIN collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+		JOIN locality on collecting_event.locality_id = locality.locality_id
+		JOIN geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+		JOIN collection on cataloged_item.collection_id = collection.collection_id
+		JOIN collection accn_coll on trans.collection_id=accn_coll.collection_id
+	WHERE
+		result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+	ORDER BY cataloged_item.collection_cde, cataloged_item.cat_num
+	</cfquery>
+
+    <div class="basic_wide_box" style="width: 75em;">
+	Add all the items listed below to accession:
+	<form name="addItems" method="post" action="/specimens/changeQueryAccession.cfm">
+		<input type="hidden" name="Action" value="addItems">
+		<input type="hidden" name="result_id" value="#result_id#">
+		<table border="1">
+			<tr>
+				<td>
+					<label for="collection_id">Collection</label>
+					<select name="collection_id" id="collection_id" size="1" onchange="findAccession();">
+						<cfloop query="ctcoll">
+							<option value="#collection_id#">#collection#</option>
+						</cfloop>
+					</select>
+				</td>
+				<td>
+					<label for="accn_number">Accession</label>
+					<input type="text" name="accn_number" id="accn_number" onchange="findAccession();">
+				</td>
+				<!---<td>
+				<input type="button" id="a_lkup" value="lookup" class="lnkBtn" onclick="findAccession();">
+				</td>--->
+     			<td>
+					<div id="g_num" class="noShow" style="font-size: 13px;padding:3px;text-align: center;"> Accession Valid<br/>
+						<input type="submit" id="s_btn" value="Add Items" class="savBtn">
+					</div>
+					<div id="b_num" style="font-size: 13px;padding:3px;">
+						TAB to see if valid accession<br/> - nothing happens if invalid -
+					</div>
+					
+				</td>
+                <td>
+                 <a href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a>
+                </td>
+			</tr>
+		</table>	
+	</form>
+<table border width="100%" style="font-size: 15px;">
+	<tr>
+		<td>Cat Num</td>
+		<td>Scientific Name</td>
+		<td>Accn</td>
+		<td>Collectors</td>
+		<td>Geog</td>
+		<td>Spec Loc</td>
+		<td>Date</td>
+		
+	</tr>
+	</cfoutput>
+	<cfoutput query="getItems" group="collection_object_id">
+	<tr>
+		<td>#collection# #cat_num#</td>
+		<td style="width: 200px;">#scientific_name#</td>
+		<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
+		<td style="width: 200px;">#getItems.collectors#</td>
+		<td>#higher_geog#</td>
+		<td>#spec_locality#</td>
+		<td style="width:100px;">#verbatim_date#</td>
+	</tr>
+</cfoutput>
+</table>
+        </div>
+</cfif>
+
+<!--------------------------------------------------------------------------------->
+<cfif #Action# is "addItems">
+		
+	<cftransaction>
+		<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT accn.TRANSACTION_ID 
+			FROM accn 
+				LEFT JOIN trans on accn.TRANSACTION_ID=trans.TRANSACTION_ID 
+			WHERE
+				accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_number#">
+				and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+		</cfquery>
+		<cfif accn.recordcount is 1 and accn.transaction_id gt 0>
+			<cfquery name="upAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cataloged_item 
+				SET accn_id = #accn.transaction_id# 
+				WHERE collection_object_id  in (
+					SELECT collection_object_id 
+					FROM user_search_table
+					WHERE
+						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				)
+			</cfquery>
+			<cftransaction action="commit">
+		<cfelse>
+			<cftransaction action="rollback">
+      	<cfthrow message="Accession [#encodeForHtml(accn_number#] in collection #encodeForHtml(collection_id)# was not found!">
+		</cfif>
+	</cftransaction>
+		
+	<cflocation url="/specimens/changeQueryAccession.cfm?result_id=#encodeForURL(result_id)#" addtoken="false">
+		
+</cfif>
+<!--------------------------------------------------------------------------------->
+
+<cfinclude template="/shared/_footer.cfm">
