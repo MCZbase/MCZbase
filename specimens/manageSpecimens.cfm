@@ -162,7 +162,7 @@ Print Any Report
 								<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
 							</cfloop>
 						</ul>
-						<div class="card text-white bg-danger mb-3">
+						<div class="card bg-light mb-3">
 							<div class="card-header">Families</div>
 							<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 								SELECT count(*) ct, 
