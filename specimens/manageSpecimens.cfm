@@ -46,88 +46,88 @@ limitations under the License.
 					<div class="col-12 mt-4">
 						<h1 class="h3 my-3">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
 						<h5>Select Form:</h5>
-						<nav class="navbar navbar-expand-lg bg-white navbar-dark p-0">
-							<ul class="navbar-nav">
-							<li class="nav-item">
-								<a class="nav-link btn btn-xs btn-secondary disabled" href="##">Accession</a>
-							</li>
-							<li class="nav-item">
-								<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs nav-link" target="_blank">Collectors/Preparators</a>
-							</li>
-							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-xs btn-secondary disabled">Collecting Events</a>
-							</li>
-							<cfif findNoCase('master',Session.gitBranch) EQ 0>
-								<!--- not working yet, don't link to on production --->
+						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
+							<ul class="navbar-nav d-flex flex-wrap">
 								<li class="nav-item">
-									<a href="/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Localities</a>
+									<a class="nav-link btn btn-xs btn-secondary disabled" href="##">Accession</a>
 								</li>
-							<cfelse>
 								<li class="nav-item">
-									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Localities</a>
+									<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs nav-link" target="_blank">Collectors/Preparators</a>
 								</li>
-							</cfif>
-							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Encumbrances</a>
-							</li>
-							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Identifications</a>
-							</li>
-							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Map By Locality</a>
-							</li>
-							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Parts Report</a>
-							</li>
-							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Change Part Locations</a>
-							</li>
-							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
-							</li>
-							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Add To Named Group</a>
-							</li>
-							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
-							</li>
-<!---
+								<li class="nav-item">
+									<a href="##" class="nav-link btn btn-xs btn-secondary disabled">Collecting Events</a>
+								</li>
+								<cfif findNoCase('master',Session.gitBranch) EQ 0>
+									<!--- not working yet, don't link to on production --->
+									<li class="nav-item">
+										<a href="/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Localities</a>
+									</li>
+								<cfelse>
+									<li class="nav-item">
+										<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Localities</a>
+									</li>
+								</cfif>
+								<li class="nav-item">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Encumbrances</a>
+								</li>
+								<li class="nav-item">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Identifications</a>
+								</li>
+								<li class="nav-item">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Map By Locality</a>
+								</li>
+								<li class="nav-item">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Parts Report</a>
+								</li>
+								<li class="nav-item">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Change Part Locations</a>
+								</li>
+								<li class="nav-item">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
+								</li>
+								<li class="nav-item">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Add To Named Group</a>
+								</li>
+								<li class="nav-item">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
+								</li>
+	<!---
 
-<option value="/addAccn.cfm"> works with either, collection_object_id has priority, session search table looked up, not passed. 
-Accession [Warning: No Tabs]
-				
-<option value="/bulkCollEvent.cfm"> works only with collection_object_id 
-Collecting Events
+	<option value="/addAccn.cfm"> works with either, collection_object_id has priority, session search table looked up, not passed. 
+	Accession [Warning: No Tabs]
 
-<option value="/Encumbrances.cfm"> works only with collection_object_id 
-Encumbrances
+	<option value="/bulkCollEvent.cfm"> works only with collection_object_id 
+	Collecting Events
 
-<option value="/multiIdentification.cfm"> works only with collection_object_id 
-Identification
+	<option value="/Encumbrances.cfm"> works only with collection_object_id 
+	Encumbrances
 
-<option value="/bnhmMaps/SpecimensByLocality.cfm"> works only on session search table, passed as table_name 
-Map By Locality [Warning: No Tabs]
+	<option value="/multiIdentification.cfm"> works only with collection_object_id 
+	Identification
 
-<option value="/tools/downloadParts.cfm"> works only on session search table, passed as table_name 
-Parts (Report) [Warning: No Tabs]
+	<option value="/bnhmMaps/SpecimensByLocality.cfm"> works only on session search table, passed as table_name 
+	Map By Locality [Warning: No Tabs]
 
-<option value="/findContainer.cfm?showControl=1"> looks like it works only with collection_object_id, but downstream code has reference to session.username and passed table name 
-Parts (Locations)
+	<option value="/tools/downloadParts.cfm"> works only on session search table, passed as table_name 
+	Parts (Report) [Warning: No Tabs]
 
-<option value="/tools/bulkPart.cfm"> works only on session search table, passed as table_name 
-Parts (Modify) [Warning: No Tabs]
+	<option value="/findContainer.cfm?showControl=1"> looks like it works only with collection_object_id, but downstream code has reference to session.username and passed table name 
+	Parts (Locations)
 
-<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-<option value="/grouping/addToNamedCollection.cfm"> works with either, collection_objecT_id has priority, session search table looked up, not passed 
-Add To Named Group [Warning: No Tabs]
-</option>
-</cfif>
+	<option value="/tools/bulkPart.cfm"> works only on session search table, passed as table_name 
+	Parts (Modify) [Warning: No Tabs]
 
-<option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#"> works only with collection_object_id 
-Print Any Report
+	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+	<option value="/grouping/addToNamedCollection.cfm"> works with either, collection_objecT_id has priority, session search table looked up, not passed 
+	Add To Named Group [Warning: No Tabs]
+	</option>
+	</cfif>
 
---->
-						</ul>
+	<option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#"> works only with collection_object_id 
+	Print Any Report
+
+	--->
+							</ul>
 						</nav>
 						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records that will be affected: </h2>
 						<div class="rounded" style="background-color: ##f8d7da;padding: 1rem;border: 2px solid ##a51c30">
