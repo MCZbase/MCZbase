@@ -44,7 +44,7 @@ limitations under the License.
 			<div class="container pb-5">
 				<div class="row">
 					<div class="col-12 mt-4">
-						<h1 class="h3 my-3">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
+						<h1 class="h3 my-3">Manage Specimens in search result [result_id=#encodeForHtml(result_id)#]</h1>
 						<h5>Select Form:</h5>
 						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
 							<ul class="navbar-nav d-flex flex-wrap">
