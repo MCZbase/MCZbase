@@ -168,6 +168,7 @@
 			orig_elev_units
 		</cfquery>
 		<div class="container">
+			<div class="row">
 			<table  class="table">
 				<thead>
 					<tr>
@@ -210,6 +211,7 @@
 				</cfoutput>
 				</tbody>
 			</table>
+			</div>
 		</div>
 	</cfcase>
 </cfswitch>
@@ -226,8 +228,9 @@
 
 <cfoutput>
 	<div class="container">
+		<div class="row">
 		<h2 class="h3">Specimens Being Changed: #specimenList.recordcount#</h2>
-		<table width="95%">
+		<table class="table">
 			<form name="filterResults">
 				<input type="hidden" name="result_id" value="#result_id#">
 				<input type="hidden" name="action" value="nothing" id="action">
@@ -252,9 +255,11 @@
 				</tr>
 			</form>
 		</table>
+		</div>
 	</div>
 </cfoutput>
 <div class="container">
+	<div class="row">
 	<table class="table">
 		<thead>
 			<tr>
@@ -297,6 +302,7 @@
 			</tbody>
 		</cfoutput>
 	</table>
+	</div>
 </div>
 
 <cfinclude template="/shared/_footer.cfm">
