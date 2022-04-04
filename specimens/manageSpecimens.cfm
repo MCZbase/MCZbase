@@ -45,48 +45,48 @@ limitations under the License.
 					<div class="col-12 mt-4">
 						<h1 class="h3">Manage Specimens in search result [result_id=#encodeForHtml(result_id)#]</h1>
 						<nav class="navbar navbar-expand-sm bg-secondary navbar-dark py-0">
-						<ul class='navbar-nav'>
-							<li class='nav-item' style="line-height: .95rem;">
+						<ul class="nav-bar">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a class="nav-link" href="##">Accession</a>
 							</li>
-							<li class='nav-item'>
-								<a class="nav-link" href='/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#' class='btn btn-secondary btn-xs' target='_blank'>Collectors/Preparators</a>
+							<li class="nav-item">
+								<a class="nav-link" href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs" target="_blank">Collectors/Preparators</a>
 							</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-xs btn-secondary disabled">Collecting Events</a>
 							</li>
 							<cfif findNoCase('master',Session.gitBranch) EQ 0>
 								<!--- not working yet, don't link to on production --->
-								<li class='nav-item' style="line-height: .95rem;">
-									<a href='/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#' class='nav-link btn btn-secondary btn-xs disabled' target='_blank'>Localities</a>
+								<li class="nav-item" style="line-height: .95rem;">
+									<a href="/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs disabled" target="_blank">Localities</a>
 								</li>
 							<cfelse>
-								<li class='nav-item' style="line-height: .95rem;">
+								<li class="nav-item" style="line-height: .95rem;">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Localities</a>
 								</li>
 							</cfif>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Encumbrances</a>
 							</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Identifications</a>
 							</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Map By Locality</a>
 							</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Parts Report</a>
 							</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Change Part Locations</a>
 							</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
 							</li>
-								<li class='nav-item' style="line-height: .95rem;">
-									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Add To Named Group</a>
-								</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
+								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Add To Named Group</a>
+							</li>
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
 							</li>
 <!---
@@ -157,7 +157,7 @@ Print Any Report
 						</cfquery>
 						<ul class="list-group flowXXS">
 							<cfloop query="countries">
-								<li class="list-group-item">#countries.continent_ocean#:#countries.country# (#countries.ct#);</li>
+								<li class="list-group-item">#countries.continent_ocean#:#countries.country# (#countries.ct#); </li>
 							</cfloop>
 						</ul>
 
