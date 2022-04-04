@@ -129,9 +129,9 @@ Print Any Report
 						</ul>
 						</nav>
 						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records: </h2>
-						<div class="" style="background-color: ##f8d7da;padding: 1rem;border: 2px solid ##a51c30">
-							<div class="card bg-light mb-3">
-								<div class="card-header">Collections</div>
+						<div class="rounded" style="background-color: ##f8d7da;padding: 1rem;border: 2px solid ##a51c30">
+							<div class="card bg-light border-secondary mb-3">
+								<div class="card-header h4">Collections</div>
 								<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 									SELECT count(*) ct, 
 										collection_cde, 
@@ -149,8 +149,8 @@ Print Any Report
 									</ul>
 								</div>
 							</div>
-							<div class="card bg-light mb-3">
-								<div class="card-header">Countries</div>
+							<div class="card bg-light border-secondary mb-3">
+								<div class="card-header h4">Countries</div>
 								<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 									SELECT count(*) ct, 
 										nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
@@ -168,8 +168,8 @@ Print Any Report
 									</ul>
 								</div>
 							</div>
-							<div class="card bg-light mb-3">
-								<div class="card-header">Families</div>
+							<div class="card bg-light border-secondary mb-3">
+								<div class="card-header h4">Families</div>
 								<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 									SELECT count(*) ct, 
 										nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
