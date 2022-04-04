@@ -49,13 +49,13 @@ limitations under the License.
 						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
 							<ul class="navbar-nav">
 							<li class="nav-item">
-								<a class="nav-link btn btn-xs btn-secondary small disabled" href="##">Accession</a>
+								<a class="nav-link btn btn-xs btn-secondary small90 disabled" href="##">Accession</a>
 							</li>
 							<li class="nav-item">
-								<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs small nav-link" target="_blank">Collectors/Preparators</a>
+								<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs small90 nav-link" target="_blank">Collectors/Preparators</a>
 							</li>
 							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-xs small btn-secondary disabled">Collecting Events</a>
+								<a href="##" class="nav-link btn btn-xs small90 btn-secondary disabled">Collecting Events</a>
 							</li>
 							<cfif findNoCase('master',Session.gitBranch) EQ 0>
 								<!--- not working yet, don't link to on production --->
@@ -64,32 +64,32 @@ limitations under the License.
 								</li>
 							<cfelse>
 								<li class="nav-item">
-									<a href="##" class="nav-link btn small btn-secondary btn-xs disabled">Localities</a>
+									<a href="##" class="nav-link btn small90 btn-secondary btn-xs disabled">Localities</a>
 								</li>
 							</cfif>
 							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary small btn-xs disabled">Encumbrances</a>
+								<a href="##" class="nav-link btn btn-secondary small90 btn-xs disabled">Encumbrances</a>
 							</li>
 							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary small  btn-xs disabled">Identifications</a>
+								<a href="##" class="nav-link btn btn-secondary small90  btn-xs disabled">Identifications</a>
 							</li>
 							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary small btn-xs disabled">Map By Locality</a>
+								<a href="##" class="nav-link btn btn-secondary small90 btn-xs disabled">Map By Locality</a>
 							</li>
 							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary small btn-xs disabled">Parts Report</a>
+								<a href="##" class="nav-link btn btn-secondary small90 btn-xs disabled">Parts Report</a>
 							</li>
 							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary small btn-xs disabled">Change Part Locations</a>
+								<a href="##" class="nav-link btn btn-secondary small90 btn-xs disabled">Change Part Locations</a>
 							</li>
 							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary small btn-xs disabled">Modify Parts</a>
+								<a href="##" class="nav-link btn btn-secondary small90 btn-xs disabled">Modify Parts</a>
 							</li>
 							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary small btn-xs disabled">Add To Named Group</a>
+								<a href="##" class="nav-link btn btn-secondary small90 btn-xs disabled">Add To Named Group</a>
 							</li>
 							<li class="nav-item">
-								<a href="##" class="nav-link btn btn-secondary small btn-xs disabled">Print Labels</a>
+								<a href="##" class="nav-link btn btn-secondary small90 btn-xs disabled">Print Labels</a>
 							</li>
 <!---
 
