@@ -27,6 +27,9 @@ limitations under the License.
 </cfif>
 
 <cfswitch expression="#action#">
+	<style>
+		.navbar-dark .navbar-nav .active>.nav-link {color:black;}
+	</style>
 	<cfcase value="manage">
 		<cfquery name="results" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="results_result">
 			SELECT count(distinct collection_object_id) ct
@@ -37,54 +40,54 @@ limitations under the License.
 			<cfthrow message = "No results found in user's USER_SEARCH_TABLE for result_id #encodeForHtml(result_id)#.">
 		</cfif>
 		<cfoutput>
-			<div class="container">
-				<div class="row mb-4">
-					<div class="col-12">
-						<h1 class="h2">Manage Specimens in search result [result_id=#encodeForHtml(result_id)#]</h1>
-
-						<ul class='list-group list-group-horizontal'>
-							<li class='list-group-item'>
-								Accession
+			<div class="container pb-5">
+				<div class="row">
+					<div class="col-12 mt-4">
+						<h1 class="h3">Manage Specimens in search result [result_id=#encodeForHtml(result_id)#]</h1>
+						<nav class="navbar navbar-expand-sm bg-secondary navbar-dark py-0">
+						<ul class='navbar-nav'>
+							<li class='nav-item' style="line-height: .95rem;">
+								<a class="nav-link" href="##">Accession</a>
 							</li>
-							<li class='list-group-item'>
-								<a href='/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#' class='btn btn-secondary btn-xs' target='_blank'>Collectors/Preparators</a>
+							<li class='nav-item'>
+								<a class="nav-link" href='/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#' class='btn btn-secondary btn-xs' target='_blank'>Collectors/Preparators</a>
 							</li>
-							<li class='list-group-item'>
-								Collecting Events
+							<li class='nav-item' style="line-height: .95rem;">
+								<a href="##" class="nav-link btn btn-xs btn-secondary disabled">Collecting Events</a>
 							</li>
 							<cfif findNoCase('master',Session.gitBranch) EQ 0>
 								<!--- not working yet, don't link to on production --->
-								<li class='list-group-item'>
-									<a href='/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#' class='btn btn-secondary btn-xs' target='_blank'>Localities</a>
+								<li class='nav-item' style="line-height: .95rem;">
+									<a href='/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#' class='nav-link btn btn-secondary btn-xs disabled' target='_blank'>Localities</a>
 								</li>
 							<cfelse>
-								<li class='list-group-item'>
-									Localities
+								<li class='nav-item' style="line-height: .95rem;">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Localities</a>
 								</li>
 							</cfif>
-							<li class='list-group-item'>
-								Encumbrances
+							<li class='nav-item' style="line-height: .95rem;">
+								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Encumbrances</a>
 							</li>
-							<li class='list-group-item'>
-								Identifications
+							<li class='nav-item' style="line-height: .95rem;">
+								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Identifications</a>
 							</li>
-							<li class='list-group-item'>
-								Map By Locality
+							<li class='nav-item' style="line-height: .95rem;">
+								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Map By Locality</a>
 							</li>
-							<li class='list-group-item'>
-								Parts Report
+							<li class='nav-item' style="line-height: .95rem;">
+								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Parts Report</a>
 							</li>
-							<li class='list-group-item'>
-								Change Part Locations
+							<li class='nav-item' style="line-height: .95rem;">
+								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Change Part Locations</a>
 							</li>
-							<li class='list-group-item'>
-								Modify Parts
+							<li class='nav-item' style="line-height: .95rem;">
+								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
 							</li>
-								<li class='list-group-item'>
-									Add To Named Group
+								<li class='nav-item' style="line-height: .95rem;">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Add To Named Group</a>
 								</li>
-							<li class='list-group-item'>
-								Print Labels
+							<li class='nav-item' style="line-height: .95rem;">
+								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
 							</li>
 <!---
 
@@ -124,9 +127,9 @@ Print Any Report
 --->
 						</ul>
 
-						<p>Manage #results.ct# cataloged item records</p>
+						<h2 class="h4 mt-4">Manage #results.ct# cataloged item records are in the following: </h2>
 
-						<h2 class="h3">These records are in these Collections</h2>
+						<h3 class="h4">Collections</h3>
 						<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 							SELECT count(*) ct, 
 								collection_cde, 
@@ -136,13 +139,13 @@ Print Any Report
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							GROUP BY collection_cde, collection_id
 						</cfquery>
-						<ul>
+						<ul class="flowXXS">
 							<cfloop query="collections">
-								<li class="pr-1" style="list-style-type: circle; display: inline;">#collections.collection_cde# (#collections.ct#);</li>
+								<li class="">#collections.collection_cde# (#collections.ct#);</li>
 							</cfloop>
 						</ul>
 
-						<h2 class="h3">These records are in these Countries</h2>
+						<h3 class="h4">Countries</h3>
 						<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 							SELECT count(*) ct, 
 								nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
@@ -152,13 +155,13 @@ Print Any Report
 							GROUP BY 
 								continent_ocean, country
 						</cfquery>
-						<ul>
+						<ul class="flowXXS">
 							<cfloop query="countries">
-								<li class="pr-1" style="list-style-type: circle; display: inline;">#countries.continent_ocean#:#countries.country# (#countries.ct#);</li>
+								<li class="">#countries.continent_ocean#:#countries.country# (#countries.ct#);</li>
 							</cfloop>
 						</ul>
 
-						<h2 class="h3">These records are in these Families</h2>
+						<h3 class="h4">Families</h3>
 						<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 							SELECT count(*) ct, 
 								nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
@@ -167,9 +170,9 @@ Print Any Report
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							GROUP BY phylorder, family
 						</cfquery>
-						<ul>
+						<ul class="flowXXS">
 							<cfloop query="families">
-								<li class="pr-1" style="list-style-type: circle; display: inline;">#families.phylorder#:#families.family# (#families.ct#);</li>
+								<li class="">#families.phylorder#:#families.family# (#families.ct#);</li>
 							</cfloop>
 						</ul>
 					</div>
