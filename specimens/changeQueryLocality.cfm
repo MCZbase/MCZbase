@@ -168,44 +168,48 @@
 			orig_elev_units
 		</cfquery>
 		<div class="container">
-			<table border>
-		<tr>
-	      	<td><b>Geog ID</b></td>
-	      	<td>&nbsp;</td>
-	     	<td><b>Locality ID</b></td>
-	      	<td><b>Spec Locality</b></td>
-		   	<td><b>Geog</b></td>
-	    </tr>
-	<cfset i = 1>
-	<cfloop query="localityResults">
-		<tr>
-			<td> <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
-			<td><a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a></td>
-			<td>
-			<form name="coll#i#" method="post" action="/specimens/changeQueryLocality.cfm">
-				<input type="hidden" name="result_id" value="#result_id#">
-				<input type="hidden" name="newlocality_id" value="#locality_id#">
-				<input type="hidden" name="action" value="updateLocality">
-				<cfif isdefined("filterOrder")>
-					<input type="hidden" name="filterOrder" value="#filterOrder#">
-				</cfif>
-				<cfif isdefined("filterFamily")>
-					<input type="hidden" name="filterFamily" value="#filterFamily#">
-				</cfif>
-				<input type="submit"
-					 	value="Change ALL listed specimens to this Locality"
-						class="savBtn"
-   						onmouseover="this.className='savBtn btnhov'"
-						onmouseout="this.className='savBtn'">
-			</form>
-			</td>
-			<td>#spec_locality#</td>
-			<td>#higher_geog#</td>
-		</tr>
-	<cfset i=#i#+1>
-	</cfloop>
-		</cfoutput>
-	</table>
+			<table  class="table">
+				<thead>
+					<tr>
+						<th>Geog ID</th>
+						<th>&nbsp;</th>
+						<th>Locality ID</th>
+						<th>Spec Locality</th>
+						<th>Geog</th>
+					</tr>
+				</thead>
+				<tbody>
+					<cfset i = 1>
+					<cfloop query="localityResults">
+				<tr>
+					<td> <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
+					<td><a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a></td>
+					<td>
+					<form name="coll#i#" method="post" action="/specimens/changeQueryLocality.cfm">
+						<input type="hidden" name="result_id" value="#result_id#">
+						<input type="hidden" name="newlocality_id" value="#locality_id#">
+						<input type="hidden" name="action" value="updateLocality">
+						<cfif isdefined("filterOrder")>
+							<input type="hidden" name="filterOrder" value="#filterOrder#">
+						</cfif>
+						<cfif isdefined("filterFamily")>
+							<input type="hidden" name="filterFamily" value="#filterFamily#">
+						</cfif>
+						<input type="submit"
+								value="Change ALL listed specimens to this Locality"
+								class="savBtn"
+								onmouseover="this.className='savBtn btnhov'"
+								onmouseout="this.className='savBtn'">
+					</form>
+					</td>
+					<td>#spec_locality#</td>
+					<td>#higher_geog#</td>
+				</tr>
+			<cfset i=#i#+1>
+			</cfloop>
+				</cfoutput>
+				</tbody>
+			</table>
 		</div>
 	</cfcase>
 </cfswitch>
@@ -251,23 +255,26 @@
 	</div>
 </cfoutput>
 <div class="container">
-	<table width="95%" border="1">
-		<tr>
-			<td><strong>Catalog Number</strong></td>
-			<cfif len(#session.CustomOtherIdentifier#) GT 0>
-			<td>
-				<cfoutput>
-					<strong>#session.CustomOtherIdentifier#</strong>
-				</cfoutput>
-			</td>
-			</cfif>
-			<td>Order</td>
-			<td>Family</td>
-			<td><strong>Accepted Scientific Name</strong></td>
-			<td><strong>Locality ID</strong></td>
-			<td><strong>Spec Locality</strong></td>
-			<td><strong>higher_geog</strong></td>
-		</tr>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Catalog Number</th>
+				<cfif len(#session.CustomOtherIdentifier#) GT 0>
+					<th>
+						<cfoutput>
+						#session.CustomOtherIdentifier#
+						</cfoutput>
+					</th>
+				</cfif>
+				<th>Order</th>
+				<th>Family</th>
+				<th>Accepted Scientific Name</th>
+				<th>Locality ID</th>
+				<th>Spec Locality</th>
+				<th>higher_geog</th>
+			</tr>
+		</thead>
+		<tbody>
 		<cfoutput query="specimenList" group="collection_object_id">
 			<tr>
 				<td>
@@ -287,6 +294,7 @@
 				<td>#spec_locality#</td>
 				<td>#higher_geog#</td>
 			</tr>
+			</tbody>
 		</cfoutput>
 	</table>
 </div>
