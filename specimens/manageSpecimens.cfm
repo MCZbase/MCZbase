@@ -48,9 +48,11 @@ limitations under the License.
 						<h5>Select Form:</h5>
 						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
 							<ul class="navbar-nav d-flex flex-wrap">
-								<li class="nav-item mb-1">
-									<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAccession.cfm?result_id=#encodeForUrl(result_id)#">Accession</a>
-								</li>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+									<li class="nav-item mb-1">
+										<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAccession.cfm?result_id=#encodeForUrl(result_id)#">Accession</a>
+									</li>
+								</cfif>
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs nav-link" target="_blank">Collectors/Preparators</a>
 								</li>
@@ -132,7 +134,6 @@ limitations under the License.
 						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records that will be affected: </h2>
 						<div class="rounded" style="background-color: ##f8d7da;padding: 1rem;border: 2px solid ##a51c30">
 							<div class="card bg-light border-secondary mb-3">
-								<div class="card-header h4">Collections</div>
 								<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 									SELECT count(*) ct, 
 										collection_cde, 
@@ -142,6 +143,7 @@ limitations under the License.
 									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 									GROUP BY collection_cde, collection_id
 								</cfquery>
+								<div class="card-header h4">Collections (#collections.count#)</div>
 								<div class="card-body">
 									<ul class="list-group list-group-horizontal d-flex flex-wrap">
 										<cfloop query="collections">
@@ -151,8 +153,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="card bg-light border-secondary mb-3">
-								<div class="card-header h4">Countries</div>
-								<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
+								<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countries_result">
 									SELECT count(*) ct, 
 										nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
 									FROM user_search_table
@@ -161,6 +162,7 @@ limitations under the License.
 									GROUP BY 
 										continent_ocean, country
 								</cfquery>
+								<div class="card-header h4">Countries (#countries.count#)</div>
 								<div class="card-body">
 									<ul class="list-group list-group-horizontal d-flex flex-wrap">
 										<cfloop query="countries">
@@ -169,9 +171,8 @@ limitations under the License.
 									</ul>
 								</div>
 							</div>
-							<div class="card bg-light border-secondary mb-0">
-								<div class="card-header h4">Families</div>
-								<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
+							<div class="card bg-light border-secondary mb-3">
+								<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="families_result">
 									SELECT count(*) ct, 
 										nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
 									FROM user_search_table
@@ -179,6 +180,7 @@ limitations under the License.
 									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 									GROUP BY phylorder, family
 								</cfquery>
+								<div class="card-header h4">Families (#families.count#)</div>
 								<div class="card-body">
 									<ul class="list-group list-group-horizontal d-flex flex-wrap">
 										<cfloop query="families">
@@ -187,25 +189,27 @@ limitations under the License.
 									</ul>
 								</div>
 							</div>
-							<div class="card bg-light border-secondary mb-0">
-								<div class="card-header h4">Accessions</div>
-								<cfquery name="accessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="accessions_result">
-									SELECT count(*) ct, 
-										accn_number, nvl(to_char(accn.received_date,'YYYY'),'[no date]')  year
-									FROM user_search_table
-										left join cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
-										left join accn on cataloged_item.accn_id = accn.transaction_id
-									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									GROUP BY accn_number, nvl(to_char(accn.received_date,'YYYY'),'[no date]')
-								</cfquery>
-								<div class="card-body">
-									<ul class="list-group list-group-horizontal d-flex flex-wrap">
-										<cfloop query="accessions">
-											<li class="list-group-item">#accessions.accn_number#&thinsp;:&thinsp;#accessions.year# (#accessions.ct#);</li>
-										</cfloop>
-									</ul>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+								<div class="card bg-light border-secondary mb-0">
+									<cfquery name="accessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="accessions_result">
+										SELECT count(*) ct, 
+											accn_number, nvl(to_char(accn.received_date,'YYYY'),'[no date]')  year
+										FROM user_search_table
+											left join cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+											left join accn on cataloged_item.accn_id = accn.transaction_id
+										WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+										GROUP BY accn_number, nvl(to_char(accn.received_date,'YYYY'),'[no date]')
+									</cfquery>
+									<div class="card-header h4">Accessions (#accessions.recordcount#)</div>
+									<div class="card-body">
+										<ul class="list-group list-group-horizontal d-flex flex-wrap">
+											<cfloop query="accessions">
+												<li class="list-group-item">#accessions.accn_number#&thinsp;:&thinsp;#accessions.year# (#accessions.ct#);</li>
+											</cfloop>
+										</ul>
+									</div>
 								</div>
-							</div>
+							</cfif>
 						</div>
 					</div>
 				</div>
