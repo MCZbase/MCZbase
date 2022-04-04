@@ -41,54 +41,54 @@ limitations under the License.
 			<style>
 				.navbar-dark .navbar-nav .active > .nav-link, .active {color:black;background-color: white;}
 			</style>
-			<div class="container-lg pb-5">
+			<div class="container pb-5">
 				<div class="row">
 					<div class="col-12 mt-4">
 						<h1 class="h3 my-3">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
 						<h5>Select Form:</h5>
 						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
 							<ul class="navbar-nav d-flex flex-wrap">
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAccession.cfm?result_id#encodeForUrl(result_id)#">Accession</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs nav-link" target="_blank">Collectors/Preparators</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-xs btn-secondary disabled">Collecting Events</a>
 								</li>
 								<cfif findNoCase('master',Session.gitBranch) EQ 0>
 									<!--- not working yet, don't link to on production --->
-									<li class="nav-item">
+									<li class="nav-item mb-1">
 										<a href="/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Localities</a>
 									</li>
 								<cfelse>
-									<li class="nav-item">
+									<li class="nav-item mb-1">
 										<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Localities</a>
 									</li>
 								</cfif>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Encumbrances</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Identifications</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Map By Locality</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Parts Report</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Change Part Locations</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Add To Named Group</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
 								</li>
 	<!---
