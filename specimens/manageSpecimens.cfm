@@ -27,9 +27,7 @@ limitations under the License.
 </cfif>
 
 <cfswitch expression="#action#">
-	<style>
-		.navbar-dark .navbar-nav .active>.nav-link {color:black;}
-	</style>
+
 	<cfcase value="manage">
 		<cfquery name="results" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="results_result">
 			SELECT count(distinct collection_object_id) ct
@@ -40,12 +38,15 @@ limitations under the License.
 			<cfthrow message = "No results found in user's USER_SEARCH_TABLE for result_id #encodeForHtml(result_id)#.">
 		</cfif>
 		<cfoutput>
+			<style>
+				.navbar-dark .navbar-nav .active > .nav-link {color:black;background-color: white;}
+			</style>
 			<div class="container pb-5">
 				<div class="row">
 					<div class="col-12 mt-4">
 						<h1 class="h3">Manage Specimens in search result [result_id=#encodeForHtml(result_id)#]</h1>
 						<nav class="navbar navbar-expand-sm bg-secondary navbar-dark py-0">
-						<ul class="nav-bar">
+						<ul class="navbar-nav">
 							<li class="nav-item" style="line-height: .95rem;">
 								<a class="nav-link" href="##">Accession</a>
 							</li>
