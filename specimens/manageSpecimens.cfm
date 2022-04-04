@@ -48,47 +48,47 @@ limitations under the License.
 						<h5>Select Form:</h5>
 						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
 							<ul class="navbar-nav d-flex flex-wrap">
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a class="nav-link btn btn-xs btn-secondary disabled" href="##">Accession</a>
 								</li>
 								<li class="nav-item">
 									<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs nav-link" target="_blank">Collectors/Preparators</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-xs btn-secondary disabled">Collecting Events</a>
 								</li>
 								<cfif findNoCase('master',Session.gitBranch) EQ 0>
 									<!--- not working yet, don't link to on production --->
-									<li class="nav-item">
+									<li class="nav-item mb-1">
 										<a href="/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Localities</a>
 									</li>
 								<cfelse>
-									<li class="nav-item">
+									<li class="nav-item mb-1">
 										<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Localities</a>
 									</li>
 								</cfif>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Encumbrances</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Identifications</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Map By Locality</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Parts Report</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Change Part Locations</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Add To Named Group</a>
 								</li>
-								<li class="nav-item">
+								<li class="nav-item mb-1">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
 								</li>
 	<!---
