@@ -41,7 +41,7 @@ limitations under the License.
 			<style>
 				.navbar-dark .navbar-nav .active > .nav-link, .active {color:black;background-color: white;}
 			</style>
-			<div class="container-lg container pb-5">
+			<div class="container-lg pb-5">
 				<div class="row">
 					<div class="col-12 mt-4">
 						<h1 class="h3 my-3">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
