@@ -60,7 +60,7 @@ limitations under the License.
 							<cfif findNoCase('master',Session.gitBranch) EQ 0>
 								<!--- not working yet, don't link to on production --->
 								<li class="nav-item">
-									<a href="/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary small btn-xs" target="_blank">Localities</a>
+									<a href="/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary small font-weight-bold btn-xs" target="_blank">Localities</a>
 								</li>
 							<cfelse>
 								<li class="nav-item">
