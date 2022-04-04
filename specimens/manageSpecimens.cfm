@@ -129,7 +129,7 @@ Print Any Report
 						</ul>
 						</nav>
 						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records: </h2>
-						<div class="btn-danger">
+						<div class="" style="background-color: ##f8d7da;padding: 1rem;border: 2px solid ##a51c30">
 							<div class="card bg-light mb-3">
 								<div class="card-header">Collections</div>
 								<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
