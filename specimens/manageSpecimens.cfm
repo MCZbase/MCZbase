@@ -44,7 +44,7 @@ limitations under the License.
 			<div class="container pb-5">
 				<div class="row">
 					<div class="col-12 mt-4">
-						<h1 class="h3 mb-2">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
+						<h1 class="h3 my-2">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
 						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
 						<ul class="navbar-nav">
 							<li class="nav-item">
@@ -128,7 +128,7 @@ Print Any Report
 --->
 						</ul>
 						</nav>
-						<h2 class="h2 mt-4">Manage #results.ct# cataloged item records are in the following: </h2>
+						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records: </h2>
 
 						<h3 class="h4 mt-3 mb-2">Collections</h3>
 						<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
@@ -173,7 +173,7 @@ Print Any Report
 						</cfquery>
 						<ul class="list-group list-group-horizontal d-flex flex-wrap">
 							<cfloop query="families">
-								<li class="list-group-item">#families.phylorder#:#families.family# (#families.ct#);</li>
+								<li class="list-group-item">#families.phylorder#&thinsp;:&thinsp;#families.family# (#families.ct#);</li>
 							</cfloop>
 						</ul>
 					</div>
