@@ -45,7 +45,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mt-4">
 						<h1 class="h3">Manage Specimens in search result [result_id=#encodeForHtml(result_id)#]</h1>
-						<nav class="navbar navbar-expand-sm bg-secondary navbar-dark py-0">
+						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
 						<ul class="navbar-nav">
 							<li class="nav-item">
 								<a class="nav-link btn btn-xs btn-secondary disabled" href="##">Accession</a>
