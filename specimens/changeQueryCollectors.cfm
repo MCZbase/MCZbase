@@ -36,9 +36,9 @@
 		ORDER BY 
 			cataloged_item.collection_object_id
 	</cfquery>
-	<main class="container" id="content">
+	<main class="container-xl" id="content">
 		<section class="row" aria-labelledby="formheading">
-			<div class="col-12">
+			<div class="col-12 pt-3">
 				<h2 class="h3" id="formheading" >
 					Add/Remove collectors for all specimens listed below
 				</h2>
@@ -82,7 +82,7 @@
 									<option value="last">Last</option>
 								</select>
 							</div>
-							<div class="col-12 col-md-4 col-lg-3">
+							<div class="col-12 col-md-4 col-lg-3 mt-md-0 mt-3">
 								<label for="insert_button" class="data-entry-label">Apply to all records in result.</label>		
 								<input type="button" id="insert_button"
 									value="Insert Agent" 
@@ -98,7 +98,7 @@
 				</div>
 			</div>
 			<div class="col-12">
-			<h3 class="h4">Specimens:</h3>
+			<h3 class="h4 mt-3">Specimens:</h3>
 			<table class="table table-responsive table-striped d-xl-table">
 				<thead class="thead-light">
 					<tr>
