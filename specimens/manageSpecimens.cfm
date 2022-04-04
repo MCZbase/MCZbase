@@ -126,7 +126,7 @@ Print Any Report
 
 --->
 						</ul>
-
+						</nav>
 						<h2 class="h4 mt-4">Manage #results.ct# cataloged item records are in the following: </h2>
 
 						<h3 class="h4">Collections</h3>
