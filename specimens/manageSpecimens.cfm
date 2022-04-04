@@ -156,9 +156,9 @@ Print Any Report
 							GROUP BY 
 								continent_ocean, country
 						</cfquery>
-						<ul class="list-group flowXXS">
+						<ul class="list-group list-group-horizontal">
 							<cfloop query="countries">
-								<li class="list-group-item">#countries.continent_ocean#:#countries.country# (#countries.ct#); </li>
+								<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
 							</cfloop>
 						</ul>
 
@@ -171,7 +171,7 @@ Print Any Report
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							GROUP BY phylorder, family
 						</cfquery>
-						<ul class="list-group flowXXS">
+						<ul class="list-group list-group-horizontal">
 							<cfloop query="families">
 								<li class="list-group-item">#families.phylorder#:#families.family# (#families.ct#);</li>
 							</cfloop>
