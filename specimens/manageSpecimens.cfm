@@ -166,6 +166,7 @@ Print Any Report
 									</cfloop>
 								</ul>
 							</div>
+						</div>
 						<div class="card bg-light mb-3">
 							<div class="card-header">Families</div>
 							<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
