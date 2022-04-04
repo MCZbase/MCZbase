@@ -129,60 +129,62 @@ Print Any Report
 						</ul>
 						</nav>
 						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records: </h2>
-						<div class="card bg-light mb-3">
-							<div class="card-header">Collections</div>
-							<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
-								SELECT count(*) ct, 
-									collection_cde, 
-									collection_id
-								FROM user_search_table
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
-								WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-								GROUP BY collection_cde, collection_id
-							</cfquery>
-							<div class="card-body">
-								<ul class="list-group list-group-horizontal d-flex flex-wrap">
-									<cfloop query="collections">
-										<li class="list-group-item">#collections.collection_cde# (#collections.ct#);</li>
-									</cfloop>
-								</ul>
+						<div class="btn-danger">
+							<div class="card bg-light mb-3">
+								<div class="card-header">Collections</div>
+								<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
+									SELECT count(*) ct, 
+										collection_cde, 
+										collection_id
+									FROM user_search_table
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									GROUP BY collection_cde, collection_id
+								</cfquery>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="collections">
+											<li class="list-group-item">#collections.collection_cde# (#collections.ct#);</li>
+										</cfloop>
+									</ul>
+								</div>
 							</div>
-						</div>
-						<div class="card bg-light mb-3">
-							<div class="card-header">Countries</div>
-							<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
-								SELECT count(*) ct, 
-									nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
-								FROM user_search_table
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
-								WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-								GROUP BY 
-									continent_ocean, country
-							</cfquery>
-							<div class="card-body">
-								<ul class="list-group list-group-horizontal d-flex flex-wrap">
-									<cfloop query="countries">
-										<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
-									</cfloop>
-								</ul>
+							<div class="card bg-light mb-3">
+								<div class="card-header">Countries</div>
+								<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
+									SELECT count(*) ct, 
+										nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
+									FROM user_search_table
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									GROUP BY 
+										continent_ocean, country
+								</cfquery>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="countries">
+											<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
+										</cfloop>
+									</ul>
+								</div>
 							</div>
-						</div>
-						<div class="card bg-light mb-3">
-							<div class="card-header">Families</div>
-							<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
-								SELECT count(*) ct, 
-									nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
-								FROM user_search_table
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
-								WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-								GROUP BY phylorder, family
-							</cfquery>
-							<div class="card-body">
-								<ul class="list-group list-group-horizontal d-flex flex-wrap">
-									<cfloop query="families">
-										<li class="list-group-item">#families.phylorder#&thinsp;:&thinsp;#families.family# (#families.ct#);</li>
-									</cfloop>
-								</ul>
+							<div class="card bg-light mb-3">
+								<div class="card-header">Families</div>
+								<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
+									SELECT count(*) ct, 
+										nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
+									FROM user_search_table
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									GROUP BY phylorder, family
+								</cfquery>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="families">
+											<li class="list-group-item">#families.phylorder#&thinsp;:&thinsp;#families.family# (#families.ct#);</li>
+										</cfloop>
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
