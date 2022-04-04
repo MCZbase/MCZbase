@@ -44,7 +44,7 @@ limitations under the License.
 			<div class="container pb-5">
 				<div class="row">
 					<div class="col-12 mt-4">
-						<h1 class="h3">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
+						<h1 class="h3 mb-2">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
 						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
 						<ul class="navbar-nav">
 							<li class="nav-item">
@@ -128,9 +128,9 @@ Print Any Report
 --->
 						</ul>
 						</nav>
-						<h2 class="h4 mt-4">Manage #results.ct# cataloged item records are in the following: </h2>
+						<h2 class="h2 mt-4">Manage #results.ct# cataloged item records are in the following: </h2>
 
-						<h3 class="h4">Collections</h3>
+						<h3 class="h4 mt-3 mb-2">Collections</h3>
 						<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 							SELECT count(*) ct, 
 								collection_cde, 
@@ -146,7 +146,7 @@ Print Any Report
 							</cfloop>
 						</ul>
 
-						<h3 class="h4">Countries</h3>
+						<h3 class="h4 mt-3 mb-2">Countries</h3>
 						<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 							SELECT count(*) ct, 
 								nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
@@ -162,7 +162,7 @@ Print Any Report
 							</cfloop>
 						</ul>
 
-						<h3 class="h4">Families</h3>
+						<h3 class="h4 mt-3 mb-2">Families</h3>
 						<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 							SELECT count(*) ct, 
 								nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
