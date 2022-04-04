@@ -131,7 +131,7 @@
 				<cftransaction action="commit">
 			<cfelse>
 				<cftransaction action="rollback">
-				<cfthrow message="Accession [#encodeForHtml(accn_number#] in collection #encodeForHtml(collection_id)# was not found!">
+				<cfthrow message="Accession [#encodeForHtml(accn_number)#] in collection #encodeForHtml(collection_id)# was not found!">
 			</cfif>
 		</cftransaction>
 		
