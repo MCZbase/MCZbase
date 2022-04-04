@@ -67,7 +67,9 @@
 									<input type="text" name="accn_number" id="accn_number" class="data-entry-input reqdClr" required>
 									<input type="hidden" name="trans_id" id="trans_id">
 									<script>
-											makeAccessionAutocompleteMeta("accn_number", "trans_id")
+										jQuery(document).ready(function() {
+											makeAccessionAutocompleteMeta("accn_number", "trans_id");
+										});
 									</script>
 								</div>
 								<div class="col-12 col-md-4 col-lg-4">
