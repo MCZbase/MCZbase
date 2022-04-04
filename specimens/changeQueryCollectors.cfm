@@ -97,7 +97,7 @@
 					</form>
 				</div>
 			</div>
-			<div class="col-12">
+			<div class="col-12 pb-3">
 			<h3 class="h4 mt-3 px-1">Specimens:</h3>
 			<table class="table table-responsive table-striped d-xl-table">
 				<thead class="thead-light">
