@@ -53,61 +53,55 @@
 						<form name="addItems" method="post" action="/specimens/changeQueryAccession.cfm">
 							<input type="hidden" name="Action" value="addItems">
 							<input type="hidden" name="result_id" value="#result_id#">
-		<table border="1">
-			<tr>
-				<td>
-					<label for="collection_id">Collection</label>
-					<select name="collection_id" id="collection_id" size="1" onchange="findAccession();">
-						<cfloop query="ctcoll">
-							<option value="#collection_id#">#collection#</option>
-						</cfloop>
-					</select>
-				</td>
-				<td>
-					<label for="accn_number">Accession</label>
-					<input type="text" name="accn_number" id="accn_number" onchange="findAccession();">
-				</td>
-				<!---<td>
-				<input type="button" id="a_lkup" value="lookup" class="lnkBtn" onclick="findAccession();">
-				</td>--->
-				<td>
-					<div id="g_num" class="noShow" style="font-size: 13px;padding:3px;text-align: center;"> Accession Valid<br/>
-						<input type="submit" id="s_btn" value="Add Items" class="savBtn">
-					</div>
-					<div id="b_num" style="font-size: 13px;padding:3px;">
-						TAB to see if valid accession<br/> - nothing happens if invalid -
-					</div>
-					
-				</td>
-				<td>
-					<a href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a>
-				</td>
-			</tr>
-		</table>	
+							<div class="form-row mb-2">
+								<div class="col-12 col-md-4 col-lg-4">
+									<label for="collection_id" class="data-entry-label">Collection</label>
+									<select name="collection_id" id="collection_id" size="1" class="data-entry-select reqdClr" required>
+										<cfloop query="ctcoll">
+											<option value="#collection_id#">#collection#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-4 col-lg-4">
+									<label for="accn_number">Accession</label>
+									<input type="text" name="accn_number" id="accn_number" class="data-entry-input reqdClr" required>
+									<input type="hidden" name="trans_id" id="trans_id">
+									<script>
+											makeAccessionAutocompleteMeta("accn_number", "trans_id")
+									</script>
+								</div>
+								<div class="col-12 col-md-4 col-lg-4">
+									<input type="submit" id="s_btn" value="Change Accession" class="btn btn-xs btn-warning">
+								</div>
+							</div>
 						</form>
+					</div>
+					<div class="col-12">
 
-<table border width="100%" style="font-size: 15px;">
-	<tr>
-		<td>Cat Num</td>
-		<td>Scientific Name</td>
-		<td>Accn</td>
-		<td>Collectors</td>
-		<td>Geog</td>
-		<td>Spec Loc</td>
-		<td>Date</td>
-		
-	</tr>
-	<cfloop query="getItems" group="collection_object_id">
-	<tr>
-		<td>#collection# #cat_num#</td>
-		<td style="width: 200px;">#scientific_name#</td>
-		<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
-		<td style="width: 200px;">#getItems.collectors#</td>
-		<td>#higher_geog#</td>
-		<td>#spec_locality#</td>
-		<td style="width:100px;">#verbatim_date#</td>
-	</tr>
-</table>
+						<table border width="100%" style="font-size: 15px;">
+							<tr>
+								<td>Cat Num</td>
+								<td>Scientific Name</td>
+								<td>Accn</td>
+								<td>Collectors</td>
+								<td>Geog</td>
+								<td>Spec Loc</td>
+								<td>Date</td>
+							</tr>
+							<cfloop query="getItems" group="collection_object_id">
+								<tr>
+									<td>#collection# #cat_num#</td>
+									<td style="width: 200px;">#scientific_name#</td>
+									<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
+									<td style="width: 200px;">#getItems.collectors#</td>
+									<td>#higher_geog#</td>
+									<td>#spec_locality#</td>
+									<td style="width:100px;">#verbatim_date#</td>
+								</tr>
+							</cfloop>
+						</table>
+
+					</div>
 				</section>
 			</main>
 		</cfoutput>
