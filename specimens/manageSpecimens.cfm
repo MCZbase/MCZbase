@@ -27,9 +27,7 @@ limitations under the License.
 </cfif>
 
 <cfswitch expression="#action#">
-	<style>
-		.navbar-dark .navbar-nav .active>.nav-link {color:black;}
-	</style>
+
 	<cfcase value="manage">
 		<cfquery name="results" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="results_result">
 			SELECT count(distinct collection_object_id) ct
@@ -40,53 +38,56 @@ limitations under the License.
 			<cfthrow message = "No results found in user's USER_SEARCH_TABLE for result_id #encodeForHtml(result_id)#.">
 		</cfif>
 		<cfoutput>
+			<style>
+				.navbar-dark .navbar-nav .active > .nav-link {color:black;background-color: white;}
+			</style>
 			<div class="container pb-5">
 				<div class="row">
 					<div class="col-12 mt-4">
 						<h1 class="h3">Manage Specimens in search result [result_id=#encodeForHtml(result_id)#]</h1>
 						<nav class="navbar navbar-expand-sm bg-secondary navbar-dark py-0">
-						<ul class='navbar-nav'>
-							<li class='nav-item' style="line-height: .95rem;">
+						<ul class="navbar-nav">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a class="nav-link" href="##">Accession</a>
 							</li>
-							<li class='nav-item'>
-								<a class="nav-link" href='/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#' class='btn btn-secondary btn-xs' target='_blank'>Collectors/Preparators</a>
+							<li class="nav-item">
+								<a class="nav-link" href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs" target="_blank">Collectors/Preparators</a>
 							</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-xs btn-secondary disabled">Collecting Events</a>
 							</li>
 							<cfif findNoCase('master',Session.gitBranch) EQ 0>
 								<!--- not working yet, don't link to on production --->
-								<li class='nav-item' style="line-height: .95rem;">
-									<a href='/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#' class='nav-link btn btn-secondary btn-xs disabled' target='_blank'>Localities</a>
+								<li class="nav-item" style="line-height: .95rem;">
+									<a href="/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs disabled" target="_blank">Localities</a>
 								</li>
 							<cfelse>
-								<li class='nav-item' style="line-height: .95rem;">
+								<li class="nav-item" style="line-height: .95rem;">
 									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Localities</a>
 								</li>
 							</cfif>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Encumbrances</a>
 							</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Identifications</a>
 							</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Map By Locality</a>
 							</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Parts Report</a>
 							</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Change Part Locations</a>
 							</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
 							</li>
-								<li class='nav-item' style="line-height: .95rem;">
-									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Add To Named Group</a>
-								</li>
-							<li class='nav-item' style="line-height: .95rem;">
+							<li class="nav-item" style="line-height: .95rem;">
+								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Add To Named Group</a>
+							</li>
+							<li class="nav-item" style="line-height: .95rem;">
 								<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
 							</li>
 <!---
@@ -126,7 +127,7 @@ Print Any Report
 
 --->
 						</ul>
-
+						</nav>
 						<h2 class="h4 mt-4">Manage #results.ct# cataloged item records are in the following: </h2>
 
 						<h3 class="h4">Collections</h3>
@@ -139,9 +140,9 @@ Print Any Report
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							GROUP BY collection_cde, collection_id
 						</cfquery>
-						<ul class="flowXXS">
+						<ul class="list-group flowXXS">
 							<cfloop query="collections">
-								<li class="">#collections.collection_cde# (#collections.ct#);</li>
+								<li class="list-group-item">#collections.collection_cde# (#collections.ct#);</li>
 							</cfloop>
 						</ul>
 
@@ -155,9 +156,9 @@ Print Any Report
 							GROUP BY 
 								continent_ocean, country
 						</cfquery>
-						<ul class="flowXXS">
+						<ul class="list-group flowXXS">
 							<cfloop query="countries">
-								<li class="">#countries.continent_ocean#:#countries.country# (#countries.ct#);</li>
+								<li class="list-group-item">#countries.continent_ocean#:#countries.country# (#countries.ct#); </li>
 							</cfloop>
 						</ul>
 
@@ -170,9 +171,9 @@ Print Any Report
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							GROUP BY phylorder, family
 						</cfquery>
-						<ul class="flowXXS">
+						<ul class="list-group flowXXS">
 							<cfloop query="families">
-								<li class="">#families.phylorder#:#families.family# (#families.ct#);</li>
+								<li class="list-group-item">#families.phylorder#:#families.family# (#families.ct#);</li>
 							</cfloop>
 						</ul>
 					</div>
