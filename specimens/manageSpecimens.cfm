@@ -139,9 +139,9 @@ Print Any Report
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							GROUP BY collection_cde, collection_id
 						</cfquery>
-						<ul class="flowXXS">
+						<ul class="list-group flowXXS">
 							<cfloop query="collections">
-								<li class="">#collections.collection_cde# (#collections.ct#);</li>
+								<li class="list-group-item">#collections.collection_cde# (#collections.ct#);</li>
 							</cfloop>
 						</ul>
 
@@ -155,9 +155,9 @@ Print Any Report
 							GROUP BY 
 								continent_ocean, country
 						</cfquery>
-						<ul class="flowXXS">
+						<ul class="list-group flowXXS">
 							<cfloop query="countries">
-								<li class="">#countries.continent_ocean#:#countries.country# (#countries.ct#);</li>
+								<li class="list-group-item">#countries.continent_ocean#:#countries.country# (#countries.ct#);</li>
 							</cfloop>
 						</ul>
 
@@ -170,9 +170,9 @@ Print Any Report
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							GROUP BY phylorder, family
 						</cfquery>
-						<ul class="flowXXS">
+						<ul class="list-group flowXXS">
 							<cfloop query="families">
-								<li class="">#families.phylorder#:#families.family# (#families.ct#);</li>
+								<li class="list-group-item">#families.phylorder#:#families.family# (#families.ct#);</li>
 							</cfloop>
 						</ul>
 					</div>
