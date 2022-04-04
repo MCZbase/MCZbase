@@ -44,7 +44,7 @@ limitations under the License.
 			<div class="container pb-5">
 				<div class="row">
 					<div class="col-12 mt-4">
-						<h1 class="h3 my-2">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
+						<h1 class="h3 my-3">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
 						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
 						<ul class="navbar-nav">
 							<li class="nav-item">
@@ -128,6 +128,7 @@ Print Any Report
 --->
 						</ul>
 						</nav>
+						<div class=""
 						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records: </h2>
 
 						<h3 class="h4 mt-3 mb-2">Collections</h3>
@@ -161,21 +162,24 @@ Print Any Report
 								<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
 							</cfloop>
 						</ul>
-
-						<h3 class="h4 mt-3 mb-2">Families</h3>
-						<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
-							SELECT count(*) ct, 
-								nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
-							FROM user_search_table
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
-							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-							GROUP BY phylorder, family
-						</cfquery>
-						<ul class="list-group list-group-horizontal d-flex flex-wrap">
-							<cfloop query="families">
-								<li class="list-group-item">#families.phylorder#&thinsp;:&thinsp;#families.family# (#families.ct#);</li>
-							</cfloop>
-						</ul>
+						<div class="card text-white bg-danger mb-3">
+							<div class="card-header">Families</div>
+							<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
+								SELECT count(*) ct, 
+									nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
+								FROM user_search_table
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+								WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+								GROUP BY phylorder, family
+							</cfquery>
+							<div class="card-body">
+								<ul class="list-group list-group-horizontal d-flex flex-wrap">
+									<cfloop query="families">
+										<li class="list-group-item">#families.phylorder#&thinsp;:&thinsp;#families.family# (#families.ct#);</li>
+									</cfloop>
+								</ul>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
