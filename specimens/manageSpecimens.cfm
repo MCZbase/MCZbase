@@ -46,7 +46,7 @@ limitations under the License.
 					<div class="col-12 mt-4">
 						<h1 class="h3 my-3">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
 						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
-						<ul class="navbar-nav">
+							<ul class="navbar-nav">
 							<li class="nav-item">
 								<a class="nav-link btn btn-xs btn-secondary disabled" href="##">Accession</a>
 							</li>
@@ -128,40 +128,44 @@ Print Any Report
 --->
 						</ul>
 						</nav>
-						<div class=""
 						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records: </h2>
-
-						<h3 class="h4 mt-3 mb-2">Collections</h3>
-						<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
-							SELECT count(*) ct, 
-								collection_cde, 
-								collection_id
-							FROM user_search_table
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
-							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-							GROUP BY collection_cde, collection_id
-						</cfquery>
-					<ul class="list-group list-group-horizontal d-flex flex-wrap">
-							<cfloop query="collections">
-								<li class="list-group-item">#collections.collection_cde# (#collections.ct#);</li>
-							</cfloop>
-						</ul>
-
-						<h3 class="h4 mt-3 mb-2">Countries</h3>
-						<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
-							SELECT count(*) ct, 
-								nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
-							FROM user_search_table
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
-							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-							GROUP BY 
-								continent_ocean, country
-						</cfquery>
-						<ul class="list-group list-group-horizontal d-flex flex-wrap">
-							<cfloop query="countries">
-								<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
-							</cfloop>
-						</ul>
+						<div class="card bg-light mb-3">
+							<div class="card-header">Collections</div>
+							<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
+								SELECT count(*) ct, 
+									collection_cde, 
+									collection_id
+								FROM user_search_table
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+								WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+								GROUP BY collection_cde, collection_id
+							</cfquery>
+							<div class="card-body">
+								<ul class="list-group list-group-horizontal d-flex flex-wrap">
+									<cfloop query="collections">
+										<li class="list-group-item">#collections.collection_cde# (#collections.ct#);</li>
+									</cfloop>
+								</ul>
+							</div>
+						</div>
+						<div class="card bg-light mb-3">
+							<div class="card-header">Countries</div>
+							<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
+								SELECT count(*) ct, 
+									nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
+								FROM user_search_table
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+								WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+								GROUP BY 
+									continent_ocean, country
+							</cfquery>
+							<div class="card-body">
+								<ul class="list-group list-group-horizontal d-flex flex-wrap">
+									<cfloop query="countries">
+										<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
+									</cfloop>
+								</ul>
+							</div>
 						<div class="card bg-light mb-3">
 							<div class="card-header">Families</div>
 							<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
