@@ -45,6 +45,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mt-4">
 						<h1 class="h3 my-3">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
+						<h5>Select Form:</h5>
 						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
 							<ul class="navbar-nav">
 							<li class="nav-item">
@@ -128,7 +129,7 @@ Print Any Report
 --->
 						</ul>
 						</nav>
-						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records: </h2>
+						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records that will be affected: </h2>
 						<div class="rounded" style="background-color: ##f8d7da;padding: 1rem;border: 2px solid ##a51c30">
 							<div class="card bg-light border-secondary mb-3">
 								<div class="card-header h4">Collections</div>
@@ -168,7 +169,7 @@ Print Any Report
 									</ul>
 								</div>
 							</div>
-							<div class="card bg-light border-secondary mb-3">
+							<div class="card bg-light border-secondary mb-0">
 								<div class="card-header h4">Families</div>
 								<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 									SELECT count(*) ct, 
