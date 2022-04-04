@@ -39,12 +39,12 @@ limitations under the License.
 		</cfif>
 		<cfoutput>
 			<style>
-				.navbar-dark .navbar-nav .active > .nav-link {color:black;background-color: white;}
+				.navbar-dark .navbar-nav .active > .nav-link, .active {color:black;background-color: white;}
 			</style>
 			<div class="container pb-5">
 				<div class="row">
 					<div class="col-12 mt-4">
-						<h1 class="h3">Manage Specimens in search result [result_id=#encodeForHtml(result_id)#]</h1>
+						<h1 class="h3">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
 						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
 						<ul class="navbar-nav">
 							<li class="nav-item">
@@ -140,7 +140,7 @@ Print Any Report
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							GROUP BY collection_cde, collection_id
 						</cfquery>
-						<ul class="list-group flowXXS" style="height: 95px;">
+					<ul class="list-group list-group-horizontal d-flex flex-wrap">
 							<cfloop query="collections">
 								<li class="list-group-item">#collections.collection_cde# (#collections.ct#);</li>
 							</cfloop>
@@ -156,7 +156,7 @@ Print Any Report
 							GROUP BY 
 								continent_ocean, country
 						</cfquery>
-						<ul class="list-group list-group-horizontal">
+						<ul class="list-group list-group-horizontal d-flex flex-wrap">
 							<cfloop query="countries">
 								<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
 							</cfloop>
@@ -171,7 +171,7 @@ Print Any Report
 							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							GROUP BY phylorder, family
 						</cfquery>
-						<ul class="list-group list-group-horizontal">
+						<ul class="list-group list-group-horizontal d-flex flex-wrap">
 							<cfloop query="families">
 								<li class="list-group-item">#families.phylorder#:#families.family# (#families.ct#);</li>
 							</cfloop>
