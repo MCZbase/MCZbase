@@ -41,12 +41,12 @@ limitations under the License.
 			<style>
 				.navbar-dark .navbar-nav .active > .nav-link, .active {color:black;background-color: white;}
 			</style>
-			<div class="container pb-5">
+			<div class="container-lg pb-5">
 				<div class="row">
 					<div class="col-12 mt-4">
 						<h1 class="h3 my-3">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
 						<h5>Select Form:</h5>
-						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
+						<nav class="navbar navbar-expand-sm bg-white d-flex flex-wrap navbar-dark p-0">
 							<ul class="navbar-nav">
 							<li class="nav-item">
 								<a class="nav-link btn btn-xs btn-secondary disabled" href="##">Accession</a>
