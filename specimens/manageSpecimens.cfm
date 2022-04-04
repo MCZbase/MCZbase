@@ -49,7 +49,7 @@ limitations under the License.
 						<nav class="navbar navbar-expand-sm bg-white d-flex flex-wrap navbar-dark p-0">
 							<ul class="navbar-nav">
 							<li class="nav-item">
-								<a class="nav-link btn btn-xs btn-secondary disabled" href="##">Accession</a>
+								<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAccession.cfm?result_id#encodeForUrl(result_id)#">Accession</a>
 							</li>
 							<li class="nav-item">
 								<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs nav-link" target="_blank">Collectors/Preparators</a>
