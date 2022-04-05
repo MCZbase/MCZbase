@@ -79,7 +79,7 @@
 							</div>
 						</form>
 					</div>
-					<div class="col-12">
+					<div class="col-12 pb-4">
 						<table class="table table-responsive table-striped d-xl-table">
 							<thead class="thead-light">
 								<tr>
