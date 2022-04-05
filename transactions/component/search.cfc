@@ -853,7 +853,7 @@ limitations under the License.
 				left join collection on trans.collection_id = collection.collection_id
 			where 
 				upper(accn_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
-				<cfif isDefined("collection_id") and length(collection_id) GT 0>
+				<cfif isDefined("collection_id") and len(collection_id) GT 0>
 					and trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
 			order by accn_number
