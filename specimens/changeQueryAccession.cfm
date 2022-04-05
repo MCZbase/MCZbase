@@ -11,9 +11,7 @@
 <cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection, collection_id from collection order by collection
 </cfquery>
-<div class="container-fluid px-0">
-	<div class="row">
-		<div class="col-12 px-0">
+
 <!--------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
@@ -110,7 +108,7 @@
 										<td style="width:100px;">#verbatim_date#</td>
 									</tr>
 								</cfloop>
-							</tbody
+							</tbody>
 						</table>
 					</div>
 				</section>
@@ -161,7 +159,5 @@
 	</cfcase>
 
 </cfswitch>
-		</div>
-	</div>
-</div>
+
 <cfinclude template="/shared/_footer.cfm">
