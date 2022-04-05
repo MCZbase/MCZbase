@@ -81,7 +81,7 @@
 					</div>
 				</section>
 				<section class="row"> 
-					<div class="col-12 pb-4"></div></div>
+					<div class="col-12 pb-4">
 						<!--Footer is going in here -- something is not right!-->
 						<table class="table table-responsive table-striped d-xl-table">
 							<thead class="thead-light">
@@ -109,10 +109,7 @@
 								</cfloop>
 							</tbody
 						</table>
-					</div>
-				</section>
-			</main>
-		</cfoutput>
+
 	</cfcase>
 	<!--------------------------------------------------------------------------------->
 	<cfcase value="addItems">
@@ -155,5 +152,8 @@
 		<cflocation url="/specimens/changeQueryAccession.cfm?result_id=#encodeForURL(result_id)#" addtoken="false">
 	</cfcase>
 </cfswitch>
-
+					</div>
+				</section>
+			</main>
+		</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
