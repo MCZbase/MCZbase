@@ -45,7 +45,7 @@
 				<div class="px-1">
 					Pick an agent, a role, and an order (ignored for delete) to insert or delete an agent for all records listed below. 
 				</div>
-				<div class="border rounded px-3 py-2">
+				<div class="py-2">
 		  			<form name="tweakColls" method="post" action="/specimens/changeQueryCollectors.cfm">
 						<input type="hidden" name="result_id" value="#result_id#">
 						<input type="hidden" name="action" value="">
@@ -98,7 +98,7 @@
 				</div>
 			</div>
 			<div class="col-12 pb-4">
-			<h3 class="h4 mt-3 px-1">Specimens:</h3>
+		<!---	<h2 class="h4 mt-3 px-1">Specimens:</h2>--->
 			<table class="table table-responsive table-striped d-xl-table">
 				<thead class="thead-light">
 					<tr>

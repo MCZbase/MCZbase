@@ -46,7 +46,7 @@
 		<cfoutput>
 			<main class="container-xl" id="content">
 				<section class="row" aria-labelledby="formheading">
-					<div class="col-12 pt-3">
+					<div class="col-12 pt-4">
 						<h1 class="h3 px-1" id="formheading" >
 							Move all the catloged items listed below (#getItems.recordcount#) to accession:
 						</h1>
@@ -81,7 +81,7 @@
 					</div>
 					<div class="col-12">
 						<table class="table table-responsive table-striped d-xl-table">
-							<thead>
+							<thead class="thead-light">
 								<tr>
 									<th>Cat Num</th>
 									<th>Scientific Name</th>
