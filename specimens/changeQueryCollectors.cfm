@@ -98,37 +98,37 @@
 				</div>
 			</div>
 			<div class="col-12 pb-4">
-		<!---	<h2 class="h4 mt-3 px-1">Specimens:</h2>--->
-			<table class="table table-responsive table-striped d-xl-table">
-				<thead class="thead-light">
-					<tr>
-						<th>Catalog Number</th>
-						<cfif len(session.CustomOtherIdentifier)gt 0><th>#session.CustomOtherIdentifier#</th></cfif>
-						<th>Accepted Scientific Name</th>
-						<th>Collectors</th>
-						<th>Preparators</th>
-						<th>Country</th>
-						<th>State</th>
-						<th>County</th>
-						<th>Quad</th>
-					</tr>
-				</thead>
-				<tbody>
-				<cfloop query="getColls">
-    				<tr>
-						<td>MCZ:#collection_cde#:#cat_num#</td>
-						<cfif len(session.CustomOtherIdentifier)gt 0><td>#CustomID#&nbsp;</td></cfif>
-						<td><i>#Scientific_Name#</i></td>
-						<td>#colls#</td>
-						<td>#preps#</td>
-						<td>#Country#&nbsp;</td>
-						<td>#State_Prov#&nbsp;</td>
-						<td>#county#&nbsp;</td>
-						<td>#quad#&nbsp;</td>
-					</tr>
-				</cfloop>
-				</tbody>
-			</table>
+				<h2 class="h4 mt-3 px-1">Specimens (#getColls.recordcount#):</h2>
+				<table class="table table-responsive table-striped d-xl-table">
+					<thead class="thead-light">
+						<tr>
+							<th>Catalog Number</th>
+							<cfif len(session.CustomOtherIdentifier)gt 0><th>#session.CustomOtherIdentifier#</th></cfif>
+							<th>Accepted Scientific Name</th>
+							<th>Collectors</th>
+							<th>Preparators</th>
+							<th>Country</th>
+							<th>State</th>
+							<th>County</th>
+							<th>Quad</th>
+						</tr>
+					</thead>
+					<tbody>
+					<cfloop query="getColls">
+	    				<tr>
+							<td>MCZ:#collection_cde#:#cat_num#</td>
+							<cfif len(session.CustomOtherIdentifier)gt 0><td>#CustomID#&nbsp;</td></cfif>
+							<td><i>#Scientific_Name#</i></td>
+							<td>#colls#</td>
+							<td>#preps#</td>
+							<td>#Country#&nbsp;</td>
+							<td>#State_Prov#&nbsp;</td>
+							<td>#county#&nbsp;</td>
+							<td>#quad#&nbsp;</td>
+						</tr>
+					</cfloop>
+					</tbody>
+				</table>
 			</div>
 		</section>
 	</main>
