@@ -54,7 +54,7 @@
 							<input type="hidden" name="Action" value="addItems">
 							<input type="hidden" name="result_id" value="#result_id#">
 							<div class="form-row mb-2">
-								<div class="col-12 col-md-4 col-lg-4">
+								<div class="col-12 col-md-4 col-lg-4 pb-2">
 									<label for="collection_id" class="data-entry-label">Collection</label>
 									<select name="collection_id" id="collection_id" size="1" class="data-entry-select reqdClr" required>
 										<cfloop query="ctcoll">
