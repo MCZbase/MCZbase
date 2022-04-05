@@ -78,9 +78,7 @@
 								</div>
 							</div>
 						</form>
-					</div>
-					<div class="col-12 pb-4">
-						<table class="table table-responsive table-striped d-xl-table">
+						<table class="table table-responsive table-striped d-xl-table pb-4">
 							<thead class="thead-light">
 								<tr>
 									<th>Cat Num</th>
