@@ -44,7 +44,7 @@ limitations under the License.
 			<div class="container pb-5">
 				<div class="row">
 					<div class="col-12 mt-4">
-						<h1 class="h3 my-3">Manage Specimens in search result [<a href="##">result_id=#encodeForHtml(result_id)#</a>]</h1>
+						<h1 class="h3 my-3">Manage Specimens in search result [result_id=#encodeForHtml(result_id)#]</h1>
 						<h5>Select Form:</h5>
 						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
 							<ul class="navbar-nav d-flex flex-wrap">
@@ -143,7 +143,7 @@ limitations under the License.
 									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 									GROUP BY collection_cde, collection_id
 								</cfquery>
-								<div class="card-header h4">Collections (#collections.count#)</div>
+								<div class="card-header h4">Collections (#collections.recordcount#)</div>
 								<div class="card-body">
 									<ul class="list-group list-group-horizontal d-flex flex-wrap">
 										<cfloop query="collections">
@@ -162,7 +162,7 @@ limitations under the License.
 									GROUP BY 
 										continent_ocean, country
 								</cfquery>
-								<div class="card-header h4">Countries (#countries.count#)</div>
+								<div class="card-header h4">Countries (#countries.recordcount#)</div>
 								<div class="card-body">
 									<ul class="list-group list-group-horizontal d-flex flex-wrap">
 										<cfloop query="countries">
@@ -180,7 +180,7 @@ limitations under the License.
 									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 									GROUP BY phylorder, family
 								</cfquery>
-								<div class="card-header h4">Families (#families.count#)</div>
+								<div class="card-header h4">Families (#families.recordcount#)</div>
 								<div class="card-body">
 									<ul class="list-group list-group-horizontal d-flex flex-wrap">
 										<cfloop query="families">
