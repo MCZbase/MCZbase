@@ -81,7 +81,7 @@
 					</div>
 				</section>
 				<section class="row"> 
-					<div class="col-12 pb-4">
+					<div class="col-12 pb-4"></div>
 						<!--Footer is going in here -- something is not right!-->
 						<table class="table table-responsive table-striped d-xl-table">
 							<thead class="thead-light">
