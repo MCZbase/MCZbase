@@ -69,14 +69,14 @@
 								</script>
 							</div>
 							<div class="col-12 col-md-4 col-lg-3">
-								<label for="collector_role" class="data-entry-label">Role</label>		
+								<label for="collector_role" class="data-entry-label mt-2 mt-md-0">Role</label>		
 								<select name="collector_role" id="collector_role" size="1"  class="reqdClr data-entry-select" required>
 									<option value="c">collector</option>
 									<option value="p">preparator</option>
 								</select>
 							</div>
 							<div class="col-12 col-md-4 col-lg-3">
-								<label for="coll_order" class="data-entry-label">Order</label>
+								<label for="coll_order" class="data-entry-label mt-2 mt-md-0">Order</label>
 								<select name="coll_order" id="coll_order" size="1" class="data-entry-select">
 									<option value="first" selected >First</option>
 									<option value="last">Last</option>
