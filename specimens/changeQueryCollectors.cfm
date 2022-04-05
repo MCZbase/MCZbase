@@ -117,7 +117,7 @@
 				<cfloop query="getColls">
     				<tr>
 						<td>MCZ:#collection_cde#:#cat_num#</td>
-						<cfif len(CustomID)gt 0><td>#CustomID#&nbsp;</td></cfif>
+						<cfif len(session.CustomOtherIdentifier)gt 0><td>#CustomID#&nbsp;</td></cfif>
 						<td><i>#Scientific_Name#</i></td>
 						<td>#colls#</td>
 						<td>#preps#</td>
