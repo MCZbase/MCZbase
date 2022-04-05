@@ -115,7 +115,7 @@
 		
 		</cfoutput>
 	</cfcase>
-				<cfinclude template="/shared/_footer.cfm">
+			
 	<!--------------------------------------------------------------------------------->
 	<cfcase value="addItems">
 		<cfif not isDefined("accn_number") or len(accn_number) EQ 0>
@@ -159,3 +159,4 @@
 </cfswitch>
 
 
+	<cfinclude template="/shared/_footer.cfm">
