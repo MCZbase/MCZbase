@@ -110,13 +110,22 @@
 	</cfcase>
 	<!--------------------------------------------------------------------------------->
 	<cfcase value="addItems">
+		<cfif not isDefined("accn_number") or len(accn_number) EQ 0>
+			<cfif not isDefined("trans_id") or len(trans_id) EQ 0>
+				<cfthrow message="No Accession Number or transaction_id specified,  Can't update specimens">
+			</cfif>
+		</cfif>
 		<cftransaction>
 			<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT accn.TRANSACTION_ID 
-				FROM accn 
-					LEFT JOIN trans on accn.TRANSACTION_ID=trans.TRANSACTION_ID 
+				SELECT accn.TRANSACTION_ID
+				FROM accn
+					LEFT JOIN trans on accn.TRANSACTION_ID=trans.TRANSACTION_ID
 				WHERE
-					accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_number#">
+					<cfif isDefined("trans_id") and len(trans_id) GT 0>
+						transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_id#">
+					<cfelse>
+						accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_number#">
+					</cfif>
 					and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 			</cfquery>
 			<cfif accn.recordcount is 1 and accn.transaction_id gt 0>
