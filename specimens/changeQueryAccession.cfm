@@ -112,9 +112,10 @@
 					</div>
 				</section>
 			</main>
-			<cfinclude template="/shared/_footer.cfm">
+		
 		</cfoutput>
 	</cfcase>
+				<cfinclude template="/shared/_footer.cfm">
 	<!--------------------------------------------------------------------------------->
 	<cfcase value="addItems">
 		<cfif not isDefined("accn_number") or len(accn_number) EQ 0>
