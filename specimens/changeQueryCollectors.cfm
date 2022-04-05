@@ -51,7 +51,7 @@
 						<input type="hidden" name="action" value="">
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4 col-lg-3">
-								<span>
+								<span class="d-block" style="margin-top:-2px;">
 									<label for="name" class="data-entry-label w-auto d-inline">Agent Name</label>
 									<span id="agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
