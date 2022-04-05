@@ -122,7 +122,7 @@
 					LEFT JOIN trans on accn.TRANSACTION_ID=trans.TRANSACTION_ID
 				WHERE
 					<cfif isDefined("trans_id") and len(trans_id) GT 0>
-						transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_id#">
+						accn.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_id#">
 					<cfelse>
 						accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_number#">
 					</cfif>
