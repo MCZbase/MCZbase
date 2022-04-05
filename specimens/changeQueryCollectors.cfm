@@ -70,7 +70,7 @@
 							</div>
 							<div class="col-12 col-md-4 col-lg-3">
 								<label for="collector_role" class="data-entry-label">Role</label>		
-	      					<select name="collector_role" id="collector_role" size="1"  class="reqdClr data-entry-select" required>
+								<select name="collector_role" id="collector_role" size="1"  class="reqdClr data-entry-select" required>
 									<option value="c">collector</option>
 									<option value="p">preparator</option>
 								</select>
@@ -103,7 +103,7 @@
 				<thead class="thead-light">
 					<tr>
 						<th>Catalog Number</th>
-						<th>#session.CustomOtherIdentifier#</th>
+						<cfif len(session.CustomOtherIdentifier)gt 0><th>#session.CustomOtherIdentifier#</th></cfif>
 						<th>Accepted Scientific Name</th>
 						<th>Collectors</th>
 						<th>Preparators</th>
@@ -117,7 +117,7 @@
 				<cfloop query="getColls">
     				<tr>
 						<td>MCZ:#collection_cde#:#cat_num#</td>
-						<td>#CustomID#&nbsp;</td>
+						<cfif len(CustomID)gt 0><td>#CustomID#&nbsp;</td></cfif>
 						<td><i>#Scientific_Name#</i></td>
 						<td>#colls#</td>
 						<td>#preps#</td>
