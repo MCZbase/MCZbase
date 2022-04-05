@@ -50,8 +50,8 @@
 						<h1 class="h3 px-1" id="formheading" >
 							Move all the catloged items listed below (#getItems.recordcount#) to accession:
 						</h1>
-						<form name="addItems" method="post" action="/specimens/changeQueryAccession.cfm">
-							<input type="hidden" name="Action" value="addItems">
+						<form name="addItems1" method="post" action="/specimens/changeQueryAccession.cfm">
+							<input type="hidden" name="Action" value="addItems1">
 							<input type="hidden" name="result_id" value="#result_id#">
 							<div class="form-row mb-2">
 								<div class="col-12 col-md-4 col-lg-4 pb-2">
@@ -115,7 +115,7 @@
 		</cfoutput>
 	</cfcase>
 	<!--------------------------------------------------------------------------------->
-	<cfcase value="addItems">
+	<cfcase value="addItems1">
 		<cfif not isDefined("accn_number") or len(accn_number) EQ 0>
 			<cfif not isDefined("trans_id") or len(trans_id) EQ 0>
 				<cfthrow message="No Accession Number or transaction_id specified,  Can't update specimens">
