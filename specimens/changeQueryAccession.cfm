@@ -63,7 +63,7 @@
 									</select>
 								</div>
 								<div class="col-12 col-md-4 col-lg-4">
-									<label for="accn_number">Accession</label>
+									<label for="accn_number" class="data-entry-label">Accession</label>
 									<input type="text" name="accn_number" id="accn_number" class="data-entry-input reqdClr" required>
 									<input type="hidden" name="trans_id" id="trans_id">
 									<script>
@@ -73,6 +73,7 @@
 									</script>
 								</div>
 								<div class="col-12 col-md-4 col-lg-4">
+									<div class="data-entry-label">&nbsp;</div>
 									<input type="submit" id="s_btn" value="Change Accession" class="btn btn-xs btn-warning">
 								</div>
 							</div>
