@@ -11,6 +11,9 @@
 <cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection, collection_id from collection order by collection
 </cfquery>
+<div class="container-fluid px-0">
+	<div class="row">
+		<div class="col-12 px-0">
 <!--------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
@@ -156,7 +159,9 @@
 		
 		<cflocation url="/specimens/changeQueryAccession.cfm?result_id=#encodeForURL(result_id)#" addtoken="false">
 	</cfcase>
-<cfinclude template="/shared/_footer.cfm">
+
 </cfswitch>
-
-
+		</div>
+	</div>
+</div>
+<cfinclude template="/shared/_footer.cfm">
