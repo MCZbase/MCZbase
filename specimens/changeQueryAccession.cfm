@@ -109,7 +109,10 @@
 								</cfloop>
 							</tbody
 						</table>
-
+					</div>
+				</section>
+			</main>
+		</cfoutput>
 	</cfcase>
 	<!--------------------------------------------------------------------------------->
 	<cfcase value="addItems">
@@ -152,8 +155,5 @@
 		<cflocation url="/specimens/changeQueryAccession.cfm?result_id=#encodeForURL(result_id)#" addtoken="false">
 	</cfcase>
 </cfswitch>
-					</div>
-				</section>
-			</main>
-		</cfoutput>
+
 <cfinclude template="/shared/_footer.cfm">
