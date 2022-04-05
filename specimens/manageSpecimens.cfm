@@ -50,7 +50,7 @@ limitations under the License.
 							<ul class="navbar-nav d-flex flex-wrap">
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 									<li class="nav-item mb-1">
-										<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAccession.cfm?result_id=#encodeForUrl(result_id)#">Accession</a>
+										<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Accession</a>
 									</li>
 								</cfif>
 								<li class="nav-item mb-1">
