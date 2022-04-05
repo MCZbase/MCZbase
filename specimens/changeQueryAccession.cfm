@@ -77,7 +77,11 @@
 									<input type="submit" id="s_btn" value="Change Accession" class="btn btn-xs btn-warning">
 								</div>
 							</div>
-							<table class="table table-responsive table-striped d-xl-table pb-4">
+						</form>
+					</div>
+					<div class="col-12 pb-4">
+						<!---Footer is going in here -- something is not right!--->
+						<table class="table table-responsive table-striped d-xl-table">
 							<thead class="thead-light">
 								<tr>
 									<th>Cat Num</th>
@@ -103,8 +107,6 @@
 								</cfloop>
 							</tbody
 						</table>
-						</form>
-						
 					</div>
 				</section>
 			</main>
