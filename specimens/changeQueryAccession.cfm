@@ -156,7 +156,7 @@
 		
 		<cflocation url="/specimens/changeQueryAccession.cfm?result_id=#encodeForURL(result_id)#" addtoken="false">
 	</cfcase>
+<cfinclude template="/shared/_footer.cfm">
 </cfswitch>
 
 
-	<cfinclude template="/shared/_footer.cfm">
