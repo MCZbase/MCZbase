@@ -40,7 +40,7 @@
 		<section class="row" aria-labelledby="formheading">
 			<div class="col-12 pt-3">
 				<h1 class="h3 px-1" id="formheading" >
-					Add/Remove collectors for all specimens listed below
+					Add/Remove collectors for all (#getColls.recordcount#) specimens listed below
 				</h1>
 				<div class="px-1">
 					Pick an agent, a role, and an order (ignored for delete) to insert or delete an agent for all records listed below. 
@@ -98,7 +98,6 @@
 				</div>
 			</div>
 			<div class="col-12 pb-4">
-				<h2 class="h4 mt-3 px-1">Specimens (#getColls.recordcount#):</h2>
 				<table class="table table-responsive table-striped d-xl-table">
 					<thead class="thead-light">
 						<tr>
