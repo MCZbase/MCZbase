@@ -39,9 +39,9 @@
 	<main class="container-xl" id="content">
 		<section class="row" aria-labelledby="formheading">
 			<div class="col-12 pt-3">
-				<h2 class="h3 px-1" id="formheading" >
+				<h1 class="h3 px-1" id="formheading" >
 					Add/Remove collectors for all specimens listed below
-				</h2>
+				</h1>
 				<div class="px-1">
 					Pick an agent, a role, and an order (ignored for delete) to insert or delete an agent for all records listed below. 
 				</div>

@@ -44,12 +44,12 @@
 			ORDER BY cataloged_item.collection_cde, cataloged_item.cat_num
 		</cfquery>
 		<cfoutput>
-			<main class="container" id="content">
+			<main class="container-xl" id="content">
 				<section class="row" aria-labelledby="formheading">
-					<div class="col-12">
-						<h2 class="h3" id="formheading" >
+					<div class="col-12 pt-3">
+						<h1 class="h3 px-1" id="formheading" >
 							Move all the catloged items listed below (#getItems.recordcount#) to accession:
-						</h2>
+						</h1>
 						<form name="addItems" method="post" action="/specimens/changeQueryAccession.cfm">
 							<input type="hidden" name="Action" value="addItems">
 							<input type="hidden" name="result_id" value="#result_id#">
@@ -77,30 +77,32 @@
 						</form>
 					</div>
 					<div class="col-12">
-
-						<table border width="100%" style="font-size: 15px;">
-							<tr>
-								<td>Cat Num</td>
-								<td>Scientific Name</td>
-								<td>Accn</td>
-								<td>Collectors</td>
-								<td>Geog</td>
-								<td>Spec Loc</td>
-								<td>Date</td>
-							</tr>
-							<cfloop query="getItems" group="collection_object_id">
+						<table class="table table-responsive table-striped d-xl-table">
+							<thead>
 								<tr>
-									<td>#collection# #cat_num#</td>
-									<td style="width: 200px;">#scientific_name#</td>
-									<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
-									<td style="width: 200px;">#getItems.collectors#</td>
-									<td>#higher_geog#</td>
-									<td>#spec_locality#</td>
-									<td style="width:100px;">#verbatim_date#</td>
+									<th>Cat Num</th>
+									<th>Scientific Name</th>
+									<th>Accn</th>
+									<th>Collectors</th>
+									<th>Geog</th>
+									<th>Spec Loc</th>
+									<th>Date</th>
 								</tr>
-							</cfloop>
+							</thead>
+							<tbody>
+								<cfloop query="getItems" group="collection_object_id">
+									<tr>
+										<td>#collection# #cat_num#</td>
+										<td style="width: 200px;">#scientific_name#</td>
+										<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
+										<td style="width: 200px;">#getItems.collectors#</td>
+										<td>#higher_geog#</td>
+										<td>#spec_locality#</td>
+										<td style="width:100px;">#verbatim_date#</td>
+									</tr>
+								</cfloop>
+							</tbody
 						</table>
-
 					</div>
 				</section>
 			</main>
