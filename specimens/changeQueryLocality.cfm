@@ -55,7 +55,7 @@
 		<cfset showEvent=0>
 		<cfoutput>
 			<div class="container-lg">
-				<h2 class="h3">Find new locality for specimens [in #encodeForHtml(result_id)#]</h2>
+				<h1 class="h3">Find new locality for specimens [in #encodeForHtml(result_id)#]</h1>
 				<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
 					<input type="hidden" name="Action" value="findLocality">
 					<input type="hidden" name="result_id" value="#result_id#">
@@ -169,8 +169,8 @@
 		</cfquery>
 		<div class="container">
 			<div class="row">
-			<table  class="table">
-				<thead>
+			<table class="table">
+				<thead class="thead-light">
 					<tr>
 						<th>Geog ID</th>
 						<th>&nbsp;</th>
@@ -261,7 +261,7 @@
 <div class="container">
 	<div class="row">
 	<table class="table">
-		<thead>
+		<thead class="thead-light">
 			<tr>
 				<th>Catalog Number</th>
 				<cfif len(#session.CustomOtherIdentifier#) GT 0>
