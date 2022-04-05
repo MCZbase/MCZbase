@@ -68,7 +68,7 @@
 									<input type="hidden" name="trans_id" id="trans_id">
 									<script>
 										jQuery(document).ready(function() {
-											makeAccessionAutocompleteMeta("accn_number", "trans_id");
+											makeAccessionAutocompleteLimitedMeta("accn_number", "trans_id","collection_id");
 										});
 									</script>
 								</div>

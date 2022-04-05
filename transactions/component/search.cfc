@@ -835,6 +835,7 @@ limitations under the License.
 <!--- backing for a accession autocomplete control --->
 <cffunction name="getAccessionAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
+	<cfargument name="collection_id" type="string" required="no">
 	<cfset data = ArrayNew(1)>
 
 	<cftry>
@@ -845,10 +846,16 @@ limitations under the License.
 				to_char(trans_date,'YYYY-MM-DD') trans_date,
 				accn_number,
 				accn_status,
-				concattransagent(trans.transaction_id,'received from') rec_agent
+				concattransagent(trans.transaction_id,'received from') rec_agent,
+				collection.collection_cde
 			from 
 				accn left join trans on accn.transaction_id = trans.transaction_id
-			where upper(accn_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				left join collection on trans.collection_id = collection.collection_id
+			where 
+				upper(accn_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				<cfif isDefined("collection_id") and length(collection_id) GT 0>
+					and trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+				</cfif>
 			order by accn_number
 		</cfquery>
 		<cfset rows = search_result.recordcount>
@@ -857,7 +864,7 @@ limitations under the License.
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.transaction_id#">
 			<cfset row["value"] = "#search.accn_number#" >
-			<cfset row["meta"] = "#search.accn_number# (#search.accn_status# #search.trans_date# #search.rec_agent#)" >
+			<cfset row["meta"] = "#search.accn_number# (#search.collection_cde# #search.accn_status# #search.trans_date# #search.rec_agent#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
