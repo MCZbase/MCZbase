@@ -148,6 +148,9 @@
 	</cfcase>
 	<!----------------------------------------------------------------------------------->
 	<cfcase value="insertColl">
+		<cfif NOT isDefined("agent_id") OR len(agent_id) EQ 0>
+			<cfthrow message = "No agent_id provided for collector/preparator to change.  Agent was not selected.">
+		</cfif>
 		<cfoutput>
 			<cftransaction>
 				<cfquery name="getObjects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -284,6 +287,9 @@
 	</cfcase>
 	<!----------------------------------------------------------------------------------->
 	<cfcase value="deleteColl">
+		<cfif NOT isDefined("agent_id") OR len(agent_id) EQ 0>
+			<cfthrow message = "No agent_id provided for collector/preparator to remove.   Agent was not selected.">
+		</cfif>
 		<cfoutput>
 			<cftransaction>
 				<cfquery name="getObjects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
