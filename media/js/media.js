@@ -236,17 +236,17 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
  * @param target the id of the target div containing the list of habitats 
  *   to reload, without a leading # selector.
  */
-function newRelationship(media_relations_id,media_id,target) {
+function newRelationship(media_relationship,media_id,target) {
 	jQuery.getJSON("/media/component/functions.cfc",
 		{
 			method : "newRelationship",
-			media_relations_id : media_relations_id,
+			media_relationship: media_relationship,
 			media_id : media_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
 		function (result) {
-			loadRelationships(media_relations_id,media_id,target);
+			loadRelationships(media_id,target);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"adding relationship to media");
