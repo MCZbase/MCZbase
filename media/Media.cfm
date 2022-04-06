@@ -76,6 +76,7 @@ limitations under the License.
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 		<cfset relns=getMediaRelations(#media_id#)>
+			#relns#
 		<cfoutput>
 			<div class="container-fluid container-xl">
 				<div class="row">
