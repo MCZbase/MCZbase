@@ -398,7 +398,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
   into which the result is to be placed, used to specify target for reload after successful save.
 @return a block of html listing habitats, if any, with edit/delete controls.
 --->
-<cffunction name="loadMediaRelations" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="loadMediaRelations" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="numeric" required="yes">
 	<cfargument name="target" type="string" required="yes">
 	<cfthread name="loadMediaRelationsThread">
@@ -452,6 +452,6 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 	</cfthread>
 	<cfthread action="join" name="loadMediaRelationsThread" />
 	<cfreturn loadMediaRelationsThread.output>
-</cffunction>
+</cffunction>--->
 
 </cfcomponent>
