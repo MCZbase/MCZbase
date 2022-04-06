@@ -267,14 +267,14 @@ limitations under the License.
 													});
 												})();
 												
-												function manage(relationships) {
-													var rel = document.getElementById('relSubmit');
-													if (relationships.input.value != '') {
-														rel.disabled = false;
-													} else {
-														rel.disabled = true;
-													}
-												}
+//												function manage(relationships) {
+//													var rel = document.getElementById('relSubmit');
+//													if (relationships.input.value != '') {
+//														rel.disabled = false;
+//													} else {
+//														rel.disabled = true;
+//													}
+//												}
 											</script>
 										</div><!---end col-6--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
