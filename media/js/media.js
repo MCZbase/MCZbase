@@ -246,7 +246,7 @@ function newRelationship(media_id,media_relationship,target) {
 			queryformat : 'column'
 		},
 		function (result) {
-			loadHabitats(media_id,target);
+			loadRelationships(media_id,target);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"adding relationship to media");
