@@ -236,7 +236,7 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
  * @param target the id of the target div containing the list of habitats 
  *   to reload, without a leading # selector.
  */
-function newRelationship(media_id,media_relationship,target) {
+function newRelationship(media_id,media_relations_id,target) {
 	jQuery.getJSON("/media/component/functions.cfc",
 		{
 			method : "newRelationship",
