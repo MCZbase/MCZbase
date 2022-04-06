@@ -20,6 +20,7 @@
 				count(cataloged_item.collection_object_id) ct
 			FROM
 				user_search_table 
+				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>

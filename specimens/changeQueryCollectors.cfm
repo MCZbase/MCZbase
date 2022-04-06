@@ -14,6 +14,7 @@
 				count(cataloged_item.collection_object_id) ct
 			FROM
 				user_search_table 
+				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
@@ -22,7 +23,7 @@
 		 	cataloged_item.collection_object_id as collection_object_id, 
 			cataloged_item.cat_num,
 			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
-			identification.scientific_name,
+			MCZBASE.GET_SCIENTIFIC_NAME_AUTHS(cataloged_item.collection_object_id) scientific_name,
 			geog_auth_rec.country,
 			geog_auth_rec.state_prov,
 			geog_auth_rec.county,
@@ -32,15 +33,13 @@
 			concatColl(cataloged_item.collection_object_id) colls
 		FROM 
 			user_search_table
-			LEFT JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
-			LEFT JOIN identification on cataloged_item.collection_object_id = identification.collection_object_id 
-			LEFT JOIN collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
-			LEFT JOIN locality on collecting_event.locality_id = locality.locality_id 
-			LEFT JOIN geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
-			LEFT JOIN collection on cataloged_item.collection_id = collection.collection_id
+			JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+			JOIN collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
+			JOIN locality on collecting_event.locality_id = locality.locality_id 
+			JOIN geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
+			JOIN collection on cataloged_item.collection_id = collection.collection_id
 		WHERE 
 			result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-			and accepted_id_fg=1
 		ORDER BY 
 			cataloged_item.collection_object_id
 	</cfquery>
