@@ -235,12 +235,16 @@ limitations under the License.
 																		$("##relationship__#i#").prop("disabled", false);
 																		$("##related_value__#i#").prop("disabled", false);
 																		// previous = this.value;
-																	}
-																	else {
-																		this.value = "Edit";
+																	} if (this.value=="Edit") {
 																		event.preventDefault();
 																		$("##relationship__#i#").prop("disabled", true);
 																		$("##related_value__#i#").prop("disabled", true);
+																	}
+																	else {
+																		this.value = "";
+																		event.preventDefault();
+																		$("##relationship__#i#").prop("disabled", false);
+																		$("##related_value__#i#").prop("disabled", false);
 																	}
 																});
 															});
