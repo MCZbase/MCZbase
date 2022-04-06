@@ -207,7 +207,6 @@ limitations under the License.
 												</cfif>
 												<cfloop query="relns">
 													<cfset d=media_relationship>
-														#media_id#
 														<div class="form-row col-12 px-0 mx-0">	
 															<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 															<label for="relationship__#i#"  class="sr-only">Relationship</label>
@@ -235,16 +234,12 @@ limitations under the License.
 																		$("##relationship__#i#").prop("disabled", false);
 																		$("##related_value__#i#").prop("disabled", false);
 																		// previous = this.value;
-																	} if (this.value=="Edit") {
+																	}
+																	else {
+																		this.value = "Edit";
 																		event.preventDefault();
 																		$("##relationship__#i#").prop("disabled", true);
 																		$("##related_value__#i#").prop("disabled", true);
-																	}
-																	else {
-																		this.value = "";
-																		event.preventDefault();
-																		$("##relationship__#i#").prop("disabled", false);
-																		$("##related_value__#i#").prop("disabled", false);
 																	}
 																});
 															});
