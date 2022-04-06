@@ -265,7 +265,7 @@ function deleteRelationship(media_relations_id,media_id,target) {
 			queryformat : 'column'
 		},
 		function (result) {
-			loadRelationships(media_id,target);
+			loadMediaRelations(media_id,target);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"adding relationship to media");
