@@ -186,10 +186,10 @@ limitations under the License.
 											<div class="form-row my-1">
 											<script>
 												function reloadMediaRelations() { 
-													loadMediaRelations("media_relationship",#media_id#,"editMedia",handleChange);
+													loadMediaRelations("media_relationship",#media_id#,"editMedia");
 												}
 												$(document).ready(function() {
-													reloadMediaRelations();
+													loadMediaRelations();
 												});
 											</script>
 											<div class="col-12 mt-1" id="editMedia">
