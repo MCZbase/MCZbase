@@ -349,10 +349,10 @@ limitations under the License.
 											reloadMediaRelations();
 										});
 									</script>
-									<div class="col-12 mt-1" id="editMedia">
+<!---									<div class="col-12 mt-1" id="editMedia">
 										<img src='/shared/images/indicator.gif'>
 										Loading Relationships....  
-									</div>
+									</div>--->
 								</div>
 							</div><!---end col-12--->
 									<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
