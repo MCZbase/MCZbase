@@ -277,11 +277,11 @@ function deleteRelationship(media_relations_id,media_id,target) {
  * @param target the id of the target div to contain the list of relations 
  *   to load, without a leading # selector.
  */
-function loadRelationships(media_id,target) { 
+function loadMediaRelations(media_id,target) { 
 	jQuery.ajax({
 	url: "/media/component/functions.cfc",
 		data : {
-			method : "getRelationshipsHtml",
+			method : "loadMediaRelations",
 			media_id: media_id,
 			target: target
 	},
