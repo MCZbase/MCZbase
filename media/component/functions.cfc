@@ -206,15 +206,15 @@ Given a habitat and a taxon_name_id, add a row from the taxon_habitat table.
 @return a json structure the status and the id of the new taxon_habitat row.
 --->
 <cffunction name="newRelationship" access="remote" returntype="any" returnformat="json">
-	<cfargument name="media_relationship" type="string" required="yes">
+	<cfargument name="media_relations_id" type="string" required="yes">
 	<cfargument name="media_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
 			<cfquery name="newRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newRelationship_result">
 				INSERT INTO media_relations 
-					(media_relationship, media_id)
+					(media_relations_id, media_id)
 				VALUES 
-					(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship#">, 
+					(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relations_id#">, 
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">)
 			</cfquery>
 			<cfif newRelationship_result.recordcount eq 1>
