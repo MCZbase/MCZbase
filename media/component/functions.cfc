@@ -206,7 +206,7 @@ Given a habitat and a taxon_name_id, add a row from the taxon_habitat table.
 @return a json structure the status and the id of the new taxon_habitat row.
 --->
 <cffunction name="newRelationship" access="remote" returntype="any" returnformat="json">
-	<cfargument name="media_relationship" type="string" required="yes">
+	<!---<cfargument name="media_relationship" type="string" required="yes">--->
 	<cfargument name="media_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
