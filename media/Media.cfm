@@ -342,30 +342,17 @@ limitations under the License.
 									</div><!---end form-row Relationships and labels--->
 								<div class="form-row my-1">
 									<script>
-										function reloadTransactionAgents() { 
-											loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
+										function reloadMediaRelations() { 
+											loadMediaRelations("media_relationship",#media_id#,"editMedia2",handleChange);
 										}
 										$(document).ready(function() {
-											reloadTransactionAgents();
+											reloadMediaRelations();
 										});
 									</script>
-									<div class="col-12 mt-1" id="agentTableContainerDiv">
+									<div class="col-12 mt-1" id="editMedia">
 										<img src='/shared/images/indicator.gif'>
-										Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
-										<script>
-										$(document).ready(function() { 
-											$('##agentWarningSpan').delay(1000).fadeIn(300);
-										});
-										</script>
+										Loading Relationships....  
 									</div>
-									<script>
-										$(document).ready(function() { 
-											$('##agentTableContainerDiv').on('domChanged',function() {
-												console.log("dom change within agentTableContainerDiv");
-												monitorForChanges('editLoanForm',handleChange);
-											});
-										});
-									</script>
 								</div>
 							</div><!---end col-12--->
 									<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
@@ -381,33 +368,6 @@ limitations under the License.
 								-->
 						</form>
 					</div><!---end col-12--->
-						<div class="form-row my-1">
-							<script>
-								function reloadTransactionAgents() { 
-									loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
-								}
-								$(document).ready(function() {
-									reloadTransactionAgents();
-								});
-							</script>
-							<div class="col-12 mt-1" id="agentTableContainerDiv">
-								<img src='/shared/images/indicator.gif'>
-								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
-								<script>
-								$(document).ready(function() { 
-									$('##agentWarningSpan').delay(1000).fadeIn(300);
-								});
-								</script>
-							</div>
-							<script>
-								$(document).ready(function() { 
-									$('##agentTableContainerDiv').on('domChanged',function() {
-										console.log("dom change within agentTableContainerDiv");
-										monitorForChanges('editLoanForm',handleChange);
-									});
-								});
-							</script>
-						</div>
 				</div>
 			</div>
 		</div>
