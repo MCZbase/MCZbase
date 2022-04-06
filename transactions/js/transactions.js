@@ -1932,7 +1932,7 @@ function makeLoanPicker(valueControl, idControl) {
 /** Make a paired hidden id and text name control into an autocomplete accession picker.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
- *  @param idControl the id for a hidden input that is to hold the selected permit_id (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected transaction_id (without a leading # selector).
  */
 function makeAccessionAutocompleteMeta(valueControl, idControl) { 
 	$('#'+valueControl).autocomplete({
@@ -1940,6 +1940,48 @@ function makeAccessionAutocompleteMeta(valueControl, idControl) {
 			$.ajax({
 				url: "/transactions/component/search.cfc",
 				data: { term: request.term, method: 'getAccessionAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+						message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
+/** Make a paired hidden id and text name control into an autocomplete accession picker, 
+ * with a collection_id control as a limit on which collections are searched.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected transaction_id (without a leading # selector).
+ *  @param collectionidControl the id for an that is to hold the selected permit_id (without a leading # selector).
+ */
+function makeAccessionAutocompleteLimitedMeta(valueControl, idControl, collectionidControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/transactions/component/search.cfc",
+				data: { 
+					term: request.term, 
+					collection_id: $('#'+collectionidControl).val(),
+					method: 'getAccessionAutocomplete' 
+				},
 				dataType: 'json',
 				success : function (data) { response(data); },
 				error : function (jqXHR, status, error) {
