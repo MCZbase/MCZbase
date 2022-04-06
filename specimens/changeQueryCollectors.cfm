@@ -8,13 +8,22 @@
 	<cfset action="entryPoint">
 </cfif>
 <cfif #Action# is "entryPoint">
-<cfoutput> 
-	<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput> 
+		<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				count(cataloged_item.collection_object_id) ct
+			FROM
+				user_search_table 
+				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+			WHERE
+				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
+	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT 
 		 	cataloged_item.collection_object_id as collection_object_id, 
 			cataloged_item.cat_num,
 			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
-			identification.scientific_name,
+			MCZBASE.GET_SCIENTIFIC_NAME_AUTHS(cataloged_item.collection_object_id) scientific_name,
 			geog_auth_rec.country,
 			geog_auth_rec.state_prov,
 			geog_auth_rec.county,
@@ -24,34 +33,36 @@
 			concatColl(cataloged_item.collection_object_id) colls
 		FROM 
 			user_search_table
-			LEFT JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
-			LEFT JOIN identification on cataloged_item.collection_object_id = identification.collection_object_id 
-			LEFT JOIN collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
-			LEFT JOIN locality on collecting_event.locality_id = locality.locality_id 
-			LEFT JOIN geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
-			LEFT JOIN collection on cataloged_item.collection_id = collection.collection_id
+			JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+			JOIN collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
+			JOIN locality on collecting_event.locality_id = locality.locality_id 
+			JOIN geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
+			JOIN collection on cataloged_item.collection_id = collection.collection_id
 		WHERE 
 			result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-			and accepted_id_fg=1
 		ORDER BY 
 			cataloged_item.collection_object_id
 	</cfquery>
-	<main class="container" id="content">
+	<main class="container-xl" id="content">
 		<section class="row" aria-labelledby="formheading">
-			<div class="col-12">
-				<h2 class="h3" id="formheading" >
-					Add/Remove collectors for all specimens listed below
-				</h2>
-				<div>
+			<div class="col-12 pt-3">
+				<h1 class="h3 px-1" id="formheading" >
+					<cfif getItemCount.ct GT getItems.recordcount>
+						Add/Remove collectors for all (#getItemCount.ct#) cataloged items in this result (first #getItems.recordcount# are listed below)
+					<cfelse>
+						Add/Remove collectors for all (#getItems.recordcount#) cataloged items listed below
+					</cfif>
+				</h1>
+				<div class="px-1">
 					Pick an agent, a role, and an order (ignored for delete) to insert or delete an agent for all records listed below. 
 				</div>
-				<div class="border rounded px-3 py-2">
+				<div class="py-2">
 		  			<form name="tweakColls" method="post" action="/specimens/changeQueryCollectors.cfm">
 						<input type="hidden" name="result_id" value="#result_id#">
 						<input type="hidden" name="action" value="">
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4 col-lg-3">
-								<span>
+								<span class="d-block" style="margin-top:-2px;">
 									<label for="name" class="data-entry-label w-auto d-inline">Agent Name</label>
 									<span id="agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
@@ -69,20 +80,20 @@
 								</script>
 							</div>
 							<div class="col-12 col-md-4 col-lg-3">
-								<label for="collector_role" class="data-entry-label">Role</label>		
-	      					<select name="collector_role" id="collector_role" size="1"  class="reqdClr data-entry-select" required>
+								<label for="collector_role" class="data-entry-label mt-2 mt-md-0">Role</label>		
+								<select name="collector_role" id="collector_role" size="1"  class="reqdClr data-entry-select" required>
 									<option value="c">collector</option>
 									<option value="p">preparator</option>
 								</select>
 							</div>
 							<div class="col-12 col-md-4 col-lg-3">
-								<label for="coll_order" class="data-entry-label">Order</label>
+								<label for="coll_order" class="data-entry-label mt-2 mt-md-0">Order</label>
 								<select name="coll_order" id="coll_order" size="1" class="data-entry-select">
 									<option value="first" selected >First</option>
 									<option value="last">Last</option>
 								</select>
 							</div>
-							<div class="col-12 col-md-4 col-lg-3">
+							<div class="col-12 col-md-4 col-lg-3 mt-md-0 mt-3">
 								<label for="insert_button" class="data-entry-label">Apply to all records in result.</label>		
 								<input type="button" id="insert_button"
 									value="Insert Agent" 
@@ -97,38 +108,37 @@
 					</form>
 				</div>
 			</div>
-			<div class="col-12">
-			<h3 class="h4">Specimens:</h3>
-			<table class="table table-responsive table-striped d-xl-table">
-				<thead class="thead-light">
-					<tr>
-						<th>Catalog Number</th>
-						<th>#session.CustomOtherIdentifier#</th>
-						<th>Accepted Scientific Name</th>
-						<th>Collectors</th>
-						<th>Preparators</th>
-						<th>Country</th>
-						<th>State</th>
-						<th>County</th>
-						<th>Quad</th>
-					</tr>
-				</thead>
-				<tbody>
-				<cfloop query="getColls">
-    				<tr>
-						<td>MCZ:#collection_cde#:#cat_num#</td>
-						<td>#CustomID#&nbsp;</td>
-						<td><i>#Scientific_Name#</i></td>
-						<td>#colls#</td>
-						<td>#preps#</td>
-						<td>#Country#&nbsp;</td>
-						<td>#State_Prov#&nbsp;</td>
-						<td>#county#&nbsp;</td>
-						<td>#quad#&nbsp;</td>
-					</tr>
-				</cfloop>
-				</tbody>
-			</table>
+			<div class="col-12 pb-4">
+				<table class="table table-responsive table-striped d-xl-table">
+					<thead class="thead-light">
+						<tr>
+							<th>Catalog Number</th>
+							<cfif len(session.CustomOtherIdentifier)gt 0><th>#session.CustomOtherIdentifier#</th></cfif>
+							<th>Accepted Scientific Name</th>
+							<th>Collectors</th>
+							<th>Preparators</th>
+							<th>Country</th>
+							<th>State</th>
+							<th>County</th>
+							<th>Quad</th>
+						</tr>
+					</thead>
+					<tbody>
+					<cfloop query="getItems">
+	    				<tr>
+							<td>MCZ:#collection_cde#:#cat_num#</td>
+							<cfif len(session.CustomOtherIdentifier)gt 0><td>#CustomID#&nbsp;</td></cfif>
+							<td><i>#Scientific_Name#</i></td>
+							<td>#colls#</td>
+							<td>#preps#</td>
+							<td>#Country#&nbsp;</td>
+							<td>#State_Prov#&nbsp;</td>
+							<td>#county#&nbsp;</td>
+							<td>#quad#&nbsp;</td>
+						</tr>
+					</cfloop>
+					</tbody>
+				</table>
 			</div>
 		</section>
 	</main>

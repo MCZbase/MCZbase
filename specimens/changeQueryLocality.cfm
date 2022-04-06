@@ -37,7 +37,7 @@
 			and flat.phylorder in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filterOrder#" list="true">)
 		</cfif>
 		<cfif isdefined("filterFamily") and len(#filterFamily#) GT 0>
-			and flat.family in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#listqualify(filterFamily, "'")#" list="true">)
+			and flat.family in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#listqualify(filterFamily, '')#" list="true">)
 		</cfif>
 	ORDER BY
 		phylorder, family
@@ -54,26 +54,30 @@
 		<cfset showLocality=1>
 		<cfset showEvent=0>
 		<cfoutput>
-			<h2 class="h3">Find new locality for specimens [in #encodeForHtml(result_id)#]</h2>
-			<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
-				<input type="hidden" name="Action" value="findLocality">
-				<input type="hidden" name="result_id" value="#result_id#">
-				<cfif isdefined("filterOrder")>
-					<input type="hidden" name="filterOrder" value="#filterOrder#">
-				</cfif>
-				<cfif isdefined("filterFamily")>
-					<input type="hidden" name="filterFamily" value="#filterFamily#">
-				</cfif>
-				<cfset showSpecimenCounts = false>
-				<cfinclude template="/localities/searchLocationForm.cfm">
-			</form>
+			<div class="container-lg">
+				<h1 class="h3">Find new locality for specimens [in #encodeForHtml(result_id)#]</h1>
+				<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
+					<input type="hidden" name="Action" value="findLocality">
+					<input type="hidden" name="result_id" value="#result_id#">
+					<cfif isdefined("filterOrder")>
+						<input type="hidden" name="filterOrder" value="#filterOrder#">
+					</cfif>
+					<cfif isdefined("filterFamily")>
+						<input type="hidden" name="filterFamily" value="#filterFamily#">
+					</cfif>
+					<cfset showSpecimenCounts = false>
+					<cfinclude template="/localities/searchLocationForm.cfm">
+				</form>
+			</div>
 		</cfoutput>
 	</cfcase>
 
 	<cfcase value ="updateLocality">
-		<cfoutput>
-			<h2 class="h2">Changed locality for specimens [in #encodeForHtml(result_id)#]</h2>
-		</cfoutput>
+	<cfoutput>
+	<div class="container">
+		<h2 class="h2">Changed locality for specimens [in #encodeForHtml(result_id)#]</h2>
+	</div>
+	</cfoutput>
 		<cfquery name="collEvents" dbtype="query">
 			select distinct collecting_event_id from specimenList
 		</cfquery>
@@ -124,84 +128,91 @@
 	<cfcase value="findLocality">
 	<cfoutput>
 	<cf_findLocality>
-	<cfquery name="localityResults" dbtype="query">
+		<cfquery name="localityResults" dbtype="query">
 		select
 			locality_id,
-            geog_auth_rec_id,
-            spec_locality,
-            higher_geog,
-            LatitudeString,
-            LongitudeString,
-            NoGeorefBecause,
-            coordinateDeterminer,
-            lat_long_ref_source,
-            determined_date,
+			geog_auth_rec_id,
+			spec_locality,
+			higher_geog,
+			LatitudeString,
+			LongitudeString,
+			NoGeorefBecause,
+			coordinateDeterminer,
+			lat_long_ref_source,
+			determined_date,
 			geolAtts,
-            min_depth,
-            max_depth,
-            depth_units,
-            minimum_elevation,
+			min_depth,
+			max_depth,
+			depth_units,
+			minimum_elevation,
 			maximum_elevation,
 			orig_elev_units
 		from localityResults
 		group by
-            locality_id,
-            geog_auth_rec_id,
-            spec_locality,
-            higher_geog,
-            LatitudeString,
-            LongitudeString,
-            NoGeorefBecause,
-            coordinateDeterminer,
-            lat_long_ref_source,
-            determined_date,
+			locality_id,
+			geog_auth_rec_id,
+			spec_locality,
+			higher_geog,
+			LatitudeString,
+			LongitudeString,
+			NoGeorefBecause,
+			coordinateDeterminer,
+			lat_long_ref_source,
+			determined_date,
 			geolAtts,
-            min_depth,
-            max_depth,
-            depth_units,
-            minimum_elevation,
+			min_depth,
+			max_depth,
+			depth_units,
+			minimum_elevation,
 			maximum_elevation,
 			orig_elev_units
-	</cfquery>
-
-	<table border>
-		<tr>
-	      	<td><b>Geog ID</b></td>
-	      	<td>&nbsp;</td>
-	     	<td><b>Locality ID</b></td>
-	      	<td><b>Spec Locality</b></td>
-		   	<td><b>Geog</b></td>
-	    </tr>
-	<cfset i = 1>
-	<cfloop query="localityResults">
-		<tr>
-			<td> <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
-			<td><a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a></td>
-			<td>
-			<form name="coll#i#" method="post" action="/specimens/changeQueryLocality.cfm">
-				<input type="hidden" name="result_id" value="#result_id#">
-				<input type="hidden" name="newlocality_id" value="#locality_id#">
-				<input type="hidden" name="action" value="updateLocality">
-				<cfif isdefined("filterOrder")>
-					<input type="hidden" name="filterOrder" value="#filterOrder#">
-				</cfif>
-				<cfif isdefined("filterFamily")>
-					<input type="hidden" name="filterFamily" value="#filterFamily#">
-				</cfif>
-				<input type="submit"
-					 	value="Change ALL listed specimens to this Locality"
-						class="savBtn"
-   						onmouseover="this.className='savBtn btnhov'"
-						onmouseout="this.className='savBtn'">
-			</form>
-			</td>
-			<td>#spec_locality#</td>
-			<td>#higher_geog#</td>
-		</tr>
-	<cfset i=#i#+1>
-	</cfloop>
-		</cfoutput>
-	</table>
+		</cfquery>
+		<div class="container">
+			<div class="row">
+			<table class="table">
+				<thead class="thead-light">
+					<tr>
+						<th>Geog ID</th>
+						<th>&nbsp;</th>
+						<th>Locality ID</th>
+						<th>Spec Locality</th>
+						<th>Geog</th>
+					</tr>
+				</thead>
+				<tbody>
+					<cfset i = 1>
+					<cfloop query="localityResults">
+				<tr>
+					<td> <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
+					<td><a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a></td>
+					<td>
+					<form name="coll#i#" method="post" action="/specimens/changeQueryLocality.cfm">
+						<input type="hidden" name="result_id" value="#result_id#">
+						<input type="hidden" name="newlocality_id" value="#locality_id#">
+						<input type="hidden" name="action" value="updateLocality">
+						<cfif isdefined("filterOrder")>
+							<input type="hidden" name="filterOrder" value="#filterOrder#">
+						</cfif>
+						<cfif isdefined("filterFamily")>
+							<input type="hidden" name="filterFamily" value="#filterFamily#">
+						</cfif>
+						<input type="submit"
+								value="Change ALL listed specimens to this Locality"
+								class="savBtn"
+								onmouseover="this.className='savBtn btnhov'"
+								onmouseout="this.className='savBtn'">
+					</form>
+					</td>
+					<td>#spec_locality#</td>
+					<td>#higher_geog#</td>
+				</tr>
+			<cfset i=#i#+1>
+			</cfloop>
+				</cfoutput>
+				</tbody>
+			</table>
+			</div>
+		</div>
 	</cfcase>
 </cfswitch>
 
@@ -216,72 +227,82 @@
 </cfquery>
 
 <cfoutput>
-	<h2 class="h3">Specimens Being Changed: #specimenList.recordcount#</h2>
-		<table width="95%">
-		<form name="filterResults">
-		<input type="hidden" name="result_id" value="#result_id#">
-		<input type="hidden" name="action" value="nothing" id="action">
-
-			<tr>
-				<td width="33%">Order:
-				<select name="filterOrder" style="width:150px" class="chosen-select-deselect">
-					<option></option>
-					<cfloop query="orders">
-						<option <cfif isdefined("filterOrder") and #phylorder# EQ #filterOrder#>selected</cfif>>#orders.phylorder#</option>
-					</cfloop>
-				</td>
-				<!--- TODO: Multiselect for families --->
-				<td width="33%"><select data-placeholder="Choose Families..." name="filterFamily" class ="chosen-select" multiple tabindex="4" style="width:500px;">
-					<option value=""></option>
-					<cfloop query="families">
-						<option value="#family#"<cfif isdefined("filterFamily") and listfind(filterFamily,family)>selected="selected"</cfif>>#family#</option>
-					</cfloop>
-				</td>
-				<td align="right">
-					<input type="submit" value="Filter Specimens" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();'></input>
-				</td>
-			</tr>
+	<div class="container">
+		<div class="row">
+		<h2 class="h3">Specimens Being Changed: #specimenList.recordcount#</h2>
+		<table class="table">
+			<form name="filterResults">
+				<input type="hidden" name="result_id" value="#result_id#">
+				<input type="hidden" name="action" value="nothing" id="action">
+				<tr>
+					<td width="33%">Order:
+					<select name="filterOrder" style="width:150px" class="chosen-select-deselect">
+						<option></option>
+						<cfloop query="orders">
+							<option <cfif isdefined("filterOrder") and #phylorder# EQ #filterOrder#>selected</cfif>>#orders.phylorder#</option>
+						</cfloop>
+					</td>
+					<!--- TODO: Multiselect for families --->
+					<td width="33%"><select data-placeholder="Choose Families..." name="filterFamily" class ="chosen-select" multiple tabindex="4" style="width:500px;">
+						<option value=""></option>
+						<cfloop query="families">
+							<option value="#family#"<cfif isdefined("filterFamily") and listfind(filterFamily,family)>selected="selected"</cfif>>#family#</option>
+						</cfloop>
+					</td>
+					<td align="right">
+						<input type="submit" value="Filter Specimens" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();'></input>
+					</td>
+				</tr>
+			</form>
 		</table>
-		</form>
+		</div>
+	</div>
 </cfoutput>
-<table width="95%" border="1">
-<tr>
-	<td><strong>Catalog Number</strong></td>
-	<cfif len(#session.CustomOtherIdentifier#) GT 0>
-	<td>
-		<cfoutput>
-			<strong>#session.CustomOtherIdentifier#</strong>
+<div class="container">
+	<div class="row">
+	<table class="table">
+		<thead class="thead-light">
+			<tr>
+				<th>Catalog Number</th>
+				<cfif len(#session.CustomOtherIdentifier#) GT 0>
+					<th>
+						<cfoutput>
+						#session.CustomOtherIdentifier#
+						</cfoutput>
+					</th>
+				</cfif>
+				<th>Order</th>
+				<th>Family</th>
+				<th>Accepted Scientific Name</th>
+				<th>Locality ID</th>
+				<th>Spec Locality</th>
+				<th>higher_geog</th>
+			</tr>
+		</thead>
+		<tbody>
+		<cfoutput query="specimenList" group="collection_object_id">
+			<tr>
+				<td>
+				<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+				#collection#&nbsp;#cat_num#
+				</a>
+				</td>
+			<cfif len(#session.CustomOtherIdentifier#) GT 0>
+				<td>
+					#CustomID#&nbsp;
+				</td>
+			</cfif>
+				<td>#phylorder#</td>
+				<td>#family#</td>
+				<td><i>#Scientific_Name#</i></td>
+				<td>#locality_id#</td>
+				<td>#spec_locality#</td>
+				<td>#higher_geog#</td>
+			</tr>
+			</tbody>
 		</cfoutput>
-	</td>
-	</cfif>
-	<td>Order</td>
-	<td>Family</td>
-	<td><strong>Accepted Scientific Name</strong></td>
-	<td><strong>Locality ID</strong></td>
-	<td><strong>Spec Locality</strong></td>
-	<td><strong>higher_geog</strong></td>
-</tr>
- <cfoutput query="specimenList" group="collection_object_id">
-    <tr>
-	  <td>
-	  	<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
-	  #collection#&nbsp;#cat_num#
-	  	</a>
-	  </td>
-	<cfif len(#session.CustomOtherIdentifier#) GT 0>
-	<td>
-		#CustomID#&nbsp;
-	</td>
-	</cfif>
-	<td>#phylorder#</td>
-	<td>#family#</td>
-	<td><i>#Scientific_Name#</i></td>
-	<td>#locality_id#</td>
-	<td>#spec_locality#</td>
-	<td>#higher_geog#</td>
-</tr>
-</cfoutput>
-</table>
-
+	</table>
+	</div>
+</div>
 
 <cfinclude template="/shared/_footer.cfm">

@@ -27,6 +27,7 @@ limitations under the License.
 </cfif>
 
 <cfswitch expression="#action#">
+
 	<cfcase value="manage">
 		<cfquery name="results" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="results_result">
 			SELECT count(distinct collection_object_id) ct
@@ -37,141 +38,179 @@ limitations under the License.
 			<cfthrow message = "No results found in user's USER_SEARCH_TABLE for result_id #encodeForHtml(result_id)#.">
 		</cfif>
 		<cfoutput>
-			<div class="container">
-				<div class="row mb-4">
-					<div class="col-12">
-						<h1 class="h2">Manage Specimens in search result [result_id=#encodeForHtml(result_id)#]</h1>
+			<style>
+				.navbar-dark .navbar-nav .active > .nav-link, .active {color:black;background-color: white;}
+			</style>
+			<div class="container pb-5">
+				<div class="row">
+					<div class="col-12 mt-4">
+						<h1 class="h3 my-3">Manage Specimens in search result [result_id=#encodeForHtml(result_id)#]</h1>
+						<h5>Select Form:</h5>
+						<nav class="navbar navbar-expand-sm bg-white navbar-dark p-0">
+							<ul class="navbar-nav d-flex flex-wrap">
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+									<li class="nav-item mb-1">
+										<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Accession</a>
+									</li>
+								</cfif>
+								<li class="nav-item mb-1">
+									<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs nav-link" target="_blank">Collectors/Preparators</a>
+								</li>
+								<li class="nav-item mb-1">
+									<a href="##" class="nav-link btn btn-xs btn-secondary disabled">Collecting Events</a>
+								</li>
+								<cfif findNoCase('master',Session.gitBranch) EQ 0>
+									<!--- not working yet, don't link to on production --->
+									<li class="nav-item mb-1">
+										<a href="/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Localities</a>
+									</li>
+								<cfelse>
+									<li class="nav-item mb-1">
+										<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Localities</a>
+									</li>
+								</cfif>
+								<li class="nav-item mb-1">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Encumbrances</a>
+								</li>
+								<li class="nav-item mb-1">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Identifications</a>
+								</li>
+								<li class="nav-item mb-1">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Map By Locality</a>
+								</li>
+								<li class="nav-item mb-1">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Parts Report</a>
+								</li>
+								<li class="nav-item mb-1">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Change Part Locations</a>
+								</li>
+								<li class="nav-item mb-1">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
+								</li>
+								<li class="nav-item mb-1">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Add To Named Group</a>
+								</li>
+								<li class="nav-item mb-1">
+									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
+								</li>
+	<!---
 
-						<ul class='list-group list-group-horizontal'>
-							<li class='list-group-item'>
-								Accession
-							</li>
-							<li class='list-group-item'>
-								<a href='/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#' class='btn btn-secondary btn-xs' target='_blank'>Collectors/Preparators</a>
-							</li>
-							<li class='list-group-item'>
-								Collecting Events
-							</li>
-							<cfif findNoCase('master',Session.gitBranch) EQ 0>
-								<!--- not working yet, don't link to on production --->
-								<li class='list-group-item'>
-									<a href='/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#' class='btn btn-secondary btn-xs' target='_blank'>Localities</a>
-								</li>
-							<cfelse>
-								<li class='list-group-item'>
-									Localities
-								</li>
+	<option value="/addAccn.cfm"> works with either, collection_object_id has priority, session search table looked up, not passed. 
+	Accession [Warning: No Tabs]
+
+	<option value="/bulkCollEvent.cfm"> works only with collection_object_id 
+	Collecting Events
+
+	<option value="/Encumbrances.cfm"> works only with collection_object_id 
+	Encumbrances
+
+	<option value="/multiIdentification.cfm"> works only with collection_object_id 
+	Identification
+
+	<option value="/bnhmMaps/SpecimensByLocality.cfm"> works only on session search table, passed as table_name 
+	Map By Locality [Warning: No Tabs]
+
+	<option value="/tools/downloadParts.cfm"> works only on session search table, passed as table_name 
+	Parts (Report) [Warning: No Tabs]
+
+	<option value="/findContainer.cfm?showControl=1"> looks like it works only with collection_object_id, but downstream code has reference to session.username and passed table name 
+	Parts (Locations)
+
+	<option value="/tools/bulkPart.cfm"> works only on session search table, passed as table_name 
+	Parts (Modify) [Warning: No Tabs]
+
+	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+	<option value="/grouping/addToNamedCollection.cfm"> works with either, collection_objecT_id has priority, session search table looked up, not passed 
+	Add To Named Group [Warning: No Tabs]
+	</option>
+	</cfif>
+
+	<option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#"> works only with collection_object_id 
+	Print Any Report
+
+	--->
+							</ul>
+						</nav>
+						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records that will be affected: </h2>
+						<div class="rounded" style="background-color: ##f8d7da;padding: 1rem;border: 2px solid ##a51c30">
+							<div class="card bg-light border-secondary mb-3">
+								<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
+									SELECT count(*) ct, 
+										collection_cde, 
+										collection_id
+									FROM user_search_table
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									GROUP BY collection_cde, collection_id
+								</cfquery>
+								<div class="card-header h4">Collections (#collections.recordcount#)</div>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="collections">
+											<li class="list-group-item">#collections.collection_cde# (#collections.ct#);</li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+							<div class="card bg-light border-secondary mb-3">
+								<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countries_result">
+									SELECT count(*) ct, 
+										nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
+									FROM user_search_table
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									GROUP BY 
+										continent_ocean, country
+								</cfquery>
+								<div class="card-header h4">Countries (#countries.recordcount#)</div>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="countries">
+											<li class="list-group-item">#countries.continent_ocean#&thinsp;:&thinsp;#countries.country# (#countries.ct#); </li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+							<div class="card bg-light border-secondary mb-3">
+								<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="families_result">
+									SELECT count(*) ct, 
+										nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
+									FROM user_search_table
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									GROUP BY phylorder, family
+								</cfquery>
+								<div class="card-header h4">Families (#families.recordcount#)</div>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="families">
+											<li class="list-group-item">#families.phylorder#&thinsp;:&thinsp;#families.family# (#families.ct#);</li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+								<div class="card bg-light border-secondary mb-0">
+									<cfquery name="accessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="accessions_result">
+										SELECT count(*) ct, 
+											accn_number, nvl(to_char(accn.received_date,'YYYY'),'[no date]')  year
+										FROM user_search_table
+											left join cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+											left join accn on cataloged_item.accn_id = accn.transaction_id
+										WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+										GROUP BY accn_number, nvl(to_char(accn.received_date,'YYYY'),'[no date]')
+									</cfquery>
+									<div class="card-header h4">Accessions (#accessions.recordcount#)</div>
+									<div class="card-body">
+										<ul class="list-group list-group-horizontal d-flex flex-wrap">
+											<cfloop query="accessions">
+												<li class="list-group-item">#accessions.accn_number#&thinsp;:&thinsp;#accessions.year# (#accessions.ct#);</li>
+											</cfloop>
+										</ul>
+									</div>
+								</div>
 							</cfif>
-							<li class='list-group-item'>
-								Encumbrances
-							</li>
-							<li class='list-group-item'>
-								Identifications
-							</li>
-							<li class='list-group-item'>
-								Map By Locality
-							</li>
-							<li class='list-group-item'>
-								Parts Report
-							</li>
-							<li class='list-group-item'>
-								Change Part Locations
-							</li>
-							<li class='list-group-item'>
-								Modify Parts
-							</li>
-								<li class='list-group-item'>
-									Add To Named Group
-								</li>
-							<li class='list-group-item'>
-								Print Labels
-							</li>
-<!---
-
-<option value="/addAccn.cfm"> works with either, collection_object_id has priority, session search table looked up, not passed. 
-Accession [Warning: No Tabs]
-				
-<option value="/bulkCollEvent.cfm"> works only with collection_object_id 
-Collecting Events
-
-<option value="/Encumbrances.cfm"> works only with collection_object_id 
-Encumbrances
-
-<option value="/multiIdentification.cfm"> works only with collection_object_id 
-Identification
-
-<option value="/bnhmMaps/SpecimensByLocality.cfm"> works only on session search table, passed as table_name 
-Map By Locality [Warning: No Tabs]
-
-<option value="/tools/downloadParts.cfm"> works only on session search table, passed as table_name 
-Parts (Report) [Warning: No Tabs]
-
-<option value="/findContainer.cfm?showControl=1"> looks like it works only with collection_object_id, but downstream code has reference to session.username and passed table name 
-Parts (Locations)
-
-<option value="/tools/bulkPart.cfm"> works only on session search table, passed as table_name 
-Parts (Modify) [Warning: No Tabs]
-
-<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-<option value="/grouping/addToNamedCollection.cfm"> works with either, collection_objecT_id has priority, session search table looked up, not passed 
-Add To Named Group [Warning: No Tabs]
-</option>
-</cfif>
-
-<option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#"> works only with collection_object_id 
-Print Any Report
-
---->
-						</ul>
-
-						<p>Manage #results.ct# cataloged item records</p>
-
-						<h2 class="h3">These records are in these Collections</h2>
-						<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
-							SELECT count(*) ct, 
-								collection_cde, 
-								collection_id
-							FROM user_search_table
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
-							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-							GROUP BY collection_cde, collection_id
-						</cfquery>
-						<ul>
-							<cfloop query="collections">
-								<li class="pr-1" style="list-style-type: circle; display: inline;">#collections.collection_cde# (#collections.ct#);</li>
-							</cfloop>
-						</ul>
-
-						<h2 class="h3">These records are in these Countries</h2>
-						<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
-							SELECT count(*) ct, 
-								nvl(continent_ocean,'[no continent/ocean]') as continent_ocean, nvl(country,'[no country]') as country
-							FROM user_search_table
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
-							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-							GROUP BY 
-								continent_ocean, country
-						</cfquery>
-						<ul>
-							<cfloop query="countries">
-								<li class="pr-1" style="list-style-type: circle; display: inline;">#countries.continent_ocean#:#countries.country# (#countries.ct#);</li>
-							</cfloop>
-						</ul>
-
-						<h2 class="h3">These records are in these Families</h2>
-						<cfquery name="families" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
-							SELECT count(*) ct, 
-								nvl(phylorder,'[no order]') as phylorder, nvl(family,'[no family]') as family
-							FROM user_search_table
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
-							WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-							GROUP BY phylorder, family
-						</cfquery>
-						<ul>
-							<cfloop query="families">
-								<li class="pr-1" style="list-style-type: circle; display: inline;">#families.phylorder#:#families.family# (#families.ct#);</li>
-							</cfloop>
-						</ul>
+						</div>
 					</div>
 				</div>
 			</div>
