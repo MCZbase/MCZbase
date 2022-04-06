@@ -8,8 +8,16 @@
 	<cfset action="entryPoint">
 </cfif>
 <cfif #Action# is "entryPoint">
-<cfoutput> 
-	<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput> 
+		<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				count(cataloged_item.collection_object_id) ct
+			FROM
+				user_search_table 
+			WHERE
+				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
+	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT 
 		 	cataloged_item.collection_object_id as collection_object_id, 
 			cataloged_item.cat_num,
@@ -40,7 +48,11 @@
 		<section class="row" aria-labelledby="formheading">
 			<div class="col-12 pt-3">
 				<h1 class="h3 px-1" id="formheading" >
-					Add/Remove collectors for all (#getColls.recordcount#) cataloged items listed below
+					<cfif getItemCount.ct GT getItems.recordcount>
+						Add/Remove collectors for all (#getItemCount.ct#) cataloged items in this result (first #getItems.recordcount# are listed below)
+					<cfelse>
+						Add/Remove collectors for all (#getItems.recordcount#) cataloged items listed below
+					</cfif>
 				</h1>
 				<div class="px-1">
 					Pick an agent, a role, and an order (ignored for delete) to insert or delete an agent for all records listed below. 
@@ -113,7 +125,7 @@
 						</tr>
 					</thead>
 					<tbody>
-					<cfloop query="getColls">
+					<cfloop query="getItems">
 	    				<tr>
 							<td>MCZ:#collection_cde#:#cat_num#</td>
 							<cfif len(session.CustomOtherIdentifier)gt 0><td>#CustomID#&nbsp;</td></cfif>

@@ -15,6 +15,14 @@
 <!--------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
+		<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				count(cataloged_item.collection_object_id) ct
+			FROM
+				user_search_table 
+			WHERE
+				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				cataloged_item.collection_object_id,
@@ -42,6 +50,7 @@
 				JOIN collection accn_coll on trans.collection_id=accn_coll.collection_id
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				and rownum < 1001
 			ORDER BY cataloged_item.collection_cde, cataloged_item.cat_num
 		</cfquery>
 		<cfoutput>
@@ -49,7 +58,11 @@
 				<section class="row" aria-labelledby="formheading">
 					<div class="col-12 pt-4">
 						<h1 class="h3 px-1" id="formheading" >
-							Move all the catloged items listed below (#getItems.recordcount#) to accession:
+							<cfif getItemCount.ct GT getItems.recordcount>
+								Move all (#getItemCount.ct#) catloged items in this result (first #getItems.recordcount# are listed below) to accession:
+							<cfelse>
+								Move all the catloged items listed below (#getItems.recordcount#) to accession:
+							</cfif>
 						</h1>
 						<form name="addItems" method="post" action="/specimens/changeQueryAccession.cfm">
 							<input type="hidden" name="Action" value="addItems">
