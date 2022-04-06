@@ -100,7 +100,7 @@ limitations under the License.
 									</div><!---end image block--->
 								</div><!---end col-md-1 col-5 (image block)--->
 								<div class="col-12 col-md-9 col-xl-10 pb-4 pb-xl-2 px-0 px-md-2 float-left">
-									<div class="col-12 col-xl-8 px-0 px-xl-2 float-left">
+									<div class="col-12 col-xl-9 px-0 px-xl-2 float-left">
 										<div class="form-row mx-0 mt-2">	
 											<label for="media_uri" class="h5 mb-1 mt-0 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input small reqdClr">
@@ -309,7 +309,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 														<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
-														<button class="btn btn-danger btn-xs float-left small"> Delete </button>
+														<button class="btn btn-danger btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#media_id#)"> Delete </button>
 														<input class="btn btn-secondary btn-xs mx-2 small float-left edit-toggle__#i#" onclick="edit_revert()" type="button" value="Edit" style="width:50px;"></input>
 													</div>
 													<script type="text/javascript">
