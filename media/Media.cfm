@@ -202,7 +202,7 @@ limitations under the License.
 														</select>
 														<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
 														<input type="hidden" name="related_id__0" id="related_id__0">
-														<button class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelations.media_id#,relationshipDiv__#i#)"> Remove </button>
+												
 													</div><!--- end id seedMedia --->
 												</cfif>
 												<cfloop query="relns">
