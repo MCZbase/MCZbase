@@ -240,7 +240,7 @@ function newRelationship(media_id,media_relationship,target) {
 	jQuery.getJSON("/media/component/functions.cfc",
 		{
 			method : "newRelationship",
-			media_relationship : relationship,
+			media_relations_id : media_relations_id,
 			media_id : media_id,
 			returnformat : "json",
 			queryformat : 'column'
