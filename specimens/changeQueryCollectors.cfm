@@ -40,6 +40,7 @@
 			JOIN collection on cataloged_item.collection_id = collection.collection_id
 		WHERE 
 			result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			and rownum < 1001
 		ORDER BY 
 			cataloged_item.collection_object_id
 	</cfquery>
