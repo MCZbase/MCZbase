@@ -177,9 +177,9 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-							</form>
-							<form>
-
+							</div>
+						</form>
+						<form>
 							<div class="col-12 col-md-12 px-0 float-left">
 									<!---col-12 (mime type, media type, license, visibility)--->
 								<div class="col-12 float-left">
@@ -340,7 +340,34 @@ limitations under the License.
 											</div>
 										</div><!---end col-6--->	
 									</div><!---end form-row Relationships and labels--->
-								</div><!---end col-12--->
+								<div class="form-row my-1">
+									<script>
+										function reloadTransactionAgents() { 
+											loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
+										}
+										$(document).ready(function() {
+											reloadTransactionAgents();
+										});
+									</script>
+									<div class="col-12 mt-1" id="agentTableContainerDiv">
+										<img src='/shared/images/indicator.gif'>
+										Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
+										<script>
+										$(document).ready(function() { 
+											$('##agentWarningSpan').delay(1000).fadeIn(300);
+										});
+										</script>
+									</div>
+									<script>
+										$(document).ready(function() { 
+											$('##agentTableContainerDiv').on('domChanged',function() {
+												console.log("dom change within agentTableContainerDiv");
+												monitorForChanges('editLoanForm',handleChange);
+											});
+										});
+									</script>
+								</div>
+							</div><!---end col-12--->
 									<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
 								<!--  TODO: Change to ajax save of form. 
 								<script>
@@ -352,10 +379,35 @@ limitations under the License.
 									};
 								</script>
 								-->
-							</div>
 						</form>
 					</div><!---end col-12--->
-				
+						<div class="form-row my-1">
+							<script>
+								function reloadTransactionAgents() { 
+									loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
+								}
+								$(document).ready(function() {
+									reloadTransactionAgents();
+								});
+							</script>
+							<div class="col-12 mt-1" id="agentTableContainerDiv">
+								<img src='/shared/images/indicator.gif'>
+								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
+								<script>
+								$(document).ready(function() { 
+									$('##agentWarningSpan').delay(1000).fadeIn(300);
+								});
+								</script>
+							</div>
+							<script>
+								$(document).ready(function() { 
+									$('##agentTableContainerDiv').on('domChanged',function() {
+										console.log("dom change within agentTableContainerDiv");
+										monitorForChanges('editLoanForm',handleChange);
+									});
+								});
+							</script>
+						</div>
 				</div>
 			</div>
 		</div>
