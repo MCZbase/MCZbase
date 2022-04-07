@@ -7,6 +7,8 @@
 <cfinclude template="/shared/_header.cfm">
 <script type='text/javascript' src='/media/js/media.js'></script>
 <cfinclude template="/media/component/search.cfc" runOnce="true">
+<cfinclude template="/specimens/component/public.cfc">
+<cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
 <cfset maxMedia = 8>
 <cfoutput>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
