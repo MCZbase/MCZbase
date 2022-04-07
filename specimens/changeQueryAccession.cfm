@@ -44,6 +44,7 @@
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				cataloged_item.collection_object_id,
+				cataloged_item.collection_cde,
 				cataloged_item.cat_num,
 				accn.accn_number,
 				nvl(to_char(accn.received_date,'YYYY-MM-DD'),'[no date]') received_date,
@@ -157,7 +158,7 @@
 							<tbody>
 								<cfloop query="getItems" group="collection_object_id">
 									<tr>
-										<td>#collection# #cat_num#</td>
+										<td><a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
 										<td style="width: 200px;">#scientific_name#</td>
 										<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
 										<td>#accn_type# #received_date#</td>
