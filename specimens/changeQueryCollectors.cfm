@@ -61,6 +61,22 @@
 				ORDER BY 
 					MCZBASE.GET_AGENTNAMEOFTYPE(collector.agent_id)
 			</cfquery>
+			<cfquery name="getPreparators" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					count(user_search_table.collection_object_id) ct,
+					collector.agent_id,
+					MCZBASE.GET_AGENTNAMEOFTYPE(collector.agent_id) preparator
+				FROM	
+					user_search_table 
+					JOIN collector on user_search_table.collection_object_id = collector.collection_object_id
+				WHERE 
+					result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					AND collector.collector_role = 'p'
+				GROUP BY
+					collector.agent_id
+				ORDER BY 
+					MCZBASE.GET_AGENTNAMEOFTYPE(collector.agent_id)
+			</cfquery>
 			<main class="container-xl" id="content">
 				<section class="row" aria-labelledby="formheading">
 					<div class="col-12 pt-3">
@@ -137,6 +153,17 @@
 									<ul class="list-group list-group-horizontal d-flex flex-wrap">
 										<cfloop query="getCollectors">
 											<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#getCollectors.agent_id#" target="_blank">#getCollectors.collector#</a> (#getCollectors.ct#);</li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+							<div class="card bg-light border-secondary mb-0 pb-1">
+								<cfif getPreparators.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+								<div class="card-header h4">Current preparator#plural#:</div>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="getPreparators">
+											<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#getPreparators.agent_id#" target="_blank">#getPreparators.preparator#</a> (#getPreparators.ct#);</li>
 										</cfloop>
 									</ul>
 								</div>
