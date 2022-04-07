@@ -146,8 +146,8 @@
 								<tr>
 									<th>Cat Num</th>
 									<th>Scientific Name</th>
-									<th>Accession</th>
-									<th>Date Received</th>
+									<th class="redbox">Accession</th>
+									<th class="redbox">Date Received</th>
 									<th>Collectors</th>
 									<th>Geog</th>
 									<th>Spec Loc</th>
