@@ -459,7 +459,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 	<cfargument name="media_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-			<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="spec_result">
 				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
 					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
 					trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
@@ -471,7 +471,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 						and (media_relations.media_relationship = 'shows cataloged_item')
 			</cfquery>
 			<cfif len(spec.guid) gt 0>
-			<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="showMoreMedia_result">
+			<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relm3_result">
 				select distinct media.media_id, preview_uri, media.media_uri,
 					get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 					media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
