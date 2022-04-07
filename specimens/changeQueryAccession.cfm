@@ -73,7 +73,7 @@
 				and rownum < 1001
 			ORDER BY cataloged_item.collection_cde, cataloged_item.cat_num
 		</cfquery>
-		<cfquery name="getCollections">
+		<cfquery name="getCollections" dbtype="query">
 			SELECT distinct collection from getItems
 		</cfquery>
 		<cfoutput>
