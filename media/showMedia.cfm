@@ -7,7 +7,7 @@
 <cfinclude template="/shared/_header.cfm">
 <script type='text/javascript' src='/media/js/media.js'></script>
 <cfinclude template="/media/component/search.cfc" runOnce="true">
-
+<cfset maxMedia = 10>
 <cfoutput>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
@@ -80,16 +80,19 @@
 						where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							and (media_relationship = 'shows cataloged_item')
 						and identification.accepted_id_fg = 1
+							and rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxMedia#">
 						</cfquery>
 						<cfif len(media.media_id) gt 0>
 						<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
 							<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull")>
 							<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 						</div>
+						<cfif len(thisguid.specGuid)gte 11>
+							<button class="btn btn-xs btn-primary">Show More</button>
 						</cfif>
 						<div class="float-left col-12 px-0 col-md-10 pl-md-4 col-xl-9 px-xl-4">
 							<h2 class="h3 px-2 mt-0">Media ID = #media.media_id#</h2>
-							<h3 class="mx-2 h4 mb-1 border-dark w-auto float-left" style="text-decoration:underline">Metadata</h3>
+							<h3 class="mx-2 h4 mb-1 mt-2 border-dark w-auto float-left">Metadata</h3>
 							<table class="table border-none">
 								<thead>
 									<tr>
