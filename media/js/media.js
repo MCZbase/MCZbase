@@ -295,3 +295,20 @@ function loadMediaRelations(media_id,target) {
 	});
 }
 
+	function moreMedia(media_id,target) { 
+	jQuery.ajax({
+	url: "/media/component/functions.cfc",
+		data : {
+			method : "showMoreMedia",
+			media_id: media_id,
+			target: target
+	},
+	success: function (result) {
+		 $("#" + target).html(result);
+	},
+	error: function (jqXHR, textStatus, message) {
+		handleFail(jqXHR,textStatus,message,"loading relationships for media");
+	},
+	dataType: "html"
+	});
+}
