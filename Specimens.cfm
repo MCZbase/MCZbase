@@ -1685,13 +1685,10 @@ limitations under the License.
 						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 						fixedSearchLoaded = 1;
 					}
-					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") >
-						<!--- manage temporaraly only visible for global admin --->
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
-						<cfelse>
-							$('##fixedmanageButton').html('');
-						</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
+					<cfelse>
+						$('##fixedmanageButton').html('');
 					</cfif>
 					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 				});
