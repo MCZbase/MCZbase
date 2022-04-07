@@ -295,7 +295,7 @@ function loadMediaRelations(media_id,target) {
 	});
 }
 
-	function moreMedia(media_id,target) { 
+function moreMedia(media_id,target) { 
 	jQuery.ajax({
 	url: "/media/component/functions.cfc",
 		data : {
