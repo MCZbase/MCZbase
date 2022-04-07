@@ -496,7 +496,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 								<cfset activeimg = "border-light px-1 pt-2">
 							</cfif>
 
-							<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
+							<cfset mediablock= mczbase.getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 							<div class="float-left" id="mediaBlock#relm3.media_id#">#mediablock# </div>
 						</cfif>
 					</div>
