@@ -59,7 +59,7 @@
 				GROUP BY
 					collector.agent_id
 				ORDER BY 
-					MCZBASE.GET_AGENTNAMEOFTYPE(collector.agent_id) collector
+					MCZBASE.GET_AGENTNAMEOFTYPE(collector.agent_id)
 			</cfquery>
 			<main class="container-xl" id="content">
 				<section class="row" aria-labelledby="formheading">
