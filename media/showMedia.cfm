@@ -211,13 +211,11 @@
 															<cfset activeimg = "border-light px-1 pt-2">
 														</cfif>
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
-														<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#"> #mediablock# </div>
+														<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#">less #mediablock# </div>
 													</cfif>
 												</div>
 											</cfloop>
-											<cfif len(relm.media_id) gt #maxMedia#>
-												<button class="btn btn-xs btn-primary">Show More</button>
-											</cfif>
+
 										<cfelse>
 											<cfloop query="relm2">
 												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
@@ -228,10 +226,13 @@
 															<cfset activeimg = "border-light px-1 pt-2">
 														</cfif>
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
-														<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#"> #mediablock# </div>
+														<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#">more #mediablock# </div>
 													</cfif>
 												</div>
 											</cfloop>
+											<cfif len(relm.media_id) gt #maxMedia#>
+												<button class="btn btn-xs btn-primary">Show More</button>
+											</cfif>
 										</cfif>
 									</td>
 								</tr>
