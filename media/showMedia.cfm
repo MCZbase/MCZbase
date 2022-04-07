@@ -229,7 +229,7 @@
 													</cfif>
 												</div>
 											</cfloop>
-											<button class="btn btn-xs btn-primary">Show More</button>
+											<button class="btn btn-xs btn-primary float-left">Show More</button>
 										</cfif>
 									</td>
 								</tr>
