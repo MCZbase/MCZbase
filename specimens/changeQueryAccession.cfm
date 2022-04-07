@@ -38,7 +38,7 @@
 				JOIN collection accn_coll on trans.collection_id=accn_coll.collection_id
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-			GROUP BY accn_number, accn_col.collection, nvl(to_char(accn.received_date,'YYYY'),'[no date]')
+			GROUP BY accn_number, accn_coll.collection, nvl(to_char(accn.received_date,'YYYY'),'[no date]')
 			ORDER BY accn_number
 		</cfquery>
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
