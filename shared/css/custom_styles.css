@@ -933,7 +933,7 @@ a#showLeftPush.hiddenclass {
 }
 .redbox {
 	background-color: #f8d7da!important;
-	padding: 1rem!important;
+	padding: 1rem;
 	border: 2px solid #a51c30!important;
 }
 code {
