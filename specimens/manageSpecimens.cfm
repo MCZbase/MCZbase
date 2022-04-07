@@ -193,18 +193,24 @@ limitations under the License.
 								<div class="card bg-light border-secondary mb-0">
 									<cfquery name="accessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="accessions_result">
 										SELECT count(*) ct, 
-											accn_number, nvl(to_char(accn.received_date,'YYYY'),'[no date]')  year
+											accn_number, 
+											accn_coll.collection,
+											nvl(to_char(accn.received_date,'YYYY'),'[no date]') year
 										FROM user_search_table
 											left join cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
 											left join accn on cataloged_item.accn_id = accn.transaction_id
-										WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-										GROUP BY accn_number, nvl(to_char(accn.received_date,'YYYY'),'[no date]')
+											LEFT JOIN trans on accn.transaction_id = trans.transaction_id 
+											LEFT JOIN collection accn_coll on trans.collection_id=accn_coll.collection_id
+										WHERE 
+											result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+										GROUP BY accn_number, accn_col.collection, nvl(to_char(accn.received_date,'YYYY'),'[no date]')
+										ORDER BY accn_number
 									</cfquery>
 									<div class="card-header h4">Accessions (#accessions.recordcount#)</div>
 									<div class="card-body">
 										<ul class="list-group list-group-horizontal d-flex flex-wrap">
 											<cfloop query="accessions">
-												<li class="list-group-item">#accessions.accn_number#&thinsp;:&thinsp;#accessions.year# (#accessions.ct#);</li>
+												<li class="list-group-item">#accessions.collection# #accessions.accn_number#&thinsp;:&thinsp;#accessions.year# (#accessions.ct#);</li>
 											</cfloop>
 										</ul>
 									</div>
