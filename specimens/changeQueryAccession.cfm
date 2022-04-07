@@ -34,6 +34,7 @@
 				user_search_table 
 				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id 
 				JOIN accn on cataloged_item.accn_id = accn.transaction_id
+				JOIN trans on accn.transaction_id = trans.transaction_id 
 				JOIN collection accn_coll on trans.collection_id=accn_coll.collection_id
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
