@@ -24,11 +24,29 @@
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
+		<cfquery name="getAccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				count(cataloged_item.collection_object_id) ct,
+				accn.accn_number,
+				accn_coll.collection,
+				nvl(to_char(accn.received_date,'YYYY'),'[no date]')  year
+			FROM
+				user_search_table 
+				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id 
+				JOIN accn on cataloged_item.accn_id = accn.transaction_id
+				JOIN collection accn_coll on trans.collection_id=accn_coll.collection_id
+			WHERE
+				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			GROUP BY accn_number, accn_col.collection, nvl(to_char(accn.received_date,'YYYY'),'[no date]')  year
+			ORDER BY accn_number
+		</cfquery>
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				cataloged_item.collection_object_id,
 				cataloged_item.cat_num,
 				accn.accn_number,
+				nvl(to_char(accn.received_date,'YYYY-MM-DD'),'[no date]') received_date,
+				accn.accn_type,
 				MCZBASE.GET_COLLECTORSTYPEDNAME(cataloged_item.collection_object_id) collectors,
 				geog_auth_rec.higher_geog,
 				locality.spec_locality,
@@ -97,17 +115,28 @@
 				</section>
 				<section class="row"> 
 					<div class="col-12 pb-4">
-						<!--Footer is going in here -- something is not right!-->
+						<cfif getAccns.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+						<h3 class="h4">Currently in accession#plural#:</h3>
+						<ul class="list-group list-group-horizontal d-flex flex-wrap">
+							<cfloop query="getAccns">
+								<li class="list-group-item">#getAccns.collection# #getAccns.accn_number#&thinsp;:&thinsp;#getAccns.year# (#getAccns.ct#);</li>
+							</cfloop>
+						</ul>
+					</div>
+				</section>
+				<section class="row"> 
+					<div class="col-12 pb-4">
 						<table class="table table-responsive table-striped d-xl-table">
 							<thead class="thead-light">
 								<tr>
 									<th>Cat Num</th>
 									<th>Scientific Name</th>
-									<th>Accn</th>
+									<th>Accession</th>
+									<th>Date Received</th>
 									<th>Collectors</th>
 									<th>Geog</th>
 									<th>Spec Loc</th>
-									<th>Date</th>
+									<th>Date Coll</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -116,6 +145,7 @@
 										<td>#collection# #cat_num#</td>
 										<td style="width: 200px;">#scientific_name#</td>
 										<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
+										<td>#accn_type# #received_date#</td>
 										<td style="width: 200px;">#getItems.collectors#</td>
 										<td>#higher_geog#</td>
 										<td>#spec_locality#</td>
