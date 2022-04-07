@@ -123,9 +123,9 @@
 					</div>
 				</section>
 				<section class="row"> 
-					<div class="col-12 pb-4">
-						<div class="rounded" style="background-color: ##f8d7da;padding: 1rem;border: 2px solid ##a51c30">
-							<div class="card bg-light border-secondary mb-2">
+					<div class="col-12 pb-3">
+						<div class="rounded redbox">
+							<div class="card bg-light border-secondary mb-0">
 								<cfif getAccns.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 								<div class="card-header h4">Currently in accession#plural#:</div>
 								<div class="card-body">

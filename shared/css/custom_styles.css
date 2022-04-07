@@ -931,6 +931,11 @@ a#showLeftPush.hiddenclass {
 	margin: .75rem .5rem .5rem 0;
 	padding: .5rem;
 }
+.redbox {
+	background-color: #f8d7da;
+	padding: 1rem;
+	border: 2px solid #a51c30;
+}
 code {
 	font-size: 80%;
 }
