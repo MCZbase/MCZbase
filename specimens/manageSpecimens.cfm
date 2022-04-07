@@ -132,7 +132,7 @@ limitations under the License.
 							</ul>
 						</nav>
 						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records that will be affected: </h2>
-						<div class="rounded" style="background-color: ##f8d7da;padding: 1rem;border: 2px solid ##a51c30">
+						<div class="rounded redbox">
 							<div class="card bg-light border-secondary mb-3">
 								<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 									SELECT count(*) ct, 

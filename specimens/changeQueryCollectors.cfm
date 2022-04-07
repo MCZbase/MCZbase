@@ -22,6 +22,7 @@
 			<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 				 	cataloged_item.collection_object_id as collection_object_id, 
+					cataloged_item.collection_cde,
 					cataloged_item.cat_num,
 					concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
 					MCZBASE.GET_SCIENTIFIC_NAME_AUTHS(cataloged_item.collection_object_id) scientific_name,
@@ -29,7 +30,6 @@
 					geog_auth_rec.state_prov,
 					geog_auth_rec.county,
 					geog_auth_rec.quad,
-					collection.collection_cde,
 					CONCATPREP(cataloged_item.collection_object_id) preps,
 					concatColl(cataloged_item.collection_object_id) colls
 				FROM 
@@ -56,6 +56,22 @@
 				WHERE 
 					result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 					AND collector.collector_role = 'c'
+				GROUP BY
+					collector.agent_id
+				ORDER BY 
+					MCZBASE.GET_AGENTNAMEOFTYPE(collector.agent_id)
+			</cfquery>
+			<cfquery name="getPreparators" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					count(user_search_table.collection_object_id) ct,
+					collector.agent_id,
+					MCZBASE.GET_AGENTNAMEOFTYPE(collector.agent_id) preparator
+				FROM	
+					user_search_table 
+					JOIN collector on user_search_table.collection_object_id = collector.collection_object_id
+				WHERE 
+					result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					AND collector.collector_role = 'p'
 				GROUP BY
 					collector.agent_id
 				ORDER BY 
@@ -128,14 +144,31 @@
 					</div>
 				</section>
 				<section class="row"> 
-					<div class="col-12 pb-1">
-						<cfif getCollectors.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-						<h3 class="h4">Current collector#plural#:</h3>
-						<ul class="list-group list-group-horizontal d-flex flex-wrap">
-							<cfloop query="getCollectors">
-								<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#getCollectors.agent_id#" target="_blank">#getCollectors.collector#</a> (#getCollectors.ct#);</li>
-							</cfloop>
-						</ul>
+					<div class="col-12 pb-4">
+						<div class="rounded redbox">
+							<div class="card bg-light border-secondary mb-3 pb-1">
+								<cfif getCollectors.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+								<div class="card-header h4">Current collector#plural#:</div>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="getCollectors">
+											<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#getCollectors.agent_id#" target="_blank">#getCollectors.collector#</a> (#getCollectors.ct#);</li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+							<div class="card bg-light border-secondary mb-0 pb-1">
+								<cfif getPreparators.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+								<div class="card-header h4">Current preparator#plural#:</div>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="getPreparators">
+											<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#getPreparators.agent_id#" target="_blank">#getPreparators.preparator#</a> (#getPreparators.ct#);</li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+						</div>
 					</div>
 				</section>
 				<section class="row"> 
@@ -146,8 +179,8 @@
 									<th>Catalog Number</th>
 									<cfif len(session.CustomOtherIdentifier)gt 0><th>#session.CustomOtherIdentifier#</th></cfif>
 									<th>Accepted Scientific Name</th>
-									<th>Collectors</th>
-									<th>Preparators</th>
+									<th class="redbox py-1">Collectors</th>
+									<th class="redbox py-1">Preparators</th>
 									<th>Country</th>
 									<th>State</th>
 									<th>County</th>
@@ -157,7 +190,7 @@
 							<tbody>
 							<cfloop query="getItems">
 			    				<tr>
-									<td>MCZ:#collection_cde#:#cat_num#</td>
+									<td><a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
 									<cfif len(session.CustomOtherIdentifier)gt 0><td>#CustomID#&nbsp;</td></cfif>
 									<td><i>#Scientific_Name#</i></td>
 									<td>#colls#</td>

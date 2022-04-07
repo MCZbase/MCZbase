@@ -44,6 +44,7 @@
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				cataloged_item.collection_object_id,
+				cataloged_item.collection_cde,
 				cataloged_item.cat_num,
 				accn.accn_number,
 				nvl(to_char(accn.received_date,'YYYY-MM-DD'),'[no date]') received_date,
@@ -124,13 +125,19 @@
 				</section>
 				<section class="row"> 
 					<div class="col-12 pb-4">
-						<cfif getAccns.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-						<h3 class="h4">Currently in accession#plural#:</h3>
-						<ul class="list-group list-group-horizontal d-flex flex-wrap">
-							<cfloop query="getAccns">
-								<li class="list-group-item">#getAccns.collection# #getAccns.accn_number#&thinsp;:&thinsp;#getAccns.year# (#getAccns.ct#);</li>
-							</cfloop>
-						</ul>
+						<div class="rounded redbox">
+							<div class="card bg-light border-secondary mb-0 pb-1">
+								<cfif getAccns.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+								<div class="card-header h4">Currently in accession#plural#:</div>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="getAccns">
+											<li class="list-group-item">#getAccns.collection# #getAccns.accn_number#&thinsp;:&thinsp;#getAccns.year# (#getAccns.ct#);</li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+						</div>
 					</div>
 				</section>
 				<section class="row"> 
@@ -140,8 +147,8 @@
 								<tr>
 									<th>Cat Num</th>
 									<th>Scientific Name</th>
-									<th>Accession</th>
-									<th>Date Received</th>
+									<th class="redbox">Accession</th>
+									<th class="redbox">Date Received</th>
 									<th>Collectors</th>
 									<th>Geog</th>
 									<th>Spec Loc</th>
@@ -151,7 +158,7 @@
 							<tbody>
 								<cfloop query="getItems" group="collection_object_id">
 									<tr>
-										<td>#collection# #cat_num#</td>
+										<td>#getItems.collection# <a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
 										<td style="width: 200px;">#scientific_name#</td>
 										<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
 										<td>#accn_type# #received_date#</td>
