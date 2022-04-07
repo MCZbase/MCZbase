@@ -73,6 +73,9 @@
 				and rownum < 1001
 			ORDER BY cataloged_item.collection_cde, cataloged_item.cat_num
 		</cfquery>
+		<cfquery name="getCollections">
+			SELECT distinct collection from getItems
+		</cfquery>
 		<cfoutput>
 			<main class="container-xl" id="content">
 				<section class="row" aria-labelledby="formheading">
@@ -92,7 +95,12 @@
 									<label for="collection_id" class="data-entry-label">Collection</label>
 									<select name="collection_id" id="collection_id" size="1" class="data-entry-select reqdClr" required>
 										<cfloop query="ctcoll">
-											<option value="#collection_id#">#collection#</option>
+											<cfif getCollections.recordcount EQ 1 AND getCollections.collection EQ ctcoll.collection>
+												<cfset selected = "selected">
+											<cfelse>
+												<cfset selected = "">
+											</cfif>
+											<option value="#ctcoll.collection_id#" #selected#>#ctcoll.collection#</option>
 										</cfloop>
 									</select>
 								</div>
