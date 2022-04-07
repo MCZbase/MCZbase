@@ -131,7 +131,7 @@
 						<h3 class="h4">Current collector#plural#:</h3>
 						<ul class="list-group list-group-horizontal d-flex flex-wrap">
 							<cfloop query="getCollectors">
-								<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#getCollectors.agent_id#" target="_blank">#getCollectors.collectior#</a> (#getCollectors.ct#);</li>
+								<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#getCollectors.agent_id#" target="_blank">#getCollectors.collector#</a> (#getCollectors.ct#);</li>
 							</cfloop>
 						</ul>
 					</div>
