@@ -161,6 +161,7 @@
 						where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
 							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+							AND rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxMedia#">
 							
 					</cfquery>
 					<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -177,7 +178,7 @@
 						where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
 							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-							AND rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxMedia#">
+							AND rownum >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxMedia#">
 					</cfquery>
 					<table class="search-box table table-responsive mt-1 w-100">
 						<thead class="search-box-header mt-1">
