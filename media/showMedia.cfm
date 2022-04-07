@@ -232,7 +232,7 @@
 													</cfif>
 												</div>
 											</cfloop>
-											<a class="btn btn-xs btn-primary float-left mb-2" onClick="moreMedia(#relm.media_id#,'mediaTargetDiv')">Show More</a>
+											<a class="btn btn-xs btn-primary float-left mb-2" onClick="moreMedia(#media.media_id#,'mediaTargetDiv')">Show More</a>
 										</cfif>
 									</td>
 								</tr>
