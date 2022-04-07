@@ -200,7 +200,7 @@
 									</cfif>
 									<td>#spec.name#</td>
 									<td style="min-width: 120px;">#spec.geography#</td>
-									<td style="width:57%; padding-left: 0.75rem;">
+									<td style="width:54%; padding-left: 0.75rem;">
 										<cfif relm2.recordcount lte #maxMedia#>
 											<cfloop query="relm">
 												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
@@ -229,7 +229,7 @@
 													</cfif>
 												</div>
 											</cfloop>
-											<button class="btn btn-xs btn-primary float-left">Show More</button>
+											<button class="btn btn-xs btn-primary float-left mb-2">Show More</button>
 										</cfif>
 									</td>
 								</tr>
