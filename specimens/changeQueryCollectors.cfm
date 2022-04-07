@@ -126,6 +126,8 @@
 							</form>
 						</div>
 					</div>
+				</section>
+				<section class="row"> 
 					<div class="col-12 pb-1">
 						<cfif getCollectors.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 						<h3 class="h4">Current collector#plural#:</h3>
@@ -135,6 +137,8 @@
 							</cfloop>
 						</ul>
 					</div>
+				</section>
+				<section class="row"> 
 					<div class="col-12 pb-4">
 						<table class="table table-responsive table-striped d-xl-table">
 							<thead class="thead-light">
