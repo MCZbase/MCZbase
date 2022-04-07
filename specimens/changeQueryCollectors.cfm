@@ -45,6 +45,22 @@
 				ORDER BY 
 					cataloged_item.collection_object_id
 			</cfquery>
+			<cfquery name="getCollectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					count(user_search_table.collection_object_id) ct,
+					collector.agent_id,
+					MCZBASE.GET_AGENTNAMEOFTYPE(collector.agent_id) collector
+				FROM	
+					user_search_table 
+					JOIN collector on user_search_table.collection_object_id = collector.collection_object_id
+				WHERE 
+					result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					AND collector.collector_role = 'c'
+				GROUP BY
+					collector.agent_id
+				ORDER BY 
+					MCZBASE.GET_AGENTNAMEOFTYPE(collector.agent_id) collector
+			</cfquery>
 			<main class="container-xl" id="content">
 				<section class="row" aria-labelledby="formheading">
 					<div class="col-12 pt-3">
@@ -109,6 +125,15 @@
 								</div>
 							</form>
 						</div>
+					</div>
+					<div class="col-12 pb-1">
+						<cfif getCollectors.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+						<h3 class="h4">Current collector#plural#:</h3>
+						<ul class="list-group list-group-horizontal d-flex flex-wrap">
+							<cfloop query="getCollectors">
+								<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#getCollectors.agent_id#" target="_blank">#getCollectors.collectior#</a> (#getCollectors.ct#);</li>
+							</cfloop>
+						</ul>
 					</div>
 					<div class="col-12 pb-4">
 						<table class="table table-responsive table-striped d-xl-table">
