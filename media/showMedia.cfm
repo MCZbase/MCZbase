@@ -185,7 +185,7 @@
 									<td>#spec.name#</td>
 									<td style="min-width: 120px;">#spec.geography#</td>
 									<td style="width:57%; padding-left: 0.75rem;">
-										<cfif len(relm.media_id) eq #maxMedia#>
+										<cfif len(relm.media_id) lte #maxMedia#>
 										<cfloop query="relm">
 											<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
 												<cfif len(media.media_id) gt 0>
@@ -199,7 +199,7 @@
 												</cfif>
 											</div>
 										</cfloop>
-										<cfif len(thisguid.specGuid) gte 11>
+										<cfif len(relm.media_id) gt #maxMedia#>
 											<button class="btn btn-xs btn-primary">Show More</button>
 										</cfif>
 										</cfif>
