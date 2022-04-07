@@ -237,7 +237,12 @@
 							</cfloop>
 						</tbody>
 					</table>
-				<cfelse>
+					<script>
+						function moreMedia(){
+						prompt("Hi");
+						}
+					</script>
+					<cfelse>
 					<h3 class="h4 mt-3 w-100 px-4 font-italic">Not associated with Specimen Records</h3>
 				</cfif>
 				</div>
