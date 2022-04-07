@@ -139,6 +139,12 @@
 			</cfif>
 		</cfif>
 		<cftransaction>
+			<cfquery name="countCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT count(distinct collection_object_id) ct
+				FROM user_search_table
+				WHERE
+					result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			</cfquery>
 			<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT accn.TRANSACTION_ID
 				FROM accn
@@ -152,7 +158,7 @@
 					and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 			</cfquery>
 			<cfif accn.recordcount is 1 and accn.transaction_id gt 0>
-				<cfquery name="upAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="upAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upAccn_result">
 					UPDATE cataloged_item 
 					SET accn_id = #accn.transaction_id# 
 					WHERE collection_object_id  in (
@@ -162,6 +168,9 @@
 							result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 					)
 				</cfquery>
+				<cfif countCheck.ct GT upAccn_result.recordcount>
+					<cfthrow message="Error: Query would update more rows (#upAccn_result.recordcount#) than there are in the result (#countCheck.ct#).">
+				</cfif>
 				<cftransaction action="commit">
 			<cfelse>
 				<cftransaction action="rollback">
