@@ -124,13 +124,19 @@
 				</section>
 				<section class="row"> 
 					<div class="col-12 pb-4">
-						<cfif getAccns.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-						<h3 class="h4">Currently in accession#plural#:</h3>
-						<ul class="list-group list-group-horizontal d-flex flex-wrap">
-							<cfloop query="getAccns">
-								<li class="list-group-item">#getAccns.collection# #getAccns.accn_number#&thinsp;:&thinsp;#getAccns.year# (#getAccns.ct#);</li>
-							</cfloop>
-						</ul>
+						<div class="rounded" style="background-color: ##f8d7da;padding: 1rem;border: 2px solid ##a51c30">
+							<div class="card bg-light border-secondary mb-3">
+								<cfif getAccns.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+								<div class="card-header h4">Currently in accession#plural#:</div>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap pb-2">
+										<cfloop query="getAccns">
+											<li class="list-group-item">#getAccns.collection# #getAccns.accn_number#&thinsp;:&thinsp;#getAccns.year# (#getAccns.ct#);</li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+						</div>
 					</div>
 				</section>
 				<section class="row"> 
