@@ -80,7 +80,7 @@
 						where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							and (media_relationship = 'shows cataloged_item')
 						and identification.accepted_id_fg = 1
-							and rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxMedia#">
+							
 						</cfquery>
 						<cfif len(media.media_id) gt 0>
 						<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
@@ -161,6 +161,7 @@
 						where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
 							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+							AND rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxMedia#">
 					</cfquery>
 					<table class="search-box table table-responsive mt-1 w-100">
 						<thead class="search-box-header mt-1">
@@ -184,22 +185,24 @@
 									<td>#spec.name#</td>
 									<td style="min-width: 120px;">#spec.geography#</td>
 									<td style="width:57%; padding-left: 0.75rem;">
+										<cfif len(relm.media_id) eq #maxMedia#>
 										<cfloop query="relm">
 											<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
-											<cfif len(media.media_id) gt 0>
-												<cfif relm.media_id eq '#media.media_id#'> 
-													<cfset activeimg = "border-warning border-left px-1 pt-2 border-right border-bottom border-top">
-												<cfelse>	
-													<cfset activeimg = "border-light px-1 pt-2">
+												<cfif len(media.media_id) gt 0>
+													<cfif relm.media_id eq '#media.media_id#'> 
+														<cfset activeimg = "border-warning border-left px-1 pt-2 border-right border-bottom border-top">
+													<cfelse>	
+														<cfset activeimg = "border-light px-1 pt-2">
+													</cfif>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
+													<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#"> #mediablock# </div>
 												</cfif>
-												<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
-												<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#"> #mediablock# </div>
-											</cfif>
-											<cfif len(thisguid.specGuid) gte 11>
-												<button class="btn btn-xs btn-primary">Show More</button>
-											</cfif>
 											</div>
 										</cfloop>
+										<cfif len(thisguid.specGuid) gte 11>
+											<button class="btn btn-xs btn-primary">Show More</button>
+										</cfif>
+										</cfif>
 									</td>
 								</tr>
 							</cfloop>
