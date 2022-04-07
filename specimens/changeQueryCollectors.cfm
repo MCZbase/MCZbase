@@ -146,7 +146,7 @@
 				<section class="row"> 
 					<div class="col-12 pb-4">
 						<div class="rounded redbox">
-							<div class="card bg-light border-secondary mb-4 pb-1">
+							<div class="card bg-light border-secondary mb-3 pb-1">
 								<cfif getCollectors.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 								<div class="card-header h4">Current collector#plural#:</div>
 								<div class="card-body">
