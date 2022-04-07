@@ -458,6 +458,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 <cffunction name="showMoreMedia" access="remote" returntype="any" returnformat="json">
 	<cfargument name="media_id" type="numeric" required="yes">
 	<cftry>
+		<cfoutput>
 		<cftransaction>
 			<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="spec_result">
 				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
@@ -488,6 +489,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 			</cfquery>
 			</cfif>
 		</cftransaction>
+		</cfoutput>
 		<cfset row = StructNew()>
 		<cfset data[1] = row>
 	<cfcatch>
