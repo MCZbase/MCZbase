@@ -238,9 +238,23 @@
 						</tbody>
 					</table>
 					<script>
-						function moreMedia(){
-						prompt("Hi");
-						}
+	function moreMedia(media_id,target) { 
+	jQuery.ajax({
+	url: "/media/component/functions.cfc",
+		data : {
+			method : "showMoreMedia",
+			media_id: media_id,
+			target: target
+	},
+	success: function (result) {
+		 $("#" + target).html(result);
+	},
+	error: function (jqXHR, textStatus, message) {
+		handleFail(jqXHR,textStatus,message,"loading relationships for media");
+	},
+	dataType: "html"
+	});
+}
 					</script>
 					<cfelse>
 					<h3 class="h4 mt-3 w-100 px-4 font-italic">Not associated with Specimen Records</h3>
