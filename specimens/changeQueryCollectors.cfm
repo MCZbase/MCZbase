@@ -129,15 +129,13 @@
 				</section>
 				<section class="row"> 
 					<div class="col-12 pb-1">
-						<div class="card bg-light border-secondary mb-0">
-							<cfif getCollectors.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-							<h3 class="card-header h4">Current collector#plural#:</h3>
-							<ul class="list-group list-group-horizontal d-flex flex-wrap">
-								<cfloop query="getCollectors">
-									<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#getCollectors.agent_id#" target="_blank">#getCollectors.collector#</a> (#getCollectors.ct#);</li>
-								</cfloop>
-							</ul>
-						</div>
+						<cfif getCollectors.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+						<h3 class="h4 px-1">Current collector#plural#:</h3>
+						<ul class="list-group list-group-horizontal d-flex flex-wrap pb-2">
+							<cfloop query="getCollectors">
+								<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#getCollectors.agent_id#" target="_blank">#getCollectors.collector#</a> (#getCollectors.ct#);</li>
+							</cfloop>
+						</ul>
 					</div>
 				</section>
 				<section class="row"> 
