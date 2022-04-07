@@ -454,4 +454,51 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 	<cfreturn loadMediaRelationsThread.output>
 </cffunction>--->
 
+			
+<cffunction name="showMoreMedia" access="remote" returntype="any" returnformat="json">
+	<cfargument name="media_id" type="numeric" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
+					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
+					trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
+					trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
+					specimendetailurl, media_relationship
+				from media_relations
+					left join flat on related_primary_key = collection_object_id
+				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						and (media_relations.media_relationship = 'shows cataloged_item')
+			</cfquery>
+			<cfif len(spec.guid) gt 0>
+			<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="showMoreMedia_result">
+				select distinct media.media_id, preview_uri, media.media_uri,
+							get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+							CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
+								ctmedia_license.uri as license_uri,
+								mczbase.get_media_credit(media.media_id) as credit,
+								MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+						from media_relations
+							 left join media on media_relations.media_id = media.media_id
+							 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+						where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
+							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+			</cfquery>
+			</cfif>
+		</cftransaction>
+		<cfset row = StructNew()>
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+			
 </cfcomponent>

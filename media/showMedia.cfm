@@ -224,12 +224,13 @@
 														<cfelse>	
 															<cfset activeimg = "border-light px-1 pt-2">
 														</cfif>
+														<div id="mediaTargetDiv"></div>
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 														<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#">#mediablock# </div>
 													</cfif>
 												</div>
 											</cfloop>
-											<button class="btn btn-xs btn-primary float-left mb-2">Show More</button>
+											<button class="btn btn-xs btn-primary float-left mb-2" onClick="showMoreMedia(media_id)">Show More</button>
 										</cfif>
 									</td>
 								</tr>
