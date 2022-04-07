@@ -88,7 +88,9 @@
 							<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 						</div>
 						</cfif>
-						
+						<cfif len(thisguid.maxMedia) gte 11>
+							<button class="btn btn-xs btn-primary">Show More</button>
+						</cfif>
 						<div class="float-left col-12 px-0 col-md-10 pl-md-4 col-xl-9 px-xl-4">
 							<h2 class="h3 px-2 mt-0">Media ID = #media.media_id#</h2>
 							<h3 class="mx-2 h4 mb-1 mt-2 border-dark w-auto float-left">Metadata</h3>
