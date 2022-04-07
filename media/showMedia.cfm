@@ -224,9 +224,11 @@
 														<cfelse>	
 															<cfset activeimg = "border-light px-1 pt-2">
 														</cfif>
-														<div id="mediaTargetDiv"></div>
+														
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 														<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#">#mediablock# </div>
+															
+															<div id="mediaTargetDiv"></div>
 													</cfif>
 												</div>
 											</cfloop>
@@ -238,23 +240,7 @@
 						</tbody>
 					</table>
 					<script>
-	function moreMedia(media_id,target) { 
-	jQuery.ajax({
-	url: "/media/component/functions.cfc",
-		data : {
-			method : "showMoreMedia",
-			media_id: media_id,
-			target: target
-	},
-	success: function (result) {
-		 $("#" + target).html(result);
-	},
-	error: function (jqXHR, textStatus, message) {
-		handleFail(jqXHR,textStatus,message,"loading relationships for media");
-	},
-	dataType: "html"
-	});
-}
+
 					</script>
 					<cfelse>
 					<h3 class="h4 mt-3 w-100 px-4 font-italic">Not associated with Specimen Records</h3>
