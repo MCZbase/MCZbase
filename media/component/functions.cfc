@@ -460,7 +460,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 	<cftry>
 		<cfoutput>
 		<cftransaction>
-			<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="spec_result">
+			<cfquery name="spec2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="spec_result">
 				select distinct collection_object_id as pk 
 				from media_relations
 					left join flat on related_primary_key = collection_object_id
@@ -480,7 +480,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 					 left join media on media_relations.media_id = media.media_id
 					 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 				where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-					AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+					AND related_primary_key = <cfqueryparam value=#spec2.pk# CFSQLType="CF_SQL_DECIMAL" >
 					AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 			</cfquery>
 				<cfloop query="relmFunct">
