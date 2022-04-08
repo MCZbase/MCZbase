@@ -1365,16 +1365,7 @@ imgStyleClass=value
 								AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 								AND rownum = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">
 						</cfquery>
-					<cfset rows = media_relations.recordcount>
-						<cfset i = 1>
-						<cfloop query="media_relations">
-							<cfset row = StructNew()>
-							<cfset row["id"] = "#media_relations.media_id#">
-							<cfset row["value"] = "#media_relations.media_uri#" >
-							<cfset data[i]  = row>
-							<cfset i = i + 1>
-						</cfloop>
-						<cfreturn #serializeJSON(data)#>
+						#media_relations.media_id#
 					</cfloop>
 				</cfif>
 			<cfcatch>
