@@ -330,7 +330,7 @@ function moreMedia(media_id,mediaTargetDiv) {
 		success: function (result) {
 			if (result.DATA.STATUS[0]==1) {
 				var message  = "There are more media";
-				$('#' + targetDiv).html(message);
+				$('#' + mediatargetDiv).html(message);
 			}
 		}
 	}
