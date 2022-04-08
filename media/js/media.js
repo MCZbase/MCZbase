@@ -295,7 +295,7 @@ function loadMediaRelations(media_id,target) {
 	});
 }
 
-function moreMedia(media_id,collection_object_id,targetDiv) {
+function moreMedia(media_id,collection_object_id,target) {
 	jQuery.ajax(
 	{
 		dataType: "json",
@@ -304,7 +304,7 @@ function moreMedia(media_id,collection_object_id,targetDiv) {
 			method : "showMoreMedia",
 			media_id : media_id,
 			collection_object_id: collection_object_id,
-			targetDiv: "targetDiv"
+			target: "targetDiv"
 		},
 		error: function (jqXHR, status, message) {
 			messageDialog("Error updating media: " + status + " " + jqXHR.responseText ,'Error: '+ 'additional media '+ status);
