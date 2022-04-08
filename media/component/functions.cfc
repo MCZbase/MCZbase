@@ -419,12 +419,13 @@ Given a taxon_habitat_id, delete the matching row from the taxon_habitat table.
 					AND related_primary_key = <cfqueryparam value=#spec2.pk# CFSQLType="CF_SQL_DECIMAL" >
 					AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 			</cfquery>
-					<cfloop query="spec">
-					<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
-						<cfloop query="relm">
-							#media_id#
-						</cfloop>
-					</div>
+				<cfloop query="spec">
+					#pk#
+					<cfloop query="relm">
+						<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
+						#media_id#
+						</div>
+					</cfloop>
 				</cfloop>
 				<cfif relmFunct_result.recordcount gt 0>
 				<cfthrow message="Made it to this function">
