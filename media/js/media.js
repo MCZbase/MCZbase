@@ -301,7 +301,7 @@ function moreMedia(media_id,collection_object_id,target) {
 		data : {
 			method : "showMoreMedia",
 			media_id: media_id,
-			collection_object_id: pk,
+			collection_object_id: collection_object_id,
 			target: target
 	},
 	success: function (result) {
