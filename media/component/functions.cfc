@@ -428,7 +428,8 @@ Given a taxon_habitat_id, delete the matching row from the taxon_habitat table.
 					</cfloop>
 				</cfloop>
 				<cfif relmFunct_result.recordcount gt 0>
-				<cfthrow message="Made it to this function">
+					<cfthrow message="Made it to this function">
+				</cfif>
 		</cftransaction>
 		</cfoutput>
 		<cfset row = StructNew()>
