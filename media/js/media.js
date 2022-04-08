@@ -311,7 +311,7 @@ function moreMedia(media_id,collection_object_id,target) {
 		},
 		success: function (result) {
 			if (result.DATA.STATUS[0]==1) {
-				$('#' + targetDiv).html(result);
+				$('#' + target).html(result);
 			}
 		}
 	}
