@@ -136,7 +136,7 @@
 				<!---specimen records--->
 				<div class="row mx-0">
 				<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct collection_object_id, guid, typestatus, SCIENTIFIC_NAME name,
+				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
 					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
 					trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
 					trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
@@ -160,7 +160,7 @@
 							 left join media on media_relations.media_id = media.media_id
 							 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 						where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-							AND related_primary_key = <cfqueryparam value=#spec.collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 							AND rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxMedia#">
 							
@@ -177,7 +177,7 @@
 							 left join media on media_relations.media_id = media.media_id
 							 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 						where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-							AND related_primary_key = <cfqueryparam value=#spec.collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
 					<table class="search-box table table-responsive mt-1 w-100">
@@ -228,12 +228,11 @@
 														
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 														<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#">#mediablock# </div>
-															
-													
+												
 													</cfif>
 												</div>
 											</cfloop>
-											<a class="btn btn-xs btn-primary float-left mb-2" onClick="moreMedia(#media.media_id#,#spec.collection_object_id#,'mediaTargetDiv')">Show More</a>
+											<a class="btn btn-xs btn-primary float-left mb-2" onClick="moreMedia(#media_id#,'mediaTargetDiv')">Show More</a>
 										</cfif>
 									<div id="mediaTargetDiv"></div>
 									</td>
