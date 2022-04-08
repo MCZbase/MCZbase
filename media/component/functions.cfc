@@ -391,69 +391,6 @@ Given a taxon_habitat_id, delete the matching row from the taxon_habitat table.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!---
-Given a taxon_name_id retrieve, as html, an editable list of the habitats for that taxon.
-@param taxon_name_id the PK of the taxon name for which to look up habitats.
-@param target the id of the element in the DOM, without a leading # selector,
-  into which the result is to be placed, used to specify target for reload after successful save.
-@return a block of html listing habitats, if any, with edit/delete controls.
---->
-<!---<cffunction name="loadMediaRelations" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="media_id" type="numeric" required="yes">
-	<cfargument name="target" type="string" required="yes">
-	<cfthread name="loadMediaRelationsThread">
-		<cftry>
-			<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select media_relationship, media_relations_id,
-				get_media_relations_string(media_id) as theRValue
-				from media_relations 
-				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-			</cfquery>
-			<cfoutput>
-				<cfset i=1>
-				<cfif media_relations.recordcount gt 0>
-				<table class="table float-left pl-3 py-3 w-100 rounded">
-					<thead>
-						<tr class="col-12">
-							<th class="small text-center" style="width: 152px;">Name</th>
-							<th class="small text-center col-7">Value</th>
-							<th class="small text-center" style="width: 105px;">Action</th>
-						</tr>
-					</thead>
-					<tbody>
-					<cfloop query="media_relations">
-						<tr class="mx-0 px-4 my-2 list-style-disc"><td class="mx-0 mb-1">
-							<label id="label_media_relations_#i#" value="#media_relationship#" class="">#media_relationship#</label>
-							</td>
-							<td>#theRValue#</td>
-							<td class="text-center">
-								<button value="Remove" class="btn btn-xs float-left btn-warning" onClick=" confirmDialog('Remove <b>#media_relationship#</b> relationship entry from this media record?','Remove relationship?', function() { deleteRelationship(#media_relations_id#,#media_id#,'#target#'); } ); " 
-								id="relationshipDeleteButton_#i#">Remove</button>
-								<button class="btn btn-xs btn-secondary float-left ml-1">Edit</button></td>
-						</tr>
-						<cfset i=i+1>
-					</cfloop>
-					</tr>
-				</table>
-				<cfelse>
-					<table>
-						<tr class="px-4 list-style-disc"><td>No Relationships Entered</td></tr>
-					</table>
-				</cfif>
-			</cfoutput>
-		<cfcatch>
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-			<cfabort>
-		</cfcatch>
-		</cftry>
-	</cfthread>
-	<cfthread action="join" name="loadMediaRelationsThread" />
-	<cfreturn loadMediaRelationsThread.output>
-</cffunction>--->
-
 			
 <cffunction name="showMoreMedia" access="remote" returntype="any" returnformat="json">
 	<cfargument name="media_id" type="numeric" required="yes">
@@ -488,6 +425,9 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 							<img sr="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/6321_Elephas_maximus_disassembly_5.jpg">
 					</div>
 				</cfloop>
+				<cfif relmFunct_result.recordcount gt 1>
+				<cfthrow message="Made it to this function">
+			</cfif>
 			</cfif>
 		</cftransaction>
 		</cfoutput>
