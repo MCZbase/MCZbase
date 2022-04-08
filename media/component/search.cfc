@@ -1363,7 +1363,7 @@ imgStyleClass=value
 							where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
 								AND related_primary_key = <cfqueryparam value=#specimen_recs.pk# CFSQLType="CF_SQL_DECIMAL">
 								AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-								AND rownum < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="20">
+								AND rownum = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">
 						</cfquery>
 					<cfset rows = media_relations.recordcount>
 						<cfset i = 1>
