@@ -1346,8 +1346,10 @@ imgStyleClass=value
 							and (media_relations.media_relationship = 'shows cataloged_item')
 				</cfquery>
 				<cfif specimen_recs.recordcount GT 0>
+					<!---The specimen record query "specimen_recs" will give us the collection_object_id based on the media_id that is passed through 
+						in arguments. It will loop through the media_relations to output to the media_id for now.(as a test). I'm not sure about the thread name --->
 					<cfloop query="specimen_recs">
-						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
+						<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_relations_result">
 							select distinct media.media_id, preview_uri, media.media_uri,
 								get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 								media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
@@ -1363,7 +1365,7 @@ imgStyleClass=value
 								AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 								AND rownum < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="20">
 						</cfquery>
-						#media.media_id#
+						#media_relations.media_id#
 					</cfloop>
 				</cfif>
 			<cfcatch>
