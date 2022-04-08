@@ -1334,29 +1334,39 @@ imgStyleClass=value
 					
 <cffunction name="showMoreMedia" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfargument name="pk" type="string" required="yes">
-	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="showMoreMediaThread#tn#" threadName="showMoreMediaThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
-					select distinct media.media_id, preview_uri, media.media_uri,
-						get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-						media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-							ctmedia_license.uri as license_uri,
-							mczbase.get_media_credit(media.media_id) as credit,
-							MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+				<cfquery name="specimen_recs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimen_recs_result">
+					select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
+						decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
+						trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
+						trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
+						specimendetailurl, media_relationship
 					from media_relations
-						 left join media on media_relations.media_id = media.media_id
-						 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-					where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-						AND related_primary_key = <cfqueryparam value=#pk# CFSQLType="CF_SQL_DECIMAL" list="Yes">
-						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-						AND rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="20">
+						join flat_table on related_primary_key = collection_object_id
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							and (media_relations.media_relationship = 'shows cataloged_item')
 				</cfquery>
-				<cfif media.recordcount EQ 1>
+				<cfif specimen_recs.recordcount GT 0>
 					<cfloop query="media">
+						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
+							select distinct media.media_id, preview_uri, media.media_uri,
+								get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+								media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+								CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
+									ctmedia_license.uri as license_uri,
+									mczbase.get_media_credit(media.media_id) as credit,
+									MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+							from media_relations
+								 left join media on media_relations.media_id = media.media_id
+								 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+							where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
+								AND related_primary_key = <cfqueryparam value=#specimen_recs.pk# CFSQLType="CF_SQL_DECIMAL" list="Yes">
+								AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+								AND rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="20">
+						</cfquery>
 						#media.media_id#
 					</cfloop>
 				</cfif>
