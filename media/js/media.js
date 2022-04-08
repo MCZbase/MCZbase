@@ -325,7 +325,7 @@ function moreMedia(media_id,mediaTargetDiv) {
 			queryformat : 'column'
 		},
 		error: function (jqXHR, status, message) {
-			messageDialog("Error updating media: " + status + " " + jqXHR.responseText ,'Error: '+ 'additional message'+ status);
+			messageDialog("Error updating media: " + status + " " + jqXHR.responseText ,'Error: '+ 'additional media '+ status);
 		},
 		success: function (result) {
 			if (result.DATA.STATUS[0]==1) {

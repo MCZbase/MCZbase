@@ -397,7 +397,7 @@ Given a taxon_habitat_id, delete the matching row from the taxon_habitat table.
 	<cftry>
 		<cfoutput>
 			<cftransaction>
-				<cfquery name="spec2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="spec_result">
+				<cfquery name="spec2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="spec2_result">
 					select distinct collection_object_id as pk 
 					from media_relations
 						left join flat on related_primary_key = collection_object_id
@@ -423,7 +423,7 @@ Given a taxon_habitat_id, delete the matching row from the taxon_habitat table.
 						#pk#
 						<cfloop query="relmFunct">
 							<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
-							#media_id#
+							#relmFunct.media_id#
 							</div>
 						</cfloop>
 					</cfloop>
