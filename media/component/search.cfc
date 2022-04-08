@@ -1396,7 +1396,7 @@ imgStyleClass=value
 					trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
 					specimendetailurl, media_relationship
 				from media_relations
-					join flat_table on related_primary_key = collection_object_id
+					join flat_text on related_primary_key = collection_object_id
 				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						and (media_relations.media_relationship = 'shows cataloged_item')
 			</cfquery>
