@@ -229,10 +229,11 @@
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 														<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#">#mediablock# </div>
 															
-															<div id="mediaTargetDiv"></div>
+													
 													</cfif>
 												</div>
 											</cfloop>
+													<div id="mediaTargetDiv"></div>
 											<a class="btn btn-xs btn-primary float-left mb-2" onClick="moreMedia(#media.media_id#,'mediaTargetDiv')">Show More</a>
 										</cfif>
 									</td>
