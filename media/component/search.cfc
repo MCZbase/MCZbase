@@ -1397,7 +1397,7 @@ imgStyleClass=value
 					specimendetailurl, media_relationship
 				from media_relations
 					join flat_table on related_primary_key = collection_object_id
-				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="Yes">
+				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						and (media_relations.media_relationship = 'shows cataloged_item')
 			</cfquery>
 			<cfloop query="spec">
