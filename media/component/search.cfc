@@ -1332,7 +1332,7 @@ imgStyleClass=value
 </cffunction>
 
 					
-<!---<cffunction name="showMoreMedia" access="remote" returntype="string" returnformat="plain">
+<cffunction name="showMoreMedia" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="showMoreMediaThread#tn#" threadName="showMoreMediaThread#tn#">
@@ -1382,8 +1382,8 @@ imgStyleClass=value
 	</cfthread>
 	<cfthread action="join" name="showMoreMediaThread#tn#" />
 	<cfreturn cfthread["showMoreMediaThread#tn#"].output>
-</cffunction>--->
-			
+</cffunction>
+<!---			
 <cffunction name="showMoreMedia" access="remote" returntype="any" returnformat="json">
 	<cfargument name="media_id" type="numeric" required="yes">
 	<cfthread name="showMoreMediaThread" threadName="showMoreMediaThread">
@@ -1450,7 +1450,7 @@ imgStyleClass=value
 	</cfthread>
 	<cfthread action="join" name="showMoreMediaThread" />
 	<cfreturn cfthread["showMoreMediaThread"].output>
-</cffunction>
+</cffunction>--->
 			
 			
 			
