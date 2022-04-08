@@ -396,41 +396,41 @@ Given a taxon_habitat_id, delete the matching row from the taxon_habitat table.
 	<cfargument name="media_id" type="numeric" required="yes">
 	<cftry>
 		<cfoutput>
-		<cftransaction>
-			<cfquery name="spec2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="spec_result">
-				select distinct collection_object_id as pk 
-				from media_relations
-					left join flat on related_primary_key = collection_object_id
-				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-						and (media_relations.media_relationship = 'shows cataloged_item')
-			</cfquery>
-			<cfquery name="relmFunct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relmFunct_result">
-				select distinct media.media_id, preview_uri, media.media_uri,
-					get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-					media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-					CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-						ctmedia_license.uri as license_uri,
-						mczbase.get_media_credit(media.media_id) as credit,
-						MCZBASE.is_media_encumbered(media.media_id) as hideMedia
-				from media_relations
-					 left join media on media_relations.media_id = media.media_id
-					 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-				where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-					AND related_primary_key = <cfqueryparam value=#spec2.pk# CFSQLType="CF_SQL_DECIMAL" >
-					AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-			</cfquery>
-				<cfloop query="spec">
-					#pk#
-					<cfloop query="relm">
-						<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
-						#media_id#
-						</div>
+			<cftransaction>
+				<cfquery name="spec2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="spec_result">
+					select distinct collection_object_id as pk 
+					from media_relations
+						left join flat on related_primary_key = collection_object_id
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							and (media_relations.media_relationship = 'shows cataloged_item')
+				</cfquery>
+				<cfquery name="relmFunct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relmFunct_result">
+					select distinct media.media_id, preview_uri, media.media_uri,
+						get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+						media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+						CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
+							ctmedia_license.uri as license_uri,
+							mczbase.get_media_credit(media.media_id) as credit,
+							MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+					from media_relations
+						 left join media on media_relations.media_id = media.media_id
+						 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+					where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
+						AND related_primary_key = <cfqueryparam value=#spec2.pk# CFSQLType="CF_SQL_DECIMAL" >
+						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+				</cfquery>
+					<cfloop query="spec">
+						#pk#
+						<cfloop query="relmFunct">
+							<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
+							#media_id#
+							</div>
+						</cfloop>
 					</cfloop>
-				</cfloop>
-				<cfif relmFunct_result.recordcount gt 0>
-					<cfthrow message="Made it to this function">
-				</cfif>
-		</cftransaction>
+					<cfif relmFunct_result.recordcount gt 0>
+						<cfthrow message="Made it to this function">
+					</cfif>
+			</cftransaction>
 		</cfoutput>
 		<cfset row = StructNew()>
 		<cfset data[1] = row>
