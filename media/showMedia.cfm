@@ -136,7 +136,7 @@
 				<!---specimen records--->
 				<div class="row mx-0">
 				<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
+				select distinct collection_object_id as collection_object_id, guid, typestatus, SCIENTIFIC_NAME name,
 					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
 					trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
 					trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
@@ -234,7 +234,7 @@
 												</div>
 											</cfloop>
 												
-											<a class="btn btn-xs btn-primary float-left mb-2" onClick="moreMedia(#spec.pk#,'mediaTargetDiv')">Show More</a>
+											<a class="btn btn-xs btn-primary float-left mb-2" onClick="moreMedia(#spec.collection_object_id#,'mediaTargetDiv')">Show More</a>
 										</cfif>
 									<div id="mediaTargetDiv"></div>
 									</td>
