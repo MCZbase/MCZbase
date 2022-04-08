@@ -1387,8 +1387,9 @@ imgStyleClass=value
 <cffunction name="showMoreMedia" access="remote" returntype="any" returnformat="json">
 	<cfargument name="media_id" type="numeric" required="yes">
 	<cfthread name="showMoreMediaThread" threadName="showMoreMediaThread">
-	<cfoutput>
+
 	<cftry>
+		<cfoutput>
 		<cftransaction>
 			<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="spec_result">
 				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
@@ -1444,8 +1445,8 @@ imgStyleClass=value
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
+		</cfoutput>
 	</cftry>
-	</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="showMoreMediaThread" />
 	<cfreturn cfthread["showMoreMediaThread"].output>
