@@ -456,14 +456,19 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 
 			
 <cffunction name="showMoreMedia" access="remote" returntype="any" returnformat="json">
-	<cfargument name="collection_object_id" type="numeric" required="yes">
+	<cfargument name="media_id" type="numeric" required="yes">
 	<cftry>
 		<cfoutput>
 		<cftransaction>
 			<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="spec_result">
-				select distinct collection_object_id
+				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
+					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
+					trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
+					trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
+					specimendetailurl, media_relationship
 				from media_relations
-					left join flat on related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					left join flat on related_primary_key = collection_object_id
+				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						and (media_relations.media_relationship = 'shows cataloged_item')
 			</cfquery>
 			<cfif len(spec.guid) gt 0>
@@ -479,24 +484,24 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 					 left join media on media_relations.media_id = media.media_id
 					 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 				where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-					AND related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+					AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 					AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					AND rownum = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="10">
 			</cfquery>
-			<cfloop query="relm3">#spec.collection_object_id# #media_id#
-				<!---	<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
+			
+				<cfloop query="relm3">
+					<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
 						<cfif len(media_id) gt 0>
 							<cfif relm3.media_id eq '#media_id#'> 
 								<cfset activeimg = "border-warning border-left px-1 pt-2 border-right border-bottom border-top">
 							<cfelse>	
 								<cfset activeimg = "border-light px-1 pt-2">
-							</cfif>--->
-			<!---				<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#media_id#" class="mx-auto float-left" alt="test" height="100%" width="50">--->
+							</cfif>
+							<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#media_id##sizeType#" class="mx-auto" alt="test" height="100" width="100" style="width: 100px">
 <!---							<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 							<div class="float-left" id="mediaBlock#relm3.media_id#">#mediablock# </div>--->
-<!---						</cfif>
-							
-					</div>--->
+						</cfif>
+					</div>
 				</cfloop>
 			</cfif>
 		</cftransaction>
