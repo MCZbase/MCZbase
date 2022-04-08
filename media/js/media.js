@@ -321,7 +321,7 @@ function moreMedia(media_id,target) {
 		data: { 
 			method : "showMoreMedia",
 			media_id : media_id,
-			target: "mediaTargetDiv"
+			target: "target"
 		},
 		error: function (jqXHR, status, message) {
 			messageDialog("Error updating media: " + status + " " + jqXHR.responseText ,'Error: '+ 'additional media '+ status);
