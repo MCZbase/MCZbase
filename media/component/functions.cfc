@@ -404,7 +404,6 @@ Given a taxon_habitat_id, delete the matching row from the taxon_habitat table.
 				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						and (media_relations.media_relationship = 'shows cataloged_item')
 			</cfquery>
-			<cfif len(spec.guid) gt 0>
 			<cfquery name="relmFunct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relmFunct_result">
 				select distinct media.media_id, preview_uri, media.media_uri,
 					get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -425,10 +424,8 @@ Given a taxon_habitat_id, delete the matching row from the taxon_habitat table.
 							<img sr="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/6321_Elephas_maximus_disassembly_5.jpg">
 					</div>
 				</cfloop>
-				<cfif relmFunct_result.recordcount gt 1>
+				<cfif relmFunct_result.recordcount gt 0>
 				<cfthrow message="Made it to this function">
-			</cfif>
-			</cfif>
 		</cftransaction>
 		</cfoutput>
 		<cfset row = StructNew()>
