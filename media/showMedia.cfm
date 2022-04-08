@@ -177,7 +177,7 @@
 							 left join media on media_relations.media_id = media.media_id
 							 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 						where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+							AND related_primary_key = <cfqueryparam value=#spec.collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
 					<table class="search-box table table-responsive mt-1 w-100">
