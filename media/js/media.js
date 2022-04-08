@@ -295,7 +295,7 @@ function loadMediaRelations(media_id,target) {
 	});
 }
 
-function moreMedia(media_id,collection_object_id,target) {
+function moreMedia(media_id,target) {
 	jQuery.ajax(
 	{
 		dataType: "json",
@@ -303,7 +303,6 @@ function moreMedia(media_id,collection_object_id,target) {
 		data: { 
 			method : "showMoreMedia",
 			media_id : media_id,
-			collection_object_id: collection_object_id,
 			target: "targetDiv"
 		},
 		error: function (jqXHR, status, message) {
