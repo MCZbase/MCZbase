@@ -286,7 +286,7 @@ function loadMediaRelations(media_id,target) {
 			target: target
 	},
 	success: function (result) {
-		$('#'+target).html("<img src='/media/images/close.png'>)
+		$('#'+target).html()
 	},
 	error: function (jqXHR, textStatus, message) {
 		handleFail(jqXHR,textStatus,message,"loading relationships for media");
