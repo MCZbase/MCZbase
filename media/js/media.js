@@ -313,7 +313,7 @@ function loadMediaRelations(media_id,target) {
 //	});
 //}
 
-function moreMedia(media_id,target) {
+function moreMedia(media_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
@@ -321,7 +321,7 @@ function moreMedia(media_id,target) {
 		data: { 
 			method : "showMoreMedia",
 			media_id : media_id,
-			target: "targetDiv"
+			targetDiv: "targetDiv"
 		},
 		error: function (jqXHR, status, message) {
 			messageDialog("Error updating media: " + status + " " + jqXHR.responseText ,'Error: '+ 'additional media '+ status);
