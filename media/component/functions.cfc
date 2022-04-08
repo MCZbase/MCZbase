@@ -461,38 +461,8 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 	<cftry>
 		<cfoutput>
 		<cftransaction>
-			<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relm3_result">
-				select distinct media.media_id, preview_uri, media.media_uri,
-					get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-					media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-					CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-						ctmedia_license.uri as license_uri,
-						mczbase.get_media_credit(media.media_id) as credit,
-						MCZBASE.is_media_encumbered(media.media_id) as hideMedia
-				from media_relations
-					 left join media on media_relations.media_id = media.media_id
-					 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-				where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-					AND related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-					AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-					AND rownum = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="10">
-			</cfquery>
-			
-				<cfloop query="relm3">
-				<!---	<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
-						<cfif len(media_id) gt 0>
-							<cfif relm3.media_id eq '#media_id#'> 
-								<cfset activeimg = "border-warning border-left px-1 pt-2 border-right border-bottom border-top">
-							<cfelse>	
-								<cfset activeimg = "border-light px-1 pt-2">
-							</cfif>--->
-							<img id="specimen_media_img" src="/media/rescaleImage.cfm?relm3.media_id=#media_id#" class="mx-auto" alt="test" height="100" width="100" style="width: 100px">
-<!---							<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
-							<div class="float-left" id="mediaBlock#relm3.media_id#">#mediablock# </div>--->
-					<!---	</cfif>
-					</div>--->
-				</cfloop>
-		<!---	</cfif>--->
+		#media_id#<br>
+			#collection_object_id#
 		</cftransaction>
 		</cfoutput>
 		<cfset row = StructNew()>
