@@ -95,8 +95,9 @@ limitations under the License.
 								</li>
 	<!---
 
-	<option value="/addAccn.cfm"> works with either, collection_object_id has priority, session search table looked up, not passed. 
-	Accession [Warning: No Tabs]
+	Accession - Implemented
+
+	Agents - Implmemented (as Collectors/Preparators)
 
 	<option value="/bulkCollEvent.cfm"> works only with collection_object_id 
 	Collecting Events
