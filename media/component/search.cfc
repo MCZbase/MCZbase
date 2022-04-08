@@ -1338,6 +1338,8 @@ imgStyleClass=value
 	<cftry>
 		<cfoutput>
 			<cftransaction>
+				#pk#
+				<!---<cfloop query="relatedMediaSpec">
 				<cfquery name="relatedMediaSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relatedMediaSpec_result">
 					select distinct media.media_id, preview_uri, media.media_uri,
 						get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -1353,11 +1355,11 @@ imgStyleClass=value
 						AND related_primary_key = <cfqueryparam value=#pk# CFSQLType="CF_SQL_DECIMAL" >
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 				</cfquery>
-				<cfloop query="relatedMediaSpec">
+			
 					<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
 					#relatedMediaSpec.media_id#
 					</div>
-				</cfloop>
+				</cfloop>--->
 			</cftransaction>
 		</cfoutput>
 		<cfset row = StructNew()>
