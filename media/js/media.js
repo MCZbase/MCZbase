@@ -321,14 +321,14 @@ function moreMedia(media_id,target) {
 		data: { 
 			method : "showMoreMedia",
 			media_id : media_id,
-			target: "target"
+			target: "targetDiv"
 		},
 		error: function (jqXHR, status, message) {
 			messageDialog("Error updating media: " + status + " " + jqXHR.responseText ,'Error: '+ 'additional media '+ status);
 		},
 		success: function (result) {
 			if (result.DATA.STATUS[0]==1) {
-				$('#' + target).html(result);
+				$('#' + targetDiv).html(result);
 			}
 		}
 	}

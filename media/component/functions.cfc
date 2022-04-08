@@ -420,16 +420,13 @@ Given a taxon_habitat_id, delete the matching row from the taxon_habitat table.
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 				</cfquery>
 					<cfloop query="spec2">
-						#pk#
+						#spec2.pk#
 						<cfloop query="relmFunct">
 							<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
 							#relmFunct.media_id#
 							</div>
 						</cfloop>
 					</cfloop>
-					<cfif relmFunct_result.recordcount gt 0>
-						<cfthrow message="Made it to this function">
-					</cfif>
 			</cftransaction>
 		</cfoutput>
 		<cfset row = StructNew()>
