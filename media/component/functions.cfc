@@ -467,7 +467,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 					trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
 					specimendetailurl, media_relationship
 				from media_relations
-					left join flat on related_primary_key = #collection_object_id#
+					left join flat on related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						and (media_relations.media_relationship = 'shows cataloged_item')
 			</cfquery>
 			<cfif len(spec.guid) gt 0>
