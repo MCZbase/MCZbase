@@ -296,9 +296,7 @@ function loadMediaRelations(media_id,target) {
 }
 
 function moreMedia(media_id,target) {
-	jQuery.ajax(
-	{
-		dataType: "json",
+	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data: { 
 			method : "showMoreMedia",
@@ -309,10 +307,7 @@ function moreMedia(media_id,target) {
 			messageDialog("Error updating media: " + status + " " + jqXHR.responseText ,'Error: '+ 'additional media '+ status);
 		},
 		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
-				$('#' + target).html(result);
-			}
-		}
-	}
-	)
+			$('#' + target).html(result);
+		},
+	});
 }
