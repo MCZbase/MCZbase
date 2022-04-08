@@ -489,7 +489,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 					AND rownum = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="10">
 			</cfquery>
 			
-				<cfloop query="relm3">
+		<!---		<cfloop query="relm3">--->
 				<!---	<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
 						<cfif len(media_id) gt 0>
 							<cfif relm3.media_id eq '#media_id#'> 
@@ -502,7 +502,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 							<div class="float-left" id="mediaBlock#relm3.media_id#">#mediablock# </div>--->
 					<!---	</cfif>
 					</div>--->
-				</cfloop>
+			<!---	</cfloop>--->
 			</cfif>
 		</cftransaction>
 		</cfoutput>
