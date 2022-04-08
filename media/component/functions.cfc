@@ -487,7 +487,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 					AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					AND rownum = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="10">
 			</cfquery>
-			<cfloop query="relm3">
+			<cfloop query="relm3">#spec.collection_object_id# #media_id#
 				<!---	<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
 						<cfif len(media_id) gt 0>
 							<cfif relm3.media_id eq '#media_id#'> 
@@ -495,7 +495,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 							<cfelse>	
 								<cfset activeimg = "border-light px-1 pt-2">
 							</cfif>--->
-							<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#media_id#" class="mx-auto float-left" alt="test" height="100%" width="50">
+			<!---				<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#media_id#" class="mx-auto float-left" alt="test" height="100%" width="50">--->
 <!---							<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 							<div class="float-left" id="mediaBlock#relm3.media_id#">#mediablock# </div>--->
 <!---						</cfif>
