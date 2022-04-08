@@ -295,13 +295,12 @@ function loadMediaRelations(media_id,target) {
 	});
 }
 
-function moreMedia(collection_object_id,media_id,target) { 
+function moreMedia(collection_object_id,target) { 
 	jQuery.ajax({
 	url: "/media/component/functions.cfc",
 		data : {
 			method : "showMoreMedia",
 			collection_object_id: collection_object_id,
-			media_id: media_id,
 			target: target
 	},
 	success: function (result) {
