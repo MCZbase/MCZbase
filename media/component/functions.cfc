@@ -471,7 +471,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						and (media_relations.media_relationship = 'shows cataloged_item')
 			</cfquery>
-			<cfif len(spec.guid) gt 0>
+		<!---	<cfif len(spec.guid) gt 0>--->
 			<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relm3_result">
 				select distinct media.media_id, preview_uri, media.media_uri,
 					get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -497,13 +497,13 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 							<cfelse>	
 								<cfset activeimg = "border-light px-1 pt-2">
 							</cfif>--->
-							<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#relm3.media_id#" class="mx-auto" alt="test" height="100" width="100" style="width: 100px">
+							<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#media_id#" class="mx-auto" alt="test" height="100" width="100" style="width: 100px">
 <!---							<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 							<div class="float-left" id="mediaBlock#relm3.media_id#">#mediablock# </div>--->
 					<!---	</cfif>
 					</div>--->
 			<!---	</cfloop>--->
-			</cfif>
+		<!---	</cfif>--->
 		</cftransaction>
 		</cfoutput>
 		<cfset row = StructNew()>
