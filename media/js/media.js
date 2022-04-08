@@ -302,6 +302,7 @@ function moreMedia(media_id,target) {
 			data : {
 				method : "showMoreMedia",
 				media_id: media_id,
+				target: targetDiv
 		},
 		success: function (result) {
 		$("#" + target).html(result);

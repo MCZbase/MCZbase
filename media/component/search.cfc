@@ -1334,17 +1334,17 @@ imgStyleClass=value
 					
 <cffunction name="showMoreMedia" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
-	<cfthread name="showMoreMediaThread#tn#" threadName="showMoreMediaThread#tn#">
+	<cfthread name="showMoreMediaThread" threadName="showMoreMediaThread#tn#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="specimen_recs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimen_recs_result">
 					select distinct collection_object_id as pk
 					from media_relations
-						join flat_text on related_primary_key = collection_object_id
+					join flat_text on related_primary_key = collection_object_id
 					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and (media_relations.media_relationship = 'shows cataloged_item')
+					and (media_relations.media_relationship = 'shows cataloged_item')
 				</cfquery>
+				<cfif specimen_recs.recordcount GT 0>
 					<!---The specimen record query "specimen_recs" will give us the collection_object_id based on the media_id that is passed through 
 						in arguments. It will loop through the media_relations to output to the media_id for now.(as a test). I'm not sure about the thread name --->
 					<cfloop query="specimen_recs">
@@ -1365,18 +1365,8 @@ imgStyleClass=value
 								AND rownum < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="20">
 						</cfquery>
 						#media_relations.media_id#
-					
-					<cfset rows = media_relations.recordcount>
-						<cfset i = 1>
-						<cfloop query="media_relations">
-							<cfset row = StructNew()>
-							<cfset row["id"] = "#media_relations.media_id#">
-							<cfset row["media_uri"] = "#media_relations.media_uri#" >
-							<cfset data[i]  = row>
-							<cfset i = i + 1>
-						</cfloop>
-						<cfreturn #serializeJSON(data)#>
 					</cfloop>
+				</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
@@ -1387,8 +1377,8 @@ imgStyleClass=value
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="showMoreMediaThread#tn#" />
-	<cfreturn cfthread["showMoreMediaThread#tn#"].output>
+	<cfthread action="join" name="showMoreMediaThread" />
+	<cfreturn cfthread["showMoreMediaThread"].output>
 </cffunction>
 			
 			
