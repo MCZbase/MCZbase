@@ -295,19 +295,21 @@ function loadMediaRelations(media_id,target) {
 	});
 }
 
+
 function moreMedia(media_id,target) {
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
-		data: { 
-			method : "showMoreMedia",
-			media_id : media_id,
-			target: "targetDiv"
-		},
-		error: function (jqXHR, status, message) {
-			messageDialog("Error updating media: " + status + " " + jqXHR.responseText ,'Error: '+ 'additional media '+ status);
+			data : {
+				method : "showMoreMedia",
+				media_id: media_id,
 		},
 		success: function (result) {
-			$('#' + target).html(result);
+		$("#" + target).html(result);
 		},
+		error: function (jqXHR, status, message) {
+			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
+			messageDialog("Error loading taxon name: " + message + " " + msg ,'Error: '+ message);
+		},
+		dataType: "html"
 	});
-}
+};
