@@ -1386,8 +1386,9 @@ imgStyleClass=value
 			
 <cffunction name="showMoreMedia" access="remote" returntype="any" returnformat="json">
 	<cfargument name="media_id" type="numeric" required="yes">
+	<cfthread name="showMoreMediaThread" threadName="showMoreMediaThread">
+	<cfoutput>
 	<cftry>
-		<cfoutput>
 		<cftransaction>
 			<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="spec_result">
 				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
@@ -1434,7 +1435,6 @@ imgStyleClass=value
 			</cfloop>
 		</cfif>
 		</cftransaction>
-		</cfoutput>
 		<cfset row = StructNew()>
 		<cfset data[1] = row>
 	<cfcatch>
@@ -1445,6 +1445,12 @@ imgStyleClass=value
 		<cfabort>
 	</cfcatch>
 	</cftry>
-	<cfreturn #serializeJSON(data)#>
+	</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="showMoreMediaThread" />
+	<cfreturn cfthread["showMoreMediaThread"].output>
 </cffunction>
+			
+			
+			
 </cfcomponent>
