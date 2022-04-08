@@ -1334,8 +1334,7 @@ imgStyleClass=value
 					
 <cffunction name="showMoreMedia" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
-	<cfthread name="showMoreMediaThread#tn#" threadName="showMoreMediaThread#tn#">
+	<cfthread name="showMoreMediaThread" threadName="showMoreMediaThread">
 		<cfoutput>
 			<cftry>
 				<cfquery name="specimen_recs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimen_recs_result">
@@ -1378,8 +1377,8 @@ imgStyleClass=value
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="showMoreMediaThread#tn#" />
-	<cfreturn cfthread["showMoreMediaThread#tn#"].output>
+	<cfthread action="join" name="showMoreMediaThread" />
+	<cfreturn cfthread["showMoreMediaThread"].output>
 </cffunction>
 			
 			
