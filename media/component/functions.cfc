@@ -490,18 +490,18 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 			</cfquery>
 			
 				<cfloop query="relm3">
-					<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
+				<!---	<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
 						<cfif len(media_id) gt 0>
 							<cfif relm3.media_id eq '#media_id#'> 
 								<cfset activeimg = "border-warning border-left px-1 pt-2 border-right border-bottom border-top">
 							<cfelse>	
 								<cfset activeimg = "border-light px-1 pt-2">
-							</cfif>
+							</cfif>--->
 							<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#media_id#" class="mx-auto" alt="test" height="100" width="100" style="width: 100px">
 <!---							<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 							<div class="float-left" id="mediaBlock#relm3.media_id#">#mediablock# </div>--->
-						</cfif>
-					</div>
+					<!---	</cfif>
+					</div>--->
 				</cfloop>
 			</cfif>
 		</cftransaction>
