@@ -231,12 +231,12 @@
 													</cfif>
 												</div>
 											</cfloop>
-											<a class="btn btn-xs btn-primary float-left mb-2" onClick="moreMedia(#media.media_id#,'mediaTargetDiv')">Show More</a>
+											<a class="btn btn-xs btn-primary float-left mb-2" onClick="moreMedia(#media.media_id#,'target')">Show More</a>
 										</cfif>
 										
 									</td>
 								</tr>
-								<tr><div id="mediaTargetDiv"></div></tr>
+								<tr><div id="target"></div></tr>
 							</cfloop>
 						</tbody>
 					</table>

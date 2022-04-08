@@ -286,7 +286,7 @@ function loadMediaRelations(media_id,target) {
 			target: target
 	},
 	success: function (result) {
-		 $("#" + target).html(result);
+		$('#'+target).html("<img src='/media/images/close.png'>)
 	},
 	error: function (jqXHR, textStatus, message) {
 		handleFail(jqXHR,textStatus,message,"loading relationships for media");
@@ -313,7 +313,7 @@ function loadMediaRelations(media_id,target) {
 //	});
 //}
 
-function moreMedia(media_id,mediaTargetDiv) {
+function moreMedia(media_id,target) {
 	jQuery.ajax(
 	{
 		dataType: "json",
@@ -321,15 +321,14 @@ function moreMedia(media_id,mediaTargetDiv) {
 		data: { 
 			method : "showMoreMedia",
 			media_id : media_id,
-			returnformat : "json",
-			queryformat : 'column'
+			target: "mediaTargetDiv"
 		},
 		error: function (jqXHR, status, message) {
 			messageDialog("Error updating media: " + status + " " + jqXHR.responseText ,'Error: '+ 'additional media '+ status);
 		},
 		success: function (result) {
 			if (result.DATA.STATUS[0]==1) {
-				$('#' + mediaTargetDiv).html(result);
+				$('#' + target).html(result);
 			}
 		}
 	}
