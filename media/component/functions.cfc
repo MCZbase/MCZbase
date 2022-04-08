@@ -461,18 +461,14 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 		<cfoutput>
 		<cftransaction>
 			<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="spec_result">
-				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
-					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
-					trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
-					trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
-					specimendetailurl, media_relationship
+				select distinct collection_object_id as pk 
 				from media_relations
 					left join flat on related_primary_key = collection_object_id
 				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						and (media_relations.media_relationship = 'shows cataloged_item')
 			</cfquery>
 			<cfif len(spec.guid) gt 0>
-			<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relm3_result">
+			<cfquery name="relmFunct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relm3_result">
 				select distinct media.media_id, preview_uri, media.media_uri,
 					get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 					media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
@@ -487,7 +483,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 					AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 					AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 			</cfquery>
-				<cfloop query="relm3">
+				<cfloop query="relmFunct">
 					<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
 						<cfif len(media_id) gt 0>
 <!---							<cfif relm3.media_id eq '#media_id#'> 
