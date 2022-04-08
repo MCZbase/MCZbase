@@ -1332,15 +1332,14 @@ imgStyleClass=value
 </cffunction>
 
 					
-<cffunction name="showMoreMedia" access="remote" returntype="any" returnformat="json">
-	<cfargument name="media_id" type="numeric" required="yes">
-	<cfargument name="pk" type="numeric" required="yes">
-	<cftry>
+<cffunction name="showMoreMedia" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="pk" type="string" required="yes">
+	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
+	<cfthread name="showMoreMediaThread#tn#" threadName="showMoreMediaThread#tn#">
 		<cfoutput>
-			<cftransaction>
-				#pk#
-				<!---<cfloop query="relatedMediaSpec">
-				<cfquery name="relatedMediaSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relatedMediaSpec_result">
+			<cftry>
+				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
 					select distinct media.media_id, preview_uri, media.media_uri,
 						get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 						media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
@@ -1352,26 +1351,27 @@ imgStyleClass=value
 						 left join media on media_relations.media_id = media.media_id
 						 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 					where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-						AND related_primary_key = <cfqueryparam value=#pk# CFSQLType="CF_SQL_DECIMAL" >
+						AND related_primary_key = <cfqueryparam value=#pk# CFSQLType="CF_SQL_DECIMAL" list="Yes">
 						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+						AND rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="20">
 				</cfquery>
-			
-					<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
-					#relatedMediaSpec.media_id#
-					</div>
-				</cfloop>--->
-			</cftransaction>
+				<cfif media.recordcount EQ 1>
+					<cfloop query="media">
+						#media.media_id#
+					</cfloop>
+				</cfif>
+			<cfcatch>
+				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfcatch>
+			</cftry>
 		</cfoutput>
-		<cfset row = StructNew()>
-		<cfset data[1] = row>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
+	</cfthread>
+	<cfthread action="join" name="showMoreMediaThread#tn#" />
+	<cfreturn cfthread["showMoreMediaThread#tn#"].output>
 </cffunction>
+
 </cfcomponent>
