@@ -497,7 +497,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 							<cfelse>	
 								<cfset activeimg = "border-light px-1 pt-2">
 							</cfif>
-							<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#media_id##sizeType#" class="mx-auto" alt="test" height="100%" width="100%">
+							<img id="specimen_media_img" src="/media/rescaleImage.cfm?media_id=#media_id#" class="mx-auto" alt="test" height="100%" width="100%">
 <!---							<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 							<div class="float-left" id="mediaBlock#relm3.media_id#">#mediablock# </div>--->
 						</cfif>
