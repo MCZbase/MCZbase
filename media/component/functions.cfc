@@ -461,11 +461,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 		<cfoutput>
 		<cftransaction>
 			<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="spec_result">
-				select distinct collection_object_id, guid, typestatus, SCIENTIFIC_NAME name,
-					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
-					trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
-					trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
-					specimendetailurl, media_relationship
+				select distinct collection_object_id
 				from media_relations
 					left join flat on related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						and (media_relations.media_relationship = 'shows cataloged_item')
