@@ -457,7 +457,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 			
 <cffunction name="showMoreMedia" access="remote" returntype="any" returnformat="json">
 	<cfargument name="media_id" type="numeric" required="yes">
-	<cfargument name="pk" type="numeric" required="yes">
+	<cfargument name="collection_object_id" type="numeric" required="yes">
 	<cftry>
 		<cfoutput>
 		<cftransaction>
@@ -473,7 +473,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 					 left join media on media_relations.media_id = media.media_id
 					 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 				where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-					AND related_primary_key = <cfqueryparam value=#pk# CFSQLType="CF_SQL_DECIMAL" >
+					AND related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 					AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					AND rownum = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="10">
 			</cfquery>
