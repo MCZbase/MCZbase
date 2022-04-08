@@ -234,7 +234,7 @@
 												</div>
 											</cfloop>
 												
-											<a class="btn btn-xs btn-primary float-left mb-2" onClick="moreMedia(#media.media_id#,'mediaTargetDiv')">Show More</a>
+											<a class="btn btn-xs btn-primary float-left mb-2" onClick="moreMedia(#spec.pk#,'mediaTargetDiv')">Show More</a>
 										</cfif>
 									<div id="mediaTargetDiv"></div>
 									</td>
