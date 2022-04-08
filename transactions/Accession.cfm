@@ -385,6 +385,7 @@ limitations under the License.
 					trans_remarks,
 					trans.collection_id,
 					collection.collection,
+					collection.collection_id,
 					concattransagent(trans.transaction_id,'entered by') enteredby
 				 from
 					trans
@@ -649,9 +650,9 @@ limitations under the License.
 				<section name="accnItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Accession">
 					<div class="col-12 pt-3 pb-1">
 						<input type="button" value="Add Items (Search &amp; Manage)" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/SpecimenSearch.cfm');">
+							onClick="window.open('/Specimens.cfm?action=fixedSearch&collection_id=#accessionDetails.collection_id#');">
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/SpecimenResults.cfm?accn_trans_id=#transaction_id#');">
+							onClick="window.open('/Specimens.cfm?execute=true&action=fixedSearch&accn_number=#accessionDetails.accn_number#');">
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" updateItemSections(); ">
 					</div>
