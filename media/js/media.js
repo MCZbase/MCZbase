@@ -325,12 +325,11 @@ function moreMedia(media_id,mediaTargetDiv) {
 			queryformat : 'column'
 		},
 		error: function (jqXHR, status, message) {
-			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+			messageDialog("Error updating media: " + status + " " + jqXHR.responseText ,'Error: '+ status);
 		},
 		success: function (result) {
 			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are more media";
-				$('#' + mediatargetDiv).html(message);
+				$('#' + mediaTargetDiv).html(result);
 			}
 		}
 	}
