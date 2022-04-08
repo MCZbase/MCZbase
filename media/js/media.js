@@ -295,14 +295,15 @@ function loadMediaRelations(media_id,target) {
 	});
 }
 
-function moreMedia(media_id,targetDiv) {
+function moreMedia(media_id,collection_object_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
-		url: "/media/component/functions.cfc",
+		url: "/media/component/search.cfc",
 		data: { 
 			method : "showMoreMedia",
 			media_id : media_id,
+			collection_object_id: collection_object_id,
 			targetDiv: "targetDiv"
 		},
 		error: function (jqXHR, status, message) {
