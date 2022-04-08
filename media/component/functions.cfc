@@ -487,7 +487,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
 					AND related_primary_key = <cfqueryparam value=#spec.collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 					AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-					AND rownum > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="10">
+					AND rownum = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="10">
 			</cfquery>
 			<cfloop query="relm3">
 				<!---	<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
