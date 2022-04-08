@@ -49,7 +49,6 @@ Disallow: /.gitignore
 Disallow: /.vimrc
 Disallow: /a_deaccItemReview.cfm
 Disallow: /a_loanItemReview.cfm
-Disallow: /addAccn.cfm
 Disallow: /AdminUsers.cfm
 Disallow: /agents/editAgent.cfm
 Disallow: /allContainerLeafNodes.cfm
@@ -101,7 +100,6 @@ Disallow: /locDownload.cfm
 Disallow: /media.cfm
 Disallow: /moveContainer.cfm
 Disallow: /MSBMammLabels.cfm
-Disallow: /multiAgent.cfm
 Disallow: /multiIdentification.cfm
 Disallow: /nothing.cfm
 Disallow: /part2container.cfm
