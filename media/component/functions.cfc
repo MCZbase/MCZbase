@@ -501,7 +501,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 <!---							<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 							<div class="float-left" id="mediaBlock#relm3.media_id#">#mediablock# </div>--->
 						</cfif>
-							<div id="mediaTargetDiv"></div>
+							
 					</div>
 				</cfloop>
 			</cfif>
