@@ -295,20 +295,44 @@ function loadMediaRelations(media_id,target) {
 	});
 }
 
-function moreMedia(media_id,target) { 
-	jQuery.ajax({
-	url: "/media/component/functions.cfc",
-		data : {
+//function moreMedia(media_id,target) { 
+//	jQuery.ajax({
+//	url: "/media/component/functions.cfc",
+//		data : {
+//			method : "showMoreMedia",
+//			media_id: media_id,
+//			target: target
+//	},
+//	success: function (result) {
+//		 $("#" + target).html(result);
+//	},
+//	error: function (jqXHR, textStatus, message) {
+//		handleFail(jqXHR,textStatus,message,"loading additional media");
+//	},
+//	dataType: "html"
+//	});
+//}
+
+function moreMedia(media_id,mediaTargetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/media/component/functions.cfc",
+		data: { 
 			method : "showMoreMedia",
-			media_id: media_id,
-			target: target
-	},
-	success: function (result) {
-		 $("#" + target).html(result);
-	},
-	error: function (jqXHR, textStatus, message) {
-		handleFail(jqXHR,textStatus,message,"loading relationships for media");
-	},
-	dataType: "html"
-	});
-}
+			media_id : media_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are more media";
+				$('#' + targetDiv).html(message);
+			}
+		}
+	}
+	)
+};
