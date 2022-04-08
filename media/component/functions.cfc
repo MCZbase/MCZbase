@@ -457,6 +457,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 			
 <cffunction name="showMoreMedia" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="numeric" required="yes">
+	<cfargument name="media_id" type="numeric" required="yes">
 	<cftry>
 		<cfoutput>
 		<cftransaction>
