@@ -149,12 +149,12 @@ limitations under the License.
 										map = new google.maps.Map(document.getElementById('map'), {
 											center: Cambridge,
 											zoom: 2,
-											mapTypeControl: false,
-											//mapTypeControlOptions: {
-											//	style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-											//	mapTypeIds: ["satellite", "terrain"],
+											mapTypeControl: true,
+											mapTypeControlOptions: {
+												style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+												mapTypeIds: ["satellite", "terrain"],
 											},
-											//mapTypeId: 'satellite'
+											mapTypeId: 'satellite'
 										});
 										heatmap = new google.maps.visualization.HeatmapLayer({
 											data: getPoints(),
