@@ -84,7 +84,7 @@ limitations under the License.
 				and lat_long.dec_lat is not null
 				and lat_long.accepted_lat_long_fg = 1
 		</cfquery>
-	</cfquery>
+
 <cfoutput>
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
@@ -128,7 +128,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="col-12 col-md-2" style="width: 150px;height:150px;border: 1px solid ##1789bd; background-color: azure">
-						<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
+						<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
 							SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
 							FROM locality
 								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
