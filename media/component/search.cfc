@@ -1448,7 +1448,7 @@ imgStyleClass=value
 			</div>
 			<div class="col-9 px-0 float-left">
 				<button class="btn btn-xs btn-primary float-left" type="button" onClick="newRelationship(#getMediRelations.media_id#,media_relationship)">Save Relationships Changes</button>
-						<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="EditMediaRelations(#media_id#,reloadMedia)">Media</button>
+				<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="EditMediaRelations(#media_id#,reloadMedia)">Media</button>
 			</div>
 			<script>
 				(function () {
@@ -1475,6 +1475,6 @@ imgStyleClass=value
 	</cfthread>
 	<cfthread action="join" name="getMediaRelationshipsThread" />
 	<cfreturn getMediaRelationshipsThread.output>
-</cffunction>		
+</cffunction>
 			
 </cfcomponent>
