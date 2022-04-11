@@ -78,7 +78,7 @@ limitations under the License.
 				<div id="agentTopDiv" class="col-12 mt-3">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
 					<div class="row mx-0">
-						<div class="col-12 col-md-11 px-3">
+						<div class="col-12 col-md-10 px-3">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
 								<cfif oneOfUs EQ 1 OR len(getAgent.death_date) GT 0>
@@ -93,6 +93,7 @@ limitations under the License.
 							<cfif oneOfUs EQ 1><cfset agent_id_bit = " [Agent ID: #getAgent.agent_id#]"><cfelse><cfset agent_id_bit=""></cfif>
 							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0">  #dates# #agent_type# #agent_id_bit#</span></h1>
 						</div>
+						<div class="col-12 col-md-2" style="width: 150px;height:150px;border: 1px solid blue; background-color: azure">Map</div>
 						<div class="col-12 col-md-1 mt-0 mt-md-2 float-right">
 							<!--- edit button at upper right for those authorized to edit agent records --->
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
