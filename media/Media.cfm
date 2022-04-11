@@ -186,13 +186,13 @@ limitations under the License.
 											<div class="form-row my-1">
 												<div id="mediaDiv"></div>
 												<script>
-													function reloadMediaRelationships() { 
+													function loadMediaRelationships() { 
 														// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 														loadMediaRelationships(#media_id#,'mediaDiv');
 													}
 												</script>
 												<cfif listcontainsnocase(session.roles,"manage_media")>
-													<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#media_id#,'mediaDiv',reloadMedia)">Media</button>
+													<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#media_id#,'mediaDiv',loadMediaRelationships)">Media</button>
 												</cfif>
 											</div>
 										</div><!---end col-12--->
