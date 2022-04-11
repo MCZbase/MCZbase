@@ -88,6 +88,23 @@ function changeSpecimensPinGuid (specimens_pin_guid) {
 			}
 		);
 }
+function changeSpecimensPageSize (specimens_pagesize) {
+	$.getJSON("/component/functions.cfc",
+			{
+				method : "changeSpecimensPageSize",
+				specimens_pagesize : specimens_pagesize,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			function(r) {
+				if (r == 'success') {
+					$('#browseArctos').html('Page Size setting for the Specimen Search changed.');
+				} else {
+					alert('An error occured! \n ' + r);
+				}	
+			}
+		);
+}
 function changekillRows (onoff) {
 	jQuery.getJSON("/component/functions.cfc",
 		{

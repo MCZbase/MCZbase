@@ -258,6 +258,7 @@
 	<cfset session.mczmediafail=0>
 	<cfset session.specimens_default_action="fixedSearch">
 	<cfset session.specimens_pin_guid="0">
+	<cfset session.specimens_pagesize="25">
 	<!--- determine which git branch is currently checked out --->
 	<cftry>
 		<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
@@ -300,6 +301,7 @@
 		<cfset session.resultcolumnlist = "#getPrefs.resultcolumnlist#">
 		<cfset session.specimens_default_action = "#getPrefs.specimens_default_action#">
 		<cfset session.specimens_pin_guid = "#getPrefs.specimens_pin_guid#">
+		<cfset session.specimens_pagesize = "#getPrefs.specimens_pagesize#">
 		<cfif len(getPrefs.fancyCOID) gt 0>
 			<cfset session.fancyCOID = getPrefs.fancyCOID>
 		<cfelse>
