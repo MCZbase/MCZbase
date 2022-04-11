@@ -236,22 +236,22 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
  * @param target the id of the target div containing the list of habitats 
  *   to reload, without a leading # selector.
  */
-function newRelationship(media_relationship,media_id,target) {
-	jQuery.getJSON("/media/component/functions.cfc",
-		{
-			method : "newRelationship",
-			media_relationship: media_relationship,
-			media_id : media_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		function (result) {
-			loadRelationships(media_id,target);
-		}
-	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"adding relationship to media");
-	});
-};
+//function newRelationship(media_relationship,media_id,target) {
+//	jQuery.getJSON("/media/component/functions.cfc",
+//		{
+//			method : "newRelationship",
+//			media_relationship: media_relationship,
+//			media_id : media_id,
+//			returnformat : "json",
+//			queryformat : 'column'
+//		},
+//		function (result) {
+//			loadRelationships(media_id,target);
+//		}
+//	).fail(function(jqXHR,textStatus,error){
+//		handleFail(jqXHR,textStatus,error,"adding relationship to media");
+//	});
+//};
 /** given a media_relations_id remove a row from the media_relations table 
  * and reload the relationships for a specified media record into a specified target div
  */
@@ -277,7 +277,7 @@ function deleteRelationship(media_relations_id,media_id,target) {
  * @param target the id of the target div to contain the list of relations 
  *   to load, without a leading # selector.
  */
-function loadMediaRelations(media_id,target) { 
+function loadMediaRelationships(media_id,target) { 
 	jQuery.ajax({
 	url: "/media/component/functions.cfc",
 		data : {
@@ -296,21 +296,21 @@ function loadMediaRelations(media_id,target) {
 }
 
 
-function moreMedia(media_id,target) {
-	jQuery.ajax({
-		url: "/media/component/search.cfc",
-			data : {
-				method : "showMoreMedia",
-				media_id: media_id,
-				target: "targetDiv"
-		},
-		success: function (result) {
-		$("#" + target).html(result);
-		},
-		error: function (jqXHR, status, message) {
-			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
-			messageDialog("Error loading taxon name: " + message + " " + msg ,'Error: '+ message);
-		},
-		dataType: "html"
-	});
-};
+//function moreMedia(media_id,target) {
+//	jQuery.ajax({
+//		url: "/media/component/search.cfc",
+//			data : {
+//				method : "showMoreMedia",
+//				media_id: media_id,
+//				target: "targetDiv"
+//		},
+//		success: function (result) {
+//		$("#" + target).html(result);
+//		},
+//		error: function (jqXHR, status, message) {
+//			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
+//			messageDialog("Error loading taxon name: " + message + " " + msg ,'Error: '+ message);
+//		},
+//		dataType: "html"
+//	});
+//};

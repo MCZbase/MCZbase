@@ -184,19 +184,14 @@ limitations under the License.
 									<div class="col-12 float-left">
 										<div class="row mt-3">
 											<div class="form-row my-1">
-											<script>
-												function reloadMediaRelations() { 
-													loadMediaRelations("media_relationship",#media_id#,"editMedia");
-												}
-												$(document).ready(function() {
-													loadMediaRelations();
-												});
-											</script>
-											<div class="col-12 mt-1" id="editMedia">
-												<img src='/shared/images/indicator.gif'>
-												Loading Relationships....  
+												<div class="col-12 mt-1" id="editMediaRelationships"></div>
+												<script>
+													function reloadMediaRelationships() { 
+														// invoke media/component/search.cfc function via ajax and repopulate the media relationships block.
+														loadMediaRelationships(#media_id#,'editMediaRelationships');
+													}
+												</script>
 											</div>
-										</div>
 										</div><!---end col-12--->
 									</div>	
 									<!---Start of Label Block--->
