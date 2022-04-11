@@ -172,7 +172,7 @@ limitations under the License.
 					</cfif>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
-						<div class="col-12 px-3 mb-0">
+						<div class="col-12 col-md-9 px-3 mb-0">
 							#biography#
 						</div>
 						<cfif oneOfUs EQ 1>
