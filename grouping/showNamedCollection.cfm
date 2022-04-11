@@ -36,9 +36,6 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfinclude template="/shared/_header.cfm">
-<cfset maxSpecimens = 11000>
-<cfset maxRandomSpecimenImages = 300>
-<cfset maxRandomOtherImages = 300>
 <cfset otherImageTypes = 0>
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
