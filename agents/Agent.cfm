@@ -217,10 +217,10 @@ limitations under the License.
 									<!---	<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>--->
 										<div id="map" class="w-100 rounded"></div>
 										<div id="floating-panel" class="w-100 mx-auto">
-								<!---			<button id="toggle-heatmap" class="mt-1 border-info rounded">Toggle Heatmap</button>--->
+											<button id="toggle-heatmap" class="mt-1 border-info rounded">Toggle Heatmap</button>
 											<button id="change-gradient" class="mt-1 border-info rounded">Change gradient</button>
-									<!---		<button id="change-radius" class="mt-1 border-info rounded">Change radius</button>
-											<button id="change-opacity" class="mt-1 border-info rounded">Change opacity</button>--->
+											<button id="change-radius" class="mt-1 border-info rounded">Change radius</button>
+											<button id="change-opacity" class="mt-1 border-info rounded">Change opacity</button>
 										</div>
 									</div>
 								</div>
