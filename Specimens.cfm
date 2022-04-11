@@ -2186,6 +2186,7 @@ limitations under the License.
 				$('##'+gridId).jqxGrid('pincolumn', column);
 				$('##pinGuidToggle').html("Unpin GUID Column");
 			}
+			$("##"+gridId).jqxGrid('endupdate');
 			console.log(column);
 			console.log($('##'+gridId).jqxGrid('getcolumnproperty', column, 'pinned'));
 		}

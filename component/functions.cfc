@@ -4782,12 +4782,12 @@
 					specimens_pagesize = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimens_pagesize#">
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getspecpinguid" datasource="cf_dbuser" result="result_updatespecpinguid">
+			<cfquery name="getspecpagesize" datasource="cf_dbuser" result="result_updatespecpinguid">
 				SELECT specimens_pagesize
 				FROM cf_users 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset session.specimens_pagesize = getspecpinguid.specimens_pagesize>
+			<cfset session.specimens_pagesize = getspecpagesize.specimens_pagesize>
 		<cfset result="success">
 	<cfcatch>
 		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">
