@@ -2182,10 +2182,10 @@ limitations under the License.
 			console.log(state);
 			console.log(state==true);
 			if (state==true) {
-				$('##'+gridId).jqxGrid('unpincolumn', column);
+				$('##'+gridId).jqxGrid('pincolumn', column);
 				$('##pinGuidToggle').html("Pin GUID Column");
 			} else {
-				$('##'+gridId).jqxGrid('pincolumn', column);
+				$('##'+gridId).jqxGrid('unpincolumn', column);
 				$('##pinGuidToggle').html("Unpin GUID Column");
 			}
 			$("##"+gridId).jqxGrid('endupdate');
