@@ -2,6 +2,9 @@
 <cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection, collection_id from collection order by collection
 </cfquery>
+<cfif (not isdefined("collection_object_id")) or (isdefined("collection_object_id") and listlen(collection_object_id) gt 1)>
+	<cfthrow message="addAccn.cfm can only be invoked with collection_object_id, and with a single collection_object_id">
+</cfif>
 <!--------------------------------------------------------------------------------->
 <cfif action is "nothing">
 <cfoutput>
@@ -33,9 +36,6 @@
 		identification,
 		collection,
 		collection a_coll
-		<cfif (not isdefined("collection_object_id")) or (isdefined("collection_object_id") and listlen(collection_object_id) gt 1)>
-			,#session.SpecSrchTab#
-		</cfif>
 	WHERE
 		cataloged_item.accn_id = accn.transaction_id AND
 		accn.transaction_id = trans.transaction_id AND
@@ -50,11 +50,7 @@
 		cataloged_item.collection_object_id = identification.collection_object_id AND
 		identification.accepted_id_fg = 1 AND
 		cataloged_item.collection_object_id = 
-		<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-		<cfelse>
-			#session.SpecSrchTab#.collection_object_id
-		</cfif>
+		<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	ORDER BY cataloged_item.collection_object_id
 	</cfquery>
     <div class="basic_wide_box" style="width: 75em;">
@@ -152,13 +148,8 @@
 		<cfif accn.recordcount is 1 and accn.transaction_id gt 0>
 			<cftransaction>
                                 <cfquery name="upAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                                        UPDATE cataloged_item SET accn_id = #accn.transaction_id# where collection_object_id  in (
-                                        <cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
-                                                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-                                        <cfelse>
-                                                select collection_object_id from #session.SpecSrchTab#
-                                        </cfif>
-                                        ) 
+                                 	UPDATE cataloged_item SET accn_id = #accn.transaction_id# 
+												where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
                                 </cfquery>
 
 			</cftransaction>
@@ -171,13 +162,7 @@
       <cfabort>
 		</cfif>
 		
-		<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
-			<cflocation url="addAccn.cfm?collection_object_id=#collection_object_id#" addtoken="false">
-		<cfelse>
-			<cflocation url="addAccn.cfm" addtoken="false">
-		</cfif>
-		
-		
+	<cflocation url="addAccn.cfm?collection_object_id=#collection_object_id#" addtoken="false">
 		
 	</cfoutput>
 </cfif>
