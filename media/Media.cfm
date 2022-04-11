@@ -186,6 +186,9 @@ limitations under the License.
 											<div class="form-row my-1">
 												<div class="col-12 mt-1" id="editMediaRelationships"></div>
 												<script>
+													object.onload = function(){
+														getMediaRelationships(#media_id#,'editMediaRelationships');
+													};
 													function reloadMediaRelationships() { 
 														// invoke media/component/search.cfc function via ajax and repopulate the media relationships block.
 														loadMediaRelationships(#media_id#,'editMediaRelationships');
