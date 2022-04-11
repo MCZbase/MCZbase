@@ -2257,6 +2257,7 @@ limitations under the License.
 				`
 			);
 			<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
+				console.log(#session.specimens_pin_guid#);
 				setPinColumnState(gridId,'GUID',true);
 			</cfif>
 			// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
