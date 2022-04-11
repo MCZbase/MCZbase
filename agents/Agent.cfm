@@ -127,7 +127,7 @@ limitations under the License.
 								#biography#
 							</div>
 						</div>
-						<div class="col-12 col-md-2 px-0">
+						<div class="col-12 col-md-3 px-0">
 						<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
 							SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
 							FROM locality
@@ -161,18 +161,18 @@ limitations under the License.
 											data: getPoints(),
 												map: map,
 										});
-											document
-												.getElementById("toggle-heatmap")
-												.addEventListener("click", toggleHeatmap);
+										//	document
+										//		.getElementById("toggle-heatmap")
+										//		.addEventListener("click", toggleHeatmap);
 											document
 												.getElementById("change-gradient")
 												.addEventListener("click", changeGradient);
-											document
-												.getElementById("change-opacity")
-												.addEventListener("click", changeOpacity);
-											document
-												.getElementById("change-radius")
-												.addEventListener("click", changeRadius);
+											//document
+											//	.getElementById("change-opacity")
+											//	.addEventListener("click", changeOpacity);
+										//	document
+										//		.getElementById("change-radius")
+										//		.addEventListener("click", changeRadius);
 									}
 									function toggleHeatmap(){
 										heatmap.setMap(heatmap.getMap() ? null : map);
@@ -196,12 +196,12 @@ limitations under the License.
 										];
 										heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 									}
-									function changeRadius() {
-										heatmap.set("radius", heatmap.get("radius") ? null : 20);
-									}
-									function changeOpacity() {
-										heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
-									}
+									//function changeRadius() {
+										//heatmap.set("radius", heatmap.get("radius") ? null : 20);
+									//}
+								//	function changeOpacity() {
+								//		heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
+								//	}
 									function getPoints(){
 										return [
 										<cfloop query="points">
@@ -217,10 +217,10 @@ limitations under the License.
 									<!---	<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>--->
 										<div id="map" class="w-100 rounded"></div>
 										<div id="floating-panel" class="w-100 mx-auto">
-											<button id="toggle-heatmap" class="mt-1 border-info rounded">Toggle Heatmap</button>
-											<button id="change-gradient" class="mt-1 border-info rounded">Change gradient</button>
-											<button id="change-radius" class="mt-1 border-info rounded">Change radius</button>
-											<button id="change-opacity" class="mt-1 border-info rounded">Change opacity</button>
+											<button id="change-gradient" class="mt-1 border-info rounded btn-xs btn small">Change gradient</button>
+							<!---				<button id="toggle-heatmap" class="mt-1 border-info rounded btn-xs btn small">Toggle Heatmap</button>
+											<button id="change-radius" class="mt-1 border-info rounded btn-xs btn small">Change radius</button>
+											<button id="change-opacity" class="mt-1 border-info rounded btn-xs btn small">Change opacity</button>--->
 										</div>
 									</div>
 								</div>
