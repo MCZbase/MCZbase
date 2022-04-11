@@ -71,6 +71,23 @@ function changeSpecimensDefaultAction (specimens_default_action) {
 			}
 		);
 }
+function changeSpecimensPinGuid (specimens_pin_guid) {
+	$.getJSON("/component/functions.cfc",
+			{
+				method : "changeSpecimensDefaultAction",
+				specimens_pin_guid : specimens_pin_guid,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			function(r) {
+				if (r == 'success') {
+					$('#browseArctos').html('Pin GUID Column setting for the Specimen Search changed.');
+				} else {
+					alert('An error occured! \n ' + r);
+				}	
+			}
+		);
+}
 function changekillRows (onoff) {
 	jQuery.getJSON("/component/functions.cfc",
 		{

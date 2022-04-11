@@ -279,6 +279,14 @@
 			<option value="keywordSearch" <cfif session.specimens_default_action EQ "keywordSearch"> selected="selected" </cfif>>Keyword Search</option>
 			<option value="builderSearch" <cfif session.specimens_default_action EQ "builderSearch"> selected="selected" </cfif>>Search Builder</option>
 		</select>
+		<label for="specimens_pin_guid">Pin GUID column</label>
+		<cfif not isDefined("session.specimens_pin_guid")>
+			<cfset session.specimens_pin_guid = "no">
+		</cfif>
+		<select name="specimens_pin_guid" id="specimens_pin_guid" onchange="changeSpecimensDefaultAction(this.value)">
+			<option value="0" <cfif session.specimens_pin_guid EQ "0"> selected="selected" </cfif>>No</option>
+			<option value="1" <cfif session.specimens_pin_guid EQ "1"> selected="selected" </cfif>>Yes, Pin Column</option>
+		</select>
 		<label for="block_suggest">Suggest Browse</label>
 		<select name="block_suggest" id="block_suggest" onchange="blockSuggest(this.value)">
 			<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>
