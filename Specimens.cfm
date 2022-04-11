@@ -1626,7 +1626,7 @@ limitations under the License.
 					pageable: true,
 					virtualmode: true,
 					editable: false,
-					pagesize: '25',
+					pagesize: '#session.specimenspagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
 					columnsresize: true,
@@ -1795,7 +1795,7 @@ limitations under the License.
 					pageable: true,
 					editable: false,
 					virtualmode: true,
-					pagesize: '25',
+					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
 					columnsresize: true,
@@ -1965,7 +1965,7 @@ limitations under the License.
 					pageable: true,
 					virtualmode: true,
 					editable: false,
-					pagesize: '25',
+					pagesize: '#session.specimenspagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
 					columnsresize: true,
