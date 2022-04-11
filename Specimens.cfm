@@ -2177,7 +2177,18 @@ limitations under the License.
 			}
 			$("##"+gridId).jqxGrid('endupdate');
 		}
-
+		function setPinColumnState(gridId,column,state) { 
+			$("##"+gridId).jqxGrid('beginupdate');
+			if (state==true) {
+				$('##'+gridId).jqxGrid('unpincolumn', column);
+				$('##pinGuidToggle').html("Pin GUID Column");
+			} else {
+				$('##'+gridId).jqxGrid('pincolumn', column);
+				$('##pinGuidToggle').html("Unpin GUID Column");
+			}
+			console.log(column);
+			console.log($('##'+gridId).jqxGrid('getcolumnproperty', column, 'pinned'));
+		}
 		function gridLoaded(gridId, searchType, whichGrid) {
 			console.log('gridLoaded:' + gridId);
 			var maxZIndex = getMaxZIndex();
@@ -2245,7 +2256,7 @@ limitations under the License.
 				`
 			);
 			<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
-				togglePinColumn(gridId,'GUID');
+				setPinColumnState(gridId,'GUID',true);
 			</cfif>
 			// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 			// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
