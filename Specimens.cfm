@@ -2179,6 +2179,8 @@ limitations under the License.
 		}
 		function setPinColumnState(gridId,column,state) { 
 			$("##"+gridId).jqxGrid('beginupdate');
+			console.log(state);
+			console.log(state==true);
 			if (state==true) {
 				$('##'+gridId).jqxGrid('unpincolumn', column);
 				$('##pinGuidToggle').html("Pin GUID Column");
