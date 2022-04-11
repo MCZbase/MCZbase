@@ -73,7 +73,6 @@ limitations under the License.
 					and flat.guid is not null
 				ORDER BY flat.guid asc
 				) 
-			WHERE rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxSpecimens#">
 		</cfquery>
 		<cfset otherimagetypes = 0>
 		<cfquery name="specimenImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
