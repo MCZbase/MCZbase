@@ -186,8 +186,9 @@ limitations under the License.
 											<div class="form-row my-1">
 												<div class="col-12 mt-1" id="editMediaRelationships"></div>
 												<script>
-													function loadMediaRelationships(#media_id#,'editMediaRelationships');
-													
+												function loadImage() {
+  alert("Image is loaded");
+}
 												</script>
 											</div>
 										</div><!---end col-12--->
