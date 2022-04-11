@@ -189,10 +189,6 @@ limitations under the License.
 													object.onload = function(){
 														loadMediaRelationships(#media_id#,'editMediaRelationships');
 													};
-													function reloadMediaRelationships() { 
-														// invoke media/component/search.cfc function via ajax and repopulate the media relationships block.
-														loadMediaRelationships(#media_id#,'editMediaRelationships');
-													}
 												</script>
 											</div>
 										</div><!---end col-12--->
