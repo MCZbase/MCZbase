@@ -1381,9 +1381,9 @@ imgStyleClass=value
 	<cfreturn cfthread["showMoreMediaThread"].output>
 </cffunction>
 			
-<cffunction name="getMediaRelations" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getMediaRelationships" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfthread name="getMediaRelationsThread">
+	<cfthread name="getMediaRelationshipsThread">
 		<cftry>	
 		<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pr-lg-2 float-left">
 			<h2>
@@ -1473,8 +1473,8 @@ imgStyleClass=value
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getMediaRelationsThread" />
-	<cfreturn getMediaRelationsThread.output>
+	<cfthread action="join" name="getMediaRelationshipsThread" />
+	<cfreturn getMediaRelationshipsThread.output>
 </cffunction>		
 			
 </cfcomponent>

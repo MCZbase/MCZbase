@@ -281,7 +281,7 @@ function loadMediaRelations(media_id,target) {
 	jQuery.ajax({
 	url: "/media/component/search.cfc",
 		data : {
-			method : "getMediaRelations",
+			method : "getMediaRelationships",
 			media_id: media_id,
 			target: target
 	},
