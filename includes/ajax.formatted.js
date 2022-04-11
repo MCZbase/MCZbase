@@ -1091,6 +1091,24 @@ function changeSpecimensDefaultAction (specimens_default_action) {
 	});
 }
 
+function changeSpecimensPinGuid (specimens_pin_guid) {
+	$.getJSON("/component/functions.cfc",
+			{
+				method : "changeSpecimensPinGuid",
+				specimens_pin_guid : specimens_pin_guid,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			function(r) {
+				if (r == 'success') {
+					$('#browseArctos').html('Pin GUID Column setting for the Specimen Search changed.');
+				} else {
+					alert('An error occured! \n ' + r);
+				}	
+			}
+		);
+}
+
 function getMedia(a, b, c, d, e) {
     $("#imgBrowserCtlDiv")
         .append('<img src="/images/indicator.gif">');

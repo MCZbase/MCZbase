@@ -74,7 +74,7 @@ function changeSpecimensDefaultAction (specimens_default_action) {
 function changeSpecimensPinGuid (specimens_pin_guid) {
 	$.getJSON("/component/functions.cfc",
 			{
-				method : "changeSpecimensDefaultAction",
+				method : "changeSpecimensPinGuid",
 				specimens_pin_guid : specimens_pin_guid,
 				returnformat : "json",
 				queryformat : 'column'
