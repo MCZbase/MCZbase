@@ -2244,7 +2244,7 @@ limitations under the License.
 				<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-1 my-2" >Pin GUID Column</button>
 				`
 			);
-			<cfif isDefined("session.specimens_pin_guid") AND session.specimens.pin_guid EQ 1> 
+			<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
 				togglePinColumn(gridId,'GUID');
 			</cfif>
 			// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
