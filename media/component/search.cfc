@@ -1381,9 +1381,9 @@ imgStyleClass=value
 	<cfreturn cfthread["showMoreMediaThread"].output>
 </cffunction>
 			
-<cffunction name="loadTheMediaRelationships" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getMediaRelations" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfthread name="loadMediaRelationsThread">
+	<cfthread name="getMediaRelationsThread">
 		<cftry>	
 		<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pr-lg-2 float-left">
 			<h2>
@@ -1447,7 +1447,8 @@ imgStyleClass=value
 				<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
 			</div>
 			<div class="col-9 px-0 float-left">
-				<button class="btn btn-xs btn-primary float-left" type="button" onClick="newRelationship(#getRelations.media_id#,media_relationship)">Save Relationships Changes</button>
+				<button class="btn btn-xs btn-primary float-left" type="button" onClick="newRelationship(#getMediRelations.media_id#,media_relationship)">Save Relationships Changes</button>
+						<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="EditMediaRelations(#media_id#,reloadMedia)">Media</button>
 			</div>
 			<script>
 				(function () {
@@ -1472,8 +1473,8 @@ imgStyleClass=value
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="loadMediaRelationsThread" />
-	<cfreturn loadMediaRelationsThread.output>
+	<cfthread action="join" name="getMediaRelationsThread" />
+	<cfreturn getMediaRelationsThread.output>
 </cffunction>		
 			
 </cfcomponent>

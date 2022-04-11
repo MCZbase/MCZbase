@@ -277,11 +277,11 @@ function deleteRelationship(media_relations_id,media_id,target) {
  * @param target the id of the target div to contain the list of relations 
  *   to load, without a leading # selector.
  */
-function loadMediaRelationships(media_id,target) { 
+function loadMediaRelations(media_id,target) { 
 	jQuery.ajax({
 	url: "/media/component/search.cfc",
 		data : {
-			method : "loadTheMediaRelationships",
+			method : "getMediaRelations",
 			media_id: media_id,
 			target: target
 	},
@@ -294,6 +294,22 @@ function loadMediaRelationships(media_id,target) {
 	dataType: "html"
 	});
 }
+function editMediaRelations(media_relations_id, media_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "loadMediaRelations",
+			media_relations_id: media_relations_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media relations");
+		},
+		dataType: "html"
+	});
+};
 
 
 //function moreMedia(media_id,target) {
