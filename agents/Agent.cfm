@@ -122,7 +122,7 @@ limitations under the License.
 									</li>
 								</cfif>
 							</ul>
-							<div class="col-12 col-md-9 px-3 mb-0">
+							<div class="col-12 col-md-9 px-0 mb-0">
 								#biography#
 							</div>
 						</div>
@@ -186,12 +186,6 @@ limitations under the License.
 										];
 										heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 									}
-									//function changeRadius() {
-										//heatmap.set("radius", heatmap.get("radius") ? null : 20);
-									//}
-								//	function changeOpacity() {
-								//		heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
-								//	}
 									function getPoints(){
 										return [
 										<cfloop query="points">
@@ -204,13 +198,9 @@ limitations under the License.
 
 								<div class="col-12 px-0 float-left">
 									<div class="border rounded px-1 mx-1 pb-1">
-									<!---	<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>--->
 										<div id="map" class="w-100 rounded" style="height: 175px;"></div>
 										<div id="floating-panel" class="w-100 mx-auto">
 											<button id="change-gradient" class="mt-1 border-info rounded btn-xs btn small">Change gradient</button>
-							<!---				<button id="toggle-heatmap" class="mt-1 border-info rounded btn-xs btn small">Toggle Heatmap</button>
-											<button id="change-radius" class="mt-1 border-info rounded btn-xs btn small">Change radius</button>
-											<button id="change-opacity" class="mt-1 border-info rounded btn-xs btn small">Change opacity</button>--->
 										</div>
 									</div>
 								</div>
@@ -218,16 +208,9 @@ limitations under the License.
 							</section><!--- end heat map---> 	
 						</cfif>	
 						</div>
-						<!---<div class="col-12 col-md-1 mt-0 mt-md-2 float-right">--->
-							<!--- edit button at upper right for those authorized to edit agent records --->
-					<!---
-						</div>--->
+	
 					</div>
-<!---					<div class="row mx-0">
-						<div class="col-10 px-3">
-							
-						</div>
-					</div>--->
+
 					<cfif oneOfUs EQ 1>
 						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
 							SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
