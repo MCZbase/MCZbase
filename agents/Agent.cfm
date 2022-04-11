@@ -129,17 +129,18 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-2" style="width: 150px;height:150px;border: 1px solid ##1789bd; background-color: azure">
 						<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
-							SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
+							SELECT distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
 							FROM locality
 								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-								on flat.locality_id = locality.locality_id
-								left join lat_long
-								on lat_long.locality_id = flat.locality_id
-								left join underscore_relation
-								on underscore_relation.collection_object_id = flat.collection_object_id
-								left join underscore_collection
-								on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-							WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									on flat.locality_id = locality.locality_id
+								left join lat_long on lat_long.locality_id = flat.locality_id
+								left join collector on collector.collection_object_id = flat.collection_object_id
+								left join agent on agent.agent_id = collector.agent_id
+							WHERE 
+								collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								and flat.guid IS NOT NULL
+								and lat_long.dec_lat is not null
+								and lat_long.accepted_lat_long_fg = 1
 						</cfquery>							
 						<cfif points.recordcount gt 0>
 							<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
