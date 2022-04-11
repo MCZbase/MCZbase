@@ -192,7 +192,7 @@ limitations under the License.
 													}
 												</script>
 												<cfif listcontainsnocase(session.roles,"manage_media")>
-													<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="">Media</button>
+													<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#media_id#,'mediaDiv',reloadMedia)">Media</button>
 												</cfif>
 											</div>
 										</div><!---end col-12--->
