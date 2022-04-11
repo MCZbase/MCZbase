@@ -92,18 +92,7 @@ limitations under the License.
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<cfif oneOfUs EQ 1><cfset agent_id_bit = " [Agent ID: #getAgent.agent_id#]"><cfelse><cfset agent_id_bit=""></cfif>
 							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0">  #dates# #agent_type# #agent_id_bit#</span></h1>
-						</div>
-						<div class="col-12 col-md-2" style="width: 150px;height:150px;border: 1px solid blue; background-color: azure">Map</div>
-						<div class="col-12 col-md-1 mt-0 mt-md-2 float-right">
-							<!--- edit button at upper right for those authorized to edit agent records --->
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
-							</cfif>
-						</div>
-					</div>
-					<div class="row mx-0">
-						<div class="col-10 px-3">
-							<ul class="list-group py-0 list-unstyled px-0">
+								<ul class="list-group py-0 list-unstyled px-0">
 								<cfif len(agentguid) GT 0>
 									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
 										<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
@@ -116,7 +105,19 @@ limitations under the License.
 								</cfif>
 							</ul>
 						</div>
+						<div class="col-12 col-md-2" style="width: 150px;height:150px;border: 1px solid ##1789bd; background-color: azure">Map</div>
+						<div class="col-12 col-md-1 mt-0 mt-md-2 float-right">
+							<!--- edit button at upper right for those authorized to edit agent records --->
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+							</cfif>
+						</div>
 					</div>
+<!---					<div class="row mx-0">
+						<div class="col-10 px-3">
+							
+						</div>
+					</div>--->
 					<cfif oneOfUs EQ 1>
 						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
 							SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
