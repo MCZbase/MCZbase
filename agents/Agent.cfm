@@ -96,7 +96,7 @@ limitations under the License.
 								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 								</cfif>
 							</h1>
-								<ul class="list-group py-0 list-unstyled px-0">
+							<ul class="list-group py-0 list-unstyled px-0">
 								<cfif len(agentguid) GT 0>
 									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
 										<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
@@ -108,12 +108,15 @@ limitations under the License.
 									</li>
 								</cfif>
 							</ul>
+							<div class="col-12 col-md-9 px-3 mb-0">
+								#biography#
+							</div>
 						</div>
 						<div class="col-12 col-md-2" style="width: 150px;height:150px;border: 1px solid ##1789bd; background-color: azure">Map</div>
-						<div class="col-12 col-md-1 mt-0 mt-md-2 float-right">
+						<!---<div class="col-12 col-md-1 mt-0 mt-md-2 float-right">--->
 							<!--- edit button at upper right for those authorized to edit agent records --->
-					
-						</div>
+					<!---
+						</div>--->
 					</div>
 <!---					<div class="row mx-0">
 						<div class="col-10 px-3">
@@ -172,9 +175,7 @@ limitations under the License.
 					</cfif>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
-						<div class="col-12 col-md-9 px-3 mb-0">
-							#biography#
-						</div>
+				
 						<cfif oneOfUs EQ 1>
 							<cfif len(agent_remarks) GT 0>
 								<div class="col-12 px-0">
