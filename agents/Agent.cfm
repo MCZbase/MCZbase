@@ -149,10 +149,10 @@ limitations under the License.
 										map = new google.maps.Map(document.getElementById('map'), {
 											center: Cambridge,
 											zoom: 2,
-											mapTypeControl: true,
-											mapTypeControlOptions: {
-												style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-												mapTypeIds: ["satellite", "terrain"],
+											//mapTypeControl: true,
+											//mapTypeControlOptions: {
+											//	style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+											//	mapTypeIds: ["satellite", "terrain"],
 											},
 											mapTypeId: 'satellite'
 										});
@@ -160,18 +160,9 @@ limitations under the License.
 											data: getPoints(),
 												map: map,
 										});
-										//	document
-										//		.getElementById("toggle-heatmap")
-										//		.addEventListener("click", toggleHeatmap);
 											document
 												.getElementById("change-gradient")
 												.addEventListener("click", changeGradient);
-											//document
-											//	.getElementById("change-opacity")
-											//	.addEventListener("click", changeOpacity);
-										//	document
-										//		.getElementById("change-radius")
-										//		.addEventListener("click", changeRadius);
 									}
 									function toggleHeatmap(){
 										heatmap.setMap(heatmap.getMap() ? null : map);
