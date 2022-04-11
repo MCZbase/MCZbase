@@ -70,21 +70,20 @@ limitations under the License.
 	WHERE
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
-		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
-			SELECT distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
-			FROM locality
-				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-					on flat.locality_id = locality.locality_id
-				left join lat_long on lat_long.locality_id = flat.locality_id
-				left join collector on collector.collection_object_id = flat.collection_object_id
-				left join agent on agent.agent_id = collector.agent_id
-			WHERE 
-				collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-				and flat.guid IS NOT NULL
-				and lat_long.dec_lat is not null
-				and lat_long.accepted_lat_long_fg = 1
-		</cfquery>
-
+<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+	SELECT distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
+	FROM locality
+		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+			on flat.locality_id = locality.locality_id
+		left join lat_long on lat_long.locality_id = flat.locality_id
+		left join collector on collector.collection_object_id = flat.collection_object_id
+		left join agent on agent.agent_id = collector.agent_id
+	WHERE 
+		collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+		and flat.guid IS NOT NULL
+		and lat_long.dec_lat is not null
+		and lat_long.accepted_lat_long_fg = 1
+</cfquery>
 <cfoutput>
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
@@ -141,7 +140,7 @@ limitations under the License.
 						</cfquery>							
 						<cfif points.recordcount gt 0>
 							<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-							<section class="heatmap mt-2 float-left w-100">
+							<section class="heatmap mt-2 float-left w-100" style="height:130px;">
 								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 								<script>
 									let map, heatmap;
