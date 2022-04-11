@@ -185,83 +185,8 @@ limitations under the License.
 										<div class="row mt-3">
 											<div class="form-row my-1">
 												<div class="col-12 mt-1" id="editMediaRelationships"></div>
-													<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pr-lg-2 float-left">
-														<h2>
-															<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
-														</h2>
-														<div id="relationships" class="col-12 px-0 float-left">
-															<cfset i=1>
-															<cfif relns.recordcount is 0>
-																<div id="seedMedia" style="display:none">
-																	<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
-																	<cfset d="">
-																	<select name="relationship__0" id="relationship__0" class="data-entry-select  col-5" size="1"  onchange="pickedRelationship(this.id)">
-																		<cfloop query="ctmedia_relationship">
-																			<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
-																		</cfloop>
-																	</select>
-																	<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
-																	<input type="hidden" name="related_id__0" id="related_id__0">
-																</div>
-															</cfif>
-															<cfloop query="relns">
-																<cfset d=media_relationship>
-																	<div class="form-row col-12 px-0 mx-0">	
-																		<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-																		<label for="relationship__#i#"  class="sr-only">Relationship</label>
-																		<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select col-3 float-left">
-																			<cfloop query="ctmedia_relationship">
-																				<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
-																			</cfloop>
-																		</select>
-																		<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6 float-left px-1">
-																		<input type="hidden" name="related_id" id="related_id" value="#related_primary_key#">
-																		<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelations.media_id#,relationshipDiv__#i#)"> Remove </button>
-																		<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
-																		value="Edit" style="width: 50px;"></input>
-																	</div>
-																	<script type="text/javascript">
-																		$(document).ready(function enable_disable() {
-																			$("##relationship__#i#").prop("disabled", true);
-																			$("##related_value__#i#").prop("disabled", true);
-																			$(".slide-toggle__#i#").click(function() {
-																				previous = this.value;
-																				if (this.value=="Edit") {
-																					event.preventDefault();
-																					this.value = "Revert";
-																					$("##relationship__#i#").prop("disabled", false);
-																					$("##related_value__#i#").prop("disabled", false);
-
-																				}
-																				else {
-																					this.value = "Edit";
-																					event.preventDefault();
-																					$("##relationship__#i#").prop("disabled", true);
-																					$("##related_value__#i#").prop("disabled", true);
-																				}
-																			});
-																		});
-																	</script>
-																<cfset i=i+1>
-															</cfloop>
-															<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
-														</div>
-														<div class="col-9 px-0 float-left">
-															<button class="btn btn-xs btn-primary float-left" type="button" onClick="newRelationship(#getMediRelations.media_id#,media_relationship)">Save Relationships Changes</button>
-															<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="EditMediaRelations(#media_id#,reloadMedia)">Media</button>
-														</div>
-														<script>
-															(function () {
-																var previous;
-																$("select").on('focus', function () {
-																	previous = this.value;
-																}).change(function() {
-																	alert(previous);
-																	previous = this.value;
-																});
-															})();
-														</script>
-													</div>
+												<script>
+													function loadMediaRelationships(#media_id#,'editMediaRelationships');</script>
 											</div>
 										</div><!---end col-12--->
 									</div>	
