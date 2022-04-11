@@ -287,6 +287,19 @@
 			<option value="0" <cfif session.specimens_pin_guid EQ "0"> selected="selected" </cfif>>No</option>
 			<option value="1" <cfif session.specimens_pin_guid EQ "1"> selected="selected" </cfif>>Yes, Pin Column</option>
 		</select>
+		<label for="specimens_pagesize">Default Rows in Specimen Search Grid</label>
+		<cfif not isDefined("session.specimens_pagesize")>
+			<cfset session.specimens_pagesize = "25">
+		</cfif>
+		<!--- Must be one of the values on the pagesizeoptions array '5','10','25','50','100','1000'  --->
+		<select name="specimens_pagesize" id="specimens_pagesize" onchange="changeSpecimensPageSize(this.value)">
+			<option value="5" <cfif session.specimens_pagesize EQ "5"> selected="selected" </cfif>>5 (good for phone)</option>
+			<option value="10" <cfif session.specimens_pagesize EQ "10"> selected="selected" </cfif>>10 (good for right/left scroll)</option>
+			<option value="25" <cfif session.specimens_pagesize EQ "25"> selected="selected" </cfif>>25 (default)</option>
+			<option value="50" <cfif session.specimens_pagesize EQ "50"> selected="selected" </cfif>>50</option>
+			<option value="100" <cfif session.specimens_pagesize EQ "100"> selected="selected" </cfif>>100</option>
+			<option value="1000" <cfif session.specimens_pagesize EQ "1000"> selected="selected" </cfif>>1000</option>
+		</select>
 		<label for="block_suggest">Suggest Browse</label>
 		<select name="block_suggest" id="block_suggest" onchange="blockSuggest(this.value)">
 			<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>
