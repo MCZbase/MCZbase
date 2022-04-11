@@ -2173,7 +2173,7 @@ limitations under the License.
 				$('##pinGuidToggle').html("Pin GUID Column");
 			} else {
 				$('##'+gridId).jqxGrid('pincolumn', column);
-				$('##pinGuidToggle').html`("Unpin GUID Column");
+				$('##pinGuidToggle').html("Unpin GUID Column");
 			}
 			$("##"+gridId).jqxGrid('endupdate');
 		}
