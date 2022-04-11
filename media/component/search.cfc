@@ -1381,9 +1381,8 @@ imgStyleClass=value
 	<cfreturn cfthread["showMoreMediaThread"].output>
 </cffunction>
 			
-<cffunction name="loadMediaRelationships" returntype="string" access="remote" returnformat="plain">
+<cffunction name="loadTheMediaRelationships" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfargument name="editMedia" type="string" required="yes">
 	<cfthread name="loadMediaRelationsThread">
 		<cftry>	
 		<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pr-lg-2 float-left">

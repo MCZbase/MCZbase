@@ -279,9 +279,9 @@ function deleteRelationship(media_relations_id,media_id,target) {
  */
 function loadMediaRelationships(media_id,target) { 
 	jQuery.ajax({
-	url: "/media/component/functions.cfc",
+	url: "/media/component/search.cfc",
 		data : {
-			method : "loadMediaRelations",
+			method : "loadTheMediaRelationships",
 			media_id: media_id,
 			target: target
 	},
