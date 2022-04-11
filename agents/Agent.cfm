@@ -140,7 +140,7 @@ limitations under the License.
 						</cfquery>							
 						<cfif points.recordcount gt 0>
 							<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-							<section class="heatmap mt-2 float-left w-100" style="height:130px;">
+							<section class="heatmap mt-2 float-left w-100">
 								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 								<script>
 									let map, heatmap;
@@ -214,7 +214,7 @@ limitations under the License.
 								<div class="col-12 px-0 float-left">
 									<div class="border rounded px-1 mx-1 pb-1">
 									<!---	<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>--->
-										<div id="map" class="w-100 rounded"></div>
+										<div id="map" class="w-100 rounded" style="height: 175px;"></div>
 										<div id="floating-panel" class="w-100 mx-auto">
 											<button id="change-gradient" class="mt-1 border-info rounded btn-xs btn small">Change gradient</button>
 							<!---				<button id="toggle-heatmap" class="mt-1 border-info rounded btn-xs btn small">Toggle Heatmap</button>
