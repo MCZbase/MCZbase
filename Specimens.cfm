@@ -2170,10 +2170,10 @@ limitations under the License.
 			$("##"+gridId).jqxGrid('beginupdate');
 			if (state==true) {
 				$('##'+gridId).jqxGrid('unpincolumn', column);
-				$('##pinGuidToggle').val("Pin GUID Column");
+				$('##pinGuidToggle').html("Pin GUID Column");
 			} else {
 				$('##'+gridId).jqxGrid('pincolumn', column);
-				$('##pinGuidToggle').val("Unpin GUID Column");
+				$('##pinGuidToggle').html("Unpin GUID Column");
 			}
 			$("##"+gridId).jqxGrid('endupdate');
 		}
