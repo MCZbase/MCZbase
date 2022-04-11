@@ -127,7 +127,7 @@ limitations under the License.
 								#biography#
 							</div>
 						</div>
-						<div class="col-12 col-md-2" style="width: 150px;height:150px;border: 1px solid ##1789bd; background-color: azure">
+						<div class="col-12 col-md-2 px-0">
 						<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
 							SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
 							FROM locality
@@ -214,7 +214,7 @@ limitations under the License.
 
 								<div class="col-12 px-0 float-left">
 									<div class="border rounded px-1 mx-1 pb-1">
-										<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
+									<!---	<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>--->
 										<div id="map" class="w-100 rounded"></div>
 										<div id="floating-panel" class="w-100 mx-auto">
 											<button id="toggle-heatmap" class="mt-1 border-info rounded">Toggle Heatmap</button>
