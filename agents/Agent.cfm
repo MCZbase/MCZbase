@@ -126,7 +126,7 @@ limitations under the License.
 								#biography#
 							</div>
 						</div>
-						<div class="col-12 col-md-3 px-0">
+						<div class="col-12 col-md-2 px-0">
 						<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
 							SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
 							FROM locality
@@ -154,7 +154,7 @@ limitations under the License.
 											//	style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
 											//	mapTypeIds: ["satellite", "terrain"],
 											},
-											mapTypeId: 'satellite'
+											//mapTypeId: 'satellite'
 										});
 										heatmap = new google.maps.visualization.HeatmapLayer({
 											data: getPoints(),
