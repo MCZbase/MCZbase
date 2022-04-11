@@ -283,7 +283,7 @@
 		<cfif not isDefined("session.specimens_pin_guid")>
 			<cfset session.specimens_pin_guid = "no">
 		</cfif>
-		<select name="specimens_pin_guid" id="specimens_pin_guid" onchange="changeSpecimensDefaultAction(this.value)">
+		<select name="specimens_pin_guid" id="specimens_pin_guid" onchange="changeSpecimensPinGuid(this.value)">
 			<option value="0" <cfif session.specimens_pin_guid EQ "0"> selected="selected" </cfif>>No</option>
 			<option value="1" <cfif session.specimens_pin_guid EQ "1"> selected="selected" </cfif>>Yes, Pin Column</option>
 		</select>
