@@ -70,6 +70,21 @@ limitations under the License.
 	WHERE
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
+		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+			SELECT distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
+			FROM locality
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+					on flat.locality_id = locality.locality_id
+				left join lat_long on lat_long.locality_id = flat.locality_id
+				left join collector on collector.collection_object_id = flat.collection_object_id
+				left join agent on agent.agent_id = collector.agent_id
+			WHERE 
+				collection.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				and flat.guid IS NOT NULL
+				and lat_long.dec_lat is not null
+				and lat_long.accepted_lat_long_fg = 1
+		</cfquery>
+	</cfquery>
 <cfoutput>
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
@@ -112,7 +127,109 @@ limitations under the License.
 								#biography#
 							</div>
 						</div>
-						<div class="col-12 col-md-2" style="width: 150px;height:150px;border: 1px solid ##1789bd; background-color: azure">Map</div>
+						<div class="col-12 col-md-2" style="width: 150px;height:150px;border: 1px solid ##1789bd; background-color: azure">
+						<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
+							SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
+							FROM locality
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+								on flat.locality_id = locality.locality_id
+								left join lat_long
+								on lat_long.locality_id = flat.locality_id
+								left join underscore_relation
+								on underscore_relation.collection_object_id = flat.collection_object_id
+								left join underscore_collection
+								on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+							WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+						</cfquery>							
+						<cfif points.recordcount gt 0>
+							<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+							<section class="heatmap mt-2 float-left w-100">
+								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
+								<script>
+									let map, heatmap;
+									function initMap() {
+										var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+										map = new google.maps.Map(document.getElementById('map'), {
+											center: Cambridge,
+											zoom: 2,
+											mapTypeControl: true,
+											mapTypeControlOptions: {
+												style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+												mapTypeIds: ["satellite", "terrain"],
+											},
+											mapTypeId: 'satellite'
+										});
+										heatmap = new google.maps.visualization.HeatmapLayer({
+											data: getPoints(),
+												map: map,
+										});
+											document
+												.getElementById("toggle-heatmap")
+												.addEventListener("click", toggleHeatmap);
+											document
+												.getElementById("change-gradient")
+												.addEventListener("click", changeGradient);
+											document
+												.getElementById("change-opacity")
+												.addEventListener("click", changeOpacity);
+											document
+												.getElementById("change-radius")
+												.addEventListener("click", changeRadius);
+									}
+									function toggleHeatmap(){
+										heatmap.setMap(heatmap.getMap() ? null : map);
+									}
+									function changeGradient() {
+										const gradient = [
+											"rgba(0, 255, 255, 0)",
+											"rgba(0, 255, 255, 1)",
+											"rgba(0, 191, 255, 1)",
+											"rgba(0, 127, 255, 1)",
+											"rgba(0, 63, 255, 1)",
+											"rgba(0, 0, 255, 1)",
+											"rgba(0, 0, 223, 1)",
+											"rgba(0, 0, 191, 1)",
+											"rgba(0, 0, 159, 1)",
+											"rgba(0, 0, 127, 1)",
+											"rgba(63, 0, 91, 1)",
+											"rgba(127, 0, 63, 1)",
+											"rgba(191, 0, 31, 1)",
+											"rgba(255, 0, 0, 1)",
+										];
+										heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+									}
+									function changeRadius() {
+										heatmap.set("radius", heatmap.get("radius") ? null : 20);
+									}
+									function changeOpacity() {
+										heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
+									}
+									function getPoints(){
+										return [
+										<cfloop query="points">
+											new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+										</cfloop>
+										]
+									}
+									//end InitMap
+								</script>
+
+								<div class="col-12 px-0 float-left">
+									<div class="border rounded px-1 mx-1 pb-1">
+										<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
+										<div id="map" class="w-100 rounded"></div>
+										<div id="floating-panel" class="w-100 mx-auto">
+											<button id="toggle-heatmap" class="mt-1 border-info rounded">Toggle Heatmap</button>
+											<button id="change-gradient" class="mt-1 border-info rounded">Change gradient</button>
+											<button id="change-radius" class="mt-1 border-info rounded">Change radius</button>
+											<button id="change-opacity" class="mt-1 border-info rounded">Change opacity</button>
+										</div>
+									</div>
+								</div>
+								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+							</section><!--- end heat map---> 	
+						</cfif>	
+						</div>
 						<!---<div class="col-12 col-md-1 mt-0 mt-md-2 float-right">--->
 							<!--- edit button at upper right for those authorized to edit agent records --->
 					<!---
