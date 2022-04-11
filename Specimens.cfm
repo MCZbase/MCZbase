@@ -2179,8 +2179,6 @@ limitations under the License.
 		}
 		function setPinColumnState(gridId,column,state) { 
 			$("##"+gridId).jqxGrid('beginupdate');
-			console.log(state);
-			console.log(state==true);
 			if (state==true) {
 				$('##'+gridId).jqxGrid('pincolumn', column);
 				$('##pinGuidToggle').html("Pin GUID Column");
@@ -2189,8 +2187,6 @@ limitations under the License.
 				$('##pinGuidToggle').html("Unpin GUID Column");
 			}
 			$("##"+gridId).jqxGrid('endupdate');
-			console.log(column);
-			console.log($('##'+gridId).jqxGrid('getcolumnproperty', column, 'pinned'));
 		}
 		function gridLoaded(gridId, searchType, whichGrid) {
 			console.log('gridLoaded:' + gridId);
