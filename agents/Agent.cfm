@@ -79,7 +79,7 @@ limitations under the License.
 				left join collector on collector.collection_object_id = flat.collection_object_id
 				left join agent on agent.agent_id = collector.agent_id
 			WHERE 
-				collection.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				and flat.guid IS NOT NULL
 				and lat_long.dec_lat is not null
 				and lat_long.accepted_lat_long_fg = 1
