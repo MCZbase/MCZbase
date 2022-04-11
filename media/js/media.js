@@ -296,7 +296,7 @@ function loadMediaRelations(media_id,target) {
 }
 function editMediaRelations(media_relations_id, media_id,targetDivId) { 
 	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
+		url: "/media/component/search.cfc",
 		data : {
 			method : "loadMediaRelations",
 			media_relations_id: media_relations_id
