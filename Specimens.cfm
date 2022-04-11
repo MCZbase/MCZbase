@@ -1691,6 +1691,10 @@ limitations under the License.
 						$('##fixedmanageButton').html('');
 					</cfif>
 					pageLoaded('fixedsearchResultsGrid','occurrence record','fixed');
+					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
+						console.log(#session.specimens_pin_guid#);
+						setPinColumnState('fixedsearchResultsGrid','GUID',true);
+					</cfif>
 				});
 				$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -1864,6 +1868,10 @@ limitations under the License.
 						</cfif>
 					</cfif>
 					pageLoaded('keywordsearchResultsGrid','occurrence record','keyword');
+					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
+						console.log(#session.specimens_pin_guid#);
+						setPinColumnState('keywordsearchResultsGrid','GUID',true);
+					</cfif>
 				});
 				$('##keywordsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -2033,6 +2041,10 @@ limitations under the License.
 						</cfif>
 					</cfif>
 					pageLoaded('buildersearchResultsGrid','occurrence record','builder');
+					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
+						console.log(#session.specimens_pin_guid#);
+						setPinColumnState('buildersearchResultsGrid','GUID',true);
+					</cfif>
 				});
 				$('##buildersearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -2178,15 +2190,13 @@ limitations under the License.
 			$("##"+gridId).jqxGrid('endupdate');
 		}
 		function setPinColumnState(gridId,column,state) { 
-			$("##"+gridId).jqxGrid('beginupdate');
 			if (state==true) {
 				$('##'+gridId).jqxGrid('pincolumn', column);
-				$('##pinGuidToggle').html("Pin GUID Column");
+				$('##pinGuidToggle').html("Unpin GUID Column");
 			} else {
 				$('##'+gridId).jqxGrid('unpincolumn', column);
-				$('##pinGuidToggle').html("Unpin GUID Column");
+				$('##pinGuidToggle').html("Pin GUID Column");
 			}
-			$("##"+gridId).jqxGrid('endupdate');
 		}
 		function gridLoaded(gridId, searchType, whichGrid) {
 			console.log('gridLoaded:' + gridId);
@@ -2254,10 +2264,6 @@ limitations under the License.
 				<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-1 my-2" >Pin GUID Column</button>
 				`
 			);
-			<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
-				console.log(#session.specimens_pin_guid#);
-				setPinColumnState(gridId,'GUID',true);
-			</cfif>
 			// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 			// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 			maxZIndex = getMaxZIndex();
@@ -2268,6 +2274,10 @@ limitations under the License.
 			$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 			var result_uuid = $('##result_id_' + whichGrid + 'Search').val(); 
 			$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 mx-sm-2 mt-0 mt-sm-2 mb-0" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
+			<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
+				console.log(#session.specimens_pin_guid#);
+				setPinColumnState(gridId,'GUID',true);
+			</cfif>
 		}
 
 	</script>
