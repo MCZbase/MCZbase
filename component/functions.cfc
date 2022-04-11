@@ -4752,6 +4752,28 @@
 	<cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------->
+<cffunction name="changeSpecimensPinGuid" access="remote">
+	<cfargument name="specimens_pin_guid" type="string" required="yes">
+	<cftry>
+			<cfquery name="updatespecpinguid" datasource="cf_dbuser" result="result_updatespecpinguid">
+				UPDATE cf_users SET
+					specimens_pin_guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimens_pin_guid#">
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="getspecpinguid" datasource="cf_dbuser" result="result_updatespecpinguid">
+				SELECT specimens_pin_guid
+				FROM cf_users 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset session.specimens_pin_guid = getspecpinguid.specimens_pin_guid>
+		<cfset result="success">
+	<cfcatch>
+		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">
+	</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
+<!----------------------------------------------------------------------------------------->
 <cffunction name="changedisplayRows" access="remote">
 	<cfargument name="tgt" type="string" required="yes">
 	<cftry>

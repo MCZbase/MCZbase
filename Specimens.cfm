@@ -2165,6 +2165,19 @@ limitations under the License.
 			var pagingInfo = $("##" + gridId).jqxGrid("getpaginginformation");
 		}
 
+		function togglePinColumn(gridId,column) { 
+			var state = $('##'+gridId).jqxGrid('getcolumnproperty', column, 'pinned');
+			$("##"+gridId).jqxGrid('beginupdate');
+			if (state==true) {
+				$('##'+gridId).jqxGrid('unpincolumn', column);
+				$('##pinGuidToggle').html("Pin GUID Column");
+			} else {
+				$('##'+gridId).jqxGrid('pincolumn', column);
+				$('##pinGuidToggle').html("Unpin GUID Column");
+			}
+			$("##"+gridId).jqxGrid('endupdate');
+		}
+
 		function gridLoaded(gridId, searchType, whichGrid) {
 			console.log('gridLoaded:' + gridId);
 			var maxZIndex = getMaxZIndex();
@@ -2231,6 +2244,9 @@ limitations under the License.
 				<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-1 my-2" >Pin GUID Column</button>
 				`
 			);
+			<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
+				togglePinColumn(gridId,'GUID');
+			</cfif>
 			// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 			// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 			maxZIndex = getMaxZIndex();
@@ -2243,16 +2259,6 @@ limitations under the License.
 			$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 mx-sm-2 mt-0 mt-sm-2 mb-0" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
 		}
 
-		function togglePinColumn(gridId,column) { 
-			var state = $('##'+gridId).jqxGrid('getcolumnproperty', column, 'pinned');
-			$("##"+gridId).jqxGrid('beginupdate');
-			if (state==true) {
-				$('##'+gridId).jqxGrid('unpincolumn', column);
-			} else {
-				$('##'+gridId).jqxGrid('pincolumn', column);
-			}
-			$("##"+gridId).jqxGrid('endupdate');
-		}
 	</script>
 	
 	<script>
