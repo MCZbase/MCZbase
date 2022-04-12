@@ -202,7 +202,7 @@ limitations under the License.
 				<!--- three columns of information about the agent gleaned from related tables --->
 				<div class="col-12 mt-2" id="agentBlocks">
 					<div class="row mx-0">
-						<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-3 col-xl-3 rounded rounded h-auto">
+						<div class="d-block mb-0 mb-xl-5 float-left px-0 px-md-1 col-12 col-md-3 col-xl-3 rounded rounded h-auto">
 							<!--- agent names --->
 							<section class="accordion">
 								<div class="card mb-2 bg-light">
@@ -606,7 +606,7 @@ limitations under the License.
 								</section>
 							</cfif>
 						</div>
-						<div class="d-block mb-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-4">
+						<div class="d-block mb-0 mb-xl-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-4">
 							<!--- Collector in collections--->
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 bg-light">
@@ -1278,7 +1278,7 @@ limitations under the License.
 								</section>
 							</cfif>
 						</div>
-						<div class="d-block mb-5 float-left h-auto col-12 col-md-5 col-xl-5 px-0 px-md-1">
+						<div class="d-block mb-0 mb-xl-5 float-left h-auto col-12 col-md-5 col-xl-5 px-0 px-md-1">
 							<!--- loan item reconciliation --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="loanItemSection"> 
