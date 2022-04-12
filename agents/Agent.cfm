@@ -193,61 +193,36 @@ limitations under the License.
 										</cfloop>
 										]
 									}
-								class CenterControl {
-  map_;
-  center_;
-  constructor(controlDiv, map, center) {
-    this.map_ = map;
-    // Set the center property upon construction
-    this.center_ = new google.maps.LatLng(center);
-    controlDiv.style.clear = "both";
+									function mapTypeControl(controlDiv, map) {
+									  // Set CSS for the control border.
+									  const controlUI = document.createElement("div");
 
-    // Set CSS for the control border
-    const goCenterUI = document.createElement("div");
+									  controlUI.style.backgroundColor = "#fff";
+									  controlUI.style.border = "2px solid #fff";
+									  controlUI.style.borderRadius = "3px";
+									  controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+									  controlUI.style.cursor = "pointer";
+									  controlUI.style.marginTop = "8px";
+									  controlUI.style.marginBottom = "22px";
+									  controlUI.style.textAlign = "center";
+									  controlUI.title = "Click to recenter the map";
+									  controlDiv.appendChild(controlUI);
 
-    goCenterUI.id = "goCenterUI";
-    goCenterUI.title = "Click to recenter the map";
-    controlDiv.appendChild(goCenterUI);
+									  // Set CSS for the control interior.
+									  const controlText = document.createElement("div");
 
-    // Set CSS for the control interior
-    const goCenterText = document.createElement("div");
-
-    goCenterText.id = "goCenterText";
-    goCenterText.innerHTML = "Center Map";
-    goCenterUI.appendChild(goCenterText);
-
-    // Set CSS for the setCenter control border
-    const setCenterUI = document.createElement("div");
-
-    setCenterUI.id = "setCenterUI";
-    setCenterUI.title = "Click to change the center of the map";
-    controlDiv.appendChild(setCenterUI);
-
-    // Set CSS for the control interior
-    const setCenterText = document.createElement("div");
-
-    setCenterText.id = "setCenterText";
-    setCenterText.innerHTML = "Set Center";
-    setCenterUI.appendChild(setCenterText);
-    // Set up the click event listener for 'Center Map': Set the center of
-    // the map
-    // to the current center of the control.
-    goCenterUI.addEventListener("click", () => {
-      const currentCenter = this.center_;
-
-      this.map_.setCenter(currentCenter);
-    });
-    // Set up the click event listener for 'Set Center': Set the center of
-    // the control to the current center of the map.
-    setCenterUI.addEventListener("click", () => {
-      const newCenter = this.map_.getCenter();
-
-      if (newCenter) {
-        this.center_ = newCenter;
-      }
-    });
-  }
-}
+									  controlText.style.color = "rgb(25,25,25)";
+									  controlText.style.fontFamily = "Roboto,Arial,sans-serif";
+									  controlText.style.fontSize = "6px";
+									  controlText.style.lineHeight = "12px";
+									  controlText.style.paddingLeft = "5px";
+									  controlText.style.paddingRight = "5px";
+									  controlUI.appendChild(controlText);
+									  // Setup the click event listeners: simply set the map to Chicago.
+									  controlUI.addEventListener("click", () => {
+										map.mapTypeControl(map);
+									  });
+									}
 									//end InitMap
 								</script>
 
@@ -255,7 +230,7 @@ limitations under the License.
 									<div class="border rounded px-1 mx-1 pb-1">
 										<div id="map" class="w-100 rounded" style="height: 175px;"></div>
 										<div id="floating-panel" class="w-100 mx-auto">
-											<button id="change-gradient" class="mt-1 border-info rounded btn-xs btn small">Change gradient</button>
+											<button id="change-gradient" class="mt-1 border rounded btn-xs btn small">Change Colors</button>
 										</div>
 									</div>
 								</div>
