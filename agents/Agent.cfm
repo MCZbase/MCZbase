@@ -152,9 +152,20 @@ limitations under the License.
 											mapTypeControl: true,
 											mapTypeControlOptions: {
 												style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-												mapTypeIds: ["s", "t"],
+												mapTypeIds: ["satellite", "terrain"],
+											zoomControl:false,
 											},
-											mapTypeId: 's'
+											mapTypeId: 'satellite',
+											var stylesArray = [
+											  {
+												featureType: 'all',
+												elementType: 'labels',
+												stylers: [
+												  {color: 'red'},
+												  {visibility: 'on'},
+												  // Add any stylers you need.
+												]
+											  },
 										});
 										heatmap = new google.maps.visualization.HeatmapLayer({
 											data: getPoints(),
