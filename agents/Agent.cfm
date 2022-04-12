@@ -186,12 +186,16 @@ limitations under the License.
 				
 						<cfif oneOfUs EQ 1>
 							<cfif len(agent_remarks) GT 0>
-								<div class="col-12 px-0">
-									<div class="col-auto mt-2 pb-2 mx-1 internalRemarks card">
-										<h3 class="small95 mt-2 mb-1">Internal Remarks</h3>
+								<section class="accordion">
+								<div class="col-12 card bg-light mb-2 px-0">
+									<div class="card-header py-0">
+										<h3 class="h4 my-1 text-dark-gray mx-2 px-2 small95 mt-2 mb-1">Internal Remarks</h3>
+									</div>
+									<div class="card-body">
 										<span class="small90">#agent_remarks#</span>
 									</div>
 								</div>
+								</section>
 							</cfif>
 						</cfif>
 					</div>
