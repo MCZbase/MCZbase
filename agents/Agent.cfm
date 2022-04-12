@@ -329,7 +329,7 @@ limitations under the License.
 										FROM media_relations 
 											left join media on media_relations.media_id = media.media_id
 											left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
-										WHERE media_relationship like '% agent'
+										WHERE media_relationship like 'shows agent'
 											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											and mczbase.is_media_encumbered(media.media_id) < 1
 									</cfquery>
@@ -356,7 +356,7 @@ limitations under the License.
 										<cfelse>
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textCaption" (truncated to 50 characters) --->
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textCaption")>
-											<div id="mediaBlock#getMedia.media_id#">
+											<div id="mediaBlock#getMedia.media_id#" class="px-5">
 												#mediaBlock#
 											</div>
 										</cfif>
