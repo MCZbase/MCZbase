@@ -155,9 +155,7 @@ limitations under the License.
 												style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
 												mapTypeIds: ["satellite", "terrain"],
 												zoomControl:false,
-												label: {
-												color: 'red',
-												fontSize: '10px',
+												fontSize: '6px',
 												},
 											},
 											mapTypeId: 'satellite'
