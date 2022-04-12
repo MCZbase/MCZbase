@@ -193,10 +193,7 @@ limitations under the License.
 										</cfloop>
 										]
 									}
-									function mapTypeId(map) {
-									  // Set CSS for the control border.
-									  const controlUI = document.createElement("div");
-
+									function controls(map) {
 									  controlUI.style.backgroundColor = "#fff";
 									  controlUI.style.border = "2px solid #fff";
 									  controlUI.style.borderRadius = "3px";
@@ -204,23 +201,12 @@ limitations under the License.
 									  controlUI.style.cursor = "pointer";
 									  controlUI.style.marginTop = "8px";
 									  controlUI.style.marginBottom = "22px";
-									  controlUI.style.textAlign = "center";
-									  controlUI.title = "Click to recenter the map";
-									  controlDiv.appendChild(controlUI);
-
-									  // Set CSS for the control interior.
-									  const controlText = document.createElement("div");
-
 									  controlText.style.color = "rgb(25,25,25)";
 									  controlText.style.fontFamily = "Roboto,Arial,sans-serif";
 									  controlText.style.fontSize = "6px";
 									  controlText.style.lineHeight = "12px";
 									  controlText.style.paddingLeft = "5px";
 									  controlText.style.paddingRight = "5px";
-									  controlUI.appendChild(controlText);
-									  // Setup the click event listeners: simply set the map to Chicago.
-									  controlUI.addEventListener("click", () => {
-										map.mapTypeId(map);
 									  });
 									}
 									//end InitMap
