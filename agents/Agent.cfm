@@ -149,6 +149,10 @@ limitations under the License.
 										map = new google.maps.Map(document.getElementById('map'), {
 											center: Cambridge,
 											zoom: 2,
+											label: {
+											color: 'red',
+											fontSize: '10px',
+										}
 											mapTypeControl: true,
 											mapTypeControlOptions: {
 												style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
