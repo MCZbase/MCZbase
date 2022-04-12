@@ -182,12 +182,15 @@ limitations under the License.
 					<div class="row mx-0">
 						<cfif oneOfUs EQ 1>
 							<cfif len(agent_remarks) GT 0>
-								<section class="accordion mx-1">
-								<div class="col-12 card bg-light mb-2 px-0">
-									<div class="card-header py-0">
-										<h2 class="h4 my-1 text-dark-gray mx-2 px-2">Internal Remarks</h2>
+								<section class="accordion w-100 mx-1" id="internalSection">
+								<div class="col-12 card bg-light mb-0 px-0">
+									<div class="card-header py-0" id="internalHeader">
+										<h2 class="h4 my-0">
+											<button type="button" class="headerLnk text-left w-100 h-100 collapsed" data-toggle="collapse" data-target="##internalCardBodyWrap" aria-expanded="false" aria-controls="internalCardBodyWrap">Internal Remarks
+											</button>
+										</h2>
 									</div>
-									<div class="card-body px-3 py-2">
+									<div class="card-body px-3 py-2 collapse" id="internalCardBodyWrap" aria-controls="internalCardBodyWrap">
 										<span class="small90">#agent_remarks#</span>
 									</div>
 								</div>
@@ -269,7 +272,6 @@ limitations under the License.
 											ORDER BY
 												member_order
 										</cfquery>
-
 										<cfif groupMembers.recordcount GT 20 OR groupMembers.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
