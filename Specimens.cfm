@@ -2092,7 +2092,7 @@ limitations under the License.
 					</cfcase>
 						<cfcase value="builder">
 						$('##builderSearchForm').submit();
-					</cfcase>
+					a/cfcase>
 				</cfswitch>
 			</cfif>
 		}); /* End document.ready */
@@ -2112,7 +2112,20 @@ limitations under the License.
 	
 		function populateSaveSearch(gridId,whichGrid) { 
 			// set up a dialog for saving the current search.
-			$("##"+whichGrid+"saveDialog").html("<div><label><input type='text' value='' class='data-entry-input'></div>");
+			var uri = "/Specimens.cfm?execute=true&" + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
+			$("##"+whichGrid+"saveDialog").html("
+					<div class='row'>
+						<form id='"+whichGrid+"saveForm'>
+							<input type='hidden' value='"+uri+"' name='url'>
+							<div class="col-12">
+								<label>Search Name</label><input type='text' name='search_name' value='' class='data-entry-input'>
+							</div>
+							<div class="col-12">
+								<label>Execute Immediately</label><input type='radio' name='execute' value='yes'><input type='radio' name='execute' value='No'>
+							</div>
+						</form>
+					</div>
+			");
 		}
 		function populateColumnPicker(gridId,whichGrid) {
 			// add a control to show/hide columns organized by category
@@ -2297,7 +2310,8 @@ limitations under the License.
 					buttons: [
 						{
 							text: "Save",
-							click: function(){ 
+							click: function(){
+console.log($('##'+whichGrid+'saveForm').serialize();
 								$(this).dialog("close"); 
 							},
 							tabindex: 0
