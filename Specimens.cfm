@@ -2092,7 +2092,7 @@ limitations under the License.
 					</cfcase>
 						<cfcase value="builder">
 						$('##builderSearchForm').submit();
-					a/cfcase>
+					</cfcase>
 				</cfswitch>
 			</cfif>
 		}); /* End document.ready */
