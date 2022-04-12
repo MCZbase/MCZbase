@@ -2311,7 +2311,7 @@ limitations under the License.
 						{
 							text: "Save",
 							click: function(){
-console.log($('##'+whichGrid+'saveForm').serialize();
+console.log($('##'+whichGrid+'saveForm').serialize());
 								$(this).dialog("close"); 
 							},
 							tabindex: 0
