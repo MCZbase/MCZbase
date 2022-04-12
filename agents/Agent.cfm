@@ -150,6 +150,7 @@ limitations under the License.
 											center: Cambridge,
 											zoom: 2,
 											maxWidth:200,
+											fontSize:SMALL,
 										
 											mapTypeControl: true,
 											mapTypeControlOptions: {
