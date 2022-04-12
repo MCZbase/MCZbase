@@ -2112,6 +2112,7 @@ limitations under the License.
 	
 		function populateSaveSearch(gridId,whichGrid) { 
 			// set up a dialog for saving the current search.
+			$("##"+whichGrid+"saveDialog").html("<div><label><input type='text' value='' class='data-entry-input'></div>");
 		}
 		function populateColumnPicker(gridId,whichGrid) {
 			// add a control to show/hide columns organized by category
@@ -2279,6 +2280,43 @@ limitations under the License.
 				`
 			);
 			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ><!--- TODO: coldfusion_user --->
+				$("##"+whichGrid+"saveDialog").dialog({
+					height: 'auto',
+					width: 'auto',
+					adaptivewidth: true,
+					title: 'Save Search',
+					autoOpen: false,
+					modal: true,
+					reszable: true,
+					close: function(event, ui) { 
+						window.columnHiddenSettings = getColumnVisibilities(gridId);		
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+						</cfif>
+					},
+					buttons: [
+						{
+							text: "Save",
+							click: function(){ 
+								$(this).dialog("close"); 
+							},
+							tabindex: 0
+						},
+						{
+							text: "Cancel",
+							click: function(){ 
+								$(this).dialog("close"); 
+							},
+							tabindex: 0
+						}
+					],
+					open: function (event, ui) {
+						var maxZIndex = getMaxZIndex();
+						// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+						$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+						$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+					}
+				});
 				$("##"+whichGrid+"saveDialogButton").html(
 				`<button id="`+gridId+`saveDialogOpener"
 						onclick=" populateSaveSearch('`+gridId+`','`+whichGrid+`'); $('##`+whichGrid+`saveDialog').dialog('open'); " 
