@@ -193,20 +193,34 @@ limitations under the License.
 										</cfloop>
 										]
 									}
-									function controls(map) {
-									  controlUI.style.backgroundColor = "#fff";
-									  controlUI.style.border = "2px solid #fff";
+									function mapTypeId(controlDiv, map) {
+									  // Set CSS for the control border.
+									  const controlUI = document.createElement("div");
+
+									  controlUI.style.backgroundColor = "##fff";
+									  controlUI.style.border = "2px solid ##fff";
 									  controlUI.style.borderRadius = "3px";
 									  controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
 									  controlUI.style.cursor = "pointer";
 									  controlUI.style.marginTop = "8px";
 									  controlUI.style.marginBottom = "22px";
+									  controlUI.style.textAlign = "center";
+									  controlUI.title = "Click to recenter the map";
+									  controlDiv.appendChild(controlUI);
+
+									  // Set CSS for the control interior.
+									  const controlText = document.createElement("div");
+
 									  controlText.style.color = "rgb(25,25,25)";
 									  controlText.style.fontFamily = "Roboto,Arial,sans-serif";
 									  controlText.style.fontSize = "6px";
 									  controlText.style.lineHeight = "12px";
 									  controlText.style.paddingLeft = "5px";
 									  controlText.style.paddingRight = "5px";
+									  controlUI.appendChild(controlText);
+									  // Setup the click event listeners: simply set the map to Chicago.
+									  controlUI.addEventListener("click", () => {
+										map.setCenter(Cambridge);
 									  });
 									}
 									//end InitMap
@@ -216,7 +230,7 @@ limitations under the License.
 									<div class="border rounded px-1 mx-1 pb-1">
 										<div id="map" class="w-100 rounded" style="height: 175px;"></div>
 										<div id="floating-panel" class="w-100 mx-auto">
-											<button id="change-gradient" class="mt-1 border rounded btn-xs btn small">Change Colors</button>
+											<button id="change-gradient" class="mt-1 border-info rounded btn-xs btn small">Change gradient</button>
 										</div>
 									</div>
 								</div>
